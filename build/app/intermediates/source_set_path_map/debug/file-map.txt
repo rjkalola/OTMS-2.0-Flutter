@@ -1,0 +1,56 @@
+com.app.otmsystem.app-jetified-core-ktx-1.13.1-0 /Users/apple/.gradle/caches/transforms-3/0947e5c4fb664b95297127b0d94b644c/transformed/jetified-core-ktx-1.13.1/res
+com.app.otmsystem.app-jetified-zxing-android-embedded-4.3.0-1 /Users/apple/.gradle/caches/transforms-3/2623bdf024d7c31c597d9907bfd75c21/transformed/jetified-zxing-android-embedded-4.3.0/res
+com.app.otmsystem.app-jetified-camera-core-1.3.3-2 /Users/apple/.gradle/caches/transforms-3/26748b3dd102173d00de2b0bb860a1c0/transformed/jetified-camera-core-1.3.3/res
+com.app.otmsystem.app-jetified-emoji2-1.0.0-3 /Users/apple/.gradle/caches/transforms-3/2730357b1d3ac54850881c8464a8aedb/transformed/jetified-emoji2-1.0.0/res
+com.app.otmsystem.app-jetified-window-1.0.0-beta04-4 /Users/apple/.gradle/caches/transforms-3/29fe38a5fd6c3bf46cd8e59c2b63489e/transformed/jetified-window-1.0.0-beta04/res
+com.app.otmsystem.app-jetified-startup-runtime-1.1.1-5 /Users/apple/.gradle/caches/transforms-3/2a1234d10beb637933df5e7d88561bb2/transformed/jetified-startup-runtime-1.1.1/res
+com.app.otmsystem.app-fragment-1.5.7-6 /Users/apple/.gradle/caches/transforms-3/30ddcadec18c205940275ed0c7c9170b/transformed/fragment-1.5.7/res
+com.app.otmsystem.app-jetified-emoji2-views-helper-1.0.0-7 /Users/apple/.gradle/caches/transforms-3/45d83fb9afe88863ffc9e91f572f45cb/transformed/jetified-emoji2-views-helper-1.0.0/res
+com.app.otmsystem.app-jetified-play-services-auth-21.2.0-8 /Users/apple/.gradle/caches/transforms-3/48a16de7223ebedfda135fed49ffe476/transformed/jetified-play-services-auth-21.2.0/res
+com.app.otmsystem.app-jetified-lifecycle-viewmodel-savedstate-2.6.2-9 /Users/apple/.gradle/caches/transforms-3/4f8c1dd31b720b028d95ec192d44e907/transformed/jetified-lifecycle-viewmodel-savedstate-2.6.2/res
+com.app.otmsystem.app-core-1.13.1-10 /Users/apple/.gradle/caches/transforms-3/560fde540c94fe7e9c529d504b4b5980/transformed/core-1.13.1/res
+com.app.otmsystem.app-jetified-android-pdf-viewer-3.2.0-beta.3-11 /Users/apple/.gradle/caches/transforms-3/62fea64a1b44002f8313b904d188f8ec/transformed/jetified-android-pdf-viewer-3.2.0-beta.3/res
+com.app.otmsystem.app-core-runtime-2.2.0-12 /Users/apple/.gradle/caches/transforms-3/6a92f195a211cad37bbd50825c716f30/transformed/core-runtime-2.2.0/res
+com.app.otmsystem.app-appcompat-1.4.2-13 /Users/apple/.gradle/caches/transforms-3/74249e3c03159b2dd12b8bc5a9866ce2/transformed/appcompat-1.4.2/res
+com.app.otmsystem.app-jetified-window-java-1.0.0-beta04-14 /Users/apple/.gradle/caches/transforms-3/978180320ed1d29d66a82edc9d24751e/transformed/jetified-window-java-1.0.0-beta04/res
+com.app.otmsystem.app-jetified-annotation-experimental-1.4.0-15 /Users/apple/.gradle/caches/transforms-3/9dd61b13d4f5b062eedeafdfa2ef5b01/transformed/jetified-annotation-experimental-1.4.0/res
+com.app.otmsystem.app-jetified-savedstate-1.2.1-16 /Users/apple/.gradle/caches/transforms-3/9de18ce8b9919a55a6a49c55d001c90f/transformed/jetified-savedstate-1.2.1/res
+com.app.otmsystem.app-lifecycle-viewmodel-2.6.2-17 /Users/apple/.gradle/caches/transforms-3/a04dd7947cc191af674cfdd8b37b566c/transformed/lifecycle-viewmodel-2.6.2/res
+com.app.otmsystem.app-lifecycle-livedata-2.6.2-18 /Users/apple/.gradle/caches/transforms-3/a149ea96f04e7356e3c92b97e24bf772/transformed/lifecycle-livedata-2.6.2/res
+com.app.otmsystem.app-jetified-camera-lifecycle-1.3.3-19 /Users/apple/.gradle/caches/transforms-3/a39b624c0e4acda331de1494fb9cdf4d/transformed/jetified-camera-lifecycle-1.3.3/res
+com.app.otmsystem.app-jetified-appcompat-resources-1.4.2-20 /Users/apple/.gradle/caches/transforms-3/a6b4569ffe9166dcdf42ff697a36a1a6/transformed/jetified-appcompat-resources-1.4.2/res
+com.app.otmsystem.app-lifecycle-runtime-2.6.2-21 /Users/apple/.gradle/caches/transforms-3/a7eb097d55bb823314e2f8f73672e761/transformed/lifecycle-runtime-2.6.2/res
+com.app.otmsystem.app-coordinatorlayout-1.0.0-22 /Users/apple/.gradle/caches/transforms-3/b245cbbeddb2a2a997df3f212f0f29a1/transformed/coordinatorlayout-1.0.0/res
+com.app.otmsystem.app-jetified-activity-1.7.2-23 /Users/apple/.gradle/caches/transforms-3/be1f34b6b80448ec6cacbb5b9860f028/transformed/jetified-activity-1.7.2/res
+com.app.otmsystem.app-lifecycle-livedata-core-2.6.2-24 /Users/apple/.gradle/caches/transforms-3/c3271c2f7d053735aefca63d1abc637b/transformed/lifecycle-livedata-core-2.6.2/res
+com.app.otmsystem.app-jetified-play-services-base-18.3.0-25 /Users/apple/.gradle/caches/transforms-3/c5b77dcd5aa29bc9e48694ec2a1d8d36/transformed/jetified-play-services-base-18.3.0/res
+com.app.otmsystem.app-jetified-profileinstaller-1.3.0-26 /Users/apple/.gradle/caches/transforms-3/d8b20124984237c0e54cf00d7c7f47a6/transformed/jetified-profileinstaller-1.3.0/res
+com.app.otmsystem.app-jetified-lifecycle-process-2.6.2-27 /Users/apple/.gradle/caches/transforms-3/e5d3228d1de74ab0e814d76137b1d76a/transformed/jetified-lifecycle-process-2.6.2/res
+com.app.otmsystem.app-jetified-camera-camera2-1.3.3-28 /Users/apple/.gradle/caches/transforms-3/eab01f4e92b9d1d47deb9ffc618e37f2/transformed/jetified-camera-camera2-1.3.3/res
+com.app.otmsystem.app-media-1.0.0-29 /Users/apple/.gradle/caches/transforms-3/f0e6e9cbf8f27d180a22940f06c521ee/transformed/media-1.0.0/res
+com.app.otmsystem.app-jetified-play-services-basement-18.3.0-30 /Users/apple/.gradle/caches/transforms-3/f4c9092ebd95742cbb3b74097eb7651b/transformed/jetified-play-services-basement-18.3.0/res
+com.app.otmsystem.app-debug-31 /Users/apple/Documents/My Projects/Stypix Project/OTMS 2.0 Flutter Git/android/app/src/debug/res
+com.app.otmsystem.app-main-32 /Users/apple/Documents/My Projects/Stypix Project/OTMS 2.0 Flutter Git/android/app/src/main/res
+com.app.otmsystem.app-pngs-33 /Users/apple/Documents/My Projects/Stypix Project/OTMS 2.0 Flutter Git/build/app/generated/res/pngs/debug
+com.app.otmsystem.app-resValues-34 /Users/apple/Documents/My Projects/Stypix Project/OTMS 2.0 Flutter Git/build/app/generated/res/resValues/debug
+com.app.otmsystem.app-rs-35 /Users/apple/Documents/My Projects/Stypix Project/OTMS 2.0 Flutter Git/build/app/generated/res/rs/debug
+com.app.otmsystem.app-mergeDebugResources-36 /Users/apple/Documents/My Projects/Stypix Project/OTMS 2.0 Flutter Git/build/app/intermediates/incremental/debug/mergeDebugResources/merged.dir
+com.app.otmsystem.app-mergeDebugResources-37 /Users/apple/Documents/My Projects/Stypix Project/OTMS 2.0 Flutter Git/build/app/intermediates/incremental/debug/mergeDebugResources/stripped.dir
+com.app.otmsystem.app-merged_res-38 /Users/apple/Documents/My Projects/Stypix Project/OTMS 2.0 Flutter Git/build/app/intermediates/merged_res/debug
+com.app.otmsystem.app-packaged_res-39 /Users/apple/Documents/My Projects/Stypix Project/OTMS 2.0 Flutter Git/build/connectivity_plus/intermediates/packaged_res/debug
+com.app.otmsystem.app-packaged_res-40 /Users/apple/Documents/My Projects/Stypix Project/OTMS 2.0 Flutter Git/build/device_info_plus/intermediates/packaged_res/debug
+com.app.otmsystem.app-packaged_res-41 /Users/apple/Documents/My Projects/Stypix Project/OTMS 2.0 Flutter Git/build/file_picker/intermediates/packaged_res/debug
+com.app.otmsystem.app-packaged_res-42 /Users/apple/Documents/My Projects/Stypix Project/OTMS 2.0 Flutter Git/build/flutter_internet_speed_test/intermediates/packaged_res/debug
+com.app.otmsystem.app-packaged_res-43 /Users/apple/Documents/My Projects/Stypix Project/OTMS 2.0 Flutter Git/build/flutter_pdfview/intermediates/packaged_res/debug
+com.app.otmsystem.app-packaged_res-44 /Users/apple/Documents/My Projects/Stypix Project/OTMS 2.0 Flutter Git/build/flutter_plugin_android_lifecycle/intermediates/packaged_res/debug
+com.app.otmsystem.app-packaged_res-45 /Users/apple/Documents/My Projects/Stypix Project/OTMS 2.0 Flutter Git/build/fluttertoast/intermediates/packaged_res/debug
+com.app.otmsystem.app-packaged_res-46 /Users/apple/Documents/My Projects/Stypix Project/OTMS 2.0 Flutter Git/build/image_picker_android/intermediates/packaged_res/debug
+com.app.otmsystem.app-packaged_res-47 /Users/apple/Documents/My Projects/Stypix Project/OTMS 2.0 Flutter Git/build/mobile_scanner/intermediates/packaged_res/debug
+com.app.otmsystem.app-packaged_res-48 /Users/apple/Documents/My Projects/Stypix Project/OTMS 2.0 Flutter Git/build/modal_progress_hud_nsn/intermediates/packaged_res/debug
+com.app.otmsystem.app-packaged_res-49 /Users/apple/Documents/My Projects/Stypix Project/OTMS 2.0 Flutter Git/build/open_file_plus/intermediates/packaged_res/debug
+com.app.otmsystem.app-packaged_res-50 /Users/apple/Documents/My Projects/Stypix Project/OTMS 2.0 Flutter Git/build/path_provider_android/intermediates/packaged_res/debug
+com.app.otmsystem.app-packaged_res-51 /Users/apple/Documents/My Projects/Stypix Project/OTMS 2.0 Flutter Git/build/permission_handler_android/intermediates/packaged_res/debug
+com.app.otmsystem.app-packaged_res-52 /Users/apple/Documents/My Projects/Stypix Project/OTMS 2.0 Flutter Git/build/printing/intermediates/packaged_res/debug
+com.app.otmsystem.app-packaged_res-53 /Users/apple/Documents/My Projects/Stypix Project/OTMS 2.0 Flutter Git/build/qr_code_scanner/intermediates/packaged_res/debug
+com.app.otmsystem.app-packaged_res-54 /Users/apple/Documents/My Projects/Stypix Project/OTMS 2.0 Flutter Git/build/sms_autofill/intermediates/packaged_res/debug
+com.app.otmsystem.app-packaged_res-55 /Users/apple/Documents/My Projects/Stypix Project/OTMS 2.0 Flutter Git/build/sqflite/intermediates/packaged_res/debug
