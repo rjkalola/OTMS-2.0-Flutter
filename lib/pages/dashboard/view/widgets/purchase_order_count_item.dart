@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../../res/colors.dart';
-import '../../../widgets/text/PrimaryTextView.dart';
+import '../../../../res/colors.dart';
+import '../../../../widgets/text/PrimaryTextView.dart';
 
 class PurchaseOrderCountItem extends StatelessWidget {
   PurchaseOrderCountItem(

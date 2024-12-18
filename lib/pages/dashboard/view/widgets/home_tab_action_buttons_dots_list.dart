@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../dashboard_controller.dart';
+import '../../controller/dashboard_controller.dart';
 
 class HomeTabActionButtonsDotsList extends StatelessWidget {
   HomeTabActionButtonsDotsList({super.key});

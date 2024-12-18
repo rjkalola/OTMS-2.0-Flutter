@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:otm_inventory/pages/login/controller/login_controller.dart';
 
-import '../login_controller.dart';
 
 class PhoneExtensionFieldWidget extends StatelessWidget {
   PhoneExtensionFieldWidget({super.key});

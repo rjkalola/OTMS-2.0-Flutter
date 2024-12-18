@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:otm_inventory/pages/dashboard/dashboard_controller.dart';
-import 'package:otm_inventory/pages/dashboard/widgets/dashboard_stock_count_item.dart';
+import 'package:otm_inventory/pages/dashboard/controller/dashboard_controller.dart';
+import 'package:otm_inventory/pages/dashboard/view/widgets/dashboard_stock_count_item.dart';
+import 'package:otm_inventory/pages/dashboard/view/widgets/purchase_order_count_item.dart';
 import 'package:otm_inventory/pages/otp_verification/model/user_info.dart';
 import 'package:otm_inventory/res/drawable.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
@@ -15,7 +16,6 @@ import '../../../../res/colors.dart';
 import '../../../../utils/app_storage.dart';
 import '../../../../widgets/CustomProgressbar.dart';
 import '../../../../widgets/text/PrimaryTextView.dart';
-import '../../widgets/purchase_order_count_item.dart';
 
 class HomeTab extends StatefulWidget {
   const HomeTab({super.key});

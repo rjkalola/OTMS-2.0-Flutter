@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/res/colors.dart';
+import 'package:otm_inventory/widgets/PrimaryBorderButton.dart';
 
-import '../../../widgets/PrimaryBorderButton.dart';
-import '../login_controller.dart';
+import '../../controller/login_controller.dart';
 
 class LoginButtonWidget extends StatelessWidget {
   LoginButtonWidget({super.key});

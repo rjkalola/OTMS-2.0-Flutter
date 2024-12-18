@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:otm_inventory/pages/login/controller/login_controller.dart';
+import 'package:otm_inventory/utils/app_storage.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
+import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
 
-import '../../../utils/app_storage.dart';
-import '../../../widgets/text/PrimaryTextView.dart';
-import '../login_controller.dart';
 
 class LoginUsersList extends StatelessWidget {
   LoginUsersList({super.key});

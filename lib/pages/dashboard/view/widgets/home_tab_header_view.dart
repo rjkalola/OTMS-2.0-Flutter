@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:otm_inventory/widgets/user_image.dart';
 
-import '../../../res/colors.dart';
+import '../../../../res/colors.dart';
 
 class HomeTabHeaderView extends StatelessWidget {
   final String userName, userImage;

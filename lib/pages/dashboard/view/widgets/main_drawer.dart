@@ -6,12 +6,12 @@ import 'package:otm_inventory/res/drawable.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_storage.dart';
 
-import '../../../res/colors.dart';
-import '../../../utils/AlertDialogHelper.dart';
-import '../../../utils/app_constants.dart';
-import '../../../utils/image_utils.dart';
-import '../../common/listener/DialogButtonClickListener.dart';
-import '../dashboard_controller.dart';
+import '../../../../res/colors.dart';
+import '../../../../utils/AlertDialogHelper.dart';
+import '../../../../utils/app_constants.dart';
+import '../../../../utils/image_utils.dart';
+import '../../../common/listener/DialogButtonClickListener.dart';
+import '../../controller/dashboard_controller.dart';
 
 class MainDrawer extends StatelessWidget implements DialogButtonClickListener {
   MainDrawer({super.key});

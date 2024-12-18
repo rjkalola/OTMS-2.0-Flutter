@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../../res/colors.dart';
+import '../../../../res/colors.dart';
 
 class MoreTabButton extends StatelessWidget {
   final double iconPadding;

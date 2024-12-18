@@ -3,13 +3,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/dashboard/dashboard_controller.dart';
-import 'package:otm_inventory/pages/dashboard/widgets/bottom_navigation_bar_widget.dart';
-import 'package:otm_inventory/pages/dashboard/widgets/main_drawer.dart';
+import 'package:otm_inventory/pages/dashboard/controller/dashboard_controller.dart';
+import 'package:otm_inventory/pages/dashboard/view/widgets/bottom_navigation_bar_widget.dart';
+import 'package:otm_inventory/pages/dashboard/view/widgets/main_drawer.dart';
 import 'package:otm_inventory/res/colors.dart';
 
-import '../../utils/app_utils.dart';
-import '../../widgets/appbar/base_appbar.dart';
+import '../../../utils/app_utils.dart';
+import '../../../widgets/appbar/base_appbar.dart';
 
 class DashboardScreen extends StatelessWidget {
   DashboardScreen({super.key});

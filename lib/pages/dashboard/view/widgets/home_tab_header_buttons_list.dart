@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/dashboard/dashboard_controller.dart';
+import 'package:otm_inventory/pages/dashboard/controller/dashboard_controller.dart';
 import 'package:otm_inventory/widgets/card_view.dart';
 import '../../../../../res/colors.dart';
-import '../../../utils/app_utils.dart';
+import '../../../../utils/app_utils.dart';
 
 class HomeTabHeaderButtonsList extends StatelessWidget {
   HomeTabHeaderButtonsList({super.key});

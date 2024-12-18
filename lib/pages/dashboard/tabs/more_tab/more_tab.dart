@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:otm_inventory/pages/dashboard/view/widgets/more_tab_buttons.dart';
 import 'package:otm_inventory/res/drawable.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 
 import '../../../../res/colors.dart';
 import '../../../../utils/AlertDialogHelper.dart';
 import '../../../common/listener/DialogButtonClickListener.dart';
-import '../../dashboard_controller.dart';
-import '../../widgets/more_tab_buttons.dart';
+import '../../controller/dashboard_controller.dart';
 
 class MoreTab extends StatefulWidget {
   MoreTab({super.key});

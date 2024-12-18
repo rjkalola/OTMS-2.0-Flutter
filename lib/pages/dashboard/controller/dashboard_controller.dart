@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart' as multi;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/dashboard/dashboard_repository.dart';
+import 'package:otm_inventory/pages/dashboard/controller/dashboard_repository.dart';
 import 'package:otm_inventory/pages/dashboard/models/dashboard_stock_count_response.dart';
 import 'package:otm_inventory/pages/dashboard/models/permission_response.dart';
 import 'package:otm_inventory/pages/dashboard/tabs/home_tab/home_tab.dart';
@@ -11,18 +11,18 @@ import 'package:otm_inventory/pages/dashboard/tabs/more_tab/more_tab.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
 
-import '../../utils/app_constants.dart';
-import '../../utils/app_storage.dart';
-import '../../utils/app_utils.dart';
-import '../../utils/data_utils.dart';
-import '../../web_services/api_constants.dart';
-import '../../web_services/response/module_info.dart';
-import '../../web_services/response/response_model.dart';
-import '../common/drop_down_tile_list_dialog.dart';
-import '../common/listener/select_item_listener.dart';
-import '../stock_filter/controller/stock_filter_repository.dart';
-import '../stock_filter/model/stock_filter_response.dart';
-import 'models/DashboardActionItemInfo.dart';
+import '../../../utils/app_constants.dart';
+import '../../../utils/app_storage.dart';
+import '../../../utils/app_utils.dart';
+import '../../../utils/data_utils.dart';
+import '../../../web_services/api_constants.dart';
+import '../../../web_services/response/module_info.dart';
+import '../../../web_services/response/response_model.dart';
+import '../../common/drop_down_tile_list_dialog.dart';
+import '../../common/listener/select_item_listener.dart';
+import '../../stock_filter/controller/stock_filter_repository.dart';
+import '../../stock_filter/model/stock_filter_response.dart';
+import '../models/DashboardActionItemInfo.dart';
 
 class DashboardController extends GetxController
     with GetSingleTickerProviderStateMixin

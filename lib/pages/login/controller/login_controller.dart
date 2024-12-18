@@ -3,19 +3,19 @@ import 'dart:convert';
 import 'package:dio/dio.dart' as multi;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/login/login_repository.dart';
+import 'package:otm_inventory/pages/login/controller/login_repository.dart';
 import 'package:otm_inventory/pages/login/models/RegisterResourcesResponse.dart';
 import 'package:otm_inventory/pages/login/models/VerifyPhoneResponse.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/web_services/api_constants.dart';
 
-import '../../routes/app_routes.dart';
-import '../../utils/app_storage.dart';
-import '../../web_services/response/response_model.dart';
-import '../common/listener/SelectPhoneExtensionListener.dart';
-import '../common/phone_extension_list_dialog.dart';
-import '../otp_verification/model/user_info.dart';
+import '../../../routes/app_routes.dart';
+import '../../../utils/app_storage.dart';
+import '../../../web_services/response/response_model.dart';
+import '../../common/listener/SelectPhoneExtensionListener.dart';
+import '../../common/phone_extension_list_dialog.dart';
+import '../../otp_verification/model/user_info.dart';
 
 class LoginController extends GetxController
     implements SelectPhoneExtensionListener {

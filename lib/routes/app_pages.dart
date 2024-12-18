@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/dashboard/dashboard_screen.dart';
-import 'package:otm_inventory/pages/login/login_screen.dart';
+import 'package:otm_inventory/pages/dashboard/view/dashboard_screen.dart';
+import 'package:otm_inventory/pages/login/view/login_screen.dart';
 import 'package:otm_inventory/pages/otp_verification/view/verify_otp_screen.dart';
 import 'package:otm_inventory/pages/splash/splash_screen.dart';
 import '../pages/stock_filter/view/stock_filter_screen.dart';

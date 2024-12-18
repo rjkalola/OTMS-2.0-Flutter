@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-import '../../../res/colors.dart';
-import '../../../utils/app_utils.dart';
-import '../dashboard_controller.dart';
+import '../../../../res/colors.dart';
+import '../../../../utils/app_utils.dart';
+import '../../controller/dashboard_controller.dart';
 
 class HomeTabActionButtonsList extends StatelessWidget {
   HomeTabActionButtonsList({super.key});

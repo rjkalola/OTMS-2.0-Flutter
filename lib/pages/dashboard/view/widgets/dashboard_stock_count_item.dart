@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:otm_inventory/res/colors.dart';
 
-import '../../../widgets/card_view.dart';
-import '../../../widgets/text/PrimaryTextView.dart';
+import '../../../../widgets/card_view.dart';
+import '../../../../widgets/text/PrimaryTextView.dart';
 
 class DashboardStockCountItem extends StatelessWidget {
   DashboardStockCountItem({super.key, this.title, this.value, this.valueColor,required this.onPressed});

@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:otm_inventory/pages/login/login_controller.dart';
-import 'package:otm_inventory/pages/login/widgets/login_button_widget.dart';
-import 'package:otm_inventory/pages/login/widgets/login_users_list.dart';
-import 'package:otm_inventory/pages/login/widgets/phone_extension_field_widget.dart';
-import 'package:otm_inventory/pages/login/widgets/phone_text_field_widget.dart';
+import 'package:otm_inventory/pages/login/controller/login_controller.dart';
+import 'package:otm_inventory/pages/login/view/widgets/login_button_widget.dart';
+import 'package:otm_inventory/pages/login/view/widgets/login_users_list.dart';
+import 'package:otm_inventory/pages/login/view/widgets/phone_extension_field_widget.dart';
+import 'package:otm_inventory/pages/login/view/widgets/phone_text_field_widget.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
 
-import '../../res/colors.dart';
+import '../../../res/colors.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -74,7 +74,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           LoginButtonWidget(),
-                          const SizedBox(height: 20,),
+                          const SizedBox(
+                            height: 20,
+                          ),
                           LoginUsersList()
                         ]));
         }),

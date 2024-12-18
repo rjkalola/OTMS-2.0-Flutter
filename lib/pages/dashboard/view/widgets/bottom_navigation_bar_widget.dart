@@ -3,8 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/res/drawable.dart';
 
-import '../../../res/colors.dart';
-import '../dashboard_controller.dart';
+import '../../../../res/colors.dart';
+import '../../controller/dashboard_controller.dart';
 
 class BottomNavigationBarWidget extends StatelessWidget {
   BottomNavigationBarWidget({super.key});

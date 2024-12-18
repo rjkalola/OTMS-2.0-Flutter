@@ -4,7 +4,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:label="OTM Inventory"
+        android:label="OTMS 2.0"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity
