@@ -12,8 +12,7 @@ class ApiConstants {
   static Map<String, String> getHeader() {
     return {
       "Content-Type": "application/json",
-      "Authorization": "Bearer $accessToken",
-      "Isinventory": "1",
+      "Authorization": "Bearer $accessToken"
     };
   }
 

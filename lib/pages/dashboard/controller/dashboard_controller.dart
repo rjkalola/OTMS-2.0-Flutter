@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:otm_inventory/pages/dashboard/controller/dashboard_repository.dart';
 import 'package:otm_inventory/pages/dashboard/models/dashboard_stock_count_response.dart';
 import 'package:otm_inventory/pages/dashboard/models/permission_response.dart';
-import 'package:otm_inventory/pages/dashboard/tabs/home_tab/home_tab.dart';
+import 'package:otm_inventory/pages/dashboard/tabs/home_tab/view/home_tab.dart';
 import 'package:otm_inventory/pages/dashboard/tabs/more_tab/more_tab.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
@@ -369,7 +369,7 @@ class DashboardController extends GetxController
     String deviceModelName = await AppUtils.getDeviceName();
     Map<String, dynamic> map = {};
     map["model_name"] = deviceModelName;
-    map["is_inventory"] = "true";
+    // map["is_inventory"] = "true";
     multi.FormData formData = multi.FormData.fromMap(map);
     print("request parameter:" + map.toString());
     isLoading.value = true;

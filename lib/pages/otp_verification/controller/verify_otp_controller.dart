@@ -82,7 +82,7 @@ class VerifyOtpController extends GetxController {
       map["password"] = "";
       map["save_login"] = "0";
       map["user_id"] = "0";
-      map["is_inventory"] = "true";
+      // map["is_inventory"] = "true";
       map["device_type"] = AppConstants.deviceType;
       map["model_name"] = deviceModelName;
       multi.FormData formData = multi.FormData.fromMap(map);

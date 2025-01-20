@@ -98,7 +98,7 @@ class Strings extends Translations {
           // 'qty_in_stock': "QTY in Stock",
           // 'add_quantity': "Add quantity",
           // 'empty_store_message': "No store found",
-          // 'dashboard': "Dashboard",
+          'dashboard': "Dashboard",
           // 'deduct': "Deduct",
           // 'add': "Add",
           // 'stock_movement': "Stock Movement",
@@ -116,7 +116,7 @@ class Strings extends Translations {
           // 'all': "All",
           // 'in': "In",
           // 'out': "Out",
-          // 'login_with_otp': "Login with OTP",
+          'login_with_otp': "Login with OTP",
           // 'msg_attach_barcode':
           //     "Do you want to attach this product with barcode?",
           // 'msg_update_barcode':

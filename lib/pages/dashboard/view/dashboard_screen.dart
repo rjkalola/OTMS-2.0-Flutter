@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/pages/dashboard/controller/dashboard_controller.dart';
 import 'package:otm_inventory/pages/dashboard/view/widgets/bottom_navigation_bar_widget.dart';
-import 'package:otm_inventory/pages/dashboard/view/widgets/main_drawer.dart';
 import 'package:otm_inventory/res/colors.dart';
 
 import '../../../utils/app_utils.dart';
@@ -42,7 +41,6 @@ class DashboardScreen extends StatelessWidget {
                   isBack: true,
                   widgets: actionButtons(),
                 ),
-                drawer: MainDrawer(),
                 body: SizedBox(
                   width: double.infinity,
                   height: double.infinity,
