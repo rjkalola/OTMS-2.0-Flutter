@@ -36,7 +36,7 @@ class DashboardController extends GetxController
       DataUtils.getHeaderActionButtonsList().obs;
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
-      isMainViewVisible = false.obs;
+      isMainViewVisible = true.obs;
   final title = 'dashboard'.tr.obs,
       downloadTitle = 'download'.tr.obs,
       allTotalAmount = "".obs,

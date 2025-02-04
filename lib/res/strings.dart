@@ -105,7 +105,7 @@ class Strings extends Translations {
           // 'view_more_': "View More..",
           // 'reload': "Reload",
           // 'active': "Active",
-          // 'exit_warning': "Press Back Button Again to Exit.",
+          'exit_warning': "Press Back Button Again to Exit.",
           // 'add_new_product': "Add New Product",
           // 'attach_product': "Attach Product",
           // 'empty_qr_code_scan_msg':

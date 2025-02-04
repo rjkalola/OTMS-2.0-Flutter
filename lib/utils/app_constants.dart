@@ -14,6 +14,7 @@ class AppConstants {
   static bool isResourcesLoaded = false;
 }
 
+
 class IntentKey {
   const IntentKey(); // <
   final String phoneExtension = 'PHONE_EXTENSION';
@@ -59,6 +60,15 @@ class Action {
   final String mobilePrint = "MobilePrint";
   final String viewPdf = "VIEW_PDF";
   final String downloadPdf = "DOWNLOAD_PDF";
+
+  final String clockIn = "ClockIn";
+  final String quickTask = "QuickTask";
+  final String map = "Map";
+  final String teams = "Teams";
+  final String users = "Users";
+  final String timeSheet = "TimeSheet";
+  final String selectCompanyListDialog = "selectCompanyListDialog";
+  final String selectTradeListDialog = "selectTradeListDialog";
 }
 
 class StockCountType {
