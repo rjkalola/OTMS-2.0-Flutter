@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:otm_inventory/pages/splash/splash_services.dart';
+import 'package:otm_inventory/pages/authentication/splash/splash_services.dart';
 import 'package:otm_inventory/res/drawable.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -7,7 +7,6 @@ class SplashScreen extends StatefulWidget {
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
-
 }
 
 class _SplashScreenState extends State<SplashScreen> {
@@ -29,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
           width: double.infinity,
           child: Center(
               child: Image.asset(
-                Drawable.splashScreenLogo,
+            Drawable.splashScreenLogo,
             height: 350,
             width: 350,
           )),

@@ -1,0 +1,37 @@
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 1200 800"
+    id="vector">
+    <path
+        id="path"
+        d="M 0 0 L 1200 0 L 1200 800 L 0 800 Z"
+        fill="#002664"/>
+    <path
+        id="path_1"
+        d="M 400 0 L 1200 0 L 1200 800 L 400 800 Z"
+        fill="#fecb00"/>
+    <path
+        id="path_2"
+        d="M 800 0 L 1200 0 L 1200 800 L 800 800 Z"
+        fill="#c60c30"/>
+    <path
+        id="path_3"
+        d="M 0 0 L 1200 0 L 1200 400 L 0 400 Z"
+        fill="#ffffff"/>
+    <path
+        id="path_4"
+        d="M 0 400 L 1200 400 L 1200 800 L 0 800 Z"
+        fill="#d52b1e"/>
+    <path
+        id="path_5"
+        d="M 0 266.667 L 1200 266.667 L 1200 533.333 L 0 533.333 Z"
+        fill="#0039a6"/>
+    <path
+        id="path_6"
+        d="M 0 0 L 1200 0 L 1200 800 L 0 800 Z"
+        fill="#005bbb"/>
+    <path
+        id="path_7"
+        d="M 0 400 L 1200 400 L 1200 800 L 0 800 Z"
+        fill="#ffd500"/>
+</svg>

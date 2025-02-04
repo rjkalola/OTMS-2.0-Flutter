@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/splash/splash_screen.dart';
+import 'package:otm_inventory/pages/authentication/splash/splash_screen.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/res/strings.dart';
 import 'package:otm_inventory/routes/app_pages.dart';

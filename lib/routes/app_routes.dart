@@ -1,5 +1,6 @@
 class AppRoutes {
   static const String splashScreen = '/';
+  static const String introductionScreen = '/introduction_screen';
   static const String loginScreen = '/login_screen';
   static const String verifyOtpScreen = '/verify_otp_screen';
   static const String dashboardScreen = '/dashboard_screen';
@@ -22,7 +23,7 @@ class AppRoutes {
   static const String stockFilterScreen = '/stock_filter_screen';
   static const String viewPdfScreen = '/view_pdf_screen';
   static const String purchaseOrderListScreen = '/purchase_order_list_screen';
-  static const String purchaseOrderDetailsScreen = '/purchase_order_details_screen';
+  static const String purchaseOrderDetailsScreen =
+      '/purchase_order_details_screen';
   static const String barcodeListScreen = '/barcode_list_screen';
-
 }

@@ -5,6 +5,9 @@ class Strings extends Translations {
   Map<String, Map<String, String>> get keys => {
         'en_US': {
           'app_title': 'OTMS 2.0',
+          'need_help': "Need Help?",
+          'create_new_account': "Create New Account",
+          'log_in': 'Log In',
           'login': 'Login',
           'required_field': 'Required Field',
           'phone': 'Phone',

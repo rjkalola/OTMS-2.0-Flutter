@@ -34,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
           appBar: AppBar(),
           title: 'login'.tr,
           isCenterTitle: true,
-          isBack: false,
+          isBack: true,
         ),
         body: Obx(() {
           return ModalProgressHUD(
@@ -77,7 +77,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           const SizedBox(
                             height: 20,
                           ),
-                          LoginUsersList()
                         ]));
         }),
       ),

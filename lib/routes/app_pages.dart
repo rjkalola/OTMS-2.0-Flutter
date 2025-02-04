@@ -1,8 +1,9 @@
 import 'package:get/get.dart';
+import 'package:otm_inventory/pages/authentication/introduction/view/introduction_screen.dart';
+import 'package:otm_inventory/pages/authentication/splash/splash_screen.dart';
 import 'package:otm_inventory/pages/dashboard/view/dashboard_screen.dart';
 import 'package:otm_inventory/pages/login/view/login_screen.dart';
 import 'package:otm_inventory/pages/otp_verification/view/verify_otp_screen.dart';
-import 'package:otm_inventory/pages/splash/splash_screen.dart';
 import '../pages/stock_filter/view/stock_filter_screen.dart';
 import 'app_routes.dart';
 
@@ -11,6 +12,10 @@ class AppPages {
     GetPage(
       name: AppRoutes.splashScreen,
       page: () => SplashScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.introductionScreen,
+      page: () => IntroductionScreen(),
     ),
     GetPage(
       name: AppRoutes.loginScreen,

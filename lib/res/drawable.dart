@@ -25,4 +25,9 @@ class Drawable {
       'assets/images/ic_dashboard_received.svg';
   static const String dashboardCancelledIcon =
       'assets/images/ic_dashboard_cancelled.svg';
+  static const String flagEnglish = 'assets/images/ic_flag_english.svg';
+  static const String flagRomanian = 'assets/images/ic_flag_romanian.svg';
+  static const String flagRussian = 'assets/images/ic_flag_russian.svg';
+  static const String flagUkrainian = 'assets/images/ic_flag_ukrainian.svg';
+  static const String imgLogo = 'assets/images/img_logo.svg';
 }
