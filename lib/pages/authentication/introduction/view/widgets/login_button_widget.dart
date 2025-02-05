@@ -20,7 +20,6 @@ class LoginButtonWidget extends StatelessWidget {
             textColor: defaultAccentColor,
             borderColor: defaultAccentColor,
             onPressed: () {
-              print("login click");
               Get.toNamed(AppRoutes.loginScreen);
             },
           )),

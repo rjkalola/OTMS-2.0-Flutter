@@ -9,6 +9,7 @@ class CustomTextFormField extends StatelessWidget {
       {super.key,
       this.textEditingController,
       this.hintText = "",
+      this.labelText = "",
       this.validator,
       this.inputFormatters,
       this.cursorColor = defaultAccentColor,
@@ -16,7 +17,7 @@ class CustomTextFormField extends StatelessWidget {
       this.textInputAction});
 
   final TextEditingController? textEditingController;
-  final String? hintText;
+  final String? hintText, labelText;
   final MultiValidator? validator;
   final List<TextInputFormatter>? inputFormatters;
   final Color? cursorColor;
@@ -31,17 +32,21 @@ class CustomTextFormField extends StatelessWidget {
       cursorColor: cursorColor,
       controller: textEditingController,
       style: const TextStyle(
-          fontSize: 16, color: Colors.black, fontWeight: FontWeight.normal),
+          fontSize: 16, color: primaryTextColor, fontWeight: FontWeight.w400),
       decoration: InputDecoration(
         hintText: hintText,
+        labelText: labelText,
         labelStyle: const TextStyle(color: Colors.grey),
         hintStyle: const TextStyle(
             fontSize: 16, color: Colors.grey, fontWeight: FontWeight.normal),
         enabledBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: defaultAccentColor),
+          borderSide: BorderSide(color: normalTextFieldBorderColor),
         ),
         focusedBorder: const UnderlineInputBorder(
           borderSide: BorderSide(color: defaultAccentColor),
+        ),
+        border: const UnderlineInputBorder(
+          borderSide: BorderSide(color: normalTextFieldBorderColor),
         ),
       ),
       validator: validator!,

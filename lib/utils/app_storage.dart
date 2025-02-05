@@ -2,12 +2,12 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:otm_inventory/pages/authentication/otp_verification/model/user_info.dart';
 import 'package:otm_inventory/pages/dashboard/models/permission_response.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
 
 import '../pages/dashboard/models/dashboard_stock_count_response.dart';
-import '../pages/otp_verification/model/user_info.dart';
 import '../pages/stock_filter/model/stock_filter_response.dart';
 
 class AppStorage extends GetxController {

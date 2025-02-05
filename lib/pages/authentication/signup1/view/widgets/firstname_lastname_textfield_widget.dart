@@ -1,0 +1,66 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:form_field_validator/form_field_validator.dart';
+import 'package:get/get.dart';
+import 'package:otm_inventory/pages/authentication/signup1/controller/signup1_controller.dart';
+import 'package:otm_inventory/res/colors.dart';
+import 'package:otm_inventory/res/drawable.dart';
+import 'package:otm_inventory/routes/app_routes.dart';
+import 'package:otm_inventory/widgets/PrimaryBorderButton.dart';
+
+import '../../../../../widgets/custom_text_form_field.dart';
+
+class FirstNameLastNameTextFieldWidget extends StatelessWidget {
+  FirstNameLastNameTextFieldWidget({super.key});
+
+  final controller = Get.put(SignUp1Controller());
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 16, right: 16, top: 10),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Flexible(
+            flex: 1,
+            child: CustomTextFormField(
+                textEditingController: controller.firstNameController.value,
+                hintText: 'first_name'.tr,
+                labelText: 'first_name'.tr,
+                keyboardType: TextInputType.name,
+                textInputAction: TextInputAction.next,
+                validator: MultiValidator([
+                  RequiredValidator(errorText: 'required_field'.tr),
+                ]),
+                inputFormatters: <TextInputFormatter>[
+                  // for below version 2 use this
+                  FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                ]),
+          ),
+          const SizedBox(
+            width: 14,
+          ),
+          Flexible(
+            flex: 1,
+            child: CustomTextFormField(
+                textEditingController: controller.lastNameController.value,
+                hintText: 'last_name'.tr,
+                labelText: 'last_name'.tr,
+                keyboardType: TextInputType.name,
+                textInputAction: TextInputAction.next,
+                validator: MultiValidator([
+                  RequiredValidator(errorText: 'required_field'.tr),
+                ]),
+                inputFormatters: <TextInputFormatter>[
+                  // for below version 2 use this
+                  FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                ]),
+          ),
+        ],
+      ),
+    );
+  }
+}

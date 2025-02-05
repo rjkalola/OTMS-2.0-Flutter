@@ -3,16 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:otm_inventory/pages/otp_verification/controller/verify_otp_controller.dart';
-import 'package:otm_inventory/pages/otp_verification/view/widgets/otp_submit_button.dart';
-import 'package:otm_inventory/pages/otp_verification/view/widgets/resend_view_widget.dart';
+import 'package:otm_inventory/pages/authentication/otp_verification/controller/verify_otp_controller.dart';
+import 'package:otm_inventory/pages/authentication/otp_verification/view/widgets/otp_submit_button.dart';
+import 'package:otm_inventory/pages/authentication/otp_verification/view/widgets/resend_view_widget.dart';
+import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
+import 'package:otm_inventory/widgets/CustomProgressbar.dart';
+import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
 import 'package:sms_autofill/sms_autofill.dart';
-
-import '../../../res/colors.dart';
-import '../../../widgets/CustomProgressbar.dart';
-import '../../../widgets/appbar/base_appbar.dart';
 
 class VerifyOtpScreen extends StatefulWidget {
   const VerifyOtpScreen({
@@ -173,7 +172,9 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 12,),
+                  SizedBox(
+                    height: 12,
+                  ),
                   OtpSubmitButton()
                 ],
               )

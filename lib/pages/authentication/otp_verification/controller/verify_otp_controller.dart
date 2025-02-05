@@ -2,18 +2,18 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/otp_verification/controller/verify_otp_repository.dart';
-import 'package:otm_inventory/pages/otp_verification/model/user_response.dart';
+import 'package:otm_inventory/pages/authentication/otp_verification/controller/verify_otp_repository.dart';
+import 'package:otm_inventory/pages/authentication/otp_verification/model/user_response.dart';
+import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_storage.dart';
+import 'package:otm_inventory/utils/app_utils.dart';
+import 'package:otm_inventory/web_services/api_constants.dart';
+import 'package:otm_inventory/web_services/response/response_model.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
-import '../../../routes/app_routes.dart';
-import '../../../utils/app_utils.dart';
 import 'package:dio/dio.dart' as multi;
 
-import '../../../web_services/api_constants.dart';
-import '../../../web_services/response/response_model.dart';
 import '../model/user_info.dart';
 
 class VerifyOtpController extends GetxController {
@@ -93,7 +93,7 @@ class VerifyOtpController extends GetxController {
         onSuccess: (ResponseModel responseModel) {
           if (responseModel.statusCode == 200) {
             UserResponse response =
-            UserResponse.fromJson(jsonDecode(responseModel.result!));
+                UserResponse.fromJson(jsonDecode(responseModel.result!));
             if (response.isSuccess!) {
               Get.find<AppStorage>().setUserInfo(response.info!);
               Get.find<AppStorage>().setAccessToken(response.info!.apiToken!);
@@ -167,11 +167,7 @@ class VerifyOtpController extends GetxController {
       list.add(user);
       Get.find<AppStorage>().setLoginUsers(list);
       print("after length:" +
-          Get
-              .find<AppStorage>()
-              .getLoginUsers()
-              .length
-              .toString());
+          Get.find<AppStorage>().getLoginUsers().length.toString());
     }
   }
 }

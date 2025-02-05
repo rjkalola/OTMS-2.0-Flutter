@@ -3,9 +3,10 @@ import 'dart:convert';
 import 'package:dio/dio.dart' as multi;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/login/controller/login_repository.dart';
-import 'package:otm_inventory/pages/login/models/VerifyPhoneResponse.dart';
-import 'package:otm_inventory/pages/otp_verification/model/user_info.dart';
+import 'package:otm_inventory/pages/authentication/login/controller/login_repository.dart';
+import 'package:otm_inventory/pages/authentication/login/models/VerifyPhoneResponse.dart';
+import 'package:otm_inventory/pages/authentication/otp_verification/model/user_info.dart';
+import 'package:otm_inventory/pages/authentication/signup1/controller/signup1_repository.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_storage.dart';
@@ -15,11 +16,13 @@ import 'package:otm_inventory/web_services/response/response_model.dart';
 
 class SignUp1Controller extends GetxController {
   final phoneController = TextEditingController().obs;
+  final firstNameController = TextEditingController().obs;
+  final lastNameController = TextEditingController().obs;
   final mExtension = AppConstants.defaultPhoneExtension.obs;
   final mFlag = AppConstants.defaultFlagUrl.obs;
   final formKey = GlobalKey<FormState>();
 
-  final _api = LoginRepository();
+  final _api = SignUp1Repository();
 
   RxBool isLoading = false.obs, isInternetNotAvailable = false.obs;
   var loginUsers = <UserInfo>[].obs;

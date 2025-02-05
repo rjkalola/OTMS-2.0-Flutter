@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/otp_verification/controller/verify_otp_controller.dart';
+import 'package:otm_inventory/pages/authentication/otp_verification/controller/verify_otp_controller.dart';
 import 'package:otm_inventory/widgets/footer_primary_button.dart';
 
 class OtpSubmitButton extends StatelessWidget {
