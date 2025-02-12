@@ -6,6 +6,11 @@ class StringHelper {
     return !valid;
   }
 
+  static bool isEmptyEdittext(String? string) {
+    bool valid = string != null && string.isNotEmpty;
+    return !valid;
+  }
+
   static bool isEmptyList(List<dynamic>? list){
     bool valid = list != null && list.isNotEmpty;
     return !valid;

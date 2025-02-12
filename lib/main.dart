@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/pages/authentication/splash/splash_screen.dart';
 import 'package:otm_inventory/res/colors.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: defaultAccentColor),
           useMaterial3: true,
           dialogBackgroundColor: Colors.white),
+
       home: const SplashScreen(),
     );
   }

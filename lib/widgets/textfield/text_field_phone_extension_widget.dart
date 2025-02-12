@@ -5,7 +5,6 @@ import '../../res/colors.dart';
 class TextFieldPhoneExtensionWidget extends StatelessWidget {
   const TextFieldPhoneExtensionWidget(
       {super.key, this.mFlag = "", this.mExtension = "", this.onPressed});
-
   final String? mFlag, mExtension;
   final VoidCallback? onPressed;
 
@@ -17,7 +16,9 @@ class TextFieldPhoneExtensionWidget extends StatelessWidget {
           onPressed!();
         },
         style: const TextStyle(
-            fontWeight: FontWeight.w400, fontSize: 15, color: primaryTextColor),
+            fontWeight: FontWeight.w400,
+            fontSize: 15,
+            color: primaryTextColor),
         readOnly: true,
         controller: TextEditingController(text: mExtension),
         textAlign: TextAlign.center,
@@ -33,14 +34,15 @@ class TextFieldPhoneExtensionWidget extends StatelessWidget {
           floatingLabelBehavior: FloatingLabelBehavior.auto,
           border: const OutlineInputBorder(
             borderSide:
-                BorderSide(color: focusedTextFieldBorderColor, width: 1),
+            BorderSide(color: focusedTextFieldBorderColor, width: 1),
           ),
           focusedBorder: const OutlineInputBorder(
             borderSide:
-                BorderSide(color: focusedTextFieldBorderColor, width: 1),
+            BorderSide(color: focusedTextFieldBorderColor, width: 1),
           ),
           enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: normalTextFieldBorderColor, width: 1),
+            borderSide:
+            BorderSide(color: normalTextFieldBorderColor, width: 1),
           ),
           hintText: "Extension",
           labelText: "Extension",

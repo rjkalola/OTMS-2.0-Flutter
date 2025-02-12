@@ -55,7 +55,7 @@ class _HomeTabState extends State<HomeTab> {
                     padding: const EdgeInsets.fromLTRB(16, 9, 16, 0),
                     child: Row(
                       children: [
-                        ImageUtils.setImage(
+                        ImageUtils.setNetworkImage(
                             "https://www.pngmart.com/files/22/User-Avatar-Profile-PNG-Isolated-Transparent-Picture.png",
                             48),
                         Padding(

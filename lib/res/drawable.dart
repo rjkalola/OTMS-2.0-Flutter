@@ -30,4 +30,6 @@ class Drawable {
   static const String flagRussian = 'assets/images/ic_flag_russian.svg';
   static const String flagUkrainian = 'assets/images/ic_flag_ukrainian.svg';
   static const String imgLogo = 'assets/images/img_logo.svg';
+  static const String cameraPlaceHolder = 'assets/images/ic_camera_place_holder.svg';
+
 }

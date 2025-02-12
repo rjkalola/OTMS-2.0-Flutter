@@ -3,6 +3,7 @@ import 'package:otm_inventory/pages/authentication/introduction/view/introductio
 import 'package:otm_inventory/pages/authentication/login/view/login_screen.dart';
 import 'package:otm_inventory/pages/authentication/otp_verification/view/verify_otp_screen.dart';
 import 'package:otm_inventory/pages/authentication/signup1/view/signup1_screen.dart';
+import 'package:otm_inventory/pages/authentication/signup2/view/signup2_screen.dart';
 import 'package:otm_inventory/pages/authentication/splash/splash_screen.dart';
 import 'package:otm_inventory/pages/dashboard/view/dashboard_screen.dart';
 import '../pages/stock_filter/view/stock_filter_screen.dart';
@@ -25,6 +26,10 @@ class AppPages {
     GetPage(
       name: AppRoutes.signUp1Screen,
       page: () => SignUp1Screen(),
+    ),
+    GetPage(
+      name: AppRoutes.signUp2Screen,
+      page: () => SignUp2Screen(),
     ),
     GetPage(
       name: AppRoutes.verifyOtpScreen,

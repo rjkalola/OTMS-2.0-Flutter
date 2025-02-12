@@ -15,7 +15,7 @@ class LoginButtonWidget extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 28, 16, 14),
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 14),
           child: PrimaryBorderButton(
             buttonText: 'login_with_otp'.tr,
             textColor: defaultAccentColor,

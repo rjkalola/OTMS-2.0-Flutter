@@ -34,7 +34,15 @@ class Strings extends Translations {
           'next': "Next",
           'first_name': "First Name",
           'last_name': "Last Name",
-          // 'product_list': "Product List",
+          'upload_photo_note_sign_up':
+              "Upload your photo so that your team\nmate can recognize you",
+          'upload_photo_capital': "UPLOAD PHOTO",
+          'hint_upload_user_image': "Preferred Image Size: Square",
+          'register': "Register",
+          'error_phone_number_contain_10_digits':
+              "Phone number must contain 10 digits",
+          'error_phone_number_start_with_zero': "Phone number not start with 0",
+          'error_phone_number_already_exist': "Phone Number already exists",
           // 'products': "Products",
           // 'stores': "Stores",
           // 'stocks': "Stocks",
@@ -146,9 +154,12 @@ class Strings extends Translations {
           // 'loading_more_': "Loading More...",
           // 'date': "Date",
           // 'code': "Code",
-          // 'select_photo_from_': "Select Photo From:",
-          // 'camera': "Camera",
-          // 'gallery': "Gallery",
+          'select_photo_from_': "Select Photo From:",
+          'camera': "Camera",
+          'gallery': "Gallery",
+          'edit_photo': "Edit Photo",
+          'empty_image_selection': "Please select image",
+
           // 'stock_filter': "Stock Filter",
           // 'apply': "Apply",
           // 'msg_product_stock_update': "Product Stock Updated!",
@@ -197,6 +208,8 @@ class Strings extends Translations {
           // 'manage_barcode': "Manage Barcode",
           // 'enter_barcode': "Enter Barcode",
           // 'cutoff': "Low Stock Indicator",
+
+          'ERR103': "Phone Number already exists",
         },
         'hi_IN': {'login': 'Login'}
       };

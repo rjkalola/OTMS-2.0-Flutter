@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:otm_inventory/pages/authentication/signup1/controller/signup1_controller.dart';
 import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/res/drawable.dart';
-import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/widgets/PrimaryBorderButton.dart';
 
 class NextButtonWidget extends StatelessWidget {
-  const NextButtonWidget({super.key});
+  NextButtonWidget({super.key});
+
+  final controller = Get.put(SignUp1Controller());
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Get.toNamed(AppRoutes.signUp1Screen);
+        // Get.toNamed(AppRoutes.signUp1Screen);
       },
       child: SizedBox(
         width: double.infinity,
@@ -23,7 +23,9 @@ class NextButtonWidget extends StatelessWidget {
               buttonText: 'next'.tr,
               textColor: defaultAccentColor,
               borderColor: defaultAccentColor,
-              onPressed: () {},
+              onPressed: () {
+                controller.signUp();
+              },
             )),
       ),
     );

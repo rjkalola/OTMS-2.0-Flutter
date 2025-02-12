@@ -1,13 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dio/dio.dart' as multi;
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:dio/dio.dart' as multi;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/web_services/api_constants.dart';
 
 import '../../routes/app_routes.dart';
@@ -151,7 +150,6 @@ class ApiRequest {
         if (kDebugMode) print("Response Data ==> ${response.data}");
 
         if (response.statusCode == 200) {
-          print("111111111112");
           bool isSuccess = response.data['IsSuccess'];
           int errorCode = response.data['ErrorCode'] ?? 0;
           print("isSuccess:" + isSuccess.toString());
@@ -164,19 +162,16 @@ class ApiRequest {
             responseModel = returnResponse(null, 0, "");
           }
         } else {
-          print("2222222222222");
           responseModel =
               returnResponse(null, response.statusCode, response.statusMessage);
         }
         if (onSuccess != null) onSuccess(responseModel);
       } else {
-        print("333333333333");
         responseModel = returnResponse(
             null, ApiConstants.CODE_NO_INTERNET_CONNECTION, 'try_again'.tr);
         if (onError != null) onError(responseModel);
       }
     } on DioException catch (e) {
-      print("4444444444444");
       final ApiException apiException = ApiException.fromDioError(e);
       if (kDebugMode) print("Error in api call $apiException.message");
       responseModel = returnResponse(null, 0, apiException.message);

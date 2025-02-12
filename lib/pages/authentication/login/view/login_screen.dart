@@ -25,6 +25,15 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+   /* Future.delayed(Duration(milliseconds: 2000)).then(
+            (value) => SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+          systemNavigationBarColor: Colors.white,
+          systemNavigationBarDividerColor: Colors.white,
+          systemNavigationBarIconBrightness: Brightness.dark,
+          statusBarColor: Colors.white,
+          statusBarBrightness: Brightness.dark,
+          statusBarIconBrightness: Brightness.dark,
+        )));*/
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: Colors.white,
         statusBarIconBrightness: Brightness.dark));
@@ -56,23 +65,30 @@ class _LoginScreenState extends State<LoginScreen> {
                               height: 1,
                               color: dividerColor,
                             ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(16, 24, 0, 0),
-                              child: Text('phone_number'.tr,
-                                  textAlign: TextAlign.start,
-                                  style: const TextStyle(
-                                    color: Colors.black45,
-                                    fontSize: 12,
-                                  )),
+                            // Padding(
+                            //   padding: const EdgeInsets.fromLTRB(16, 24, 0, 0),
+                            //   child: Text('phone_number'.tr,
+                            //       textAlign: TextAlign.start,
+                            //       style: const TextStyle(
+                            //         color: Colors.black45,
+                            //         fontSize: 12,
+                            //       )),
+                            // ),
+                            const SizedBox(
+                              height: 50,
                             ),
                             Form(
                               key: loginController.formKey,
                               child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  PhoneExtensionFieldWidget(),
-                                  PhoneTextFieldWidget(),
+                                  Flexible(
+                                    flex: 6,
+                                    child: PhoneExtensionFieldWidget(),
+                                  ),
+                                  Flexible(
+                                      flex: 9, child: PhoneTextFieldWidget()),
                                 ],
                               ),
                             ),

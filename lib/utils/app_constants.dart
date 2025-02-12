@@ -4,6 +4,7 @@ class AppConstants {
   static const IntentKey intentKey = IntentKey();
   static const Action action = Action();
   static const StockCountType stockCountType = StockCountType();
+  static const AttachmentType attachmentType = AttachmentType();
 
   static const String deviceType = "1";
   static const int productListLimit = 20;
@@ -78,4 +79,11 @@ class StockCountType {
   final int outOfStock = 3;
   final int minusStock = 4;
   final int finishingStock = 5;
+}
+
+class AttachmentType {
+  const AttachmentType(); //
+  final String image = "image";
+  final String camera = "camera";
+  final String croppedImage = "croppedImage";
 }

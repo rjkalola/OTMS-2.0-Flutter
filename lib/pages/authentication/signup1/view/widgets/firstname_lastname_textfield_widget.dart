@@ -8,6 +8,7 @@ import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/res/drawable.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/widgets/PrimaryBorderButton.dart';
+import 'package:otm_inventory/widgets/textfield/text_field_border.dart';
 
 import '../../../../../widgets/custom_text_form_field.dart';
 
@@ -19,19 +20,24 @@ class FirstNameLastNameTextFieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 16, right: 16, top: 10),
+      padding: const EdgeInsets.only(left: 16, right: 16, top: 18),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Flexible(
             flex: 1,
-            child: CustomTextFormField(
+            child: TextFieldBorder(
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                 textEditingController: controller.firstNameController.value,
                 hintText: 'first_name'.tr,
                 labelText: 'first_name'.tr,
                 keyboardType: TextInputType.name,
                 textInputAction: TextInputAction.next,
+                onValueChange: (value) {
+                  controller.onValueChange();
+                },
+                onPressed: () {},
                 validator: MultiValidator([
                   RequiredValidator(errorText: 'required_field'.tr),
                 ]),
@@ -40,17 +46,36 @@ class FirstNameLastNameTextFieldWidget extends StatelessWidget {
                   FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
                 ]),
           ),
+          // child: CustomTextFormField(
+          //     textEditingController: controller.firstNameController.value,
+          //     hintText: 'first_name'.tr,
+          //     labelText: 'first_name'.tr,
+          //     keyboardType: TextInputType.name,
+          //     textInputAction: TextInputAction.next,
+          //     validator: MultiValidator([
+          //       RequiredValidator(errorText: 'required_field'.tr),
+          //     ]),
+          //     inputFormatters: <TextInputFormatter>[
+          //       // for below version 2 use this
+          //       FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+          //     ]),
+          //     ),
           const SizedBox(
             width: 14,
           ),
           Flexible(
             flex: 1,
-            child: CustomTextFormField(
+            child: TextFieldBorder(
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                 textEditingController: controller.lastNameController.value,
                 hintText: 'last_name'.tr,
                 labelText: 'last_name'.tr,
                 keyboardType: TextInputType.name,
                 textInputAction: TextInputAction.next,
+                onValueChange: (value) {
+                  controller.onValueChange();
+                },
+                onPressed: () {},
                 validator: MultiValidator([
                   RequiredValidator(errorText: 'required_field'.tr),
                 ]),
