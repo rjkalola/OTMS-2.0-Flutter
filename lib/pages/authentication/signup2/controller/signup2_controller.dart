@@ -1,19 +1,40 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
+import 'package:otm_inventory/pages/authentication/otp_verification/model/user_info.dart';
+import 'package:otm_inventory/pages/authentication/otp_verification/model/user_response.dart';
 import 'package:otm_inventory/pages/authentication/signup2/controller/signup2_repository.dart';
 import 'package:otm_inventory/pages/manageattachment/controller/manage_attachment_controller.dart';
 import 'package:otm_inventory/pages/manageattachment/listener/select_attachment_listener.dart';
+import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
+import 'package:otm_inventory/utils/app_storage.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
+import 'package:otm_inventory/utils/string_helper.dart';
+import 'package:otm_inventory/web_services/api_constants.dart';
 import 'package:otm_inventory/web_services/response/module_info.dart';
+import 'package:dio/dio.dart' as multi;
+import 'package:otm_inventory/web_services/response/response_model.dart';
 
 class SignUp2Controller extends GetxController
     implements SelectAttachmentListener {
   RxBool isLoading = false.obs, isInternetNotAvailable = false.obs;
   final imagePath = "".obs;
+  UserInfo? userInfo;
+  final _api = SignUp2Repository();
 
   @override
   void onInit() {
     super.onInit();
+    getIntentData();
+  }
+
+  void getIntentData() {
+    var arguments = Get.arguments;
+    if (arguments != null) {
+      userInfo = arguments[AppConstants.intentKey.userInfo];
+      print("userInfo fist name:" + userInfo!.firstName!);
+    }
   }
 
   void showSnackBar(String message) {
@@ -48,6 +69,64 @@ class SignUp2Controller extends GetxController
       print("cropped path:" + path);
       print("action:" + action);
       imagePath.value = path;
+    }
+  }
+
+  bool valid() {
+    return !StringHelper.isEmptyString(imagePath.value);
+  }
+
+  void onSignUpClick() {
+    if (valid()) {
+      signUp();
+    } else {
+      AppUtils.showToastMessage('empty_image_selection'.tr);
+    }
+  }
+
+  void signUp() async {
+    if (valid()) {
+      Map<String, dynamic> map = {};
+      map["first_name"] = userInfo?.firstName ?? "";
+      map["last_name"] = userInfo?.lastName ?? "";
+      map["phone_extension_id"] = userInfo?.phoneExtensionId ?? "".toString();
+      map["phone"] = userInfo?.phone ?? "";
+      map["device_name"] = AppUtils.getDeviceName();
+      map["latitude"] = "";
+      map["longitude"] = "";
+      map["address"] = "";
+      multi.FormData formData = multi.FormData.fromMap(map);
+      isLoading.value = true;
+      _api.signUp(
+        formData: formData,
+        onSuccess: (ResponseModel responseModel) {
+          if (responseModel.statusCode == 200) {
+            UserResponse response =
+                UserResponse.fromJson(jsonDecode(responseModel.result!));
+            if (response.isSuccess!) {
+              Get.find<AppStorage>().setUserInfo(response.info!);
+              Get.find<AppStorage>().setAccessToken(response.info!.apiToken!);
+              ApiConstants.accessToken = response.info!.apiToken!;
+              print("Token:" + ApiConstants.accessToken);
+              Get.offAllNamed(AppRoutes.dashboardScreen);
+              AppUtils.saveLoginUser(response.info!);
+            } else {
+              showSnackBar(response.message!);
+            }
+          } else {
+            showSnackBar(responseModel.statusMessage!);
+          }
+          isLoading.value = false;
+        },
+        onError: (ResponseModel error) {
+          isLoading.value = false;
+          if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+            showSnackBar('no_internet'.tr);
+          } else if (error.statusMessage!.isNotEmpty) {
+            showSnackBar(error.statusMessage!);
+          }
+        },
+      );
     }
   }
 }

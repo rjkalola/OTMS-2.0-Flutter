@@ -99,8 +99,8 @@ class VerifyOtpController extends GetxController {
               Get.find<AppStorage>().setAccessToken(response.info!.apiToken!);
               ApiConstants.accessToken = response.info!.apiToken!;
               print("Token:" + ApiConstants.accessToken);
+              AppUtils.saveLoginUser(response.info!);
               Get.offAllNamed(AppRoutes.dashboardScreen);
-              saveLoginUser(response.info!);
             } else {
               showSnackBar(response.message!);
             }
@@ -149,25 +149,5 @@ class VerifyOtpController extends GetxController {
 
   void showSnackBar(String message) {
     AppUtils.showSnackBarMessage(message);
-  }
-
-  saveLoginUser(UserInfo user) {
-    List<UserInfo> list = Get.find<AppStorage>().getLoginUsers();
-    print("before length:" + list.length.toString());
-    bool isUserFound = false;
-    if (list.isNotEmpty) {
-      for (int i = 0; i < list.length; i++) {
-        if (list[i].id == user.id) {
-          isUserFound = true;
-          break;
-        }
-      }
-    }
-    if (!isUserFound) {
-      list.add(user);
-      Get.find<AppStorage>().setLoginUsers(list);
-      print("after length:" +
-          Get.find<AppStorage>().getLoginUsers().length.toString());
-    }
   }
 }

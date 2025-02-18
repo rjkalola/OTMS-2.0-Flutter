@@ -4,7 +4,7 @@ import 'package:dio/dio.dart' as multi;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/pages/authentication/login/models/RegisterResourcesResponse.dart';
-import 'package:otm_inventory/pages/authentication/login/models/VerifyPhoneResponse.dart';
+import 'package:otm_inventory/pages/authentication/otp_verification/model/user_info.dart';
 import 'package:otm_inventory/pages/authentication/signup1/controller/signup1_repository.dart';
 import 'package:otm_inventory/pages/common/listener/SelectPhoneExtensionListener.dart';
 import 'package:otm_inventory/pages/common/phone_extension_list_dialog.dart';
@@ -22,6 +22,7 @@ class SignUp1Controller extends GetxController
   final firstNameController = TextEditingController().obs;
   final lastNameController = TextEditingController().obs;
   final mExtension = AppConstants.defaultPhoneExtension.obs;
+  final mExtensionId = AppConstants.defaultPhoneExtensionId.obs;
   final mFlag = AppConstants.defaultFlagUrl.obs;
   final isPhoneNumberExist = false.obs;
   final phoneNumberErrorMessage = "".obs;
@@ -38,52 +39,20 @@ class SignUp1Controller extends GetxController
     getRegisterResources();
   }
 
-  void signUp() {
+  void onSubmitClick() {
     if (valid()) {
-      print("Valid");
-    } else {
-      print("Not Valid");
+      var userInfo = UserInfo();
+      userInfo.firstName = StringHelper.getText(firstNameController.value);
+      userInfo.lastName = StringHelper.getText(lastNameController.value);
+      userInfo.phone = StringHelper.getText(phoneController.value);
+      userInfo.phoneExtension = mExtension.value;
+      userInfo.phoneExtensionId = mExtensionId.value;
+      var arguments = {
+        AppConstants.intentKey.userInfo: userInfo,
+      };
+      Get.toNamed(AppRoutes.signUp2Screen, arguments: arguments);
     }
-    update();
-  }
-
-  void login(String extension, String phoneNumber, bool isAutoLogin) async {
-    if (valid()) {
-      Map<String, dynamic> map = {};
-      map["phone"] = extension + phoneNumber;
-      multi.FormData formData = multi.FormData.fromMap(map);
-      isLoading.value = true;
-      _api.login(
-        formData: formData,
-        onSuccess: (ResponseModel responseModel) {
-          if (responseModel.statusCode == 200) {
-            VerifyPhoneResponse response =
-                VerifyPhoneResponse.fromJson(jsonDecode(responseModel.result!));
-            if (response.isSuccess!) {
-              var arguments = {
-                AppConstants.intentKey.phoneExtension: extension,
-                AppConstants.intentKey.phoneNumber: phoneNumber,
-              };
-              Get.toNamed(AppRoutes.verifyOtpScreen, arguments: arguments);
-              // showSnackBar(response.message!);
-            } else {
-              showSnackBar(response.message!);
-            }
-          } else {
-            showSnackBar(responseModel.statusMessage!);
-          }
-          isLoading.value = false;
-        },
-        onError: (ResponseModel error) {
-          isLoading.value = false;
-          if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
-            showSnackBar('no_internet'.tr);
-          } else if (error.statusMessage!.isNotEmpty) {
-            showSnackBar(error.statusMessage!);
-          }
-        },
-      );
-    }
+    // update();
   }
 
   void checkPhoneNumberExist(String phoneNumber) async {
@@ -139,7 +108,7 @@ class SignUp1Controller extends GetxController
   }
 
   bool valid() {
-    return formKey.currentState!.validate() && !isPhoneNumberExist.value;
+    return formKey.currentState!.validate();
   }
 
   void getRegisterResources() {
@@ -181,6 +150,7 @@ class SignUp1Controller extends GetxController
       int id, String extension, String flag, String country) {
     mFlag.value = flag;
     mExtension.value = extension;
+    mExtensionId.value = id;
   }
 
   onValueChange() {

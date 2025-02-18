@@ -21,6 +21,7 @@ class ApiConstants {
   static String loginUrl = '$appUrl/login-new';
   static String logoutUrl = '$appUrl/logout';
   static String checkPhoneNumberExistUrl = '$appUrl/check-phone-exist';
+  static String userSignUpUrl = '$appUrl/wn-kkm';
 
   static String getStoreListUrl = '$appUrl/stores/get';
   static String stockFilterUrl = '$appUrl/products/category-filter';

@@ -33,20 +33,4 @@ class SignUp1Repository {
     );
   }
 
-  void login({
-    multi.FormData? formData,
-    Function(ResponseModel responseModel)? onSuccess,
-    Function(ResponseModel error)? onError,
-  }) {
-    ApiRequest(
-            url: ApiConstants.verifyPhoneUrl,
-            formData: formData,
-            isFormData: true)
-        .postRequest(
-      onSuccess: (data) {
-        onSuccess!(data);
-      },
-      onError: (error) => {if (onError != null) onError(error)},
-    );
-  }
 }

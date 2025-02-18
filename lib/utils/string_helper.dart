@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 import '../web_services/response/module_info.dart';
 
 class StringHelper {
@@ -11,12 +13,12 @@ class StringHelper {
     return !valid;
   }
 
-  static bool isEmptyList(List<dynamic>? list){
+  static bool isEmptyList(List<dynamic>? list) {
     bool valid = list != null && list.isNotEmpty;
     return !valid;
   }
 
-  static bool isEmptyObject(dynamic? info){
+  static bool isEmptyObject(dynamic? info) {
     bool valid = info != null;
     return !valid;
   }
@@ -60,8 +62,16 @@ class StringHelper {
   static List<String> getListFromCommaSeparateString(String input) {
     List<String> listString = [];
     if (!StringHelper.isEmptyString(input)) {
-       listString = input.split(',');
+      listString = input.split(',');
     }
     return listString;
+  }
+
+  static String getText(TextEditingController controller) {
+    String text = "";
+    if (!isEmptyString(controller.text.toString().trim())) {
+      text = controller.text.toString().trim();
+    }
+    return text;
   }
 }

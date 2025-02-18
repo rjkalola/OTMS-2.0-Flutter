@@ -11,23 +11,18 @@ class NextButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        // Get.toNamed(AppRoutes.signUp1Screen);
-      },
-      child: SizedBox(
-        width: double.infinity,
-        child: Padding(
-            padding: const EdgeInsets.fromLTRB(14, 14, 14, 14),
-            child: PrimaryBorderButton(
-              buttonText: 'next'.tr,
-              textColor: defaultAccentColor,
-              borderColor: defaultAccentColor,
-              onPressed: () {
-                controller.signUp();
-              },
-            )),
-      ),
+    return SizedBox(
+      width: double.infinity,
+      child: Padding(
+          padding: const EdgeInsets.fromLTRB(14, 14, 14, 14),
+          child: PrimaryBorderButton(
+            buttonText: 'next'.tr,
+            textColor: defaultAccentColor,
+            borderColor: defaultAccentColor,
+            onPressed: () {
+              controller.onSubmitClick();
+            },
+          )),
     );
   }
 }

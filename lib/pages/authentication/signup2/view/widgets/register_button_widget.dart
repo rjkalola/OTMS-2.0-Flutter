@@ -16,25 +16,18 @@ class RegisterButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        if (!StringHelper.isEmptyString(controller.imagePath.value)) {
-
-        } else {
-          AppUtils.showToastMessage('empty_image_selection'.tr);
-        }
-      },
-      child: SizedBox(
-        width: double.infinity,
-        child: Padding(
-            padding: const EdgeInsets.fromLTRB(14, 14, 14, 14),
-            child: PrimaryBorderButton(
-              buttonText: 'register'.tr,
-              textColor: defaultAccentColor,
-              borderColor: defaultAccentColor,
-              onPressed: () {},
-            )),
-      ),
+    return SizedBox(
+      width: double.infinity,
+      child: Padding(
+          padding: const EdgeInsets.fromLTRB(14, 14, 14, 14),
+          child: PrimaryBorderButton(
+            buttonText: 'register'.tr,
+            textColor: defaultAccentColor,
+            borderColor: defaultAccentColor,
+            onPressed: () {
+              controller.onSignUpClick();
+            },
+          )),
     );
   }
 }

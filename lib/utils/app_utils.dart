@@ -4,6 +4,8 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:otm_inventory/pages/authentication/otp_verification/model/user_info.dart';
+import 'package:otm_inventory/utils/app_storage.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:pdf/widgets.dart';
 
@@ -93,35 +95,23 @@ class AppUtils {
     return value != null && value;
   }
 
-  // static String checkPhoneNumberValidator(String value) {
-  //   if (!StringHelper.isEmptyString(value) && value.length < 10) {
-  //     return "Phone number must be 10 digit";
-  //   }
-  //   return ""; // Validation passed
-  // }
-
-  static String isValidPhoneNumber(String phoneNumber, String phoneExtension) {
-    String message = "";
-    print("phoneNumber:"+phoneNumber);
-    int phoneNumberDefaultLength = 10;
-    if (phoneExtension == "+380" || phoneExtension == 380)
-      phoneNumberDefaultLength = 9;
-    if (!StringHelper.isEmptyString(phoneNumber)) {
-      if (phoneNumber.startsWith("00")) {
-        message = 'error_invalid_phone_number'.tr;
-      } else if (phoneNumber.startsWith("0")) {
-        if (phoneNumber.length != (phoneNumberDefaultLength + 1)) {
-          message =
-              "Excluding 0, must contain $phoneNumberDefaultLength digits";
+  static saveLoginUser(UserInfo user) {
+    List<UserInfo> list = Get.find<AppStorage>().getLoginUsers();
+    print("before length:" + list.length.toString());
+    bool isUserFound = false;
+    if (list.isNotEmpty) {
+      for (int i = 0; i < list.length; i++) {
+        if (list[i].id == user.id) {
+          isUserFound = true;
+          break;
         }
-      } else if (phoneNumber.length != phoneNumberDefaultLength) {
-        message = "Phone number must contain $phoneNumberDefaultLength digits";
       }
     }
-    // else {
-    //   message = 'required_field'.tr;
-    // }
-    print("Message123:" + message);
-    return message;
+    if (!isUserFound) {
+      list.add(user);
+      Get.find<AppStorage>().setLoginUsers(list);
+      print("after length:" +
+          Get.find<AppStorage>().getLoginUsers().length.toString());
+    }
   }
 }

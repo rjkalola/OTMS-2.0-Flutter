@@ -36,21 +36,13 @@ class PhoneTextFieldWidget extends StatelessWidget {
           validator: MultiValidator([
             RequiredValidator(errorText: 'required_field'.tr),
             CustomFieldValidator((value) {
-              bool isValid = value != null && !value.startsWith("0");
-              return isValid;
+              return value != null && !value.startsWith("0");
             }, errorText: 'error_phone_number_start_with_zero'.tr),
             CustomFieldValidator((value) {
-              bool isValid = value != null && value.length == 10;
-              return isValid;
+              return value != null && value.length == 10;
             }, errorText: 'error_phone_number_contain_10_digits'.tr),
             CustomFieldValidator((value) {
-              bool isValid = value != null && value.length == 10;
-              return isValid;
-            }, errorText: 'error_phone_number_contain_10_digits'.tr),
-            CustomFieldValidator((value) {
-              bool isValid =
-                  value != null && !controller.isPhoneNumberExist.value;
-              return isValid;
+              return value != null && !controller.isPhoneNumberExist.value;
             }, errorText: 'error_phone_number_already_exist'.tr),
           ]),
           inputFormatters: <TextInputFormatter>[

@@ -15,11 +15,12 @@ class AppConstants {
   static bool isResourcesLoaded = false;
 }
 
-
 class IntentKey {
   const IntentKey(); // <
+  final String phoneExtensionId = 'PHONE_EXTENSION_ID';
   final String phoneExtension = 'PHONE_EXTENSION';
   final String phoneNumber = 'PHONE_NUMBER';
+  final String userInfo = 'USER_INFO';
   final String dashboardTabIndex = 'DASHBOARD_TAB_INDEX';
   final String stockCountType = 'STOCK_COUNT_TYPE';
   final String allStockType = 'ALL_STOCK_TYPE';
