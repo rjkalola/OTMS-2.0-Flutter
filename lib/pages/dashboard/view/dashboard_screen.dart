@@ -3,9 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:otm_inventory/pages/dashboard/controller/dashboard_controller.dart';
 import 'package:otm_inventory/pages/dashboard/view/widgets/bottom_navigation_bar_widget.dart';
 import 'package:otm_inventory/res/colors.dart';
+import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 
 import '../../../utils/app_utils.dart';
 import '../../../widgets/appbar/base_appbar.dart';
@@ -19,6 +21,9 @@ class DashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+        statusBarColor: Colors.white,
+        statusBarIconBrightness: Brightness.dark));
     return PopScope(
       canPop: false,
       onPopInvoked: (didPop) async {
@@ -31,28 +36,37 @@ class DashboardScreen extends StatelessWidget {
           }
         }
       },
-      child: SafeArea(
-          child: Obx(() => Scaffold(
-                backgroundColor: backgroundColor,
-                appBar: BaseAppBar(
-                  appBar: AppBar(),
-                  title: dashboardController.title.value,
-                  isCenterTitle: false,
-                  isBack: true,
-                  widgets: actionButtons(),
-                ),
-                body: SizedBox(
-                  width: double.infinity,
-                  height: double.infinity,
-                  child: PageView(
-                    controller: dashboardController.pageController,
-                    onPageChanged: dashboardController.onPageChanged,
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: dashboardController.tabs,
+      child: Container(
+        color: backgroundColor,
+        child: SafeArea(
+            child: Obx(() => ModalProgressHUD(
+                inAsyncCall: dashboardController.isLoading.value,
+                opacity: 0,
+                progressIndicator: const CustomProgressbar(),
+                child: Scaffold(
+                  backgroundColor: backgroundColor,
+                  appBar: dashboardController.selectedIndex.value == 0
+                      ? null
+                      : BaseAppBar(
+                          appBar: AppBar(),
+                          title: dashboardController.title.value,
+                          isCenterTitle: false,
+                          isBack: true,
+                          widgets: actionButtons(),
+                        ),
+                  body: SizedBox(
+                    width: double.infinity,
+                    height: double.infinity,
+                    child: PageView(
+                      controller: dashboardController.pageController,
+                      onPageChanged: dashboardController.onPageChanged,
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: dashboardController.tabs,
+                    ),
                   ),
-                ),
-                bottomNavigationBar: BottomNavigationBarWidget(),
-              ))),
+                  bottomNavigationBar: BottomNavigationBarWidget(),
+                )))),
+      ),
     );
   }
 

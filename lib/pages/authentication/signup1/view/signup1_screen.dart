@@ -29,71 +29,74 @@ class _SignUp1ScreenState extends State<SignUp1Screen> {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: Colors.white,
         statusBarIconBrightness: Brightness.dark));
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: backgroundColor,
-        appBar: BaseAppBar(
-          appBar: AppBar(),
-          title: ''.tr,
-          isCenterTitle: true,
-          isBack: true,
-        ),
-        body: Obx(() {
-          return ModalProgressHUD(
-              inAsyncCall: controller.isLoading.value,
-              opacity: 0,
-              progressIndicator: const CustomProgressbar(),
-              child: controller.isInternetNotAvailable.value
-                  ? const NoInternetWidget()
-                  : Column(children: [
-                      Expanded(
-                        child: Form(
-                          key: controller.formKey,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Padding(
-                                padding: EdgeInsets.only(left: 16, right: 16),
-                                child: Divider(
-                                  thickness: 0.5,
-                                  height: 0.5,
-                                  color: defaultAccentColor,
-                                ),
-                              ),
-                              const TopDividerWidget(),
-                              const SignUpNoteTextWidget(),
-                              FirstNameLastNameTextFieldWidget(),
-                              // Padding(
-                              //   padding: const EdgeInsets.fromLTRB(16, 20, 0, 0),
-                              //   child: Text('phone_number'.tr,
-                              //       textAlign: TextAlign.start,
-                              //       style: const TextStyle(
-                              //         color: Colors.black45,
-                              //         fontSize: 12,
-                              //       )),
-                              // ),
-                              SizedBox(
-                                height: 28,
-                              ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Flexible(
-                                    flex: 6,
-                                    child: PhoneExtensionFieldWidget(),
+    return Container(
+      color: backgroundColor,
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: backgroundColor,
+          appBar: BaseAppBar(
+            appBar: AppBar(),
+            title: ''.tr,
+            isCenterTitle: true,
+            isBack: true,
+          ),
+          body: Obx(() {
+            return ModalProgressHUD(
+                inAsyncCall: controller.isLoading.value,
+                opacity: 0,
+                progressIndicator: const CustomProgressbar(),
+                child: controller.isInternetNotAvailable.value
+                    ? const NoInternetWidget()
+                    : Column(children: [
+                        Expanded(
+                          child: Form(
+                            key: controller.formKey,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.only(left: 16, right: 16),
+                                  child: Divider(
+                                    thickness: 0.5,
+                                    height: 0.5,
+                                    color: defaultAccentColor,
                                   ),
-                                  Flexible(
-                                      flex: 9, child: PhoneTextFieldWidget()),
-                                ],
-                              ),
-                            ],
+                                ),
+                                const TopDividerWidget(),
+                                const SignUpNoteTextWidget(),
+                                FirstNameLastNameTextFieldWidget(),
+                                // Padding(
+                                //   padding: const EdgeInsets.fromLTRB(16, 20, 0, 0),
+                                //   child: Text('phone_number'.tr,
+                                //       textAlign: TextAlign.start,
+                                //       style: const TextStyle(
+                                //         color: Colors.black45,
+                                //         fontSize: 12,
+                                //       )),
+                                // ),
+                                SizedBox(
+                                  height: 28,
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Flexible(
+                                      flex: 6,
+                                      child: PhoneExtensionFieldWidget(),
+                                    ),
+                                    Flexible(
+                                        flex: 9, child: PhoneTextFieldWidget()),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                       NextButtonWidget()
-                    ]));
-        }),
+                        NextButtonWidget()
+                      ]));
+          }),
+        ),
       ),
     );
   }

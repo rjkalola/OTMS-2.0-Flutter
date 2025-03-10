@@ -1,8 +1,6 @@
 
 import 'package:get/get.dart';
-import 'package:otm_inventory/utils/app_storage.dart';
-
-import '../pages/dashboard/models/DashboardActionItemInfo.dart';
+import 'package:otm_inventory/pages/dashboard/tabs/home_tab/model/DashboardActionItemInfo.dart';
 import 'app_constants.dart';
 
 class DataUtils{
@@ -18,64 +16,49 @@ class DataUtils{
     DashboardActionItemInfo? info;
 
     info = DashboardActionItemInfo();
-    info.id = AppConstants.action.items;
-    info.title = 'products'.tr;
-    info.image = "assets/images/ic_time_clock.svg";
-    info.backgroundColor = "#ddeafb";
-    arrayItems.add(info);
-
-    // info = DashboardActionItemInfo();
-    // info.id = AppConstants.action.store;
-    // info.title = 'stores'.tr;
-    // info.image = "assets/images/ic_time_clock.svg";
-    // info.backgroundColor = "#f8dbd6";
-    // arrayItems.add(info);
-
-    // if(AppStorage.storeId != 0){
-    //   info = DashboardActionItemInfo();
-    //   info.id = AppConstants.action.stocks;
-    //   info.title = 'stocks'.tr;
-    //   info.image = "assets/images/ic_time_clock.svg";
-    //   info.backgroundColor = "#ddeafb";
-    //   arrayItems.add(info);
-    // }
-
-      // info = DashboardActionItemInfo();
-      // info.id = AppConstants.action.vendors;
-      // info.title = 'vendors'.tr;
-      // info.image = "assets/images/ic_time_clock.svg";
-      // info.backgroundColor = "#ddeafb";
-      // arrayItems.add(info);
-
-    // info = DashboardActionItemInfo();
-    // info.id = AppConstants.action.manufacturer;
-    // info.title = 'manufacturer'.tr;
-    // info.image = "assets/images/ic_time_clock.svg";
-    // info.backgroundColor = "#ddeafb";
-    // arrayItems.add(info);
-
-    info = DashboardActionItemInfo();
-    info.id = AppConstants.action.categories;
-    info.title = 'categories'.tr;
+    info.id = AppConstants.action.clockIn;
+    info.title = "Clock In";
     info.image = "assets/images/ic_time_clock.svg";
     info.backgroundColor = "#ddeafb";
     arrayItems.add(info);
 
     info = DashboardActionItemInfo();
-    info.id = AppConstants.action.suppliers;
-    info.title = 'suppliers'.tr;
-    info.image = "assets/images/ic_time_clock.svg";
+    info.id = AppConstants.action.quickTask;
+    info.title = "Tasks";
+    info.image = "assets/images/ic_task_dashboard.svg";
+    info.backgroundColor = "#f8dbd6";
+    arrayItems.add(info);
+
+    info = DashboardActionItemInfo();
+    info.id = AppConstants.action.map;
+    info.title = "Map";
+    info.image = "assets/images/ic_map.svg";
     info.backgroundColor = "#defff4";
     arrayItems.add(info);
 
-    // info = DashboardActionItemInfo();
-    // info.id = AppConstants.action.vendors;
-    // info.title = "Vendors";
-    // info.image = "assets/images/ic_time_clock.svg";
-    // info.backgroundColor = "#defff4";
-    // arrayItems.add(info);
+    info = DashboardActionItemInfo();
+    info.id = AppConstants.action.teams;
+    info.title = "Teams";
+    info.image = "assets/images/ic_teams.svg";
+    info.backgroundColor = "#fce8df";
+    arrayItems.add(info);
+
+    info = DashboardActionItemInfo();
+    info.id = AppConstants.action.users;
+    info.title = "Users";
+    info.image = "assets/images/ic_users_dashboard.svg";
+    info.backgroundColor = "#fef9d1";
+    arrayItems.add(info);
+
+    info = DashboardActionItemInfo();
+    info.id = AppConstants.action.timeSheet;
+    info.title = "Timesheet";
+    info.image = "assets/images/ic_dashboard_timesheet_button.svg";
+    info.backgroundColor = "#e4d3f4";
+    arrayItems.add(info);
 
     return arrayItems;
+
   }
 
   static List<List<DashboardActionItemInfo>> generateChunks(

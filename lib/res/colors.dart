@@ -22,3 +22,4 @@ const focusedTextFieldBorderColor = Color(0xff6e6e6e);
 const rectangleBorderColor = Color(0xffcdcdce);
 const disableComponentColor = Color(0xffc6c6c6);
 const darkYellowColor = Color(0xffefcc78);
+const dashBoardTabBgColor = Color(0xfff4f5f7);

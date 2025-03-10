@@ -30,51 +30,54 @@ class _SignUp2ScreenState extends State<SignUp2Screen> {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: Colors.white,
         statusBarIconBrightness: Brightness.dark));
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: backgroundColor,
-        appBar: BaseAppBar(
-          appBar: AppBar(),
-          title: ''.tr,
-          isCenterTitle: true,
-          isBack: true,
-        ),
-        body: Obx(() {
-          return ModalProgressHUD(
-              inAsyncCall: controller.isLoading.value,
-              opacity: 0,
-              progressIndicator: const CustomProgressbar(),
-              child: controller.isInternetNotAvailable.value
-                  ? const NoInternetWidget()
-                  : Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                          const Padding(
-                            padding: EdgeInsets.only(left: 16, right: 16),
-                            child: Divider(
-                              thickness: 0.5,
-                              height: 0.5,
-                              color: defaultAccentColor,
-                            ),
-                          ),
-                          const TopDividerWidget(),
-                          const SignUp2NoteTextWidget(),
-                          Expanded(
-                            child: Center(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  CameraIconWidget(),
-                                  UploadPhotoTextWidget(),
-                                  PreferredImageSizeTextWidget()
-                                ],
+    return Container(
+      color: backgroundColor,
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: backgroundColor,
+          appBar: BaseAppBar(
+            appBar: AppBar(),
+            title: ''.tr,
+            isCenterTitle: true,
+            isBack: true,
+          ),
+          body: Obx(() {
+            return ModalProgressHUD(
+                inAsyncCall: controller.isLoading.value,
+                opacity: 0,
+                progressIndicator: const CustomProgressbar(),
+                child: controller.isInternetNotAvailable.value
+                    ? const NoInternetWidget()
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                            const Padding(
+                              padding: EdgeInsets.only(left: 16, right: 16),
+                              child: Divider(
+                                thickness: 0.5,
+                                height: 0.5,
+                                color: defaultAccentColor,
                               ),
                             ),
-                          ),
-                          RegisterButtonWidget()
-                        ]));
-        }),
+                            const TopDividerWidget(),
+                            const SignUp2NoteTextWidget(),
+                            Expanded(
+                              child: Center(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    CameraIconWidget(),
+                                    UploadPhotoTextWidget(),
+                                    PreferredImageSizeTextWidget()
+                                  ],
+                                ),
+                              ),
+                            ),
+                            RegisterButtonWidget()
+                          ]));
+          }),
+        ),
       ),
     );
   }

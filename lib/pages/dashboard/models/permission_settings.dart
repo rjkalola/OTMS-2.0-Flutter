@@ -1,4 +1,4 @@
-class PermissionResponse {
+class PermissionSettings {
   bool? isSuccess;
   String? message;
   bool? companyUsers;
@@ -17,6 +17,7 @@ class PermissionResponse {
   bool? addUserToCompany;
   bool? viewStopWorkButtonInOtherUserProfile;
   bool? travelExpenseSwitch;
+  bool? removeZoneInTeam;
   bool? editTimesheet;
   bool? deleteTimesheet;
   bool? exportTimeshset;
@@ -29,12 +30,12 @@ class PermissionResponse {
   bool? addWorklog;
   bool? inviteUsers;
   bool? viewSetting;
+  bool? viewAnalysisAndCharts;
+  bool? viewPermission;
   bool? deleteFeed;
   bool? clearFeed;
   bool? createAnnouncement;
   bool? showRequestIcon;
-  bool? nearMissIncident;
-  bool? editNearMissIncident;
   bool? uploadCertificates;
   bool? showNetGross;
   bool? viewPersonalInfo;
@@ -107,9 +108,15 @@ class PermissionResponse {
   bool? viewPriceProject;
   bool? priceTaskRate;
   bool? viewHistory;
+  bool? nearMissIncident;
+  bool? editNearMissIncident;
+  bool? viewHealthSafety;
+  bool? addNearMissReport;
+  bool? addReportIncident;
+  bool? addInductionTraining;
   Permissions? permissions;
 
-  PermissionResponse(
+  PermissionSettings(
       {this.isSuccess,
         this.message,
         this.companyUsers,
@@ -128,6 +135,7 @@ class PermissionResponse {
         this.addUserToCompany,
         this.viewStopWorkButtonInOtherUserProfile,
         this.travelExpenseSwitch,
+        this.removeZoneInTeam,
         this.editTimesheet,
         this.deleteTimesheet,
         this.exportTimeshset,
@@ -140,12 +148,12 @@ class PermissionResponse {
         this.addWorklog,
         this.inviteUsers,
         this.viewSetting,
+        this.viewAnalysisAndCharts,
+        this.viewPermission,
         this.deleteFeed,
         this.clearFeed,
         this.createAnnouncement,
         this.showRequestIcon,
-        this.nearMissIncident,
-        this.editNearMissIncident,
         this.uploadCertificates,
         this.showNetGross,
         this.viewPersonalInfo,
@@ -218,9 +226,15 @@ class PermissionResponse {
         this.viewPriceProject,
         this.priceTaskRate,
         this.viewHistory,
+        this.nearMissIncident,
+        this.editNearMissIncident,
+        this.viewHealthSafety,
+        this.addNearMissReport,
+        this.addReportIncident,
+        this.addInductionTraining,
         this.permissions});
 
-  PermissionResponse.fromJson(Map<String, dynamic> json) {
+  PermissionSettings.fromJson(Map<String, dynamic> json) {
     isSuccess = json['IsSuccess'];
     message = json['Message'];
     companyUsers = json['company_users'];
@@ -240,6 +254,7 @@ class PermissionResponse {
     viewStopWorkButtonInOtherUserProfile =
     json['view_stop_work_button_in_other_user_profile'];
     travelExpenseSwitch = json['travel_expense_switch'];
+    removeZoneInTeam = json['remove_zone_in_team'];
     editTimesheet = json['edit_timesheet'];
     deleteTimesheet = json['delete_timesheet'];
     exportTimeshset = json['export_timeshset'];
@@ -252,12 +267,12 @@ class PermissionResponse {
     addWorklog = json['add_worklog'];
     inviteUsers = json['invite_users'];
     viewSetting = json['view_setting'];
+    viewAnalysisAndCharts = json['view_analysis_and_charts'];
+    viewPermission = json['view_permission'];
     deleteFeed = json['delete_feed'];
     clearFeed = json['clear_feed'];
     createAnnouncement = json['create_announcement'];
     showRequestIcon = json['show_request_icon'];
-    nearMissIncident = json['near_miss_incident'];
-    editNearMissIncident = json['edit_near_miss_incident'];
     uploadCertificates = json['upload_certificates'];
     showNetGross = json['show_net_gross'];
     viewPersonalInfo = json['view_personal_info'];
@@ -331,6 +346,12 @@ class PermissionResponse {
     viewPriceProject = json['view_price_project'];
     priceTaskRate = json['price_task_rate'];
     viewHistory = json['view_history'];
+    nearMissIncident = json['near_miss_incident'];
+    editNearMissIncident = json['edit_near_miss_incident'];
+    viewHealthSafety = json['view_health_safety'];
+    addNearMissReport = json['add_near_miss_report'];
+    addReportIncident = json['add_report_incident'];
+    addInductionTraining = json['add_induction_training'];
     permissions = json['permissions'] != null
         ? new Permissions.fromJson(json['permissions'])
         : null;
@@ -357,6 +378,7 @@ class PermissionResponse {
     data['view_stop_work_button_in_other_user_profile'] =
         this.viewStopWorkButtonInOtherUserProfile;
     data['travel_expense_switch'] = this.travelExpenseSwitch;
+    data['remove_zone_in_team'] = this.removeZoneInTeam;
     data['edit_timesheet'] = this.editTimesheet;
     data['delete_timesheet'] = this.deleteTimesheet;
     data['export_timeshset'] = this.exportTimeshset;
@@ -369,12 +391,12 @@ class PermissionResponse {
     data['add_worklog'] = this.addWorklog;
     data['invite_users'] = this.inviteUsers;
     data['view_setting'] = this.viewSetting;
+    data['view_analysis_and_charts'] = this.viewAnalysisAndCharts;
+    data['view_permission'] = this.viewPermission;
     data['delete_feed'] = this.deleteFeed;
     data['clear_feed'] = this.clearFeed;
     data['create_announcement'] = this.createAnnouncement;
     data['show_request_icon'] = this.showRequestIcon;
-    data['near_miss_incident'] = this.nearMissIncident;
-    data['edit_near_miss_incident'] = this.editNearMissIncident;
     data['upload_certificates'] = this.uploadCertificates;
     data['show_net_gross'] = this.showNetGross;
     data['view_personal_info'] = this.viewPersonalInfo;
@@ -448,6 +470,12 @@ class PermissionResponse {
     data['view_price_project'] = this.viewPriceProject;
     data['price_task_rate'] = this.priceTaskRate;
     data['view_history'] = this.viewHistory;
+    data['near_miss_incident'] = this.nearMissIncident;
+    data['edit_near_miss_incident'] = this.editNearMissIncident;
+    data['view_health_safety'] = this.viewHealthSafety;
+    data['add_near_miss_report'] = this.addNearMissReport;
+    data['add_report_incident'] = this.addReportIncident;
+    data['add_induction_training'] = this.addInductionTraining;
     if (this.permissions != null) {
       data['permissions'] = this.permissions!.toJson();
     }

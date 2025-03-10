@@ -25,36 +25,39 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: Colors.white,
         statusBarIconBrightness: Brightness.dark));
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: backgroundColor,
-        body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Divider(
-            thickness: 1,
-            height: 1,
-            color: dividerColor,
-          ),
-          HeaderWidget(),
-          AppLogoWidget(),
-          const SizedBox(
-            height: 35,
-          ),
-          Expanded(child: LoginUsersList()),
-          const SizedBox(
-            height: 20,
-          ),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(14, 0, 14, 0),
-            child: Divider(
+    return Container(
+      color: backgroundColor,
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: backgroundColor,
+          body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            const Divider(
               thickness: 1,
               height: 1,
               color: dividerColor,
             ),
-          ),
-          CreateNewAccount(),
-          LoginButtonWidget(),
-          // SelectUrl()
-        ]),
+            HeaderWidget(),
+            AppLogoWidget(),
+            const SizedBox(
+              height: 35,
+            ),
+            Expanded(child: LoginUsersList()),
+            const SizedBox(
+              height: 20,
+            ),
+            const Padding(
+              padding: EdgeInsets.fromLTRB(14, 0, 14, 0),
+              child: Divider(
+                thickness: 1,
+                height: 1,
+                color: dividerColor,
+              ),
+            ),
+            CreateNewAccount(),
+            LoginButtonWidget(),
+            // SelectUrl()
+          ]),
+        ),
       ),
     );
   }

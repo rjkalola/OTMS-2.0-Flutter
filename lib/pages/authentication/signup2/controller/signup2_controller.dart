@@ -89,13 +89,17 @@ class SignUp2Controller extends GetxController
       Map<String, dynamic> map = {};
       map["first_name"] = userInfo?.firstName ?? "";
       map["last_name"] = userInfo?.lastName ?? "";
-      map["phone_extension_id"] = userInfo?.phoneExtensionId ?? "".toString();
+      map["phone_extension_id"] = userInfo?.phoneExtensionId ?? 0;
       map["phone"] = userInfo?.phone ?? "";
       map["device_name"] = AppUtils.getDeviceName();
       map["latitude"] = "";
       map["longitude"] = "";
       map["address"] = "";
       multi.FormData formData = multi.FormData.fromMap(map);
+      formData.files.add(
+        MapEntry("image", await multi.MultipartFile.fromFile(imagePath.value)),
+      );
+
       isLoading.value = true;
       _api.signUp(
         formData: formData,

@@ -3,10 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/pages/authentication/signup1/controller/signup1_controller.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:otm_inventory/widgets/textfield/text_field_border.dart';
-import 'package:otm_inventory/widgets/textfield/text_field_border2.dart';
 
 import '../../../../../widgets/validator/custom_field_validator.dart';
 

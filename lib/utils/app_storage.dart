@@ -3,7 +3,8 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:otm_inventory/pages/authentication/otp_verification/model/user_info.dart';
-import 'package:otm_inventory/pages/dashboard/models/permission_response.dart';
+import 'package:otm_inventory/pages/dashboard/models/dashboard_response.dart';
+import 'package:otm_inventory/pages/dashboard/models/permission_settings.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
 
@@ -12,8 +13,6 @@ import '../pages/stock_filter/model/stock_filter_response.dart';
 
 class AppStorage extends GetxController {
   final storage = GetStorage();
-  static int storeId = 0;
-  static String storeName = "";
   static String uniqueId = "";
 
   Future<void> initStorage() async {
@@ -78,18 +77,36 @@ class AppStorage extends GetxController {
     return storeName;
   }
 
-  void setPermissions(PermissionResponse stockData) {
+  void setPermissions(PermissionSettings stockData) {
     storage.write(AppConstants.sharedPreferenceKey.permissionSettings,
         jsonEncode(stockData));
   }
 
-  PermissionResponse getPermissions() {
+  PermissionSettings getPermissions() {
     final stockData =
         storage.read(AppConstants.sharedPreferenceKey.permissionSettings) ?? "";
-    PermissionResponse data = PermissionResponse();
+    PermissionSettings data = PermissionSettings();
     if (!StringHelper.isEmptyString(stockData)) {
       final jsonMap = json.decode(stockData);
-      data = PermissionResponse.fromJson(jsonMap);
+      data = PermissionSettings.fromJson(jsonMap);
+      return data;
+    } else {
+      return data;
+    }
+  }
+
+  void setDashboardResponse(DashboardResponse data) {
+    storage.write(
+        AppConstants.sharedPreferenceKey.dashboardResponse, jsonEncode(data));
+  }
+
+  DashboardResponse getDashboardResponse() {
+    final dashboardData =
+        storage.read(AppConstants.sharedPreferenceKey.dashboardResponse) ?? "";
+    DashboardResponse data = DashboardResponse();
+    if (!StringHelper.isEmptyString(dashboardData)) {
+      final jsonMap = json.decode(dashboardData);
+      data = DashboardResponse.fromJson(jsonMap);
       return data;
     } else {
       return data;

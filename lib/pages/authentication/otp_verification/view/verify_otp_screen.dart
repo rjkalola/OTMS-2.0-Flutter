@@ -46,141 +46,144 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: Colors.white,
         statusBarIconBrightness: Brightness.dark));
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: backgroundColor,
-        appBar: BaseAppBar(
-          appBar: AppBar(),
-          title: 'verify_otp'.tr,
-          isCenterTitle: true,
-          isBack: true,
-        ),
-        body: Obx(() {
-          return ModalProgressHUD(
-            inAsyncCall: verifyOtpController.isLoading.value,
-            opacity: 0,
-            progressIndicator: const CustomProgressbar(),
-            child: Column(children: [
-              Form(
-                key: verifyOtpController.formKey,
-                child: Expanded(
-                  flex: 1,
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Divider(
-                          thickness: 1,
-                          height: 1,
-                          color: dividerColor,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(20, 30, 20, 22),
-                          child: Text('verify_otp_hint1'.tr,
-                              style: const TextStyle(
-                                  color: defaultAccentColor,
-                                  fontSize: 19,
-                                  fontWeight: FontWeight.w500)),
-                        ),
-                        Center(
-                          child: SizedBox(
-                            width: 280,
-                            child: PinFieldAutoFill(
-                              controller:
-                                  verifyOtpController.otpController.value,
-                              currentCode: verifyOtpController.mOtpCode.value,
-                              keyboardType: TextInputType.number,
-                              codeLength: 4,
-                              inputFormatters: <TextInputFormatter>[
-                                // for below version 2 use this
-                                FilteringTextInputFormatter.allow(
-                                    RegExp(r'[0-9]'))
-                              ],
-                              autoFocus: true,
-                              cursor: Cursor(
-                                  color: defaultAccentColor,
-                                  enabled: true,
-                                  width: 1),
-                              decoration: CirclePinDecoration(
-                                  textStyle: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500,
-                                      color: primaryTextColor),
-                                  strokeColorBuilder: PinListenColorBuilder(
-                                      Color(0xffc6c6c6), Color(0xffc6c6c6))),
-                              onCodeChanged: (code) {
-                                print("onCodeChanged $code");
-                                verifyOtpController.mOtpCode.value =
-                                    code.toString();
-                              },
-                              onCodeSubmitted: (val) {
-                                print("onCodeSubmitted $val");
-                              },
-                              // enabled: !verifyOtpController.isOtpFilled.value,
+    return Container(
+      color: backgroundColor,
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: backgroundColor,
+          appBar: BaseAppBar(
+            appBar: AppBar(),
+            title: 'verify_otp'.tr,
+            isCenterTitle: true,
+            isBack: true,
+          ),
+          body: Obx(() {
+            return ModalProgressHUD(
+              inAsyncCall: verifyOtpController.isLoading.value,
+              opacity: 0,
+              progressIndicator: const CustomProgressbar(),
+              child: Column(children: [
+                Form(
+                  key: verifyOtpController.formKey,
+                  child: Expanded(
+                    flex: 1,
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Divider(
+                            thickness: 1,
+                            height: 1,
+                            color: dividerColor,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(20, 30, 20, 22),
+                            child: Text('verify_otp_hint1'.tr,
+                                style: const TextStyle(
+                                    color: defaultAccentColor,
+                                    fontSize: 19,
+                                    fontWeight: FontWeight.w500)),
+                          ),
+                          Center(
+                            child: SizedBox(
+                              width: 280,
+                              child: PinFieldAutoFill(
+                                controller:
+                                    verifyOtpController.otpController.value,
+                                currentCode: verifyOtpController.mOtpCode.value,
+                                keyboardType: TextInputType.number,
+                                codeLength: 4,
+                                inputFormatters: <TextInputFormatter>[
+                                  // for below version 2 use this
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp(r'[0-9]'))
+                                ],
+                                autoFocus: true,
+                                cursor: Cursor(
+                                    color: defaultAccentColor,
+                                    enabled: true,
+                                    width: 1),
+                                decoration: CirclePinDecoration(
+                                    textStyle: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500,
+                                        color: primaryTextColor),
+                                    strokeColorBuilder: PinListenColorBuilder(
+                                        Color(0xffc6c6c6), Color(0xffc6c6c6))),
+                                onCodeChanged: (code) {
+                                  print("onCodeChanged $code");
+                                  verifyOtpController.mOtpCode.value =
+                                      code.toString();
+                                },
+                                onCodeSubmitted: (val) {
+                                  print("onCodeSubmitted $val");
+                                },
+                                // enabled: !verifyOtpController.isOtpFilled.value,
+                              ),
                             ),
                           ),
-                        ),
-                        // Padding(
-                        //   padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                        //   child: Row(
-                        //     mainAxisAlignment: MainAxisAlignment.center,
-                        //     children: [
-                        //       OtpBoxWidget(
-                        //           boxController:
-                        //               verifyOtpController.box1.value),
-                        //       const SizedBox(
-                        //         width: 24,
-                        //       ),
-                        //       OtpBoxWidget(
-                        //           boxController:
-                        //               verifyOtpController.box2.value),
-                        //       const SizedBox(
-                        //         width: 24,
-                        //       ),
-                        //       OtpBoxWidget(
-                        //           boxController:
-                        //               verifyOtpController.box3.value),
-                        //       const SizedBox(
-                        //         width: 24,
-                        //       ),
-                        //       OtpBoxWidget(
-                        //           boxController:
-                        //               verifyOtpController.box4.value),
-                        //     ],
-                        //   ),
-                        // ),
-                        const SizedBox(
-                          height: 28,
-                        ),
-                        ResendViewWidget()
-                      ]),
+                          // Padding(
+                          //   padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                          //   child: Row(
+                          //     mainAxisAlignment: MainAxisAlignment.center,
+                          //     children: [
+                          //       OtpBoxWidget(
+                          //           boxController:
+                          //               verifyOtpController.box1.value),
+                          //       const SizedBox(
+                          //         width: 24,
+                          //       ),
+                          //       OtpBoxWidget(
+                          //           boxController:
+                          //               verifyOtpController.box2.value),
+                          //       const SizedBox(
+                          //         width: 24,
+                          //       ),
+                          //       OtpBoxWidget(
+                          //           boxController:
+                          //               verifyOtpController.box3.value),
+                          //       const SizedBox(
+                          //         width: 24,
+                          //       ),
+                          //       OtpBoxWidget(
+                          //           boxController:
+                          //               verifyOtpController.box4.value),
+                          //     ],
+                          //   ),
+                          // ),
+                          const SizedBox(
+                            height: 28,
+                          ),
+                          ResendViewWidget()
+                        ]),
+                  ),
                 ),
-              ),
-              Column(
-                children: [
-                  Visibility(
-                    visible: verifyOtpController.mOtpCode.value.length == 4,
-                    child: InkWell(
-                      onTap: () {
-                        verifyOtpController.resetOtpField();
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(6.0),
-                        child: PrimaryTextView(
-                          text: "Clear Otp",
-                          color: Colors.red,
+                Column(
+                  children: [
+                    Visibility(
+                      visible: verifyOtpController.mOtpCode.value.length == 4,
+                      child: InkWell(
+                        onTap: () {
+                          verifyOtpController.resetOtpField();
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(6.0),
+                          child: PrimaryTextView(
+                            text: "Clear Otp",
+                            color: Colors.red,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 12,
-                  ),
-                  OtpSubmitButton()
-                ],
-              )
-            ]),
-          );
-        }),
+                    SizedBox(
+                      height: 12,
+                    ),
+                    OtpSubmitButton()
+                  ],
+                )
+              ]),
+            );
+          }),
+        ),
       ),
     );
   }

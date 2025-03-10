@@ -43,8 +43,12 @@ class Strings extends Translations {
               "Phone number must contain 10 digits",
           'error_phone_number_start_with_zero': "Phone number not start with 0",
           'error_phone_number_already_exist': "Phone Number already exists",
+          'your_weekly_score_is': "Your weekly score is ",
+          'analytics': "Analytics",
+          'today_summery': "Today\'s Summery",
+          'location_updates': "Location Updates",
+          'next_updates': "Next Updates",
 
-          // 'products': "Products",
           // 'stores': "Stores",
           // 'stocks': "Stocks",
           // 'suppliers': "Suppliers",

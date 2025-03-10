@@ -5,7 +5,9 @@ import '../../../../res/colors.dart';
 
 class HomeTabHeaderView extends StatelessWidget {
   final String userName, userImage;
-  const HomeTabHeaderView({super.key, required this.userName, required this.userImage});
+
+  const HomeTabHeaderView(
+      {super.key, required this.userName, required this.userImage});
 
   @override
   Widget build(BuildContext context) {

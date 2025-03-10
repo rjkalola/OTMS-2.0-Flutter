@@ -44,6 +44,7 @@ class SharedPreferenceKey {
   final String savedLoginUserList = "SAVED_LOGIN_USER_LIST";
   final String dashboardItemCountData = "DASHBOARD_ITEM_COUNT_DATA";
   final String permissionSettings = "PERMISSION_SETTINGS";
+  final String dashboardResponse = "DASHBOARD_RESPONSE";
 }
 
 class Action {

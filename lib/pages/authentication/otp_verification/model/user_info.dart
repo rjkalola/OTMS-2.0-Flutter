@@ -1,3 +1,6 @@
+import 'package:json_annotation/json_annotation.dart';
+
+@JsonSerializable()
 class UserInfo {
   int? id;
   String? userIdEnc;
@@ -10,6 +13,7 @@ class UserInfo {
   String? imageThumb;
   String? email;
   String? phone;
+  @JsonKey(fromJson: _stringToInt, toJson: _stringFromInt)
   int? phoneExtensionId;
   String? birthDate;
   int? timezoneId;
@@ -42,45 +46,45 @@ class UserInfo {
 
   UserInfo(
       {this.id,
-        this.userIdEnc,
-        this.name,
-        this.firstName,
-        this.middleName,
-        this.lastName,
-        this.image,
-        this.user_image,
-        this.imageThumb,
-        this.email,
-        this.phone,
-        this.phoneExtensionId,
-        this.birthDate,
-        this.timezoneId,
-        this.isImageValid,
-        this.phoneExtension,
-        this.badgeCount,
-        this.utrName,
-        this.utr,
-        this.workingStatus,
-        this.createdAt,
-        this.companyId,
-        this.isOwner,
-        this.companyName,
-        this.companyCode,
-        this.userCode,
-        this.companyImage,
-        this.userTypeId,
-        this.tradeId,
-        this.supervisorId,
-        this.invitedBy,
-        this.dailyRate,
-        this.hourlyRate,
-        this.updateLocationReminderHourCheck,
-        this.timesheetPriceworkExpenseNotification,
-        this.locationBoundaryNotification,
-        this.apiToken,
-        this.role,
-        this.password,
-        this.storedFeedTime});
+      this.userIdEnc,
+      this.name,
+      this.firstName,
+      this.middleName,
+      this.lastName,
+      this.image,
+      this.user_image,
+      this.imageThumb,
+      this.email,
+      this.phone,
+      this.phoneExtensionId,
+      this.birthDate,
+      this.timezoneId,
+      this.isImageValid,
+      this.phoneExtension,
+      this.badgeCount,
+      this.utrName,
+      this.utr,
+      this.workingStatus,
+      this.createdAt,
+      this.companyId,
+      this.isOwner,
+      this.companyName,
+      this.companyCode,
+      this.userCode,
+      this.companyImage,
+      this.userTypeId,
+      this.tradeId,
+      this.supervisorId,
+      this.invitedBy,
+      this.dailyRate,
+      this.hourlyRate,
+      this.updateLocationReminderHourCheck,
+      this.timesheetPriceworkExpenseNotification,
+      this.locationBoundaryNotification,
+      this.apiToken,
+      this.role,
+      this.password,
+      this.storedFeedTime});
 
   UserInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -117,9 +121,9 @@ class UserInfo {
     dailyRate = json['daily_rate'];
     hourlyRate = json['hourly_rate'];
     updateLocationReminderHourCheck =
-    json['update_location_reminder_hour_check'];
+        json['update_location_reminder_hour_check'];
     timesheetPriceworkExpenseNotification =
-    json['timesheet_pricework_expense_notification'];
+        json['timesheet_pricework_expense_notification'];
     locationBoundaryNotification = json['location_boundary_notification'];
     apiToken = json['api_token'];
     role = json['role'];
@@ -173,4 +177,9 @@ class UserInfo {
     data['stored_feed_time'] = this.storedFeedTime;
     return data;
   }
+
+  static int? _stringToInt(String number) =>
+      number == null ? null : int.parse(number);
+
+  static String? _stringFromInt(int number) => number?.toString();
 }

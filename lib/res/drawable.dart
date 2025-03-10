@@ -30,6 +30,15 @@ class Drawable {
   static const String flagRussian = 'assets/images/ic_flag_russian.svg';
   static const String flagUkrainian = 'assets/images/ic_flag_ukrainian.svg';
   static const String imgLogo = 'assets/images/img_logo.svg';
-  static const String cameraPlaceHolder = 'assets/images/ic_camera_place_holder.svg';
+  static const String cameraPlaceHolder =
+      'assets/images/ic_camera_place_holder.svg';
+  static const String requestCountIcon =
+      'assets/images/icon_requests_count.svg';
+  static const String taskDashboardIcon = 'assets/images/ic_task_dashboard.svg';
+  static const String chartPieBarIcon = 'assets/images/ic_chart_pie_bar.svg';
+  static const String earningSummaryIcon =
+      'assets/images/ic_earning_summary.svg';
+  static const String breakInIcon = 'assets/images/ic_break.svg';
+  static const String mapIcon = 'assets/images/ic_map.svg';
 
 }

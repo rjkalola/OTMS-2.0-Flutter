@@ -19,7 +19,8 @@ class HomeTabActionButtonsDotsList extends StatelessWidget {
           shrinkWrap: true,
           scrollDirection: Axis.horizontal,
           children: List.generate(
-            dashboardController.listHeaderButtons_.length,
+            // dashboardController.listHeaderButtons_.length,
+            0,
             (position) => Container(
               margin: const EdgeInsets.all(3),
               width: 6,

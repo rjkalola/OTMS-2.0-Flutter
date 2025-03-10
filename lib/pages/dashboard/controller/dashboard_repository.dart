@@ -5,16 +5,11 @@ import '../../../../web_services/network/api_request.dart';
 import '../../../../web_services/response/response_model.dart';
 
 class DashboardRepository {
-  void getStoreList({
-    multi.FormData? formData,
+  void getDashboardResponse({
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
-    ApiRequest(
-            url: ApiConstants.getStoreListUrl,
-            formData: formData,
-            isFormData: true)
-        .postRequest(
+    ApiRequest(url: ApiConstants.getDashboardResponse).getRequest(
       onSuccess: (data) {
         onSuccess!(data);
       },
