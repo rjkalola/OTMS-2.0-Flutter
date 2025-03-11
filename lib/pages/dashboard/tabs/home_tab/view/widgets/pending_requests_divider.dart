@@ -12,9 +12,11 @@ class PendingRequestsDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Divider(
-      thickness: 3,
-      color: dividerColor,
-    );
+    return controller.pendingRequestCount.value > 0
+        ? Divider(
+            thickness: 3,
+            color: dividerColor,
+          )
+        : Container();
   }
 }

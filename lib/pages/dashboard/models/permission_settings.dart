@@ -118,121 +118,121 @@ class PermissionSettings {
 
   PermissionSettings(
       {this.isSuccess,
-        this.message,
-        this.companyUsers,
-        this.editOtherUserDetail,
-        this.archiveUser,
-        this.createTeam,
-        this.addUserInTeam,
-        this.removeUserInTeam,
-        this.deleteTeam,
-        this.deleteCompanyUser,
-        this.changeGroupOwner,
-        this.moveTeamUser,
-        this.teamLocation,
-        this.viewTeamList,
-        this.viewUserDetails,
-        this.addUserToCompany,
-        this.viewStopWorkButtonInOtherUserProfile,
-        this.travelExpenseSwitch,
-        this.removeZoneInTeam,
-        this.editTimesheet,
-        this.deleteTimesheet,
-        this.exportTimeshset,
-        this.timesheet,
-        this.timesheetUserDetails,
-        this.viewPriceAmount,
-        this.approveEditedHours,
-        this.approveAndUnapproveBtn,
-        this.approveTimesheet,
-        this.addWorklog,
-        this.inviteUsers,
-        this.viewSetting,
-        this.viewAnalysisAndCharts,
-        this.viewPermission,
-        this.deleteFeed,
-        this.clearFeed,
-        this.createAnnouncement,
-        this.showRequestIcon,
-        this.uploadCertificates,
-        this.showNetGross,
-        this.viewPersonalInfo,
-        this.editMyWorkInfo,
-        this.viewPersonalHistory,
-        this.viewBookeeper,
-        this.statusBookeeper,
-        this.exportBookeeper,
-        this.editBookeeper,
-        this.plannerAddTask,
-        this.plannerEditTask,
-        this.plannerDeleteTask,
-        this.plannerAddFolder,
-        this.plannerEditFolder,
-        this.plannerDeleteFolder,
-        this.plannerAddProject,
-        this.plannerEditProject,
-        this.plannerDeleteProject,
-        this.assignShift,
-        this.allShift,
-        this.statusPriceWork,
-        this.exportPriceWork,
-        this.allowToSeeAmountOfPriceworkRecordsOfAllUsers,
-        this.statusExpense,
-        this.exportExpense,
-        this.showPaymentIconInMenu,
-        this.showPayslipRecords,
-        this.showInvoiceRecords,
-        this.showPaymentScheduledRecords,
-        this.editPayslipRecords,
-        this.addPayslipRecords,
-        this.deletePayslipRecords,
-        this.payslipPayment,
-        this.showInventory,
-        this.addProduct,
-        this.updateProduct,
-        this.deleteProduct,
-        this.archiveProduct,
-        this.addStore,
-        this.updateStore,
-        this.deleteStore,
-        this.viewStore,
-        this.addProductCategory,
-        this.updateProductCategory,
-        this.deleteProductCategory,
-        this.addStoreQty,
-        this.updateStoreQty,
-        this.deleteStoreQty,
-        this.archiveStoreQty,
-        this.addSupplier,
-        this.updateSupplier,
-        this.deleteSupplier,
-        this.addManufacturer,
-        this.updateManufacturer,
-        this.deleteManufacturer,
-        this.modifyInventorySetting,
-        this.teamEditZone,
-        this.teamAddZone,
-        this.teamDetail,
-        this.addZone,
-        this.editZone,
-        this.viewTeamZones,
-        this.deleteZone,
-        this.editWorkInfo,
-        this.workInfoRate,
-        this.viewWorkInfo,
-        this.viewNotificationSetting,
-        this.editCompanyInfo,
-        this.addCompany,
-        this.viewPriceProject,
-        this.priceTaskRate,
-        this.viewHistory,
-        this.nearMissIncident,
-        this.editNearMissIncident,
-        this.viewHealthSafety,
-        this.addNearMissReport,
-        this.addReportIncident,
-        this.addInductionTraining,
-        this.permissions});
+      this.message,
+      this.companyUsers,
+      this.editOtherUserDetail,
+      this.archiveUser,
+      this.createTeam,
+      this.addUserInTeam,
+      this.removeUserInTeam,
+      this.deleteTeam,
+      this.deleteCompanyUser,
+      this.changeGroupOwner,
+      this.moveTeamUser,
+      this.teamLocation,
+      this.viewTeamList,
+      this.viewUserDetails,
+      this.addUserToCompany,
+      this.viewStopWorkButtonInOtherUserProfile,
+      this.travelExpenseSwitch,
+      this.removeZoneInTeam,
+      this.editTimesheet,
+      this.deleteTimesheet,
+      this.exportTimeshset,
+      this.timesheet,
+      this.timesheetUserDetails,
+      this.viewPriceAmount,
+      this.approveEditedHours,
+      this.approveAndUnapproveBtn,
+      this.approveTimesheet,
+      this.addWorklog,
+      this.inviteUsers,
+      this.viewSetting,
+      this.viewAnalysisAndCharts,
+      this.viewPermission,
+      this.deleteFeed,
+      this.clearFeed,
+      this.createAnnouncement,
+      this.showRequestIcon,
+      this.uploadCertificates,
+      this.showNetGross,
+      this.viewPersonalInfo,
+      this.editMyWorkInfo,
+      this.viewPersonalHistory,
+      this.viewBookeeper,
+      this.statusBookeeper,
+      this.exportBookeeper,
+      this.editBookeeper,
+      this.plannerAddTask,
+      this.plannerEditTask,
+      this.plannerDeleteTask,
+      this.plannerAddFolder,
+      this.plannerEditFolder,
+      this.plannerDeleteFolder,
+      this.plannerAddProject,
+      this.plannerEditProject,
+      this.plannerDeleteProject,
+      this.assignShift,
+      this.allShift,
+      this.statusPriceWork,
+      this.exportPriceWork,
+      this.allowToSeeAmountOfPriceworkRecordsOfAllUsers,
+      this.statusExpense,
+      this.exportExpense,
+      this.showPaymentIconInMenu,
+      this.showPayslipRecords,
+      this.showInvoiceRecords,
+      this.showPaymentScheduledRecords,
+      this.editPayslipRecords,
+      this.addPayslipRecords,
+      this.deletePayslipRecords,
+      this.payslipPayment,
+      this.showInventory,
+      this.addProduct,
+      this.updateProduct,
+      this.deleteProduct,
+      this.archiveProduct,
+      this.addStore,
+      this.updateStore,
+      this.deleteStore,
+      this.viewStore,
+      this.addProductCategory,
+      this.updateProductCategory,
+      this.deleteProductCategory,
+      this.addStoreQty,
+      this.updateStoreQty,
+      this.deleteStoreQty,
+      this.archiveStoreQty,
+      this.addSupplier,
+      this.updateSupplier,
+      this.deleteSupplier,
+      this.addManufacturer,
+      this.updateManufacturer,
+      this.deleteManufacturer,
+      this.modifyInventorySetting,
+      this.teamEditZone,
+      this.teamAddZone,
+      this.teamDetail,
+      this.addZone,
+      this.editZone,
+      this.viewTeamZones,
+      this.deleteZone,
+      this.editWorkInfo,
+      this.workInfoRate,
+      this.viewWorkInfo,
+      this.viewNotificationSetting,
+      this.editCompanyInfo,
+      this.addCompany,
+      this.viewPriceProject,
+      this.priceTaskRate,
+      this.viewHistory,
+      this.nearMissIncident,
+      this.editNearMissIncident,
+      this.viewHealthSafety,
+      this.addNearMissReport,
+      this.addReportIncident,
+      this.addInductionTraining,
+      this.permissions});
 
   PermissionSettings.fromJson(Map<String, dynamic> json) {
     isSuccess = json['IsSuccess'];
@@ -252,7 +252,7 @@ class PermissionSettings {
     viewUserDetails = json['view_user_details'];
     addUserToCompany = json['add_user_to_company'];
     viewStopWorkButtonInOtherUserProfile =
-    json['view_stop_work_button_in_other_user_profile'];
+        json['view_stop_work_button_in_other_user_profile'];
     travelExpenseSwitch = json['travel_expense_switch'];
     removeZoneInTeam = json['remove_zone_in_team'];
     editTimesheet = json['edit_timesheet'];
@@ -296,7 +296,7 @@ class PermissionSettings {
     statusPriceWork = json['status_price_work'];
     exportPriceWork = json['export_price_work'];
     allowToSeeAmountOfPriceworkRecordsOfAllUsers =
-    json['allow_to_see_amount_of_pricework_records_of_all_users'];
+        json['allow_to_see_amount_of_pricework_records_of_all_users'];
     statusExpense = json['status_expense'];
     exportExpense = json['export_expense'];
     showPaymentIconInMenu = json['show_payment_icon_in_menu'];
@@ -524,42 +524,42 @@ class Permissions {
 
   Permissions(
       {this.startWorkReminderMobile,
-        this.allShift,
-        this.stopWorkReminderMobile,
-        this.startBreakReminderMobile,
-        this.stopBreakReminderMobile,
-        this.forgetStartWorkAfterShiftStartOwnerMobile,
-        this.forgetStartWorkAfterShiftStartMemberMobile,
-        this.forgetStopWorkAfterShiftEndOwnerMobile,
-        this.forgetStopWorkAfterShiftEndMemberMobile,
-        this.forgetToBreakOutReminderOwnerMobile,
-        this.forgetToBreakOutReminderMemberMobile,
-        this.startWorkReminderEmail,
-        this.stopWorkReminderEmail,
-        this.startBreakReminderEmail,
-        this.stopBreakReminderEmail,
-        this.forgetStartWorkAfterShiftStartOwnerEmail,
-        this.forgetStartWorkAfterShiftStartMemberEmail,
-        this.forgetStopWorkAfterShiftEndOwnerEmail,
-        this.forgetStopWorkAfterShiftEndMemberEmail,
-        this.forgetToBreakOutReminderOwnerEmail,
-        this.forgetToBreakOutReminderMemberEmail,
-        this.chatNotification,
-        this.updateLocationReminderMobile,
-        this.updateLocationReminderEmail,
-        this.workInfoRate,
-        this.timesheetNotification,
-        this.expenseNotification,
-        this.priceworkNotification,
-        this.leaveNotification,
-        this.teamNotification,
-        this.requestNotification,
-        this.feedNotification,
-        this.updateLocationReminderHourCheck,
-        this.startWork,
-        this.stopWork,
-        this.locationBoundaryNotification,
-        this.travelExpenseSwitch});
+      this.allShift,
+      this.stopWorkReminderMobile,
+      this.startBreakReminderMobile,
+      this.stopBreakReminderMobile,
+      this.forgetStartWorkAfterShiftStartOwnerMobile,
+      this.forgetStartWorkAfterShiftStartMemberMobile,
+      this.forgetStopWorkAfterShiftEndOwnerMobile,
+      this.forgetStopWorkAfterShiftEndMemberMobile,
+      this.forgetToBreakOutReminderOwnerMobile,
+      this.forgetToBreakOutReminderMemberMobile,
+      this.startWorkReminderEmail,
+      this.stopWorkReminderEmail,
+      this.startBreakReminderEmail,
+      this.stopBreakReminderEmail,
+      this.forgetStartWorkAfterShiftStartOwnerEmail,
+      this.forgetStartWorkAfterShiftStartMemberEmail,
+      this.forgetStopWorkAfterShiftEndOwnerEmail,
+      this.forgetStopWorkAfterShiftEndMemberEmail,
+      this.forgetToBreakOutReminderOwnerEmail,
+      this.forgetToBreakOutReminderMemberEmail,
+      this.chatNotification,
+      this.updateLocationReminderMobile,
+      this.updateLocationReminderEmail,
+      this.workInfoRate,
+      this.timesheetNotification,
+      this.expenseNotification,
+      this.priceworkNotification,
+      this.leaveNotification,
+      this.teamNotification,
+      this.requestNotification,
+      this.feedNotification,
+      this.updateLocationReminderHourCheck,
+      this.startWork,
+      this.stopWork,
+      this.locationBoundaryNotification,
+      this.travelExpenseSwitch});
 
   Permissions.fromJson(Map<String, dynamic> json) {
     startWorkReminderMobile = json['start_work_reminder_mobile'];
@@ -568,33 +568,33 @@ class Permissions {
     startBreakReminderMobile = json['start_break_reminder_mobile'];
     stopBreakReminderMobile = json['stop_break_reminder_mobile'];
     forgetStartWorkAfterShiftStartOwnerMobile =
-    json['forget_start_work_after_shift_start_owner_mobile'];
+        json['forget_start_work_after_shift_start_owner_mobile'];
     forgetStartWorkAfterShiftStartMemberMobile =
-    json['forget_start_work_after_shift_start_member_mobile'];
+        json['forget_start_work_after_shift_start_member_mobile'];
     forgetStopWorkAfterShiftEndOwnerMobile =
-    json['forget_stop_work_after_shift_end_owner_mobile'];
+        json['forget_stop_work_after_shift_end_owner_mobile'];
     forgetStopWorkAfterShiftEndMemberMobile =
-    json['forget_stop_work_after_shift_end_member_mobile'];
+        json['forget_stop_work_after_shift_end_member_mobile'];
     forgetToBreakOutReminderOwnerMobile =
-    json['forget_to_break_out_reminder_owner_mobile'];
+        json['forget_to_break_out_reminder_owner_mobile'];
     forgetToBreakOutReminderMemberMobile =
-    json['forget_to_break_out_reminder_member_mobile'];
+        json['forget_to_break_out_reminder_member_mobile'];
     startWorkReminderEmail = json['start_work_reminder_email'];
     stopWorkReminderEmail = json['stop_work_reminder_email'];
     startBreakReminderEmail = json['start_break_reminder_email'];
     stopBreakReminderEmail = json['stop_break_reminder_email'];
     forgetStartWorkAfterShiftStartOwnerEmail =
-    json['forget_start_work_after_shift_start_owner_email'];
+        json['forget_start_work_after_shift_start_owner_email'];
     forgetStartWorkAfterShiftStartMemberEmail =
-    json['forget_start_work_after_shift_start_member_email'];
+        json['forget_start_work_after_shift_start_member_email'];
     forgetStopWorkAfterShiftEndOwnerEmail =
-    json['forget_stop_work_after_shift_end_owner_email'];
+        json['forget_stop_work_after_shift_end_owner_email'];
     forgetStopWorkAfterShiftEndMemberEmail =
-    json['forget_stop_work_after_shift_end_member_email'];
+        json['forget_stop_work_after_shift_end_member_email'];
     forgetToBreakOutReminderOwnerEmail =
-    json['forget_to_break_out_reminder_owner_email'];
+        json['forget_to_break_out_reminder_owner_email'];
     forgetToBreakOutReminderMemberEmail =
-    json['forget_to_break_out_reminder_member_email'];
+        json['forget_to_break_out_reminder_member_email'];
     chatNotification = json['chat_notification'];
     updateLocationReminderMobile = json['update_location_reminder_mobile'];
     updateLocationReminderEmail = json['update_location_reminder_email'];
@@ -607,7 +607,7 @@ class Permissions {
     requestNotification = json['request_notification'];
     feedNotification = json['feed_notification'];
     updateLocationReminderHourCheck =
-    json['update_location_reminder_hour_check'];
+        json['update_location_reminder_hour_check'];
     startWork = json['start_work'];
     stopWork = json['stop_work'];
     locationBoundaryNotification = json['location_boundary_notification'];

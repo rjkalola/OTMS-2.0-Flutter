@@ -4,6 +4,7 @@ import 'package:otm_inventory/pages/dashboard/tabs/home_tab/controller/home_tab_
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/utils/app_storage.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
+import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
 
 class JoinCompanyRequestView extends StatelessWidget {
@@ -13,19 +14,23 @@ class JoinCompanyRequestView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 16, 20, 16),
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: PrimaryTextView(
-          text: "Your request to join DCK  is not approved yet",
-          color: Colors.red,
-          fontSize: 17,
-          fontWeight: FontWeight.w600,
-          softWrap: true,
-          textAlign: TextAlign.start,
-        ),
-      ),
-    );
+    return StringHelper.isValidBoolValue(
+            controller.dashboardResponse.value.joinCompanyRequest)
+        ? Padding(
+            padding: const EdgeInsets.fromLTRB(20, 16, 20, 16),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: PrimaryTextView(
+                text:
+                    "Your request to join ${controller.dashboardResponse.value.companyName ?? ""} is not approved yet",
+                color: Colors.red,
+                fontSize: 17,
+                fontWeight: FontWeight.w600,
+                softWrap: true,
+                textAlign: TextAlign.start,
+              ),
+            ),
+          )
+        : Container();
   }
 }

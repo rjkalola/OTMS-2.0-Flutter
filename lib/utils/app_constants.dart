@@ -5,6 +5,7 @@ class AppConstants {
   static const Action action = Action();
   static const StockCountType stockCountType = StockCountType();
   static const AttachmentType attachmentType = AttachmentType();
+  static const UserType userType = UserType();
 
   static const String deviceType = "1";
   static const int productListLimit = 20;
@@ -88,4 +89,13 @@ class AttachmentType {
   final String image = "image";
   final String camera = "camera";
   final String croppedImage = "croppedImage";
+}
+
+class UserType {
+  const UserType(); //
+  final int admin = 1;
+  final int projectManager = 2;
+  final int supervisor = 3;
+  final int employee = 4;
+  final int driver = 5;
 }

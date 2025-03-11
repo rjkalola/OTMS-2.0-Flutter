@@ -27,4 +27,5 @@ class ApiConstants {
   static String getDashboardStockCount = '$appUrl/dashboard/get-count';
   static String getDashboardResponse = '$appUrl/dashboard';
   static String getSettingsUrl = '$appUrl/get-setting';
+  static String getRequestCountUrl = '$appUrl/get-request-count';
 }

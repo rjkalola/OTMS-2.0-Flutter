@@ -1,6 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
 
-@JsonSerializable()
 class UserInfo {
   int? id;
   String? userIdEnc;
@@ -13,7 +12,6 @@ class UserInfo {
   String? imageThumb;
   String? email;
   String? phone;
-  @JsonKey(fromJson: _stringToInt, toJson: _stringFromInt)
   int? phoneExtensionId;
   String? birthDate;
   int? timezoneId;
@@ -43,6 +41,7 @@ class UserInfo {
   String? role;
   String? password;
   String? storedFeedTime;
+  List<Locations>? locations;
 
   UserInfo(
       {this.id,
@@ -84,7 +83,8 @@ class UserInfo {
       this.apiToken,
       this.role,
       this.password,
-      this.storedFeedTime});
+      this.storedFeedTime,
+      this.locations});
 
   UserInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -129,6 +129,12 @@ class UserInfo {
     role = json['role'];
     password = json['password'];
     storedFeedTime = json['stored_feed_time'];
+    if (json['locations'] != null) {
+      locations = <Locations>[];
+      json['locations'].forEach((v) {
+        locations!.add(new Locations.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -175,11 +181,54 @@ class UserInfo {
     data['role'] = this.role;
     data['password'] = this.password;
     data['stored_feed_time'] = this.storedFeedTime;
+    if (this.locations != null) {
+      data['locations'] = this.locations!.map((v) => v.toJson()).toList();
+    }
     return data;
   }
+}
 
-  static int? _stringToInt(String number) =>
-      number == null ? null : int.parse(number);
+class Locations {
+  int? id;
+  int? shiftDetailId;
+  String? time;
+  String? extraTime;
+  String? extraMin;
+  String? penaltyTime;
+  String? penaltyMin;
+  bool? status;
 
-  static String? _stringFromInt(int number) => number?.toString();
+  Locations(
+      {this.id,
+      this.shiftDetailId,
+      this.time,
+      this.extraTime,
+      this.extraMin,
+      this.penaltyTime,
+      this.penaltyMin,
+      this.status});
+
+  Locations.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    shiftDetailId = json['shift_detail_id'];
+    time = json['time'];
+    extraTime = json['extra_time'];
+    extraMin = json['extra_min'];
+    penaltyTime = json['penalty_time'];
+    penaltyMin = json['penalty_min'];
+    status = json['status'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['shift_detail_id'] = this.shiftDetailId;
+    data['time'] = this.time;
+    data['extra_time'] = this.extraTime;
+    data['extra_min'] = this.extraMin;
+    data['penalty_time'] = this.penaltyTime;
+    data['penalty_min'] = this.penaltyMin;
+    data['status'] = this.status;
+    return data;
+  }
 }

@@ -29,7 +29,7 @@ class DashboardController extends GetxController
   //     DataUtils.getHeaderActionButtonsList().obs;
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
-      isMainViewVisible = true.obs;
+      isMainViewVisible = false.obs;
   final title = 'dashboard'.tr.obs;
   final selectedIndex = 0.obs;
 
@@ -187,29 +187,26 @@ class DashboardController extends GetxController
   }
 
   void getSettingApi() {
-    print("getSettingApi call");
     isLoading.value = true;
     _api.getSettingsAPI(
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.statusCode == 200) {
-          print("Result:" + responseModel.result!);
           PermissionSettings response =
               PermissionSettings.fromJson(jsonDecode(responseModel.result!));
           if (response.isSuccess!) {
-            print("getSettingApi success");
             AppStorage().setPermissions(response);
-            // print("response.companyUsers:" + response.companyUsers!.toString());
-            HomeTabController().getDashboardApi(true);
+            Get.put(HomeTabController()).getDashboardApi(true);
           } else {
             AppUtils.showSnackBarMessage(response.message!);
           }
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage!);
         }
-        isLoading.value = false;
+        // isLoading.value = false;
       },
       onError: (ResponseModel error) {
-        isLoading.value = false;
+        // isLoading.value = false;
+
         // if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
         //   isInternetNotAvailable.value = true;
         //   // Utils.showSnackBarMessage('no_internet'.tr);

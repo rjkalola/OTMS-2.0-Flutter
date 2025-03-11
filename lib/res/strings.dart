@@ -48,7 +48,7 @@ class Strings extends Translations {
           'today_summery': "Today\'s Summery",
           'location_updates': "Location Updates",
           'next_updates': "Next Updates",
-
+          'scheduled_break': "Scheduled Break",
           // 'stores': "Stores",
           // 'stocks': "Stocks",
           // 'suppliers': "Suppliers",

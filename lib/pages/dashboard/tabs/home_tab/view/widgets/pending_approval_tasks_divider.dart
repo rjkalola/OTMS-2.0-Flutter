@@ -12,9 +12,11 @@ class PendingApprovalTasksDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Divider(
-      thickness: 3,
-      color: dividerColor,
-    );
+    return (controller.dashboardResponse.value.pendingApprovalCount ?? 0) > 0
+        ? Divider(
+            thickness: 3,
+            color: dividerColor,
+          )
+        : Container();
   }
 }

@@ -5,9 +5,8 @@ import 'package:dio/dio.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/pages/authentication/otp_verification/model/user_info.dart';
+import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_storage.dart';
-import 'package:otm_inventory/utils/string_helper.dart';
-import 'package:pdf/widgets.dart';
 
 class AppUtils {
   static var mTime;
@@ -93,6 +92,30 @@ class AppUtils {
 
   static bool isPermission(bool? value) {
     return value != null && value;
+  }
+
+  static bool isUserCheckIn(int? value) {
+    return value != null && value > 0;
+  }
+
+  static bool isAdmin() {
+    UserInfo info = Get.find<AppStorage>().getUserInfo();
+    return info.userTypeId == AppConstants.userType.admin;
+  }
+
+  static bool isEmployee() {
+    UserInfo? info = Get.find<AppStorage>().getUserInfo();
+    return info.userTypeId == AppConstants.userType.employee;
+  }
+
+  static bool isManager() {
+    UserInfo? info = Get.find<AppStorage>().getUserInfo();
+    return info.userTypeId == AppConstants.userType.projectManager;
+  }
+
+  static bool isSupervisor() {
+    UserInfo? info = Get.find<AppStorage>().getUserInfo();
+    return info.userTypeId == AppConstants.userType.supervisor;
   }
 
   static saveLoginUser(UserInfo user) {

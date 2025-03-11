@@ -25,8 +25,8 @@ class DashboardResponse {
   int? userTypeId;
   int? tradeId;
   int? supervisorId;
-  int? dailyRate;
-  int? hourlyRate;
+  num? dailyRate;
+  num? hourlyRate;
   String? image;
   String? imageMain;
   int? overallRating;

@@ -74,4 +74,9 @@ class StringHelper {
     }
     return text;
   }
+
+  static bool isValidBoolValue(bool? value) {
+    return value != null && value;
+  }
+
 }

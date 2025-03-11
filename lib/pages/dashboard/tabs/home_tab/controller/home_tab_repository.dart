@@ -14,4 +14,16 @@ class HomeTabRepository {
       onError: (error) => {if (onError != null) onError(error)},
     );
   }
+
+  void getRequestCountResponse({
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(url: ApiConstants.getRequestCountUrl).getRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
 }

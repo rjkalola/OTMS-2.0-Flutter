@@ -16,39 +16,41 @@ class AnalyticsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 12, 14, 12),
-      child: Row(children: [
-        Container(
-            padding: EdgeInsets.all(9),
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Color(AppUtils.haxColor("#ddeafb"))),
-            child: SvgPicture.asset(
-              Drawable.chartPieBarIcon,
-            )),
-        Expanded(
-            child: Padding(
-          padding: EdgeInsets.fromLTRB(14, 0, 14, 0),
-          child: Center(
-            child: Text('analytics'.tr,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  color: primaryTextColor,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 17,
-                )),
-          ),
-        )),
-        Icon(
-          Icons.keyboard_arrow_right,
-          size: 24,
-          color: defaultAccentColor,
-        ),
-      ]),
-    );
+    return AppUtils.isAdmin()
+        ? Padding(
+            padding: const EdgeInsets.fromLTRB(20, 12, 14, 12),
+            child: Row(children: [
+              Container(
+                  padding: EdgeInsets.all(9),
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color(AppUtils.haxColor("#ddeafb"))),
+                  child: SvgPicture.asset(
+                    Drawable.chartPieBarIcon,
+                  )),
+              Expanded(
+                  child: Padding(
+                padding: EdgeInsets.fromLTRB(14, 0, 14, 0),
+                child: Center(
+                  child: Text('analytics'.tr,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: primaryTextColor,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 17,
+                      )),
+                ),
+              )),
+              Icon(
+                Icons.keyboard_arrow_right,
+                size: 24,
+                color: defaultAccentColor,
+              ),
+            ]),
+          )
+        : Container();
   }
 }

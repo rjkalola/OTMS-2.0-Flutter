@@ -4,6 +4,7 @@ import 'package:otm_inventory/pages/dashboard/tabs/home_tab/controller/home_tab_
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/utils/app_storage.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
+import 'package:otm_inventory/utils/string_helper.dart';
 
 class UserScoreDivider extends StatelessWidget {
   final controller = Get.put(HomeTabController());
@@ -12,9 +13,12 @@ class UserScoreDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Divider(
-      thickness: 3,
-      color: dividerColor,
-    );
+    return !StringHelper.isValidBoolValue(
+            controller.dashboardResponse.value.isOwner)
+        ? Divider(
+            thickness: 3,
+            color: dividerColor,
+          )
+        : Container();
   }
 }
