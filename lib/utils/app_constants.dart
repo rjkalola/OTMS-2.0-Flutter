@@ -6,6 +6,8 @@ class AppConstants {
   static const StockCountType stockCountType = StockCountType();
   static const AttachmentType attachmentType = AttachmentType();
   static const UserType userType = UserType();
+  static const Type type = Type();
+  static const ShiftType shiftType = ShiftType();
 
   static const String deviceType = "1";
   static const int productListLimit = 20;
@@ -46,6 +48,8 @@ class SharedPreferenceKey {
   final String dashboardItemCountData = "DASHBOARD_ITEM_COUNT_DATA";
   final String permissionSettings = "PERMISSION_SETTINGS";
   final String dashboardResponse = "DASHBOARD_RESPONSE";
+  final String isWeeklySummeryCounter = "IS_WEEKLY_SUMMERY_COUNTER";
+  final String weeklySummeryAmount = "WEEKLY_SUMMERY_AMOUNT";
 }
 
 class Action {
@@ -98,4 +102,20 @@ class UserType {
   final int supervisor = 3;
   final int employee = 4;
   final int driver = 5;
+}
+
+class ShiftType {
+  const ShiftType(); //
+  final int regularShift = 1;
+  final int priceWorkShift = 2;
+}
+
+class Type {
+  const Type(); //
+  final int OUTER_WORK = 1;
+  final int OUTER_BREAK = 2;
+  final int INNER_WORK = 3;
+  final int INNER_BREAK = 4;
+  final int INNER_FREE_WORK = 5;
+  final int OUTER_OVERTIME = 6;
 }

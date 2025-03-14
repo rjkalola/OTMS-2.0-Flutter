@@ -13,12 +13,14 @@ class JoinCompanyRequestDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StringHelper.isValidBoolValue(
-            controller.dashboardResponse.value.joinCompanyRequest)
-        ? Divider(
-            thickness: 3,
-            color: dividerColor,
-          )
-        : Container();
+    return Obx(
+      () => StringHelper.isValidBoolValue(
+              controller.dashboardResponse.value.joinCompanyRequest)
+          ? Divider(
+              thickness: 3,
+              color: dividerColor,
+            )
+          : Container(),
+    );
   }
 }

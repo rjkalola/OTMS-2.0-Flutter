@@ -12,11 +12,13 @@ class PendingTasksDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return (controller.dashboardResponse.value.taskCount ?? 0) > 0
-        ? Divider(
-            thickness: 3,
-            color: dividerColor,
-          )
-        : Container();
+    return Obx(
+      () => (controller.dashboardResponse.value.taskCount ?? 0) > 0
+          ? Divider(
+              thickness: 3,
+              color: dividerColor,
+            )
+          : Container(),
+    );
   }
 }

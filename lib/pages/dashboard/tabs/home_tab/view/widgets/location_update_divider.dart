@@ -10,11 +10,11 @@ class LocationUpdateDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return controller.isUpdateLocationDividerVisible.value
+    return Obx(() => controller.isUpdateLocationDividerVisible.value
         ? Divider(
-            thickness: 3,
-            color: dividerColor,
-          )
-        : Container();
+      thickness: 3,
+      color: dividerColor,
+    )
+        : Container(),);
   }
 }

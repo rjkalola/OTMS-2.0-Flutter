@@ -14,23 +14,25 @@ class JoinCompanyRequestView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StringHelper.isValidBoolValue(
-            controller.dashboardResponse.value.joinCompanyRequest)
-        ? Padding(
-            padding: const EdgeInsets.fromLTRB(20, 16, 20, 16),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: PrimaryTextView(
-                text:
-                    "Your request to join ${controller.dashboardResponse.value.companyName ?? ""} is not approved yet",
-                color: Colors.red,
-                fontSize: 17,
-                fontWeight: FontWeight.w600,
-                softWrap: true,
-                textAlign: TextAlign.start,
+    return Obx(
+      () => StringHelper.isValidBoolValue(
+              controller.dashboardResponse.value.joinCompanyRequest)
+          ? Padding(
+              padding: const EdgeInsets.fromLTRB(20, 16, 20, 16),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: PrimaryTextView(
+                  text:
+                      "Your request to join ${controller.dashboardResponse.value.companyName ?? ""} is not approved yet",
+                  color: Colors.red,
+                  fontSize: 17,
+                  fontWeight: FontWeight.w600,
+                  softWrap: true,
+                  textAlign: TextAlign.start,
+                ),
               ),
-            ),
-          )
-        : Container();
+            )
+          : Container(),
+    );
   }
 }

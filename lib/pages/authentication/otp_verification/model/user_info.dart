@@ -42,6 +42,12 @@ class UserInfo {
   String? password;
   String? storedFeedTime;
   List<Locations>? locations;
+  String? currencySymbol;
+  int? shiftId;
+  String? shiftName;
+  int? shiftType;
+  int? teamId;
+  String? teamName;
 
   UserInfo(
       {this.id,
@@ -84,7 +90,13 @@ class UserInfo {
       this.role,
       this.password,
       this.storedFeedTime,
-      this.locations});
+      this.locations,
+      this.currencySymbol,
+      this.shiftId,
+      this.shiftName,
+      this.shiftType,
+      this.teamId,
+      this.teamName});
 
   UserInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -129,6 +141,14 @@ class UserInfo {
     role = json['role'];
     password = json['password'];
     storedFeedTime = json['stored_feed_time'];
+
+    currencySymbol = json['currency_symbol'];
+    shiftId = json['shift_id'];
+    shiftName = json['shift_name'];
+    shiftType = json['shift_type'];
+    teamId = json['team_id'];
+    teamName = json['team_name'];
+
     if (json['locations'] != null) {
       locations = <Locations>[];
       json['locations'].forEach((v) {
@@ -181,10 +201,116 @@ class UserInfo {
     data['role'] = this.role;
     data['password'] = this.password;
     data['stored_feed_time'] = this.storedFeedTime;
+
+    data['currency_symbol'] = this.currencySymbol;
+    data['shift_id'] = this.shiftId;
+    data['shift_name'] = this.shiftName;
+    data['shift_type'] = this.shiftType;
+    data['team_id'] = this.teamId;
+    data['team_name'] = this.teamName;
+
     if (this.locations != null) {
       data['locations'] = this.locations!.map((v) => v.toJson()).toList();
     }
     return data;
+  }
+
+  UserInfo copyWith(
+      {int? id,
+      String? userIdEnc,
+      String? name,
+      String? firstName,
+      String? middleName,
+      String? lastName,
+      String? image,
+      String? user_image,
+      String? imageThumb,
+      String? email,
+      String? phone,
+      int? phoneExtensionId,
+      String? birthDate,
+      int? timezoneId,
+      bool? isImageValid,
+      String? phoneExtension,
+      int? badgeCount,
+      String? utrName,
+      String? utr,
+      int? workingStatus,
+      String? createdAt,
+      int? companyId,
+      bool? isOwner,
+      String? companyName,
+      String? companyCode,
+      String? userCode,
+      String? companyImage,
+      int? userTypeId,
+      int? tradeId,
+      int? supervisorId,
+      int? invitedBy,
+      int? dailyRate,
+      int? hourlyRate,
+      bool? updateLocationReminderHourCheck,
+      bool? timesheetPriceworkExpenseNotification,
+      bool? locationBoundaryNotification,
+      String? apiToken,
+      String? role,
+      String? password,
+      String? storedFeedTime,
+      List<Locations>? locations,
+      String? currencySymbol,
+      int? shiftId,
+      String? shiftName,
+      int? shiftType,
+      int? teamId,
+      String? teamName}) {
+    return UserInfo(
+        id: id ?? this.id,
+        userIdEnc: userIdEnc ?? this.userIdEnc,
+        name: name ?? this.name,
+        firstName: firstName ?? this.firstName,
+        middleName: middleName ?? this.middleName,
+        lastName: lastName ?? this.lastName,
+        image: image ?? this.image,
+        user_image: user_image ?? this.user_image,
+        imageThumb: imageThumb ?? this.imageThumb,
+        email: email ?? this.email,
+        phone: phone ?? this.phone,
+        phoneExtensionId: phoneExtensionId ?? this.phoneExtensionId,
+        birthDate: birthDate ?? this.birthDate,
+        timezoneId: timezoneId ?? this.timezoneId,
+        isImageValid: isImageValid ?? this.isImageValid,
+        phoneExtension: phoneExtension ?? this.phoneExtension,
+        badgeCount: badgeCount ?? this.badgeCount,
+        utrName: utrName ?? this.utrName,
+        utr: utr ?? this.utr,
+        workingStatus: workingStatus ?? this.workingStatus,
+        createdAt: createdAt ?? this.createdAt,
+        companyId: companyId ?? this.companyId,
+        isOwner: isOwner ?? this.isOwner,
+        companyName: companyName ?? this.companyName,
+        companyCode: companyCode ?? this.companyCode,
+        userCode: userCode ?? this.userCode,
+        companyImage: companyImage ?? this.companyImage,
+        userTypeId: userTypeId ?? this.userTypeId,
+        tradeId: tradeId ?? this.tradeId,
+        supervisorId: supervisorId ?? this.supervisorId,
+        invitedBy: invitedBy ?? this.invitedBy,
+        dailyRate: dailyRate ?? this.dailyRate,
+        hourlyRate: hourlyRate ?? this.hourlyRate,
+        updateLocationReminderHourCheck: updateLocationReminderHourCheck ?? this.updateLocationReminderHourCheck,
+        timesheetPriceworkExpenseNotification: timesheetPriceworkExpenseNotification ?? this.timesheetPriceworkExpenseNotification,
+        locationBoundaryNotification: locationBoundaryNotification ?? this.locationBoundaryNotification,
+        apiToken: apiToken ?? this.apiToken,
+        role: role ?? this.role,
+        password: password ?? this.password,
+        storedFeedTime: storedFeedTime ?? this.storedFeedTime,
+        locations: locations ?? this.locations,
+        currencySymbol: currencySymbol ?? this.currencySymbol,
+        shiftId: shiftId ?? this.shiftId,
+        shiftName: shiftName ?? this.shiftName,
+        shiftType: shiftType ?? this.shiftType,
+        teamId: teamId ?? this.teamId,
+        teamName: teamName ?? this.teamName,);
   }
 }
 

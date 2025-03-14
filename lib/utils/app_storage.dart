@@ -127,6 +127,29 @@ class AppStorage extends GetxController {
     return DashboardStockCountResponse.fromJson(jsonMap);
   }
 
+  void setWeeklySummeryCounter(bool value) {
+    storage.write(
+        AppConstants.sharedPreferenceKey.isWeeklySummeryCounter, value);
+  }
+
+  bool isWeeklySummeryCounter() {
+    final value =
+        storage.read(AppConstants.sharedPreferenceKey.isWeeklySummeryCounter) ??
+            false;
+    return value;
+  }
+
+  void setWeeklySummeryAmount(String value) {
+    storage.write(AppConstants.sharedPreferenceKey.weeklySummeryAmount, value);
+  }
+
+  String getWeeklySummeryAmount() {
+    final value =
+        storage.read(AppConstants.sharedPreferenceKey.weeklySummeryAmount) ??
+            "0";
+    return value;
+  }
+
   void clearAllData() {
     AppConstants.isResourcesLoaded = false;
     removeData(AppConstants.sharedPreferenceKey.storeId);

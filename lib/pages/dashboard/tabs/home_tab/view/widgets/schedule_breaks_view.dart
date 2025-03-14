@@ -16,86 +16,89 @@ class ScheduleBreaksView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return !StringHelper.isEmptyList(
-            controller.dashboardResponse.value.shiftBreaks)
-        ? Container(
-            margin: EdgeInsets.only(top: 4),
-            alignment: Alignment.center,
-            child: ListView(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              children: List.generate(
-                controller.dashboardResponse.value.shiftBreaks!.length,
-                (position) => isVisibleView(controller
-                        .dashboardResponse.value.shiftBreaks![position])
-                    ? Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(20, 12, 14, 12),
-                            child: Row(children: [
-                              Container(
-                                  padding: EdgeInsets.all(9),
-                                  width: 40,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color:
-                                          Color(AppUtils.haxColor("#fee8d0"))),
-                                  child: SvgPicture.asset(
-                                    Drawable.breakInIcon,
-                                  )),
-                              Expanded(
-                                  child: Padding(
-                                padding: EdgeInsets.fromLTRB(14, 0, 14, 0),
-                                child: Center(
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                          getBreakTitle(controller
-                                              .dashboardResponse
-                                              .value
-                                              .shiftBreaks![position]),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            color: secondaryLightTextColor,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 14,
-                                          )),
-                                      SizedBox(
-                                        height: 3,
-                                      ),
-                                      Text("00:30:00",
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            color: primaryTextColor,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 24,
-                                          ))
-                                    ],
+    return Obx(
+      () => !StringHelper.isEmptyList(
+              controller.dashboardResponse.value.shiftBreaks)
+          ? Container(
+              margin: EdgeInsets.only(top: 4),
+              alignment: Alignment.center,
+              child: ListView(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                children: List.generate(
+                  controller.dashboardResponse.value.shiftBreaks!.length,
+                  (position) => isVisibleView(controller
+                          .dashboardResponse.value.shiftBreaks![position])
+                      ? Column(
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.fromLTRB(20, 12, 14, 12),
+                              child: Row(children: [
+                                Container(
+                                    padding: EdgeInsets.all(9),
+                                    width: 40,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Color(
+                                            AppUtils.haxColor("#fee8d0"))),
+                                    child: SvgPicture.asset(
+                                      Drawable.breakInIcon,
+                                    )),
+                                Expanded(
+                                    child: Padding(
+                                  padding: EdgeInsets.fromLTRB(14, 0, 14, 0),
+                                  child: Center(
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                            getBreakTitle(controller
+                                                .dashboardResponse
+                                                .value
+                                                .shiftBreaks![position]),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              color: secondaryLightTextColor,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                            )),
+                                        SizedBox(
+                                          height: 3,
+                                        ),
+                                        Text("00:30:00",
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              color: primaryTextColor,
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 24,
+                                            ))
+                                      ],
+                                    ),
                                   ),
+                                )),
+                                Icon(
+                                  Icons.keyboard_arrow_right,
+                                  size: 24,
+                                  color: defaultAccentColor,
                                 ),
-                              )),
-                              Icon(
-                                Icons.keyboard_arrow_right,
-                                size: 24,
-                                color: defaultAccentColor,
-                              ),
-                            ]),
-                          ),
-                          Divider(
-                            thickness: 3,
-                            color: dividerColor,
-                          ),
-                        ],
-                      )
-                    : Container(),
+                              ]),
+                            ),
+                            Divider(
+                              thickness: 3,
+                              color: dividerColor,
+                            ),
+                          ],
+                        )
+                      : Container(),
+                ),
               ),
-            ),
-          )
-        : Container();
+            )
+          : Container(),
+    );
   }
 
   bool isVisibleView(ShiftBreaks info) {

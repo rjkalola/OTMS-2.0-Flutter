@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/pages/authentication/splash/splash_screen.dart';
-import 'package:otm_inventory/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/res/strings.dart';
 import 'package:otm_inventory/routes/app_pages.dart';
@@ -9,7 +8,7 @@ import 'package:otm_inventory/utils/app_storage.dart';
 
 void main() async {
   await Get.put(AppStorage()).initStorage();
-  Get.lazyPut(() => HomeTabController());
+  // Get.lazyPut(() => HomeTabController());
   runApp(const MyApp());
 }
 

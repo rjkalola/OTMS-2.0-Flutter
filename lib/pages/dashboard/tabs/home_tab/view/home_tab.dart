@@ -52,68 +52,66 @@ class _HomeTabState extends State<HomeTab> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: Obx(() {
-      return Scaffold(
-        backgroundColor: dashBoardTabBgColor,
-        // backgroundColor: const Color(0xfff4f5f7),
-        body: Visibility(
-          visible: controller.isMainViewVisible.value,
-          child: Column(children: [
-            HomeTabHeaderView(),
-            Expanded(
-              child: Container(
-                margin: EdgeInsets.fromLTRB(16, 0, 16, 0),
-                decoration: BoxDecoration(
-                    color: backgroundColor,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(6),
-                        topRight: Radius.circular(6))),
-                child: SingleChildScrollView(
-                  child: Column(children: [
-                    SizedBox(
-                      height: 26,
+    return Obx(() => Scaffold(
+      backgroundColor: dashBoardTabBgColor,
+      // backgroundColor: const Color(0xfff4f5f7),
+      body: Visibility(
+        visible: controller.isMainViewVisible.value,
+        child: Column(children: [
+          HomeTabHeaderView(),
+          Expanded(
+            child: Container(
+              margin: EdgeInsets.fromLTRB(16, 0, 16, 0),
+              decoration: BoxDecoration(
+                  color: backgroundColor,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(6),
+                      topRight: Radius.circular(6))),
+              child: SingleChildScrollView(
+                child: Column(children: [
+                  SizedBox(
+                    height: 26,
+                  ),
+                  HomeTabActionButtonsList(),
+                  HomeTabActionButtonsDotsList(),
+                  Divider(
+                    thickness: 3,
+                    color: dividerColor,
+                  ),
+                  JoinCompanyRequestView(),
+                  JoinCompanyRequestDivider(),
+                  UserScoreView(),
+                  UserScoreDivider(),
+                  PendingRequestsView(),
+                  PendingRequestsDivider(),
+                  PendingTasksView(),
+                  PendingTasksDivider(),
+                  PendingApprovalTasksView(),
+                  PendingApprovalTasksDivider(),
+                  AnalyticsView(),
+                  AnalyticsDivider(),
+                  Visibility(
+                    visible: AppUtils.isUserCheckIn(
+                        controller.dashboardResponse.value.checkinId),
+                    child: Column(
+                      children: [
+                        WorkLogDetailsView(),
+                        WorkLogDetailsDivider(),
+                        EarningSummaryView(),
+                        EarningSummaryDivider(),
+                        ScheduleBreaksView(),
+                        LocationUpdateView(),
+                        LocationUpdateDivider()
+                      ],
                     ),
-                    HomeTabActionButtonsList(),
-                    HomeTabActionButtonsDotsList(),
-                    Divider(
-                      thickness: 3,
-                      color: dividerColor,
-                    ),
-                    JoinCompanyRequestView(),
-                    JoinCompanyRequestDivider(),
-                    UserScoreView(),
-                    UserScoreDivider(),
-                    PendingRequestsView(),
-                    PendingRequestsDivider(),
-                    PendingTasksView(),
-                    PendingTasksDivider(),
-                    PendingApprovalTasksView(),
-                    PendingApprovalTasksDivider(),
-                    AnalyticsView(),
-                    AnalyticsDivider(),
-                    Visibility(
-                      visible: AppUtils.isUserCheckIn(
-                          controller.dashboardResponse.value.checkinId),
-                      child: Column(
-                        children: [
-                          WorkLogDetailsView(),
-                          WorkLogDetailsDivider(),
-                          EarningSummaryView(),
-                          EarningSummaryDivider(),
-                          ScheduleBreaksView(),
-                          LocationUpdateView(),
-                          LocationUpdateDivider()
-                        ],
-                      ),
-                    )
-                  ]),
-                ),
+                  )
+                ]),
               ),
-            )
-          ]),
-        ),
-      );
-    }));
+            ),
+          )
+        ]),
+      ),
+    ),);
   }
 
 // @override

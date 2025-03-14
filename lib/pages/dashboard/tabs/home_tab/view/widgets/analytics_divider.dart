@@ -15,9 +15,9 @@ class AnalyticsDivider extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppUtils.isAdmin()
         ? Divider(
-            thickness: 3,
-            color: dividerColor,
-          )
+      thickness: 3,
+      color: dividerColor,
+    )
         : Container();
   }
 }

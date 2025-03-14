@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +10,7 @@ import 'package:otm_inventory/pages/dashboard/controller/dashboard_controller.da
 import 'package:otm_inventory/pages/dashboard/models/dashboard_response.dart';
 import 'package:otm_inventory/pages/dashboard/tabs/home_tab/controller/home_tab_repository.dart';
 import 'package:otm_inventory/pages/dashboard/tabs/home_tab/model/DashboardActionItemInfo.dart';
+import 'package:otm_inventory/pages/dashboard/tabs/home_tab/model/pie_chart_info.dart';
 import 'package:otm_inventory/pages/dashboard/tabs/home_tab/model/request_count_response.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
@@ -23,14 +26,15 @@ class HomeTabController extends GetxController {
   final _api = HomeTabRepository();
   RxBool isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
-      isPendingRequest = false.obs,
       isUpdateLocationVisible = false.obs,
       isUpdateLocationDividerVisible = false.obs,
-      isNextUpdateLocationTimeVisible = false.obs;
+      isNextUpdateLocationTimeVisible = false.obs,
+      isStopTimer = false.obs;
 
   RxString nextUpdateLocationTime = "".obs,
       previousUpdateLocationTime = "".obs,
-      updateLocationTime = "".obs;
+      updateLocationTime = "".obs,
+      earningSummeryAmount = "".obs;
   RxInt nextUpdateLocationId = 0.obs, previousUpdateLocationId = 0.obs;
 
   final List<List<DashboardActionItemInfo>> listHeaderButtons_ =
@@ -74,7 +78,31 @@ class HomeTabController extends GetxController {
           if (response.isSuccess!) {
             isMainViewVisible.value = true;
             dashboardResponse.value = response;
-            AppStorage().setDashboardResponse(response);
+            var user = Get.find<AppStorage>().getUserInfo();
+            if ((response.userTypeId ?? 0) != 0) {
+              Map<String, dynamic> updatedJson = {
+                "user_type_id": response.userTypeId ?? 0,
+                "is_owner": response.isOwner ?? false,
+                "shift_id": response.shiftId ?? 0,
+                "shift_name": response.shiftName ?? "",
+                "shift_type": response.shiftType ?? 0,
+                "team_id": response.teamId ?? 0,
+                "team_name": response.teamName ?? "",
+                "currency_symbol": response.currencySymbol ?? "\\u20b9",
+              };
+              user = user.copyWith(
+                  userTypeId: updatedJson['user_type_id'],
+                  isOwner: updatedJson['is_owner'],
+                  shiftId: updatedJson['shift_id'],
+                  shiftName: updatedJson['shift_name'],
+                  shiftType: updatedJson['shift_type'],
+                  teamId: updatedJson['team_id'],
+                  teamName: updatedJson['team_name'],
+                  currencySymbol: updatedJson['currency_symbol']);
+              Get.find<AppStorage>().setUserInfo(user);
+            }
+            startTimer();
+            Get.find<AppStorage>().setDashboardResponse(response);
             getRequestCountApi(false);
           } else {
             AppUtils.showSnackBarMessage(response.message!);
@@ -104,7 +132,6 @@ class HomeTabController extends GetxController {
               RequestCountResponse.fromJson(jsonDecode(responseModel.result!));
           if (response.isSuccess!) {
             pendingRequestCount.value = response.pendingCount ?? 0;
-            isPendingRequest.value = (response.pendingCount ?? 0) > 0;
           } else {
             AppUtils.showSnackBarMessage(response.message!);
           }
@@ -131,12 +158,22 @@ class HomeTabController extends GetxController {
     }
   }
 
+  startTimer() {
+    Timer.periodic(Duration(seconds: 1), (timer) {
+      if (isStopTimer.value) {
+        timer.cancel();
+      }
+      setNextUpdateLocationTime();
+      earningSummeryAmount.value = getEarningSummery();
+      print("timer running");
+    });
+  }
+
   void setNextUpdateLocationTime() {
     try {
       bool isTodayWorkStarted = false;
       final checkInDateFormat = DateFormat(DateUtil.YYYY_MM_DD_TIME_24_DASH2);
       final dateFormat = DateFormat(DateUtil.YYYY_MM_DD_DASH);
-
       if (!StringHelper.isEmptyString(
           dashboardResponse.value.checkinDateTime)) {
         DateTime checkInDate = checkInDateFormat
@@ -144,7 +181,7 @@ class HomeTabController extends GetxController {
         isTodayWorkStarted = DateUtils.isSameDay(checkInDate, DateTime.now());
       }
       if (isTodayWorkStarted &&
-          StringHelper.isEmptyList(AppStorage().getUserInfo().locations)) {
+          !StringHelper.isEmptyList(AppStorage().getUserInfo().locations)) {
         List<Locations> locations = AppStorage().getUserInfo().locations!;
         int index = -1;
         String checkInDate = dateFormat.format(
@@ -178,8 +215,6 @@ class HomeTabController extends GetxController {
                 DateTime previousTime = checkInDateFormat
                     .parse("$checkInDate ${locations[index - 1].time!}");
                 DateTime currentTime = DateTime.now();
-                DateTime extraTime = checkInDateFormat
-                    .parse("$checkInDate ${locations[index - 1].extraTime!}");
 
                 int timeDifferent =
                     currentTime.millisecond - previousTime.millisecond;
@@ -221,8 +256,6 @@ class HomeTabController extends GetxController {
                   locations[locations.length - 1].extraMin!)) {
             DateTime previousTime = checkInDateFormat
                 .parse("$checkInDate ${locations[locations.length - 1].time!}");
-            DateTime extraTime = checkInDateFormat.parse(
-                "$checkInDate ${locations[locations.length - 1].extraMin!}");
             DateTime currentTime = DateTime.now();
             int timeDifferent =
                 currentTime.millisecond - previousTime.millisecond;
@@ -245,7 +278,10 @@ class HomeTabController extends GetxController {
       } else {
         hideUpdateLocationView();
       }
-    } on Exception catch (_, ex) {}
+    } catch (e, s) {
+      print("Error: $e");
+      print("Stack Trace: $s");
+    }
   }
 
   void hideUpdateLocationView() {
@@ -254,5 +290,280 @@ class HomeTabController extends GetxController {
     isUpdateLocationDividerVisible.value = false;
     isNextUpdateLocationTimeVisible.value = false;
     updateLocationTime.value = "";
+  }
+
+  String getEarningSummery() {
+    String earningSummery = "";
+    try {
+      double totalWorkHour = 0, totalBreakHour = 0;
+      int priceWorkEarning = dashboardResponse.value.priceworkEarning ?? 0;
+      var listOuterBreakPieChart = <PieChartInfo>[];
+      if (!StringHelper.isEmptyList(dashboardResponse.value.workLogs)) {
+        for (int i = 0; i < dashboardResponse.value.workLogs!.length; i++) {
+          if (dashboardResponse.value.workLogs![i].shiftType ==
+              AppConstants.shiftType.regularShift) {
+            if (!StringHelper.isEmptyString(
+                    dashboardResponse.value.workLogs![i].start) &&
+                !StringHelper.isEmptyString(
+                    dashboardResponse.value.workLogs![i].end)) {
+              totalWorkHour = totalWorkHour +
+                  dashboardResponse.value.workLogs![i].workMinutes! * 60 * 1000;
+            } else {
+              String startTime = getStartTime(
+                  dashboardResponse.value.workLogs![i].start ?? "",
+                  dashboardResponse.value.shiftStartTime ?? "",
+                  dashboardResponse.value.shiftEndTime ?? "");
+              String endTime = getEndTime(
+                  dashboardResponse.value.workLogs![i].end ?? "",
+                  dashboardResponse.value.shiftStartTime ?? "",
+                  dashboardResponse.value.shiftEndTime ?? "");
+              if (!StringHelper.isEmptyString(startTime) &&
+                  !StringHelper.isEmptyString(endTime)) {
+                PieChartInfo pieChartInfo = getPieChartInfo(
+                    startTime, endTime, AppConstants.type.OUTER_WORK);
+                totalWorkHour = totalWorkHour + pieChartInfo.milliseconds!;
+
+                if (!StringHelper.isEmptyList(
+                    dashboardResponse.value.shiftBreaks)) {
+                  for (int j = 0;
+                      j < dashboardResponse.value.shiftBreaks!.length;
+                      j++) {
+                    if (getStartStopBreakTime(
+                            startTime,
+                            endTime,
+                            dashboardResponse.value.shiftBreaks![j].start,
+                            dashboardResponse.value.shiftBreaks![j].end) !=
+                        null)
+                      listOuterBreakPieChart.add(getStartStopBreakTime(
+                          startTime,
+                          endTime,
+                          dashboardResponse.value.shiftBreaks![j].start,
+                          dashboardResponse.value.shiftBreaks![j].end)!);
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      if (listOuterBreakPieChart.length > 0) {
+        for (int i = 0; i < listOuterBreakPieChart.length; i++) {
+          totalBreakHour =
+              totalBreakHour + listOuterBreakPieChart[i].milliseconds!;
+        }
+      }
+      double timerTimeInMillis = totalWorkHour - totalBreakHour;
+
+      NumberFormat formatter = NumberFormat("##.##");
+      String currency = AppStorage().getUserInfo().currencySymbol ?? "";
+      if (!StringHelper.isEmptyString(
+          dashboardResponse.value.hourlyRate.toString())) {
+        double timerTimeInSeconds = timerTimeInMillis / 1000;
+        if (timerTimeInSeconds < 0) timerTimeInSeconds = 0;
+        double totalRate = (timerTimeInSeconds *
+                dashboardResponse.value.hourlyRate!.toDouble()) /
+            3600;
+
+        if (AppStorage().isWeeklySummeryCounter()) {
+          earningSummery = currency +
+              formatter.format(priceWorkEarning +
+                  totalRate +
+                  double.parse(AppStorage().getWeeklySummeryAmount()));
+        } else {
+          earningSummery =
+              currency + formatter.format(priceWorkEarning + totalRate);
+        }
+      } else {
+        earningSummery = currency + formatter.format(priceWorkEarning);
+      }
+//                }
+    } catch (e, s) {
+      print("Error: $e");
+      print("Stack Trace: $s");
+    }
+    return earningSummery;
+  }
+
+  PieChartInfo getPieChartInfo(String start, String end, int type) {
+    PieChartInfo info = PieChartInfo();
+    info.type = type;
+    DateFormat simpleDateFormat = DateFormat(DateUtil.YYYY_MM_DD_TIME_24_DASH2);
+
+    try {
+      DateTime date1 = simpleDateFormat.parse(start);
+      DateTime? date2 = null;
+      if (end != null) {
+        date2 = simpleDateFormat.parse(end);
+      } else {
+        date2 = DateTime.now();
+      }
+      Duration difference = date2.difference(date1);
+      info.milliseconds = difference.inMilliseconds;
+    } catch (e, s) {
+      print("Error: $e");
+      print("Stack Trace: $s");
+    }
+    return info;
+  }
+
+  PieChartInfo? getStartStopBreakTime(String? startTime, String? endTime,
+      String? startBreakTime, String? endBreakTime) {
+    DateTime? finalStartBreak = null, finalStopBreak = null;
+    PieChartInfo? pieChartInfo = null;
+    if (!StringHelper.isEmptyString(startTime) &&
+        !StringHelper.isEmptyString(endTime) &&
+        !StringHelper.isEmptyString(startBreakTime) &&
+        !StringHelper.isEmptyString(endBreakTime)) {
+      DateFormat simpleDateFormat =
+          DateFormat(DateUtil.YYYY_MM_DD_TIME_24_DASH2);
+      DateFormat simpleDateFormat2 = new DateFormat(DateUtil.YYYY_MM_DD_DASH);
+
+      try {
+        DateTime startWork = simpleDateFormat.parse(startTime ?? "");
+        DateTime stopWork = simpleDateFormat.parse(endTime ?? "");
+
+        String checkInDate = "";
+        if (!StringHelper.isEmptyString(
+            dashboardResponse.value.checkinDateTime)) {
+          checkInDate = simpleDateFormat2.format(simpleDateFormat
+              .parse(dashboardResponse.value.checkinDateTime ?? ""));
+        } else {
+          checkInDate = simpleDateFormat2.format(DateTime.now());
+        }
+
+        DateTime startBreak =
+            simpleDateFormat.parse("$checkInDate $startBreakTime");
+        DateTime stopBreak =
+            simpleDateFormat.parse("$checkInDate $endBreakTime");
+
+        if (startWork.isBefore(startBreak) && stopWork.isAfter(startBreak)) {
+          if ((stopWork.isBefore(stopBreak) || stopWork == stopBreak)) {
+            finalStartBreak = startBreak;
+            finalStopBreak = stopWork;
+          } else if (stopWork.isAfter(stopBreak)) {
+            finalStartBreak = startBreak;
+            finalStopBreak = stopBreak;
+          }
+        } else if ((startWork.isAfter(startBreak) || startWork == startBreak) &&
+            (startWork.isBefore(stopBreak) || startWork == stopBreak)) {
+          if (stopWork.isBefore(stopBreak) || stopWork == stopBreak) {
+            finalStartBreak = startWork;
+            finalStopBreak = stopWork;
+          } else if (stopWork.isAfter(stopBreak)) {
+            finalStartBreak = startWork;
+            finalStopBreak = stopBreak;
+          }
+        }
+
+        if (finalStartBreak != null && finalStopBreak != null)
+          pieChartInfo = getPieChartInfo(
+              simpleDateFormat.format(finalStartBreak),
+              simpleDateFormat.format(finalStopBreak),
+              AppConstants.type.OUTER_BREAK);
+      } catch (e, s) {
+        print("Error: $e");
+        print("Stack Trace: $s");
+      }
+    }
+    return pieChartInfo;
+  }
+
+  String getStartTime(
+      String startTime, String workStartTime, String workEndTime) {
+    DateTime? finalStartTime = null;
+    String strFinalStartTime = "";
+    DateFormat simpleDateFormat = DateFormat(DateUtil.YYYY_MM_DD_TIME_24_DASH2);
+    DateFormat simpleDateFormat2 = DateFormat(DateUtil.YYYY_MM_DD_DASH);
+
+    // Calendar calendar = Calendar.getInstance();
+    try {
+      DateTime startTimeDate = simpleDateFormat.parse(startTime);
+      String checkInDate = "";
+      if (!StringHelper.isEmptyString(
+          dashboardResponse.value.checkinDateTime ?? "")) {
+        checkInDate = simpleDateFormat2.format(simpleDateFormat
+            .parse(dashboardResponse.value.checkinDateTime ?? ""));
+      } else {
+        checkInDate = simpleDateFormat2.format(DateTime.now());
+      }
+
+      DateTime defaultStartTime =
+          simpleDateFormat.parse(checkInDate + " " + workStartTime);
+      DateTime defaultEndTime =
+          simpleDateFormat.parse(checkInDate + " " + workEndTime);
+
+      if (startTimeDate.isBefore(defaultStartTime) ||
+          startTimeDate == defaultStartTime) {
+        finalStartTime = defaultStartTime;
+      } else if (startTimeDate.isAfter(defaultStartTime) &&
+          (startTimeDate.isBefore(defaultEndTime) ||
+              startTimeDate == defaultEndTime)) {
+        finalStartTime = startTimeDate;
+      }
+
+      if (finalStartTime != null)
+        strFinalStartTime = simpleDateFormat.format(finalStartTime);
+    } catch (e, s) {
+      print("Error: $e");
+      print("Stack Trace: $s");
+    }
+
+    return strFinalStartTime;
+  }
+
+  String getEndTime(String endTime, String workStartTime, String workEndTime) {
+    DateTime? finalEndTime = null;
+    String strFinalEndTime = "";
+    DateFormat simpleDateFormat = DateFormat(DateUtil.YYYY_MM_DD_TIME_24_DASH2);
+    DateFormat simpleDateFormat2 = DateFormat(DateUtil.YYYY_MM_DD_DASH);
+
+    try {
+      DateTime? endTimeDate = null;
+      if (!StringHelper.isEmptyString(endTime))
+        endTimeDate = simpleDateFormat.parse(endTime);
+      else
+        endTimeDate = DateTime.now();
+
+      /*  Date defaultStartTime = simpleDateFormat.parse(simpleDateFormat2.format(calendar.getTime()) + " " + workStartTime);
+            Date defaultEndTime = simpleDateFormat.parse(simpleDateFormat2.format(calendar.getTime()) + " " + workEndTime);*/
+
+      String checkInDate = "";
+      if (!StringHelper.isEmptyString(
+          dashboardResponse.value.checkinDateTime)) {
+        checkInDate = simpleDateFormat2.format(simpleDateFormat
+            .parse(dashboardResponse.value.checkinDateTime ?? ""));
+      } else {
+        checkInDate = simpleDateFormat2.format(DateTime.now());
+      }
+
+      DateTime defaultStartTime =
+          simpleDateFormat.parse("$checkInDate $workStartTime");
+      DateTime defaultEndTime =
+          simpleDateFormat.parse("$checkInDate $workEndTime");
+
+      if ((endTimeDate.isAfter(defaultStartTime) ||
+              endTimeDate == defaultStartTime) &&
+          (endTimeDate.isBefore(defaultEndTime) ||
+              endTimeDate == defaultEndTime) &&
+          DateUtils.isSameDay(
+              simpleDateFormat2.parse(checkInDate), DateTime.now())) {
+        finalEndTime = endTimeDate;
+      } else if ((endTimeDate.isAfter(defaultStartTime) ||
+                  endTimeDate == defaultStartTime) &&
+              endTimeDate.isAfter(defaultEndTime) ||
+          DateUtils.isSameDay(
+              simpleDateFormat2.parse(checkInDate), DateTime.now())) {
+        finalEndTime = defaultEndTime;
+      }
+
+      if (finalEndTime != null)
+        strFinalEndTime = simpleDateFormat.format(finalEndTime);
+    } catch (e, s) {
+      print("Error: $e");
+      print("Stack Trace: $s");
+    }
+
+    return strFinalEndTime;
   }
 }
