@@ -1,6 +1,13 @@
 class ModuleInfo {
   int? id;
-  String? name, symbol, value, code, phoneExtension, flagImage, action;
+  String? name,
+      symbol,
+      value,
+      code,
+      phoneExtension,
+      flagImage,
+      action,
+      companyLogo;
   bool? check;
 
   ModuleInfo(
@@ -12,7 +19,8 @@ class ModuleInfo {
       this.phoneExtension,
       this.flagImage,
       this.check,
-      this.action});
+      this.action,
+      this.companyLogo});
 
   ModuleInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -22,6 +30,7 @@ class ModuleInfo {
     code = json['code'];
     phoneExtension = json['phone_extension'];
     flagImage = json['flag_image'];
+    companyLogo = json['company_logo'];
   }
 
   Map<String, dynamic> toJson() {
@@ -33,6 +42,7 @@ class ModuleInfo {
     data['code'] = this.code;
     data['phone_extension'] = this.phoneExtension;
     data['flag_image'] = this.flagImage;
+    data['company_logo'] = this.companyLogo;
     return data;
   }
 }

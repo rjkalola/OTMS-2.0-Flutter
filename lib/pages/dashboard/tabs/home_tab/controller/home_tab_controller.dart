@@ -34,7 +34,8 @@ class HomeTabController extends GetxController {
   RxString nextUpdateLocationTime = "".obs,
       previousUpdateLocationTime = "".obs,
       updateLocationTime = "".obs,
-      earningSummeryAmount = "".obs;
+      earningSummeryAmount = "".obs,
+      totalWorkHours = "".obs;
   RxInt nextUpdateLocationId = 0.obs, previousUpdateLocationId = 0.obs;
 
   final List<List<DashboardActionItemInfo>> listHeaderButtons_ =
@@ -165,6 +166,7 @@ class HomeTabController extends GetxController {
       }
       setNextUpdateLocationTime();
       earningSummeryAmount.value = getEarningSummery();
+      totalWorkHours.value = getWorkingHours();
       print("timer running");
     });
   }
@@ -383,6 +385,74 @@ class HomeTabController extends GetxController {
       print("Stack Trace: $s");
     }
     return earningSummery;
+  }
+
+  String getWorkingHours() {
+    String totalWorkingHours = "";
+    if (!StringHelper.isEmptyString(dashboardResponse.value.checkinDateTime)) {
+      double totalWorkHour = 0, totalBreakHour = 0;
+
+      var listOuterBreakPieChart = <PieChartInfo>[];
+
+      if (!StringHelper.isEmptyList(dashboardResponse.value.workLogs)) {
+        for (int i = 0; i < dashboardResponse.value.workLogs!.length; i++) {
+          String startTime = getStartTime(
+              dashboardResponse.value.workLogs![i].start ?? "",
+              dashboardResponse.value.shiftStartTime ?? "",
+              dashboardResponse.value.shiftEndTime ?? "");
+          String endTime = getEndTime(
+              dashboardResponse.value.workLogs![i].end ?? "",
+              dashboardResponse.value.shiftStartTime ?? "",
+              dashboardResponse.value.shiftEndTime ?? "");
+          if (!StringHelper.isEmptyString(startTime) &&
+              !StringHelper.isEmptyString(endTime)) {
+            PieChartInfo pieChartInfo = getPieChartInfo(
+                startTime, endTime, AppConstants.type.OUTER_WORK);
+            totalWorkHour = totalWorkHour + pieChartInfo.milliseconds!;
+
+            if (!StringHelper.isEmptyList(
+                dashboardResponse.value.shiftBreaks)) {
+              for (int j = 0;
+                  j < dashboardResponse.value.shiftBreaks!.length;
+                  j++) {
+                if (getStartStopBreakTime(
+                        startTime,
+                        endTime,
+                        dashboardResponse.value.shiftBreaks![j].start,
+                        dashboardResponse.value.shiftBreaks![j].end) !=
+                    null)
+                  listOuterBreakPieChart.add(getStartStopBreakTime(
+                      startTime,
+                      endTime,
+                      dashboardResponse.value.shiftBreaks![j].start,
+                      dashboardResponse.value.shiftBreaks![j].end)!);
+              }
+            }
+          }
+        }
+      }
+
+      if (listOuterBreakPieChart.length > 0) {
+        for (int i = 0; i < listOuterBreakPieChart.length; i++) {
+          totalBreakHour =
+              totalBreakHour + listOuterBreakPieChart[i].milliseconds!;
+        }
+      }
+
+      double timerTimeInMillis = totalWorkHour - totalBreakHour;
+
+      int totalSeconds = (timerTimeInMillis / 1000).round();
+      int hours = totalSeconds ~/ 3600;
+      int minutes = (totalSeconds % 3600) ~/ 60;
+      int seconds = totalSeconds % 60;
+
+      totalWorkingHours = '${hours.toString().padLeft(2, '0')}:'
+          '${minutes.toString().padLeft(2, '0')}:'
+          '${seconds.toString().padLeft(2, '0')}';
+    } else {
+      totalWorkingHours = "00:00:00";
+    }
+    return totalWorkingHours;
   }
 
   PieChartInfo getPieChartInfo(String start, String end, int type) {

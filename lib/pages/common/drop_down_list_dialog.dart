@@ -87,7 +87,7 @@ class DropDownListDialogState extends State<DropDownListDialog> {
                               alignment: Alignment.centerRight,
                               child: IconButton(
                                 onPressed: () {
-                                  Navigator.pop(context);
+                                  Get.back();
                                 },
                                 icon: const Icon(Icons.close, size: 20),
                               )),
@@ -139,9 +139,9 @@ class DropDownListDialogState extends State<DropDownListDialog> {
           itemBuilder: (context, i) {
             return ListTile(
               onTap: () {
+                Get.back();
                 listener.onSelectItem(
                     i, tempList[i].id ?? 0, tempList[i].name ?? "", dialogType);
-                Navigator.pop(context);
               },
               dense: true,
               contentPadding:

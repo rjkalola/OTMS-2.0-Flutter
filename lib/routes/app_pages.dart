@@ -6,6 +6,8 @@ import 'package:otm_inventory/pages/authentication/signup1/view/signup1_screen.d
 import 'package:otm_inventory/pages/authentication/signup2/view/signup2_screen.dart';
 import 'package:otm_inventory/pages/authentication/splash/splash_screen.dart';
 import 'package:otm_inventory/pages/dashboard/view/dashboard_screen.dart';
+import 'package:otm_inventory/pages/managecompany/joincompany/view/join_comapny_screen.dart';
+import 'package:otm_inventory/pages/managecompany/selectcompanytrade/view/select_company_trade_screen.dart';
 import '../pages/stock_filter/view/stock_filter_screen.dart';
 import 'app_routes.dart';
 
@@ -42,6 +44,14 @@ class AppPages {
     GetPage(
       name: AppRoutes.stockFilterScreen,
       page: () => StockFilterScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.joinCompanyScreen,
+      page: () => JoinCompanyScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.selectCompanyTradeScreen,
+      page: () => SelectCompanyTradeScreen(),
     ),
   ];
 }

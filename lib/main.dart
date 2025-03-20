@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/pages/authentication/splash/splash_screen.dart';
+import 'package:otm_inventory/pages/managecompany/joincompany/view/join_comapny_screen.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/res/strings.dart';
 import 'package:otm_inventory/routes/app_pages.dart';
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: defaultAccentColor),
           useMaterial3: true,
           dialogBackgroundColor: Colors.white),
-      home: const SplashScreen(),
+      home: const JoinCompanyScreen(),
     );
   }
 }

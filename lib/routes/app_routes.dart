@@ -6,6 +6,8 @@ class AppRoutes {
   static const String signUp2Screen = '/signup2_screen';
   static const String verifyOtpScreen = '/verify_otp_screen';
   static const String dashboardScreen = '/dashboard_screen';
+  static const String joinCompanyScreen = '/join_company_screen';
+  static const String selectCompanyTradeScreen = '/select_company_trade_screen';
 
   static const String productListScreen = '/product_list_screen';
   static const String addProductScreen = '/add_product_screen';
@@ -29,4 +31,5 @@ class AppRoutes {
   static const String purchaseOrderDetailsScreen =
       '/purchase_order_details_screen';
   static const String barcodeListScreen = '/barcode_list_screen';
+
 }

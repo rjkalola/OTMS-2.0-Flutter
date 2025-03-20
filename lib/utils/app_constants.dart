@@ -24,6 +24,7 @@ class IntentKey {
   final String phoneExtension = 'PHONE_EXTENSION';
   final String phoneNumber = 'PHONE_NUMBER';
   final String userInfo = 'USER_INFO';
+  final String companyData = 'COMPANY_DATA';
   final String dashboardTabIndex = 'DASHBOARD_TAB_INDEX';
   final String stockCountType = 'STOCK_COUNT_TYPE';
   final String allStockType = 'ALL_STOCK_TYPE';
@@ -36,6 +37,9 @@ class DialogIdentifier {
   const DialogIdentifier(); // <---
   final String logout = 'logout';
   final String storeList = 'STORE_LIST';
+  final String selectCompany = 'SELECT_COMPANY';
+  final String joinCompany = 'JOIN_COMPANY';
+  final String selectTrade = 'SELECT_TRADE';
 }
 
 class SharedPreferenceKey {

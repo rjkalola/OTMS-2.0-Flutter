@@ -36,17 +36,24 @@ class ImageUtils {
           );
   }
 
-  static Widget setNetworkImage(String url, double size) {
+  static Widget setNetworkImage(String url, double width, double height,BoxFit? fit) {
     return !StringHelper.isEmptyString(url)
         ? Image.network(
             url,
-            fit: BoxFit.cover,
-            width: size,
-            height: size,
-            errorBuilder: (context, url, error) =>
-                Icon(Icons.photo_outlined, size: size),
+            fit: fit??BoxFit.cover,
+            width: width,
+            height: height,
+            errorBuilder: (context, url, error) => Icon(
+              Icons.photo_outlined,
+              size: getEmptyIconSize(width, height),
+              weight: 300,
+            ),
           )
-        : Icon(Icons.photo_outlined, size: size);
+        : Icon(
+            Icons.photo_outlined,
+            size: getEmptyIconSize(width, height),
+            weight: 300,
+          );
   }
 
   static Widget setCircularNetworkImage(
