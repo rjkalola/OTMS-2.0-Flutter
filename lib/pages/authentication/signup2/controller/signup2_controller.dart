@@ -112,8 +112,8 @@ class SignUp2Controller extends GetxController
               Get.find<AppStorage>().setAccessToken(response.info!.apiToken!);
               ApiConstants.accessToken = response.info!.apiToken!;
               print("Token:" + ApiConstants.accessToken);
-              Get.offAllNamed(AppRoutes.dashboardScreen);
               AppUtils.saveLoginUser(response.info!);
+              Get.offAllNamed(AppRoutes.joinCompanyScreen);
             } else {
               showSnackBar(response.message!);
             }

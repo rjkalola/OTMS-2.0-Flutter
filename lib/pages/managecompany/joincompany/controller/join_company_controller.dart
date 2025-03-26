@@ -14,9 +14,11 @@ import 'package:otm_inventory/pages/common/phone_extension_list_dialog.dart';
 import 'package:otm_inventory/pages/managecompany/joincompany/controller/join_company_repository.dart';
 import 'package:otm_inventory/pages/managecompany/joincompany/model/get_companies_response.dart';
 import 'package:otm_inventory/pages/managecompany/joincompany/model/join_company_code_response.dart';
+import 'package:otm_inventory/pages/managecompany/joincompany/model/join_company_response.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/AlertDialogHelper.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
+import 'package:otm_inventory/utils/app_storage.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:otm_inventory/web_services/api_constants.dart';
@@ -33,6 +35,7 @@ class JoinCompanyController extends GetxController
   RxBool isLoading = false.obs, isInternetNotAvailable = false.obs;
   final List<ModuleInfo> listCompanies = <ModuleInfo>[].obs;
   final companyId = 0.obs;
+  final requestedCode = "".obs;
 
   @override
   void onInit() {
@@ -40,28 +43,23 @@ class JoinCompanyController extends GetxController
     getCompaniesApi();
   }
 
-  void onSubmitClick() {
-    // if (valid()) {
-    // var userInfo = UserInfo();
-    // userInfo.firstName = StringHelper.getText(firstNameController.value);
-    // userInfo.lastName = StringHelper.getText(lastNameController.value);
-    // userInfo.phone = StringHelper.getText(phoneController.value);
-    // userInfo.phoneExtension = mExtension.value;
-    // userInfo.phoneExtensionId = mExtensionId.value;
-    // var arguments = {
-    //   AppConstants.intentKey.userInfo: userInfo,
-    // };
-    // Get.toNamed(AppRoutes.signUp2Screen, arguments: arguments);
-    // }
-  }
-
   onClickSearch() {
+    requestedCode.value = "";
     if (!StringHelper.isEmptyString(
         addCompanyCodeController.value.text.toString().trim())) {
       joinCompanyCode(
           "0", addCompanyCodeController.value.text.toString().trim());
     } else {
       showSnackBar('please_enter_company_code'.tr);
+    }
+  }
+
+  Future<void> openQrCodeScanner() async {
+    requestedCode.value = await Get.toNamed(AppRoutes.qrCodeScannerScreen);
+    if (!StringHelper.isEmptyString(requestedCode.value)) {
+      scanInviteCode(requestedCode.value);
+    } else {
+      AppUtils.showToastMessage('error_invalid_qr_code_via_id_card_scan'.tr);
     }
   }
 
@@ -82,10 +80,13 @@ class JoinCompanyController extends GetxController
             if (!StringHelper.isEmptyList(response.trades)) {
               var arguments = {
                 AppConstants.intentKey.companyData: response,
+                AppConstants.intentKey.companyCode: requestedCode.value,
+                AppConstants.intentKey.fromSignUpScreen: true,
               };
-              Get.toNamed(AppRoutes.selectCompanyTradeScreen, arguments: arguments);
+              Get.toNamed(AppRoutes.selectCompanyTradeScreen,
+                  arguments: arguments);
             } else {
-
+              joinCompanyRequest(0, response.companyId ?? 0);
             }
           } else {
             showSnackBar(response.message!);
@@ -133,19 +134,30 @@ class JoinCompanyController extends GetxController
     );
   }
 
-  void scanInviteCodeCode(String code) async {
+  void scanInviteCode(String code) async {
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["code"] = code ?? "";
     multi.FormData formData = multi.FormData.fromMap(map);
     // isLoading.value = true;
-    _api.joinCompanyCode(
+    _api.scanInviteCode(
       formData: formData,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.statusCode == 200) {
           JoinCompanyCodeResponse response = JoinCompanyCodeResponse.fromJson(
               jsonDecode(responseModel.result!));
           if (response.isSuccess!) {
+            if (!StringHelper.isEmptyList(response.trades)) {
+              var arguments = {
+                AppConstants.intentKey.companyData: response,
+                AppConstants.intentKey.companyCode: requestedCode.value,
+                AppConstants.intentKey.fromSignUpScreen: true,
+              };
+              Get.toNamed(AppRoutes.selectCompanyTradeScreen,
+                  arguments: arguments);
+            } else {
+              joinCompanyRequest(0, response.companyId ?? 0);
+            }
           } else {
             showSnackBar(response.message!);
           }
@@ -165,7 +177,68 @@ class JoinCompanyController extends GetxController
     );
   }
 
+  void joinCompanyApi(String code, int tradeId, int companyId) async {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["trade_id"] = tradeId ?? "";
+    map["code"] = code ?? "";
+    map["company_id"] = companyId ?? "";
+    multi.FormData formData = multi.FormData.fromMap(map);
+    // isLoading.value = true;
+    _api.joinCompany(
+      formData: formData,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.statusCode == 200) {
+          JoinCompanyResponse response =
+              JoinCompanyResponse.fromJson(jsonDecode(responseModel.result!));
+          if (response.isSuccess!) {
+            if (response.Data != null) {
+              UserInfo? user = AppStorage().getUserInfo();
+              if (user != null &&
+                  !StringHelper.isEmptyString(
+                      response.Data?.companyName ?? "")) {
+                AppUtils.showToastMessage(
+                    "Now, you are a member of ${response.Data?.companyName ?? ""}");
+              }
+            }
+            moveToDashboard();
+          } else {
+            showSnackBar(response.message!);
+          }
+        } else {
+          showSnackBar(responseModel.statusMessage!);
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          showSnackBar('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          showSnackBar(error.statusMessage!);
+        }
+      },
+    );
+  }
+
+  void joinCompanyRequest(int tradeId, int companyId) {
+    if (!StringHelper.isEmptyString(requestedCode.value)) {
+      joinCompanyApi(requestedCode.value, tradeId, 0);
+    } else {
+      joinCompanyApi("", tradeId, companyId);
+    }
+  }
+
+  void moveToDashboard() {
+    Get.offAllNamed(AppRoutes.dashboardScreen);
+  }
+
+  void moveToCompanySignUp() {
+    Get.offAllNamed(AppRoutes.companySignUpScreen);
+  }
+
   void showCompanyListList() {
+    requestedCode.value = "";
     if (listCompanies.isNotEmpty) {
       showDropDownDialog(AppConstants.dialogIdentifier.selectCompany,
           'select_company'.tr, listCompanies, this);

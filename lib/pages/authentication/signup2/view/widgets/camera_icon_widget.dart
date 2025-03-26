@@ -25,7 +25,7 @@ class CameraIconWidget extends StatelessWidget {
             ? ImageUtils.setCircularFileImage(
                 controller.imagePath.value, 150, 150, BoxFit.cover)
             : ImageUtils.setAssetsImage(
-                Drawable.cameraPlaceHolder, 150, 150, BoxFit.cover),
+                Drawable.cameraPlaceHolder, 150, 150, BoxFit.cover, null),
       ),
     );
   }

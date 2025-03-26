@@ -36,11 +36,12 @@ class ImageUtils {
           );
   }
 
-  static Widget setNetworkImage(String url, double width, double height,BoxFit? fit) {
+  static Widget setNetworkImage(
+      String url, double width, double height, BoxFit? fit) {
     return !StringHelper.isEmptyString(url)
         ? Image.network(
             url,
-            fit: fit??BoxFit.cover,
+            fit: fit ?? BoxFit.cover,
             width: width,
             height: height,
             errorBuilder: (context, url, error) => Icon(
@@ -48,6 +49,22 @@ class ImageUtils {
               size: getEmptyIconSize(width, height),
               weight: 300,
             ),
+          )
+        : Icon(
+            Icons.photo_outlined,
+            size: getEmptyIconSize(width, height),
+            weight: 300,
+          );
+  }
+
+  static Widget setFileImage(
+      String url, double width, double height, BoxFit? fit) {
+    return !StringHelper.isEmptyString(url)
+        ? Image.file(
+            File(url ?? ""),
+            width: width,
+            height: height,
+            fit: fit,
           )
         : Icon(
             Icons.photo_outlined,
@@ -73,7 +90,7 @@ class ImageUtils {
               height: height,
             ),
           )
-        : Icon(Icons.person_outline, size: getEmptyIconSize(width, height));
+        : Icon(Icons.photo_outlined, size: getEmptyIconSize(width, height));
   }
 
   static Widget setCircularFileImage(
@@ -93,17 +110,19 @@ class ImageUtils {
               fit: fit,
             ),
           )
-        : Icon(Icons.person_outline, size: getEmptyIconSize(width, height));
+        : Icon(Icons.photo_outlined, size: getEmptyIconSize(width, height));
   }
 
   static Widget setAssetsImage(
-      String path, double width, double height, BoxFit fit) {
+      String path, double width, double height, BoxFit fit, Color? color) {
     return !StringHelper.isEmptyString(path)
         ? SvgPicture.asset(
             path,
             fit: fit,
             width: width,
             height: height,
+            colorFilter:
+                color != null ? ColorFilter.mode(color, BlendMode.srcIn) : null,
           )
         : Icon(Icons.photo_outlined, size: getEmptyIconSize(width, height));
   }

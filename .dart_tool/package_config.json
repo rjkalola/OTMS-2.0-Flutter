@@ -302,6 +302,66 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "geocoding",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/geocoding-3.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "geocoding_android",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/geocoding_android-3.3.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "geocoding_ios",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/geocoding_ios-3.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "geocoding_platform_interface",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/geocoding_platform_interface-3.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "geolocator",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/geolocator-13.0.3",
+      "packageUri": "lib/",
+      "languageVersion": "3.5"
+    },
+    {
+      "name": "geolocator_android",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/geolocator_android-4.6.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.5"
+    },
+    {
+      "name": "geolocator_apple",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/geolocator_apple-2.3.13",
+      "packageUri": "lib/",
+      "languageVersion": "3.5"
+    },
+    {
+      "name": "geolocator_platform_interface",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/geolocator_platform_interface-4.2.6",
+      "packageUri": "lib/",
+      "languageVersion": "3.5"
+    },
+    {
+      "name": "geolocator_web",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/geolocator_web-4.1.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.5"
+    },
+    {
+      "name": "geolocator_windows",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/geolocator_windows-0.2.4",
+      "packageUri": "lib/",
+      "languageVersion": "3.5"
+    },
+    {
       "name": "get",
       "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/get-4.6.6",
       "packageUri": "lib/",
@@ -878,7 +938,7 @@
       "languageVersion": "3.2"
     }
   ],
-  "generated": "2025-03-07T05:29:10.933937Z",
+  "generated": "2025-03-22T12:14:28.234064Z",
   "generator": "pub",
   "generatorVersion": "3.6.2",
   "flutterRoot": "file:///Users/apple/Documents/flutterDev/flutter",

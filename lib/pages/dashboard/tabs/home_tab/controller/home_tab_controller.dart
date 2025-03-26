@@ -90,6 +90,9 @@ class HomeTabController extends GetxController {
                 "team_id": response.teamId ?? 0,
                 "team_name": response.teamName ?? "",
                 "currency_symbol": response.currencySymbol ?? "\\u20b9",
+                "company_id": response.companyId ?? 0,
+                "company_name": response.companyName ?? "",
+                "company_image": response.companyImage ?? "",
               };
               user = user.copyWith(
                   userTypeId: updatedJson['user_type_id'],
@@ -99,12 +102,22 @@ class HomeTabController extends GetxController {
                   shiftType: updatedJson['shift_type'],
                   teamId: updatedJson['team_id'],
                   teamName: updatedJson['team_name'],
-                  currencySymbol: updatedJson['currency_symbol']);
+                  currencySymbol: updatedJson['currency_symbol'],
+                  companyId: updatedJson['company_id'],
+                  companyName: updatedJson['company_name'],
+                  companyImage: updatedJson['company_image']);
               Get.find<AppStorage>().setUserInfo(user);
             }
-            startTimer();
             Get.find<AppStorage>().setDashboardResponse(response);
-            getRequestCountApi(false);
+            if (!StringHelper.isEmptyString(response.checkinDateTime)) {
+              isStopTimer.value = false;
+              startTimer();
+            } else {
+              isStopTimer.value = true;
+            }
+            if ((response.companyId ?? 0) > 0) {
+              getRequestCountApi(false);
+            }
           } else {
             AppUtils.showSnackBarMessage(response.message!);
           }
@@ -296,93 +309,97 @@ class HomeTabController extends GetxController {
 
   String getEarningSummery() {
     String earningSummery = "";
-    try {
-      double totalWorkHour = 0, totalBreakHour = 0;
-      int priceWorkEarning = dashboardResponse.value.priceworkEarning ?? 0;
-      var listOuterBreakPieChart = <PieChartInfo>[];
-      if (!StringHelper.isEmptyList(dashboardResponse.value.workLogs)) {
-        for (int i = 0; i < dashboardResponse.value.workLogs!.length; i++) {
-          if (dashboardResponse.value.workLogs![i].shiftType ==
-              AppConstants.shiftType.regularShift) {
-            if (!StringHelper.isEmptyString(
-                    dashboardResponse.value.workLogs![i].start) &&
-                !StringHelper.isEmptyString(
-                    dashboardResponse.value.workLogs![i].end)) {
-              totalWorkHour = totalWorkHour +
-                  dashboardResponse.value.workLogs![i].workMinutes! * 60 * 1000;
-            } else {
-              String startTime = getStartTime(
-                  dashboardResponse.value.workLogs![i].start ?? "",
-                  dashboardResponse.value.shiftStartTime ?? "",
-                  dashboardResponse.value.shiftEndTime ?? "");
-              String endTime = getEndTime(
-                  dashboardResponse.value.workLogs![i].end ?? "",
-                  dashboardResponse.value.shiftStartTime ?? "",
-                  dashboardResponse.value.shiftEndTime ?? "");
-              if (!StringHelper.isEmptyString(startTime) &&
-                  !StringHelper.isEmptyString(endTime)) {
-                PieChartInfo pieChartInfo = getPieChartInfo(
-                    startTime, endTime, AppConstants.type.OUTER_WORK);
-                totalWorkHour = totalWorkHour + pieChartInfo.milliseconds!;
+    if (!StringHelper.isEmptyString(dashboardResponse.value.checkinDateTime)) {
+      try {
+        double totalWorkHour = 0, totalBreakHour = 0;
+        int priceWorkEarning = dashboardResponse.value.priceworkEarning ?? 0;
+        var listOuterBreakPieChart = <PieChartInfo>[];
+        if (!StringHelper.isEmptyList(dashboardResponse.value.workLogs)) {
+          for (int i = 0; i < dashboardResponse.value.workLogs!.length; i++) {
+            if (dashboardResponse.value.workLogs![i].shiftType ==
+                AppConstants.shiftType.regularShift) {
+              if (!StringHelper.isEmptyString(
+                      dashboardResponse.value.workLogs![i].start) &&
+                  !StringHelper.isEmptyString(
+                      dashboardResponse.value.workLogs![i].end)) {
+                totalWorkHour = totalWorkHour +
+                    dashboardResponse.value.workLogs![i].workMinutes! *
+                        60 *
+                        1000;
+              } else {
+                String startTime = getStartTime(
+                    dashboardResponse.value.workLogs![i].start ?? "",
+                    dashboardResponse.value.shiftStartTime ?? "",
+                    dashboardResponse.value.shiftEndTime ?? "");
+                String endTime = getEndTime(
+                    dashboardResponse.value.workLogs![i].end ?? "",
+                    dashboardResponse.value.shiftStartTime ?? "",
+                    dashboardResponse.value.shiftEndTime ?? "");
+                if (!StringHelper.isEmptyString(startTime) &&
+                    !StringHelper.isEmptyString(endTime)) {
+                  PieChartInfo pieChartInfo = getPieChartInfo(
+                      startTime, endTime, AppConstants.type.OUTER_WORK);
+                  totalWorkHour = totalWorkHour + pieChartInfo.milliseconds!;
 
-                if (!StringHelper.isEmptyList(
-                    dashboardResponse.value.shiftBreaks)) {
-                  for (int j = 0;
-                      j < dashboardResponse.value.shiftBreaks!.length;
-                      j++) {
-                    if (getStartStopBreakTime(
+                  if (!StringHelper.isEmptyList(
+                      dashboardResponse.value.shiftBreaks)) {
+                    for (int j = 0;
+                        j < dashboardResponse.value.shiftBreaks!.length;
+                        j++) {
+                      if (getStartStopBreakTime(
+                              startTime,
+                              endTime,
+                              dashboardResponse.value.shiftBreaks![j].start,
+                              dashboardResponse.value.shiftBreaks![j].end) !=
+                          null)
+                        listOuterBreakPieChart.add(getStartStopBreakTime(
                             startTime,
                             endTime,
                             dashboardResponse.value.shiftBreaks![j].start,
-                            dashboardResponse.value.shiftBreaks![j].end) !=
-                        null)
-                      listOuterBreakPieChart.add(getStartStopBreakTime(
-                          startTime,
-                          endTime,
-                          dashboardResponse.value.shiftBreaks![j].start,
-                          dashboardResponse.value.shiftBreaks![j].end)!);
+                            dashboardResponse.value.shiftBreaks![j].end)!);
+                    }
                   }
                 }
               }
             }
           }
         }
-      }
 
-      if (listOuterBreakPieChart.length > 0) {
-        for (int i = 0; i < listOuterBreakPieChart.length; i++) {
-          totalBreakHour =
-              totalBreakHour + listOuterBreakPieChart[i].milliseconds!;
+        if (listOuterBreakPieChart.length > 0) {
+          for (int i = 0; i < listOuterBreakPieChart.length; i++) {
+            totalBreakHour =
+                totalBreakHour + listOuterBreakPieChart[i].milliseconds!;
+          }
         }
-      }
-      double timerTimeInMillis = totalWorkHour - totalBreakHour;
+        double timerTimeInMillis = totalWorkHour - totalBreakHour;
 
-      NumberFormat formatter = NumberFormat("##.##");
-      String currency = AppStorage().getUserInfo().currencySymbol ?? "";
-      if (!StringHelper.isEmptyString(
-          dashboardResponse.value.hourlyRate.toString())) {
-        double timerTimeInSeconds = timerTimeInMillis / 1000;
-        if (timerTimeInSeconds < 0) timerTimeInSeconds = 0;
-        double totalRate = (timerTimeInSeconds *
-                dashboardResponse.value.hourlyRate!.toDouble()) /
-            3600;
+        NumberFormat formatter = NumberFormat("##.##");
+        String currency = AppStorage().getUserInfo().currencySymbol ?? "";
+        if (!StringHelper.isEmptyString(
+            dashboardResponse.value.hourlyRate.toString())) {
+          double timerTimeInSeconds = timerTimeInMillis / 1000;
+          if (timerTimeInSeconds < 0) timerTimeInSeconds = 0;
+          double totalRate = (timerTimeInSeconds *
+                  dashboardResponse.value.hourlyRate!.toDouble()) /
+              3600;
 
-        if (AppStorage().isWeeklySummeryCounter()) {
-          earningSummery = currency +
-              formatter.format(priceWorkEarning +
-                  totalRate +
-                  double.parse(AppStorage().getWeeklySummeryAmount()));
+          if (AppStorage().isWeeklySummeryCounter()) {
+            earningSummery = currency +
+                formatter.format(priceWorkEarning +
+                    totalRate +
+                    double.parse(AppStorage().getWeeklySummeryAmount()));
+          } else {
+            earningSummery =
+                currency + formatter.format(priceWorkEarning + totalRate);
+          }
         } else {
-          earningSummery =
-              currency + formatter.format(priceWorkEarning + totalRate);
+          earningSummery = currency + formatter.format(priceWorkEarning);
         }
-      } else {
-        earningSummery = currency + formatter.format(priceWorkEarning);
-      }
 //                }
-    } catch (e, s) {
-      print("Error: $e");
-      print("Stack Trace: $s");
+      } catch (e, s) {
+        print("Error: $e");
+        print("Stack Trace: $s");
+      }
     }
     return earningSummery;
   }

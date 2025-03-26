@@ -40,5 +40,8 @@ class Drawable {
       'assets/images/ic_earning_summary.svg';
   static const String breakInIcon = 'assets/images/ic_break.svg';
   static const String mapIcon = 'assets/images/ic_map.svg';
+  static const String scanQrCodeIcon = 'assets/images/ic_scan_qr_code.svg';
+  static const String myLocationIcon = 'assets/images/ic_my_location.svg';
+
 
 }

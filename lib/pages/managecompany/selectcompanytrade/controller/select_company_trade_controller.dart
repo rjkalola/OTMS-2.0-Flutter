@@ -14,10 +14,12 @@ import 'package:otm_inventory/pages/common/phone_extension_list_dialog.dart';
 import 'package:otm_inventory/pages/managecompany/joincompany/controller/join_company_repository.dart';
 import 'package:otm_inventory/pages/managecompany/joincompany/model/get_companies_response.dart';
 import 'package:otm_inventory/pages/managecompany/joincompany/model/join_company_code_response.dart';
+import 'package:otm_inventory/pages/managecompany/joincompany/model/join_company_response.dart';
 import 'package:otm_inventory/pages/managecompany/selectcompanytrade/controller/select_company_trade_repository.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/AlertDialogHelper.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
+import 'package:otm_inventory/utils/app_storage.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:otm_inventory/web_services/api_constants.dart';
@@ -34,6 +36,8 @@ class SelectCompanyTradeController extends GetxController
   final List<ModuleInfo> listTrades = <ModuleInfo>[].obs;
   final companyDetails = JoinCompanyCodeResponse().obs;
   final tradeId = 0.obs;
+  final requestedCode = "".obs;
+  final fromSignUp = false.obs;
 
   @override
   void onInit() {
@@ -41,6 +45,9 @@ class SelectCompanyTradeController extends GetxController
     var arguments = Get.arguments;
     if (arguments != null) {
       companyDetails.value = arguments[AppConstants.intentKey.companyData];
+      requestedCode.value = arguments[AppConstants.intentKey.companyCode] ?? "";
+      fromSignUp.value =
+          arguments[AppConstants.intentKey.fromSignUpScreen] ?? "";
       listTrades.addAll(companyDetails.value.trades!);
     }
   }
@@ -48,16 +55,18 @@ class SelectCompanyTradeController extends GetxController
   onClickJoinCompany() {
     if (!StringHelper.isEmptyString(
         selectTradeController.value.text.toString().trim())) {
-      joinCompany(tradeId.value.toString(), "",
-          (companyDetails.value.companyId ?? 0).toString());
-      // joinCompanyCode(
-      //     "0", addCompanyCodeController.value.text.toString().trim());
+      if (fromSignUp.value) {
+        joinCompany("", tradeId.value.toString(),
+            (companyDetails.value.companyId ?? 0).toString());
+      } else {
+        joinCompany(requestedCode.value, tradeId.value.toString(), "0");
+      }
     } else {
       AppUtils.showToastMessage('please_select_trade'.tr);
     }
   }
 
-  void joinCompany(String tradeId, String code, String companyId) async {
+  void joinCompany(String code, String tradeId, String companyId) async {
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["trade_id"] = tradeId ?? "";
@@ -70,10 +79,19 @@ class SelectCompanyTradeController extends GetxController
       formData: formData,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.statusCode == 200) {
-          JoinCompanyCodeResponse response = JoinCompanyCodeResponse.fromJson(
-              jsonDecode(responseModel.result!));
+          JoinCompanyResponse response =
+              JoinCompanyResponse.fromJson(jsonDecode(responseModel.result!));
           if (response.isSuccess!) {
-
+            if (response.Data != null) {
+              UserInfo? user = AppStorage().getUserInfo();
+              if (user != null &&
+                  !StringHelper.isEmptyString(
+                      response.Data?.companyName ?? "")) {
+                AppUtils.showToastMessage(
+                    "Now, you are a member of ${response.Data?.companyName ?? ""}");
+              }
+            }
+            moveToDashboard();
           } else {
             showSnackBar(response.message!);
           }
@@ -91,6 +109,10 @@ class SelectCompanyTradeController extends GetxController
         }
       },
     );
+  }
+
+  void moveToDashboard() {
+    Get.offAllNamed(AppRoutes.dashboardScreen);
   }
 
   void showTradeList() {

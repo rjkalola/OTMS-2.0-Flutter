@@ -6,8 +6,10 @@ import 'package:otm_inventory/pages/authentication/signup1/view/signup1_screen.d
 import 'package:otm_inventory/pages/authentication/signup2/view/signup2_screen.dart';
 import 'package:otm_inventory/pages/authentication/splash/splash_screen.dart';
 import 'package:otm_inventory/pages/dashboard/view/dashboard_screen.dart';
+import 'package:otm_inventory/pages/managecompany/company_signup/view/company_signup_screen.dart';
 import 'package:otm_inventory/pages/managecompany/joincompany/view/join_comapny_screen.dart';
 import 'package:otm_inventory/pages/managecompany/selectcompanytrade/view/select_company_trade_screen.dart';
+import 'package:otm_inventory/pages/qr_code_scanner/view/qr_code_scanner.dart';
 import '../pages/stock_filter/view/stock_filter_screen.dart';
 import 'app_routes.dart';
 
@@ -52,6 +54,14 @@ class AppPages {
     GetPage(
       name: AppRoutes.selectCompanyTradeScreen,
       page: () => SelectCompanyTradeScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.qrCodeScannerScreen,
+      page: () => QrCodeScanner(),
+    ),
+    GetPage(
+      name: AppRoutes.companySignUpScreen,
+      page: () => CompanySignUpScreen(),
     ),
   ];
 }

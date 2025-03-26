@@ -32,6 +32,13 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/image_picker_ios-0.8.12+2" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/image_picker_for_web-3.0.6" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/qr_code_scanner_plus-2.0.9+1" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/geolocator_android-4.6.2" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/geocoding_android-3.3.1" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/geocoding-3.0.0" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/geolocator_web-4.1.2" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/geocoding_ios-3.0.1" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/geolocator_apple-2.3.13" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/geolocator-13.0.3" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

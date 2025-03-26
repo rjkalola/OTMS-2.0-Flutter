@@ -1,0 +1,28 @@
+<svg id="vector" xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+    <path fill="#000000FF" d="m30,30h90v-30h-120v120h30zM30,30" id="path_0" />
+    <path fill="#000000FF" d="m392,0v30h90v90h30v-120zM392,0" id="path_1" />
+    <path fill="#000000FF" d="m482,482h-90v30h120v-120h-30zM482,482" id="path_2" />
+    <path fill="#000000FF" d="m30,392h-30v120h120v-30h-90zM30,392" id="path_3" />
+    <path fill="#000000FF" d="m61,60v150h150v-90h30v-30h-30v-30zM181,180h-90v-90h90zM181,180"
+        id="path_4" />
+    <path fill="#000000FF"
+        d="m451,450v-150h-60v-30h-30v30h-90v30h30v30h-30v30h30v60zM331,330h90v90h-90zM331,330"
+        id="path_5" />
+    <path fill="#000000FF"
+        d="m151,270h60v-30h-150v30h60v30h-30v30h30v60h-30v30h30v30h150v-30h-30v-30h-30v30h-60v-30h30v-30h-30zM151,270"
+        id="path_6" />
+    <path fill="#000000FF" d="m121,120h30v30h-30zM121,120" id="path_7" />
+    <path fill="#000000FF" d="m361,120h30v30h-30zM361,120" id="path_8" />
+    <path fill="#000000FF" d="m391,210h60v-150h-150v150h60v30h30zM331,180v-90h90v90zM331,180"
+        id="path_9" />
+    <path fill="#000000FF" d="m451,270v-30c-7.258,0 -52.691,0 -60,0v30zM451,270" id="path_10" />
+    <path fill="#000000FF" d="m361,360h30v30h-30zM361,360" id="path_11" />
+    <path fill="#000000FF" d="m241,330h30v30h-30zM241,330" id="path_12" />
+    <path fill="#000000FF" d="m181,360h30c0,-7.258 0,-52.691 0,-60h-30zM181,360" id="path_13" />
+    <path fill="#000000FF" d="m211,270h30v30h-30zM211,270" id="path_14" />
+    <path fill="#000000FF" d="m91,330h-30v60h30c0,-7.258 0,-52.691 0,-60zM91,330" id="path_15" />
+    <path fill="#000000FF" d="m61,420h30v30h-30zM61,420" id="path_16" />
+    <path fill="#000000FF" d="m241,60h30v30h-30zM241,60" id="path_17" />
+    <path fill="#000000FF" d="m241,180h30c0,-7.258 0,-52.691 0,-60h-30zM241,180" id="path_18" />
+    <path fill="#000000FF" d="m271,240v-30h-30v60h120v-30zM271,240" id="path_19" />
+</svg>
