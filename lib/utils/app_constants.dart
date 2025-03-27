@@ -43,6 +43,8 @@ class DialogIdentifier {
   final String joinCompany = 'JOIN_COMPANY';
   final String selectTrade = 'SELECT_TRADE';
   final String selectCurrency = 'SELECT_CURRENCY';
+  final String selectProject = 'SELECT_PROJECT';
+  final String selectShift = 'SELECT_SHIFT';
 }
 
 class SharedPreferenceKey {

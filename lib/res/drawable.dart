@@ -42,6 +42,11 @@ class Drawable {
   static const String mapIcon = 'assets/images/ic_map.svg';
   static const String scanQrCodeIcon = 'assets/images/ic_scan_qr_code.svg';
   static const String myLocationIcon = 'assets/images/ic_my_location.svg';
-
-
+  static const String myRequestClockInScreenIcon =
+      'assets/images/ic_my_request_clock_in_screen.svg';
+  static const String timesheetClockInScreenIcon =
+      'assets/images/ic_timesheet_clock_in_screen.svg';
+  static const String teamClockInScreenIcon =
+      'assets/images/ic_team_clock_in_screen.svg';
+  static const String pinMapGoogleIcon = 'assets/images/ic_pin_map_google.svg';
 }

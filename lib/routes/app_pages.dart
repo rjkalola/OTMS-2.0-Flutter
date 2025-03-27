@@ -5,6 +5,7 @@ import 'package:otm_inventory/pages/authentication/otp_verification/view/verify_
 import 'package:otm_inventory/pages/authentication/signup1/view/signup1_screen.dart';
 import 'package:otm_inventory/pages/authentication/signup2/view/signup2_screen.dart';
 import 'package:otm_inventory/pages/authentication/splash/splash_screen.dart';
+import 'package:otm_inventory/pages/check_in/clock_in/view/clock_in_screen.dart';
 import 'package:otm_inventory/pages/dashboard/view/dashboard_screen.dart';
 import 'package:otm_inventory/pages/managecompany/company_signup/view/company_signup_screen.dart';
 import 'package:otm_inventory/pages/managecompany/joincompany/view/join_comapny_screen.dart';
@@ -62,6 +63,10 @@ class AppPages {
     GetPage(
       name: AppRoutes.companySignUpScreen,
       page: () => CompanySignUpScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.clockInScreen,
+      page: () => ClockInScreen(),
     ),
   ];
 }

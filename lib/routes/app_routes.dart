@@ -10,6 +10,7 @@ class AppRoutes {
   static const String selectCompanyTradeScreen = '/select_company_trade_screen';
   static const String qrCodeScannerScreen = '/qr_code_scanner';
   static const String companySignUpScreen = '/company_signup_screen';
+  static const String clockInScreen = '/clock_in_screen';
 
   static const String productListScreen = '/product_list_screen';
   static const String addProductScreen = '/add_product_screen';
@@ -32,5 +33,4 @@ class AppRoutes {
   static const String purchaseOrderDetailsScreen =
       '/purchase_order_details_screen';
   static const String barcodeListScreen = '/barcode_list_screen';
-
 }
