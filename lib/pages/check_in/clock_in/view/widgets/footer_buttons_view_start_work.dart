@@ -20,7 +20,7 @@ class FooterButtonsViewStartWork extends StatelessWidget {
           ),
           TimesheetButton(
             title: 'requests'.tr,
-            imageAssetsPath: Drawable.requestCountIcon,
+            imageAssetsPath: Drawable.myRequestClockInScreenIcon,
             imageWidth: 26,
             imageHeight: 26,
           ),

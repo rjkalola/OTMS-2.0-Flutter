@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/pages/authentication/otp_verification/model/user_info.dart';
@@ -116,6 +117,13 @@ class AppUtils {
   static bool isSupervisor() {
     UserInfo? info = Get.find<AppStorage>().getUserInfo();
     return info.userTypeId == AppConstants.userType.supervisor;
+  }
+
+  static BoxShadow boxShadow(Color color, double radius) {
+    return BoxShadow(
+      blurRadius: radius,
+      color: color,
+    );
   }
 
   static saveLoginUser(UserInfo user) {

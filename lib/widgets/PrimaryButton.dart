@@ -9,6 +9,7 @@ class PrimaryButton extends StatelessWidget {
   final double? borderRadius;
   final FontWeight? fontWeight;
   final double? fontSize;
+  final Color? fontColor;
 
   const PrimaryButton(
       {super.key,
@@ -17,7 +18,8 @@ class PrimaryButton extends StatelessWidget {
       this.color,
       this.borderRadius,
       this.fontWeight,
-      this.fontSize});
+      this.fontSize,
+      this.fontColor});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,7 @@ class PrimaryButton extends StatelessWidget {
       ),
       child: Text(buttonText,
           style: TextStyle(
-            color: Colors.white,
+            color: fontColor ?? Colors.white,
             fontWeight: fontWeight ?? FontWeight.w600,
             fontSize: fontSize ?? 15,
           )),

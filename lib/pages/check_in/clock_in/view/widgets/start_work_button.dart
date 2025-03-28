@@ -17,8 +17,8 @@ class StartWorkButton extends StatelessWidget {
         child: PrimaryButton(
             buttonText: 'start_work'.tr,
             color: Colors.green,
-            borderRadius: 12,
-            fontWeight: FontWeight.w400,
+            borderRadius: 20,
+            fontWeight: FontWeight.w500,
             fontSize: 16,
             onPressed: () {
               controller.showSelectProjectDialog();

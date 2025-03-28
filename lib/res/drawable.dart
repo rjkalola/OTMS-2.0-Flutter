@@ -49,4 +49,6 @@ class Drawable {
   static const String teamClockInScreenIcon =
       'assets/images/ic_team_clock_in_screen.svg';
   static const String pinMapGoogleIcon = 'assets/images/ic_pin_map_google.svg';
+  static const String addCreateNewPlusIcon = 'assets/images/ic_add_create_new_plus.svg';
+
 }

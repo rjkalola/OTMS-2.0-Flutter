@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:otm_inventory/res/colors.dart';
+import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
 
@@ -24,7 +25,9 @@ class TimesheetButton extends StatelessWidget {
         margin: EdgeInsets.only(left: 8, right: 8),
         padding: EdgeInsets.fromLTRB(10, 14, 10, 14),
         decoration: BoxDecoration(
-            border: Border.all(width: 1, color: dividerColor),
+            color: backgroundColor,
+            boxShadow: [AppUtils.boxShadow(Colors.grey.shade200, 9)],
+            border: Border.all(width: 0.5, color: dividerColor),
             borderRadius: BorderRadius.circular(15)),
         child: Column(
           children: [

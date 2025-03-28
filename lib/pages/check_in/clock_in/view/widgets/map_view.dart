@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 class MapView extends StatelessWidget {
   const MapView({super.key});
 
@@ -9,9 +10,9 @@ class MapView extends StatelessWidget {
         Container(
           color: Colors.black12,
           width: double.infinity,
-          height: 300,
+          height: 400,
         ),
-         Container(
+        Container(
           margin: EdgeInsets.all(10),
           width: 30,
           height: 30,

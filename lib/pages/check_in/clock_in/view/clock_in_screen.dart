@@ -4,9 +4,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_controller.dart';
+import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/check_in_addresses_list_view.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/continue_yesterdays_work_button.dart';
+import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/footer_button_check_in_switch_project.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/footer_buttons_view_start_work.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/map_view.dart';
+import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/my_day_log_list_view.dart';
+import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/my_log_addresses_tabs.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/start_work_button.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/timesheet_button.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/work_time_details_view.dart';
@@ -68,9 +72,15 @@ class _ClockInScreenState extends State<ClockInScreen> {
                             children: [
                               Expanded(
                                 child: Column(
-                                  children: [WorkTimeDetailsView()],
+                                  children: [
+                                    WorkTimeDetailsView(),
+                                    MyLogAddressesTabs(),
+                                    // MyDayLogListView()
+                                    CheckInAddressesListView()
+                                  ],
                                 ),
-                              )
+                              ),
+                              FooterButtonCheckInSwitchProject()
                             ],
                           )));
           }),

@@ -16,8 +16,8 @@ class ContinueYesterdaysWorkButton extends StatelessWidget {
         width: double.infinity,
         child: PrimaryButton(
             buttonText: 'continue_yesterdays_work'.tr,
-            borderRadius: 12,
-            fontWeight: FontWeight.w400,
+            borderRadius: 20,
+            fontWeight: FontWeight.w500,
             fontSize: 16,
             onPressed: () {
               controller.showSelectShiftDialog();

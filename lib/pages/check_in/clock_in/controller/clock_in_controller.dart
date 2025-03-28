@@ -107,10 +107,38 @@ class ClockInController extends GetxController implements SelectItemListener {
 
   void showSelectProjectDialog() {
     final List<ModuleInfo> list = <ModuleInfo>[];
-    list.add(ModuleInfo());
-    list.add(ModuleInfo());
-    list.add(ModuleInfo());
-    list.add(ModuleInfo());
+    // for (int i = 0; i < 4; i++) {
+    //   var info = ModuleInfo();
+    //   info.name = "Project ${i + 1}";
+    //   list.add(info);
+    // }
+
+    var info = null;
+
+    info = ModuleInfo();
+    info.name = "Haringey Voids";
+    info.code = "#FFDC4A";
+    list.add(info);
+
+    info = ModuleInfo();
+    info.name = "BWF";
+    info.code = "#8F7FEE";
+    list.add(info);
+
+    info = ModuleInfo();
+    info.name = "Haringey OT";
+    info.code = "#659DF2";
+    list.add(info);
+
+    info = ModuleInfo();
+    info.name = "Camden Voids";
+    info.code = "#FE9F4D";
+    list.add(info);
+
+    // list.add(ModuleInfo());
+    // list.add(ModuleInfo());
+    // list.add(ModuleInfo());
+    // list.add(ModuleInfo());
 
     Get.bottomSheet(
         SelectProjectDialog(

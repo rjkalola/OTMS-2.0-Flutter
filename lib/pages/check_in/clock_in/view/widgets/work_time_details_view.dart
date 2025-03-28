@@ -17,7 +17,7 @@ class WorkTimeDetailsView extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(
         border: Border.all(width: 1, color: dividerColor),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(16),
         color: Color(0xff659DF2),
       ),
       child: Column(
@@ -25,7 +25,7 @@ class WorkTimeDetailsView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(
-            height: 15,
+            height: 12,
           ),
           PrimaryTextView(
             text: 'work_time_on'.tr,
@@ -40,7 +40,7 @@ class WorkTimeDetailsView extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(20, 10, 20, 15),
+            padding: const EdgeInsets.fromLTRB(20, 3, 20, 8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
@@ -65,7 +65,7 @@ class WorkTimeDetailsView extends StatelessWidget {
           ),
           Container(
             margin: EdgeInsets.all(4),
-            padding: EdgeInsets.fromLTRB(8, 3, 8, 3),
+            padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
             width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(6),
@@ -76,13 +76,13 @@ class WorkTimeDetailsView extends StatelessWidget {
               children: [
                 PrimaryTextView(
                   text: 'total_work_hour_today'.tr,
-                  fontSize: 16,
+                  fontSize: 15,
                   color: Colors.white,
                   fontWeight: FontWeight.w500,
                 ),
                 PrimaryTextView(
                   text: "07:00:00",
-                  fontSize: 16,
+                  fontSize: 15,
                   color: Colors.white,
                   fontWeight: FontWeight.w500,
                 )
@@ -91,8 +91,14 @@ class WorkTimeDetailsView extends StatelessWidget {
           ),
           SizedBox(
               width: double.infinity,
-              child:
-                  PrimaryButton(buttonText: 'stop_work'.tr, onPressed: () {}))
+              child: PrimaryButton(
+                buttonText: 'stop_work'.tr,
+                onPressed: () {},
+                color: Color(0xffFF6464),
+                fontWeight: FontWeight.w700,
+                fontSize: 16,
+                borderRadius: 12,
+              ))
         ],
       ),
     );

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 const blueColor = Color.fromRGBO(0, 149, 246, 1);
 const primaryColor = Colors.white;
 const secondaryColor = Colors.grey;
-const primaryTextColor = Colors.black;
+const primaryTextColor = Color(0xff1A1A1A);
 const primaryTextColorLight = Color(0xff262626);
 const secondaryTextColor = Color(0xff737373);
 const secondaryLightTextColor = Color(0xff606a74);
