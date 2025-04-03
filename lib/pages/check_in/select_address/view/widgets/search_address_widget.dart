@@ -23,6 +23,7 @@ class _SearchAddressWidgetState extends State<SearchAddressWidget> {
         child: SearchTextField(
           controller: controller.searchController,
           isClearVisible: controller.isClearVisible,
+          label: 'search_by_address_or_postcode'.tr,
           onValueChange: (value) {
             controller.searchItem(value.toString());
             controller.isClearVisible.value =

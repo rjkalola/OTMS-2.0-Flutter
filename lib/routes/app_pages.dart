@@ -7,6 +7,7 @@ import 'package:otm_inventory/pages/authentication/signup2/view/signup2_screen.d
 import 'package:otm_inventory/pages/authentication/splash/splash_screen.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/view/clock_in_screen.dart';
 import 'package:otm_inventory/pages/check_in/select_address/view/select_address_screen.dart';
+import 'package:otm_inventory/pages/check_in/select_before_after_photos/view/select_before_after_photos_screen.dart';
 import 'package:otm_inventory/pages/dashboard/view/dashboard_screen.dart';
 import 'package:otm_inventory/pages/managecompany/company_signup/view/company_signup_screen.dart';
 import 'package:otm_inventory/pages/managecompany/joincompany/view/join_comapny_screen.dart';
@@ -72,6 +73,10 @@ class AppPages {
     GetPage(
       name: AppRoutes.selectAddressScreen,
       page: () => SelectAddressScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.selectBeforeAfterPhotosScreen,
+      page: () => SelectBeforeAfterPhotosScreen(),
     ),
   ];
 }

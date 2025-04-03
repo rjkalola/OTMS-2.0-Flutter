@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_controller.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/res/drawable.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
@@ -6,9 +7,12 @@ import 'package:otm_inventory/utils/image_utils.dart';
 import 'package:otm_inventory/widgets/custom_views/dotted_line_vertical_widget.dart';
 import 'package:otm_inventory/widgets/shapes/circle_widget.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
+import 'package:get/get.dart';
 
 class MyDayLogListView extends StatelessWidget {
-  const MyDayLogListView({super.key});
+  MyDayLogListView({super.key});
+
+  final controller = Get.put(ClockInController());
 
   @override
   Widget build(BuildContext context) {
@@ -19,81 +23,84 @@ class MyDayLogListView extends StatelessWidget {
         scrollDirection: Axis.vertical,
         children: List.generate(
           3,
-          (position) => InkWell(
-            onTap: () {},
-            child: IntrinsicHeight(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: 16,
-                  ),
-                  Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Column(
-                        children: [
-                          Flexible(
-                            fit: FlexFit.tight,
-                            flex: 1,
-                            child: CustomPaint(
-                                size: Size(1.3, double.infinity),
-                                painter: DottedLineVerticalWidget()),
-                          ),
-                          Flexible(
-                            fit: FlexFit.tight,
-                            flex: 1,
-                            child: position != 2
-                                ? CustomPaint(
-                                    size: Size(1.3, double.infinity),
-                                    painter: DottedLineVerticalWidget())
-                                : Container(),
-                          )
-                        ],
-                      ),
-                      Visibility(
-                        visible: position != 2,
-                        child: SizedBox(
-                          width: 22,
-                          height: 22,
-                          child: Center(
-                            child: CircleWidget(
-                              color: position == 1 ? Colors.green : Colors.grey.shade400,
-                              width: 14,
-                              height: 14,
-                            ),
+          (position) => IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 16,
+                ),
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Column(
+                      children: [
+                        Flexible(
+                          fit: FlexFit.tight,
+                          flex: 1,
+                          child: CustomPaint(
+                              size: Size(1.3, double.infinity),
+                              painter: DottedLineVerticalWidget()),
+                        ),
+                        Flexible(
+                          fit: FlexFit.tight,
+                          flex: 1,
+                          child: position != 2
+                              ? CustomPaint(
+                                  size: Size(1.3, double.infinity),
+                                  painter: DottedLineVerticalWidget())
+                              : Container(),
+                        )
+                      ],
+                    ),
+                    Visibility(
+                      visible: position != 2,
+                      child: SizedBox(
+                        width: 22,
+                        height: 22,
+                        child: Center(
+                          child: CircleWidget(
+                            color: position == 1
+                                ? Colors.green
+                                : Colors.grey.shade400,
+                            width: 14,
+                            height: 14,
                           ),
                         ),
                       ),
-                      Visibility(
-                        visible: position == 2,
-                        child: ImageUtils.setAssetsImage(
-                            Drawable.addCreateNewPlusIcon,
-                            22,
-                            22,
-                            BoxFit.cover,
-                            primaryTextColor),
-                      )
-                    ],
-                  ),
-                  position != 2
-                      ? Expanded(
-                          child: Container(
-                            margin: EdgeInsets.only(left: 8, top: 7, bottom: 7),
-                            padding: EdgeInsets.only(right: 8),
-                            decoration: BoxDecoration(
-                              color: backgroundColor,
-                              boxShadow: [
-                                AppUtils.boxShadow(Colors.grey.shade300, 6)
-                              ],
-                              border: Border.all(
-                                  width: 0.6,
-                                  color: position == 1
-                                      ? Color(0xff2DC75C)
-                                      : Colors.grey.shade300),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
+                    ),
+                    Visibility(
+                      visible: position == 2,
+                      child: ImageUtils.setAssetsImage(
+                          path:Drawable.addCreateNewPlusIcon,
+                          width: 22,
+                          height: 22,
+                         color:  primaryTextColor),
+                    )
+                  ],
+                ),
+                position != 2
+                    ? Expanded(
+                        child: Container(
+                          margin: EdgeInsets.only(left: 8, top: 7, bottom: 7),
+                          padding: EdgeInsets.only(right: 8),
+                          decoration: BoxDecoration(
+                            color: backgroundColor,
+                            boxShadow: [
+                              AppUtils.boxShadow(Colors.grey.shade300, 6)
+                            ],
+                            border: Border.all(
+                                width: 0.6,
+                                color: position == 1
+                                    ? Color(0xff2DC75C)
+                                    : Colors.grey.shade300),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: InkWell(
+                            onTap: () {
+                              controller.showShiftSummeryDialog();
+                            },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -155,17 +162,17 @@ class MyDayLogListView extends StatelessWidget {
                               ],
                             ),
                           ),
-                        )
-                      : Expanded(
-                          child: SizedBox(
-                            height: 90,
-                          ),
                         ),
-                  SizedBox(
-                    width: 16,
-                  )
-                ],
-              ),
+                      )
+                    : Expanded(
+                        child: SizedBox(
+                          height: 90,
+                        ),
+                      ),
+                SizedBox(
+                  width: 16,
+                )
+              ],
             ),
           ),
         ),

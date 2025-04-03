@@ -33,6 +33,8 @@ class IntentKey {
   final String purchaseOrderInfo = 'PURCHASE_ORDER_INFO';
   final String title = 'TITLE';
   final String count = 'COUNT';
+  final String photosType = 'PHOTOS_TYPE';
+  final String photosList = 'PHOTOS_LIST';
 }
 
 class DialogIdentifier {
@@ -45,6 +47,10 @@ class DialogIdentifier {
   final String selectCurrency = 'SELECT_CURRENCY';
   final String selectProject = 'SELECT_PROJECT';
   final String selectShift = 'SELECT_SHIFT';
+  final String sortByDialog = 'SORT_BY_DIALOG';
+  final String filterByDialog = 'FILTER_BY_DIALOG';
+  final String attachmentOptionsList = 'ATTACHMENT_OPTIONS_LIST';
+  final String deleteProductImage = 'DELETE_PRODUCT_IMAGE';
 }
 
 class SharedPreferenceKey {
@@ -77,6 +83,14 @@ class Action {
   final String mobilePrint = "MobilePrint";
   final String viewPdf = "VIEW_PDF";
   final String downloadPdf = "DOWNLOAD_PDF";
+  final String aToZ = "A_TO_Z";
+  final String zToA = "Z_TO_A";
+  final String status = "Status";
+  final String readyToStartWork = "READY_TO_START_WORk";
+  final String inProgress = "IN_PROGRESS";
+  final String completed = "COMPLETED";
+  final String viewPhoto = "VIEW_PHOTO";
+  final String removePhoto = "REMOVE_PHOTO";
 
   final String clockIn = "ClockIn";
   final String quickTask = "QuickTask";
@@ -127,4 +141,7 @@ class Type {
   final int INNER_BREAK = 4;
   final int INNER_FREE_WORK = 5;
   final int OUTER_OVERTIME = 6;
+  final String beforePhotos = "BEFORE_PHOTOS";
+  final String afterPhotos = "AFTER_PHOTOS";
+
 }

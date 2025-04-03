@@ -78,7 +78,8 @@ class SelectItemListDialogState extends State<SelectItemListDialog> {
               padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
               child: InkWell(
                 onTap: () {
-                  listener.onSelectItem(i, 0, list[i].name??"", list[i].action??"");
+                  listener.onSelectItem(
+                      i, 0, list[i].name ?? "", list[i].action ?? "");
                   Get.back();
                 },
                 child: SizedBox(

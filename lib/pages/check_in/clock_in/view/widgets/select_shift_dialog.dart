@@ -120,8 +120,11 @@ class SelectShiftDialogState extends State<SelectShiftDialog> {
                     },
                     child: Row(
                       children: [
-                        ImageUtils.setAssetsImage(Drawable.homeDrawerIcon, 24,
-                            24, BoxFit.cover, primaryTextColor),
+                        ImageUtils.setAssetsImage(
+                            path: Drawable.homeDrawerIcon,
+                            width: 24,
+                            height: 24,
+                            color: primaryTextColor),
                         SizedBox(
                           width: 12,
                         ),

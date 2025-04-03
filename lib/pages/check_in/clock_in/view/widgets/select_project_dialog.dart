@@ -52,6 +52,7 @@ class SelectProjectDialogState extends State<SelectProjectDialog> {
               initialChildSize: 0.75,
               maxChildSize: 0.75,
               minChildSize: 0.5,
+              expand: false,
               builder:
                   (BuildContext context, ScrollController scrollController) =>
                       Container(

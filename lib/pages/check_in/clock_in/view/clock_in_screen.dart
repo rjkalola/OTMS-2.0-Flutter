@@ -53,7 +53,7 @@ class _ClockInScreenState extends State<ClockInScreen> {
                 progressIndicator: const CustomProgressbar(),
                 child: controller.isInternetNotAvailable.value
                     ? const NoInternetWidget()
-                    : (false
+                    : (true
                         ? Column(
                             children: [
                               Expanded(
@@ -75,8 +75,8 @@ class _ClockInScreenState extends State<ClockInScreen> {
                                   children: [
                                     WorkTimeDetailsView(),
                                     MyLogAddressesTabs(),
-                                    // MyDayLogListView()
-                                    CheckInAddressesListView()
+                                    MyDayLogListView()
+                                    // CheckInAddressesListView()
                                   ],
                                 ),
                               ),

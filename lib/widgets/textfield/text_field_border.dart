@@ -80,9 +80,9 @@ class TextFieldBorder extends StatelessWidget {
         hintText: hintText,
         labelText: labelText,
         labelStyle: const TextStyle(
-            fontWeight: FontWeight.w400, fontSize: 15, color: Colors.grey),
+            fontWeight: FontWeight.w400, fontSize: 16, color: Colors.grey),
         hintStyle: const TextStyle(
-            fontWeight: FontWeight.w400, fontSize: 15, color: Colors.grey),
+            fontWeight: FontWeight.w400, fontSize: 16, color: Colors.grey),
       ),
       validator: validator!,
     );

@@ -1,25 +1,31 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:otm_inventory/utils/app_utils.dart';
+import 'package:otm_inventory/utils/image_utils.dart';
 
 import '../../res/colors.dart';
 import '../../utils/string_helper.dart';
 
 class GridImage extends StatelessWidget {
-  const GridImage({super.key, this.file, required this.onRemoveClick});
+  const GridImage(
+      {super.key, this.file, required this.onRemoveClick, this.fileRadius});
 
   final String? file;
   final VoidCallback onRemoveClick;
+  final double? fileRadius;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       // color of
       decoration: BoxDecoration(
-        border: Border.all(
-          color: rectangleBorderColor,
-        ),
-      ), // grid items
+          color: Color(AppUtils.haxColor("#E6EAEE")),
+          borderRadius: BorderRadius.circular(fileRadius ?? 8.0)
+          // border: Border.all(
+          //   color: rectangleBorderColor,
+          // ),
+          ), // grid items
       child: Stack(
         fit: StackFit.expand,
         children: [
@@ -36,15 +42,18 @@ class GridImage extends StatelessWidget {
 
   Widget setImage() {
     return file!.startsWith("http")
-        ? Image.network(file ?? "", fit: BoxFit.cover)
-        : Image.file(File(file ?? ""), fit: BoxFit.cover);
+        ? ImageUtils.setRectangleCornerNetworkImage(
+            file ?? "", 0, 0, fileRadius ?? 8.0, BoxFit.cover)
+        : ImageUtils.setRectangleCornerFileImage(
+            file ?? "", 0, 0, fileRadius ?? 8.0, BoxFit.cover);
   }
 
   Widget setAddButton() {
     return const Center(
         child: Icon(
       Icons.add,
-      size: 30,
+      size: 34,
+      color: Colors.white,
     ));
   }
 
@@ -64,11 +73,11 @@ class GridImage extends StatelessWidget {
               width: 18,
               height: 18,
               decoration: const BoxDecoration(
-                  shape: BoxShape.circle, color: Colors.white),
+                  shape: BoxShape.circle, color: Colors.black87),
               child: const Icon(
                 Icons.close,
                 size: 12,
-                color: Colors.black54,
+                color: Colors.white,
               ),
             ),
           ),

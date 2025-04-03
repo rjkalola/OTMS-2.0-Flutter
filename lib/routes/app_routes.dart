@@ -14,11 +14,8 @@ class AppRoutes {
   static const String selectAddressScreen = '/select_address_screen';
 
   static const String productListScreen = '/product_list_screen';
-  static const String addProductScreen = '/add_product_screen';
   static const String storeListScreen = '/store_list_screen';
   static const String supplierListScreen = '/supplier_list_screen';
-  static const String addStoreScreen = '/add_store_screen';
-  static const String addSupplierScreen = '/add_supplier_screen';
   static const String categoryListScreen = '/category_list_screen';
   static const String addCategoryScreen = '/add_category_screen';
   static const String stockListScreen = '/stock_list_screen';
@@ -34,4 +31,5 @@ class AppRoutes {
   static const String purchaseOrderDetailsScreen =
       '/purchase_order_details_screen';
   static const String barcodeListScreen = '/barcode_list_screen';
+  static const String selectBeforeAfterPhotosScreen = '/select_before_after_photos_screen';
 }

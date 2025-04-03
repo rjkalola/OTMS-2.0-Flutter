@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_repository.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/select_project_dialog.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/select_shift_dialog.dart';
+import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/shift_summery_dialog.dart';
 import 'package:otm_inventory/pages/common/listener/select_item_listener.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/web_services/response/module_info.dart';
@@ -161,6 +162,16 @@ class ClockInController extends GetxController implements SelectItemListener {
         SelectShiftDialog(
           dialogType: AppConstants.dialogIdentifier.selectShift,
           list: list,
+          listener: this,
+        ),
+        backgroundColor: Colors.transparent,
+        isScrollControlled: true);
+  }
+
+  showShiftSummeryDialog() {
+    Get.bottomSheet(
+        ShiftSummeryDialog(
+          dialogType: AppConstants.dialogIdentifier.selectShift,
           listener: this,
         ),
         backgroundColor: Colors.transparent,

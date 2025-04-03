@@ -8,6 +8,7 @@ class SearchTextField extends StatelessWidget {
       {super.key,
       this.onValueChange,
       this.onPressedClear,
+      this.label,
       required this.controller,
       required this.isClearVisible});
 
@@ -15,6 +16,7 @@ class SearchTextField extends StatelessWidget {
   final VoidCallback? onPressedClear;
   final Rx<TextEditingController> controller;
   final Rx<bool> isClearVisible;
+  final String? label;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +40,7 @@ class SearchTextField extends StatelessWidget {
             focusedBorder: const OutlineInputBorder(
                 borderSide: BorderSide(color: Color(0xffcccccc), width: 1),
                 borderRadius: BorderRadius.all(Radius.circular(45))),
-            hintText: 'search'.tr,
+            hintText: label ?? 'search'.tr,
             labelStyle: const TextStyle(
                 fontWeight: FontWeight.w400, fontSize: 15, color: Colors.grey),
             hintStyle: const TextStyle(

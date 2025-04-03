@@ -113,12 +113,56 @@ class ImageUtils {
         : Icon(Icons.photo_outlined, size: getEmptyIconSize(width, height));
   }
 
+  static Widget setRectangleCornerNetworkImage(String url, double width,
+      double height, double borderRadius, BoxFit fit) {
+    return !StringHelper.isEmptyString(url)
+        ? Container(
+            width: width,
+            height: height,
+            clipBehavior: Clip.antiAlias,
+            decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                borderRadius: BorderRadius.circular(borderRadius)),
+            child: Image.network(
+              url,
+              fit: fit,
+              width: width,
+              height: height,
+            ),
+          )
+        : Icon(Icons.photo_outlined, size: getEmptyIconSize(width, height));
+  }
+
+  static Widget setRectangleCornerFileImage(String url, double width,
+      double height, double borderRadius, BoxFit fit) {
+    return !StringHelper.isEmptyString(url)
+        ? Container(
+            width: width,
+            height: height,
+            clipBehavior: Clip.antiAlias,
+            decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                borderRadius: BorderRadius.circular(borderRadius)),
+            child: Image.file(
+              File(url ?? ""),
+              width: width,
+              height: height,
+              fit: fit,
+            ),
+          )
+        : Icon(Icons.photo_outlined, size: getEmptyIconSize(width, height));
+  }
+
   static Widget setAssetsImage(
-      String path, double width, double height, BoxFit fit, Color? color) {
+      {required String path,
+      required double width,
+      required double height,
+      BoxFit? fit,
+      Color? color}) {
     return !StringHelper.isEmptyString(path)
         ? SvgPicture.asset(
             path,
-            fit: fit,
+            fit: fit ?? BoxFit.cover,
             width: width,
             height: height,
             colorFilter:

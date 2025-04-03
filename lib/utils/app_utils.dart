@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/pages/authentication/otp_verification/model/user_info.dart';
@@ -144,5 +145,20 @@ class AppUtils {
       print("after length:" +
           Get.find<AppStorage>().getLoginUsers().length.toString());
     }
+  }
+
+  static BoxDecoration getGrayBorderDecoration(
+      {Color? color,
+      double? radius,
+      double? borderWidth,
+      Color? borderColor,
+      List<BoxShadow>? boxShadow}) {
+    return BoxDecoration(
+      color: color ?? Colors.transparent,
+      boxShadow: boxShadow ?? null,
+      border: Border.all(
+          width: borderWidth ?? 0.6, color: borderColor ?? Colors.transparent),
+      borderRadius: BorderRadius.circular(radius ?? 12),
+    );
   }
 }

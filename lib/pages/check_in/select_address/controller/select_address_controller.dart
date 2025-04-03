@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_repository.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/select_project_dialog.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/select_shift_dialog.dart';
 import 'package:otm_inventory/pages/check_in/select_address/controller/select_address_repository.dart';
 import 'package:otm_inventory/pages/common/listener/select_item_listener.dart';
+import 'package:otm_inventory/pages/common/select_Item_list_dialog.dart';
+import 'package:otm_inventory/pages/manageattachment/listener/select_attachment_listener.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
+import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/web_services/response/module_info.dart';
 
 class SelectAddressController extends GetxController
@@ -78,11 +78,65 @@ class SelectAddressController extends GetxController
     // storeList.value = results;
   }
 
+  showSortByDialog() async {
+    var listOptions = <ModuleInfo>[].obs;
+    ModuleInfo? info;
+
+    info = ModuleInfo();
+    info.name = "A-Z";
+    info.action = AppConstants.action.aToZ;
+    listOptions.add(info);
+
+    info = ModuleInfo();
+    info.name = "Z-A";
+    info.action = AppConstants.action.zToA;
+    listOptions.add(info);
+
+    info = ModuleInfo();
+    info.name = 'status'.tr;
+    info.action = AppConstants.action.status;
+    listOptions.add(info);
+
+    showOptionsDialog(
+        AppConstants.dialogIdentifier.sortByDialog, 'sort_by_'.tr, listOptions);
+  }
+
+  showFilterByDialog() async {
+    var listOptions = <ModuleInfo>[].obs;
+    ModuleInfo? info;
+
+    info = ModuleInfo();
+    info.name = 'ready_to_start_work'.tr;
+    info.action = AppConstants.action.readyToStartWork;
+    listOptions.add(info);
+
+    info = ModuleInfo();
+    info.name = 'in_progress'.tr;
+    info.action = AppConstants.action.inProgress;
+    listOptions.add(info);
+
+    info = ModuleInfo();
+    info.name = 'completed'.tr;
+    info.action = AppConstants.action.completed;
+    listOptions.add(info);
+
+    showOptionsDialog(
+        AppConstants.dialogIdentifier.filterByDialog, 'filter_by_'.tr, listOptions);
+  }
+
+  void showOptionsDialog(
+      String dialogType, String title, List<ModuleInfo> list) {
+    Get.bottomSheet(
+        SelectItemListDialog(
+            title: title, dialogType: "", list: list, listener: this),
+        backgroundColor: Colors.transparent,
+        enableDrag: false,
+        isScrollControlled: false);
+  }
+
   @override
   void onSelectItem(int position, int id, String name, String action) {
     if (action == AppConstants.dialogIdentifier.selectProject) {
     } else if (action == AppConstants.dialogIdentifier.selectShift) {}
   }
-
-
 }

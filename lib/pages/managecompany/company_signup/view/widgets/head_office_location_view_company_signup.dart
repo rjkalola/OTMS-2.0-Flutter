@@ -33,8 +33,11 @@ class HeadOfficeLocationViewCompanySignup extends StatelessWidget {
           SizedBox(
             width: 12,
           ),
-          ImageUtils.setAssetsImage(Drawable.myLocationIcon, 22, 22,
-              BoxFit.contain, defaultAccentColor)
+          ImageUtils.setAssetsImage(
+              path: Drawable.myLocationIcon,
+              width: 22,
+              height: 22,
+              color: defaultAccentColor)
         ],
       ),
     );
