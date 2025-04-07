@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -14,8 +11,6 @@ import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/res/drawable.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
-import 'package:otm_inventory/widgets/shapes/circle_widget.dart';
-import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
 
 class SelectAddressScreen extends StatefulWidget {
   const SelectAddressScreen({super.key});

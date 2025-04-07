@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:otm_inventory/pages/check_in/clock_in/model/resources_project_address_info.dart';
 import 'package:otm_inventory/pages/check_in/select_address/controller/select_address_repository.dart';
 import 'package:otm_inventory/pages/common/listener/select_item_listener.dart';
 import 'package:otm_inventory/pages/common/select_Item_list_dialog.dart';
-import 'package:otm_inventory/pages/manageattachment/listener/select_attachment_listener.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/web_services/response/module_info.dart';
 
 class SelectAddressController extends GetxController
     implements SelectItemListener {
-  // final companyNameController = TextEditingController().obs;
   final RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
       isClearVisible = false.obs;
   final _api = SelectAddressRepository();
   final searchController = TextEditingController().obs;
+  List<ResourcesProjectAddressInfo> addressList = [];
+  List<ResourcesProjectAddressInfo> tempList = [];
 
   @override
   void onInit() {
     super.onInit();
     var arguments = Get.arguments;
     if (arguments != null) {
-      // fromSignUp.value =
-      //     arguments[AppConstants.intentKey.fromSignUpScreen] ?? "";
+      addressList = arguments[AppConstants.intentKey.addressList] ?? [];
+      tempList.clear();
+      tempList.addAll(addressList);
     }
-    // getRegisterResources();
   }
 
 // void getRegisterResources() {
@@ -66,16 +66,16 @@ class SelectAddressController extends GetxController
 // }
 
   Future<void> searchItem(String value) async {
-    // List<StoreInfo> results = [];
-    // if (value.isEmpty) {
-    //   results = tempList;
-    // } else {
-    //   results = tempList
-    //       .where((element) =>
-    //       element.storeName!.toLowerCase().contains(value.toLowerCase()))
-    //       .toList();
-    // }
-    // storeList.value = results;
+    List<ResourcesProjectAddressInfo> results = [];
+    if (value.isEmpty) {
+      results = tempList;
+    } else {
+      results = tempList
+          .where((element) =>
+              element.name!.toLowerCase().contains(value.toLowerCase()))
+          .toList();
+    }
+    addressList = results;
   }
 
   showSortByDialog() async {
@@ -120,8 +120,8 @@ class SelectAddressController extends GetxController
     info.action = AppConstants.action.completed;
     listOptions.add(info);
 
-    showOptionsDialog(
-        AppConstants.dialogIdentifier.filterByDialog, 'filter_by_'.tr, listOptions);
+    showOptionsDialog(AppConstants.dialogIdentifier.filterByDialog,
+        'filter_by_'.tr, listOptions);
   }
 
   void showOptionsDialog(

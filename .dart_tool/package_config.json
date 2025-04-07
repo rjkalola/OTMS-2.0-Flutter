@@ -380,6 +380,42 @@
       "languageVersion": "3.3"
     },
     {
+      "name": "google_maps",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/google_maps-8.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "google_maps_flutter",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/google_maps_flutter-2.12.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.6"
+    },
+    {
+      "name": "google_maps_flutter_android",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/google_maps_flutter_android-2.16.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.6"
+    },
+    {
+      "name": "google_maps_flutter_ios",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/google_maps_flutter_ios-2.15.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "google_maps_flutter_platform_interface",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/google_maps_flutter_platform_interface-2.11.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "google_maps_flutter_web",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/google_maps_flutter_web-0.5.12",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
       "name": "html",
       "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/html-0.15.4",
       "packageUri": "lib/",
@@ -516,6 +552,36 @@
       "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/list_counter-1.0.2",
       "packageUri": "lib/",
       "languageVersion": "2.18"
+    },
+    {
+      "name": "local_auth",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/local_auth-2.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
+      "name": "local_auth_android",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/local_auth_android-1.0.48",
+      "packageUri": "lib/",
+      "languageVersion": "3.6"
+    },
+    {
+      "name": "local_auth_darwin",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/local_auth_darwin-1.4.3",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "local_auth_platform_interface",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/local_auth_platform_interface-1.0.10",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "local_auth_windows",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/local_auth_windows-1.0.11",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
     },
     {
       "name": "logging",
@@ -746,6 +812,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "sanitize_html",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/sanitize_html-2.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "sky_engine",
       "rootUri": "file:///Users/apple/Documents/flutterDev/flutter/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
@@ -822,6 +894,12 @@
       "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/stream_channel-2.1.2",
       "packageUri": "lib/",
       "languageVersion": "2.19"
+    },
+    {
+      "name": "stream_transform",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/stream_transform-2.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.1"
     },
     {
       "name": "string_scanner",
@@ -938,7 +1016,7 @@
       "languageVersion": "3.2"
     }
   ],
-  "generated": "2025-03-22T12:14:28.234064Z",
+  "generated": "2025-04-06T10:15:48.113281Z",
   "generator": "pub",
   "generatorVersion": "3.6.2",
   "flutterRoot": "file:///Users/apple/Documents/flutterDev/flutter",

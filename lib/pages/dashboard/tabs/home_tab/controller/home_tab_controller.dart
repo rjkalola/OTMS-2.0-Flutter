@@ -1,10 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:ffi';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:otm_inventory/pages/authentication/otp_verification/model/user_info.dart';
 import 'package:otm_inventory/pages/dashboard/controller/dashboard_controller.dart';
 import 'package:otm_inventory/pages/dashboard/models/dashboard_response.dart';
@@ -20,7 +19,6 @@ import 'package:otm_inventory/utils/data_utils.dart';
 import 'package:otm_inventory/utils/date_utils.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:otm_inventory/web_services/response/response_model.dart';
-import 'package:intl/intl.dart';
 
 class HomeTabController extends GetxController {
   final _api = HomeTabRepository();
@@ -56,8 +54,8 @@ class HomeTabController extends GetxController {
   }
 
   void onActionButtonClick(String action) {
-    if (action == AppConstants.action.items) {
-      Get.offNamed(AppRoutes.productListScreen);
+    if (action == AppConstants.action.clockIn) {
+      Get.toNamed(AppRoutes.clockInScreen);
     } else if (action == AppConstants.action.store) {
       Get.offNamed(AppRoutes.storeListScreen);
     } else if (action == AppConstants.action.stocks) {

@@ -36,6 +36,12 @@ class AppUtils {
     }
   }
 
+  static showApiResponseMessage(String message) {
+    if (message.isNotEmpty) {
+      Get.rawSnackbar(message: message);
+    }
+  }
+
   static getStringTr(String key) {
     return key.tr;
   }
@@ -98,6 +104,11 @@ class AppUtils {
 
   static bool isUserCheckIn(int? value) {
     return value != null && value > 0;
+  }
+
+  static int getLoginUserId() {
+    UserInfo info = Get.find<AppStorage>().getUserInfo();
+    return info.id ?? 0;
   }
 
   static bool isAdmin() {

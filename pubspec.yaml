@@ -68,6 +68,8 @@ dependencies:
   json_serializable: ^6.9.4
   geolocator: ^13.0.3
   geocoding: ^3.0.0
+  local_auth: ^2.3.0
+  google_maps_flutter: ^2.12.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

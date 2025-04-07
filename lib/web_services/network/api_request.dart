@@ -104,7 +104,7 @@ class ApiRequest {
             null, ApiConstants.CODE_NO_INTERNET_CONNECTION, 'try_again'.tr);
         if (onError != null) onError(responseModel);
       }
-    } on DioException catch (e,stackTrace) {
+    } on DioException catch (e, stackTrace) {
       print('Dio error: ${e.message}');
       print('Stack trace: $stackTrace');
       final ApiException apiException = ApiException.fromDioError(e);
@@ -173,7 +173,7 @@ class ApiRequest {
             null, ApiConstants.CODE_NO_INTERNET_CONNECTION, 'try_again'.tr);
         if (onError != null) onError(responseModel);
       }
-    } on DioException catch (e,stackTrace) {
+    } on DioException catch (e, stackTrace) {
       print('Dio error: ${e.message}');
       print('Stack trace: $stackTrace');
       final ApiException apiException = ApiException.fromDioError(e);

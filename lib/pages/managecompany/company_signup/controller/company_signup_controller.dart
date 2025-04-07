@@ -42,8 +42,10 @@ class CompanySignUpController extends GetxController
   final registerResourcesResponse = RegisterResourcesResponse().obs;
   final mCompanyLogo = "".obs;
   final currencyId = 0.obs;
+  bool locationLoaded = false;
   final _api = CompanySignUpRepository();
   Position? latLon = null;
+  final locationService = LocationServiceNew();
 
   @override
   void onInit() {
@@ -55,9 +57,9 @@ class CompanySignUpController extends GetxController
       fromSignUp.value =
           arguments[AppConstants.intentKey.fromSignUpScreen] ?? "";
     }
-    var userInfo = AppStorage().getUserInfo();
+    /*var userInfo = AppStorage().getUserInfo();
     mExtensionId.value = userInfo.phoneExtensionId ?? 0;
-    mExtension.value = userInfo.phoneExtension ?? "";
+    mExtension.value = userInfo.phoneExtension ?? "";*/
 
     getRegisterResources();
   }
@@ -82,7 +84,7 @@ class CompanySignUpController extends GetxController
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.statusCode == 200) {
           // fetchLocationAndAddress();
-          LocationServiceNew().checkLocationService();
+          locationRequest();
           setRegisterResourcesResponse(RegisterResourcesResponse.fromJson(
               jsonDecode(responseModel.result!)));
           listCurrency.addAll(registerResourcesResponse.value.currency ?? []);
@@ -271,8 +273,8 @@ class CompanySignUpController extends GetxController
 
   void appLifeCycle() {
     AppLifecycleListener(
-      onResume: () {
-        // print("onResume out in");
+      onResume: () async {
+        print("onResume out in");
         // if (isInitialResumeCall.value) {
         //   print("onResume");
         //   if (latLon == null) {
@@ -281,8 +283,18 @@ class CompanySignUpController extends GetxController
         // } else {
         //   isInitialResumeCall.value = true;
         // }
-        LocationServiceNew().checkLocationService();
+
+        // locationService.checkLocationService();
+
+        if (!locationLoaded) locationRequest();
       },
     );
+  }
+
+  Future<void> locationRequest() async {
+    locationLoaded = await locationService.checkLocationService();
+    if (locationLoaded) {
+      fetchLocationAndAddress();
+    }
   }
 }

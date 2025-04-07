@@ -39,6 +39,14 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/geocoding_ios-3.0.1" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/geolocator_apple-2.3.13" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/geolocator-13.0.3" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/local_auth-2.3.0" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/local_auth_darwin-1.4.3" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/local_auth_windows-1.0.11" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/local_auth_android-1.0.48" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/google_maps_flutter_android-2.16.0" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/google_maps_flutter-2.12.1" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/google_maps_flutter_ios-2.15.1" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/google_maps_flutter_web-0.5.12" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

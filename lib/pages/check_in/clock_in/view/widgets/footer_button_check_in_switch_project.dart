@@ -10,39 +10,56 @@ class FooterButtonCheckInSwitchProject extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-      child: Row(
-        children: [
-          Flexible(
-            fit: FlexFit.tight,
-            flex: 1,
-            child: PrimaryButton(
-              buttonText: 'switch_project'.tr,
-              onPressed: () {},
-              color: Color(0xffD5DDF2),
-              fontWeight: FontWeight.w500,
-              fontSize: 16,
-              fontColor: Color(0xff0353C1),
-              borderRadius: 10,
+    return Obx(
+      () => Padding(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+        child: Row(
+          children: [
+            Flexible(
+              fit: FlexFit.tight,
+              flex: 1,
+              child: PrimaryButton(
+                buttonText: 'switch_project'.tr,
+                onPressed: () {},
+                color: Color(0xffD5DDF2),
+                fontWeight: FontWeight.w500,
+                fontSize: 16,
+                fontColor: Color(0xff0353C1),
+                borderRadius: 10,
+              ),
             ),
-          ),
-          const SizedBox(
-            width: 12,
-          ),
-          Flexible(
-            fit: FlexFit.tight,
-            flex: 1,
-            child: PrimaryButton(
-              buttonText: 'check_in_'.tr,
-              onPressed: () {},
-              color: Color(0xff2DC75C),
-              fontWeight: FontWeight.w500,
-              fontSize: 16,
-              borderRadius: 10,
+            const SizedBox(
+              width: 12,
             ),
-          ),
-        ],
+            controller.isCheckIn()
+                ? Flexible(
+                    fit: FlexFit.tight,
+                    flex: 1,
+                    child: PrimaryButton(
+                      buttonText: 'check_out_'.tr,
+                      onPressed: () {},
+                      color: Color(0xffFF6464),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                      borderRadius: 10,
+                    ),
+                  )
+                : Flexible(
+                    fit: FlexFit.tight,
+                    flex: 1,
+                    child: PrimaryButton(
+                      buttonText: 'check_in_'.tr,
+                      onPressed: () {
+                        controller.onClickCheckInButton();
+                      },
+                      color: Color(0xff2DC75C),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                      borderRadius: 10,
+                    ),
+                  ),
+          ],
+        ),
       ),
     );
   }

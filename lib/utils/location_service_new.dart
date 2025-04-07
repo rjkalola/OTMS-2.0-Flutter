@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -10,50 +11,68 @@ class LocationServiceNew {
       _isSettingsDialogOpen = false;
 
   /// ✅ Check if GPS is enabled and handle permissions
-  Future<void> checkLocationService() async {
-    if (_isChecking) return; // Prevent duplicate calls
+  Future<bool> checkLocationService() async {
+    if (_isChecking) return false; // Prevent duplicate calls
     _isChecking = true;
 
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    print("serviceEnabled:" + serviceEnabled.toString());
     if (!serviceEnabled) {
       showLocationServiceDialog(); // Show GPS enable dialog
-      _isChecking = false;
-      return;
+      return false;
     }
 
     LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
-      print("1");
       permission = await Geolocator.requestPermission();
-      print("2");
       if (permission == LocationPermission.denied) {
-        print("3");
         showPermissionDeniedDialog(); // Show permission denied dialog
-        _isChecking = false;
-        return;
+        return false;
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
-      print("4");
       showSettingsDialog(); // Show open settings dialog
-      _isChecking = false;
-      return;
+      print("LocationPermission.deniedForever");
+      return false;
     }
 
-    // ✅ Get location if everything is enabled
-    getCurrentLocation();
     _isChecking = false;
+    return true;
+    // ✅ Get location if everything is enabled
+    // getCurrentLocation();
   }
 
   /// ✅ Fetch Current Location
-  Future<void> getCurrentLocation() async {
+  static Future<Position?> getCurrentLocation() async {
     Position position = await Geolocator.getCurrentPosition(
       locationSettings: LocationSettings(
         accuracy: LocationAccuracy.high,
       ),
     );
     print("Location: ${position.latitude}, ${position.longitude}");
+    return position;
+  }
+
+  static Future<String> getAddressFromCoordinates(
+      double latitude, double longitude) async {
+    try {
+      List<Placemark> placeMarks =
+          await placemarkFromCoordinates(latitude, longitude);
+      if (placeMarks.isNotEmpty) {
+        Placemark place = placeMarks.first;
+        return '${place.street}, ${place.subLocality}, '
+            '${place.locality}, ${place.administrativeArea}, '
+            '${place.postalCode}, ${place.country}';
+        // return "${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}";
+      }
+      // return "No address found";
+      return "";
+    } catch (e, stack) {
+      print("Error: $e");
+      print("Stack: $stack");
+      return "";
+    }
   }
 
   /// ❌ Show dialog if GPS is disabled
@@ -72,8 +91,10 @@ class LocationServiceNew {
           actions: [
             TextButton(
               onPressed: () async {
+                _isChecking = false;
                 _isLocationServiceDialogOpen = false;
                 await Geolocator.openLocationSettings();
+                Get.back();
               },
               child: Text("Open Settings"),
             ),
@@ -98,8 +119,9 @@ class LocationServiceNew {
           actions: [
             TextButton(
               onPressed: () => () {
+                _isChecking = false;
                 _isPermissionDeniedDialogOpen = false;
-                Navigator.pop(context);
+                Get.back();
               },
               child: Text("OK"),
             ),
@@ -125,9 +147,10 @@ class LocationServiceNew {
           actions: [
             TextButton(
               onPressed: () async {
+                _isChecking = false;
                 _isSettingsDialogOpen = false;
-                Navigator.pop(context);
                 await openAppSettings(); // Open app settings
+                Get.back();
               },
               child: Text("Open Settings"),
             ),

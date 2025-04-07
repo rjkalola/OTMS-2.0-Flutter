@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:otm_inventory/pages/check_in/clock_in/model/resources_project_info.dart';
 import 'package:otm_inventory/pages/common/listener/select_item_listener.dart';
 import 'package:otm_inventory/pages/common/model/dialog_title_view.dart';
 import 'package:otm_inventory/res/colors.dart';
@@ -12,7 +13,7 @@ import 'package:otm_inventory/widgets/shapes/circle_widget.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
 
 class SelectProjectDialog extends StatefulWidget {
-  final List<ModuleInfo> list;
+  final List<ResourcesProjectInfo> list;
   final String dialogType;
   final SelectItemListener listener;
 
@@ -28,10 +29,10 @@ class SelectProjectDialog extends StatefulWidget {
 }
 
 class SelectProjectDialogState extends State<SelectProjectDialog> {
-  List<ModuleInfo> list;
+  List<ResourcesProjectInfo> list;
   String dialogType;
   SelectItemListener listener;
-  List<ModuleInfo> tempList = [];
+  List<ResourcesProjectInfo> tempList = [];
   final isClearVisible = false.obs;
   final searchController = TextEditingController().obs;
 
@@ -46,59 +47,60 @@ class SelectProjectDialogState extends State<SelectProjectDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return StatefulBuilder(
-        builder: (BuildContext context, StateSetter setModalState) =>
-            DraggableScrollableSheet(
-              initialChildSize: 0.75,
-              maxChildSize: 0.75,
-              minChildSize: 0.5,
-              expand: false,
-              builder:
-                  (BuildContext context, ScrollController scrollController) =>
-                      Container(
-                decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(10))),
-                child: Column(mainAxisSize: MainAxisSize.max, children: [
-                  DialogTitleView(
-                    title: 'select_project'.tr,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
-                    child: SizedBox(
-                      height: 44,
-                      child: SearchTextField(
-                        controller: searchController,
-                        isClearVisible: isClearVisible,
-                        onValueChange: (value) {
-                          filterSearchResults(value.toString(), list);
-                          isClearVisible.value =
-                              !StringHelper.isEmptyString(value.toString());
-                        },
-                        onPressedClear: () {
-                          searchController.value.clear();
-                          filterSearchResults("", list);
-                          isClearVisible.value = false;
-                        },
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 16, top: 6),
-                    child: SizedBox(
-                        width: double.infinity,
-                        child: PrimaryTextView(
-                          text: 'all_projects'.tr,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: secondaryExtraLightTextColor,
-                        )),
-                  ),
-                  Expanded(child: setDropdownList(dialogType, listener))
-                ]),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // Set a max height for bottom sheet (e.g. 80% of screen)
+        double maxHeight = constraints.maxHeight * 0.8;
+
+        return ConstrainedBox(
+          constraints: BoxConstraints(
+            maxHeight: maxHeight,
+          ),
+          child: Container(
+            decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(10))),
+            child: Column(mainAxisSize: MainAxisSize.min, children: [
+              DialogTitleView(
+                title: 'select_project'.tr,
               ),
-            ));
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+                child: SizedBox(
+                  height: 44,
+                  child: SearchTextField(
+                    controller: searchController,
+                    isClearVisible: isClearVisible,
+                    onValueChange: (value) {
+                      filterSearchResults(value.toString(), list);
+                      isClearVisible.value =
+                          !StringHelper.isEmptyString(value.toString());
+                    },
+                    onPressedClear: () {
+                      searchController.value.clear();
+                      filterSearchResults("", list);
+                      isClearVisible.value = false;
+                    },
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 16, top: 6),
+                child: SizedBox(
+                    width: double.infinity,
+                    child: PrimaryTextView(
+                      text: 'all_projects'.tr,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: secondaryExtraLightTextColor,
+                    )),
+              ),
+              Flexible(child: setDropdownList(dialogType, listener))
+            ]),
+          ),
+        );
+      },
+    );
   }
 
   Widget setDropdownList(String dialogType, SelectItemListener listener) =>
@@ -106,7 +108,6 @@ class SelectProjectDialogState extends State<SelectProjectDialog> {
         margin: const EdgeInsets.only(top: 10),
         child: ListView.builder(
           itemCount: tempList.length,
-          scrollDirection: Axis.vertical,
           shrinkWrap: true,
           itemBuilder: (context, i) {
             return Column(
@@ -122,8 +123,7 @@ class SelectProjectDialogState extends State<SelectProjectDialog> {
                     child: Row(
                       children: [
                         CircleWidget(
-                            color: Color(
-                                AppUtils.haxColor(tempList[i].code ?? "")),
+                            color: Color(AppUtils.haxColor("#FFDC4A")),
                             width: 16,
                             height: 16),
                         SizedBox(
@@ -150,11 +150,11 @@ class SelectProjectDialogState extends State<SelectProjectDialog> {
         ),
       );
 
-  void filterSearchResults(String query, List<ModuleInfo> list) {
-    List<ModuleInfo> dummySearchList = <ModuleInfo>[];
+  void filterSearchResults(String query, List<ResourcesProjectInfo> list) {
+    List<ResourcesProjectInfo> dummySearchList = <ResourcesProjectInfo>[];
     dummySearchList.addAll(list);
     if (query.isNotEmpty) {
-      List<ModuleInfo> dummyListData = <ModuleInfo>[];
+      List<ResourcesProjectInfo> dummyListData = <ResourcesProjectInfo>[];
       for (var item in dummySearchList) {
         if (item.name!.toLowerCase().contains(query.toLowerCase())) {
           dummyListData.add(item);

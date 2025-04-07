@@ -1,17 +1,53 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart' as multi;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_repository.dart';
+import 'package:otm_inventory/pages/check_in/clock_in/model/check_in_response.dart';
+import 'package:otm_inventory/pages/check_in/clock_in/model/check_out_response.dart';
+import 'package:otm_inventory/pages/check_in/clock_in/model/new_time_sheet_resources_response.dart';
+import 'package:otm_inventory/pages/check_in/clock_in/model/start_work_response.dart';
+import 'package:otm_inventory/pages/check_in/clock_in/model/stop_work_response.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/select_project_dialog.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/select_shift_dialog.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/shift_summery_dialog.dart';
 import 'package:otm_inventory/pages/common/listener/select_item_listener.dart';
+import 'package:otm_inventory/pages/dashboard/models/dashboard_response.dart';
+import 'package:otm_inventory/pages/dashboard/tabs/home_tab/controller/home_tab_repository.dart';
+import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
+import 'package:otm_inventory/utils/app_storage.dart';
+import 'package:otm_inventory/utils/app_utils.dart';
+import 'package:otm_inventory/utils/location_service_new.dart';
+import 'package:otm_inventory/utils/string_helper.dart';
+import 'package:otm_inventory/web_services/api_constants.dart';
 import 'package:otm_inventory/web_services/response/module_info.dart';
+import 'package:otm_inventory/web_services/response/response_model.dart';
 
 class ClockInController extends GetxController implements SelectItemListener {
   // final companyNameController = TextEditingController().obs;
-  final RxBool isLoading = false.obs, isInternetNotAvailable = false.obs;
+  final RxBool isLoading = false.obs,
+      isInternetNotAvailable = false.obs,
+      isMainViewVisible = false.obs;
   final _api = ClockInRepository();
+  late GoogleMapController mapController;
+  final center = LatLng(37.42796133580664, -122.085749655962).obs;
+  final dashboardResponse = DashboardResponse().obs;
+  final resourcesData = NewTimeSheetResourcesResponse().obs;
+  String? latitude, longitude, location, pwProjectId, shiftId;
+  final timeLogId = "".obs, checkLogId = "".obs;
+  bool locationLoaded = false;
+  Position? latLon = null;
+  final locationService = LocationServiceNew();
+
+  void onMapCreated(GoogleMapController controller) {
+    mapController = controller;
+  }
 
   @override
   void onInit() {
@@ -21,130 +57,303 @@ class ClockInController extends GetxController implements SelectItemListener {
       // fromSignUp.value =
       //     arguments[AppConstants.intentKey.fromSignUpScreen] ?? "";
     }
-    // getRegisterResources();
+    timeLogId.value = Get.find<AppStorage>().getTimeLogId();
+    checkLogId.value = Get.find<AppStorage>().getCheckLogId();
+    pwProjectId = Get.find<AppStorage>().getProjectId();
+    shiftId = Get.find<AppStorage>().getShiftId();
+    getDashboardApi(true);
+    appLifeCycle();
   }
 
-// void getRegisterResources() {
-//   isLoading.value = true;
-//   SignUp1Repository().getRegisterResources(
-//     onSuccess: (ResponseModel responseModel) {
-//       if (responseModel.statusCode == 200) {
-//         // fetchLocationAndAddress();
-//         LocationServiceNew().checkLocationService();
-//         setRegisterResourcesResponse(RegisterResourcesResponse.fromJson(
-//             jsonDecode(responseModel.result!)));
-//         list.addAll(registerResourcesResponse.value.currency ?? []);
-//         if (mExtensionId.value != 0 &&
-//             !StringHelper.isEmptyList(
-//                 registerResourcesResponse.value.countries)) {
-//           for (var info in registerResourcesResponse.value.countries!) {
-//             if (info.id! == mExtensionId.value) {
-//               mFlag.value = info.flagImage!;
-//               break;
-//             }
-//           }
-//         }
-//       } else {
-//         AppUtils.showSnackBarMessage(responseModel.statusMessage!);
-//       }
-//       isLoading.value = false;
-//     },
-//     onError: (ResponseModel error) {
-//       isLoading.value = false;
-//       if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
-//         isInternetNotAvailable.value = true;
-//         // Utils.showSnackBarMessage('no_internet'.tr);
-//       } else if (error.statusMessage!.isNotEmpty) {
-//         AppUtils.showSnackBarMessage(error.statusMessage!);
-//       }
-//     },
-//   );
-// }
+  void appLifeCycle() {
+    AppLifecycleListener(
+      onResume: () async {
+        if (!locationLoaded) locationRequest();
+      },
+    );
+  }
 
-// void joinCompany(String code, String tradeId, String companyId) async {
-//   isLoading.value = true;
-//   Map<String, dynamic> map = {};
-//   map["trade_id"] = tradeId ?? "";
-//   map["code"] = code ?? "";
-//   map["company_id"] = companyId ?? "";
-//
-//   multi.FormData formData = multi.FormData.fromMap(map);
-//   // isLoading.value = true;
-//   _api.joinCompany(
-//     formData: formData,
-//     onSuccess: (ResponseModel responseModel) {
-//       if (responseModel.statusCode == 200) {
-//         JoinCompanyResponse response =
-//             JoinCompanyResponse.fromJson(jsonDecode(responseModel.result!));
-//         if (response.isSuccess!) {
-//           if (response.Data != null) {
-//             UserInfo? user = AppStorage().getUserInfo();
-//             if (user != null &&
-//                 !StringHelper.isEmptyString(
-//                     response.Data?.companyName ?? "")) {
-//               AppUtils.showToastMessage(
-//                   "Now, you are a member of ${response.Data?.companyName ?? ""}");
-//             }
-//           }
-//           moveToDashboard();
-//         } else {
-//           showSnackBar(response.message!);
-//         }
-//       } else {
-//         showSnackBar(responseModel.statusMessage!);
-//       }
-//       isLoading.value = false;
-//     },
-//     onError: (ResponseModel error) {
-//       isLoading.value = false;
-//       if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
-//         showSnackBar('no_internet'.tr);
-//       } else if (error.statusMessage!.isNotEmpty) {
-//         showSnackBar(error.statusMessage!);
-//       }
-//     },
-//   );
-// }
+  void getDashboardApi(bool isProgress) {
+    isLoading.value = isProgress;
+    HomeTabRepository().getDashboardResponse(
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.statusCode == 200) {
+          DashboardResponse response =
+              DashboardResponse.fromJson(jsonDecode(responseModel.result!));
+          if (response.isSuccess!) {
+            dashboardResponse.value = response;
+            var user = Get.find<AppStorage>().getUserInfo();
+            if ((response.userTypeId ?? 0) != 0) {
+              Map<String, dynamic> updatedJson = {
+                "user_type_id": response.userTypeId ?? 0,
+                "is_owner": response.isOwner ?? false,
+                "shift_id": response.shiftId ?? 0,
+                "shift_name": response.shiftName ?? "",
+                "shift_type": response.shiftType ?? 0,
+                "team_id": response.teamId ?? 0,
+                "team_name": response.teamName ?? "",
+                "currency_symbol": response.currencySymbol ?? "\\u20b9",
+                "company_id": response.companyId ?? 0,
+                "company_name": response.companyName ?? "",
+                "company_image": response.companyImage ?? "",
+              };
+              user = user.copyWith(
+                  userTypeId: updatedJson['user_type_id'],
+                  isOwner: updatedJson['is_owner'],
+                  shiftId: updatedJson['shift_id'],
+                  shiftName: updatedJson['shift_name'],
+                  shiftType: updatedJson['shift_type'],
+                  teamId: updatedJson['team_id'],
+                  teamName: updatedJson['team_name'],
+                  currencySymbol: updatedJson['currency_symbol'],
+                  companyId: updatedJson['company_id'],
+                  companyName: updatedJson['company_name'],
+                  companyImage: updatedJson['company_image']);
+              Get.find<AppStorage>().setUserInfo(user);
+            }
+            Get.find<AppStorage>().setDashboardResponse(response);
+            getNewTimesheetResources();
+          } else {
+            AppUtils.showApiResponseMessage(response.message!);
+          }
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage!);
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        // if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+        //   isInternetNotAvailable.value = true;
+        //   // Utils.showApiResponseMessage('no_internet'.tr);
+        // } else if (error.statusMessage!.isNotEmpty) {
+        //   AppUtils.showApiResponseMessage(error.statusMessage!);
+        // }
+      },
+    );
+  }
+
+  void getNewTimesheetResources() {
+    isLoading.value = true;
+    _api.getNewTimesheetResources(
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.statusCode == 200) {
+          NewTimeSheetResourcesResponse response =
+              NewTimeSheetResourcesResponse.fromJson(
+                  jsonDecode(responseModel.result!));
+          if (response.isSuccess!) {
+            resourcesData.value = response;
+            isMainViewVisible.value = true;
+            locationRequest();
+          } else {
+            AppUtils.showApiResponseMessage(response.message!);
+          }
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage!);
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+          // Utils.showApiResponseMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showApiResponseMessage(error.statusMessage!);
+        }
+      },
+    );
+  }
+
+  void startWork() async {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["pw_project_id"] = pwProjectId ?? "";
+    map["shift_id"] = shiftId ?? "";
+    map["latitude"] = latitude ?? "";
+    map["longitude"] = longitude ?? "";
+    map["location"] = location ?? "";
+    map["user_id"] = AppUtils.getLoginUserId();
+    map["supervisor_id"] = dashboardResponse.value.supervisorId ?? "";
+    map["team_id"] = dashboardResponse.value.teamId ?? "";
+    map["note"] = "";
+    map["device_type"] = AppConstants.deviceType;
+    if (kDebugMode) print("Request Parameter ==> ${map.toString()}");
+    multi.FormData formData = multi.FormData.fromMap(map);
+    // isLoading.value = true;
+    _api.startWork(
+      formData: formData,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.statusCode == 200) {
+          StartWorkResponse response =
+              StartWorkResponse.fromJson(jsonDecode(responseModel.result!));
+          if (response.isSuccess!) {
+            timeLogId.value = (response.timelogId ?? 0).toString();
+            Get.find<AppStorage>().setTimeLogId(timeLogId.value);
+            Get.find<AppStorage>().setProjectId(pwProjectId ?? "0");
+            Get.find<AppStorage>().setShiftId(shiftId ?? "0");
+          } else {
+            AppUtils.showApiResponseMessage(response.message!);
+          }
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage!);
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showApiResponseMessage(error.statusMessage!);
+        }
+      },
+    );
+  }
+
+  void checkIn() async {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["pw_project_id"] = pwProjectId ?? "";
+    map["shift_id"] = shiftId ?? "";
+    map["latitude"] = latitude ?? "";
+    map["longitude"] = longitude ?? "";
+    map["location"] = location ?? "";
+    map["user_id"] = AppUtils.getLoginUserId();
+    map["supervisor_id"] = dashboardResponse.value.supervisorId ?? "";
+    map["team_id"] = dashboardResponse.value.teamId ?? "";
+    map["note"] = "";
+    map["device_type"] = AppConstants.deviceType;
+
+    multi.FormData formData = multi.FormData.fromMap(map);
+    // isLoading.value = true;
+    _api.checkIn(
+      formData: formData,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.statusCode == 200) {
+          CheckInResponse response =
+              CheckInResponse.fromJson(jsonDecode(responseModel.result!));
+          if (response.isSuccess!) {
+            checkLogId.value = (response.checklogId ?? 0).toString();
+            Get.find<AppStorage>().setTimeLogId(checkLogId.value);
+          } else {
+            AppUtils.showApiResponseMessage(response.message!);
+          }
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage!);
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showApiResponseMessage(error.statusMessage!);
+        }
+      },
+    );
+  }
+
+  void stopWork() async {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["id"] = timeLogId.value;
+    map["shift_id"] = shiftId ?? "";
+    map["latitude"] = latitude ?? "";
+    map["longitude"] = longitude ?? "";
+    map["location"] = location ?? "";
+    map["user_id"] = AppUtils.getLoginUserId();
+    map["supervisor_id"] = dashboardResponse.value.supervisorId ?? "";
+    map["team_id"] = dashboardResponse.value.teamId ?? "";
+    map["note"] = "";
+    map["device_type"] = AppConstants.deviceType;
+
+    multi.FormData formData = multi.FormData.fromMap(map);
+    // isLoading.value = true;
+    _api.stopWork(
+      formData: formData,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.statusCode == 200) {
+          StopWorkResponse response =
+              StopWorkResponse.fromJson(jsonDecode(responseModel.result!));
+          if (response.isSuccess!) {
+            timeLogId.value = "";
+            checkLogId.value = "";
+            pwProjectId = "";
+            shiftId = "";
+            Get.find<AppStorage>().setTimeLogId(timeLogId.value);
+            Get.find<AppStorage>().setCheckLogId(checkLogId.value);
+            Get.find<AppStorage>().setProjectId(pwProjectId!);
+            Get.find<AppStorage>().setShiftId(shiftId!);
+          } else {
+            AppUtils.showApiResponseMessage(response.message!);
+          }
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage!);
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showApiResponseMessage(error.statusMessage!);
+        }
+      },
+    );
+  }
+
+  void checkOut() async {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["id"] = checkLogId.value;
+    map["shift_id"] = shiftId ?? "";
+    map["latitude"] = latitude ?? "";
+    map["longitude"] = longitude ?? "";
+    map["location"] = location ?? "";
+    map["user_id"] = AppUtils.getLoginUserId();
+    map["supervisor_id"] = dashboardResponse.value.supervisorId ?? "";
+    map["team_id"] = dashboardResponse.value.teamId ?? "";
+    map["note"] = "";
+    map["device_type"] = AppConstants.deviceType;
+
+    multi.FormData formData = multi.FormData.fromMap(map);
+    // isLoading.value = true;
+    _api.stopWork(
+      formData: formData,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.statusCode == 200) {
+          CheckOutResponse response =
+              CheckOutResponse.fromJson(jsonDecode(responseModel.result!));
+          if (response.isSuccess!) {
+            checkLogId.value = "";
+            Get.find<AppStorage>().setCheckLogId(checkLogId.value);
+          } else {
+            AppUtils.showApiResponseMessage(response.message!);
+          }
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage!);
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showApiResponseMessage(error.statusMessage!);
+        }
+      },
+    );
+  }
 
   void showSelectProjectDialog() {
-    final List<ModuleInfo> list = <ModuleInfo>[];
-    // for (int i = 0; i < 4; i++) {
-    //   var info = ModuleInfo();
-    //   info.name = "Project ${i + 1}";
-    //   list.add(info);
-    // }
-
-    var info = null;
-
-    info = ModuleInfo();
-    info.name = "Haringey Voids";
-    info.code = "#FFDC4A";
-    list.add(info);
-
-    info = ModuleInfo();
-    info.name = "BWF";
-    info.code = "#8F7FEE";
-    list.add(info);
-
-    info = ModuleInfo();
-    info.name = "Haringey OT";
-    info.code = "#659DF2";
-    list.add(info);
-
-    info = ModuleInfo();
-    info.name = "Camden Voids";
-    info.code = "#FE9F4D";
-    list.add(info);
-
-    // list.add(ModuleInfo());
-    // list.add(ModuleInfo());
-    // list.add(ModuleInfo());
-    // list.add(ModuleInfo());
-
     Get.bottomSheet(
         SelectProjectDialog(
           dialogType: AppConstants.dialogIdentifier.selectProject,
-          list: list,
+          list: resourcesData.value.projects ?? [],
           listener: this,
         ),
         backgroundColor: Colors.transparent,
@@ -152,16 +361,10 @@ class ClockInController extends GetxController implements SelectItemListener {
   }
 
   void showSelectShiftDialog() {
-    final List<ModuleInfo> list = <ModuleInfo>[];
-    list.add(ModuleInfo());
-    list.add(ModuleInfo());
-    list.add(ModuleInfo());
-    list.add(ModuleInfo());
-
     Get.bottomSheet(
         SelectShiftDialog(
           dialogType: AppConstants.dialogIdentifier.selectShift,
-          list: list,
+          list: resourcesData.value.shifts ?? [],
           listener: this,
         ),
         backgroundColor: Colors.transparent,
@@ -181,6 +384,64 @@ class ClockInController extends GetxController implements SelectItemListener {
   @override
   void onSelectItem(int position, int id, String name, String action) {
     if (action == AppConstants.dialogIdentifier.selectProject) {
-    } else if (action == AppConstants.dialogIdentifier.selectShift) {}
+      print("Project Id:" + id.toString());
+      print("Project name:" + name);
+      pwProjectId = id.toString();
+      showSelectShiftDialog();
+    } else if (action == AppConstants.dialogIdentifier.selectShift) {
+      print("Shift Id:" + id.toString());
+      print("Shift name:" + name);
+      shiftId = id.toString();
+      startWork();
+    }
+  }
+
+  Future<void> locationRequest() async {
+    locationLoaded = await locationService.checkLocationService();
+    if (locationLoaded) {
+      fetchLocationAndAddress();
+    }
+  }
+
+  Future<void> fetchLocationAndAddress() async {
+    print("fetchLocationAndAddress");
+    latLon = await LocationServiceNew.getCurrentLocation();
+    if (latLon != null) {
+      latitude = latLon!.latitude.toString();
+      longitude = latLon!.longitude.toString();
+      location = await LocationServiceNew.getAddressFromCoordinates(
+          latLon!.latitude, latLon!.longitude);
+      center.value = LatLng(latLon!.latitude, latLon!.longitude);
+      mapController.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(target: center.value, zoom: 15),
+      ));
+      print("Location:" +
+          "Latitude: ${latLon!.latitude}, Longitude: ${latLon!.longitude}");
+      print("Address:${location ?? ""}");
+    } else {
+      print("Location:" + "Location permission denied or services disabled");
+      print("Address:" + "Could not retrieve address");
+    }
+  }
+
+  bool isWorking() {
+    return !StringHelper.isEmptyString(timeLogId.value) &&
+        timeLogId.value != "0";
+  }
+
+  bool isCheckIn() {
+    return !StringHelper.isEmptyString(checkLogId.value) &&
+        checkLogId.value != "0";
+  }
+
+  onClickCheckInButton() async {
+    var result;
+    var arguments = {
+      AppConstants.intentKey.addressList: resourcesData.value.projectAddresses,
+    };
+    result =
+        await Get.toNamed(AppRoutes.selectAddressScreen, arguments: arguments);
+
+    if (result != null) {}
   }
 }

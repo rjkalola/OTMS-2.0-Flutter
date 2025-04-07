@@ -40,12 +40,14 @@ class _ClockInScreenState extends State<ClockInScreen> {
       child: SafeArea(
         child: Scaffold(
           backgroundColor: backgroundColor,
-          appBar: BaseAppBar(
-              appBar: AppBar(),
-              title: "",
-              isCenterTitle: false,
-              isBack: true,
-              widgets: actionButtons()),
+          appBar: controller.isWorking()
+              ? BaseAppBar(
+                  appBar: AppBar(),
+                  title: "",
+                  isCenterTitle: false,
+                  isBack: true,
+                  widgets: actionButtons())
+              : null,
           body: Obx(() {
             return ModalProgressHUD(
                 inAsyncCall: controller.isLoading.value,
@@ -53,36 +55,38 @@ class _ClockInScreenState extends State<ClockInScreen> {
                 progressIndicator: const CustomProgressbar(),
                 child: controller.isInternetNotAvailable.value
                     ? const NoInternetWidget()
-                    : (true
-                        ? Column(
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  children: [
-                                    MapView(),
-                                    StartWorkButton(),
-                                    ContinueYesterdaysWorkButton()
-                                  ],
-                                ),
-                              ),
-                              FooterButtonsViewStartWork()
-                            ],
-                          )
-                        : Column(
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  children: [
-                                    WorkTimeDetailsView(),
-                                    MyLogAddressesTabs(),
-                                    MyDayLogListView()
-                                    // CheckInAddressesListView()
-                                  ],
-                                ),
-                              ),
-                              FooterButtonCheckInSwitchProject()
-                            ],
-                          )));
+                    : Visibility(
+                        visible: controller.isMainViewVisible.value,
+                        child: (!controller.isWorking()
+                            ? Column(
+                                children: [
+                                  Expanded(
+                                    child: Column(
+                                      children: [
+                                        MapView(),
+                                        StartWorkButton(),
+                                        ContinueYesterdaysWorkButton()
+                                      ],
+                                    ),
+                                  ),
+                                  FooterButtonsViewStartWork()
+                                ],
+                              )
+                            : Column(
+                                children: [
+                                  Expanded(
+                                    child: Column(
+                                      children: [
+                                        WorkTimeDetailsView(),
+                                        MyLogAddressesTabs(),
+                                        MyDayLogListView()
+                                        // CheckInAddressesListView()
+                                      ],
+                                    ),
+                                  ),
+                                  FooterButtonCheckInSwitchProject()
+                                ],
+                              ))));
           }),
         ),
       ),

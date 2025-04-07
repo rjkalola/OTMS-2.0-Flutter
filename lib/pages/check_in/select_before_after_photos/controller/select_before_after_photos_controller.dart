@@ -1,17 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:otm_inventory/pages/check_in/details_of_work/controller/details_of_work_repository.dart';
-import 'package:otm_inventory/pages/check_in/select_address/controller/select_address_repository.dart';
-import 'package:otm_inventory/pages/check_in/select_before_after_photos/view/select_before_after_photos_screen.dart';
-import 'package:otm_inventory/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:otm_inventory/pages/common/listener/select_item_listener.dart';
 import 'package:otm_inventory/pages/common/model/file_info.dart';
 import 'package:otm_inventory/pages/common/select_Item_list_dialog.dart';
-import 'package:otm_inventory/pages/manageattachment/listener/select_attachment_listener.dart';
-import 'package:otm_inventory/utils/AlertDialogHelper.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:otm_inventory/web_services/response/module_info.dart';
 

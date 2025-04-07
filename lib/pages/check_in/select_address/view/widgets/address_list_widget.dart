@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:otm_inventory/pages/check_in/select_address/controller/select_address_controller.dart';
 import 'package:otm_inventory/res/colors.dart';
+import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/widgets/shapes/circle_widget.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
+import 'package:get/get.dart';
 
 class AddressListWidget extends StatelessWidget {
-  const AddressListWidget({super.key});
+  AddressListWidget({super.key});
+
+  final controller = Get.put(SelectAddressController());
 
   @override
   Widget build(BuildContext context) {
@@ -30,21 +35,36 @@ class AddressListWidget extends StatelessWidget {
                       fontSize: 16,
                       color: primaryTextColor,
                       softWrap: true,
-                      text:
-                          "	Unit 6, Woolwich Trademan Park, Pettman Cre scen",
+                      text: controller.addressList[position].name ?? "",
                     ),
                   ),
                   SizedBox(
                     width: 16,
                   ),
-                  CircleWidget(color: Colors.red, width: 13, height: 13)
+                  CircleWidget(
+                      color: getStatusColor(
+                          controller.addressList[position].filterValue ?? 0),
+                      width: 13,
+                      height: 13)
                 ],
               ),
             ),
           );
         },
-        itemCount: 15,
+        itemCount: controller.addressList.length,
       ),
     );
+  }
+
+  Color getStatusColor(int filterValue) {
+    Color color = Color(AppUtils.haxColor("#FF6464"));
+    if (filterValue == 1) {
+      color = Color(AppUtils.haxColor("#FFDC4A"));
+    } else if (filterValue == 2) {
+      color = Color(AppUtils.haxColor("#FF6464"));
+    } else if (filterValue == 3) {
+      color = Color(AppUtils.haxColor("#2DC75C"));
+    }
+    return color;
   }
 }

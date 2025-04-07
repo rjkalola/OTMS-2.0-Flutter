@@ -35,6 +35,7 @@ class IntentKey {
   final String count = 'COUNT';
   final String photosType = 'PHOTOS_TYPE';
   final String photosList = 'PHOTOS_LIST';
+  final String addressList = 'ADDRESS_LIST';
 }
 
 class DialogIdentifier {
@@ -57,14 +58,16 @@ class SharedPreferenceKey {
   const SharedPreferenceKey(); // <---
   final String userInfo = "USER_INFO";
   final String accessToken = "ACCESS_TOKEN";
-  final String storeId = "STORE_ID";
-  final String storeName = "STORE_NAME";
   final String savedLoginUserList = "SAVED_LOGIN_USER_LIST";
   final String dashboardItemCountData = "DASHBOARD_ITEM_COUNT_DATA";
   final String permissionSettings = "PERMISSION_SETTINGS";
   final String dashboardResponse = "DASHBOARD_RESPONSE";
   final String isWeeklySummeryCounter = "IS_WEEKLY_SUMMERY_COUNTER";
   final String weeklySummeryAmount = "WEEKLY_SUMMERY_AMOUNT";
+  final String timeLogId = "TIME_LOG_ID";
+  final String checkLogId = "CHECK_LOG_ID";
+  final String projectId = "PROJECT_ID";
+  final String shiftId = "SHIFT_ID";
 }
 
 class Action {
@@ -143,5 +146,4 @@ class Type {
   final int OUTER_OVERTIME = 6;
   final String beforePhotos = "BEFORE_PHOTOS";
   final String afterPhotos = "AFTER_PHOTOS";
-
 }

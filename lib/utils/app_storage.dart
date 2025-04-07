@@ -58,25 +58,6 @@ class AppStorage extends GetxController {
     return token;
   }
 
-  void setStoreId(int storeId) {
-    storage.write(AppConstants.sharedPreferenceKey.storeId, storeId);
-  }
-
-  int getStoreId() {
-    final storeId = storage.read(AppConstants.sharedPreferenceKey.storeId) ?? 0;
-    return storeId;
-  }
-
-  void setStoreName(String storeName) {
-    storage.write(AppConstants.sharedPreferenceKey.storeName, storeName);
-  }
-
-  String getStoreName() {
-    final storeName =
-        storage.read(AppConstants.sharedPreferenceKey.storeName) ?? "";
-    return storeName;
-  }
-
   void setPermissions(PermissionSettings stockData) {
     storage.write(AppConstants.sharedPreferenceKey.permissionSettings,
         jsonEncode(stockData));
@@ -150,13 +131,54 @@ class AppStorage extends GetxController {
     return value;
   }
 
+  void setTimeLogId(String value) {
+    storage.write(AppConstants.sharedPreferenceKey.timeLogId, value);
+  }
+
+  String getTimeLogId() {
+    final value =
+        storage.read(AppConstants.sharedPreferenceKey.timeLogId) ?? "0";
+    return value;
+  }
+
+  void setCheckLogId(String value) {
+    storage.write(AppConstants.sharedPreferenceKey.checkLogId, value);
+  }
+
+  String getCheckLogId() {
+    final value =
+        storage.read(AppConstants.sharedPreferenceKey.checkLogId) ?? "0";
+    return value;
+  }
+
+  void setProjectId(String value) {
+    storage.write(AppConstants.sharedPreferenceKey.projectId, value);
+  }
+
+  String getProjectId() {
+    final value =
+        storage.read(AppConstants.sharedPreferenceKey.projectId) ?? "0";
+    return value;
+  }
+
+  void setShiftId(String value) {
+    storage.write(AppConstants.sharedPreferenceKey.shiftId, value);
+  }
+
+  String getShiftId() {
+    final value = storage.read(AppConstants.sharedPreferenceKey.shiftId) ?? "0";
+    return value;
+  }
+
   void clearAllData() {
     AppConstants.isResourcesLoaded = false;
-    removeData(AppConstants.sharedPreferenceKey.storeId);
-    removeData(AppConstants.sharedPreferenceKey.storeName);
     removeData(AppConstants.sharedPreferenceKey.userInfo);
     removeData(AppConstants.sharedPreferenceKey.accessToken);
     removeData(AppConstants.sharedPreferenceKey.dashboardItemCountData);
+    removeData(AppConstants.sharedPreferenceKey.permissionSettings);
+    removeData(AppConstants.sharedPreferenceKey.dashboardResponse);
+    removeData(AppConstants.sharedPreferenceKey.isWeeklySummeryCounter);
+    removeData(AppConstants.sharedPreferenceKey.weeklySummeryAmount);
   }
 
   void removeData(String key) {

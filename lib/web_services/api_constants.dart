@@ -26,6 +26,16 @@ class ApiConstants {
   static String joinCompanyCodeUrl = '$appUrl/join-company-code';
   static String scanInviteCodeUrl = '$appUrl/scan-invite-code';
   static String joinCompanyUrl = '$appUrl/join-company';
+  static String newTimesheetResourcesUrl =
+      '$appUrl/new-timesheet/get-resources';
+  static String startWorkUrl =
+      '$appUrl/start-time';
+  static String stopWorkUrl =
+      '$appUrl/stop-time';
+  static String checkInUrl =
+      '$appUrl/check-in';
+  static String checkOutUrl =
+      '$appUrl/check-out';
 
   static String stockFilterUrl = '$appUrl/products/category-filter';
   static String getDashboardStockCount = '$appUrl/dashboard/get-count';

@@ -63,5 +63,11 @@
     <string>We need your location to provide better service.</string>
     <key>NSLocationAlwaysUsageDescription</key>
     <string>We need your location to provide better service.</string>
+    <key>NSFaceIDUsageDescription</key>
+    <string>We use Face ID to authenticate</string>
+    <key>io.flutter.embedded_views_preview</key>
+    <true/>
+    <key>GMSApiKey</key>
+    <string>AIzaSyDDOWUo-4BVRwrbtkE2kPVz7USJCZqlwd4</string>
 </dict>
 </plist>
