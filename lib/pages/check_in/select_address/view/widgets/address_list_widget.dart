@@ -20,13 +20,14 @@ class AddressListWidget extends StatelessWidget {
         shrinkWrap: true,
         scrollDirection: Axis.vertical,
         separatorBuilder: (context, position) => Divider(
+          height: 0,
           color: dividerColor,
         ),
         itemBuilder: (context, position) {
           return InkWell(
             onTap: () {},
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 6, 16, 6),
+              padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
               child: Row(
                 children: [
                   Expanded(
