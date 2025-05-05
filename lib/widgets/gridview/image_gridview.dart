@@ -10,12 +10,14 @@ class ImageGridview extends StatelessWidget {
       required this.filesList,
       required this.onViewClick,
       required this.onRemoveClick,
-      this.physics});
+      this.physics,
+      this.fileRadius});
 
   final List<FilesInfo> filesList;
   final ValueChanged<int> onViewClick;
   final ValueChanged<int> onRemoveClick;
   final ScrollPhysics? physics;
+  final double? fileRadius;
 
   @override
   Widget build(BuildContext context) {
