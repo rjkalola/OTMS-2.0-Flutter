@@ -9,7 +9,16 @@ class Strings extends Translations {
           'create_new_account': "Create New Account",
           'create_company': "Create Company",
           'log_in': 'Log In',
+          'log_in_note1': 'What\'s your mobile\nnumber?',
+          'log_in_note2': 'One number. Zero hassle. Instant login.',
           'do_not_have_an_account': 'Don\'t have an account?',
+          'continue': "Continue",
+          'enter_verification_code': "Enter Verification Code",
+          'verification_code_sent_note':
+              "We\'ve sent a 4-digit code to\nyour phone",
+          'resend_code_in': "Resend code in",
+          'did_not_get_the_code': "Didn't get the code?",
+          'resend_now': "Resend Now",
           'sign_up_free_and_start_using_otm_system':
               'Signup free and start\nusing OTM System',
           'sign_up': 'Sign Up',

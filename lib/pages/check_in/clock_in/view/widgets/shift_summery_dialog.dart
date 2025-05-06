@@ -206,7 +206,7 @@ class ShiftSummeryDialogState extends State<ShiftSummeryDialog> {
                     // SizedBox(
                     //   width: 10,
                     // ),
-                    // ImageUtils.setAssetsImage(
+                    // ImageUtils.setSvgAssetsImage(
                     //     path: Drawable.editPencilIcon, width: 13, height: 13)
                   ],
                 ),
@@ -221,7 +221,7 @@ class ShiftSummeryDialogState extends State<ShiftSummeryDialog> {
                     radius: 9),
                 child: Row(
                   children: [
-                    ImageUtils.setAssetsImage(
+                    ImageUtils.setSvgAssetsImage(
                         path: Drawable.locationMapNavigationPointer,
                         width: 18,
                         height: 18),
@@ -265,7 +265,7 @@ class ShiftSummeryDialogState extends State<ShiftSummeryDialog> {
                             print("beforePhotos select");
                             onSelectPhotos(photosType, listPhotos);
                           },
-                          child: ImageUtils.setAssetsImage(
+                          child: ImageUtils.setSvgAssetsImage(
                               path: Drawable.addPhotoIcon,
                               width: 70,
                               height: 70),
@@ -275,7 +275,7 @@ class ShiftSummeryDialogState extends State<ShiftSummeryDialog> {
                             print("afterPhotos select");
                             onSelectPhotos(photosType, listPhotos);
                           },
-                          child: ImageUtils.setAssetsImage(
+                          child: ImageUtils.setSvgAssetsImage(
                               path: Drawable.pictureGalleryIcon,
                               width: 52,
                               height: 52),
@@ -380,7 +380,7 @@ class ShiftSummeryDialogState extends State<ShiftSummeryDialog> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      ImageUtils.setAssetsImage(
+                      ImageUtils.setSvgAssetsImage(
                           path: Drawable.editPencilIcon, width: 14, height: 14),
                       SizedBox(
                         width: 14,

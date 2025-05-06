@@ -153,7 +153,7 @@ class ImageUtils {
         : Icon(Icons.photo_outlined, size: getEmptyIconSize(width, height));
   }
 
-  static Widget setAssetsImage(
+  static Widget setSvgAssetsImage(
       {required String path,
       required double width,
       required double height,
@@ -168,6 +168,23 @@ class ImageUtils {
             colorFilter:
                 color != null ? ColorFilter.mode(color, BlendMode.srcIn) : null,
           )
+        : Icon(Icons.photo_outlined, size: getEmptyIconSize(width, height));
+  }
+
+  static Widget setAssetsImage(
+      {required String path,
+        required double width,
+        required double height,
+        BoxFit? fit,
+        Color? color}) {
+    return !StringHelper.isEmptyString(path)
+        ? Image.asset(
+      path,
+      fit: fit ?? BoxFit.cover,
+      width: width,
+      height: height,
+      color: color,
+    )
         : Icon(Icons.photo_outlined, size: getEmptyIconSize(width, height));
   }
 

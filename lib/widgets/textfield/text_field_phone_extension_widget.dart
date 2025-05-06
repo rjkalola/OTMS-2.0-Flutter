@@ -32,17 +32,20 @@ class TextFieldPhoneExtensionWidget extends StatelessWidget {
           counterText: "",
           contentPadding: const EdgeInsets.fromLTRB(14, 14, 14, 14),
           floatingLabelBehavior: FloatingLabelBehavior.auto,
-          border: const OutlineInputBorder(
+          border:  OutlineInputBorder(
             borderSide:
             BorderSide(color: focusedTextFieldBorderColor, width: 1),
+            borderRadius: BorderRadius.circular(45.0),
           ),
-          focusedBorder: const OutlineInputBorder(
+          focusedBorder:  OutlineInputBorder(
             borderSide:
             BorderSide(color: focusedTextFieldBorderColor, width: 1),
+            borderRadius: BorderRadius.circular(45.0),
           ),
-          enabledBorder: const OutlineInputBorder(
+          enabledBorder:  OutlineInputBorder(
             borderSide:
             BorderSide(color: normalTextFieldBorderColor, width: 1),
+            borderRadius: BorderRadius.circular(45.0),
           ),
           hintText: "Extension",
           labelText: "Extension",

@@ -58,4 +58,7 @@ class Drawable {
   static const String addPhotoIcon = 'assets/images/ic_add_photo.svg';
   static const String editPencilIcon =
       'assets/images/ic_create_edit_pencil_write.svg';
+  static const String imgHeaderLogo = 'assets/images/img_header_logo.png';
+  static const String imgSplashCenterImage =
+      'assets/images/img_splash_center_image.png';
 }

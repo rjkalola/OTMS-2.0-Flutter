@@ -45,7 +45,7 @@ class PhoneExtensionFieldWidget extends StatelessWidget {
     //   );
     // });
     return Obx(() => Padding(
-          padding: const EdgeInsets.fromLTRB(14, 0, 7, 18),
+          padding: const EdgeInsets.fromLTRB(20, 0, 5, 18),
           child: TextFieldPhoneExtensionWidget(
               mExtension: loginController.mExtension.value,
               mFlag: loginController.mFlag.value,

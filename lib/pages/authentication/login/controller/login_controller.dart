@@ -28,6 +28,8 @@ class LoginController extends GetxController
   final registerResourcesResponse = RegisterResourcesResponse().obs;
   RxBool isLoading = false.obs, isInternetNotAvailable = false.obs;
   var loginUsers = <UserInfo>[].obs;
+  final otpController = TextEditingController().obs;
+  final mOtpCode = "".obs;
 
   @override
   void onInit() {
