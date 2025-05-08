@@ -6,13 +6,12 @@ class PreferredImageSizeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Padding(
+    return Padding(
       padding: const EdgeInsets.fromLTRB(16, 14, 16, 0),
       child: Align(
-          alignment: Alignment.centerLeft,
+          alignment: Alignment.center,
           child: Text('Preferred image size: 600px X 250px.',
-              style: TextStyle(
-                  fontSize: 13, color: secondaryTextColor))),
+              style: TextStyle(fontSize: 13, color: secondaryTextColor))),
     );
   }
 }

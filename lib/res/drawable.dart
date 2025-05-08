@@ -61,4 +61,7 @@ class Drawable {
   static const String imgHeaderLogo = 'assets/images/img_header_logo.png';
   static const String imgSplashCenterImage =
       'assets/images/img_splash_center_image.png';
+  static const String imgAddUserImage = 'assets/images/img_add_user_image.png';
+  static const String imgAddImage = 'assets/images/img_add_image.png';
+  static const String constructionImage = 'assets/images/ic_construction.png';
 }

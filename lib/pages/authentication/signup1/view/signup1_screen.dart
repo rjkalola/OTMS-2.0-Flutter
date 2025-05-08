@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:otm_inventory/pages/authentication/login/view/widgets/header_logo.dart';
+import 'package:otm_inventory/pages/authentication/login/view/widgets/otp_view.dart';
 import 'package:otm_inventory/pages/authentication/signup1/controller/signup1_controller.dart';
 import 'package:otm_inventory/pages/authentication/signup1/view/widgets/firstname_lastname_textfield_widget.dart';
 import 'package:otm_inventory/pages/authentication/signup1/view/widgets/next_button_widget.dart';
 import 'package:otm_inventory/pages/authentication/signup1/view/widgets/phone_extension_field_widget.dart';
 import 'package:otm_inventory/pages/authentication/signup1/view/widgets/phone_text_field_widget.dart';
-import 'package:otm_inventory/pages/authentication/signup1/view/widgets/sign_up_note_text_widget_.dart';
+import 'package:otm_inventory/pages/authentication/signup1/view/widgets/photo_upload_widget.dart';
+import 'package:otm_inventory/pages/authentication/signup1/view/widgets/header_title_note_text_widget_.dart';
 import 'package:otm_inventory/pages/authentication/signup1/view/widgets/top_divider_widget.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
@@ -34,12 +37,12 @@ class _SignUp1ScreenState extends State<SignUp1Screen> {
       child: SafeArea(
         child: Scaffold(
           backgroundColor: backgroundColor,
-          appBar: BaseAppBar(
-            appBar: AppBar(),
-            title: ''.tr,
-            isCenterTitle: true,
-            isBack: true,
-          ),
+          // appBar: BaseAppBar(
+          //   appBar: AppBar(),
+          //   title: ''.tr,
+          //   isCenterTitle: true,
+          //   isBack: true,
+          // ),
           body: Obx(() {
             return ModalProgressHUD(
                 inAsyncCall: controller.isLoading.value,
@@ -47,33 +50,30 @@ class _SignUp1ScreenState extends State<SignUp1Screen> {
                 progressIndicator: const CustomProgressbar(),
                 child: controller.isInternetNotAvailable.value
                     ? const NoInternetWidget()
-                    : Column(children: [
-                        Expanded(
-                          child: Form(
+                    : SingleChildScrollView(
+                        child: Column(children: [
+                          Form(
                             key: controller.formKey,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Padding(
-                                  padding: EdgeInsets.only(left: 16, right: 16),
-                                  child: Divider(
-                                    thickness: 0.5,
-                                    height: 0.5,
-                                    color: defaultAccentColor,
-                                  ),
+                                SizedBox(
+                                  height: 20,
                                 ),
-                                const TopDividerWidget(),
-                                const SignUpNoteTextWidget(),
+                                const TopDividerWidget(
+                                  flex1: 1,
+                                  flex2: 5,
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(8, 14, 16, 0),
+                                  child: HeaderLogo(),
+                                ),
+                                HeaderTitleNoteTextWidget(
+                                  title: 'create_new_account'.tr,
+                                ),
+                                PhotoUploadWidget(),
                                 FirstNameLastNameTextFieldWidget(),
-                                // Padding(
-                                //   padding: const EdgeInsets.fromLTRB(16, 20, 0, 0),
-                                //   child: Text('phone_number'.tr,
-                                //       textAlign: TextAlign.start,
-                                //       style: const TextStyle(
-                                //         color: Colors.black45,
-                                //         fontSize: 12,
-                                //       )),
-                                // ),
                                 SizedBox(
                                   height: 28,
                                 ),
@@ -82,19 +82,33 @@ class _SignUp1ScreenState extends State<SignUp1Screen> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Flexible(
-                                      flex: 6,
+                                      flex: 5,
                                       child: PhoneExtensionFieldWidget(),
                                     ),
                                     Flexible(
                                         flex: 9, child: PhoneTextFieldWidget()),
                                   ],
                                 ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                                  child: OtpView(
+                                    mOtpCode: controller.mOtpCode,
+                                    otpController: controller.otpController,
+                                    onCodeChanged: (code) {
+                                      print("onCodeChanged $code");
+                                    },
+                                    onResendOtp: () {
+                                      print("onResendOtp click");
+                                    },
+                                  ),
+                                ),
+                                NextButtonWidget()
                               ],
                             ),
                           ),
-                        ),
-                        NextButtonWidget()
-                      ]));
+                        ]),
+                      ));
           }),
         ),
       ),

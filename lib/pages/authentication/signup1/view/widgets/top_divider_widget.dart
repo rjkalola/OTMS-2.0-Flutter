@@ -7,33 +7,31 @@ import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/widgets/PrimaryBorderButton.dart';
 
 class TopDividerWidget extends StatelessWidget {
-  const TopDividerWidget({super.key});
+  const TopDividerWidget({super.key, required this.flex1, required this.flex2});
+
+  final int flex1, flex2;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 16, right: 16),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Flexible(
-            flex: 1,
-            child: Container(
-              height: 5,
-              color: defaultAccentColor,
-            ),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Flexible(
+          flex: flex1,
+          child: Container(
+            height: 5,
+            color: defaultAccentColor,
           ),
-          const Flexible(
-            flex: 1,
-            child: Text(""),
+        ),
+        Flexible(
+          flex: flex2,
+          child: Container(
+            height: 5,
+            color: dividerColor,
           ),
-          const Flexible(
-            flex: 1,
-            child: Text(""),
-          )
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

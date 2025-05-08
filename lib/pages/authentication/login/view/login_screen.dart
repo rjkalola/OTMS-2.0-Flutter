@@ -69,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         //   height: 50,
                         // ),
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(12, 20, 16, 0),
+                          padding: const EdgeInsets.fromLTRB(8, 16, 16, 0),
                           child: HeaderLogo(),
                         ),
                         LogInNote1TextWidget(),

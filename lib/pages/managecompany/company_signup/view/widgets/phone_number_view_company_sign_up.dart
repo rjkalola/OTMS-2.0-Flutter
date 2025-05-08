@@ -8,17 +8,17 @@ class PhoneNumberViewCompanySignUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
+      padding: const EdgeInsets.fromLTRB(20, 0, 20, 14),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Flexible(
-            flex: 6,
+            flex: 5,
             child: PhoneExtensionTextFieldCompanySignUp(),
           ),
           SizedBox(
-            width: 12,
+            width: 10,
           ),
           Flexible(flex: 9, child: PhoneNumberTextFieldCompanySignup()),
         ],

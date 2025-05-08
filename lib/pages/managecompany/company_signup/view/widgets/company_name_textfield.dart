@@ -12,7 +12,7 @@ class CompanyNameTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 26, 16, 24),
+      padding: const EdgeInsets.fromLTRB(20, 26, 20, 24),
       child: TextFieldBorder(
         textEditingController: controller.companyNameController.value,
         hintText: 'company_name'.tr,

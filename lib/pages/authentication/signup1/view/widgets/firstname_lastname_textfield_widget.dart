@@ -20,7 +20,7 @@ class FirstNameLastNameTextFieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 16, right: 16, top: 18),
+      padding: const EdgeInsets.only(left: 20, right: 20, top: 24),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -61,7 +61,7 @@ class FirstNameLastNameTextFieldWidget extends StatelessWidget {
           //     ]),
           //     ),
           const SizedBox(
-            width: 14,
+            width: 10,
           ),
           Flexible(
             flex: 1,

@@ -5,6 +5,7 @@ import '../../res/colors.dart';
 class TextFieldPhoneExtensionWidget extends StatelessWidget {
   const TextFieldPhoneExtensionWidget(
       {super.key, this.mFlag = "", this.mExtension = "", this.onPressed});
+
   final String? mFlag, mExtension;
   final VoidCallback? onPressed;
 
@@ -16,9 +17,7 @@ class TextFieldPhoneExtensionWidget extends StatelessWidget {
           onPressed!();
         },
         style: const TextStyle(
-            fontWeight: FontWeight.w400,
-            fontSize: 15,
-            color: primaryTextColor),
+            fontWeight: FontWeight.w400, fontSize: 15, color: primaryTextColor),
         readOnly: true,
         controller: TextEditingController(text: mExtension),
         textAlign: TextAlign.center,
@@ -32,19 +31,18 @@ class TextFieldPhoneExtensionWidget extends StatelessWidget {
           counterText: "",
           contentPadding: const EdgeInsets.fromLTRB(14, 14, 14, 14),
           floatingLabelBehavior: FloatingLabelBehavior.auto,
-          border:  OutlineInputBorder(
+          border: OutlineInputBorder(
             borderSide:
-            BorderSide(color: focusedTextFieldBorderColor, width: 1),
+                BorderSide(color: focusedTextFieldBorderColor, width: 1),
             borderRadius: BorderRadius.circular(45.0),
           ),
-          focusedBorder:  OutlineInputBorder(
+          focusedBorder: OutlineInputBorder(
             borderSide:
-            BorderSide(color: focusedTextFieldBorderColor, width: 1),
+                BorderSide(color: focusedTextFieldBorderColor, width: 1),
             borderRadius: BorderRadius.circular(45.0),
           ),
-          enabledBorder:  OutlineInputBorder(
-            borderSide:
-            BorderSide(color: normalTextFieldBorderColor, width: 1),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: normalTextFieldBorderColor, width: 1),
             borderRadius: BorderRadius.circular(45.0),
           ),
           hintText: "Extension",

@@ -15,7 +15,7 @@ class PhoneTextFieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(7, 0, 14, 18),
+      padding: const EdgeInsets.fromLTRB(5, 0, 20, 18),
       child: TextFieldBorder(
           textEditingController: controller.phoneController.value,
           hintText: 'phone'.tr,

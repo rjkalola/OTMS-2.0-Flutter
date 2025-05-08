@@ -2,18 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:otm_inventory/pages/authentication/login/view/widgets/header_logo.dart';
 import 'package:otm_inventory/pages/authentication/signup1/controller/signup1_controller.dart';
 import 'package:otm_inventory/pages/authentication/signup1/view/widgets/firstname_lastname_textfield_widget.dart';
 import 'package:otm_inventory/pages/authentication/signup1/view/widgets/next_button_widget.dart';
 import 'package:otm_inventory/pages/authentication/signup1/view/widgets/phone_extension_field_widget.dart';
 import 'package:otm_inventory/pages/authentication/signup1/view/widgets/phone_text_field_widget.dart';
-import 'package:otm_inventory/pages/authentication/signup1/view/widgets/sign_up_note_text_widget_.dart';
+import 'package:otm_inventory/pages/authentication/signup1/view/widgets/header_title_note_text_widget_.dart';
 import 'package:otm_inventory/pages/authentication/signup1/view/widgets/top_divider_widget.dart';
 import 'package:otm_inventory/pages/managecompany/joincompany/controller/join_company_controller.dart';
 import 'package:otm_inventory/pages/managecompany/joincompany/view/widgets/add_company_code_view.dart';
 import 'package:otm_inventory/pages/managecompany/joincompany/view/widgets/do_ite_later_text.dart';
-import 'package:otm_inventory/pages/managecompany/joincompany/view/widgets/join_company_via_qr_code_view.dart';
-import 'package:otm_inventory/pages/managecompany/joincompany/view/widgets/register_a_new_company_view.dart';
+import 'package:otm_inventory/pages/managecompany/joincompany/view/widgets/join_company_button.dart';
+import 'package:otm_inventory/pages/managecompany/joincompany/view/widgets/create_new_company_button.dart';
+import 'package:otm_inventory/pages/managecompany/joincompany/view/widgets/otp_view_join_company.dart';
+import 'package:otm_inventory/pages/managecompany/joincompany/view/widgets/select_your_role_view.dart';
 import 'package:otm_inventory/pages/managecompany/joincompany/view/widgets/text_or.dart';
 import 'package:otm_inventory/pages/managecompany/joincompany/view/widgets/select_company_view.dart';
 import 'package:otm_inventory/res/colors.dart';
@@ -41,12 +44,12 @@ class _JoinCompanyScreenState extends State<JoinCompanyScreen> {
       child: SafeArea(
         child: Scaffold(
           backgroundColor: backgroundColor,
-          appBar: BaseAppBar(
-            appBar: AppBar(),
-            title: 'join_company'.tr,
-            isCenterTitle: false,
-            isBack: false,
-          ),
+          // appBar: BaseAppBar(
+          //   appBar: AppBar(),
+          //   title: 'join_company'.tr,
+          //   isCenterTitle: false,
+          //   isBack: false,
+          // ),
           body: Obx(() {
             return ModalProgressHUD(
                 inAsyncCall: controller.isLoading.value,
@@ -58,15 +61,43 @@ class _JoinCompanyScreenState extends State<JoinCompanyScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Divider(),
-                            SelectCompanyView(),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            const TopDividerWidget(
+                              flex1: 2,
+                              flex2: 4,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(8, 14, 16, 0),
+                              child: HeaderLogo(),
+                            ),
+                            HeaderTitleNoteTextWidget(
+                              title: 'create_or_join_company'.tr,
+                            ),
+                            // SelectCompanyView(),
+                            // TextOr(),
+                            // AddCompanyCode(),
+                            // TextOr(),
+                            CreateNewCompanyButton(),
                             TextOr(),
-                            AddCompanyCode(),
-                            TextOr(),
-                            JoinCompanyViaQrCode(),
-                            TextOr(),
-                            RegisterANewCompanyView(),
-                            DoItLater()
+                            JoinCompanyButton(),
+                            SelectYourRoleView(),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                              child: OtpViewJoinCompany(
+                                mOtpCode: controller.mOtpCode,
+                                otpController: controller.otpController,
+                                onCodeChanged: (code) {
+                                  print("onCodeChanged $code");
+                                },
+                                onResendOtp: () {
+                                  print("onResendOtp click");
+                                },
+                              ),
+                            )
+                            // DoItLater()
                           ],
                         ),
                       ));

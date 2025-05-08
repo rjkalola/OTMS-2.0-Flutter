@@ -22,6 +22,10 @@ class ManageAttachmentController extends GetxController
     super.onInit();
   }
 
+  void setListener(SelectAttachmentListener listener) {
+    _attachmentListener = listener;
+  }
+
   void showAttachmentOptionsDialog(
       String title, List<ModuleInfo> list, SelectAttachmentListener listener) {
     _attachmentListener = listener;
@@ -37,11 +41,12 @@ class ManageAttachmentController extends GetxController
   void onSelectItem(int position, int id, String name, String action) {
     if (action == AppConstants.attachmentType.image ||
         action == AppConstants.attachmentType.camera) {
-      selectImage(action);
+      selectImage(action, _attachmentListener);
     }
   }
 
-  void selectImage(String action) async {
+  void selectImage(String action, SelectAttachmentListener listener) async {
+    _attachmentListener = listener;
     try {
       XFile? pickedFile;
       if (action == AppConstants.attachmentType.camera) {
@@ -86,6 +91,42 @@ class ManageAttachmentController extends GetxController
     CroppedFile? croppedFile = await ImageCropper().cropImage(
       sourcePath: path,
       aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+      uiSettings: [
+        AndroidUiSettings(
+          toolbarTitle: 'edit_photo'.tr,
+          toolbarColor: backgroundColor,
+          toolbarWidgetColor: primaryTextColor,
+          // aspectRatioPresets: [
+          //   CropAspectRatioPreset.original,
+          //   CropAspectRatioPreset.square,
+          //   CropAspectRatioPresetCustom(),
+          // ],
+          aspectRatioPresets: [
+            CropAspectRatioPreset.square,
+          ],
+        ),
+        IOSUiSettings(
+          title: 'edit_photo'.tr,
+          aspectRatioPresets: [
+            CropAspectRatioPreset.square,
+            // IMPORTANT: iOS supports only one custom aspect ratio in preset list
+          ],
+        ),
+      ],
+    );
+    if (croppedFile != null) {
+      _attachmentListener.onSelectAttachment(
+          croppedFile.path ?? "", AppConstants.attachmentType.croppedImage);
+    }
+  }
+
+  Future<void> cropCompanyLogo(
+      String path, SelectAttachmentListener listener) async {
+    _attachmentListener = listener;
+    CroppedFile? croppedFile = await ImageCropper().cropImage(
+      sourcePath: path,
+      compressFormat: ImageCompressFormat.png,
+      aspectRatio: CropAspectRatio(ratioX: 6, ratioY: 2.5),
       uiSettings: [
         AndroidUiSettings(
           toolbarTitle: 'edit_photo'.tr,

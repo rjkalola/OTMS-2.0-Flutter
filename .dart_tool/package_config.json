@@ -272,6 +272,12 @@
       "languageVersion": "3.5"
     },
     {
+      "name": "flutter_staggered_grid_view",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/flutter_staggered_grid_view-0.7.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "flutter_svg",
       "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/flutter_svg-2.0.17",
       "packageUri": "lib/",
@@ -1016,7 +1022,7 @@
       "languageVersion": "3.2"
     }
   ],
-  "generated": "2025-04-06T10:15:48.113281Z",
+  "generated": "2025-05-08T11:19:56.724896Z",
   "generator": "pub",
   "generatorVersion": "3.6.2",
   "flutterRoot": "file:///Users/apple/Documents/flutterDev/flutter",

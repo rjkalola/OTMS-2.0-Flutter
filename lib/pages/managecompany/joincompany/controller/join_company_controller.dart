@@ -30,12 +30,15 @@ class JoinCompanyController extends GetxController
     implements SelectItemListener, DialogButtonClickListener {
   final selectCompanyController = TextEditingController().obs;
   final addCompanyCodeController = TextEditingController().obs;
+  final selectYourRoleController = TextEditingController().obs;
   final _api = JoinCompanyRepository();
 
   RxBool isLoading = false.obs, isInternetNotAvailable = false.obs;
   final List<ModuleInfo> listCompanies = <ModuleInfo>[].obs;
   final companyId = 0.obs;
   final requestedCode = "".obs;
+  final otpController = TextEditingController().obs;
+  final mOtpCode = "".obs;
 
   @override
   void onInit() {

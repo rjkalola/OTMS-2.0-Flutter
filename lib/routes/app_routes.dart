@@ -31,5 +31,7 @@ class AppRoutes {
   static const String purchaseOrderDetailsScreen =
       '/purchase_order_details_screen';
   static const String barcodeListScreen = '/barcode_list_screen';
-  static const String selectBeforeAfterPhotosScreen = '/select_before_after_photos_screen';
+  static const String selectBeforeAfterPhotosScreen =
+      '/select_before_after_photos_screen';
+  static const String teamUsersCountInfoScreen = '/team_users_count_info_screen';
 }

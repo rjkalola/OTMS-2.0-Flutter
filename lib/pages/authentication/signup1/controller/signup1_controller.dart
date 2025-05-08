@@ -8,16 +8,19 @@ import 'package:otm_inventory/pages/authentication/otp_verification/model/user_i
 import 'package:otm_inventory/pages/authentication/signup1/controller/signup1_repository.dart';
 import 'package:otm_inventory/pages/common/listener/SelectPhoneExtensionListener.dart';
 import 'package:otm_inventory/pages/common/phone_extension_list_dialog.dart';
+import 'package:otm_inventory/pages/manageattachment/controller/manage_attachment_controller.dart';
+import 'package:otm_inventory/pages/manageattachment/listener/select_attachment_listener.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:otm_inventory/web_services/api_constants.dart';
 import 'package:otm_inventory/web_services/response/base_response.dart';
+import 'package:otm_inventory/web_services/response/module_info.dart';
 import 'package:otm_inventory/web_services/response/response_model.dart';
 
 class SignUp1Controller extends GetxController
-    implements SelectPhoneExtensionListener {
+    implements SelectPhoneExtensionListener, SelectAttachmentListener {
   final phoneController = TextEditingController().obs;
   final firstNameController = TextEditingController().obs;
   final lastNameController = TextEditingController().obs;
@@ -27,11 +30,15 @@ class SignUp1Controller extends GetxController
   final isPhoneNumberExist = false.obs;
   final phoneNumberErrorMessage = "".obs;
   final formKey = GlobalKey<FormState>();
+  final imagePath = "".obs;
 
   final _api = SignUp1Repository();
 
   RxBool isLoading = false.obs, isInternetNotAvailable = false.obs;
   final registerResourcesResponse = RegisterResourcesResponse().obs;
+
+  final otpController = TextEditingController().obs;
+  final mOtpCode = "".obs;
 
   @override
   void onInit() {
@@ -155,6 +162,37 @@ class SignUp1Controller extends GetxController
 
   onValueChange() {
     // formKey.currentState!.validate();
+  }
+
+  showAttachmentOptionsDialog() async {
+    print("pickImage");
+    var listOptions = <ModuleInfo>[].obs;
+    ModuleInfo? info;
+
+    info = ModuleInfo();
+    info.name = 'camera'.tr;
+    info.action = AppConstants.attachmentType.camera;
+    listOptions.add(info);
+
+    info = ModuleInfo();
+    info.name = 'gallery'.tr;
+    info.action = AppConstants.attachmentType.image;
+    listOptions.add(info);
+
+    ManageAttachmentController().showAttachmentOptionsDialog(
+        'select_photo_from_'.tr, listOptions, this);
+  }
+
+  @override
+  void onSelectAttachment(String path, String action) {
+    if (action == AppConstants.attachmentType.camera ||
+        action == AppConstants.attachmentType.image) {
+      ManageAttachmentController().cropImage(path, this);
+    } else if (action == AppConstants.attachmentType.croppedImage) {
+      print("cropped path:" + path);
+      print("action:" + action);
+      imagePath.value = path;
+    }
   }
 
   void setRegisterResourcesResponse(RegisterResourcesResponse value) =>

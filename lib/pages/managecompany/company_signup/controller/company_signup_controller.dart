@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:otm_inventory/pages/authentication/login/models/RegisterResourcesResponse.dart';
 import 'package:otm_inventory/pages/authentication/signup1/controller/signup1_repository.dart';
 import 'package:otm_inventory/pages/common/drop_down_list_dialog.dart';
@@ -10,7 +11,10 @@ import 'package:otm_inventory/pages/common/listener/DialogButtonClickListener.da
 import 'package:otm_inventory/pages/common/listener/SelectPhoneExtensionListener.dart';
 import 'package:otm_inventory/pages/common/listener/select_item_listener.dart';
 import 'package:otm_inventory/pages/common/phone_extension_list_dialog.dart';
+import 'package:otm_inventory/pages/manageattachment/controller/manage_attachment_controller.dart';
+import 'package:otm_inventory/pages/manageattachment/listener/select_attachment_listener.dart';
 import 'package:otm_inventory/pages/managecompany/company_signup/controller/company_signup_repository.dart';
+import 'package:otm_inventory/routes/app_pages.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/AlertDialogHelper.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
@@ -27,8 +31,10 @@ class CompanySignUpController extends GetxController
     implements
         SelectItemListener,
         DialogButtonClickListener,
-        SelectPhoneExtensionListener {
+        SelectPhoneExtensionListener,
+        SelectAttachmentListener {
   final companyNameController = TextEditingController().obs;
+  final companyEmailController = TextEditingController().obs;
   final locationController = TextEditingController().obs;
   final currencyController = TextEditingController().obs;
   final phoneController = TextEditingController().obs;
@@ -40,12 +46,14 @@ class CompanySignUpController extends GetxController
   final List<ModuleInfo> listCurrency = <ModuleInfo>[].obs;
   final fromSignUp = false.obs, isInitialResumeCall = false.obs;
   final registerResourcesResponse = RegisterResourcesResponse().obs;
-  final mCompanyLogo = "".obs;
+  final mCompanyLogo = "".obs, mOtpCode = "".obs;
   final currencyId = 0.obs;
   bool locationLoaded = false;
   final _api = CompanySignUpRepository();
   Position? latLon = null;
   final locationService = LocationServiceNew();
+  String? latitude, longitude, location;
+  final otpController = TextEditingController().obs;
 
   @override
   void onInit() {
@@ -76,6 +84,11 @@ class CompanySignUpController extends GetxController
     // } else {
     //   AppUtils.showToastMessage('please_select_trade'.tr);
     // }
+  }
+
+  onClickContinueButton() {
+    // controller.valid();
+    Get.toNamed(AppRoutes.teamUsersCountInfoScreen);
   }
 
   void getRegisterResources() {
@@ -258,13 +271,15 @@ class CompanySignUpController extends GetxController
 
   Future<void> fetchLocationAndAddress() async {
     print("fetchLocationAndAddress");
-    latLon = await LocationService.getCurrentLocation();
+    latLon = await LocationServiceNew.getCurrentLocation();
     if (latLon != null) {
-      String address = await LocationService.getAddressFromCoordinates(
+      latitude = latLon!.latitude.toString();
+      longitude = latLon!.longitude.toString();
+      location = await LocationServiceNew.getAddressFromCoordinates(
           latLon!.latitude, latLon!.longitude);
       print("Location:" +
           "Latitude: ${latLon!.latitude}, Longitude: ${latLon!.longitude}");
-      print("Address:" + address);
+      print("Address:${location ?? ""}");
     } else {
       print("Location:" + "Location permission denied or services disabled");
       print("Address:" + "Could not retrieve address");
@@ -275,17 +290,6 @@ class CompanySignUpController extends GetxController
     AppLifecycleListener(
       onResume: () async {
         print("onResume out in");
-        // if (isInitialResumeCall.value) {
-        //   print("onResume");
-        //   if (latLon == null) {
-        //     fetchLocationAndAddress();
-        //   }
-        // } else {
-        //   isInitialResumeCall.value = true;
-        // }
-
-        // locationService.checkLocationService();
-
         if (!locationLoaded) locationRequest();
       },
     );
@@ -295,6 +299,23 @@ class CompanySignUpController extends GetxController
     locationLoaded = await locationService.checkLocationService();
     if (locationLoaded) {
       fetchLocationAndAddress();
+    }
+  }
+
+  void onSelectCompanyLogo() {
+    ManageAttachmentController().setListener(this);
+    ManageAttachmentController()
+        .selectImage(AppConstants.attachmentType.image, this);
+  }
+
+  @override
+  void onSelectAttachment(String path, String action) {
+    if (action == AppConstants.attachmentType.image) {
+      ManageAttachmentController().cropCompanyLogo(path, this);
+    } else if (action == AppConstants.attachmentType.croppedImage) {
+      print("cropped path:" + path);
+      print("action:" + action);
+      mCompanyLogo.value = path;
     }
   }
 }

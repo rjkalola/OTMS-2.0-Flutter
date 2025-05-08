@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/pages/authentication/otp_verification/model/user_info.dart';
+import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_storage.dart';
 
@@ -170,6 +171,24 @@ class AppUtils {
       border: Border.all(
           width: borderWidth ?? 0.6, color: borderColor ?? Colors.transparent),
       borderRadius: BorderRadius.circular(radius ?? 12),
+    );
+  }
+
+  static BoxDecoration getDashboardItemDecoration(
+      {Color? color,
+      double? radius,
+      double? borderWidth,
+      Color? borderColor,
+      double? shadowRadius,
+      List<BoxShadow>? boxShadow}) {
+    return BoxDecoration(
+      color: color ?? backgroundColor,
+      boxShadow: boxShadow ??
+          [AppUtils.boxShadow(Colors.grey.shade300, shadowRadius ?? 6)],
+      border: Border.all(
+          width: borderWidth ?? 0.6,
+          color: borderColor ?? Colors.grey.shade300),
+      borderRadius: BorderRadius.circular(radius ?? 45),
     );
   }
 }
