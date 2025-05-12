@@ -91,17 +91,20 @@ class _LoginScreenState extends State<LoginScreen> {
                             ],
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                          child: OtpView(
-                            mOtpCode: loginController.mOtpCode,
-                            otpController: loginController.otpController,
-                            onCodeChanged: (code) {
-                              print("onCodeChanged $code");
-                            },
-                            onResendOtp: () {
-                              print("onResendOtp click");
-                            },
+                        Visibility(
+                          visible: loginController.isOtpViewVisible.value,
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                            child: OtpView(
+                              mOtpCode: loginController.mOtpCode,
+                              otpController: loginController.otpController,
+                              onCodeChanged: (code) {
+                                print("onCodeChanged $code");
+                              },
+                              onResendOtp: () {
+                                print("onResendOtp click");
+                              },
+                            ),
                           ),
                         ),
                         LoginButtonWidget()

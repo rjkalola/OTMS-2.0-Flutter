@@ -12,7 +12,7 @@ class HeaderTitleNoteTextWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 8, bottom: 18, left: 20, right: 20),
+      padding: const EdgeInsets.only(top: 8, bottom: 4, left: 20, right: 20),
       child: Text(title,
           style: const TextStyle(
             color: primaryTextColor,

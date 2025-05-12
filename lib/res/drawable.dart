@@ -64,4 +64,5 @@ class Drawable {
   static const String imgAddUserImage = 'assets/images/img_add_user_image.png';
   static const String imgAddImage = 'assets/images/img_add_image.png';
   static const String constructionImage = 'assets/images/ic_construction.png';
+  static const String timeClockImageTemp = 'assets/images/ic_time_clock_temp.png';
 }

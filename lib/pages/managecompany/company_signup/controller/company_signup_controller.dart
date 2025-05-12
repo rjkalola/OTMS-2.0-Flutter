@@ -42,7 +42,9 @@ class CompanySignUpController extends GetxController
   final mExtensionId = AppConstants.defaultPhoneExtensionId.obs;
   final mFlag = AppConstants.defaultFlagUrl.obs;
   final formKey = GlobalKey<FormState>();
-  final RxBool isLoading = false.obs, isInternetNotAvailable = false.obs;
+  final RxBool isLoading = false.obs,
+      isInternetNotAvailable = false.obs,
+      isOtpViewVisible = false.obs;
   final List<ModuleInfo> listCurrency = <ModuleInfo>[].obs;
   final fromSignUp = false.obs, isInitialResumeCall = false.obs;
   final registerResourcesResponse = RegisterResourcesResponse().obs;
@@ -69,7 +71,7 @@ class CompanySignUpController extends GetxController
     mExtensionId.value = userInfo.phoneExtensionId ?? 0;
     mExtension.value = userInfo.phoneExtension ?? "";*/
 
-    getRegisterResources();
+    // getRegisterResources();
   }
 
   onClickJoinCompany() {

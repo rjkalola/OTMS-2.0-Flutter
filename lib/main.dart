@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:otm_inventory/pages/authentication/introduction/view/introduction_screen.dart';
 import 'package:otm_inventory/pages/authentication/splash/splash_screen.dart';
 import 'package:otm_inventory/pages/managecompany/company_signup/view/company_signup_screen.dart';
 import 'package:otm_inventory/pages/managecompany/joincompany/view/join_comapny_screen.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: defaultAccentColor),
           useMaterial3: true,
           dialogBackgroundColor: Colors.white),
-      home: CompanySignUpScreen(),
+      home: SplashScreen(),
     );
   }
 }

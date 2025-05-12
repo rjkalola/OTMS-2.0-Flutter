@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/widgets/PrimaryBorderButton.dart';
+import 'package:otm_inventory/widgets/PrimaryButton.dart';
 
 class LoginButtonWidget extends StatelessWidget {
   LoginButtonWidget({super.key});
@@ -12,17 +13,11 @@ class LoginButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: double.infinity,
-      child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 6, 16, 28),
-          child: PrimaryBorderButton(
-            buttonText: 'log_in'.tr,
-            textColor: defaultAccentColor,
-            borderColor: defaultAccentColor,
+        width: 220,
+        child: PrimaryButton(
+            buttonText: 'login'.tr,
             onPressed: () {
               Get.toNamed(AppRoutes.loginScreen);
-            },
-          )),
-    );
+            }));
   }
 }

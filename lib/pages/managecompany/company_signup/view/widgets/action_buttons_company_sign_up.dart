@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/pages/managecompany/company_signup/controller/company_signup_controller.dart';
+import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/widgets/PrimaryButton.dart';
 import 'package:otm_inventory/widgets/buttons/ContinueButton.dart';
 
@@ -38,7 +39,12 @@ class ActionButtonsCompanySignUp extends StatelessWidget {
               fit: FlexFit.tight,
               flex: 1,
               child: ContinueButton(onPressed: () {
-                controller.onClickContinueButton();
+                // controller.onClickContinueButton();
+                if (!controller.isOtpViewVisible.value) {
+                  controller.isOtpViewVisible.value = true;
+                } else {
+                  Get.toNamed(AppRoutes.teamUsersCountInfoScreen);
+                }
               })),
         ],
       ),

@@ -5,6 +5,11 @@ class Strings extends Translations {
   Map<String, Map<String, String>> get keys => {
         'en_US': {
           'app_title': 'OTMS 2.0',
+          'first_screen_welcome_title': 'Welcome to OTM System',
+          'first_screen_note':
+              'Create. Connect. Conquer — launch your\ncompany or join your team now.',
+          // '': '',
+          // '': '',
           'need_help': "Need Help?",
           'create_new_account': "Create new account",
           'create_company': "Create Company",
@@ -13,6 +18,7 @@ class Strings extends Translations {
           'log_in_note2': 'One number. Zero hassle. Instant login.',
           'do_not_have_an_account': 'Don\'t have an account?',
           'continue': "Continue",
+          'finish': "Finish",
           'enter_verification_code': "Enter Verification Code",
           'verification_code_sent_note':
               "We\'ve sent a 4-digit code to\nyour phone",
@@ -86,7 +92,12 @@ class Strings extends Translations {
           'business_email': "Business Email",
           'how_many_users_Are_on_your_team':
               "How many users are\non your team?",
-          // '': "",
+          'which_field_best_describe_your_business':
+              "Which field best\ndescribes your business?",
+          'business_field_info_note1': "Pick the tools your team\nneeds.",
+          'business_field_info_note2':
+              "Customize your workspace by selecting\nthe features you’ll use daily",
+          'operations': "Operations",
           // '': "",
           'do_it_later': "Do it later",
           'empty_company_list': "No company found",

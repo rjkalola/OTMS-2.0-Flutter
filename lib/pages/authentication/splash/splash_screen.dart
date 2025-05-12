@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:otm_inventory/pages/authentication/splash/splash_services.dart';
 import 'package:otm_inventory/res/drawable.dart';
+import 'package:otm_inventory/utils/image_utils.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -27,11 +28,8 @@ class _SplashScreenState extends State<SplashScreen> {
           height: double.infinity,
           width: double.infinity,
           child: Center(
-              child: Image.asset(
-            Drawable.splashScreenLogo,
-            height: 350,
-            width: 350,
-          )),
+              child: ImageUtils.setAssetsImage(
+                  path: Drawable.imgHeaderLogo, width: 225, height: 90)),
         ));
   }
 }

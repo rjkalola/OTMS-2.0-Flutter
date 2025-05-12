@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/res/colors.dart';
+import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/widgets/PrimaryButton.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
@@ -129,6 +130,7 @@ class OtpViewJoinCompany extends StatelessWidget {
                     buttonText: 'join_a_company'.tr,
                     fontWeight: FontWeight.w400,
                     onPressed: () {
+                      Get.toNamed(AppRoutes.teamUsersCountInfoScreen);
                       // controller.openQrCodeScanner();
                     }),
               ),

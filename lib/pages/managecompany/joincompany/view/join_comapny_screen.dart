@@ -82,19 +82,22 @@ class _JoinCompanyScreenState extends State<JoinCompanyScreen> {
                             CreateNewCompanyButton(),
                             TextOr(),
                             JoinCompanyButton(),
-                            SelectYourRoleView(),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                              child: OtpViewJoinCompany(
-                                mOtpCode: controller.mOtpCode,
-                                otpController: controller.otpController,
-                                onCodeChanged: (code) {
-                                  print("onCodeChanged $code");
-                                },
-                                onResendOtp: () {
-                                  print("onResendOtp click");
-                                },
+                            // SelectYourRoleView(),
+                            Visibility(
+                              visible: controller.isOtpViewVisible.value,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(20, 30, 20, 10),
+                                child: OtpViewJoinCompany(
+                                  mOtpCode: controller.mOtpCode,
+                                  otpController: controller.otpController,
+                                  onCodeChanged: (code) {
+                                    print("onCodeChanged $code");
+                                  },
+                                  onResendOtp: () {
+                                    print("onResendOtp click");
+                                  },
+                                ),
                               ),
                             )
                             // DoItLater()

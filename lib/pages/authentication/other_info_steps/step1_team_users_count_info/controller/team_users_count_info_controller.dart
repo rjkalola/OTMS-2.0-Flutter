@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:otm_inventory/pages/authentication/other_info_steps/step1_team_users_count_info/controller/team_users_count_info_repository.dart';
+import 'package:otm_inventory/routes/app_pages.dart';
+import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/web_services/response/module_info.dart';
 
 class TeamUsersCountInfoController extends GetxController {
@@ -12,6 +14,10 @@ class TeamUsersCountInfoController extends GetxController {
   void onInit() {
     super.onInit();
     listItems.value = getItemsList();
+  }
+
+  onClickContinueButton(){
+    Get.toNamed(AppRoutes.businessFieldInfoScreen);
   }
 
   List<ModuleInfo> getItemsList() {

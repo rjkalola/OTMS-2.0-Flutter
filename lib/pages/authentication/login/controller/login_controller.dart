@@ -26,7 +26,9 @@ class LoginController extends GetxController
   final _api = LoginRepository();
 
   final registerResourcesResponse = RegisterResourcesResponse().obs;
-  RxBool isLoading = false.obs, isInternetNotAvailable = false.obs;
+  RxBool isLoading = false.obs,
+      isInternetNotAvailable = false.obs,
+      isOtpViewVisible = false.obs;
   var loginUsers = <UserInfo>[].obs;
   final otpController = TextEditingController().obs;
   final mOtpCode = "".obs;
@@ -35,7 +37,7 @@ class LoginController extends GetxController
   void onInit() {
     super.onInit();
     loginUsers.value = Get.find<AppStorage>().getLoginUsers();
-    getRegisterResources();
+    // getRegisterResources();
   }
 
   void login(String extension, String phoneNumber, bool isAutoLogin) async {

@@ -27,7 +27,7 @@ class SignUp1Controller extends GetxController
   final mExtension = AppConstants.defaultPhoneExtension.obs;
   final mExtensionId = AppConstants.defaultPhoneExtensionId.obs;
   final mFlag = AppConstants.defaultFlagUrl.obs;
-  final isPhoneNumberExist = false.obs;
+  final isPhoneNumberExist = false.obs, isOtpViewVisible = false.obs;
   final phoneNumberErrorMessage = "".obs;
   final formKey = GlobalKey<FormState>();
   final imagePath = "".obs;
@@ -43,7 +43,7 @@ class SignUp1Controller extends GetxController
   @override
   void onInit() {
     super.onInit();
-    getRegisterResources();
+    // getRegisterResources();
   }
 
   void onSubmitClick() {

@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 import 'package:otm_inventory/pages/authentication/introduction/view/introduction_screen.dart';
 import 'package:otm_inventory/pages/authentication/login/view/login_screen.dart';
 import 'package:otm_inventory/pages/authentication/other_info_steps/step1_team_users_count_info/view/team_users_count_info_screen.dart';
+import 'package:otm_inventory/pages/authentication/other_info_steps/step2_business_field_info/view/business_field_info_screen.dart';
+import 'package:otm_inventory/pages/authentication/other_info_steps/step3_select_tools/view/select_tools_screen.dart';
 import 'package:otm_inventory/pages/authentication/otp_verification/view/verify_otp_screen.dart';
 import 'package:otm_inventory/pages/authentication/signup1/view/signup1_screen.dart';
 import 'package:otm_inventory/pages/authentication/signup2/view/signup2_screen.dart';
@@ -82,6 +84,14 @@ class AppPages {
     GetPage(
       name: AppRoutes.teamUsersCountInfoScreen,
       page: () => TeamUsersCountInfoScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.businessFieldInfoScreen,
+      page: () => BusinessFieldInfoScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.selectToolScreen,
+      page: () => SelectToolsScreen(),
     ),
   ];
 }

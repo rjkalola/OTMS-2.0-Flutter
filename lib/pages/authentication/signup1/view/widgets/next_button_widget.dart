@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/pages/authentication/signup1/controller/signup1_controller.dart';
 import 'package:otm_inventory/res/colors.dart';
+import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/widgets/PrimaryBorderButton.dart';
 import 'package:otm_inventory/widgets/PrimaryButton.dart';
 
@@ -19,7 +20,12 @@ class NextButtonWidget extends StatelessWidget {
           child: PrimaryButton(
             buttonText: 'continue'.tr,
             onPressed: () {
-              controller.onSubmitClick();
+              // controller.onSubmitClick();
+              if (controller.isOtpViewVisible.value) {
+                Get.toNamed(AppRoutes.joinCompanyScreen);
+              } else {
+                controller.isOtpViewVisible.value = true;
+              }
             },
           )),
     );

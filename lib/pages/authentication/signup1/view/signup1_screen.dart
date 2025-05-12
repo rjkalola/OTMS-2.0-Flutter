@@ -72,6 +72,9 @@ class _SignUp1ScreenState extends State<SignUp1Screen> {
                                 HeaderTitleNoteTextWidget(
                                   title: 'create_new_account'.tr,
                                 ),
+                                SizedBox(
+                                  height: 12,
+                                ),
                                 PhotoUploadWidget(),
                                 FirstNameLastNameTextFieldWidget(),
                                 SizedBox(
@@ -89,18 +92,21 @@ class _SignUp1ScreenState extends State<SignUp1Screen> {
                                         flex: 9, child: PhoneTextFieldWidget()),
                                   ],
                                 ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                                  child: OtpView(
-                                    mOtpCode: controller.mOtpCode,
-                                    otpController: controller.otpController,
-                                    onCodeChanged: (code) {
-                                      print("onCodeChanged $code");
-                                    },
-                                    onResendOtp: () {
-                                      print("onResendOtp click");
-                                    },
+                                Visibility(
+                                  visible: controller.isOtpViewVisible.value,
+                                  child: Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        20, 10, 20, 10),
+                                    child: OtpView(
+                                      mOtpCode: controller.mOtpCode,
+                                      otpController: controller.otpController,
+                                      onCodeChanged: (code) {
+                                        print("onCodeChanged $code");
+                                      },
+                                      onResendOtp: () {
+                                        print("onResendOtp click");
+                                      },
+                                    ),
                                   ),
                                 ),
                                 NextButtonWidget()

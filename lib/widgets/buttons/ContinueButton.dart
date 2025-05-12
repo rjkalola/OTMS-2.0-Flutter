@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:otm_inventory/res/colors.dart';
 
 class ContinueButton extends StatelessWidget {
+  final String? title;
   final VoidCallback onPressed;
   final Color? color;
   final double? borderRadius;
@@ -12,6 +13,7 @@ class ContinueButton extends StatelessWidget {
 
   const ContinueButton(
       {super.key,
+      this.title,
       required this.onPressed,
       this.color,
       this.borderRadius,
@@ -32,7 +34,7 @@ class ContinueButton extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(borderRadius ?? 45),
       ),
-      child: Text('continue'.tr,
+      child: Text(title ?? 'continue'.tr,
           style: TextStyle(
             color: fontColor ?? Colors.white,
             fontWeight: fontWeight ?? FontWeight.w500,

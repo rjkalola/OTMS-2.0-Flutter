@@ -5,6 +5,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:otm_inventory/pages/authentication/login/view/widgets/header_logo.dart';
 import 'package:otm_inventory/pages/authentication/other_info_steps/step1_team_users_count_info/view/widgets/team_users_count_items_list.dart';
 import 'package:otm_inventory/pages/authentication/other_info_steps/step2_business_field_info/controller/business_field_info_controller.dart';
+import 'package:otm_inventory/pages/authentication/other_info_steps/step2_business_field_info/view/widgets/business_field_info_items_list.dart';
 import 'package:otm_inventory/pages/authentication/signup1/view/widgets/header_title_note_text_widget_.dart';
 import 'package:otm_inventory/pages/authentication/signup1/view/widgets/top_divider_widget.dart';
 import 'package:otm_inventory/res/colors.dart';
@@ -49,8 +50,8 @@ class _BusinessFieldInfoScreenState extends State<BusinessFieldInfoScreen> {
                                 height: 20,
                               ),
                               const TopDividerWidget(
-                                flex1: 4,
-                                flex2: 2,
+                                flex1: 5,
+                                flex2: 1,
                               ),
                               Padding(
                                 padding:
@@ -58,21 +59,17 @@ class _BusinessFieldInfoScreenState extends State<BusinessFieldInfoScreen> {
                                 child: HeaderLogo(),
                               ),
                               HeaderTitleNoteTextWidget(
-                                title: 'how_many_users_Are_on_your_team'.tr,
+                                title: 'which_field_best_describe_your_business'
+                                    .tr,
                               ),
-                              TeamUsersCountItemsList(
-                                  itemsList: controller.listItems,
-                                  onViewClick: (position) {
-                                    print("position:" + position.toString());
-                                    controller.selectedIndex.value = position;
-                                  },
-                                  selectedIndex:
-                                      controller.selectedIndex.value),
+                              BusinessFieldInfoItemsList(),
                               Container(
                                   margin:
                                       const EdgeInsets.fromLTRB(20, 16, 20, 16),
                                   width: double.infinity,
-                                  child: ContinueButton(onPressed: () {}))
+                                  child: ContinueButton(onPressed: () {
+                                    controller.onClickContinueButton();
+                                  }))
                             ],
                           ),
                         ]),

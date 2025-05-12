@@ -72,7 +72,9 @@ class _TeamUsersCountInfoScreenState extends State<TeamUsersCountInfoScreen> {
                                   margin:
                                       const EdgeInsets.fromLTRB(20, 16, 20, 16),
                                   width: double.infinity,
-                                  child: ContinueButton(onPressed: () {}))
+                                  child: ContinueButton(onPressed: () {
+                                    controller.onClickContinueButton();
+                                  }))
                             ],
                           ),
                         ]),

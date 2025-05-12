@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
+import 'package:otm_inventory/pages/authentication/other_info_steps/step1_team_users_count_info/controller/team_users_count_info_controller.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/web_services/response/module_info.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
 
 class TeamUsersCountItemsList extends StatelessWidget {
-  const TeamUsersCountItemsList(
+  TeamUsersCountItemsList(
       {super.key,
       required this.itemsList,
       required this.onViewClick,
@@ -16,6 +17,8 @@ class TeamUsersCountItemsList extends StatelessWidget {
   final List<ModuleInfo> itemsList;
   final ValueChanged<int> onViewClick;
   final int selectedIndex;
+
+  final controller = Get.put(TeamUsersCountInfoController());
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +31,12 @@ class TeamUsersCountItemsList extends StatelessWidget {
             crossAxisSpacing: 12,
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
-            itemCount: itemsList.length,
+            itemCount: controller.listItems.length,
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
-                  onViewClick(index);
+                  controller.selectedIndex.value = index;
+                  // onViewClick(index);
                 },
                 child: Container(
                   decoration: AppUtils.getDashboardItemDecoration(

@@ -33,7 +33,9 @@ class JoinCompanyController extends GetxController
   final selectYourRoleController = TextEditingController().obs;
   final _api = JoinCompanyRepository();
 
-  RxBool isLoading = false.obs, isInternetNotAvailable = false.obs;
+  RxBool isLoading = false.obs,
+      isInternetNotAvailable = false.obs,
+      isOtpViewVisible = false.obs;
   final List<ModuleInfo> listCompanies = <ModuleInfo>[].obs;
   final companyId = 0.obs;
   final requestedCode = "".obs;
@@ -43,7 +45,7 @@ class JoinCompanyController extends GetxController
   @override
   void onInit() {
     super.onInit();
-    getCompaniesApi();
+    // getCompaniesApi();
   }
 
   onClickSearch() {

@@ -13,16 +13,15 @@ class CreateNewAccount extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 20, bottom: 14),
       child: Center(
-        child: InkWell(
+        child: GestureDetector(
           onTap: () {
             Get.toNamed(AppRoutes.signUp1Screen);
           },
           child: Text('create_new_account'.tr,
               style: const TextStyle(
                 color: defaultAccentColor,
-                fontSize: 16,
+                fontSize: 15,
                 fontWeight: FontWeight.w500,
-                decoration: TextDecoration.underline,
                 decorationColor: defaultAccentColor,
               )),
         ),

@@ -34,4 +34,6 @@ class AppRoutes {
   static const String selectBeforeAfterPhotosScreen =
       '/select_before_after_photos_screen';
   static const String teamUsersCountInfoScreen = '/team_users_count_info_screen';
+  static const String businessFieldInfoScreen = '/business_field_info_screen';
+  static const String selectToolScreen = '/select_tool_screen';
 }
