@@ -24,8 +24,7 @@ class LoginUsersList extends StatelessWidget {
                 (position) => InkWell(
                   onTap: () {
                     controller.login(
-                        controller.loginUsers[position].phoneExtension ??
-                            "",
+                        controller.loginUsers[position].phoneExtension ?? "",
                         controller.loginUsers[position].phone ?? "",
                         true);
                   },
@@ -33,9 +32,9 @@ class LoginUsersList extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(16, 12, 2, 12),
                     child: Row(children: [
                       ImageUtils.setUserImage(
-                          controller.loginUsers[position].imageThumb ?? "",
-                          50,
-                          45),
+                          url: controller.loginUsers[position].imageThumb ?? "",
+                          width: 50,
+                          height: 50),
                       Expanded(
                           child: Padding(
                         padding: const EdgeInsets.fromLTRB(14, 0, 0, 0),

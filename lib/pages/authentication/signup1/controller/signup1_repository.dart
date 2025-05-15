@@ -22,7 +22,24 @@ class SignUp1Repository {
     Function(ResponseModel error)? onError,
   }) {
     ApiRequest(
-        url: ApiConstants.checkPhoneNumberExistUrl,
+            url: ApiConstants.checkPhoneNumberExistUrl,
+            formData: formData,
+            isFormData: true)
+        .postRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
+
+  void register({
+    multi.FormData? formData,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+        url: ApiConstants.registerUrl,
         formData: formData,
         isFormData: true)
         .postRequest(
@@ -32,5 +49,4 @@ class SignUp1Repository {
       onError: (error) => {if (onError != null) onError(error)},
     );
   }
-
 }

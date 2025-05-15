@@ -53,12 +53,12 @@ class OtpView extends StatelessWidget {
             ),
             Center(
               child: SizedBox(
-                width: 260,
+                width: 300,
                 child: PinFieldAutoFill(
                   controller: otpController.value,
                   currentCode: mOtpCode?.value ?? "",
                   keyboardType: TextInputType.number,
-                  codeLength: 4,
+                  codeLength: 6,
                   inputFormatters: <TextInputFormatter>[
                     // for below version 2 use this
                     FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))

@@ -34,9 +34,9 @@ class LoginUsersList extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(16, 12, 2, 12),
                     child: Row(children: [
                       ImageUtils.setUserImage(
-                          loginController.loginUsers[position].imageThumb ?? "",
-                          50,
-                          45),
+                          url:loginController.loginUsers[position].imageThumb ?? "",
+                          width: 50,
+                          height: 50),
                       Expanded(
                           child: Padding(
                         padding: const EdgeInsets.fromLTRB(14, 0, 0, 0),

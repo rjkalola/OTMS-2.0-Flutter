@@ -1,7 +1,8 @@
 class ApiConstants {
   // static String appUrl = "https://api.otmsystem.com/v1";
-
   static String appUrl = "https://apidev.otmsystem.com/v1";
+
+  // static String appUrl = "http://206.189.17.166:3000";
 
   // static String appUrl = "https://dev.otmsystem.com/api/v1";
   // static String appUrl = "https://otmsystem.com/api/v1";
@@ -16,9 +17,15 @@ class ApiConstants {
     };
   }
 
+  static String sendOtpUrl = '$appUrl/send-otp';
+  static String verifyOtpUrl = '$appUrl/verify-otp';
+  static String registerUrl = '$appUrl/register';
+  static String loginUrl = '$appUrl/app-login';
+
   static String registerResourcesUrl = '$appUrl/wn-resources';
   static String verifyPhoneUrl = '$appUrl/verify-phone';
-  static String loginUrl = '$appUrl/login-new';
+
+  // static String loginUrl = '$appUrl/login-new';
   static String logoutUrl = '$appUrl/logout';
   static String checkPhoneNumberExistUrl = '$appUrl/check-phone-exist';
   static String userSignUpUrl = '$appUrl/wn-kkm';
@@ -28,14 +35,10 @@ class ApiConstants {
   static String joinCompanyUrl = '$appUrl/join-company';
   static String newTimesheetResourcesUrl =
       '$appUrl/new-timesheet/get-resources';
-  static String startWorkUrl =
-      '$appUrl/start-time';
-  static String stopWorkUrl =
-      '$appUrl/stop-time';
-  static String checkInUrl =
-      '$appUrl/check-in';
-  static String checkOutUrl =
-      '$appUrl/check-out';
+  static String startWorkUrl = '$appUrl/start-time';
+  static String stopWorkUrl = '$appUrl/stop-time';
+  static String checkInUrl = '$appUrl/check-in';
+  static String checkOutUrl = '$appUrl/check-out';
 
   static String stockFilterUrl = '$appUrl/products/category-filter';
   static String getDashboardStockCount = '$appUrl/dashboard/get-count';

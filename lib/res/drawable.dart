@@ -64,5 +64,13 @@ class Drawable {
   static const String imgAddUserImage = 'assets/images/img_add_user_image.png';
   static const String imgAddImage = 'assets/images/img_add_image.png';
   static const String constructionImage = 'assets/images/ic_construction.png';
-  static const String timeClockImageTemp = 'assets/images/ic_time_clock_temp.png';
+  static const String timeClockImageTemp =
+      'assets/images/ic_time_clock_temp.png';
+  static const String bellIcon = 'assets/images/ic_bell.svg';
+
+  static const String tab1Icon = 'assets/images/ic_home_tab.svg';
+  static const String tab2Icon = 'assets/images/ic_tab2.svg';
+  static const String tab3Icon = 'assets/images/ic_tab3.svg';
+  static const String tab4Icon = 'assets/images/ic_tab4.svg';
+  static const String tab5Icon = 'assets/images/ic_tab5.svg';
 }

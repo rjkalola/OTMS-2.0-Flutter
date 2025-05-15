@@ -1,14 +1,87 @@
-
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/dashboard/tabs/home_tab/model/DashboardActionItemInfo.dart';
+import 'package:otm_inventory/pages/dashboard/tabs/home_tab/model/dashboard_grid_item_info.dart';
+import 'package:otm_inventory/pages/dashboard/tabs/home_tab2/model/DashboardActionItemInfo.dart';
+import 'package:otm_inventory/res/drawable.dart';
 import 'app_constants.dart';
 
-class DataUtils{
-  static  List<String> titles = <String>[
+class DataUtils {
+  static List<String> titles = <String>[
     'home'.tr,
     'profile'.tr,
     'more'.tr,
   ];
+
+  // static List<IconData> tabIcons = [
+  //   Icons.home_outlined,
+  //   Icons.shopping_cart_outlined,
+  //   Icons.pie_chart_outline,
+  //   Icons.chat_bubble_outline,
+  //   Icons.emoji_emotions_outlined,
+  // ];
+
+  static List<String> tabIcons = [
+    Drawable.tab1Icon,
+    Drawable.tab2Icon,
+    Drawable.tab3Icon,
+    Drawable.tab4Icon,
+    Drawable.tab5Icon,
+  ];
+
+  static List<String> tabLabels = [
+    'Home',
+    'Cart',
+    'Stats',
+    'Chat',
+    'Profile',
+  ];
+
+  static List<DashboardGridItemInfo> getDashboardGridItemsList() {
+    var arrayItems = <DashboardGridItemInfo>[];
+
+    DashboardGridItemInfo? info;
+
+    info = DashboardGridItemInfo();
+    info.action = AppConstants.action.clockIn;
+    info.title = "Team";
+    info.subTitle = "Haringey Voids";
+    info.icon = Drawable.timeClockImageTemp;
+    info.iconColor = null;
+    arrayItems.add(info);
+
+    info = DashboardGridItemInfo();
+    info.action = AppConstants.action.clockIn;
+    info.title = "Shift";
+    info.subTitle = "4:30:22";
+    info.icon = Drawable.timeClockImageTemp;
+    info.iconColor = null;
+    arrayItems.add(info);
+
+    info = DashboardGridItemInfo();
+    info.action = AppConstants.action.clockIn;
+    info.title = "Timesheets";
+    info.subTitle = "";
+    info.icon = Drawable.timeClockImageTemp;
+    info.iconColor = null;
+    arrayItems.add(info);
+
+    info = DashboardGridItemInfo();
+    info.action = AppConstants.action.clockIn;
+    info.title = "My Analytics";
+    info.subTitle = "83%";
+    info.icon = Drawable.timeClockImageTemp;
+    info.iconColor = null;
+    arrayItems.add(info);
+
+    info = DashboardGridItemInfo();
+    info.action = AppConstants.action.clockIn;
+    info.subTitle = "Add Widget";
+    info.icon = Drawable.timeClockImageTemp;
+    info.iconColor = null;
+    arrayItems.add(info);
+
+    return arrayItems;
+  }
 
   static List<DashboardActionItemInfo> getHeaderActionButtonsList() {
     var arrayItems = <DashboardActionItemInfo>[];
@@ -58,7 +131,6 @@ class DataUtils{
     arrayItems.add(info);
 
     return arrayItems;
-
   }
 
   static List<List<DashboardActionItemInfo>> generateChunks(
@@ -80,5 +152,4 @@ class DataUtils{
     }
     return outList;
   }
-
 }

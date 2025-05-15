@@ -620,12 +620,6 @@
       "languageVersion": "3.2"
     },
     {
-      "name": "mobile_scanner",
-      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/mobile_scanner-6.0.6",
-      "packageUri": "lib/",
-      "languageVersion": "3.4"
-    },
-    {
       "name": "modal_progress_hud_nsn",
       "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/modal_progress_hud_nsn-0.5.1",
       "packageUri": "lib/",
@@ -1022,7 +1016,7 @@
       "languageVersion": "3.2"
     }
   ],
-  "generated": "2025-05-08T11:19:56.724896Z",
+  "generated": "2025-05-14T10:49:23.879988Z",
   "generator": "pub",
   "generatorVersion": "3.6.2",
   "flutterRoot": "file:///Users/apple/Documents/flutterDev/flutter",

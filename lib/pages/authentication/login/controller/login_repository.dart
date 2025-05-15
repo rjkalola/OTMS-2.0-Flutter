@@ -12,12 +12,43 @@ class LoginRepository {
   //   return response;
   // }
 
-
   void getRegisterResources({
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
     ApiRequest(url: ApiConstants.registerResourcesUrl).getRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
+
+  void sendOtpAPI({
+    dynamic data,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+            url: ApiConstants.sendOtpUrl, data: data, isFormData: false)
+        .postRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
+
+  void verifyOtpUrl({
+    dynamic data,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+            url: ApiConstants.verifyOtpUrl,
+            data: data,
+            isFormData: false)
+        .postRequest(
       onSuccess: (data) {
         onSuccess!(data);
       },
@@ -31,7 +62,9 @@ class LoginRepository {
     Function(ResponseModel error)? onError,
   }) {
     ApiRequest(
-        url: ApiConstants.verifyPhoneUrl, formData: formData, isFormData: true)
+            url: ApiConstants.verifyPhoneUrl,
+            formData: formData,
+            isFormData: true)
         .postRequest(
       onSuccess: (data) {
         onSuccess!(data);

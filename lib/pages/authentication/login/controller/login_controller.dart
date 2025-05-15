@@ -14,6 +14,7 @@ import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_storage.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/web_services/api_constants.dart';
+import 'package:otm_inventory/web_services/response/base_response.dart';
 import 'package:otm_inventory/web_services/response/response_model.dart';
 
 class LoginController extends GetxController
@@ -37,7 +38,7 @@ class LoginController extends GetxController
   void onInit() {
     super.onInit();
     loginUsers.value = Get.find<AppStorage>().getLoginUsers();
-    // getRegisterResources();
+    getRegisterResources();
   }
 
   void login(String extension, String phoneNumber, bool isAutoLogin) async {
@@ -73,6 +74,89 @@ class LoginController extends GetxController
             showSnackBar('no_internet'.tr);
           } else if (error.statusMessage!.isNotEmpty) {
             showSnackBar(error.statusMessage!);
+          }
+        },
+      );
+    }
+  }
+
+  void sendOtpApi(int extensionId, String phoneNumber) async {
+    if (valid(false)) {
+      Map<String, dynamic> map = {};
+      map["phone"] = phoneNumber;
+      map["extension_id"] = extensionId;
+      multi.FormData formData = multi.FormData.fromMap(map);
+      isLoading.value = true;
+      _api.sendOtpAPI(
+        data: map,
+        onSuccess: (ResponseModel responseModel) {
+          if (responseModel.statusCode == 200) {
+            // VerifyPhoneResponse response =
+            //     VerifyPhoneResponse.fromJson(jsonDecode(responseModel.result!));
+            BaseResponse response =
+                BaseResponse.fromJson(jsonDecode(responseModel.result!));
+            if (response.IsSuccess!) {
+              // var arguments = {
+              //   AppConstants.intentKey.phoneExtension: extension,
+              //   AppConstants.intentKey.phoneNumber: phoneNumber,
+              // };
+              // Get.toNamed(AppRoutes.verifyOtpScreen, arguments: arguments);
+            } else {
+              AppUtils.showApiResponseMessage(response.Message!);
+            }
+          } else {
+            AppUtils.showApiResponseMessage(responseModel.statusMessage!);
+          }
+          isLoading.value = false;
+        },
+        onError: (ResponseModel error) {
+          isLoading.value = false;
+          if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+            AppUtils.showApiResponseMessage('no_internet'.tr);
+          } else if (error.statusMessage!.isNotEmpty) {
+            AppUtils.showApiResponseMessage(error.statusMessage!);
+          }
+        },
+      );
+    }
+  }
+
+  void verifyOtpApi(String otp, int extensionId, String phoneNumber) async {
+    if (valid(false)) {
+      Map<String, dynamic> map = {};
+      map["phone"] = phoneNumber;
+      map["extension_id"] = extensionId;
+      map["otp"] = otp;
+      // multi.FormData formData = multi.FormData.fromMap(map);
+      isLoading.value = true;
+      _api.verifyOtpUrl(
+        data: map,
+        onSuccess: (ResponseModel responseModel) {
+          if (responseModel.statusCode == 200) {
+            // VerifyPhoneResponse response =
+            //     VerifyPhoneResponse.fromJson(jsonDecode(responseModel.result!));
+            BaseResponse response =
+                BaseResponse.fromJson(jsonDecode(responseModel.result!));
+            if (response.IsSuccess!) {
+              // var arguments = {
+              //   AppConstants.intentKey.phoneExtension: extension,
+              //   AppConstants.intentKey.phoneNumber: phoneNumber,
+              // };
+              // Get.toNamed(AppRoutes.verifyOtpScreen, arguments: arguments);
+            } else {
+              AppUtils.showApiResponseMessage(response.Message!);
+            }
+          } else {
+            AppUtils.showApiResponseMessage(responseModel.statusMessage!);
+          }
+          isLoading.value = false;
+        },
+        onError: (ResponseModel error) {
+          isLoading.value = false;
+          if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+            AppUtils.showApiResponseMessage('no_internet'.tr);
+          } else if (error.statusMessage!.isNotEmpty) {
+            AppUtils.showApiResponseMessage(error.statusMessage!);
           }
         },
       );

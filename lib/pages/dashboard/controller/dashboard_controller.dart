@@ -56,7 +56,7 @@ class DashboardController extends GetxController
     setTitle(selectedIndex.value);
 
     // setDashboardData();
-    getSettingApi();
+    // getSettingApi();
   }
 
   Future<void> setDashboardData() async {
@@ -195,7 +195,7 @@ class DashboardController extends GetxController
               PermissionSettings.fromJson(jsonDecode(responseModel.result!));
           if (response.isSuccess!) {
             AppStorage().setPermissions(response);
-            Get.put(HomeTabController()).getDashboardApi(true);
+            // Get.put(HomeTabController()).getDashboardApi(true);
           } else {
             AppUtils.showSnackBarMessage(response.message!);
           }

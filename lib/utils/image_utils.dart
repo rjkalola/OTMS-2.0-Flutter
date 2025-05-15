@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
 
 import '../pages/common/widgets/image_preview_dialog.dart';
@@ -11,29 +13,27 @@ class ImageUtils {
   static String defaultUserAvtarUrl =
       "https://www.pngmart.com/files/22/User-Avatar-Profile-PNG-Isolated-Transparent-Picture.png";
 
-  static Widget setUserImage(String url, double size, double radius) {
+  static Widget setUserImage(
+      {required String url,
+      required double width,
+      required double height,
+      double? radius,
+      BoxFit? fit}) {
     return !StringHelper.isEmptyString(url)
         ? ClipRRect(
-            borderRadius: BorderRadius.circular(radius),
-            child: Image.network(
-              url,
-              fit: BoxFit.cover,
-              width: size,
-              height: size,
-              errorBuilder: (context, url, error) => Image.network(
-                defaultUserAvtarUrl,
-                fit: BoxFit.scaleDown,
-                height: size,
-                width: size,
-              ),
+            borderRadius: BorderRadius.circular(radius ?? 45),
+            child: CachedNetworkImage(
+              imageUrl: url,
+              fit: fit ?? BoxFit.cover,
+              width: width,
+              height: height,
+              placeholder: (context, url) =>
+                  getEmptyUserViewContainer(width: width, height: height),
+              errorWidget: (context, url, error) =>
+                  getEmptyUserViewContainer(width: width, height: height),
             ),
           )
-        : Image.network(
-            defaultUserAvtarUrl,
-            fit: BoxFit.scaleDown,
-            height: size,
-            width: size,
-          );
+        : getEmptyUserViewContainer(width: width, height: height);
   }
 
   static Widget setNetworkImage(
@@ -131,6 +131,59 @@ class ImageUtils {
             ),
           )
         : Icon(Icons.photo_outlined, size: getEmptyIconSize(width, height));
+  }
+
+  static Widget setRectangleCornerCachedNetworkImage(
+      {required String url,
+      required double width,
+      required double height,
+      double? borderRadius,
+      BoxFit? fit}) {
+    return !StringHelper.isEmptyString(url)
+        ? Container(
+            width: width,
+            height: height,
+            clipBehavior: Clip.antiAlias,
+            decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                borderRadius: BorderRadius.circular(borderRadius ?? 0)),
+            child: CachedNetworkImage(
+              height: height,
+              width: width,
+              fit: fit,
+              imageUrl: url ?? "",
+              placeholder: (context, url) => getEmptyViewContainer(
+                  width: width, height: height, borderRadius: borderRadius),
+              errorWidget: (context, url, error) => getEmptyViewContainer(
+                  width: width, height: height, borderRadius: borderRadius),
+            ),
+          )
+        : getEmptyViewContainer(
+            width: width, height: height, borderRadius: borderRadius);
+  }
+
+  static Widget getEmptyViewContainer(
+      {required double width, required double height, double? borderRadius}) {
+    return Container(
+      width: width,
+      height: height,
+      decoration: AppUtils.getGrayBorderDecoration(
+          color: Colors.grey.shade50, radius: borderRadius ?? 0),
+      child: Icon(
+        Icons.photo_outlined,
+        size: getEmptyIconSize(width, height) / 2,
+        color: Colors.grey.shade300,
+      ),
+    );
+  }
+
+  static Widget getEmptyUserViewContainer(
+      {required double width, required double height}) {
+    return Icon(
+      Icons.account_circle,
+      size: getEmptyIconSize(width, height),
+      color: Colors.grey.shade400,
+    );
   }
 
   static Widget setRectangleCornerFileImage(String url, double width,

@@ -32,7 +32,6 @@ local_auth=/Users/apple/.pub-cache/hosted/pub.dev/local_auth-2.3.0/
 local_auth_android=/Users/apple/.pub-cache/hosted/pub.dev/local_auth_android-1.0.48/
 local_auth_darwin=/Users/apple/.pub-cache/hosted/pub.dev/local_auth_darwin-1.4.3/
 local_auth_windows=/Users/apple/.pub-cache/hosted/pub.dev/local_auth_windows-1.0.11/
-mobile_scanner=/Users/apple/.pub-cache/hosted/pub.dev/mobile_scanner-6.0.6/
 open_file_plus=/Users/apple/.pub-cache/hosted/pub.dev/open_file_plus-3.4.1+1/
 path_provider=/Users/apple/.pub-cache/hosted/pub.dev/path_provider-2.1.5/
 path_provider_android=/Users/apple/.pub-cache/hosted/pub.dev/path_provider_android-2.2.15/
