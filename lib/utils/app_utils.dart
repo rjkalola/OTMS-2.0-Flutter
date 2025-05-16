@@ -10,6 +10,7 @@ import 'package:otm_inventory/pages/authentication/otp_verification/model/user_i
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_storage.dart';
+import 'package:otm_inventory/utils/string_helper.dart';
 
 class AppUtils {
   static var mTime;
@@ -37,8 +38,8 @@ class AppUtils {
     }
   }
 
-  static showApiResponseMessage(String message) {
-    if (message.isNotEmpty) {
+  static showApiResponseMessage(String? message) {
+    if (!StringHelper.isEmptyString(message)) {
       Get.rawSnackbar(message: message);
     }
   }

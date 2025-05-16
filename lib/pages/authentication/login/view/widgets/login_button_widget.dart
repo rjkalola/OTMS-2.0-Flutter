@@ -23,17 +23,19 @@ class LoginButtonWidget extends StatelessWidget {
           child: PrimaryButton(
             buttonText: 'continue'.tr,
             onPressed: () {
-              if (loginController.isOtpViewVisible.value) {
-                if (loginController.mOtpCode.value.length == 6) {
-                  loginController.verifyOtpApi(
-                      loginController.mOtpCode.value,
-                      105,
-                      loginController.phoneController.value.text
-                          .toString()
-                          .trim());
-                } else {
-                  AppUtils.showSnackBarMessage('enter_otp'.tr);
-                }
+              /* if (loginController.isOtpViewVisible.value) {
+                if (!loginController.isOtpVerified.value) {
+                  if (loginController.mOtpCode.value.length == 6) {
+                    loginController.verifyOtpApi(
+                        loginController.mOtpCode.value,
+                        105,
+                        loginController.phoneController.value.text
+                            .toString()
+                            .trim());
+                  } else {
+                    AppUtils.showSnackBarMessage('enter_otp'.tr);
+                  }
+                } else {}
               } else {
                 if (loginController.valid(false)) {
                   loginController.isOtpViewVisible.value = true;
@@ -43,17 +45,18 @@ class LoginButtonWidget extends StatelessWidget {
                           .toString()
                           .trim());
                 }
-              }
+              }*/
 
-              /*  loginController.login(
+            /*  loginController.login(
                   loginController.mExtension.value,
                   loginController.phoneController.value.text.toString().trim(),
-                  false);
+                  false);*/
+
               if (loginController.isOtpViewVisible.value) {
                 Get.toNamed(AppRoutes.joinCompanyScreen);
               } else {
                 loginController.isOtpViewVisible.value = true;
-              }*/
+              }
             },
           )),
     );

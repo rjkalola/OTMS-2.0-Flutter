@@ -29,7 +29,8 @@ class LoginController extends GetxController
   final registerResourcesResponse = RegisterResourcesResponse().obs;
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
-      isOtpViewVisible = false.obs;
+      isOtpViewVisible = false.obs,
+      isOtpVerified = false.obs;
   var loginUsers = <UserInfo>[].obs;
   final otpController = TextEditingController().obs;
   final mOtpCode = "".obs;
@@ -38,7 +39,7 @@ class LoginController extends GetxController
   void onInit() {
     super.onInit();
     loginUsers.value = Get.find<AppStorage>().getLoginUsers();
-    getRegisterResources();
+    // getRegisterResources();
   }
 
   void login(String extension, String phoneNumber, bool isAutoLogin) async {
@@ -59,21 +60,21 @@ class LoginController extends GetxController
                 AppConstants.intentKey.phoneNumber: phoneNumber,
               };
               Get.toNamed(AppRoutes.verifyOtpScreen, arguments: arguments);
-              // showSnackBar(response.message!);
+              // AppUtils.showApiResponseMessage(response.message!);
             } else {
-              showSnackBar(response.message!);
+              AppUtils.showApiResponseMessage(response.message!);
             }
           } else {
-            showSnackBar(responseModel.statusMessage!);
+            AppUtils.showApiResponseMessage(responseModel.statusMessage!);
           }
           isLoading.value = false;
         },
         onError: (ResponseModel error) {
           isLoading.value = false;
           if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
-            showSnackBar('no_internet'.tr);
+            AppUtils.showApiResponseMessage('no_internet'.tr);
           } else if (error.statusMessage!.isNotEmpty) {
-            showSnackBar(error.statusMessage!);
+            AppUtils.showApiResponseMessage(error.statusMessage!);
           }
         },
       );
@@ -90,22 +91,12 @@ class LoginController extends GetxController
       _api.sendOtpAPI(
         data: map,
         onSuccess: (ResponseModel responseModel) {
-          if (responseModel.statusCode == 200) {
-            // VerifyPhoneResponse response =
-            //     VerifyPhoneResponse.fromJson(jsonDecode(responseModel.result!));
+          if (responseModel.isSuccess) {
             BaseResponse response =
                 BaseResponse.fromJson(jsonDecode(responseModel.result!));
-            if (response.IsSuccess!) {
-              // var arguments = {
-              //   AppConstants.intentKey.phoneExtension: extension,
-              //   AppConstants.intentKey.phoneNumber: phoneNumber,
-              // };
-              // Get.toNamed(AppRoutes.verifyOtpScreen, arguments: arguments);
-            } else {
-              AppUtils.showApiResponseMessage(response.Message!);
-            }
+            AppUtils.showApiResponseMessage(response.Message!);
           } else {
-            AppUtils.showApiResponseMessage(responseModel.statusMessage!);
+            AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
           }
           isLoading.value = false;
         },
@@ -132,22 +123,13 @@ class LoginController extends GetxController
       _api.verifyOtpUrl(
         data: map,
         onSuccess: (ResponseModel responseModel) {
-          if (responseModel.statusCode == 200) {
-            // VerifyPhoneResponse response =
-            //     VerifyPhoneResponse.fromJson(jsonDecode(responseModel.result!));
+          if (responseModel.isSuccess) {
+            isOtpVerified.value = true;
             BaseResponse response =
                 BaseResponse.fromJson(jsonDecode(responseModel.result!));
-            if (response.IsSuccess!) {
-              // var arguments = {
-              //   AppConstants.intentKey.phoneExtension: extension,
-              //   AppConstants.intentKey.phoneNumber: phoneNumber,
-              // };
-              // Get.toNamed(AppRoutes.verifyOtpScreen, arguments: arguments);
-            } else {
-              AppUtils.showApiResponseMessage(response.Message!);
-            }
+            // AppUtils.showApiResponseMessage(response.Message!);
           } else {
-            AppUtils.showApiResponseMessage(responseModel.statusMessage!);
+            AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
           }
           isLoading.value = false;
         },
@@ -210,10 +192,6 @@ class LoginController extends GetxController
       int id, String extension, String flag, String country) {
     mFlag.value = flag;
     mExtension.value = extension;
-  }
-
-  void showSnackBar(String message) {
-    AppUtils.showSnackBarMessage(message);
   }
 
   void setRegisterResourcesResponse(RegisterResourcesResponse value) =>

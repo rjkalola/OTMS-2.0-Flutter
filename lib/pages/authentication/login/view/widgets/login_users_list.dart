@@ -5,7 +5,6 @@ import 'package:otm_inventory/utils/app_storage.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
 
-
 class LoginUsersList extends StatelessWidget {
   LoginUsersList({super.key});
 
@@ -34,7 +33,9 @@ class LoginUsersList extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(16, 12, 2, 12),
                     child: Row(children: [
                       ImageUtils.setUserImage(
-                          url:loginController.loginUsers[position].imageThumb ?? "",
+                          url:
+                              loginController.loginUsers[position].imageThumb ??
+                                  "",
                           width: 50,
                           height: 50),
                       Expanded(

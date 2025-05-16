@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:otm_inventory/pages/dashboard/tabs/home_tab/model/dashboard_grid_item_info.dart';
 import 'package:otm_inventory/pages/dashboard/tabs/home_tab2/model/DashboardActionItemInfo.dart';
 import 'package:otm_inventory/res/drawable.dart';
+import 'package:otm_inventory/web_services/response/module_info.dart';
 import 'app_constants.dart';
 
 class DataUtils {
@@ -19,6 +20,35 @@ class DataUtils {
   //   Icons.chat_bubble_outline,
   //   Icons.emoji_emotions_outlined,
   // ];
+
+  static List<ModuleInfo> getPhoneExtensionList() {
+    var arrayItems = <ModuleInfo>[];
+
+    ModuleInfo? info;
+
+    info = ModuleInfo();
+    info.id = 0;
+    info.name = "United Kingdom";
+    info.phoneExtension = "+44";
+    info.flagImage = "assets/country_flag/gb.svg";
+    arrayItems.add(info);
+
+    info = ModuleInfo();
+    info.id = 0;
+    info.name = "India";
+    info.phoneExtension = "+91";
+    info.flagImage = "assets/country_flag/in.svg";
+    arrayItems.add(info);
+
+    info = ModuleInfo();
+    info.id = 0;
+    info.name = "United States of America";
+    info.phoneExtension = "+1";
+    info.flagImage = "assets/country_flag/us.svg";
+    arrayItems.add(info);
+
+    return arrayItems;
+  }
 
   static List<String> tabIcons = [
     Drawable.tab1Icon,

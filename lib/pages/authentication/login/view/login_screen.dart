@@ -101,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               mOtpCode: loginController.mOtpCode,
                               otpController: loginController.otpController,
                               onCodeChanged: (code) {
-                                loginController.mOtpCode.value= code??"";
+                                loginController.mOtpCode.value = code ?? "";
                                 print("onCodeChanged $code");
                               },
                               onResendOtp: () {
