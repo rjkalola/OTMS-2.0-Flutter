@@ -4,7 +4,7 @@ class Strings extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
         'en_US': {
-          'app_title': 'OTMS 2.0',
+          'app_title': 'OTMS',
           'first_screen_welcome_title': 'Welcome to OTM System',
           'first_screen_note':
               'Create. Connect. Conquer — launch your\ncompany or join your team now.',
