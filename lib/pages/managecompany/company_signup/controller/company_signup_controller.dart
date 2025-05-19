@@ -312,6 +312,7 @@ class CompanySignUpController extends GetxController
 
   @override
   void onSelectAttachment(String path, String action) {
+    print("onSelectAttachment");
     if (action == AppConstants.attachmentType.image) {
       ManageAttachmentController().cropCompanyLogo(path, this);
     } else if (action == AppConstants.attachmentType.croppedImage) {

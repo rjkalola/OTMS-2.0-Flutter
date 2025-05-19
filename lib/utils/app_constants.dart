@@ -13,8 +13,10 @@ class AppConstants {
   static const int productListLimit = 20;
   static const int defaultPhoneExtensionId = 1;
   static const String defaultPhoneExtension = "+44";
-  static const String defaultFlagUrl =
-      "https://devcdn.otmsystem.com/flags/png/gb_32.png";
+
+  // static const String defaultFlagUrl =
+  //     "https://devcdn.otmsystem.com/flags/png/gb_32.png";
+  static const String defaultFlagUrl = "assets/country_flag/gb.svg";
   static bool isResourcesLoaded = false;
 }
 

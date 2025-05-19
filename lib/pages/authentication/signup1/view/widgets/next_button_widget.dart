@@ -20,12 +20,12 @@ class NextButtonWidget extends StatelessWidget {
           child: PrimaryButton(
             buttonText: 'continue'.tr,
             onPressed: () {
-              // controller.onSubmitClick();
-              if (controller.isOtpViewVisible.value) {
+              controller.onSubmitClick();
+            /*  if (controller.isOtpViewVisible.value) {
                 Get.toNamed(AppRoutes.joinCompanyScreen);
               } else {
                 controller.isOtpViewVisible.value = true;
-              }
+              }*/
             },
           )),
     );

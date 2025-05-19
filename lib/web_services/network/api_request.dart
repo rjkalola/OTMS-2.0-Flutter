@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/web_services/api_constants.dart';
 import 'package:otm_inventory/web_services/response/base_response.dart';
 
@@ -244,11 +245,21 @@ class ApiRequest {
         if (onError != null) onError(responseModel);
       }
     } on DioException catch (e, stackTrace) {
+      String message = "";
+      final data = e.response?.data;
+      if (data != null && data['message'] != null) {
+        message = data['message'];
+      } else {
+        message = e.message ?? "";
+      }
+      AppUtils.showApiResponseMessage(message);
       print('Dio error: ${e.message}');
       print('Stack trace: $stackTrace');
       final ApiException apiException = ApiException.fromDioError(e);
       if (kDebugMode) print("Error in api call $apiException.message");
-      responseModel = returnResponse(false, null, 0, apiException.message);
+      responseModel =
+          returnResponse(false, null, e.response?.statusCode, message);
+      if (onError != null) onError(responseModel);
     }
     return responseModel;
   }
@@ -340,11 +351,21 @@ class ApiRequest {
         if (onError != null) onError(responseModel);
       }
     } on DioException catch (e, stackTrace) {
+      String message = "";
+      final data = e.response?.data;
+      if (data != null && data['message'] != null) {
+        print("DATA:"+jsonEncode(data));
+        message = data['message'];
+      } else {
+        message = e.message ?? "";
+      }
+      AppUtils.showApiResponseMessage(message);
       print('Dio error: ${e.message}');
       print('Stack trace: $stackTrace');
       final ApiException apiException = ApiException.fromDioError(e);
       if (kDebugMode) print("Error in api call $apiException.message");
-      responseModel = returnResponse(false, null, 0, apiException.message);
+      responseModel =
+          returnResponse(false, null, e.response?.statusCode, message);
       if (onError != null) onError(responseModel);
     }
     return responseModel;

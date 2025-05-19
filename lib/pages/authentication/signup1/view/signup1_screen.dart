@@ -85,11 +85,11 @@ class _SignUp1ScreenState extends State<SignUp1Screen> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Flexible(
-                                      flex: 5,
+                                      flex: 2,
                                       child: PhoneExtensionFieldWidget(),
                                     ),
                                     Flexible(
-                                        flex: 9, child: PhoneTextFieldWidget()),
+                                        flex: 3, child: PhoneTextFieldWidget()),
                                   ],
                                 ),
                                 Visibility(
@@ -100,11 +100,23 @@ class _SignUp1ScreenState extends State<SignUp1Screen> {
                                     child: OtpView(
                                       mOtpCode: controller.mOtpCode,
                                       otpController: controller.otpController,
+                                      timeRemaining:
+                                          controller.otmResendTimeRemaining,
                                       onCodeChanged: (code) {
+                                        controller.mOtpCode.value =
+                                            code.toString();
                                         print("onCodeChanged $code");
                                       },
                                       onResendOtp: () {
                                         print("onResendOtp click");
+                                        if (controller.valid()) {
+                                          controller.sendOtpApi(
+                                              controller.mExtension.value,
+                                              controller
+                                                  .phoneController.value.text
+                                                  .toString()
+                                                  .trim());
+                                        }
                                       },
                                     ),
                                   ),

@@ -86,10 +86,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Flexible(
-                                flex: 5,
+                                flex: 2,
                                 child: PhoneExtensionFieldWidget(),
                               ),
-                              Flexible(flex: 9, child: PhoneTextFieldWidget()),
+                              Flexible(flex: 3, child: PhoneTextFieldWidget()),
                             ],
                           ),
                         ),
@@ -100,12 +100,16 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: OtpView(
                               mOtpCode: loginController.mOtpCode,
                               otpController: loginController.otpController,
+                              timeRemaining:
+                                  loginController.otmResendTimeRemaining,
                               onCodeChanged: (code) {
                                 loginController.mOtpCode.value = code ?? "";
                                 print("onCodeChanged $code");
                               },
                               onResendOtp: () {
-                                print("onResendOtp click");
+                                if (loginController.valid(false)) {
+                                  loginController.sendOtpApi();
+                                }
                               },
                             ),
                           ),

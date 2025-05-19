@@ -13,10 +13,12 @@ class OtpView extends StatelessWidget {
       required this.otpController,
       this.mOtpCode,
       required this.onCodeChanged,
-      required this.onResendOtp});
+      required this.onResendOtp,
+      this.timeRemaining});
 
   final Rx<TextEditingController> otpController;
   final RxString? mOtpCode;
+  final RxInt? timeRemaining;
   final Function(String?) onCodeChanged;
 
   // final VoidCallback onResendOtp;
@@ -90,7 +92,7 @@ class OtpView extends StatelessWidget {
               height: 14,
             ),
             PrimaryTextView(
-              text: "${'resend_code_in'.tr} 00:30",
+              text: "${'resend_code_in'.tr} ${timeRemaining.toString().padLeft(2, '0')}",
               fontSize: 16,
               color: primaryTextColor,
               fontWeight: FontWeight.w400,
@@ -112,11 +114,13 @@ class OtpView extends StatelessWidget {
                         text: 'resend_now'.tr,
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            onResendOtp();
+                            if (timeRemaining?.value == 0) onResendOtp();
                           },
-                        style: const TextStyle(
+                        style: TextStyle(
                             fontSize: 16,
-                            color: defaultAccentColor,
+                            color: timeRemaining?.value == 0
+                                ? defaultAccentColor
+                                : secondaryExtraLightTextColor,
                             fontWeight: FontWeight.w500)),
                   ],
                 ))

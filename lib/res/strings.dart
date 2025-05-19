@@ -104,6 +104,7 @@ class Strings extends Translations {
           'are_you_sure_you_want_to_join': "Are you sure you want to join?",
           'please_enter_company_code': "Please enter company code",
           'please_select_trade': "Please select trade",
+          'please_select_image': "Please select image",
           'select_trade': "Select Trade",
           'empty_trade_list': "No trade found",
           'scan_barcode_note':

@@ -15,7 +15,7 @@ class ManageAttachmentController extends GetxController
   final imageQuality = 0;
   final double maxWidth = 0, maxHeight = 0;
   final bool isResize = false;
-  late final SelectAttachmentListener _attachmentListener;
+  SelectAttachmentListener? attachmentListener;
 
   @override
   void onInit() {
@@ -23,12 +23,12 @@ class ManageAttachmentController extends GetxController
   }
 
   void setListener(SelectAttachmentListener listener) {
-    _attachmentListener = listener;
+    if (attachmentListener != null) attachmentListener = listener;
   }
 
   void showAttachmentOptionsDialog(
       String title, List<ModuleInfo> list, SelectAttachmentListener listener) {
-    _attachmentListener = listener;
+    attachmentListener ??= listener;
     Get.bottomSheet(
         SelectItemListDialog(
             title: title, dialogType: "", list: list, listener: this),
@@ -41,12 +41,15 @@ class ManageAttachmentController extends GetxController
   void onSelectItem(int position, int id, String name, String action) {
     if (action == AppConstants.attachmentType.image ||
         action == AppConstants.attachmentType.camera) {
-      selectImage(action, _attachmentListener);
+      print("onSelectItem....");
+      selectImage(action, attachmentListener);
     }
   }
 
-  void selectImage(String action, SelectAttachmentListener listener) async {
-    _attachmentListener = listener;
+  void selectImage(String action, SelectAttachmentListener? listener) async {
+    print("selectImage....");
+    attachmentListener ??= listener;
+    print("selectImage....111");
     try {
       XFile? pickedFile;
       if (action == AppConstants.attachmentType.camera) {
@@ -78,7 +81,9 @@ class ManageAttachmentController extends GetxController
       }
 
       if (pickedFile != null) {
-        _attachmentListener.onSelectAttachment(pickedFile.path ?? "", action);
+        print("pickedFile != null");
+        attachmentListener!.onSelectAttachment(pickedFile.path ?? "", action);
+        print("pickedFile != null 111");
         print("Path:" + pickedFile.path ?? "");
       }
     } catch (e) {
@@ -87,7 +92,7 @@ class ManageAttachmentController extends GetxController
   }
 
   Future<void> cropImage(String path, SelectAttachmentListener listener) async {
-    _attachmentListener = listener;
+    attachmentListener ??= listener;
     CroppedFile? croppedFile = await ImageCropper().cropImage(
       sourcePath: path,
       aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
@@ -115,14 +120,16 @@ class ManageAttachmentController extends GetxController
       ],
     );
     if (croppedFile != null) {
-      _attachmentListener.onSelectAttachment(
+      attachmentListener!.onSelectAttachment(
           croppedFile.path ?? "", AppConstants.attachmentType.croppedImage);
     }
   }
 
   Future<void> cropCompanyLogo(
-      String path, SelectAttachmentListener listener) async {
-    _attachmentListener = listener;
+      String path, SelectAttachmentListener? listener) async {
+    print("cropCompanyLogo");
+    attachmentListener ??= listener;
+    print("cropCompanyLogo 11111");
     CroppedFile? croppedFile = await ImageCropper().cropImage(
       sourcePath: path,
       compressFormat: ImageCompressFormat.png,
@@ -151,7 +158,7 @@ class ManageAttachmentController extends GetxController
       ],
     );
     if (croppedFile != null) {
-      _attachmentListener.onSelectAttachment(
+      attachmentListener!.onSelectAttachment(
           croppedFile.path ?? "", AppConstants.attachmentType.croppedImage);
     }
   }

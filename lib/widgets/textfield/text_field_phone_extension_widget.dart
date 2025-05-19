@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:otm_inventory/utils/image_utils.dart';
 
 import '../../res/colors.dart';
 
@@ -22,10 +23,15 @@ class TextFieldPhoneExtensionWidget extends StatelessWidget {
         controller: TextEditingController(text: mExtension),
         textAlign: TextAlign.center,
         decoration: InputDecoration(
-          prefixIcon: Image.network(
-            mFlag ?? "",
-            width: 32,
-            height: 32,
+          // prefixIcon: Image.network(
+          //   mFlag ?? "",
+          //   width: 32,
+          //   height: 32,
+          // ),
+          prefixIcon: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: ImageUtils.setSvgAssetsImage(
+                path: mFlag ?? "", width: 16, height: 16, fit: BoxFit.contain),
           ),
           suffixIcon: const Icon(Icons.arrow_drop_down),
           counterText: "",
