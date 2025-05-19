@@ -39,12 +39,12 @@ class ActionButtonsCompanySignUp extends StatelessWidget {
               fit: FlexFit.tight,
               flex: 1,
               child: ContinueButton(onPressed: () {
-                // controller.onClickContinueButton();
-                if (!controller.isOtpViewVisible.value) {
+                controller.onClickContinueButton();
+                /*if (!controller.isOtpViewVisible.value) {
                   controller.isOtpViewVisible.value = true;
                 } else {
                   Get.toNamed(AppRoutes.teamUsersCountInfoScreen);
-                }
+                }*/
               })),
         ],
       ),

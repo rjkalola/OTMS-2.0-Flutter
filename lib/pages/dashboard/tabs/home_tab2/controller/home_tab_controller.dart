@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:otm_inventory/pages/authentication/otp_verification/model/user_info.dart';
+import 'package:otm_inventory/pages/common/model/user_info.dart';
 import 'package:otm_inventory/pages/dashboard/controller/dashboard_controller.dart';
 import 'package:otm_inventory/pages/dashboard/models/dashboard_response.dart';
 import 'package:otm_inventory/pages/dashboard/tabs/home_tab2/controller/home_tab_repository.dart';
@@ -77,7 +77,7 @@ class HomeTabController extends GetxController {
           if (response.isSuccess!) {
             isMainViewVisible.value = true;
             dashboardResponse.value = response;
-            var user = Get.find<AppStorage>().getUserInfo();
+          /*  var user = Get.find<AppStorage>().getUserInfo();
             if ((response.userTypeId ?? 0) != 0) {
               Map<String, dynamic> updatedJson = {
                 "user_type_id": response.userTypeId ?? 0,
@@ -105,7 +105,7 @@ class HomeTabController extends GetxController {
                   companyName: updatedJson['company_name'],
                   companyImage: updatedJson['company_image']);
               Get.find<AppStorage>().setUserInfo(user);
-            }
+            }*/
             Get.find<AppStorage>().setDashboardResponse(response);
             if (!StringHelper.isEmptyString(response.checkinDateTime)) {
               isStopTimer.value = false;
@@ -193,7 +193,7 @@ class HomeTabController extends GetxController {
             .parse(dashboardResponse.value.checkinDateTime ?? "");
         isTodayWorkStarted = DateUtils.isSameDay(checkInDate, DateTime.now());
       }
-      if (isTodayWorkStarted &&
+     /* if (isTodayWorkStarted &&
           !StringHelper.isEmptyList(AppStorage().getUserInfo().locations)) {
         List<Locations> locations = AppStorage().getUserInfo().locations!;
         int index = -1;
@@ -290,7 +290,7 @@ class HomeTabController extends GetxController {
         }
       } else {
         hideUpdateLocationView();
-      }
+      }*/
     } catch (e, s) {
       print("Error: $e");
       print("Stack Trace: $s");
@@ -372,7 +372,8 @@ class HomeTabController extends GetxController {
         double timerTimeInMillis = totalWorkHour - totalBreakHour;
 
         NumberFormat formatter = NumberFormat("##.##");
-        String currency = AppStorage().getUserInfo().currencySymbol ?? "";
+        // String currency = AppStorage().getUserInfo().currencySymbol ?? "";
+        String currency = "";
         if (!StringHelper.isEmptyString(
             dashboardResponse.value.hourlyRate.toString())) {
           double timerTimeInSeconds = timerTimeInMillis / 1000;

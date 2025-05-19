@@ -14,13 +14,13 @@ class PhoneNumberViewCompanySignUp extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Flexible(
-            flex: 5,
+            flex: 2,
             child: PhoneExtensionTextFieldCompanySignUp(),
           ),
           SizedBox(
             width: 10,
           ),
-          Flexible(flex: 9, child: PhoneNumberTextFieldCompanySignup()),
+          Flexible(flex: 3, child: PhoneNumberTextFieldCompanySignup()),
         ],
       ),
     );

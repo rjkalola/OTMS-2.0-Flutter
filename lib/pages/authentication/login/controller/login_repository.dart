@@ -24,30 +24,12 @@ class LoginRepository {
     );
   }
 
-  void sendOtpAPI({
+  void sendLoginOtpAPI({
     dynamic data,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
-    ApiRequest(
-            url: ApiConstants.sendOtpUrl, data: data, isFormData: false)
-        .postRequest(
-      onSuccess: (data) {
-        onSuccess!(data);
-      },
-      onError: (error) => {if (onError != null) onError(error)},
-    );
-  }
-
-  void verifyOtpUrl({
-    dynamic data,
-    Function(ResponseModel responseModel)? onSuccess,
-    Function(ResponseModel error)? onError,
-  }) {
-    ApiRequest(
-            url: ApiConstants.verifyOtpUrl,
-            data: data,
-            isFormData: false)
+    ApiRequest(url: ApiConstants.sendLoginOtpUrl, data: data, isFormData: false)
         .postRequest(
       onSuccess: (data) {
         onSuccess!(data);
@@ -57,14 +39,11 @@ class LoginRepository {
   }
 
   void login({
-    multi.FormData? formData,
+    dynamic data,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
-    ApiRequest(
-            url: ApiConstants.verifyPhoneUrl,
-            formData: formData,
-            isFormData: true)
+    ApiRequest(url: ApiConstants.loginUrl, data: data, isFormData: false)
         .postRequest(
       onSuccess: (data) {
         onSuccess!(data);

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:otm_inventory/pages/authentication/otp_verification/model/user_info.dart';
+import 'package:otm_inventory/pages/common/model/user_info.dart';
 import 'package:otm_inventory/pages/dashboard/models/dashboard_response.dart';
 import 'package:otm_inventory/pages/dashboard/models/permission_settings.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
@@ -56,6 +56,14 @@ class AppStorage extends GetxController {
     final token =
         storage.read(AppConstants.sharedPreferenceKey.accessToken) ?? "";
     return token;
+  }
+
+  void setCompanyId(int companyId) {
+    storage.write(AppConstants.sharedPreferenceKey.companyId, companyId);
+  }
+
+  int getCompanyId() {
+    return storage.read(AppConstants.sharedPreferenceKey.companyId) ?? 0;
   }
 
   void setPermissions(PermissionSettings stockData) {

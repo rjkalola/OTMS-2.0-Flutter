@@ -60,6 +60,7 @@ class SharedPreferenceKey {
   const SharedPreferenceKey(); // <---
   final String userInfo = "USER_INFO";
   final String accessToken = "ACCESS_TOKEN";
+  final String companyId = "COMPANY_ID";
   final String savedLoginUserList = "SAVED_LOGIN_USER_LIST";
   final String dashboardItemCountData = "DASHBOARD_ITEM_COUNT_DATA";
   final String permissionSettings = "PERMISSION_SETTINGS";

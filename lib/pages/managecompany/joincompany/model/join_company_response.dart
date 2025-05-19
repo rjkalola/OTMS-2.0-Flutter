@@ -1,4 +1,4 @@
-import 'package:otm_inventory/pages/authentication/otp_verification/model/user_info.dart';
+import 'package:otm_inventory/pages/common/model/user_info.dart';
 
 class JoinCompanyResponse {
   bool? isSuccess;

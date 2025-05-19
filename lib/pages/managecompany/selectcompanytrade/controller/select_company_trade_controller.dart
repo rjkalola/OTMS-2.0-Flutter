@@ -4,7 +4,7 @@ import 'package:dio/dio.dart' as multi;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/pages/authentication/login/models/RegisterResourcesResponse.dart';
-import 'package:otm_inventory/pages/authentication/otp_verification/model/user_info.dart';
+import 'package:otm_inventory/pages/common/model/user_info.dart';
 import 'package:otm_inventory/pages/authentication/signup1/controller/signup1_repository.dart';
 import 'package:otm_inventory/pages/common/drop_down_list_dialog.dart';
 import 'package:otm_inventory/pages/common/listener/DialogButtonClickListener.dart';
@@ -83,13 +83,13 @@ class SelectCompanyTradeController extends GetxController
               JoinCompanyResponse.fromJson(jsonDecode(responseModel.result!));
           if (response.isSuccess!) {
             if (response.Data != null) {
-              UserInfo? user = AppStorage().getUserInfo();
+             /* UserInfo? user = AppStorage().getUserInfo();
               if (user != null &&
                   !StringHelper.isEmptyString(
                       response.Data?.companyName ?? "")) {
                 AppUtils.showToastMessage(
                     "Now, you are a member of ${response.Data?.companyName ?? ""}");
-              }
+              }*/
             }
             moveToDashboard();
           } else {

@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/authentication/otp_verification/model/user_info.dart';
+import 'package:otm_inventory/pages/common/model/user_info.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_storage.dart';
@@ -115,22 +115,26 @@ class AppUtils {
 
   static bool isAdmin() {
     UserInfo info = Get.find<AppStorage>().getUserInfo();
-    return info.userTypeId == AppConstants.userType.admin;
+    // return info.userTypeId == AppConstants.userType.admin;
+    return false;
   }
 
   static bool isEmployee() {
     UserInfo? info = Get.find<AppStorage>().getUserInfo();
-    return info.userTypeId == AppConstants.userType.employee;
+    // return info.userTypeId == AppConstants.userType.employee;
+    return false;
   }
 
   static bool isManager() {
     UserInfo? info = Get.find<AppStorage>().getUserInfo();
-    return info.userTypeId == AppConstants.userType.projectManager;
+    // return info.userTypeId == AppConstants.userType.projectManager;
+    return false;
   }
 
   static bool isSupervisor() {
     UserInfo? info = Get.find<AppStorage>().getUserInfo();
-    return info.userTypeId == AppConstants.userType.supervisor;
+    // return info.userTypeId == AppConstants.userType.supervisor;
+    return false;
   }
 
   static BoxShadow boxShadow(Color color, double radius) {

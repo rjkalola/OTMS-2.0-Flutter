@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/authentication/otp_verification/model/user_info.dart';
+import 'package:otm_inventory/pages/common/model/user_info.dart';
 import 'package:otm_inventory/pages/dashboard/tabs/home_tab2/controller/home_tab_controller.dart';
 import 'package:otm_inventory/pages/dashboard/tabs/home_tab2/view/widgets/action_buttons_dots_list.dart';
 import 'package:otm_inventory/pages/dashboard/tabs/home_tab2/view/widgets/action_buttons_list.dart';

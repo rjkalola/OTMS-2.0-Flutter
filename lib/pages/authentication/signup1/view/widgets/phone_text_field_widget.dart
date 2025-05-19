@@ -23,8 +23,7 @@ class PhoneTextFieldWidget extends StatelessWidget {
           keyboardType: TextInputType.phone,
           onValueChange: (value) {
             controller.isPhoneNumberExist.value = false;
-            // controller.checkPhoneNumberExist(
-            //     controller.phoneController.value.text.toString().trim());
+            controller.checkPhoneNumberExist();
           },
           onPressed: () {},
           autovalidateMode: AutovalidateMode.onUserInteraction,

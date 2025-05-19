@@ -4,15 +4,15 @@ import 'package:otm_inventory/web_services/network/api_request.dart';
 import 'package:otm_inventory/web_services/response/response_model.dart';
 
 class CompanySignUpRepository {
-  void joinCompany({
+  void companyRegistrationApi({
     multi.FormData? formData,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
     ApiRequest(
-            url: ApiConstants.joinCompanyUrl,
-            formData: formData,
-            isFormData: true)
+        url: ApiConstants.companyRegistrationUrl,
+        formData: formData,
+        isFormData: true)
         .postRequest(
       onSuccess: (data) {
         onSuccess!(data);

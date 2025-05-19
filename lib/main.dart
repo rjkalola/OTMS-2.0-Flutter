@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: defaultAccentColor),
           useMaterial3: true,
           dialogBackgroundColor: Colors.white),
-      home: DashboardScreen(),
+      home: SplashScreen(),
     );
   }
 }

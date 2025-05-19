@@ -34,7 +34,7 @@ class LoginUsersList extends StatelessWidget {
                     child: Row(children: [
                       ImageUtils.setUserImage(
                           url:
-                              loginController.loginUsers[position].imageThumb ??
+                              loginController.loginUsers[position].userThumbImage ??
                                   "",
                           width: 50,
                           height: 50),

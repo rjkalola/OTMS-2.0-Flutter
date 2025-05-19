@@ -354,16 +354,19 @@ class ApiRequest {
       String message = "";
       final data = e.response?.data;
       if (data != null && data['message'] != null) {
-        print("DATA:"+jsonEncode(data));
+        print("DATA:" + jsonEncode(data));
         message = data['message'];
       } else {
         message = e.message ?? "";
       }
-      AppUtils.showApiResponseMessage(message);
+
+      if (url != ApiConstants.checkPhoneNumberExistUrl) {
+        AppUtils.showApiResponseMessage(message);
+      }
       print('Dio error: ${e.message}');
       print('Stack trace: $stackTrace');
-      final ApiException apiException = ApiException.fromDioError(e);
-      if (kDebugMode) print("Error in api call $apiException.message");
+      // final ApiException apiException = ApiException.fromDioError(e);
+      // if (kDebugMode) print("Error in api call $apiException.message");
       responseModel =
           returnResponse(false, null, e.response?.statusCode, message);
       if (onError != null) onError(responseModel);

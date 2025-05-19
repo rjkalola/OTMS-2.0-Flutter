@@ -1,9 +1,10 @@
+import 'dart:async';
 import 'dart:convert';
 
+import 'package:dio/dio.dart' as multi;
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:otm_inventory/pages/authentication/login/models/RegisterResourcesResponse.dart';
 import 'package:otm_inventory/pages/authentication/signup1/controller/signup1_repository.dart';
 import 'package:otm_inventory/pages/common/drop_down_list_dialog.dart';
@@ -14,13 +15,12 @@ import 'package:otm_inventory/pages/common/phone_extension_list_dialog.dart';
 import 'package:otm_inventory/pages/manageattachment/controller/manage_attachment_controller.dart';
 import 'package:otm_inventory/pages/manageattachment/listener/select_attachment_listener.dart';
 import 'package:otm_inventory/pages/managecompany/company_signup/controller/company_signup_repository.dart';
-import 'package:otm_inventory/routes/app_pages.dart';
+import 'package:otm_inventory/pages/managecompany/company_signup/model/company_registration_response.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/AlertDialogHelper.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_storage.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/utils/location_service.dart';
 import 'package:otm_inventory/utils/location_service_new.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:otm_inventory/web_services/api_constants.dart';
@@ -47,21 +47,19 @@ class CompanySignUpController extends GetxController
       isOtpViewVisible = false.obs;
   final List<ModuleInfo> listCurrency = <ModuleInfo>[].obs;
   final fromSignUp = false.obs, isInitialResumeCall = false.obs;
-  final registerResourcesResponse = RegisterResourcesResponse().obs;
-  final mCompanyLogo = "".obs, mOtpCode = "".obs;
+  final mCompanyLogo = "".obs;
   final currencyId = 0.obs;
   bool locationLoaded = false;
   final _api = CompanySignUpRepository();
   Position? latLon = null;
   final locationService = LocationServiceNew();
   String? latitude, longitude, location;
-  final otpController = TextEditingController().obs;
 
   @override
   void onInit() {
     super.onInit();
     print("onInit");
-    appLifeCycle();
+    // appLifeCycle();
     var arguments = Get.arguments;
     if (arguments != null) {
       fromSignUp.value =
@@ -88,92 +86,68 @@ class CompanySignUpController extends GetxController
     // }
   }
 
-  onClickContinueButton() {
-    // controller.valid();
-    Get.toNamed(AppRoutes.teamUsersCountInfoScreen);
-  }
+  void companyRegistration() async {
+    Map<String, dynamic> map = {};
+    map["created_by"] = Get.find<AppStorage>().getUserInfo().id;
+    map["name"] = StringHelper.getText(companyNameController.value);
+    map["email"] = StringHelper.getText(companyEmailController.value);
+    map["phone"] = StringHelper.getText(phoneController.value);
+    map["extension"] = mExtension.value;
+    map["device_type"] = AppConstants.deviceType;
+    // map["device_name"] = AppUtils.getDeviceName();
+    // map["latitude"] = "";
+    // map["longitude"] = "";
+    // map["address"] = "";
+    multi.FormData formData = multi.FormData.fromMap(map);
+    print("reques value:" + map.toString());
+    print("mCompanyLogo.value:" + mCompanyLogo.value.toString());
 
-  void getRegisterResources() {
+    if (!StringHelper.isEmptyString(mCompanyLogo.value)) {
+      // final mimeType = lookupMimeType(file.path);
+      formData.files.add(
+        MapEntry("company_image",
+            await multi.MultipartFile.fromFile(mCompanyLogo.value)),
+      );
+    }
+
     isLoading.value = true;
-    SignUp1Repository().getRegisterResources(
+    _api.companyRegistrationApi(
+      formData: formData,
       onSuccess: (ResponseModel responseModel) {
-        if (responseModel.statusCode == 200) {
-          // fetchLocationAndAddress();
-          locationRequest();
-          setRegisterResourcesResponse(RegisterResourcesResponse.fromJson(
-              jsonDecode(responseModel.result!)));
-          listCurrency.addAll(registerResourcesResponse.value.currency ?? []);
-          if (mExtensionId.value != 0 &&
-              !StringHelper.isEmptyList(
-                  registerResourcesResponse.value.countries)) {
-            for (var info in registerResourcesResponse.value.countries!) {
-              if (info.id! == mExtensionId.value) {
-                mFlag.value = info.flagImage!;
-                break;
-              }
-            }
-          }
+        if (responseModel.isSuccess) {
+          CompanyRegistrationResponse response =
+              CompanyRegistrationResponse.fromJson(
+                  jsonDecode(responseModel.result!));
+          AppUtils.showApiResponseMessage(response.message ?? "");
+
+          int companyId = response.info?.id ?? 0;
+          print("companyId:"+companyId.toString());
+          var userInfo = Get.find<AppStorage>().getUserInfo();
+          userInfo.companyId = companyId;
+          Get.find<AppStorage>().setUserInfo(userInfo);
+          Get.find<AppStorage>().setCompanyId(companyId);
+          ApiConstants.companyId = companyId;
+          moveToDashboard();
         } else {
-          AppUtils.showSnackBarMessage(responseModel.statusMessage!);
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;
       },
       onError: (ResponseModel error) {
         isLoading.value = false;
         if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
-          isInternetNotAvailable.value = true;
-          // Utils.showSnackBarMessage('no_internet'.tr);
-        } else if (error.statusMessage!.isNotEmpty) {
-          AppUtils.showSnackBarMessage(error.statusMessage!);
+          AppUtils.showApiResponseMessage('no_internet'.tr);
         }
       },
     );
   }
 
-  // void joinCompany(String code, String tradeId, String companyId) async {
-  //   isLoading.value = true;
-  //   Map<String, dynamic> map = {};
-  //   map["trade_id"] = tradeId ?? "";
-  //   map["code"] = code ?? "";
-  //   map["company_id"] = companyId ?? "";
-  //
-  //   multi.FormData formData = multi.FormData.fromMap(map);
-  //   // isLoading.value = true;
-  //   _api.joinCompany(
-  //     formData: formData,
-  //     onSuccess: (ResponseModel responseModel) {
-  //       if (responseModel.statusCode == 200) {
-  //         JoinCompanyResponse response =
-  //             JoinCompanyResponse.fromJson(jsonDecode(responseModel.result!));
-  //         if (response.isSuccess!) {
-  //           if (response.Data != null) {
-  //             UserInfo? user = AppStorage().getUserInfo();
-  //             if (user != null &&
-  //                 !StringHelper.isEmptyString(
-  //                     response.Data?.companyName ?? "")) {
-  //               AppUtils.showToastMessage(
-  //                   "Now, you are a member of ${response.Data?.companyName ?? ""}");
-  //             }
-  //           }
-  //           moveToDashboard();
-  //         } else {
-  //           showSnackBar(response.message!);
-  //         }
-  //       } else {
-  //         showSnackBar(responseModel.statusMessage!);
-  //       }
-  //       isLoading.value = false;
-  //     },
-  //     onError: (ResponseModel error) {
-  //       isLoading.value = false;
-  //       if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
-  //         showSnackBar('no_internet'.tr);
-  //       } else if (error.statusMessage!.isNotEmpty) {
-  //         showSnackBar(error.statusMessage!);
-  //       }
-  //     },
-  //   );
-  // }
+  onClickContinueButton() {
+    if (valid()) {
+      companyRegistration();
+    }
+    // Get.toNamed(AppRoutes.teamUsersCountInfoScreen);
+  }
 
   void moveToDashboard() {
     Get.offAllNamed(AppRoutes.dashboardScreen);
@@ -241,9 +215,7 @@ class CompanySignUpController extends GetxController
   void showPhoneExtensionDialog() {
     Get.bottomSheet(
         PhoneExtensionListDialog(
-            title: 'select_phone_extension'.tr,
-            list: registerResourcesResponse.value.countries!,
-            listener: this),
+            title: 'select_phone_extension'.tr, list: [], listener: this),
         backgroundColor: Colors.transparent,
         isScrollControlled: true);
   }
@@ -257,11 +229,14 @@ class CompanySignUpController extends GetxController
   }
 
   bool valid() {
-    return formKey.currentState!.validate();
+    bool valid = false;
+    valid = formKey.currentState!.validate();
+    if (valid && StringHelper.isEmptyString(mCompanyLogo.value)) {
+      valid = false;
+      AppUtils.showSnackBarMessage('please_select_image'.tr);
+    }
+    return valid;
   }
-
-  void setRegisterResourcesResponse(RegisterResourcesResponse value) =>
-      registerResourcesResponse.value = value;
 
   onValueChange() {
     // formKey.currentState!.validate();

@@ -86,23 +86,6 @@ class _CompanySignUpScreenState extends State<CompanySignUpScreen> {
                               CompanyNameTextField(),
                               CompanyEmailTextField(),
                               PhoneNumberViewCompanySignUp(),
-                              Visibility(
-                                visible: controller.isOtpViewVisible.value,
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                                  child: OtpView(
-                                    mOtpCode: controller.mOtpCode,
-                                    otpController: controller.otpController,
-                                    onCodeChanged: (code) {
-                                      print("onCodeChanged $code");
-                                    },
-                                    onResendOtp: () {
-                                      print("onResendOtp click");
-                                    },
-                                  ),
-                                ),
-                              ),
                               ActionButtonsCompanySignUp()
                               // HeadOfficeLocationViewCompanySignup(),
                               // CurrencyTextFieldCompanySignUp()

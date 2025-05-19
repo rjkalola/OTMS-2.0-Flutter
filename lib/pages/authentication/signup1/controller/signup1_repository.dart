@@ -17,14 +17,46 @@ class SignUp1Repository {
   }
 
   void checkPhoneNumberExist({
-    multi.FormData? formData,
+    dynamic data,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
     ApiRequest(
             url: ApiConstants.checkPhoneNumberExistUrl,
-            formData: formData,
-            isFormData: true)
+            data: data,
+            isFormData: false)
+        .postRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
+
+  void sendOtpAPI({
+    dynamic data,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+        url: ApiConstants.sendRegisterOtpUrl, data: data, isFormData: false)
+        .postRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
+
+  void verifyOtpUrl({
+    dynamic data,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+        url: ApiConstants.verifyRegisterOtpUrl,
+        data: data,
+        isFormData: false)
         .postRequest(
       onSuccess: (data) {
         onSuccess!(data);

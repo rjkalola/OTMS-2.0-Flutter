@@ -63,7 +63,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
                         path: DataUtils.tabIcons[index],
                         width: 24,
                         height: 24,
-                        color: isSelected ? Colors.blue : Colors.black54),
+                        color: isSelected ? defaultAccentColor : Colors.black54),
                     // Icon(
                     //   DataUtils.tabIcons[index],
                     //   color: isSelected ? Colors.blue : Colors.black54,
@@ -75,7 +75,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
                           DataUtils.tabLabels[index],
                           style: TextStyle(
                             fontSize: 12,
-                            color: Colors.blue,
+                            color: defaultAccentColor,
                           ),
                         ),
                       ),

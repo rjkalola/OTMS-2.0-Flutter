@@ -8,6 +8,7 @@ class ApiConstants {
   // static String appUrl = "https://otmsystem.com/api/v1";
 
   static String accessToken = "";
+  static int companyId = 0;
   static const CODE_NO_INTERNET_CONNECTION = 10000;
 
   static Map<String, String> getHeader() {
@@ -17,17 +18,24 @@ class ApiConstants {
     };
   }
 
-  static String sendOtpUrl = '$appUrl/send-otp';
-  static String verifyOtpUrl = '$appUrl/verify-otp';
-  static String registerUrl = '$appUrl/register';
+  static String sendLoginOtpUrl = '$appUrl/send-otp-login';
+
+  // static String verifyLoginOtpUrl = '$appUrl/verify-otp';
   static String loginUrl = '$appUrl/app-login';
+  static String sendRegisterOtpUrl = '$appUrl/send-otp-register';
+  static String verifyRegisterOtpUrl = '$appUrl/verify-register-otp';
+  static String registerUrl = '$appUrl/app-registration';
+  static String checkPhoneNumberExistUrl = '$appUrl/check-phone-exist';
+  static String companyRegistrationUrl =
+      '$appUrl/company/company-app-registration';
 
   static String registerResourcesUrl = '$appUrl/wn-resources';
   static String verifyPhoneUrl = '$appUrl/verify-phone';
 
   // static String loginUrl = '$appUrl/login-new';
   static String logoutUrl = '$appUrl/logout';
-  static String checkPhoneNumberExistUrl = '$appUrl/check-phone-exist';
+
+  // static String checkPhoneNumberExistUrl = '$appUrl/check-phone-exist';
   static String userSignUpUrl = '$appUrl/wn-kkm';
   static String getCompaniesUrl = '$appUrl/get-companies';
   static String joinCompanyCodeUrl = '$appUrl/join-company-code';

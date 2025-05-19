@@ -4,12 +4,9 @@ import 'dart:convert';
 import 'package:dio/dio.dart' as multi;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/authentication/login/controller/login_repository.dart';
-import 'package:otm_inventory/pages/authentication/login/models/RegisterResourcesResponse.dart';
-import 'package:otm_inventory/pages/authentication/otp_verification/model/user_info.dart';
-import 'package:otm_inventory/pages/authentication/otp_verification/model/user_response.dart';
 import 'package:otm_inventory/pages/authentication/signup1/controller/signup1_repository.dart';
 import 'package:otm_inventory/pages/common/listener/SelectPhoneExtensionListener.dart';
+import 'package:otm_inventory/pages/common/model/user_response.dart';
 import 'package:otm_inventory/pages/common/phone_extension_list_dialog.dart';
 import 'package:otm_inventory/pages/manageattachment/controller/manage_attachment_controller.dart';
 import 'package:otm_inventory/pages/manageattachment/listener/select_attachment_listener.dart';
@@ -86,22 +83,25 @@ class SignUp1Controller extends GetxController
     }*/
   }
 
-  void checkPhoneNumberExist(String phoneNumber) async {
+  void checkPhoneNumberExist() async {
+    String phoneNumber = StringHelper.getText(phoneController.value);
     if (!StringHelper.isEmptyString(phoneNumber)) {
       if (phoneNumber.length == 10) {
         Map<String, dynamic> map = {};
-        map["phone_number"] = phoneNumber;
+        map["extension"] = mExtension.value;
+        map["phone"] = phoneNumber;
         multi.FormData formData = multi.FormData.fromMap(map);
         // isLoading.value = true;
         _api.checkPhoneNumberExist(
-          formData: formData,
+          data: map,
           onSuccess: (ResponseModel responseModel) {
             if (responseModel.statusCode == 200) {
               BaseResponse response =
                   BaseResponse.fromJson(jsonDecode(responseModel.result!));
-              if (response.IsSuccess!) {
-                isPhoneNumberExist.value = false;
-                phoneNumberErrorMessage.value = "";
+              if (responseModel.isSuccess) {
+                isPhoneNumberExist.value = true;
+                phoneNumberErrorMessage.value =
+                    AppUtils.getStringTr(response.Message ?? "");
                 // var arguments = {
                 //   AppConstants.intentKey.phoneExtension: extension,
                 //   AppConstants.intentKey.phoneNumber: phoneNumber,
@@ -110,25 +110,28 @@ class SignUp1Controller extends GetxController
 
                 // showSnackBar(response.message!);
               } else {
-                isPhoneNumberExist.value = true;
-                phoneNumberErrorMessage.value =
-                    AppUtils.getStringTr(response.Message ?? "");
-                print("Message::::" +
-                    AppUtils.getStringTr(response.Message ?? ""));
+                isPhoneNumberExist.value = false;
+                phoneNumberErrorMessage.value = "";
+                // print("Message::::" +
+                //     AppUtils.getStringTr(response.Message ?? ""));
                 // showSnackBar(response.message!);
               }
             } else {
-              AppUtils.showApiResponseMessage(responseModel.statusMessage!);
+              isPhoneNumberExist.value = false;
+              phoneNumberErrorMessage.value = "";
+              // AppUtils.showApiResponseMessage(responseModel.statusMessage!);
             }
             isLoading.value = false;
           },
           onError: (ResponseModel error) {
+            isPhoneNumberExist.value = false;
+            phoneNumberErrorMessage.value = "";
             isLoading.value = false;
-            if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+            /* if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
               AppUtils.showApiResponseMessage('no_internet'.tr);
             } else if (error.statusMessage!.isNotEmpty) {
               AppUtils.showApiResponseMessage(error.statusMessage!);
-            }
+            }*/
           },
         );
       } else {}
@@ -144,7 +147,7 @@ class SignUp1Controller extends GetxController
     map["extension"] = extension;
     multi.FormData formData = multi.FormData.fromMap(map);
     isLoading.value = true;
-    LoginRepository().sendOtpAPI(
+    _api.sendOtpAPI(
       data: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
@@ -174,7 +177,7 @@ class SignUp1Controller extends GetxController
     map["otp"] = otp;
     // multi.FormData formData = multi.FormData.fromMap(map);
     isLoading.value = true;
-    LoginRepository().verifyOtpUrl(
+    _api.verifyOtpUrl(
       data: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
@@ -201,7 +204,7 @@ class SignUp1Controller extends GetxController
     Map<String, dynamic> map = {};
     map["first_name"] = StringHelper.getText(firstNameController.value);
     map["last_name"] = StringHelper.getText(lastNameController.value);
-    map["extension_id"] = 105;
+    map["extension"] = mExtension.value;
     map["phone"] = StringHelper.getText(phoneController.value);
     // map["device_name"] = AppUtils.getDeviceName();
     // map["latitude"] = "";
@@ -211,10 +214,14 @@ class SignUp1Controller extends GetxController
     print("reques value:" + map.toString());
     print("imagePath.value:" + imagePath.value.toString());
 
-    formData.files.add(
-      MapEntry(
-          "user_image", await multi.MultipartFile.fromFile(imagePath.value)),
-    );
+    if (!StringHelper.isEmptyString(imagePath.value)) {
+      // final mimeType = lookupMimeType(file.path);
+      formData.files.add(
+        MapEntry(
+            "user_image", await multi.MultipartFile.fromFile(imagePath.value)),
+      );
+    }
+
     isLoading.value = true;
     _api.register(
       formData: formData,
@@ -224,9 +231,10 @@ class SignUp1Controller extends GetxController
               UserResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.message ?? "");
           Get.find<AppStorage>().setUserInfo(response.info!);
-          // Get.find<AppStorage>().setAccessToken(response.info!.apiToken!);
-          // ApiConstants.accessToken = response.info!.apiToken!;
-          // print("Token:" + ApiConstants.accessToken);
+          Get.find<AppStorage>()
+              .setAccessToken(response.info!.deviceToken ?? "");
+          ApiConstants.accessToken = response.info!.deviceToken ?? "";
+          print("Token:" + ApiConstants.accessToken);
           AppUtils.saveLoginUser(response.info!);
           Get.offAllNamed(AppRoutes.joinCompanyScreen);
         } else {

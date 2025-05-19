@@ -24,14 +24,10 @@ class LoginButtonWidget extends StatelessWidget {
             buttonText: 'continue'.tr,
             onPressed: () {
               if (loginController.isOtpViewVisible.value) {
-                if (!loginController.isOtpVerified.value) {
-                  if (loginController.mOtpCode.value.length == 6) {
-                    loginController.verifyOtpApi();
-                  } else {
-                    AppUtils.showSnackBarMessage('enter_otp'.tr);
-                  }
-                } else {
+                if (loginController.mOtpCode.value.length == 6) {
                   loginController.login();
+                } else {
+                  AppUtils.showSnackBarMessage('enter_otp'.tr);
                 }
               } else {
                 if (loginController.valid(false)) {
