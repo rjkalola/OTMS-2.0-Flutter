@@ -14,6 +14,7 @@ import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_storage.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
+import 'package:otm_inventory/utils/data_utils.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:otm_inventory/web_services/api_constants.dart';
 import 'package:otm_inventory/web_services/response/base_response.dart';
@@ -264,7 +265,9 @@ class SignUp1Controller extends GetxController
   void showPhoneExtensionDialog() {
     Get.bottomSheet(
         PhoneExtensionListDialog(
-            title: 'select_phone_extension'.tr, list: [], listener: this),
+            title: 'select_phone_extension'.tr,
+            list: DataUtils.getPhoneExtensionList(),
+            listener: this),
         backgroundColor: Colors.transparent,
         isScrollControlled: true);
   }

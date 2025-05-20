@@ -38,6 +38,8 @@ class IntentKey {
   final String photosType = 'PHOTOS_TYPE';
   final String photosList = 'PHOTOS_LIST';
   final String addressList = 'ADDRESS_LIST';
+  final String permissionStep1Info = "PERMISSION_STEP1_INFO";
+  final String permissionStep2Info = "PERMISSION_STEP2_INFO";
 }
 
 class DialogIdentifier {

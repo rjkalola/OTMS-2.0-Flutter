@@ -53,7 +53,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                       // HeaderWidget(),
                       ImgIntroductionImage1(),
                       SizedBox(
-                        height: 25,
+                        height: 10,
                       ),
                       HeaderTitleNoteTextWidget(
                           title: 'first_screen_welcome_title'.tr),

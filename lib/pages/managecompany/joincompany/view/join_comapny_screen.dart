@@ -16,6 +16,7 @@ import 'package:otm_inventory/pages/managecompany/joincompany/view/widgets/do_it
 import 'package:otm_inventory/pages/managecompany/joincompany/view/widgets/join_company_button.dart';
 import 'package:otm_inventory/pages/managecompany/joincompany/view/widgets/create_new_company_button.dart';
 import 'package:otm_inventory/pages/managecompany/joincompany/view/widgets/otp_view_join_company.dart';
+import 'package:otm_inventory/pages/managecompany/joincompany/view/widgets/select_trade_join_company.dart';
 import 'package:otm_inventory/pages/managecompany/joincompany/view/widgets/select_your_role_view.dart';
 import 'package:otm_inventory/pages/managecompany/joincompany/view/widgets/text_or.dart';
 import 'package:otm_inventory/pages/managecompany/joincompany/view/widgets/select_company_view.dart';
@@ -70,7 +71,7 @@ class _JoinCompanyScreenState extends State<JoinCompanyScreen> {
                             ),
                             Padding(
                               padding: const EdgeInsets.fromLTRB(8, 14, 16, 0),
-                              child: HeaderLogo(),
+                              child: HeaderLogo(isBackDisable: true,),
                             ),
                             HeaderTitleNoteTextWidget(
                               title: 'create_or_join_company'.tr,
@@ -92,6 +93,7 @@ class _JoinCompanyScreenState extends State<JoinCompanyScreen> {
                                   mOtpCode: controller.mOtpCode,
                                   otpController: controller.otpController,
                                   onCodeChanged: (code) {
+                                    controller.mOtpCode.value = code.toString();
                                     print("onCodeChanged $code");
                                   },
                                   onResendOtp: () {
@@ -99,7 +101,10 @@ class _JoinCompanyScreenState extends State<JoinCompanyScreen> {
                                   },
                                 ),
                               ),
-                            )
+                            ),
+                            Visibility(
+                                visible: controller.isSelectTradeVisible.value,
+                                child: SelectTradeJoinCompany())
                             // DoItLater()
                           ],
                         ),

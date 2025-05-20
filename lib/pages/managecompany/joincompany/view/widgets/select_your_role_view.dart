@@ -15,8 +15,8 @@ class SelectYourRoleView extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16, 26, 16, 26),
       child: TextFieldBorder(
           textEditingController: controller.selectYourRoleController.value,
-          hintText: 'select_your_role'.tr,
-          labelText: 'select_your_role'.tr,
+          hintText: 'select_your_trade'.tr,
+          labelText: 'select_your_trade'.tr,
           keyboardType: TextInputType.name,
           textInputAction: TextInputAction.next,
           isReadOnly: true,

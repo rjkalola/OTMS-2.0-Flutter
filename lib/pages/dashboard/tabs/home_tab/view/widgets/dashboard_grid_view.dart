@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:otm_inventory/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart';
-import 'package:otm_inventory/pages/dashboard/tabs/home_tab/view/widgets/dashboard_grid_item_view.dart';
+import 'package:otm_inventory/pages/dashboard/tabs/home_tab/view/widgets/dashboard_grid_item.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/widgets/gridview/VariableHeightGrid.dart';
 
@@ -16,7 +16,7 @@ class DashboardGridView extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(12, 10, 12, 0),
         child: VariableHeightGrid(
           items: List.generate(controller.listGridItems.length, (index) {
-            return DashboardGridItemView(
+            return DashboardGridItem(
               info: controller.listGridItems[index],
             );
           }),

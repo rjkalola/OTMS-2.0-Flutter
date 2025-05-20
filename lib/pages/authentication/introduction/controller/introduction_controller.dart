@@ -1,11 +1,9 @@
 import 'dart:convert';
 
-import 'package:dio/dio.dart' as multi;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/pages/authentication/login/controller/login_repository.dart';
 import 'package:otm_inventory/pages/authentication/login/models/VerifyPhoneResponse.dart';
-import 'package:otm_inventory/pages/common/model/user_info.dart';
 import 'package:otm_inventory/pages/common/model/user_info.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_constants.dart';

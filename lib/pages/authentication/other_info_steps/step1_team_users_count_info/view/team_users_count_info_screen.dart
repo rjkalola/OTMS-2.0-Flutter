@@ -39,45 +39,55 @@ class _TeamUsersCountInfoScreenState extends State<TeamUsersCountInfoScreen> {
                 opacity: 0,
                 progressIndicator: const CustomProgressbar(),
                 child: controller.isInternetNotAvailable.value
-                    ? const NoInternetWidget()
-                    : SingleChildScrollView(
-                        child: Column(children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                height: 20,
-                              ),
-                              const TopDividerWidget(
-                                flex1: 4,
-                                flex2: 2,
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(8, 14, 16, 0),
-                                child: HeaderLogo(),
-                              ),
-                              HeaderTitleNoteTextWidget(
-                                title: 'how_many_users_Are_on_your_team'.tr,
-                              ),
-                              TeamUsersCountItemsList(
-                                  itemsList: controller.listItems,
-                                  onViewClick: (position) {
-                                    print("position:" + position.toString());
-                                    controller.selectedIndex.value = position;
-                                  },
-                                  selectedIndex:
-                                      controller.selectedIndex.value),
-                              Container(
-                                  margin:
-                                      const EdgeInsets.fromLTRB(20, 16, 20, 16),
-                                  width: double.infinity,
-                                  child: ContinueButton(onPressed: () {
-                                    controller.onClickContinueButton();
-                                  }))
-                            ],
-                          ),
-                        ]),
+                    ? NoInternetWidget(
+                        onPressed: () {
+                          controller.isInternetNotAvailable.value = false;
+                          controller.getCompanyResourcesApi();
+                        },
+                      )
+                    : Visibility(
+                        visible: controller.isMainViewVisible.value,
+                        child: SingleChildScrollView(
+                          child: Column(children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                const TopDividerWidget(
+                                  flex1: 4,
+                                  flex2: 2,
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(8, 14, 16, 0),
+                                  child: HeaderLogo(
+                                    isBackDisable: true,
+                                  ),
+                                ),
+                                HeaderTitleNoteTextWidget(
+                                  title: 'how_many_users_Are_on_your_team'.tr,
+                                ),
+                                TeamUsersCountItemsList(
+                                    itemsList: controller.listItems,
+                                    onViewClick: (position) {
+                                      print("position:" + position.toString());
+                                      controller.selectedIndex.value = position;
+                                    },
+                                    selectedIndex:
+                                        controller.selectedIndex.value),
+                                Container(
+                                    margin: const EdgeInsets.fromLTRB(
+                                        20, 16, 20, 16),
+                                    width: double.infinity,
+                                    child: ContinueButton(onPressed: () {
+                                      controller.onClickContinueButton();
+                                    }))
+                              ],
+                            ),
+                          ]),
+                        ),
                       ));
           }),
         ),

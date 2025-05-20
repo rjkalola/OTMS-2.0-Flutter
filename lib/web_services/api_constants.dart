@@ -28,6 +28,11 @@ class ApiConstants {
   static String checkPhoneNumberExistUrl = '$appUrl/check-phone-exist';
   static String companyRegistrationUrl =
       '$appUrl/company/company-app-registration';
+  static String getCompanyResourcesUrl = '$appUrl/get-company-resources';
+  static String storeCompanyDataUrl = '$appUrl/company/store-company-data/1';
+  static String joinCompanyUrl = '$appUrl/company/join-company';
+  static String getTradeDataUrl = '$appUrl/trade/get-trade-data';
+  static String storeTradeUrl = '$appUrl/company/add-trade';
 
   static String registerResourcesUrl = '$appUrl/wn-resources';
   static String verifyPhoneUrl = '$appUrl/verify-phone';
@@ -40,7 +45,8 @@ class ApiConstants {
   static String getCompaniesUrl = '$appUrl/get-companies';
   static String joinCompanyCodeUrl = '$appUrl/join-company-code';
   static String scanInviteCodeUrl = '$appUrl/scan-invite-code';
-  static String joinCompanyUrl = '$appUrl/join-company';
+
+  // static String joinCompanyUrl = '$appUrl/join-company';
   static String newTimesheetResourcesUrl =
       '$appUrl/new-timesheet/get-resources';
   static String startWorkUrl = '$appUrl/start-time';

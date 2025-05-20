@@ -32,16 +32,16 @@ class BusinessFieldInfoItemsList extends StatelessWidget {
             controller.listItems.length,
             (position) => GestureDetector(
               onTap: () {
-                // controller.selectedIndex.value = position;
-                controller.listItems[position].check =
-                    !(controller.listItems[position].check ?? false);
-                controller.listItems.refresh();
+                controller.selectedIndex.value = position;
+                // controller.listItems[position].check =
+                //     !(controller.listItems[position].check ?? false);
+                // controller.listItems.refresh();
               },
               child: Container(
                 margin: EdgeInsets.only(top: 6, bottom: 6),
                 decoration: AppUtils.getDashboardItemDecoration(
                     borderWidth: 2,
-                    borderColor: (controller.listItems[position].check ?? false)
+                    borderColor: (controller.selectedIndex.value == position)
                         ? defaultAccentColor
                         : Colors.grey.shade300),
                 padding: EdgeInsets.fromLTRB(16, 10, 14, 10),

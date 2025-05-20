@@ -51,14 +51,40 @@ class JoinCompanyRepository {
   }
 
   void joinCompany({
-    multi.FormData? formData,
+    dynamic data,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(url: ApiConstants.joinCompanyUrl, data: data, isFormData: false)
+        .postRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
+
+  void getTradeDataApi({
+    Map<String, dynamic>? queryParameters,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
     ApiRequest(
-            url: ApiConstants.joinCompanyUrl,
-            formData: formData,
-            isFormData: true)
+            url: ApiConstants.getTradeDataUrl, queryParameters: queryParameters)
+        .getRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
+
+  void storeTradeApi({
+    dynamic data,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(url: ApiConstants.storeTradeUrl, data: data, isFormData: false)
         .postRequest(
       onSuccess: (data) {
         onSuccess!(data);

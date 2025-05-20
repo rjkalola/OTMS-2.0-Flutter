@@ -4,15 +4,20 @@ import 'package:otm_inventory/web_services/network/api_request.dart';
 import 'package:otm_inventory/web_services/response/response_model.dart';
 
 class SelectToolsRepository {
-  // void getRegisterResources({
-  //   Function(ResponseModel responseModel)? onSuccess,
-  //   Function(ResponseModel error)? onError,
-  // }) {
-  //   ApiRequest(url: ApiConstants.registerResourcesUrl).getRequest(
-  //     onSuccess: (data) {
-  //       onSuccess!(data);
-  //     },
-  //     onError: (error) => {if (onError != null) onError(error)},
-  //   );
-  // }
+  void storeCompanyDataUrlAPI({
+    dynamic data,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+            url: ApiConstants.storeCompanyDataUrl,
+            data: data,
+            isFormData: false)
+        .putRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
 }

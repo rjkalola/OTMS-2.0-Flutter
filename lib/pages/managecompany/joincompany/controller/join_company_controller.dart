@@ -15,6 +15,7 @@ import 'package:otm_inventory/pages/managecompany/joincompany/controller/join_co
 import 'package:otm_inventory/pages/managecompany/joincompany/model/get_companies_response.dart';
 import 'package:otm_inventory/pages/managecompany/joincompany/model/join_company_code_response.dart';
 import 'package:otm_inventory/pages/managecompany/joincompany/model/join_company_response.dart';
+import 'package:otm_inventory/pages/managecompany/joincompany/model/trade_list_response.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/AlertDialogHelper.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
@@ -35,17 +36,21 @@ class JoinCompanyController extends GetxController
 
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
-      isOtpViewVisible = false.obs;
+      isOtpViewVisible = false.obs,
+      isSelectTradeVisible = false.obs;
   final List<ModuleInfo> listCompanies = <ModuleInfo>[].obs;
+  final List<ModuleInfo> listTrades = <ModuleInfo>[].obs;
   final companyId = 0.obs;
   final requestedCode = "".obs;
   final otpController = TextEditingController().obs;
   final mOtpCode = "".obs;
+  int tradeId = 0;
 
   @override
   void onInit() {
     super.onInit();
     // getCompaniesApi();
+    getTradeDataApi();
   }
 
   onClickSearch() {
@@ -55,7 +60,7 @@ class JoinCompanyController extends GetxController
       joinCompanyCode(
           "0", addCompanyCodeController.value.text.toString().trim());
     } else {
-      showSnackBar('please_enter_company_code'.tr);
+      AppUtils.showApiResponseMessage('please_enter_company_code'.tr);
     }
   }
 
@@ -91,39 +96,39 @@ class JoinCompanyController extends GetxController
               Get.toNamed(AppRoutes.selectCompanyTradeScreen,
                   arguments: arguments);
             } else {
-              joinCompanyRequest(0, response.companyId ?? 0);
+              // joinCompanyRequest(0, response.companyId ?? 0);
             }
           } else {
-            showSnackBar(response.message!);
+            AppUtils.showApiResponseMessage(response.message);
           }
         } else {
-          showSnackBar(responseModel.statusMessage!);
+          AppUtils.showApiResponseMessage(responseModel.statusMessage!);
         }
         isLoading.value = false;
       },
       onError: (ResponseModel error) {
         isLoading.value = false;
         if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
-          showSnackBar('no_internet'.tr);
+          AppUtils.showApiResponseMessage('no_internet'.tr);
         } else if (error.statusMessage!.isNotEmpty) {
-          showSnackBar(error.statusMessage!);
+          AppUtils.showApiResponseMessage(error.statusMessage!);
         }
       },
     );
   }
 
-  void getCompaniesApi() {
-    isLoading.value = true;
-    _api.getCompanies(
+  void getTradeDataApi() {
+    // isLoading.value = true;
+    _api.getTradeDataApi(
       onSuccess: (ResponseModel responseModel) {
-        if (responseModel.statusCode == 200) {
-          GetCompaniesResponse response =
-              GetCompaniesResponse.fromJson(jsonDecode(responseModel.result!));
+        if (responseModel.isSuccess) {
+          TradeListResponse response =
+              TradeListResponse.fromJson(jsonDecode(responseModel.result!));
           if (!StringHelper.isEmptyList(response.info)) {
-            listCompanies.addAll(response.info!);
+            listTrades.addAll(response.info!);
           }
         } else {
-          AppUtils.showSnackBarMessage(responseModel.statusMessage!);
+          // AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;
       },
@@ -131,10 +136,57 @@ class JoinCompanyController extends GetxController
         isLoading.value = false;
         if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
           isInternetNotAvailable.value = true;
-          // Utils.showSnackBarMessage('no_internet'.tr);
-        } else if (error.statusMessage!.isNotEmpty) {
-          AppUtils.showSnackBarMessage(error.statusMessage!);
+          // Utils.showApiResponseMessage('no_internet'.tr);
         }
+        // else if (error.statusMessage!.isNotEmpty) {
+        //   AppUtils.showApiResponseMessage(error.statusMessage!);
+        // }
+      },
+    );
+  }
+
+  void storeTradeApi() async {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["user_id"] = Get.find<AppStorage>().getUserInfo().id;
+    map["company_id"] = ApiConstants.companyId;
+    map["trade_id"] = tradeId;
+    multi.FormData formData = multi.FormData.fromMap(map);
+    // isLoading.value = true;
+    _api.storeTradeApi(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          /* JoinCompanyResponse response =
+              JoinCompanyResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showApiResponseMessage(response.message ?? "");
+          int companyId = response.info?.companyId ?? 0;
+          print("companyId:" + companyId.toString());
+          var userInfo = Get.find<AppStorage>().getUserInfo();
+          userInfo.companyId = companyId;
+          Get.find<AppStorage>().setUserInfo(userInfo);
+          Get.find<AppStorage>().setCompanyId(companyId);
+          ApiConstants.companyId = companyId;
+          isOtpViewVisible.value = true;
+          isSelectTradeVisible.value = true;*/
+
+          BaseResponse response =
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showApiResponseMessage(response.Message ?? "");
+          moveToDashboard();
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        }
+        // else if (error.statusMessage!.isNotEmpty) {
+        //   AppUtils.showApiResponseMessage(error.statusMessage ?? "");
+        // }
       },
     );
   }
@@ -161,78 +213,74 @@ class JoinCompanyController extends GetxController
               Get.toNamed(AppRoutes.selectCompanyTradeScreen,
                   arguments: arguments);
             } else {
-              joinCompanyRequest(0, response.companyId ?? 0);
+              // joinCompanyRequest(0, response.companyId ?? 0);
             }
           } else {
-            showSnackBar(response.message!);
+            AppUtils.showApiResponseMessage(response.message!);
           }
         } else {
-          showSnackBar(responseModel.statusMessage!);
+          AppUtils.showApiResponseMessage(responseModel.statusMessage!);
         }
         isLoading.value = false;
       },
       onError: (ResponseModel error) {
         isLoading.value = false;
         if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
-          showSnackBar('no_internet'.tr);
+          AppUtils.showApiResponseMessage('no_internet'.tr);
         } else if (error.statusMessage!.isNotEmpty) {
-          showSnackBar(error.statusMessage!);
+          AppUtils.showApiResponseMessage(error.statusMessage!);
         }
       },
     );
   }
 
-  void joinCompanyApi(String code, int tradeId, int companyId) async {
+  void joinCompanyApi() async {
     isLoading.value = true;
     Map<String, dynamic> map = {};
-    map["trade_id"] = tradeId ?? "";
-    map["code"] = code ?? "";
-    map["company_id"] = companyId ?? "";
+    map["otp"] = mOtpCode.value;
     multi.FormData formData = multi.FormData.fromMap(map);
     // isLoading.value = true;
     _api.joinCompany(
-      formData: formData,
+      data: map,
       onSuccess: (ResponseModel responseModel) {
-        if (responseModel.statusCode == 200) {
+        if (responseModel.isSuccess) {
           JoinCompanyResponse response =
               JoinCompanyResponse.fromJson(jsonDecode(responseModel.result!));
-          if (response.isSuccess!) {
-            if (response.Data != null) {
-            /*  UserInfo? user = AppStorage().getUserInfo();
-              if (user != null &&
-                  !StringHelper.isEmptyString(
-                      response.Data?.companyName ?? "")) {
-                AppUtils.showToastMessage(
-                    "Now, you are a member of ${response.Data?.companyName ?? ""}");
-              }*/
-            }
-            moveToDashboard();
-          } else {
-            showSnackBar(response.message!);
-          }
+          AppUtils.showApiResponseMessage(response.message ?? "");
+          int companyId = response.info?.companyId ?? 0;
+          print("companyId:" + companyId.toString());
+          var userInfo = Get.find<AppStorage>().getUserInfo();
+          userInfo.companyId = companyId;
+          Get.find<AppStorage>().setUserInfo(userInfo);
+          Get.find<AppStorage>().setCompanyId(companyId);
+          ApiConstants.companyId = companyId;
+          isOtpViewVisible.value = false;
+          isSelectTradeVisible.value = true;
+          // moveToDashboard();
         } else {
-          showSnackBar(responseModel.statusMessage!);
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;
       },
       onError: (ResponseModel error) {
         isLoading.value = false;
         if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
-          showSnackBar('no_internet'.tr);
-        } else if (error.statusMessage!.isNotEmpty) {
-          showSnackBar(error.statusMessage!);
+          AppUtils.showApiResponseMessage('no_internet'.tr);
         }
+        // else if (error.statusMessage!.isNotEmpty) {
+        //   AppUtils.showApiResponseMessage(error.statusMessage ?? "");
+        // }
       },
     );
   }
 
-  void joinCompanyRequest(int tradeId, int companyId) {
+  /* void joinCompanyRequest(int tradeId, int companyId) {
     if (!StringHelper.isEmptyString(requestedCode.value)) {
       joinCompanyApi(requestedCode.value, tradeId, 0);
     } else {
       joinCompanyApi("", tradeId, companyId);
     }
-  }
+  }*/
 
   void moveToDashboard() {
     Get.offAllNamed(AppRoutes.dashboardScreen);
@@ -249,6 +297,15 @@ class JoinCompanyController extends GetxController
           'select_company'.tr, listCompanies, this);
     } else {
       AppUtils.showToastMessage('empty_company_list'.tr);
+    }
+  }
+
+  void showTradeList() {
+    if (listTrades.isNotEmpty) {
+      showDropDownDialog(AppConstants.dialogIdentifier.selectTrade,
+          'select_trade'.tr, listTrades, this);
+    } else {
+      AppUtils.showToastMessage('empty_trade_list'.tr);
     }
   }
 
@@ -272,6 +329,9 @@ class JoinCompanyController extends GetxController
     if (action == AppConstants.dialogIdentifier.selectCompany) {
       companyId.value = id;
       showJoinCompanyDialog();
+    } else if (action == AppConstants.dialogIdentifier.selectTrade) {
+      tradeId = id;
+      selectYourRoleController.value.text = name;
     }
   }
 
@@ -305,9 +365,5 @@ class JoinCompanyController extends GetxController
 
   onValueChange() {
     // formKey.currentState!.validate();
-  }
-
-  void showSnackBar(String message) {
-    AppUtils.showSnackBarMessage(message);
   }
 }

@@ -82,7 +82,7 @@ class SelectCompanyTradeController extends GetxController
           JoinCompanyResponse response =
               JoinCompanyResponse.fromJson(jsonDecode(responseModel.result!));
           if (response.isSuccess!) {
-            if (response.Data != null) {
+            if (response.info != null) {
              /* UserInfo? user = AppStorage().getUserInfo();
               if (user != null &&
                   !StringHelper.isEmptyString(

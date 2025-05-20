@@ -21,7 +21,8 @@ class JoinCompanyButton extends StatelessWidget {
         child: PrimaryButton(
             buttonText: 'join_a_company'.tr,
             onPressed: () {
-              if (!controller.isOtpViewVisible.value) {
+              if (!controller.isOtpViewVisible.value &&
+                  !controller.isSelectTradeVisible.value) {
                 controller.isOtpViewVisible.value = true;
               }
               // controller.openQrCodeScanner();

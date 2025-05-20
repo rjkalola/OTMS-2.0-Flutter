@@ -3,7 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/pages/dashboard/view/widgets/more_tab_buttons.dart';
 import 'package:otm_inventory/res/drawable.dart';
+import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
+import 'package:otm_inventory/utils/app_storage.dart';
 
 import '../../../../res/colors.dart';
 import '../../../../utils/AlertDialogHelper.dart';
@@ -109,7 +111,9 @@ class MoreTabState extends State<MoreTab> implements DialogButtonClickListener {
   @override
   void onPositiveButtonClicked(String dialogIdentifier) {
     if (dialogIdentifier == AppConstants.dialogIdentifier.logout) {
-      dashboardController.logoutAPI();
+      // dashboardController.logoutAPI();
+      Get.find<AppStorage>().clearAllData();
+      Get.offAllNamed(AppRoutes.introductionScreen);
     }
   }
 

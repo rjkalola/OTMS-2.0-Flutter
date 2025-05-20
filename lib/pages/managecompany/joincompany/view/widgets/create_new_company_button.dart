@@ -21,7 +21,10 @@ class CreateNewCompanyButton extends StatelessWidget {
         child: PrimaryButton(
             buttonText: 'create_new_company'.tr,
             onPressed: () {
-              Get.toNamed(AppRoutes.companySignUpScreen);
+              if (!controller.isOtpViewVisible.value &&
+                  !controller.isSelectTradeVisible.value) {
+                Get.toNamed(AppRoutes.companySignUpScreen);
+              }
               // controller.moveToCompanySignUp();
             }),
       ),

@@ -21,6 +21,7 @@ import 'package:otm_inventory/utils/AlertDialogHelper.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_storage.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
+import 'package:otm_inventory/utils/data_utils.dart';
 import 'package:otm_inventory/utils/location_service_new.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:otm_inventory/web_services/api_constants.dart';
@@ -121,13 +122,15 @@ class CompanySignUpController extends GetxController
           AppUtils.showApiResponseMessage(response.message ?? "");
 
           int companyId = response.info?.id ?? 0;
-          print("companyId:"+companyId.toString());
+          print("companyId:" + companyId.toString());
           var userInfo = Get.find<AppStorage>().getUserInfo();
           userInfo.companyId = companyId;
           Get.find<AppStorage>().setUserInfo(userInfo);
           Get.find<AppStorage>().setCompanyId(companyId);
           ApiConstants.companyId = companyId;
-          moveToDashboard();
+          Get.offAllNamed(AppRoutes.teamUsersCountInfoScreen);
+          
+          // moveToDashboard();
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
@@ -215,7 +218,9 @@ class CompanySignUpController extends GetxController
   void showPhoneExtensionDialog() {
     Get.bottomSheet(
         PhoneExtensionListDialog(
-            title: 'select_phone_extension'.tr, list: [], listener: this),
+            title: 'select_phone_extension'.tr,
+            list: DataUtils.getPhoneExtensionList(),
+            listener: this),
         backgroundColor: Colors.transparent,
         isScrollControlled: true);
   }

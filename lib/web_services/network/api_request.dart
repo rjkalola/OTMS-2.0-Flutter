@@ -374,6 +374,116 @@ class ApiRequest {
     return responseModel;
   }
 
+  Future<dynamic> putRequest({
+    Function()? beforeSend,
+    Function(dynamic data)? onSuccess,
+    Function(dynamic error)? onError,
+  }) async {
+    ResponseModel responseModel;
+    try {
+      bool isInternet = await interNetCheck();
+      // AppUtils.showToastMessage("Internet Connection:"+isInternet.toString());
+      if (isInternet) {
+        if (kDebugMode) print("accessToken:::" + ApiConstants.accessToken);
+        if (kDebugMode) print("URL ==> $url");
+        if (kDebugMode) print("isFormData ==> $isFormData");
+        if (!isFormData!) {
+          if (kDebugMode) print("Request Data1 ==> ${data.toString()}");
+          response = await dio.put(
+            url,
+            data: data,
+            options: Options(
+              headers: ApiConstants.getHeader(),
+            ),
+          );
+        } else {
+          if (kDebugMode) print("Request Data2 ==> ${formData.toString()}");
+          multi.Dio dio = multi.Dio();
+          response = await dio.put(
+            url,
+            data: formData,
+            options: Options(
+              headers: ApiConstants.getHeader(),
+              // receiveTimeout: Duration(minutes: 3),
+              // sendTimeout: Duration(minutes: 3),
+            ),
+          );
+        }
+        if (kDebugMode) print("Response Data ==> ${response.data}");
+
+        print("response.statusCode:" + response.statusCode.toString());
+        print("response.statusMessage:" + response.statusMessage);
+
+        if (response.statusCode == 200 ||
+            response.statusCode == 201 ||
+            response.statusCode == 202 ||
+            response.statusCode == 204) {
+          responseModel = returnResponse(true, jsonEncode(response.data),
+              response.statusCode, response.statusMessage);
+        } else if (response.statusCode == 401) {
+          showUnAuthorizedDialog();
+          responseModel = returnResponse(false, null, 0, "");
+        } else {
+          BaseResponse baseResponse =
+          BaseResponse.fromJson(jsonDecode(response.data));
+          responseModel = returnResponse(
+              false,
+              jsonEncode(response.data),
+              response.statusCode,
+              baseResponse.Message ?? response.statusMessage);
+        }
+
+        /* if (response.statusCode == 200) {
+          bool isSuccess = response.data['IsSuccess'];
+          int errorCode = response.data['ErrorCode'] ?? 0;
+          print("isSuccess:" + isSuccess.toString());
+          print("errorCode:" + errorCode.toString());
+          */ /* if (isSuccess || errorCode != 401) {
+            responseModel = returnResponse(jsonEncode(response.data),
+                response.statusCode, response.statusMessage);
+          } else {
+            showUnAuthorizedDialog();
+            responseModel = returnResponse(null, 0, "");
+          }*/ /*
+          responseModel = returnResponse(jsonEncode(response.data),
+              response.statusCode, response.statusMessage);
+        } else if (response.statusCode == 401) {
+          showUnAuthorizedDialog();
+          responseModel = returnResponse(null, 0, "");
+        } else {
+          responseModel =
+              returnResponse(null, response.statusCode, response.statusMessage);
+        }*/
+        if (onSuccess != null) onSuccess(responseModel);
+      } else {
+        responseModel = returnResponse(false, null,
+            ApiConstants.CODE_NO_INTERNET_CONNECTION, 'try_again'.tr);
+        if (onError != null) onError(responseModel);
+      }
+    } on DioException catch (e, stackTrace) {
+      String message = "";
+      final data = e.response?.data;
+      if (data != null && data['message'] != null) {
+        print("DATA:" + jsonEncode(data));
+        message = data['message'];
+      } else {
+        message = e.message ?? "";
+      }
+
+      if (url != ApiConstants.checkPhoneNumberExistUrl) {
+        AppUtils.showApiResponseMessage(message);
+      }
+      print('Dio error: ${e.message}');
+      print('Stack trace: $stackTrace');
+      // final ApiException apiException = ApiException.fromDioError(e);
+      // if (kDebugMode) print("Error in api call $apiException.message");
+      responseModel =
+          returnResponse(false, null, e.response?.statusCode, message);
+      if (onError != null) onError(responseModel);
+    }
+    return responseModel;
+  }
+
   ResponseModel returnResponse(
       bool isSuccess, String? result, int? statusCode, String? statusMessage) {
     var responseModel = ResponseModel(

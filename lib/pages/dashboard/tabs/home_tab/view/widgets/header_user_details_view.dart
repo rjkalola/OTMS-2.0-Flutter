@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:otm_inventory/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/res/drawable.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
@@ -6,9 +7,12 @@ import 'package:otm_inventory/utils/image_utils.dart';
 import 'package:otm_inventory/widgets/shapes/badge_count_widget.dart';
 import 'package:otm_inventory/widgets/shapes/circle_widget.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
+import 'package:get/get.dart';
 
 class HeaderUserDetailsView extends StatelessWidget {
-  const HeaderUserDetailsView({super.key});
+  HeaderUserDetailsView({super.key});
+
+  final controller = Get.put(HomeTabController());
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +38,8 @@ class HeaderUserDetailsView extends StatelessWidget {
                   ),
                 ),
                 child: ImageUtils.setUserImage(
-                  url: "https://i.pravatar.cc/150?img=3",
+                  url: controller.userInfo?.userThumbImage ??
+                      "https://i.pravatar.cc/150?img=3",
                   width: 50,
                   height: 50,
                 ),
@@ -53,7 +58,8 @@ class HeaderUserDetailsView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 PrimaryTextView(
-                  text: "Hi, Ramil",
+                  text:
+                      "Hi, ${controller.userInfo?.firstName} ${controller.userInfo?.lastName}",
                   fontWeight: FontWeight.w500,
                   fontSize: 17,
                   color: primaryTextColorLight,

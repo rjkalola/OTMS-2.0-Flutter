@@ -1,10 +1,12 @@
 import 'package:get/get.dart';
+import 'package:otm_inventory/pages/common/model/user_info.dart';
 import 'package:otm_inventory/pages/dashboard/controller/dashboard_controller.dart';
 import 'package:otm_inventory/pages/dashboard/models/dashboard_response.dart';
 import 'package:otm_inventory/pages/dashboard/tabs/home_tab/controller/home_tab_repository.dart';
 import 'package:otm_inventory/pages/dashboard/tabs/home_tab/model/dashboard_grid_item_info.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
+import 'package:otm_inventory/utils/app_storage.dart';
 import 'package:otm_inventory/utils/data_utils.dart';
 
 class HomeTabController extends GetxController {
@@ -17,10 +19,12 @@ class HomeTabController extends GetxController {
       DataUtils.getDashboardGridItemsList().obs;
   final dashboardController = Get.put(DashboardController());
   final dashboardResponse = DashboardResponse().obs;
+  UserInfo? userInfo;
 
   @override
   void onInit() {
     super.onInit();
+    userInfo = Get.find<AppStorage>().getUserInfo();
     // getRegisterResources();
   }
 

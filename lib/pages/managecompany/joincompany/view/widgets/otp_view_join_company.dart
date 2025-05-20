@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:otm_inventory/pages/managecompany/joincompany/controller/join_company_controller.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
@@ -23,6 +24,7 @@ class OtpViewJoinCompany extends StatelessWidget {
 
   // final VoidCallback onResendOtp;
   final GestureTapCallback onResendOtp;
+  final controller = Get.put(JoinCompanyController());
 
   @override
   Widget build(BuildContext context) {
@@ -55,12 +57,12 @@ class OtpViewJoinCompany extends StatelessWidget {
             ),
             Center(
               child: SizedBox(
-                width: 260,
+                width: 300,
                 child: PinFieldAutoFill(
                   controller: otpController.value,
                   currentCode: mOtpCode?.value ?? "",
                   keyboardType: TextInputType.number,
-                  codeLength: 4,
+                  codeLength: 6,
                   inputFormatters: <TextInputFormatter>[
                     // for below version 2 use this
                     FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
@@ -130,8 +132,12 @@ class OtpViewJoinCompany extends StatelessWidget {
                     buttonText: 'join_a_company'.tr,
                     fontWeight: FontWeight.w400,
                     onPressed: () {
-                      Get.toNamed(AppRoutes.teamUsersCountInfoScreen);
-                      // controller.openQrCodeScanner();
+                      if (controller.mOtpCode.value.length == 6) {
+                        print("join_a_company API call");
+                        controller.joinCompanyApi();
+                      } else {
+                        AppUtils.showSnackBarMessage('enter_otp'.tr);
+                      }
                     }),
               ),
             ),

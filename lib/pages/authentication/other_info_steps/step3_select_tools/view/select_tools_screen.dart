@@ -40,64 +40,75 @@ class _SelectToolsScreenState extends State<SelectToolsScreen> {
                 opacity: 0,
                 progressIndicator: const CustomProgressbar(),
                 child: controller.isInternetNotAvailable.value
-                    ? const NoInternetWidget()
-                    : SingleChildScrollView(
-                        child: Column(children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                height: 20,
-                              ),
-                              const TopDividerWidget(
-                                flex1: 6,
-                                flex2: 0,
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(8, 14, 16, 0),
-                                child: HeaderLogo(),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 8, bottom: 0, left: 20, right: 20),
-                                child: Text('business_field_info_note1'.tr,
-                                    style: const TextStyle(
-                                      color: primaryTextColor,
-                                      fontSize: 26,
-                                      fontWeight: FontWeight.bold,
-                                    )),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 6, bottom: 0, left: 20, right: 20),
-                                child: PrimaryTextView(
-                                  text: 'business_field_info_note2'.tr,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: secondaryTextColor,
+                    ? NoInternetWidget(
+                        onPressed: () {
+                          controller.isInternetNotAvailable.value = false;
+                          controller.getCompanyResourcesApi();
+                        },
+                      )
+                    : Visibility(
+                        visible: controller.isMainViewVisible.value,
+                        child: SingleChildScrollView(
+                          child: Column(children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: 20,
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 18, bottom: 0, left: 20, right: 20),
-                                child: Text('operations'.tr,
-                                    style: const TextStyle(
-                                      color: primaryTextColor,
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold,
-                                    )),
-                              ),
-                              SelectToolItemsList(),
-                              Container(
-                                  margin:
-                                      const EdgeInsets.fromLTRB(20, 16, 20, 16),
-                                  width: double.infinity,
-                                  child: ContinueButton(
-                                      title: 'finish'.tr, onPressed: () {}))
-                            ],
-                          ),
-                        ]),
+                                const TopDividerWidget(
+                                  flex1: 6,
+                                  flex2: 0,
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(8, 14, 16, 0),
+                                  child: HeaderLogo(),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 8, bottom: 0, left: 20, right: 20),
+                                  child: Text('business_field_info_note1'.tr,
+                                      style: const TextStyle(
+                                        color: primaryTextColor,
+                                        fontSize: 26,
+                                        fontWeight: FontWeight.bold,
+                                      )),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 6, bottom: 0, left: 20, right: 20),
+                                  child: PrimaryTextView(
+                                    text: 'business_field_info_note2'.tr,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: secondaryTextColor,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 18, bottom: 0, left: 20, right: 20),
+                                  child: Text('operations'.tr,
+                                      style: const TextStyle(
+                                        color: primaryTextColor,
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.bold,
+                                      )),
+                                ),
+                                SelectToolItemsList(),
+                                Container(
+                                    margin: const EdgeInsets.fromLTRB(
+                                        20, 16, 20, 16),
+                                    width: double.infinity,
+                                    child: ContinueButton(
+                                        title: 'finish'.tr,
+                                        onPressed: () {
+                                          controller.onClickContinueButton();
+                                        }))
+                              ],
+                            ),
+                          ]),
+                        ),
                       ));
           }),
         ),

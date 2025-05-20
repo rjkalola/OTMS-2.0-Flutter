@@ -55,6 +55,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
               return GestureDetector(
                 onTap: () {
                   dashboardController.selectedIndex.value = index;
+                  dashboardController.onItemTapped(index);
                 },
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -63,7 +64,8 @@ class BottomNavigationBarWidget extends StatelessWidget {
                         path: DataUtils.tabIcons[index],
                         width: 24,
                         height: 24,
-                        color: isSelected ? defaultAccentColor : Colors.black54),
+                        color:
+                            isSelected ? defaultAccentColor : Colors.black54),
                     // Icon(
                     //   DataUtils.tabIcons[index],
                     //   color: isSelected ? Colors.blue : Colors.black54,

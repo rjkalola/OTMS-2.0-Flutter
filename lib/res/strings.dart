@@ -35,6 +35,7 @@ class Strings extends Translations {
           'email': 'Email',
           'try_again': "Try Again",
           'no_internet': "Please Check Your Internet Connection!",
+          'no_internet_text': "No Internet",
           'verify_otp': "Verify OTP",
           'verify_otp_hint1':
               "Enter the four-digit code that you were sent over mobile SMS.",
@@ -86,7 +87,7 @@ class Strings extends Translations {
               "Please enter the 4-digit code\nprovided by your company to join",
           'company_request_approved_note':
               "We will inform you as soon as your request to join the company has been approved.",
-          'select_your_role': "Select your role",
+          'select_your_trade': "Select your trade",
           'whats_your_company_details': 'What\'s your company\ndetails?',
           'enter_valid_email_address': "Enter a valid email address",
           'business_email': "Business Email",
@@ -167,8 +168,8 @@ class Strings extends Translations {
           'edit_entry': "Edit Entry",
           'submit_for_approval': "Submit for Approval",
           'enter_your_note_here': "Enter your note here...",
-          // '': "",
-          // '': "",
+          'reload': "Reload",
+          'confirm': "Confirm",
           // '': "",
           // '': "",
           // '': "",

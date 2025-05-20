@@ -40,6 +40,9 @@ class DashboardController extends GetxController
     HomeTab(),
     // ProfileTab(),
     MoreTab(),
+    MoreTab(),
+    MoreTab(),
+    MoreTab(),
   ];
 
   @override

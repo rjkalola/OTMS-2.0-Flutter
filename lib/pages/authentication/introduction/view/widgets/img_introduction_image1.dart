@@ -8,7 +8,7 @@ class ImgIntroductionImage1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ImageUtils.setAssetsImage(
-        path: Drawable.imgSplashCenterImage, width: 270, height: 270);
+    return ImageUtils.setSvgAssetsImage(
+        path: Drawable.imgSplashCenterImage2, width: 320, height: 320);
   }
 }

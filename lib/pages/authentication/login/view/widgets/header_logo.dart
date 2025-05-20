@@ -5,13 +5,17 @@ import 'package:otm_inventory/utils/image_utils.dart';
 import 'package:get/get.dart';
 
 class HeaderLogo extends StatelessWidget {
-  const HeaderLogo({super.key});
+  HeaderLogo({super.key, this.isBackDisable});
+
+  final bool? isBackDisable;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.back();
+        if (isBackDisable ?? false == false) {
+          Get.back();
+        }
       },
       child: Row(
         children: [

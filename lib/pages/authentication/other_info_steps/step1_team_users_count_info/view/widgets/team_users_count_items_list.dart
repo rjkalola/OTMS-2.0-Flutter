@@ -5,6 +5,7 @@ import 'package:otm_inventory/pages/authentication/other_info_steps/step1_team_u
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/web_services/response/module_info.dart';
+import 'package:otm_inventory/widgets/gridview/VariableHeightGrid.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
 
 class TeamUsersCountItemsList extends StatelessWidget {
@@ -25,38 +26,66 @@ class TeamUsersCountItemsList extends StatelessWidget {
     return Obx(
       () => Padding(
         padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
-        child: MasonryGridView.count(
-            crossAxisCount: 3,
-            mainAxisSpacing: 16,
-            crossAxisSpacing: 12,
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: controller.listItems.length,
-            itemBuilder: (context, index) {
-              return GestureDetector(
-                onTap: () {
-                  controller.selectedIndex.value = index;
-                  // onViewClick(index);
-                },
-                child: Container(
-                  decoration: AppUtils.getDashboardItemDecoration(
-                      borderWidth: 2,
-                      borderColor: (selectedIndex == index)
-                          ? defaultAccentColor
-                          : Colors.grey.shade300),
-                  padding: EdgeInsets.all(12),
-                  child: Center(
-                    child: PrimaryTextView(
-                      text: itemsList[index].name ?? "",
-                      fontWeight: FontWeight.bold,
-                      textAlign: TextAlign.center,
-                      fontSize: 16,
-                      softWrap: true,
-                    ),
+        // child: MasonryGridView.count(
+        //     crossAxisCount: 3,
+        //     mainAxisSpacing: 16,
+        //     crossAxisSpacing: 12,
+        //     shrinkWrap: true,
+        //     physics: NeverScrollableScrollPhysics(),
+        //     itemCount: controller.listItems.length,
+        //     itemBuilder: (context, index) {
+        //       return GestureDetector(
+        //         onTap: () {
+        //           controller.selectedIndex.value = index;
+        //           // onViewClick(index);
+        //         },
+        //         child: Container(
+        //           decoration: AppUtils.getDashboardItemDecoration(
+        //               borderWidth: 2,
+        //               borderColor: (selectedIndex == index)
+        //                   ? defaultAccentColor
+        //                   : Colors.grey.shade300),
+        //           padding: EdgeInsets.all(12),
+        //           child: Center(
+        //             child: PrimaryTextView(
+        //               text: itemsList[index].name ?? "",
+        //               fontWeight: FontWeight.bold,
+        //               textAlign: TextAlign.center,
+        //               fontSize: 16,
+        //               softWrap: true,
+        //             ),
+        //           ),
+        //         ),
+        //       );
+        //     }),
+
+        child: VariableHeightGrid(
+          items: List.generate(controller.listItems.length, (index) {
+            return GestureDetector(
+              onTap: () {
+                controller.selectedIndex.value = index;
+                // onViewClick(index);
+              },
+              child: Container(
+                decoration: AppUtils.getDashboardItemDecoration(
+                    borderWidth: 2,
+                    borderColor: (selectedIndex == index)
+                        ? defaultAccentColor
+                        : Colors.grey.shade300),
+                padding: EdgeInsets.all(12),
+                child: Center(
+                  child: PrimaryTextView(
+                    text: itemsList[index].name ?? "",
+                    fontWeight: FontWeight.bold,
+                    textAlign: TextAlign.center,
+                    fontSize: 16,
+                    softWrap: true,
                   ),
                 ),
-              );
-            }),
+              ),
+            );
+          }),
+        ),
       ),
     );
   }

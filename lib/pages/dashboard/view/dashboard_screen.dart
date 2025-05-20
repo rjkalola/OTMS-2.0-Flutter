@@ -45,15 +45,15 @@ class DashboardScreen extends StatelessWidget {
                 progressIndicator: const CustomProgressbar(),
                 child: Scaffold(
                   backgroundColor: dashBoardBgColor,
-                  appBar: dashboardController.selectedIndex.value == 0
-                      ? null
-                      : BaseAppBar(
-                          appBar: AppBar(),
-                          title: dashboardController.title.value,
-                          isCenterTitle: false,
-                          isBack: true,
-                          widgets: actionButtons(),
-                        ),
+                  // appBar: dashboardController.selectedIndex.value == 0
+                  //     ? null
+                  //     : BaseAppBar(
+                  //         appBar: AppBar(),
+                  //         title: dashboardController.title.value,
+                  //         isCenterTitle: false,
+                  //         isBack: true,
+                  //         widgets: actionButtons(),
+                  //       ),
                   body: SizedBox(
                     width: double.infinity,
                     height: double.infinity,
