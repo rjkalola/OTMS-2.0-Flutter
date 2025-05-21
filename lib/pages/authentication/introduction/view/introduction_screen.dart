@@ -56,7 +56,10 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                         height: 10,
                       ),
                       HeaderTitleNoteTextWidget(
-                          title: 'first_screen_welcome_title'.tr),
+                        fontSize: 24,
+                        title: 'first_screen_welcome_title'.tr,
+                        textAlign: TextAlign.center,
+                      ),
                       PrimaryTextView(
                         text: 'first_screen_note'.tr,
                         textAlign: TextAlign.center,

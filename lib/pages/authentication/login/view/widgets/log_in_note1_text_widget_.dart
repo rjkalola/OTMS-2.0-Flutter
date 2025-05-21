@@ -14,7 +14,7 @@ class LogInNote1TextWidget extends StatelessWidget {
       child: Text('log_in_note1'.tr,
           style: const TextStyle(
             color: primaryTextColor,
-            fontSize: 34,
+            fontSize: 30,
             fontWeight: FontWeight.bold,
           )),
     );

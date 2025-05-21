@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
 
 import '../../res/colors.dart';
@@ -12,7 +13,7 @@ class TextFieldPhoneExtensionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       child: TextFormField(
         onTap: () {
           onPressed!();
@@ -29,11 +30,18 @@ class TextFieldPhoneExtensionWidget extends StatelessWidget {
           //   height: 32,
           // ),
           prefixIcon: Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.only(left: 12, right: 8),
             child: ImageUtils.setSvgAssetsImage(
                 path: mFlag ?? "", width: 16, height: 16, fit: BoxFit.contain),
           ),
-          suffixIcon: const Icon(Icons.arrow_drop_down),
+          suffixIcon: Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: const Icon(Icons.arrow_drop_down),
+          ),
+          suffixIconConstraints: BoxConstraints(
+            minHeight: 24,
+            minWidth: 24,
+          ),
           counterText: "",
           contentPadding: const EdgeInsets.fromLTRB(14, 14, 14, 14),
           floatingLabelBehavior: FloatingLabelBehavior.auto,
@@ -51,8 +59,8 @@ class TextFieldPhoneExtensionWidget extends StatelessWidget {
             borderSide: BorderSide(color: normalTextFieldBorderColor, width: 1),
             borderRadius: BorderRadius.circular(45.0),
           ),
-          hintText: "Extension",
-          labelText: "Extension",
+          hintText: 'country_code'.tr,
+          labelText: 'country_code'.tr,
           labelStyle: const TextStyle(
               fontWeight: FontWeight.w400, fontSize: 15, color: Colors.grey),
           hintStyle: const TextStyle(

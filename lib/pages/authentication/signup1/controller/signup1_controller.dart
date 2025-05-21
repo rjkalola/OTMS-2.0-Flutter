@@ -27,6 +27,7 @@ class SignUp1Controller extends GetxController
   final phoneController = TextEditingController().obs;
   final firstNameController = TextEditingController().obs;
   final lastNameController = TextEditingController().obs;
+  final focusNodePhone = FocusNode().obs;
   final mExtension = AppConstants.defaultPhoneExtension.obs;
   final mExtensionId = AppConstants.defaultPhoneExtensionId.obs;
   final mFlag = AppConstants.defaultFlagUrl.obs;
@@ -272,7 +273,7 @@ class SignUp1Controller extends GetxController
   void showPhoneExtensionDialog() {
     Get.bottomSheet(
         PhoneExtensionListDialog(
-            title: 'select_phone_extension'.tr,
+            title: 'select_country_code'.tr,
             list: DataUtils.getPhoneExtensionList(),
             listener: this),
         backgroundColor: Colors.transparent,
@@ -284,6 +285,7 @@ class SignUp1Controller extends GetxController
       int id, String extension, String flag, String country) {
     mFlag.value = flag;
     mExtension.value = extension;
+    // mExtension.value = "+12345678";
     mExtensionId.value = id;
   }
 
@@ -342,6 +344,7 @@ class SignUp1Controller extends GetxController
   void dispose() {
     stopOtpTimeCounter(); // Clean up
     SmsAutoFill().unregisterListener();
+    focusNodePhone.value.dispose();
     super.dispose();
   }
 }

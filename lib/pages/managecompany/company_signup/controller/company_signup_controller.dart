@@ -5,8 +5,6 @@ import 'package:dio/dio.dart' as multi;
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/authentication/login/models/RegisterResourcesResponse.dart';
-import 'package:otm_inventory/pages/authentication/signup1/controller/signup1_repository.dart';
 import 'package:otm_inventory/pages/common/drop_down_list_dialog.dart';
 import 'package:otm_inventory/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:otm_inventory/pages/common/listener/SelectPhoneExtensionListener.dart';
@@ -39,6 +37,7 @@ class CompanySignUpController extends GetxController
   final locationController = TextEditingController().obs;
   final currencyController = TextEditingController().obs;
   final phoneController = TextEditingController().obs;
+  final focusNodePhone = FocusNode().obs;
   final mExtension = AppConstants.defaultPhoneExtension.obs;
   final mExtensionId = AppConstants.defaultPhoneExtensionId.obs;
   final mFlag = AppConstants.defaultFlagUrl.obs;
@@ -218,7 +217,7 @@ class CompanySignUpController extends GetxController
   void showPhoneExtensionDialog() {
     Get.bottomSheet(
         PhoneExtensionListDialog(
-            title: 'select_phone_extension'.tr,
+            title: 'select_country_code'.tr,
             list: DataUtils.getPhoneExtensionList(),
             listener: this),
         backgroundColor: Colors.transparent,
@@ -238,7 +237,7 @@ class CompanySignUpController extends GetxController
     valid = formKey.currentState!.validate();
     if (valid && StringHelper.isEmptyString(mCompanyLogo.value)) {
       valid = false;
-      AppUtils.showSnackBarMessage('please_select_image'.tr);
+      AppUtils.showSnackBarMessage('please_select_company_logo'.tr);
     }
     return valid;
   }
@@ -300,5 +299,11 @@ class CompanySignUpController extends GetxController
       print("action:" + action);
       mCompanyLogo.value = path;
     }
+  }
+
+  @override
+  void dispose() {
+    focusNodePhone.value.dispose();
+    super.dispose();
   }
 }

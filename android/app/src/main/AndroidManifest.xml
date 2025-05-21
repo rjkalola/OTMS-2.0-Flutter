@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.READ_SMS"/>
 
     <application
-        android:label="OTMS 2.0"
+        android:label="OTM System"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity

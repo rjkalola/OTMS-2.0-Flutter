@@ -21,6 +21,10 @@ class CompanyEmailTextField extends StatelessWidget {
         textInputAction: TextInputAction.next,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         onValueChange: (value) {},
+        onFieldSubmitted: (value) {
+          FocusScope.of(context)
+              .requestFocus(controller.focusNodePhone.value);
+        },
         validator: MultiValidator([
           RequiredValidator(errorText: 'required_field'.tr),
           EmailValidator(errorText: "enter_valid_email_address".tr),

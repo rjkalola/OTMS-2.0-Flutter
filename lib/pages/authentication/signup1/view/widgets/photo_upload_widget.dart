@@ -20,8 +20,10 @@ class PhotoUploadWidget extends StatelessWidget {
     return Obx(
       () => Center(
         child: GestureDetector(
-          onTap: (){
-            controller.showAttachmentOptionsDialog();
+          onTap: () {
+            if (!controller.isOtpViewVisible.value) {
+              controller.showAttachmentOptionsDialog();
+            }
           },
           child: !StringHelper.isEmptyString(controller.imagePath.value)
               ? ImageUtils.setCircularFileImage(

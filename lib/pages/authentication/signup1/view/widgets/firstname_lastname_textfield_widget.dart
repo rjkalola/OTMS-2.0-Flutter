@@ -33,6 +33,7 @@ class FirstNameLastNameTextFieldWidget extends StatelessWidget {
                 hintText: 'first_name'.tr,
                 labelText: 'first_name'.tr,
                 keyboardType: TextInputType.name,
+                isReadOnly: controller.isOtpViewVisible.value,
                 textInputAction: TextInputAction.next,
                 onValueChange: (value) {
                   controller.onValueChange();
@@ -71,9 +72,14 @@ class FirstNameLastNameTextFieldWidget extends StatelessWidget {
                 hintText: 'last_name'.tr,
                 labelText: 'last_name'.tr,
                 keyboardType: TextInputType.name,
+                isReadOnly: controller.isOtpViewVisible.value,
                 textInputAction: TextInputAction.next,
                 onValueChange: (value) {
                   controller.onValueChange();
+                },
+                onFieldSubmitted: (value) {
+                  FocusScope.of(context)
+                      .requestFocus(controller.focusNodePhone.value);
                 },
                 onPressed: () {},
                 validator: MultiValidator([

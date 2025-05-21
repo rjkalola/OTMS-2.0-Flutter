@@ -167,7 +167,7 @@ class LoginController extends GetxController
   void showPhoneExtensionDialog() {
     Get.bottomSheet(
         PhoneExtensionListDialog(
-            title: 'select_phone_extension'.tr,
+            title: 'select_country_code'.tr,
             list: DataUtils.getPhoneExtensionList(),
             listener: this),
         backgroundColor: Colors.transparent,

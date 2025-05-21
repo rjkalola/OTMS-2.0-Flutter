@@ -16,7 +16,9 @@ class PhoneExtensionFieldWidget extends StatelessWidget {
               mExtension: controller.mExtension.value,
               mFlag: controller.mFlag.value,
               onPressed: () {
-                controller.showPhoneExtensionDialog();
+                if(!controller.isOtpViewVisible.value){
+                  controller.showPhoneExtensionDialog();
+                }
               }),
         ));
   }

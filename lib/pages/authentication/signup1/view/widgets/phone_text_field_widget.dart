@@ -18,9 +18,11 @@ class PhoneTextFieldWidget extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(5, 0, 20, 18),
       child: TextFieldBorder(
           textEditingController: controller.phoneController.value,
+          focusNode: controller.focusNodePhone.value,
           hintText: 'phone'.tr,
           labelText: 'phone'.tr,
           keyboardType: TextInputType.phone,
+          isReadOnly: controller.isOtpViewVisible.value,
           onValueChange: (value) {
             controller.isPhoneNumberExist.value = false;
             controller.checkPhoneNumberExist();

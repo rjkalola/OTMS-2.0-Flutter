@@ -20,6 +20,7 @@ class PhoneNumberTextFieldCompanySignup extends StatelessWidget {
         hintText: 'phone'.tr,
         labelText: 'phone'.tr,
         keyboardType: TextInputType.phone,
+        focusNode: controller.focusNodePhone.value,
         onValueChange: (value) {},
         onPressed: () {},
         autovalidateMode: AutovalidateMode.onUserInteraction,

@@ -23,7 +23,8 @@ class PhoneTextFieldWidget extends StatelessWidget {
           onValueChange: (value) {
             // loginController.onValueChange();
           },
-          textInputAction: TextInputAction.next,
+          isReadOnly: loginController.isOtpViewVisible.value,
+          textInputAction: TextInputAction.done,
           validator: MultiValidator([
             RequiredValidator(errorText: 'required_field'.tr),
           ]),

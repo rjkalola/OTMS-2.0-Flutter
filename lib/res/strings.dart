@@ -4,7 +4,7 @@ class Strings extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
         'en_US': {
-          'app_title': 'OTMS',
+          'app_title': 'OTM System',
           'first_screen_welcome_title': 'Welcome to OTM System',
           'first_screen_note':
               'Create. Connect. Conquer — launch your\ncompany or join your team now.',
@@ -21,7 +21,7 @@ class Strings extends Translations {
           'finish': "Finish",
           'enter_verification_code': "Enter Verification Code",
           'verification_code_sent_note':
-              "We\'ve sent a 4-digit code to\nyour phone",
+              "We\'ve sent a 6-digit code to\nyour phone",
           'resend_code_in': "Resend code in",
           'did_not_get_the_code': "Didn't get the code?",
           'resend_now': "Resend Now",
@@ -67,7 +67,6 @@ class Strings extends Translations {
           'next_updates': "Next Updates",
           'scheduled_break': "Scheduled Break",
           'empty_data_message': "No data found",
-          'select_phone_extension': "Select phone extension",
           'search': "Search",
           'logout': "Logout",
           'logout_msg': "Are you sure you want to logout?",
@@ -84,7 +83,7 @@ class Strings extends Translations {
           'add_company_code': "Add company code",
           'company_access_code': "Company Access Code",
           'enter_company_code_note':
-              "Please enter the 4-digit code\nprovided by your company to join",
+              "Please enter the 6-digit code\nprovided by your company to join",
           'company_request_approved_note':
               "We will inform you as soon as your request to join the company has been approved.",
           'select_your_trade': "Select your trade",
@@ -170,8 +169,9 @@ class Strings extends Translations {
           'enter_your_note_here': "Enter your note here...",
           'reload': "Reload",
           'confirm': "Confirm",
-          // '': "",
-          // '': "",
+          'please_select_company_logo': "Please select company logo",
+          'country_code': "Country Code",
+          'select_country_code': "Select country code",
           // '': "",
           // '': "",
           // '': "",
