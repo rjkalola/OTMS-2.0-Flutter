@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:otm_inventory/pages/authentication/splash/splash_services.dart';
 import 'package:otm_inventory/res/drawable.dart';
+import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
+import 'package:sms_autofill/sms_autofill.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -14,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
   SplashServices splashServices = SplashServices();
 
   @override
-  void initState() {
+  void initState()  {
     // TODO: implement initState
     super.initState();
     splashServices.isLogin();

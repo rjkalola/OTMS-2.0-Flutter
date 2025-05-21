@@ -20,6 +20,7 @@ import 'package:otm_inventory/utils/data_utils.dart';
 import 'package:otm_inventory/web_services/api_constants.dart';
 import 'package:otm_inventory/web_services/response/base_response.dart';
 import 'package:otm_inventory/web_services/response/response_model.dart';
+import 'package:sms_autofill/sms_autofill.dart';
 
 class LoginController extends GetxController
     implements SelectPhoneExtensionListener {
@@ -38,6 +39,11 @@ class LoginController extends GetxController
   final mOtpCode = "".obs;
   final otmResendTimeRemaining = 30.obs;
   Timer? _timer;
+
+  listenSmsCode() async {
+    print("regiestered");
+    await SmsAutoFill().listenForCode();
+  }
 
   @override
   void onInit() {
@@ -100,6 +106,7 @@ class LoginController extends GetxController
       data: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
+          listenSmsCode();
           isOtpViewVisible.value = true;
           startOtpTimeCounter();
           BaseResponse response =
@@ -160,7 +167,9 @@ class LoginController extends GetxController
   void showPhoneExtensionDialog() {
     Get.bottomSheet(
         PhoneExtensionListDialog(
-            title: 'select_phone_extension'.tr, list: DataUtils.getPhoneExtensionList(), listener: this),
+            title: 'select_phone_extension'.tr,
+            list: DataUtils.getPhoneExtensionList(),
+            listener: this),
         backgroundColor: Colors.transparent,
         isScrollControlled: true);
   }
@@ -191,6 +200,7 @@ class LoginController extends GetxController
   @override
   void dispose() {
     stopOtpTimeCounter(); // Clean up
+    SmsAutoFill().unregisterListener();
     super.dispose();
   }
 }

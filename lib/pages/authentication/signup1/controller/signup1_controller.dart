@@ -20,6 +20,7 @@ import 'package:otm_inventory/web_services/api_constants.dart';
 import 'package:otm_inventory/web_services/response/base_response.dart';
 import 'package:otm_inventory/web_services/response/module_info.dart';
 import 'package:otm_inventory/web_services/response/response_model.dart';
+import 'package:sms_autofill/sms_autofill.dart';
 
 class SignUp1Controller extends GetxController
     implements SelectPhoneExtensionListener, SelectAttachmentListener {
@@ -44,6 +45,11 @@ class SignUp1Controller extends GetxController
   final mOtpCode = "".obs;
   final otmResendTimeRemaining = 30.obs;
   Timer? _timer;
+
+  listenSmsCode() async {
+    print("regiestered");
+    await SmsAutoFill().listenForCode();
+  }
 
   @override
   void onInit() {
@@ -153,6 +159,7 @@ class SignUp1Controller extends GetxController
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           isOtpViewVisible.value = true;
+          listenSmsCode();
           startOtpTimeCounter();
           BaseResponse response =
               BaseResponse.fromJson(jsonDecode(responseModel.result!));
@@ -334,6 +341,7 @@ class SignUp1Controller extends GetxController
   @override
   void dispose() {
     stopOtpTimeCounter(); // Clean up
+    SmsAutoFill().unregisterListener();
     super.dispose();
   }
 }

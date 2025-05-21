@@ -17,7 +17,7 @@ class CompanyEmailTextField extends StatelessWidget {
         textEditingController: controller.companyEmailController.value,
         hintText: 'business_email'.tr,
         labelText: 'business_email'.tr,
-        keyboardType: TextInputType.name,
+        keyboardType: TextInputType.emailAddress,
         textInputAction: TextInputAction.next,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         onValueChange: (value) {},
