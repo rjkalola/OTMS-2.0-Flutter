@@ -14,7 +14,7 @@ class ImageUtils {
       "https://www.pngmart.com/files/22/User-Avatar-Profile-PNG-Isolated-Transparent-Picture.png";
 
   static Widget setUserImage(
-      {required String url,
+      {required String? url,
       required double width,
       required double height,
       double? radius,
@@ -23,7 +23,7 @@ class ImageUtils {
         ? ClipRRect(
             borderRadius: BorderRadius.circular(radius ?? 45),
             child: CachedNetworkImage(
-              imageUrl: url,
+              imageUrl: url??"",
               fit: fit ?? BoxFit.cover,
               width: width,
               height: height,

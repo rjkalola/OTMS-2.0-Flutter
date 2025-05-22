@@ -29,19 +29,18 @@ class HeaderUserDetailsView extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(
-                    Radius.circular(40),
+                    Radius.circular(45),
                   ),
                   border: Border.all(
-                    width: 3,
+                    width: 2,
                     color: Color(0xff1E1E1E),
                     style: BorderStyle.solid,
                   ),
                 ),
                 child: ImageUtils.setUserImage(
-                  url: controller.userInfo?.userThumbImage ??
-                      "https://i.pravatar.cc/150?img=3",
-                  width: 50,
-                  height: 50,
+                  url: controller.userInfo?.userThumbImage,
+                  width: 44,
+                  height: 44,
                 ),
               ),
               Padding(
