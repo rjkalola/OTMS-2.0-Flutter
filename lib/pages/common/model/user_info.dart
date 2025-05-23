@@ -11,7 +11,7 @@ class UserInfo {
   String? userThumbImage;
   int? companyId;
   int? deviceType;
-  String? deviceToken;
+  String? apiToken;
 
   UserInfo(
       {this.id,
@@ -26,7 +26,7 @@ class UserInfo {
       this.userThumbImage,
       this.companyId,
       this.deviceType,
-      this.deviceToken});
+      this.apiToken});
 
   UserInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -41,7 +41,7 @@ class UserInfo {
     userThumbImage = json['user_thumb_image'];
     companyId = json['company_id'];
     deviceType = json['device_type'];
-    deviceToken = json['device_token'];
+    apiToken = json['api_token'];
   }
 
   Map<String, dynamic> toJson() {
@@ -58,7 +58,7 @@ class UserInfo {
     data['user_thumb_image'] = this.userThumbImage;
     data['company_id'] = this.companyId;
     data['device_type'] = this.deviceType;
-    data['device_token'] = this.deviceToken;
+    data['api_token'] = this.apiToken;
 
     return data;
   }
@@ -91,7 +91,7 @@ class UserInfo {
       userThumbImage: userImage ?? this.userThumbImage,
       companyId: companyId ?? this.companyId,
       deviceType: deviceType ?? this.deviceType,
-      deviceToken: deviceToken ?? this.deviceToken,
+      apiToken: deviceToken ?? this.apiToken,
     );
   }
 }

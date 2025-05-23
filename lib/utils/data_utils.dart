@@ -110,6 +110,86 @@ class DataUtils {
     info.iconColor = null;
     arrayItems.add(info);
 
+    info = DashboardGridItemInfo();
+    info.action = AppConstants.action.clockIn;
+    info.title = "test 1";
+    info.subTitle = "";
+    info.icon = Drawable.timeClockImageTemp;
+    info.iconColor = null;
+    arrayItems.add(info);
+
+    info = DashboardGridItemInfo();
+    info.action = AppConstants.action.clockIn;
+    info.title = "test 2";
+    info.subTitle = "";
+    info.icon = Drawable.timeClockImageTemp;
+    info.iconColor = null;
+    arrayItems.add(info);
+
+    info = DashboardGridItemInfo();
+    info.action = AppConstants.action.clockIn;
+    info.title = "test 3";
+    info.subTitle = "";
+    info.icon = Drawable.timeClockImageTemp;
+    info.iconColor = null;
+    arrayItems.add(info);
+
+    info = DashboardGridItemInfo();
+    info.action = AppConstants.action.clockIn;
+    info.title = "test 4";
+    info.subTitle = "";
+    info.icon = Drawable.timeClockImageTemp;
+    info.iconColor = null;
+    arrayItems.add(info);
+
+    info = DashboardGridItemInfo();
+    info.action = AppConstants.action.clockIn;
+    info.title = "test 5";
+    info.subTitle = "";
+    info.icon = Drawable.timeClockImageTemp;
+    info.iconColor = null;
+    arrayItems.add(info);
+
+    info = DashboardGridItemInfo();
+    info.action = AppConstants.action.clockIn;
+    info.title = "test 6";
+    info.subTitle = "";
+    info.icon = Drawable.timeClockImageTemp;
+    info.iconColor = null;
+    arrayItems.add(info);
+
+    info = DashboardGridItemInfo();
+    info.action = AppConstants.action.clockIn;
+    info.title = "test 7";
+    info.subTitle = "";
+    info.icon = Drawable.timeClockImageTemp;
+    info.iconColor = null;
+    arrayItems.add(info);
+
+    info = DashboardGridItemInfo();
+    info.action = AppConstants.action.clockIn;
+    info.title = "test 8";
+    info.subTitle = "";
+    info.icon = Drawable.timeClockImageTemp;
+    info.iconColor = null;
+    arrayItems.add(info);
+
+    info = DashboardGridItemInfo();
+    info.action = AppConstants.action.clockIn;
+    info.title = "test 9";
+    info.subTitle = "";
+    info.icon = Drawable.timeClockImageTemp;
+    info.iconColor = null;
+    arrayItems.add(info);
+
+    info = DashboardGridItemInfo();
+    info.action = AppConstants.action.clockIn;
+    info.title = "test 10";
+    info.subTitle = "";
+    info.icon = Drawable.timeClockImageTemp;
+    info.iconColor = null;
+    arrayItems.add(info);
+
     return arrayItems;
   }
 

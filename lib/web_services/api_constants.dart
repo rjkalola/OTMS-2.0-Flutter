@@ -29,10 +29,16 @@ class ApiConstants {
   static String companyRegistrationUrl =
       '$appUrl/company/company-app-registration';
   static String getCompanyResourcesUrl = '$appUrl/get-company-resources';
-  static String storeCompanyDataUrl = '$appUrl/company/store-company-data/1';
+  static String storeCompanyDataUrl = '$appUrl/company/company-data/$companyId';
   static String joinCompanyUrl = '$appUrl/company/join-company';
   static String getTradeDataUrl = '$appUrl/trade/get-trade-data';
   static String storeTradeUrl = '$appUrl/company/add-trade';
+  static String getDashboardUserPermissionsUrl =
+      '$appUrl/dashboard/user-permissions';
+  static String changeDashboardUserPermissionSequenceUrl =
+      '$appUrl/dashboard/change-permission-sequence';
+  static String changeDashboardUserPermissionMultipleSequenceUrl =
+      '$appUrl/dashboard/change-bulk-sequence';
 
   static String registerResourcesUrl = '$appUrl/wn-resources';
   static String verifyPhoneUrl = '$appUrl/verify-phone';

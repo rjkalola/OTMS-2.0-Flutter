@@ -174,10 +174,10 @@ flutter_plugin_android_lifecycle
 3.5
 file:///Users/apple/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.24/
 file:///Users/apple/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.24/lib/
-flutter_staggered_grid_view
-2.12
-file:///Users/apple/.pub-cache/hosted/pub.dev/flutter_staggered_grid_view-0.7.0/
-file:///Users/apple/.pub-cache/hosted/pub.dev/flutter_staggered_grid_view-0.7.0/lib/
+flutter_reorderable_grid_view
+3.3
+file:///Users/apple/.pub-cache/hosted/pub.dev/flutter_reorderable_grid_view-5.5.0/
+file:///Users/apple/.pub-cache/hosted/pub.dev/flutter_reorderable_grid_view-5.5.0/lib/
 flutter_svg
 3.4
 file:///Users/apple/.pub-cache/hosted/pub.dev/flutter_svg-2.0.17/

@@ -194,13 +194,31 @@ class ApiRequest {
     try {
       bool isInternet = await interNetCheck();
       if (isInternet) {
-        response = await dio.get(
-          url,
-          queryParameters: queryParameters,
-          options: Options(
-            headers: ApiConstants.getHeader(),
-          ),
-        );
+        if (kDebugMode) print("accessToken:::" + ApiConstants.accessToken);
+        if (kDebugMode) print("URL ==> $url");
+        if (kDebugMode) print("isFormData ==> $isFormData");
+        if (kDebugMode) print("Request Data1 ==> ${data.toString()}");
+        if (kDebugMode) print("Request queryParameters ==> ${queryParameters.toString()}");
+        if (data != null) {
+          print("case 1111");
+          response = await dio.get(
+            url,
+            data: data,
+            options: Options(
+              headers: ApiConstants.getHeader(),
+            ),
+          );
+        } else {
+          print("case 2222");
+          response = await dio.get(
+            url,
+            queryParameters: queryParameters,
+            options: Options(
+              headers: ApiConstants.getHeader(),
+            ),
+          );
+        }
+
         if (kDebugMode) print("Response Data ==> ${response.data}");
 
         if (response.statusCode == 200 ||
@@ -425,7 +443,7 @@ class ApiRequest {
           responseModel = returnResponse(false, null, 0, "");
         } else {
           BaseResponse baseResponse =
-          BaseResponse.fromJson(jsonDecode(response.data));
+              BaseResponse.fromJson(jsonDecode(response.data));
           responseModel = returnResponse(
               false,
               jsonEncode(response.data),

@@ -67,6 +67,8 @@ class SharedPreferenceKey {
   final String dashboardItemCountData = "DASHBOARD_ITEM_COUNT_DATA";
   final String permissionSettings = "PERMISSION_SETTINGS";
   final String dashboardResponse = "DASHBOARD_RESPONSE";
+  final String userPermissionData = "USER_PERMISSION_DATA";
+  final String localSequenceChangeData = "LOCAL_SEQUENCE_CHANGE_DATA";
   final String isWeeklySummeryCounter = "IS_WEEKLY_SUMMERY_COUNTER";
   final String weeklySummeryAmount = "WEEKLY_SUMMERY_AMOUNT";
   final String timeLogId = "TIME_LOG_ID";

@@ -43,7 +43,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
       //   onTap: dashboardController.onItemTapped,
       // );
       return Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
           decoration: AppUtils.getDashboardItemDecoration(),

@@ -9,7 +9,8 @@ class PrimaryTextView extends StatelessWidget {
       this.fontWeight,
       this.fontSize,
       this.textAlign,
-      this.softWrap});
+      this.softWrap,
+      this.maxLine});
 
   final String? text;
   final Color? color;
@@ -17,12 +18,14 @@ class PrimaryTextView extends StatelessWidget {
   final double? fontSize;
   final bool? softWrap;
   final TextAlign? textAlign;
+  final int? maxLine;
 
   @override
   Widget build(BuildContext context) {
     return Text(text ?? "",
         softWrap: softWrap ?? false,
         textAlign: textAlign ?? TextAlign.start,
+        maxLines: maxLine,
         style: TextStyle(
           color: color ?? primaryTextColor,
           fontWeight: fontWeight ?? FontWeight.normal,

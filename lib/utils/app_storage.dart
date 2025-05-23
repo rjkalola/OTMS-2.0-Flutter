@@ -5,6 +5,8 @@ import 'package:get_storage/get_storage.dart';
 import 'package:otm_inventory/pages/common/model/user_info.dart';
 import 'package:otm_inventory/pages/dashboard/models/dashboard_response.dart';
 import 'package:otm_inventory/pages/dashboard/models/permission_settings.dart';
+import 'package:otm_inventory/pages/dashboard/tabs/home_tab/model/local_permission_sequence_change_info.dart';
+import 'package:otm_inventory/pages/dashboard/tabs/home_tab/model/user_permissions_response.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
 
@@ -102,6 +104,47 @@ class AppStorage extends GetxController {
     }
   }
 
+  void setUserPermissionsResponse(UserPermissionsResponse data) {
+    storage.write(
+        AppConstants.sharedPreferenceKey.userPermissionData, jsonEncode(data));
+  }
+
+  UserPermissionsResponse? getUserPermissionsResponse() {
+    final dashboardData =
+        storage.read(AppConstants.sharedPreferenceKey.userPermissionData) ?? "";
+    UserPermissionsResponse data = UserPermissionsResponse();
+    if (!StringHelper.isEmptyString(dashboardData)) {
+      final jsonMap = json.decode(dashboardData);
+      data = UserPermissionsResponse.fromJson(jsonMap);
+      return data;
+    } else {
+      return null;
+    }
+  }
+
+  void setLocalSequenceChangeData(
+      List<LocalPermissionSequenceChangeInfo> data) {
+    storage.write(AppConstants.sharedPreferenceKey.localSequenceChangeData,
+        jsonEncode(data));
+  }
+
+  List<LocalPermissionSequenceChangeInfo> getLocalSequenceChangeData() {
+    final jsonString = storage
+            .read(AppConstants.sharedPreferenceKey.localSequenceChangeData) ??
+        "";
+    if (!StringHelper.isEmptyString(jsonString)) {
+      final jsonMap = json.decode(jsonString);
+      List<LocalPermissionSequenceChangeInfo> list = (jsonMap as List)
+          .map((itemWord) =>
+              LocalPermissionSequenceChangeInfo.fromJson(itemWord))
+          .toList();
+      // List<UserInfo> list = (jsonDecode(jsonString) as List<dynamic>).cast<UserInfo>();
+      return list;
+    } else {
+      return [];
+    }
+  }
+
   void setDashboardStockCountData(DashboardStockCountResponse data) {
     storage.write(AppConstants.sharedPreferenceKey.dashboardItemCountData,
         jsonEncode(data));
@@ -187,6 +230,8 @@ class AppStorage extends GetxController {
     removeData(AppConstants.sharedPreferenceKey.dashboardResponse);
     removeData(AppConstants.sharedPreferenceKey.isWeeklySummeryCounter);
     removeData(AppConstants.sharedPreferenceKey.weeklySummeryAmount);
+    removeData(AppConstants.sharedPreferenceKey.userPermissionData);
+    removeData(AppConstants.sharedPreferenceKey.localSequenceChangeData);
   }
 
   void removeData(String key) {

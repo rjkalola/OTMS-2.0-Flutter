@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/pages/authentication/other_info_steps/step2_business_field_info/controller/business_field_info_controller.dart';
 import 'package:otm_inventory/res/colors.dart';

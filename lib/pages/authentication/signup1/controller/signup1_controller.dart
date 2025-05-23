@@ -215,10 +215,12 @@ class SignUp1Controller extends GetxController
     map["last_name"] = StringHelper.getText(lastNameController.value);
     map["extension"] = mExtension.value;
     map["phone"] = StringHelper.getText(phoneController.value);
+    map["device_type"] = AppConstants.deviceType;
     // map["device_name"] = AppUtils.getDeviceName();
     // map["latitude"] = "";
     // map["longitude"] = "";
     // map["address"] = "";
+
     multi.FormData formData = multi.FormData.fromMap(map);
     print("reques value:" + map.toString());
     print("imagePath.value:" + imagePath.value.toString());
@@ -240,9 +242,8 @@ class SignUp1Controller extends GetxController
               UserResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.message ?? "");
           Get.find<AppStorage>().setUserInfo(response.info!);
-          Get.find<AppStorage>()
-              .setAccessToken(response.info!.deviceToken ?? "");
-          ApiConstants.accessToken = response.info!.deviceToken ?? "";
+          Get.find<AppStorage>().setAccessToken(response.info!.apiToken ?? "");
+          ApiConstants.accessToken = response.info!.apiToken ?? "";
           print("Token:" + ApiConstants.accessToken);
           AppUtils.saveLoginUser(response.info!);
           Get.offAllNamed(AppRoutes.joinCompanyScreen);

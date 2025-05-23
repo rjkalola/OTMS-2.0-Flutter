@@ -70,8 +70,8 @@ class LoginController extends GetxController
             AppUtils.showApiResponseMessage(response.message ?? "");
             Get.find<AppStorage>().setUserInfo(response.info!);
             Get.find<AppStorage>()
-                .setAccessToken(response.info!.deviceToken ?? "");
-            ApiConstants.accessToken = response.info!.deviceToken ?? "";
+                .setAccessToken(response.info!.apiToken ?? "");
+            ApiConstants.accessToken = response.info!.apiToken ?? "";
             print("Token:" + ApiConstants.accessToken);
             AppUtils.saveLoginUser(response.info!);
             if ((response.info!.companyId ?? 0) != 0) {
