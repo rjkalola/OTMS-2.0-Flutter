@@ -31,7 +31,7 @@ class ApiConstants {
   static String getCompanyResourcesUrl = '$appUrl/get-company-resources';
   static String storeCompanyDataUrl = '$appUrl/company/company-data/$companyId';
   static String joinCompanyUrl = '$appUrl/company/join-company';
-  static String getTradeDataUrl = '$appUrl/trade/get-trade-data';
+  static String getTradeDataUrl = '$appUrl/trade/get-company-trades';
   static String storeTradeUrl = '$appUrl/company/add-trade';
   static String getDashboardUserPermissionsUrl =
       '$appUrl/dashboard/user-permissions';

@@ -92,7 +92,7 @@ class SelectToolsController extends GetxController {
   void storeCompanyDataUrlAPI(String permissionIds) {
     isLoading.value = true;
     Map<String, dynamic> map = {};
-    map["team_id"] = teamId;
+    map["team_size_id"] = teamId;
     map["business_id"] = businessId;
     map["permission_id"] = permissionIds;
     _api.storeCompanyDataUrlAPI(

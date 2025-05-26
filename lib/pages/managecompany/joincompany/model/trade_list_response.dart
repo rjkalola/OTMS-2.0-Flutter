@@ -10,9 +10,9 @@ class TradeListResponse {
   TradeListResponse.fromJson(Map<String, dynamic> json) {
     isSuccess = json['IsSuccess'];
     message = json['message'];
-    if (json['info'] != null) {
+    if (json['company_trades'] != null) {
       info = <ModuleInfo>[];
-      json['info'].forEach((v) {
+      json['company_trades'].forEach((v) {
         info!.add(new ModuleInfo.fromJson(v));
       });
     }
@@ -23,7 +23,7 @@ class TradeListResponse {
     data['IsSuccess'] = this.isSuccess;
     data['message'] = this.message;
     if (this.info != null) {
-      data['info'] = this.info!.map((v) => v.toJson()).toList();
+      data['company_trades'] = this.info!.map((v) => v.toJson()).toList();
     }
     return data;
   }

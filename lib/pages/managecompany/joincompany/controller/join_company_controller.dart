@@ -119,7 +119,10 @@ class JoinCompanyController extends GetxController
 
   void getTradeDataApi() {
     // isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
     _api.getTradeDataApi(
+      queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           TradeListResponse response =
