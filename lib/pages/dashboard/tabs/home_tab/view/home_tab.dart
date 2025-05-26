@@ -17,8 +17,7 @@ class HomeTab extends StatefulWidget {
   State<HomeTab> createState() => _HomeTabState();
 }
 
-class _HomeTabState extends State<HomeTab> {
-  // with AutomaticKeepAliveClientMixin {
+class _HomeTabState extends State<HomeTab> with AutomaticKeepAliveClientMixin {
   final controller = Get.put(HomeTabController());
   late var userInfo = UserInfo();
   int selectedActionButtonPagerPosition = 0;
@@ -74,12 +73,12 @@ class _HomeTabState extends State<HomeTab> {
     );
   }
 
-// @override
-// bool get wantKeepAlive => true;
+  @override
+  bool get wantKeepAlive => true;
 
-// @override
-// void dispose() {
-//   homeTabController.dispose();
-//   super.dispose();
-// }
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 }

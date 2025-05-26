@@ -17,6 +17,7 @@ class CompanyNameTextField extends StatelessWidget {
         textEditingController: controller.companyNameController.value,
         hintText: 'company_name'.tr,
         labelText: 'company_name'.tr,
+        maxLength: 50,
         keyboardType: TextInputType.name,
         textInputAction: TextInputAction.next,
         autovalidateMode: AutovalidateMode.onUserInteraction,

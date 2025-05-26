@@ -145,6 +145,10 @@ class AppStorage extends GetxController {
     }
   }
 
+  void clearLocalSequenceChangeData() {
+    removeData(AppConstants.sharedPreferenceKey.localSequenceChangeData);
+  }
+
   void setDashboardStockCountData(DashboardStockCountResponse data) {
     storage.write(AppConstants.sharedPreferenceKey.dashboardItemCountData,
         jsonEncode(data));

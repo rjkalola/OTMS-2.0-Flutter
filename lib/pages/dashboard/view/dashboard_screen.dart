@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:otm_inventory/pages/dashboard/controller/dashboard_controller.dart';
+import 'package:otm_inventory/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart';
 import 'package:otm_inventory/pages/dashboard/view/widgets/bottom_navigation_bar_widget.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
@@ -26,7 +27,19 @@ class DashboardScreen extends StatelessWidget {
         statusBarIconBrightness: Brightness.dark));
     return PopScope(
       canPop: false,
-      onPopInvoked: (didPop) async {
+      onPopInvokedWithResult: (didPop, result) async {
+        final backNavigationAllowed = await onBackPress();
+        if (backNavigationAllowed) {
+          Get.delete<DashboardController>();
+          Get.delete<HomeTabController>();
+          if (Platform.isIOS) {
+            exit(0);
+          } else {
+            SystemNavigator.pop();
+          }
+        }
+      },
+      /* onPopInvoked: (didPop) async {
         final backNavigationAllowed = await onBackPress();
         if (backNavigationAllowed) {
           if (Platform.isIOS) {
@@ -35,7 +48,7 @@ class DashboardScreen extends StatelessWidget {
             SystemNavigator.pop();
           }
         }
-      },
+      },*/
       child: Container(
         color: dashBoardBgColor,
         child: SafeArea(
@@ -116,7 +129,7 @@ class DashboardScreen extends StatelessWidget {
     DateTime now = DateTime.now();
     if (mTime == null || now.difference(mTime) > const Duration(seconds: 2)) {
       mTime = now;
-      AppUtils.showSnackBarMessage('exit_warning'.tr);
+      AppUtils.showToastMessage('exit_warning'.tr);
       return Future.value(false);
     }
 

@@ -37,16 +37,40 @@ class HomeTabController extends GetxController {
     setInitialData();
   }
 
-  void setInitialData() {
-    if (Get.find<AppStorage>().getUserPermissionsResponse() != null) {
+  Future<void> setInitialData() async {
+    UserPermissionsResponse? response =
+        Get.find<AppStorage>().getUserPermissionsResponse();
+    if (response != null &&
+        response.permissions != null &&
+        response.permissions!.isNotEmpty) {
       UserPermissionsResponse response =
           Get.find<AppStorage>().getUserPermissionsResponse()!;
       listPermissions.clear();
       listPermissions.addAll(response.permissions ?? []);
       isMainViewVisible.value = true;
+
+      bool isInternet = await AppUtils.interNetCheck();
+      if (isInternet) {
+        if (isLocalSequenceChangeDataAvailable()) {
+          changeDashboardUserPermissionMultipleSequenceApi(
+              isProgress: false,
+              isLoadPermissionList: true,
+              isChangeSequence: false);
+        } else {
+          getDashboardUserPermissionsApi(false);
+        }
+      }
+
       print("listPermissions length:" + listPermissions.length.toString());
     } else {
-      getDashboardUserPermissionsApi(true);
+      if (isLocalSequenceChangeDataAvailable()) {
+        changeDashboardUserPermissionMultipleSequenceApi(
+            isProgress: true,
+            isLoadPermissionList: true,
+            isChangeSequence: false);
+      } else {
+        getDashboardUserPermissionsApi(true);
+      }
     }
   }
 
@@ -112,12 +136,6 @@ class HomeTabController extends GetxController {
       data: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
-          isMainViewVisible.value = true;
-          UserPermissionsResponse response = UserPermissionsResponse.fromJson(
-              jsonDecode(responseModel.result!));
-          AppStorage().setUserPermissionsResponse(response);
-          listPermissions.clear();
-          listPermissions.addAll(response.permissions ?? []);
         } else {
           // AppUtils.showSnackBarMessage(responseModel.statusMessage!);
         }
@@ -139,24 +157,34 @@ class HomeTabController extends GetxController {
   }
 
   void changeDashboardUserPermissionMultipleSequenceApi(
-      bool isProgress, int permissionId, int newPosition) {
+      {required bool isProgress,
+      bool? isLoadPermissionList,
+      bool? isChangeSequence,
+      int? permissionId,
+      int? newPosition}) {
     isLoading.value = isProgress;
     Map<String, dynamic> map = {};
     map["user_id"] = UserUtils.getLoginUserId();
     map["company_id"] = ApiConstants.companyId;
-    map["permission_id"] = permissionId;
-    map["new_position"] = newPosition;
+
+    List<LocalPermissionSequenceChangeInfo> list = [];
+    if (Get.find<AppStorage>().getLocalSequenceChangeData().isNotEmpty) {
+      list.addAll(Get.find<AppStorage>().getLocalSequenceChangeData());
+    }
+    map["sequence"] = jsonEncode(list);
+    // map["sequence"] = list;
 
     _api.changeDashboardUserPermissionMultipleSequenceApi(
       data: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
-          isMainViewVisible.value = true;
-          UserPermissionsResponse response = UserPermissionsResponse.fromJson(
-              jsonDecode(responseModel.result!));
-          AppStorage().setUserPermissionsResponse(response);
-          listPermissions.clear();
-          listPermissions.addAll(response.permissions ?? []);
+          if (isChangeSequence ?? false) {
+            changeDashboardUserPermissionSequenceApi(
+                isProgress, permissionId ?? 0, newPosition ?? 0);
+          } else if (isLoadPermissionList ?? false) {
+            getDashboardUserPermissionsApi(isProgress);
+          }
+          Get.find<AppStorage>().clearLocalSequenceChangeData();
         } else {
           // AppUtils.showSnackBarMessage(responseModel.statusMessage!);
         }
@@ -184,10 +212,10 @@ class HomeTabController extends GetxController {
     final movedItem = list.removeAt(oldIndex);
     list.insert(newIndex, movedItem);
 
-    /* print("-----------11111----------");
+    print("-----------11111----------");
     for (var info in list) {
       print(info.sequence.toString());
-    }*/
+    }
 
     for (int i = 0; i < list.length; i++) {
       list[i].sequence = i + 1;
@@ -195,25 +223,37 @@ class HomeTabController extends GetxController {
 
     listPermissions.value = List.from(list);
 
+    // print("listPermissions.value length:"+listPermissions.value.length.toString());
+
     if (Get.find<AppStorage>().getUserPermissionsResponse() != null) {
+      // print("1111");
       UserPermissionsResponse response =
           Get.find<AppStorage>().getUserPermissionsResponse()!;
       response.permissions = list;
       Get.find<AppStorage>().setUserPermissionsResponse(response);
-
-      /* UserPermissionsResponse response2 =
+      // print("222");
+      UserPermissionsResponse response2 =
           Get.find<AppStorage>().getUserPermissionsResponse()!;
       print("-----------22222333----------");
       for (var info in response2.permissions!) {
         print(info.sequence.toString());
-      }*/
+      }
 
       bool isInternet = await AppUtils.interNetCheck();
       int permissionId = list[newIndex].permissionId!;
       int newPosition = newIndex + 1;
       if (isInternet) {
-        changeDashboardUserPermissionSequenceApi(
-            false, permissionId, newPosition);
+        if (isLocalSequenceChangeDataAvailable()) {
+          changeDashboardUserPermissionMultipleSequenceApi(
+              isProgress: false,
+              isLoadPermissionList: false,
+              isChangeSequence: true,
+              permissionId: permissionId,
+              newPosition: newPosition);
+        } else {
+          changeDashboardUserPermissionSequenceApi(
+              false, permissionId, newPosition);
+        }
       } else {
         addLocalSequenceChangeData(permissionId, newPosition);
       }
@@ -227,8 +267,8 @@ class HomeTabController extends GetxController {
     }
     LocalPermissionSequenceChangeInfo info =
         LocalPermissionSequenceChangeInfo();
-    info.permissionId = 0;
-    info.newPosition = 0;
+    info.permissionId = permissionId;
+    info.newPosition = newPosition;
     list.add(info);
     print("before length:" +
         Get.find<AppStorage>().getLocalSequenceChangeData().length.toString());

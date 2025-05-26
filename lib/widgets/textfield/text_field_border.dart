@@ -18,6 +18,7 @@ class TextFieldBorder extends StatelessWidget {
       this.isReadOnly,
       this.suffixIcon,
       this.maxLines,
+      this.maxLength,
       this.textAlignVertical,
       this.autofocus,
       this.textAlign,
@@ -38,7 +39,7 @@ class TextFieldBorder extends StatelessWidget {
   final TextInputAction? textInputAction;
   final bool? isReadOnly;
   final Icon? suffixIcon;
-  final int? maxLines;
+  final int? maxLines, maxLength;
   final TextAlignVertical? textAlignVertical;
   final TextAlign? textAlign;
   final VoidCallback? onPressed;
@@ -65,6 +66,7 @@ class TextFieldBorder extends StatelessWidget {
       keyboardType: keyboardType,
       textInputAction: textInputAction,
       maxLines: maxLines,
+      maxLength: maxLength,
       textAlignVertical: textAlignVertical,
       textAlign: textAlign ?? TextAlign.start,
       readOnly: isReadOnly ?? false,

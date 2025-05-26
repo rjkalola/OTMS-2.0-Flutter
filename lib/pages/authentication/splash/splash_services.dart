@@ -9,7 +9,7 @@ import 'package:sms_autofill/sms_autofill.dart';
 
 class SplashServices {
   Future<void> isLogin() async {
-    Timer(const Duration(seconds: 1), () async {
+    Timer(const Duration(seconds: 2), () async {
       ApiConstants.accessToken = Get.find<AppStorage>().getAccessToken();
       ApiConstants.companyId = Get.find<AppStorage>().getCompanyId();
       // Get.offAllNamed(AppRoutes.stockEditQuantityScreen);
