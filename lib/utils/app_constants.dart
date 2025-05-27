@@ -56,6 +56,7 @@ class DialogIdentifier {
   final String filterByDialog = 'FILTER_BY_DIALOG';
   final String attachmentOptionsList = 'ATTACHMENT_OPTIONS_LIST';
   final String deleteProductImage = 'DELETE_PRODUCT_IMAGE';
+  final String controlPanelMenuDialog = 'CONTROL_PANEL_MENU_DIALOG';
 }
 
 class SharedPreferenceKey {
@@ -110,6 +111,8 @@ class Action {
   final String timeSheet = "TimeSheet";
   final String selectCompanyListDialog = "selectCompanyListDialog";
   final String selectTradeListDialog = "selectTradeListDialog";
+
+  final String companyDetails = "COMPANY_DETAILS";
 }
 
 class StockCountType {

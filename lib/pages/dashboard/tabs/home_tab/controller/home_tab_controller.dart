@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:otm_inventory/pages/common/listener/select_item_listener.dart';
 import 'package:otm_inventory/pages/common/model/user_info.dart';
 import 'package:otm_inventory/pages/dashboard/controller/dashboard_controller.dart';
 import 'package:otm_inventory/pages/dashboard/models/dashboard_response.dart';
@@ -8,15 +10,17 @@ import 'package:otm_inventory/pages/dashboard/tabs/home_tab/controller/home_tab_
 import 'package:otm_inventory/pages/dashboard/tabs/home_tab/model/local_permission_sequence_change_info.dart';
 import 'package:otm_inventory/pages/dashboard/tabs/home_tab/model/permission_info.dart';
 import 'package:otm_inventory/pages/dashboard/tabs/home_tab/model/user_permissions_response.dart';
+import 'package:otm_inventory/pages/dashboard/view/dialogs/control_panel_menu_dialog.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_storage.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
+import 'package:otm_inventory/utils/data_utils.dart';
 import 'package:otm_inventory/utils/user_utils.dart';
 import 'package:otm_inventory/web_services/api_constants.dart';
 import 'package:otm_inventory/web_services/response/response_model.dart';
 
-class HomeTabController extends GetxController {
+class HomeTabController extends GetxController implements SelectItemListener {
   final _api = HomeTabRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
@@ -51,11 +55,14 @@ class HomeTabController extends GetxController {
 
       bool isInternet = await AppUtils.interNetCheck();
       if (isInternet) {
-        if (isLocalSequenceChangeDataAvailable()) {
+        List<LocalPermissionSequenceChangeInfo> localSequenceData =
+            getLocalSequenceChangedData();
+        if (localSequenceData.isNotEmpty) {
           changeDashboardUserPermissionMultipleSequenceApi(
               isProgress: false,
               isLoadPermissionList: true,
-              isChangeSequence: false);
+              isChangeSequence: false,
+              data: localSequenceData);
         } else {
           getDashboardUserPermissionsApi(false);
         }
@@ -63,11 +70,14 @@ class HomeTabController extends GetxController {
 
       print("listPermissions length:" + listPermissions.length.toString());
     } else {
-      if (isLocalSequenceChangeDataAvailable()) {
+      List<LocalPermissionSequenceChangeInfo> localSequenceData =
+          getLocalSequenceChangedData();
+      if (localSequenceData.isNotEmpty) {
         changeDashboardUserPermissionMultipleSequenceApi(
             isProgress: true,
             isLoadPermissionList: true,
-            isChangeSequence: false);
+            isChangeSequence: false,
+            data: localSequenceData);
       } else {
         getDashboardUserPermissionsApi(true);
       }
@@ -161,7 +171,8 @@ class HomeTabController extends GetxController {
       bool? isLoadPermissionList,
       bool? isChangeSequence,
       int? permissionId,
-      int? newPosition}) {
+      int? newPosition,
+      List<LocalPermissionSequenceChangeInfo>? data}) {
     isLoading.value = isProgress;
     Map<String, dynamic> map = {};
     map["user_id"] = UserUtils.getLoginUserId();
@@ -171,6 +182,7 @@ class HomeTabController extends GetxController {
     if (Get.find<AppStorage>().getLocalSequenceChangeData().isNotEmpty) {
       list.addAll(Get.find<AppStorage>().getLocalSequenceChangeData());
     }
+
     map["sequence"] = jsonEncode(list);
     // map["sequence"] = list;
 
@@ -281,5 +293,44 @@ class HomeTabController extends GetxController {
 
   bool isLocalSequenceChangeDataAvailable() {
     return Get.find<AppStorage>().getLocalSequenceChangeData().isNotEmpty;
+  }
+
+  List<LocalPermissionSequenceChangeInfo> getLocalSequenceChangedData() {
+    List<LocalPermissionSequenceChangeInfo> list = [];
+    UserPermissionsResponse? response =
+        Get.find<AppStorage>().getUserPermissionsResponse();
+    if (response != null &&
+        response.permissions != null &&
+        response.permissions!.isNotEmpty) {
+      for (var info in response.permissions!) {
+        if (info.isSequenceChanged ?? false) {
+          LocalPermissionSequenceChangeInfo data =
+              LocalPermissionSequenceChangeInfo(
+                  permissionId: info.permissionId, newPosition: info.sequence);
+          list.add(data);
+        }
+      }
+    }
+    return list;
+  }
+
+  onClickPermission(int index, PermissionInfo info) {
+    showControlPanelDialog();
+  }
+
+  void showControlPanelDialog() {
+    Get.bottomSheet(
+        ControlPanelMenuDialog(
+          dialogType: AppConstants.dialogIdentifier.controlPanelMenuDialog,
+          list: DataUtils.getControlPanelMenuItems(),
+          listener: this,
+        ),
+        backgroundColor: Colors.transparent,
+        isScrollControlled: true);
+  }
+
+  @override
+  void onSelectItem(int position, int id, String name, String action) {
+    if (action == AppConstants.action.companyDetails) {}
   }
 }

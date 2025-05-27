@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/pages/dashboard/tabs/home_tab/model/dashboard_grid_item_info.dart';
 import 'package:otm_inventory/pages/dashboard/tabs/home_tab2/model/DashboardActionItemInfo.dart';
 import 'package:otm_inventory/res/drawable.dart';
 import 'package:otm_inventory/web_services/response/module_info.dart';
+
 import 'app_constants.dart';
 
 class DataUtils {
@@ -20,6 +20,20 @@ class DataUtils {
   //   Icons.chat_bubble_outline,
   //   Icons.emoji_emotions_outlined,
   // ];
+
+  static List<ModuleInfo> getControlPanelMenuItems() {
+    var arrayItems = <ModuleInfo>[];
+
+    arrayItems.add(ModuleInfo(name: 'widget'.tr));
+    arrayItems.add(ModuleInfo(name: 'notification'.tr));
+    arrayItems.add(ModuleInfo(name: 'company_details'.tr,action: AppConstants.action.companyDetails));
+    arrayItems.add(ModuleInfo(name: 'settings'.tr));
+    arrayItems.add(ModuleInfo(name: 'trades'.tr));
+    arrayItems.add(ModuleInfo(name: 'blank'.tr));
+    arrayItems.add(ModuleInfo(name: 'user_permissions'.tr));
+
+    return arrayItems;
+  }
 
   static List<ModuleInfo> getPhoneExtensionList() {
     var arrayItems = <ModuleInfo>[];

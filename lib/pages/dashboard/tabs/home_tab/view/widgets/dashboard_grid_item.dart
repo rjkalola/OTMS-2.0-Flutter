@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:otm_inventory/pages/dashboard/tabs/home_tab/model/dashboard_grid_item_info.dart';
+import 'package:get/get.dart';
+import 'package:otm_inventory/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart';
 import 'package:otm_inventory/pages/dashboard/tabs/home_tab/model/permission_info.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/res/drawable.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
-import 'package:otm_inventory/widgets/shapes/badge_count_widget.dart';
-import 'package:otm_inventory/widgets/shapes/circle_widget.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
 
 class DashboardGridItem extends StatelessWidget {
-  DashboardGridItem({super.key, required this.info});
+  DashboardGridItem({super.key, required this.info, required this.index});
 
   PermissionInfo info;
+  int index;
+  final controller = Get.put(HomeTabController());
 
   @override
   Widget build(BuildContext context) {
@@ -22,65 +23,73 @@ class DashboardGridItem extends StatelessWidget {
       decoration: AppUtils.getDashboardItemDecoration(
           borderWidth: 2, borderColor: dashBoardItemStrokeColor, radius: 20),
       padding: EdgeInsets.fromLTRB(9, 12, 9, 12),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ImageUtils.setAssetsImage(
-              path: Drawable.timeClockImageTemp, width: 32, height: 32),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // !StringHelper.isEmptyString(info.title)
-                //     ? PrimaryTextView(
-                //         text: info.title ?? "",
-                //         fontWeight: FontWeight.w500,
-                //         fontSize: 14,
-                //         textAlign: TextAlign.center,
-                //         color: primaryTextColorLight,
-                //         softWrap: true,
-                //       )
-                //     : Container()
-                Visibility(
-                  visible: !StringHelper.isEmptyString(info.name),
-                  child: PrimaryTextView(
-                    text: info.name ?? "",
-                    fontWeight: FontWeight.w500,
-                    fontSize: 14,
-                    textAlign: TextAlign.center,
-                    color: primaryTextColorLight,
-                    softWrap: true,
-                    maxLine: 2,
+      child: GestureDetector(
+        onTap: () {
+          controller.onClickPermission(index,info);
+        },
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            index % 2 == 0
+                ? ImageUtils.setSvgAssetsImage(
+                    path: Drawable.icPeople1, width: 28, height: 28)
+                : ImageUtils.setSvgAssetsImage(
+                    path: Drawable.icPeople2, width: 28, height: 28),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // !StringHelper.isEmptyString(info.title)
+                  //     ? PrimaryTextView(
+                  //         text: info.title ?? "",
+                  //         fontWeight: FontWeight.w500,
+                  //         fontSize: 14,
+                  //         textAlign: TextAlign.center,
+                  //         color: primaryTextColorLight,
+                  //         softWrap: true,
+                  //       )
+                  //     : Container()
+                  Visibility(
+                    visible: !StringHelper.isEmptyString(info.name),
+                    child: PrimaryTextView(
+                      text: info.name ?? "",
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14,
+                      textAlign: TextAlign.center,
+                      color: primaryTextColorLight,
+                      softWrap: true,
+                      maxLine: 2,
+                    ),
                   ),
-                ),
-                Visibility(
-                  visible: !StringHelper.isEmptyString(info.value),
-                  child: PrimaryTextView(
-                    text: info.value ?? "",
-                    textAlign: TextAlign.center,
-                    color: secondaryExtraLightTextColor,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14,
-                    softWrap: true,
-                    maxLine: 1,
+                  Visibility(
+                    visible: !StringHelper.isEmptyString(info.value),
+                    child: PrimaryTextView(
+                      text: info.value ?? "",
+                      textAlign: TextAlign.center,
+                      color: secondaryExtraLightTextColor,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                      softWrap: true,
+                      maxLine: 1,
+                    ),
                   ),
-                ),
-                // !StringHelper.isEmptyString(info.subTitle)
-                //     ? PrimaryTextView(
-                //         text: info.subTitle ?? "",
-                //         textAlign: TextAlign.center,
-                //         color: secondaryExtraLightTextColor,
-                //         fontWeight: FontWeight.w400,
-                //         fontSize: 14,
-                //         softWrap: true,
-                //       )
-                //     : Container()
-              ],
+                  // !StringHelper.isEmptyString(info.subTitle)
+                  //     ? PrimaryTextView(
+                  //         text: info.subTitle ?? "",
+                  //         textAlign: TextAlign.center,
+                  //         color: secondaryExtraLightTextColor,
+                  //         fontWeight: FontWeight.w400,
+                  //         fontSize: 14,
+                  //         softWrap: true,
+                  //       )
+                  //     : Container()
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

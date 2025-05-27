@@ -70,6 +70,7 @@ class DashboardGridView extends StatelessWidget {
                         .toString() ??
                     ""),
                 info: controller.listPermissions[index],
+                index: index,
               ),
             ),
           ),

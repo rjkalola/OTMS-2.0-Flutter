@@ -77,4 +77,7 @@ class Drawable {
   static const String tab3Icon = 'assets/images/ic_tab3.svg';
   static const String tab4Icon = 'assets/images/ic_tab4.svg';
   static const String tab5Icon = 'assets/images/ic_tab5.svg';
+
+  static const String icPeople1 = 'assets/user_permission_icons/ic_people1.svg';
+  static const String icPeople2 = 'assets/user_permission_icons/ic_people2.svg';
 }

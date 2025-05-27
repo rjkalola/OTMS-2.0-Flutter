@@ -12,6 +12,7 @@ class AppRoutes {
   static const String companySignUpScreen = '/company_signup_screen';
   static const String clockInScreen = '/clock_in_screen';
   static const String selectAddressScreen = '/select_address_screen';
+  static const String companyDetailsScreen = '/company_details_screen';
 
   static const String productListScreen = '/product_list_screen';
   static const String storeListScreen = '/store_list_screen';

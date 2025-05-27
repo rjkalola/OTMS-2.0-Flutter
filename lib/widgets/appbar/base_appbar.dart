@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   final AppBar appBar;
@@ -28,6 +29,15 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
         centerTitle: isCenterTitle,
         titleSpacing: isBack ? 0 : 20,
         automaticallyImplyLeading: isBack,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios_new_outlined,
+            size: 20,
+          ),
+          onPressed: () {
+            Get.back();
+          },
+        ),
         scrolledUnderElevation: 0);
   }
 

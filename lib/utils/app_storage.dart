@@ -104,7 +104,7 @@ class AppStorage extends GetxController {
     }
   }
 
-  void setUserPermissionsResponse(UserPermissionsResponse data) {
+  void setUserPermissionsResponse(UserPermissionsResponse? data) {
     storage.write(
         AppConstants.sharedPreferenceKey.userPermissionData, jsonEncode(data));
   }
