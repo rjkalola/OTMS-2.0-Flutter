@@ -12,12 +12,16 @@ class TextFieldCompanyAdmin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 18),
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
       child: TextFieldBorder(
         textEditingController: controller.companyAdminController.value,
         hintText: 'company_admin'.tr,
         labelText: 'company_admin'.tr,
         isReadOnly: true,
+        onPressed: (){
+          controller.showCompanyAdminList();
+        },
+        suffixIcon: const Icon(Icons.arrow_drop_down),
         keyboardType: TextInputType.name,
         textInputAction: TextInputAction.next,
         autovalidateMode: AutovalidateMode.onUserInteraction,

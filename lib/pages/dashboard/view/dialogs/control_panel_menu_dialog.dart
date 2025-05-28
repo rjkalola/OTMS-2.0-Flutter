@@ -106,7 +106,9 @@ class ControlPanelMenuDialogState extends State<ControlPanelMenuDialog> {
                         borderColor: dividerColor,
                         borderWidth: 1),
                     child: ImageUtils.setSvgAssetsImage(
-                        path: Drawable.icPeople2, width: 24, height: 24),
+                        path: Drawable.truckPermissionIcon,
+                        width: 24,
+                        height: 24),
                   ),
                   SizedBox(
                     width: 12,

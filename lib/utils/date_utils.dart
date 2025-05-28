@@ -40,11 +40,11 @@ class DateUtil {
   }
 
   static Future<void> showDatePickerDialog(
-      DateTime? initialDate,
-      DateTime firstDate,
-      DateTime lastDate,
-      String dialogIdentifier,
-      SelectDateListener listener) async {
+      {DateTime? initialDate,
+      required DateTime firstDate,
+      required DateTime lastDate,
+      required String dialogIdentifier,
+      required SelectDateListener selectDateListener}) async {
     final DateTime? picked = await showDatePicker(
       context: Get.context!,
       initialDate: initialDate,
@@ -52,7 +52,7 @@ class DateUtil {
       lastDate: lastDate,
     );
     if (picked != null) {
-      listener.onSelectDate(picked, dialogIdentifier);
+      selectDateListener.onSelectDate(picked, dialogIdentifier);
     }
   }
 

@@ -55,29 +55,21 @@ class HomeTabController extends GetxController implements SelectItemListener {
 
       bool isInternet = await AppUtils.interNetCheck();
       if (isInternet) {
-        List<LocalPermissionSequenceChangeInfo> localSequenceData =
-            getLocalSequenceChangedData();
-        if (localSequenceData.isNotEmpty) {
+        if (Get.find<AppStorage>().isLocalSequenceChanges()) {
           changeDashboardUserPermissionMultipleSequenceApi(
               isProgress: false,
               isLoadPermissionList: true,
-              isChangeSequence: false,
-              data: localSequenceData);
+              isChangeSequence: false);
         } else {
           getDashboardUserPermissionsApi(false);
         }
       }
-
-      print("listPermissions length:" + listPermissions.length.toString());
     } else {
-      List<LocalPermissionSequenceChangeInfo> localSequenceData =
-          getLocalSequenceChangedData();
-      if (localSequenceData.isNotEmpty) {
+      if (Get.find<AppStorage>().isLocalSequenceChanges()) {
         changeDashboardUserPermissionMultipleSequenceApi(
             isProgress: true,
             isLoadPermissionList: true,
-            isChangeSequence: false,
-            data: localSequenceData);
+            isChangeSequence: false);
       } else {
         getDashboardUserPermissionsApi(true);
       }
@@ -178,18 +170,19 @@ class HomeTabController extends GetxController implements SelectItemListener {
     map["user_id"] = UserUtils.getLoginUserId();
     map["company_id"] = ApiConstants.companyId;
 
-    List<LocalPermissionSequenceChangeInfo> list = [];
-    if (Get.find<AppStorage>().getLocalSequenceChangeData().isNotEmpty) {
-      list.addAll(Get.find<AppStorage>().getLocalSequenceChangeData());
-    }
+    // List<LocalPermissionSequenceChangeInfo> list = [];
+    // if (Get.find<AppStorage>().getLocalSequenceChangeData().isNotEmpty) {
+    //   list.addAll(Get.find<AppStorage>().getLocalSequenceChangeData());
+    // }
 
-    map["sequence"] = jsonEncode(list);
+    map["sequence"] = jsonEncode(getLocalSequenceChangedData());
     // map["sequence"] = list;
 
     _api.changeDashboardUserPermissionMultipleSequenceApi(
       data: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
+          Get.find<AppStorage>().setLocalSequenceChanges(false);
           if (isChangeSequence ?? false) {
             changeDashboardUserPermissionSequenceApi(
                 isProgress, permissionId ?? 0, newPosition ?? 0);
@@ -218,16 +211,9 @@ class HomeTabController extends GetxController implements SelectItemListener {
   }
 
   Future<void> onReorderPermission(int oldIndex, int newIndex) async {
-    print("Item moved to " + oldIndex.toString());
-    print("Item moved to " + newIndex.toString());
     final list = listPermissions;
     final movedItem = list.removeAt(oldIndex);
     list.insert(newIndex, movedItem);
-
-    print("-----------11111----------");
-    for (var info in list) {
-      print(info.sequence.toString());
-    }
 
     for (int i = 0; i < list.length; i++) {
       list[i].sequence = i + 1;
@@ -235,31 +221,21 @@ class HomeTabController extends GetxController implements SelectItemListener {
 
     listPermissions.value = List.from(list);
 
-    // print("listPermissions.value length:"+listPermissions.value.length.toString());
-
     if (Get.find<AppStorage>().getUserPermissionsResponse() != null) {
-      // print("1111");
       UserPermissionsResponse response =
           Get.find<AppStorage>().getUserPermissionsResponse()!;
       response.permissions = list;
       Get.find<AppStorage>().setUserPermissionsResponse(response);
-      // print("222");
-      UserPermissionsResponse response2 =
-          Get.find<AppStorage>().getUserPermissionsResponse()!;
-      print("-----------22222333----------");
-      for (var info in response2.permissions!) {
-        print(info.sequence.toString());
-      }
 
       bool isInternet = await AppUtils.interNetCheck();
       int permissionId = list[newIndex].permissionId!;
       int newPosition = newIndex + 1;
       if (isInternet) {
-        if (isLocalSequenceChangeDataAvailable()) {
+        if (Get.find<AppStorage>().isLocalSequenceChanges()) {
           changeDashboardUserPermissionMultipleSequenceApi(
               isProgress: false,
               isLoadPermissionList: false,
-              isChangeSequence: true,
+              isChangeSequence: false,
               permissionId: permissionId,
               newPosition: newPosition);
         } else {
@@ -267,8 +243,11 @@ class HomeTabController extends GetxController implements SelectItemListener {
               false, permissionId, newPosition);
         }
       } else {
-        addLocalSequenceChangeData(permissionId, newPosition);
+        Get.find<AppStorage>().setLocalSequenceChanges(true);
       }
+      /*else {
+        addLocalSequenceChangeData(permissionId, newPosition);
+      }*/
     }
   }
 
@@ -303,12 +282,8 @@ class HomeTabController extends GetxController implements SelectItemListener {
         response.permissions != null &&
         response.permissions!.isNotEmpty) {
       for (var info in response.permissions!) {
-        if (info.isSequenceChanged ?? false) {
-          LocalPermissionSequenceChangeInfo data =
-              LocalPermissionSequenceChangeInfo(
-                  permissionId: info.permissionId, newPosition: info.sequence);
-          list.add(data);
-        }
+        list.add(LocalPermissionSequenceChangeInfo(
+            permissionId: info.permissionId, newPosition: info.sequence));
       }
     }
     return list;
@@ -331,6 +306,8 @@ class HomeTabController extends GetxController implements SelectItemListener {
 
   @override
   void onSelectItem(int position, int id, String name, String action) {
-    if (action == AppConstants.action.companyDetails) {}
+    if (action == AppConstants.action.companyDetails) {
+      Get.toNamed(AppRoutes.companyDetailsScreen);
+    }
   }
 }

@@ -12,9 +12,12 @@ class TextFieldCompanyCode extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 18),
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
       child: TextFieldBorder(
         textEditingController: controller.companyCodeController.value,
+        onFieldSubmitted: (value) {
+          FocusScope.of(context).requestFocus(controller.focusNodeAddress.value);
+        },
         hintText: 'company_code'.tr,
         labelText: 'company_code'.tr,
         keyboardType: TextInputType.name,

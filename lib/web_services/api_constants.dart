@@ -39,6 +39,8 @@ class ApiConstants {
       '$appUrl/dashboard/change-permission-sequence';
   static String changeDashboardUserPermissionMultipleSequenceUrl =
       '$appUrl/dashboard/change-bulk-sequence';
+  static String editCompanyUrl = '$appUrl/company/edit-company';
+  static String getCompanyDetailsUrl = '$appUrl/company/get-company';
 
   static String registerResourcesUrl = '$appUrl/wn-resources';
   static String verifyPhoneUrl = '$appUrl/verify-phone';

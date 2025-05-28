@@ -10,6 +10,7 @@ import 'package:otm_inventory/pages/common/model/user_info.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_storage.dart';
+import 'package:otm_inventory/utils/data_utils.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
 
 class AppUtils {
@@ -40,7 +41,10 @@ class AppUtils {
 
   static showApiResponseMessage(String? message) {
     if (!StringHelper.isEmptyString(message)) {
-      Get.rawSnackbar(message: message);
+      Fluttertoast.showToast(
+        msg: message ?? "",
+      );
+      // Get.rawSnackbar(message: message);
     }
   }
 
@@ -195,5 +199,15 @@ class AppUtils {
           color: borderColor ?? Colors.grey.shade300),
       borderRadius: BorderRadius.circular(radius ?? 45),
     );
+  }
+
+  static String getFlagByExtension(String? extension) {
+    String flag = AppConstants.defaultFlagUrl;
+    if (!StringHelper.isEmptyString(extension)) {
+      final match = DataUtils.getPhoneExtensionList()
+          .firstWhere((item) => item.phoneExtension == extension);
+      return match.flagImage ?? flag;
+    }
+    return flag;
   }
 }

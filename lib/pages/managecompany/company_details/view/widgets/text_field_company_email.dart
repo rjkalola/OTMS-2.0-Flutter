@@ -12,7 +12,7 @@ class TextFieldCompanyEmail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 22),
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
       child: TextFieldBorder(
         textEditingController: controller.companyEmailController.value,
         hintText: 'company_email_address'.tr,
@@ -21,11 +21,8 @@ class TextFieldCompanyEmail extends StatelessWidget {
         textInputAction: TextInputAction.next,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         onValueChange: (value) {},
-        onFieldSubmitted: (value) {
-          FocusScope.of(context).requestFocus(controller.focusNodePhone.value);
-        },
         validator: MultiValidator([
-          RequiredValidator(errorText: 'required_field'.tr),
+          // RequiredValidator(errorText: 'required_field'.tr),
           EmailValidator(errorText: "enter_valid_email_address".tr),
         ]),
       ),

@@ -9,9 +9,18 @@ import 'package:otm_inventory/pages/managecompany/company_details/view/widgets/r
 import 'package:otm_inventory/pages/managecompany/company_details/view/widgets/text_field_company_address.dart';
 import 'package:otm_inventory/pages/managecompany/company_details/view/widgets/text_field_company_admin.dart';
 import 'package:otm_inventory/pages/managecompany/company_details/view/widgets/text_field_company_code.dart';
+import 'package:otm_inventory/pages/managecompany/company_details/view/widgets/text_field_company_description.dart';
 import 'package:otm_inventory/pages/managecompany/company_details/view/widgets/text_field_company_email.dart';
+import 'package:otm_inventory/pages/managecompany/company_details/view/widgets/text_field_company_established_date.dart';
 import 'package:otm_inventory/pages/managecompany/company_details/view/widgets/text_field_company_name.dart';
 import 'package:otm_inventory/pages/managecompany/company_details/view/widgets/text_field_company_website.dart';
+import 'package:otm_inventory/pages/managecompany/company_details/view/widgets/text_field_insurance_expiry_date.dart';
+import 'package:otm_inventory/pages/managecompany/company_details/view/widgets/text_field_insurance_number.dart';
+import 'package:otm_inventory/pages/managecompany/company_details/view/widgets/text_field_main_contracts.dart';
+import 'package:otm_inventory/pages/managecompany/company_details/view/widgets/text_field_number_of_employee.dart';
+import 'package:otm_inventory/pages/managecompany/company_details/view/widgets/text_field_registration_number.dart';
+import 'package:otm_inventory/pages/managecompany/company_details/view/widgets/text_field_vat_number.dart';
+import 'package:otm_inventory/pages/managecompany/company_details/view/widgets/text_field_working_hours.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
@@ -53,33 +62,54 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen> {
                     ? const NoInternetWidget()
                     : Form(
                         key: controller.formKey,
-                        child: SingleChildScrollView(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Divider(),
-                              SizedBox(
-                                height: 12,
-                              ),
-                              UploadPhotoView(),
-                              PreferredImageSizeView(),
-                              TextFieldCompanyName(),
-                              TextFieldCompanyCode(),
-                              TextFieldCompanyAdmin(),
-                              TextFieldCompanyAddress(),
-                              TextFieldCompanyEmail(),
-                              TextFieldCompanyWebsite(),
-                              RowPhoneNumberAndExtension(),
-                              Container(
-                                padding:
-                                    const EdgeInsets.fromLTRB(16, 10, 16, 14),
-                                width: double.infinity,
-                                child: ContinueButton(onPressed: () {
-                                  controller.onClickContinueButton();
-                                }),
-                              )
-                            ],
-                          ),
+                        child: Column(
+                          children: [
+                            Divider(),
+                            SizedBox(
+                              height: 12,
+                            ),
+                            Visibility(
+                                visible: controller.isMainViewVisible.value,
+                                child: Expanded(
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        UploadPhotoView(),
+                                        PreferredImageSizeView(),
+                                        TextFieldCompanyName(),
+                                        TextFieldCompanyCode(),
+                                        TextFieldCompanyAdmin(),
+                                        TextFieldCompanyAddress(),
+                                        RowPhoneNumberAndExtension(),
+                                        TextFieldCompanyEmail(),
+                                        TextFieldCompanyWebsite(),
+                                        TextFieldCompanyDescription(),
+                                        TextFieldRegistrationNumber(),
+                                        TextFieldVatNumber(),
+                                        TextFieldCompanyEstablishedDate(),
+                                        TextFieldMainContracts(),
+                                        TextFieldWorkingHours(),
+                                        TextFieldInsuranceNumber(),
+                                        TextFieldInsuranceExpiryDate(),
+                                        TextFieldNumberOfEmployee(),
+                                        Container(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              16, 10, 16, 14),
+                                          width: double.infinity,
+                                          child: ContinueButton(
+                                              title: 'submit'.tr,
+                                              onPressed: () {
+                                                controller
+                                                    .onClickContinueButton();
+                                              }),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ))
+                          ],
                         ),
                       ));
           }),

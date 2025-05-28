@@ -1,13 +1,13 @@
 import 'package:otm_inventory/pages/managecompany/company_signup/model/company_info.dart';
 
-class CompanyRegistrationResponse {
+class CompanyDetailsResponse {
   bool? isSuccess;
   String? message;
   CompanyInfo? info;
 
-  CompanyRegistrationResponse({this.isSuccess, this.message, this.info});
+  CompanyDetailsResponse({this.isSuccess, this.message, this.info});
 
-  CompanyRegistrationResponse.fromJson(Map<String, dynamic> json) {
+  CompanyDetailsResponse.fromJson(Map<String, dynamic> json) {
     isSuccess = json['IsSuccess'];
     message = json['message'];
     info = json['info'] != null ? new CompanyInfo.fromJson(json['info']) : null;

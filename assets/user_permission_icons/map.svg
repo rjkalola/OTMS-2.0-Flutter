@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+    width="512" height="512" x="0" y="0" viewBox="0 0 682.667 682.667"
+    style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><defs stroke-width="18" style="stroke-width: 18;"><clipPath id="a" clipPathUnits="userSpaceOnUse" stroke-width="18" style="stroke-width: 18;"><path d="M0 512h512V0H0Z" fill="#000000" opacity="1" data-original="#000000" stroke-width="18" style="stroke-width: 18;"></path></clipPath></defs><g
+    clip-path="url(#a)" transform="matrix(1.33333 0 0 -1.33333 0 682.667)" stroke-width="18"
+    style="stroke-width: 18;"><path d="M0 0c0-38.07-30.861-68.932-68.932-68.932-38.07 0-68.931 30.862-68.931 68.932 0 38.07 30.861 68.932 68.931 68.932C-30.861 68.932 0 38.07 0 0Z" style="stroke-width: 18; stroke-linecap: round; stroke-linejoin: round; stroke-miterlimit: 10; stroke-dasharray: none; stroke-opacity: 1;" transform="translate(324.932 350.68)" fill="none" stroke="#000000" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-dasharray="none" stroke-opacity="1" data-original="#000000" class=""></path>
+    <path
+        d="M0 0c-27.55 35.6-70.81 56.87-115.83 56.87-45.02 0-88.28-21.27-115.83-56.87-31.07-40.16-36.63-88.55-20.3-135.84 15.7-45.46 49.04-83.37 76.3-122.44 19.5-27.95 39-55.9 58.5-83.86l1.33-1.9 1.33 1.9c19.5 27.96 39 55.91 58.5 83.86 27.26 39.07 60.6 76.98 76.3 122.44C36.63-88.55 31.07-40.16 0 0Z"
+        style="stroke-width: 18; stroke-linecap: round; stroke-linejoin: round; stroke-miterlimit: 10; stroke-dasharray: none; stroke-opacity: 1;"
+        transform="translate(371.83 440.165)" fill="none" stroke="#000000" stroke-width="18"
+        stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"
+        stroke-dasharray="none" stroke-opacity="1" data-original="#000000" class=""></path>
+    <path d="m0 0-42.65-26.94 134.4-84.9 134.4 84.9L183.5 0"
+        style="stroke-width: 18; stroke-linecap: round; stroke-linejoin: round; stroke-miterlimit: 10; stroke-dasharray: none; stroke-opacity: 1;"
+        transform="translate(164.25 126.805)" fill="none" stroke="#000000" stroke-width="18"
+        stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"
+        stroke-dasharray="none" stroke-opacity="1" data-original="#000000" class=""></path></g></g></svg>

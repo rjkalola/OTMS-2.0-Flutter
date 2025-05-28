@@ -4,9 +4,12 @@ import 'package:otm_inventory/pages/dashboard/tabs/home_tab/controller/home_tab_
 import 'package:otm_inventory/pages/dashboard/tabs/home_tab/model/permission_info.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/res/drawable.dart';
+import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
+import 'package:otm_inventory/widgets/card_view.dart';
+import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
 
 class DashboardGridItem extends StatelessWidget {
@@ -18,24 +21,22 @@ class DashboardGridItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 90,
-      decoration: AppUtils.getDashboardItemDecoration(
-          borderWidth: 2, borderColor: dashBoardItemStrokeColor, radius: 20),
-      padding: EdgeInsets.fromLTRB(9, 12, 9, 12),
+    return CardViewDashboardItem(
+        child: Padding(
+      padding: EdgeInsets.fromLTRB(14, 12, 10, 12),
       child: GestureDetector(
         onTap: () {
-          controller.onClickPermission(index,info);
+          controller.onClickPermission(index, info);
         },
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            index % 2 == 0
-                ? ImageUtils.setSvgAssetsImage(
-                    path: Drawable.icPeople1, width: 28, height: 28)
-                : ImageUtils.setSvgAssetsImage(
-                    path: Drawable.icPeople2, width: 28, height: 28),
+            ImageUtils.setSvgAssetsImage(
+                path: "${AppConstants.permissionIconsAssetsPath}${info.icon}",
+                // path: Drawable.truckPermissionIcon,
+                width: 26,
+                height: 26),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -55,8 +56,8 @@ class DashboardGridItem extends StatelessWidget {
                     visible: !StringHelper.isEmptyString(info.name),
                     child: PrimaryTextView(
                       text: info.name ?? "",
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16,
                       textAlign: TextAlign.center,
                       color: primaryTextColorLight,
                       softWrap: true,
@@ -91,6 +92,82 @@ class DashboardGridItem extends StatelessWidget {
           ],
         ),
       ),
-    );
+    ));
+    /* return Container(
+      height: 90,
+      decoration: AppUtils.getDashboardItemDecoration(
+          borderWidth: 0,
+          borderColor: dashBoardItemStrokeColor,
+          radius: 20,),
+      padding: EdgeInsets.fromLTRB(14, 12, 10, 12),
+      child: GestureDetector(
+        onTap: () {
+          controller.onClickPermission(index, info);
+        },
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ImageUtils.setSvgAssetsImage(
+                path: "${AppConstants.permissionIconsAssetsPath}${info.icon}",
+                // path: Drawable.truckPermissionIcon,
+                width: 26,
+                height: 26),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // !StringHelper.isEmptyString(info.title)
+                  //     ? PrimaryTextView(
+                  //         text: info.title ?? "",
+                  //         fontWeight: FontWeight.w500,
+                  //         fontSize: 14,
+                  //         textAlign: TextAlign.center,
+                  //         color: primaryTextColorLight,
+                  //         softWrap: true,
+                  //       )
+                  //     : Container()
+                  Visibility(
+                    visible: !StringHelper.isEmptyString(info.name),
+                    child: PrimaryTextView(
+                      text: info.name ?? "",
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15,
+                      textAlign: TextAlign.center,
+                      color: primaryTextColorLight,
+                      softWrap: true,
+                      maxLine: 2,
+                    ),
+                  ),
+                  Visibility(
+                    visible: !StringHelper.isEmptyString(info.value),
+                    child: PrimaryTextView(
+                      text: info.value ?? "",
+                      textAlign: TextAlign.center,
+                      color: secondaryExtraLightTextColor,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                      softWrap: true,
+                      maxLine: 1,
+                    ),
+                  ),
+                  // !StringHelper.isEmptyString(info.subTitle)
+                  //     ? PrimaryTextView(
+                  //         text: info.subTitle ?? "",
+                  //         textAlign: TextAlign.center,
+                  //         color: secondaryExtraLightTextColor,
+                  //         fontWeight: FontWeight.w400,
+                  //         fontSize: 14,
+                  //         softWrap: true,
+                  //       )
+                  //     : Container()
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );*/
   }
 }

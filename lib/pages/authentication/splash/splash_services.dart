@@ -24,7 +24,7 @@ class SplashServices {
         // } else {
         //   Get.offAllNamed(AppRoutes.joinCompanyScreen);
         // }
-        Get.offAllNamed(AppRoutes.companyDetailsScreen);
+        Get.offAllNamed(AppRoutes.dashboardScreen);
       } else {
         Get.offAllNamed(AppRoutes.introductionScreen);
       }

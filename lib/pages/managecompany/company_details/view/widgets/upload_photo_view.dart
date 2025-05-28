@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:otm_inventory/pages/managecompany/company_details/controller/company_details_controller.dart';
 import 'package:otm_inventory/pages/managecompany/company_signup/controller/company_signup_controller.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/res/drawable.dart';
@@ -10,7 +11,7 @@ import 'package:otm_inventory/utils/string_helper.dart';
 class UploadPhotoView extends StatelessWidget {
   UploadPhotoView({super.key});
 
-  final controller = Get.put(CompanySignUpController());
+  final controller = Get.put(CompanyDetailsController());
 
   @override
   Widget build(BuildContext context) {

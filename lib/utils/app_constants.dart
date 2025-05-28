@@ -17,6 +17,7 @@ class AppConstants {
   // static const String defaultFlagUrl =
   //     "https://devcdn.otmsystem.com/flags/png/gb_32.png";
   static const String defaultFlagUrl = "assets/country_flag/gb.svg";
+  static const String permissionIconsAssetsPath = "assets/user_permission_icons/";
   static bool isResourcesLoaded = false;
 }
 
@@ -57,6 +58,9 @@ class DialogIdentifier {
   final String attachmentOptionsList = 'ATTACHMENT_OPTIONS_LIST';
   final String deleteProductImage = 'DELETE_PRODUCT_IMAGE';
   final String controlPanelMenuDialog = 'CONTROL_PANEL_MENU_DIALOG';
+  final String selectCompanyAdmin = 'SELECT_COMPANY_ADMIN';
+  final String establishedDate = 'ESTABLISHED_DATE';
+  final String insuranceExpiryDate = 'INSURANCE_EXPIRY_DATE';
 }
 
 class SharedPreferenceKey {
@@ -69,6 +73,7 @@ class SharedPreferenceKey {
   final String permissionSettings = "PERMISSION_SETTINGS";
   final String dashboardResponse = "DASHBOARD_RESPONSE";
   final String userPermissionData = "USER_PERMISSION_DATA";
+  final String isLocalSequenceChanged = "IS_LOCAL_SEQUENCE_CHANGED";
   final String localSequenceChangeData = "LOCAL_SEQUENCE_CHANGE_DATA";
   final String isWeeklySummeryCounter = "IS_WEEKLY_SUMMERY_COUNTER";
   final String weeklySummeryAmount = "WEEKLY_SUMMERY_AMOUNT";

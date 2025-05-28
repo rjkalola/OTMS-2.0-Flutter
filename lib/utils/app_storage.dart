@@ -149,6 +149,17 @@ class AppStorage extends GetxController {
     removeData(AppConstants.sharedPreferenceKey.localSequenceChangeData);
   }
 
+  void setLocalSequenceChanges(bool value) {
+    storage.write(
+        AppConstants.sharedPreferenceKey.isLocalSequenceChanged, value);
+  }
+
+  bool isLocalSequenceChanges() {
+    return storage
+            .read(AppConstants.sharedPreferenceKey.isLocalSequenceChanged) ??
+        false;
+  }
+
   void setDashboardStockCountData(DashboardStockCountResponse data) {
     storage.write(AppConstants.sharedPreferenceKey.dashboardItemCountData,
         jsonEncode(data));
@@ -236,6 +247,7 @@ class AppStorage extends GetxController {
     removeData(AppConstants.sharedPreferenceKey.weeklySummeryAmount);
     removeData(AppConstants.sharedPreferenceKey.userPermissionData);
     removeData(AppConstants.sharedPreferenceKey.localSequenceChangeData);
+    removeData(AppConstants.sharedPreferenceKey.isLocalSequenceChanged);
   }
 
   void removeData(String key) {
