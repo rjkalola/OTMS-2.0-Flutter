@@ -22,12 +22,14 @@ class DashboardGridItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CardViewDashboardItem(
-        child: Padding(
-      padding: EdgeInsets.fromLTRB(14, 12, 10, 12),
-      child: GestureDetector(
-        onTap: () {
-          controller.onClickPermission(index, info);
-        },
+        child: GestureDetector(
+      onTap: () {
+        controller.onClickPermission(index, info);
+      },
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.fromLTRB(14, 12, 10, 12),
+        color: Colors.transparent,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,

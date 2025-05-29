@@ -84,44 +84,47 @@ class ControlPanelMenuDialogState extends State<ControlPanelMenuDialog> {
       ListView.separated(
         shrinkWrap: true,
         itemBuilder: (context, position) {
-          return Padding(
-            padding: const EdgeInsets.fromLTRB(18, 9, 18, 9),
-            child: GestureDetector(
-              onTap: () {
-                Get.back();
-                listener.onSelectItem(
-                    position,
-                    tempList[position].id ?? 0,
-                    tempList[position].name ?? "",
-                    tempList[position].action ?? "");
-              },
-              child: Row(
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(7),
-                    width: 44,
-                    height: 44,
-                    decoration: AppUtils.getGrayBorderDecoration(
-                        color: backgroundColor,
-                        borderColor: dividerColor,
-                        borderWidth: 1),
-                    child: ImageUtils.setSvgAssetsImage(
-                        path: Drawable.truckPermissionIcon,
-                        width: 24,
-                        height: 24),
-                  ),
-                  SizedBox(
-                    width: 12,
-                  ),
-                  Text(
-                    tempList[position].name ?? "",
-                    textAlign: TextAlign.start,
-                    style: const TextStyle(
-                        fontSize: 17,
-                        color: primaryTextColor,
-                        fontWeight: FontWeight.w600),
-                  )
-                ],
+          return GestureDetector(
+            onTap: () {
+              Get.back();
+              listener.onSelectItem(
+                  position,
+                  tempList[position].id ?? 0,
+                  tempList[position].name ?? "",
+                  tempList[position].action ?? "");
+            },
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(18, 9, 18, 9),
+              child: Container(
+                color: Colors.transparent,
+                child: Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(7),
+                      width: 44,
+                      height: 44,
+                      decoration: AppUtils.getGrayBorderDecoration(
+                          color: backgroundColor,
+                          borderColor: dividerColor,
+                          borderWidth: 1),
+                      child: ImageUtils.setSvgAssetsImage(
+                          path: Drawable.truckPermissionIcon,
+                          width: 24,
+                          height: 24),
+                    ),
+                    SizedBox(
+                      width: 12,
+                    ),
+                    Text(
+                      tempList[position].name ?? "",
+                      textAlign: TextAlign.start,
+                      style: const TextStyle(
+                          fontSize: 17,
+                          color: primaryTextColor,
+                          fontWeight: FontWeight.w600),
+                    )
+                  ],
+                ),
               ),
             ),
           );

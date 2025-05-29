@@ -12,11 +12,12 @@ import 'package:otm_inventory/pages/check_in/clock_in/view/clock_in_screen.dart'
 import 'package:otm_inventory/pages/check_in/select_address/view/select_address_screen.dart';
 import 'package:otm_inventory/pages/check_in/select_before_after_photos/view/select_before_after_photos_screen.dart';
 import 'package:otm_inventory/pages/dashboard/view/dashboard_screen.dart';
-import 'package:otm_inventory/pages/managecompany/company_details/view/company_details_screen.dart';
-import 'package:otm_inventory/pages/managecompany/company_signup/view/company_signup_screen.dart';
-import 'package:otm_inventory/pages/managecompany/joincompany/view/join_comapny_screen.dart';
-import 'package:otm_inventory/pages/managecompany/selectcompanytrade/view/select_company_trade_screen.dart';
+import 'package:otm_inventory/pages/company/company_details/view/company_details_screen.dart';
+import 'package:otm_inventory/pages/company/company_signup/view/company_signup_screen.dart';
+import 'package:otm_inventory/pages/company/joincompany/view/join_comapny_screen.dart';
+import 'package:otm_inventory/pages/company/selectcompanytrade/view/select_company_trade_screen.dart';
 import 'package:otm_inventory/pages/qr_code_scanner/view/qr_code_scanner.dart';
+import 'package:otm_inventory/pages/trades/view/company_trades_screen.dart';
 import '../pages/stock_filter/view/stock_filter_screen.dart';
 import 'app_routes.dart';
 
@@ -97,6 +98,10 @@ class AppPages {
     GetPage(
       name: AppRoutes.companyDetailsScreen,
       page: () => CompanyDetailsScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.companyTradesScreen,
+      page: () => CompanyTradesScreen(),
     ),
   ];
 }

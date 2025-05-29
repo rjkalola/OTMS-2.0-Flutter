@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:otm_inventory/pages/common/listener/select_time_listener.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
 
 import '../pages/common/listener/select_date_listener.dart';
@@ -39,6 +40,20 @@ class DateUtil {
     return result;
   }
 
+  static String timeToString(TimeOfDay? time, String format) {
+    String result = "";
+    if (time == null || StringHelper.isEmptyString(format)) return result;
+    final now = DateTime.now();
+    final date = DateTime(now.year, now.month, now.day, time.hour, time.minute);
+    DateFormat mFormatter = DateFormat(format);
+    try {
+      result = mFormatter.format(date);
+    } catch (e) {
+      result = "";
+    }
+    return result;
+  }
+
   static Future<void> showDatePickerDialog(
       {DateTime? initialDate,
       required DateTime firstDate,
@@ -53,6 +68,26 @@ class DateUtil {
     );
     if (picked != null) {
       selectDateListener.onSelectDate(picked, dialogIdentifier);
+    }
+  }
+
+  static Future<void> showTimePickerDialog(
+      {TimeOfDay? initialTime,
+      required String dialogIdentifier,
+      required SelectTimeListener selectTimeListener}) async {
+    final pickedTime = await showTimePicker(
+      context: Get.context!,
+      initialTime: initialTime ?? TimeOfDay.now(),
+      builder: (context, child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+          child: child!,
+        );
+      },
+    );
+
+    if (pickedTime != null) {
+      selectTimeListener.onSelectTime(pickedTime, dialogIdentifier);
     }
   }
 

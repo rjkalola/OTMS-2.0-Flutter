@@ -31,7 +31,8 @@ class DataUtils {
         name: 'company_details'.tr,
         action: AppConstants.action.companyDetails));
     arrayItems.add(ModuleInfo(name: 'settings'.tr));
-    arrayItems.add(ModuleInfo(name: 'trades'.tr));
+    arrayItems.add(ModuleInfo(
+        name: 'trades'.tr, action: AppConstants.action.companyTrades));
     arrayItems.add(ModuleInfo(name: 'blank'.tr));
     arrayItems.add(ModuleInfo(name: 'user_permissions'.tr));
 

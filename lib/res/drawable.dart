@@ -70,6 +70,10 @@ class Drawable {
   static const String timeClockImageTemp =
       'assets/images/ic_time_clock_temp.png';
   static const String bellIcon = 'assets/images/ic_bell.svg';
+  static const String arrowDownExpandCollapseIcon =
+      'assets/images/ic_arrow_down_expand_collapse.svg';
+  static const String arrowUpExpandCollapseIcon =
+      'assets/images/ic_arrow_up_expand_collapse.svg';
 
   static const String tab1Icon = 'assets/images/ic_home_tab.svg';
   static const String tab2Icon = 'assets/images/ic_tab2.svg';

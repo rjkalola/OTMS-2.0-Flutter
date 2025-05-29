@@ -290,7 +290,9 @@ class HomeTabController extends GetxController implements SelectItemListener {
   }
 
   onClickPermission(int index, PermissionInfo info) {
-    showControlPanelDialog();
+    if (info.slug == 'control_panel') {
+      showControlPanelDialog();
+    }
   }
 
   void showControlPanelDialog() {
@@ -308,6 +310,8 @@ class HomeTabController extends GetxController implements SelectItemListener {
   void onSelectItem(int position, int id, String name, String action) {
     if (action == AppConstants.action.companyDetails) {
       Get.toNamed(AppRoutes.companyDetailsScreen);
+    } else if (action == AppConstants.action.companyTrades) {
+      Get.toNamed(AppRoutes.companyTradesScreen);
     }
   }
 }

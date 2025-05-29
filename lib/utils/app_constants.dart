@@ -17,7 +17,8 @@ class AppConstants {
   // static const String defaultFlagUrl =
   //     "https://devcdn.otmsystem.com/flags/png/gb_32.png";
   static const String defaultFlagUrl = "assets/country_flag/gb.svg";
-  static const String permissionIconsAssetsPath = "assets/user_permission_icons/";
+  static const String permissionIconsAssetsPath =
+      "assets/user_permission_icons/";
   static bool isResourcesLoaded = false;
 }
 
@@ -61,6 +62,7 @@ class DialogIdentifier {
   final String selectCompanyAdmin = 'SELECT_COMPANY_ADMIN';
   final String establishedDate = 'ESTABLISHED_DATE';
   final String insuranceExpiryDate = 'INSURANCE_EXPIRY_DATE';
+  final String selectWorkingHourTime = 'SELECT_WORKING_HOUR_TIME';
 }
 
 class SharedPreferenceKey {
@@ -118,6 +120,7 @@ class Action {
   final String selectTradeListDialog = "selectTradeListDialog";
 
   final String companyDetails = "COMPANY_DETAILS";
+  final String companyTrades = "COMPANY_TRADES";
 }
 
 class StockCountType {
