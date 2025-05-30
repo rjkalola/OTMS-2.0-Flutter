@@ -104,6 +104,7 @@ class HomeTabController extends GetxController implements SelectItemListener {
           isMainViewVisible.value = true;
           UserPermissionsResponse response = UserPermissionsResponse.fromJson(
               jsonDecode(responseModel.result!));
+          response.permissions!.add(DataUtils.getEditWidget());
           AppStorage().setUserPermissionsResponse(response);
           listPermissions.clear();
           listPermissions.addAll(response.permissions ?? []);
@@ -232,24 +233,23 @@ class HomeTabController extends GetxController implements SelectItemListener {
       bool isInternet = await AppUtils.interNetCheck();
       int permissionId = list[newIndex].permissionId!;
       int newPosition = newIndex + 1;
-      if (isInternet) {
-        if (Get.find<AppStorage>().isLocalSequenceChanges()) {
-          changeDashboardUserPermissionMultipleSequenceApi(
-              isProgress: false,
-              isLoadPermissionList: false,
-              isChangeSequence: false,
-              permissionId: permissionId,
-              newPosition: newPosition);
+      if(movedItem.permissionId != -1){
+        if (isInternet) {
+          if (Get.find<AppStorage>().isLocalSequenceChanges()) {
+            changeDashboardUserPermissionMultipleSequenceApi(
+                isProgress: false,
+                isLoadPermissionList: false,
+                isChangeSequence: false,
+                permissionId: permissionId,
+                newPosition: newPosition);
+          } else {
+            changeDashboardUserPermissionSequenceApi(
+                false, permissionId, newPosition);
+          }
         } else {
-          changeDashboardUserPermissionSequenceApi(
-              false, permissionId, newPosition);
+          Get.find<AppStorage>().setLocalSequenceChanges(true);
         }
-      } else {
-        Get.find<AppStorage>().setLocalSequenceChanges(true);
       }
-      /*else {
-        addLocalSequenceChangeData(permissionId, newPosition);
-      }*/
     }
   }
 
@@ -294,6 +294,8 @@ class HomeTabController extends GetxController implements SelectItemListener {
   onClickPermission(int index, PermissionInfo info) {
     if (info.slug == 'control_panel') {
       showControlPanelDialog();
+    }else  if (info.slug == 'edit_widget') {
+      moveToScreen(AppRoutes.userPermissionScreen);
     }
   }
 

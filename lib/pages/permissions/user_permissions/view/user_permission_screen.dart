@@ -25,40 +25,49 @@ class _UserPermissionScreenState extends State<UserPermissionScreen> {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: Colors.white,
         statusBarIconBrightness: Brightness.dark));
-    return Container(
-      color: backgroundColor,
-      child: SafeArea(
-        child: Scaffold(
-          backgroundColor: backgroundColor,
-          appBar: BaseAppBar(
-            appBar: AppBar(),
-            title: 'widget'.tr,
-            isCenterTitle: false,
-            isBack: true,
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        Get.back(result: controller.isDataUpdated.value);
+      },
+      child: Container(
+        color: backgroundColor,
+        child: SafeArea(
+          child: Scaffold(
+            backgroundColor: backgroundColor,
+            appBar: BaseAppBar(
+              appBar: AppBar(),
+              title: 'widget'.tr,
+              isCenterTitle: false,
+              isBack: true,
+              onBackPressed: () {
+                Get.back(result: controller.isDataUpdated.value);
+              },
+            ),
+            body: Obx(() {
+              return ModalProgressHUD(
+                  inAsyncCall: controller.isLoading.value,
+                  opacity: 0,
+                  progressIndicator: const CustomProgressbar(),
+                  child: controller.isInternetNotAvailable.value
+                      ? NoInternetWidget(
+                          onPressed: () {
+                            controller.isInternetNotAvailable.value = false;
+                            controller.getCompanyPermissionsApi();
+                          },
+                        )
+                      : Visibility(
+                          visible: controller.isMainViewVisible.value,
+                          child: Column(
+                            children: [
+                              Divider(),
+                              SearchUserPermissionWidget(),
+                              UserPermissionsList()
+                            ],
+                          ),
+                        ));
+            }),
           ),
-          body: Obx(() {
-            return ModalProgressHUD(
-                inAsyncCall: controller.isLoading.value,
-                opacity: 0,
-                progressIndicator: const CustomProgressbar(),
-                child: controller.isInternetNotAvailable.value
-                    ? NoInternetWidget(
-                        onPressed: () {
-                          controller.isInternetNotAvailable.value = false;
-                          controller.getCompanyPermissionsApi();
-                        },
-                      )
-                    : Visibility(
-                        visible: controller.isMainViewVisible.value,
-                        child: Column(
-                          children: [
-                            Divider(),
-                            SearchUserPermissionWidget(),
-                            UserPermissionsList()
-                          ],
-                        ),
-                      ));
-          }),
         ),
       ),
     );

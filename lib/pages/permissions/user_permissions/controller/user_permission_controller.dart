@@ -19,7 +19,8 @@ class UserPermissionController extends GetxController {
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
-      isClearVisible = false.obs;
+      isClearVisible = false.obs,
+      isDataUpdated = false.obs;
   final searchController = TextEditingController().obs;
   final userPermissionList = <PermissionInfo>[].obs;
   List<PermissionInfo> tempList = [];
@@ -65,6 +66,7 @@ class UserPermissionController extends GetxController {
   }
 
   void changeCompanyPermissionStatusApi(int permissionId, bool status) async {
+    isDataUpdated.value = true;
     Map<String, dynamic> map = {};
     map["user_id"] = AppUtils.getLoginUserId();
     map["permission_id"] = permissionId;

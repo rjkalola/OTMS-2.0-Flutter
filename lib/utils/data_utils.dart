@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:otm_inventory/pages/dashboard/tabs/home_tab/model/dashboard_grid_item_info.dart';
+import 'package:otm_inventory/pages/dashboard/tabs/home_tab/model/permission_info.dart';
 import 'package:otm_inventory/pages/dashboard/tabs/home_tab2/model/DashboardActionItemInfo.dart';
 import 'package:otm_inventory/res/drawable.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
@@ -94,6 +95,14 @@ class DataUtils {
     'Chat',
     'Profile',
   ];
+
+  static PermissionInfo getEditWidget() {
+    return PermissionInfo(
+        name: 'edit_widget'.tr,
+        slug: "edit_widget",
+        permissionId: -1,
+        icon: "edit_widget.svg");
+  }
 
   static List<DashboardGridItemInfo> getDashboardGridItemsList() {
     var arrayItems = <DashboardGridItemInfo>[];

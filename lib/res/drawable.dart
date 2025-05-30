@@ -113,4 +113,6 @@ class Drawable {
   static const String usersPermissionIcon =
       'assets/user_permission_icons/users.svg';
   static const String tradesPermissionIcon = 'assets/user_permission_icons/trades.svg';
+  static const String editWidgetIcon =
+      'assets/user_permission_icons/edit_widget.svg';
 }

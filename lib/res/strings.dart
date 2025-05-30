@@ -193,7 +193,7 @@ class Strings extends Translations {
           'insurance_number': "Insurance Number",
           'insurance_expires_on': "Insurance expires on",
           'number_of_employee': "Number of Employees",
-          // '': "",
+          'edit_widget': "Edit Widget",
           // '': "",
           // '': "",
           // '': "",
