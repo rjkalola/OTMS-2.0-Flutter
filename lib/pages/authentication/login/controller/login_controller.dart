@@ -4,12 +4,9 @@ import 'dart:convert';
 import 'package:dio/dio.dart' as multi;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:otm_inventory/pages/authentication/login/controller/login_repository.dart';
-import 'package:otm_inventory/pages/authentication/login/models/RegisterResourcesResponse.dart';
-import 'package:otm_inventory/pages/authentication/login/models/VerifyPhoneResponse.dart';
-import 'package:otm_inventory/pages/common/model/user_info.dart';
 import 'package:otm_inventory/pages/common/listener/SelectPhoneExtensionListener.dart';
+import 'package:otm_inventory/pages/common/model/user_info.dart';
 import 'package:otm_inventory/pages/common/model/user_response.dart';
 import 'package:otm_inventory/pages/common/phone_extension_list_dialog.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
@@ -68,10 +65,13 @@ class LoginController extends GetxController
             UserResponse response =
                 UserResponse.fromJson(jsonDecode(responseModel.result!));
             AppUtils.showApiResponseMessage(response.message ?? "");
+            int companyId = response.info?.companyId ?? 0;
             Get.find<AppStorage>().setUserInfo(response.info!);
             Get.find<AppStorage>()
                 .setAccessToken(response.info!.apiToken ?? "");
             ApiConstants.accessToken = response.info!.apiToken ?? "";
+            Get.find<AppStorage>().setCompanyId(companyId);
+            ApiConstants.companyId = companyId;
             print("Token:" + ApiConstants.accessToken);
             AppUtils.saveLoginUser(response.info!);
             if ((response.info!.companyId ?? 0) != 0) {

@@ -82,7 +82,7 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         UploadPhotoView(),
-                                        PreferredImageSizeView(),
+                                        // PreferredImageSizeView(),
                                         TextFieldCompanyName(),
                                         TextFieldCompanyCode(),
                                         TextFieldCompanyAdmin(),

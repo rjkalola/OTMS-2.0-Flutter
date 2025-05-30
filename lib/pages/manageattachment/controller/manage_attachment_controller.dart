@@ -127,13 +127,12 @@ class ManageAttachmentController extends GetxController
 
   Future<void> cropCompanyLogo(
       String path, SelectAttachmentListener? listener) async {
-    print("cropCompanyLogo");
     attachmentListener ??= listener;
-    print("cropCompanyLogo 11111");
     CroppedFile? croppedFile = await ImageCropper().cropImage(
       sourcePath: path,
       compressFormat: ImageCompressFormat.png,
-      aspectRatio: CropAspectRatio(ratioX: 6, ratioY: 2.5),
+      // aspectRatio: CropAspectRatio(ratioX: 6, ratioY: 2.5),
+      aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
       uiSettings: [
         AndroidUiSettings(
           toolbarTitle: 'edit_photo'.tr,

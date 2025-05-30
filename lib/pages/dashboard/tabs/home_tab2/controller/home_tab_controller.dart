@@ -77,7 +77,7 @@ class HomeTabController extends GetxController {
           if (response.isSuccess!) {
             isMainViewVisible.value = true;
             dashboardResponse.value = response;
-          /*  var user = Get.find<AppStorage>().getUserInfo();
+          /*  var user_permissions = Get.find<AppStorage>().getUserInfo();
             if ((response.userTypeId ?? 0) != 0) {
               Map<String, dynamic> updatedJson = {
                 "user_type_id": response.userTypeId ?? 0,
@@ -92,7 +92,7 @@ class HomeTabController extends GetxController {
                 "company_name": response.companyName ?? "",
                 "company_image": response.companyImage ?? "",
               };
-              user = user.copyWith(
+              user_permissions = user_permissions.copyWith(
                   userTypeId: updatedJson['user_type_id'],
                   isOwner: updatedJson['is_owner'],
                   shiftId: updatedJson['shift_id'],
@@ -104,7 +104,7 @@ class HomeTabController extends GetxController {
                   companyId: updatedJson['company_id'],
                   companyName: updatedJson['company_name'],
                   companyImage: updatedJson['company_image']);
-              Get.find<AppStorage>().setUserInfo(user);
+              Get.find<AppStorage>().setUserInfo(user_permissions);
             }*/
             Get.find<AppStorage>().setDashboardResponse(response);
             if (!StringHelper.isEmptyString(response.checkinDateTime)) {

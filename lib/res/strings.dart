@@ -178,6 +178,7 @@ class Strings extends Translations {
           'trades': "Trades",
           'blank': "Blank",
           'user_permissions': "User Permissions",
+          'permissions': "Permissions",
           'company_code': "Company Code",
           'company_admin': "Company Admin",
           'company_address': "Company Address",

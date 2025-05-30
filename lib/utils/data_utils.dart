@@ -25,16 +25,27 @@ class DataUtils {
   static List<ModuleInfo> getControlPanelMenuItems() {
     var arrayItems = <ModuleInfo>[];
 
-    arrayItems.add(ModuleInfo(name: 'widget'.tr));
-    arrayItems.add(ModuleInfo(name: 'notification'.tr));
+    arrayItems.add(ModuleInfo(
+        name: 'widget'.tr,
+        action: AppConstants.action.userPermissions,
+        icon: Drawable.widgetIcon));
+    arrayItems
+        .add(ModuleInfo(name: 'notification'.tr, icon: Drawable.bellIcon));
     arrayItems.add(ModuleInfo(
         name: 'company_details'.tr,
-        action: AppConstants.action.companyDetails));
-    arrayItems.add(ModuleInfo(name: 'settings'.tr));
+        action: AppConstants.action.companyDetails,
+        icon: Drawable.usersPermissionIcon));
+    arrayItems.add(ModuleInfo(name: 'settings'.tr, icon: Drawable.settingIcon));
     arrayItems.add(ModuleInfo(
-        name: 'trades'.tr, action: AppConstants.action.companyTrades));
-    arrayItems.add(ModuleInfo(name: 'blank'.tr));
-    arrayItems.add(ModuleInfo(name: 'user_permissions'.tr));
+        name: 'trades'.tr,
+        action: AppConstants.action.companyTrades,
+        icon: Drawable.tradesPermissionIcon));
+    arrayItems
+        .add(ModuleInfo(name: 'blank'.tr, icon: Drawable.chartPermissionIcon));
+    arrayItems.add(ModuleInfo(
+        name: 'Permissions'.tr,
+        action: AppConstants.action.companyPermissions,
+        icon: Drawable.permissionIcon));
 
     return arrayItems;
   }

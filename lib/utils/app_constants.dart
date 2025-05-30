@@ -121,6 +121,8 @@ class Action {
 
   final String companyDetails = "COMPANY_DETAILS";
   final String companyTrades = "COMPANY_TRADES";
+  final String companyPermissions = "COMPANY_PERMISSIONS";
+  final String userPermissions = "USER_PERMISSIONS";
 }
 
 class StockCountType {

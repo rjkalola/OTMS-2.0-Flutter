@@ -3,8 +3,6 @@ import 'package:get/get.dart';
 import 'package:otm_inventory/pages/trades/controller/trades_controller.dart';
 import 'package:otm_inventory/pages/trades/view/widgets/company_sub_trade_list.dart';
 import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/res/drawable.dart';
-import 'package:otm_inventory/utils/image_utils.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
 
 class CompanyTradeList extends StatelessWidget {
@@ -24,38 +22,57 @@ class CompanyTradeList extends StatelessWidget {
                   onTap: () {},
                   child: Column(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(14, 16, 14, 0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            PrimaryTextView(
-                              text:
-                                  controller.companyTradesList[position].name ??
-                                      "",
-                              color: primaryTextColor,
-                              fontSize: 17,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            Icon(
-                              Icons.keyboard_arrow_down_outlined,
-                              size: 26,
-                            )
-                          ],
+                      GestureDetector(
+                        onTap: () {
+                          controller.companyTradesList[position].isExpanded =
+                              !(controller
+                                      .companyTradesList[position].isExpanded ??
+                                  false);
+                          controller.companyTradesList.refresh();
+                        },
+                        child: Container(
+                          color: Colors.transparent,
+                          width: double.infinity,
+                          padding: const EdgeInsets.fromLTRB(14, 16, 14, 0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              PrimaryTextView(
+                                text: controller
+                                        .companyTradesList[position].name ??
+                                    "",
+                                color: primaryTextColor,
+                                fontSize: 17,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              !(controller.companyTradesList[position]
+                                          .isExpanded ??
+                                      false)
+                                  ? Icon(
+                                      Icons.keyboard_arrow_up_outlined,
+                                      size: 26,
+                                    )
+                                  : Icon(
+                                      Icons.keyboard_arrow_down_outlined,
+                                      size: 26,
+                                    )
+                            ],
+                          ),
                         ),
                       ),
                       SizedBox(
                         height: 10,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                        child: Divider(
-                          height: 0,
-                          color: dividerColor,
-                          thickness: 2,
-                        ),
+                      Divider(
+                        height: 0,
+                        color: dividerColor,
+                        thickness: 2,
                       ),
-                      CompanySubTradeList(parentPosition: position),
+                      Visibility(
+                          visible: !(controller
+                                  .companyTradesList[position].isExpanded ??
+                              false),
+                          child: CompanySubTradeList(parentPosition: position)),
                     ],
                   ),
                 );

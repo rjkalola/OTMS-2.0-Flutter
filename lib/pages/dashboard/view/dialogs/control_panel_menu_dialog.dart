@@ -100,7 +100,7 @@ class ControlPanelMenuDialogState extends State<ControlPanelMenuDialog> {
                 child: Row(
                   children: [
                     Container(
-                      padding: EdgeInsets.all(7),
+                      padding: EdgeInsets.all(9),
                       width: 44,
                       height: 44,
                       decoration: AppUtils.getGrayBorderDecoration(
@@ -108,7 +108,8 @@ class ControlPanelMenuDialogState extends State<ControlPanelMenuDialog> {
                           borderColor: dividerColor,
                           borderWidth: 1),
                       child: ImageUtils.setSvgAssetsImage(
-                          path: Drawable.truckPermissionIcon,
+                          path: tempList[position].icon ??
+                              Drawable.truckPermissionIcon,
                           width: 24,
                           height: 24),
                     ),

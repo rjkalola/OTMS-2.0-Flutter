@@ -6,6 +6,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   final title;
   final isBack;
   final isCenterTitle;
+  final VoidCallback? onBackPressed;
   final List<Widget>? widgets;
 
   BaseAppBar(
@@ -14,7 +15,8 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
       this.title,
       this.isCenterTitle,
       this.isBack = false,
-      this.widgets});
+      this.widgets,
+      this.onBackPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
             size: 20,
           ),
           onPressed: () {
-            Get.back();
+            onBackPressed != null ? onBackPressed!() : Get.back();
           },
         ),
         scrolledUnderElevation: 0);

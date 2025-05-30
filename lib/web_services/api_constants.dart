@@ -38,19 +38,26 @@ class ApiConstants {
   static String editCompanyUrl = '$appUrl/company/edit-company';
   static String getCompanyDetailsUrl = '$appUrl/company/get-company';
 
- //dashboard
-  static String getDashboardUserPermissionsUrl =
-      '$appUrl/dashboard/user-permissions';
+  //dashboard
   static String changeDashboardUserPermissionSequenceUrl =
       '$appUrl/dashboard/user/change-permission-sequence';
   static String changeDashboardUserPermissionMultipleSequenceUrl =
       '$appUrl/dashboard/user/change-bulk-sequence';
 
-
   //trades
   static String getCompanyTradesUrl = '$appUrl/trade/get-company-trades';
-  static String changeCompanyTradeStatus = '$appUrl/trade/change-company-trade-status';
+  static String changeCompanyTradeStatus =
+      '$appUrl/trade/change-company-trade-status';
 
+  //company permissions
+  static String getCompanyPermissions = '$appUrl/dashboard/company/permissions';
+  static String changeCompanyPermissionStatus =
+      '$appUrl/dashboard/company/change-permission-status';
+
+  //user permissions
+  static String getUserPermissions = '$appUrl/dashboard/user/permissions';
+  static String changeUserPermissionStatus =
+      '$appUrl/dashboard/user/change-permission-status';
 
   static String registerResourcesUrl = '$appUrl/wn-resources';
   static String verifyPhoneUrl = '$appUrl/verify-phone';

@@ -5,7 +5,7 @@ class TradeInfo {
   String? updatedAt;
   String? deletedAt;
   List<TradeInfo>? trades;
-  bool? status;
+  bool? status, isExpanded = false;
 
   TradeInfo(
       {this.id,
@@ -14,7 +14,8 @@ class TradeInfo {
       this.updatedAt,
       this.deletedAt,
       this.trades,
-      this.status});
+      this.status,
+      this.isExpanded});
 
   TradeInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -29,6 +30,7 @@ class TradeInfo {
       });
     }
     status = json['status'];
+    isExpanded = json['isExpanded'];
   }
 
   Map<String, dynamic> toJson() {
@@ -42,6 +44,7 @@ class TradeInfo {
       data['trades'] = this.trades!.map((v) => v.toJson()).toList();
     }
     data['status'] = this.status;
+    data['isExpanded'] = this.isExpanded;
     return data;
   }
 }

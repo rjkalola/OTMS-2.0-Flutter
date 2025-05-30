@@ -9,7 +9,7 @@ class HomeTabRepository {
     Function(ResponseModel error)? onError,
   }) {
     ApiRequest(
-            url: ApiConstants.getDashboardUserPermissionsUrl,
+            url: ApiConstants.getUserPermissions,
             data: data,
             isFormData: false)
         .getRequest(

@@ -75,6 +75,10 @@ class Drawable {
   static const String arrowUpExpandCollapseIcon =
       'assets/images/ic_arrow_up_expand_collapse.svg';
 
+  static const String permissionIcon = 'assets/images/ic_permission.svg';
+  static const String widgetIcon = 'assets/images/ic_widget.svg';
+  static const String settingIcon = 'assets/images/ic_setting.svg';
+
   static const String tab1Icon = 'assets/images/ic_home_tab.svg';
   static const String tab2Icon = 'assets/images/ic_tab2.svg';
   static const String tab3Icon = 'assets/images/ic_tab3.svg';
@@ -108,4 +112,5 @@ class Drawable {
       'assets/user_permission_icons/truck.svg';
   static const String usersPermissionIcon =
       'assets/user_permission_icons/users.svg';
+  static const String tradesPermissionIcon = 'assets/user_permission_icons/trades.svg';
 }

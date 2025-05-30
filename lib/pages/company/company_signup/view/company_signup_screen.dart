@@ -75,7 +75,7 @@ class _CompanySignUpScreenState extends State<CompanySignUpScreen> {
                                 title: 'whats_your_company_details'.tr,
                               ),
                               UploadPhotoView(),
-                              PreferredImageSizeView(),
+                              // PreferredImageSizeView(),
                               // SizedBox(
                               //   height: 26,
                               // ),

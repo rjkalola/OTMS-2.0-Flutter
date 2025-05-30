@@ -95,6 +95,8 @@ class HomeTabController extends GetxController implements SelectItemListener {
     Map<String, dynamic> map = {};
     map["user_id"] = UserUtils.getLoginUserId();
     map["company_id"] = ApiConstants.companyId;
+    map["status"] = 1;
+
     _api.getDashboardUserPermissionsApi(
       data: map,
       onSuccess: (ResponseModel responseModel) {
@@ -312,6 +314,19 @@ class HomeTabController extends GetxController implements SelectItemListener {
       Get.toNamed(AppRoutes.companyDetailsScreen);
     } else if (action == AppConstants.action.companyTrades) {
       Get.toNamed(AppRoutes.companyTradesScreen);
+    } else if (action == AppConstants.action.companyPermissions) {
+      // Get.toNamed(AppRoutes.companyPermissionScreen);
+      moveToScreen(AppRoutes.companyPermissionScreen);
+    } else if (action == AppConstants.action.userPermissions) {
+      // Get.toNamed(AppRoutes.userPermissionScreen);
+      moveToScreen(AppRoutes.userPermissionScreen);
+    }
+  }
+
+  Future<void> moveToScreen(String appRout) async {
+    var result = await Get.toNamed(appRout);
+    if (result != null && result) {
+      getDashboardUserPermissionsApi(false);
     }
   }
 }

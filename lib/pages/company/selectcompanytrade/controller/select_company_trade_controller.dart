@@ -83,8 +83,8 @@ class SelectCompanyTradeController extends GetxController
               JoinCompanyResponse.fromJson(jsonDecode(responseModel.result!));
           if (response.isSuccess!) {
             if (response.info != null) {
-             /* UserInfo? user = AppStorage().getUserInfo();
-              if (user != null &&
+             /* UserInfo? user_permissions = AppStorage().getUserInfo();
+              if (user_permissions != null &&
                   !StringHelper.isEmptyString(
                       response.Data?.companyName ?? "")) {
                 AppUtils.showToastMessage(

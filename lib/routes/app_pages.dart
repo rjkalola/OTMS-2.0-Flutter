@@ -16,6 +16,8 @@ import 'package:otm_inventory/pages/company/company_details/view/company_details
 import 'package:otm_inventory/pages/company/company_signup/view/company_signup_screen.dart';
 import 'package:otm_inventory/pages/company/joincompany/view/join_comapny_screen.dart';
 import 'package:otm_inventory/pages/company/selectcompanytrade/view/select_company_trade_screen.dart';
+import 'package:otm_inventory/pages/permissions/company_permissions/view/company_permission_screen.dart';
+import 'package:otm_inventory/pages/permissions/user_permissions/view/user_permission_screen.dart';
 import 'package:otm_inventory/pages/qr_code_scanner/view/qr_code_scanner.dart';
 import 'package:otm_inventory/pages/trades/view/company_trades_screen.dart';
 import '../pages/stock_filter/view/stock_filter_screen.dart';
@@ -102,6 +104,14 @@ class AppPages {
     GetPage(
       name: AppRoutes.companyTradesScreen,
       page: () => CompanyTradesScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.companyPermissionScreen,
+      page: () => CompanyPermissionScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.userPermissionScreen,
+      page: () => UserPermissionScreen(),
     ),
   ];
 }

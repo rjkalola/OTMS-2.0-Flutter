@@ -21,8 +21,8 @@ class UploadPhotoView extends StatelessWidget {
             controller.onSelectCompanyLogo();
           },
           child: Container(
-            width: 240,
-            height: 100,
+            width: 120,
+            height: 120,
             alignment: Alignment.centerLeft,
             margin: const EdgeInsets.only(left: 16, top: 4, right: 16),
             padding: const EdgeInsets.all(10.0),

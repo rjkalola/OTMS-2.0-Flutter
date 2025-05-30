@@ -50,7 +50,7 @@ class JoinCompanyController extends GetxController
   void onInit() {
     super.onInit();
     // getCompaniesApi();
-    getTradeDataApi();
+    // getTradeDataApi();
   }
 
   onClickSearch() {
@@ -118,9 +118,10 @@ class JoinCompanyController extends GetxController
   }
 
   void getTradeDataApi() {
-    // isLoading.value = true;
+    isLoading.value = true;
     Map<String, dynamic> map = {};
     map["flag"] = "tradeList";
+    map["company_id"] = ApiConstants.companyId;
     _api.getTradeListApi(
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
@@ -129,6 +130,8 @@ class JoinCompanyController extends GetxController
               TradeListResponse.fromJson(jsonDecode(responseModel.result!));
           if (!StringHelper.isEmptyList(response.info)) {
             listTrades.addAll(response.info!);
+            isOtpViewVisible.value = false;
+            isSelectTradeVisible.value = true;
           }
         } else {
           // AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
@@ -257,8 +260,7 @@ class JoinCompanyController extends GetxController
           Get.find<AppStorage>().setUserInfo(userInfo);
           Get.find<AppStorage>().setCompanyId(companyId);
           ApiConstants.companyId = companyId;
-          isOtpViewVisible.value = false;
-          isSelectTradeVisible.value = true;
+          getTradeDataApi();
           // moveToDashboard();
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");

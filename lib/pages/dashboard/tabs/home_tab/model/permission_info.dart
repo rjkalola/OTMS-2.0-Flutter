@@ -8,6 +8,7 @@ class PermissionInfo {
   String? value;
   String? slug;
   String? icon;
+  String? color;
   bool? isSequenceChanged;
 
   PermissionInfo(
@@ -20,6 +21,7 @@ class PermissionInfo {
       this.value,
       this.slug,
       this.icon,
+      this.color,
       this.isSequenceChanged});
 
   PermissionInfo.fromJson(Map<String, dynamic> json) {
@@ -32,6 +34,7 @@ class PermissionInfo {
     value = json['value'];
     slug = json['slug'];
     icon = json['icon'];
+    color =  json['color'];
     isSequenceChanged = json['isSequenceChanged'];
   }
 
@@ -46,6 +49,7 @@ class PermissionInfo {
     data['value'] = this.value;
     data['slug'] = this.slug;
     data['icon'] = this.icon;
+    data['color'] = this.color;
     data['isSequenceChanged'] = this.isSequenceChanged;
     return data;
   }

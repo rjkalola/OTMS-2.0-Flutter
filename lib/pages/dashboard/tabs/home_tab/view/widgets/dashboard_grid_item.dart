@@ -38,7 +38,8 @@ class DashboardGridItem extends StatelessWidget {
                 path: "${AppConstants.permissionIconsAssetsPath}${info.icon}",
                 // path: Drawable.truckPermissionIcon,
                 width: 26,
-                height: 26),
+                height: 26,
+                color: Color(AppUtils.haxColor(info.color ?? "#000000"))),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
