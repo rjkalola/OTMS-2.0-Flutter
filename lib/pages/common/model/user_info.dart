@@ -2,6 +2,7 @@ class UserInfo {
   int? id;
   String? firstName;
   String? lastName;
+  String? name;
   String? email;
   String? phone;
   String? extension;
@@ -17,6 +18,7 @@ class UserInfo {
       {this.id,
       this.firstName,
       this.lastName,
+      this.name,
       this.email,
       this.phone,
       this.extension,
@@ -32,6 +34,7 @@ class UserInfo {
     id = json['id'];
     firstName = json['first_name'];
     lastName = json['last_name'];
+    name = json['name'];
     email = json['email'];
     phone = json['phone'];
     extension = json['extension'];
@@ -49,6 +52,7 @@ class UserInfo {
     data['id'] = this.id;
     data['first_name'] = this.firstName;
     data['last_name'] = this.lastName;
+    data['name'] = this.name;
     data['email'] = this.email;
     data['phone'] = this.phone;
     data['extension'] = this.extension;
@@ -67,6 +71,7 @@ class UserInfo {
     int? id,
     String? firstName,
     String? lastName,
+    String? name,
     String? email,
     String? phone,
     String? extension,
@@ -82,6 +87,7 @@ class UserInfo {
       id: id ?? this.id,
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
+      name: name ?? this.name,
       email: email ?? this.email,
       phone: phone ?? this.phone,
       extension: extension ?? this.extension,

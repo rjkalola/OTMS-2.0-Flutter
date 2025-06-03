@@ -27,6 +27,7 @@ import 'package:otm_inventory/pages/permissions/company_permissions/view/widgets
 import 'package:otm_inventory/pages/trades/controller/trades_controller.dart';
 import 'package:otm_inventory/pages/trades/view/widgets/company_trade_list.dart';
 import 'package:otm_inventory/res/colors.dart';
+import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
 import 'package:otm_inventory/widgets/buttons/ContinueButton.dart';
@@ -51,7 +52,10 @@ class _CompanyPermissionScreenState extends State<CompanyPermissionScreen> {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) async {
-        Get.back(result: controller.isDataUpdated.value);
+        // if (didPop && result == null) {
+        controller.onBackPress();
+        // }
+        // Get.back(result: controller.isDataUpdated.value);
       },
       child: Container(
         color: backgroundColor,
@@ -64,7 +68,8 @@ class _CompanyPermissionScreenState extends State<CompanyPermissionScreen> {
               isCenterTitle: false,
               isBack: true,
               onBackPressed: () {
-                Get.back(result: controller.isDataUpdated.value);
+                controller.onBackPress();
+                // Get.back(result: controller.isDataUpdated.value);
               },
             ),
             body: Obx(() {

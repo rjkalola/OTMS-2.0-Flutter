@@ -8,6 +8,7 @@ class AppConstants {
   static const UserType userType = UserType();
   static const Type type = Type();
   static const ShiftType shiftType = ShiftType();
+  static const Results results = Results();
 
   static const String deviceType = "1";
   static const int productListLimit = 20;
@@ -20,6 +21,11 @@ class AppConstants {
   static const String permissionIconsAssetsPath =
       "assets/user_permission_icons/";
   static bool isResourcesLoaded = false;
+}
+
+class Results {
+  const Results();
+  final String permissionUsersChanged = 'PERMISSION_USERS_CHANGED';
 }
 
 class IntentKey {
@@ -42,6 +48,9 @@ class IntentKey {
   final String addressList = 'ADDRESS_LIST';
   final String permissionStep1Info = "PERMISSION_STEP1_INFO";
   final String permissionStep2Info = "PERMISSION_STEP2_INFO";
+  final String permissionId = "PERMISSION_ID";
+  final String teamId = "TEAM_ID";
+  final String userId = "USER_ID";
 }
 
 class DialogIdentifier {

@@ -41,4 +41,7 @@ class AppRoutes {
   static const String companyTradesScreen = '/company_trades_screen';
   static const String companyPermissionScreen = '/company_permission_screen';
   static const String userPermissionScreen = '/user_permission_screen';
+  static const String permissionUsersScreen = '/permission_users_screen';
+  static const String teamListScreen = '/team_list_screen';
+  static const String teamGenerateOtpScreen = '/team_generate_otp_screen';
 }

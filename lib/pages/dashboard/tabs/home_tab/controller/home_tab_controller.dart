@@ -233,7 +233,7 @@ class HomeTabController extends GetxController implements SelectItemListener {
       bool isInternet = await AppUtils.interNetCheck();
       int permissionId = list[newIndex].permissionId!;
       int newPosition = newIndex + 1;
-      if(movedItem.permissionId != -1){
+      if (movedItem.permissionId != -1) {
         if (isInternet) {
           if (Get.find<AppStorage>().isLocalSequenceChanges()) {
             changeDashboardUserPermissionMultipleSequenceApi(
@@ -294,8 +294,14 @@ class HomeTabController extends GetxController implements SelectItemListener {
   onClickPermission(int index, PermissionInfo info) {
     if (info.slug == 'control_panel') {
       showControlPanelDialog();
-    }else  if (info.slug == 'edit_widget') {
-      moveToScreen(AppRoutes.userPermissionScreen);
+    } else if (info.slug == 'edit_widget') {
+      var arguments = {
+        AppConstants.intentKey.userId: UserUtils.getLoginUserId(),
+      };
+      moveToScreen(
+          appRout: AppRoutes.userPermissionScreen, arguments: arguments);
+    } else if (info.slug == 'team') {
+      Get.toNamed(AppRoutes.teamListScreen);
     }
   }
 
@@ -317,16 +323,19 @@ class HomeTabController extends GetxController implements SelectItemListener {
     } else if (action == AppConstants.action.companyTrades) {
       Get.toNamed(AppRoutes.companyTradesScreen);
     } else if (action == AppConstants.action.companyPermissions) {
-      // Get.toNamed(AppRoutes.companyPermissionScreen);
-      moveToScreen(AppRoutes.companyPermissionScreen);
+      moveToScreen(appRout: AppRoutes.companyPermissionScreen);
     } else if (action == AppConstants.action.userPermissions) {
-      // Get.toNamed(AppRoutes.userPermissionScreen);
-      moveToScreen(AppRoutes.userPermissionScreen);
+      var arguments = {
+        AppConstants.intentKey.userId: UserUtils.getLoginUserId(),
+      };
+      moveToScreen(
+          appRout: AppRoutes.userPermissionScreen, arguments: arguments);
     }
   }
 
-  Future<void> moveToScreen(String appRout) async {
-    var result = await Get.toNamed(appRout);
+  Future<void> moveToScreen(
+      {required String appRout, dynamic arguments}) async {
+    var result = await Get.toNamed(appRout, arguments: arguments);
     if (result != null && result) {
       getDashboardUserPermissionsApi(false);
     }

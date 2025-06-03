@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -28,7 +30,10 @@ class _UserPermissionScreenState extends State<UserPermissionScreen> {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) async {
-        Get.back(result: controller.isDataUpdated.value);
+        controller.onBackPress();
+        // print(jsonEncode(controller.getRequestData()));
+        // controller.getRequestData();
+        // Get.back(result: controller.isDataUpdated.value);
       },
       child: Container(
         color: backgroundColor,
@@ -41,7 +46,8 @@ class _UserPermissionScreenState extends State<UserPermissionScreen> {
               isCenterTitle: false,
               isBack: true,
               onBackPressed: () {
-                Get.back(result: controller.isDataUpdated.value);
+                controller.onBackPress();
+                // Get.back(result: controller.isDataUpdated.value);
               },
             ),
             body: Obx(() {

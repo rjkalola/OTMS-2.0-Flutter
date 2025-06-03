@@ -7,6 +7,8 @@ import 'package:otm_inventory/pages/dashboard/tabs/home_tab/model/permission_inf
 import 'package:otm_inventory/pages/dashboard/tabs/home_tab/model/user_permissions_response.dart';
 import 'package:otm_inventory/pages/permissions/company_permissions/controller/company_permissions_repository.dart';
 import 'package:otm_inventory/pages/permissions/user_permissions/controller/user_permissions_repository.dart';
+import 'package:otm_inventory/pages/permissions/user_permissions/model/save_user_permission_request.dart';
+import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:otm_inventory/utils/user_utils.dart';
@@ -24,10 +26,15 @@ class UserPermissionController extends GetxController {
   final searchController = TextEditingController().obs;
   final userPermissionList = <PermissionInfo>[].obs;
   List<PermissionInfo> tempList = [];
+  int userId = 0;
 
   @override
   void onInit() {
     super.onInit();
+    var arguments = Get.arguments;
+    if (arguments != null) {
+      userId = arguments[AppConstants.intentKey.userId] ?? 0;
+    }
     getCompanyPermissionsApi();
   }
 
@@ -35,7 +42,7 @@ class UserPermissionController extends GetxController {
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
-    map["user_id"] = UserUtils.getLoginUserId();
+    map["user_id"] = userId;
     _api.getUserPermissions(
       data: map,
       onSuccess: (ResponseModel responseModel) {
@@ -65,18 +72,21 @@ class UserPermissionController extends GetxController {
     );
   }
 
-  void changeCompanyPermissionStatusApi(int permissionId, bool status) async {
-    isDataUpdated.value = true;
+  void changeUserBulkPermissionStatusApi(
+      {int? permissionId, bool? status}) async {
     Map<String, dynamic> map = {};
-    map["user_id"] = AppUtils.getLoginUserId();
-    map["permission_id"] = permissionId;
-    map["status"] = status ? 1 : 0;
+    map["user_id"] = userId;
+    map["company_id"] = ApiConstants.companyId;
+    // map["permission_id"] = permissionId;
+    // map["status"] = status ? 1 : 0;
+    map["permissions"] = getRequestData();
 
-    // isLoading.value = true;
-    _api.changeUserPermissionStatus(
+    isLoading.value = true;
+    _api.changeUserBulkPermissionStatus(
       data: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
+          Get.back(result: true);
           // BaseResponse response =
           //     BaseResponse.fromJson(jsonDecode(responseModel.result!));
           // AppUtils.showApiResponseMessage(response.Message ?? "");
@@ -110,5 +120,25 @@ class UserPermissionController extends GetxController {
           .toList();
     }
     userPermissionList.value = results;
+  }
+
+  List<SaveUserPermissionRequest> getRequestData() {
+    List<SaveUserPermissionRequest> list = [];
+    if (userPermissionList.isNotEmpty) {
+      for (var info in userPermissionList) {
+        list.add(SaveUserPermissionRequest(
+            permissionId: info.permissionId,
+            status: (info.status ?? false) ? 1 : 0));
+      }
+    }
+    return list;
+  }
+
+  void onBackPress() {
+    if (isDataUpdated.value) {
+      changeUserBulkPermissionStatusApi();
+    } else {
+      Get.back();
+    }
   }
 }

@@ -51,13 +51,32 @@ class ApiConstants {
 
   //company permissions
   static String getCompanyPermissions = '$appUrl/dashboard/company/permissions';
-  static String changeCompanyPermissionStatus =
-      '$appUrl/dashboard/company/change-permission-status';
+
+  // static String changeCompanyPermissionStatus =
+  //     '$appUrl/dashboard/company/change-permission-status';
+  static String changeCompanyBulkPermissionStatus =
+      '$appUrl/dashboard/company/change-bulk-permission-status';
 
   //user permissions
   static String getUserPermissions = '$appUrl/dashboard/user/permissions';
-  static String changeUserPermissionStatus =
-      '$appUrl/dashboard/user/change-permission-status';
+
+  // static String changeUserPermissionStatus =
+  //     '$appUrl/dashboard/user/change-permission-status';
+  static String changeUserBulkPermissionStatus =
+      '$appUrl/dashboard/user/change-bulk-permission-status';
+
+  //permission users
+  static String getPermissionUsers =
+      '$appUrl/dashboard/company/users-permissions-status';
+  static String changePermissionUserStatus =
+      '$appUrl/dashboard/company/change-users-permission-status';
+
+  //users
+  static String userList = '$appUrl/user/list';
+
+  //teams
+  static String teamList = '$appUrl/team/list';
+  static String teamGenerateOtp = '$appUrl/team/generate-otp';
 
   static String registerResourcesUrl = '$appUrl/wn-resources';
   static String verifyPhoneUrl = '$appUrl/verify-phone';

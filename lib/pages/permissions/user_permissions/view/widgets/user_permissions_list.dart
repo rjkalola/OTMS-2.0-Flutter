@@ -25,8 +25,7 @@ class UserPermissionsList extends StatelessWidget {
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
               itemBuilder: (context, position) {
-                PermissionInfo info =
-                    controller.userPermissionList[position];
+                PermissionInfo info = controller.userPermissionList[position];
                 return Padding(
                   padding: const EdgeInsets.fromLTRB(16, 9, 16, 9),
                   child: Container(
@@ -72,8 +71,9 @@ class UserPermissionsList extends StatelessWidget {
                               print("value:" + value.toString());
                               info.status = !info.status!;
                               controller.userPermissionList.refresh();
-                              controller.changeCompanyPermissionStatusApi(
-                                  info.permissionId ?? 0, value);
+                              controller.isDataUpdated.value = true;
+                              // controller.changeCompanyPermissionStatusApi(
+                              //     info.permissionId ?? 0, value);
                             },
                             mValue: info.status)
                       ],

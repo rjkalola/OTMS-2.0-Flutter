@@ -28,7 +28,7 @@ class DataUtils {
 
     arrayItems.add(ModuleInfo(
         name: 'widget'.tr,
-        action: AppConstants.action.userPermissions,
+        action: AppConstants.action.companyPermissions,
         icon: Drawable.widgetIcon));
     arrayItems
         .add(ModuleInfo(name: 'notification'.tr, icon: Drawable.bellIcon));
@@ -45,7 +45,7 @@ class DataUtils {
         .add(ModuleInfo(name: 'blank'.tr, icon: Drawable.chartPermissionIcon));
     arrayItems.add(ModuleInfo(
         name: 'Permissions'.tr,
-        action: AppConstants.action.companyPermissions,
+        action: AppConstants.action.userPermissions,
         icon: Drawable.permissionIcon));
 
     return arrayItems;

@@ -10,9 +10,7 @@ class UserPermissionsRepository {
     Function(ResponseModel error)? onError,
   }) {
     ApiRequest(
-            url: ApiConstants.getUserPermissions,
-            data: data,
-            isFormData: false)
+            url: ApiConstants.getUserPermissions, data: data, isFormData: false)
         .getRequest(
       onSuccess: (data) {
         onSuccess!(data);
@@ -21,13 +19,13 @@ class UserPermissionsRepository {
     );
   }
 
-  void changeUserPermissionStatus({
+  void changeUserBulkPermissionStatus({
     dynamic data,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
     ApiRequest(
-            url: ApiConstants.changeUserPermissionStatus,
+            url: ApiConstants.changeUserBulkPermissionStatus,
             data: data,
             isFormData: false)
         .postRequest(

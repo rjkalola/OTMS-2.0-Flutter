@@ -21,15 +21,15 @@ class CompanyPermissionsRepository {
     );
   }
 
-  void changeCompanyPermissionStatus({
+  void changeCompanyBulkPermissionStatus({
     dynamic data,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
     ApiRequest(
-            url: ApiConstants.changeCompanyPermissionStatus,
-            data: data,
-            isFormData: false)
+        url: ApiConstants.changeCompanyBulkPermissionStatus,
+        data: data,
+        isFormData: false)
         .postRequest(
       onSuccess: (data) {
         onSuccess!(data);
