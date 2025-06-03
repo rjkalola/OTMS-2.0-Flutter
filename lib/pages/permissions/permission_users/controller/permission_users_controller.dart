@@ -20,7 +20,8 @@ class PermissionUsersController extends GetxController {
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
       isClearVisible = false.obs,
-      isDataUpdated = false.obs;
+      isDataUpdated = false.obs,
+      isHandlingPop = false.obs;
   final searchController = TextEditingController().obs;
   final permissionUsersList = <PermissionUserInfo>[].obs;
   List<PermissionUserInfo> tempList = [];
@@ -70,7 +71,8 @@ class PermissionUsersController extends GetxController {
     );
   }
 
-  Future<void> changePermissionUserStatusApi() async {
+  Future<bool> changePermissionUserStatusApi() async {
+    bool isLoadedApi = false;
     Map<String, dynamic> map = {};
     map["permission_id"] = permissionId;
     map["company_id"] = ApiConstants.companyId;
@@ -89,6 +91,7 @@ class PermissionUsersController extends GetxController {
           // AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;
+        isLoadedApi = true;
       },
       onError: (ResponseModel error) {
         isLoading.value = false;
@@ -96,8 +99,11 @@ class PermissionUsersController extends GetxController {
           isInternetNotAvailable.value = true;
           // AppUtils.showApiResponseMessage('no_internet'.tr);
         }
+        isLoadedApi = true;
       },
     );
+
+    return isLoadedApi;
   }
 
   Future<void> searchItem(String value) async {

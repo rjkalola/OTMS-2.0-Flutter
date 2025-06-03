@@ -23,6 +23,7 @@ import 'package:otm_inventory/pages/qr_code_scanner/view/qr_code_scanner.dart';
 import 'package:otm_inventory/pages/teams/team_generate_otp/view/team_generate_otp_screen.dart';
 import 'package:otm_inventory/pages/teams/team_list/view/team_list_screen.dart';
 import 'package:otm_inventory/pages/trades/view/company_trades_screen.dart';
+import 'package:otm_inventory/pages/users/user_list/view/user_list_screen.dart';
 import '../pages/stock_filter/view/stock_filter_screen.dart';
 import 'app_routes.dart';
 
@@ -127,6 +128,10 @@ class AppPages {
     GetPage(
       name: AppRoutes.teamGenerateOtpScreen,
       page: () => TeamGenerateOtpScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.userListScreen,
+      page: () => UserListScreen(),
     ),
   ];
 }

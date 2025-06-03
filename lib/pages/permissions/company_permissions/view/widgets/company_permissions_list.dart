@@ -78,16 +78,16 @@ class CompanyPermissionsList extends StatelessWidget {
                               ],
                             ),
                           ),
-                          CustomSwitch(
-                              onValueChange: (value) {
-                                print("value:" + value.toString());
-                                info.status = !info.status!;
-                                controller.companyPermissionList.refresh();
-                                controller.isDataUpdated.value = true;
-                                // controller.changeCompanyPermissionStatusApi(
-                                //     info.permissionId ?? 0, value);
-                              },
-                              mValue: info.status)
+                          // CustomSwitch(
+                          //     onValueChange: (value) {
+                          //       print("value:" + value.toString());
+                          //       info.status = !info.status!;
+                          //       controller.companyPermissionList.refresh();
+                          //       controller.isDataUpdated.value = true;
+                          //       // controller.changeCompanyPermissionStatusApi(
+                          //       //     info.permissionId ?? 0, value);
+                          //     },
+                          //     mValue: info.status)
                         ],
                       ),
                     ),

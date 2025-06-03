@@ -44,7 +44,7 @@ class DataUtils {
     arrayItems
         .add(ModuleInfo(name: 'blank'.tr, icon: Drawable.chartPermissionIcon));
     arrayItems.add(ModuleInfo(
-        name: 'Permissions'.tr,
+        name: 'user_permissions'.tr,
         action: AppConstants.action.userPermissions,
         icon: Drawable.permissionIcon));
 

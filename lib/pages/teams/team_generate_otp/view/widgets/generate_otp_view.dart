@@ -54,6 +54,7 @@ class GenerateOtpView extends StatelessWidget {
               child: SizedBox(
                 width: 300,
                 child: PinFieldAutoFill(
+                  enabled: false,
                   controller: otpController.value,
                   currentCode: mOtpCode?.value ?? "",
                   keyboardType: TextInputType.number,
@@ -85,21 +86,31 @@ class GenerateOtpView extends StatelessWidget {
                 ),
               ),
             ),
+            // SizedBox(
+            //   height: 14,
+            // ),
+            // PrimaryTextView(
+            //   text: "${'resend_code_in'.tr} ${"15:00"}",
+            //   fontSize: 16,
+            //   color: primaryTextColor,
+            //   fontWeight: FontWeight.w400,
+            //   textAlign: TextAlign.center,
+            // ),
             SizedBox(
-              height: 14,
+              height: 18,
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 14, 16, 20),
-              child: SizedBox(
-                width: double.infinity,
-                child: PrimaryButton(
-                    buttonText: 'generate'.tr,
-                    fontWeight: FontWeight.w400,
-                    onPressed: () {
-                      controller.teamGenerateOtpApi();
-                    }),
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.fromLTRB(16, 14, 16, 20),
+            //   child: SizedBox(
+            //     width: double.infinity,
+            //     child: PrimaryButton(
+            //         buttonText: 'generate'.tr,
+            //         fontWeight: FontWeight.w400,
+            //         onPressed: () {
+            //           controller.teamGenerateOtpApi();
+            //         }),
+            //   ),
+            // ),
           ],
         ),
       ),

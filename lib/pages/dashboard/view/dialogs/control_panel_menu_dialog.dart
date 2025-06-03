@@ -86,7 +86,7 @@ class ControlPanelMenuDialogState extends State<ControlPanelMenuDialog> {
         itemBuilder: (context, position) {
           return GestureDetector(
             onTap: () {
-              Get.back();
+              // Get.back();
               listener.onSelectItem(
                   position,
                   tempList[position].id ?? 0,

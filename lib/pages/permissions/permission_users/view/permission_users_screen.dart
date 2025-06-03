@@ -28,7 +28,8 @@ class _PermissionUsersScreenState extends State<PermissionUsersScreen> {
         statusBarIconBrightness: Brightness.dark));
     return PopScope(
       canPop: false,
-      onPopInvokedWithResult: (didPop, result) {
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop || result != null) return;
         controller.onBackPress();
       },
       child: Container(

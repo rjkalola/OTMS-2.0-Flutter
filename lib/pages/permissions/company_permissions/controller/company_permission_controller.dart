@@ -127,8 +127,7 @@ class CompanyPermissionController extends GetxController {
 
   Future<void> moveToScreen(String appRout, dynamic arguments) async {
     var result = await Get.toNamed(appRout, arguments: arguments);
-    if (result != null &&
-        result == AppConstants.results.permissionUsersChanged) {
+    if (result != null && result == true) {
       isDataUpdated.value = true;
       getCompanyPermissionsApi();
     }

@@ -26,10 +26,10 @@ class _TeamListScreenState extends State<TeamListScreen> {
         statusBarColor: Colors.white,
         statusBarIconBrightness: Brightness.dark));
     return Container(
-      color: backgroundColor,
+      color: dashBoardBgColor,
       child: SafeArea(
         child: Scaffold(
-          backgroundColor: backgroundColor,
+          backgroundColor: dashBoardBgColor,
           appBar: BaseAppBar(
             appBar: AppBar(),
             title: 'teams'.tr,

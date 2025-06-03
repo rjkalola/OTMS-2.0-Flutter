@@ -328,8 +328,7 @@ class HomeTabController extends GetxController implements SelectItemListener {
       var arguments = {
         AppConstants.intentKey.userId: UserUtils.getLoginUserId(),
       };
-      moveToScreen(
-          appRout: AppRoutes.userPermissionScreen, arguments: arguments);
+      moveToScreen(appRout: AppRoutes.userListScreen, arguments: arguments);
     }
   }
 

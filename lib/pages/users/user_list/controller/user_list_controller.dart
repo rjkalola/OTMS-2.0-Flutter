@@ -79,5 +79,4 @@ class UserListController extends GetxController {
     }
     usersList.value = results;
   }
-
 }

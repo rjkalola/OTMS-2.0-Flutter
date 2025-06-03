@@ -30,10 +30,8 @@ class _UserPermissionScreenState extends State<UserPermissionScreen> {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) async {
+        if (didPop || result != null) return;
         controller.onBackPress();
-        // print(jsonEncode(controller.getRequestData()));
-        // controller.getRequestData();
-        // Get.back(result: controller.isDataUpdated.value);
       },
       child: Container(
         color: backgroundColor,
@@ -42,7 +40,7 @@ class _UserPermissionScreenState extends State<UserPermissionScreen> {
             backgroundColor: backgroundColor,
             appBar: BaseAppBar(
               appBar: AppBar(),
-              title: 'widget'.tr,
+              title: 'user_permissions'.tr,
               isCenterTitle: false,
               isBack: true,
               onBackPressed: () {
