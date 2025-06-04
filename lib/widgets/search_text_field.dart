@@ -9,20 +9,32 @@ class SearchTextField extends StatelessWidget {
       this.onValueChange,
       this.onPressedClear,
       this.label,
+      this.hint,
       required this.controller,
-      required this.isClearVisible});
+      required this.isClearVisible,
+      this.isReadOnly,
+      this.onTap,
+      this.autofocus,
+      this.focusNode});
 
   final ValueChanged<String>? onValueChange;
   final VoidCallback? onPressedClear;
   final Rx<TextEditingController> controller;
   final Rx<bool> isClearVisible;
-  final String? label;
+  final String? label, hint;
+  final bool? isReadOnly, autofocus;
+  final GestureTapCallback? onTap;
+  final FocusNode? focusNode;
 
   @override
   Widget build(BuildContext context) {
     return Obx(() => TextField(
           controller: controller.value,
           onChanged: onValueChange,
+          readOnly: isReadOnly ?? false,
+          autofocus: autofocus ?? false,
+          focusNode: focusNode,
+          onTap: onTap,
           style: const TextStyle(
               fontWeight: FontWeight.w400,
               fontSize: 15,
@@ -40,11 +52,12 @@ class SearchTextField extends StatelessWidget {
             focusedBorder: const OutlineInputBorder(
                 borderSide: BorderSide(color: Color(0xffcccccc), width: 1),
                 borderRadius: BorderRadius.all(Radius.circular(45))),
-            hintText: label ?? 'search'.tr,
+            hintText: hint ?? 'search'.tr,
+            labelText: label,
             labelStyle: const TextStyle(
-                fontWeight: FontWeight.w400, fontSize: 15, color: Colors.grey),
+                fontWeight: FontWeight.w400, fontSize: 16, color: Colors.grey),
             hintStyle: const TextStyle(
-                fontWeight: FontWeight.w400, fontSize: 15, color: Colors.grey),
+                fontWeight: FontWeight.w400, fontSize: 16, color: Colors.grey),
             suffixIcon: isClearVisible.value
                 ? IconButton(
                     onPressed: onPressedClear,

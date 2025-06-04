@@ -45,4 +45,5 @@ class AppRoutes {
   static const String teamListScreen = '/team_list_screen';
   static const String teamGenerateOtpScreen = '/team_generate_otp_screen';
   static const String userListScreen = '/user_list_screen';
+  static const String searchUserScreen = '/search_user_screen';
 }

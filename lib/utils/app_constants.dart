@@ -25,6 +25,7 @@ class AppConstants {
 
 class Results {
   const Results();
+
   final String permissionUsersChanged = 'PERMISSION_USERS_CHANGED';
 }
 
@@ -51,6 +52,8 @@ class IntentKey {
   final String permissionId = "PERMISSION_ID";
   final String teamId = "TEAM_ID";
   final String userId = "USER_ID";
+  final String userName = "USER_NAME";
+  final String userList = "USER_LIST";
 }
 
 class DialogIdentifier {

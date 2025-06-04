@@ -19,12 +19,12 @@ class SplashServices {
       // AppStorage.uniqueId = await AppUtils.getDeviceUniqueId();
       // print("AppStorage.uniqueId:" + AppStorage.uniqueId);
       if (ApiConstants.accessToken.isNotEmpty) {
-        // if (ApiConstants.companyId != 0) {
-        //   Get.offAllNamed(AppRoutes.dashboardScreen);
-        // } else {
-        //   Get.offAllNamed(AppRoutes.joinCompanyScreen);
-        // }
-        Get.offAllNamed(AppRoutes.dashboardScreen);
+        if (ApiConstants.companyId != 0) {
+          Get.offAllNamed(AppRoutes.dashboardScreen);
+        } else {
+          Get.offAllNamed(AppRoutes.joinCompanyScreen);
+        }
+        // Get.offAllNamed(AppRoutes.dashboardScreen);
       } else {
         Get.offAllNamed(AppRoutes.introductionScreen);
       }

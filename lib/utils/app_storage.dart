@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:otm_inventory/pages/common/model/user_info.dart';
@@ -9,6 +10,7 @@ import 'package:otm_inventory/pages/dashboard/tabs/home_tab/model/local_permissi
 import 'package:otm_inventory/pages/dashboard/tabs/home_tab/model/user_permissions_response.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
+import 'package:otm_inventory/web_services/api_constants.dart';
 
 import '../pages/dashboard/models/dashboard_stock_count_response.dart';
 import '../pages/stock_filter/model/stock_filter_response.dart';
@@ -238,8 +240,11 @@ class AppStorage extends GetxController {
 
   void clearAllData() {
     AppConstants.isResourcesLoaded = false;
+    ApiConstants.companyId = 0;
+    ApiConstants.accessToken = "";
     removeData(AppConstants.sharedPreferenceKey.userInfo);
     removeData(AppConstants.sharedPreferenceKey.accessToken);
+    removeData(AppConstants.sharedPreferenceKey.companyId);
     removeData(AppConstants.sharedPreferenceKey.dashboardItemCountData);
     removeData(AppConstants.sharedPreferenceKey.permissionSettings);
     removeData(AppConstants.sharedPreferenceKey.dashboardResponse);

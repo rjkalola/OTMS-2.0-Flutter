@@ -25,8 +25,10 @@ class _SearchUserPermissionWidgetState
       child: SizedBox(
         height: 46,
         child: SearchTextField(
+          label: 'search_user'.tr,
           controller: controller.searchController,
           isClearVisible: controller.isClearVisible,
+          isReadOnly: true,
           onValueChange: (value) {
             controller.searchItem(value.toString());
             controller.isClearVisible.value =
@@ -36,6 +38,9 @@ class _SearchUserPermissionWidgetState
             controller.searchController.value.clear();
             controller.searchItem("");
             controller.isClearVisible.value = false;
+          },
+          onTap: () {
+            controller.moveToSearchUSer();
           },
         ),
       ),

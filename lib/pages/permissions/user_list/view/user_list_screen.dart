@@ -6,9 +6,9 @@ import 'package:otm_inventory/pages/permissions/company_permissions/view/widgets
 import 'package:otm_inventory/pages/permissions/permission_users/controller/permission_users_controller.dart';
 import 'package:otm_inventory/pages/permissions/permission_users/view/widgets/permission_users_list.dart';
 import 'package:otm_inventory/pages/permissions/permission_users/view/widgets/search_permission_users.dart';
-import 'package:otm_inventory/pages/users/user_list/controller/user_list_controller.dart';
-import 'package:otm_inventory/pages/users/user_list/view/widgets/search_users.dart';
-import 'package:otm_inventory/pages/users/user_list/view/widgets/users_list.dart';
+import 'package:otm_inventory/pages/permissions/user_list/controller/user_list_controller.dart';
+import 'package:otm_inventory/pages/permissions/user_list/view/widgets/search_users.dart';
+import 'package:otm_inventory/pages/permissions/user_list/view/widgets/users_list.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';

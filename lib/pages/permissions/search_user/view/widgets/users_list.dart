@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/pages/common/model/user_info.dart';
-import 'package:otm_inventory/pages/users/user_list/controller/user_list_controller.dart';
+import 'package:otm_inventory/pages/permissions/search_user/controller/search_user_controller.dart';
+import 'package:otm_inventory/pages/permissions/user_list/controller/user_list_controller.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
 import 'package:otm_inventory/widgets/switch/custom_switch.dart';
 
-import '../../../../../utils/app_constants.dart';
+import '../../../../../../utils/app_constants.dart';
 
 class UsersList extends StatelessWidget {
   UsersList({super.key});
 
-  final controller = Get.put(UserListController());
+  final controller = Get.put(SearchUserController());
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +29,9 @@ class UsersList extends StatelessWidget {
                   child: GestureDetector(
                     onTap: () {
                       var arguments = {
-                        AppConstants.intentKey.userId: info.id ?? 0,
+                        AppConstants.intentKey.userInfo: info,
                       };
-                      Get.toNamed(AppRoutes.userPermissionScreen,
-                          arguments: arguments);
+                      Get.back(result: arguments);
                     },
                     child: Container(
                       color: Colors.transparent,

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:otm_inventory/pages/common/model/user_info.dart';
 import 'package:otm_inventory/pages/teams/team_list/controller/team_list_controller.dart';
 import 'package:otm_inventory/pages/teams/team_list/model/team_info.dart';
-import 'package:otm_inventory/pages/users/user_list/controller/user_list_controller.dart';
+import 'package:otm_inventory/pages/permissions/user_list/controller/user_list_controller.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/image_utils.dart';

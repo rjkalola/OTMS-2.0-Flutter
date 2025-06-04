@@ -4,14 +4,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/pages/common/model/user_info.dart';
-import 'package:otm_inventory/pages/users/user_list/controller/user_list_repository.dart';
-import 'package:otm_inventory/pages/users/user_list/model/user_list_response.dart';
+import 'package:otm_inventory/pages/permissions/user_list/controller/user_list_repository.dart';
+import 'package:otm_inventory/pages/permissions/user_list/model/user_list_response.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:otm_inventory/web_services/api_constants.dart';
 import 'package:otm_inventory/web_services/response/response_model.dart';
 
-class UserListController extends GetxController {
+import '../../../../utils/app_constants.dart';
+
+class SearchUserController extends GetxController {
   final _api = UserListRepository();
   final formKey = GlobalKey<FormState>();
   RxBool isLoading = false.obs,
@@ -26,15 +28,19 @@ class UserListController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    // var arguments = Get.arguments;
-    // if (arguments != null) {
-    //   permissionId = arguments[AppConstants.intentKey.permissionId] ?? 0;
-    // }
-    getUserListApi();
+    var arguments = Get.arguments;
+    if (arguments != null) {
+      tempList.addAll(arguments[AppConstants.intentKey.userList] ?? []);
+    }
+    if (tempList.isEmpty) {
+      getUserListApi();
+    } else {
+      isMainViewVisible.value = true;
+    }
   }
 
   void getUserListApi() {
-    isLoading.value = true;
+    // isLoading.value = true;
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
     _api.getUserList(
@@ -70,7 +76,7 @@ class UserListController extends GetxController {
     print(value);
     List<UserInfo> results = [];
     if (value.isEmpty) {
-      results = tempList;
+      results = [];
     } else {
       results = tempList
           .where((element) => (!StringHelper.isEmptyString(element.name) &&

@@ -3,11 +3,14 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:otm_inventory/pages/common/model/user_info.dart';
 import 'package:otm_inventory/pages/dashboard/tabs/home_tab/model/permission_info.dart';
 import 'package:otm_inventory/pages/dashboard/tabs/home_tab/model/user_permissions_response.dart';
 import 'package:otm_inventory/pages/permissions/company_permissions/controller/company_permissions_repository.dart';
+import 'package:otm_inventory/pages/permissions/search_user/view/search_user_screen.dart';
 import 'package:otm_inventory/pages/permissions/user_permissions/controller/user_permissions_repository.dart';
 import 'package:otm_inventory/pages/permissions/user_permissions/model/save_user_permission_request.dart';
+import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
@@ -27,6 +30,8 @@ class UserPermissionController extends GetxController {
   final userPermissionList = <PermissionInfo>[].obs;
   List<PermissionInfo> tempList = [];
   int userId = 0;
+  String userName = "";
+  final usersList = <UserInfo>[].obs;
 
   @override
   void onInit() {
@@ -34,6 +39,9 @@ class UserPermissionController extends GetxController {
     var arguments = Get.arguments;
     if (arguments != null) {
       userId = arguments[AppConstants.intentKey.userId] ?? 0;
+      userName = arguments[AppConstants.intentKey.userName] ?? "";
+      usersList.value = arguments[AppConstants.intentKey.userList] ?? [];
+      searchController.value.text = userName;
     }
     getCompanyPermissionsApi();
   }
@@ -132,6 +140,34 @@ class UserPermissionController extends GetxController {
       }
     }
     return list;
+  }
+
+  Future<void> moveToSearchUSer() async {
+    var arguments = {
+      AppConstants.intentKey.userId: userId,
+      AppConstants.intentKey.userName: userName,
+      AppConstants.intentKey.userList: usersList,
+    };
+    // var result =
+    //     await Get.toNamed(AppRoutes.searchUserScreen, arguments: arguments);
+
+    var result = await Get.to(
+      () => SearchUserScreen(),
+      arguments: arguments,
+      transition: Transition.downToUp, // ➡ Slide + Fade
+      duration: Duration(milliseconds: 300),
+    );
+
+    if (result != null) {
+      var arguments = result;
+      UserInfo info = arguments[AppConstants.intentKey.userInfo];
+      if (userId != info.id) {
+        userId = info.id ?? 0;
+        userName = info.name ?? "";
+        searchController.value.text = userName;
+        getCompanyPermissionsApi();
+      }
+    }
   }
 
   void onBackPress() {
