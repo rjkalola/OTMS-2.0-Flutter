@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:otm_inventory/pages/permissions/user_permissions/controller/user_permission_controller.dart';
 import 'package:otm_inventory/pages/permissions/user_permissions/view/widgets/search_user_permission.dart';
+import 'package:otm_inventory/pages/permissions/user_permissions/view/widgets/select_all_text.dart';
 import 'package:otm_inventory/pages/permissions/user_permissions/view/widgets/user_permissions_list.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
@@ -66,6 +67,7 @@ class _UserPermissionScreenState extends State<UserPermissionScreen> {
                             children: [
                               Divider(),
                               SearchUserPermissionWidget(),
+                              SelectAllText(),
                               UserPermissionsList()
                             ],
                           ),

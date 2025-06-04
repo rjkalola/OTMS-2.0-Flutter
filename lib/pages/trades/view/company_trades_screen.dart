@@ -44,39 +44,49 @@ class _CompanyTradesScreenState extends State<CompanyTradesScreen> {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: Colors.white,
         statusBarIconBrightness: Brightness.dark));
-    return Container(
-      color: backgroundColor,
-      child: SafeArea(
-        child: Scaffold(
-          backgroundColor: backgroundColor,
-          appBar: BaseAppBar(
-            appBar: AppBar(),
-            title: 'trades'.tr,
-            isCenterTitle: false,
-            isBack: true,
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop || result != null) return;
+        controller.onBackPress();
+      },
+      child: Container(
+        color: backgroundColor,
+        child: SafeArea(
+          child: Scaffold(
+            backgroundColor: backgroundColor,
+            appBar: BaseAppBar(
+              appBar: AppBar(),
+              title: 'trades'.tr,
+              isCenterTitle: false,
+              isBack: true,
+              onBackPressed: () {
+                controller.onBackPress();
+              },
+            ),
+            body: Obx(() {
+              return ModalProgressHUD(
+                  inAsyncCall: controller.isLoading.value,
+                  opacity: 0,
+                  progressIndicator: const CustomProgressbar(),
+                  child: controller.isInternetNotAvailable.value
+                      ? NoInternetWidget(
+                          onPressed: () {
+                            controller.isInternetNotAvailable.value = false;
+                            // controller.getCompanyDetailsApi();
+                          },
+                        )
+                      : Visibility(
+                          visible: controller.isMainViewVisible.value,
+                          child: Column(
+                            children: [
+                              Divider(),
+                              CompanyTradeList()
+                            ],
+                          ),
+                        ));
+            }),
           ),
-          body: Obx(() {
-            return ModalProgressHUD(
-                inAsyncCall: controller.isLoading.value,
-                opacity: 0,
-                progressIndicator: const CustomProgressbar(),
-                child: controller.isInternetNotAvailable.value
-                    ? NoInternetWidget(
-                        onPressed: () {
-                          controller.isInternetNotAvailable.value = false;
-                          // controller.getCompanyDetailsApi();
-                        },
-                      )
-                    : Visibility(
-                        visible: controller.isMainViewVisible.value,
-                        child: Column(
-                          children: [
-                            Divider(),
-                            CompanyTradeList()
-                          ],
-                        ),
-                      ));
-          }),
         ),
       ),
     );

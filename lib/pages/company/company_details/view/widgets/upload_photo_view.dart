@@ -28,16 +28,21 @@ class UploadPhotoView extends StatelessWidget {
             margin: const EdgeInsets.only(left: 16, top: 4, right: 16),
             padding: const EdgeInsets.all(10.0),
             decoration: BoxDecoration(
-                border: Border.all(color: dividerColor),
-                borderRadius: BorderRadius.all(Radius.circular(
-                        3.0) //                 <--- border radius here
-                    )),
+              border: Border.all(color: dividerColor),
+              shape: BoxShape.circle,
+            ),
             child: !StringHelper.isEmptyString(controller.mCompanyLogo.value)
                 ? (controller.mCompanyLogo.value.startsWith("http")
-                    ? ImageUtils.setNetworkImage(controller.mCompanyLogo.value,
-                        double.infinity, double.infinity, BoxFit.fill)
-                    : ImageUtils.setFileImage(controller.mCompanyLogo.value,
-                        double.infinity, double.infinity, BoxFit.fill))
+                    ? ImageUtils.setCircularNetworkImage(
+                        controller.mCompanyLogo.value,
+                        double.infinity,
+                        double.infinity,
+                        BoxFit.fill)
+                    : ImageUtils.setCircularFileImage(
+                        controller.mCompanyLogo.value,
+                        double.infinity,
+                        double.infinity,
+                        BoxFit.fill))
                 : Center(
                     child: ImageUtils.setAssetsImage(
                         path: Drawable.imgAddImage, width: 120, height: 50),

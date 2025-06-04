@@ -144,8 +144,8 @@ class ApiRequest {
         AppUtils.showApiResponseMessage(message);
         print('Dio error: ${e.message}');
         print('Stack trace: $stackTrace');
-        final ApiException apiException = ApiException.fromDioError(e);
-        if (kDebugMode) print("Error in api call $apiException.message");
+        // final ApiException apiException = ApiException.fromDioError(e);
+        // if (kDebugMode) print("Error in api call $apiException.message");
         responseModel =
             returnResponse(false, null, e.response?.statusCode, message);
       }
@@ -256,8 +256,8 @@ class ApiRequest {
         AppUtils.showApiResponseMessage(message);
         print('Dio error: ${e.message}');
         print('Stack trace: $stackTrace');
-        final ApiException apiException = ApiException.fromDioError(e);
-        if (kDebugMode) print("Error in api call $apiException.message");
+        // final ApiException apiException = ApiException.fromDioError(e);
+        // if (kDebugMode) print("Error in api call $apiException.message");
         responseModel =
             returnResponse(false, null, e.response?.statusCode, message);
       }
@@ -368,8 +368,8 @@ class ApiRequest {
         AppUtils.showApiResponseMessage(message);
         print('Dio error: ${e.message}');
         print('Stack trace: $stackTrace');
-        final ApiException apiException = ApiException.fromDioError(e);
-        if (kDebugMode) print("Error in api call $apiException.message");
+        // final ApiException apiException = ApiException.fromDioError(e);
+        // if (kDebugMode) print("Error in api call $apiException.message");
         responseModel =
             returnResponse(false, null, e.response?.statusCode, message);
       }

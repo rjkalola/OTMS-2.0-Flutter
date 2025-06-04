@@ -106,6 +106,10 @@ class _SignUp1ScreenState extends State<SignUp1Screen> {
                                         controller.mOtpCode.value =
                                             code.toString();
                                         print("onCodeChanged $code");
+                                        if (controller.mOtpCode.value.length ==
+                                            6) {
+                                          controller.onSubmitClick();
+                                        }
                                       },
                                       onResendOtp: () {
                                         print("onResendOtp click");

@@ -21,6 +21,7 @@ class AppConstants {
   static const String permissionIconsAssetsPath =
       "assets/user_permission_icons/";
   static bool isResourcesLoaded = false;
+  static bool isUpdatedPermission = false;
 }
 
 class Results {
@@ -133,8 +134,10 @@ class Action {
 
   final String companyDetails = "COMPANY_DETAILS";
   final String companyTrades = "COMPANY_TRADES";
+  final String widgets = "WIDGETS";
   final String companyPermissions = "COMPANY_PERMISSIONS";
   final String userPermissions = "USER_PERMISSIONS";
+  final String settings = "SETTINGS";
 }
 
 class StockCountType {

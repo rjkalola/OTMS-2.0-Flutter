@@ -71,7 +71,9 @@ class _JoinCompanyScreenState extends State<JoinCompanyScreen> {
                             ),
                             Padding(
                               padding: const EdgeInsets.fromLTRB(8, 14, 16, 0),
-                              child: HeaderLogo(isBackDisable: true,),
+                              child: HeaderLogo(
+                                isBackDisable: true,
+                              ),
                             ),
                             HeaderTitleNoteTextWidget(
                               title: 'create_or_join_company'.tr,
@@ -94,6 +96,9 @@ class _JoinCompanyScreenState extends State<JoinCompanyScreen> {
                                   otpController: controller.otpController,
                                   onCodeChanged: (code) {
                                     controller.mOtpCode.value = code.toString();
+                                    if (controller.mOtpCode.value.length == 6) {
+                                      controller.joinCompanyApi();
+                                    }
                                     print("onCodeChanged $code");
                                   },
                                   onResendOtp: () {

@@ -9,6 +9,7 @@ import 'package:otm_inventory/pages/stock_filter/model/filter_request.dart';
 import 'package:otm_inventory/pages/stock_filter/model/stock_filter_response.dart';
 import 'package:otm_inventory/pages/trades/controller/trades_repository.dart';
 import 'package:otm_inventory/pages/trades/model/company_trades_response.dart';
+import 'package:otm_inventory/pages/trades/model/save_trade_request.dart';
 import 'package:otm_inventory/pages/trades/model/trade_info.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
@@ -23,7 +24,8 @@ class TradesController extends GetxController {
   final formKey = GlobalKey<FormState>();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
-      isMainViewVisible = false.obs;
+      isMainViewVisible = false.obs,
+      isDataUpdated = false.obs;
   final companyTradesList = <TradeInfo>[].obs;
 
   @override
@@ -63,20 +65,22 @@ class TradesController extends GetxController {
     );
   }
 
-  void changeCompanyTradeStatusApi(int tradeId, bool status) async {
+  void changeCompanyBulkTradeStatusApi() async {
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
-    map["trade_id"] = tradeId;
-    map["status"] = status ? 1 : 0;
+    // map["trade_id"] = tradeId;
+    // map["status"] = status ? 1 : 0;
+    map["trades"] = getRequestData();
 
-    // isLoading.value = true;
-    _api.changeCompanyTradeStatus(
+    isLoading.value = true;
+    _api.changeCompanyBulkTradeStatus(
       data: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
-          // BaseResponse response =
-          //     BaseResponse.fromJson(jsonDecode(responseModel.result!));
-          // AppUtils.showApiResponseMessage(response.Message ?? "");
+          Get.back(result: true);
+          BaseResponse response =
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showApiResponseMessage(response.Message ?? "");
         } else {
           // AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
@@ -89,5 +93,27 @@ class TradesController extends GetxController {
         }
       },
     );
+  }
+
+  List<SaveTradeRequest> getRequestData() {
+    List<SaveTradeRequest> list = [];
+    if (companyTradesList.isNotEmpty) {
+      for (var info in companyTradesList) {
+        for (var tradeInfo in info.trades!) {
+          list.add(SaveTradeRequest(
+              tradeId: tradeInfo.id,
+              status: (tradeInfo.status ?? false) ? 1 : 0));
+        }
+      }
+    }
+    return list;
+  }
+
+  void onBackPress() {
+    if (isDataUpdated.value) {
+      changeCompanyBulkTradeStatusApi();
+    } else {
+      Get.back();
+    }
   }
 }

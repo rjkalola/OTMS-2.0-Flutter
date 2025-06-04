@@ -21,16 +21,16 @@ class TradesRepository {
     );
   }
 
-  void changeCompanyTradeStatus({
+  void changeCompanyBulkTradeStatus({
     dynamic data,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
     ApiRequest(
-            url: ApiConstants.changeCompanyTradeStatus,
+            url: ApiConstants.changeCompanyBulkTradeStatus,
             data: data,
             isFormData: false)
-        .putRequest(
+        .postRequest(
       onSuccess: (data) {
         onSuccess!(data);
       },

@@ -39,7 +39,7 @@ class _PermissionUsersScreenState extends State<PermissionUsersScreen> {
             backgroundColor: backgroundColor,
             appBar: BaseAppBar(
               appBar: AppBar(),
-              title: 'users'.tr,
+              title: controller.title.value,
               isCenterTitle: false,
               isBack: true,
               onBackPressed: () {

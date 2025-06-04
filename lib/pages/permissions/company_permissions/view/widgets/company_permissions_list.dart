@@ -27,69 +27,58 @@ class CompanyPermissionsList extends StatelessWidget {
               itemBuilder: (context, position) {
                 PermissionInfo info =
                     controller.companyPermissionList[position];
-                return GestureDetector(
-                  onTap: () {
-                    var arguments = {
-                      AppConstants.intentKey.permissionId:
-                          info.permissionId ?? 0,
-                    };
-                    controller.moveToScreen(
-                        AppRoutes.permissionUsersScreen, arguments);
-                    // Get.toNamed(AppRoutes.permissionUsersScreen,
-                    //     arguments: arguments);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 9, 16, 9),
-                    child: Container(
-                      color: Colors.transparent,
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Row(
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.all(9),
-                                  width: 44,
-                                  height: 44,
-                                  decoration: AppUtils.getGrayBorderDecoration(
-                                      color: backgroundColor,
-                                      borderColor: dividerColor,
-                                      borderWidth: 1),
-                                  child: ImageUtils.setSvgAssetsImage(
-                                      path:
-                                          "${AppConstants.permissionIconsAssetsPath}${info.icon ?? ""}",
-                                      // path: Drawable.truckPermissionIcon,
-                                      width: 26,
-                                      height: 26,
-                                      color: Color(AppUtils.haxColor(
-                                          info.color ?? "#000000"))),
-                                ),
-                                SizedBox(
-                                  width: 12,
-                                ),
-                                Text(
-                                  info.name ?? "",
-                                  textAlign: TextAlign.start,
-                                  style: const TextStyle(
-                                      fontSize: 17,
-                                      color: primaryTextColor,
-                                      fontWeight: FontWeight.w600),
-                                )
-                              ],
-                            ),
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 9, 16, 9),
+                  child: Container(
+                    color: Colors.transparent,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.all(9),
+                                width: 44,
+                                height: 44,
+                                decoration: AppUtils.getGrayBorderDecoration(
+                                    color: backgroundColor,
+                                    borderColor: dividerColor,
+                                    borderWidth: 1),
+                                child: ImageUtils.setSvgAssetsImage(
+                                    path:
+                                        "${AppConstants.permissionIconsAssetsPath}${info.icon ?? ""}",
+                                    // path: Drawable.truckPermissionIcon,
+                                    width: 26,
+                                    height: 26,
+                                    color: Color(AppUtils.haxColor(
+                                        info.color ?? "#000000"))),
+                              ),
+                              SizedBox(
+                                width: 12,
+                              ),
+                              Text(
+                                info.name ?? "",
+                                textAlign: TextAlign.start,
+                                style: const TextStyle(
+                                    fontSize: 17,
+                                    color: primaryTextColor,
+                                    fontWeight: FontWeight.w600),
+                              )
+                            ],
                           ),
-                          // CustomSwitch(
-                          //     onValueChange: (value) {
-                          //       print("value:" + value.toString());
-                          //       info.status = !info.status!;
-                          //       controller.companyPermissionList.refresh();
-                          //       controller.isDataUpdated.value = true;
-                          //       // controller.changeCompanyPermissionStatusApi(
-                          //       //     info.permissionId ?? 0, value);
-                          //     },
-                          //     mValue: info.status)
-                        ],
-                      ),
+                        ),
+                        CustomSwitch(
+                            onValueChange: (value) {
+                              print("value:" + value.toString());
+                              info.status = !info.status!;
+                              controller.companyPermissionList.refresh();
+                              controller.isDataUpdated.value = true;
+                              controller.checkSelectAll();
+                              // controller.changeCompanyPermissionStatusApi(
+                              //     info.permissionId ?? 0, value);
+                            },
+                            mValue: info.status)
+                      ],
                     ),
                   ),
                 );

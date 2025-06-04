@@ -20,7 +20,9 @@ import 'package:otm_inventory/pages/permissions/company_permissions/view/company
 import 'package:otm_inventory/pages/permissions/permission_users/view/permission_users_screen.dart';
 import 'package:otm_inventory/pages/permissions/search_user/view/search_user_screen.dart';
 import 'package:otm_inventory/pages/permissions/user_permissions/view/user_permission_screen.dart';
+import 'package:otm_inventory/pages/permissions/widgets/view/widgets_screen.dart';
 import 'package:otm_inventory/pages/qr_code_scanner/view/qr_code_scanner.dart';
+import 'package:otm_inventory/pages/settings/view/settings_screen.dart';
 import 'package:otm_inventory/pages/teams/team_generate_otp/view/team_generate_otp_screen.dart';
 import 'package:otm_inventory/pages/teams/team_list/view/team_list_screen.dart';
 import 'package:otm_inventory/pages/trades/view/company_trades_screen.dart';
@@ -115,6 +117,10 @@ class AppPages {
       page: () => CompanyPermissionScreen(),
     ),
     GetPage(
+      name: AppRoutes.widgetsScreen,
+      page: () => WidgetsScreen(),
+    ),
+    GetPage(
       name: AppRoutes.userPermissionScreen,
       page: () => UserPermissionScreen(),
     ),
@@ -137,6 +143,10 @@ class AppPages {
     GetPage(
       name: AppRoutes.searchUserScreen,
       page: () => SearchUserScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.settingsScreen,
+      page: () => SettingsScreen(),
     ),
   ];
 }

@@ -8,6 +8,11 @@ class UserUtils {
     return info.id ?? 0;
   }
 
+  static String getLoginUserName() {
+    UserInfo info = Get.find<AppStorage>().getUserInfo();
+    return "${info.firstName} ${info.lastName}";
+  }
+
   static bool isAdmin() {
     UserInfo info = Get.find<AppStorage>().getUserInfo();
     // return info.userTypeId == AppConstants.userType.admin;

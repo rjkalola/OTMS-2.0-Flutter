@@ -25,6 +25,8 @@ class _SearchPermissionUsersWidgetState
       child: SizedBox(
         height: 46,
         child: SearchTextField(
+          hint: 'search_user'.tr,
+          label: 'search_user'.tr,
           controller: controller.searchController,
           isClearVisible: controller.isClearVisible,
           onValueChange: (value) {

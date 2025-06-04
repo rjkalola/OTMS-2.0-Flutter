@@ -20,7 +20,8 @@ class CompanyPermissionController extends GetxController {
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
       isClearVisible = false.obs,
-      isDataUpdated = false.obs;
+      isDataUpdated = false.obs,
+      isCheckAll = false.obs;
   final searchController = TextEditingController().obs;
   final companyPermissionList = <PermissionInfo>[].obs;
   List<PermissionInfo> tempList = [];
@@ -46,6 +47,7 @@ class CompanyPermissionController extends GetxController {
           tempList.addAll(response.permissions ?? []);
           companyPermissionList.value = tempList;
           companyPermissionList.refresh();
+          checkSelectAll();
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
@@ -70,6 +72,7 @@ class CompanyPermissionController extends GetxController {
     map["company_id"] = ApiConstants.companyId;
     // map["permission_id"] = permissionId;
     // map["status"] = status ? 1 : 0;
+    print(jsonEncode(getRequestData()));
     map["permissions"] = getRequestData();
 
     isLoading.value = true;
@@ -77,6 +80,7 @@ class CompanyPermissionController extends GetxController {
       data: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
+          AppConstants.isUpdatedPermission = true;
           Get.back(result: true);
           // BaseResponse response =
           //     BaseResponse.fromJson(jsonDecode(responseModel.result!));
@@ -131,6 +135,33 @@ class CompanyPermissionController extends GetxController {
       isDataUpdated.value = true;
       getCompanyPermissionsApi();
     }
+  }
+
+  void checkSelectAll() {
+    bool isAllSelected = true;
+    for (var info in companyPermissionList) {
+      if ((info.status ?? false) == false) {
+        isAllSelected = false;
+        break;
+      }
+    }
+    isCheckAll.value = isAllSelected;
+  }
+
+  void checkAll() {
+    isCheckAll.value = true;
+    for (var info in companyPermissionList) {
+      info.status = true;
+    }
+    companyPermissionList.refresh();
+  }
+
+  void unCheckAll() {
+    isCheckAll.value = false;
+    for (var info in companyPermissionList) {
+      info.status = false;
+    }
+    companyPermissionList.refresh();
   }
 
   void onBackPress() {

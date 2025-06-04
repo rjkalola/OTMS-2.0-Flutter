@@ -28,7 +28,7 @@ class DataUtils {
 
     arrayItems.add(ModuleInfo(
         name: 'widget'.tr,
-        action: AppConstants.action.companyPermissions,
+        action: AppConstants.action.widgets,
         icon: Drawable.widgetIcon));
     arrayItems
         .add(ModuleInfo(name: 'notification'.tr, icon: Drawable.bellIcon));
@@ -36,7 +36,10 @@ class DataUtils {
         name: 'company_details'.tr,
         action: AppConstants.action.companyDetails,
         icon: Drawable.usersPermissionIcon));
-    arrayItems.add(ModuleInfo(name: 'settings'.tr, icon: Drawable.settingIcon));
+    arrayItems.add(ModuleInfo(
+        name: 'settings'.tr,
+        action: AppConstants.action.settings,
+        icon: Drawable.settingIcon));
     arrayItems.add(ModuleInfo(
         name: 'trades'.tr,
         action: AppConstants.action.companyTrades,

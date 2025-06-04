@@ -46,8 +46,10 @@ class ApiConstants {
 
   //trades
   static String getCompanyTradesUrl = '$appUrl/trade/get-company-trades';
-  static String changeCompanyTradeStatus =
-      '$appUrl/trade/change-company-trade-status';
+  // static String changeCompanyTradeStatus =
+  //     '$appUrl/trade/change-company-trade-status';
+  static String changeCompanyBulkTradeStatus =
+      '$appUrl/trade/company/bulk-trade-status';
 
   //company permissions
   static String getCompanyPermissions = '$appUrl/dashboard/company/permissions';

@@ -25,7 +25,9 @@ class UserPermissionController extends GetxController {
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
       isClearVisible = false.obs,
-      isDataUpdated = false.obs;
+      isDataUpdated = false.obs,
+      isCheckAll = false.obs;
+
   final searchController = TextEditingController().obs;
   final userPermissionList = <PermissionInfo>[].obs;
   List<PermissionInfo> tempList = [];
@@ -62,6 +64,7 @@ class UserPermissionController extends GetxController {
           tempList.addAll(response.permissions ?? []);
           userPermissionList.value = tempList;
           userPermissionList.refresh();
+          checkSelectAll();
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
@@ -87,6 +90,7 @@ class UserPermissionController extends GetxController {
     map["company_id"] = ApiConstants.companyId;
     // map["permission_id"] = permissionId;
     // map["status"] = status ? 1 : 0;
+    print(jsonEncode(getRequestData()));
     map["permissions"] = getRequestData();
 
     isLoading.value = true;
@@ -94,6 +98,7 @@ class UserPermissionController extends GetxController {
       data: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
+          AppConstants.isUpdatedPermission = true;
           Get.back(result: true);
           // BaseResponse response =
           //     BaseResponse.fromJson(jsonDecode(responseModel.result!));
@@ -162,12 +167,40 @@ class UserPermissionController extends GetxController {
       var arguments = result;
       UserInfo info = arguments[AppConstants.intentKey.userInfo];
       if (userId != info.id) {
+        isDataUpdated.value = false;
         userId = info.id ?? 0;
         userName = info.name ?? "";
         searchController.value.text = userName;
         getCompanyPermissionsApi();
       }
     }
+  }
+
+  void checkSelectAll() {
+    bool isAllSelected = true;
+    for (var info in userPermissionList) {
+      if ((info.status ?? false) == false) {
+        isAllSelected = false;
+        break;
+      }
+    }
+    isCheckAll.value = isAllSelected;
+  }
+
+  void checkAll() {
+    isCheckAll.value = true;
+    for (var info in userPermissionList) {
+      info.status = true;
+    }
+    userPermissionList.refresh();
+  }
+
+  void unCheckAll() {
+    isCheckAll.value = false;
+    for (var info in userPermissionList) {
+      info.status = false;
+    }
+    userPermissionList.refresh();
   }
 
   void onBackPress() {

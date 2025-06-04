@@ -37,8 +37,9 @@ class CompanySubTradeList extends StatelessWidget {
                       print("value:" + value.toString());
                       info.status = !info.status!;
                       controller.companyTradesList.refresh();
-                      controller.changeCompanyTradeStatusApi(
-                          info.id ?? 0, value);
+                      controller.isDataUpdated.value = true;
+                      // controller.changeCompanyTradeStatusApi(
+                      //     info.id ?? 0, value);
                     },
                     mValue: info.status)
               ],

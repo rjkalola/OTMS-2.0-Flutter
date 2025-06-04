@@ -20,7 +20,9 @@ import 'package:otm_inventory/utils/user_utils.dart';
 import 'package:otm_inventory/web_services/api_constants.dart';
 import 'package:otm_inventory/web_services/response/response_model.dart';
 
-class HomeTabController extends GetxController implements SelectItemListener {
+class HomeTabController extends GetxController
+    with WidgetsBindingObserver
+    implements SelectItemListener {
   final _api = HomeTabRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
@@ -39,6 +41,20 @@ class HomeTabController extends GetxController implements SelectItemListener {
     super.onInit();
     userInfo = Get.find<AppStorage>().getUserInfo();
     setInitialData();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void onClose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.onClose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      getDashboardUserPermissionsApi(false);
+    }
   }
 
   Future<void> setInitialData() async {
@@ -297,11 +313,14 @@ class HomeTabController extends GetxController implements SelectItemListener {
     } else if (info.slug == 'edit_widget') {
       var arguments = {
         AppConstants.intentKey.userId: UserUtils.getLoginUserId(),
+        AppConstants.intentKey.userName: UserUtils.getLoginUserName(),
       };
       moveToScreen(
           appRout: AppRoutes.userPermissionScreen, arguments: arguments);
     } else if (info.slug == 'team') {
       Get.toNamed(AppRoutes.teamListScreen);
+    } else if (info.slug == 'settings') {
+      Get.toNamed(AppRoutes.settingsScreen);
     }
   }
 
@@ -322,11 +341,14 @@ class HomeTabController extends GetxController implements SelectItemListener {
       Get.toNamed(AppRoutes.companyDetailsScreen);
     } else if (action == AppConstants.action.companyTrades) {
       Get.toNamed(AppRoutes.companyTradesScreen);
-    } else if (action == AppConstants.action.companyPermissions) {
-      moveToScreen(appRout: AppRoutes.companyPermissionScreen);
+    } else if (action == AppConstants.action.widgets) {
+      moveToScreen(appRout: AppRoutes.widgetsScreen);
+    } else if (action == AppConstants.action.settings) {
+      moveToScreen(appRout: AppRoutes.settingsScreen);
     } else if (action == AppConstants.action.userPermissions) {
       var arguments = {
         AppConstants.intentKey.userId: UserUtils.getLoginUserId(),
+        AppConstants.intentKey.userName: UserUtils.getLoginUserName(),
       };
       moveToScreen(appRout: AppRoutes.userListScreen, arguments: arguments);
     }

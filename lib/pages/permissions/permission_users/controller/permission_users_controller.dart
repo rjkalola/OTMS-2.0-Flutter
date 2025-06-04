@@ -26,6 +26,7 @@ class PermissionUsersController extends GetxController {
   final permissionUsersList = <PermissionUserInfo>[].obs;
   List<PermissionUserInfo> tempList = [];
   int permissionId = 0;
+  RxString title = "".obs;
 
   @override
   void onInit() {
@@ -33,6 +34,7 @@ class PermissionUsersController extends GetxController {
     var arguments = Get.arguments;
     if (arguments != null) {
       permissionId = arguments[AppConstants.intentKey.permissionId] ?? 0;
+      title.value = arguments[AppConstants.intentKey.title] ?? "";
     }
     getPermissionUsersApi();
   }
@@ -83,6 +85,7 @@ class PermissionUsersController extends GetxController {
       data: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
+          AppConstants.isUpdatedPermission = true;
           Get.back(result: true);
           // BaseResponse response =
           //     BaseResponse.fromJson(jsonDecode(responseModel.result!));

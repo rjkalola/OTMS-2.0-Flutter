@@ -5,10 +5,10 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:otm_inventory/pages/permissions/company_permissions/controller/company_permission_controller.dart';
 import 'package:otm_inventory/pages/permissions/company_permissions/view/widgets/company_permissions_list.dart';
 import 'package:otm_inventory/pages/permissions/company_permissions/view/widgets/search_company_permission.dart';
+import 'package:otm_inventory/pages/permissions/company_permissions/view/widgets/select_all_text.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
-import 'package:otm_inventory/widgets/buttons/ContinueButton.dart';
 import 'package:otm_inventory/widgets/custom_views/no_internet_widgets.dart';
 
 class CompanyPermissionScreen extends StatefulWidget {
@@ -40,7 +40,7 @@ class _CompanyPermissionScreenState extends State<CompanyPermissionScreen> {
             backgroundColor: backgroundColor,
             appBar: BaseAppBar(
               appBar: AppBar(),
-              title: 'widget'.tr,
+              title: 'company_permissions'.tr,
               isCenterTitle: false,
               isBack: true,
               onBackPressed: () {
@@ -66,6 +66,7 @@ class _CompanyPermissionScreenState extends State<CompanyPermissionScreen> {
                             children: [
                               Divider(),
                               SearchCompanyPermissionWidget(),
+                              SelectAllText(),
                               CompanyPermissionsList()
                             ],
                           ),

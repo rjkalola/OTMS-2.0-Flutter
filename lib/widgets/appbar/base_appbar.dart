@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:otm_inventory/res/colors.dart';
 
 class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   final AppBar appBar;
@@ -8,6 +9,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   final isCenterTitle;
   final VoidCallback? onBackPressed;
   final List<Widget>? widgets;
+  final Color? bgColor;
 
   BaseAppBar(
       {super.key,
@@ -16,12 +18,13 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
       this.isCenterTitle,
       this.isBack = false,
       this.widgets,
-      this.onBackPressed});
+      this.onBackPressed,
+      this.bgColor});
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: bgColor ?? backgroundColor,
         title: Text(
           title,
           style: const TextStyle(

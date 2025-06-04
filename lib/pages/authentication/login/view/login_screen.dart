@@ -105,6 +105,10 @@ class _LoginScreenState extends State<LoginScreen> {
                               onCodeChanged: (code) {
                                 loginController.mOtpCode.value = code ?? "";
                                 print("onCodeChanged $code");
+                                if (loginController.mOtpCode.value.length ==
+                                    6) {
+                                  loginController.login();
+                                }
                               },
                               onResendOtp: () {
                                 if (loginController.valid(false)) {
