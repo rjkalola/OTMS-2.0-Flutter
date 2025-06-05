@@ -20,9 +20,9 @@ import 'package:otm_inventory/utils/user_utils.dart';
 import 'package:otm_inventory/web_services/api_constants.dart';
 import 'package:otm_inventory/web_services/response/response_model.dart';
 
-class HomeTabController extends GetxController
-    with WidgetsBindingObserver
-    implements SelectItemListener {
+class HomeTabController extends GetxController // with WidgetsBindingObserver
+    implements
+        SelectItemListener {
   final _api = HomeTabRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
@@ -41,21 +41,21 @@ class HomeTabController extends GetxController
     super.onInit();
     userInfo = Get.find<AppStorage>().getUserInfo();
     setInitialData();
-    WidgetsBinding.instance.addObserver(this);
+    // WidgetsBinding.instance.addObserver(this);
   }
 
-  @override
-  void onClose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.onClose();
-  }
+  // @override
+  // void onClose() {
+  //   WidgetsBinding.instance.removeObserver(this);
+  //   super.onClose();
+  // }
 
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      getDashboardUserPermissionsApi(false);
-    }
-  }
+  // @override
+  // void didChangeAppLifecycleState(AppLifecycleState state) {
+  //   if (state == AppLifecycleState.resumed) {
+  //     getDashboardUserPermissionsApi(false);
+  //   }
+  // }
 
   Future<void> setInitialData() async {
     UserPermissionsResponse? response =
@@ -314,13 +314,15 @@ class HomeTabController extends GetxController
       var arguments = {
         AppConstants.intentKey.userId: UserUtils.getLoginUserId(),
         AppConstants.intentKey.userName: UserUtils.getLoginUserName(),
+        AppConstants.intentKey.fromDashboardScreen: true,
       };
       moveToScreen(
           appRout: AppRoutes.userPermissionScreen, arguments: arguments);
     } else if (info.slug == 'team') {
-      Get.toNamed(AppRoutes.teamListScreen);
+      // Get.toNamed(AppRoutes.teamListScreen);
+      Get.toNamed(AppRoutes.createTeamScreen);
     } else if (info.slug == 'settings') {
-      Get.toNamed(AppRoutes.settingsScreen);
+      moveToScreen(appRout: AppRoutes.settingsScreen);
     }
   }
 
@@ -338,9 +340,9 @@ class HomeTabController extends GetxController
   @override
   void onSelectItem(int position, int id, String name, String action) {
     if (action == AppConstants.action.companyDetails) {
-      Get.toNamed(AppRoutes.companyDetailsScreen);
+      moveToScreen(appRout: AppRoutes.companyDetailsScreen);
     } else if (action == AppConstants.action.companyTrades) {
-      Get.toNamed(AppRoutes.companyTradesScreen);
+      moveToScreen(appRout: AppRoutes.companyTradesScreen);
     } else if (action == AppConstants.action.widgets) {
       moveToScreen(appRout: AppRoutes.widgetsScreen);
     } else if (action == AppConstants.action.settings) {
@@ -357,8 +359,9 @@ class HomeTabController extends GetxController
   Future<void> moveToScreen(
       {required String appRout, dynamic arguments}) async {
     var result = await Get.toNamed(appRout, arguments: arguments);
-    if (result != null && result) {
-      getDashboardUserPermissionsApi(false);
-    }
+    getDashboardUserPermissionsApi(false);
+    // if (result != null && result) {
+    //   getDashboardUserPermissionsApi(false);
+    // }
   }
 }

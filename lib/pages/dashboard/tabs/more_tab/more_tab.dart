@@ -51,12 +51,6 @@ class MoreTabState extends State<MoreTab> implements DialogButtonClickListener {
               flex: 1,
               child: SingleChildScrollView(
                 child: Column(children: [
-                  MoreTabButton(
-                      iconPadding: 0,
-                      iconPath: Drawable.settingsIcon,
-                      mText: 'settings'.tr,
-                      onPressed: () {}),
-                  divider(),
                   InkWell(
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(23, 18, 14, 18),
@@ -95,8 +89,7 @@ class MoreTabState extends State<MoreTab> implements DialogButtonClickListener {
     );
   }
 
-  Widget divider() =>
-      const Padding(
+  Widget divider() => const Padding(
         padding: EdgeInsets.only(left: 18, right: 20),
         child: Divider(thickness: 0.4, height: 0.4, color: dividerColor),
       );
@@ -118,7 +111,5 @@ class MoreTabState extends State<MoreTab> implements DialogButtonClickListener {
   }
 
   @override
-  void onOtherButtonClicked(String dialogIdentifier) {
-
-  }
+  void onOtherButtonClicked(String dialogIdentifier) {}
 }

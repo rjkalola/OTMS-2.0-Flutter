@@ -27,7 +27,9 @@ class TextFieldCompanyEstablishedDate extends StatelessWidget {
         onPressed: () {
           controller.showDatePickerDialog(
               AppConstants.dialogIdentifier.establishedDate,
-              controller.establishedDate);
+              controller.establishedDate,
+              DateTime(1900),
+              DateTime.now());
         },
         validator: MultiValidator([]),
       ),

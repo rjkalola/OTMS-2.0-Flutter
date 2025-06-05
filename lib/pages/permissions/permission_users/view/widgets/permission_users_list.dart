@@ -74,6 +74,7 @@ class PermissionUsersList extends StatelessWidget {
                               info.status = !info.status!;
                               controller.permissionUsersList.refresh();
                               controller.isDataUpdated.value = true;
+                              controller.checkSelectAll();
                               // controller.changeCompanyPermissionStatusApi(
                               //     info.permissionId ?? 0, value);
                             },

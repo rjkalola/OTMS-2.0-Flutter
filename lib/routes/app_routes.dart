@@ -49,5 +49,5 @@ class AppRoutes {
   static const String teamUsersCountInfoScreen =
       '/team_users_count_info_screen';
   static const String businessFieldInfoScreen = '/business_field_info_screen';
-
+  static const String createTeamScreen = '/create_team_screen';
 }

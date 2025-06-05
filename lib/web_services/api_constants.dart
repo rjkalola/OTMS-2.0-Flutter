@@ -53,7 +53,6 @@ class ApiConstants {
 
   //company permissions
   static String getCompanyPermissions = '$appUrl/dashboard/company/permissions';
-
   // static String changeCompanyPermissionStatus =
   //     '$appUrl/dashboard/company/change-permission-status';
   static String changeCompanyBulkPermissionStatus =

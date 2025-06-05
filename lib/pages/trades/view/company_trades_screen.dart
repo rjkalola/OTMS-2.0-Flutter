@@ -2,31 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:otm_inventory/pages/company/company_details//view/widgets/upload_photo_view.dart';
-import 'package:otm_inventory/pages/company/company_details/controller/company_details_controller.dart';
-import 'package:otm_inventory/pages/company/company_details/view/widgets/preferred_image_size_view.dart';
-import 'package:otm_inventory/pages/company/company_details/view/widgets/row_phone_number_and_extension.dart';
-import 'package:otm_inventory/pages/company/company_details/view/widgets/text_field_company_address.dart';
-import 'package:otm_inventory/pages/company/company_details/view/widgets/text_field_company_admin.dart';
-import 'package:otm_inventory/pages/company/company_details/view/widgets/text_field_company_code.dart';
-import 'package:otm_inventory/pages/company/company_details/view/widgets/text_field_company_description.dart';
-import 'package:otm_inventory/pages/company/company_details/view/widgets/text_field_company_email.dart';
-import 'package:otm_inventory/pages/company/company_details/view/widgets/text_field_company_established_date.dart';
-import 'package:otm_inventory/pages/company/company_details/view/widgets/text_field_company_name.dart';
-import 'package:otm_inventory/pages/company/company_details/view/widgets/text_field_company_website.dart';
-import 'package:otm_inventory/pages/company/company_details/view/widgets/text_field_insurance_expiry_date.dart';
-import 'package:otm_inventory/pages/company/company_details/view/widgets/text_field_insurance_number.dart';
-import 'package:otm_inventory/pages/company/company_details/view/widgets/text_field_main_contracts.dart';
-import 'package:otm_inventory/pages/company/company_details/view/widgets/text_field_number_of_employee.dart';
-import 'package:otm_inventory/pages/company/company_details/view/widgets/text_field_registration_number.dart';
-import 'package:otm_inventory/pages/company/company_details/view/widgets/text_field_vat_number.dart';
-import 'package:otm_inventory/pages/company/company_details/view/widgets/text_field_working_hours.dart';
+import 'package:otm_inventory/pages/trades/view/widgets/select_all_text.dart';
 import 'package:otm_inventory/pages/trades/controller/trades_controller.dart';
 import 'package:otm_inventory/pages/trades/view/widgets/company_trade_list.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
-import 'package:otm_inventory/widgets/buttons/ContinueButton.dart';
 import 'package:otm_inventory/widgets/custom_views/no_internet_widgets.dart';
 
 class CompanyTradesScreen extends StatefulWidget {
@@ -81,6 +62,7 @@ class _CompanyTradesScreenState extends State<CompanyTradesScreen> {
                           child: Column(
                             children: [
                               Divider(),
+                              SelectAllText(),
                               CompanyTradeList()
                             ],
                           ),

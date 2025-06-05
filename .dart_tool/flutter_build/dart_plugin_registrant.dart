@@ -7,6 +7,7 @@
 
 import 'dart:io'; // flutter_ignore: dart_io_import.
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter_image_compress_common/flutter_image_compress_common.dart';
 import 'package:geocoding_android/geocoding_android.dart';
 import 'package:geolocator_android/geolocator_android.dart';
 import 'package:google_maps_flutter_android/google_maps_flutter_android.dart';
@@ -15,6 +16,7 @@ import 'package:local_auth_android/local_auth_android.dart';
 import 'package:path_provider_android/path_provider_android.dart';
 import 'package:sqflite_android/sqflite_android.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter_image_compress_common/flutter_image_compress_common.dart';
 import 'package:geocoding_ios/geocoding_ios.dart';
 import 'package:geolocator_apple/geolocator_apple.dart';
 import 'package:google_maps_flutter_ios/google_maps_flutter_ios.dart';
@@ -29,6 +31,7 @@ import 'package:image_picker_linux/image_picker_linux.dart';
 import 'package:path_provider_linux/path_provider_linux.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:file_selector_macos/file_selector_macos.dart';
+import 'package:flutter_image_compress_macos/flutter_image_compress_macos.dart';
 import 'package:geolocator_apple/geolocator_apple.dart';
 import 'package:image_picker_macos/image_picker_macos.dart';
 import 'package:local_auth_darwin/local_auth_darwin.dart';
@@ -52,6 +55,15 @@ class _PluginRegistrant {
       } catch (err) {
         print(
           '`file_picker` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+
+      try {
+        FlutterImageCompressCommon.registerWith();
+      } catch (err) {
+        print(
+          '`flutter_image_compress_common` threw an error: $err. '
           'The app may not function as expected until you remove this plugin from pubspec.yaml'
         );
       }
@@ -125,6 +137,15 @@ class _PluginRegistrant {
       } catch (err) {
         print(
           '`file_picker` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+
+      try {
+        FlutterImageCompressCommon.registerWith();
+      } catch (err) {
+        print(
+          '`flutter_image_compress_common` threw an error: $err. '
           'The app may not function as expected until you remove this plugin from pubspec.yaml'
         );
       }
@@ -253,6 +274,15 @@ class _PluginRegistrant {
       } catch (err) {
         print(
           '`file_selector_macos` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+
+      try {
+        FlutterImageCompressMacos.registerWith();
+      } catch (err) {
+        print(
+          '`flutter_image_compress_macos` threw an error: $err. '
           'The app may not function as expected until you remove this plugin from pubspec.yaml'
         );
       }

@@ -42,7 +42,7 @@ class TextFieldBorder extends StatelessWidget {
   final int? maxLines, maxLength;
   final TextAlignVertical? textAlignVertical;
   final TextAlign? textAlign;
-  final VoidCallback? onPressed;
+  final GestureTapCallback? onPressed;
   final ValueChanged<String>? onValueChange;
   final bool? autofocus, isDense;
   final AutovalidateMode? autovalidateMode;
@@ -53,9 +53,7 @@ class TextFieldBorder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      onTap: () {
-        onPressed!();
-      },
+      onTap: onPressed,
       autofocus: autofocus ?? false,
       focusNode: focusNode,
       onFieldSubmitted: onFieldSubmitted,

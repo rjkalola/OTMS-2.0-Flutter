@@ -41,7 +41,9 @@ class _UserPermissionScreenState extends State<UserPermissionScreen> {
             backgroundColor: backgroundColor,
             appBar: BaseAppBar(
               appBar: AppBar(),
-              title: 'user_permissions'.tr,
+              title: controller.fromDashboard.value
+                  ? 'edit_widget'.tr
+                  : 'user_permissions'.tr,
               isCenterTitle: false,
               isBack: true,
               onBackPressed: () {
@@ -66,7 +68,9 @@ class _UserPermissionScreenState extends State<UserPermissionScreen> {
                           child: Column(
                             children: [
                               Divider(),
-                              SearchUserPermissionWidget(),
+                              !controller.fromDashboard.value
+                                  ? SearchUserPermissionWidget()
+                                  : Container(),
                               SelectAllText(),
                               UserPermissionsList()
                             ],

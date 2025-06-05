@@ -26,7 +26,8 @@ class UserPermissionController extends GetxController {
       isMainViewVisible = false.obs,
       isClearVisible = false.obs,
       isDataUpdated = false.obs,
-      isCheckAll = false.obs;
+      isCheckAll = false.obs,
+      fromDashboard = false.obs;
 
   final searchController = TextEditingController().obs;
   final userPermissionList = <PermissionInfo>[].obs;
@@ -43,6 +44,8 @@ class UserPermissionController extends GetxController {
       userId = arguments[AppConstants.intentKey.userId] ?? 0;
       userName = arguments[AppConstants.intentKey.userName] ?? "";
       usersList.value = arguments[AppConstants.intentKey.userList] ?? [];
+      fromDashboard.value =
+          arguments[AppConstants.intentKey.fromDashboardScreen] ?? false;
       searchController.value.text = userName;
     }
     getCompanyPermissionsApi();
@@ -53,6 +56,7 @@ class UserPermissionController extends GetxController {
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
     map["user_id"] = userId;
+    // map["status"] = 1;
     _api.getUserPermissions(
       data: map,
       onSuccess: (ResponseModel responseModel) {

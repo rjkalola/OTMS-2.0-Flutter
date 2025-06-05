@@ -253,7 +253,8 @@ class ApiRequest {
         } else {
           message = e.message ?? "";
         }
-        AppUtils.showApiResponseMessage(message);
+        if (url != ApiConstants.checkPhoneNumberExistUrl)
+          AppUtils.showApiResponseMessage(message);
         print('Dio error: ${e.message}');
         print('Stack trace: $stackTrace');
         // final ApiException apiException = ApiException.fromDioError(e);

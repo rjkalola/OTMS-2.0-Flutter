@@ -123,6 +123,7 @@ class CompanyDetailsController extends GetxController
     isLoading.value = isProgress;
     Map<String, dynamic> map = {};
     map["flag"] = "adminList";
+    map["company_id"] = ApiConstants.companyId;
     _api.getCompanyResourcesApi(
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
@@ -371,11 +372,12 @@ class CompanyDetailsController extends GetxController
     }
   }
 
-  void showDatePickerDialog(String dialogIdentifier, DateTime? date) {
+  void showDatePickerDialog(String dialogIdentifier, DateTime? date,
+      DateTime firstDate, DateTime lastDate) {
     DateUtil.showDatePickerDialog(
         initialDate: date,
-        firstDate: DateTime.now(),
-        lastDate: DateTime(2100),
+        firstDate: firstDate,
+        lastDate: lastDate,
         dialogIdentifier: dialogIdentifier,
         selectDateListener: this);
   }

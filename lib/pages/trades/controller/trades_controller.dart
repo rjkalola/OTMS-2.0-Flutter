@@ -25,7 +25,8 @@ class TradesController extends GetxController {
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
-      isDataUpdated = false.obs;
+      isDataUpdated = false.obs,
+      isCheckAll = false.obs;
   final companyTradesList = <TradeInfo>[].obs;
 
   @override
@@ -47,6 +48,7 @@ class TradesController extends GetxController {
               CompanyTradesResponse.fromJson(jsonDecode(responseModel.result!));
           companyTradesList.clear();
           companyTradesList.addAll(response.companyTrades ?? []);
+          checkSelectAll();
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
@@ -107,6 +109,40 @@ class TradesController extends GetxController {
       }
     }
     return list;
+  }
+
+  void checkSelectAll() {
+    bool isAllSelected = true;
+    for (var info in companyTradesList) {
+      for (var data in info.trades!) {
+        if ((data.status ?? false) == false) {
+          isAllSelected = false;
+          break;
+        }
+      }
+      if (!isAllSelected) break;
+    }
+    isCheckAll.value = isAllSelected;
+  }
+
+  void checkAll() {
+    isCheckAll.value = true;
+    for (var info in companyTradesList) {
+      for (var data in info.trades!) {
+        data.status = true;
+      }
+    }
+    companyTradesList.refresh();
+  }
+
+  void unCheckAll() {
+    isCheckAll.value = false;
+    for (var info in companyTradesList) {
+      for (var data in info.trades!) {
+        data.status = false;
+      }
+    }
+    companyTradesList.refresh();
   }
 
   void onBackPress() {

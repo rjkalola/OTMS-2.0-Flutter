@@ -27,7 +27,9 @@ class TextFieldInsuranceExpiryDate extends StatelessWidget {
         onPressed: () {
           controller.showDatePickerDialog(
               AppConstants.dialogIdentifier.insuranceExpiryDate,
-              controller.insuranceExpiresOn);
+              controller.insuranceExpiresOn,
+              DateTime.now(),
+              DateTime(2100));
         },
         validator: MultiValidator([]),
       ),

@@ -21,7 +21,8 @@ class PermissionUsersController extends GetxController {
       isMainViewVisible = false.obs,
       isClearVisible = false.obs,
       isDataUpdated = false.obs,
-      isHandlingPop = false.obs;
+      isHandlingPop = false.obs,
+      isCheckAll = false.obs;
   final searchController = TextEditingController().obs;
   final permissionUsersList = <PermissionUserInfo>[].obs;
   List<PermissionUserInfo> tempList = [];
@@ -55,6 +56,7 @@ class PermissionUsersController extends GetxController {
           tempList.addAll(response.info ?? []);
           permissionUsersList.value = tempList;
           permissionUsersList.refresh();
+          checkSelectAll();
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
@@ -132,6 +134,33 @@ class PermissionUsersController extends GetxController {
       }
     }
     return list;
+  }
+
+  void checkSelectAll() {
+    bool isAllSelected = true;
+    for (var info in permissionUsersList) {
+      if ((info.status ?? false) == false) {
+        isAllSelected = false;
+        break;
+      }
+    }
+    isCheckAll.value = isAllSelected;
+  }
+
+  void checkAll() {
+    isCheckAll.value = true;
+    for (var info in permissionUsersList) {
+      info.status = true;
+    }
+    permissionUsersList.refresh();
+  }
+
+  void unCheckAll() {
+    isCheckAll.value = false;
+    for (var info in permissionUsersList) {
+      info.status = false;
+    }
+    permissionUsersList.refresh();
   }
 
   void onBackPress() {

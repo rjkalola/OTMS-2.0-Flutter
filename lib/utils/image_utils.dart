@@ -2,16 +2,41 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as path;
 
 import '../pages/common/widgets/image_preview_dialog.dart';
 
 class ImageUtils {
   static String defaultUserAvtarUrl =
       "https://www.pngmart.com/files/22/User-Avatar-Profile-PNG-Isolated-Transparent-Picture.png";
+
+  Future<File?> compressImage(File file, {int quality = 70}) async {
+    try {
+      final tempDir = await getTemporaryDirectory();
+      final fileName = path.basenameWithoutExtension(file.path);
+      final outPath = path.join(tempDir.path, '${fileName}_compressed.jpg');
+
+      final compressed = await FlutterImageCompress.compressAndGetFile(
+        file.absolute.path,
+        outPath,
+        quality: quality,
+        minWidth: 800,
+        minHeight: 600,
+      );
+
+      return File(compressed!.path);
+    } catch (e) {
+      print('Compression failed: $e');
+      return null;
+    }
+  }
 
   static Widget setUserImage(
       {required String? url,
@@ -23,7 +48,7 @@ class ImageUtils {
         ? ClipRRect(
             borderRadius: BorderRadius.circular(radius ?? 45),
             child: CachedNetworkImage(
-              imageUrl: url??"",
+              imageUrl: url ?? "",
               fit: fit ?? BoxFit.cover,
               width: width,
               height: height,

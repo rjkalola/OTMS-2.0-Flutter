@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:otm_inventory/pages/permissions/company_permissions/view/widgets/company_permissions_list.dart';
+import 'package:otm_inventory/pages/permissions/permission_users/view/widgets/select_all_text.dart';
 import 'package:otm_inventory/pages/permissions/permission_users/controller/permission_users_controller.dart';
 import 'package:otm_inventory/pages/permissions/permission_users/view/widgets/permission_users_list.dart';
 import 'package:otm_inventory/pages/permissions/permission_users/view/widgets/search_permission_users.dart';
@@ -65,6 +65,7 @@ class _PermissionUsersScreenState extends State<PermissionUsersScreen> {
                             children: [
                               Divider(),
                               SearchPermissionUsersWidget(),
+                              SelectAllText(),
                               PermissionUsersList()
                             ],
                           ),

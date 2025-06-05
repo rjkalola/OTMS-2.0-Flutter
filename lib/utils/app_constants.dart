@@ -39,6 +39,7 @@ class IntentKey {
   final String companyData = 'COMPANY_DATA';
   final String companyCode = 'COMPANY_CODE';
   final String fromSignUpScreen = 'FROM_SIGN_UP_SCREEN';
+  final String fromDashboardScreen = 'FROM_DASHBOARD_SCREEN';
   final String dashboardTabIndex = 'DASHBOARD_TAB_INDEX';
   final String stockCountType = 'STOCK_COUNT_TYPE';
   final String allStockType = 'ALL_STOCK_TYPE';
@@ -76,6 +77,7 @@ class DialogIdentifier {
   final String establishedDate = 'ESTABLISHED_DATE';
   final String insuranceExpiryDate = 'INSURANCE_EXPIRY_DATE';
   final String selectWorkingHourTime = 'SELECT_WORKING_HOUR_TIME';
+  final String selectTeamMembers = 'SELECT_TEAM_MEMBERS';
 }
 
 class SharedPreferenceKey {

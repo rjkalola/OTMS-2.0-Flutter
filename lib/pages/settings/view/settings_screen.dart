@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:otm_inventory/pages/settings/controller/settings_controller.dart';
 import 'package:otm_inventory/pages/settings/view/widgets/setting_item.dart';
+import 'package:otm_inventory/pages/settings/view/widgets/setting_item_divider.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/res/drawable.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
@@ -49,6 +50,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         child: Column(
                           children: [
                             Divider(),
+                            SizedBox(
+                              height: 6,
+                            ),
                             SettingItem(
                                 onTap: () {
                                   controller.moveToScreen(
@@ -56,6 +60,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 },
                                 title: 'company_permissions'.tr,
                                 iconPath: Drawable.permissionIcon),
+                            // SettingItemDivider()
                           ],
                         ),
                       ));

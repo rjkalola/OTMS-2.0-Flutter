@@ -74,6 +74,7 @@ class Drawable {
       'assets/images/ic_arrow_down_expand_collapse.svg';
   static const String arrowUpExpandCollapseIcon =
       'assets/images/ic_arrow_up_expand_collapse.svg';
+  static const String deleteTeamIcon = 'assets/images/ic_delete_team.svg';
 
   static const String permissionIcon = 'assets/images/ic_permission.svg';
   static const String widgetIcon = 'assets/images/ic_widget.svg';
@@ -112,7 +113,8 @@ class Drawable {
       'assets/user_permission_icons/truck.svg';
   static const String usersPermissionIcon =
       'assets/user_permission_icons/users.svg';
-  static const String tradesPermissionIcon = 'assets/user_permission_icons/trades.svg';
+  static const String tradesPermissionIcon =
+      'assets/user_permission_icons/trades.svg';
   static const String editWidgetIcon =
       'assets/user_permission_icons/edit_widget.svg';
 }

@@ -13,6 +13,7 @@ class UserInfo {
   int? companyId;
   int? deviceType;
   String? apiToken;
+  bool? isCheck;
 
   UserInfo(
       {this.id,
@@ -28,7 +29,8 @@ class UserInfo {
       this.userThumbImage,
       this.companyId,
       this.deviceType,
-      this.apiToken});
+      this.apiToken,
+      this.isCheck});
 
   UserInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -45,6 +47,7 @@ class UserInfo {
     companyId = json['company_id'];
     deviceType = json['device_type'];
     apiToken = json['api_token'];
+    isCheck = json['isCheck'];
   }
 
   Map<String, dynamic> toJson() {
@@ -63,41 +66,41 @@ class UserInfo {
     data['company_id'] = this.companyId;
     data['device_type'] = this.deviceType;
     data['api_token'] = this.apiToken;
-
+    data['isCheck'] = this.isCheck;
     return data;
   }
 
-  UserInfo copyWith({
-    int? id,
-    String? firstName,
-    String? lastName,
-    String? name,
-    String? email,
-    String? phone,
-    String? extension,
-    String? image,
-    String? phoneWithExtension,
-    String? userImage,
-    String? userThumbImage,
-    int? companyId,
-    int? deviceType,
-    String? deviceToken,
-  }) {
+  UserInfo copyWith(
+      {int? id,
+      String? firstName,
+      String? lastName,
+      String? name,
+      String? email,
+      String? phone,
+      String? extension,
+      String? image,
+      String? phoneWithExtension,
+      String? userImage,
+      String? userThumbImage,
+      int? companyId,
+      int? deviceType,
+      String? deviceToken,
+      bool? isCheck}) {
     return UserInfo(
-      id: id ?? this.id,
-      firstName: firstName ?? this.firstName,
-      lastName: lastName ?? this.lastName,
-      name: name ?? this.name,
-      email: email ?? this.email,
-      phone: phone ?? this.phone,
-      extension: extension ?? this.extension,
-      image: image ?? this.image,
-      phoneWithExtension: phoneWithExtension ?? this.phoneWithExtension,
-      userImage: userImage ?? this.userImage,
-      userThumbImage: userImage ?? this.userThumbImage,
-      companyId: companyId ?? this.companyId,
-      deviceType: deviceType ?? this.deviceType,
-      apiToken: deviceToken ?? this.apiToken,
-    );
+        id: id ?? this.id,
+        firstName: firstName ?? this.firstName,
+        lastName: lastName ?? this.lastName,
+        name: name ?? this.name,
+        email: email ?? this.email,
+        phone: phone ?? this.phone,
+        extension: extension ?? this.extension,
+        image: image ?? this.image,
+        phoneWithExtension: phoneWithExtension ?? this.phoneWithExtension,
+        userImage: userImage ?? this.userImage,
+        userThumbImage: userImage ?? this.userThumbImage,
+        companyId: companyId ?? this.companyId,
+        deviceType: deviceType ?? this.deviceType,
+        apiToken: deviceToken ?? this.apiToken,
+        isCheck: isCheck ?? this.isCheck);
   }
 }
