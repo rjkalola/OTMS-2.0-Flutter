@@ -10,7 +10,7 @@ class WidgetsRepository {
     Function(ResponseModel error)? onError,
   }) {
     ApiRequest(
-            url: ApiConstants.getCompanyPermissions,
+            url: ApiConstants.getSystemPermissions,
             data: data,
             isFormData: false)
         .getRequest(

@@ -35,7 +35,7 @@ class TeamsList extends StatelessWidget {
                         var arguments = {
                           AppConstants.intentKey.teamId: info.id ?? 0,
                         };
-                        Get.toNamed(AppRoutes.teamGenerateOtpScreen,
+                        Get.toNamed(AppRoutes.teamDetailsScreen,
                             arguments: arguments);
                       },
                       child: Container(
@@ -59,20 +59,33 @@ class TeamsList extends StatelessWidget {
                                     ),
                                     child: ImageUtils.setUserImage(
                                       url: info.supervisorThumbImage,
-                                      width: 40,
-                                      height: 40,
+                                      width: 44,
+                                      height: 44,
                                     ),
                                   ),
                                   SizedBox(
                                     width: 12,
                                   ),
-                                  Text(
-                                    info.name ?? "",
-                                    textAlign: TextAlign.start,
-                                    style: const TextStyle(
-                                        fontSize: 17,
-                                        color: primaryTextColor,
-                                        fontWeight: FontWeight.w600),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        info.name ?? "",
+                                        textAlign: TextAlign.start,
+                                        style: const TextStyle(
+                                            fontSize: 17,
+                                            color: primaryTextColor,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                      Text(
+                                        info.supervisorName ?? "",
+                                        textAlign: TextAlign.start,
+                                        style: const TextStyle(
+                                            fontSize: 14,
+                                            color: secondaryLightTextColor,
+                                            fontWeight: FontWeight.w400),
+                                      )
+                                    ],
                                   )
                                 ],
                               ),

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/pages/teams/create_team/controller/create_team_controller.dart';
 import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/widgets/PrimaryBorderButton.dart';
-import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
 
 class AddTeamMember extends StatelessWidget {
@@ -29,19 +27,19 @@ class AddTeamMember extends StatelessWidget {
     );*/
     return Align(
       alignment: Alignment.topRight,
-      child: Container(
-        color: Colors.transparent,
-        padding: EdgeInsets.fromLTRB(16, 25, 16, 6),
-        width: 230,
-        child: PrimaryBorderButton(
-            buttonText: "+ ${'add_team_members'.tr}",
-            onPressed: () {
-              print("PrimaryBorderButton");
-              controller.showSelectTeamMemberListDialog();
-            },
-            textColor: defaultAccentColor,
-            borderRadius: 45,
-            borderColor: defaultAccentColor),
+      child: GestureDetector(
+        onTap: () {
+          controller.showSelectTeamMemberListDialog();
+        },
+        child: Container(
+          color: Colors.transparent,
+          padding: EdgeInsets.fromLTRB(16, 28, 20, 6),
+          child: PrimaryTextView(
+              text: "+ ${'add_team_members'.tr}",
+              fontSize: 16,
+              color: defaultAccentColor,
+              fontWeight: FontWeight.w400),
+        ),
       ),
     );
   }

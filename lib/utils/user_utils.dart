@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:otm_inventory/pages/common/model/user_info.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/utils/app_storage.dart';
@@ -35,5 +37,25 @@ class UserUtils {
     UserInfo? info = Get.find<AppStorage>().getUserInfo();
     // return info.userTypeId == AppConstants.userType.supervisor;
     return false;
+  }
+
+  static List<UserInfo> getCheckedUserList(
+      List<UserInfo> listTotalUsers, List<UserInfo> listCheckedUsers) {
+    for (var info in listCheckedUsers) {
+      for (var data in listTotalUsers) {
+        if (data.id == info.id) {
+          data.isCheck = true;
+        }
+      }
+    }
+    return listTotalUsers;
+  }
+
+  static String getCommaSeparatedIdsString(List<UserInfo> listCheckedUsers) {
+    List<int> listIds = [];
+    for (var info in listCheckedUsers) {
+      listIds.add(info.id ?? 0);
+    }
+    return listIds.isNotEmpty ? listIds.join(',') : "";
   }
 }

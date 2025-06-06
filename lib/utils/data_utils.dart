@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:otm_inventory/pages/common/model/user_info.dart';
 import 'package:otm_inventory/pages/dashboard/tabs/home_tab/model/dashboard_grid_item_info.dart';
 import 'package:otm_inventory/pages/dashboard/tabs/home_tab/model/permission_info.dart';
 import 'package:otm_inventory/pages/dashboard/tabs/home_tab2/model/DashboardActionItemInfo.dart';
@@ -302,5 +303,13 @@ class DataUtils {
       }
     }
     return outList;
+  }
+
+  static List<ModuleInfo> getModuleListFromUserList(List<UserInfo> userList) {
+    var list = <ModuleInfo>[];
+    for (var info in userList) {
+      list.add(ModuleInfo(id: info.id, name: info.name));
+    }
+    return list;
   }
 }

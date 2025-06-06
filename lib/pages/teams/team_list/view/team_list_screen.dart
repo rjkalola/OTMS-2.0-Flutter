@@ -6,6 +6,7 @@ import 'package:otm_inventory/pages/teams/team_list/controller/team_list_control
 import 'package:otm_inventory/pages/teams/team_list/view/widgets/search_team.dart';
 import 'package:otm_inventory/pages/teams/team_list/view/widgets/teams_list.dart';
 import 'package:otm_inventory/res/colors.dart';
+import 'package:otm_inventory/utils/image_utils.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
 import 'package:otm_inventory/widgets/custom_views/no_internet_widgets.dart';
@@ -26,15 +27,17 @@ class _TeamListScreenState extends State<TeamListScreen> {
         statusBarColor: Colors.white,
         statusBarIconBrightness: Brightness.dark));
     return Container(
-      color: backgroundColor,
+      color: dashBoardBgColor,
       child: SafeArea(
         child: Scaffold(
-          backgroundColor: backgroundColor,
+          backgroundColor: dashBoardBgColor,
           appBar: BaseAppBar(
             appBar: AppBar(),
             title: 'teams'.tr,
             isCenterTitle: false,
             isBack: true,
+            bgColor: dashBoardBgColor,
+            widgets: actionButtons(),
           ),
           body: Obx(() {
             return ModalProgressHUD(
@@ -62,5 +65,19 @@ class _TeamListScreenState extends State<TeamListScreen> {
         ),
       ),
     );
+  }
+
+  List<Widget>? actionButtons() {
+    return [
+      Visibility(
+        visible: true,
+        child: IconButton(
+          icon: Icon(Icons.more_vert_outlined),
+          onPressed: () {
+            controller.showMenuItemsDialog(Get.context!);
+          },
+        ),
+      ),
+    ];
   }
 }

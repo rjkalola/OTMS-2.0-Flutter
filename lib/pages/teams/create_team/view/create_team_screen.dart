@@ -14,6 +14,7 @@ import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
 import 'package:otm_inventory/widgets/custom_views/no_internet_widgets.dart';
+import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
 
 class CreateTeamScreen extends StatefulWidget {
   const CreateTeamScreen({super.key});
@@ -41,6 +42,7 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
             isCenterTitle: false,
             isBack: true,
             bgColor: dashBoardBgColor,
+            widgets: actionButtons(),
           ),
           body: Obx(() {
             return ModalProgressHUD(
@@ -60,16 +62,19 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
                           children: [
                             Divider(),
                             Expanded(
-                              child: Column(
-                                children: [
-                                  TeamNameTextField(),
-                                  SupervisorTextField(),
-                                  AddTeamMember(),
-                                  SizedBox(
-                                    height: 6,
-                                  ),
-                                  TeamMembersList()
-                                ],
+                              child: Form(
+                                key: controller.formKey,
+                                child: Column(
+                                  children: [
+                                    TeamNameTextField(),
+                                    SupervisorTextField(),
+                                    AddTeamMember(),
+                                    SizedBox(
+                                      height: 6,
+                                    ),
+                                    TeamMembersList()
+                                  ],
+                                ),
                               ),
                             )
                           ],
@@ -79,5 +84,21 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
         ),
       ),
     );
+  }
+
+  List<Widget>? actionButtons() {
+    return [
+      TextButton(
+        onPressed: () {
+          controller.createTeamApi();
+        },
+        child: PrimaryTextView(
+          text: 'save'.tr,
+          fontSize: 17,
+          fontWeight: FontWeight.w600,
+          color: defaultAccentColor,
+        ),
+      )
+    ];
   }
 }

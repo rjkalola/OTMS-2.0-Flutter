@@ -25,7 +25,6 @@ class AppRoutes {
   static const String settingsScreen = '/settings_screen';
   static const String widgetsScreen = '/widgets_screen';
 
-
   static const String productListScreen = '/product_list_screen';
   static const String storeListScreen = '/store_list_screen';
   static const String supplierListScreen = '/supplier_list_screen';
@@ -50,4 +49,5 @@ class AppRoutes {
       '/team_users_count_info_screen';
   static const String businessFieldInfoScreen = '/business_field_info_screen';
   static const String createTeamScreen = '/create_team_screen';
+  static const String teamDetailsScreen = '/team_details_screen';
 }

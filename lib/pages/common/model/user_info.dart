@@ -13,6 +13,8 @@ class UserInfo {
   int? companyId;
   int? deviceType;
   String? apiToken;
+  int? tradeId;
+  String? tradeName;
   bool? isCheck;
 
   UserInfo(
@@ -30,6 +32,8 @@ class UserInfo {
       this.companyId,
       this.deviceType,
       this.apiToken,
+      this.tradeId,
+      this.tradeName,
       this.isCheck});
 
   UserInfo.fromJson(Map<String, dynamic> json) {
@@ -47,6 +51,8 @@ class UserInfo {
     companyId = json['company_id'];
     deviceType = json['device_type'];
     apiToken = json['api_token'];
+    tradeId = json['trade_id'];
+    tradeName = json['trade_name'];
     isCheck = json['isCheck'];
   }
 
@@ -66,6 +72,8 @@ class UserInfo {
     data['company_id'] = this.companyId;
     data['device_type'] = this.deviceType;
     data['api_token'] = this.apiToken;
+    data['trade_id'] = this.tradeId;
+    data['trade_name'] = this.tradeName;
     data['isCheck'] = this.isCheck;
     return data;
   }
@@ -101,6 +109,30 @@ class UserInfo {
         companyId: companyId ?? this.companyId,
         deviceType: deviceType ?? this.deviceType,
         apiToken: deviceToken ?? this.apiToken,
+        tradeId: tradeId ?? this.tradeId,
+        tradeName: tradeName ?? this.tradeName,
         isCheck: isCheck ?? this.isCheck);
+  }
+
+  UserInfo copyUserInfo({UserInfo? userInfo}) {
+    return UserInfo(
+        id: userInfo?.id ?? this.id,
+        firstName: userInfo?.firstName ?? this.firstName,
+        lastName: userInfo?.lastName ?? this.lastName,
+        name: userInfo?.name ?? this.name,
+        email: userInfo?.email ?? this.email,
+        phone: userInfo?.phone ?? this.phone,
+        extension: userInfo?.extension ?? this.extension,
+        image: userInfo?.image ?? this.image,
+        phoneWithExtension:
+            userInfo?.phoneWithExtension ?? this.phoneWithExtension,
+        userImage: userInfo?.userImage ?? this.userImage,
+        userThumbImage: userInfo?.userImage ?? this.userThumbImage,
+        companyId: userInfo?.companyId ?? this.companyId,
+        deviceType: userInfo?.deviceType ?? this.deviceType,
+        apiToken: userInfo?.apiToken ?? this.apiToken,
+        tradeId: userInfo?.tradeId ?? this.tradeId,
+        tradeName: userInfo?.tradeName ?? this.tradeName,
+        isCheck: userInfo?.isCheck ?? this.isCheck);
   }
 }

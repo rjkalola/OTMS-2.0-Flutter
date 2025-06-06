@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:otm_inventory/pages/company/company_signup/controller/company_signup_controller.dart';
 import 'package:otm_inventory/pages/teams/create_team/controller/create_team_controller.dart';
 import 'package:otm_inventory/widgets/textfield/text_field_border.dart';
+import 'package:otm_inventory/widgets/textfield/text_field_border_dark.dart';
 
 class SupervisorTextField extends StatelessWidget {
   SupervisorTextField({super.key});
@@ -14,7 +15,7 @@ class SupervisorTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
-      child: TextFieldBorder(
+      child: TextFieldBorderDark(
         textEditingController: controller.supervisorController.value,
         hintText: 'select_supervisor'.tr,
         labelText: 'select_supervisor'.tr,
@@ -27,6 +28,9 @@ class SupervisorTextField extends StatelessWidget {
         validator: MultiValidator([
           RequiredValidator(errorText: 'required_field'.tr),
         ]),
+        onPressed: () {
+          controller.showSelectSupervisorDialog();
+        },
       ),
     );
   }

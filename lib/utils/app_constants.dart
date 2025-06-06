@@ -77,6 +77,7 @@ class DialogIdentifier {
   final String establishedDate = 'ESTABLISHED_DATE';
   final String insuranceExpiryDate = 'INSURANCE_EXPIRY_DATE';
   final String selectWorkingHourTime = 'SELECT_WORKING_HOUR_TIME';
+  final String selectMenuItemsDialog = 'selectMenuItemsDialog';
   final String selectTeamMembers = 'SELECT_TEAM_MEMBERS';
 }
 
@@ -133,6 +134,8 @@ class Action {
   final String timeSheet = "TimeSheet";
   final String selectCompanyListDialog = "selectCompanyListDialog";
   final String selectTradeListDialog = "selectTradeListDialog";
+  final String selectSupervisorDialog = 'selectSupervisorDialog';
+  final String add = 'ADD';
 
   final String companyDetails = "COMPANY_DETAILS";
   final String companyTrades = "COMPANY_TRADES";
@@ -140,6 +143,7 @@ class Action {
   final String companyPermissions = "COMPANY_PERMISSIONS";
   final String userPermissions = "USER_PERMISSIONS";
   final String settings = "SETTINGS";
+
 }
 
 class StockCountType {

@@ -319,8 +319,8 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       moveToScreen(
           appRout: AppRoutes.userPermissionScreen, arguments: arguments);
     } else if (info.slug == 'team') {
-      // Get.toNamed(AppRoutes.teamListScreen);
-      Get.toNamed(AppRoutes.createTeamScreen);
+      Get.toNamed(AppRoutes.teamListScreen);
+      // Get.toNamed(AppRoutes.createTeamScreen);
     } else if (info.slug == 'settings') {
       moveToScreen(appRout: AppRoutes.settingsScreen);
     }

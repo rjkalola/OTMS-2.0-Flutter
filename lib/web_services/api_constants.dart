@@ -46,6 +46,7 @@ class ApiConstants {
 
   //trades
   static String getCompanyTradesUrl = '$appUrl/trade/get-company-trades';
+
   // static String changeCompanyTradeStatus =
   //     '$appUrl/trade/change-company-trade-status';
   static String changeCompanyBulkTradeStatus =
@@ -53,10 +54,11 @@ class ApiConstants {
 
   //company permissions
   static String getCompanyPermissions = '$appUrl/dashboard/company/permissions';
-  // static String changeCompanyPermissionStatus =
-  //     '$appUrl/dashboard/company/change-permission-status';
   static String changeCompanyBulkPermissionStatus =
       '$appUrl/dashboard/company/change-bulk-permission-status';
+
+  //system permissions
+  static String getSystemPermissions = '$appUrl/dashboard/system/permissions';
 
   //user permissions
   static String getUserPermissions = '$appUrl/dashboard/user/permissions';
@@ -68,9 +70,13 @@ class ApiConstants {
 
   //permission users
   static String getPermissionUsers =
-      '$appUrl/dashboard/company/users-permissions-status';
+      '$appUrl/dashboard/company/permission-users';
   static String changePermissionUserStatus =
-      '$appUrl/dashboard/company/change-users-permission-status';
+      '$appUrl/dashboard/company/change-permission-users-status';
+  // static String getPermissionUsers =
+  //     '$appUrl/dashboard/company/users-permissions-status';
+  // static String changePermissionUserStatus =
+  //     '$appUrl/dashboard/company/change-users-permission-status';
 
   //users
   static String userList = '$appUrl/user/list';
@@ -78,6 +84,8 @@ class ApiConstants {
   //teams
   static String teamList = '$appUrl/team/list';
   static String teamGenerateOtp = '$appUrl/team/generate-otp';
+  static String addTeam = '$appUrl/team/add';
+  static String teamDetails = '$appUrl/team/details';
 
   static String registerResourcesUrl = '$appUrl/wn-resources';
   static String verifyPhoneUrl = '$appUrl/verify-phone';

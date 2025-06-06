@@ -3,18 +3,25 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:otm_inventory/pages/common/listener/menu_item_listener.dart';
+import 'package:otm_inventory/pages/common/listener/select_item_listener.dart';
+import 'package:otm_inventory/pages/common/menu_items_list_bottom_dialog.dart';
 import 'package:otm_inventory/pages/common/model/user_info.dart';
 import 'package:otm_inventory/pages/teams/team_list/controller/team_list_repository.dart';
 import 'package:otm_inventory/pages/teams/team_list/model/team_info.dart';
 import 'package:otm_inventory/pages/teams/team_list/model/team_list_response.dart';
 import 'package:otm_inventory/pages/permissions/user_list/controller/user_list_repository.dart';
 import 'package:otm_inventory/pages/permissions/user_list/model/user_list_response.dart';
+import 'package:otm_inventory/routes/app_routes.dart';
+import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
+import 'package:otm_inventory/utils/data_utils.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:otm_inventory/web_services/api_constants.dart';
+import 'package:otm_inventory/web_services/response/module_info.dart';
 import 'package:otm_inventory/web_services/response/response_model.dart';
 
-class TeamListController extends GetxController {
+class TeamListController extends GetxController implements MenuItemListener {
   final _api = TeamListRepository();
   final formKey = GlobalKey<FormState>();
   RxBool isLoading = false.obs,
@@ -81,5 +88,42 @@ class TeamListController extends GetxController {
           .toList();
     }
     teamsList.value = results;
+  }
+
+  /* void showMenuItemsDialog() {
+    List<ModuleInfo> listItems = [];
+    listItems.add(ModuleInfo(name: ));
+    Get.bottomSheet(
+        MenuItemsListBottomDialog(
+          dialogType: AppConstants.dialogIdentifier.selectMenuItemsDialog,
+          list: DataUtils.getPhoneExtensionList(),
+          listener: this,
+        ),
+        backgroundColor: Colors.transparent,
+        isScrollControlled: true);
+
+
+  }*/
+
+  void showMenuItemsDialog(BuildContext context) {
+    List<ModuleInfo> listItems = [];
+    listItems.add(ModuleInfo(name: 'create_new_team'.tr, action: AppConstants.action.add));
+    listItems.add(ModuleInfo(name: 'archive'.tr, action: ""));
+    listItems.add(ModuleInfo(name: 'create_code'.tr, action: ""));
+    showCupertinoModalPopup(
+      context: context,
+      builder: (_) => MenuItemsListBottomDialog(
+          list: listItems, listener: this),
+    );
+  }
+
+  @override
+  Future<void> onSelectMenuItem(ModuleInfo info) async {
+    if (info.action == AppConstants.action.add) {
+      var result = await Get.toNamed(AppRoutes.createTeamScreen);
+      if(result != null && result){
+        getTeamListApi();
+      }
+    }
   }
 }

@@ -209,7 +209,7 @@ class DropDownListDialogState extends State<DropDownListDialog> {
 
   Widget setDropdownList(String dialogType, SelectItemListener listener) =>
       Container(
-        margin: const EdgeInsets.only(top: 6,bottom: 10),
+        margin: const EdgeInsets.only(top: 6, bottom: 10),
         child: ListView.builder(
           itemCount: tempList.length,
           // scrollDirection: Axis.vertical,
