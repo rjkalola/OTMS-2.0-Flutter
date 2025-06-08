@@ -53,6 +53,7 @@ class IntentKey {
   final String permissionStep2Info = "PERMISSION_STEP2_INFO";
   final String permissionId = "PERMISSION_ID";
   final String teamId = "TEAM_ID";
+  final String teamInfo = "TEAM_INFO";
   final String userId = "USER_ID";
   final String userName = "USER_NAME";
   final String userList = "USER_LIST";
@@ -79,6 +80,7 @@ class DialogIdentifier {
   final String selectWorkingHourTime = 'SELECT_WORKING_HOUR_TIME';
   final String selectMenuItemsDialog = 'selectMenuItemsDialog';
   final String selectTeamMembers = 'SELECT_TEAM_MEMBERS';
+  final String deleteTeam = 'DELETE_TEAM';
 }
 
 class SharedPreferenceKey {
@@ -136,6 +138,9 @@ class Action {
   final String selectTradeListDialog = "selectTradeListDialog";
   final String selectSupervisorDialog = 'selectSupervisorDialog';
   final String add = 'ADD';
+  final String edit = 'EDIT';
+  final String delete = 'DELETE';
+  final String createCode = 'CREATE_CODE';
 
   final String companyDetails = "COMPANY_DETAILS";
   final String companyTrades = "COMPANY_TRADES";
@@ -143,7 +148,6 @@ class Action {
   final String companyPermissions = "COMPANY_PERMISSIONS";
   final String userPermissions = "USER_PERMISSIONS";
   final String settings = "SETTINGS";
-
 }
 
 class StockCountType {

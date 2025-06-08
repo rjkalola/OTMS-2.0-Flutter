@@ -7,8 +7,10 @@ import 'package:otm_inventory/pages/teams/team_details/controller/team_details_c
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/res/drawable.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
+import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
 import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:otm_inventory/widgets/other_widgets/user_avtar_view.dart';
 import 'package:otm_inventory/widgets/switch/custom_switch.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
 
@@ -30,29 +32,15 @@ class TeamMembersList extends StatelessWidget {
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
               itemBuilder: (context, position) {
-                UserInfo info = controller.info.value.teamMembers![position];
+                UserInfo info = controller.teamInfo.value.teamMembers![position];
                 return GestureDetector(
                   onTap: () {},
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(12, 9, 12, 9),
+                    padding: EdgeInsets.fromLTRB(12, 10, 12, 10),
                     child: Row(
                       children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(45),
-                            ),
-                            border: Border.all(
-                              width: 2,
-                              color: Color(0xff1E1E1E),
-                              style: BorderStyle.solid,
-                            ),
-                          ),
-                          child: ImageUtils.setUserImage(
-                            url: info.userThumbImage,
-                            width: 44,
-                            height: 44,
-                          ),
+                        UserAvtarView(
+                          imageUrl: info.userThumbImage ?? "",
                         ),
                         SizedBox(
                           width: 12,
@@ -81,7 +69,7 @@ class TeamMembersList extends StatelessWidget {
                   ),
                 );
               },
-              itemCount: controller.info.value.teamMembers!.length,
+              itemCount: controller.teamInfo.value.teamMembers!.length,
               // separatorBuilder: (context, position) => const Padding(
               //   padding: EdgeInsets.only(left: 100),
               //   child: Divider(
@@ -90,7 +78,12 @@ class TeamMembersList extends StatelessWidget {
               //     thickness: 0.8,
               //   ),
               // ),
-              separatorBuilder: (context, position) => Divider()),
+              separatorBuilder: (context, position) => Padding(
+                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    child: Divider(
+                      height: 0,
+                    ),
+                  )),
         ),
       ),
     );

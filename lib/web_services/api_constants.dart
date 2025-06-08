@@ -84,8 +84,9 @@ class ApiConstants {
   //teams
   static String teamList = '$appUrl/team/list';
   static String teamGenerateOtp = '$appUrl/team/generate-otp';
-  static String addTeam = '$appUrl/team/add';
+  static String teamAdd = '$appUrl/team/add';
   static String teamDetails = '$appUrl/team/details';
+  static String teamDelete = '$appUrl/team/delete';
 
   static String registerResourcesUrl = '$appUrl/wn-resources';
   static String verifyPhoneUrl = '$appUrl/verify-phone';

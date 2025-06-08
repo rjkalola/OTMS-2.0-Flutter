@@ -10,6 +10,7 @@ import 'package:otm_inventory/pages/common/select_multiple_user_dialog.dart';
 import 'package:otm_inventory/pages/permissions/user_list/controller/user_list_repository.dart';
 import 'package:otm_inventory/pages/permissions/user_list/model/user_list_response.dart';
 import 'package:otm_inventory/pages/teams/create_team/controller/create_team_repository.dart';
+import 'package:otm_inventory/pages/teams/team_list/model/team_info.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/data_utils.dart';
@@ -29,15 +30,32 @@ class CreateTeamController extends GetxController
   final _api = CreateTeamRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
-      isMainViewVisible = true.obs;
+      isMainViewVisible = false.obs;
   final teamMembersList = <UserInfo>[].obs;
   final userList = <UserInfo>[].obs;
   int supervisorId = 0;
+  TeamInfo? teamInfo;
 
   @override
   void onInit() {
     super.onInit();
+    var arguments = Get.arguments;
+    if (arguments != null) {
+      print("arguments != null");
+      teamInfo = arguments[AppConstants.intentKey.teamInfo];
+    }else {
+      print("arguments == null");
+    }
+    setInitData();
     getUserListApi();
+  }
+
+  void setInitData() {
+    if (teamInfo != null) {
+      teamNameController.value.text = teamInfo?.name ?? "";
+      supervisorController.value.text = teamInfo?.supervisorName ?? "";
+      teamMembersList.addAll(teamInfo?.teamMembers ?? []);
+    }
   }
 
   void getUserListApi() {

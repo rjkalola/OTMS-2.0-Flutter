@@ -8,6 +8,7 @@ import 'package:otm_inventory/res/drawable.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
 import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:otm_inventory/widgets/other_widgets/user_avtar_view.dart';
 import 'package:otm_inventory/widgets/switch/custom_switch.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
 
@@ -38,22 +39,8 @@ class TeamMembersList extends StatelessWidget {
                         padding: EdgeInsets.fromLTRB(12, 9, 12, 9),
                         child: Row(
                           children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(45),
-                                ),
-                                border: Border.all(
-                                  width: 2,
-                                  color: Color(0xff1E1E1E),
-                                  style: BorderStyle.solid,
-                                ),
-                              ),
-                              child: ImageUtils.setUserImage(
-                                url: info.userThumbImage,
-                                width: 44,
-                                height: 44,
-                              ),
+                            UserAvtarView(
+                              imageUrl: info.userThumbImage ?? "",
                             ),
                             SizedBox(
                               width: 12,

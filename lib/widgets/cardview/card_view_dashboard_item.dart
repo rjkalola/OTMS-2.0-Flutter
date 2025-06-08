@@ -20,7 +20,7 @@ class CardViewDashboardItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: elevation ?? 4,
-      shadowColor: shadowColor ?? Colors.black45,
+      shadowColor: shadowColor ?? Colors.black87,
       color: boxColor ?? backgroundColor,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(borderRadius ?? 20)),

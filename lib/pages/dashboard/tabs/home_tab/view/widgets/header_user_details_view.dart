@@ -4,6 +4,7 @@ import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/res/drawable.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
+import 'package:otm_inventory/widgets/other_widgets/user_avtar_view.dart';
 import 'package:otm_inventory/widgets/shapes/badge_count_widget.dart';
 import 'package:otm_inventory/widgets/shapes/circle_widget.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
@@ -23,31 +24,9 @@ class HeaderUserDetailsView extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(16, 14, 16, 14),
       child: Row(
         children: [
-          Stack(
-            alignment: Alignment.bottomRight,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(45),
-                  ),
-                  border: Border.all(
-                    width: 2,
-                    color: Color(0xff1E1E1E),
-                    style: BorderStyle.solid,
-                  ),
-                ),
-                child: ImageUtils.setUserImage(
-                  url: controller.userInfo?.userThumbImage,
-                  width: 44,
-                  height: 44,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(2.0),
-                child: CircleWidget(color: Colors.green, width: 12, height: 12),
-              )
-            ],
+          UserAvtarView(
+            imageUrl: controller.userInfo?.userThumbImage ?? "",
+            isOnlineStatusVisible: true,
           ),
           SizedBox(
             width: 14,

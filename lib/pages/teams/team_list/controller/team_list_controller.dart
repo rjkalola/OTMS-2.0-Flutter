@@ -107,23 +107,28 @@ class TeamListController extends GetxController implements MenuItemListener {
 
   void showMenuItemsDialog(BuildContext context) {
     List<ModuleInfo> listItems = [];
-    listItems.add(ModuleInfo(name: 'create_new_team'.tr, action: AppConstants.action.add));
-    listItems.add(ModuleInfo(name: 'archive'.tr, action: ""));
-    listItems.add(ModuleInfo(name: 'create_code'.tr, action: ""));
+    listItems.add(ModuleInfo(name: 'add'.tr, action: AppConstants.action.add));
+    // listItems.add(ModuleInfo(name: 'archive'.tr, action: ""));
+    // listItems.add(ModuleInfo(name: 'create_code'.tr, action: ""));
     showCupertinoModalPopup(
       context: context,
-      builder: (_) => MenuItemsListBottomDialog(
-          list: listItems, listener: this),
+      builder: (_) =>
+          MenuItemsListBottomDialog(list: listItems, listener: this),
     );
   }
 
   @override
   Future<void> onSelectMenuItem(ModuleInfo info) async {
     if (info.action == AppConstants.action.add) {
-      var result = await Get.toNamed(AppRoutes.createTeamScreen);
-      if(result != null && result){
-        getTeamListApi();
-      }
+      moveToScreen(AppRoutes.createTeamScreen, null);
+    }
+  }
+
+  Future<void> moveToScreen(String rout, dynamic arguments) async {
+    var result = await Get.toNamed(rout, arguments: arguments);
+    if (result != null && result) {
+      isDataUpdated.value = true;
+      getTeamListApi();
     }
   }
 }

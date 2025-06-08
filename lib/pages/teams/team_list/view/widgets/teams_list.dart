@@ -8,6 +8,7 @@ import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
 import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:otm_inventory/widgets/other_widgets/user_avtar_view.dart';
 import 'package:otm_inventory/widgets/switch/custom_switch.dart';
 
 import '../../../../../utils/app_constants.dart';
@@ -35,8 +36,8 @@ class TeamsList extends StatelessWidget {
                         var arguments = {
                           AppConstants.intentKey.teamId: info.id ?? 0,
                         };
-                        Get.toNamed(AppRoutes.teamDetailsScreen,
-                            arguments: arguments);
+                        controller.moveToScreen(
+                            AppRoutes.teamDetailsScreen, arguments);
                       },
                       child: Container(
                         padding: EdgeInsets.fromLTRB(14, 12, 10, 12),
@@ -46,28 +47,15 @@ class TeamsList extends StatelessWidget {
                             Expanded(
                               child: Row(
                                 children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(45),
-                                      ),
-                                      border: Border.all(
-                                        width: 2,
-                                        color: Color(0xff1E1E1E),
-                                        style: BorderStyle.solid,
-                                      ),
-                                    ),
-                                    child: ImageUtils.setUserImage(
-                                      url: info.supervisorThumbImage,
-                                      width: 44,
-                                      height: 44,
-                                    ),
+                                  UserAvtarView(
+                                    imageUrl: info.supervisorThumbImage ?? "",
                                   ),
                                   SizedBox(
                                     width: 12,
                                   ),
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         info.name ?? "",

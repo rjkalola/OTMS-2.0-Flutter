@@ -232,6 +232,7 @@ class Strings extends Translations {
           'edit': "Edit",
           'archive': "Archive",
           'create_code': "Create Code",
+          'are_you_sure_you_want_to_delete': "Are you sure you want to delete?",
           // '': "",
           // '': "",
           // '': "",

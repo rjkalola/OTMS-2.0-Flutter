@@ -9,7 +9,7 @@ class CreateTeamRepository {
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
-    ApiRequest(url: ApiConstants.addTeam, data: data, isFormData: false)
+    ApiRequest(url: ApiConstants.teamAdd, data: data, isFormData: false)
         .postRequest(
       onSuccess: (data) {
         onSuccess!(data);

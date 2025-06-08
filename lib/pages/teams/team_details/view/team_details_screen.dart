@@ -25,42 +25,52 @@ class _TeamDetailsScreenState extends State<TeamDetailsScreen> {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: Colors.white,
         statusBarIconBrightness: Brightness.dark));
-    return Container(
-      color: dashBoardBgColor,
-      child: SafeArea(
-        child: Scaffold(
-          backgroundColor: dashBoardBgColor,
-          appBar: BaseAppBar(
-            appBar: AppBar(),
-            title: 'teams'.tr,
-            isCenterTitle: false,
-            isBack: true,
-            bgColor: dashBoardBgColor,
-            widgets: actionButtons(),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop || result != null) return;
+        controller.onBackPress();
+      },
+      child: Container(
+        color: dashBoardBgColor,
+        child: SafeArea(
+          child: Scaffold(
+            backgroundColor: dashBoardBgColor,
+            appBar: BaseAppBar(
+              appBar: AppBar(),
+              title: 'teams'.tr,
+              isCenterTitle: false,
+              isBack: true,
+              bgColor: dashBoardBgColor,
+              widgets: actionButtons(),
+              onBackPressed: () {
+                controller.onBackPress();
+              },
+            ),
+            body: Obx(() {
+              return ModalProgressHUD(
+                  inAsyncCall: controller.isLoading.value,
+                  opacity: 0,
+                  progressIndicator: const CustomProgressbar(),
+                  child: controller.isInternetNotAvailable.value
+                      ? NoInternetWidget(
+                          onPressed: () {
+                            controller.isInternetNotAvailable.value = false;
+                            // controller.getTeamListApi();
+                          },
+                        )
+                      : Visibility(
+                          visible: controller.isMainViewVisible.value,
+                          child: Column(
+                            children: [
+                              Divider(),
+                              TeamTitleCardView(),
+                              TeamMembersList()
+                            ],
+                          ),
+                        ));
+            }),
           ),
-          body: Obx(() {
-            return ModalProgressHUD(
-                inAsyncCall: controller.isLoading.value,
-                opacity: 0,
-                progressIndicator: const CustomProgressbar(),
-                child: controller.isInternetNotAvailable.value
-                    ? NoInternetWidget(
-                        onPressed: () {
-                          controller.isInternetNotAvailable.value = false;
-                          // controller.getTeamListApi();
-                        },
-                      )
-                    : Visibility(
-                        visible: controller.isMainViewVisible.value,
-                        child: Column(
-                          children: [
-                            Divider(),
-                            TeamTitleCardView(),
-                            TeamMembersList()
-                          ],
-                        ),
-                      ));
-          }),
         ),
       ),
     );
