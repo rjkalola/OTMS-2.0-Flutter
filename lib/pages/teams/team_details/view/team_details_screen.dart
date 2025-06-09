@@ -31,24 +31,24 @@ class _TeamDetailsScreenState extends State<TeamDetailsScreen> {
         if (didPop || result != null) return;
         controller.onBackPress();
       },
-      child: Container(
-        color: dashBoardBgColor,
-        child: SafeArea(
-          child: Scaffold(
-            backgroundColor: dashBoardBgColor,
-            appBar: BaseAppBar(
-              appBar: AppBar(),
-              title: 'teams'.tr,
-              isCenterTitle: false,
-              isBack: true,
-              bgColor: dashBoardBgColor,
-              widgets: actionButtons(),
-              onBackPressed: () {
-                controller.onBackPress();
-              },
-            ),
-            body: Obx(() {
-              return ModalProgressHUD(
+      child: Obx(
+        () => Container(
+          color: dashBoardBgColor,
+          child: SafeArea(
+            child: Scaffold(
+              backgroundColor: dashBoardBgColor,
+              appBar: BaseAppBar(
+                appBar: AppBar(),
+                title: controller.teamInfo.value.name ?? "",
+                isCenterTitle: false,
+                isBack: true,
+                bgColor: dashBoardBgColor,
+                widgets: actionButtons(),
+                onBackPressed: () {
+                  controller.onBackPress();
+                },
+              ),
+              body: ModalProgressHUD(
                   inAsyncCall: controller.isLoading.value,
                   opacity: 0,
                   progressIndicator: const CustomProgressbar(),
@@ -68,8 +68,8 @@ class _TeamDetailsScreenState extends State<TeamDetailsScreen> {
                               TeamMembersList()
                             ],
                           ),
-                        ));
-            }),
+                        )),
+            ),
           ),
         ),
       ),

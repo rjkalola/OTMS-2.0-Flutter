@@ -40,7 +40,9 @@ class GenerateOtpView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 6,),
+            SizedBox(
+              height: 6,
+            ),
             PrimaryTextView(
               text: 'random_code_generator'.tr,
               fontSize: 18,
@@ -97,7 +99,36 @@ class GenerateOtpView extends StatelessWidget {
             //   textAlign: TextAlign.center,
             // ),
             SizedBox(
-              height: 18,
+              height: 16,
+            ),
+            GestureDetector(
+              onTap: () {
+                AppUtils.copyText(mOtpCode?.value ?? "");
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.copy,
+                      size: 18,
+                      color: secondaryTextColor,
+                    ),
+                    SizedBox(
+                      width: 6,
+                    ),
+                    PrimaryTextView(
+                      text: 'copy_code'.tr,
+                      fontSize: 17,
+                      color: secondaryTextColor,
+                    )
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 14,
             ),
             // Padding(
             //   padding: const EdgeInsets.fromLTRB(16, 14, 16, 20),

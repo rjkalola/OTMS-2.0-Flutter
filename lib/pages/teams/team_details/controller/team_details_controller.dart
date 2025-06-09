@@ -83,7 +83,7 @@ class TeamDetailsController extends GetxController
     Map<String, dynamic> map = {};
     map["team_id"] = teamId;
     _api.deleteTeam(
-      data: map,
+      queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           BaseResponse response =

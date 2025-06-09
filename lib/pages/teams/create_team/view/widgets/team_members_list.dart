@@ -50,13 +50,13 @@ class TeamMembersList extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   PrimaryTextView(
-                                    text: info.name ?? "John Doe",
+                                    text: info.name ?? "",
                                     fontSize: 17,
                                     color: primaryTextColor,
                                     fontWeight: FontWeight.w600,
                                   ),
                                   PrimaryTextView(
-                                    text: info.name ?? "Android Developer",
+                                    text: info.tradeName ?? "",
                                     fontSize: 14,
                                     color: secondaryLightTextColor,
                                     fontWeight: FontWeight.w400,

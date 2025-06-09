@@ -5,11 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart';
 
 import '../pages/common/widgets/image_preview_dialog.dart';
 

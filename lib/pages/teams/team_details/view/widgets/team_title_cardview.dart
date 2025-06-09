@@ -38,7 +38,7 @@ class TeamTitleCardView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        controller.teamInfo.value.name ?? "",
+                        controller.teamInfo.value.supervisorName ?? "",
                         textAlign: TextAlign.start,
                         style: const TextStyle(
                             fontSize: 18,
@@ -46,7 +46,7 @@ class TeamTitleCardView extends StatelessWidget {
                             fontWeight: FontWeight.w600),
                       ),
                       Text(
-                        controller.teamInfo.value.supervisorName ?? "",
+                        controller.teamInfo.value.supervisorTrade ?? "",
                         textAlign: TextAlign.start,
                         style: const TextStyle(
                             fontSize: 14,
@@ -66,7 +66,7 @@ class TeamTitleCardView extends StatelessWidget {
                             width: 4,
                           ),
                           PrimaryTextView(
-                              text: "+44 7767924191",
+                              text: controller.teamInfo.value.supervisorPhoneWithExtension ?? "",
                               fontSize: 14,
                               color: primaryTextColor)
                         ],

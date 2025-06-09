@@ -169,13 +169,23 @@ class ApiRequest {
         if (kDebugMode) print("isFormData ==> $isFormData");
         if (!isFormData!) {
           if (kDebugMode) print("Request Data1 ==> ${data.toString()}");
-          response = await dio.post(
-            url,
-            data: data,
-            options: Options(
-              headers: ApiConstants.getHeader(),
-            ),
-          );
+          if (data != null) {
+            response = await dio.post(
+              url,
+              data: data,
+              options: Options(
+                headers: ApiConstants.getHeader(),
+              ),
+            );
+          } else {
+            response = await dio.post(
+              url,
+              queryParameters: queryParameters,
+              options: Options(
+                headers: ApiConstants.getHeader(),
+              ),
+            );
+          }
         } else {
           if (kDebugMode) print("Request Data2 ==> ${formData.toString()}");
           multi.Dio dio = multi.Dio();
@@ -282,17 +292,129 @@ class ApiRequest {
         if (kDebugMode) print("isFormData ==> $isFormData");
         if (!isFormData!) {
           if (kDebugMode) print("Request Data1 ==> ${data.toString()}");
-          response = await dio.put(
-            url,
-            data: data,
-            options: Options(
-              headers: ApiConstants.getHeader(),
-            ),
-          );
+          if (data != null) {
+            response = await dio.put(
+              url,
+              data: data,
+              options: Options(
+                headers: ApiConstants.getHeader(),
+              ),
+            );
+          } else {
+            response = await dio.put(
+              url,
+              queryParameters: queryParameters,
+              options: Options(
+                headers: ApiConstants.getHeader(),
+              ),
+            );
+          }
         } else {
           if (kDebugMode) print("Request Data2 ==> ${formData.toString()}");
           multi.Dio dio = multi.Dio();
           response = await dio.put(
+            url,
+            data: formData,
+            options: Options(
+              headers: ApiConstants.getHeader(),
+              // receiveTimeout: Duration(minutes: 3),
+              // sendTimeout: Duration(minutes: 3),
+            ),
+          );
+        }
+        if (kDebugMode) print("Response Data ==> ${response.data}");
+
+        print("response.statusCode:" + response.statusCode.toString());
+        print("response.statusMessage:" + response.statusMessage);
+
+        if (response.statusCode == 200 ||
+            response.statusCode == 201 ||
+            response.statusCode == 202 ||
+            response.statusCode == 204) {
+          responseModel = returnResponse(true, jsonEncode(response.data),
+              response.statusCode, response.statusMessage);
+        } else if (response.statusCode == 401) {
+          showUnAuthorizedDialog();
+          responseModel = returnResponse(false, null, 0, "");
+        } else {
+          BaseResponse baseResponse =
+              BaseResponse.fromJson(jsonDecode(response.data));
+          responseModel = returnResponse(
+              false,
+              jsonEncode(response.data),
+              response.statusCode,
+              baseResponse.Message ?? response.statusMessage);
+        }
+
+        if (onSuccess != null) onSuccess(responseModel);
+      } else {
+        responseModel = returnResponse(false, null,
+            ApiConstants.CODE_NO_INTERNET_CONNECTION, 'try_again'.tr);
+        if (onError != null) onError(responseModel);
+      }
+    } on DioException catch (e, stackTrace) {
+      String message = "";
+      final data = e.response?.data;
+      final statusCode = e.response?.statusCode;
+      if (statusCode == 401) {
+        showUnAuthorizedDialog();
+        responseModel = returnResponse(false, null, 0, "");
+      } else {
+        if (data != null && data['message'] != null) {
+          message = data['message'];
+        } else {
+          message = e.message ?? "";
+        }
+        AppUtils.showApiResponseMessage(message);
+        print('Dio error: ${e.message}');
+        print('Stack trace: $stackTrace');
+        // final ApiException apiException = ApiException.fromDioError(e);
+        // if (kDebugMode) print("Error in api call $apiException.message");
+        responseModel =
+            returnResponse(false, null, e.response?.statusCode, message);
+      }
+      if (onError != null) onError(responseModel);
+    }
+    return responseModel;
+  }
+
+  Future<dynamic> deleteRequest({
+    Function()? beforeSend,
+    Function(dynamic data)? onSuccess,
+    Function(dynamic error)? onError,
+  }) async {
+    ResponseModel responseModel;
+    try {
+      bool isInternet = await interNetCheck();
+      // AppUtils.showToastMessage("Internet Connection:"+isInternet.toString());
+      if (isInternet) {
+        if (kDebugMode) print("accessToken:::" + ApiConstants.accessToken);
+        if (kDebugMode) print("URL ==> $url");
+        if (kDebugMode) print("isFormData ==> $isFormData");
+        if (kDebugMode)
+          print("Request queryParameters ==> ${queryParameters.toString()}");
+        if (!isFormData!) {
+          if (data != null) {
+            response = await dio.delete(
+              url,
+              data: data,
+              options: Options(
+                headers: ApiConstants.getHeader(),
+              ),
+            );
+          } else {
+            response = await dio.delete(
+              url,
+              queryParameters: queryParameters,
+              options: Options(
+                headers: ApiConstants.getHeader(),
+              ),
+            );
+          }
+        } else {
+          if (kDebugMode) print("Request Data2 ==> ${formData.toString()}");
+          multi.Dio dio = multi.Dio();
+          response = await dio.delete(
             url,
             data: formData,
             options: Options(

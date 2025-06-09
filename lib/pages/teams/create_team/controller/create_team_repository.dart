@@ -17,4 +17,18 @@ class CreateTeamRepository {
       onError: (error) => {if (onError != null) onError(error)},
     );
   }
+
+  void updateTeam({
+    dynamic data,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(url: ApiConstants.teamUpdate, data: data, isFormData: false)
+        .putRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
 }

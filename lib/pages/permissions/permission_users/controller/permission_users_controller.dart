@@ -148,6 +148,7 @@ class PermissionUsersController extends GetxController {
   }
 
   void checkAll() {
+    isDataUpdated.value = true;
     isCheckAll.value = true;
     for (var info in permissionUsersList) {
       info.status = true;
@@ -156,6 +157,7 @@ class PermissionUsersController extends GetxController {
   }
 
   void unCheckAll() {
+    isDataUpdated.value = true;
     isCheckAll.value = false;
     for (var info in permissionUsersList) {
       info.status = false;

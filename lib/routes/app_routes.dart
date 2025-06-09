@@ -50,4 +50,7 @@ class AppRoutes {
   static const String businessFieldInfoScreen = '/business_field_info_screen';
   static const String createTeamScreen = '/create_team_screen';
   static const String teamDetailsScreen = '/team_details_screen';
+  static const String joinTeamToCompanyScreen = '/join_team_to_company_screen';
+  static const String generateCompanyCodeScreen =
+      '/generate_company_code_screen';
 }

@@ -10,15 +10,18 @@ class CardViewDashboardItem extends StatelessWidget {
       this.borderWidth,
       this.shadowColor,
       this.borderColor,
-      this.boxColor});
+      this.boxColor,
+      this.margin});
 
   final Widget child;
   final double? elevation, borderRadius, borderWidth;
   final Color? shadowColor, borderColor, boxColor;
+  final EdgeInsetsGeometry? margin;
 
   @override
   Widget build(BuildContext context) {
     return Card(
+      margin: margin,
       elevation: elevation ?? 4,
       shadowColor: shadowColor ?? Colors.black87,
       color: boxColor ?? backgroundColor,

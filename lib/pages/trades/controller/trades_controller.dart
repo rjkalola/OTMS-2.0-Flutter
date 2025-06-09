@@ -126,6 +126,7 @@ class TradesController extends GetxController {
   }
 
   void checkAll() {
+    isDataUpdated.value = true;
     isCheckAll.value = true;
     for (var info in companyTradesList) {
       for (var data in info.trades!) {
@@ -136,6 +137,7 @@ class TradesController extends GetxController {
   }
 
   void unCheckAll() {
+    isDataUpdated.value = true;
     isCheckAll.value = false;
     for (var info in companyTradesList) {
       for (var data in info.trades!) {

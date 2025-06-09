@@ -84,7 +84,7 @@ class ControlPanelMenuDialogState extends State<ControlPanelMenuDialog> {
       ListView.separated(
         shrinkWrap: true,
         itemBuilder: (context, position) {
-          return GestureDetector(
+          return InkWell(
             onTap: () {
               // Get.back();
               listener.onSelectItem(

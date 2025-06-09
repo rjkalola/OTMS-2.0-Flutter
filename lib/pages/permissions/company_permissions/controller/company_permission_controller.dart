@@ -149,6 +149,7 @@ class CompanyPermissionController extends GetxController {
   }
 
   void checkAll() {
+    isDataUpdated.value = true;
     isCheckAll.value = true;
     for (var info in companyPermissionList) {
       info.status = true;
@@ -157,6 +158,7 @@ class CompanyPermissionController extends GetxController {
   }
 
   void unCheckAll() {
+    isDataUpdated.value = true;
     isCheckAll.value = false;
     for (var info in companyPermissionList) {
       info.status = false;

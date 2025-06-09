@@ -4,6 +4,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/pages/common/model/user_info.dart';
@@ -209,5 +210,12 @@ class AppUtils {
       return match.flagImage ?? flag;
     }
     return flag;
+  }
+
+  static void copyText(String? value) {
+    if (!StringHelper.isEmptyString(value)) {
+      Clipboard.setData(ClipboardData(text: value ?? ""));
+      // AppUtils.showToastMessage('copied_to_clip_board'.tr);
+    }
   }
 }

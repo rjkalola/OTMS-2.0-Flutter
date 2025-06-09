@@ -141,6 +141,7 @@ class Action {
   final String edit = 'EDIT';
   final String delete = 'DELETE';
   final String createCode = 'CREATE_CODE';
+  final String generateCode = 'GENERATE_CODE';
 
   final String companyDetails = "COMPANY_DETAILS";
   final String companyTrades = "COMPANY_TRADES";

@@ -90,7 +90,11 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
     return [
       TextButton(
         onPressed: () {
-          controller.createTeamApi();
+          if (controller.teamInfo != null) {
+            controller.updateTeamApi();
+          } else {
+            controller.createTeamApi();
+          }
         },
         child: PrimaryTextView(
           text: 'save'.tr,

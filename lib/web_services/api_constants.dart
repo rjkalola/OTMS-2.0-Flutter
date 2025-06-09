@@ -73,6 +73,7 @@ class ApiConstants {
       '$appUrl/dashboard/company/permission-users';
   static String changePermissionUserStatus =
       '$appUrl/dashboard/company/change-permission-users-status';
+
   // static String getPermissionUsers =
   //     '$appUrl/dashboard/company/users-permissions-status';
   // static String changePermissionUserStatus =
@@ -85,8 +86,10 @@ class ApiConstants {
   static String teamList = '$appUrl/team/list';
   static String teamGenerateOtp = '$appUrl/team/generate-otp';
   static String teamAdd = '$appUrl/team/add';
+  static String teamUpdate = '$appUrl/team/update-team';
   static String teamDetails = '$appUrl/team/details';
   static String teamDelete = '$appUrl/team/delete';
+  static String generateCompanyCode = '$appUrl/team/company-generate-code';
 
   static String registerResourcesUrl = '$appUrl/wn-resources';
   static String verifyPhoneUrl = '$appUrl/verify-phone';

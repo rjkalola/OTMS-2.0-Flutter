@@ -108,8 +108,8 @@ class TeamListController extends GetxController implements MenuItemListener {
   void showMenuItemsDialog(BuildContext context) {
     List<ModuleInfo> listItems = [];
     listItems.add(ModuleInfo(name: 'add'.tr, action: AppConstants.action.add));
-    // listItems.add(ModuleInfo(name: 'archive'.tr, action: ""));
-    // listItems.add(ModuleInfo(name: 'create_code'.tr, action: ""));
+    listItems.add(ModuleInfo(
+        name: 'generate_code'.tr, action: AppConstants.action.generateCode));
     showCupertinoModalPopup(
       context: context,
       builder: (_) =>
@@ -121,6 +121,8 @@ class TeamListController extends GetxController implements MenuItemListener {
   Future<void> onSelectMenuItem(ModuleInfo info) async {
     if (info.action == AppConstants.action.add) {
       moveToScreen(AppRoutes.createTeamScreen, null);
+    } else if (info.action == AppConstants.action.generateCode) {
+      moveToScreen(AppRoutes.generateCompanyCodeScreen, null);
     }
   }
 

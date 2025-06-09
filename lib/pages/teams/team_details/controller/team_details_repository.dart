@@ -19,13 +19,15 @@ class TeamDetailsRepository {
   }
 
   void deleteTeam({
-    // Map<String, dynamic>? queryParameters,
-    dynamic data,
+    Map<String, dynamic>? queryParameters,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
-    ApiRequest(url: ApiConstants.teamDelete, data: data, isFormData: false)
-        .postRequest(
+    ApiRequest(
+            url: ApiConstants.teamDelete,
+            queryParameters: queryParameters,
+            isFormData: false)
+        .deleteRequest(
       onSuccess: (data) {
         onSuccess!(data);
       },

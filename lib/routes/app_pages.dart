@@ -24,6 +24,8 @@ import 'package:otm_inventory/pages/permissions/widgets/view/widgets_screen.dart
 import 'package:otm_inventory/pages/qr_code_scanner/view/qr_code_scanner.dart';
 import 'package:otm_inventory/pages/settings/view/settings_screen.dart';
 import 'package:otm_inventory/pages/teams/create_team/view/create_team_screen.dart';
+import 'package:otm_inventory/pages/teams/generate_company_code/view/generate_company_code_screen.dart';
+import 'package:otm_inventory/pages/teams/join_team_to_company/view/join_team_to_company_screen.dart';
 import 'package:otm_inventory/pages/teams/team_details/view/team_details_screen.dart';
 import 'package:otm_inventory/pages/teams/team_generate_otp/view/team_generate_otp_screen.dart';
 import 'package:otm_inventory/pages/teams/team_list/view/team_list_screen.dart';
@@ -157,6 +159,14 @@ class AppPages {
     GetPage(
       name: AppRoutes.teamDetailsScreen,
       page: () => TeamDetailsScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.joinTeamToCompanyScreen,
+      page: () => JoinTeamToCompanyScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.generateCompanyCodeScreen,
+      page: () => GenerateCompanyCodeScreen(),
     ),
   ];
 }

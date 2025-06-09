@@ -30,7 +30,8 @@ class CreateTeamController extends GetxController
   final _api = CreateTeamRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
-      isMainViewVisible = false.obs;
+      isMainViewVisible = false.obs,
+      isSaveEnable = false.obs;
   final teamMembersList = <UserInfo>[].obs;
   final userList = <UserInfo>[].obs;
   int supervisorId = 0;
@@ -41,10 +42,7 @@ class CreateTeamController extends GetxController
     super.onInit();
     var arguments = Get.arguments;
     if (arguments != null) {
-      print("arguments != null");
       teamInfo = arguments[AppConstants.intentKey.teamInfo];
-    }else {
-      print("arguments == null");
     }
     setInitData();
     getUserListApi();
@@ -54,7 +52,10 @@ class CreateTeamController extends GetxController
     if (teamInfo != null) {
       teamNameController.value.text = teamInfo?.name ?? "";
       supervisorController.value.text = teamInfo?.supervisorName ?? "";
+      supervisorId = teamInfo?.supervisorId ?? 0;
       teamMembersList.addAll(teamInfo?.teamMembers ?? []);
+    } else {
+      isSaveEnable.value = true;
     }
   }
 
@@ -93,11 +94,46 @@ class CreateTeamController extends GetxController
       Map<String, dynamic> map = {};
       map["company_id"] = ApiConstants.companyId;
       map["supervisor_id"] = supervisorId;
-      map["title"] = StringHelper.getText(teamNameController.value);
+      map["name"] = StringHelper.getText(teamNameController.value);
       map["team_member_ids"] =
           UserUtils.getCommaSeparatedIdsString(teamMembersList);
       isLoading.value = true;
       _api.addTeam(
+        data: map,
+        onSuccess: (ResponseModel responseModel) {
+          if (responseModel.isSuccess) {
+            BaseResponse response =
+                BaseResponse.fromJson(jsonDecode(responseModel.result!));
+            AppUtils.showApiResponseMessage(response.Message ?? "");
+            Get.back(result: true);
+          } else {
+            AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+          }
+          isLoading.value = false;
+        },
+        onError: (ResponseModel error) {
+          isLoading.value = false;
+          if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+            AppUtils.showApiResponseMessage('no_internet'.tr);
+          } else if (error.statusMessage!.isNotEmpty) {
+            AppUtils.showApiResponseMessage(error.statusMessage);
+          }
+        },
+      );
+    }
+  }
+
+  void updateTeamApi() async {
+    if (valid()) {
+      Map<String, dynamic> map = {};
+      map["id"] = teamInfo?.id ?? 0;
+      map["company_id"] = ApiConstants.companyId;
+      map["supervisor_id"] = supervisorId;
+      map["name"] = StringHelper.getText(teamNameController.value);
+      map["team_member_ids"] =
+          UserUtils.getCommaSeparatedIdsString(teamMembersList);
+      isLoading.value = true;
+      _api.updateTeam(
         data: map,
         onSuccess: (ResponseModel responseModel) {
           if (responseModel.isSuccess) {
