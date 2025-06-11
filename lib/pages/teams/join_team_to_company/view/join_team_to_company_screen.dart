@@ -32,7 +32,7 @@ class _JoinTeamToCompanyScreenState extends State<JoinTeamToCompanyScreen> {
           backgroundColor: dashBoardBgColor,
           appBar: BaseAppBar(
             appBar: AppBar(),
-            title: 'join_company'.tr,
+            title: 'join_a_company'.tr,
             isCenterTitle: false,
             isBack: true,
             bgColor: dashBoardBgColor,
@@ -63,7 +63,7 @@ class _JoinTeamToCompanyScreenState extends State<JoinTeamToCompanyScreen> {
                                           code.toString();
                                       if (controller.mOtpCode.value.length ==
                                           6) {
-                                        controller.joinCompanyApi();
+                                        controller.addTeamToCompanyApi();
                                       }
                                       print("onCodeChanged $code");
                                     },

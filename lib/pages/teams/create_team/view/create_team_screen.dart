@@ -31,21 +31,21 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: Colors.white,
         statusBarIconBrightness: Brightness.dark));
-    return Container(
-      color: dashBoardBgColor,
-      child: SafeArea(
-        child: Scaffold(
-          backgroundColor: dashBoardBgColor,
-          appBar: BaseAppBar(
-            appBar: AppBar(),
-            title: 'create_new_team'.tr,
-            isCenterTitle: false,
-            isBack: true,
-            bgColor: dashBoardBgColor,
-            widgets: actionButtons(),
-          ),
-          body: Obx(() {
-            return ModalProgressHUD(
+    return Obx(
+      () => Container(
+        color: dashBoardBgColor,
+        child: SafeArea(
+          child: Scaffold(
+            backgroundColor: dashBoardBgColor,
+            appBar: BaseAppBar(
+              appBar: AppBar(),
+              title: 'create_new_team'.tr,
+              isCenterTitle: false,
+              isBack: true,
+              bgColor: dashBoardBgColor,
+              widgets: actionButtons(),
+            ),
+            body: ModalProgressHUD(
                 inAsyncCall: controller.isLoading.value,
                 opacity: 0,
                 progressIndicator: const CustomProgressbar(),
@@ -79,8 +79,8 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
                             )
                           ],
                         ),
-                      ));
-          }),
+                      )),
+          ),
         ),
       ),
     );
@@ -90,17 +90,21 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
     return [
       TextButton(
         onPressed: () {
-          if (controller.teamInfo != null) {
-            controller.updateTeamApi();
-          } else {
-            controller.createTeamApi();
+          if (controller.isSaveEnable.value) {
+            if (controller.teamInfo != null) {
+              controller.updateTeamApi();
+            } else {
+              controller.createTeamApi();
+            }
           }
         },
         child: PrimaryTextView(
           text: 'save'.tr,
           fontSize: 17,
           fontWeight: FontWeight.w600,
-          color: defaultAccentColor,
+          color: controller.isSaveEnable.value
+              ? defaultAccentColor
+              : defaultAccentLightColor,
         ),
       )
     ];

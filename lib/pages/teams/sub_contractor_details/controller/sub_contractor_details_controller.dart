@@ -2,8 +2,7 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:otm_inventory/pages/teams/sub_contractor_details/controller/sub_contractor_details_repository.dart';
-import 'package:otm_inventory/pages/teams/team_details/model/team_details_response.dart';
-import 'package:otm_inventory/pages/teams/team_list/model/team_info.dart';
+import 'package:otm_inventory/pages/teams/sub_contractor_details/model/sub_contractor_details_response.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/web_services/api_constants.dart';
@@ -13,8 +12,8 @@ class SubContractorDetailsController extends GetxController {
   final _api = SubContractorDetailsRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
-      isMainViewVisible = true.obs;
-  final teamInfo = TeamInfo().obs;
+      isMainViewVisible = false.obs;
+  final subContractorInfo = SubContractorInfo().obs;
   int teamId = 0;
 
   @override
@@ -24,10 +23,10 @@ class SubContractorDetailsController extends GetxController {
     if (arguments != null) {
       teamId = arguments[AppConstants.intentKey.teamId] ?? 0;
     }
-    // getSubContractorDetails();
+    getSubContractorDetailsDetailsApi();
   }
 
-  void getTeamDetailsApi() {
+  void getSubContractorDetailsDetailsApi() {
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
@@ -37,9 +36,10 @@ class SubContractorDetailsController extends GetxController {
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           isMainViewVisible.value = true;
-          TeamDetailsResponse response =
-              TeamDetailsResponse.fromJson(jsonDecode(responseModel.result!));
-          teamInfo.value = response.info!;
+          SubContractorDetailsResponse response =
+              SubContractorDetailsResponse.fromJson(
+                  jsonDecode(responseModel.result!));
+          subContractorInfo.value = response.info!;
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }

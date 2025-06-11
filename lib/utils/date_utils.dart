@@ -54,6 +54,12 @@ class DateUtil {
     return result;
   }
 
+  static String seconds_To_MM_SS(int seconds) {
+    final minutes = seconds ~/ 60;
+    final remainingSeconds = seconds % 60;
+    return '${minutes.toString().padLeft(2, '0')}:${remainingSeconds.toString().padLeft(2, '0')}';
+  }
+
   static Future<void> showDatePickerDialog(
       {DateTime? initialDate,
       required DateTime firstDate,

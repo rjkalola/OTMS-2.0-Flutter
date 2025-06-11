@@ -66,6 +66,7 @@ class TeamMembersList extends StatelessWidget {
                             ),
                             GestureDetector(
                               onTap: () {
+                                controller.isSaveEnable.value = true;
                                 controller.teamMembersList.removeAt(position);
                                 controller.teamMembersList.refresh();
                               },

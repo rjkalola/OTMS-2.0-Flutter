@@ -145,6 +145,12 @@ class TeamDetailsController extends GetxController
         .add(ModuleInfo(name: 'delete'.tr, action: AppConstants.action.delete));
     listItems.add(ModuleInfo(
         name: 'create_code'.tr, action: AppConstants.action.createCode));
+    listItems.add(ModuleInfo(
+        name: 'sub_contractor_details'.tr,
+        action: AppConstants.action.subContractorDetails));
+    listItems.add(ModuleInfo(
+        name: 'join_a_company'.tr, action: AppConstants.action.joinCompany));
+
     showCupertinoModalPopup(
       context: context,
       builder: (_) =>
@@ -159,14 +165,23 @@ class TeamDetailsController extends GetxController
         AppConstants.intentKey.teamInfo: teamInfo.value,
       };
       moveToScreen(AppRoutes.createTeamScreen, arguments);
-    }
-    if (info.action == AppConstants.action.delete) {
+    } else if (info.action == AppConstants.action.delete) {
       showDeleteTeamDialog();
     } else if (info.action == AppConstants.action.createCode) {
       var arguments = {
         AppConstants.intentKey.teamId: teamId,
       };
       moveToScreen(AppRoutes.teamGenerateOtpScreen, arguments);
+    } else if (info.action == AppConstants.action.subContractorDetails) {
+      var arguments = {
+        AppConstants.intentKey.teamId: teamId,
+      };
+      Get.toNamed(AppRoutes.subContractorDetailsScreen, arguments: arguments);
+    }else if (info.action == AppConstants.action.joinCompany) {
+      var arguments = {
+        AppConstants.intentKey.teamId: teamId,
+      };
+      moveToScreen(AppRoutes.joinTeamToCompanyScreen, arguments);
     }
   }
 

@@ -225,6 +225,7 @@ class CreateTeamController extends GetxController
   @override
   void onSelectMultipleUser(String dialogIdentifier, List<UserInfo> listUsers) {
     if (dialogIdentifier == AppConstants.dialogIdentifier.selectTeamMembers) {
+      isSaveEnable.value = true;
       teamMembersList.clear();
       for (var info in listUsers) {
         if (info.isCheck ?? false) {
@@ -241,6 +242,7 @@ class CreateTeamController extends GetxController
   @override
   void onSelectItem(int position, int id, String name, String action) {
     if (action == AppConstants.action.selectSupervisorDialog) {
+      isSaveEnable.value = true;
       supervisorController.value.text = name ?? "";
       supervisorId = id ?? 0;
     }

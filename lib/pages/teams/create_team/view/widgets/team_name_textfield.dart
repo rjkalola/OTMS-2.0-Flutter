@@ -23,7 +23,9 @@ class TeamNameTextField extends StatelessWidget {
         keyboardType: TextInputType.name,
         textInputAction: TextInputAction.next,
         autovalidateMode: AutovalidateMode.onUserInteraction,
-        onValueChange: (value) {},
+        onValueChange: (value) {
+          controller.isSaveEnable.value = true;
+        },
         validator: MultiValidator([
           RequiredValidator(errorText: 'required_field'.tr),
         ]),

@@ -90,6 +90,8 @@ class ApiConstants {
   static String teamDetails = '$appUrl/team/details';
   static String teamDelete = '$appUrl/team/delete';
   static String generateCompanyCode = '$appUrl/team/company-generate-code';
+  static String subContractorDetails = '$appUrl/team/subcontractor-details';
+  static String addTeamToCompany = '$appUrl/company/add-team-to-company';
 
   static String registerResourcesUrl = '$appUrl/wn-resources';
   static String verifyPhoneUrl = '$appUrl/verify-phone';

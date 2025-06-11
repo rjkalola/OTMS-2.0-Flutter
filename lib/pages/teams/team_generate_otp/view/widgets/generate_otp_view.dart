@@ -7,6 +7,7 @@ import 'package:otm_inventory/pages/teams/team_generate_otp/controller/team_gene
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
+import 'package:otm_inventory/utils/date_utils.dart';
 import 'package:otm_inventory/widgets/PrimaryButton.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
 import 'package:sms_autofill/sms_autofill.dart';
@@ -17,10 +18,12 @@ class GenerateOtpView extends StatelessWidget {
       required this.otpController,
       this.mOtpCode,
       required this.onCodeChanged,
-      required this.onResendOtp});
+      required this.onResendOtp,
+      this.timeRemaining});
 
   final Rx<TextEditingController> otpController;
   final RxString? mOtpCode;
+  final RxInt? timeRemaining;
   final Function(String?) onCodeChanged;
 
   // final VoidCallback onResendOtp;
@@ -88,16 +91,17 @@ class GenerateOtpView extends StatelessWidget {
                 ),
               ),
             ),
-            // SizedBox(
-            //   height: 14,
-            // ),
-            // PrimaryTextView(
-            //   text: "${'resend_code_in'.tr} ${"15:00"}",
-            //   fontSize: 16,
-            //   color: primaryTextColor,
-            //   fontWeight: FontWeight.w400,
-            //   textAlign: TextAlign.center,
-            // ),
+            SizedBox(
+              height: 14,
+            ),
+            PrimaryTextView(
+              text:
+                  "${'resend_code_in'.tr} ${DateUtil.seconds_To_MM_SS(timeRemaining!.value)}",
+              fontSize: 16,
+              color: primaryTextColor,
+              fontWeight: FontWeight.w400,
+              textAlign: TextAlign.center,
+            ),
             SizedBox(
               height: 16,
             ),
@@ -112,7 +116,7 @@ class GenerateOtpView extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.copy,
-                      size: 18,
+                      size: 16,
                       color: secondaryTextColor,
                     ),
                     SizedBox(
@@ -120,7 +124,7 @@ class GenerateOtpView extends StatelessWidget {
                     ),
                     PrimaryTextView(
                       text: 'copy_code'.tr,
-                      fontSize: 17,
+                      fontSize: 15,
                       color: secondaryTextColor,
                     )
                   ],
@@ -128,20 +132,34 @@ class GenerateOtpView extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 14,
+              height: 16,
             ),
-            // Padding(
-            //   padding: const EdgeInsets.fromLTRB(16, 14, 16, 20),
-            //   child: SizedBox(
-            //     width: double.infinity,
-            //     child: PrimaryButton(
-            //         buttonText: 'generate'.tr,
-            //         fontWeight: FontWeight.w400,
-            //         onPressed: () {
-            //           controller.teamGenerateOtpApi();
-            //         }),
-            //   ),
-            // ),
+            RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                  text: "${'generate_password'.tr}, ",
+                  style: const TextStyle(
+                      fontSize: 16,
+                      color: secondaryTextColor,
+                      fontWeight: FontWeight.w400),
+                  children: <TextSpan>[
+                    TextSpan(
+                        text: "${'again'.tr.toLowerCase()}?",
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            if (timeRemaining?.value == 0) onResendOtp();
+                          },
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: timeRemaining?.value == 0
+                                ? defaultAccentColor
+                                : secondaryTextColor,
+                            fontWeight: FontWeight.w500)),
+                  ],
+                )),
+            SizedBox(
+              height: 6,
+            ),
           ],
         ),
       ),

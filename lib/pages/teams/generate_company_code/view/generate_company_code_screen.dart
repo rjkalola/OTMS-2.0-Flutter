@@ -13,7 +13,8 @@ class GenerateCompanyCodeScreen extends StatefulWidget {
   const GenerateCompanyCodeScreen({super.key});
 
   @override
-  State<GenerateCompanyCodeScreen> createState() => _GenerateCompanyCodeScreenState();
+  State<GenerateCompanyCodeScreen> createState() =>
+      _GenerateCompanyCodeScreenState();
 }
 
 class _GenerateCompanyCodeScreenState extends State<GenerateCompanyCodeScreen> {
@@ -58,12 +59,14 @@ class _GenerateCompanyCodeScreenState extends State<GenerateCompanyCodeScreen> {
                               child: GenerateOtpView(
                                 mOtpCode: controller.mOtpCode,
                                 otpController: controller.otpController,
+                                timeRemaining:
+                                    controller.otmResendTimeRemaining,
                                 onCodeChanged: (code) {
                                   controller.mOtpCode.value = code.toString();
                                   print("onCodeChanged $code");
                                 },
                                 onResendOtp: () {
-                                  print("onResendOtp click");
+                                  controller.teamGenerateOtpApi();
                                 },
                               ),
                             )

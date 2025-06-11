@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:otm_inventory/pages/teams/sub_contractor_details/controller/sub_contractor_details_controller.dart';
+import 'package:otm_inventory/pages/teams/sub_contractor_details/view/widgets/company_logo.dart';
 import 'package:otm_inventory/pages/teams/sub_contractor_details/view/widgets/info_tile.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
@@ -55,21 +56,30 @@ class _SubContractorDetailsScreenState
                         child: Column(
                           children: [
                             Divider(),
+                            CompanyLogo(),
                             InfoTile(
                                 title: 'company_name'.tr,
-                                value: "Stypix Solution",
+                                value: controller
+                                        .subContractorInfo.value.companyName ??
+                                    "-",
                                 iconData: Icons.business),
                             InfoTile(
                                 title: 'company_admin'.tr,
-                                value: "Harvi Jivani",
+                                value: controller
+                                        .subContractorInfo.value.companyAdmin ??
+                                    "-",
                                 iconData: Icons.person),
                             InfoTile(
                                 title: 'phone_number'.tr,
-                                value: "+91 9988776543",
+                                value:
+                                    controller.subContractorInfo.value.phone ??
+                                        "-",
                                 iconData: Icons.phone),
                             InfoTile(
                                 title: 'email'.tr,
-                                value: "stypixsolution@gmail.com",
+                                value:
+                                    controller.subContractorInfo.value.email ??
+                                        "-",
                                 iconData: Icons.email)
                           ],
                         ),

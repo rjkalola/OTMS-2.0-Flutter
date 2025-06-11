@@ -1,19 +1,15 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/common/model/user_info.dart';
+import 'package:intl/intl.dart';
 import 'package:otm_inventory/pages/teams/team_generate_otp/controller/team_generate_otp_repository.dart';
 import 'package:otm_inventory/pages/teams/team_generate_otp/model/team_generate_otp_response.dart';
-import 'package:otm_inventory/pages/teams/team_list/controller/team_list_repository.dart';
-import 'package:otm_inventory/pages/teams/team_list/model/team_info.dart';
-import 'package:otm_inventory/pages/teams/team_list/model/team_list_response.dart';
-import 'package:otm_inventory/pages/permissions/user_list/controller/user_list_repository.dart';
-import 'package:otm_inventory/pages/permissions/user_list/model/user_list_response.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/utils/string_helper.dart';
+import 'package:otm_inventory/utils/date_utils.dart';
 import 'package:otm_inventory/web_services/api_constants.dart';
 import 'package:otm_inventory/web_services/response/response_model.dart';
 
@@ -25,6 +21,10 @@ class TeamGenerateOtpController extends GetxController {
       isMainViewVisible = false.obs;
   final otpController = TextEditingController().obs;
   final mOtpCode = "".obs;
+  final otmResendTimeRemaining = 900.obs;
+  Timer? _timer;
+  String initialTime = "";
+
   int teamId = 0;
 
   @override
@@ -35,6 +35,8 @@ class TeamGenerateOtpController extends GetxController {
       teamId = arguments[AppConstants.intentKey.teamId] ?? 0;
     }
     teamGenerateOtpApi();
+    // initialTime = getFormattedDateTime();
+    // print("initialTime:" + initialTime);
   }
 
   void teamGenerateOtpApi() {
@@ -50,6 +52,7 @@ class TeamGenerateOtpController extends GetxController {
           TeamGenerateOtpResponse response = TeamGenerateOtpResponse.fromJson(
               jsonDecode(responseModel.result!));
           mOtpCode.value = response.info?.companyOtp ?? "";
+          startOtpTimeCounter();
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
@@ -66,5 +69,56 @@ class TeamGenerateOtpController extends GetxController {
         }
       },
     );
+  }
+
+  void startOtpTimeCounter() {
+    otmResendTimeRemaining.value = 900;
+    stopOtpTimeCounter(); // Cancel previous timer if exists
+    _timer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
+      if (otmResendTimeRemaining.value == 0) {
+        timer.cancel();
+      } else {
+        // timeDifferent();
+        otmResendTimeRemaining.value--;
+      }
+    });
+  }
+
+  String getFormattedDateTime() {
+    final now = DateTime.now();
+    final formatter = DateFormat(DateUtil.DD_MM_YYYY_TIME_24_SLASH);
+    return formatter.format(now);
+  }
+
+  void timeDifferent() {
+    String t1 = initialTime;
+    String t2 = getFormattedDateTime();
+    print("t1:" + t1);
+    print("t2:" + t2);
+    DateTime? startTime =
+        DateUtil.stringToDate(t1, DateUtil.DD_MM_YYYY_TIME_24_SLASH);
+    DateTime? endTime =
+        DateUtil.stringToDate(t2, DateUtil.DD_MM_YYYY_TIME_24_SLASH);
+
+    // Get the difference
+    Duration diff = endTime!.difference(startTime!);
+
+    // Extract hours and minutes
+    int hours = diff.inHours;
+    int minutes = diff.inMinutes % 60;
+    int seconds = diff.inSeconds % 60;
+
+    print(
+        "Difference: ${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}"); // 01:23
+  }
+
+  void stopOtpTimeCounter() {
+    _timer?.cancel();
+  }
+
+  @override
+  void dispose() {
+    stopOtpTimeCounter();
+    super.dispose();
   }
 }

@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
+import 'dart:math';
 
 import 'package:dio/dio.dart' as multi;
 import 'package:flutter/material.dart';
@@ -128,7 +130,7 @@ class CompanySignUpController extends GetxController
           Get.find<AppStorage>().setCompanyId(companyId);
           ApiConstants.companyId = companyId;
           Get.offAllNamed(AppRoutes.teamUsersCountInfoScreen);
-          
+
           // moveToDashboard();
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
@@ -298,7 +300,14 @@ class CompanySignUpController extends GetxController
       print("cropped path:" + path);
       print("action:" + action);
       mCompanyLogo.value = path;
+      print("File Size:" + getFileSizeString(bytes: File(path).lengthSync()));
     }
+  }
+
+  static String getFileSizeString({required int bytes, int decimals = 0}) {
+    const suffixes = ["b", "kb", "mb", "gb", "tb"];
+    var i = (log(bytes) / log(1024)).floor();
+    return ((bytes / pow(1024, i)).toStringAsFixed(decimals)) + suffixes[i];
   }
 
   @override

@@ -10,6 +10,7 @@ import 'package:otm_inventory/utils/image_utils.dart';
 import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:otm_inventory/widgets/other_widgets/user_avtar_view.dart';
 import 'package:otm_inventory/widgets/switch/custom_switch.dart';
+import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
 
 import '../../../../../utils/app_constants.dart';
 
@@ -58,11 +59,16 @@ class TeamsList extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        info.name ?? "",
+                                        (info.isSubcontractor ?? false)
+                                            ? "${info.name} (${info.subcontractorCompanyName})"
+                                            : info.name ?? "",
                                         textAlign: TextAlign.start,
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                             fontSize: 17,
-                                            color: primaryTextColor,
+                                            color:
+                                                (info.isSubcontractor ?? false)
+                                                    ? defaultAccentColor
+                                                    : primaryTextColor,
                                             fontWeight: FontWeight.w600),
                                       ),
                                       Text(
@@ -78,6 +84,11 @@ class TeamsList extends StatelessWidget {
                                 ],
                               ),
                             ),
+                            PrimaryTextView(
+                              text: "${info.teamMemberCount} Members",
+                              fontSize: 13,
+                              color: secondaryLightTextColor,
+                            )
                           ],
                         ),
                       ),

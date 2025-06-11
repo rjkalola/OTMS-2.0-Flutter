@@ -29,64 +29,85 @@ class TeamMembersList extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.fromLTRB(16, 20, 16, 20),
           child: CardViewDashboardItem(
-            child: ListView.separated(
-                physics: const AlwaysScrollableScrollPhysics(),
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                itemBuilder: (context, position) {
-                  UserInfo info =
-                      controller.teamInfo.value.teamMembers![position];
-                  return GestureDetector(
-                    onTap: () {},
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(12, 10, 12, 10),
-                      child: Row(
-                        children: [
-                          UserAvtarView(
-                            imageUrl: info.userThumbImage ?? "",
-                          ),
-                          SizedBox(
-                            width: 12,
-                          ),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                PrimaryTextView(
-                                  text: info.name ?? "",
-                                  fontSize: 17,
-                                  color: primaryTextColor,
-                                  fontWeight: FontWeight.w600,
+            child: Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.fromLTRB(0, 14, 18, 14),
+                  width: double.infinity,
+                  child: PrimaryTextView(
+                    textAlign: TextAlign.right,
+                    color: primaryTextColor,
+                    fontSize: 14,
+                    text:
+                        "${controller.teamInfo.value.teamMembers!.length} Members",
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  child: Divider(
+                    height: 0,
+                  ),
+                ),
+                ListView.separated(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (context, position) {
+                      UserInfo info =
+                          controller.teamInfo.value.teamMembers![position];
+                      return GestureDetector(
+                        onTap: () {},
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(12, 10, 12, 10),
+                          child: Row(
+                            children: [
+                              UserAvtarView(
+                                imageUrl: info.userThumbImage ?? "",
+                              ),
+                              SizedBox(
+                                width: 12,
+                              ),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    PrimaryTextView(
+                                      text: info.name ?? "",
+                                      fontSize: 17,
+                                      color: primaryTextColor,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    PrimaryTextView(
+                                      text: info.tradeName ?? "",
+                                      fontSize: 14,
+                                      color: secondaryLightTextColor,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ],
                                 ),
-                                PrimaryTextView(
-                                  text: info.tradeName ?? "",
-                                  fontSize: 14,
-                                  color: secondaryLightTextColor,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-                itemCount: controller.teamInfo.value.teamMembers!.length,
-                // separatorBuilder: (context, position) => const Padding(
-                //   padding: EdgeInsets.only(left: 100),
-                //   child: Divider(
-                //     height: 0,
-                //     color: dividerColor,
-                //     thickness: 0.8,
-                //   ),
-                // ),
-                separatorBuilder: (context, position) => Padding(
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      child: Divider(
-                        height: 0,
-                      ),
-                    )),
+                        ),
+                      );
+                    },
+                    itemCount: controller.teamInfo.value.teamMembers!.length,
+                    // separatorBuilder: (context, position) => const Padding(
+                    //   padding: EdgeInsets.only(left: 100),
+                    //   child: Divider(
+                    //     height: 0,
+                    //     color: dividerColor,
+                    //     thickness: 0.8,
+                    //   ),
+                    // ),
+                    separatorBuilder: (context, position) => Padding(
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          child: Divider(
+                            height: 0,
+                          ),
+                        ))
+              ],
+            ),
           ),
         ),
       ),

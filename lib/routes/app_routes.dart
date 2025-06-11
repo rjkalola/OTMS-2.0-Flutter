@@ -53,4 +53,6 @@ class AppRoutes {
   static const String joinTeamToCompanyScreen = '/join_team_to_company_screen';
   static const String generateCompanyCodeScreen =
       '/generate_company_code_screen';
+  static const String subContractorDetailsScreen =
+      '/sub_contractor_details_screen';
 }

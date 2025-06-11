@@ -97,8 +97,8 @@ class ImageUtils {
           );
   }
 
-  static Widget setCircularNetworkImage(
-      String url, double width, double height, BoxFit fit) {
+  static Widget setCircularNetworkImage({required String url, required double width, required double height,
+    BoxFit? fit, double? borderRadius}) {
     return !StringHelper.isEmptyString(url)
         ? Container(
             width: width,
@@ -114,7 +114,8 @@ class ImageUtils {
               height: height,
             ),
           )
-        : Icon(Icons.photo_outlined, size: getEmptyIconSize(width, height));
+        : getEmptyViewContainer(
+            width: width, height: height, borderRadius: borderRadius);
   }
 
   static Widget setCircularFileImage(

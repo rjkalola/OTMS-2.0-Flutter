@@ -130,7 +130,7 @@ class ManageAttachmentController extends GetxController
     attachmentListener ??= listener;
     CroppedFile? croppedFile = await ImageCropper().cropImage(
       sourcePath: path,
-      compressFormat: ImageCompressFormat.png,
+      // compressFormat: ImageCompressFormat.jpg,
       // aspectRatio: CropAspectRatio(ratioX: 6, ratioY: 2.5),
       aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
       uiSettings: [

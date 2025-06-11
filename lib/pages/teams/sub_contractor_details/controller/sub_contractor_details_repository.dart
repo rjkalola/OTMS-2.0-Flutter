@@ -9,7 +9,7 @@ class SubContractorDetailsRepository {
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
-    ApiRequest(url: ApiConstants.teamDetails, data: data, isFormData: false)
+    ApiRequest(url: ApiConstants.subContractorDetails, data: data, isFormData: false)
         .getRequest(
       onSuccess: (data) {
         onSuccess!(data);

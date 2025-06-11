@@ -61,12 +61,14 @@ class _TeamGenerateOtpScreenState extends State<TeamGenerateOtpScreen> {
                               child: GenerateOtpView(
                                 mOtpCode: controller.mOtpCode,
                                 otpController: controller.otpController,
+                                timeRemaining:
+                                    controller.otmResendTimeRemaining,
                                 onCodeChanged: (code) {
                                   controller.mOtpCode.value = code.toString();
                                   print("onCodeChanged $code");
                                 },
                                 onResendOtp: () {
-                                  print("onResendOtp click");
+                                  controller.teamGenerateOtpApi();
                                 },
                               ),
                             )

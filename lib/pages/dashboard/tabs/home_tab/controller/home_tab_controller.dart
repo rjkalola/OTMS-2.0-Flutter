@@ -300,8 +300,10 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
         response.permissions != null &&
         response.permissions!.isNotEmpty) {
       for (var info in response.permissions!) {
-        list.add(LocalPermissionSequenceChangeInfo(
-            permissionId: info.permissionId, newPosition: info.sequence));
+        if ((info.permissionId ?? 0) != -1) {
+          list.add(LocalPermissionSequenceChangeInfo(
+              permissionId: info.permissionId, newPosition: info.sequence));
+        }
       }
     }
     return list;
