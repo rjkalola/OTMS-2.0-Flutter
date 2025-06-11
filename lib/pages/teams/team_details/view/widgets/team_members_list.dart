@@ -13,6 +13,8 @@ import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:otm_inventory/widgets/other_widgets/user_avtar_view.dart';
 import 'package:otm_inventory/widgets/switch/custom_switch.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
+import 'package:otm_inventory/widgets/text/SubTitleTextView.dart';
+import 'package:otm_inventory/widgets/text/TitleTextView.dart';
 
 import '../../../../../../utils/app_constants.dart';
 
@@ -27,7 +29,7 @@ class TeamMembersList extends StatelessWidget {
       () => Visibility(
         visible: controller.teamInfo.value.teamMembers!.isNotEmpty,
         child: Padding(
-          padding: EdgeInsets.fromLTRB(16, 20, 16, 20),
+          padding: EdgeInsets.fromLTRB(12, 20, 12, 20),
           child: CardViewDashboardItem(
             child: Column(
               children: [
@@ -46,6 +48,7 @@ class TeamMembersList extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 10, right: 10),
                   child: Divider(
                     height: 0,
+                    color: dividerColor,
                   ),
                 ),
                 ListView.separated(
@@ -71,18 +74,11 @@ class TeamMembersList extends StatelessWidget {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    PrimaryTextView(
+                                    TitleTextView(
                                       text: info.name ?? "",
-                                      fontSize: 17,
-                                      color: primaryTextColor,
-                                      fontWeight: FontWeight.w600,
                                     ),
-                                    PrimaryTextView(
-                                      text: info.tradeName ?? "",
-                                      fontSize: 14,
-                                      color: secondaryLightTextColor,
-                                      fontWeight: FontWeight.w400,
-                                    ),
+                                    SubtitleTextView(
+                                        text: info.tradeName ?? ""),
                                   ],
                                 ),
                               ),
@@ -104,6 +100,7 @@ class TeamMembersList extends StatelessWidget {
                           padding: const EdgeInsets.only(left: 10, right: 10),
                           child: Divider(
                             height: 0,
+                            color: dividerColor,
                           ),
                         ))
               ],

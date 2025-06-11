@@ -5,11 +5,10 @@ import 'package:otm_inventory/pages/common/model/user_info.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
-import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:otm_inventory/widgets/checkbox/custom_checkbox.dart';
 import 'package:otm_inventory/widgets/search_text_field.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
-import 'package:otm_inventory/widgets/textfield/search_text_field_dark.dart';
+import 'package:otm_inventory/widgets/text/TitleTextView.dart';
 
 class SelectMultipleUserDialog extends StatefulWidget {
   final List<UserInfo> list;
@@ -80,7 +79,7 @@ class _SelectMultipleUserDialogState extends State<SelectMultipleUserDialog> {
                       child: PrimaryTextView(
                           text: title,
                           softWrap: true,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w400,
                           fontSize: 17,
                           color: primaryTextColor),
                     ),
@@ -179,13 +178,11 @@ class _SelectMultipleUserDialogState extends State<SelectMultipleUserDialog> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                PrimaryTextView(
-                                  softWrap: true,
+                                TitleTextView(
                                   text: tempList[i].name ?? "",
                                   fontSize: 17,
-                                  color: primaryTextColor,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                                  fontWeight: FontWeight.w400,
+                                )
                               ],
                             ),
                           ),

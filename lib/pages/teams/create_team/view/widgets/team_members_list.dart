@@ -11,6 +11,8 @@ import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:otm_inventory/widgets/other_widgets/user_avtar_view.dart';
 import 'package:otm_inventory/widgets/switch/custom_switch.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
+import 'package:otm_inventory/widgets/text/SubTitleTextView.dart';
+import 'package:otm_inventory/widgets/text/TitleTextView.dart';
 
 import '../../../../../../utils/app_constants.dart';
 
@@ -49,18 +51,11 @@ class TeamMembersList extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  PrimaryTextView(
+                                  TitleTextView(
                                     text: info.name ?? "",
-                                    fontSize: 17,
-                                    color: primaryTextColor,
-                                    fontWeight: FontWeight.w600,
                                   ),
-                                  PrimaryTextView(
-                                    text: info.tradeName ?? "",
-                                    fontSize: 14,
-                                    color: secondaryLightTextColor,
-                                    fontWeight: FontWeight.w400,
-                                  ),
+                                  SubtitleTextView(
+                                      text: info.tradeName ?? ""),
                                 ],
                               ),
                             ),

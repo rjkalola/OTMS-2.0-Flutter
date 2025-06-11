@@ -23,7 +23,7 @@ class PrimaryTextView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(text ?? "",
-        softWrap: softWrap ?? false,
+        softWrap: softWrap ?? true,
         textAlign: textAlign ?? TextAlign.start,
         maxLines: maxLine,
         style: TextStyle(

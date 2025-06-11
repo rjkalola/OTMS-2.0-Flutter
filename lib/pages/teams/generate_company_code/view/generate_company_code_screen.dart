@@ -23,17 +23,18 @@ class _GenerateCompanyCodeScreenState extends State<GenerateCompanyCodeScreen> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarColor: Colors.white,
+        statusBarColor: dashBoardBgColor,
         statusBarIconBrightness: Brightness.dark));
     return Container(
-      color: backgroundColor,
+      color: dashBoardBgColor,
       child: SafeArea(
         child: Scaffold(
-          backgroundColor: backgroundColor,
+          backgroundColor: dashBoardBgColor,
           appBar: BaseAppBar(
             appBar: AppBar(),
             title: 'generate_code'.tr,
             isCenterTitle: false,
+            bgColor: dashBoardBgColor,
             isBack: true,
           ),
           body: Obx(() {

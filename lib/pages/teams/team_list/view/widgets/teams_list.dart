@@ -11,6 +11,8 @@ import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:otm_inventory/widgets/other_widgets/user_avtar_view.dart';
 import 'package:otm_inventory/widgets/switch/custom_switch.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
+import 'package:otm_inventory/widgets/text/SubTitleTextView.dart';
+import 'package:otm_inventory/widgets/text/TitleTextView.dart';
 
 import '../../../../../utils/app_constants.dart';
 
@@ -29,7 +31,7 @@ class TeamsList extends StatelessWidget {
               itemBuilder: (context, position) {
                 TeamInfo info = controller.teamsList[position];
                 return Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+                  padding: const EdgeInsets.fromLTRB(12, 3, 12, 3),
                   child: CardViewDashboardItem(
                     borderRadius: 20,
                     child: GestureDetector(
@@ -44,51 +46,36 @@ class TeamsList extends StatelessWidget {
                         padding: EdgeInsets.fromLTRB(14, 12, 10, 12),
                         color: Colors.transparent,
                         child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            UserAvtarView(
+                              imageUrl: info.supervisorThumbImage ?? "",
+                            ),
+                            SizedBox(
+                              width: 12,
+                            ),
                             Expanded(
-                              child: Row(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  UserAvtarView(
-                                    imageUrl: info.supervisorThumbImage ?? "",
+                                  TitleTextView(
+                                    text: (info.isSubcontractor ?? false)
+                                        ? "${info.name} (${info.subcontractorCompanyName})"
+                                        : info.name ?? "",
+                                    color: (info.isSubcontractor ?? false)
+                                        ? defaultAccentColor
+                                        : primaryTextColor,
                                   ),
-                                  SizedBox(
-                                    width: 12,
+                                  SubtitleTextView(
+                                    text: info.supervisorName ?? "",
                                   ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        (info.isSubcontractor ?? false)
-                                            ? "${info.name} (${info.subcontractorCompanyName})"
-                                            : info.name ?? "",
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                            fontSize: 17,
-                                            color:
-                                                (info.isSubcontractor ?? false)
-                                                    ? defaultAccentColor
-                                                    : primaryTextColor,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                      Text(
-                                        info.supervisorName ?? "",
-                                        textAlign: TextAlign.start,
-                                        style: const TextStyle(
-                                            fontSize: 14,
-                                            color: secondaryLightTextColor,
-                                            fontWeight: FontWeight.w400),
-                                      )
-                                    ],
+                                  SubtitleTextView(
+                                    text: "${info.teamMemberCount} Members",
+                                    fontSize: 13,
                                   )
                                 ],
                               ),
                             ),
-                            PrimaryTextView(
-                              text: "${info.teamMemberCount} Members",
-                              fontSize: 13,
-                              color: secondaryLightTextColor,
-                            )
                           ],
                         ),
                       ),

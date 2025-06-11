@@ -9,6 +9,7 @@ import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
 import 'package:otm_inventory/widgets/custom_views/no_internet_widgets.dart';
+import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
 
 class CompanyTradesScreen extends StatefulWidget {
   const CompanyTradesScreen({super.key});
@@ -41,8 +42,9 @@ class _CompanyTradesScreenState extends State<CompanyTradesScreen> {
               title: 'trades'.tr,
               isCenterTitle: false,
               isBack: true,
+              widgets: actionButtons(),
               onBackPressed: () {
-                controller.onBackPress();
+                Get.back();
               },
             ),
             body: Obx(() {
@@ -52,25 +54,41 @@ class _CompanyTradesScreenState extends State<CompanyTradesScreen> {
                   progressIndicator: const CustomProgressbar(),
                   child: controller.isInternetNotAvailable.value
                       ? NoInternetWidget(
-                          onPressed: () {
-                            controller.isInternetNotAvailable.value = false;
-                            // controller.getCompanyDetailsApi();
-                          },
-                        )
+                    onPressed: () {
+                      controller.isInternetNotAvailable.value = false;
+                      // controller.getCompanyDetailsApi();
+                    },
+                  )
                       : Visibility(
-                          visible: controller.isMainViewVisible.value,
-                          child: Column(
-                            children: [
-                              Divider(),
-                              SelectAllText(),
-                              CompanyTradeList()
-                            ],
-                          ),
-                        ));
+                    visible: controller.isMainViewVisible.value,
+                    child: Column(
+                      children: [
+                        Divider(),
+                        SelectAllText(),
+                        CompanyTradeList()
+                      ],
+                    ),
+                  ));
             }),
           ),
         ),
       ),
     );
+  }
+
+  List<Widget>? actionButtons() {
+    return [
+      TextButton(
+        onPressed: () {
+          controller.onBackPress();
+        },
+        child: PrimaryTextView(
+          text: 'save'.tr,
+          fontSize: 17,
+          fontWeight: FontWeight.w600,
+          color: defaultAccentColor,
+        ),
+      )
+    ];
   }
 }

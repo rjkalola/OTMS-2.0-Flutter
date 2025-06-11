@@ -97,8 +97,12 @@ class ImageUtils {
           );
   }
 
-  static Widget setCircularNetworkImage({required String url, required double width, required double height,
-    BoxFit? fit, double? borderRadius}) {
+  static Widget setCircularNetworkImage(
+      {required String url,
+      required double width,
+      required double height,
+      BoxFit? fit,
+      double? borderRadius}) {
     return !StringHelper.isEmptyString(url)
         ? Container(
             width: width,
@@ -112,6 +116,8 @@ class ImageUtils {
               fit: fit,
               width: width,
               height: height,
+              errorBuilder: (context, url, error) => getEmptyViewContainer(
+                  width: width, height: height, borderRadius: borderRadius),
             ),
           )
         : getEmptyViewContainer(
