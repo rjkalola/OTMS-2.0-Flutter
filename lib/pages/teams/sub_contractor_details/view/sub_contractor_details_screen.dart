@@ -70,17 +70,19 @@ class _SubContractorDetailsScreenState
                                     "-",
                                 iconData: Icons.person),
                             InfoTile(
-                                title: 'phone_number'.tr,
-                                value:
-                                    controller.subContractorInfo.value.phone ??
-                                        "-",
-                                iconData: Icons.phone),
+                              title: 'phone_number'.tr,
+                              value: controller.subContractorInfo.value.phone ??
+                                  "-",
+                              iconData: Icons.phone,
+                              isCopyIconVisible: true,
+                            ),
                             InfoTile(
                                 title: 'email'.tr,
                                 value:
                                     controller.subContractorInfo.value.email ??
                                         "-",
-                                iconData: Icons.email)
+                                iconData: Icons.email,
+                                isCopyIconVisible: true)
                           ],
                         ),
                       ));

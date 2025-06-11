@@ -34,4 +34,18 @@ class TeamDetailsRepository {
       onError: (error) => {if (onError != null) onError(error)},
     );
   }
+
+  void archiveTeam({
+    dynamic data,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(url: ApiConstants.teamArchive, data: data, isFormData: false)
+        .postRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
 }

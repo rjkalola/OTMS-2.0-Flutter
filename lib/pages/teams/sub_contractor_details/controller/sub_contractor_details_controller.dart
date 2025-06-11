@@ -14,7 +14,7 @@ class SubContractorDetailsController extends GetxController {
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs;
   final subContractorInfo = SubContractorInfo().obs;
-  int teamId = 0;
+  int teamId = 0,companyId = 0;
 
   @override
   void onInit() {
@@ -22,6 +22,7 @@ class SubContractorDetailsController extends GetxController {
     var arguments = Get.arguments;
     if (arguments != null) {
       teamId = arguments[AppConstants.intentKey.teamId] ?? 0;
+      companyId = arguments[AppConstants.intentKey.companyId] ?? 0;
     }
     getSubContractorDetailsDetailsApi();
   }
@@ -29,7 +30,7 @@ class SubContractorDetailsController extends GetxController {
   void getSubContractorDetailsDetailsApi() {
     isLoading.value = true;
     Map<String, dynamic> map = {};
-    map["company_id"] = ApiConstants.companyId;
+    map["company_id"] = companyId;
     map["team_id"] = teamId;
     _api.getSubContractorDetails(
       data: map,

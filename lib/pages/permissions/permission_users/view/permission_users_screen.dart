@@ -10,6 +10,7 @@ import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
 import 'package:otm_inventory/widgets/custom_views/no_internet_widgets.dart';
+import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
 
 class PermissionUsersScreen extends StatefulWidget {
   const PermissionUsersScreen({super.key});
@@ -26,13 +27,17 @@ class _PermissionUsersScreenState extends State<PermissionUsersScreen> {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: Colors.white,
         statusBarIconBrightness: Brightness.dark));
-    return PopScope(
+    /*return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) async {
         if (didPop || result != null) return;
         controller.onBackPress();
       },
-      child: Container(
+      child: Container(),
+    );*/
+
+    return Obx(
+      () => Container(
         color: backgroundColor,
         child: SafeArea(
           child: Scaffold(
@@ -42,38 +47,56 @@ class _PermissionUsersScreenState extends State<PermissionUsersScreen> {
               title: controller.title.value,
               isCenterTitle: false,
               isBack: true,
-              onBackPressed: () {
-                controller.onBackPress();
-                // Get.back(result: controller.isDataUpdated.value);
-              },
+              widgets: actionButtons(),
+              // onBackPressed: () {
+              //   controller.onBackPress();
+              // },
             ),
-            body: Obx(() {
-              return ModalProgressHUD(
-                  inAsyncCall: controller.isLoading.value,
-                  opacity: 0,
-                  progressIndicator: const CustomProgressbar(),
-                  child: controller.isInternetNotAvailable.value
-                      ? NoInternetWidget(
-                          onPressed: () {
-                            controller.isInternetNotAvailable.value = false;
-                            controller.getPermissionUsersApi();
-                          },
-                        )
-                      : Visibility(
-                          visible: controller.isMainViewVisible.value,
-                          child: Column(
-                            children: [
-                              Divider(),
-                              SearchPermissionUsersWidget(),
-                              SelectAllText(),
-                              PermissionUsersList()
-                            ],
-                          ),
-                        ));
-            }),
+            body: ModalProgressHUD(
+                inAsyncCall: controller.isLoading.value,
+                opacity: 0,
+                progressIndicator: const CustomProgressbar(),
+                child: controller.isInternetNotAvailable.value
+                    ? NoInternetWidget(
+                        onPressed: () {
+                          controller.isInternetNotAvailable.value = false;
+                          controller.getPermissionUsersApi();
+                        },
+                      )
+                    : Visibility(
+                        visible: controller.isMainViewVisible.value,
+                        child: Column(
+                          children: [
+                            Divider(),
+                            SearchPermissionUsersWidget(),
+                            SelectAllText(),
+                            PermissionUsersList()
+                          ],
+                        ),
+                      )),
           ),
         ),
       ),
     );
+  }
+
+  List<Widget>? actionButtons() {
+    return [
+      TextButton(
+        onPressed: () {
+          if (controller.isDataUpdated.value) {
+            controller.changePermissionUserStatusApi();
+          }
+        },
+        child: PrimaryTextView(
+          text: 'save'.tr,
+          fontSize: 17,
+          fontWeight: FontWeight.w600,
+          color: controller.isDataUpdated.value
+              ? defaultAccentColor
+              : defaultAccentLightColor,
+        ),
+      )
+    ];
   }
 }

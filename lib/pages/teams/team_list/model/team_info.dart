@@ -13,6 +13,7 @@ class TeamInfo {
   String? supervisorThumbImage;
   bool? isSubcontractor;
   String? subcontractorCompanyName;
+  int? subcontractorCompanyId;
   List<UserInfo>? teamMembers;
 
   TeamInfo(
@@ -28,7 +29,8 @@ class TeamInfo {
       this.supervisorThumbImage,
       this.teamMembers,
       this.isSubcontractor,
-      this.subcontractorCompanyName});
+      this.subcontractorCompanyName,
+      this.subcontractorCompanyId});
 
   TeamInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -43,6 +45,7 @@ class TeamInfo {
     supervisorThumbImage = json['supervisor_thumb_image'];
     isSubcontractor = json['is_subcontractor'];
     subcontractorCompanyName = json['subcontractor_company_name'];
+    subcontractorCompanyId = json['subcontractor_company_id'];
 
     if (json['team_members'] != null) {
       teamMembers = <UserInfo>[];
@@ -66,6 +69,7 @@ class TeamInfo {
     data['supervisor_thumb_image'] = this.supervisorThumbImage;
     data['is_subcontractor'] = this.isSubcontractor;
     data['subcontractor_company_name'] = this.subcontractorCompanyName;
+    data['subcontractor_company_id'] = this.subcontractorCompanyId;
 
     if (this.teamMembers != null) {
       data['team_members'] = this.teamMembers!.map((v) => v.toJson()).toList();

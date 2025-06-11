@@ -61,7 +61,7 @@ class TeamDetailsController extends GetxController
               TeamDetailsResponse.fromJson(jsonDecode(responseModel.result!));
           teamInfo.value = response.info!;
         } else {
-          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;
       },
@@ -69,10 +69,41 @@ class TeamDetailsController extends GetxController
         isLoading.value = false;
         if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
           isInternetNotAvailable.value = true;
-          // AppUtils.showSnackBarMessage('no_internet'.tr);
-          // Utils.showSnackBarMessage('no_internet'.tr);
+          // AppUtils.showApiResponseMessage('no_internet'.tr);
+          // Utils.showApiResponseMessage('no_internet'.tr);
         } else if (error.statusMessage!.isNotEmpty) {
-          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+          AppUtils.showApiResponseMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
+
+  void archiveTeamApi() {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    // map["company_id"] = ApiConstants.companyId;
+    map["team_id"] = teamId;
+    _api.archiveTeam(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          BaseResponse response =
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showToastMessage(response.Message ?? "");
+          Get.back(result: true);
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+          // AppUtils.showApiResponseMessage('no_internet'.tr);
+          // Utils.showApiResponseMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showApiResponseMessage(error.statusMessage ?? "");
         }
       },
     );
@@ -90,7 +121,7 @@ class TeamDetailsController extends GetxController
               BaseResponse.fromJson(jsonDecode(responseModel.result!));
           Get.back(result: true);
         } else {
-          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;
       },
@@ -98,10 +129,10 @@ class TeamDetailsController extends GetxController
         isLoading.value = false;
         if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
           isInternetNotAvailable.value = true;
-          // AppUtils.showSnackBarMessage('no_internet'.tr);
-          // Utils.showSnackBarMessage('no_internet'.tr);
+          // AppUtils.showApiResponseMessage('no_internet'.tr);
+          // Utils.showApiResponseMessage('no_internet'.tr);
         } else if (error.statusMessage!.isNotEmpty) {
-          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+          AppUtils.showApiResponseMessage(error.statusMessage ?? "");
         }
       },
     );
@@ -139,17 +170,22 @@ class TeamDetailsController extends GetxController
     List<ModuleInfo> listItems = [];
     // listItems.add(ModuleInfo(
     //     name: 'create_new_team'.tr, action: AppConstants.action.add));
-    listItems
-        .add(ModuleInfo(name: 'edit'.tr, action: AppConstants.action.edit));
-    listItems
-        .add(ModuleInfo(name: 'delete'.tr, action: AppConstants.action.delete));
-    listItems.add(ModuleInfo(
-        name: 'create_code'.tr, action: AppConstants.action.createCode));
-    listItems.add(ModuleInfo(
-        name: 'sub_contractor_details'.tr,
-        action: AppConstants.action.subContractorDetails));
-    listItems.add(ModuleInfo(
-        name: 'join_a_company'.tr, action: AppConstants.action.joinCompany));
+    if (teamInfo.value.isSubcontractor ?? false) {
+      listItems.add(ModuleInfo(
+          name: 'sub_contractor_details'.tr,
+          action: AppConstants.action.subContractorDetails));
+    } else {
+      listItems
+          .add(ModuleInfo(name: 'edit'.tr, action: AppConstants.action.edit));
+      listItems.add(
+          ModuleInfo(name: 'delete'.tr, action: AppConstants.action.delete));
+      listItems.add(ModuleInfo(
+          name: 'create_code'.tr, action: AppConstants.action.createCode));
+      listItems.add(ModuleInfo(
+          name: 'join_a_company'.tr, action: AppConstants.action.joinCompany));
+      listItems.add(ModuleInfo(
+          name: 'archive'.tr, action: AppConstants.action.archiveTeam));
+    }
 
     showCupertinoModalPopup(
       context: context,
@@ -175,13 +211,17 @@ class TeamDetailsController extends GetxController
     } else if (info.action == AppConstants.action.subContractorDetails) {
       var arguments = {
         AppConstants.intentKey.teamId: teamId,
+        AppConstants.intentKey.companyId:
+            teamInfo.value.subcontractorCompanyId ?? 0,
       };
       Get.toNamed(AppRoutes.subContractorDetailsScreen, arguments: arguments);
-    }else if (info.action == AppConstants.action.joinCompany) {
+    } else if (info.action == AppConstants.action.joinCompany) {
       var arguments = {
         AppConstants.intentKey.teamId: teamId,
       };
       moveToScreen(AppRoutes.joinTeamToCompanyScreen, arguments);
+    } else if (info.action == AppConstants.action.archiveTeam) {
+      archiveTeamApi();
     }
   }
 

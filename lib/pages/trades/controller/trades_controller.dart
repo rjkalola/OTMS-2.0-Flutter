@@ -45,7 +45,7 @@ class TradesController extends GetxController {
         if (responseModel.isSuccess) {
           isMainViewVisible.value = true;
           CompanyTradesResponse response =
-              CompanyTradesResponse.fromJson(jsonDecode(responseModel.result!));
+          CompanyTradesResponse.fromJson(jsonDecode(responseModel.result!));
           companyTradesList.clear();
           companyTradesList.addAll(response.companyTrades ?? []);
           checkSelectAll();
@@ -81,7 +81,7 @@ class TradesController extends GetxController {
         if (responseModel.isSuccess) {
           Get.back(result: true);
           BaseResponse response =
-              BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.Message ?? "");
         } else {
           // AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");

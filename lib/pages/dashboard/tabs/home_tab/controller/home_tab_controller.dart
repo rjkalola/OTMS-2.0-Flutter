@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -234,8 +235,12 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
     final movedItem = list.removeAt(oldIndex);
     list.insert(newIndex, movedItem);
 
+    int updatedPositionCount = 0;
     for (int i = 0; i < list.length; i++) {
-      list[i].sequence = i + 1;
+      if (list[i].permissionId != -1) {
+        updatedPositionCount = updatedPositionCount + 1;
+        list[i].sequence = updatedPositionCount;
+      }
     }
 
     listPermissions.value = List.from(list);
@@ -248,7 +253,8 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
 
       bool isInternet = await AppUtils.interNetCheck();
       int permissionId = list[newIndex].permissionId!;
-      int newPosition = newIndex + 1;
+      // int newPosition = newIndex + 1;
+      int newPosition = list[newIndex].sequence!;
       if (movedItem.permissionId != -1) {
         if (isInternet) {
           if (Get.find<AppStorage>().isLocalSequenceChanges()) {
@@ -267,6 +273,12 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
         }
       }
     }
+  }
+
+  bool isEditWidgetBefore() {
+    bool isBefore = false;
+
+    return isBefore;
   }
 
   void addLocalSequenceChangeData(int permissionId, int newPosition) {
@@ -323,13 +335,16 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
     } else if (info.slug == 'team') {
       Get.toNamed(AppRoutes.teamListScreen);
       // Get.toNamed(AppRoutes.createTeamScreen);
+    }else if (info.slug == 'users') {
+      Get.toNamed(AppRoutes.userListScreen);
+      // Get.toNamed(AppRoutes.createTeamScreen);
     } else if (info.slug == 'settings') {
       moveToScreen(appRout: AppRoutes.settingsScreen);
     }
   }
 
-  void showControlPanelDialog() {
-    Get.bottomSheet(
+  Future<void> showControlPanelDialog() async {
+    await Get.bottomSheet(
         ControlPanelMenuDialog(
           dialogType: AppConstants.dialogIdentifier.controlPanelMenuDialog,
           list: DataUtils.getControlPanelMenuItems(),
@@ -354,16 +369,22 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
         AppConstants.intentKey.userId: UserUtils.getLoginUserId(),
         AppConstants.intentKey.userName: UserUtils.getLoginUserName(),
       };
-      moveToScreen(appRout: AppRoutes.userListScreen, arguments: arguments);
+      moveToScreen(
+          appRout: AppRoutes.selectUserListForPermissionScreen,
+          arguments: arguments);
     }
   }
 
   Future<void> moveToScreen(
       {required String appRout, dynamic arguments}) async {
+    /* Timer(const Duration(seconds: 2), () async {
+
+    });*/
     var result = await Get.toNamed(appRout, arguments: arguments);
     getDashboardUserPermissionsApi(false);
-    // if (result != null && result) {
-    //   getDashboardUserPermissionsApi(false);
-    // }
+    if (Get.isBottomSheetOpen ?? false) {
+      Get.back();
+      showControlPanelDialog();
+    }
   }
 }

@@ -23,7 +23,7 @@ class _JoinTeamToCompanyScreenState extends State<JoinTeamToCompanyScreen> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarColor: Colors.white,
+        statusBarColor: dashBoardBgColor,
         statusBarIconBrightness: Brightness.dark));
     return Container(
       color: dashBoardBgColor,
@@ -48,31 +48,21 @@ class _JoinTeamToCompanyScreenState extends State<JoinTeamToCompanyScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Divider(),
-                          Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(20, 30, 20, 10),
-                                  child: OtpViewJoinCompany(
-                                    mOtpCode: controller.mOtpCode,
-                                    otpController: controller.otpController,
-                                    onCodeChanged: (code) {
-                                      controller.mOtpCode.value =
-                                          code.toString();
-                                      if (controller.mOtpCode.value.length ==
-                                          6) {
-                                        controller.addTeamToCompanyApi();
-                                      }
-                                      print("onCodeChanged $code");
-                                    },
-                                    onResendOtp: () {
-                                      print("onResendOtp click");
-                                    },
-                                  ),
-                                )
-                              ],
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(20, 50, 20, 10),
+                            child: OtpViewJoinCompany(
+                              mOtpCode: controller.mOtpCode,
+                              otpController: controller.otpController,
+                              onCodeChanged: (code) {
+                                controller.mOtpCode.value = code.toString();
+                                if (controller.mOtpCode.value.length == 6) {
+                                  controller.addTeamToCompanyApi();
+                                }
+                                print("onCodeChanged $code");
+                              },
+                              onResendOtp: () {
+                                print("onResendOtp click");
+                              },
                             ),
                           ),
                           /*  Visibility(

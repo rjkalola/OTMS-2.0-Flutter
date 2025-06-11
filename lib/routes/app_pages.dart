@@ -31,7 +31,8 @@ import 'package:otm_inventory/pages/teams/team_details/view/team_details_screen.
 import 'package:otm_inventory/pages/teams/team_generate_otp/view/team_generate_otp_screen.dart';
 import 'package:otm_inventory/pages/teams/team_list/view/team_list_screen.dart';
 import 'package:otm_inventory/pages/trades/view/company_trades_screen.dart';
-import 'package:otm_inventory/pages/permissions/user_list/view/user_list_screen.dart';
+import 'package:otm_inventory/pages/permissions/user_list/view/select_user_list_for_permission_screen.dart';
+import 'package:otm_inventory/pages/users/user_list/view/user_list_screen.dart';
 import '../pages/stock_filter/view/stock_filter_screen.dart';
 import 'app_routes.dart';
 
@@ -142,8 +143,8 @@ class AppPages {
       page: () => TeamGenerateOtpScreen(),
     ),
     GetPage(
-      name: AppRoutes.userListScreen,
-      page: () => UserListScreen(),
+      name: AppRoutes.selectUserListForPermissionScreen,
+      page: () => SelectUserListForPermissionScreen(),
     ),
     GetPage(
       name: AppRoutes.searchUserScreen,
@@ -172,6 +173,10 @@ class AppPages {
     GetPage(
       name: AppRoutes.subContractorDetailsScreen,
       page: () => SubContractorDetailsScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.userListScreen,
+      page: () => UserListScreen(),
     ),
   ];
 }

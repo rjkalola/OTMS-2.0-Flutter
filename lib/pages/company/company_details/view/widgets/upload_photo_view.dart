@@ -35,14 +35,11 @@ class UploadPhotoView extends StatelessWidget {
                 ? (controller.mCompanyLogo.value.startsWith("http")
                     ? ImageUtils.setCircularNetworkImage(
                         url: controller.mCompanyLogo.value,
-                        width: double.infinity,
-                        height: double.infinity,
+                        width: 100,
+                        height: 100,
                         fit: BoxFit.fill)
                     : ImageUtils.setCircularFileImage(
-                        controller.mCompanyLogo.value,
-                        double.infinity,
-                        double.infinity,
-                        BoxFit.fill))
+                        controller.mCompanyLogo.value, 100, 100, BoxFit.fill))
                 : Center(
                     child: ImageUtils.setAssetsImage(
                         path: Drawable.imgAddImage, width: 120, height: 50),

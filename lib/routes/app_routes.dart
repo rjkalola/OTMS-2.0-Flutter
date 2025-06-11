@@ -20,10 +20,11 @@ class AppRoutes {
   static const String permissionUsersScreen = '/permission_users_screen';
   static const String teamListScreen = '/team_list_screen';
   static const String teamGenerateOtpScreen = '/team_generate_otp_screen';
-  static const String userListScreen = '/user_list_screen';
+  static const String selectUserListForPermissionScreen = '/select_user_list_for_permission_screen';
   static const String searchUserScreen = '/search_user_screen';
   static const String settingsScreen = '/settings_screen';
   static const String widgetsScreen = '/widgets_screen';
+  static const String userListScreen = '/user_list_screen';
 
   static const String productListScreen = '/product_list_screen';
   static const String storeListScreen = '/store_list_screen';

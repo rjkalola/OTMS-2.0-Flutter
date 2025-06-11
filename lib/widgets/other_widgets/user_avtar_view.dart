@@ -33,8 +33,8 @@ class UserAvtarView extends StatelessWidget {
               Radius.circular(45),
             ),
             border: Border.all(
-              width: imageBorderWidth ?? 2,
-              color: imageBorderColor ?? Color(0xff1E1E1E),
+              width: imageBorderWidth ?? 1,
+              color: imageBorderColor ?? Color(0xff777777),
               style: BorderStyle.solid,
             ),
           ),

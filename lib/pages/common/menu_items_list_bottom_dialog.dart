@@ -16,10 +16,11 @@ class MenuItemsListBottomDialog extends StatefulWidget {
   final List<ModuleInfo> list;
   final MenuItemListener listener;
 
-  const MenuItemsListBottomDialog(
-      {super.key,
-      required this.list,
-      required this.listener,});
+  const MenuItemsListBottomDialog({
+    super.key,
+    required this.list,
+    required this.listener,
+  });
 
   @override
   State<MenuItemsListBottomDialog> createState() =>
@@ -56,7 +57,7 @@ class MenuItemsListBottomDialogState extends State<MenuItemsListBottomDialog> {
               child: Text(
                 item.name ?? "",
                 style: TextStyle(
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w400,
                     fontSize: 17,
                     // color: item.isDestructive
                     //     ? CupertinoColors.systemRed

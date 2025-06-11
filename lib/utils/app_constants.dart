@@ -53,6 +53,7 @@ class IntentKey {
   final String permissionStep2Info = "PERMISSION_STEP2_INFO";
   final String permissionId = "PERMISSION_ID";
   final String teamId = "TEAM_ID";
+  final String companyId = "COMPANY_ID";
   final String teamInfo = "TEAM_INFO";
   final String userId = "USER_ID";
   final String userName = "USER_NAME";
@@ -143,6 +144,8 @@ class Action {
   final String createCode = 'CREATE_CODE';
   final String subContractorDetails = 'SUB_CONTRACTOR_DETAILS';
   final String joinCompany = 'JOIN_COMPANY';
+  final String archiveTeam = 'ARCHIVE_TEAM';
+  final String unArchiveTeam = 'Un_ARCHIVE_TEAM';
   final String generateCode = 'GENERATE_CODE';
 
   final String companyDetails = "COMPANY_DETAILS";
