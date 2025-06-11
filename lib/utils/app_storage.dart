@@ -2,14 +2,16 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:otm_inventory/pages/authentication/otp_verification/model/user_info.dart';
+import 'package:otm_inventory/pages/common/model/user_info.dart';
 import 'package:otm_inventory/pages/dashboard/models/dashboard_response.dart';
 import 'package:otm_inventory/pages/dashboard/models/permission_settings.dart';
+import 'package:otm_inventory/pages/dashboard/tabs/home_tab/model/local_permission_sequence_change_info.dart';
+import 'package:otm_inventory/pages/dashboard/tabs/home_tab/model/user_permissions_response.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
+import 'package:otm_inventory/web_services/api_constants.dart';
 
 import '../pages/dashboard/models/dashboard_stock_count_response.dart';
-import '../pages/stock_filter/model/stock_filter_response.dart';
 
 class AppStorage extends GetxController {
   final storage = GetStorage();
@@ -58,6 +60,14 @@ class AppStorage extends GetxController {
     return token;
   }
 
+  void setCompanyId(int companyId) {
+    storage.write(AppConstants.sharedPreferenceKey.companyId, companyId);
+  }
+
+  int getCompanyId() {
+    return storage.read(AppConstants.sharedPreferenceKey.companyId) ?? 0;
+  }
+
   void setPermissions(PermissionSettings stockData) {
     storage.write(AppConstants.sharedPreferenceKey.permissionSettings,
         jsonEncode(stockData));
@@ -92,6 +102,62 @@ class AppStorage extends GetxController {
     } else {
       return data;
     }
+  }
+
+  void setUserPermissionsResponse(UserPermissionsResponse? data) {
+    storage.write(
+        AppConstants.sharedPreferenceKey.userPermissionData, jsonEncode(data));
+  }
+
+  UserPermissionsResponse? getUserPermissionsResponse() {
+    final dashboardData =
+        storage.read(AppConstants.sharedPreferenceKey.userPermissionData) ?? "";
+    UserPermissionsResponse data = UserPermissionsResponse();
+    if (!StringHelper.isEmptyString(dashboardData)) {
+      final jsonMap = json.decode(dashboardData);
+      data = UserPermissionsResponse.fromJson(jsonMap);
+      return data;
+    } else {
+      return null;
+    }
+  }
+
+  void setLocalSequenceChangeData(
+      List<LocalPermissionSequenceChangeInfo> data) {
+    storage.write(AppConstants.sharedPreferenceKey.localSequenceChangeData,
+        jsonEncode(data));
+  }
+
+  List<LocalPermissionSequenceChangeInfo> getLocalSequenceChangeData() {
+    final jsonString = storage
+            .read(AppConstants.sharedPreferenceKey.localSequenceChangeData) ??
+        "";
+    if (!StringHelper.isEmptyString(jsonString)) {
+      final jsonMap = json.decode(jsonString);
+      List<LocalPermissionSequenceChangeInfo> list = (jsonMap as List)
+          .map((itemWord) =>
+              LocalPermissionSequenceChangeInfo.fromJson(itemWord))
+          .toList();
+      // List<UserInfo> list = (jsonDecode(jsonString) as List<dynamic>).cast<UserInfo>();
+      return list;
+    } else {
+      return [];
+    }
+  }
+
+  void clearLocalSequenceChangeData() {
+    removeData(AppConstants.sharedPreferenceKey.localSequenceChangeData);
+  }
+
+  void setLocalSequenceChanges(bool value) {
+    storage.write(
+        AppConstants.sharedPreferenceKey.isLocalSequenceChanged, value);
+  }
+
+  bool isLocalSequenceChanges() {
+    return storage
+            .read(AppConstants.sharedPreferenceKey.isLocalSequenceChanged) ??
+        false;
   }
 
   void setDashboardStockCountData(DashboardStockCountResponse data) {
@@ -172,13 +238,19 @@ class AppStorage extends GetxController {
 
   void clearAllData() {
     AppConstants.isResourcesLoaded = false;
+    ApiConstants.companyId = 0;
+    ApiConstants.accessToken = "";
     removeData(AppConstants.sharedPreferenceKey.userInfo);
     removeData(AppConstants.sharedPreferenceKey.accessToken);
+    removeData(AppConstants.sharedPreferenceKey.companyId);
     removeData(AppConstants.sharedPreferenceKey.dashboardItemCountData);
     removeData(AppConstants.sharedPreferenceKey.permissionSettings);
     removeData(AppConstants.sharedPreferenceKey.dashboardResponse);
     removeData(AppConstants.sharedPreferenceKey.isWeeklySummeryCounter);
     removeData(AppConstants.sharedPreferenceKey.weeklySummeryAmount);
+    removeData(AppConstants.sharedPreferenceKey.userPermissionData);
+    removeData(AppConstants.sharedPreferenceKey.localSequenceChangeData);
+    removeData(AppConstants.sharedPreferenceKey.isLocalSequenceChanged);
   }
 
   void removeData(String key) {

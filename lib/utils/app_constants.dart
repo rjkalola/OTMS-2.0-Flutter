@@ -8,14 +8,26 @@ class AppConstants {
   static const UserType userType = UserType();
   static const Type type = Type();
   static const ShiftType shiftType = ShiftType();
+  static const Results results = Results();
 
   static const String deviceType = "1";
   static const int productListLimit = 20;
   static const int defaultPhoneExtensionId = 1;
   static const String defaultPhoneExtension = "+44";
-  static const String defaultFlagUrl =
-      "https://devcdn.otmsystem.com/flags/png/gb_32.png";
+
+  // static const String defaultFlagUrl =
+  //     "https://devcdn.otmsystem.com/flags/png/gb_32.png";
+  static const String defaultFlagUrl = "assets/country_flag/gb.svg";
+  static const String permissionIconsAssetsPath =
+      "assets/user_permission_icons/";
   static bool isResourcesLoaded = false;
+  static bool isUpdatedPermission = false;
+}
+
+class Results {
+  const Results();
+
+  final String permissionUsersChanged = 'PERMISSION_USERS_CHANGED';
 }
 
 class IntentKey {
@@ -27,6 +39,7 @@ class IntentKey {
   final String companyData = 'COMPANY_DATA';
   final String companyCode = 'COMPANY_CODE';
   final String fromSignUpScreen = 'FROM_SIGN_UP_SCREEN';
+  final String fromDashboardScreen = 'FROM_DASHBOARD_SCREEN';
   final String dashboardTabIndex = 'DASHBOARD_TAB_INDEX';
   final String stockCountType = 'STOCK_COUNT_TYPE';
   final String allStockType = 'ALL_STOCK_TYPE';
@@ -36,6 +49,14 @@ class IntentKey {
   final String photosType = 'PHOTOS_TYPE';
   final String photosList = 'PHOTOS_LIST';
   final String addressList = 'ADDRESS_LIST';
+  final String permissionStep1Info = "PERMISSION_STEP1_INFO";
+  final String permissionStep2Info = "PERMISSION_STEP2_INFO";
+  final String permissionId = "PERMISSION_ID";
+  final String teamId = "TEAM_ID";
+  final String teamInfo = "TEAM_INFO";
+  final String userId = "USER_ID";
+  final String userName = "USER_NAME";
+  final String userList = "USER_LIST";
 }
 
 class DialogIdentifier {
@@ -52,16 +73,28 @@ class DialogIdentifier {
   final String filterByDialog = 'FILTER_BY_DIALOG';
   final String attachmentOptionsList = 'ATTACHMENT_OPTIONS_LIST';
   final String deleteProductImage = 'DELETE_PRODUCT_IMAGE';
+  final String controlPanelMenuDialog = 'CONTROL_PANEL_MENU_DIALOG';
+  final String selectCompanyAdmin = 'SELECT_COMPANY_ADMIN';
+  final String establishedDate = 'ESTABLISHED_DATE';
+  final String insuranceExpiryDate = 'INSURANCE_EXPIRY_DATE';
+  final String selectWorkingHourTime = 'SELECT_WORKING_HOUR_TIME';
+  final String selectMenuItemsDialog = 'selectMenuItemsDialog';
+  final String selectTeamMembers = 'SELECT_TEAM_MEMBERS';
+  final String deleteTeam = 'DELETE_TEAM';
 }
 
 class SharedPreferenceKey {
   const SharedPreferenceKey(); // <---
   final String userInfo = "USER_INFO";
   final String accessToken = "ACCESS_TOKEN";
+  final String companyId = "COMPANY_ID";
   final String savedLoginUserList = "SAVED_LOGIN_USER_LIST";
   final String dashboardItemCountData = "DASHBOARD_ITEM_COUNT_DATA";
   final String permissionSettings = "PERMISSION_SETTINGS";
   final String dashboardResponse = "DASHBOARD_RESPONSE";
+  final String userPermissionData = "USER_PERMISSION_DATA";
+  final String isLocalSequenceChanged = "IS_LOCAL_SEQUENCE_CHANGED";
+  final String localSequenceChangeData = "LOCAL_SEQUENCE_CHANGE_DATA";
   final String isWeeklySummeryCounter = "IS_WEEKLY_SUMMERY_COUNTER";
   final String weeklySummeryAmount = "WEEKLY_SUMMERY_AMOUNT";
   final String timeLogId = "TIME_LOG_ID";
@@ -103,6 +136,21 @@ class Action {
   final String timeSheet = "TimeSheet";
   final String selectCompanyListDialog = "selectCompanyListDialog";
   final String selectTradeListDialog = "selectTradeListDialog";
+  final String selectSupervisorDialog = 'selectSupervisorDialog';
+  final String add = 'ADD';
+  final String edit = 'EDIT';
+  final String delete = 'DELETE';
+  final String createCode = 'CREATE_CODE';
+  final String subContractorDetails = 'SUB_CONTRACTOR_DETAILS';
+  final String joinCompany = 'JOIN_COMPANY';
+  final String generateCode = 'GENERATE_CODE';
+
+  final String companyDetails = "COMPANY_DETAILS";
+  final String companyTrades = "COMPANY_TRADES";
+  final String widgets = "WIDGETS";
+  final String companyPermissions = "COMPANY_PERMISSIONS";
+  final String userPermissions = "USER_PERMISSIONS";
+  final String settings = "SETTINGS";
 }
 
 class StockCountType {

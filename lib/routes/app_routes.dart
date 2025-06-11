@@ -12,6 +12,18 @@ class AppRoutes {
   static const String companySignUpScreen = '/company_signup_screen';
   static const String clockInScreen = '/clock_in_screen';
   static const String selectAddressScreen = '/select_address_screen';
+  static const String companyDetailsScreen = '/company_details_screen';
+  static const String selectToolScreen = '/select_tool_screen';
+  static const String companyTradesScreen = '/company_trades_screen';
+  static const String companyPermissionScreen = '/company_permission_screen';
+  static const String userPermissionScreen = '/user_permission_screen';
+  static const String permissionUsersScreen = '/permission_users_screen';
+  static const String teamListScreen = '/team_list_screen';
+  static const String teamGenerateOtpScreen = '/team_generate_otp_screen';
+  static const String userListScreen = '/user_list_screen';
+  static const String searchUserScreen = '/search_user_screen';
+  static const String settingsScreen = '/settings_screen';
+  static const String widgetsScreen = '/widgets_screen';
 
   static const String productListScreen = '/product_list_screen';
   static const String storeListScreen = '/store_list_screen';
@@ -31,5 +43,16 @@ class AppRoutes {
   static const String purchaseOrderDetailsScreen =
       '/purchase_order_details_screen';
   static const String barcodeListScreen = '/barcode_list_screen';
-  static const String selectBeforeAfterPhotosScreen = '/select_before_after_photos_screen';
+  static const String selectBeforeAfterPhotosScreen =
+      '/select_before_after_photos_screen';
+  static const String teamUsersCountInfoScreen =
+      '/team_users_count_info_screen';
+  static const String businessFieldInfoScreen = '/business_field_info_screen';
+  static const String createTeamScreen = '/create_team_screen';
+  static const String teamDetailsScreen = '/team_details_screen';
+  static const String joinTeamToCompanyScreen = '/join_team_to_company_screen';
+  static const String generateCompanyCodeScreen =
+      '/generate_company_code_screen';
+  static const String subContractorDetailsScreen =
+      '/sub_contractor_details_screen';
 }

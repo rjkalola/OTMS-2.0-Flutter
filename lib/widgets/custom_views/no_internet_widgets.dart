@@ -1,13 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:otm_inventory/res/colors.dart';
+import 'package:otm_inventory/widgets/PrimaryBorderButton.dart';
+import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
 
 class NoInternetWidget extends StatelessWidget {
-  const NoInternetWidget(
-      {super.key});
+  const NoInternetWidget({super.key, this.onPressed});
+
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text("No Internet"),
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          PrimaryTextView(
+            text: 'no_internet_text'.tr,
+            fontSize: 18,
+            color: primaryTextColor,
+            fontWeight: FontWeight.w500,
+          ),
+          SizedBox(
+            height: 16,
+          ),
+          SizedBox(
+            height: 40,
+            width: 120,
+            child: PrimaryBorderButton(
+                buttonText: 'reload'.tr,
+                onPressed: () {
+                  onPressed!();
+                },
+                textColor: defaultAccentColor,
+                borderRadius: 45,
+                borderColor: defaultAccentColor),
+          )
+        ],
+      ),
     );
   }
 }

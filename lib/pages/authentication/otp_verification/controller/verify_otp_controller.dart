@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/pages/authentication/otp_verification/controller/verify_otp_repository.dart';
-import 'package:otm_inventory/pages/authentication/otp_verification/model/user_response.dart';
+import 'package:otm_inventory/pages/common/model/user_response.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_storage.dart';
@@ -13,8 +13,6 @@ import 'package:otm_inventory/web_services/response/response_model.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
 import 'package:dio/dio.dart' as multi;
-
-import '../model/user_info.dart';
 
 class VerifyOtpController extends GetxController {
   final formKey = GlobalKey<FormState>();
@@ -96,8 +94,8 @@ class VerifyOtpController extends GetxController {
                 UserResponse.fromJson(jsonDecode(responseModel.result!));
             if (response.isSuccess!) {
               Get.find<AppStorage>().setUserInfo(response.info!);
-              Get.find<AppStorage>().setAccessToken(response.info!.apiToken!);
-              ApiConstants.accessToken = response.info!.apiToken!;
+              // Get.find<AppStorage>().setAccessToken(response.info!.apiToken!);
+              // ApiConstants.accessToken = response.info!.apiToken!;
               print("Token:" + ApiConstants.accessToken);
               AppUtils.saveLoginUser(response.info!);
               Get.offAllNamed(AppRoutes.dashboardScreen);

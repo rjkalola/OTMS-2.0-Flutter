@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
-import 'package:qr_code_scanner_plus/qr_code_scanner_plus.dart';
 
 class QrCodeScanner extends StatefulWidget {
   const QrCodeScanner({Key? key}) : super(key: key);
@@ -20,21 +16,21 @@ class _QrCodeScannerState extends State<QrCodeScanner> {
   // In order to get hot reload to work we need to pause the camera if the platform
   // is android, or resume the camera if the platform is iOS.
 
-  BarcodeCapture? barcode;
-  late final MobileScannerController controller;
+  // BarcodeCapture? barcode;
+  // late final MobileScannerController controller;
   bool isStarted = true;
 
   @override
   void initState() {
     super.initState();
-    controller = MobileScannerController(
+    /*  controller = MobileScannerController(
       torchEnabled: false,
       // formats: [BarcodeFormat.qrCode]
       // facing: CameraFacing.front,
       // detectionSpeed: DetectionSpeed.normal
       // detectionTimeoutMs: 1000,
       // returnImage: false,
-    );
+    );*/
     // controller.start();
   }
 
@@ -62,7 +58,7 @@ class _QrCodeScannerState extends State<QrCodeScanner> {
       child: Scaffold(
         body: Stack(
           children: <Widget>[
-            _buildQrView(context, scanWindow),
+            // _buildQrView(context, scanWindow),
             InkWell(
                 onTap: () {
                   Get.back();
@@ -80,7 +76,7 @@ class _QrCodeScannerState extends State<QrCodeScanner> {
                         size: 24,
                       )),
                 )),
-            ValueListenableBuilder(
+            /*  ValueListenableBuilder(
               valueListenable: controller,
               builder: (context, value, child) {
                 if (!value.isInitialized ||
@@ -106,14 +102,14 @@ class _QrCodeScannerState extends State<QrCodeScanner> {
                   softWrap: true,
                 ),
               ),
-            )
+            )*/
           ],
         ),
       ),
     );
   }
 
-  /*Widget _buildQrView(BuildContext context) {
+/*Widget _buildQrView(BuildContext context) {
     // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
     var scanArea = (MediaQuery.of(context).size.width < 400 ||
             MediaQuery.of(context).size.height < 400)
@@ -134,7 +130,7 @@ class _QrCodeScannerState extends State<QrCodeScanner> {
     );
   }*/
 
-  Widget _buildQrView(BuildContext context, Rect scanWindow) {
+/*  Widget _buildQrView(BuildContext context, Rect scanWindow) {
     // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
     var scanArea = (MediaQuery.of(context).size.width < 300 ||
             MediaQuery.of(context).size.height < 300)
@@ -304,5 +300,5 @@ class ScannerOverlay extends CustomPainter {
   bool shouldRepaint(ScannerOverlay oldDelegate) {
     return scanWindow != oldDelegate.scanWindow ||
         borderRadius != oldDelegate.borderRadius;
-  }
+  }*/
 }

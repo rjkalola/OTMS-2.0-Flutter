@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:otm_inventory/pages/common/listener/select_time_listener.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
 
 import '../pages/common/listener/select_date_listener.dart';
@@ -39,12 +40,32 @@ class DateUtil {
     return result;
   }
 
+  static String timeToString(TimeOfDay? time, String format) {
+    String result = "";
+    if (time == null || StringHelper.isEmptyString(format)) return result;
+    final now = DateTime.now();
+    final date = DateTime(now.year, now.month, now.day, time.hour, time.minute);
+    DateFormat mFormatter = DateFormat(format);
+    try {
+      result = mFormatter.format(date);
+    } catch (e) {
+      result = "";
+    }
+    return result;
+  }
+
+  static String seconds_To_MM_SS(int seconds) {
+    final minutes = seconds ~/ 60;
+    final remainingSeconds = seconds % 60;
+    return '${minutes.toString().padLeft(2, '0')}:${remainingSeconds.toString().padLeft(2, '0')}';
+  }
+
   static Future<void> showDatePickerDialog(
-      DateTime? initialDate,
-      DateTime firstDate,
-      DateTime lastDate,
-      String dialogIdentifier,
-      SelectDateListener listener) async {
+      {DateTime? initialDate,
+      required DateTime firstDate,
+      required DateTime lastDate,
+      required String dialogIdentifier,
+      required SelectDateListener selectDateListener}) async {
     final DateTime? picked = await showDatePicker(
       context: Get.context!,
       initialDate: initialDate,
@@ -52,7 +73,27 @@ class DateUtil {
       lastDate: lastDate,
     );
     if (picked != null) {
-      listener.onSelectDate(picked, dialogIdentifier);
+      selectDateListener.onSelectDate(picked, dialogIdentifier);
+    }
+  }
+
+  static Future<void> showTimePickerDialog(
+      {TimeOfDay? initialTime,
+      required String dialogIdentifier,
+      required SelectTimeListener selectTimeListener}) async {
+    final pickedTime = await showTimePicker(
+      context: Get.context!,
+      initialTime: initialTime ?? TimeOfDay.now(),
+      builder: (context, child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+          child: child!,
+        );
+      },
+    );
+
+    if (pickedTime != null) {
+      selectTimeListener.onSelectTime(pickedTime, dialogIdentifier);
     }
   }
 

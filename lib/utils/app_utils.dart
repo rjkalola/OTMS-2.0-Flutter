@@ -4,11 +4,15 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/authentication/otp_verification/model/user_info.dart';
+import 'package:otm_inventory/pages/common/model/user_info.dart';
+import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_storage.dart';
+import 'package:otm_inventory/utils/data_utils.dart';
+import 'package:otm_inventory/utils/string_helper.dart';
 
 class AppUtils {
   static var mTime;
@@ -36,9 +40,12 @@ class AppUtils {
     }
   }
 
-  static showApiResponseMessage(String message) {
-    if (message.isNotEmpty) {
-      Get.rawSnackbar(message: message);
+  static showApiResponseMessage(String? message) {
+    if (!StringHelper.isEmptyString(message)) {
+      Fluttertoast.showToast(
+        msg: message ?? "",
+      );
+      // Get.rawSnackbar(message: message);
     }
   }
 
@@ -113,22 +120,26 @@ class AppUtils {
 
   static bool isAdmin() {
     UserInfo info = Get.find<AppStorage>().getUserInfo();
-    return info.userTypeId == AppConstants.userType.admin;
+    // return info.userTypeId == AppConstants.userType.admin;
+    return false;
   }
 
   static bool isEmployee() {
     UserInfo? info = Get.find<AppStorage>().getUserInfo();
-    return info.userTypeId == AppConstants.userType.employee;
+    // return info.userTypeId == AppConstants.userType.employee;
+    return false;
   }
 
   static bool isManager() {
     UserInfo? info = Get.find<AppStorage>().getUserInfo();
-    return info.userTypeId == AppConstants.userType.projectManager;
+    // return info.userTypeId == AppConstants.userType.projectManager;
+    return false;
   }
 
   static bool isSupervisor() {
     UserInfo? info = Get.find<AppStorage>().getUserInfo();
-    return info.userTypeId == AppConstants.userType.supervisor;
+    // return info.userTypeId == AppConstants.userType.supervisor;
+    return false;
   }
 
   static BoxShadow boxShadow(Color color, double radius) {
@@ -171,5 +182,40 @@ class AppUtils {
           width: borderWidth ?? 0.6, color: borderColor ?? Colors.transparent),
       borderRadius: BorderRadius.circular(radius ?? 12),
     );
+  }
+
+  static BoxDecoration getDashboardItemDecoration(
+      {Color? color,
+      double? radius,
+      double? borderWidth,
+      Color? borderColor,
+      double? shadowRadius,
+      List<BoxShadow>? boxShadow}) {
+    return BoxDecoration(
+      color: color ?? backgroundColor,
+      boxShadow: boxShadow ??
+          [AppUtils.boxShadow(Colors.grey.shade300, shadowRadius ?? 6)],
+      border: Border.all(
+          width: borderWidth ?? 0.6,
+          color: borderColor ?? Colors.grey.shade300),
+      borderRadius: BorderRadius.circular(radius ?? 45),
+    );
+  }
+
+  static String getFlagByExtension(String? extension) {
+    String flag = AppConstants.defaultFlagUrl;
+    if (!StringHelper.isEmptyString(extension)) {
+      final match = DataUtils.getPhoneExtensionList()
+          .firstWhere((item) => item.phoneExtension == extension);
+      return match.flagImage ?? flag;
+    }
+    return flag;
+  }
+
+  static void copyText(String? value) {
+    if (!StringHelper.isEmptyString(value)) {
+      Clipboard.setData(ClipboardData(text: value ?? ""));
+      // AppUtils.showToastMessage('copied_to_clip_board'.tr);
+    }
   }
 }

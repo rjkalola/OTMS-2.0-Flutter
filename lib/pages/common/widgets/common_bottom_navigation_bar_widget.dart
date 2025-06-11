@@ -34,7 +34,7 @@ class CommonBottomNavigationBarWidget extends StatelessWidget {
       showSelectedLabels: false,
       backgroundColor: bottomTabBackgroundColor,
       onTap: onItemTapped,
-    ) ;
+    );
   }
 
   void onItemTapped(int index) {
@@ -42,8 +42,6 @@ class CommonBottomNavigationBarWidget extends StatelessWidget {
     var arguments = {
       AppConstants.intentKey.dashboardTabIndex: index,
     };
-    Get.offNamed(AppRoutes.dashboardScreen,arguments: arguments);
+    Get.offNamed(AppRoutes.dashboardScreen, arguments: arguments);
   }
-
-
 }

@@ -58,4 +58,63 @@ class Drawable {
   static const String addPhotoIcon = 'assets/images/ic_add_photo.svg';
   static const String editPencilIcon =
       'assets/images/ic_create_edit_pencil_write.svg';
+  static const String imgHeaderLogo = 'assets/images/img_header_logo.png';
+  static const String imgSplashCenterImage =
+      'assets/images/img_splash_center_image.png';
+  static const String imgSplashCenterImage2 =
+      'assets/images/img_splash_center_image_.svg';
+
+  static const String imgAddUserImage = 'assets/images/img_add_user_image.png';
+  static const String imgAddImage = 'assets/images/img_add_image.png';
+  static const String constructionImage = 'assets/images/ic_construction.png';
+  static const String timeClockImageTemp =
+      'assets/images/ic_time_clock_temp.png';
+  static const String bellIcon = 'assets/images/ic_bell.svg';
+  static const String arrowDownExpandCollapseIcon =
+      'assets/images/ic_arrow_down_expand_collapse.svg';
+  static const String arrowUpExpandCollapseIcon =
+      'assets/images/ic_arrow_up_expand_collapse.svg';
+  static const String deleteTeamIcon = 'assets/images/ic_delete_team.svg';
+
+  static const String permissionIcon = 'assets/images/ic_permission.svg';
+  static const String widgetIcon = 'assets/images/ic_widget.svg';
+  static const String settingIcon = 'assets/images/ic_setting.svg';
+
+  static const String tab1Icon = 'assets/images/ic_home_tab.svg';
+  static const String tab2Icon = 'assets/images/ic_tab2.svg';
+  static const String tab3Icon = 'assets/images/ic_tab3.svg';
+  static const String tab4Icon = 'assets/images/ic_tab4.svg';
+  static const String tab5Icon = 'assets/images/ic_tab5.svg';
+
+  //Permission Icons
+  static const String cartPermissionIcon =
+      'assets/user_permission_icons/cart.svg';
+  static const String certificatePermissionIcon =
+      'assets/user_permission_icons/certificate.svg';
+  static const String chartPermissionIcon =
+      'assets/user_permission_icons/chart.svg';
+  static const String clockPermissionIcon =
+      'assets/user_permission_icons/clock.svg';
+  static const String fleetPermissionIcon =
+      'assets/user_permission_icons/fleet.svg';
+  static const String healthPermissionIcon =
+      'assets/user_permission_icons/health.svg';
+  static const String mapPermissionIcon =
+      'assets/user_permission_icons/map.svg';
+  static const String settingsPermissionIcon =
+      'assets/user_permission_icons/settings.svg';
+  static const String teamPermissionIcon =
+      'assets/user_permission_icons/team.svg';
+  static const String timesheetPermissionIcon =
+      'assets/user_permission_icons/timesheet.svg';
+  static const String todoPermissionIcon =
+      'assets/user_permission_icons/todo.svg';
+  static const String truckPermissionIcon =
+      'assets/user_permission_icons/truck.svg';
+  static const String usersPermissionIcon =
+      'assets/user_permission_icons/users.svg';
+  static const String tradesPermissionIcon =
+      'assets/user_permission_icons/trades.svg';
+  static const String editWidgetIcon =
+      'assets/user_permission_icons/edit_widget.svg';
 }

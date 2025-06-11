@@ -32,13 +32,13 @@ class PrimaryButton extends StatelessWidget {
       height: 48,
       splashColor: Colors.white.withAlpha(30),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(borderRadius ?? 4),
+        borderRadius: BorderRadius.circular(borderRadius ?? 45),
       ),
       child: Text(buttonText,
           style: TextStyle(
             color: fontColor ?? Colors.white,
-            fontWeight: fontWeight ?? FontWeight.w600,
-            fontSize: fontSize ?? 15,
+            fontWeight: fontWeight ?? FontWeight.w500,
+            fontSize: fontSize ?? 17,
           )),
     );
   }

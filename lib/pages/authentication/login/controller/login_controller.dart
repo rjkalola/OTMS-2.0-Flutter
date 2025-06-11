@@ -1,20 +1,23 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:dio/dio.dart' as multi;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/pages/authentication/login/controller/login_repository.dart';
-import 'package:otm_inventory/pages/authentication/login/models/RegisterResourcesResponse.dart';
-import 'package:otm_inventory/pages/authentication/login/models/VerifyPhoneResponse.dart';
-import 'package:otm_inventory/pages/authentication/otp_verification/model/user_info.dart';
 import 'package:otm_inventory/pages/common/listener/SelectPhoneExtensionListener.dart';
+import 'package:otm_inventory/pages/common/model/user_info.dart';
+import 'package:otm_inventory/pages/common/model/user_response.dart';
 import 'package:otm_inventory/pages/common/phone_extension_list_dialog.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_storage.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
+import 'package:otm_inventory/utils/data_utils.dart';
 import 'package:otm_inventory/web_services/api_constants.dart';
+import 'package:otm_inventory/web_services/response/base_response.dart';
 import 'package:otm_inventory/web_services/response/response_model.dart';
+import 'package:sms_autofill/sms_autofill.dart';
 
 class LoginController extends GetxController
     implements SelectPhoneExtensionListener {
@@ -25,55 +28,133 @@ class LoginController extends GetxController
 
   final _api = LoginRepository();
 
-  final registerResourcesResponse = RegisterResourcesResponse().obs;
-  RxBool isLoading = false.obs, isInternetNotAvailable = false.obs;
+  RxBool isLoading = false.obs,
+      isInternetNotAvailable = false.obs,
+      isOtpViewVisible = false.obs;
   var loginUsers = <UserInfo>[].obs;
+  final otpController = TextEditingController().obs;
+  final mOtpCode = "".obs;
+  final otmResendTimeRemaining = 30.obs;
+  Timer? _timer;
+
+  listenSmsCode() async {
+    print("regiestered");
+    await SmsAutoFill().listenForCode();
+  }
 
   @override
   void onInit() {
     super.onInit();
     loginUsers.value = Get.find<AppStorage>().getLoginUsers();
-    getRegisterResources();
+    // getRegisterResources();
   }
 
-  void login(String extension, String phoneNumber, bool isAutoLogin) async {
-    if (valid(isAutoLogin)) {
+  void login() async {
+    if (valid(false)) {
       Map<String, dynamic> map = {};
-      map["phone"] = extension + phoneNumber;
-      multi.FormData formData = multi.FormData.fromMap(map);
+      map["phone"] = phoneController.value.text;
+      map["extension"] = mExtension.value;
+      map["otp"] = mOtpCode.value;
+      map["device_type"] = AppConstants.deviceType;
+      // multi.FormData formData = multi.FormData.fromMap(map);
       isLoading.value = true;
       _api.login(
-        formData: formData,
+        data: map,
         onSuccess: (ResponseModel responseModel) {
-          if (responseModel.statusCode == 200) {
-            VerifyPhoneResponse response =
-                VerifyPhoneResponse.fromJson(jsonDecode(responseModel.result!));
-            if (response.isSuccess!) {
-              var arguments = {
-                AppConstants.intentKey.phoneExtension: extension,
-                AppConstants.intentKey.phoneNumber: phoneNumber,
-              };
-              Get.toNamed(AppRoutes.verifyOtpScreen, arguments: arguments);
-              // showSnackBar(response.message!);
+          if (responseModel.isSuccess) {
+            UserResponse response =
+                UserResponse.fromJson(jsonDecode(responseModel.result!));
+            AppUtils.showApiResponseMessage(response.message ?? "");
+            int companyId = response.info?.companyId ?? 0;
+            Get.find<AppStorage>().setUserInfo(response.info!);
+            Get.find<AppStorage>()
+                .setAccessToken(response.info!.apiToken ?? "");
+            ApiConstants.accessToken = response.info!.apiToken ?? "";
+            Get.find<AppStorage>().setCompanyId(companyId);
+            ApiConstants.companyId = companyId;
+            print("Token:" + ApiConstants.accessToken);
+            AppUtils.saveLoginUser(response.info!);
+            if ((response.info!.companyId ?? 0) != 0) {
+              Get.offAllNamed(AppRoutes.dashboardScreen);
             } else {
-              showSnackBar(response.message!);
+              Get.offAllNamed(AppRoutes.joinCompanyScreen);
             }
           } else {
-            showSnackBar(responseModel.statusMessage!);
+            AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
           }
           isLoading.value = false;
         },
         onError: (ResponseModel error) {
           isLoading.value = false;
           if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
-            showSnackBar('no_internet'.tr);
+            AppUtils.showApiResponseMessage('no_internet'.tr);
           } else if (error.statusMessage!.isNotEmpty) {
-            showSnackBar(error.statusMessage!);
+            AppUtils.showApiResponseMessage(error.statusMessage);
           }
         },
       );
     }
   }
+
+  void sendOtpApi() async {
+    Map<String, dynamic> map = {};
+    map["phone"] = phoneController.value.text;
+    map["extension"] = mExtension.value;
+    multi.FormData formData = multi.FormData.fromMap(map);
+    isLoading.value = true;
+    _api.sendLoginOtpAPI(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          listenSmsCode();
+          isOtpViewVisible.value = true;
+          startOtpTimeCounter();
+          BaseResponse response =
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showApiResponseMessage(response.Message!);
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        }
+      },
+    );
+  }
+
+  // void verifyOtpApi() async {
+  //   Map<String, dynamic> map = {};
+  //   map["phone"] = phoneController.value.text;
+  //   map["extension"] = mExtension.value;
+  //   map["otp"] = mOtpCode.value;
+  //   // multi.FormData formData = multi.FormData.fromMap(map);
+  //   isLoading.value = true;
+  //   _api.verifyOtpUrl(
+  //     data: map,
+  //     onSuccess: (ResponseModel responseModel) {
+  //       if (responseModel.isSuccess) {
+  //         isOtpVerified.value = true;
+  //         // BaseResponse response =
+  //         //     BaseResponse.fromJson(jsonDecode(responseModel.result!));
+  //         // AppUtils.showApiResponseMessage(response.Message!);
+  //         login();
+  //       } else {
+  //         AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+  //       }
+  //       isLoading.value = false;
+  //     },
+  //     onError: (ResponseModel error) {
+  //       isLoading.value = false;
+  //       if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+  //         AppUtils.showApiResponseMessage('no_internet'.tr);
+  //       }
+  //     },
+  //   );
+  // }
 
   bool valid(bool isAutoLogin) {
     if (!isAutoLogin) {
@@ -83,35 +164,11 @@ class LoginController extends GetxController
     }
   }
 
-  void getRegisterResources() {
-    isLoading.value = true;
-    _api.getRegisterResources(
-      onSuccess: (ResponseModel responseModel) {
-        if (responseModel.statusCode == 200) {
-          setRegisterResourcesResponse(RegisterResourcesResponse.fromJson(
-              jsonDecode(responseModel.result!)));
-        } else {
-          AppUtils.showSnackBarMessage(responseModel.statusMessage!);
-        }
-        isLoading.value = false;
-      },
-      onError: (ResponseModel error) {
-        isLoading.value = false;
-        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
-          isInternetNotAvailable.value = true;
-          // Utils.showSnackBarMessage('no_internet'.tr);
-        } else if (error.statusMessage!.isNotEmpty) {
-          AppUtils.showSnackBarMessage(error.statusMessage!);
-        }
-      },
-    );
-  }
-
   void showPhoneExtensionDialog() {
     Get.bottomSheet(
         PhoneExtensionListDialog(
-            title: 'select_phone_extension'.tr,
-            list: registerResourcesResponse.value.countries!,
+            title: 'select_country_code'.tr,
+            list: DataUtils.getPhoneExtensionList(),
             listener: this),
         backgroundColor: Colors.transparent,
         isScrollControlled: true);
@@ -124,10 +181,26 @@ class LoginController extends GetxController
     mExtension.value = extension;
   }
 
-  void showSnackBar(String message) {
-    AppUtils.showSnackBarMessage(message);
+  void startOtpTimeCounter() {
+    otmResendTimeRemaining.value = 30;
+    stopOtpTimeCounter(); // Cancel previous timer if exists
+    _timer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
+      if (otmResendTimeRemaining.value == 0) {
+        timer.cancel();
+      } else {
+        otmResendTimeRemaining.value--;
+      }
+    });
   }
 
-  void setRegisterResourcesResponse(RegisterResourcesResponse value) =>
-      registerResourcesResponse.value = value;
+  void stopOtpTimeCounter() {
+    _timer?.cancel();
+  }
+
+  @override
+  void dispose() {
+    stopOtpTimeCounter(); // Clean up
+    SmsAutoFill().unregisterListener();
+    super.dispose();
+  }
 }

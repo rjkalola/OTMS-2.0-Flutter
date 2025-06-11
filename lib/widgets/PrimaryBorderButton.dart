@@ -5,7 +5,7 @@ class PrimaryBorderButton extends StatelessWidget {
   final VoidCallback onPressed;
   final Color borderColor;
   final Color textColor;
-  final double? height,fontSize;
+  final double? height, fontSize, borderRadius;
 
   const PrimaryBorderButton(
       {super.key,
@@ -13,6 +13,7 @@ class PrimaryBorderButton extends StatelessWidget {
       required this.onPressed,
       required this.textColor,
       required this.borderColor,
+      this.borderRadius,
       this.height,
       this.fontSize});
 
@@ -23,17 +24,17 @@ class PrimaryBorderButton extends StatelessWidget {
         onPressed();
       },
       elevation: 0,
-      height: height??48,
+      height: height ?? 48,
       splashColor: Colors.white.withAlpha(30),
       padding: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(4),
-          side:  BorderSide(width: 1, color: borderColor)),
+          borderRadius: BorderRadius.circular(borderRadius ?? 4),
+          side: BorderSide(width: 1, color: borderColor)),
       child: Text(buttonText,
-          style:  TextStyle(
+          style: TextStyle(
             color: textColor,
             fontWeight: FontWeight.w600,
-            fontSize: fontSize??16,
+            fontSize: fontSize ?? 16,
           )),
     );
   }

@@ -35,7 +35,7 @@ class TimesheetButton extends StatelessWidget {
               width: 36,
               height: 36,
               child: Center(
-                child: ImageUtils.setAssetsImage(
+                child: ImageUtils.setSvgAssetsImage(
                     path: imageAssetsPath,
                     width: imageWidth,
                     height: imageHeight,

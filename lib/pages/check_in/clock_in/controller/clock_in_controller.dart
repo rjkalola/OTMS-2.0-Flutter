@@ -97,18 +97,18 @@ class ClockInController extends GetxController implements SelectItemListener {
                 "company_name": response.companyName ?? "",
                 "company_image": response.companyImage ?? "",
               };
-              user = user.copyWith(
-                  userTypeId: updatedJson['user_type_id'],
-                  isOwner: updatedJson['is_owner'],
-                  shiftId: updatedJson['shift_id'],
-                  shiftName: updatedJson['shift_name'],
-                  shiftType: updatedJson['shift_type'],
-                  teamId: updatedJson['team_id'],
-                  teamName: updatedJson['team_name'],
-                  currencySymbol: updatedJson['currency_symbol'],
-                  companyId: updatedJson['company_id'],
-                  companyName: updatedJson['company_name'],
-                  companyImage: updatedJson['company_image']);
+              // user = user.copyWith(
+              //     userTypeId: updatedJson['user_type_id'],
+              //     isOwner: updatedJson['is_owner'],
+              //     shiftId: updatedJson['shift_id'],
+              //     shiftName: updatedJson['shift_name'],
+              //     shiftType: updatedJson['shift_type'],
+              //     teamId: updatedJson['team_id'],
+              //     teamName: updatedJson['team_name'],
+              //     currencySymbol: updatedJson['currency_symbol'],
+              //     companyId: updatedJson['company_id'],
+              //     companyName: updatedJson['company_name'],
+              //     companyImage: updatedJson['company_image']);
               Get.find<AppStorage>().setUserInfo(user);
             }
             Get.find<AppStorage>().setDashboardResponse(response);

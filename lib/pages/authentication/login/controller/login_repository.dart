@@ -12,7 +12,6 @@ class LoginRepository {
   //   return response;
   // }
 
-
   void getRegisterResources({
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
@@ -25,13 +24,26 @@ class LoginRepository {
     );
   }
 
-  void login({
-    multi.FormData? formData,
+  void sendLoginOtpAPI({
+    dynamic data,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
-    ApiRequest(
-        url: ApiConstants.verifyPhoneUrl, formData: formData, isFormData: true)
+    ApiRequest(url: ApiConstants.sendLoginOtpUrl, data: data, isFormData: false)
+        .postRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
+
+  void login({
+    dynamic data,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(url: ApiConstants.loginUrl, data: data, isFormData: false)
         .postRequest(
       onSuccess: (data) {
         onSuccess!(data);

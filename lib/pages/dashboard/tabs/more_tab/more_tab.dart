@@ -3,7 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/pages/dashboard/view/widgets/more_tab_buttons.dart';
 import 'package:otm_inventory/res/drawable.dart';
+import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
+import 'package:otm_inventory/utils/app_storage.dart';
 
 import '../../../../res/colors.dart';
 import '../../../../utils/AlertDialogHelper.dart';
@@ -49,12 +51,6 @@ class MoreTabState extends State<MoreTab> implements DialogButtonClickListener {
               flex: 1,
               child: SingleChildScrollView(
                 child: Column(children: [
-                  MoreTabButton(
-                      iconPadding: 0,
-                      iconPath: Drawable.settingsIcon,
-                      mText: 'settings'.tr,
-                      onPressed: () {}),
-                  divider(),
                   InkWell(
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(23, 18, 14, 18),
@@ -93,8 +89,7 @@ class MoreTabState extends State<MoreTab> implements DialogButtonClickListener {
     );
   }
 
-  Widget divider() =>
-      const Padding(
+  Widget divider() => const Padding(
         padding: EdgeInsets.only(left: 18, right: 20),
         child: Divider(thickness: 0.4, height: 0.4, color: dividerColor),
       );
@@ -109,12 +104,12 @@ class MoreTabState extends State<MoreTab> implements DialogButtonClickListener {
   @override
   void onPositiveButtonClicked(String dialogIdentifier) {
     if (dialogIdentifier == AppConstants.dialogIdentifier.logout) {
-      dashboardController.logoutAPI();
+      // dashboardController.logoutAPI();
+      Get.find<AppStorage>().clearAllData();
+      Get.offAllNamed(AppRoutes.introductionScreen);
     }
   }
 
   @override
-  void onOtherButtonClicked(String dialogIdentifier) {
-
-  }
+  void onOtherButtonClicked(String dialogIdentifier) {}
 }

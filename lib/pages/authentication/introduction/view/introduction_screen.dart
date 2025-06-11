@@ -5,10 +5,14 @@ import 'package:otm_inventory/pages/authentication/introduction/controller/intro
 import 'package:otm_inventory/pages/authentication/introduction/view/widgets/app_logo_widget.dart';
 import 'package:otm_inventory/pages/authentication/introduction/view/widgets/create_new_account_widget_.dart';
 import 'package:otm_inventory/pages/authentication/introduction/view/widgets/header_widget.dart';
+import 'package:otm_inventory/pages/authentication/introduction/view/widgets/img_introduction_image1.dart';
 import 'package:otm_inventory/pages/authentication/introduction/view/widgets/login_button_widget.dart';
 import 'package:otm_inventory/pages/authentication/introduction/view/widgets/login_users_list.dart';
+import 'package:otm_inventory/pages/authentication/signup1/view/widgets/header_title_note_text_widget_.dart';
 
 import 'package:otm_inventory/res/colors.dart';
+import 'package:otm_inventory/widgets/PrimaryButton.dart';
+import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
 
 class IntroductionScreen extends StatefulWidget {
   const IntroductionScreen({super.key});
@@ -30,33 +34,47 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
       child: SafeArea(
         child: Scaffold(
           backgroundColor: backgroundColor,
-          body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            const Divider(
-              thickness: 1,
-              height: 1,
-              color: dividerColor,
-            ),
-            HeaderWidget(),
-            AppLogoWidget(),
-            const SizedBox(
-              height: 35,
-            ),
-            Expanded(child: LoginUsersList()),
-            const SizedBox(
-              height: 20,
-            ),
-            const Padding(
-              padding: EdgeInsets.fromLTRB(14, 0, 14, 0),
-              child: Divider(
-                thickness: 1,
-                height: 1,
-                color: dividerColor,
+          body: Column(
+            children: [
+              SizedBox(
+                height: 50,
               ),
-            ),
-            CreateNewAccount(),
-            LoginButtonWidget(),
-            // SelectUrl()
-          ]),
+              AppLogoWidget(),
+              Expanded(
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // const Divider(
+                      //   thickness: 1,
+                      //   height: 1,
+                      //   color: dividerColor,
+                      // ),
+                      // HeaderWidget(),
+                      ImgIntroductionImage1(),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      HeaderTitleNoteTextWidget(
+                        fontSize: 24,
+                        title: 'first_screen_welcome_title'.tr,
+                        textAlign: TextAlign.center,
+                      ),
+                      PrimaryTextView(
+                        text: 'first_screen_note'.tr,
+                        textAlign: TextAlign.center,
+                      ),
+                      // Expanded(child: LoginUsersList()),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      LoginButtonWidget(),
+                      CreateNewAccount(),
+                      // SelectUrl()
+                    ]),
+              )
+            ],
+          ),
         ),
       ),
     );

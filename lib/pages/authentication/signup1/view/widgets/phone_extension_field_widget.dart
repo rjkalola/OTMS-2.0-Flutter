@@ -11,12 +11,14 @@ class PhoneExtensionFieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() => Padding(
-          padding: const EdgeInsets.fromLTRB(14, 0, 7, 18),
+          padding: const EdgeInsets.fromLTRB(20, 0, 5, 18),
           child: TextFieldPhoneExtensionWidget(
               mExtension: controller.mExtension.value,
               mFlag: controller.mFlag.value,
               onPressed: () {
-                controller.showPhoneExtensionDialog();
+                if(!controller.isOtpViewVisible.value){
+                  controller.showPhoneExtensionDialog();
+                }
               }),
         ));
   }

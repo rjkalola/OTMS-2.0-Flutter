@@ -45,7 +45,7 @@ class WorkTimeDetailsView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                ImageUtils.setAssetsImage(
+                ImageUtils.setSvgAssetsImage(
                     path: Drawable.pinMapGoogleIcon,
                     width: 24,
                     height: 24,

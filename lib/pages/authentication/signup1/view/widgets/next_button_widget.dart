@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/pages/authentication/signup1/controller/signup1_controller.dart';
 import 'package:otm_inventory/res/colors.dart';
+import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/widgets/PrimaryBorderButton.dart';
+import 'package:otm_inventory/widgets/PrimaryButton.dart';
 
 class NextButtonWidget extends StatelessWidget {
   NextButtonWidget({super.key});
@@ -14,13 +16,16 @@ class NextButtonWidget extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: Padding(
-          padding: const EdgeInsets.fromLTRB(14, 14, 14, 14),
-          child: PrimaryBorderButton(
-            buttonText: 'next'.tr,
-            textColor: defaultAccentColor,
-            borderColor: defaultAccentColor,
+          padding: const EdgeInsets.fromLTRB(20, 14, 20, 14),
+          child: PrimaryButton(
+            buttonText: 'continue'.tr,
             onPressed: () {
               controller.onSubmitClick();
+            /*  if (controller.isOtpViewVisible.value) {
+                Get.toNamed(AppRoutes.joinCompanyScreen);
+              } else {
+                controller.isOtpViewVisible.value = true;
+              }*/
             },
           )),
     );

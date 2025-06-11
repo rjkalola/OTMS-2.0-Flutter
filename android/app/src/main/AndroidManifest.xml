@@ -6,9 +6,11 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
     <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <uses-permission android:name="android.permission.READ_SMS"/>
 
     <application
-        android:label="OTMS 2.0"
+        android:label="OTM System"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity
@@ -20,7 +22,7 @@
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize">
             <!-- Specifies an Android theme to apply to this Activity as soon as
-                 the Android process has started. This theme is visible to the user
+                 the Android process has started. This theme is visible to the user_permissions
                  while the Flutter UI initializes. After that, this theme continues
                  to determine the Window background behind the Flutter UI. -->
             <meta-data
@@ -46,5 +48,7 @@
 
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDDOWUo-4BVRwrbtkE2kPVz7USJCZqlwd4"/>
+
+        <activity android:name="com.appmire.flutter.smsautofill.SmsAutoFillReceiver"/>
     </application>
 </manifest>

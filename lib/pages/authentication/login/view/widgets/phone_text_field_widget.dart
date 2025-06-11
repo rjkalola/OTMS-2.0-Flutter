@@ -13,19 +13,22 @@ class PhoneTextFieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(7, 0, 14, 18),
+      padding: const EdgeInsets.fromLTRB(5, 0, 20, 18),
       child: TextFieldBorder(
           textEditingController: loginController.phoneController.value,
           hintText: 'phone'.tr,
           labelText: 'phone'.tr,
           keyboardType: TextInputType.phone,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           onValueChange: (value) {
             // loginController.onValueChange();
           },
-          textInputAction: TextInputAction.next,
+          isReadOnly: loginController.isOtpViewVisible.value,
+          textInputAction: TextInputAction.done,
           validator: MultiValidator([
             RequiredValidator(errorText: 'required_field'.tr),
           ]),
+          onPressed: () {},
           inputFormatters: <TextInputFormatter>[
             // for below version 2 use this
             FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),

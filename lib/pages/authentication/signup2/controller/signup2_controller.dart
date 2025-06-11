@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/authentication/otp_verification/model/user_info.dart';
-import 'package:otm_inventory/pages/authentication/otp_verification/model/user_response.dart';
+import 'package:otm_inventory/pages/common/model/user_info.dart';
 import 'package:otm_inventory/pages/authentication/signup2/controller/signup2_repository.dart';
+import 'package:otm_inventory/pages/common/model/user_response.dart';
 import 'package:otm_inventory/pages/manageattachment/controller/manage_attachment_controller.dart';
 import 'package:otm_inventory/pages/manageattachment/listener/select_attachment_listener.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
@@ -89,7 +89,7 @@ class SignUp2Controller extends GetxController
       Map<String, dynamic> map = {};
       map["first_name"] = userInfo?.firstName ?? "";
       map["last_name"] = userInfo?.lastName ?? "";
-      map["phone_extension_id"] = userInfo?.phoneExtensionId ?? 0;
+      // map["phone_extension_id"] = userInfo?.phoneExtensionId ?? 0;
       map["phone"] = userInfo?.phone ?? "";
       map["device_name"] = AppUtils.getDeviceName();
       map["latitude"] = "";
@@ -109,9 +109,9 @@ class SignUp2Controller extends GetxController
                 UserResponse.fromJson(jsonDecode(responseModel.result!));
             if (response.isSuccess!) {
               Get.find<AppStorage>().setUserInfo(response.info!);
-              Get.find<AppStorage>().setAccessToken(response.info!.apiToken!);
-              ApiConstants.accessToken = response.info!.apiToken!;
-              print("Token:" + ApiConstants.accessToken);
+              // Get.find<AppStorage>().setAccessToken(response.info!.apiToken!);
+              // ApiConstants.accessToken = response.info!.apiToken!;
+              // print("Token:" + ApiConstants.accessToken);
               AppUtils.saveLoginUser(response.info!);
               Get.offAllNamed(AppRoutes.joinCompanyScreen);
             } else {

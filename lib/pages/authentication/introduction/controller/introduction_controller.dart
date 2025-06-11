@@ -1,11 +1,10 @@
 import 'dart:convert';
 
-import 'package:dio/dio.dart' as multi;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/pages/authentication/login/controller/login_repository.dart';
 import 'package:otm_inventory/pages/authentication/login/models/VerifyPhoneResponse.dart';
-import 'package:otm_inventory/pages/authentication/otp_verification/model/user_info.dart';
+import 'package:otm_inventory/pages/common/model/user_info.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_storage.dart';
@@ -34,10 +33,10 @@ class IntroductionController extends GetxController {
     if (valid(isAutoLogin)) {
       Map<String, dynamic> map = {};
       map["phone"] = extension + phoneNumber;
-      multi.FormData formData = multi.FormData.fromMap(map);
+      // multi.FormData formData = multi.FormData.fromMap(map);
       isLoading.value = true;
       _api.login(
-        formData: formData,
+        data: map,
         onSuccess: (ResponseModel responseModel) {
           if (responseModel.statusCode == 200) {
             VerifyPhoneResponse response =

@@ -18,13 +18,17 @@ class TextFieldBorder extends StatelessWidget {
       this.isReadOnly,
       this.suffixIcon,
       this.maxLines,
+      this.maxLength,
       this.textAlignVertical,
       this.autofocus,
       this.textAlign,
       this.onPressed,
       this.onValueChange,
       this.isDense,
-      this.autovalidateMode});
+      this.autovalidateMode,
+      this.focusNode,
+      this.onFieldSubmitted,
+      this.errorMaxLines});
 
   final TextEditingController? textEditingController;
   final String? hintText, labelText;
@@ -35,21 +39,24 @@ class TextFieldBorder extends StatelessWidget {
   final TextInputAction? textInputAction;
   final bool? isReadOnly;
   final Icon? suffixIcon;
-  final int? maxLines;
+  final int? maxLines, maxLength;
   final TextAlignVertical? textAlignVertical;
   final TextAlign? textAlign;
-  final VoidCallback? onPressed;
+  final GestureTapCallback? onPressed;
   final ValueChanged<String>? onValueChange;
   final bool? autofocus, isDense;
   final AutovalidateMode? autovalidateMode;
+  final FocusNode? focusNode;
+  final ValueChanged<String>? onFieldSubmitted;
+  final int? errorMaxLines;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      onTap: () {
-        onPressed!();
-      },
+      onTap: onPressed,
       autofocus: autofocus ?? false,
+      focusNode: focusNode,
+      onFieldSubmitted: onFieldSubmitted,
       onChanged: onValueChange,
       style: const TextStyle(
           fontWeight: FontWeight.w400, fontSize: 15, color: primaryTextColor),
@@ -57,25 +64,30 @@ class TextFieldBorder extends StatelessWidget {
       keyboardType: keyboardType,
       textInputAction: textInputAction,
       maxLines: maxLines,
+      maxLength: maxLength,
       textAlignVertical: textAlignVertical,
       textAlign: textAlign ?? TextAlign.start,
       readOnly: isReadOnly ?? false,
       inputFormatters: inputFormatters,
       autovalidateMode: autovalidateMode,
       decoration: InputDecoration(
+        errorMaxLines: errorMaxLines ?? 2,
         isDense: isDense ?? false,
         suffixIcon: suffixIcon,
         counterText: "",
         contentPadding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
         floatingLabelBehavior: FloatingLabelBehavior.auto,
-        border: const OutlineInputBorder(
+        border: OutlineInputBorder(
           borderSide: BorderSide(color: focusedTextFieldBorderColor, width: 1),
+          borderRadius: BorderRadius.circular(45.0),
         ),
-        focusedBorder: const OutlineInputBorder(
+        focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: focusedTextFieldBorderColor, width: 1),
+          borderRadius: BorderRadius.circular(45.0),
         ),
-        enabledBorder: const OutlineInputBorder(
+        enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: normalTextFieldBorderColor, width: 1),
+          borderRadius: BorderRadius.circular(45.0),
         ),
         hintText: hintText,
         labelText: labelText,

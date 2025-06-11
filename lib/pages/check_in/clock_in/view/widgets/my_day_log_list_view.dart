@@ -72,7 +72,7 @@ class MyDayLogListView extends StatelessWidget {
                     ),
                     Visibility(
                       visible: position == 2,
-                      child: ImageUtils.setAssetsImage(
+                      child: ImageUtils.setSvgAssetsImage(
                           path:Drawable.addCreateNewPlusIcon,
                           width: 22,
                           height: 22,

@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:otm_inventory/res/colors.dart';
 
 class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   final AppBar appBar;
   final title;
   final isBack;
   final isCenterTitle;
+  final VoidCallback? onBackPressed;
   final List<Widget>? widgets;
+  final Color? bgColor;
 
   BaseAppBar(
       {super.key,
@@ -13,12 +17,14 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
       this.title,
       this.isCenterTitle,
       this.isBack = false,
-      this.widgets});
+      this.widgets,
+      this.onBackPressed,
+      this.bgColor});
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: bgColor ?? backgroundColor,
         title: Text(
           title,
           style: const TextStyle(
@@ -28,6 +34,15 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
         centerTitle: isCenterTitle,
         titleSpacing: isBack ? 0 : 20,
         automaticallyImplyLeading: isBack,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios_new_outlined,
+            size: 20,
+          ),
+          onPressed: () {
+            onBackPressed != null ? onBackPressed!() : Get.back();
+          },
+        ),
         scrolledUnderElevation: 0);
   }
 
