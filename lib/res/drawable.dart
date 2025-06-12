@@ -1,4 +1,42 @@
 class Drawable {
+  static const String tab1Icon = 'assets/images/ic_home_tab.svg';
+  static const String tab2Icon = 'assets/images/ic_tab2.svg';
+  static const String tab3Icon = 'assets/images/ic_tab3.svg';
+  static const String tab4Icon = 'assets/images/ic_tab4.svg';
+  static const String tab5Icon = 'assets/images/ic_tab5.svg';
+
+  //Permission Icons
+  static const String cartPermissionIcon =
+      'assets/user_permission_icons/cart.svg';
+  static const String certificatePermissionIcon =
+      'assets/user_permission_icons/certificate.svg';
+  static const String chartPermissionIcon =
+      'assets/user_permission_icons/chart.svg';
+  static const String clockPermissionIcon =
+      'assets/user_permission_icons/clock.svg';
+  static const String fleetPermissionIcon =
+      'assets/user_permission_icons/fleet.svg';
+  static const String healthPermissionIcon =
+      'assets/user_permission_icons/health.svg';
+  static const String mapPermissionIcon =
+      'assets/user_permission_icons/map.svg';
+  static const String settingsPermissionIcon =
+      'assets/user_permission_icons/settings.svg';
+  static const String teamPermissionIcon =
+      'assets/user_permission_icons/team.svg';
+  static const String timesheetPermissionIcon =
+      'assets/user_permission_icons/timesheet.svg';
+  static const String todoPermissionIcon =
+      'assets/user_permission_icons/todo.svg';
+  static const String truckPermissionIcon =
+      'assets/user_permission_icons/truck.svg';
+  static const String usersPermissionIcon =
+      'assets/user_permission_icons/users.svg';
+  static const String tradesPermissionIcon =
+      'assets/user_permission_icons/trades.svg';
+  static const String editWidgetIcon =
+      'assets/user_permission_icons/edit_widget.svg';
+
   static const String splashScreenLogo = 'assets/images/splash_screen_logo.jpg';
   static const String activeHomeTabIcon =
       'assets/images/ic_active_home_tab.svg';
@@ -75,46 +113,14 @@ class Drawable {
   static const String arrowUpExpandCollapseIcon =
       'assets/images/ic_arrow_up_expand_collapse.svg';
   static const String deleteTeamIcon = 'assets/images/ic_delete_team.svg';
-
   static const String permissionIcon = 'assets/images/ic_permission.svg';
   static const String widgetIcon = 'assets/images/ic_widget.svg';
   static const String settingIcon = 'assets/images/ic_setting.svg';
+  static const String listIcon = 'assets/images/ic_list.svg';
+  static const String editingIcon = 'assets/images/ic_editing.svg';
+  static const String unArchiveIcon = 'assets/images/ic_un_archive.svg';
+  static const String deletePermanentIcon = 'assets/images/ic_delete_permanent.svg';
+  static const String diamondPermissionIcon = 'assets/images/ic_diamond_permission.svg';
 
-  static const String tab1Icon = 'assets/images/ic_home_tab.svg';
-  static const String tab2Icon = 'assets/images/ic_tab2.svg';
-  static const String tab3Icon = 'assets/images/ic_tab3.svg';
-  static const String tab4Icon = 'assets/images/ic_tab4.svg';
-  static const String tab5Icon = 'assets/images/ic_tab5.svg';
 
-  //Permission Icons
-  static const String cartPermissionIcon =
-      'assets/user_permission_icons/cart.svg';
-  static const String certificatePermissionIcon =
-      'assets/user_permission_icons/certificate.svg';
-  static const String chartPermissionIcon =
-      'assets/user_permission_icons/chart.svg';
-  static const String clockPermissionIcon =
-      'assets/user_permission_icons/clock.svg';
-  static const String fleetPermissionIcon =
-      'assets/user_permission_icons/fleet.svg';
-  static const String healthPermissionIcon =
-      'assets/user_permission_icons/health.svg';
-  static const String mapPermissionIcon =
-      'assets/user_permission_icons/map.svg';
-  static const String settingsPermissionIcon =
-      'assets/user_permission_icons/settings.svg';
-  static const String teamPermissionIcon =
-      'assets/user_permission_icons/team.svg';
-  static const String timesheetPermissionIcon =
-      'assets/user_permission_icons/timesheet.svg';
-  static const String todoPermissionIcon =
-      'assets/user_permission_icons/todo.svg';
-  static const String truckPermissionIcon =
-      'assets/user_permission_icons/truck.svg';
-  static const String usersPermissionIcon =
-      'assets/user_permission_icons/users.svg';
-  static const String tradesPermissionIcon =
-      'assets/user_permission_icons/trades.svg';
-  static const String editWidgetIcon =
-      'assets/user_permission_icons/edit_widget.svg';
 }

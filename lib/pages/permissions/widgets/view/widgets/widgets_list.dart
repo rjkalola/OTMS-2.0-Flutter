@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/pages/dashboard/tabs/home_tab/model/permission_info.dart';
-import 'package:otm_inventory/pages/permissions/company_permissions/controller/company_permission_controller.dart';
 import 'package:otm_inventory/pages/permissions/widgets/controller/widgets_controller.dart';
-import 'package:otm_inventory/pages/trades/controller/trades_controller.dart';
-import 'package:otm_inventory/pages/trades/view/widgets/company_sub_trade_list.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
-import 'package:otm_inventory/widgets/switch/custom_switch.dart';
-import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
+import 'package:otm_inventory/widgets/other_widgets/widget_icon_view.dart';
+import 'package:otm_inventory/widgets/text/widget_title_text_view.dart';
 
 class WidgetsList extends StatelessWidget {
   WidgetsList({super.key});
@@ -41,7 +38,7 @@ class WidgetsList extends StatelessWidget {
                     //     arguments: arguments);
                   },
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 9, 16, 9),
+                    padding: const EdgeInsets.fromLTRB(12, 9, 16, 9),
                     child: Container(
                       color: Colors.transparent,
                       child: Row(
@@ -49,33 +46,17 @@ class WidgetsList extends StatelessWidget {
                           Expanded(
                             child: Row(
                               children: [
-                                Container(
-                                  padding: EdgeInsets.all(9),
-                                  width: 44,
-                                  height: 44,
-                                  decoration: AppUtils.getGrayBorderDecoration(
-                                      color: backgroundColor,
-                                      borderColor: dividerColor,
-                                      borderWidth: 1),
-                                  child: ImageUtils.setSvgAssetsImage(
-                                      path:
-                                          "${AppConstants.permissionIconsAssetsPath}${info.icon ?? ""}",
-                                      // path: Drawable.truckPermissionIcon,
-                                      width: 26,
-                                      height: 26,
-                                      color: Color(AppUtils.haxColor(
-                                          info.color ?? "#000000"))),
+                                WidgetIconView(
+                                  iconPath: info.icon,
+                                  iconColor: info.color,
+                                  isAdminWidget: info.isAdmin,
                                 ),
                                 SizedBox(
                                   width: 12,
                                 ),
-                                Text(
-                                  info.name ?? "",
-                                  textAlign: TextAlign.start,
-                                  style: const TextStyle(
-                                      fontSize: 17,
-                                      color: primaryTextColor,
-                                      fontWeight: FontWeight.w600),
+                                WidgetTitleTextView(
+                                  text: info.name ?? "",
+                                  fontSize: 18,
                                 )
                               ],
                             ),

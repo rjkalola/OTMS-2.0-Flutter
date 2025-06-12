@@ -32,7 +32,7 @@ class SubContractorInfo {
   String? phone;
   String? companyImageName;
   String? companyImage;
-  String? compamyThumbImage;
+  String? companyThumbImage;
 
   SubContractorInfo(
       {this.id,
@@ -42,7 +42,7 @@ class SubContractorInfo {
       this.phone,
       this.companyImageName,
       this.companyImage,
-      this.compamyThumbImage});
+      this.companyThumbImage});
 
   SubContractorInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -52,7 +52,7 @@ class SubContractorInfo {
     phone = json['phone'];
     companyImageName = json['company_image_name'];
     companyImage = json['company_image'];
-    compamyThumbImage = json['compamy_thumb_image'];
+    companyThumbImage = json['company_thumb_image'];
   }
 
   Map<String, dynamic> toJson() {
@@ -64,7 +64,7 @@ class SubContractorInfo {
     data['phone'] = this.phone;
     data['company_image_name'] = this.companyImageName;
     data['company_image'] = this.companyImage;
-    data['compamy_thumb_image'] = this.compamyThumbImage;
+    data['company_thumb_image'] = this.companyThumbImage;
     return data;
   }
 }

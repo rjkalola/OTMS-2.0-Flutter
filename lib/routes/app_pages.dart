@@ -11,6 +11,7 @@ import 'package:otm_inventory/pages/authentication/splash/splash_screen.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/view/clock_in_screen.dart';
 import 'package:otm_inventory/pages/check_in/select_address/view/select_address_screen.dart';
 import 'package:otm_inventory/pages/check_in/select_before_after_photos/view/select_before_after_photos_screen.dart';
+import 'package:otm_inventory/pages/dashboard/tabs/adjust_widgets/view/adjust_widgets_screen.dart';
 import 'package:otm_inventory/pages/dashboard/view/dashboard_screen.dart';
 import 'package:otm_inventory/pages/company/company_details/view/company_details_screen.dart';
 import 'package:otm_inventory/pages/company/company_signup/view/company_signup_screen.dart';
@@ -23,6 +24,7 @@ import 'package:otm_inventory/pages/permissions/user_permissions/view/user_permi
 import 'package:otm_inventory/pages/permissions/widgets/view/widgets_screen.dart';
 import 'package:otm_inventory/pages/qr_code_scanner/view/qr_code_scanner.dart';
 import 'package:otm_inventory/pages/settings/view/settings_screen.dart';
+import 'package:otm_inventory/pages/teams/archive_team_list/view/archive_team_list_screen.dart';
 import 'package:otm_inventory/pages/teams/create_team/view/create_team_screen.dart';
 import 'package:otm_inventory/pages/teams/generate_company_code/view/generate_company_code_screen.dart';
 import 'package:otm_inventory/pages/teams/join_team_to_company/view/join_team_to_company_screen.dart';
@@ -30,8 +32,8 @@ import 'package:otm_inventory/pages/teams/sub_contractor_details/view/sub_contra
 import 'package:otm_inventory/pages/teams/team_details/view/team_details_screen.dart';
 import 'package:otm_inventory/pages/teams/team_generate_otp/view/team_generate_otp_screen.dart';
 import 'package:otm_inventory/pages/teams/team_list/view/team_list_screen.dart';
-import 'package:otm_inventory/pages/trades/view/company_trades_screen.dart';
 import 'package:otm_inventory/pages/permissions/user_list/view/select_user_list_for_permission_screen.dart';
+import 'package:otm_inventory/pages/trades/view/company_trades_screen.dart';
 import 'package:otm_inventory/pages/users/user_list/view/user_list_screen.dart';
 import '../pages/stock_filter/view/stock_filter_screen.dart';
 import 'app_routes.dart';
@@ -178,5 +180,14 @@ class AppPages {
       name: AppRoutes.userListScreen,
       page: () => UserListScreen(),
     ),
+    GetPage(
+      name: AppRoutes.adjustWidgetsScreen,
+      page: () => AdjustWidgetsScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.archiveTeamListScreen,
+      page: () => ArchiveTeamListScreen(),
+    ),
+
   ];
 }

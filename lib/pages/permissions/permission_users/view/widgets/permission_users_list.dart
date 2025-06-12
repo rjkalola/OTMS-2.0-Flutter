@@ -1,17 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/dashboard/tabs/home_tab/model/permission_info.dart';
-import 'package:otm_inventory/pages/permissions/company_permissions/controller/company_permission_controller.dart';
 import 'package:otm_inventory/pages/permissions/permission_users/controller/permission_users_controller.dart';
 import 'package:otm_inventory/pages/permissions/permission_users/model/permission_user_info.dart';
-import 'package:otm_inventory/pages/trades/controller/trades_controller.dart';
-import 'package:otm_inventory/pages/trades/view/widgets/company_sub_trade_list.dart';
 import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/utils/app_constants.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
 import 'package:otm_inventory/widgets/switch/custom_switch.dart';
-import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
 
 class PermissionUsersList extends StatelessWidget {
   PermissionUsersList({super.key});

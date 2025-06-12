@@ -3,7 +3,8 @@ class ApiConstants {
   // static String appUrl = "https://apidev.otmsystem.com/v1";
 
   // static String appUrl = "http://206.189.17.166:3000";
-  static String appUrl = "http://dev.belcka.com:3000";
+  // static String appUrl = "http://dev.belcka.com:3000";
+  static String appUrl = "http://belcka.com:3003";
 
   // static String appUrl = "https://dev.otmsystem.com/api/v1";
   // static String appUrl = "https://otmsystem.com/api/v1";
@@ -93,7 +94,9 @@ class ApiConstants {
   static String generateCompanyCode = '$appUrl/team/company-generate-code';
   static String subContractorDetails = '$appUrl/team/subcontractor-details';
   static String addTeamToCompany = '$appUrl/company/add-team-to-company';
+  static String archiveTeamList = '$appUrl/team/archive-list';
   static String teamArchive = '$appUrl/team/archive';
+  static String teamUnArchive = '$appUrl/team/unarchive';
 
   static String registerResourcesUrl = '$appUrl/wn-resources';
   static String verifyPhoneUrl = '$appUrl/verify-phone';

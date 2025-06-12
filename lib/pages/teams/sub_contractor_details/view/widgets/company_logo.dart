@@ -32,7 +32,7 @@ class CompanyLogo extends StatelessWidget {
               shape: BoxShape.circle,
             ),
             child: ImageUtils.setCircularNetworkImage(
-                url: controller.subContractorInfo.value.compamyThumbImage ?? "",
+                url: controller.subContractorInfo.value.companyThumbImage ?? "",
                 width: 100,
                 height: 100,
                 fit: BoxFit.fill,

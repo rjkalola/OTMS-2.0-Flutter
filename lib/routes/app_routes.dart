@@ -19,8 +19,10 @@ class AppRoutes {
   static const String userPermissionScreen = '/user_permission_screen';
   static const String permissionUsersScreen = '/permission_users_screen';
   static const String teamListScreen = '/team_list_screen';
+  static const String archiveTeamListScreen = '/archive_team_list_screen';
   static const String teamGenerateOtpScreen = '/team_generate_otp_screen';
-  static const String selectUserListForPermissionScreen = '/select_user_list_for_permission_screen';
+  static const String selectUserListForPermissionScreen =
+      '/select_user_list_for_permission_screen';
   static const String searchUserScreen = '/search_user_screen';
   static const String settingsScreen = '/settings_screen';
   static const String widgetsScreen = '/widgets_screen';
@@ -46,6 +48,7 @@ class AppRoutes {
   static const String barcodeListScreen = '/barcode_list_screen';
   static const String selectBeforeAfterPhotosScreen =
       '/select_before_after_photos_screen';
+
   static const String teamUsersCountInfoScreen =
       '/team_users_count_info_screen';
   static const String businessFieldInfoScreen = '/business_field_info_screen';
@@ -56,4 +59,5 @@ class AppRoutes {
       '/generate_company_code_screen';
   static const String subContractorDetailsScreen =
       '/sub_contractor_details_screen';
+  static const String adjustWidgetsScreen = '/adjust_widgets_screen';
 }
