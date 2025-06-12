@@ -23,7 +23,7 @@ class TeamGenerateOtpController extends GetxController {
   final mOtpCode = "".obs;
   final otmResendTimeRemaining = 900.obs;
   Timer? _timer;
-  String initialTime = "";
+  String? expireDateTime;
 
   int teamId = 0;
 
@@ -52,6 +52,8 @@ class TeamGenerateOtpController extends GetxController {
           TeamGenerateOtpResponse response = TeamGenerateOtpResponse.fromJson(
               jsonDecode(responseModel.result!));
           mOtpCode.value = response.info?.companyOtp ?? "";
+          expireDateTime = response.info?.expiredOn ?? "";
+          getTimeRemaining();
           startOtpTimeCounter();
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
@@ -72,7 +74,7 @@ class TeamGenerateOtpController extends GetxController {
   }
 
   void startOtpTimeCounter() {
-    otmResendTimeRemaining.value = 900;
+    // otmResendTimeRemaining.value = 900;
     stopOtpTimeCounter(); // Cancel previous timer if exists
     _timer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
       if (otmResendTimeRemaining.value == 0) {
@@ -84,32 +86,25 @@ class TeamGenerateOtpController extends GetxController {
     });
   }
 
-  String getFormattedDateTime() {
-    final now = DateTime.now();
-    final formatter = DateFormat(DateUtil.DD_MM_YYYY_TIME_24_SLASH);
-    return formatter.format(now);
-  }
+  void getTimeRemaining() {
+    DateTime? expireTime = DateUtil.stringToDate(
+        expireDateTime ??
+            DateUtil.getCurrentTimeInFormat(
+                DateUtil.DD_MM_YYYY_COMMA_TIME_24_SLASH),
+        DateUtil.DD_MM_YYYY_COMMA_TIME_24_SLASH);
+    DateTime? currentTime = DateTime.now();
 
-  void timeDifferent() {
-    String t1 = initialTime;
-    String t2 = getFormattedDateTime();
-    print("t1:" + t1);
-    print("t2:" + t2);
-    DateTime? startTime =
-        DateUtil.stringToDate(t1, DateUtil.DD_MM_YYYY_TIME_24_SLASH);
-    DateTime? endTime =
-        DateUtil.stringToDate(t2, DateUtil.DD_MM_YYYY_TIME_24_SLASH);
+    Duration diff = expireTime!.difference(currentTime);
+    int totalSeconds = diff.inSeconds;
+    otmResendTimeRemaining.value = totalSeconds > 0 ? diff.inSeconds : 0;
 
-    // Get the difference
-    Duration diff = endTime!.difference(startTime!);
-
-    // Extract hours and minutes
+    // print("totalSeconds:" + totalSeconds.toString()); // Output: 3750
+    /* // Extract hours and minutes
     int hours = diff.inHours;
     int minutes = diff.inMinutes % 60;
     int seconds = diff.inSeconds % 60;
-
     print(
-        "Difference: ${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}"); // 01:23
+        "Difference: ${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}"); // 01:23*/
   }
 
   void stopOtpTimeCounter() {

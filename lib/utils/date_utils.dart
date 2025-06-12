@@ -60,6 +60,18 @@ class DateUtil {
     return '${minutes.toString().padLeft(2, '0')}:${remainingSeconds.toString().padLeft(2, '0')}';
   }
 
+  static String getCurrentTimeInFormat(String format) {
+    final now = DateTime.now();
+    final formatter = DateFormat(format);
+    return formatter.format(now);
+  }
+
+  static int dateDifferenceInSeconds(DateTime? date1,DateTime? date2) {
+    Duration diff = date2!.difference(date1!);
+    int totalSeconds = diff.inSeconds;
+    return totalSeconds;
+  }
+
   static Future<void> showDatePickerDialog(
       {DateTime? initialDate,
       required DateTime firstDate,
@@ -110,6 +122,8 @@ class DateUtil {
   static String DD_MM_YYYY_TIME_12_SLASH = "dd/MM/yyyy hh:mm a";
 
   static String DD_MM_YYYY_TIME_24_SLASH = "dd/MM/yyyy HH:mm";
+
+  static String DD_MM_YYYY_COMMA_TIME_24_SLASH = "dd/MM/yyyy, HH:mm";
 
   static String MM_DD_YYYY_DASH = "MM-dd-yyyy";
 
