@@ -3,18 +3,16 @@ import 'package:get/get.dart';
 import 'package:otm_inventory/pages/users/user_list/controller/user_list_controller.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:otm_inventory/widgets/search_text_field.dart';
-
+import 'package:otm_inventory/widgets/textfield/search_text_field_dark.dart';
 
 class SearchUsersWidget extends StatefulWidget {
   const SearchUsersWidget({super.key});
 
   @override
-  State<SearchUsersWidget> createState() =>
-      _SearchUsersWidgetState();
+  State<SearchUsersWidget> createState() => _SearchUsersWidgetState();
 }
 
-class _SearchUsersWidgetState
-    extends State<SearchUsersWidget> {
+class _SearchUsersWidgetState extends State<SearchUsersWidget> {
   final controller = Get.put(UserListController());
 
   @override
@@ -23,7 +21,7 @@ class _SearchUsersWidgetState
       padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
       child: SizedBox(
         height: 46,
-        child: SearchTextField(
+        child: SearchTextFieldDark(
           controller: controller.searchController,
           isClearVisible: controller.isClearVisible,
           onValueChange: (value) {

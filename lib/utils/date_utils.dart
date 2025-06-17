@@ -66,10 +66,22 @@ class DateUtil {
     return formatter.format(now);
   }
 
-  static int dateDifferenceInSeconds(DateTime? date1,DateTime? date2) {
+  static int dateDifferenceInSeconds(DateTime? date1, DateTime? date2) {
     Duration diff = date2!.difference(date1!);
     int totalSeconds = diff.inSeconds;
     return totalSeconds;
+  }
+
+  static TimeOfDay? getTimeOfDayFromHHMM(String? timeString) {
+    if(timeString !=null){
+      final parts = timeString.split(":");
+      final hour = int.parse(parts[0]);
+      final minute = int.parse(parts[1]);
+      return TimeOfDay(hour: hour, minute: minute);
+    }else{
+      return null;
+    }
+
   }
 
   static Future<void> showDatePickerDialog(
@@ -123,7 +135,7 @@ class DateUtil {
 
   static String DD_MM_YYYY_TIME_24_SLASH = "dd/MM/yyyy HH:mm";
 
-  static String DD_MM_YYYY_COMMA_TIME_24_SLASH = "dd/MM/yyyy, HH:mm";
+  static String DD_MM_YYYY_TIME_24_SLASH2 = "dd/MM/yyyy HH:mm:ss";
 
   static String MM_DD_YYYY_DASH = "MM-dd-yyyy";
 

@@ -60,4 +60,8 @@ class AppRoutes {
   static const String subContractorDetailsScreen =
       '/sub_contractor_details_screen';
   static const String adjustWidgetsScreen = '/adjust_widgets_screen';
+  static const String createShiftScreen = '/create_shift_screen';
+  static const String shiftListScreen = '/shift_list_screen';
+  static const String archiveShiftListScreen = '/archive_shift_list_screen';
+  static const String startShiftMapScreen = '/start_shift_map_screen';
 }

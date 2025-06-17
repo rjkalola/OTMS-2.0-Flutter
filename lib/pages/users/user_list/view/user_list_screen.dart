@@ -32,7 +32,7 @@ class _UserListScreenState extends State<UserListScreen> {
           backgroundColor: dashBoardBgColor,
           appBar: BaseAppBar(
             appBar: AppBar(),
-            title: 'users'.tr,
+            title: "${'users'.tr} (${'all'.tr})",
             isCenterTitle: false,
             isBack: true,
             bgColor: dashBoardBgColor,

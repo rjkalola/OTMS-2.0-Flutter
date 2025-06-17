@@ -60,7 +60,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 },
                                 title: 'company_permissions'.tr,
                                 iconPath: Drawable.permissionIcon),
-                            // SettingItemDivider()
+                            SettingItemDivider(),
+                            SettingItem(
+                                onTap: () {
+                                  controller
+                                      .moveToScreen(AppRoutes.shiftListScreen);
+                                },
+                                title: 'shifts'.tr,
+                                iconPath: Drawable.clockPermissionIcon),
                           ],
                         ),
                       ));

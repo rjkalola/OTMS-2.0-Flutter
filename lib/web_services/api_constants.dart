@@ -4,6 +4,7 @@ class ApiConstants {
 
   // static String appUrl = "http://206.189.17.166:3000";
   // static String appUrl = "http://dev.belcka.com:3000";
+
   static String appUrl = "http://belcka.com:3003";
 
   // static String appUrl = "https://dev.otmsystem.com/api/v1";
@@ -97,6 +98,15 @@ class ApiConstants {
   static String archiveTeamList = '$appUrl/team/archive-list';
   static String teamArchive = '$appUrl/team/archive';
   static String teamUnArchive = '$appUrl/team/unarchive';
+
+  //shifts
+  static String shiftAdd = '$appUrl/shift/add';
+  static String shiftEdit = '$appUrl/shift/edit';
+  static String shiftDelete = '$appUrl/shift/delete';
+  static String shiftList = '$appUrl/shift/list';
+  static String archiveShiftList = '$appUrl/shift/archive-shifts';
+  static String shiftArchive = '$appUrl/shift/archive';
+  static String shiftUnArchive = '$appUrl/shift/unarchive';
 
   static String registerResourcesUrl = '$appUrl/wn-resources';
   static String verifyPhoneUrl = '$appUrl/verify-phone';

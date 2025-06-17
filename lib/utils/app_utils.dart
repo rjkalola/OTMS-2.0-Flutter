@@ -215,7 +215,7 @@ class AppUtils {
   static void copyText(String? value) {
     if (!StringHelper.isEmptyString(value)) {
       Clipboard.setData(ClipboardData(text: value ?? ""));
-      // AppUtils.showToastMessage('copied_to_clip_board'.tr);
+      AppUtils.showToastMessage('copied_to_clip_board'.tr);
     }
   }
 }

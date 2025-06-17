@@ -121,7 +121,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
           isMainViewVisible.value = true;
           UserPermissionsResponse response = UserPermissionsResponse.fromJson(
               jsonDecode(responseModel.result!));
-          response.permissions!.add(DataUtils.getEditWidget());
+          // response.permissions!.add(DataUtils.getEditWidget());
           AppStorage().setUserPermissionsResponse(response);
           listPermissions.clear();
           listPermissions.addAll(response.permissions ?? []);
@@ -133,7 +133,16 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       onError: (ResponseModel error) {
         isLoading.value = false;
         if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
-          isInternetNotAvailable.value = true;
+          UserPermissionsResponse? response =
+              Get.find<AppStorage>().getUserPermissionsResponse();
+          if (response != null && response.permissions != null) {
+            UserPermissionsResponse response =
+                Get.find<AppStorage>().getUserPermissionsResponse()!;
+            listPermissions.clear();
+            listPermissions.addAll(response.permissions ?? []);
+          } else {
+            isInternetNotAvailable.value = true;
+          }
           print("isInternetNotAvailable.value:" +
               isInternetNotAvailable.value.toString());
           // AppUtils.showApiResponseMessage('no_internet'.tr);
@@ -145,7 +154,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
     );
   }
 
-  void changeDashboardUserPermissionSequenceApi(
+  /*void changeDashboardUserPermissionSequenceApi(
       bool isProgress, int permissionId, int newPosition) {
     isLoading.value = isProgress;
     Map<String, dynamic> map = {};
@@ -176,7 +185,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
         // }
       },
     );
-  }
+  }*/
 
   void changeDashboardUserPermissionMultipleSequenceApi(
       {required bool isProgress,
@@ -203,10 +212,11 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           Get.find<AppStorage>().setLocalSequenceChanges(false);
-          if (isChangeSequence ?? false) {
+          /* if (isChangeSequence ?? false) {
             changeDashboardUserPermissionSequenceApi(
                 isProgress, permissionId ?? 0, newPosition ?? 0);
-          } else if (isLoadPermissionList ?? false) {
+          } else */
+          if (isLoadPermissionList ?? false) {
             getDashboardUserPermissionsApi(isProgress);
           }
           Get.find<AppStorage>().clearLocalSequenceChangeData();
@@ -218,9 +228,9 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       onError: (ResponseModel error) {
         isLoading.value = false;
         if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
-          isInternetNotAvailable.value = true;
+          /*  isInternetNotAvailable.value = true;
           print("isInternetNotAvailable.value:" +
-              isInternetNotAvailable.value.toString());
+              isInternetNotAvailable.value.toString());*/
           // AppUtils.showApiResponseMessage('no_internet'.tr);
         }
         // else if (error.statusMessage!.isNotEmpty) {
@@ -256,7 +266,8 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       // int newPosition = newIndex + 1;
       int newPosition = list[newIndex].sequence!;
       if (movedItem.permissionId != -1) {
-        if (isInternet) {
+        Get.find<AppStorage>().setLocalSequenceChanges(true);
+        /*if (isInternet) {
           if (Get.find<AppStorage>().isLocalSequenceChanges()) {
             changeDashboardUserPermissionMultipleSequenceApi(
                 isProgress: false,
@@ -270,7 +281,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
           }
         } else {
           Get.find<AppStorage>().setLocalSequenceChanges(true);
-        }
+        }*/
       }
     }
   }
@@ -324,7 +335,8 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
   onClickPermission(int index, PermissionInfo info) {
     if (info.slug == 'control_panel') {
       showControlPanelDialog();
-    } else if (info.slug == 'edit_widget') {
+    }
+    /* else if (info.slug == 'edit_widget') {
       var arguments = {
         AppConstants.intentKey.userId: UserUtils.getLoginUserId(),
         AppConstants.intentKey.userName: UserUtils.getLoginUserName(),
@@ -332,12 +344,15 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       };
       moveToScreen(
           appRout: AppRoutes.userPermissionScreen, arguments: arguments);
-    } else if (info.slug == 'team') {
+    } */
+    else if (info.slug == 'team') {
       Get.toNamed(AppRoutes.teamListScreen);
       // Get.toNamed(AppRoutes.createTeamScreen);
     } else if (info.slug == 'users') {
       Get.toNamed(AppRoutes.userListScreen);
       // Get.toNamed(AppRoutes.createTeamScreen);
+    } else if (info.slug == 'shift') {
+      // Get.toNamed(AppRoutes.startShiftMapScreen);
     } else if (info.slug == 'settings') {
       moveToScreen(appRout: AppRoutes.settingsScreen);
     }
@@ -381,7 +396,14 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
 
     });*/
     var result = await Get.toNamed(appRout, arguments: arguments);
-    getDashboardUserPermissionsApi(false);
+    if (Get.find<AppStorage>().isLocalSequenceChanges()) {
+      changeDashboardUserPermissionMultipleSequenceApi(
+          isProgress: false,
+          isLoadPermissionList: true,
+          isChangeSequence: false);
+    } else {
+      getDashboardUserPermissionsApi(false);
+    }
     if (Get.isBottomSheetOpen ?? false) {
       Get.back();
       showControlPanelDialog();

@@ -3,8 +3,8 @@ import 'package:otm_inventory/pages/common/model/user_info.dart';
 import 'package:otm_inventory/pages/dashboard/tabs/home_tab/model/dashboard_grid_item_info.dart';
 import 'package:otm_inventory/pages/dashboard/tabs/home_tab/model/permission_info.dart';
 import 'package:otm_inventory/pages/dashboard/tabs/home_tab2/model/DashboardActionItemInfo.dart';
+import 'package:otm_inventory/pages/shifts/create_shift/model/week_day_info.dart';
 import 'package:otm_inventory/res/drawable.dart';
-import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:otm_inventory/web_services/response/module_info.dart';
 
 import 'app_constants.dart';
@@ -303,6 +303,18 @@ class DataUtils {
       }
     }
     return outList;
+  }
+
+  static List<WeekDayInfo> getWeekDays() {
+    var arrayItems = <WeekDayInfo>[];
+    arrayItems.add(WeekDayInfo(name: "monday", status: false));
+    arrayItems.add(WeekDayInfo(name: "tuesday", status: false));
+    arrayItems.add(WeekDayInfo(name: "wednesday", status: false));
+    arrayItems.add(WeekDayInfo(name: "thursday", status: false));
+    arrayItems.add(WeekDayInfo(name: "friday", status: false));
+    arrayItems.add(WeekDayInfo(name: "saturday", status: false));
+    arrayItems.add(WeekDayInfo(name: "sunday", status: false));
+    return arrayItems;
   }
 
   static List<ModuleInfo> getModuleListFromUserList(List<UserInfo> userList) {

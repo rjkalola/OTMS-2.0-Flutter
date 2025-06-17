@@ -77,9 +77,8 @@ class GenerateCompanyCodeController extends GetxController {
   void getTimeRemaining() {
     DateTime? expireTime = DateUtil.stringToDate(
         expireDateTime ??
-            DateUtil.getCurrentTimeInFormat(
-                DateUtil.DD_MM_YYYY_COMMA_TIME_24_SLASH),
-        DateUtil.DD_MM_YYYY_COMMA_TIME_24_SLASH);
+            DateUtil.getCurrentTimeInFormat(DateUtil.DD_MM_YYYY_TIME_24_SLASH2),
+        DateUtil.DD_MM_YYYY_TIME_24_SLASH2);
     DateTime? currentTime = DateTime.now();
 
     Duration diff = expireTime!.difference(currentTime);

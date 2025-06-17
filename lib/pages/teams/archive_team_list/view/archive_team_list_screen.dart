@@ -38,7 +38,7 @@ class _ArchiveTeamListScreenState extends State<ArchiveTeamListScreen> {
             backgroundColor: dashBoardBgColor,
             appBar: BaseAppBar(
               appBar: AppBar(),
-              title: 'archive_teams'.tr,
+              title: 'archived_teams'.tr,
               isCenterTitle: false,
               isBack: true,
               onBackPressed: () {

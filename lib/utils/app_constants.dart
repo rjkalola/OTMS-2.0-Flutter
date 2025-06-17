@@ -58,6 +58,7 @@ class IntentKey {
   final String userId = "USER_ID";
   final String userName = "USER_NAME";
   final String userList = "USER_LIST";
+  final String shiftInfo = "SHIFT_INFO";
 }
 
 class DialogIdentifier {
@@ -82,6 +83,11 @@ class DialogIdentifier {
   final String selectMenuItemsDialog = 'selectMenuItemsDialog';
   final String selectTeamMembers = 'SELECT_TEAM_MEMBERS';
   final String deleteTeam = 'DELETE_TEAM';
+  final String selectShiftStartTime = 'SELECT_SHIFT_START_TIME';
+  final String selectShiftEndTime = 'SELECT_SHIFT_END_TIME';
+  final String selectBreakStartTime = 'SELECT_BREAK_START_TIME';
+  final String selectBreakEndTime = 'SELECT_BREAK_END_TIME';
+  final String deleteShift = 'DELETE_SHIFT';
 }
 
 class SharedPreferenceKey {
@@ -145,7 +151,7 @@ class Action {
   final String subContractorDetails = 'SUB_CONTRACTOR_DETAILS';
   final String joinCompany = 'JOIN_COMPANY';
   final String archiveTeam = 'ARCHIVE_TEAM';
-  final String unArchiveTeam = 'Un_ARCHIVE_TEAM';
+  final String archiveShift = 'ARCHIVE_SHIFT';
   final String generateCode = 'GENERATE_CODE';
 
   final String companyDetails = "COMPANY_DETAILS";

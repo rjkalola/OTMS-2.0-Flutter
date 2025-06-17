@@ -109,7 +109,7 @@ class TeamListController extends GetxController implements MenuItemListener {
     List<ModuleInfo> listItems = [];
     listItems.add(ModuleInfo(name: 'add'.tr, action: AppConstants.action.add));
     listItems.add(ModuleInfo(
-        name: 'archive_teams'.tr, action: AppConstants.action.archiveTeam));
+        name: 'archived_teams'.tr, action: AppConstants.action.archiveTeam));
     listItems.add(ModuleInfo(
         name: 'generate_code'.tr, action: AppConstants.action.generateCode));
     showCupertinoModalPopup(

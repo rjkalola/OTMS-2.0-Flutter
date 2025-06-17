@@ -11,6 +11,7 @@ import 'package:otm_inventory/pages/authentication/splash/splash_screen.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/view/clock_in_screen.dart';
 import 'package:otm_inventory/pages/check_in/select_address/view/select_address_screen.dart';
 import 'package:otm_inventory/pages/check_in/select_before_after_photos/view/select_before_after_photos_screen.dart';
+import 'package:otm_inventory/pages/check_in/start_shift_map/view/start_shift_map_screen.dart';
 import 'package:otm_inventory/pages/dashboard/tabs/adjust_widgets/view/adjust_widgets_screen.dart';
 import 'package:otm_inventory/pages/dashboard/view/dashboard_screen.dart';
 import 'package:otm_inventory/pages/company/company_details/view/company_details_screen.dart';
@@ -24,6 +25,10 @@ import 'package:otm_inventory/pages/permissions/user_permissions/view/user_permi
 import 'package:otm_inventory/pages/permissions/widgets/view/widgets_screen.dart';
 import 'package:otm_inventory/pages/qr_code_scanner/view/qr_code_scanner.dart';
 import 'package:otm_inventory/pages/settings/view/settings_screen.dart';
+import 'package:otm_inventory/pages/shifts/archive_shift_list/view/archive_shift_list_screen.dart';
+import 'package:otm_inventory/pages/shifts/archive_shift_list/view/widgets/archive_shifts_list.dart';
+import 'package:otm_inventory/pages/shifts/create_shift/view/create_shift_screen.dart';
+import 'package:otm_inventory/pages/shifts/shift_list/view/shift_list_screen.dart';
 import 'package:otm_inventory/pages/teams/archive_team_list/view/archive_team_list_screen.dart';
 import 'package:otm_inventory/pages/teams/create_team/view/create_team_screen.dart';
 import 'package:otm_inventory/pages/teams/generate_company_code/view/generate_company_code_screen.dart';
@@ -188,6 +193,18 @@ class AppPages {
       name: AppRoutes.archiveTeamListScreen,
       page: () => ArchiveTeamListScreen(),
     ),
-
+    GetPage(
+      name: AppRoutes.createShiftScreen,
+      page: () => CreateShiftScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.shiftListScreen,
+      page: () => ShiftListScreen(),
+    ),
+    GetPage(
+        name: AppRoutes.archiveShiftListScreen,
+        page: () => ArchiveShiftListScreen()),
+    GetPage(
+        name: AppRoutes.startShiftMapScreen, page: () => StartShiftMapScreen()),
   ];
 }
