@@ -4,7 +4,6 @@ class ApiConstants {
 
   // static String appUrl = "http://206.189.17.166:3000";
   // static String appUrl = "http://dev.belcka.com:3000";
-
   static String appUrl = "http://belcka.com:3003";
 
   // static String appUrl = "https://dev.otmsystem.com/api/v1";

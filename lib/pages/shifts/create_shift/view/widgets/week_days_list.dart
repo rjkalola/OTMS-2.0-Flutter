@@ -13,7 +13,7 @@ class WeekDaysList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => Wrap(
-          spacing: 12,
+          spacing: 8,
           children: List.generate(controller.weekDaysList.length, (index) {
             WeekDayInfo info = controller.weekDaysList[index];
             return GestureDetector(
@@ -23,8 +23,8 @@ class WeekDaysList extends StatelessWidget {
                 controller.weekDaysList.refresh();
               },
               child: Container(
-                width: 36,
-                height: 36,
+                width: 30,
+                height: 30,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: info.status! ? defaultAccentColor : Colors.transparent,
