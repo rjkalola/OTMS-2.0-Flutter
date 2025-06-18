@@ -352,7 +352,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       Get.toNamed(AppRoutes.userListScreen);
       // Get.toNamed(AppRoutes.createTeamScreen);
     } else if (info.slug == 'shift') {
-      // Get.toNamed(AppRoutes.startShiftMapScreen);
+      Get.toNamed(AppRoutes.startShiftMapScreen);
     } else if (info.slug == 'settings') {
       moveToScreen(appRout: AppRoutes.settingsScreen);
     }

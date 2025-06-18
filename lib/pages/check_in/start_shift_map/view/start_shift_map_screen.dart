@@ -48,10 +48,7 @@ class _StartShiftMapScreenState extends State<StartShiftMapScreen> {
                     : Visibility(
                         visible: controller.isMainViewVisible.value,
                         child: Stack(
-                          children: [
-                            StartShiftMapView(),
-                            StartShiftButton()
-                          ],
+                          children: [StartShiftMapView(), StartShiftButton()],
                         ),
                       ));
           }),

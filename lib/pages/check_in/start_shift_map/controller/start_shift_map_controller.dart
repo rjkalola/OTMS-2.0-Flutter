@@ -1,10 +1,17 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:otm_inventory/pages/check_in/dialogs/select_shift_dialog.dart';
+import 'package:otm_inventory/pages/common/listener/select_item_listener.dart';
+import 'package:otm_inventory/utils/app_constants.dart';
+import 'package:otm_inventory/utils/app_utils.dart';
+import 'package:otm_inventory/utils/data_utils.dart';
 import 'package:otm_inventory/utils/location_service_new.dart';
 
-class StartShiftMapController extends GetxController {
+class StartShiftMapController extends GetxController
+    implements SelectItemListener {
   final RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
       isMainViewVisible = true.obs,
@@ -60,10 +67,26 @@ class StartShiftMapController extends GetxController {
       ));
       print("Location:" +
           "Latitude: ${latLon!.latitude}, Longitude: ${latLon!.longitude}");
-      print("Address:${location ?? ""}");
+      print(location ?? "");
+      AppUtils.showToastMessage("Address:${location ?? ""}");
     } else {
       print("Location:" + "Location permission denied or services disabled");
       print("Address:" + "Could not retrieve address");
+      AppUtils.showToastMessage("Could not retrieve address");
     }
   }
+
+  void showSelectShiftDialog() {
+    Get.bottomSheet(
+        SelectShiftDialog(
+          dialogType: AppConstants.dialogIdentifier.selectShift,
+          list: DataUtils.getPhoneExtensionList(),
+          listener: this,
+        ),
+        backgroundColor: Colors.transparent,
+        isScrollControlled: true);
+  }
+
+  @override
+  void onSelectItem(int position, int id, String name, String action) {}
 }
