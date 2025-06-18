@@ -6,7 +6,6 @@ import 'package:otm_inventory/pages/authentication/splash/splash_screen.dart';
 import 'package:otm_inventory/pages/dashboard/view/dashboard_screen.dart';
 import 'package:otm_inventory/pages/company/company_signup/view/company_signup_screen.dart';
 import 'package:otm_inventory/pages/company/joincompany/view/join_comapny_screen.dart';
-import 'package:otm_inventory/pages/profile/billing_info/view/billing_info_screen.dart';
 import 'package:otm_inventory/pages/profile/personal_info/view/personal_info_screen.dart';
 import 'package:otm_inventory/pages/teams/create_team/view/create_new_team_screen2.dart';
 import 'package:otm_inventory/pages/teams/create_team/view/create_team_screen.dart';
@@ -37,7 +36,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: defaultAccentColor),
           useMaterial3: true,
           dialogBackgroundColor: Colors.white),
-      home: BillingInfoScreen(),
+      home: SplashScreen(),
     );
   }
 }
