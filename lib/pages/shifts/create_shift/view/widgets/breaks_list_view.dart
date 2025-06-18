@@ -44,7 +44,7 @@ class BreaksListView extends StatelessWidget {
                           controller.showTimePickerDialog(
                               AppConstants
                                   .dialogIdentifier.selectBreakStartTime,
-                              DateUtil.getTimeOfDayFromHHMM(
+                              DateUtil.getDateTimeFromHHMM(
                                   info.breakStartTime));
                         },
                       ),
@@ -56,7 +56,7 @@ class BreaksListView extends StatelessWidget {
                           controller.showTimePickerDialog(
                               AppConstants
                                   .dialogIdentifier.selectBreakEndTime,
-                              DateUtil.getTimeOfDayFromHHMM(
+                              DateUtil.getDateTimeFromHHMM(
                                   info.breakEndTime));
                         },
                       ),

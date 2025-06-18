@@ -255,7 +255,7 @@ class CreateShiftController extends GetxController
         breakId: 0, breakStartTime: "12:00", breakEndTime: "13:00");
   }
 
-  void showTimePickerDialog(String dialogIdentifier, TimeOfDay? time) {
+  void showTimePickerDialog(String dialogIdentifier, DateTime? time) {
     DateUtil.showTimePickerDialog(
         initialTime: time,
         dialogIdentifier: dialogIdentifier,
@@ -263,7 +263,7 @@ class CreateShiftController extends GetxController
   }
 
   @override
-  void onSelectTime(TimeOfDay time, String dialogIdentifier) {
+  void onSelectTime(DateTime time, String dialogIdentifier) {
     isSaveEnable.value = true;
     if (dialogIdentifier ==
         AppConstants.dialogIdentifier.selectShiftStartTime) {

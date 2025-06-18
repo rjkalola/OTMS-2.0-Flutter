@@ -64,7 +64,7 @@ class CompanyDetailsController extends GetxController
       isLoading = false.obs,
       isInternetNotAvailable = false.obs;
   DateTime? establishedDate, insuranceExpiresOn;
-  TimeOfDay? workingHourTIme;
+  DateTime? workingHourTIme;
   final mCompanyLogo = "".obs;
   bool locationLoaded = false;
   final _api = CompanyDetailsRepository();
@@ -382,7 +382,7 @@ class CompanyDetailsController extends GetxController
         selectDateListener: this);
   }
 
-  void showTimePickerDialog(String dialogIdentifier, TimeOfDay? time) {
+  void showTimePickerDialog(String dialogIdentifier, DateTime? time) {
     DateUtil.showTimePickerDialog(
         initialTime: time,
         dialogIdentifier: dialogIdentifier,
@@ -404,7 +404,7 @@ class CompanyDetailsController extends GetxController
   }
 
   @override
-  void onSelectTime(TimeOfDay time, String dialogIdentifier) {
+  void onSelectTime(DateTime time, String dialogIdentifier) {
     if (dialogIdentifier ==
         AppConstants.dialogIdentifier.selectWorkingHourTime) {
       workingHourTIme = time;

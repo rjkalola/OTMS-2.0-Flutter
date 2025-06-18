@@ -1,8 +1,13 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:otm_inventory/pages/common/listener/select_time_listener.dart';
+import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
+import 'package:otm_inventory/widgets/text/TitleTextView.dart';
 
 import '../pages/common/listener/select_date_listener.dart';
 
@@ -40,14 +45,14 @@ class DateUtil {
     return result;
   }
 
-  static String timeToString(TimeOfDay? time, String format) {
+  static String timeToString(DateTime? time, String format) {
     String result = "";
     if (time == null || StringHelper.isEmptyString(format)) return result;
-    final now = DateTime.now();
-    final date = DateTime(now.year, now.month, now.day, time.hour, time.minute);
+    // final now = DateTime.now();
+    // final date = DateTime(now.year, now.month, now.day, time.hour, time.minute);
     DateFormat mFormatter = DateFormat(format);
     try {
-      result = mFormatter.format(date);
+      result = mFormatter.format(time);
     } catch (e) {
       result = "";
     }
@@ -73,15 +78,25 @@ class DateUtil {
   }
 
   static TimeOfDay? getTimeOfDayFromHHMM(String? timeString) {
-    if(timeString !=null){
+    if (timeString != null) {
       final parts = timeString.split(":");
       final hour = int.parse(parts[0]);
       final minute = int.parse(parts[1]);
       return TimeOfDay(hour: hour, minute: minute);
-    }else{
+    } else {
       return null;
     }
+  }
 
+  static DateTime? getDateTimeFromHHMM(String? timeString) {
+    if (timeString != null) {
+      final now = DateTime.now();
+      final format = DateFormat(HH_MM_24); // 24-hour format
+      final time = format.parse(timeString);
+      return DateTime(now.year, now.month, now.day, time.hour, time.minute);
+    } else {
+      return null;
+    }
   }
 
   static Future<void> showDatePickerDialog(
@@ -102,23 +117,94 @@ class DateUtil {
   }
 
   static Future<void> showTimePickerDialog(
-      {TimeOfDay? initialTime,
+      {DateTime? initialTime,
       required String dialogIdentifier,
       required SelectTimeListener selectTimeListener}) async {
-    final pickedTime = await showTimePicker(
-      context: Get.context!,
-      initialTime: initialTime ?? TimeOfDay.now(),
-      builder: (context, child) {
-        return MediaQuery(
-          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-          child: child!,
-        );
-      },
-    );
+    if (Platform.isIOS) {
+      DateTime selectedTime = initialTime ?? DateTime.now();
+      showCupertinoModalPopup(
+        context: Get.context!,
+        builder: (_) => Container(
+          height: 300,
+          color: dashBoardBgColor,
+          child: Column(
+            children: [
+              // Toolbar
+              SizedBox(
+                height: 44,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CupertinoButton(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: TitleTextView(
+                        text: "Cancel",
+                        color: secondaryTextColor,
+                      ),
+                      onPressed: () => Get.back(),
+                    ),
+                    CupertinoButton(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: TitleTextView(
+                        text: "Done",
+                        color: defaultAccentColor,
+                      ),
+                      onPressed: () {
+                        selectTimeListener.onSelectTime(
+                            selectedTime, dialogIdentifier);
+                        Get.back();
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              Divider(height: 1),
+              // Picker takes remaining space
+              Expanded(
+                child: CupertinoDatePicker(
+                  mode: CupertinoDatePickerMode.time,
+                  initialDateTime: initialTime ?? DateTime.now(),
+                  use24hFormat: true,
+                  onDateTimeChanged: (DateTime newTime) {
+                    selectedTime = newTime;
+                    // Save or use time
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    } else if (Platform.isAndroid) {
+      TimeOfDay initiallyTimeOfDay = initialTime != null
+          ? convertDateTimeToTimeOfDay(initialTime)
+          : TimeOfDay.now();
+      final pickedTime = await showTimePicker(
+        context: Get.context!,
+        initialTime: initiallyTimeOfDay,
+        builder: (context, child) {
+          return MediaQuery(
+            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+            child: child!,
+          );
+        },
+      );
 
-    if (pickedTime != null) {
-      selectTimeListener.onSelectTime(pickedTime, dialogIdentifier);
+      if (pickedTime != null) {
+        selectTimeListener.onSelectTime(
+            convertTimeOfDayToDateTime(pickedTime), dialogIdentifier);
+      }
     }
+  }
+
+  static DateTime convertTimeOfDayToDateTime(TimeOfDay tod,
+      {DateTime? baseDate}) {
+    final now = baseDate ?? DateTime.now();
+    return DateTime(now.year, now.month, now.day, tod.hour, tod.minute);
+  }
+
+  static TimeOfDay convertDateTimeToTimeOfDay(DateTime dt) {
+    return TimeOfDay(hour: dt.hour, minute: dt.minute);
   }
 
   static String DD_MM_YYYY_DASH = "dd-MM-yyyy";

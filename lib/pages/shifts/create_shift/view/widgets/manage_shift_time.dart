@@ -31,8 +31,9 @@ class ManageShiftTime extends StatelessWidget {
                 onTap: () {
                   controller.showTimePickerDialog(
                       AppConstants.dialogIdentifier.selectShiftStartTime,
-                      DateUtil.getTimeOfDayFromHHMM(
+                      DateUtil.getDateTimeFromHHMM(
                           controller.shiftInfo.value.startTime));
+                  // DateUtil.showIosTimePickerDialog();
                 },
               ),
               SelectShiftTimeRow(
@@ -41,7 +42,7 @@ class ManageShiftTime extends StatelessWidget {
                 onTap: () {
                   controller.showTimePickerDialog(
                       AppConstants.dialogIdentifier.selectShiftEndTime,
-                      DateUtil.getTimeOfDayFromHHMM(
+                      DateUtil.getDateTimeFromHHMM(
                           controller.shiftInfo.value.endTime));
                 },
               ),
