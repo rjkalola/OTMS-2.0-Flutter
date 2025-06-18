@@ -40,6 +40,7 @@ class BreakList extends StatelessWidget {
                 SubtitleTextView(
                   text:
                       "${'break'.tr}: ${info.breakStartTime} - ${info.breakEndTime}",
+                  fontSize: 15,
                 )
               ],
             ),

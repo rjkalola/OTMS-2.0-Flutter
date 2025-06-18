@@ -4,8 +4,8 @@ class Strings extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
         'en_US': {
-          'app_title': 'Belka',
-          'first_screen_welcome_title': 'Welcome to Belka',
+          'app_title': 'Belcka',
+          'first_screen_welcome_title': 'Welcome to Belcka',
           'first_screen_note':
               'Create. Connect. Conquer — launch your\ncompany or join your team now.',
           // '': '',
@@ -26,7 +26,7 @@ class Strings extends Translations {
           'did_not_get_the_code': "Didn't get the code?",
           'resend_now': "Resend Now",
           'sign_up_free_and_start_using_otm_system':
-              'Signup free and start\nusing Belka',
+              'Signup free and start\nusing Belcka',
           'sign_up': 'Sign Up',
           'login': 'Login',
           'required_field': 'Required Field',
@@ -51,6 +51,7 @@ class Strings extends Translations {
           'next': "Next",
           'first_name': "First Name",
           'last_name': "Last Name",
+          'middle_name': "Middle Name",
           'upload_photo_note_sign_up':
               "Upload your photo so that your team\nmate can recognize you",
           'upload_photo_capital': "UPLOAD PHOTO",
@@ -258,7 +259,7 @@ class Strings extends Translations {
           'break': "Break",
           'shifts': "Shifts",
           'archived_shifts': "Archived Shifts",
-          // '': "",
+          'billing_info': "Billing Info",
           // '': "",
           // '': "",
           // '': "",

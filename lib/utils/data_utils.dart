@@ -314,6 +314,14 @@ class DataUtils {
     arrayItems.add(WeekDayInfo(name: "friday", status: false));
     arrayItems.add(WeekDayInfo(name: "saturday", status: false));
     arrayItems.add(WeekDayInfo(name: "sunday", status: false));
+
+  /*  arrayItems.add(WeekDayInfo(name: "Monday", status: false));
+    arrayItems.add(WeekDayInfo(name: "Tuesday", status: false));
+    arrayItems.add(WeekDayInfo(name: "Wednesday", status: false));
+    arrayItems.add(WeekDayInfo(name: "Thursday", status: false));
+    arrayItems.add(WeekDayInfo(name: "Friday", status: false));
+    arrayItems.add(WeekDayInfo(name: "Saturday", status: false));
+    arrayItems.add(WeekDayInfo(name: "Sunday", status: false));*/
     return arrayItems;
   }
 

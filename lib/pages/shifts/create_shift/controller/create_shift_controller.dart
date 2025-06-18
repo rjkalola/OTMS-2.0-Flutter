@@ -53,8 +53,8 @@ class CreateShiftController extends GetxController
       isSaveEnable.value = true;
       shiftInfo.value.companyId = ApiConstants.companyId;
       weekDaysList.addAll(DataUtils.getWeekDays());
-      shiftInfo.value.startTime = "09:00";
-      shiftInfo.value.endTime = "19:00";
+      shiftInfo.value.startTime = "08:00";
+      shiftInfo.value.endTime = "15:00";
       shiftInfo.value.isPricework = false;
     }
   }
@@ -252,7 +252,7 @@ class CreateShiftController extends GetxController
 
   BreakInfo getDefaultBreakInfo() {
     return BreakInfo(
-        breakId: 0, breakStartTime: "12:30", breakEndTime: "13:00");
+        breakId: 0, breakStartTime: "12:00", breakEndTime: "13:00");
   }
 
   void showTimePickerDialog(String dialogIdentifier, TimeOfDay? time) {

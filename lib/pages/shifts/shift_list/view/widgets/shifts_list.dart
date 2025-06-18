@@ -10,6 +10,7 @@ import 'package:otm_inventory/pages/permissions/user_list/controller/user_list_c
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
+import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:otm_inventory/widgets/other_widgets/user_avtar_view.dart';
 import 'package:otm_inventory/widgets/switch/custom_switch.dart';
@@ -53,6 +54,16 @@ class ShiftsList extends StatelessWidget {
                           children: [
                             TitleTextView(
                               text: info.name ?? "",
+                              fontWeight: FontWeight.w500,
+                            ),
+                            Visibility(
+                              visible: !StringHelper.isEmptyString(
+                                  info.showFrequncy),
+                              child: SubtitleTextView(
+                                text: info.showFrequncy ?? "",
+                                color: primaryTextColor,
+                                fontSize: 15,
+                              ),
                             ),
                             SizedBox(
                               height: 3,
@@ -60,6 +71,7 @@ class ShiftsList extends StatelessWidget {
                             SubtitleTextView(
                               text:
                                   "${'shift'.tr}: ${info.startTime} - ${info.endTime}",
+                              fontSize: 15,
                             ),
                             BreakList(breakList: info.breaks ?? [])
                           ],

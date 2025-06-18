@@ -23,6 +23,7 @@ import 'package:otm_inventory/pages/permissions/permission_users/view/permission
 import 'package:otm_inventory/pages/permissions/search_user/view/search_user_screen.dart';
 import 'package:otm_inventory/pages/permissions/user_permissions/view/user_permission_screen.dart';
 import 'package:otm_inventory/pages/permissions/widgets/view/widgets_screen.dart';
+import 'package:otm_inventory/pages/profile/billing_info/view/billing_info_screen.dart';
 import 'package:otm_inventory/pages/qr_code_scanner/view/qr_code_scanner.dart';
 import 'package:otm_inventory/pages/settings/view/settings_screen.dart';
 import 'package:otm_inventory/pages/shifts/archive_shift_list/view/archive_shift_list_screen.dart';
@@ -206,5 +207,7 @@ class AppPages {
         page: () => ArchiveShiftListScreen()),
     GetPage(
         name: AppRoutes.startShiftMapScreen, page: () => StartShiftMapScreen()),
+    GetPage(
+        name: AppRoutes.billingInfoScreen, page: () => BillingInfoScreen()),
   ];
 }
