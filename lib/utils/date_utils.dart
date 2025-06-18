@@ -105,14 +105,77 @@ class DateUtil {
       required DateTime lastDate,
       required String dialogIdentifier,
       required SelectDateListener selectDateListener}) async {
-    final DateTime? picked = await showDatePicker(
-      context: Get.context!,
-      initialDate: initialDate,
-      firstDate: firstDate,
-      lastDate: lastDate,
-    );
-    if (picked != null) {
-      selectDateListener.onSelectDate(picked, dialogIdentifier);
+    if (Platform.isIOS) {
+      DateTime initial = DateTime.now().subtract(Duration(minutes: 1));
+      DateTime? selectedDate = initialDate;
+      DateTime safeInitial = clampInitialDate(
+        initial: initialDate ?? initial,
+        minimum: firstDate,
+        maximum: lastDate,
+      );
+      showCupertinoModalPopup(
+        context: Get.context!,
+        builder: (_) => Container(
+          height: 300,
+          color: Colors.white,
+          child: Column(
+            children: [
+              // Toolbar
+              SizedBox(
+                height: 44,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CupertinoButton(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: TitleTextView(
+                        text: "Cancel",
+                        color: secondaryTextColor,
+                      ),
+                      onPressed: () => Get.back(),
+                    ),
+                    CupertinoButton(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: TitleTextView(
+                        text: "Done",
+                        color: defaultAccentColor,
+                      ),
+                      onPressed: () {
+                        selectDateListener.onSelectDate(
+                            selectedDate ?? DateTime.now(), dialogIdentifier);
+                        Get.back();
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              Divider(height: 1),
+              // Date Picker
+              Expanded(
+                child: CupertinoDatePicker(
+                  mode: CupertinoDatePickerMode.date,
+                  initialDateTime: safeInitial,
+                  maximumDate: truncateToSeconds(lastDate),
+                  minimumDate: truncateToSeconds(firstDate),
+                  onDateTimeChanged: (DateTime date) {
+                    selectedDate = date;
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    } else if (Platform.isAndroid) {
+      final DateTime? picked = await showDatePicker(
+        context: Get.context!,
+        initialDate: initialDate,
+        firstDate: firstDate,
+        lastDate: lastDate,
+      );
+      if (picked != null) {
+        selectDateListener.onSelectDate(picked, dialogIdentifier);
+      }
     }
   }
 
@@ -205,6 +268,41 @@ class DateUtil {
 
   static TimeOfDay convertDateTimeToTimeOfDay(DateTime dt) {
     return TimeOfDay(hour: dt.hour, minute: dt.minute);
+  }
+
+  static DateTime truncateToSeconds(DateTime dt) =>
+      DateTime(dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second);
+
+  static DateTime clampInitialDate({
+    required DateTime initial,
+    required DateTime minimum,
+    required DateTime maximum,
+  }) {
+    final min = truncateToSeconds(minimum);
+    final max = truncateToSeconds(maximum);
+    DateTime init = truncateToSeconds(initial);
+
+    if (init.isBefore(min)) return min;
+    if (init.isAfter(max)) return max;
+    return init;
+  }
+
+  static DateTime clampAndTruncateDateTime({
+    required DateTime initial,
+    required DateTime min,
+    required DateTime max,
+  }) {
+    // Truncate to seconds (remove microseconds)
+    DateTime truncate(DateTime dt) =>
+        DateTime(dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second);
+
+    DateTime i = truncate(initial);
+    DateTime minT = truncate(min);
+    DateTime maxT = truncate(max);
+
+    if (i.isBefore(minT)) return minT;
+    if (i.isAfter(maxT)) return maxT;
+    return i;
   }
 
   static String DD_MM_YYYY_DASH = "dd-MM-yyyy";

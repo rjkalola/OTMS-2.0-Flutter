@@ -29,16 +29,13 @@ class _UserPermissionScreenState extends State<UserPermissionScreen> {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: Colors.white,
         statusBarIconBrightness: Brightness.dark));
-    /* return PopScope(
+    return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) async {
         if (didPop || result != null) return;
         controller.onBackPress();
       },
-      child: Container(),
-    );*/
-    return Obx(
-      () => Container(
+      child: Obx(() => Container(
         color: backgroundColor,
         child: SafeArea(
           child: Scaffold(
@@ -50,10 +47,10 @@ class _UserPermissionScreenState extends State<UserPermissionScreen> {
                   : 'user_permissions'.tr,
               isCenterTitle: false,
               isBack: true,
-              widgets: actionButtons(),
-              // onBackPressed: () {
-              //   controller.onBackPress();
-              // },
+              // widgets: actionButtons(),
+              onBackPressed: () {
+                controller.onBackPress();
+              },
             ),
             body: ModalProgressHUD(
                 inAsyncCall: controller.isLoading.value,
@@ -61,31 +58,31 @@ class _UserPermissionScreenState extends State<UserPermissionScreen> {
                 progressIndicator: const CustomProgressbar(),
                 child: controller.isInternetNotAvailable.value
                     ? NoInternetWidget(
-                        onPressed: () {
-                          controller.isInternetNotAvailable.value = false;
-                          controller.getCompanyPermissionsApi();
-                        },
-                      )
+                  onPressed: () {
+                    controller.isInternetNotAvailable.value = false;
+                    controller.getCompanyPermissionsApi();
+                  },
+                )
                     : Visibility(
-                        visible: controller.isMainViewVisible.value,
-                        child: Column(
-                          children: [
-                            Divider(),
-                            !controller.fromDashboard.value
-                                ? SearchUserPermissionWidget()
-                                : Container(),
-                            SelectAllText(),
-                            UserPermissionsList()
-                          ],
-                        ),
-                      )),
+                  visible: controller.isMainViewVisible.value,
+                  child: Column(
+                    children: [
+                      Divider(),
+                      !controller.fromDashboard.value
+                          ? SearchUserPermissionWidget()
+                          : Container(),
+                      SelectAllText(),
+                      UserPermissionsList()
+                    ],
+                  ),
+                )),
           ),
         ),
-      ),
+      ),),
     );
   }
 
-  List<Widget>? actionButtons() {
+/* List<Widget>? actionButtons() {
     return [
       TextButton(
         onPressed: () {
@@ -103,5 +100,5 @@ class _UserPermissionScreenState extends State<UserPermissionScreen> {
         ),
       )
     ];
-  }
+  }*/
 }

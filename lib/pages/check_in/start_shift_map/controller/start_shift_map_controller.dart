@@ -7,10 +7,10 @@ import 'package:otm_inventory/utils/location_service_new.dart';
 class StartShiftMapController extends GetxController {
   final RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
-      isMainViewVisible = true.obs;
+      isMainViewVisible = true.obs,
+      isLocationLoaded = false.obs;
   late GoogleMapController mapController;
   final center = LatLng(23.0225, 72.5714).obs;
-  bool locationLoaded = false;
   Position? latLon = null;
   final locationService = LocationServiceNew();
 
@@ -33,15 +33,15 @@ class StartShiftMapController extends GetxController {
   void appLifeCycle() {
     AppLifecycleListener(
       onResume: () async {
-        if (!locationLoaded) locationRequest();
+        if (!isLocationLoaded.value) locationRequest();
       },
     );
   }
 
   Future<void> locationRequest() async {
-    locationLoaded = await locationService.checkLocationService();
-    print("locationLoaded:"+locationLoaded.toString());
-    if (locationLoaded) {
+    isLocationLoaded.value = await locationService.checkLocationService();
+    print("locationLoaded:" + isLocationLoaded.value.toString());
+    if (isLocationLoaded.value) {
       fetchLocationAndAddress();
     }
   }

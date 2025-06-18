@@ -28,53 +28,51 @@ class _CompanyPermissionScreenState extends State<CompanyPermissionScreen> {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: Colors.white,
         statusBarIconBrightness: Brightness.dark));
-    // return PopScope(
-    //   canPop: false,
-    //   onPopInvokedWithResult: (didPop, result) async {
-    //     if (didPop || result != null) return;
-    //     controller.onBackPress();
-    //   },
-    //   child: Container(),
-    // );
-
-    return Obx(
-      () => Container(
-        color: backgroundColor,
-        child: SafeArea(
-          child: Scaffold(
-            backgroundColor: backgroundColor,
-            appBar: BaseAppBar(
-              appBar: AppBar(),
-              title: 'company_permissions'.tr,
-              isCenterTitle: false,
-              isBack: true,
-              widgets: actionButtons(),
-              // onBackPressed: () {
-              //   controller.onBackPress();
-              // },
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop || result != null) return;
+        controller.onBackPress();
+      },
+      child: Obx(
+        () => Container(
+          color: backgroundColor,
+          child: SafeArea(
+            child: Scaffold(
+              backgroundColor: backgroundColor,
+              appBar: BaseAppBar(
+                appBar: AppBar(),
+                title: 'company_permissions'.tr,
+                isCenterTitle: false,
+                isBack: true,
+                // widgets: actionButtons(),
+                onBackPressed: () {
+                  controller.onBackPress();
+                },
+              ),
+              body: ModalProgressHUD(
+                  inAsyncCall: controller.isLoading.value,
+                  opacity: 0,
+                  progressIndicator: const CustomProgressbar(),
+                  child: controller.isInternetNotAvailable.value
+                      ? NoInternetWidget(
+                          onPressed: () {
+                            controller.isInternetNotAvailable.value = false;
+                            controller.getCompanyPermissionsApi();
+                          },
+                        )
+                      : Visibility(
+                          visible: controller.isMainViewVisible.value,
+                          child: Column(
+                            children: [
+                              Divider(),
+                              SearchCompanyPermissionWidget(),
+                              SelectAllText(),
+                              CompanyPermissionsList()
+                            ],
+                          ),
+                        )),
             ),
-            body: ModalProgressHUD(
-                inAsyncCall: controller.isLoading.value,
-                opacity: 0,
-                progressIndicator: const CustomProgressbar(),
-                child: controller.isInternetNotAvailable.value
-                    ? NoInternetWidget(
-                        onPressed: () {
-                          controller.isInternetNotAvailable.value = false;
-                          controller.getCompanyPermissionsApi();
-                        },
-                      )
-                    : Visibility(
-                        visible: controller.isMainViewVisible.value,
-                        child: Column(
-                          children: [
-                            Divider(),
-                            SearchCompanyPermissionWidget(),
-                            SelectAllText(),
-                            CompanyPermissionsList()
-                          ],
-                        ),
-                      )),
           ),
         ),
       ),
