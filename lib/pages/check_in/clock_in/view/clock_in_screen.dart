@@ -4,15 +4,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_controller.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/check_in_addresses_list_view.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/continue_yesterdays_work_button.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/footer_button_check_in_switch_project.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/footer_buttons_view_start_work.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/map_view.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/my_day_log_list_view.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/my_log_addresses_tabs.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/start_work_button.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/timesheet_button.dart';
+import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/my_day_logs_title.dart';
+import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/stop_shift_button.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/work_time_details_view.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/res/drawable.dart';
@@ -33,21 +27,21 @@ class _ClockInScreenState extends State<ClockInScreen> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarColor: Colors.white,
+        statusBarColor: dashBoardBgColor,
         statusBarIconBrightness: Brightness.dark));
     return Container(
-      color: backgroundColor,
+      color: dashBoardBgColor,
       child: SafeArea(
         child: Scaffold(
-          backgroundColor: backgroundColor,
-          appBar: controller.isWorking()
-              ? BaseAppBar(
-                  appBar: AppBar(),
-                  title: "",
-                  isCenterTitle: false,
-                  isBack: true,
-                  widgets: actionButtons())
-              : null,
+          backgroundColor: dashBoardBgColor,
+          appBar: BaseAppBar(
+            appBar: AppBar(),
+            title: "",
+            isCenterTitle: false,
+            isBack: true,
+            bgColor: dashBoardBgColor,
+            // widgets: actionButtons()
+          ),
           body: Obx(() {
             return ModalProgressHUD(
                 inAsyncCall: controller.isLoading.value,
@@ -57,36 +51,22 @@ class _ClockInScreenState extends State<ClockInScreen> {
                     ? const NoInternetWidget()
                     : Visibility(
                         visible: controller.isMainViewVisible.value,
-                        child: (!controller.isWorking()
-                            ? Column(
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: Column(
                                 children: [
-                                  Expanded(
-                                    child: Column(
-                                      children: [
-                                        MapView(),
-                                        StartWorkButton(),
-                                        ContinueYesterdaysWorkButton()
-                                      ],
-                                    ),
-                                  ),
-                                  FooterButtonsViewStartWork()
+                                  WorkTimeDetailsView(),
+                                  StopShiftButton(),
+                                  MyDayLogsTitle(),
+                                  MyDayLogListView(),
+                                  // CheckInAddressesListView()
                                 ],
-                              )
-                            : Column(
-                                children: [
-                                  Expanded(
-                                    child: Column(
-                                      children: [
-                                        WorkTimeDetailsView(),
-                                        MyLogAddressesTabs(),
-                                        MyDayLogListView()
-                                        // CheckInAddressesListView()
-                                      ],
-                                    ),
-                                  ),
-                                  FooterButtonCheckInSwitchProject()
-                                ],
-                              ))));
+                              ),
+                            ),
+                            // FooterButtonCheckInSwitchProject()
+                          ],
+                        )));
           }),
         ),
       ),

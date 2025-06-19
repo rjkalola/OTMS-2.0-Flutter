@@ -26,7 +26,7 @@ class StartShiftButton extends StatelessWidget {
                     color: Colors.green,
                     borderRadius: 16,
                     onPressed: () {
-                      // controller.showSelectShiftDialog();
+                      controller.showSelectShiftDialog();
                     }),
               )
             : Container(

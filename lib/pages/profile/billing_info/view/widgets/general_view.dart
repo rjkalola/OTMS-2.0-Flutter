@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:otm_inventory/pages/profile/billing_info/view/widgets/address_text_field.dart';
+import 'package:otm_inventory/pages/profile/billing_info/view/widgets/email_text_field.dart';
+import 'package:otm_inventory/pages/profile/billing_info/view/widgets/first_name_text_field.dart';
 import 'package:otm_inventory/pages/profile/billing_info/view/widgets/last_name_text_field.dart';
 import 'package:otm_inventory/pages/profile/billing_info/view/widgets/middle_name_text_field.dart';
+import 'package:otm_inventory/pages/profile/billing_info/view/widgets/postcode_text_field.dart';
 import 'package:otm_inventory/pages/profile/billing_info/view/widgets/title_text.dart';
 import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
-
-import 'first_name_text_field.dart';
 
 class GeneralView extends StatelessWidget {
   const GeneralView({super.key});
@@ -34,6 +36,10 @@ class GeneralView extends StatelessWidget {
                 height: 10,
               ),
               MiddleNameTextField(),
+              EmailTextField(),
+              PostcodeTextField(),
+              AddressTextField(),
+
               // PrimaryBorderButton(
               //     buttonText: "Search",
               //     onPressed: () {},

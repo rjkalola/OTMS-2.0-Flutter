@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:otm_inventory/pages/profile/billing_info/view/widgets/name_on_utr_text_field.dart';
+import 'package:otm_inventory/pages/profile/billing_info/view/widgets/nin_text_field.dart';
 import 'package:otm_inventory/pages/profile/billing_info/view/widgets/title_text.dart';
+import 'package:otm_inventory/pages/profile/billing_info/view/widgets/utr_text_field.dart';
 import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:otm_inventory/widgets/text/TitleTextView.dart';
 
@@ -20,7 +23,10 @@ class TaxInfoView extends StatelessWidget {
           children: [
             TitleText(
               title: 'tax_info'.tr,
-            )
+            ),
+            NameOnUtrTextField(),
+            UtrTextField(),
+            NINTextField(),
           ],
         ),
       )),

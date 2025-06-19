@@ -5,7 +5,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_repository.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/model/check_in_response.dart';
@@ -13,9 +12,8 @@ import 'package:otm_inventory/pages/check_in/clock_in/model/check_out_response.d
 import 'package:otm_inventory/pages/check_in/clock_in/model/new_time_sheet_resources_response.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/model/start_work_response.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/model/stop_work_response.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/select_project_dialog.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/select_shift_dialog.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/shift_summery_dialog.dart';
+import 'package:otm_inventory/pages/check_in/dialogs/select_project_dialog.dart';
+import 'package:otm_inventory/pages/check_in/dialogs/shift_summery_dialog.dart';
 import 'package:otm_inventory/pages/common/listener/select_item_listener.dart';
 import 'package:otm_inventory/pages/dashboard/models/dashboard_response.dart';
 import 'package:otm_inventory/pages/dashboard/tabs/home_tab/controller/home_tab_repository.dart';
@@ -26,14 +24,13 @@ import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/location_service_new.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:otm_inventory/web_services/api_constants.dart';
-import 'package:otm_inventory/web_services/response/module_info.dart';
 import 'package:otm_inventory/web_services/response/response_model.dart';
 
 class ClockInController extends GetxController implements SelectItemListener {
-  // final companyNameController = TextEditingController().obs;
   final RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
-      isMainViewVisible = false.obs;
+      isMainViewVisible = true.obs,
+      isLocationLoaded = false.obs;
   final _api = ClockInRepository();
   late GoogleMapController mapController;
   final center = LatLng(37.42796133580664, -122.085749655962).obs;
@@ -41,7 +38,6 @@ class ClockInController extends GetxController implements SelectItemListener {
   final resourcesData = NewTimeSheetResourcesResponse().obs;
   String? latitude, longitude, location, pwProjectId, shiftId;
   final timeLogId = "".obs, checkLogId = "".obs;
-  bool locationLoaded = false;
   Position? latLon = null;
   final locationService = LocationServiceNew();
 
@@ -61,14 +57,13 @@ class ClockInController extends GetxController implements SelectItemListener {
     checkLogId.value = Get.find<AppStorage>().getCheckLogId();
     pwProjectId = Get.find<AppStorage>().getProjectId();
     shiftId = Get.find<AppStorage>().getShiftId();
-    getDashboardApi(true);
     appLifeCycle();
   }
 
   void appLifeCycle() {
     AppLifecycleListener(
       onResume: () async {
-        if (!locationLoaded) locationRequest();
+        if (!isLocationLoaded.value) locationRequest();
       },
     );
   }
@@ -361,14 +356,14 @@ class ClockInController extends GetxController implements SelectItemListener {
   }
 
   void showSelectShiftDialog() {
-    Get.bottomSheet(
-        SelectShiftDialog(
-          dialogType: AppConstants.dialogIdentifier.selectShift,
-          list: resourcesData.value.shifts ?? [],
-          listener: this,
-        ),
-        backgroundColor: Colors.transparent,
-        isScrollControlled: true);
+    // Get.bottomSheet(
+    //     SelectShiftDialog(
+    //       dialogType: AppConstants.dialogIdentifier.selectShift,
+    //       list: resourcesData.value.shifts ?? [],
+    //       listener: this,
+    //     ),
+    //     backgroundColor: Colors.transparent,
+    //     isScrollControlled: true);
   }
 
   showShiftSummeryDialog() {
@@ -397,8 +392,8 @@ class ClockInController extends GetxController implements SelectItemListener {
   }
 
   Future<void> locationRequest() async {
-    locationLoaded = await locationService.checkLocationService();
-    if (locationLoaded) {
+    bool isLocationLoaded = await locationService.checkLocationService();
+    if (isLocationLoaded) {
       fetchLocationAndAddress();
     }
   }
@@ -407,6 +402,7 @@ class ClockInController extends GetxController implements SelectItemListener {
     print("fetchLocationAndAddress");
     latLon = await LocationServiceNew.getCurrentLocation();
     if (latLon != null) {
+      isLocationLoaded.value = true;
       latitude = latLon!.latitude.toString();
       longitude = latLon!.longitude.toString();
       location = await LocationServiceNew.getAddressFromCoordinates(

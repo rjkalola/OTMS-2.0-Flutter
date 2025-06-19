@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:otm_inventory/pages/check_in/dialogs/select_shift_dialog.dart';
 import 'package:otm_inventory/pages/common/listener/select_item_listener.dart';
+import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/data_utils.dart';
@@ -15,7 +16,7 @@ class StartShiftMapController extends GetxController
   final RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
       isMainViewVisible = true.obs,
-      isLocationLoaded = false.obs;
+      isLocationLoaded = true.obs;
   late GoogleMapController mapController;
   final center = LatLng(23.0225, 72.5714).obs;
   Position? latLon = null;
@@ -46,9 +47,9 @@ class StartShiftMapController extends GetxController
   }
 
   Future<void> locationRequest() async {
-    isLocationLoaded.value = await locationService.checkLocationService();
-    print("locationLoaded:" + isLocationLoaded.value.toString());
-    if (isLocationLoaded.value) {
+    bool isLocationLoaded = await locationService.checkLocationService();
+    print("locationLoaded:" + isLocationLoaded.toString());
+    if (isLocationLoaded) {
       fetchLocationAndAddress();
     }
   }
@@ -57,6 +58,7 @@ class StartShiftMapController extends GetxController
     print("fetchLocationAndAddress");
     latLon = await LocationServiceNew.getCurrentLocation();
     if (latLon != null) {
+      isLocationLoaded.value = true;
       String latitude = latLon!.latitude.toString();
       String longitude = latLon!.longitude.toString();
       String location = await LocationServiceNew.getAddressFromCoordinates(
@@ -88,5 +90,9 @@ class StartShiftMapController extends GetxController
   }
 
   @override
-  void onSelectItem(int position, int id, String name, String action) {}
+  void onSelectItem(int position, int id, String name, String action) {
+    if (action == AppConstants.dialogIdentifier.selectShift) {
+      Get.toNamed(AppRoutes.clockInScreen);
+    }
+  }
 }

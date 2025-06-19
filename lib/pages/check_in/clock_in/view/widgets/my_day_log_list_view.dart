@@ -5,9 +5,11 @@ import 'package:otm_inventory/res/drawable.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
 import 'package:otm_inventory/widgets/custom_views/dotted_line_vertical_widget.dart';
+import 'package:otm_inventory/widgets/shapes/badge_count_widget.dart';
 import 'package:otm_inventory/widgets/shapes/circle_widget.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
 import 'package:get/get.dart';
+import 'package:otm_inventory/widgets/text/TextViewWithContainer.dart';
 
 class MyDayLogListView extends StatelessWidget {
   MyDayLogListView({super.key});
@@ -73,95 +75,120 @@ class MyDayLogListView extends StatelessWidget {
                     Visibility(
                       visible: position == 2,
                       child: ImageUtils.setSvgAssetsImage(
-                          path:Drawable.addCreateNewPlusIcon,
+                          path: Drawable.addCreateNewPlusIcon,
                           width: 22,
                           height: 22,
-                         color:  primaryTextColor),
+                          color: primaryTextColor),
                     )
                   ],
                 ),
                 position != 2
                     ? Expanded(
-                        child: Container(
-                          margin: EdgeInsets.only(left: 8, top: 7, bottom: 7),
-                          padding: EdgeInsets.only(right: 8),
-                          decoration: BoxDecoration(
-                            color: backgroundColor,
-                            boxShadow: [
-                              AppUtils.boxShadow(Colors.grey.shade300, 6)
-                            ],
-                            border: Border.all(
-                                width: 0.6,
-                                color: position == 1
-                                    ? Color(0xff2DC75C)
-                                    : Colors.grey.shade300),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: InkWell(
-                            onTap: () {
-                              controller.showShiftSummeryDialog();
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Flexible(
-                                  flex: 4,
-                                  fit: FlexFit.tight,
-                                  child: Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(8, 8, 8, 8),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        setProjectTextView(position == 1
-                                            ? "Haringey OT Haringey OT Haringey OT"
-                                            : "Haringey OT"),
-                                        SizedBox(
-                                          height: 6,
+                        child: Stack(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(
+                                  left: 8, top: 8, bottom: 10, right: 3),
+                              height: 76,
+                              decoration: itemDecoration(
+                                  position: position,
+                                  boxShadow: [
+                                    AppUtils.boxShadow(Colors.grey.shade300, 6)
+                                  ]),
+                              child: InkWell(
+                                onTap: () {
+                                  controller.showShiftSummeryDialog();
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Flexible(
+                                      flex: 4,
+                                      fit: FlexFit.tight,
+                                      child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            10, 8, 8, 8),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            // setProjectNameTextView(position == 1
+                                            //     ? "Haringey OT Haringey OT Haringey OT"
+                                            //     : "Haringey OT"),
+                                            // SizedBox(
+                                            //   height: 6,
+                                            // ),
+                                            setProjectNameTextView("Day work")
+                                          ],
                                         ),
-                                        setProjectTextView("Day work")
-                                      ],
+                                      ),
                                     ),
-                                  ),
+                                    Flexible(
+                                        flex: 3,
+                                        fit: FlexFit.tight,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            TextViewWithContainer(
+                                              padding: EdgeInsets.only(
+                                                  left: 12, right: 12),
+                                              borderRadius: 6,
+                                              text: "06:00",
+                                              fontSize: 17,
+                                              fontColor: position == 1
+                                                  ? Colors.white
+                                                  : primaryTextColor,
+                                              fontWeight: FontWeight.w500,
+                                              boxColor: position == 1
+                                                  ? Colors.green
+                                                  : Colors.transparent,
+                                            ),
+                                            SizedBox(
+                                              height: 2,
+                                            ),
+                                            PrimaryTextView(
+                                              text: "(12:00 - 13:00)",
+                                              fontSize: 13,
+                                              color: primaryTextColor,
+                                            )
+                                          ],
+                                        )),
+                                    Container(
+                                      height: double.infinity,
+                                      padding:
+                                          EdgeInsets.only(left: 8, right: 8),
+                                      decoration: itemDecoration(
+                                          position: position, borderRadius: 14),
+                                      child: Icon(
+                                        Icons.arrow_forward_ios_rounded,
+                                        size: 20,
+                                      ),
+                                    )
+                                  ],
                                 ),
-                                Container(
-                                  color: dividerColor,
-                                  width: 1,
-                                  height: 50,
-                                ),
-                                Flexible(
-                                    flex: 3,
-                                    fit: FlexFit.tight,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        PrimaryTextView(
-                                          text: "06:00",
-                                          fontSize: 22,
-                                          color: primaryTextColor,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                        PrimaryTextView(
-                                          text: "(12:00 - 13:00)",
-                                          fontSize: 13,
-                                          color: primaryTextColor,
-                                          fontWeight: FontWeight.w500,
-                                        )
-                                      ],
-                                    )),
-                                Icon(
-                                  Icons.arrow_forward_ios_rounded,
-                                  size: 20,
-                                  weight: 300,
-                                )
-                              ],
+                              ),
                             ),
-                          ),
+                            // Align(
+                            //   alignment: Alignment.topRight,
+                            //   child: CustomBadgeIcon(
+                            //     count: 55,
+                            //   ),
+                            // ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 30),
+                              child: Align(
+                                alignment: Alignment.topLeft,
+                                child: setItemTypeTextView(
+                                    text: 'shift'.tr, color: "#FF7F00"),
+                              ),
+                            )
+                          ],
                         ),
                       )
                     : Expanded(
@@ -180,16 +207,46 @@ class MyDayLogListView extends StatelessWidget {
     );
   }
 
-  Widget setProjectTextView(String? text) => Container(
+  Widget setProjectNameTextView(String? text) => Container(
         padding: EdgeInsets.fromLTRB(6, 3, 6, 3),
         decoration: BoxDecoration(
-            color: Color(0xffD5DDF2), borderRadius: BorderRadius.circular(4)),
+            color: Color(0xffACDBFE), borderRadius: BorderRadius.circular(4)),
         child: PrimaryTextView(
           text: text ?? "",
           fontSize: 14,
+          overflow: TextOverflow.ellipsis,
           color: primaryTextColor,
-          fontWeight: FontWeight.w500,
-          softWrap: true,
+          fontWeight: FontWeight.w400,
+          softWrap: false,
+          maxLine: 1,
         ),
       );
+
+  Widget setItemTypeTextView({required String text, required String color}) =>
+      Container(
+        padding: EdgeInsets.fromLTRB(9, 0, 9, 0),
+        decoration: BoxDecoration(
+            color: Color(AppUtils.haxColor(color)),
+            borderRadius: BorderRadius.circular(45)),
+        child: PrimaryTextView(
+          text: text ?? "",
+          fontSize: 12,
+          color: Colors.white,
+          fontWeight: FontWeight.w400,
+        ),
+      );
+
+  Decoration? itemDecoration(
+      {required int position,
+      double? borderRadius,
+      List<BoxShadow>? boxShadow}) {
+    return BoxDecoration(
+      color: backgroundColor,
+      boxShadow: boxShadow,
+      border: Border.all(
+          width: 0.9,
+          color: position == 1 ? Color(0xff2DC75C) : Colors.grey.shade300),
+      borderRadius: BorderRadius.circular(borderRadius ?? 15),
+    );
+  }
 }

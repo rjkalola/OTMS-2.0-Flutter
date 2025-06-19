@@ -9,8 +9,13 @@ import 'package:otm_inventory/res/drawable.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:otm_inventory/web_services/response/module_info.dart';
+import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:otm_inventory/widgets/other_widgets/right_arrow_widget.dart';
 import 'package:otm_inventory/widgets/search_text_field.dart';
+import 'package:otm_inventory/widgets/shapes/circle_widget.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
+import 'package:otm_inventory/widgets/text/TitleTextView.dart';
+import 'package:otm_inventory/widgets/textfield/search_text_field_dark.dart';
 
 class SelectShiftDialog extends StatefulWidget {
   final List<ModuleInfo> list;
@@ -55,19 +60,42 @@ class SelectShiftDialogState extends State<SelectShiftDialog> {
         ),
         child: Container(
           decoration: const BoxDecoration(
-              color: Colors.white,
+              color: dashBoardBgColor,
               borderRadius: BorderRadius.vertical(top: Radius.circular(10))),
           child: Column(mainAxisSize: MainAxisSize.min, children: [
-            DialogTitleView(
-              title: 'select_shift'.tr,
+            SizedBox(
+              height: 3,
+            ),
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                Align(
+                  alignment: Alignment.center,
+                  child: TitleTextView(
+                    text: 'select_shift'.tr,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                Align(
+                    alignment: Alignment.centerRight,
+                    child: IconButton(
+                      onPressed: () {
+                        Get.back();
+                      },
+                      icon: const Icon(Icons.close, size: 20),
+                    ))
+              ],
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+              padding: const EdgeInsets.fromLTRB(14, 6, 14, 10),
               child: SizedBox(
                 height: 44,
-                child: SearchTextField(
+                child: SearchTextFieldDark(
                   controller: searchController,
                   isClearVisible: isClearVisible,
+                  hint: 'Search shift...',
+                  label: 'Search shift...',
                   onValueChange: (value) {
                     filterSearchResults(value.toString(), list);
                     isClearVisible.value =
@@ -81,18 +109,10 @@ class SelectShiftDialogState extends State<SelectShiftDialog> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 16, top: 6),
-              child: SizedBox(
-                  width: double.infinity,
-                  child: PrimaryTextView(
-                    text: 'all_shifts'.tr,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: secondaryExtraLightTextColor,
-                  )),
+            Flexible(child: setDropdownList(dialogType, listener)),
+            SizedBox(
+              height: 18,
             ),
-            Flexible(child: setDropdownList(dialogType, listener))
           ]),
         ),
       );
@@ -107,10 +127,13 @@ class SelectShiftDialogState extends State<SelectShiftDialog> {
           scrollDirection: Axis.vertical,
           shrinkWrap: true,
           itemBuilder: (context, i) {
-            return Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(18, 6, 18, 6),
+            return CardViewDashboardItem(
+                elevation: 1,
+                shadowColor: Colors.black45,
+                borderRadius: 16,
+                margin: EdgeInsets.fromLTRB(11, 6, 11, 6),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
                   child: InkWell(
                     onTap: () {
                       Get.back();
@@ -119,31 +142,22 @@ class SelectShiftDialogState extends State<SelectShiftDialog> {
                     },
                     child: Row(
                       children: [
-                        ImageUtils.setSvgAssetsImage(
-                            path: Drawable.homeDrawerIcon,
-                            width: 24,
-                            height: 24,
-                            color: primaryTextColor),
+                        CircleWidget(
+                            color: defaultAccentColor, width: 20, height: 20),
                         SizedBox(
                           width: 12,
                         ),
-                        Text(
-                          tempList[i].name ?? "Shift 1",
-                          textAlign: TextAlign.start,
-                          style: const TextStyle(
-                              fontSize: 17,
-                              color: primaryTextColor,
-                              fontWeight: FontWeight.w500),
-                        )
+                        Expanded(
+                          child: TitleTextView(
+                            text: tempList[i].name ?? "Shift 1",
+                            fontSize: 17,
+                          ),
+                        ),
+                        RightArrowWidget()
                       ],
                     ),
                   ),
-                ),
-                Divider(
-                  color: dividerColor,
-                )
-              ],
-            );
+                ));
           },
         ),
       );

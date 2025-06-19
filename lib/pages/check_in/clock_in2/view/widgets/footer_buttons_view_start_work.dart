@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/timesheet_button.dart';
+import 'package:otm_inventory/pages/check_in/clock_in2/view/widgets/timesheet_button.dart';
 import 'package:otm_inventory/res/drawable.dart';
 
 class FooterButtonsViewStartWork extends StatelessWidget {

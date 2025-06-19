@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_controller.dart';
+import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/stop_shift_button.dart';
 import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/res/drawable.dart';
-import 'package:otm_inventory/utils/image_utils.dart';
-import 'package:otm_inventory/widgets/PrimaryButton.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
 
 class WorkTimeDetailsView extends StatelessWidget {
-  const WorkTimeDetailsView({super.key});
+  WorkTimeDetailsView({super.key});
+
+  final controller = Get.put(ClockInController());
 
   @override
   Widget build(BuildContext context) {
@@ -18,28 +18,28 @@ class WorkTimeDetailsView extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border.all(width: 1, color: dividerColor),
         borderRadius: BorderRadius.circular(16),
-        color: Color(0xff659DF2),
+        color: Color(0xffCE6700),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(
-            height: 12,
+            height: 14,
           ),
           PrimaryTextView(
             text: 'work_time_on'.tr,
-            fontSize: 16,
+            fontSize: 15,
             color: Colors.white,
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w400,
           ),
           PrimaryTextView(
             text: "06:00:00",
-            fontSize: 30,
+            fontSize: 26,
             color: Colors.white,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.bold,
           ),
-          Padding(
+          /* Padding(
             padding: const EdgeInsets.fromLTRB(20, 3, 20, 8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -65,43 +65,31 @@ class WorkTimeDetailsView extends StatelessWidget {
                 ),
               ],
             ),
-          ),
+          ),*/
           Container(
-            margin: EdgeInsets.all(4),
-            padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
+            margin: EdgeInsets.only(top: 15),
+            padding: EdgeInsets.fromLTRB(9, 5, 9, 5),
             width: double.infinity,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(6),
+              borderRadius: BorderRadius.circular(14),
               color: Color(0xff305BAB),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 PrimaryTextView(
-                  text: 'total_work_hour_today'.tr,
+                  text: 'total_work_hours_today'.tr,
                   fontSize: 15,
                   color: Colors.white,
-                  fontWeight: FontWeight.w500,
                 ),
                 PrimaryTextView(
                   text: "07:00:00",
                   fontSize: 15,
                   color: Colors.white,
-                  fontWeight: FontWeight.w500,
                 )
               ],
             ),
           ),
-          SizedBox(
-              width: double.infinity,
-              child: PrimaryButton(
-                buttonText: 'stop_work'.tr,
-                onPressed: () {},
-                color: Color(0xffFF6464),
-                fontWeight: FontWeight.w700,
-                fontSize: 16,
-                borderRadius: 12,
-              ))
         ],
       ),
     );

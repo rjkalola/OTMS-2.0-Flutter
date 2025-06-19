@@ -6,6 +6,7 @@ import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
 import 'package:otm_inventory/widgets/other_widgets/user_avtar_view.dart';
 import 'package:otm_inventory/widgets/shapes/badge_count_widget.dart';
+import 'package:otm_inventory/widgets/shapes/badge_count_with_child_widget.dart';
 import 'package:otm_inventory/widgets/shapes/circle_widget.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
 import 'package:get/get.dart';
@@ -53,7 +54,7 @@ class HeaderUserDetailsView extends StatelessWidget {
               ],
             ),
           ),
-          CustomBadgeIcon(
+          BudgeCountWithChild(
               child: ImageUtils.setSvgAssetsImage(
                   path: Drawable.bellIcon, width: 28, height: 28),
               count: 5)

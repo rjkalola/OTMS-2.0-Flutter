@@ -15,8 +15,9 @@ class StartShiftMapView extends StatelessWidget {
         onMapCreated: controller.onMapCreated,
         rotateGesturesEnabled: false,
         mapToolbarEnabled: false,
+        zoomControlsEnabled: false,
         myLocationEnabled: true,
-        myLocationButtonEnabled: true,
+        myLocationButtonEnabled: false,
         initialCameraPosition: CameraPosition(
           target: controller.center.value,
           zoom: 11.0,

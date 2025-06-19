@@ -11,7 +11,7 @@ class TitleText extends StatelessWidget {
   Widget build(BuildContext context) {
     return PrimaryTextView(
       text: title ?? "",
-      fontSize: 17,
+      fontSize: 22,
       color: primaryTextColor,
       fontWeight: FontWeight.w500,
     );

@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:otm_inventory/pages/authentication/login/controller/login_controller.dart';
 import 'package:otm_inventory/pages/profile/billing_info/controller/billing_info_controller.dart';
+import 'package:otm_inventory/pages/profile/billing_info/view/widgets/bank_details_view.dart';
+import 'package:otm_inventory/pages/profile/billing_info/view/widgets/billing_history_list.dart';
 import 'package:otm_inventory/pages/profile/billing_info/view/widgets/general_view.dart';
 import 'package:otm_inventory/pages/profile/billing_info/view/widgets/tax_info_view.dart';
 import 'package:otm_inventory/pages/profile/personal_info/view/widgets/personal_info_bank_account_number_textfield.dart';
@@ -48,6 +50,7 @@ class _BillingInfoScreenState extends State<BillingInfoScreen> {
             isCenterTitle: false,
             bgColor: dashBoardBgColor,
             isBack: true,
+
           ),
           backgroundColor: dashBoardBgColor,
           body: Obx(() {
@@ -64,7 +67,9 @@ class _BillingInfoScreenState extends State<BillingInfoScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         GeneralView(),
-                        TaxInfoView()
+                        TaxInfoView(),
+                        BankDetailsView(),
+                        BillingHistoryList()
                       ],
                     )),
             );

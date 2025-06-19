@@ -20,13 +20,13 @@ class BillingInfoController extends GetxController {
   final lastNameController = TextEditingController().obs;
   final middleNameController = TextEditingController().obs;
   final emailController = TextEditingController().obs;
-  final dobController = TextEditingController().obs;
   final postcodeController = TextEditingController().obs;
   final myAddressController = TextEditingController().obs;
   final phoneController = TextEditingController().obs;
-  final taxNameController = TextEditingController().obs;
-  final taxUTRController = TextEditingController().obs;
-  final taxNINController = TextEditingController().obs;
+
+  final nameOnUTRController = TextEditingController().obs;
+  final utrController = TextEditingController().obs;
+  final ninController = TextEditingController().obs;
   final nameOnAccountController = TextEditingController().obs;
   final bankNameController = TextEditingController().obs;
   final accountNumberController = TextEditingController().obs;
