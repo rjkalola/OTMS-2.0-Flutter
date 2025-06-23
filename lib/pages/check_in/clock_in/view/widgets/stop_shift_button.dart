@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_controller.dart';
 import 'package:otm_inventory/widgets/PrimaryButton.dart';
 
 class StopShiftButton extends StatelessWidget {
-  const StopShiftButton({super.key});
+  StopShiftButton({super.key});
+
+  final controller = Get.put(ClockInController());
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +15,9 @@ class StopShiftButton extends StatelessWidget {
         width: double.infinity,
         child: PrimaryButton(
           buttonText: 'stop_shift'.tr,
-          onPressed: () {},
+          onPressed: () {
+            controller.onClickStopShiftButton();
+          },
           color: Color(0xffFF6464),
           fontWeight: FontWeight.w500,
           fontSize: 16,

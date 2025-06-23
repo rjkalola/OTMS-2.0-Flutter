@@ -19,6 +19,7 @@ class TeamNameTextField extends StatelessWidget {
         textEditingController: controller.teamNameController.value,
         hintText: 'team_name'.tr,
         labelText: 'team_name'.tr,
+        isReadOnly: true,
         maxLength: 50,
         keyboardType: TextInputType.name,
         textInputAction: TextInputAction.next,

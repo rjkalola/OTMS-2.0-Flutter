@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,6 +8,8 @@ import 'package:otm_inventory/pages/common/listener/select_item_listener.dart';
 import 'package:otm_inventory/pages/common/model/dialog_title_view.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/res/drawable.dart';
+import 'package:otm_inventory/utils/app_utils.dart';
+import 'package:otm_inventory/utils/data_utils.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:otm_inventory/web_services/response/module_info.dart';
@@ -143,7 +147,7 @@ class SelectShiftDialogState extends State<SelectShiftDialog> {
                     child: Row(
                       children: [
                         CircleWidget(
-                            color: defaultAccentColor, width: 20, height: 20),
+                            color: getRandomColor(), width: 20, height: 20),
                         SizedBox(
                           width: 12,
                         ),
@@ -183,5 +187,13 @@ class SelectShiftDialogState extends State<SelectShiftDialog> {
         tempList.addAll(list);
       });
     }
+  }
+
+  Color getRandomColor() {
+    String color = "#CB4646DD";
+    final random = Random();
+    int randomNumber = random.nextInt(DataUtils.listColors.length - 1);
+    color = DataUtils.listColors[randomNumber];
+    return Color(AppUtils.haxColor(color));
   }
 }

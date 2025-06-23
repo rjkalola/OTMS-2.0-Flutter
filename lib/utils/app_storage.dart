@@ -236,6 +236,16 @@ class AppStorage extends GetxController {
     return value;
   }
 
+  void setWorkLogId(int value) {
+    storage.write(AppConstants.sharedPreferenceKey.workLogId, value);
+  }
+
+  int getWorkLogId() {
+    final value =
+        storage.read(AppConstants.sharedPreferenceKey.workLogId) ?? 0;
+    return value;
+  }
+
   void clearAllData() {
     AppConstants.isResourcesLoaded = false;
     ApiConstants.companyId = 0;
@@ -251,6 +261,7 @@ class AppStorage extends GetxController {
     removeData(AppConstants.sharedPreferenceKey.userPermissionData);
     removeData(AppConstants.sharedPreferenceKey.localSequenceChangeData);
     removeData(AppConstants.sharedPreferenceKey.isLocalSequenceChanged);
+    removeData(AppConstants.sharedPreferenceKey.workLogId);
   }
 
   void removeData(String key) {

@@ -99,7 +99,7 @@ class MyDayLogListView extends StatelessWidget {
                           ),
                           child: InkWell(
                             onTap: () {
-                              controller.showShiftSummeryDialog();
+                              // controller.showShiftSummeryDialog();
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,

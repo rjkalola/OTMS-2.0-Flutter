@@ -100,6 +100,13 @@ class DataUtils {
     'Profile',
   ];
 
+  static List<String> listColors = [
+    '#FF7F00',
+    '#007AFF',
+    '#7523D3',
+    '#CB4646DD',
+  ];
+
   static PermissionInfo getEditWidget() {
     return PermissionInfo(
         name: 'edit_widget'.tr,
@@ -315,7 +322,7 @@ class DataUtils {
     arrayItems.add(WeekDayInfo(name: "saturday", status: false));
     arrayItems.add(WeekDayInfo(name: "sunday", status: false));
 
-  /*  arrayItems.add(WeekDayInfo(name: "Monday", status: false));
+    /*  arrayItems.add(WeekDayInfo(name: "Monday", status: false));
     arrayItems.add(WeekDayInfo(name: "Tuesday", status: false));
     arrayItems.add(WeekDayInfo(name: "Wednesday", status: false));
     arrayItems.add(WeekDayInfo(name: "Thursday", status: false));

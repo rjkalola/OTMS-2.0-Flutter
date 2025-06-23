@@ -21,7 +21,7 @@ class StartWorkButton extends StatelessWidget {
             fontWeight: FontWeight.w500,
             fontSize: 16,
             onPressed: () {
-              controller.showSelectProjectDialog();
+              // controller.showSelectProjectDialog();
             }),
       ),
     );

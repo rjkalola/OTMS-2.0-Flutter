@@ -1,3 +1,5 @@
+import 'dart:io';
+
 class AppConstants {
   static const DialogIdentifier dialogIdentifier = DialogIdentifier();
   static const SharedPreferenceKey sharedPreferenceKey = SharedPreferenceKey();
@@ -10,7 +12,7 @@ class AppConstants {
   static const ShiftType shiftType = ShiftType();
   static const Results results = Results();
 
-  static const String deviceType = "1";
+  static String deviceType = Platform.isAndroid ? "1" : "2";
   static const int productListLimit = 20;
   static const int defaultPhoneExtensionId = 1;
   static const String defaultPhoneExtension = "+44";
@@ -105,6 +107,7 @@ class SharedPreferenceKey {
   final String localSequenceChangeData = "LOCAL_SEQUENCE_CHANGE_DATA";
   final String isWeeklySummeryCounter = "IS_WEEKLY_SUMMERY_COUNTER";
   final String weeklySummeryAmount = "WEEKLY_SUMMERY_AMOUNT";
+  final String workLogId = "WORK_LOG_ID";
   final String timeLogId = "TIME_LOG_ID";
   final String checkLogId = "CHECK_LOG_ID";
   final String projectId = "PROJECT_ID";

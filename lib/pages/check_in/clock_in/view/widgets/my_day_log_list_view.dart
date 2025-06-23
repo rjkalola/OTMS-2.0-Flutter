@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_controller.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/res/drawable.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
 import 'package:otm_inventory/widgets/custom_views/dotted_line_vertical_widget.dart';
-import 'package:otm_inventory/widgets/shapes/badge_count_widget.dart';
 import 'package:otm_inventory/widgets/shapes/circle_widget.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
-import 'package:get/get.dart';
 import 'package:otm_inventory/widgets/text/TextViewWithContainer.dart';
 
 class MyDayLogListView extends StatelessWidget {
@@ -97,7 +96,7 @@ class MyDayLogListView extends StatelessWidget {
                                   ]),
                               child: InkWell(
                                 onTap: () {
-                                  controller.showShiftSummeryDialog();
+                                  // controller.showShiftSummeryDialog();
                                 },
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,

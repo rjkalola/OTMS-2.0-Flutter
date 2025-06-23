@@ -112,6 +112,10 @@ class ApiConstants {
   static String updateBillingInfo = '$appUrl/user-billing/update-billing-info';
   static String getBillingInfo = '$appUrl/user-billing/get-billing-info';
 
+  //timesheet
+  static String userStartWork = '$appUrl/user-start-work';
+  static String userStopWork = '$appUrl/user-stop-work';
+
   static String registerResourcesUrl = '$appUrl/wn-resources';
   static String verifyPhoneUrl = '$appUrl/verify-phone';
 

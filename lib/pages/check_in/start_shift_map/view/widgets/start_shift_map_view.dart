@@ -11,10 +11,8 @@ class StartShiftMapView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => CustomMapView(
-          onMapCreated: controller.onMapCreated,
-          target: controller.center),
-    );
+    return CustomMapView(
+        onMapCreated: controller.onMapCreated,
+        target: controller.center);
   }
 }

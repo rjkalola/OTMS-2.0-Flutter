@@ -1,15 +1,14 @@
-import 'package:dio/dio.dart' as multi;
 import 'package:otm_inventory/web_services/api_constants.dart';
 import 'package:otm_inventory/web_services/network/api_request.dart';
 import 'package:otm_inventory/web_services/response/response_model.dart';
 
-class ClockInRepository {
-  void userStopWork({
+class StartShiftMapRepository {
+  void userStartWork({
     dynamic data,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
-    ApiRequest(url: ApiConstants.userStopWork, data: data, isFormData: false)
+    ApiRequest(url: ApiConstants.userStartWork, data: data, isFormData: false)
         .postRequest(
       onSuccess: (data) {
         onSuccess!(data);
