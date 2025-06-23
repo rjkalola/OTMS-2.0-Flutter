@@ -6,22 +6,28 @@ import 'package:otm_inventory/pages/profile/billing_info/controller/billing_info
 import 'package:otm_inventory/pages/profile/personal_info/controller/personal_info_controller.dart';
 import 'package:otm_inventory/widgets/textfield/text_field_underline_.dart';
 
-class UtrTextField extends StatelessWidget {
-  UtrTextField({super.key});
-  final controller = Get.put(BillingInfoController());
+class AccountNumberTextField extends StatelessWidget {
+  AccountNumberTextField(
+      {super.key,
+        required this.controller,
+        this.onValueChange,
+        this.isReadOnly});
+
+  final Rx<TextEditingController> controller;
+  final ValueChanged<String>? onValueChange;
+  final bool? isReadOnly;
 
   @override
   Widget build(BuildContext context) {
     return TextFieldUnderline(
         autovalidateMode: AutovalidateMode.onUserInteraction,
-        textEditingController: controller.utrController.value,
-        hintText: 'utr'.tr,
-        labelText: 'utr'.tr,
+        textEditingController: controller.value,
+        hintText: 'account_number'.tr,
+        labelText: 'account_number'.tr,
         keyboardType: TextInputType.name,
         textInputAction: TextInputAction.next,
-        onValueChange: (value) {
-          //controller.onValueChange();
-        },
+        isReadOnly: isReadOnly,
+        onValueChange: onValueChange,
         onPressed: () {},
         validator: MultiValidator([
           RequiredValidator(errorText: 'required_field'.tr),

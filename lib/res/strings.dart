@@ -261,8 +261,8 @@ class Strings extends Translations {
           'archived_shifts': "Archived Shifts",
           'billing_info': "Billing Info",
           'my_day_logs': "My Day Logs",
-          'name_on_utr': "Name on UTR"
-          // '': "",
+          'name_on_utr': "Name on UTR",
+          'my_shift': "My Shift",
           // '': "",
           // '': "",
           // '': "",

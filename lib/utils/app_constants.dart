@@ -59,6 +59,7 @@ class IntentKey {
   final String userName = "USER_NAME";
   final String userList = "USER_LIST";
   final String shiftInfo = "SHIFT_INFO";
+  final String billingInfo = "BILLING_INFO";
 }
 
 class DialogIdentifier {

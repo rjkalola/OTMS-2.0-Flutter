@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:otm_inventory/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/res/drawable.dart';
+import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
 import 'package:otm_inventory/widgets/other_widgets/user_avtar_view.dart';
@@ -25,9 +26,14 @@ class HeaderUserDetailsView extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(16, 14, 16, 14),
       child: Row(
         children: [
-          UserAvtarView(
-            imageUrl: controller.userInfo?.userThumbImage ?? "",
-            isOnlineStatusVisible: true,
+          GestureDetector(
+            onTap: (){
+              Get.toNamed(AppRoutes.billingDetailsScreen);
+            },
+            child: UserAvtarView(
+              imageUrl: controller.userInfo?.userThumbImage ?? "",
+              isOnlineStatusVisible: true,
+            ),
           ),
           SizedBox(
             width: 14,

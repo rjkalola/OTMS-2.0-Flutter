@@ -18,7 +18,7 @@ class WorkTimeDetailsView extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border.all(width: 1, color: dividerColor),
         borderRadius: BorderRadius.circular(16),
-        color: Color(0xffCE6700),
+        color: Color(0xff007AFF),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

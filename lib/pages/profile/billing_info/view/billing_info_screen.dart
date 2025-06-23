@@ -1,28 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:otm_inventory/pages/authentication/login/controller/login_controller.dart';
 import 'package:otm_inventory/pages/profile/billing_info/controller/billing_info_controller.dart';
 import 'package:otm_inventory/pages/profile/billing_info/view/widgets/bank_details_view.dart';
-import 'package:otm_inventory/pages/profile/billing_info/view/widgets/billing_history_list.dart';
 import 'package:otm_inventory/pages/profile/billing_info/view/widgets/general_view.dart';
 import 'package:otm_inventory/pages/profile/billing_info/view/widgets/tax_info_view.dart';
-import 'package:otm_inventory/pages/profile/personal_info/view/widgets/personal_info_bank_account_number_textfield.dart';
-import 'package:otm_inventory/pages/profile/personal_info/view/widgets/personal_info_bank_name_textfield.dart';
-import 'package:otm_inventory/pages/profile/personal_info/view/widgets/personal_info_bank_sortcode_textfield.dart';
-import 'package:otm_inventory/pages/profile/personal_info/view/widgets/personal_info_dob_textfield.dart';
-import 'package:otm_inventory/pages/profile/personal_info/view/widgets/personal_info_email_textfield.dart';
-import 'package:otm_inventory/pages/profile/personal_info/view/widgets/personal_info_first_last_name_textfield_widget.dart';
-import 'package:otm_inventory/pages/profile/personal_info/view/widgets/personal_info_middle_name_textfield_widget.dart';
-import 'package:otm_inventory/pages/profile/personal_info/view/widgets/personal_info_my_address_textfield.dart';
-import 'package:otm_inventory/pages/profile/personal_info/view/widgets/personal_info_name_on_bank_account_textfield.dart';
-import 'package:otm_inventory/pages/profile/personal_info/view/widgets/personal_info_phone_extension_textfield.dart';
-import 'package:otm_inventory/pages/profile/personal_info/view/widgets/personal_info_phone_textfield.dart';
-import 'package:otm_inventory/pages/profile/personal_info/view/widgets/personal_info_postcode_textfield.dart';
-import 'package:otm_inventory/pages/profile/personal_info/view/widgets/personal_info_screen_section_card.dart';
-import 'package:otm_inventory/pages/profile/personal_info/view/widgets/personal_info_tax_name_textfield.dart';
-import 'package:otm_inventory/pages/profile/personal_info/view/widgets/personal_info_tax_nin_textfield.dart';
-import 'package:otm_inventory/pages/profile/personal_info/view/widgets/personal_info_tax_utr_textfield.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/PrimaryButton.dart';
@@ -50,7 +32,7 @@ class _BillingInfoScreenState extends State<BillingInfoScreen> {
             isCenterTitle: false,
             bgColor: dashBoardBgColor,
             isBack: true,
-
+            widgets: actionButtons(),
           ),
           backgroundColor: dashBoardBgColor,
           body: Obx(() {
@@ -63,19 +45,31 @@ class _BillingInfoScreenState extends State<BillingInfoScreen> {
                       child: Text("No Internet"),
                     )
                   : SingleChildScrollView(
-                      child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        GeneralView(),
-                        TaxInfoView(),
-                        BankDetailsView(),
-                        BillingHistoryList()
-                      ],
-                    )),
+                      child: Form(
+                          key: controller.formKey,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              GeneralView(),
+                              TaxInfoView(),
+                              BankDetailsView(),
+                            ],
+                          ))),
             );
           }),
         ),
       ),
     );
+  }
+
+  List<Widget>? actionButtons() {
+    return [
+      PrimaryButton(
+          buttonText: 'save'.tr,
+          onPressed: () {
+            print("button click");
+            controller.onSubmit();
+          })
+    ];
   }
 }

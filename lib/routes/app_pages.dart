@@ -12,6 +12,7 @@ import 'package:otm_inventory/pages/check_in/clock_in/view/clock_in_screen.dart'
 import 'package:otm_inventory/pages/check_in/select_address/view/select_address_screen.dart';
 import 'package:otm_inventory/pages/check_in/select_before_after_photos/view/select_before_after_photos_screen.dart';
 import 'package:otm_inventory/pages/check_in/start_shift_map/view/start_shift_map_screen.dart';
+import 'package:otm_inventory/pages/check_in/stop_shift/view/stop_shift_screen.dart';
 import 'package:otm_inventory/pages/dashboard/tabs/adjust_widgets/view/adjust_widgets_screen.dart';
 import 'package:otm_inventory/pages/dashboard/view/dashboard_screen.dart';
 import 'package:otm_inventory/pages/company/company_details/view/company_details_screen.dart';
@@ -23,6 +24,7 @@ import 'package:otm_inventory/pages/permissions/permission_users/view/permission
 import 'package:otm_inventory/pages/permissions/search_user/view/search_user_screen.dart';
 import 'package:otm_inventory/pages/permissions/user_permissions/view/user_permission_screen.dart';
 import 'package:otm_inventory/pages/permissions/widgets/view/widgets_screen.dart';
+import 'package:otm_inventory/pages/profile/billing_details/view/billing_details_screen.dart';
 import 'package:otm_inventory/pages/profile/billing_info/view/billing_info_screen.dart';
 import 'package:otm_inventory/pages/qr_code_scanner/view/qr_code_scanner.dart';
 import 'package:otm_inventory/pages/settings/view/settings_screen.dart';
@@ -207,7 +209,10 @@ class AppPages {
         page: () => ArchiveShiftListScreen()),
     GetPage(
         name: AppRoutes.startShiftMapScreen, page: () => StartShiftMapScreen()),
+    GetPage(name: AppRoutes.billingInfoScreen, page: () => BillingInfoScreen()),
     GetPage(
-        name: AppRoutes.billingInfoScreen, page: () => BillingInfoScreen()),
+        name: AppRoutes.billingDetailsScreen, page: () => BillingDetailsScreen()
+    ),
+    GetPage(name: AppRoutes.stopShiftScreen, page: () => StopShiftScreen()),
   ];
 }

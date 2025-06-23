@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/profile/billing_info/view/widgets/account_number_text_field.dart';
-import 'package:otm_inventory/pages/profile/billing_info/view/widgets/bank_name_text_field.dart';
-import 'package:otm_inventory/pages/profile/billing_info/view/widgets/name_on_account_text_field.dart';
-import 'package:otm_inventory/pages/profile/billing_info/view/widgets/name_on_utr_text_field.dart';
-import 'package:otm_inventory/pages/profile/billing_info/view/widgets/sort_code_text_field.dart';
+import 'package:otm_inventory/pages/profile/billing_info/controller/billing_info_controller.dart';
+import 'package:otm_inventory/pages/profile/widgets/account_number_text_field.dart';
+import 'package:otm_inventory/pages/profile/widgets/bank_name_text_field.dart';
+import 'package:otm_inventory/pages/profile/widgets/name_on_account_text_field.dart';
+import 'package:otm_inventory/pages/profile/widgets/name_on_utr_text_field.dart';
+import 'package:otm_inventory/pages/profile/widgets/sort_code_text_field.dart';
 import 'package:otm_inventory/pages/profile/billing_info/view/widgets/title_text.dart';
 import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:otm_inventory/widgets/text/TitleTextView.dart';
 
 class BankDetailsView extends StatelessWidget {
-  const BankDetailsView({super.key});
+   BankDetailsView({super.key});
+
+  final controller = Get.put(BillingInfoController());
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +29,18 @@ class BankDetailsView extends StatelessWidget {
             TitleText(
               title: 'bank_details'.tr,
             ),
-            NameOnAccountTextField(),
-            BankNameTextField(),
-            AccountNumberTextField(),
-            SortCodeTextField(),
+            NameOnAccountTextField(
+              controller: controller.nameOnAccountController,
+            ),
+            BankNameTextField(
+              controller: controller.bankNameController,
+            ),
+            AccountNumberTextField(
+              controller: controller.accountNumberController,
+            ),
+            SortCodeTextField(
+              controller: controller.sortCodeController,
+            ),
           ],
         ),
       )),

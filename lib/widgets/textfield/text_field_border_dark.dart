@@ -1,4 +1,4 @@
- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
@@ -28,7 +28,8 @@ class TextFieldBorderDark extends StatelessWidget {
       this.autovalidateMode,
       this.focusNode,
       this.onFieldSubmitted,
-      this.errorMaxLines});
+      this.errorMaxLines,
+      this.borderRadius});
 
   final TextEditingController? textEditingController;
   final String? hintText, labelText;
@@ -49,6 +50,7 @@ class TextFieldBorderDark extends StatelessWidget {
   final FocusNode? focusNode;
   final ValueChanged<String>? onFieldSubmitted;
   final int? errorMaxLines;
+  final double? borderRadius;
 
   @override
   Widget build(BuildContext context) {
@@ -78,16 +80,19 @@ class TextFieldBorderDark extends StatelessWidget {
         contentPadding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
         floatingLabelBehavior: FloatingLabelBehavior.auto,
         border: OutlineInputBorder(
-          borderSide: BorderSide(color: normalTextFieldBorderDarkColor, width: 1),
-          borderRadius: BorderRadius.circular(45.0),
+          borderSide:
+              BorderSide(color: normalTextFieldBorderDarkColor, width: 1),
+          borderRadius: BorderRadius.circular(borderRadius ?? 45.0),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: focusedTextFieldBorderDarkColor, width: 1.6),
-          borderRadius: BorderRadius.circular(45.0),
+          borderSide:
+              BorderSide(color: focusedTextFieldBorderDarkColor, width: 1.6),
+          borderRadius: BorderRadius.circular(borderRadius ?? 45.0),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: normalTextFieldBorderDarkColor, width: 1),
-          borderRadius: BorderRadius.circular(45.0),
+          borderSide:
+              BorderSide(color: normalTextFieldBorderDarkColor, width: 1),
+          borderRadius: BorderRadius.circular(borderRadius ?? 45.0),
         ),
         hintText: hintText,
         labelText: labelText,

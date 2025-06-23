@@ -2,22 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/profile/billing_info/controller/billing_info_controller.dart';
-import 'package:otm_inventory/pages/profile/personal_info/controller/personal_info_controller.dart';
+import 'package:otm_inventory/pages/profile/billing_details/controller/billing_details_controller.dart';
 import 'package:otm_inventory/widgets/textfield/text_field_underline_.dart';
 
-class SortCodeTextField extends StatelessWidget {
-  SortCodeTextField({super.key});
+class LastNameTextField extends StatelessWidget {
+  LastNameTextField({super.key});
 
-  final controller = Get.put(BillingInfoController());
+  final controller = Get.put(BillingDetailsController());
 
   @override
   Widget build(BuildContext context) {
     return TextFieldUnderline(
         autovalidateMode: AutovalidateMode.onUserInteraction,
-        textEditingController: controller.sortCodeController.value,
-        hintText: 'sort_code'.tr,
-        labelText: 'sort_code'.tr,
+        textEditingController: controller.lastNameController.value,
+        hintText: 'last_name'.tr,
+        labelText: 'last_name'.tr,
         keyboardType: TextInputType.name,
         textInputAction: TextInputAction.next,
         onValueChange: (value) {
