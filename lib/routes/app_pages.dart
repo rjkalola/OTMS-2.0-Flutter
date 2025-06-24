@@ -11,6 +11,7 @@ import 'package:otm_inventory/pages/authentication/splash/splash_screen.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/view/clock_in_screen.dart';
 import 'package:otm_inventory/pages/check_in/select_address/view/select_address_screen.dart';
 import 'package:otm_inventory/pages/check_in/select_before_after_photos/view/select_before_after_photos_screen.dart';
+import 'package:otm_inventory/pages/check_in/select_shift/view/select_shift_screen.dart';
 import 'package:otm_inventory/pages/check_in/start_shift_map/view/start_shift_map_screen.dart';
 import 'package:otm_inventory/pages/check_in/stop_shift/view/stop_shift_screen.dart';
 import 'package:otm_inventory/pages/dashboard/tabs/adjust_widgets/view/adjust_widgets_screen.dart';
@@ -214,5 +215,6 @@ class AppPages {
         name: AppRoutes.billingDetailsScreen, page: () => BillingDetailsScreen()
     ),
     GetPage(name: AppRoutes.stopShiftScreen, page: () => StopShiftScreen()),
+    GetPage(name: AppRoutes.selectShiftScreen, page: () => SelectShiftScreen()),
   ];
 }
