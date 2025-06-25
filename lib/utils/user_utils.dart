@@ -59,8 +59,4 @@ class UserUtils {
     return listIds.isNotEmpty ? listIds.join(',') : "";
   }
 
-  static bool isWorking() {
-    int workLogId = Get.find<AppStorage>().getWorkLogId();
-    return workLogId != 0;
-  }
 }

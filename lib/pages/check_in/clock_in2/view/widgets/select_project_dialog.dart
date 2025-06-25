@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/model/resources_project_info.dart';
+import 'package:otm_inventory/pages/check_in/clock_in2/model/resources_project_info.dart';
 import 'package:otm_inventory/pages/common/listener/select_item_listener.dart';
 import 'package:otm_inventory/pages/common/model/dialog_title_view.dart';
 import 'package:otm_inventory/res/colors.dart';

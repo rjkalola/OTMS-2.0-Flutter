@@ -264,7 +264,7 @@ class Strings extends Translations {
           'name_on_utr': "Name on UTR",
           'my_shift': "My Shift",
           'cancel': "Cancel",
-          // '': "",
+          'timesheets': "Timesheets",
           // '': "",
           // '': "",
           // '': "",

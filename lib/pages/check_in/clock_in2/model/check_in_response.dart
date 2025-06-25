@@ -1,4 +1,4 @@
-import 'package:otm_inventory/pages/check_in/clock_in/model/shift_location_details.dart';
+import 'package:otm_inventory/pages/check_in/clock_in2/model/shift_location_details.dart';
 
 class CheckInResponse {
   bool? isSuccess;

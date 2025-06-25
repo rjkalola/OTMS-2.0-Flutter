@@ -1,6 +1,6 @@
-import 'package:otm_inventory/pages/check_in/clock_in/model/resources_project_address_info.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/model/resources_project_info.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/model/resources_shift_info.dart';
+import 'package:otm_inventory/pages/check_in/clock_in2/model/resources_project_address_info.dart';
+import 'package:otm_inventory/pages/check_in/clock_in2/model/resources_project_info.dart';
+import 'package:otm_inventory/pages/check_in/clock_in2/model/resources_shift_info.dart';
 
 class NewTimeSheetResourcesResponse {
   bool? isSuccess;

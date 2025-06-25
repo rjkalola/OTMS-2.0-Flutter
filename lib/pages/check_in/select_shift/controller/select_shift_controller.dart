@@ -6,13 +6,10 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:otm_inventory/pages/check_in/select_shift/controller/select_shift_repository.dart';
 import 'package:otm_inventory/pages/check_in/select_shift/model/start_work_response.dart';
-import 'package:otm_inventory/pages/check_in/stop_shift/controller/stop_shift_repository.dart';
-import 'package:otm_inventory/pages/shifts/create_shift/model/shift_info.dart';
 import 'package:otm_inventory/pages/shifts/shift_list/controller/shift_list_repository.dart';
 import 'package:otm_inventory/pages/shifts/shift_list/model/shift_list_response.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
-import 'package:otm_inventory/utils/app_storage.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/location_service_new.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
@@ -36,6 +33,7 @@ class SelectShiftController extends GetxController {
   final searchController = TextEditingController().obs;
   final shiftList = <ModuleInfo>[].obs;
   List<ModuleInfo> tempList = [];
+  bool fromStartShiftScreen = false;
 
   void onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -46,8 +44,8 @@ class SelectShiftController extends GetxController {
     super.onInit();
     var arguments = Get.arguments;
     if (arguments != null) {
-      // fromSignUp.value =
-      //     arguments[AppConstants.intentKey.fromSignUpScreen] ?? "";
+      fromStartShiftScreen =
+          arguments[AppConstants.intentKey.fromStartShiftScreen] ?? "";
     }
     locationRequest();
     appLifeCycle();
@@ -104,8 +102,11 @@ class SelectShiftController extends GetxController {
         if (responseModel.isSuccess) {
           StartWorkResponse response =
               StartWorkResponse.fromJson(jsonDecode(responseModel.result!));
-          Get.find<AppStorage>().setWorkLogId(response.userWorklogId ?? 0);
-          Get.offNamed(AppRoutes.clockInScreen);
+          if (fromStartShiftScreen) {
+            Get.offNamed(AppRoutes.clockInScreen);
+          } else {
+            Get.back(result: true);
+          }
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }

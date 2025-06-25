@@ -1,4 +1,4 @@
-import 'package:otm_inventory/pages/check_in/clock_in/model/resources_project_attachment_info.dart';
+import 'package:otm_inventory/pages/check_in/clock_in2/model/resources_project_attachment_info.dart';
 
 class ResourcesProjectInfo {
   int? id;

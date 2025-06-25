@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:otm_inventory/pages/common/model/user_info.dart';
 import 'package:otm_inventory/pages/users/user_list/controller/user_list_controller.dart';
 import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/utils/image_utils.dart';
 import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:otm_inventory/widgets/other_widgets/user_avtar_view.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';

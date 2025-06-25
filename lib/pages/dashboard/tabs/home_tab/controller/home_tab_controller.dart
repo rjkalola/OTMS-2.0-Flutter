@@ -3,6 +3,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_repository.dart';
+import 'package:otm_inventory/pages/check_in/clock_in/model/work_log_list_response.dart';
 import 'package:otm_inventory/pages/common/listener/select_item_listener.dart';
 import 'package:otm_inventory/pages/common/model/user_info.dart';
 import 'package:otm_inventory/pages/dashboard/controller/dashboard_controller.dart';
@@ -240,6 +242,38 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
     );
   }
 
+  Future<void> getUserWorkLogListApi() async {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["date"] = "";
+    map["shift_id"] = 0;
+    ClockInRepository().getUserWorkLogList(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          WorkLogListResponse response =
+              WorkLogListResponse.fromJson(jsonDecode(responseModel.result!));
+          if (response.workLogInfo!.isNotEmpty) {
+            moveToScreen(appRout: AppRoutes.clockInScreen);
+          } else {
+            moveToScreen(appRout: AppRoutes.startShiftMapScreen);
+          }
+        } else {
+          moveToScreen(appRout: AppRoutes.startShiftMapScreen);
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showApiResponseMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
+
   Future<void> onReorderPermission(int oldIndex, int newIndex) async {
     final list = listPermissions;
     final movedItem = list.removeAt(oldIndex);
@@ -352,11 +386,12 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       Get.toNamed(AppRoutes.userListScreen);
       // Get.toNamed(AppRoutes.createTeamScreen);
     } else if (info.slug == 'shift') {
-      if (UserUtils.isWorking()) {
+      getUserWorkLogListApi();
+      /* if (UserUtils.isWorking()) {
         Get.toNamed(AppRoutes.clockInScreen);
       } else {
         Get.toNamed(AppRoutes.startShiftMapScreen);
-      }
+      }*/
     } else if (info.slug == 'settings') {
       moveToScreen(appRout: AppRoutes.settingsScreen);
     }

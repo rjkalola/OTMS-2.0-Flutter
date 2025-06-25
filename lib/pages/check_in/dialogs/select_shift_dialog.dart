@@ -1,23 +1,16 @@
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/model/resources_shift_info.dart';
 import 'package:otm_inventory/pages/common/listener/select_item_listener.dart';
-import 'package:otm_inventory/pages/common/model/dialog_title_view.dart';
 import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/res/drawable.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/data_utils.dart';
-import 'package:otm_inventory/utils/image_utils.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:otm_inventory/web_services/response/module_info.dart';
 import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:otm_inventory/widgets/other_widgets/right_arrow_widget.dart';
-import 'package:otm_inventory/widgets/search_text_field.dart';
 import 'package:otm_inventory/widgets/shapes/circle_widget.dart';
-import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
 import 'package:otm_inventory/widgets/text/TitleTextView.dart';
 import 'package:otm_inventory/widgets/textfield/search_text_field_dark.dart';
 

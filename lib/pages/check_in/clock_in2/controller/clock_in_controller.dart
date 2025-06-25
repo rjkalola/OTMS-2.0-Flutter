@@ -437,9 +437,9 @@ class ClockInController extends GetxController implements SelectItemListener {
     var arguments = {
       AppConstants.intentKey.addressList: resourcesData.value.projectAddresses,
     };
-    result =
-        await Get.toNamed(AppRoutes.selectAddressScreen, arguments: arguments);
+    // result =
+    //     await Get.toNamed(AppRoutes.selectAddressScreen, arguments: arguments);
 
-    if (result != null) {}
+    // if (result != null) {}
   }
 }

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_controller.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/stop_shift_button.dart';
 import 'package:otm_inventory/res/colors.dart';
+import 'package:otm_inventory/utils/date_utils.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
 
 class WorkTimeDetailsView extends StatelessWidget {
@@ -83,7 +84,8 @@ class WorkTimeDetailsView extends StatelessWidget {
                   color: Colors.white,
                 ),
                 PrimaryTextView(
-                  text: "07:00:00",
+                  text: DateUtil.seconds_To_HH_MM_SS(
+                      controller.workLogData.value.totalWorkingHours ?? 0),
                   fontSize: 15,
                   color: Colors.white,
                 )

@@ -97,7 +97,6 @@ class StartShiftMapController extends GetxController
         if (responseModel.isSuccess) {
           StartWorkResponse response =
               StartWorkResponse.fromJson(jsonDecode(responseModel.result!));
-          Get.find<AppStorage>().setWorkLogId(response.userWorklogId ?? 0);
           Get.offNamed(AppRoutes.clockInScreen);
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");

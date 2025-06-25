@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:otm_inventory/pages/check_in/start_shift_map/controller/start_shift_map_controller.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
+import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/widgets/PrimaryButton.dart';
 import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:otm_inventory/widgets/shapes/CustomCupertinoSpinner.dart';
@@ -27,7 +28,11 @@ class StartShiftButton extends StatelessWidget {
                     color: Colors.green,
                     borderRadius: 16,
                     onPressed: () {
-                      Get.toNamed(AppRoutes.selectShiftScreen);
+                      var arguments = {
+                        AppConstants.intentKey.fromStartShiftScreen: true,
+                      };
+                      Get.offNamed(AppRoutes.selectShiftScreen,
+                          arguments: arguments);
                       // controller.showSelectShiftDialog();
                     }),
               )

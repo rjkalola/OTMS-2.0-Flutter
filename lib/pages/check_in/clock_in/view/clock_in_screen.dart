@@ -6,6 +6,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_controller.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/my_day_log_list_view.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/my_day_logs_title.dart';
+import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/start_shift_button.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/stop_shift_button.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/work_time_details_view.dart';
 import 'package:otm_inventory/res/colors.dart';
@@ -57,7 +58,10 @@ class _ClockInScreenState extends State<ClockInScreen> {
                               child: Column(
                                 children: [
                                   WorkTimeDetailsView(),
-                                  StopShiftButton(),
+                                  (controller.workLogData.value.userIsWorking ??
+                                          false)
+                                      ? StopShiftButton()
+                                      : StartShiftButton(),
                                   MyDayLogsTitle(),
                                   MyDayLogListView(),
                                   // CheckInAddressesListView()

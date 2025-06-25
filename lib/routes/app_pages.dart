@@ -9,20 +9,20 @@ import 'package:otm_inventory/pages/authentication/signup1/view/signup1_screen.d
 import 'package:otm_inventory/pages/authentication/signup2/view/signup2_screen.dart';
 import 'package:otm_inventory/pages/authentication/splash/splash_screen.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/view/clock_in_screen.dart';
-import 'package:otm_inventory/pages/check_in/select_address/view/select_address_screen.dart';
 import 'package:otm_inventory/pages/check_in/select_before_after_photos/view/select_before_after_photos_screen.dart';
 import 'package:otm_inventory/pages/check_in/select_shift/view/select_shift_screen.dart';
 import 'package:otm_inventory/pages/check_in/start_shift_map/view/start_shift_map_screen.dart';
 import 'package:otm_inventory/pages/check_in/stop_shift/view/stop_shift_screen.dart';
-import 'package:otm_inventory/pages/dashboard/tabs/adjust_widgets/view/adjust_widgets_screen.dart';
-import 'package:otm_inventory/pages/dashboard/view/dashboard_screen.dart';
 import 'package:otm_inventory/pages/company/company_details/view/company_details_screen.dart';
 import 'package:otm_inventory/pages/company/company_signup/view/company_signup_screen.dart';
 import 'package:otm_inventory/pages/company/joincompany/view/join_comapny_screen.dart';
 import 'package:otm_inventory/pages/company/selectcompanytrade/view/select_company_trade_screen.dart';
+import 'package:otm_inventory/pages/dashboard/tabs/adjust_widgets/view/adjust_widgets_screen.dart';
+import 'package:otm_inventory/pages/dashboard/view/dashboard_screen.dart';
 import 'package:otm_inventory/pages/permissions/company_permissions/view/company_permission_screen.dart';
 import 'package:otm_inventory/pages/permissions/permission_users/view/permission_users_screen.dart';
 import 'package:otm_inventory/pages/permissions/search_user/view/search_user_screen.dart';
+import 'package:otm_inventory/pages/permissions/user_list/view/select_user_list_for_permission_screen.dart';
 import 'package:otm_inventory/pages/permissions/user_permissions/view/user_permission_screen.dart';
 import 'package:otm_inventory/pages/permissions/widgets/view/widgets_screen.dart';
 import 'package:otm_inventory/pages/profile/billing_details/view/billing_details_screen.dart';
@@ -30,7 +30,6 @@ import 'package:otm_inventory/pages/profile/billing_info/view/billing_info_scree
 import 'package:otm_inventory/pages/qr_code_scanner/view/qr_code_scanner.dart';
 import 'package:otm_inventory/pages/settings/view/settings_screen.dart';
 import 'package:otm_inventory/pages/shifts/archive_shift_list/view/archive_shift_list_screen.dart';
-import 'package:otm_inventory/pages/shifts/archive_shift_list/view/widgets/archive_shifts_list.dart';
 import 'package:otm_inventory/pages/shifts/create_shift/view/create_shift_screen.dart';
 import 'package:otm_inventory/pages/shifts/shift_list/view/shift_list_screen.dart';
 import 'package:otm_inventory/pages/teams/archive_team_list/view/archive_team_list_screen.dart';
@@ -41,9 +40,10 @@ import 'package:otm_inventory/pages/teams/sub_contractor_details/view/sub_contra
 import 'package:otm_inventory/pages/teams/team_details/view/team_details_screen.dart';
 import 'package:otm_inventory/pages/teams/team_generate_otp/view/team_generate_otp_screen.dart';
 import 'package:otm_inventory/pages/teams/team_list/view/team_list_screen.dart';
-import 'package:otm_inventory/pages/permissions/user_list/view/select_user_list_for_permission_screen.dart';
+import 'package:otm_inventory/pages/timesheet/timesheet_list/view/widgets/timesheet_list.dart';
 import 'package:otm_inventory/pages/trades/view/company_trades_screen.dart';
 import 'package:otm_inventory/pages/users/user_list/view/user_list_screen.dart';
+
 import '../pages/stock_filter/view/stock_filter_screen.dart';
 import 'app_routes.dart';
 
@@ -100,10 +100,6 @@ class AppPages {
     GetPage(
       name: AppRoutes.clockInScreen,
       page: () => ClockInScreen(),
-    ),
-    GetPage(
-      name: AppRoutes.selectAddressScreen,
-      page: () => SelectAddressScreen(),
     ),
     GetPage(
       name: AppRoutes.selectBeforeAfterPhotosScreen,
@@ -212,9 +208,10 @@ class AppPages {
         name: AppRoutes.startShiftMapScreen, page: () => StartShiftMapScreen()),
     GetPage(name: AppRoutes.billingInfoScreen, page: () => BillingInfoScreen()),
     GetPage(
-        name: AppRoutes.billingDetailsScreen, page: () => BillingDetailsScreen()
-    ),
+        name: AppRoutes.billingDetailsScreen,
+        page: () => BillingDetailsScreen()),
     GetPage(name: AppRoutes.stopShiftScreen, page: () => StopShiftScreen()),
     GetPage(name: AppRoutes.selectShiftScreen, page: () => SelectShiftScreen()),
+    GetPage(name: AppRoutes.timeSheetListScreen, page: () => TimeSheetList()),
   ];
 }

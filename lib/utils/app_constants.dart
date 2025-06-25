@@ -62,6 +62,8 @@ class IntentKey {
   final String userList = "USER_LIST";
   final String shiftInfo = "SHIFT_INFO";
   final String billingInfo = "BILLING_INFO";
+  final String fromStartShiftScreen = 'FROM_START_SHIFT_SCREEN';
+  final String workLogInfo = "WORK_LOG_INFO";
 }
 
 class DialogIdentifier {
@@ -107,7 +109,6 @@ class SharedPreferenceKey {
   final String localSequenceChangeData = "LOCAL_SEQUENCE_CHANGE_DATA";
   final String isWeeklySummeryCounter = "IS_WEEKLY_SUMMERY_COUNTER";
   final String weeklySummeryAmount = "WEEKLY_SUMMERY_AMOUNT";
-  final String workLogId = "WORK_LOG_ID";
   final String timeLogId = "TIME_LOG_ID";
   final String checkLogId = "CHECK_LOG_ID";
   final String projectId = "PROJECT_ID";
