@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:otm_inventory/pages/check_in/stop_shift/controller/stop_shift_controller.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/res/drawable.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
@@ -16,6 +18,8 @@ class StartShiftBox extends StatelessWidget {
   final String title;
   final String time;
   final String address;
+
+  final controller = Get.put(StopShiftController());
 
   @override
   Widget build(BuildContext context) {
@@ -59,41 +63,13 @@ class StartShiftBox extends StatelessWidget {
                 SizedBox(
                   width: 10,
                 ),
-                ImageUtils.setSvgAssetsImage(
-                    path: Drawable.editPencilIcon, width: 13, height: 13)
+                Visibility(
+                    visible: !controller.isWorking.value,
+                    child: ImageUtils.setSvgAssetsImage(
+                        path: Drawable.editPencilIcon, width: 13, height: 13))
               ],
             ),
           ),
-          /*Container(
-              width: double.infinity,
-              padding:
-                  const EdgeInsets.only(top: 6, bottom: 6, left: 8, right: 8),
-              decoration: AppUtils.getGrayBorderDecoration(
-                  color: backgroundColor,
-                  borderColor: Colors.grey.shade300,
-                  radius: 9),
-              child: Row(
-                children: [
-                  ImageUtils.setSvgAssetsImage(
-                      path: Drawable.locationMapNavigationPointer,
-                      width: 18,
-                      height: 18),
-                  SizedBox(
-                    width: 6,
-                  ),
-                  Flexible(
-                    child: PrimaryTextView(
-                      textAlign: TextAlign.start,
-                      text: address,
-                      color: primaryTextColor,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                      softWrap: true,
-                    ),
-                  )
-                ],
-              ),
-            ),*/
         ],
       )),
     );

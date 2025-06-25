@@ -16,7 +16,8 @@ class StopShiftButton extends StatelessWidget {
         child: PrimaryButton(
           buttonText: 'stop_shift'.tr,
           onPressed: () {
-            controller.onClickStopShiftButton();
+            controller.onClickWorkLogItem(controller.selectedWorkLogInfo!);
+            // controller.onClickStopShiftButton();
           },
           color: Color(0xffFF6464),
           fontWeight: FontWeight.w500,

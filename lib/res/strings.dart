@@ -265,7 +265,7 @@ class Strings extends Translations {
           'my_shift': "My Shift",
           'cancel': "Cancel",
           'timesheets': "Timesheets",
-          // '': "",
+          'edit_my_shift': "Edit My Shift",
           // '': "",
           // '': "",
           // '': "",
