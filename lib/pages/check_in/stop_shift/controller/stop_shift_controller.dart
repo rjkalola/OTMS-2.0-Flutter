@@ -8,6 +8,7 @@ import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_reposi
 import 'package:otm_inventory/pages/check_in/clock_in/model/work_log_info.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/model/work_log_list_response.dart';
 import 'package:otm_inventory/pages/check_in/stop_shift/controller/stop_shift_repository.dart';
+import 'package:otm_inventory/pages/common/listener/select_time_listener.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/date_utils.dart';
 import 'package:otm_inventory/utils/location_service_new.dart';
@@ -18,14 +19,15 @@ import 'package:otm_inventory/web_services/response/response_model.dart';
 
 import '../../../../utils/app_constants.dart';
 
-class StopShiftController extends GetxController {
+class StopShiftController extends GetxController implements SelectTimeListener {
   final RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
       isLocationLoaded = true.obs,
-      isDataUpdated = true.obs,
+      isDataUpdated = false.obs,
       isWorking = false.obs,
       isEdited = false.obs;
   final RxString startTime = "".obs, stopTime = "".obs;
+  final RxInt initialTotalWorkTime = 0.obs, updatedTotalWorkingTime = 0.obs;
   final _api = StopShiftRepository();
   final noteController = TextEditingController().obs;
   late GoogleMapController mapController;
@@ -122,6 +124,39 @@ class StopShiftController extends GetxController {
     );
   }
 
+  Future<void> requestWorkLogChangeApi() async {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["user_worklog_id"] = workLogInfo.value.id ?? 0;
+    map["start_time"] = startTime.value;
+    map["end_time"] = stopTime.value;
+    map["note"] = StringHelper.getText(noteController.value);
+
+    ClockInRepository().requestWorkLogChange2(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          BaseResponse response =
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showApiResponseMessage(response.Message);
+          Get.back(result: true);
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          // isInternetNotAvailable.value = true;
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showApiResponseMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
+
   void appLifeCycle() {
     AppLifecycleListener(
       onResume: () async {
@@ -158,7 +193,14 @@ class StopShiftController extends GetxController {
 
   setInitialTime() {
     startTime.value = changeFullDateToSortTime(workLogInfo.value.workStartTime);
-    stopTime.value = changeFullDateToSortTime(workLogInfo.value.workEndTime);
+    stopTime.value = !StringHelper.isEmptyString(workLogInfo.value.workEndTime)
+        ? changeFullDateToSortTime(workLogInfo.value.workEndTime)
+        : getCurrentTime();
+    /*initialTotalWorkTime.value =
+        !StringHelper.isEmptyString(workLogInfo.value.workEndTime)
+            ? workLogInfo.value.totalWorkSeconds ?? 0
+            : getTotalTimeDifference(startTime.value, stopTime.value);*/
+    initialTotalWorkTime.value = workLogInfo.value.totalWorkSeconds ?? 0;
     isWorking.value = StringHelper.isEmptyString(workLogInfo.value.workEndTime);
   }
 
@@ -171,5 +213,40 @@ class StopShiftController extends GetxController {
 
   String getCurrentTime() {
     return DateUtil.getCurrentTimeInFormat(DateUtil.HH_MM_24);
+  }
+
+  int getTotalTimeDifference(String startTime, String endTime) {
+    print("startTime:" + startTime);
+    print("endTime:" + endTime);
+    DateTime? startDate = DateUtil.stringToDate(startTime, DateUtil.HH_MM_24);
+    DateTime? endDate = DateUtil.stringToDate(endTime, DateUtil.HH_MM_24);
+    return DateUtil.dateDifferenceInSeconds(date1: startDate, date2: endDate);
+  }
+
+  void showTimePickerDialog(String dialogIdentifier, DateTime? time) {
+    DateUtil.showTimePickerDialog(
+        initialTime: time,
+        dialogIdentifier: dialogIdentifier,
+        selectTimeListener: this);
+  }
+
+  @override
+  void onSelectTime(DateTime time, String dialogIdentifier) {
+    if (dialogIdentifier ==
+        AppConstants.dialogIdentifier.selectShiftStartTime) {
+      startTime.value = DateUtil.timeToString(time, DateUtil.HH_MM_24);
+    } else if (dialogIdentifier ==
+        AppConstants.dialogIdentifier.selectShiftEndTime) {
+      stopTime.value = DateUtil.timeToString(time, DateUtil.HH_MM_24);
+    }
+    updatedTotalWorkingTime.value =
+        getTotalTimeDifference(startTime.value ?? "", stopTime.value ?? "");
+    isEdited.value =
+        updatedTotalWorkingTime.value != initialTotalWorkTime.value;
+    workLogInfo.refresh();
+  }
+
+  void onBackPress() {
+    Get.back(result: isDataUpdated.value);
   }
 }

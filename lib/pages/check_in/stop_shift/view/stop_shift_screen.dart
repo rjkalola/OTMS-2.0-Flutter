@@ -28,58 +28,67 @@ class _StopShiftScreenState extends State<StopShiftScreen> {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: dashBoardBgColor,
         statusBarIconBrightness: Brightness.dark));
-    return Container(
-      color: dashBoardBgColor,
-      child: SafeArea(
-          child: Scaffold(
-        backgroundColor: dashBoardBgColor,
-        /* appBar: BaseAppBar(
-          appBar: AppBar(),
-          title:
-              controller.isWorking.value ? 'my_shift'.tr : 'edit_my_shift'.tr,
-          isCenterTitle: false,
-          bgColor: dashBoardBgColor,
-          isBack: true,
-        ),*/
-        body: Obx(
-          () => ModalProgressHUD(
-            inAsyncCall: controller.isLoading.value,
-            opacity: 0,
-            progressIndicator: const CustomProgressbar(),
-            child: Column(children: [
-              Expanded(
-                child: CustomMapView(
-                    onMapCreated: controller.onMapCreated,
-                    target: controller.center),
-              ),
-              Column(
-                children: [
-                  SelectionScreenHeaderView(
-                    title: controller.isWorking.value
-                        ? 'my_shift'.tr
-                        : 'edit_my_shift'.tr,
-                    onBackPressed: () {
-                      Get.back();
-                    },
-                  ),
-                  StartStopBoxRow(),
-                  TotalHoursRow(),
-                  Visibility(
-                      visible: controller.isEdited.value,
-                      child:
-                          AddNoteWidget(controller: controller.noteController)),
-                  controller.isWorking.value
-                      ? StopShiftButton()
-                      : Visibility(
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop || result != null) return;
+        controller.onBackPress();
+      },
+      child: Container(
+        color: dashBoardBgColor,
+        child: SafeArea(
+            child: Scaffold(
+          backgroundColor: dashBoardBgColor,
+          /* appBar: BaseAppBar(
+            appBar: AppBar(),
+            title:
+                controller.isWorking.value ? 'my_shift'.tr : 'edit_my_shift'.tr,
+            isCenterTitle: false,
+            bgColor: dashBoardBgColor,
+            isBack: true,
+          ),*/
+          body: Obx(
+            () => ModalProgressHUD(
+              inAsyncCall: controller.isLoading.value,
+              opacity: 0,
+              progressIndicator: const CustomProgressbar(),
+              child: Column(children: [
+                Expanded(
+                  child: CustomMapView(
+                      onMapCreated: controller.onMapCreated,
+                      target: controller.center),
+                ),
+                SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SelectionScreenHeaderView(
+                        title: controller.isWorking.value
+                            ? 'my_shift'.tr
+                            : 'edit_my_shift'.tr,
+                        onBackPressed: () {
+                          controller.onBackPress();
+                        },
+                      ),
+                      StartStopBoxRow(),
+                      TotalHoursRow(),
+                      Visibility(
                           visible: controller.isEdited.value,
-                          child: SubmitForApprovalButton(),
-                        )
-                ],
-              )
-            ]),
+                          child: AddNoteWidget(
+                              controller: controller.noteController)),
+                      controller.isWorking.value
+                          ? StopShiftButton()
+                          : Visibility(
+                              visible: controller.isEdited.value,
+                              child: SubmitForApprovalButton(),
+                            )
+                    ],
+                  ),
+                )
+              ]),
+            ),
           ),
-        ),
-      )),
+        )),
+      ),
     );
   }
 }

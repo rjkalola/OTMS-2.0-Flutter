@@ -70,8 +70,8 @@ class JoinCompanyRepository {
     Function(ResponseModel error)? onError,
   }) {
     ApiRequest(
-        url: ApiConstants.getCompanyResourcesUrl,
-        queryParameters: queryParameters)
+            url: ApiConstants.getCompanyResourcesUrl,
+            queryParameters: queryParameters)
         .getRequest(
       onSuccess: (data) {
         onSuccess!(data);

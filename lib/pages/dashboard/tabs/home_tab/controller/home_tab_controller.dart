@@ -243,7 +243,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
   }
 
   Future<void> getUserWorkLogListApi() async {
-    isLoading.value = true;
+    // isLoading.value = true;
     Map<String, dynamic> map = {};
     map["date"] = "";
     map["shift_id"] = 0;

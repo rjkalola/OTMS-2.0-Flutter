@@ -174,9 +174,10 @@ class ClockInController extends GetxController {
     var arguments = {
       AppConstants.intentKey.workLogInfo: info,
     };
-    var result;
-    result = await Get.toNamed(AppRoutes.stopShiftScreen, arguments: arguments);
-    if (result != null) {
+    var result =
+        await Get.toNamed(AppRoutes.stopShiftScreen, arguments: arguments);
+    print("result:"+result.toString());
+    if (result != null && result) {
       getUserWorkLogListApi();
     }
   }

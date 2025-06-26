@@ -86,7 +86,7 @@ class DateUtil {
     return formatter.format(now);
   }
 
-  static int dateDifferenceInSeconds(DateTime? date1, DateTime? date2) {
+  static int dateDifferenceInSeconds({DateTime? date1, DateTime? date2}) {
     Duration diff = date2!.difference(date1!);
     int totalSeconds = diff.inSeconds;
     return totalSeconds;
