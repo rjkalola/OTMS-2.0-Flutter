@@ -36,6 +36,8 @@ class MyRequestsController extends GetxController {
 
   void getMyRequestsList() async {
     Map<String, dynamic> map = {};
+    map["user_id"] = UserUtils.getLoginUserId();
+
     isLoading.value = true;
     _api.getMyRequestsList(
       queryParameters: map,
