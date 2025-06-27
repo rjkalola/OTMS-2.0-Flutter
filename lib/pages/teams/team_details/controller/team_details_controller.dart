@@ -195,7 +195,7 @@ class TeamDetailsController extends GetxController
   }
 
   @override
-  Future<void> onSelectMenuItem(ModuleInfo info) async {
+  Future<void> onSelectMenuItem(ModuleInfo info, String dialogType) async {
     if (info.action == AppConstants.action.edit) {
       var arguments = {
         AppConstants.intentKey.teamInfo: teamInfo.value,

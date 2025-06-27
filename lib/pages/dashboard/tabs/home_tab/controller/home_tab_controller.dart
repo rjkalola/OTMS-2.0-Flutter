@@ -392,6 +392,12 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       }*/
     } else if (info.slug == 'settings') {
       moveToScreen(appRout: AppRoutes.settingsScreen);
+    } else if (info.slug == 'timesheet') {
+      moveToScreen(appRout: AppRoutes.timeSheetListScreen);
+    } else if (info.slug == 'billing') {
+      moveToScreen(appRout: AppRoutes.billingDetailsScreen);
+    }else if (info.slug == 'my_requests') {
+      moveToScreen(appRout: AppRoutes.myRequestsScreen);
     }
   }
 

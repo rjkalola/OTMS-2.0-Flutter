@@ -205,7 +205,7 @@ class ArchiveTeamListController extends GetxController
   }
 
   @override
-  Future<void> onSelectMenuItem(ModuleInfo info) async {
+  Future<void> onSelectMenuItem(ModuleInfo info,String dialogType) async {
     if (info.action == AppConstants.action.add) {
       moveToScreen(AppRoutes.createTeamScreen, null);
     } else if (info.action == AppConstants.action.generateCode) {

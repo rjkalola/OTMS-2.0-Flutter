@@ -14,25 +14,24 @@ import 'listener/select_item_listener.dart';
 
 class MenuItemsListBottomDialog extends StatefulWidget {
   final List<ModuleInfo> list;
+  final String? dialogType;
   final MenuItemListener listener;
 
-  const MenuItemsListBottomDialog({
-    super.key,
-    required this.list,
-    required this.listener,
-  });
+  const MenuItemsListBottomDialog(
+      {super.key, required this.list, required this.listener, this.dialogType});
 
   @override
   State<MenuItemsListBottomDialog> createState() =>
-      MenuItemsListBottomDialogState(list, listener);
+      MenuItemsListBottomDialogState(list, listener, dialogType);
 }
 
 class MenuItemsListBottomDialogState extends State<MenuItemsListBottomDialog> {
   List<ModuleInfo> list;
   MenuItemListener listener;
+  String? dialogType;
   List<ModuleInfo> tempList = [];
 
-  MenuItemsListBottomDialogState(this.list, this.listener);
+  MenuItemsListBottomDialogState(this.list, this.listener, this.dialogType);
 
   @override
   void initState() {
@@ -50,7 +49,7 @@ class MenuItemsListBottomDialogState extends State<MenuItemsListBottomDialog> {
             return CupertinoActionSheetAction(
               onPressed: () {
                 Get.back();
-                listener.onSelectMenuItem(item);
+                listener.onSelectMenuItem(item,dialogType??"");
                 print('Selected: ${item.name}');
               },
               // isDestructiveAction: item.isDestructive,

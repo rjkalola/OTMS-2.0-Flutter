@@ -19,6 +19,7 @@ import 'package:otm_inventory/pages/company/joincompany/view/join_comapny_screen
 import 'package:otm_inventory/pages/company/selectcompanytrade/view/select_company_trade_screen.dart';
 import 'package:otm_inventory/pages/dashboard/tabs/adjust_widgets/view/adjust_widgets_screen.dart';
 import 'package:otm_inventory/pages/dashboard/view/dashboard_screen.dart';
+import 'package:otm_inventory/pages/my_requests/view/my_requests_screen.dart';
 import 'package:otm_inventory/pages/permissions/company_permissions/view/company_permission_screen.dart';
 import 'package:otm_inventory/pages/permissions/permission_users/view/permission_users_screen.dart';
 import 'package:otm_inventory/pages/permissions/search_user/view/search_user_screen.dart';
@@ -27,6 +28,7 @@ import 'package:otm_inventory/pages/permissions/user_permissions/view/user_permi
 import 'package:otm_inventory/pages/permissions/widgets/view/widgets_screen.dart';
 import 'package:otm_inventory/pages/profile/billing_details/view/billing_details_screen.dart';
 import 'package:otm_inventory/pages/profile/billing_info/view/billing_info_screen.dart';
+import 'package:otm_inventory/pages/profile/billing_request/view/billing_request_screen.dart';
 import 'package:otm_inventory/pages/profile/company_billings/view/company_billings_screen.dart';
 import 'package:otm_inventory/pages/qr_code_scanner/view/qr_code_scanner.dart';
 import 'package:otm_inventory/pages/settings/view/settings_screen.dart';
@@ -41,6 +43,7 @@ import 'package:otm_inventory/pages/teams/sub_contractor_details/view/sub_contra
 import 'package:otm_inventory/pages/teams/team_details/view/team_details_screen.dart';
 import 'package:otm_inventory/pages/teams/team_generate_otp/view/team_generate_otp_screen.dart';
 import 'package:otm_inventory/pages/teams/team_list/view/team_list_screen.dart';
+import 'package:otm_inventory/pages/timesheet/timesheet_list/view/timesheet_list_screen.dart';
 import 'package:otm_inventory/pages/timesheet/timesheet_list/view/widgets/timesheet_list.dart';
 import 'package:otm_inventory/pages/trades/view/company_trades_screen.dart';
 import 'package:otm_inventory/pages/users/user_list/view/user_list_screen.dart';
@@ -212,6 +215,8 @@ class AppPages {
     GetPage(name: AppRoutes.companyBillingsScreen, page: () => CompanyBillingsScreen()),
     GetPage(name: AppRoutes.stopShiftScreen, page: () => StopShiftScreen()),
     GetPage(name: AppRoutes.selectShiftScreen, page: () => SelectShiftScreen()),
-    GetPage(name: AppRoutes.timeSheetListScreen, page: () => TimeSheetList()),
+    GetPage(name: AppRoutes.timeSheetListScreen, page: () => TimeSheetListScreen()),
+    GetPage(name: AppRoutes.myRequestsScreen, page: () => MyRequestsScreen()),
+    GetPage(name: AppRoutes.billingRequestScreen, page: () => BillingRequestScreen()),
   ];
 }

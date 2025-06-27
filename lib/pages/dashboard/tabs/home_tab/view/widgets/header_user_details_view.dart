@@ -28,7 +28,7 @@ class HeaderUserDetailsView extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: (){
-              Get.toNamed(AppRoutes.billingDetailsScreen);
+              // Get.toNamed(AppRoutes.billingDetailsScreen);
             },
             child: UserAvtarView(
               imageUrl: controller.userInfo?.userThumbImage ?? "",

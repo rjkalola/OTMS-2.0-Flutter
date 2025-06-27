@@ -93,6 +93,7 @@ class DialogIdentifier {
   final String selectBreakStartTime = 'SELECT_BREAK_START_TIME';
   final String selectBreakEndTime = 'SELECT_BREAK_END_TIME';
   final String deleteShift = 'DELETE_SHIFT';
+  final String selectDayFilter = 'SELECT_DAY_FILTER';
 }
 
 class SharedPreferenceKey {

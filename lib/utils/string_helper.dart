@@ -79,4 +79,19 @@ class StringHelper {
     return value != null && value;
   }
 
+  static String capitalizeFirstLetter(String? input) {
+    if (!isEmptyString(input)) {
+      return input![0].toUpperCase() + input.substring(1);
+    } else {
+      return "";
+    }
+  }
+
+  static String deCapitalizeFirstLetter(String? input) {
+    if (!isEmptyString(input)) {
+      return input![0].toLowerCase() + input.substring(1);
+    } else {
+      return "";
+    }
+  }
 }

@@ -320,6 +320,43 @@ class DateUtil {
     return i;
   }
 
+  static List<DateTime> getDateWeekRange(String filterType) {
+    DateTime now = DateTime.now();
+
+    DateTime startOfWeek = DateTime.now(), endOfWeek = DateTime.now();
+    if (filterType == "Current Week") {
+      // Start of week (Monday)
+      startOfWeek = now.subtract(Duration(days: now.weekday - 1));
+      // End of week (Sunday)
+      endOfWeek = startOfWeek.add(Duration(days: 6));
+    } else if (filterType == "Previous Week") {
+      // Start of current week
+      DateTime startOfCurrentWeek =
+          now.subtract(Duration(days: now.weekday - 1));
+
+      // Start of previous week
+      startOfWeek = startOfCurrentWeek.subtract(Duration(days: 7));
+      endOfWeek = startOfWeek.add(Duration(days: 6));
+    } else if (filterType == "2 Weeks ago") {
+      // Start of current week (Monday)
+      DateTime startOfCurrentWeek = now.subtract(Duration(days: now.weekday - 1));
+
+      // Start of the week 2 weeks ago
+      startOfWeek = startOfCurrentWeek.subtract(Duration(days: 14));
+      endOfWeek = startOfWeek.add(Duration(days: 6));
+    }
+
+    // // Format as yyyy-MM-dd
+    // String format(DateTime date) =>
+    //     "${date.year}/${date.month.toString().padLeft(2, '0')}/${date.day.toString().padLeft(2, '0')}";
+    //
+    // Map<String, String> map = {
+    //   'startDate': format(startOfWeek),
+    //   'endDate': format(endOfWeek),
+    // };
+    return [startOfWeek, endOfWeek];
+  }
+
   static String DD_MM_YYYY_DASH = "dd-MM-yyyy";
 
   static String DD_MM_YYYY_TIME_12_DASH = "dd-MM-yyyy hh:mm a";

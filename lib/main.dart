@@ -9,7 +9,6 @@ import 'package:otm_inventory/pages/company/joincompany/view/join_comapny_screen
 import 'package:otm_inventory/pages/profile/personal_info/view/personal_info_screen.dart';
 import 'package:otm_inventory/pages/teams/create_team/view/create_new_team_screen2.dart';
 import 'package:otm_inventory/pages/teams/create_team/view/create_team_screen.dart';
-import 'package:otm_inventory/pages/timesheet/timesheet_list/view/timesheet_list_screen.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/res/strings.dart';
 import 'package:otm_inventory/routes/app_pages.dart';

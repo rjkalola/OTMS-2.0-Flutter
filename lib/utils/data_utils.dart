@@ -339,4 +339,11 @@ class DataUtils {
     }
     return list;
   }
+
+  static List<String> dateFilterList = [
+    "Current Week",
+    "Previous Week",
+    "2 Weeks ago",
+    "Custom"
+  ];
 }

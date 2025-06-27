@@ -315,7 +315,7 @@ class CreateShiftController extends GetxController
   }
 
   @override
-  Future<void> onSelectMenuItem(ModuleInfo info) async {
+  Future<void> onSelectMenuItem(ModuleInfo info,String dialogType) async {
     if (info.action == AppConstants.action.delete) {
       showDeleteShiftDialog();
     } else if (info.action == AppConstants.action.archiveShift) {
