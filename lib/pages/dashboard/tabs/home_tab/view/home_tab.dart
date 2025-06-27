@@ -54,7 +54,8 @@ class _HomeTabState extends State<HomeTab> with AutomaticKeepAliveClientMixin {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       HeaderUserDetailsView(),
-                      EditWidgetsButton(),
+                      // EditWidgetsButton(),
+                      SizedBox(height: 12,),
                       DashboardGridView()
                     ],
                   ),

@@ -27,6 +27,7 @@ class StopShiftController extends GetxController implements SelectTimeListener {
       isWorking = false.obs,
       isEdited = false.obs;
   final RxString startTime = "".obs, stopTime = "".obs;
+  String initiallyStartTime = "", initiallyStopTime = "";
   final RxInt initialTotalWorkTime = 0.obs, updatedTotalWorkingTime = 0.obs;
   final _api = StopShiftRepository();
   final noteController = TextEditingController().obs;
@@ -82,8 +83,6 @@ class StopShiftController extends GetxController implements SelectTimeListener {
         if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
           // isInternetNotAvailable.value = true;
           AppUtils.showApiResponseMessage('no_internet'.tr);
-        } else if (error.statusMessage!.isNotEmpty) {
-          AppUtils.showApiResponseMessage(error.statusMessage ?? "");
         }
       },
     );
@@ -117,8 +116,6 @@ class StopShiftController extends GetxController implements SelectTimeListener {
         if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
           // isInternetNotAvailable.value = true;
           AppUtils.showApiResponseMessage('no_internet'.tr);
-        } else if (error.statusMessage!.isNotEmpty) {
-          AppUtils.showApiResponseMessage(error.statusMessage ?? "");
         }
       },
     );
@@ -150,8 +147,6 @@ class StopShiftController extends GetxController implements SelectTimeListener {
         if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
           // isInternetNotAvailable.value = true;
           AppUtils.showApiResponseMessage('no_internet'.tr);
-        } else if (error.statusMessage!.isNotEmpty) {
-          AppUtils.showApiResponseMessage(error.statusMessage ?? "");
         }
       },
     );
@@ -196,6 +191,8 @@ class StopShiftController extends GetxController implements SelectTimeListener {
     stopTime.value = !StringHelper.isEmptyString(workLogInfo.value.workEndTime)
         ? changeFullDateToSortTime(workLogInfo.value.workEndTime)
         : getCurrentTime();
+    initiallyStartTime = startTime.value;
+    initiallyStopTime = stopTime.value;
     /*initialTotalWorkTime.value =
         !StringHelper.isEmptyString(workLogInfo.value.workEndTime)
             ? workLogInfo.value.totalWorkSeconds ?? 0
@@ -242,7 +239,9 @@ class StopShiftController extends GetxController implements SelectTimeListener {
     updatedTotalWorkingTime.value =
         getTotalTimeDifference(startTime.value ?? "", stopTime.value ?? "");
     isEdited.value =
-        updatedTotalWorkingTime.value != initialTotalWorkTime.value;
+        (updatedTotalWorkingTime.value != initialTotalWorkTime.value) &&
+            ((initiallyStartTime != startTime.value) ||
+                (initiallyStopTime != stopTime.value));
     workLogInfo.refresh();
   }
 

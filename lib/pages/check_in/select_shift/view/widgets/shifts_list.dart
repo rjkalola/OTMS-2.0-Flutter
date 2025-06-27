@@ -1,10 +1,7 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/pages/check_in/select_shift/controller/select_shift_controller.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/utils/data_utils.dart';
 import 'package:otm_inventory/web_services/response/module_info.dart';
 import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:otm_inventory/widgets/other_widgets/right_arrow_widget.dart';
@@ -34,12 +31,15 @@ class ShiftsList extends StatelessWidget {
                       padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
                       child: InkWell(
                         onTap: () {
-                         controller.userStartWorkApi(info.id??0);
+                          controller.userStartWorkApi(info.id ?? 0);
                         },
                         child: Row(
                           children: [
                             CircleWidget(
-                                color: getRandomColor(), width: 20, height: 20),
+                                color: Color(
+                                    AppUtils.haxColor(info.randomColor ?? "")),
+                                width: 20,
+                                height: 20),
                             SizedBox(
                               width: 12,
                             ),
@@ -58,13 +58,5 @@ class ShiftsList extends StatelessWidget {
               itemCount: controller.shiftList.length,
               separatorBuilder: (context, position) => Container()),
         ));
-  }
-
-  Color getRandomColor() {
-    String color = "#CB4646DD";
-    final random = Random();
-    int randomNumber = random.nextInt(DataUtils.listColors.length - 1);
-    color = DataUtils.listColors[randomNumber];
-    return Color(AppUtils.haxColor(color));
   }
 }

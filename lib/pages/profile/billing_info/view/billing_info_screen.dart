@@ -64,12 +64,23 @@ class _BillingInfoScreenState extends State<BillingInfoScreen> {
 
   List<Widget>? actionButtons() {
     return [
-      PrimaryButton(
-          buttonText: 'save'.tr,
+      Padding(
+        padding: const EdgeInsets.only(right: 16),
+        child: ElevatedButton(
           onPressed: () {
-            print("button click");
             controller.onSubmit();
-          })
+          },
+          style: ElevatedButton.styleFrom(
+            fixedSize: Size(126, 42),
+            backgroundColor: blueBGButtonColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+          ),
+          child: Text('save'.tr, style: TextStyle(color: Colors.white, fontSize: 20,fontWeight: FontWeight.bold)),
+        ),
+      )
     ];
   }
 }

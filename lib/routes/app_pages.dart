@@ -27,6 +27,7 @@ import 'package:otm_inventory/pages/permissions/user_permissions/view/user_permi
 import 'package:otm_inventory/pages/permissions/widgets/view/widgets_screen.dart';
 import 'package:otm_inventory/pages/profile/billing_details/view/billing_details_screen.dart';
 import 'package:otm_inventory/pages/profile/billing_info/view/billing_info_screen.dart';
+import 'package:otm_inventory/pages/profile/company_billings/view/company_billings_screen.dart';
 import 'package:otm_inventory/pages/qr_code_scanner/view/qr_code_scanner.dart';
 import 'package:otm_inventory/pages/settings/view/settings_screen.dart';
 import 'package:otm_inventory/pages/shifts/archive_shift_list/view/archive_shift_list_screen.dart';
@@ -207,9 +208,8 @@ class AppPages {
     GetPage(
         name: AppRoutes.startShiftMapScreen, page: () => StartShiftMapScreen()),
     GetPage(name: AppRoutes.billingInfoScreen, page: () => BillingInfoScreen()),
-    GetPage(
-        name: AppRoutes.billingDetailsScreen,
-        page: () => BillingDetailsScreen()),
+    GetPage(name: AppRoutes.billingDetailsScreen, page: () => BillingDetailsScreen()),
+    GetPage(name: AppRoutes.companyBillingsScreen, page: () => CompanyBillingsScreen()),
     GetPage(name: AppRoutes.stopShiftScreen, page: () => StopShiftScreen()),
     GetPage(name: AppRoutes.selectShiftScreen, page: () => SelectShiftScreen()),
     GetPage(name: AppRoutes.timeSheetListScreen, page: () => TimeSheetList()),

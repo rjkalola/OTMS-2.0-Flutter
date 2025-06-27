@@ -31,30 +31,30 @@ class StartShiftBox extends StatelessWidget {
       flex: 1,
       fit: FlexFit.tight,
       child: CardViewDashboardItem(
-          child: GestureDetector(
-        onTap: onTap,
-        child: Column(
-          children: [
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.only(
-                top: 6,
-                bottom: 6,
-              ),
-              decoration: AppUtils.getGrayBorderDecoration(
-                  color: backgroundColor,
-                  borderColor: Colors.grey.shade400,
-                  boxShadow: [AppUtils.boxShadow(Colors.grey.shade300, 6)],
-                  radius: 45),
-              child: PrimaryTextView(
-                textAlign: TextAlign.center,
-                text: title,
-                fontSize: 15,
-                fontWeight: FontWeight.w400,
-                color: primaryTextColor,
-              ),
+          child: Column(
+        children: [
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.only(
+              top: 6,
+              bottom: 6,
             ),
-            Padding(
+            decoration: AppUtils.getGrayBorderDecoration(
+                color: backgroundColor,
+                borderColor: Colors.grey.shade400,
+                boxShadow: [AppUtils.boxShadow(Colors.grey.shade300, 6)],
+                radius: 45),
+            child: PrimaryTextView(
+              textAlign: TextAlign.center,
+              text: title,
+              fontSize: 15,
+              fontWeight: FontWeight.w400,
+              color: primaryTextColor,
+            ),
+          ),
+          InkWell(
+            onTap: onTap,
+            child: Padding(
               padding: const EdgeInsets.only(top: 20, bottom: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -76,8 +76,8 @@ class StartShiftBox extends StatelessWidget {
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       )),
     );
   }

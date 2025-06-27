@@ -9,6 +9,7 @@ import 'package:otm_inventory/pages/profile/billing_info/view/widgets/phone_exte
 import 'package:otm_inventory/pages/profile/billing_info/view/widgets/phone_text_field.dart';
 import 'package:otm_inventory/pages/profile/billing_info/view/widgets/postcode_text_field.dart';
 import 'package:otm_inventory/pages/profile/billing_info/view/widgets/title_text.dart';
+import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/widgets/PrimaryButton.dart';
 import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
 
@@ -41,15 +42,54 @@ class GeneralView extends StatelessWidget {
               ),
               MiddleNameTextField(),
               EmailTextField(),
-              Row(
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                      child:
-                      PostcodeTextField(),),
-                  const SizedBox(width: 8),
-                  PrimaryButton(buttonText: 'search'.tr, onPressed: (){
+                  const SizedBox(height: 10),
+                  Stack(
+                    children: [
+                      // Bottom line under both TextField and button
+                      Positioned(
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        child: Container(
+                          height: 1,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child:
+                            PostcodeTextField(),
+                          ),
+                          SizedBox(
+                            height: 35,
+                            width: 86,
+                            child: OutlinedButton(
+                              onPressed: () {
 
-                  })
+                              },
+                              style: OutlinedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                side: BorderSide(color:blueBGButtonColor,
+                                width: 1.5),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                padding: EdgeInsets.zero,
+                              ),
+                              child: Text(
+                                'search'.tr,
+                                style: TextStyle(color: blueBGButtonColor,fontSize: 15,fontWeight: FontWeight.w400),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ],
               ),
               AddressTextField(),
@@ -74,5 +114,4 @@ class GeneralView extends StatelessWidget {
           ),
         ));
   }
-
 }

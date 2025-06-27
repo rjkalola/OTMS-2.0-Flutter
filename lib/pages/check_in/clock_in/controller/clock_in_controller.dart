@@ -79,8 +79,6 @@ class ClockInController extends GetxController {
         if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
           // isInternetNotAvailable.value = true;
           AppUtils.showApiResponseMessage('no_internet'.tr);
-        } else if (error.statusMessage!.isNotEmpty) {
-          AppUtils.showApiResponseMessage(error.statusMessage ?? "");
         }
       },
     );
@@ -176,7 +174,7 @@ class ClockInController extends GetxController {
     };
     var result =
         await Get.toNamed(AppRoutes.stopShiftScreen, arguments: arguments);
-    print("result:"+result.toString());
+    print("result:" + result.toString());
     if (result != null && result) {
       getUserWorkLogListApi();
     }

@@ -12,7 +12,7 @@ class PhoneExtensionFieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() => Padding(
-      padding: const EdgeInsets.fromLTRB(0, 25, 15, 18),
+      padding: const EdgeInsets.fromLTRB(0, 10, 15, 16),
       child: TextFieldPhoneExtensionWidget(
           mExtension: controller.mExtension.value,
           mFlag: controller.mFlag.value,

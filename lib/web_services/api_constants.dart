@@ -107,7 +107,7 @@ class ApiConstants {
   static String shiftArchive = '$appUrl/shift/archive';
   static String shiftUnArchive = '$appUrl/shift/unarchive';
 
-  //billing info
+//billing info
   static String addBillingInfo = '$appUrl/user-billing/store-billing-info';
   static String updateBillingInfo = '$appUrl/user-billing/update-billing-info';
   static String getBillingInfo = '$appUrl/user-billing/get-billing-info';

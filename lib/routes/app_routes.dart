@@ -65,6 +65,7 @@ class AppRoutes {
   static const String startShiftMapScreen = '/start_shift_map_screen';
   static const String billingInfoScreen = '/billing_info_screen';
   static const String billingDetailsScreen = '/billing_details_screen';
+  static const String companyBillingsScreen = '/company_billings_screen';
   static const String stopShiftScreen = '/stop_shift_screen';
   static const String selectShiftScreen = '/select_shift_screen';
   static const String timeSheetListScreen = '/timesheet_list_screen';

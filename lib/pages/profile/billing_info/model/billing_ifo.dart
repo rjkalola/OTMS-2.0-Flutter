@@ -1,5 +1,6 @@
+
 class BillingInfo {
-  int? billingId;
+  int? id;
   int? userId;
   String? name;
   String? firstName;
@@ -19,9 +20,10 @@ class BillingInfo {
   String? shortCode;
   String? userImage;
   String? userThumbImage;
+  int? companyId;
 
   BillingInfo(
-      {this.billingId,
+      {this.id,
       this.userId,
       this.name,
       this.firstName,
@@ -40,11 +42,13 @@ class BillingInfo {
       this.accountNo,
       this.shortCode,
       this.userImage,
-      this.userThumbImage});
+      this.userThumbImage,
+      this.companyId});
 
   BillingInfo.fromJson(Map<String, dynamic> json) {
-    billingId = json['billing_id'];
+    id = json['id'];
     userId = json['user_id'];
+    companyId = json['company_id'];
     name = json['name'];
     firstName = json['first_name'];
     middleName = json['middle_name'];
@@ -67,8 +71,9 @@ class BillingInfo {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['billing_id'] = this.billingId;
+    data['id'] = this.id;
     data['user_id'] = this.userId;
+    data['company_id'] = this.companyId;
     data['name'] = this.name;
     data['first_name'] = this.firstName;
     data['middle_name'] = this.middleName;

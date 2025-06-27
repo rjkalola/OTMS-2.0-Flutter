@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
@@ -11,6 +12,7 @@ import 'package:otm_inventory/pages/shifts/shift_list/model/shift_list_response.
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
+import 'package:otm_inventory/utils/data_utils.dart';
 import 'package:otm_inventory/utils/location_service_new.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:otm_inventory/web_services/api_constants.dart';
@@ -65,7 +67,10 @@ class SelectShiftController extends GetxController {
               ShiftListResponse.fromJson(jsonDecode(responseModel.result!));
           tempList.clear();
           for (var data in response.info!) {
-            tempList.add(ModuleInfo(id: data.id ?? 0, name: data.name ?? ""));
+            tempList.add(ModuleInfo(
+                id: data.id ?? 0,
+                name: data.name ?? "",
+                randomColor: getRandomColor()));
           }
           shiftList.value = tempList;
           shiftList.refresh();
@@ -108,7 +113,7 @@ class SelectShiftController extends GetxController {
             Get.back(result: true);
           }
         } else {
-          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+          // AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;
       },
@@ -117,8 +122,6 @@ class SelectShiftController extends GetxController {
         if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
           // isInternetNotAvailable.value = true;
           AppUtils.showApiResponseMessage('no_internet'.tr);
-        } else if (error.statusMessage!.isNotEmpty) {
-          AppUtils.showApiResponseMessage(error.statusMessage ?? "");
         }
       },
     );
@@ -169,5 +172,13 @@ class SelectShiftController extends GetxController {
       print("Location:" +
           "Latitude: ${latLon.latitude}, Longitude: ${latLon.longitude}");
     }
+  }
+
+  String getRandomColor() {
+    String color = "#CB4646DD";
+    final random = Random();
+    int randomNumber = random.nextInt(DataUtils.listColors.length - 1);
+    color = DataUtils.listColors[randomNumber];
+    return color;
   }
 }

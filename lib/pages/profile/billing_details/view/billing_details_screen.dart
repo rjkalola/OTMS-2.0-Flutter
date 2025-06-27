@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:otm_inventory/pages/profile/billing_details/view/widgets/bank_details_view.dart';
+import 'package:otm_inventory/pages/profile/billing_details/view/widgets/no_billing_data_view.dart';
 import 'package:otm_inventory/pages/profile/billing_details/view/widgets/phone_with_extension_field.dart';
 import 'package:otm_inventory/pages/profile/billing_details/view/widgets/tax_info_view.dart';
 import 'package:otm_inventory/res/colors.dart';
@@ -26,7 +27,7 @@ class _BillingDetailsScreenState extends State<BillingDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Obx(() => Container(
       color: dashBoardBgColor,
       child: SafeArea(
         child: Scaffold(
@@ -39,17 +40,19 @@ class _BillingDetailsScreenState extends State<BillingDetailsScreen> {
             widgets: actionButtons(),
           ),
           backgroundColor: dashBoardBgColor,
-          body: Obx(() {
-            return ModalProgressHUD(
-              inAsyncCall: controller.isLoading.value,
-              opacity: 0,
-              progressIndicator: const CustomProgressbar(),
-              child: controller.isInternetNotAvailable.value
-                  ? const Center(
-                      child: Text("No Internet"),
-                    )
-                  : SingleChildScrollView(
-                      child: Column(
+          body: ModalProgressHUD(
+            inAsyncCall: controller.isLoading.value,
+            opacity: 0,
+            progressIndicator: const CustomProgressbar(),
+            child: controller.isInternetNotAvailable.value
+                ? const Center(
+              child: Text("No Internet"),
+            )
+                : Visibility(
+                visible: controller.isMainViewVisible.value,
+                child: (controller
+                    .billingInfo.value.id ?? 0) != 0 ? SingleChildScrollView(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         //profile UI
@@ -61,8 +64,9 @@ class _BillingDetailsScreenState extends State<BillingDetailsScreen> {
                             children: [
                               // Avatar
                               UserAvtarView(
+                                imageSize: 60,
                                 imageUrl: controller
-                                        .billingInfo.value.userThumbImage ??
+                                    .billingInfo.value.userThumbImage ??
                                     "",
                               ),
                               const SizedBox(height: 10),
@@ -83,63 +87,55 @@ class _BillingDetailsScreenState extends State<BillingDetailsScreen> {
                                   controller.billingInfo.value.email ?? "",
                                   "Email"),
                               const SizedBox(height: 10),
-                              // Address navigation box
-                              GestureDetector(
-                                onTap: () {
-                                  // Navigate to address screen
-                                },
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16, vertical: 18),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(20),
-                                    boxShadow: [
-                                      BoxShadow(
-                                          blurRadius: 4, color: Colors.black12)
-                                    ],
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          "My Address & Post Code",
-                                          style: TextStyle(
-                                              color: Colors.grey[600],
-                                              fontSize: 16),
-                                        ),
-                                      ),
-                                      Icon(Icons.arrow_forward_ios,
-                                          size: 18, color: Colors.grey[600]),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 8),
+                              // My Address
+                              PhoneWithExtensionField(
+                                  controller.billingInfo.value.address ?? "",
+                                  "My Address"),
+                              const SizedBox(height: 10),
+                              // Post code
+                              PhoneWithExtensionField(
+                                  controller.billingInfo.value.postCode ?? "",
+                                  "Post Code"),
                             ],
                           ),
                         ),
                         TaxInfoView(),
                         BankDetailsView(),
                       ],
-                    )),
-            );
-          }),
+                    )) : NoBillingDataView()),
+          ),
         ),
       ),
-    );
+    ),);
   }
 
   List<Widget>? actionButtons() {
     return [
-      PrimaryButton(
-          buttonText: 'edit'.tr,
+      Visibility(
+        visible: (controller
+            .billingInfo.value.id ?? 0) != 0,
+          child: Padding(
+        padding: const EdgeInsets.only(right: 16),
+        child: ElevatedButton(
           onPressed: () {
-            var arguments = {
-              AppConstants.intentKey.billingInfo: controller.billingInfo.value,
-            };
-            controller.moveToScreen(AppRoutes.billingInfoScreen, arguments);
-          })
+            {
+              var arguments = {
+                AppConstants.intentKey.billingInfo: controller.billingInfo.value,
+              };
+              controller.moveToScreen(AppRoutes.billingInfoScreen, arguments);
+            }
+          },
+          style: ElevatedButton.styleFrom(
+            fixedSize: Size(126, 42),
+            backgroundColor: blueBGButtonColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+          ),
+          child: Text('edit'.tr, style: TextStyle(color: Colors.white, fontSize: 20,fontWeight: FontWeight.bold)),
+        ),
+      ))
     ];
   }
 }

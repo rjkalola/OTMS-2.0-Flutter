@@ -265,11 +265,8 @@ class ApiRequest {
         }
         if (url != ApiConstants.checkPhoneNumberExistUrl)
           AppUtils.showApiResponseMessage(message);
-        print('Dio error: ${e.error}');
+        print('Dio error: ${e.message}');
         print('Stack trace: $stackTrace');
-        print('Type: ${e.type}');
-        print('Status code: ${e.response?.statusCode}');
-        print('Response data: ${e.response?.data}');
         // final ApiException apiException = ApiException.fromDioError(e);
         // if (kDebugMode) print("Error in api call $apiException.message");
         responseModel =

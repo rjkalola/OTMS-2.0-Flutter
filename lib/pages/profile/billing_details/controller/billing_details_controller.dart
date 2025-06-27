@@ -43,7 +43,7 @@ class BillingDetailsController extends GetxController {
   final mFlag = AppConstants.defaultFlagUrl.obs;
   final formKey = GlobalKey<FormState>();
   final _api = BillingDetailsRepository();
-  RxBool isLoading = false.obs, isInternetNotAvailable = false.obs;
+  RxBool isLoading = false.obs, isInternetNotAvailable = false.obs, isMainViewVisible = false.obs;
   final billingInfo = BillingInfo().obs;
 
   @override
@@ -55,6 +55,7 @@ class BillingDetailsController extends GetxController {
   void getBillingInfo() async {
     Map<String, dynamic> map = {};
     map["user_id"] = UserUtils.getLoginUserId();
+    map["company_id"] = ApiConstants.companyId;
     isLoading.value = true;
     _api.getBillingInfo(
       queryParameters: map,
@@ -63,10 +64,20 @@ class BillingDetailsController extends GetxController {
           BillingInfoResponse response =
               BillingInfoResponse.fromJson(jsonDecode(responseModel.result!));
           billingInfo.value = response.info!;
-        } else {
+          nameOnUTRController.value.text = billingInfo.value.nameOnUtr ?? "";
+          utrController.value.text = billingInfo.value.utrNumber ?? "";
+          ninController.value.text = billingInfo.value.ninNumber ?? "";
+          nameOnAccountController.value.text = billingInfo.value.nameOnAccount ?? "";
+          bankNameController.value.text = billingInfo.value.bankName ?? "";
+          accountNumberController.value.text = "${billingInfo.value.accountNo ?? 0}";
+          sortCodeController.value.text = billingInfo.value.shortCode ?? "";
+          isMainViewVisible.value = true;
+        }
+        else{
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;
+
       },
       onError: (ResponseModel error) {
         isLoading.value = false;

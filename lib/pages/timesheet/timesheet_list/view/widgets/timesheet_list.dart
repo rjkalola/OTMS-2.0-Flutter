@@ -11,6 +11,8 @@ import 'package:otm_inventory/widgets/other_widgets/expand_collapse_arrow_widget
 import 'package:otm_inventory/widgets/other_widgets/user_avtar_view.dart';
 import 'package:otm_inventory/widgets/switch/custom_switch.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
+import 'package:otm_inventory/widgets/text/SubTitleTextView.dart';
+import 'package:otm_inventory/widgets/text/TitleTextView.dart';
 
 import '../../../../../../utils/app_constants.dart';
 
@@ -48,6 +50,8 @@ class TimeSheetList extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(10, 9, 10, 9),
         color: Colors.transparent,
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             UserAvtarView(
               imageUrl: "",
@@ -60,18 +64,8 @@ class TimeSheetList extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  PrimaryTextView(
-                    text: "Ravi Kalola",
-                    fontSize: 17,
-                    color: primaryTextColor,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  PrimaryTextView(
-                    text: "",
-                    fontSize: 14,
-                    color: secondaryLightTextColor,
-                    fontWeight: FontWeight.w400,
-                  ),
+                  TitleTextView(text: "Ravi Kalola",),
+                  SubtitleTextView(text:"Android Developer" ,)
                 ],
               ),
             ),

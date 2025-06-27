@@ -32,15 +32,23 @@ class BankDetailsView extends StatelessWidget {
             ),
             NameOnAccountTextField(
               controller: controller.nameOnAccountController,
+              isReadOnly: true,
+              isEnabled: false,
             ),
             BankNameTextField(
               controller: controller.bankNameController,
+              isReadOnly: true,
+              isEnabled: false,
             ),
             AccountNumberTextField(
               controller: controller.accountNumberController,
+              isReadOnly: true,
+              isEnabled: false,
             ),
             SortCodeTextField(
               controller: controller.sortCodeController,
+              isReadOnly: true,
+              isEnabled: false,
             ),
           ],
         ),

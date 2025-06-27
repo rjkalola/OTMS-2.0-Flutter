@@ -29,3 +29,4 @@ const dashBoardTabBgColor = Color(0xfff4f5f7);
 const dashBoardBgColor = Color(0xffF4F6F8);
 // const dashBoardBgColor = Color(0xffFDFEFF);
 Color dashBoardItemStrokeColor = Colors.grey.shade300;
+const blueBGButtonColor = Color(0xff007AFF);

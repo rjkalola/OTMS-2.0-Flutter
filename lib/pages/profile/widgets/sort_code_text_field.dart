@@ -11,11 +11,13 @@ class SortCodeTextField extends StatelessWidget {
       {super.key,
         required this.controller,
         this.onValueChange,
-        this.isReadOnly});
+        this.isReadOnly,
+      this.isEnabled});
 
   final Rx<TextEditingController> controller;
   final ValueChanged<String>? onValueChange;
   final bool? isReadOnly;
+  final bool? isEnabled;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +29,7 @@ class SortCodeTextField extends StatelessWidget {
         keyboardType: TextInputType.name,
         textInputAction: TextInputAction.next,
         isReadOnly: isReadOnly,
+        isEnabled: isEnabled,
         onValueChange: onValueChange,
         onPressed: () {},
         validator: MultiValidator([
@@ -34,7 +37,6 @@ class SortCodeTextField extends StatelessWidget {
         ]),
         inputFormatters: <TextInputFormatter>[
           // for below version 2 use this
-          FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
         ]);
   }
 }

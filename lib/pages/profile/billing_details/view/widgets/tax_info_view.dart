@@ -28,12 +28,18 @@ class TaxInfoView extends StatelessWidget {
                 ),
                 NameOnUtrTextField(
                   controller: controller.nameOnUTRController,
+                  isReadOnly: true,
+                  isEnabled: false,
                 ),
                 UtrTextField(
                   controller: controller.utrController,
+                  isReadOnly: true,
+                  isEnabled: false,
                 ),
                 NINTextField(
                   controller: controller.ninController,
+                  isReadOnly: true,
+                  isEnabled: false,
                 ),
               ],
             ),

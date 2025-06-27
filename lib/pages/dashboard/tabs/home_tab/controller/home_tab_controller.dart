@@ -123,7 +123,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
           isMainViewVisible.value = true;
           UserPermissionsResponse response = UserPermissionsResponse.fromJson(
               jsonDecode(responseModel.result!));
-          // response.permissions!.add(DataUtils.getEditWidget());
+          response.permissions!.add(DataUtils.getEditWidget());
           AppStorage().setUserPermissionsResponse(response);
           listPermissions.clear();
           listPermissions.addAll(response.permissions ?? []);
@@ -243,7 +243,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
   }
 
   Future<void> getUserWorkLogListApi() async {
-    // isLoading.value = true;
+    isLoading.value = true;
     Map<String, dynamic> map = {};
     map["date"] = "";
     map["shift_id"] = 0;
@@ -369,8 +369,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
   onClickPermission(int index, PermissionInfo info) {
     if (info.slug == 'control_panel') {
       showControlPanelDialog();
-    }
-    /* else if (info.slug == 'edit_widget') {
+    } else if (info.slug == 'edit_widget') {
       var arguments = {
         AppConstants.intentKey.userId: UserUtils.getLoginUserId(),
         AppConstants.intentKey.userName: UserUtils.getLoginUserName(),
@@ -378,8 +377,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       };
       moveToScreen(
           appRout: AppRoutes.userPermissionScreen, arguments: arguments);
-    } */
-    else if (info.slug == 'team') {
+    } else if (info.slug == 'team') {
       Get.toNamed(AppRoutes.teamListScreen);
       // Get.toNamed(AppRoutes.createTeamScreen);
     } else if (info.slug == 'users') {

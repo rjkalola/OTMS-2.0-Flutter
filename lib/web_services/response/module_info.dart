@@ -9,7 +9,8 @@ class ModuleInfo {
       action,
       companyLogo,
       icon,
-      textColor;
+      textColor,
+      randomColor;
   bool? check;
 
   ModuleInfo(
@@ -24,7 +25,8 @@ class ModuleInfo {
       this.action,
       this.companyLogo,
       this.icon,
-      this.textColor});
+      this.textColor,
+      this.randomColor});
 
   ModuleInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -36,7 +38,8 @@ class ModuleInfo {
     flagImage = json['flag_image'];
     companyLogo = json['company_logo'];
     icon = json['icon'];
-    textColor  = json['textColor'];
+    textColor = json['textColor'];
+    randomColor = json['randomColor'];
   }
 
   Map<String, dynamic> toJson() {
@@ -51,6 +54,8 @@ class ModuleInfo {
     data['company_logo'] = this.companyLogo;
     data['icon'] = this.icon;
     data['textColor'] = this.textColor;
+    data['randomColor'] = this.randomColor;
+
     return data;
   }
 }

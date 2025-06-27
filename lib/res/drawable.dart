@@ -36,6 +36,8 @@ class Drawable {
       'assets/user_permission_icons/trades.svg';
   static const String editWidgetIcon =
       'assets/user_permission_icons/edit_widget.svg';
+  static const String billingInfoIcon =
+      'assets/user_permission_icons/billing_info.svg';
 
   static const String splashScreenLogo = 'assets/images/splash_screen_logo.jpg';
   static const String activeHomeTabIcon =
@@ -119,8 +121,8 @@ class Drawable {
   static const String listIcon = 'assets/images/ic_list.svg';
   static const String editingIcon = 'assets/images/ic_editing.svg';
   static const String unArchiveIcon = 'assets/images/ic_un_archive.svg';
-  static const String deletePermanentIcon = 'assets/images/ic_delete_permanent.svg';
-  static const String diamondPermissionIcon = 'assets/images/ic_diamond_permission.svg';
-
-
+  static const String deletePermanentIcon =
+      'assets/images/ic_delete_permanent.svg';
+  static const String diamondPermissionIcon =
+      'assets/images/ic_diamond_permission.svg';
 }

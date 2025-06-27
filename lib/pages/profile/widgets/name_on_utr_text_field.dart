@@ -11,11 +11,13 @@ class NameOnUtrTextField extends StatelessWidget {
       {super.key,
         required this.controller,
         this.onValueChange,
-        this.isReadOnly});
+        this.isReadOnly,
+        this.isEnabled});
 
   final Rx<TextEditingController> controller;
   final ValueChanged<String>? onValueChange;
   final bool? isReadOnly;
+  final bool? isEnabled;
 
   @override
   Widget build(BuildContext context) {
@@ -29,13 +31,14 @@ class NameOnUtrTextField extends StatelessWidget {
           textInputAction: TextInputAction.next,
           isReadOnly: isReadOnly,
           onValueChange: onValueChange,
+          isEnabled: isEnabled,
           onPressed: () {},
           validator: MultiValidator([
             RequiredValidator(errorText: 'required_field'.tr),
           ]),
           inputFormatters: <TextInputFormatter>[
             // for below version 2 use this
-            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+
           ]),
     );
   }

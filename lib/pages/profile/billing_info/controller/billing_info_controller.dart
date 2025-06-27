@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:dio/dio.dart' as multi;
 import 'package:flutter/material.dart';
@@ -50,19 +51,31 @@ class BillingInfoController extends GetxController
   @override
   void onInit() {
     super.onInit();
-    billingInfo.value.userId = UserUtils.getLoginUserId();
     var arguments = Get.arguments;
     if (arguments != null) {
       billingInfo.value = arguments[AppConstants.intentKey.billingInfo];
       setInitData();
     }
+    billingInfo.value.userId = UserUtils.getLoginUserId();
+    billingInfo.value.companyId = ApiConstants.companyId;
   }
-
   void setInitData() {
     firstNameController.value.text = billingInfo.value.firstName ?? "";
     lastNameController.value.text = billingInfo.value.lastName ?? "";
+    middleNameController.value.text = billingInfo.value.middleName ?? "";
+    emailController.value.text = billingInfo.value.email ?? "";
+    postcodeController.value.text = billingInfo.value.postCode ?? "";
+    myAddressController.value.text = billingInfo.value.address ?? "";
+    mExtension.value = billingInfo.value.extension ?? "";
+    phoneController.value.text = billingInfo.value.phone ?? "";
+    nameOnUTRController.value.text = billingInfo.value.nameOnUtr ?? "";
+    utrController.value.text = billingInfo.value.utrNumber ?? "";
+    ninController.value.text = billingInfo.value.ninNumber ?? "";
+    nameOnAccountController.value.text = billingInfo.value.nameOnAccount ?? "";
+    bankNameController.value.text = billingInfo.value.bankName ?? "";
+    accountNumberController.value.text = billingInfo.value.accountNo ?? "";
+    sortCodeController.value.text = billingInfo.value.shortCode ?? "";
   }
-
   void addBillingInfoAPI() async {
     // Map<String, dynamic> map = {};
     // map["company_id"] = ApiConstants.companyId;
@@ -94,7 +107,6 @@ class BillingInfoController extends GetxController
       },
     );
   }
-
   void updateBillingInfoAPI() async {
     // Map<String, dynamic> map = {};
     // map["company_id"] = ApiConstants.companyId;
@@ -126,39 +138,43 @@ class BillingInfoController extends GetxController
       },
     );
   }
-
   void onSubmit() {
-    // if (valid()) {
-    billingInfo.value.firstName =
-        StringHelper.getText(firstNameController.value);
-    billingInfo.value.lastName = StringHelper.getText(lastNameController.value);
-    billingInfo.value.middleName =
-        StringHelper.getText(middleNameController.value);
-    billingInfo.value.email = StringHelper.getText(emailController.value);
-    billingInfo.value.phone = StringHelper.getText(phoneController.value);
-    billingInfo.value.postCode = StringHelper.getText(postcodeController.value);
-    billingInfo.value.address = StringHelper.getText(myAddressController.value);
-    billingInfo.value.nameOnUtr = "nameOnUtr";
-    billingInfo.value.utrNumber = "utrNumber";
-    billingInfo.value.ninNumber = "ninNumber";
-    billingInfo.value.nameOnAccount = "nameOnAccount";
-    billingInfo.value.bankName = "bankName";
-    billingInfo.value.accountNo = "12345678";
-    billingInfo.value.shortCode = "shortCode";
+    if (valid()) {
+      billingInfo.value.firstName =
+          StringHelper.getText(firstNameController.value);
+      billingInfo.value.lastName =
+          StringHelper.getText(lastNameController.value);
+      billingInfo.value.middleName =
+          StringHelper.getText(middleNameController.value);
+      billingInfo.value.email = StringHelper.getText(emailController.value);
+      billingInfo.value.phone = StringHelper.getText(phoneController.value);
+      billingInfo.value.postCode =
+          StringHelper.getText(postcodeController.value);
+      billingInfo.value.address =
+          StringHelper.getText(myAddressController.value);
+      billingInfo.value.nameOnUtr =
+          StringHelper.getText(nameOnUTRController.value);
+      billingInfo.value.utrNumber = StringHelper.getText(utrController.value);
+      billingInfo.value.ninNumber = StringHelper.getText(ninController.value);
+      billingInfo.value.nameOnAccount =
+          StringHelper.getText(nameOnAccountController.value);
+      billingInfo.value.bankName =
+          StringHelper.getText(bankNameController.value);
+      billingInfo.value.accountNo = StringHelper.getText(accountNumberController.value);
+      billingInfo.value.shortCode =
+          StringHelper.getText(sortCodeController.value);
 
-    if ((billingInfo.value.billingId ?? 0) != 0) {
-      updateBillingInfoAPI();
-    } else {
-      addBillingInfoAPI();
+      if ((billingInfo.value.id ?? 0) != 0) {
+        updateBillingInfoAPI();
+      }
+      else{
+        addBillingInfoAPI();
+      }
     }
-
-    // }
   }
-
   bool valid() {
     return formKey.currentState!.validate();
   }
-
   void showPhoneExtensionDialog() {
     Get.bottomSheet(
         PhoneExtensionListDialog(
@@ -168,7 +184,6 @@ class BillingInfoController extends GetxController
         backgroundColor: Colors.transparent,
         isScrollControlled: true);
   }
-
   @override
   void onSelectPhoneExtension(
       int id, String extension, String flag, String country) {
