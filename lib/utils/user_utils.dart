@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:otm_inventory/pages/common/model/user_info.dart';
 import 'package:get/get.dart';
+import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_storage.dart';
 
 class UserUtils {
@@ -14,11 +15,10 @@ class UserUtils {
     UserInfo info = Get.find<AppStorage>().getUserInfo();
     return "${info.firstName} ${info.lastName}";
   }
-
   static bool isAdmin() {
     UserInfo info = Get.find<AppStorage>().getUserInfo();
-    // return info.userTypeId == AppConstants.userType.admin;
-    return false;
+    int userRoleId = info.userRoleId ?? 0;
+    return userRoleId == AppConstants.userType.admin;
   }
 
   static bool isEmployee() {

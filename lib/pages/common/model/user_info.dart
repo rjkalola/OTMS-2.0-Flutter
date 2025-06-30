@@ -16,6 +16,7 @@ class UserInfo {
   int? tradeId;
   String? tradeName;
   bool? isCheck;
+  int? userRoleId;
 
   UserInfo(
       {this.id,
@@ -34,7 +35,8 @@ class UserInfo {
       this.apiToken,
       this.tradeId,
       this.tradeName,
-      this.isCheck});
+      this.isCheck,
+      this.userRoleId});
 
   UserInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -54,6 +56,7 @@ class UserInfo {
     tradeId = json['trade_id'];
     tradeName = json['trade_name'];
     isCheck = json['isCheck'];
+    userRoleId = json['user_role_id'];
   }
 
   Map<String, dynamic> toJson() {
@@ -75,6 +78,7 @@ class UserInfo {
     data['trade_id'] = this.tradeId;
     data['trade_name'] = this.tradeName;
     data['isCheck'] = this.isCheck;
+    data['user_role_id'] = this.userRoleId;
     return data;
   }
 
@@ -93,7 +97,8 @@ class UserInfo {
       int? companyId,
       int? deviceType,
       String? deviceToken,
-      bool? isCheck}) {
+      bool? isCheck,
+      int? userRoleId}) {
     return UserInfo(
         id: id ?? this.id,
         firstName: firstName ?? this.firstName,
@@ -111,7 +116,8 @@ class UserInfo {
         apiToken: deviceToken ?? this.apiToken,
         tradeId: tradeId ?? this.tradeId,
         tradeName: tradeName ?? this.tradeName,
-        isCheck: isCheck ?? this.isCheck);
+        isCheck: isCheck ?? this.isCheck,
+        userRoleId: userRoleId ?? this.userRoleId);
   }
 
   UserInfo copyUserInfo({UserInfo? userInfo}) {
@@ -133,6 +139,7 @@ class UserInfo {
         apiToken: userInfo?.apiToken ?? this.apiToken,
         tradeId: userInfo?.tradeId ?? this.tradeId,
         tradeName: userInfo?.tradeName ?? this.tradeName,
-        isCheck: userInfo?.isCheck ?? this.isCheck);
+        isCheck: userInfo?.isCheck ?? this.isCheck,
+        userRoleId: userInfo?.userRoleId ?? this.userRoleId);
   }
 }

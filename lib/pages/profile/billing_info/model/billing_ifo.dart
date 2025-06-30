@@ -21,6 +21,8 @@ class BillingInfo {
   String? userImage;
   String? userThumbImage;
   int? companyId;
+  int? status;
+  String? statusText;
 
   BillingInfo(
       {this.id,
@@ -43,7 +45,9 @@ class BillingInfo {
       this.shortCode,
       this.userImage,
       this.userThumbImage,
-      this.companyId});
+      this.companyId,
+      this.status,
+      this.statusText});
 
   BillingInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -67,6 +71,8 @@ class BillingInfo {
     shortCode = json['short_code'];
     userImage = json['user_image'];
     userThumbImage = json['user_thumb_image'];
+    status = json['status'];
+    statusText = json['status_text'];
   }
 
   Map<String, dynamic> toJson() {
@@ -92,6 +98,8 @@ class BillingInfo {
     data['short_code'] = this.shortCode;
     data['user_image'] = this.userImage;
     data['user_thumb_image'] = this.userThumbImage;
+    data['status'] = this.status;
+    data['status_text'] = this.statusText;
     return data;
   }
 }

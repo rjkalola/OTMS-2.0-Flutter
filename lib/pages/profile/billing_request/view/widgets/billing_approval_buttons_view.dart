@@ -3,13 +3,13 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:otm_inventory/pages/profile/billing_request/controller/billing_request_controller.dart';
 import 'package:otm_inventory/res/colors.dart';
+import 'package:otm_inventory/utils/user_utils.dart';
 
 class BillingApprovalButtonsView extends StatelessWidget {
 
   final TextEditingController _noteController = TextEditingController();
   final controller = Get.put(BillingRequestController());
-
-  final bool showActionCard = true; // Change to false for second scenario
+  final bool showActionCard = UserUtils.isAdmin();//true; // Change to false for second scenario
 
   @override
   Widget build(BuildContext context) {

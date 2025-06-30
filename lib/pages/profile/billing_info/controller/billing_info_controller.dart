@@ -43,6 +43,7 @@ class BillingInfoController extends GetxController
   final mExtension = AppConstants.defaultPhoneExtension.obs;
   final mExtensionId = AppConstants.defaultPhoneExtensionId.obs;
   final mFlag = AppConstants.defaultFlagUrl.obs;
+  final isPhoneNumberExist = false.obs;
   final formKey = GlobalKey<FormState>();
   final _api = BillingInfoRepository();
   RxBool isLoading = false.obs, isInternetNotAvailable = false.obs;
@@ -147,6 +148,7 @@ class BillingInfoController extends GetxController
       billingInfo.value.middleName =
           StringHelper.getText(middleNameController.value);
       billingInfo.value.email = StringHelper.getText(emailController.value);
+      billingInfo.value.extension = mExtension.value;
       billingInfo.value.phone = StringHelper.getText(phoneController.value);
       billingInfo.value.postCode =
           StringHelper.getText(postcodeController.value);

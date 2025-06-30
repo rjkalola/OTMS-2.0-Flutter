@@ -6,6 +6,7 @@ class WorkLogListResponse {
   String? message;
   bool? userIsWorking;
   int? totalWorkingHours;
+  String? workStartDate;
   ShiftInfo? shiftInfo;
   List<WorkLogInfo>? workLogInfo;
 
@@ -14,6 +15,7 @@ class WorkLogListResponse {
       this.message,
       this.userIsWorking,
       this.totalWorkingHours,
+      this.workStartDate,
       this.shiftInfo,
       this.workLogInfo});
 
@@ -22,6 +24,7 @@ class WorkLogListResponse {
     message = json['message'];
     userIsWorking = json['user_is_working'];
     totalWorkingHours = json['total_working_hours'];
+    workStartDate = json['work_start_date'];
     shiftInfo = json['shift_info'] != null
         ? new ShiftInfo.fromJson(json['shift_info'])
         : null;
@@ -39,6 +42,7 @@ class WorkLogListResponse {
     data['message'] = this.message;
     data['user_is_working'] = this.userIsWorking;
     data['total_working_hours'] = this.totalWorkingHours;
+    data['work_start_date'] = this.workStartDate;
     if (this.shiftInfo != null) {
       data['shift_info'] = this.shiftInfo!.toJson();
     }

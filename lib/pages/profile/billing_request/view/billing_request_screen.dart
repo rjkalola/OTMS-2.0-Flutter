@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:otm_inventory/pages/profile/billing_details/view/widgets/bank_details_view.dart';
 import 'package:otm_inventory/pages/profile/billing_details/view/widgets/no_billing_data_view.dart';
 import 'package:otm_inventory/pages/profile/billing_details/view/widgets/phone_with_extension_field.dart';
-import 'package:otm_inventory/pages/profile/billing_details/view/widgets/tax_info_view.dart';
 import 'package:otm_inventory/pages/profile/billing_request/controller/billing_request_controller.dart';
+import 'package:otm_inventory/pages/profile/billing_request/view/widgets/bank_details_fields_view.dart';
 import 'package:otm_inventory/pages/profile/billing_request/view/widgets/billing_approval_buttons_view.dart';
 import 'package:otm_inventory/pages/profile/billing_request/view/widgets/no_billing_request_data_view.dart';
+import 'package:otm_inventory/pages/profile/billing_request/view/widgets/tax_info_fields_view.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
@@ -15,6 +15,7 @@ import 'package:otm_inventory/widgets/PrimaryButton.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
 import 'package:otm_inventory/widgets/other_widgets/user_avtar_view.dart';
 import '../../../../utils/app_constants.dart';
+
 
 class BillingRequestScreen extends StatefulWidget {
   const BillingRequestScreen({super.key});
@@ -51,7 +52,7 @@ class _BillingRequestScreenState extends State<BillingRequestScreen> {
                 : Visibility(
                 visible: controller.isMainViewVisible.value,
                 child: (controller
-                    .billingInfo.value.id ?? 0) != 0 ? Column(
+                    .billingRequestInfo.value.id ?? 0) != 0 ? Column(
                       children: [
                         Expanded(
                           child: SingleChildScrollView(
@@ -69,44 +70,65 @@ class _BillingRequestScreenState extends State<BillingRequestScreen> {
                                     UserAvtarView(
                                       imageSize: 60,
                                       imageUrl: controller
-                                          .billingInfo.value.userThumbImage ??
+                                          .billingRequestInfo.value.userThumbImage ??
                                           "",
                                     ),
                                     const SizedBox(height: 10),
                                     // Name
-                                    Text(
-                                      controller.billingInfo.value.name ?? "",
-                                      style: TextStyle(
-                                          fontSize: 24, fontWeight: FontWeight.w600),
+                                    Visibility(
+                                      visible:(controller.billingRequestInfo.value.name ?? "").isNotEmpty,
+                                      child: Text(
+                                        controller.billingRequestInfo.value.name ?? "",
+                                        style: TextStyle(
+                                            fontSize: 24, fontWeight: FontWeight.w600),
+                                      ),
                                     ),
                                     const SizedBox(height: 10),
                                     // Phone
-                                    PhoneWithExtensionField(
-                                        "${controller.billingInfo.value.extension ?? ""} ${controller.billingInfo.value.phone ?? ""}",
-                                        "Phone number"),
+                                    Visibility(
+                                      visible:(controller.billingRequestInfo.value.phone ?? "").isNotEmpty,
+                                      child: PhoneWithExtensionField(
+                                          "${controller.billingRequestInfo.value.extension ?? ""} ${controller.billingRequestInfo.value.phone ?? ""}",
+                                          "Phone number"),
+                                    ),
                                     const SizedBox(height: 10),
                                     // Email
-                                    PhoneWithExtensionField(
-                                        controller.billingInfo.value.email ?? "",
-                                        "Email"),
+                                    Visibility(
+                                      visible:(controller.billingRequestInfo.value.email ?? "").isNotEmpty,
+                                      child: PhoneWithExtensionField(
+                                          controller.billingRequestInfo.value.email ?? "",
+                                          "Email"),
+                                    ),
                                     const SizedBox(height: 10),
                                     // My Address
-                                    PhoneWithExtensionField(
-                                        controller.billingInfo.value.address ?? "",
-                                        "My Address"),
+                                    Visibility(
+                                      visible:(controller.billingRequestInfo.value.address ?? "").isNotEmpty,
+                                      child: PhoneWithExtensionField(
+                                          controller.billingRequestInfo.value.address ?? "",
+                                          "My Address"),
+                                    ),
                                     const SizedBox(height: 10),
                                     // Post code
-                                    PhoneWithExtensionField(
-                                        controller.billingInfo.value.postCode ?? "",
-                                        "Post Code"),
+                                    Visibility(
+                                      visible:(controller.billingRequestInfo.value.postCode ?? "").isNotEmpty,
+                                      child: PhoneWithExtensionField(
+                                          controller.billingRequestInfo.value.postCode ?? "",
+                                          "Post Code"),
+                                    ),
                                   ],
                                 ),
                               ),
-                              TaxInfoView(),
-                              BankDetailsView(),
+
+                              Visibility(
+                                visible: (controller.billingRequestInfo.value.nameOnUtr ?? "").isNotEmpty || (controller.billingRequestInfo.value.utrNumber ?? "").isNotEmpty || (controller.billingRequestInfo.value.ninNumber ?? "").isNotEmpty,
+                                  child: TaxInfoFieldsView()),
+
+                              Visibility(
+                                visible: (controller.billingRequestInfo.value.nameOnAccount ?? "").isNotEmpty || (controller.billingRequestInfo.value.bankName ?? "").isNotEmpty || (controller.billingRequestInfo.value.accountNo ?? "").isNotEmpty || (controller.billingRequestInfo.value.shortCode ?? "").isNotEmpty,
+                                  child: BankDetailsFieldsView()),
                             ],
                           )
-                                          ),
+                          ),
                         ),
                         BillingApprovalButtonsView()
                       ],

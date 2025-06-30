@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_controller.dart';
+import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_utils.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/stop_shift_button.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/utils/date_utils.dart';
@@ -13,7 +14,7 @@ class WorkTimeDetailsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Obx(() => Container(
       margin: EdgeInsets.only(left: 16, right: 16),
       width: double.infinity,
       decoration: BoxDecoration(
@@ -35,7 +36,7 @@ class WorkTimeDetailsView extends StatelessWidget {
             fontWeight: FontWeight.w400,
           ),
           PrimaryTextView(
-            text: "06:00:00",
+            text: controller.totalWorkHours.value,
             fontSize: 26,
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -94,6 +95,6 @@ class WorkTimeDetailsView extends StatelessWidget {
           ),
         ],
       ),
-    );
+    ),);
   }
 }

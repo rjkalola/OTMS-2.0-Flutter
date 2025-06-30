@@ -23,3 +23,4 @@ class BillingInfoResponse {
     return data;
   }
 }
+

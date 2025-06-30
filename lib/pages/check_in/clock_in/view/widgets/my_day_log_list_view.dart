@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_controller.dart';
+import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_utils.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/model/work_log_info.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/model/work_log_list_response.dart';
 import 'package:otm_inventory/res/colors.dart';
@@ -22,7 +23,9 @@ class MyDayLogListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => (controller.workLogData.value.workLogInfo ?? []).isNotEmpty
+      () => (controller.workLogData.value.workLogInfo ?? []).isNotEmpty &&
+              ClockInUtils.isCurrentDay(
+                  controller.workLogData.value.workStartDate ?? "")
           ? Expanded(
               child: ListView(
                 physics: const AlwaysScrollableScrollPhysics(), //
@@ -81,8 +84,9 @@ class MyDayLogListView extends StatelessWidget {
                                                 flex: 4,
                                                 fit: FlexFit.tight,
                                                 child: Padding(
-                                                  padding: const EdgeInsets
-                                                      .fromLTRB(10, 8, 8, 8),
+                                                  padding:
+                                                      const EdgeInsets.fromLTRB(
+                                                          10, 8, 8, 8),
                                                   child: Column(
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment
@@ -92,8 +96,7 @@ class MyDayLogListView extends StatelessWidget {
                                                             .center,
                                                     children: [
                                                       setProjectNameTextView(
-                                                          info.shiftName ??
-                                                              "")
+                                                          info.shiftName ?? "")
                                                     ],
                                                   ),
                                                 ),
@@ -124,11 +127,10 @@ class MyDayLogListView extends StatelessWidget {
                                                                         0)
                                                             : "00:00",
                                                         fontSize: 17,
-                                                        fontColor:
-                                                            isActiveWorkLog(
-                                                                    info)
-                                                                ? Colors.white
-                                                                : primaryTextColor,
+                                                        fontColor: isActiveWorkLog(
+                                                                info)
+                                                            ? Colors.white
+                                                            : primaryTextColor,
                                                         fontWeight:
                                                             FontWeight.w500,
                                                         boxColor:
@@ -146,8 +148,7 @@ class MyDayLogListView extends StatelessWidget {
                                                             fromToWorkTimeText(
                                                                 info),
                                                         fontSize: 13,
-                                                        color:
-                                                            primaryTextColor,
+                                                        color: primaryTextColor,
                                                       )
                                                     ],
                                                   )),

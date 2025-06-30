@@ -135,13 +135,16 @@ class RequestCard extends StatelessWidget {
         padding: EdgeInsets.all(12),
         child: GestureDetector(
           onTap: (){
-            String status = request.status ?? "";
+            String status = request.statusText ?? "";
+            int requestType = request.requestType ?? 0;
             if (status == "pending"){
               var arguments = {
                 "request_log_id":request.id ?? 0,
               };
-              controller.moveToScreen(
-                  AppRoutes.billingRequestScreen, arguments);
+
+              if (requestType == 103){
+              controller.moveToScreen(AppRoutes.billingRequestScreen, arguments);
+              }
             }
           },
           child: Column(
@@ -160,7 +163,7 @@ class RequestCard extends StatelessWidget {
                     child: CircleAvatar(
                       radius: 24,
                       backgroundImage: NetworkImage(
-                        request.requestedUserImage ?? "",
+                        request.userImage ?? "",
                       ),
                     ),
                   ),
@@ -170,8 +173,8 @@ class RequestCard extends StatelessWidget {
                       TextSpan(
                         children: [
                           TextSpan(
-                            text: "${request.requestedUser ?? ""}: ",
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            text: "${request.userName ?? ""}:\n",
+                            style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),
                           ),
                           TextSpan(
                             text: request.message ?? "",
@@ -182,22 +185,26 @@ class RequestCard extends StatelessWidget {
                   ),
                   Chip(
                     label: Text(
-                      request.status ?? "",
+                      capitalizeFirst(request.statusText ?? ""),
                       style: TextStyle(
-                        color: getStatusColor(request.status ?? ""),
+                        color: getStatusColor(request.statusText ?? ""),
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    backgroundColor: getStatusColor(request.status ?? "").withOpacity(0.1),
+                    backgroundColor: getStatusColor(request.statusText ?? "").withOpacity(0.1),
                     shape: StadiumBorder(
-                      side: BorderSide(color: getStatusColor(request.status ?? ""),),
+                      side: BorderSide(color: getStatusColor(request.statusText ?? ""),),
                     ),
                   )
                 ],
               ),
 
               SizedBox(height: 8),
-              Text(request.rejectReason ?? ""),
+              Text(
+                (request.rejectReason?.trim().isEmpty ?? true)
+                    ? ""
+                    : "Note: ${request.rejectReason!}",
+              ),
               SizedBox(height: 8),
               Align(
                 alignment: Alignment.bottomRight,
@@ -223,4 +230,9 @@ Color getStatusColor(String status){
     color = Colors.red;
   }
   return color;
+}
+
+String capitalizeFirst(String text) {
+  if (text.isEmpty) return '';
+  return text[0].toUpperCase() + text.substring(1);
 }

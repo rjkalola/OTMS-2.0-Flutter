@@ -33,20 +33,19 @@ class MyRequestsController extends GetxController {
     isMainViewVisible.value = true;
     getMyRequestsList();
   }
-
   void getMyRequestsList() async {
     Map<String, dynamic> map = {};
-    map["user_id"] = UserUtils.getLoginUserId();
-
+    if (!UserUtils.isAdmin()){
+      map["user_id"] = UserUtils.getLoginUserId();
+    }
+    map["company_id"] = ApiConstants.companyId;
     isLoading.value = true;
     _api.getMyRequestsList(
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
-
           MyRequestListResponse response =
           MyRequestListResponse.fromJson(jsonDecode(responseModel.result!));
-
           tempList.clear();
           tempList.addAll(response.requests ?? []);
 

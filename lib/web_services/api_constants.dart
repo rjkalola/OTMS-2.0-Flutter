@@ -113,13 +113,13 @@ class ApiConstants {
   static String addBillingInfo = '$appUrl/user-billing/store-billing-info';
   static String updateBillingInfo = '$appUrl/user-billing/update-billing-info';
   static String getBillingInfo = '$appUrl/user-billing/get-billing-info';
-  static String requestsGetRequestDetail = '$appUrl/requests/get-request-detail';
+  static String requestsGetRequestDetail =
+      '$appUrl/requests/get-request-detail';
 
   //my requests
   static String getAllRequest = '$appUrl/requests/get-all-request';
   static String approveRequest = '$appUrl/requests/approve-request';
   static String rejectRequest = '$appUrl/requests/reject-request';
-
 
   //start work
   static String userStartWork = '$appUrl/user-start-work';

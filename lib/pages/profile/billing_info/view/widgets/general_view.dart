@@ -54,7 +54,7 @@ class GeneralView extends StatelessWidget {
                         left: 0,
                         right: 0,
                         child: Container(
-                          height: 1,
+                          height: 0,
                           color: Colors.grey,
                         ),
                       ),
@@ -109,7 +109,6 @@ class GeneralView extends StatelessWidget {
                       PhoneTextfieldWidget()),
                 ],
               ),
-
             ],
           ),
         ));

@@ -51,58 +51,93 @@ class _BillingDetailsScreenState extends State<BillingDetailsScreen> {
                 : Visibility(
                 visible: controller.isMainViewVisible.value,
                 child: (controller
-                    .billingInfo.value.id ?? 0) != 0 ? SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    .billingInfo.value.id ?? 0) != 0 ? Column(
                       children: [
-                        //profile UI
-                        Container(
-                          padding: EdgeInsets.fromLTRB(16, 14, 16, 0),
-                          width: double.infinity,
+                        Expanded(
+                          child: SingleChildScrollView(
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // Avatar
-                              UserAvtarView(
-                                imageSize: 60,
-                                imageUrl: controller
-                                    .billingInfo.value.userThumbImage ??
-                                    "",
+                              //profile UI
+                              Container(
+                                padding: EdgeInsets.fromLTRB(16, 14, 16, 0),
+                                width: double.infinity,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    // Avatar
+                                    UserAvtarView(
+                                      imageSize: 60,
+                                      imageUrl: controller
+                                          .billingInfo.value.userThumbImage ??
+                                          "",
+                                    ),
+                                    const SizedBox(height: 10),
+                                    // Name
+                                    Text(
+                                      controller.billingInfo.value.name ?? "",
+                                      style: TextStyle(
+                                          fontSize: 24, fontWeight: FontWeight.w600),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    // Phone
+                                    PhoneWithExtensionField(
+                                        "${controller.billingInfo.value.extension ?? ""} ${controller.billingInfo.value.phone ?? ""}",
+                                        "Phone number"),
+                                    const SizedBox(height: 10),
+                                    // Email
+                                    PhoneWithExtensionField(
+                                        controller.billingInfo.value.email ?? "",
+                                        "Email"),
+                                    const SizedBox(height: 10),
+                                    // My Address
+                                    PhoneWithExtensionField(
+                                        controller.billingInfo.value.address ?? "",
+                                        "My Address"),
+                                    const SizedBox(height: 10),
+                                    // Post code
+                                    PhoneWithExtensionField(
+                                        controller.billingInfo.value.postCode ?? "",
+                                        "Post Code"),
+                                  ],
+                                ),
                               ),
-                              const SizedBox(height: 10),
-                              // Name
-                              Text(
-                                controller.billingInfo.value.name ?? "",
-                                style: TextStyle(
-                                    fontSize: 24, fontWeight: FontWeight.w600),
-                              ),
-                              const SizedBox(height: 10),
-                              // Phone
-                              PhoneWithExtensionField(
-                                  "${controller.billingInfo.value.extension ?? ""} ${controller.billingInfo.value.phone ?? ""}",
-                                  "Phone number"),
-                              const SizedBox(height: 10),
-                              // Email
-                              PhoneWithExtensionField(
-                                  controller.billingInfo.value.email ?? "",
-                                  "Email"),
-                              const SizedBox(height: 10),
-                              // My Address
-                              PhoneWithExtensionField(
-                                  controller.billingInfo.value.address ?? "",
-                                  "My Address"),
-                              const SizedBox(height: 10),
-                              // Post code
-                              PhoneWithExtensionField(
-                                  controller.billingInfo.value.postCode ?? "",
-                                  "Post Code"),
+                              TaxInfoView(),
+                              BankDetailsView(),
                             ],
-                          ),
+
+                          )),
                         ),
-                        TaxInfoView(),
-                        BankDetailsView(),
+
+                        Visibility(
+                          visible: (controller.billingInfo.value.statusText ?? "") == "pending",
+                          child: Container(
+                            width: double.infinity,
+                            margin: EdgeInsets.all(16),
+                            padding: EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(16),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.shade300,
+                                  blurRadius: 8,
+                                  offset: Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: Center(
+                              child: Text(
+                                "Billing information submission is pending for approval.",
+                                style:
+                                TextStyle(color: Colors.red, fontSize: 15,fontWeight: FontWeight.w500),
+                                textAlign: TextAlign.center,
+                              ),
+                            ) ,
+                          ),
+                        )
                       ],
-                    )) : NoBillingDataView()),
+                    ) : NoBillingDataView()),
           ),
         ),
       ),
@@ -112,8 +147,8 @@ class _BillingDetailsScreenState extends State<BillingDetailsScreen> {
   List<Widget>? actionButtons() {
     return [
       Visibility(
-        visible: (controller
-            .billingInfo.value.id ?? 0) != 0,
+        visible: (controller.billingInfo.value.id ?? 0) != 0 &&
+          (controller.billingInfo.value.statusText ?? "") != "pending",
           child: Padding(
         padding: const EdgeInsets.only(right: 16),
         child: ElevatedButton(

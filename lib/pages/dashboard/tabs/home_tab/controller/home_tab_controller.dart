@@ -253,7 +253,8 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
         if (responseModel.isSuccess) {
           WorkLogListResponse response =
               WorkLogListResponse.fromJson(jsonDecode(responseModel.result!));
-          if (response.workLogInfo!.isNotEmpty) {
+          if (response.workLogInfo!.isNotEmpty ||
+              (response.userIsWorking ?? false)) {
             moveToScreen(appRout: AppRoutes.clockInScreen);
           } else {
             moveToScreen(appRout: AppRoutes.startShiftMapScreen);
@@ -396,7 +397,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       moveToScreen(appRout: AppRoutes.timeSheetListScreen);
     } else if (info.slug == 'billing') {
       moveToScreen(appRout: AppRoutes.billingDetailsScreen);
-    }else if (info.slug == 'my_requests') {
+    } else if (info.slug == 'my_requests') {
       moveToScreen(appRout: AppRoutes.myRequestsScreen);
     }
   }

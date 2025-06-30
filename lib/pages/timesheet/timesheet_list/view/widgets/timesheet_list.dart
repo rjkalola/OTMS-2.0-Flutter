@@ -45,7 +45,7 @@ class TimeSheetList extends StatelessWidget {
                     },
                     child: Column(
                       children: [
-                        userDetailsView(info,position),
+                        userDetailsView(info, position),
                         WeekNumberTitle(
                           position: position,
                           info: info,
@@ -104,7 +104,7 @@ class TimeSheetList extends StatelessWidget {
                 width: 10,
               ),
               TitleTextView(
-                text: DateUtil.seconds_To_HH_MM(info.totalHours ?? 0),
+                text: DateUtil.seconds_To_HH_MM(info.totalSeconds ?? 0),
                 fontSize: 17,
               ),
               SizedBox(

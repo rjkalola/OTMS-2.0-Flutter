@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_repository.dart';
+import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_utils.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/model/work_log_info.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/model/work_log_list_response.dart';
 import 'package:otm_inventory/pages/dashboard/models/dashboard_response.dart';
@@ -24,6 +26,7 @@ class ClockInController extends GetxController {
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
       isLocationLoaded = false.obs;
+  final RxString totalWorkHours = "".obs;
   final _api = ClockInRepository();
   late GoogleMapController mapController;
   final center = LatLng(37.42796133580664, -122.085749655962).obs;
@@ -32,6 +35,7 @@ class ClockInController extends GetxController {
   final locationService = LocationServiceNew();
   final workLogData = WorkLogListResponse().obs;
   WorkLogInfo? selectedWorkLogInfo = null;
+  Timer? _timer;
 
   void onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -105,6 +109,14 @@ class ClockInController extends GetxController {
               selectedWorkLogInfo = info;
               break;
             }
+          }
+          if (response.userIsWorking ?? false) {
+            stopTimer();
+            startTimer();
+          } else {
+            stopTimer();
+            totalWorkHours.value =
+                ClockInUtils.getTotalWorkHours(workLogData.value);
           }
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
@@ -185,5 +197,22 @@ class ClockInController extends GetxController {
         ? DateUtil.changeDateFormat(
             date!, DateUtil.DD_MM_YYYY_TIME_24_SLASH2, DateUtil.HH_MM_24)
         : "";
+  }
+
+  void startTimer() {
+    _timer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
+      totalWorkHours.value = ClockInUtils.getTotalWorkHours(workLogData.value);
+    });
+  }
+
+  void stopTimer() {
+    _timer?.cancel();
+  }
+
+  @override
+  void onClose() {
+    print("onClose");
+    stopTimer();
+    super.onClose();
   }
 }

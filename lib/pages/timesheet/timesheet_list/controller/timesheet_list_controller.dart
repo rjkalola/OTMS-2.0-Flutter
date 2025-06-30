@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/common/listener/date_filter_listener.dart';
 import 'package:otm_inventory/pages/common/listener/menu_item_listener.dart';
 import 'package:otm_inventory/pages/common/menu_items_list_bottom_dialog.dart';
 import 'package:otm_inventory/pages/timesheet/timesheet_list/controller/timesheet_list_repository.dart';
@@ -24,7 +23,7 @@ class TimeSheetListController extends GetxController
   final _api = TimesheetListRepository();
   final timeSheetList = <TimeSheetInfo>[].obs;
   int selectedIndex = 0, selectedTeamId = 0;
-  String filterPerDay = "",startDate ="",endDate="";
+  String filterPerDay = "", startDate = "", endDate = "";
   List<TimeSheetInfo> tempList = [];
 
   @override
@@ -103,5 +102,4 @@ class TimeSheetListController extends GetxController
     endDate = "";
     getTimeSheetListApi();
   }
-
 }

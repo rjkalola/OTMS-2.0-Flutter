@@ -193,6 +193,8 @@ class StopShiftController extends GetxController implements SelectTimeListener {
         : getCurrentTime();
     initiallyStartTime = startTime.value;
     initiallyStopTime = stopTime.value;
+    print("initiallyStartTime:" + initiallyStartTime);
+    print("initiallyStopTime:" + initiallyStopTime);
     /*initialTotalWorkTime.value =
         !StringHelper.isEmptyString(workLogInfo.value.workEndTime)
             ? workLogInfo.value.totalWorkSeconds ?? 0
@@ -238,8 +240,9 @@ class StopShiftController extends GetxController implements SelectTimeListener {
     }
     updatedTotalWorkingTime.value =
         getTotalTimeDifference(startTime.value ?? "", stopTime.value ?? "");
+
     isEdited.value =
-        (updatedTotalWorkingTime.value != initialTotalWorkTime.value) &&
+        (updatedTotalWorkingTime.value != initialTotalWorkTime.value) ||
             ((initiallyStartTime != startTime.value) ||
                 (initiallyStopTime != stopTime.value));
     workLogInfo.refresh();

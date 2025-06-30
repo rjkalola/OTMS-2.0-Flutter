@@ -9,6 +9,7 @@ class TimeSheetInfo {
   String? userImage;
   String? userThumbImage;
   int? totalHours;
+  int? totalSeconds;
   String? amount;
   int? status;
   String? statusMessage;
@@ -31,6 +32,7 @@ class TimeSheetInfo {
       this.userImage,
       this.userThumbImage,
       this.totalHours,
+      this.totalSeconds,
       this.amount,
       this.status,
       this.statusMessage,
@@ -53,6 +55,7 @@ class TimeSheetInfo {
     userImage = json['user_image'];
     userThumbImage = json['user_thumb_image'];
     totalHours = json['total_hours'];
+    totalSeconds = json['total_seconds'];
     amount = json['amount'];
     status = json['status'];
     statusMessage = json['status_message'];
@@ -82,6 +85,7 @@ class TimeSheetInfo {
     data['user_image'] = this.userImage;
     data['user_thumb_image'] = this.userThumbImage;
     data['total_hours'] = this.totalHours;
+    data['total_seconds'] = this.totalSeconds;
     data['amount'] = this.amount;
     data['status'] = this.status;
     data['status_message'] = this.statusMessage;
