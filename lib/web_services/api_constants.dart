@@ -126,6 +126,8 @@ class ApiConstants {
   static String userStopWork = '$appUrl/user-stop-work';
   static String userWorkLogList = '$appUrl/user-daylogs-list';
   static String requestWorkLogChange = '$appUrl/request-worklog-change';
+  static String workLogRequestDetails =
+      '$appUrl/requests/get-request-detail';
 
   //timesheet
   static String getTimeSheetList = '$appUrl/timesheet/get';

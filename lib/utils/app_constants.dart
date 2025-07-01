@@ -64,6 +64,7 @@ class IntentKey {
   final String billingInfo = "BILLING_INFO";
   final String fromStartShiftScreen = 'FROM_START_SHIFT_SCREEN';
   final String workLogInfo = "WORK_LOG_INFO";
+  final String ID = "ID";
   final String date = "DATE";
 }
 

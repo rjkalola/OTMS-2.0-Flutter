@@ -9,7 +9,7 @@ class ClockInUtils {
     print("---------------");
     if (logs != null) {
       if (!(logs.userIsWorking ?? false)) {
-        totalWorkHourSeconds = logs.totalWorkingHours!;
+        totalWorkHourSeconds = logs.totalPayableWorkingSeconds!;
       } else {
         DateTime currentDateTime = DateTime.now();
         final DateFormat fullFormat =

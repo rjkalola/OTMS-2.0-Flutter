@@ -86,7 +86,7 @@ class WorkTimeDetailsView extends StatelessWidget {
                 ),
                 PrimaryTextView(
                   text: DateUtil.seconds_To_HH_MM_SS(
-                      controller.workLogData.value.totalWorkingHours ?? 0),
+                      controller.workLogData.value.totalPayableWorkingSeconds ?? 0),
                   fontSize: 15,
                   color: Colors.white,
                 )

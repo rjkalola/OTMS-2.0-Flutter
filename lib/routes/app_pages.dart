@@ -13,6 +13,7 @@ import 'package:otm_inventory/pages/check_in/select_before_after_photos/view/sel
 import 'package:otm_inventory/pages/check_in/select_shift/view/select_shift_screen.dart';
 import 'package:otm_inventory/pages/check_in/start_shift_map/view/start_shift_map_screen.dart';
 import 'package:otm_inventory/pages/check_in/stop_shift/view/stop_shift_screen.dart';
+import 'package:otm_inventory/pages/check_in/work_log_request/view/work_log_request_screen.dart';
 import 'package:otm_inventory/pages/company/company_details/view/company_details_screen.dart';
 import 'package:otm_inventory/pages/company/company_signup/view/company_signup_screen.dart';
 import 'package:otm_inventory/pages/company/joincompany/view/join_comapny_screen.dart';
@@ -44,7 +45,6 @@ import 'package:otm_inventory/pages/teams/team_details/view/team_details_screen.
 import 'package:otm_inventory/pages/teams/team_generate_otp/view/team_generate_otp_screen.dart';
 import 'package:otm_inventory/pages/teams/team_list/view/team_list_screen.dart';
 import 'package:otm_inventory/pages/timesheet/timesheet_list/view/timesheet_list_screen.dart';
-import 'package:otm_inventory/pages/timesheet/timesheet_list/view/widgets/timesheet_list.dart';
 import 'package:otm_inventory/pages/trades/view/company_trades_screen.dart';
 import 'package:otm_inventory/pages/users/user_list/view/user_list_screen.dart';
 
@@ -211,12 +211,22 @@ class AppPages {
     GetPage(
         name: AppRoutes.startShiftMapScreen, page: () => StartShiftMapScreen()),
     GetPage(name: AppRoutes.billingInfoScreen, page: () => BillingInfoScreen()),
-    GetPage(name: AppRoutes.billingDetailsScreen, page: () => BillingDetailsScreen()),
-    GetPage(name: AppRoutes.companyBillingsScreen, page: () => CompanyBillingsScreen()),
+    GetPage(
+        name: AppRoutes.billingDetailsScreen,
+        page: () => BillingDetailsScreen()),
+    GetPage(
+        name: AppRoutes.companyBillingsScreen,
+        page: () => CompanyBillingsScreen()),
     GetPage(name: AppRoutes.stopShiftScreen, page: () => StopShiftScreen()),
     GetPage(name: AppRoutes.selectShiftScreen, page: () => SelectShiftScreen()),
-    GetPage(name: AppRoutes.timeSheetListScreen, page: () => TimeSheetListScreen()),
+    GetPage(
+        name: AppRoutes.timeSheetListScreen, page: () => TimeSheetListScreen()),
     GetPage(name: AppRoutes.myRequestsScreen, page: () => MyRequestsScreen()),
-    GetPage(name: AppRoutes.billingRequestScreen, page: () => BillingRequestScreen()),
+    GetPage(
+        name: AppRoutes.billingRequestScreen,
+        page: () => BillingRequestScreen()),
+    GetPage(
+        name: AppRoutes.workLogRequestScreen,
+        page: () => WorkLogRequestScreen()),
   ];
 }

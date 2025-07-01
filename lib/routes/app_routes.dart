@@ -71,4 +71,5 @@ class AppRoutes {
   static const String timeSheetListScreen = '/timesheet_list_screen';
   static const String myRequestsScreen = '/my_requests_screen';
   static const String billingRequestScreen = '/billing_request_screen';
+  static const String workLogRequestScreen = '/work_log_request_screen';
 }
