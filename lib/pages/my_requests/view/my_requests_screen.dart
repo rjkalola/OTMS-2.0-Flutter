@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:otm_inventory/pages/common/listener/date_filter_listener.dart';
+import 'package:otm_inventory/pages/common/widgets/date_filter_options_horizontal_list.dart';
 import 'package:otm_inventory/pages/my_requests/controller/my_requests_controller.dart';
 import 'package:otm_inventory/pages/my_requests/model/my_request_info.dart';
 import 'package:otm_inventory/pages/my_requests/model/my_requests_list_response.dart';
+import 'package:otm_inventory/pages/my_requests/view/widgets/date_filter_my_requests_horizontal_list.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
 
-class MyRequestsScreen extends StatelessWidget {
+class MyRequestsScreen extends StatelessWidget implements DateFilterListener {
   final controller = Get.put(MyRequestsController());
-  final List<String> filters = ["Week", "Month", "3 Month", "6 Month", "Year"];
-  String selectedFilter = "";
 
   @override
   Widget build(BuildContext context) {
@@ -20,61 +21,31 @@ class MyRequestsScreen extends StatelessWidget {
         color: dashBoardBgColor,
         child: SafeArea(
             child: Scaffold(
-              appBar: BaseAppBar(
-                appBar: AppBar(),
-                title: "My Requests",
-                isCenterTitle: false,
-                bgColor: dashBoardBgColor,
-                isBack: true,
-              ),
-              backgroundColor: dashBoardBgColor,
-              body: ModalProgressHUD(
-                inAsyncCall: controller.isLoading.value,
-                opacity: 0,
-                progressIndicator: const CustomProgressbar(),
-                child: controller.isInternetNotAvailable.value
-                    ? const Center(
-                  child: Text("No Internet"),
-                )
-                    : Visibility(
+          appBar: BaseAppBar(
+            appBar: AppBar(),
+            title: "My Requests",
+            isCenterTitle: false,
+            bgColor: dashBoardBgColor,
+            isBack: true,
+          ),
+          backgroundColor: dashBoardBgColor,
+          body: ModalProgressHUD(
+            inAsyncCall: controller.isLoading.value,
+            opacity: 0,
+            progressIndicator: const CustomProgressbar(),
+            child: controller.isInternetNotAvailable.value
+                ? const Center(
+                    child: Text("No Internet"),
+                  )
+                : Visibility(
                     visible: controller.isMainViewVisible.value,
-                    child:Column(
+                    child: Column(
                       children: [
-                        // Horizontally scrollable filter chips
+                        // Horizontally scrollable filter design
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            padding: EdgeInsets.symmetric(horizontal: 12),
-                            child: Row(
-                              children: filters.map((filter) {
-                                final isSelected = filter == selectedFilter;
-                                return Padding(
-                                  padding: const EdgeInsets.only(right: 8),
-                                  child: ChoiceChip(
-                                    label: Text(filter),
-                                    selected: isSelected,
-                                    onSelected: (selected) {
-                                      setState(() {
-                                        selectedFilter = filter;
-                                        // TODO: Filter your requests based on selectedFilter
-                                      });
-                                    },
-                                    selectedColor: Colors.black,
-                                    showCheckmark: false,
-                                    labelStyle: TextStyle(
-                                      color: isSelected ? Colors.white : Colors.black,
-                                    ),
-                                    backgroundColor: Colors.white,
-                                    shape: StadiumBorder(
-                                      side: BorderSide(
-                                        color: Colors.grey.shade300,
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              }).toList(),
-                            ),
+                          padding: const EdgeInsets.fromLTRB(14, 0, 14, 6),
+                          child: DateFilterMyRequestOptionsHorizontalList(
+                            listener: this,
                           ),
                         ),
                         // Requests List
@@ -85,44 +56,36 @@ class MyRequestsScreen extends StatelessWidget {
                             itemBuilder: (context, index) {
                               final request = controller.myRequestList[index];
                               return RequestCard(request: request);
-
                             },
                           ),
                         ),
                       ],
                     ),
-                ),
-              ),
-            )
-        )
-    )
-    );
+                  ),
+          ),
+        ))));
   }
 
-  void setState(Null Function() param0) {
-
-  }
-}
-
-class FilterChipWidget extends StatelessWidget {
-  final String label;
-
-  const FilterChipWidget({required this.label});
+  void setState(Null Function() param0) {}
 
   @override
-  Widget build(BuildContext context) {
-    return Chip(
-      label: Text(label),
-      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-      backgroundColor: Colors.white,
-      shape: StadiumBorder(side: BorderSide(color: Colors.grey.shade300)),
-    );
+  void onSelectDateFilter(
+      String startDate, String endDate, String dialogIdentifier) {
+    // TODO: implement onSelectDateFilter
+    //controller.isResetEnable.value = true;
+    controller.startDate = startDate;
+    controller.endDate = endDate;
+    controller.getMyRequestsList();
+    print("startDate:" + startDate);
+    print("endDate:" + endDate);
   }
 }
 
 class RequestCard extends StatelessWidget {
   final MyRequestInfo request;
+
   RequestCard({required this.request});
+
   final controller = Get.put(MyRequestsController());
 
   @override
@@ -134,16 +97,17 @@ class RequestCard extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.all(12),
         child: GestureDetector(
-          onTap: (){
+          onTap: () {
             String status = request.statusText ?? "";
             int requestType = request.requestType ?? 0;
-            if (status == "pending"){
+            if (status == "pending") {
               var arguments = {
-                "request_log_id":request.id ?? 0,
+                "request_log_id": request.id ?? 0,
               };
 
-              if (requestType == 103){
-              controller.moveToScreen(AppRoutes.billingRequestScreen, arguments);
+              if (requestType == 103) {
+                controller.moveToScreen(
+                    AppRoutes.billingRequestScreen, arguments);
               }
             }
           },
@@ -157,7 +121,7 @@ class RequestCard extends StatelessWidget {
                       shape: BoxShape.circle,
                       border: Border.all(
                         color: Colors.black, // Border color
-                        width: 1.5,         // Border width
+                        width: 1.5, // Border width
                       ),
                     ),
                     child: CircleAvatar(
@@ -174,7 +138,8 @@ class RequestCard extends StatelessWidget {
                         children: [
                           TextSpan(
                             text: "${request.userName ?? ""}:\n",
-                            style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 18),
                           ),
                           TextSpan(
                             text: request.message ?? "",
@@ -191,14 +156,16 @@ class RequestCard extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    backgroundColor: getStatusColor(request.statusText ?? "").withOpacity(0.1),
+                    backgroundColor: getStatusColor(request.statusText ?? "")
+                        .withOpacity(0.1),
                     shape: StadiumBorder(
-                      side: BorderSide(color: getStatusColor(request.statusText ?? ""),),
+                      side: BorderSide(
+                        color: getStatusColor(request.statusText ?? ""),
+                      ),
                     ),
                   )
                 ],
               ),
-
               SizedBox(height: 8),
               Text(
                 (request.rejectReason?.trim().isEmpty ?? true)
@@ -221,12 +188,11 @@ class RequestCard extends StatelessWidget {
   }
 }
 
-Color getStatusColor(String status){
+Color getStatusColor(String status) {
   Color color = primaryTextColor;
-  if(status == 'approved'){
+  if (status == 'approved') {
     color = Colors.green;
-  }
-  else if(status == 'rejected'){
+  } else if (status == 'rejected') {
     color = Colors.red;
   }
   return color;

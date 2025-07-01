@@ -5,13 +5,13 @@ import 'package:otm_inventory/web_services/response/response_model.dart';
 
 class MyRequestsRepository{
   void getMyRequestsList({
-    Map<String, dynamic>? queryParameters,
+    dynamic data,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
     ApiRequest(
         url: ApiConstants.getAllRequest,
-        queryParameters: queryParameters,
+        data: data,
         isFormData: false)
         .getRequest(
       onSuccess: (data) {

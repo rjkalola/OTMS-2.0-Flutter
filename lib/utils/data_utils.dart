@@ -346,4 +346,12 @@ class DataUtils {
     "2 Weeks ago",
     "Custom"
   ];
+
+  static List<String> dateFilterListMyRequest = [
+    "Week",
+    "Month",
+    "3 Month",
+    "6 Month",
+    "Year"
+  ];
 }

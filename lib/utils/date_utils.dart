@@ -300,6 +300,38 @@ class DateUtil {
     }
   }
 
+  static List<DateTime> getMyRequestsDateRange(String filterType) {
+    DateTime today = DateTime.now();
+    DateTime startOfWeek = DateTime.now(), endOfWeek = DateTime.now();
+    if (filterType == "Week") {
+      final start = today.subtract(Duration(days: today.weekday - 1));
+      final end = start.add(Duration(days: 6));
+      startOfWeek = start;
+      endOfWeek = end;
+    } else if (filterType == "Month") {
+      final start = DateTime(today.year, today.month, 1);
+      final end = DateTime(today.year, today.month + 1, 0);
+      startOfWeek = start;
+      endOfWeek = end;
+    } else if (filterType == "3 Month") {
+      final start = DateTime(today.year, today.month - 2, 1);
+      final end = DateTime(today.year, today.month + 1, 0);
+      startOfWeek = start;
+      endOfWeek = end;
+    } else if (filterType == "6 Month") {
+      final start = DateTime(today.year, today.month - 5, 1);
+      final end = DateTime(today.year, today.month + 1, 0);
+      startOfWeek = start;
+      endOfWeek = end;
+    } else if (filterType == "Year") {
+      final start = DateTime(today.year, 1, 1);
+      final end = DateTime(today.year, 12, 31);
+      startOfWeek = start;
+      endOfWeek = end;
+    }
+    return [startOfWeek, endOfWeek];
+  }
+
   static DateTime convertTimeOfDayToDateTime(TimeOfDay tod,
       {DateTime? baseDate}) {
     final now = baseDate ?? DateTime.now();

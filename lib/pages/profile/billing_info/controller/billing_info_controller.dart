@@ -48,11 +48,11 @@ class BillingInfoController extends GetxController
   final _api = BillingInfoRepository();
   RxBool isLoading = false.obs, isInternetNotAvailable = false.obs;
   final billingInfo = BillingInfo().obs;
+  var arguments = Get.arguments;
 
   @override
   void onInit() {
     super.onInit();
-    var arguments = Get.arguments;
     if (arguments != null) {
       billingInfo.value = arguments[AppConstants.intentKey.billingInfo];
       setInitData();

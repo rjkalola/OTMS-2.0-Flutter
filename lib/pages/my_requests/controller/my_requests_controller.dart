@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-
+import 'package:intl/intl.dart';
 import 'package:dio/dio.dart' as multi;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -23,6 +23,7 @@ class MyRequestsController extends GetxController {
   final formKey = GlobalKey<FormState>();
   final _api = MyRequestsRepository();
   RxBool isLoading = false.obs, isInternetNotAvailable = false.obs, isMainViewVisible = false.obs;
+  String startDate = "", endDate = "";
 
   final myRequestList = <MyRequestInfo>[].obs;
   List<MyRequestInfo> tempList = [];
@@ -39,9 +40,12 @@ class MyRequestsController extends GetxController {
       map["user_id"] = UserUtils.getLoginUserId();
     }
     map["company_id"] = ApiConstants.companyId;
+    map["start_date"] = startDate;
+    map["end_date"] = endDate;
+
     isLoading.value = true;
     _api.getMyRequestsList(
-      queryParameters: map,
+      data: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           MyRequestListResponse response =
