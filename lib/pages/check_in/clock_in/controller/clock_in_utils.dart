@@ -20,8 +20,7 @@ class ClockInUtils {
           todayDate =
               DateUtil.dateToString(DateTime.now(), DateUtil.DD_MM_YYYY_SLASH);
         } else {
-          todayDate = DateUtil.changeDateFormat(logs.workStartDate!,
-              DateUtil.YYYY_MM_DD_DASH, DateUtil.DD_MM_YYYY_SLASH);
+          todayDate = logs.workStartDate??"";
         }
 
         if (ClockInUtils.isCurrentDay(logs.workStartDate!)) {
@@ -129,7 +128,7 @@ class ClockInUtils {
 
   static bool isCurrentDay(String inputDate) {
     DateTime? inputDateTime =
-        DateUtil.stringToDate(inputDate, DateUtil.YYYY_MM_DD_DASH);
+        DateUtil.stringToDate(inputDate, DateUtil.DD_MM_YYYY_SLASH);
     DateTime today = DateTime.now();
     bool isToday = inputDateTime?.year == today.year &&
         inputDateTime?.month == today.month &&
@@ -139,7 +138,7 @@ class ClockInUtils {
 
   static DateTime? getWorkCurrentDateTime(String inputDate) {
     DateTime? inputDateTime =
-        DateUtil.stringToDate(inputDate, DateUtil.YYYY_MM_DD_DASH);
+        DateUtil.stringToDate(inputDate, DateUtil.DD_MM_YYYY_SLASH);
     DateTime now = DateTime.now();
 
     DateTime updatedDate = DateTime(

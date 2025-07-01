@@ -183,6 +183,7 @@ class ClockInController extends GetxController {
   onClickWorkLogItem(WorkLogInfo info) async {
     var arguments = {
       AppConstants.intentKey.workLogInfo: info,
+      AppConstants.intentKey.date: workLogData.value.workStartDate ?? ""
     };
     var result =
         await Get.toNamed(AppRoutes.stopShiftScreen, arguments: arguments);

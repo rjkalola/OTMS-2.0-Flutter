@@ -5,6 +5,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_repository.dart';
+import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_utils.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/model/work_log_info.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/model/work_log_list_response.dart';
 import 'package:otm_inventory/pages/check_in/stop_shift/controller/stop_shift_repository.dart';
@@ -36,6 +37,8 @@ class StopShiftController extends GetxController implements SelectTimeListener {
   final center = LatLng(23.0225, 72.5714).obs;
   final locationService = LocationServiceNew();
   final workLogInfo = WorkLogInfo().obs;
+  String date = "";
+  bool isCurrentDay = true;
 
   void onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -48,6 +51,9 @@ class StopShiftController extends GetxController implements SelectTimeListener {
     if (arguments != null) {
       workLogInfo.value =
           arguments[AppConstants.intentKey.workLogInfo] ?? WorkLogInfo();
+      date = arguments[AppConstants.intentKey.date] ?? "";
+      isCurrentDay = ClockInUtils.isCurrentDay(date);
+      print("isCurrentDay:" + isCurrentDay.toString());
       setInitialTime();
     }
     locationRequest();
@@ -72,7 +78,11 @@ class StopShiftController extends GetxController implements SelectTimeListener {
           BaseResponse response =
               BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.Message);
-          getUserWorkLogListApi();
+          if (isCurrentDay) {
+            getUserWorkLogListApi();
+          } else {
+            Get.back(result: true);
+          }
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }

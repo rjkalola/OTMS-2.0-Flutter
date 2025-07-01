@@ -67,11 +67,11 @@ class _TimeSheetListScreenState extends State<TimeSheetListScreen>
                         visible: controller.isMainViewVisible.value,
                         child: Column(
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(14, 0, 14, 6),
-                              child: DateFilterOptionsHorizontalList(
-                                listener: this,
-                              ),
+                            DateFilterOptionsHorizontalList(
+                              padding: EdgeInsets.fromLTRB(14, 0, 14, 6),
+                              startDate: controller.startDate,
+                              endDate: controller.endDate,
+                              listener: this,
                             ),
                             TimeSheetList(),
                           ],
@@ -125,7 +125,8 @@ class _TimeSheetListScreenState extends State<TimeSheetListScreen>
   }
 
   @override
-  void onSelectDateFilter(String startDate, String endDate) {
+  void onSelectDateFilter(
+      String startDate, String endDate, String dialogIdentifier) {
     controller.isResetEnable.value = true;
     controller.startDate = startDate;
     controller.endDate = endDate;

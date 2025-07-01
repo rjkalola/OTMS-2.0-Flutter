@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:otm_inventory/pages/common/listener/date_filter_listener.dart';
+import 'package:otm_inventory/pages/common/listener/select_date_range_listener.dart';
 import 'package:otm_inventory/pages/common/listener/select_time_listener.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
@@ -111,6 +113,29 @@ class DateUtil {
       return DateTime(now.year, now.month, now.day, time.hour, time.minute);
     } else {
       return null;
+    }
+  }
+
+  static Future<void> showDateRangeDialog(
+      {DateTime? initialFirstDate,
+      DateTime? initialLastDate,
+      required DateTime firstDate,
+      required DateTime lastDate,
+      required String dialogIdentifier,
+      required SelectDateRangeListener listener}) async {
+    final DateTimeRange? picked = await showDateRangePicker(
+      context: Get.context!,
+      firstDate: firstDate,
+      lastDate: lastDate,
+      initialDateRange: DateTimeRange(
+        start: initialFirstDate ?? DateTime.now().subtract(Duration(days: 7)),
+        end: initialLastDate ?? DateTime.now(),
+      ),
+    );
+
+    if (picked != null) {
+      // print("Start: ${picked.start}, End: ${picked.end}");
+      listener.onSelectDateRange(picked.start, picked.end, dialogIdentifier);
     }
   }
 
@@ -339,7 +364,8 @@ class DateUtil {
       endOfWeek = startOfWeek.add(Duration(days: 6));
     } else if (filterType == "2 Weeks ago") {
       // Start of current week (Monday)
-      DateTime startOfCurrentWeek = now.subtract(Duration(days: now.weekday - 1));
+      DateTime startOfCurrentWeek =
+          now.subtract(Duration(days: now.weekday - 1));
 
       // Start of the week 2 weeks ago
       startOfWeek = startOfCurrentWeek.subtract(Duration(days: 14));

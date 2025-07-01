@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:otm_inventory/pages/common/listener/date_filter_listener.dart';
+import 'package:otm_inventory/pages/common/listener/select_date_range_listener.dart';
 import 'package:otm_inventory/utils/data_utils.dart';
 import 'package:otm_inventory/utils/date_utils.dart';
+import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:otm_inventory/widgets/text/TitleTextView.dart';
 
-class DateFilterOptionsHorizontalList extends StatelessWidget {
-  const DateFilterOptionsHorizontalList({super.key, this.listener});
+class DateFilterOptionsHorizontalList extends StatelessWidget
+    implements SelectDateRangeListener {
+  const DateFilterOptionsHorizontalList(
+      {super.key, this.listener, this.padding, this.startDate, this.endDate});
 
   final DateFilterListener? listener;
+  final EdgeInsetsGeometry? padding;
+  final String? startDate, endDate;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      padding: padding,
       height: 40,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
@@ -29,7 +38,20 @@ class DateFilterOptionsHorizontalList extends StatelessWidget {
                     listDates[0], DateUtil.DD_MM_YYYY_SLASH);
                 String endDate = DateUtil.dateToString(
                     listDates[1], DateUtil.DD_MM_YYYY_SLASH);
-                listener?.onSelectDateFilter(startDate, endDate);
+                listener?.onSelectDateFilter(startDate, endDate, "");
+              } else {
+                DateTime? startDateTime =
+                    !StringHelper.isEmptyString(startDate)
+                        ? DateUtil.stringToDate(
+                            startDate!, DateUtil.DD_MM_YYYY_SLASH)
+                        : null;
+                DateTime? endDateTime =
+                    !StringHelper.isEmptyString(endDate)
+                        ? DateUtil.stringToDate(
+                            endDate!, DateUtil.DD_MM_YYYY_SLASH)
+                        : null;
+                showDateRangePickerDialog("", startDateTime, endDateTime,
+                    DateTime(1900), DateTime(2100));
               }
             },
             child: Container(
@@ -45,5 +67,26 @@ class DateFilterOptionsHorizontalList extends StatelessWidget {
         },
       ),
     );
+  }
+
+  void showDateRangePickerDialog(String dialogIdentifier, DateTime? startDate,
+      DateTime? endDate, DateTime firstDate, DateTime lastDate) {
+    DateUtil.showDateRangeDialog(
+        initialFirstDate: startDate,
+        initialLastDate: endDate,
+        firstDate: firstDate,
+        lastDate: lastDate,
+        dialogIdentifier: dialogIdentifier,
+        listener: this);
+  }
+
+  @override
+  void onSelectDateRange(
+      DateTime startDate, DateTime endDate, String dialogIdentifier) {
+    String startDateStr =
+        DateUtil.dateToString(startDate, DateUtil.DD_MM_YYYY_SLASH);
+    String endDateStr =
+        DateUtil.dateToString(endDate, DateUtil.DD_MM_YYYY_SLASH);
+    listener?.onSelectDateFilter(startDateStr, endDateStr, "");
   }
 }
