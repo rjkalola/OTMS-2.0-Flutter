@@ -62,8 +62,10 @@ class MyDayLogListView extends StatelessWidget {
                                             top: 8,
                                             bottom: 10,
                                             right: 3),
-                                        height: 76,
+                                        height: 80,
                                         decoration: itemDecoration(
+                                            isRequestPending:
+                                                info.isRequestPending ?? false,
                                             isWorking: isActiveWorkLog(info),
                                             boxShadow: [
                                               AppUtils.boxShadow(
@@ -80,7 +82,7 @@ class MyDayLogListView extends StatelessWidget {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
                                             children: [
-                                              Flexible(
+                                              /*Flexible(
                                                 flex: 4,
                                                 fit: FlexFit.tight,
                                                 child: Padding(
@@ -100,8 +102,10 @@ class MyDayLogListView extends StatelessWidget {
                                                     ],
                                                   ),
                                                 ),
-                                              ),
-                                              Flexible(
+                                              ),*/
+                                              setProjectNameTextView(
+                                                  info.shiftName ?? ""),
+                                              /*  Flexible(
                                                   flex: 4,
                                                   fit: FlexFit.tight,
                                                   child: Column(
@@ -151,19 +155,67 @@ class MyDayLogListView extends StatelessWidget {
                                                         color: primaryTextColor,
                                                       )
                                                     ],
-                                                  )),
+                                                  )),*/
+                                              Expanded(
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    TextViewWithContainer(
+                                                      padding: EdgeInsets.only(
+                                                          left: 12, right: 12),
+                                                      borderRadius: 6,
+                                                      text: !StringHelper
+                                                              .isEmptyString(info
+                                                                  .workEndTime)
+                                                          ? DateUtil
+                                                              .seconds_To_HH_MM(
+                                                                  info.totalWorkSeconds ??
+                                                                      0)
+                                                          : "00:00",
+                                                      fontSize: 20,
+                                                      fontColor:
+                                                          isActiveWorkLog(info)
+                                                              ? Colors.white
+                                                              : primaryTextColor,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      boxColor:
+                                                          isActiveWorkLog(info)
+                                                              ? Colors.green
+                                                              : Colors
+                                                                  .transparent,
+                                                    ),
+                                                    SizedBox(
+                                                      height: 2,
+                                                    ),
+                                                    PrimaryTextView(
+                                                      text: fromToWorkTimeText(
+                                                          info),
+                                                      fontSize: 15,
+                                                      color: primaryTextColor,
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
                                               Container(
+                                                width: 76,
                                                 height: double.infinity,
                                                 padding: EdgeInsets.only(
                                                     left: 8, right: 8),
                                                 decoration: itemDecoration(
+                                                    isRequestPending:
+                                                        info.isRequestPending ??
+                                                            false,
                                                     isWorking:
                                                         isActiveWorkLog(info),
                                                     borderRadius: 14),
                                                 child: Icon(
                                                   Icons
                                                       .arrow_forward_ios_rounded,
-                                                  size: 20,
+                                                  size: 28,
                                                 ),
                                               )
                                             ],
@@ -197,6 +249,8 @@ class MyDayLogListView extends StatelessWidget {
   }
 
   Widget setProjectNameTextView(String? text) => Container(
+        width: 70,
+        margin: EdgeInsets.only(left: 10, right: 10),
         padding: EdgeInsets.fromLTRB(6, 3, 6, 3),
         decoration: BoxDecoration(
             color: Color(0xffACDBFE), borderRadius: BorderRadius.circular(4)),
@@ -206,6 +260,7 @@ class MyDayLogListView extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           color: primaryTextColor,
           fontWeight: FontWeight.w400,
+          textAlign: TextAlign.center,
           softWrap: false,
           maxLine: 1,
         ),
@@ -269,11 +324,18 @@ class MyDayLogListView extends StatelessWidget {
 
   Widget addCircle({required int id}) => Visibility(
         visible: id == 0,
-        child: ImageUtils.setSvgAssetsImage(
-            path: Drawable.addCreateNewPlusIcon,
-            width: 22,
-            height: 22,
-            color: primaryTextColor),
+        child: GestureDetector(
+          onTap: () {
+            if (!(controller.workLogData.value.userIsWorking ?? false)) {
+              controller.onClickStartShiftButton();
+            }
+          },
+          child: ImageUtils.setSvgAssetsImage(
+              path: Drawable.addCreateNewPlusIcon,
+              width: 22,
+              height: 22,
+              color: primaryTextColor),
+        ),
       );
 
   Widget emptyView() => Expanded(
@@ -284,16 +346,26 @@ class MyDayLogListView extends StatelessWidget {
 
   Decoration? itemDecoration(
       {required bool isWorking,
+      required bool isRequestPending,
       double? borderRadius,
       List<BoxShadow>? boxShadow}) {
     return BoxDecoration(
       color: backgroundColor,
       boxShadow: boxShadow,
       border: Border.all(
-          width: 0.9,
-          color: isWorking ? Color(0xff2DC75C) : Colors.grey.shade300),
+          width: 0.9, color: getBorderColor(isWorking, isRequestPending)),
       borderRadius: BorderRadius.circular(borderRadius ?? 15),
     );
+  }
+
+  Color getBorderColor(bool isWorking, bool isRequestPending) {
+    if (isWorking) {
+      return Color(0xff2DC75C);
+    } else if (isRequestPending) {
+      return Colors.red;
+    } else {
+      return Colors.grey.shade300;
+    }
   }
 
   bool isActiveWorkLog(WorkLogInfo info) {

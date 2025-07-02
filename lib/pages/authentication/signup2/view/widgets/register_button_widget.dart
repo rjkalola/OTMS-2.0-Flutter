@@ -22,7 +22,7 @@ class RegisterButtonWidget extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(14, 14, 14, 14),
           child: PrimaryBorderButton(
             buttonText: 'register'.tr,
-            textColor: defaultAccentColor,
+            fontColor: defaultAccentColor,
             borderColor: defaultAccentColor,
             onPressed: () {
               controller.onSignUpClick();

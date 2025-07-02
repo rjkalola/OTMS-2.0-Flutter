@@ -72,4 +72,5 @@ class AppRoutes {
   static const String myRequestsScreen = '/my_requests_screen';
   static const String billingRequestScreen = '/billing_request_screen';
   static const String workLogRequestScreen = '/work_log_request_screen';
+  static const String postCoderSearchScreen = '/post_coder_search_screen';
 }

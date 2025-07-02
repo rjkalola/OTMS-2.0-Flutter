@@ -3,8 +3,9 @@ class ApiConstants {
   // static String appUrl = "https://apidev.otmsystem.com/v1";
 
   // static String appUrl = "http://206.189.17.166:3000";
-  // static String appUrl = "http://dev.belcka.com:3000";
-  static String appUrl = "http://belcka.com:3003";
+  static String appUrl = "http://dev.belcka.com:3000";
+
+  // static String appUrl = "http://belcka.com:3003";
 
   // static String appUrl = "http://belcka.com:3000";
 
@@ -99,6 +100,8 @@ class ApiConstants {
   static String archiveTeamList = '$appUrl/team/archive-list';
   static String teamArchive = '$appUrl/team/archive';
   static String teamUnArchive = '$appUrl/team/unarchive';
+  static String teamUserList = '$appUrl/team/user-list';
+
 
   //shifts
   static String shiftAdd = '$appUrl/shift/add';
@@ -108,6 +111,7 @@ class ApiConstants {
   static String archiveShiftList = '$appUrl/shift/archive-shifts';
   static String shiftArchive = '$appUrl/shift/archive';
   static String shiftUnArchive = '$appUrl/shift/unarchive';
+  static String changeShiftStatus = '$appUrl/shift/change-shift-status';
 
   //billing info
   static String addBillingInfo = '$appUrl/user-billing/store-billing-info';
@@ -126,8 +130,7 @@ class ApiConstants {
   static String userStopWork = '$appUrl/user-stop-work';
   static String userWorkLogList = '$appUrl/user-daylogs-list';
   static String requestWorkLogChange = '$appUrl/request-worklog-change';
-  static String workLogRequestDetails =
-      '$appUrl/requests/get-request-detail';
+  static String workLogRequestDetails = '$appUrl/requests/get-request-detail';
 
   //timesheet
   static String getTimeSheetList = '$appUrl/timesheet/get';

@@ -16,6 +16,7 @@ class TextFieldBorder extends StatelessWidget {
       this.keyboardType,
       this.textInputAction,
       this.isReadOnly,
+      this.isEnable,
       this.suffixIcon,
       this.maxLines,
       this.maxLength,
@@ -28,7 +29,8 @@ class TextFieldBorder extends StatelessWidget {
       this.autovalidateMode,
       this.focusNode,
       this.onFieldSubmitted,
-      this.errorMaxLines});
+      this.errorMaxLines,
+      this.borderRadius});
 
   final TextEditingController? textEditingController;
   final String? hintText, labelText;
@@ -37,7 +39,7 @@ class TextFieldBorder extends StatelessWidget {
   final Color? cursorColor;
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
-  final bool? isReadOnly;
+  final bool? isReadOnly, isEnable;
   final Icon? suffixIcon;
   final int? maxLines, maxLength;
   final TextAlignVertical? textAlignVertical;
@@ -49,6 +51,7 @@ class TextFieldBorder extends StatelessWidget {
   final FocusNode? focusNode;
   final ValueChanged<String>? onFieldSubmitted;
   final int? errorMaxLines;
+  final double? borderRadius;
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +71,7 @@ class TextFieldBorder extends StatelessWidget {
       textAlignVertical: textAlignVertical,
       textAlign: textAlign ?? TextAlign.start,
       readOnly: isReadOnly ?? false,
+      enabled: isEnable ?? true,
       inputFormatters: inputFormatters,
       autovalidateMode: autovalidateMode,
       decoration: InputDecoration(
@@ -79,15 +83,15 @@ class TextFieldBorder extends StatelessWidget {
         floatingLabelBehavior: FloatingLabelBehavior.auto,
         border: OutlineInputBorder(
           borderSide: BorderSide(color: focusedTextFieldBorderColor, width: 1),
-          borderRadius: BorderRadius.circular(45.0),
+          borderRadius: BorderRadius.circular(borderRadius ?? 45.0),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: focusedTextFieldBorderColor, width: 1),
-          borderRadius: BorderRadius.circular(45.0),
+          borderRadius: BorderRadius.circular(borderRadius ?? 45.0),
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: normalTextFieldBorderColor, width: 1),
-          borderRadius: BorderRadius.circular(45.0),
+          borderRadius: BorderRadius.circular(borderRadius ?? 45.0),
         ),
         hintText: hintText,
         labelText: labelText,

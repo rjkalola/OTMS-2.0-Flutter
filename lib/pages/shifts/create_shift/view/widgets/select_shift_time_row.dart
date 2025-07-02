@@ -27,12 +27,14 @@ class SelectShiftTimeRow extends StatelessWidget {
               text: title,
             )),
             Container(
-              width: 80,
-              padding: EdgeInsets.fromLTRB(0, 2, 0, 2),
+              width: 84,
+              padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
               decoration: AppUtils.getGrayBorderDecoration(
                   radius: 4, color: Color(AppUtils.haxColor("#e8e8e8"))),
               child: PrimaryTextView(
                 textAlign: TextAlign.center,
+                fontWeight: FontWeight.w500,
+                fontSize: 16,
                 text: value,
               ),
             ),

@@ -42,7 +42,6 @@ class DashboardController extends GetxController
     MoreTab(),
     MoreTab(),
     MoreTab(),
-    MoreTab(),
   ];
 
   @override

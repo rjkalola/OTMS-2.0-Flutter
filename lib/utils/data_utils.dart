@@ -87,7 +87,7 @@ class DataUtils {
   static List<String> tabIcons = [
     Drawable.tab1Icon,
     Drawable.tab2Icon,
-    Drawable.tab3Icon,
+    // Drawable.tab3Icon,
     Drawable.tab4Icon,
     Drawable.tab5Icon,
   ];
@@ -95,7 +95,7 @@ class DataUtils {
   static List<String> tabLabels = [
     'Home',
     'Cart',
-    'Stats',
+    // 'Stats',
     'Chat',
     'Profile',
   ];

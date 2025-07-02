@@ -32,7 +32,6 @@ class _BillingInfoScreenState extends State<BillingInfoScreen> {
             isCenterTitle: false,
             bgColor: dashBoardBgColor,
             isBack: true,
-            widgets: actionButtons(),
           ),
           backgroundColor: dashBoardBgColor,
           body: Obx(() {
@@ -55,32 +54,31 @@ class _BillingInfoScreenState extends State<BillingInfoScreen> {
                               BankDetailsView(),
                             ],
                           ))),
+
             );
           }),
+          // This is where bottomNavigationBar should go
+
+          bottomNavigationBar: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  controller.onSubmit();
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: blueBGButtonColor,
+                  minimumSize: Size(double.infinity, 50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
+                child: Text('save'.tr, style: TextStyle(color: Colors.white, fontSize: 20,fontWeight: FontWeight.bold)),
+              ),
+            ),
+          ),
         ),
       ),
     );
-  }
-
-  List<Widget>? actionButtons() {
-    return [
-      Padding(
-        padding: const EdgeInsets.only(right: 16),
-        child: ElevatedButton(
-          onPressed: () {
-            controller.onSubmit();
-          },
-          style: ElevatedButton.styleFrom(
-            fixedSize: Size(126, 42),
-            backgroundColor: blueBGButtonColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30),
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-          ),
-          child: Text('save'.tr, style: TextStyle(color: Colors.white, fontSize: 20,fontWeight: FontWeight.bold)),
-        ),
-      )
-    ];
   }
 }

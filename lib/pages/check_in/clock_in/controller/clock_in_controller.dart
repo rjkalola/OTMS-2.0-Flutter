@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_repository.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_utils.dart';
+import 'package:otm_inventory/pages/check_in/clock_in/model/counter_details.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/model/work_log_info.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/model/work_log_list_response.dart';
 import 'package:otm_inventory/pages/dashboard/models/dashboard_response.dart';
@@ -25,8 +26,9 @@ class ClockInController extends GetxController {
   final RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
-      isLocationLoaded = false.obs;
-  final RxString totalWorkHours = "".obs;
+      isLocationLoaded = false.obs,
+      isOnBreak = false.obs;
+  final RxString totalWorkHours = "".obs, remainingBreakTime = "".obs;
   final _api = ClockInRepository();
   late GoogleMapController mapController;
   final center = LatLng(37.42796133580664, -122.085749655962).obs;
@@ -115,8 +117,11 @@ class ClockInController extends GetxController {
             startTimer();
           } else {
             stopTimer();
-            totalWorkHours.value =
+            CounterDetails details =
                 ClockInUtils.getTotalWorkHours(workLogData.value);
+            totalWorkHours.value = details.totalWorkTime;
+            isOnBreak.value = details.isOnBreak;
+            remainingBreakTime.value = details.remainingBreakTime;
           }
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
@@ -202,7 +207,11 @@ class ClockInController extends GetxController {
 
   void startTimer() {
     _timer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
-      totalWorkHours.value = ClockInUtils.getTotalWorkHours(workLogData.value);
+      CounterDetails details =
+          ClockInUtils.getTotalWorkHours(workLogData.value);
+      totalWorkHours.value = details.totalWorkTime;
+      isOnBreak.value = details.isOnBreak;
+      remainingBreakTime.value = details.remainingBreakTime;
     });
   }
 

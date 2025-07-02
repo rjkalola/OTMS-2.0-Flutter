@@ -2,22 +2,27 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:otm_inventory/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:otm_inventory/pages/common/listener/menu_item_listener.dart';
 import 'package:otm_inventory/pages/common/menu_items_list_bottom_dialog.dart';
+import 'package:otm_inventory/pages/shifts/create_shift/controller/create_shift_repository.dart';
 import 'package:otm_inventory/pages/shifts/create_shift/model/shift_info.dart';
 import 'package:otm_inventory/pages/shifts/shift_list/controller/shift_list_repository.dart';
 import 'package:otm_inventory/pages/shifts/shift_list/model/shift_list_response.dart';
 import 'package:otm_inventory/pages/teams/team_list/model/team_info.dart';
 import 'package:otm_inventory/pages/teams/team_list/model/team_list_response.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
+import 'package:otm_inventory/utils/AlertDialogHelper.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:otm_inventory/web_services/api_constants.dart';
+import 'package:otm_inventory/web_services/response/base_response.dart';
 import 'package:otm_inventory/web_services/response/module_info.dart';
 import 'package:otm_inventory/web_services/response/response_model.dart';
 
-class ShiftListController extends GetxController implements MenuItemListener {
+class ShiftListController extends GetxController
+    implements MenuItemListener, DialogButtonClickListener {
   final _api = ShiftListRepository();
   final formKey = GlobalKey<FormState>();
   RxBool isLoading = false.obs,
@@ -28,6 +33,7 @@ class ShiftListController extends GetxController implements MenuItemListener {
   final searchController = TextEditingController().obs;
   final shiftList = <ShiftInfo>[].obs;
   List<ShiftInfo> tempList = [];
+  int selectedShiftId = 0, selectedShiftIndex = 0;
 
   @override
   void onInit() {
@@ -72,6 +78,67 @@ class ShiftListController extends GetxController implements MenuItemListener {
     );
   }
 
+  void changeShiftStatusApi(int shiftId, bool status) {
+    // isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
+    map["shift_id"] = shiftId;
+    map["status"] = status;
+
+    _api.changeShiftStatus(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          BaseResponse response =
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
+        } else {
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          // isInternetNotAvailable.value = true;
+          // AppUtils.showSnackBarMessage('no_internet'.tr);
+          // Utils.showSnackBarMessage('no_internet'.tr);
+        }
+      },
+    );
+  }
+
+  void archiveShiftApi() {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    // map["company_id"] = ApiConstants.companyId;
+    map["shift_id"] = selectedShiftId ?? 0;
+    CreateShiftRepository().archiveShift(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          BaseResponse response =
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showApiResponseMessage(response.Message ?? "");
+          shiftList.removeAt(selectedShiftIndex);
+          shiftList.refresh();
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+          // AppUtils.showApiResponseMessage('no_internet'.tr);
+          // Utils.showApiResponseMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showApiResponseMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
+
   Future<void> searchItem(String value) async {
     print(value);
     List<ShiftInfo> results = [];
@@ -99,7 +166,7 @@ class ShiftListController extends GetxController implements MenuItemListener {
   }
 
   @override
-  Future<void> onSelectMenuItem(ModuleInfo info,String dialogType) async {
+  Future<void> onSelectMenuItem(ModuleInfo info, String dialogType) async {
     if (info.action == AppConstants.action.add) {
       moveToScreen(AppRoutes.createShiftScreen, null);
     } else if (info.action == AppConstants.action.archiveShift) {
@@ -112,6 +179,36 @@ class ShiftListController extends GetxController implements MenuItemListener {
     if (result != null && result) {
       isDataUpdated.value = true;
       getShiftListApi();
+    }
+  }
+
+  showDeleteShiftDialog(int shiftId, int index) async {
+    selectedShiftId = shiftId;
+    selectedShiftIndex = index;
+    AlertDialogHelper.showAlertDialog(
+        "",
+        'are_you_sure_you_want_to_delete'.tr,
+        'yes'.tr,
+        'no'.tr,
+        "",
+        true,
+        this,
+        AppConstants.dialogIdentifier.deleteShift);
+  }
+
+  @override
+  void onNegativeButtonClicked(String dialogIdentifier) {
+    Get.back();
+  }
+
+  @override
+  void onOtherButtonClicked(String dialogIdentifier) {}
+
+  @override
+  void onPositiveButtonClicked(String dialogIdentifier) {
+    if (dialogIdentifier == AppConstants.dialogIdentifier.deleteShift) {
+      archiveShiftApi();
+      Get.back();
     }
   }
 }

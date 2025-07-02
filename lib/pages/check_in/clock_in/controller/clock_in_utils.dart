@@ -1,11 +1,16 @@
 import 'package:intl/intl.dart';
+import 'package:otm_inventory/pages/check_in/clock_in/model/counter_details.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/model/work_log_list_response.dart';
 import 'package:otm_inventory/utils/date_utils.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
 
 class ClockInUtils {
-  static String getTotalWorkHours(WorkLogListResponse? logs) {
-    int totalWorkHourSeconds = 0, totalBreakHourSeconds = 0;
+  static CounterDetails getTotalWorkHours(WorkLogListResponse? logs) {
+    int totalWorkHourSeconds = 0,
+        totalBreakHourSeconds = 0,
+        remainingBreakSeconds = 0;
+    bool isOnBreak = false;
+
     print("---------------");
     if (logs != null) {
       if (!(logs.userIsWorking ?? false)) {
@@ -20,7 +25,7 @@ class ClockInUtils {
           todayDate =
               DateUtil.dateToString(DateTime.now(), DateUtil.DD_MM_YYYY_SLASH);
         } else {
-          todayDate = logs.workStartDate??"";
+          todayDate = logs.workStartDate ?? "";
         }
 
         if (ClockInUtils.isCurrentDay(logs.workStartDate!)) {
@@ -107,9 +112,13 @@ class ClockInUtils {
                 currentDateTime.isBefore(fullFormat.parse(breakEnd))) {
               breakStartTime = fullFormat.parse(breakStart);
               breakEndTime = currentDateTime;
-              totalBreakHourSeconds = totalBreakHourSeconds +
-                  DateUtil.dateDifferenceInSeconds(
-                      date1: breakStartTime, date2: breakEndTime);
+              int totalSeconds = DateUtil.dateDifferenceInSeconds(
+                  date1: breakStartTime, date2: breakEndTime);
+              int tillNowSeconds = DateUtil.dateDifferenceInSeconds(
+                  date1: currentDateTime, date2: breakEndTime);
+              totalBreakHourSeconds = totalBreakHourSeconds + totalSeconds;
+              remainingBreakSeconds = totalSeconds - tillNowSeconds;
+              isOnBreak = true;
             } else if (currentDateTime.isAfter(fullFormat.parse(breakStart)) &&
                 currentDateTime.isAfter(fullFormat.parse(breakEnd))) {
               breakStartTime = fullFormat.parse(breakStart);
@@ -122,8 +131,19 @@ class ClockInUtils {
         }
       }
     }
-    return DateUtil.seconds_To_HH_MM_SS(
-        totalWorkHourSeconds - totalBreakHourSeconds);
+    int totalWorkTime = 0;
+    if (totalWorkHourSeconds > totalBreakHourSeconds) {
+      totalWorkTime = totalWorkHourSeconds - totalBreakHourSeconds;
+    } else {
+      totalWorkTime = totalWorkHourSeconds;
+    }
+    var details = CounterDetails(
+        totalWorkSeconds: totalWorkTime,
+        totalWorkTime: DateUtil.seconds_To_HH_MM_SS(totalWorkTime),
+        remainingBreakTime: DateUtil.seconds_To_HH_MM_SS(remainingBreakSeconds),
+        remainingBreakSeconds: remainingBreakSeconds,
+        isOnBreak: isOnBreak);
+    return details;
   }
 
   static bool isCurrentDay(String inputDate) {

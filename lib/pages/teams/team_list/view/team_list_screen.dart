@@ -33,7 +33,7 @@ class _TeamListScreenState extends State<TeamListScreen> {
           backgroundColor: dashBoardBgColor,
           appBar: BaseAppBar(
             appBar: AppBar(),
-            title: "${'teams'.tr} (${'all'.tr})",
+            title: 'teams'.tr,
             isCenterTitle: false,
             isBack: true,
             bgColor: dashBoardBgColor,

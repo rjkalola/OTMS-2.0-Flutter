@@ -1,16 +1,17 @@
 import 'package:otm_inventory/pages/check_in/clock_in/model/work_log_info.dart';
+import 'package:otm_inventory/pages/check_in/work_log_request/model/work_log_details_info.dart';
 
 class WorkLogRequestDetailsResponse {
   bool? isSuccess;
   String? message;
-  WorkLogInfo? info;
+  WorkLogDetailsInfo? info;
 
   WorkLogRequestDetailsResponse({this.isSuccess, this.message, this.info});
 
   WorkLogRequestDetailsResponse.fromJson(Map<String, dynamic> json) {
     isSuccess = json['IsSuccess'];
     message = json['message'];
-    info = json['info'] != null ? WorkLogInfo.fromJson(json['info']) : null;
+    info = json['info'] != null ? WorkLogDetailsInfo.fromJson(json['info']) : null;
   }
 
   Map<String, dynamic> toJson() {

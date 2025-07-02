@@ -24,7 +24,9 @@ import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/res/drawable.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
+import 'package:otm_inventory/widgets/PrimaryButton.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
+import 'package:otm_inventory/widgets/buttons/ContinueButton.dart';
 import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:otm_inventory/widgets/custom_views/no_internet_widgets.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
@@ -73,10 +75,11 @@ class _CreateShiftScreenState extends State<CreateShiftScreen> {
                       )
                     : Visibility(
                         visible: controller.isMainViewVisible.value,
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              Form(
+                        child: Column(
+                          children: [
+                            Expanded(
+                                child: SingleChildScrollView(
+                              child: Form(
                                 key: controller.formKey,
                                 child: Column(
                                   children: [
@@ -85,9 +88,18 @@ class _CreateShiftScreenState extends State<CreateShiftScreen> {
                                     ManageWeekDaysView()
                                   ],
                                 ),
-                              )
-                            ],
-                          ),
+                              ),
+                            )),
+                            PrimaryButton(
+                                padding: EdgeInsets.fromLTRB(14, 18, 14, 16),
+                                buttonText: 'save'.tr,
+                                color: controller.isSaveEnable.value
+                                    ? defaultAccentColor
+                                    : defaultAccentLightColor,
+                                onPressed: () {
+                                  controller.onSubmit();
+                                })
+                          ],
                         ),
                       )),
           ),
@@ -105,7 +117,7 @@ class _CreateShiftScreenState extends State<CreateShiftScreen> {
 
   List<Widget>? actionButtons() {
     return [
-      TextButton(
+     /* TextButton(
         onPressed: () {
           controller.onSubmit();
         },
@@ -120,7 +132,7 @@ class _CreateShiftScreenState extends State<CreateShiftScreen> {
       ),
       SizedBox(
         width: 3,
-      ),
+      ),*/
       Visibility(
         visible: (controller.shiftInfo.value.id ?? 0) > 0,
         child: GestureDetector(

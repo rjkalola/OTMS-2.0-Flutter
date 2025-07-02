@@ -224,7 +224,8 @@ class CreateShiftController extends GetxController
   @override
   void onPositiveButtonClicked(String dialogIdentifier) {
     if (dialogIdentifier == AppConstants.dialogIdentifier.deleteShift) {
-      deleteShiftApi();
+      archiveShiftApi();
+      // deleteShiftApi();
       Get.back();
     }
   }
@@ -303,8 +304,8 @@ class CreateShiftController extends GetxController
 
   void showMenuItemsDialog(BuildContext context) {
     List<ModuleInfo> listItems = [];
-    listItems.add(ModuleInfo(
-        name: 'archive'.tr, action: AppConstants.action.archiveShift));
+    // listItems.add(ModuleInfo(
+    //     name: 'archive'.tr, action: AppConstants.action.archiveShift));
     listItems
         .add(ModuleInfo(name: 'delete'.tr, action: AppConstants.action.delete));
     showCupertinoModalPopup(

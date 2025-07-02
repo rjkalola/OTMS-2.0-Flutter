@@ -9,6 +9,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:otm_inventory/pages/common/listener/SelectPhoneExtensionListener.dart';
 import 'package:otm_inventory/pages/profile/billing_info/controller/billing_info_repository.dart';
 import 'package:otm_inventory/pages/profile/billing_info/model/billing_ifo.dart';
+import 'package:otm_inventory/pages/profile/post_coder_search/view/post_coder_search_screen.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_storage.dart';
@@ -185,6 +186,16 @@ class BillingInfoController extends GetxController
             listener: this),
         backgroundColor: Colors.transparent,
         isScrollControlled: true);
+  }
+
+  void searchPostCode() async {
+    final selectedAddress = await Get.toNamed(AppRoutes.postCoderSearchScreen, arguments: []);
+    if (selectedAddress != null) {
+      print("selected address ${selectedAddress}");
+
+      myAddressController.value.text = selectedAddress;
+
+    }
   }
   @override
   void onSelectPhoneExtension(

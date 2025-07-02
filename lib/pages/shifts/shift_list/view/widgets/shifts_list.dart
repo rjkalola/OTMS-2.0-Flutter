@@ -8,6 +8,7 @@ import 'package:otm_inventory/pages/teams/team_list/controller/team_list_control
 import 'package:otm_inventory/pages/teams/team_list/model/team_info.dart';
 import 'package:otm_inventory/pages/permissions/user_list/controller/user_list_controller.dart';
 import 'package:otm_inventory/res/colors.dart';
+import 'package:otm_inventory/res/drawable.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
@@ -49,31 +50,48 @@ class ShiftsList extends StatelessWidget {
                       child: Container(
                         padding: EdgeInsets.fromLTRB(16, 12, 16, 12),
                         color: Colors.transparent,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        child: Row(
                           children: [
-                            TitleTextView(
-                              text: info.name ?? "",
-                              fontWeight: FontWeight.w500,
-                            ),
-                            Visibility(
-                              visible: !StringHelper.isEmptyString(
-                                  info.showFrequncy),
-                              child: SubtitleTextView(
-                                text: info.showFrequncy ?? "",
-                                color: primaryTextColor,
-                                fontSize: 15,
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  TitleTextView(
+                                    text: info.name ?? "",
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  Visibility(
+                                    visible: !StringHelper.isEmptyString(
+                                        info.showFrequncy),
+                                    child: SubtitleTextView(
+                                      text: info.showFrequncy ?? "",
+                                      color: primaryTextColor,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 3,
+                                  ),
+                                  SubtitleTextView(
+                                    text:
+                                        "${'shift'.tr}: ${info.startTime} - ${info.endTime}",
+                                    fontSize: 15,
+                                  ),
+                                  BreakList(breakList: info.breaks ?? [])
+                                ],
                               ),
                             ),
                             SizedBox(
-                              height: 3,
+                              width: 10,
                             ),
-                            SubtitleTextView(
-                              text:
-                                  "${'shift'.tr}: ${info.startTime} - ${info.endTime}",
-                              fontSize: 15,
-                            ),
-                            BreakList(breakList: info.breaks ?? [])
+                            CustomSwitch(
+                                onValueChange: (value) {
+                                  info.status = !(info.status ?? false);
+                                  controller.changeShiftStatusApi(
+                                      info.id ?? 0, info.status ?? false);
+                                  controller.shiftList.refresh();
+                                },
+                                mValue: info.status ?? false)
                           ],
                         ),
                       ),

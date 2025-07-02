@@ -29,7 +29,7 @@ class ManageWeekDaysView extends StatelessWidget {
                 fontSize: 19,
                 fontWeight: FontWeight.w600,
               ),
-              SizedBox(
+             /* SizedBox(
                 height: 4,
               ),
               Row(
@@ -52,7 +52,7 @@ class ManageWeekDaysView extends StatelessWidget {
                     ),
                   ),
                 ],
-              ),
+              ),*/
               SizedBox(
                 height: 14,
               ),

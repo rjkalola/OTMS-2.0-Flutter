@@ -21,7 +21,7 @@ class JoinCompanyButton extends StatelessWidget {
             onPressed: () {
               controller.onClickJoinCompany();
             },
-            textColor: defaultAccentColor,
+            fontColor: defaultAccentColor,
             borderColor: defaultAccentColor),
       ),
     );

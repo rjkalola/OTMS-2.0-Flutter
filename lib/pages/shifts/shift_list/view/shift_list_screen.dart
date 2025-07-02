@@ -34,7 +34,7 @@ class _ShiftListScreenState extends State<ShiftListScreen> {
           backgroundColor: dashBoardBgColor,
           appBar: BaseAppBar(
             appBar: AppBar(),
-            title: "${'shift'.tr} (${'all'.tr})",
+            title: 'shift'.tr,
             isCenterTitle: false,
             isBack: true,
             bgColor: dashBoardBgColor,

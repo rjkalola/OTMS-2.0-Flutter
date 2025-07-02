@@ -37,7 +37,7 @@ class _ClockInScreenState extends State<ClockInScreen> {
           backgroundColor: dashBoardBgColor,
           appBar: BaseAppBar(
             appBar: AppBar(),
-            title: "",
+            title: 'work_log'.tr,
             isCenterTitle: false,
             isBack: true,
             bgColor: dashBoardBgColor,

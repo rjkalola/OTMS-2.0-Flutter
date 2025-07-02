@@ -17,14 +17,14 @@ class AddressTextField extends StatelessWidget {
         textEditingController: controller.myAddressController.value,
         hintText: 'my_address'.tr,
         labelText: 'my_address'.tr,
-        keyboardType: TextInputType.name,
+        keyboardType: TextInputType.emailAddress,
         textInputAction: TextInputAction.next,
         onValueChange: (value) {
           //controller.onValueChange();
         },
         onPressed: () {},
         validator: MultiValidator([
-          RequiredValidator(errorText: 'required_field'.tr),
+
         ]),
         inputFormatters: <TextInputFormatter>[
           // for below version 2 use this

@@ -4,6 +4,7 @@ class DayLogInfo {
   String? shiftName;
   int? teamId;
   String? teamName;
+  String? tradeName;
   int? timesheetId;
   String? type;
   int? supervisorId;
@@ -20,39 +21,46 @@ class DayLogInfo {
   String? location;
   String? latitude;
   String? longitude;
-  String? totalMinutes;
-  int? totalSeconds;
+  int? actualWorkSeconds;
+  int? totalBreakSeconds;
+  int? payableWorkSeconds;
   String? perHourRate;
   String? totalAmount;
   int? status;
+  String? createdAt;
+  String? updatedAt;
 
   DayLogInfo(
       {this.id,
-        this.shiftId,
-        this.shiftName,
-        this.teamId,
-        this.teamName,
-        this.timesheetId,
-        this.type,
-        this.supervisorId,
-        this.projectId,
-        this.addressId,
-        this.isPricework,
-        this.dateAdded,
-        this.day,
-        this.dayDateInt,
-        this.startTime,
-        this.endTime,
-        this.startTimeFormat,
-        this.endTimeFormat,
-        this.location,
-        this.latitude,
-        this.longitude,
-        this.totalMinutes,
-        this.totalSeconds,
-        this.perHourRate,
-        this.totalAmount,
-        this.status});
+      this.shiftId,
+      this.shiftName,
+      this.teamId,
+      this.teamName,
+      this.tradeName,
+      this.timesheetId,
+      this.type,
+      this.supervisorId,
+      this.projectId,
+      this.addressId,
+      this.isPricework,
+      this.dateAdded,
+      this.day,
+      this.dayDateInt,
+      this.startTime,
+      this.endTime,
+      this.startTimeFormat,
+      this.endTimeFormat,
+      this.location,
+      this.latitude,
+      this.longitude,
+      this.actualWorkSeconds,
+      this.totalBreakSeconds,
+      this.payableWorkSeconds,
+      this.perHourRate,
+      this.totalAmount,
+      this.status,
+      this.createdAt,
+      this.updatedAt});
 
   DayLogInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -60,6 +68,7 @@ class DayLogInfo {
     shiftName = json['shift_name'];
     teamId = json['team_id'];
     teamName = json['team_name'];
+    tradeName = json['trade_name'];
     timesheetId = json['timesheet_id'];
     type = json['type'];
     supervisorId = json['supervisor_id'];
@@ -76,11 +85,14 @@ class DayLogInfo {
     location = json['location'];
     latitude = json['latitude'];
     longitude = json['longitude'];
-    totalMinutes = json['total_minutes'];
-    totalSeconds = json['total_seconds'];
+    actualWorkSeconds = json['actual_work_seconds'];
+    totalBreakSeconds = json['total_break_seconds'];
+    payableWorkSeconds = json['payable_work_seconds'];
     perHourRate = json['per_hour_rate'];
     totalAmount = json['total_amount'];
     status = json['status'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
   }
 
   Map<String, dynamic> toJson() {
@@ -90,6 +102,7 @@ class DayLogInfo {
     data['shift_name'] = this.shiftName;
     data['team_id'] = this.teamId;
     data['team_name'] = this.teamName;
+    data['trade_name'] = this.tradeName;
     data['timesheet_id'] = this.timesheetId;
     data['type'] = this.type;
     data['supervisor_id'] = this.supervisorId;
@@ -106,11 +119,14 @@ class DayLogInfo {
     data['location'] = this.location;
     data['latitude'] = this.latitude;
     data['longitude'] = this.longitude;
-    data['total_minutes'] = this.totalMinutes;
-    data['total_seconds'] = this.totalSeconds;
+    data['actual_work_seconds'] = this.actualWorkSeconds;
+    data['total_break_seconds'] = this.totalBreakSeconds;
+    data['payable_work_seconds'] = this.payableWorkSeconds;
     data['per_hour_rate'] = this.perHourRate;
     data['total_amount'] = this.totalAmount;
     data['status'] = this.status;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
     return data;
   }
 }

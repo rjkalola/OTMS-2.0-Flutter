@@ -33,7 +33,7 @@ class AccountNumberTextField extends StatelessWidget {
         onValueChange: onValueChange,
         onPressed: () {},
         validator: MultiValidator([
-          RequiredValidator(errorText: 'required_field'.tr),
+
         ]),
         inputFormatters: <TextInputFormatter>[
           // for below version 2 use this

@@ -31,13 +31,13 @@ class _StartShiftMapScreenState extends State<StartShiftMapScreen> {
       child: SafeArea(
         child: Scaffold(
           backgroundColor: dashBoardBgColor,
-          appBar: BaseAppBar(
+          /* appBar: BaseAppBar(
             appBar: AppBar(),
             title: 'shift'.tr,
             isCenterTitle: false,
             bgColor: dashBoardBgColor,
             isBack: true,
-          ),
+          ),*/
           body: Obx(() {
             return ModalProgressHUD(
                 inAsyncCall: controller.isLoading.value,
@@ -48,7 +48,18 @@ class _StartShiftMapScreenState extends State<StartShiftMapScreen> {
                     : Visibility(
                         visible: controller.isMainViewVisible.value,
                         child: Stack(
-                          children: [StartShiftMapView(), StartShiftButton()],
+                          children: [
+                            StartShiftMapView(),
+                            IconButton(
+                                onPressed: () {
+                                  Get.back();
+                                },
+                                icon: Icon(
+                                  Icons.arrow_back_ios_new_outlined,
+                                  size: 20,
+                                )),
+                            StartShiftButton()
+                          ],
                         ),
                       ));
           }),

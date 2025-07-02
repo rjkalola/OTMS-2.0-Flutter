@@ -104,7 +104,7 @@ class TimeSheetList extends StatelessWidget {
                 width: 10,
               ),
               TitleTextView(
-                text: DateUtil.seconds_To_HH_MM(info.totalSeconds ?? 0),
+                text: DateUtil.seconds_To_HH_MM(info.payableWorkSeconds ?? 0),
                 fontSize: 17,
               ),
               SizedBox(

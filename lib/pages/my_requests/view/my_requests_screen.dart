@@ -12,6 +12,8 @@ import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
 
+import '../../../utils/app_constants.dart';
+
 class MyRequestsScreen extends StatelessWidget implements DateFilterListener {
   final controller = Get.put(MyRequestsController());
 
@@ -110,6 +112,12 @@ class RequestCard extends StatelessWidget {
                     AppRoutes.billingRequestScreen, arguments);
               }
             }
+            /*var arguments = {
+              AppConstants.intentKey.ID: request.id ?? 0,
+            };
+
+              controller.moveToScreen(
+                  AppRoutes.workLogRequestScreen, arguments);*/
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

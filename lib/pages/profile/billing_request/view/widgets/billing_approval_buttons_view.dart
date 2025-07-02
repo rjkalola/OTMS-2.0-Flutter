@@ -5,11 +5,19 @@ import 'package:otm_inventory/pages/profile/billing_request/controller/billing_r
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/utils/user_utils.dart';
 
-class BillingApprovalButtonsView extends StatelessWidget {
+class BillingApprovalButtonsView extends StatefulWidget {
+  @override
+  _BillingApprovalButtonsViewState createState() => _BillingApprovalButtonsViewState();
+}
+
+class _BillingApprovalButtonsViewState extends State<BillingApprovalButtonsView> {
 
   final TextEditingController _noteController = TextEditingController();
   final controller = Get.put(BillingRequestController());
   final bool showActionCard = UserUtils.isAdmin();//true; // Change to false for second scenario
+
+  bool showNoteSection = false;
+  String selectedAction = ''; // To know whether approve or reject was clicked
 
   @override
   Widget build(BuildContext context) {
@@ -37,26 +45,37 @@ class BillingApprovalButtonsView extends StatelessWidget {
             style: TextStyle(color: Colors.grey.shade600,fontSize: 15),
           ),
           SizedBox(height: 8),
-          Text("Note :", style: TextStyle(color: Colors.grey.shade600)),
-          SizedBox(height: 8),
-          TextField(
-            controller: _noteController,
-            maxLines: 2,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: "Enter note",
-              contentPadding:
-              EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+
+          if (showNoteSection) ...[
+            Text("Do you want to leave a note?", style: TextStyle(color: Colors.grey.shade600)),
+            SizedBox(height: 8),
+            TextField(
+              controller: _noteController,
+              maxLines: 2,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: "Enter note",
+                contentPadding:
+                EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+              ),
             ),
-          ),
+          ],
           SizedBox(height: 12),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               OutlinedButton(
                 onPressed: () {
-                  print("Approved: ${_noteController.text}");
-                  controller.approveRequest();
+                  if (selectedAction == "approve"){
+                    print("Approved: ${_noteController.text}");
+                    controller.approveRequest();
+                  }
+                  else{
+                    setState(() {
+                      showNoteSection = true;
+                      selectedAction = 'approve';
+                    });
+                  }
                 },
                 style: OutlinedButton.styleFrom(
                   side: BorderSide(color: defaultAccentColor),
@@ -67,8 +86,16 @@ class BillingApprovalButtonsView extends StatelessWidget {
               ),
               OutlinedButton(
                 onPressed: () {
-                  print("Rejected: ${_noteController.text}");
-                  controller.rejectRequest(_noteController.text ?? "");
+                  if (selectedAction == "reject"){
+                    print("Rejected: ${_noteController.text}");
+                    controller.rejectRequest(_noteController.text ?? "");
+                  }
+                  else{
+                    setState(() {
+                      showNoteSection = true;
+                      selectedAction = 'reject';
+                    });
+                  }
                 },
                 style: OutlinedButton.styleFrom(
                   side: BorderSide(color: Colors.red),
@@ -91,4 +118,5 @@ class BillingApprovalButtonsView extends StatelessWidget {
       ),
     );
   }
+
 }

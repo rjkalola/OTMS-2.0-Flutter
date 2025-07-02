@@ -1,41 +1,58 @@
 import 'package:flutter/material.dart';
+import 'package:otm_inventory/res/colors.dart';
+import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
 
 class PrimaryBorderButton extends StatelessWidget {
   final String buttonText;
   final VoidCallback onPressed;
-  final Color borderColor;
-  final Color textColor;
-  final double? height, fontSize, borderRadius;
+  final Color? borderColor;
+  final Color? fontColor;
+  final FontWeight? fontWeight;
+  final double? height, width, fontSize, borderRadius, borderWidth;
+  final double? elevation;
+  final EdgeInsetsGeometry? padding;
 
   const PrimaryBorderButton(
       {super.key,
       required this.buttonText,
       required this.onPressed,
-      required this.textColor,
-      required this.borderColor,
+      this.fontColor,
+      this.borderColor,
       this.borderRadius,
+      this.borderWidth,
       this.height,
-      this.fontSize});
+      this.width,
+      this.fontSize,
+      this.elevation,
+      this.fontWeight,
+      this.padding});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(
-      onPressed: () {
-        onPressed();
-      },
-      elevation: 0,
-      height: height ?? 48,
-      splashColor: Colors.white.withAlpha(30),
-      padding: EdgeInsets.zero,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(borderRadius ?? 4),
-          side: BorderSide(width: 1, color: borderColor)),
-      child: Text(buttonText,
-          style: TextStyle(
-            color: textColor,
-            fontWeight: FontWeight.w600,
-            fontSize: fontSize ?? 16,
-          )),
+    return Padding(
+      padding: padding ?? EdgeInsets.all(0),
+      child: OutlinedButton(
+        onPressed: () {
+          onPressed();
+        },
+        style: OutlinedButton.styleFrom(
+          minimumSize: Size(width ?? double.infinity, height ?? 48),
+          elevation: elevation ?? 0,
+          side: BorderSide(
+              color: borderColor ?? defaultAccentColor,
+              width: borderWidth ?? 1),
+          shape: RoundedRectangleBorder(
+            borderRadius:
+                BorderRadius.circular(borderRadius ?? 45), // corner radius
+          ),
+        ),
+        child: PrimaryTextView(
+          text: buttonText,
+          color: fontColor ?? defaultAccentColor,
+          fontSize: fontSize ?? 17,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
     );
   }
 }

@@ -17,14 +17,14 @@ class PostcodeTextField extends StatelessWidget {
         textEditingController: controller.postcodeController.value,
         hintText: 'post_code'.tr,
         labelText: 'post_code'.tr,
-        keyboardType: TextInputType.name,
+        keyboardType: TextInputType.emailAddress,
         textInputAction: TextInputAction.next,
         onValueChange: (value) {
           //controller.onValueChange();
         },
         onPressed: () {},
         validator: MultiValidator([
-          RequiredValidator(errorText: 'required_field'.tr),
+
         ]),
         inputFormatters: <TextInputFormatter>[
           // for below version 2 use this

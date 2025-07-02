@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomSwitch extends StatelessWidget {
@@ -16,8 +17,8 @@ class CustomSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Switch(
-      activeColor: activeCircleColor ?? Colors.white,
+    return CupertinoSwitch(
+      // activeColor: activeCircleColor ?? Colors.white,
       activeTrackColor: activeColor ?? Colors.green,
       value: mValue,
       onChanged: (value) {

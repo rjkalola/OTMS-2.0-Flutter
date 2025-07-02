@@ -15,7 +15,7 @@ class SaveButtonDetailsOfWork extends StatelessWidget {
         child: PrimaryBorderButton(
             buttonText: 'save'.tr,
             onPressed: () {},
-            textColor: defaultAccentColor,
+            fontColor: defaultAccentColor,
             borderColor: defaultAccentColor),
       ),
     );

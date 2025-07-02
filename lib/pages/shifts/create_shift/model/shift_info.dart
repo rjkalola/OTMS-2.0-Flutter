@@ -11,19 +11,20 @@ class ShiftInfo {
   String? endTime;
   String? removeBreakIds;
   String? showFrequncy;
+  bool? status;
   List<BreakInfo>? breaks;
 
-  ShiftInfo(
-      {this.id,
-      this.companyId,
-      this.name,
-      this.isPricework,
-      this.weekDays,
-      this.startTime,
-      this.endTime,
-      this.breaks,
-      this.showFrequncy,
-      this.removeBreakIds});
+  ShiftInfo({this.id,
+    this.companyId,
+    this.name,
+    this.isPricework,
+    this.weekDays,
+    this.startTime,
+    this.endTime,
+    this.breaks,
+    this.showFrequncy,
+    this.status,
+    this.removeBreakIds,});
 
   ShiftInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -40,6 +41,7 @@ class ShiftInfo {
     endTime = json['end_time'];
     removeBreakIds = json['remove_break_ids'];
     showFrequncy = json['show_frequncy'];
+    status = json['status'];
     if (json['breaks'] != null) {
       breaks = <BreakInfo>[];
       json['breaks'].forEach((v) {
@@ -61,6 +63,7 @@ class ShiftInfo {
     data['end_time'] = this.endTime;
     data['remove_break_ids'] = this.removeBreakIds;
     data['show_frequncy'] = this.showFrequncy;
+    data['status'] = status;
     if (this.breaks != null) {
       data['breaks'] = this.breaks!.map((v) => v.toJson()).toList();
     }

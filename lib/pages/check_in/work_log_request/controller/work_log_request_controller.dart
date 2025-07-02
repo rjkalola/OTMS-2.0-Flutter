@@ -1,17 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_repository.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_utils.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/model/work_log_info.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/model/work_log_list_response.dart';
-import 'package:otm_inventory/pages/check_in/stop_shift/controller/stop_shift_repository.dart';
 import 'package:otm_inventory/pages/check_in/work_log_request/controller/work_log_request_repository.dart';
+import 'package:otm_inventory/pages/check_in/work_log_request/model/work_log_details_info.dart';
 import 'package:otm_inventory/pages/check_in/work_log_request/model/work_log_request_details_response.dart';
-import 'package:otm_inventory/pages/common/listener/select_time_listener.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/date_utils.dart';
 import 'package:otm_inventory/utils/location_service_new.dart';
@@ -34,7 +31,7 @@ class WorkLogRequestController extends GetxController {
   String? latitude, longitude, location;
   final center = LatLng(23.0225, 72.5714).obs;
   final locationService = LocationServiceNew();
-  final workLogInfo = WorkLogInfo().obs;
+  final workLogInfo = WorkLogDetailsInfo().obs;
   int requestLogId = 0;
 
   void onMapCreated(GoogleMapController controller) {
@@ -72,6 +69,7 @@ class WorkLogRequestController extends GetxController {
               !StringHelper.isEmptyString(workLogInfo.value.workEndTime)
                   ? changeFullDateToSortTime(workLogInfo.value.workEndTime)
                   : getCurrentTime();
+          noteController.value.text = workLogInfo.value.note??"";
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
@@ -157,6 +155,10 @@ class WorkLogRequestController extends GetxController {
 
   String getCurrentTime() {
     return DateUtil.getCurrentTimeInFormat(DateUtil.HH_MM_24);
+  }
+
+  Color getStatusColor(int status){
+    return status == 1 ? Colors.green : Colors.red;
   }
 
   void onBackPress() {

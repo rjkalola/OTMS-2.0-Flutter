@@ -70,25 +70,29 @@ class GeneralView extends StatelessWidget {
                             child:
                             PostcodeTextField(),
                           ),
-                          SizedBox(
-                            height: 35,
-                            width: 86,
-                            child: OutlinedButton(
-                              onPressed: () {
 
-                              },
-                              style: OutlinedButton.styleFrom(
-                                backgroundColor: Colors.white,
-                                side: BorderSide(color:blueBGButtonColor,
-                                width: 1.5),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
+                          Visibility(
+                            visible: false,
+                            child: SizedBox(
+                              height: 35,
+                              width: 86,
+                              child: OutlinedButton(
+                                onPressed: () {
+                                  controller.searchPostCode();
+                                },
+                                style: OutlinedButton.styleFrom(
+                                  backgroundColor: Colors.white,
+                                  side: BorderSide(color:blueBGButtonColor,
+                                  width: 1.5),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  padding: EdgeInsets.zero,
                                 ),
-                                padding: EdgeInsets.zero,
-                              ),
-                              child: Text(
-                                'search'.tr,
-                                style: TextStyle(color: blueBGButtonColor,fontSize: 15,fontWeight: FontWeight.w400),
+                                child: Text(
+                                  'search'.tr,
+                                  style: TextStyle(color: blueBGButtonColor,fontSize: 15,fontWeight: FontWeight.w400),
+                                ),
                               ),
                             ),
                           ),

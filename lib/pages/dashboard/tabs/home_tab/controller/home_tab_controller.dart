@@ -378,7 +378,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       };
       moveToScreen(
           appRout: AppRoutes.userPermissionScreen, arguments: arguments);
-    } else if (info.slug == 'team') {
+    } else if (info.slug == 'teams') {
       Get.toNamed(AppRoutes.teamListScreen);
       // Get.toNamed(AppRoutes.createTeamScreen);
     } else if (info.slug == 'users') {
@@ -395,7 +395,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       moveToScreen(appRout: AppRoutes.settingsScreen);
     } else if (info.slug == 'timesheet') {
       moveToScreen(appRout: AppRoutes.timeSheetListScreen);
-    } else if (info.slug == 'billing') {
+    } else if (info.slug == 'bookkeeper') {
       moveToScreen(appRout: AppRoutes.billingDetailsScreen);
     } else if (info.slug == 'my_requests') {
       moveToScreen(appRout: AppRoutes.myRequestsScreen);
