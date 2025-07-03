@@ -33,11 +33,14 @@ class CreateTeamRepository {
   }
 
   void teamUserListApi({
-    dynamic data,
+    Map<String, dynamic>? queryParameters,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
-    ApiRequest(url: ApiConstants.teamUserList, data: data, isFormData: false)
+    ApiRequest(
+            url: ApiConstants.teamUserList,
+            queryParameters: queryParameters,
+            isFormData: false)
         .getRequest(
       onSuccess: (data) {
         onSuccess!(data);

@@ -50,7 +50,7 @@ class ArchiveTeamListController extends GetxController
     getArchiveTeamListApi();
   }
 
-  void getArchiveTeamListApi() {
+  Future<void> getArchiveTeamListApi() async {
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
@@ -172,6 +172,7 @@ class ArchiveTeamListController extends GetxController
         'no'.tr,
         "",
         true,
+        false,
         this,
         AppConstants.dialogIdentifier.deleteTeam);
   }

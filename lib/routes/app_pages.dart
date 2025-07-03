@@ -31,6 +31,7 @@ import 'package:otm_inventory/pages/profile/billing_details/view/billing_details
 import 'package:otm_inventory/pages/profile/billing_info/view/billing_info_screen.dart';
 import 'package:otm_inventory/pages/profile/billing_request/view/billing_request_screen.dart';
 import 'package:otm_inventory/pages/profile/company_billings/view/company_billings_screen.dart';
+import 'package:otm_inventory/pages/profile/my_account/view/my_account_screen.dart';
 import 'package:otm_inventory/pages/profile/post_coder_search/view/post_coder_search_screen.dart';
 import 'package:otm_inventory/pages/qr_code_scanner/view/qr_code_scanner.dart';
 import 'package:otm_inventory/pages/settings/view/settings_screen.dart';
@@ -230,5 +231,6 @@ class AppPages {
         name: AppRoutes.workLogRequestScreen,
         page: () => WorkLogRequestScreen()),
     GetPage(name: AppRoutes.postCoderSearchScreen, page: () => PostCoderSearchScreen()),
+    GetPage(name: AppRoutes.myAccountScreen, page: () => MyAccountScreen()),
   ];
 }

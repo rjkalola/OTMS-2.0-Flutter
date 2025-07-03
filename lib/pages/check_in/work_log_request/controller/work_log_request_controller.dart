@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -9,6 +8,8 @@ import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_reposi
 import 'package:otm_inventory/pages/check_in/work_log_request/controller/work_log_request_repository.dart';
 import 'package:otm_inventory/pages/check_in/work_log_request/model/work_log_details_info.dart';
 import 'package:otm_inventory/pages/check_in/work_log_request/model/work_log_request_details_response.dart';
+import 'package:otm_inventory/pages/common/listener/DialogButtonClickListener.dart';
+import 'package:otm_inventory/utils/AlertDialogHelper.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/date_utils.dart';
 import 'package:otm_inventory/utils/location_service_new.dart';
@@ -19,11 +20,13 @@ import 'package:otm_inventory/web_services/response/response_model.dart';
 
 import '../../../../utils/app_constants.dart';
 
-class WorkLogRequestController extends GetxController {
+class WorkLogRequestController extends GetxController
+    implements DialogButtonClickListener {
   final RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
       isLocationLoaded = true.obs,
-      isDataUpdated = false.obs;
+      isDataUpdated = false.obs,
+      isMainViewVisible = false.obs;
   final RxString startTime = "".obs, stopTime = "".obs;
   final _api = WorkLogRequestRepository();
   final noteController = TextEditingController().obs;
@@ -59,6 +62,7 @@ class WorkLogRequestController extends GetxController {
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
+          isMainViewVisible.value = true;
           WorkLogRequestDetailsResponse response =
               WorkLogRequestDetailsResponse.fromJson(
                   jsonDecode(responseModel.result!));
@@ -69,7 +73,7 @@ class WorkLogRequestController extends GetxController {
               !StringHelper.isEmptyString(workLogInfo.value.workEndTime)
                   ? changeFullDateToSortTime(workLogInfo.value.workEndTime)
                   : getCurrentTime();
-          noteController.value.text = workLogInfo.value.note??"";
+          noteController.value.text = workLogInfo.value.note ?? "";
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
@@ -85,15 +89,14 @@ class WorkLogRequestController extends GetxController {
     );
   }
 
-  Future<void> requestWorkLogChangeApi() async {
+  Future<void> workLogRequestApproveRejectApi(int status) async {
     isLoading.value = true;
     Map<String, dynamic> map = {};
-    map["user_worklog_id"] = workLogInfo.value.id ?? 0;
-    map["start_time"] = startTime.value;
-    map["end_time"] = stopTime.value;
-    map["note"] = StringHelper.getText(noteController.value);
+    map["request_worklog_id"] = workLogInfo.value.id ?? 0;
+    map["status"] = status;
+    map["user_id"] = workLogInfo.value.userId ?? 0;
 
-    ClockInRepository().requestWorkLogChange2(
+    _api.workLogRequestApproveReject(
       data: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
@@ -157,8 +160,38 @@ class WorkLogRequestController extends GetxController {
     return DateUtil.getCurrentTimeInFormat(DateUtil.HH_MM_24);
   }
 
-  Color getStatusColor(int status){
-    return status == 1 ? Colors.green : Colors.red;
+  showActionDialog(String dialogType) async {
+    AlertDialogHelper.showAlertDialog(
+        "",
+        dialogType == AppConstants.dialogIdentifier.approve
+            ? 'are_you_sure_you_want_to_approve'.tr
+            : 'are_you_sure_you_want_to_reject'.tr,
+        'yes'.tr,
+        'no'.tr,
+        "",
+        true,
+        true,
+        this,
+        dialogType);
+  }
+
+  @override
+  void onNegativeButtonClicked(String dialogIdentifier) {
+    Get.back();
+  }
+
+  @override
+  void onOtherButtonClicked(String dialogIdentifier) {}
+
+  @override
+  void onPositiveButtonClicked(String dialogIdentifier) {
+    if (dialogIdentifier == AppConstants.dialogIdentifier.approve) {
+      Get.back();
+      workLogRequestApproveRejectApi(AppConstants.status.approved);
+    } else if (dialogIdentifier == AppConstants.dialogIdentifier.reject) {
+      Get.back();
+      workLogRequestApproveRejectApi(AppConstants.status.rejected);
+    }
   }
 
   void onBackPress() {

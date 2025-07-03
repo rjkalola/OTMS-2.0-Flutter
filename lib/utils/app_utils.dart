@@ -218,4 +218,16 @@ class AppUtils {
       AppUtils.showToastMessage('copied_to_clip_board'.tr);
     }
   }
+
+  static Color getStatusColor(int status) {
+    Color color = primaryTextColor;
+    if (status == AppConstants.status.approved) {
+      color = Colors.green;
+    } else if (status == AppConstants.status.rejected) {
+      color = Colors.red;
+    } else if (status == AppConstants.status.pending) {
+      color = Colors.orange;
+    }
+    return color;
+  }
 }

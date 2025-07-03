@@ -75,6 +75,7 @@ class MoreTabState extends State<MoreTab> implements DialogButtonClickListener {
                           'no'.tr,
                           "",
                           true,
+                          false,
                           this,
                           AppConstants.dialogIdentifier.logout);
                     },

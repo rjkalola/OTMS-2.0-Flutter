@@ -197,6 +197,7 @@ class CompanySignUpController extends GetxController
         'no'.tr,
         "",
         true,
+        false,
         this,
         AppConstants.dialogIdentifier.joinCompany);
   }

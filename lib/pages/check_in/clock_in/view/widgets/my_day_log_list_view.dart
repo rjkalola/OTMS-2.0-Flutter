@@ -201,7 +201,7 @@ class MyDayLogListView extends StatelessWidget {
                                                 ),
                                               ),
                                               Container(
-                                                width: 76,
+                                                width: 45,
                                                 height: double.infinity,
                                                 padding: EdgeInsets.only(
                                                     left: 8, right: 8),

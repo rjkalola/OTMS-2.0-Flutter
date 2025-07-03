@@ -67,10 +67,12 @@ class SelectShiftController extends GetxController {
               ShiftListResponse.fromJson(jsonDecode(responseModel.result!));
           tempList.clear();
           for (var data in response.info!) {
-            tempList.add(ModuleInfo(
-                id: data.id ?? 0,
-                name: data.name ?? "",
-                randomColor: getRandomColor()));
+            if (data.status ?? false) {
+              tempList.add(ModuleInfo(
+                  id: data.id ?? 0,
+                  name: data.name ?? "",
+                  randomColor: getRandomColor()));
+            }
           }
           shiftList.value = tempList;
           shiftList.refresh();

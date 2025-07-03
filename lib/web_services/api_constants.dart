@@ -4,7 +4,6 @@ class ApiConstants {
 
   // static String appUrl = "http://206.189.17.166:3000";
   static String appUrl = "http://dev.belcka.com:3000";
-
   // static String appUrl = "http://belcka.com:3003";
 
   // static String appUrl = "http://belcka.com:3000";
@@ -131,6 +130,7 @@ class ApiConstants {
   static String userWorkLogList = '$appUrl/user-daylogs-list';
   static String requestWorkLogChange = '$appUrl/request-worklog-change';
   static String workLogRequestDetails = '$appUrl/requests/get-request-detail';
+  static String workLogRequestApproveReject = '$appUrl/worklog-request/action';
 
   //timesheet
   static String getTimeSheetList = '$appUrl/timesheet/get';

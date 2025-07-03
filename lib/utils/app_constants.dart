@@ -11,6 +11,7 @@ class AppConstants {
   static const Type type = Type();
   static const ShiftType shiftType = ShiftType();
   static const Results results = Results();
+  static const Status status = Status();
 
   static String deviceType = Platform.isAndroid ? "1" : "2";
   static const int productListLimit = 20;
@@ -96,6 +97,9 @@ class DialogIdentifier {
   final String selectBreakEndTime = 'SELECT_BREAK_END_TIME';
   final String deleteShift = 'DELETE_SHIFT';
   final String selectDayFilter = 'SELECT_DAY_FILTER';
+  final String approve = 'APPROVE';
+  final String reject = 'REJECT';
+  final String delete = 'DELETE';
 }
 
 class SharedPreferenceKey {
@@ -211,4 +215,12 @@ class Type {
   final int OUTER_OVERTIME = 6;
   final String beforePhotos = "BEFORE_PHOTOS";
   final String afterPhotos = "AFTER_PHOTOS";
+}
+
+class Status {
+  const Status(); //
+
+  final int pending = 3;
+  final int approved = 5;
+  final int rejected = 12;
 }

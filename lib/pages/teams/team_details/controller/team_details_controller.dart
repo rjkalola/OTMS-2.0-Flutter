@@ -146,6 +146,7 @@ class TeamDetailsController extends GetxController
         'no'.tr,
         "",
         true,
+        false,
         this,
         AppConstants.dialogIdentifier.deleteTeam);
   }

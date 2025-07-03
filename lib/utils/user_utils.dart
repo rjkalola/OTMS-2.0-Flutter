@@ -15,6 +15,12 @@ class UserUtils {
     UserInfo info = Get.find<AppStorage>().getUserInfo();
     return "${info.firstName} ${info.lastName}";
   }
+
+  static bool isLoginUser(int? userId) {
+    UserInfo info = Get.find<AppStorage>().getUserInfo();
+    return (userId ?? 0) == (info.id ?? 0);
+  }
+
   static bool isAdmin() {
     UserInfo info = Get.find<AppStorage>().getUserInfo();
     int userRoleId = info.userRoleId ?? 0;
@@ -59,4 +65,16 @@ class UserUtils {
     return listIds.isNotEmpty ? listIds.join(',') : "";
   }
 
+  static String getLoginUserRole() {
+    UserInfo info = Get.find<AppStorage>().getUserInfo();
+    int userRoleId = info.userRoleId ?? 0;
+    const Map<int, String> roleNames = {
+      1: 'Admin',
+      2: 'Project Manager',
+      3: 'Supervisor',
+      4: 'Employee',
+      5: 'Driver',
+    };
+    return roleNames[userRoleId] ?? 'Unknown';
+  }
 }

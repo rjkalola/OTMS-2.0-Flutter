@@ -453,4 +453,15 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       showControlPanelDialog();
     }
   }
+
+  void pullToRefreshData(){
+    if (Get.find<AppStorage>().isLocalSequenceChanges()) {
+      changeDashboardUserPermissionMultipleSequenceApi(
+          isProgress: false,
+          isLoadPermissionList: true,
+          isChangeSequence: false);
+    } else {
+      getDashboardUserPermissionsApi(false);
+    }
+  }
 }

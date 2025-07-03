@@ -14,34 +14,40 @@ class WorkTimeDetailsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Container(
-      margin: EdgeInsets.only(left: 16, right: 16),
-      width: double.infinity,
-      decoration: BoxDecoration(
-        border: Border.all(width: 1, color: dividerColor),
-        borderRadius: BorderRadius.circular(16),
-        color: Color(0xff007AFF),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(
-            height: 14,
-          ),
-          PrimaryTextView(
-            text: 'work_time_on'.tr,
-            fontSize: 15,
-            color: Colors.white,
-            fontWeight: FontWeight.w400,
-          ),
-          PrimaryTextView(
-            text: controller.totalWorkHours.value,
-            fontSize: 26,
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-          /* Padding(
+    return Obx(
+      () => Container(
+        margin: EdgeInsets.only(left: 16, right: 16),
+        width: double.infinity,
+        decoration: BoxDecoration(
+            border: Border.all(width: 1, color: dividerColor),
+            borderRadius: BorderRadius.circular(16),
+            color: controller.isOnBreak.value
+                ? Color(0xffCE6700)
+                : Color(0xff007AFF)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 14,
+            ),
+            PrimaryTextView(
+              text: controller.isOnBreak.value
+                  ? 'break_time_on'.tr
+                  : 'work_time_on'.tr,
+              fontSize: 15,
+              color: Colors.white,
+              fontWeight: FontWeight.w400,
+            ),
+            PrimaryTextView(
+              text: controller.isOnBreak.value
+                  ? controller.remainingBreakTime.value
+                  : controller.totalWorkHours.value,
+              fontSize: 26,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+            /* Padding(
             padding: const EdgeInsets.fromLTRB(20, 3, 20, 8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -68,33 +74,35 @@ class WorkTimeDetailsView extends StatelessWidget {
               ],
             ),
           ),*/
-          Container(
-            margin: EdgeInsets.only(top: 15),
-            padding: EdgeInsets.fromLTRB(9, 5, 9, 5),
-            width: double.infinity,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(14),
-              color: Color(0xff305BAB),
+            Container(
+              margin: EdgeInsets.only(top: 15),
+              padding: EdgeInsets.fromLTRB(9, 5, 9, 5),
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(14),
+                color: Color(0xff305BAB),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  PrimaryTextView(
+                    text: 'total_work_hours_today'.tr,
+                    fontSize: 15,
+                    color: Colors.white,
+                  ),
+                  PrimaryTextView(
+                    text: DateUtil.seconds_To_HH_MM_SS(controller
+                            .workLogData.value.totalPayableWorkingSeconds ??
+                        0),
+                    fontSize: 15,
+                    color: Colors.white,
+                  )
+                ],
+              ),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                PrimaryTextView(
-                  text: 'total_work_hours_today'.tr,
-                  fontSize: 15,
-                  color: Colors.white,
-                ),
-                PrimaryTextView(
-                  text: DateUtil.seconds_To_HH_MM_SS(
-                      controller.workLogData.value.totalPayableWorkingSeconds ?? 0),
-                  fontSize: 15,
-                  color: Colors.white,
-                )
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ),);
+    );
   }
 }

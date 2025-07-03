@@ -14,7 +14,6 @@ class TimeSheetInfo {
   String? endDate;
   String? startDateMonth;
   String? endDateMonth;
-  int? totalMinutes;
   int? actualWorkSeconds;
   int? totalBreakSeconds;
   int? payableWorkSeconds;
@@ -35,7 +34,6 @@ class TimeSheetInfo {
       this.endDate,
       this.startDateMonth,
       this.endDateMonth,
-      this.totalMinutes,
       this.actualWorkSeconds,
       this.totalBreakSeconds,
       this.payableWorkSeconds,
@@ -56,7 +54,6 @@ class TimeSheetInfo {
     endDate = json['end_date'];
     startDateMonth = json['start_date_month'];
     endDateMonth = json['end_date_month'];
-    totalMinutes = json['total_minutes'];
     actualWorkSeconds = json['actual_work_seconds'];
     totalBreakSeconds = json['total_break_seconds'];
     payableWorkSeconds = json['payable_work_seconds'];
@@ -84,7 +81,6 @@ class TimeSheetInfo {
     data['end_date'] = this.endDate;
     data['start_date_month'] = this.startDateMonth;
     data['end_date_month'] = this.endDateMonth;
-    data['total_minutes'] = this.totalMinutes;
     data['actual_work_seconds'] = this.actualWorkSeconds;
     data['total_break_seconds'] = this.totalBreakSeconds;
     data['payable_work_seconds'] = this.payableWorkSeconds;

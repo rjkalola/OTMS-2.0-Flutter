@@ -27,7 +27,8 @@ class HeaderUserDetailsView extends StatelessWidget {
       child: Row(
         children: [
           GestureDetector(
-            onTap: (){
+            onTap: () {
+              Get.toNamed(AppRoutes.myAccountScreen);
               // Get.toNamed(AppRoutes.billingDetailsScreen);
             },
             child: UserAvtarView(

@@ -112,12 +112,21 @@ class ClockInUtils {
                 currentDateTime.isBefore(fullFormat.parse(breakEnd))) {
               breakStartTime = fullFormat.parse(breakStart);
               breakEndTime = currentDateTime;
+              print("breakStart:" + breakStart);
+              print("breakEnd:" + breakEnd);
               int totalSeconds = DateUtil.dateDifferenceInSeconds(
                   date1: breakStartTime, date2: breakEndTime);
-              int tillNowSeconds = DateUtil.dateDifferenceInSeconds(
-                  date1: currentDateTime, date2: breakEndTime);
               totalBreakHourSeconds = totalBreakHourSeconds + totalSeconds;
-              remainingBreakSeconds = totalSeconds - tillNowSeconds;
+
+              int totalRemainingSeconds = (DateUtil.dateDifferenceInSeconds(
+                      date1: fullFormat.parse(breakStart),
+                      date2: fullFormat.parse(breakEnd))) -
+                  totalSeconds;
+
+              remainingBreakSeconds = totalRemainingSeconds;
+              print(
+                  "totalRemainingSeconds:" + totalRemainingSeconds.toString());
+
               isOnBreak = true;
             } else if (currentDateTime.isAfter(fullFormat.parse(breakStart)) &&
                 currentDateTime.isAfter(fullFormat.parse(breakEnd))) {

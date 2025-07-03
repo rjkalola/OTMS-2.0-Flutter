@@ -62,7 +62,9 @@ class StartShiftMapController extends GetxController
           ShiftListResponse response =
               ShiftListResponse.fromJson(jsonDecode(responseModel.result!));
           for (var data in response.info!) {
-            shiftList.add(ModuleInfo(id: data.id ?? 0, name: data.name ?? ""));
+            if(data.status??false){
+              shiftList.add(ModuleInfo(id: data.id ?? 0, name: data.name ?? ""));
+            }
           }
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");

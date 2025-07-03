@@ -102,22 +102,22 @@ class RequestCard extends StatelessWidget {
           onTap: () {
             String status = request.statusText ?? "";
             int requestType = request.requestType ?? 0;
-            if (status == "pending") {
-              var arguments = {
-                "request_log_id": request.id ?? 0,
-              };
-
-              if (requestType == 103) {
+            if (requestType == 103) {
+              if (status == "pending") {
+                var arguments = {
+                  "request_log_id": request.id ?? 0,
+                };
                 controller.moveToScreen(
                     AppRoutes.billingRequestScreen, arguments);
               }
-            }
-            /*var arguments = {
-              AppConstants.intentKey.ID: request.id ?? 0,
-            };
+            } else if (requestType == 102) {
+              var arguments = {
+                AppConstants.intentKey.ID: request.id ?? 0,
+              };
 
               controller.moveToScreen(
-                  AppRoutes.workLogRequestScreen, arguments);*/
+                  AppRoutes.workLogRequestScreen, arguments);
+            }
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

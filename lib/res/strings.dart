@@ -139,6 +139,7 @@ class Strings extends Translations {
           'select_shift': "Select Shift",
           'all_shifts': "All Shifts",
           'work_time_on': "Work time on",
+          'break_time_on': "Break time on",
           'total_work_hours_today': "Total work hours today",
           'stop_shift': "Stop Shift",
           'my_day_log': "My day log",
@@ -235,6 +236,9 @@ class Strings extends Translations {
           'archived_teams': "Archived Teams",
           'create_code': "Create Code",
           'are_you_sure_you_want_to_delete': "Are you sure you want to delete?",
+          'are_you_sure_you_want_to_approve':
+              "Are you sure you want to approve?",
+          'are_you_sure_you_want_to_reject': "Are you sure you want to reject?",
           'sub_contractor_details': "Subcontractor Details",
           'copy_code': "Copy Code",
           'copied_to_clip_board': "Copied to clipboard",
@@ -270,6 +274,7 @@ class Strings extends Translations {
           'approve': "Approve",
           'reject': "Reject",
           'work_log': "Work Log",
+          'my_account': "My Account"
           // '': "",
           // '': "",
           // '': "",

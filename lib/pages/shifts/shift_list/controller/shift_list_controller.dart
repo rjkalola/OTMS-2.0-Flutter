@@ -192,6 +192,7 @@ class ShiftListController extends GetxController
         'no'.tr,
         "",
         true,
+        false,
         this,
         AppConstants.dialogIdentifier.deleteShift);
   }

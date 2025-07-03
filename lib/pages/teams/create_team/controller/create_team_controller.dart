@@ -44,10 +44,9 @@ class CreateTeamController extends GetxController
     var arguments = Get.arguments;
     if (arguments != null) {
       teamInfo = arguments[AppConstants.intentKey.teamInfo];
-      teamUserListApiApi(teamInfo?.id??0);
     }
+    teamUserListApiApi(teamInfo?.id ?? 0);
     setInitData();
-
   }
 
   void setInitData() {
@@ -161,31 +160,32 @@ class CreateTeamController extends GetxController
   }
 
   void teamUserListApiApi(int teamId) async {
-      Map<String, dynamic> map = {};
-      // map["team_id"] = teamId;
-      isLoading.value = true;
-      _api.teamUserListApi(
-        data: map,
-        onSuccess: (ResponseModel responseModel) {
-          if (responseModel.isSuccess) {
-            UserListResponse response =
-                UserListResponse.fromJson(jsonDecode(responseModel.result!));
-            teamUserList.addAll(response.info!);
-            getUserListApi();
-          } else {
-            AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
-          }
-          isLoading.value = false;
-        },
-        onError: (ResponseModel error) {
-          isLoading.value = false;
-          if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
-            AppUtils.showApiResponseMessage('no_internet'.tr);
-          } else if (error.statusMessage!.isNotEmpty) {
-            AppUtils.showApiResponseMessage(error.statusMessage);
-          }
-        },
-      );
+    Map<String, dynamic> map = {};
+    map["team_id"] = teamId;
+    map["company_id"] = ApiConstants.companyId;
+    isLoading.value = true;
+    _api.teamUserListApi(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          UserListResponse response =
+              UserListResponse.fromJson(jsonDecode(responseModel.result!));
+          teamUserList.addAll(response.info!);
+          getUserListApi();
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showApiResponseMessage(error.statusMessage);
+        }
+      },
+    );
   }
 
   bool valid() {
