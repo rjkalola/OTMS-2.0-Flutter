@@ -23,6 +23,11 @@ class BillingInfo {
   int? companyId;
   int? status;
   String? statusText;
+  String? net_rate_perDay;
+  String? currency;
+  String? tradeId;
+  String? trade;
+  String? joiningDate;
 
   BillingInfo(
       {this.id,
@@ -47,7 +52,12 @@ class BillingInfo {
       this.userThumbImage,
       this.companyId,
       this.status,
-      this.statusText});
+      this.statusText,
+      this.currency,
+      this.joiningDate,
+      this.net_rate_perDay,
+      this.trade,
+      this.tradeId});
 
   BillingInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -73,6 +83,11 @@ class BillingInfo {
     userThumbImage = json['user_thumb_image'];
     status = json['status'];
     statusText = json['status_text'];
+    net_rate_perDay = json['net_rate_perDay'];
+    currency = json['currency'];
+    tradeId = json['trade_id'];
+    trade = json['trade'];
+    joiningDate = json['joining_date'];
   }
 
   Map<String, dynamic> toJson() {
@@ -100,6 +115,11 @@ class BillingInfo {
     data['user_thumb_image'] = this.userThumbImage;
     data['status'] = this.status;
     data['status_text'] = this.statusText;
+    data['net_rate_perDay'] = this.net_rate_perDay;
+    data['currency'] = this.currency;
+    data['trade_id'] = this.tradeId;
+    data['trade'] = this.trade;
+    data['joining_date'] = this.joiningDate;
     return data;
   }
 }

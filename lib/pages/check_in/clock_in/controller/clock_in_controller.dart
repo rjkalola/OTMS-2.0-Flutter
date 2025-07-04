@@ -103,7 +103,11 @@ class ClockInController extends GetxController {
           WorkLogListResponse response =
               WorkLogListResponse.fromJson(jsonDecode(responseModel.result!));
           workLogData.value = response;
-          workLogData.value.workLogInfo!.add(WorkLogInfo(id: 0));
+          if (ClockInUtils.isCurrentDay(
+              workLogData.value.workStartDate ?? "")) {
+            workLogData.value.workLogInfo!.add(WorkLogInfo(id: 0));
+          }
+
           selectedWorkLogInfo = null;
           for (var info in workLogData.value.workLogInfo!) {
             if (StringHelper.isEmptyString(info.workEndTime) &&

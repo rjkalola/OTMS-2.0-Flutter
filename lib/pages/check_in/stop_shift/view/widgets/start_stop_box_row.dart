@@ -27,7 +27,8 @@ class StartStopBoxRow extends StatelessWidget {
                   AppConstants.dialogIdentifier.selectShiftStartTime,
               onTap: () {
                 if (!StringHelper.isEmptyString(
-                    controller.workLogInfo.value.workEndTime)) {
+                        controller.workLogInfo.value.workEndTime) &&
+                    !(controller.workLogInfo.value.isRequestPending ?? false)) {
                   controller.showTimePickerDialog(
                       AppConstants.dialogIdentifier.selectShiftStartTime,
                       DateUtil.getDateTimeFromHHMM(controller.startTime.value));
@@ -47,7 +48,8 @@ class StartStopBoxRow extends StatelessWidget {
               timePickerType: AppConstants.dialogIdentifier.selectShiftEndTime,
               onTap: () {
                 if (!StringHelper.isEmptyString(
-                    controller.workLogInfo.value.workEndTime)) {
+                        controller.workLogInfo.value.workEndTime) &&
+                    !(controller.workLogInfo.value.isRequestPending ?? false)) {
                   controller.showTimePickerDialog(
                       AppConstants.dialogIdentifier.selectShiftEndTime,
                       DateUtil.getDateTimeFromHHMM(controller.stopTime.value));

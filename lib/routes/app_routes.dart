@@ -58,7 +58,6 @@ class AppRoutes {
       '/generate_company_code_screen';
   static const String subContractorDetailsScreen =
       '/sub_contractor_details_screen';
-  static const String adjustWidgetsScreen = '/adjust_widgets_screen';
   static const String createShiftScreen = '/create_shift_screen';
   static const String shiftListScreen = '/shift_list_screen';
   static const String archiveShiftListScreen = '/archive_shift_list_screen';
@@ -74,4 +73,6 @@ class AppRoutes {
   static const String workLogRequestScreen = '/work_log_request_screen';
   static const String postCoderSearchScreen = '/post_coder_search_screen';
   static const String myAccountScreen = '/my_account_screen';
+  static const String billingDetailsNewScreen = '/billing_details_new_screen';
+  static const String userSettingsScreen = '/user_settings_screen';
 }

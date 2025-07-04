@@ -29,7 +29,7 @@ class MenuButtonsGridWidget extends StatelessWidget {
           return InkWell(
             onTap: () {
               if (index == 0) {
-                Get.toNamed(AppRoutes.billingDetailsScreen);
+                Get.toNamed(AppRoutes.billingDetailsNewScreen);
               }
               else if (index == 3) {
                 Get.toNamed(AppRoutes.myRequestsScreen);

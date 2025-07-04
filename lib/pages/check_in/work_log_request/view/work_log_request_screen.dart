@@ -88,7 +88,7 @@ class _WorkLogRequestScreenState extends State<WorkLogRequestScreen> {
                                 visible: (controller.workLogInfo.value.status ??
                                             0) ==
                                         AppConstants.status.pending &&
-                                    UserUtils.isLoginUser(
+                                    !UserUtils.isLoginUser(
                                         controller.workLogInfo.value.userId),
                                 child: ApproveRejectButtons(
                                   padding:

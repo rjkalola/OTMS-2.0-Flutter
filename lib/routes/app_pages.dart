@@ -18,7 +18,6 @@ import 'package:otm_inventory/pages/company/company_details/view/company_details
 import 'package:otm_inventory/pages/company/company_signup/view/company_signup_screen.dart';
 import 'package:otm_inventory/pages/company/joincompany/view/join_comapny_screen.dart';
 import 'package:otm_inventory/pages/company/selectcompanytrade/view/select_company_trade_screen.dart';
-import 'package:otm_inventory/pages/dashboard/tabs/adjust_widgets/view/adjust_widgets_screen.dart';
 import 'package:otm_inventory/pages/dashboard/view/dashboard_screen.dart';
 import 'package:otm_inventory/pages/my_requests/view/my_requests_screen.dart';
 import 'package:otm_inventory/pages/permissions/company_permissions/view/company_permission_screen.dart';
@@ -28,11 +27,13 @@ import 'package:otm_inventory/pages/permissions/user_list/view/select_user_list_
 import 'package:otm_inventory/pages/permissions/user_permissions/view/user_permission_screen.dart';
 import 'package:otm_inventory/pages/permissions/widgets/view/widgets_screen.dart';
 import 'package:otm_inventory/pages/profile/billing_details/view/billing_details_screen.dart';
+import 'package:otm_inventory/pages/profile/billing_details_new/view/billing_details_new_screen.dart';
 import 'package:otm_inventory/pages/profile/billing_info/view/billing_info_screen.dart';
 import 'package:otm_inventory/pages/profile/billing_request/view/billing_request_screen.dart';
 import 'package:otm_inventory/pages/profile/company_billings/view/company_billings_screen.dart';
 import 'package:otm_inventory/pages/profile/my_account/view/my_account_screen.dart';
 import 'package:otm_inventory/pages/profile/post_coder_search/view/post_coder_search_screen.dart';
+import 'package:otm_inventory/pages/profile/user_settings/view/user_settings_screen.dart';
 import 'package:otm_inventory/pages/qr_code_scanner/view/qr_code_scanner.dart';
 import 'package:otm_inventory/pages/settings/view/settings_screen.dart';
 import 'package:otm_inventory/pages/shifts/archive_shift_list/view/archive_shift_list_screen.dart';
@@ -192,10 +193,6 @@ class AppPages {
       page: () => UserListScreen(),
     ),
     GetPage(
-      name: AppRoutes.adjustWidgetsScreen,
-      page: () => AdjustWidgetsScreen(),
-    ),
-    GetPage(
       name: AppRoutes.archiveTeamListScreen,
       page: () => ArchiveTeamListScreen(),
     ),
@@ -230,7 +227,15 @@ class AppPages {
     GetPage(
         name: AppRoutes.workLogRequestScreen,
         page: () => WorkLogRequestScreen()),
-    GetPage(name: AppRoutes.postCoderSearchScreen, page: () => PostCoderSearchScreen()),
+    GetPage(
+        name: AppRoutes.postCoderSearchScreen,
+        page: () => PostCoderSearchScreen()),
     GetPage(name: AppRoutes.myAccountScreen, page: () => MyAccountScreen()),
+    GetPage(name: AppRoutes.myAccountScreen, page: () => MyAccountScreen()),
+    GetPage(
+        name: AppRoutes.billingDetailsNewScreen,
+        page: () => BillingDetailsNewScreen()),
+    GetPage(
+        name: AppRoutes.userSettingsScreen, page: () => UserSettingsScreen()),
   ];
 }

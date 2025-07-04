@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:otm_inventory/pages/common/model/user_info.dart';
+import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_storage.dart';
 import 'package:otm_inventory/utils/user_utils.dart';
 import 'package:otm_inventory/widgets/other_widgets/user_avtar_view.dart';
@@ -38,7 +40,12 @@ class ProfileCardWidget extends StatelessWidget {
               ],
             ),
           ),
-          Icon(Icons.settings, color: Colors.grey,size: 40,),
+          IconButton(
+            icon: const Icon(Icons.settings, color: Colors.black, size: 35,),
+            onPressed: () {
+              Get.toNamed(AppRoutes.userSettingsScreen);
+            },
+          ),
         ],
       ),
     );

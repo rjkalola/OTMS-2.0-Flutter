@@ -12,6 +12,7 @@ import 'package:otm_inventory/pages/teams/team_list/view/widgets/search_team.dar
 import 'package:otm_inventory/pages/teams/team_list/view/widgets/teams_list.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
+import 'package:otm_inventory/widgets/PrimaryButton.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
 import 'package:otm_inventory/widgets/custom_views/no_internet_widgets.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
@@ -43,7 +44,6 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
               isCenterTitle: false,
               isBack: true,
               bgColor: dashBoardBgColor,
-              widgets: actionButtons(),
             ),
             body: ModalProgressHUD(
                 inAsyncCall: controller.isLoading.value,
@@ -76,7 +76,22 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
                                   ],
                                 ),
                               ),
-                            )
+                            ),
+                            PrimaryButton(
+                                padding: EdgeInsets.fromLTRB(14, 18, 14, 16),
+                                buttonText: 'save'.tr,
+                                color: controller.isSaveEnable.value
+                                    ? defaultAccentColor
+                                    : defaultAccentLightColor,
+                                onPressed: () {
+                                  if (controller.isSaveEnable.value) {
+                                    if (controller.teamInfo != null) {
+                                      controller.updateTeamApi();
+                                    } else {
+                                      controller.createTeamApi();
+                                    }
+                                  }
+                                })
                           ],
                         ),
                       )),
@@ -86,27 +101,4 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
     );
   }
 
-  List<Widget>? actionButtons() {
-    return [
-      TextButton(
-        onPressed: () {
-          if (controller.isSaveEnable.value) {
-            if (controller.teamInfo != null) {
-              controller.updateTeamApi();
-            } else {
-              controller.createTeamApi();
-            }
-          }
-        },
-        child: PrimaryTextView(
-          text: 'save'.tr,
-          fontSize: 17,
-          fontWeight: FontWeight.w600,
-          color: controller.isSaveEnable.value
-              ? defaultAccentColor
-              : defaultAccentLightColor,
-        ),
-      )
-    ];
-  }
 }

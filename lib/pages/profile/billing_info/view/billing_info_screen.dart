@@ -58,7 +58,6 @@ class _BillingInfoScreenState extends State<BillingInfoScreen> {
             );
           }),
           // This is where bottomNavigationBar should go
-
           bottomNavigationBar: SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(16.0),

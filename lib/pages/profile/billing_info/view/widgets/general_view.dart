@@ -42,11 +42,12 @@ class GeneralView extends StatelessWidget {
               SizedBox(
                 height: 10,
               ),
-
+              /*
               Visibility(
                 visible: (controller.arguments == null) ,
-                  child: MiddleNameTextField()),
-
+                  child: MiddleNameTextField()
+              ),
+              */
               EmailTextField(),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
