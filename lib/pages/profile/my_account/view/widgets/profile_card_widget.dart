@@ -36,7 +36,7 @@ class ProfileCardWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('${UserUtils.getLoginUserName()}', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400)),
-                Text('${UserUtils.getLoginUserRole()}', style: TextStyle(color: Colors.grey,fontWeight: FontWeight.bold,fontSize: 13)),
+                Text('${UserUtils.getLoginUserTrade()}', style: TextStyle(color: Colors.grey,fontWeight: FontWeight.bold,fontSize: 13)),
               ],
             ),
           ),

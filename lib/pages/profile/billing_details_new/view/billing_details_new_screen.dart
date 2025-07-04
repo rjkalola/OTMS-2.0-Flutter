@@ -88,8 +88,8 @@ class _BillingDetailsNewScreenState extends State<BillingDetailsNewScreen> {
                                     NavigationCard(label: "TAX info", value: "${controller.billingInfo.value.utrNumber ?? ""} / ${controller.billingInfo.value.ninNumber ?? ""}"),
                                     NavigationCard(label: "Bank Details", value: "${controller.billingInfo.value.shortCode ?? ""} / ${controller.billingInfo.value.accountNo ?? ""}"),
                                     NavigationCard(label: "Rates", value: controller.billingInfo.value.net_rate_perDay != null
-                                        ? "${controller.billingInfo.value.trade ?? ""} - ${controller.billingInfo.value.currency ?? ""}${controller.billingInfo.value.net_rate_perDay}"
-                                        : "${controller.billingInfo.value.trade ?? ""}",),
+                                        ? "${controller.billingInfo.value.tradeName ?? ""} - ${controller.billingInfo.value.currency ?? ""}${controller.billingInfo.value.net_rate_perDay}"
+                                        : "${controller.billingInfo.value.tradeName ?? ""}",),
                                     Divider(height: 32),
                                     NavigationCard(value: "Payslips"),
                                     NavigationCard(value: "Payment"),

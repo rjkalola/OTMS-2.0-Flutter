@@ -69,5 +69,10 @@
     <true/>
     <key>GMSApiKey</key>
     <string>AIzaSyDDOWUo-4BVRwrbtkE2kPVz7USJCZqlwd4</string>
+    <key>NSAppTransportSecurity</key>
+    <dict>
+      <key>NSAllowsArbitraryLoads</key>
+      <true/>
+    </dict>
 </dict>
 </plist>

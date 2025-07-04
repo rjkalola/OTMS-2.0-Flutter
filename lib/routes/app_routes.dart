@@ -75,4 +75,6 @@ class AppRoutes {
   static const String myAccountScreen = '/my_account_screen';
   static const String billingDetailsNewScreen = '/billing_details_new_screen';
   static const String userSettingsScreen = '/user_settings_screen';
+  static const String switchCompanyScreen = '/switch_company_screen';
+  static const String deleteAccountScreen = '/delete_account_screen';
 }

@@ -49,7 +49,6 @@ class BillingDetailsController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    print("Billing details page also calling");
     getBillingInfo();
   }
 

@@ -28,6 +28,7 @@ class CompanyInfo {
   int? createdByInt;
   String? companyImage;
   String? companyThumbImage;
+  bool? isActiveCompany;
 
   CompanyInfo(
       {this.id,
@@ -58,7 +59,8 @@ class CompanyInfo {
       this.deletedAt,
       this.createdByInt,
       this.companyImage,
-      this.companyThumbImage});
+      this.companyThumbImage,
+      this.isActiveCompany});
 
   CompanyInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -90,6 +92,7 @@ class CompanyInfo {
     createdByInt = json['created_by_int'];
     companyImage = json['company_image'];
     companyThumbImage = json['company_thumb_image'];
+    isActiveCompany = json['isActiveCompany'];
   }
 
   Map<String, dynamic> toJson() {
@@ -123,6 +126,7 @@ class CompanyInfo {
     data['created_by_int'] = this.createdByInt;
     data['company_image'] = this.companyImage;
     data['company_thumb_image'] = this.companyThumbImage;
+    data['isActiveCompany'] = this.isActiveCompany;
     return data;
   }
 }

@@ -37,6 +37,7 @@ class StopShiftController extends GetxController implements SelectTimeListener {
   final center = LatLng(23.0225, 72.5714).obs;
   final locationService = LocationServiceNew();
   final workLogInfo = WorkLogInfo().obs;
+  int workLogId = 0;
   String date = "";
   bool isCurrentDay = true;
 

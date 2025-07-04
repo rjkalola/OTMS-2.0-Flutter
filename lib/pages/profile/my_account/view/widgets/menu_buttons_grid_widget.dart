@@ -43,14 +43,14 @@ class MenuButtonsGridWidget extends StatelessWidget {
                 boxShadow: [BoxShadow(color: Colors.grey.shade300, blurRadius: 8,offset: Offset(0, 2))],
               ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(controller.menuItems[index]['icon'], color: Colors.blue, size: 30),
-                  SizedBox(width: 12),
-                  Flexible(
+                  Icon(controller.menuItems[index]['icon'], color: Colors.blue,size: 28,),
+                  const SizedBox(width: 8),
+                  Expanded(
                     child: Text(
                       controller.menuItems[index]['title'],
-                      style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 17),
                     ),
                   ),
                 ],

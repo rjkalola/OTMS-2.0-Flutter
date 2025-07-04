@@ -77,4 +77,9 @@ class UserUtils {
     };
     return roleNames[userRoleId] ?? 'Unknown';
   }
+
+  static String getLoginUserTrade() {
+    UserInfo info = Get.find<AppStorage>().getUserInfo();
+    return "${info.tradeName}";
+  }
 }

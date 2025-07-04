@@ -25,8 +25,8 @@ class BillingInfo {
   String? statusText;
   String? net_rate_perDay;
   String? currency;
-  String? tradeId;
-  String? trade;
+  int? tradeId;
+  String? tradeName;
   String? joiningDate;
 
   BillingInfo(
@@ -56,7 +56,7 @@ class BillingInfo {
       this.currency,
       this.joiningDate,
       this.net_rate_perDay,
-      this.trade,
+      this.tradeName,
       this.tradeId});
 
   BillingInfo.fromJson(Map<String, dynamic> json) {
@@ -86,7 +86,7 @@ class BillingInfo {
     net_rate_perDay = json['net_rate_perDay'];
     currency = json['currency'];
     tradeId = json['trade_id'];
-    trade = json['trade'];
+    tradeName = json['trade_name'];
     joiningDate = json['joining_date'];
   }
 
@@ -118,7 +118,7 @@ class BillingInfo {
     data['net_rate_perDay'] = this.net_rate_perDay;
     data['currency'] = this.currency;
     data['trade_id'] = this.tradeId;
-    data['trade'] = this.trade;
+    data['trade_name'] = this.tradeName;
     data['joining_date'] = this.joiningDate;
     return data;
   }

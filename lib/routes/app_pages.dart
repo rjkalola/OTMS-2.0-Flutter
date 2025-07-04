@@ -18,6 +18,7 @@ import 'package:otm_inventory/pages/company/company_details/view/company_details
 import 'package:otm_inventory/pages/company/company_signup/view/company_signup_screen.dart';
 import 'package:otm_inventory/pages/company/joincompany/view/join_comapny_screen.dart';
 import 'package:otm_inventory/pages/company/selectcompanytrade/view/select_company_trade_screen.dart';
+import 'package:otm_inventory/pages/company/switch_company/view/switch_company_screen.dart';
 import 'package:otm_inventory/pages/dashboard/view/dashboard_screen.dart';
 import 'package:otm_inventory/pages/my_requests/view/my_requests_screen.dart';
 import 'package:otm_inventory/pages/permissions/company_permissions/view/company_permission_screen.dart';
@@ -31,6 +32,7 @@ import 'package:otm_inventory/pages/profile/billing_details_new/view/billing_det
 import 'package:otm_inventory/pages/profile/billing_info/view/billing_info_screen.dart';
 import 'package:otm_inventory/pages/profile/billing_request/view/billing_request_screen.dart';
 import 'package:otm_inventory/pages/profile/company_billings/view/company_billings_screen.dart';
+import 'package:otm_inventory/pages/profile/delete_account/view/delete_account_screen.dart';
 import 'package:otm_inventory/pages/profile/my_account/view/my_account_screen.dart';
 import 'package:otm_inventory/pages/profile/post_coder_search/view/post_coder_search_screen.dart';
 import 'package:otm_inventory/pages/profile/user_settings/view/user_settings_screen.dart';
@@ -237,5 +239,14 @@ class AppPages {
         page: () => BillingDetailsNewScreen()),
     GetPage(
         name: AppRoutes.userSettingsScreen, page: () => UserSettingsScreen()),
+    GetPage(
+        name: AppRoutes.switchCompanyScreen, page: () => SwitchCompanyScreen()),
+    GetPage(
+        name: AppRoutes.billingDetailsNewScreen,
+        page: () => BillingDetailsNewScreen()),
+    GetPage(
+        name: AppRoutes.userSettingsScreen, page: () => UserSettingsScreen()),
+    GetPage(
+        name: AppRoutes.deleteAccountScreen, page: () => DeleteAccountScreen()),
   ];
 }

@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:otm_inventory/pages/profile/user_settings/controller/user_settings_controller.dart';
+import 'package:otm_inventory/pages/profile/user_settings/view/web_view_screen.dart';
 import 'package:otm_inventory/pages/profile/user_settings/view/widgets/build_dark_mode_item_widget.dart';
 import 'package:otm_inventory/res/colors.dart';
+import 'package:otm_inventory/routes/app_routes.dart';
+import 'package:otm_inventory/web_services/api_constants.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
 
@@ -45,22 +48,44 @@ class UserSettingsScreen extends StatelessWidget {
                   _buildSettingItem(
                     icon: Icons.description,
                     title: 'Privacy and Policy',
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MyWebViewScreen(
+                            url:'http://devsystem.belcka.com:3001/privacy-policy',pageTitle: "Privacy and Policy",
+                          ),
+                        ),
+                      );
+                    },
                   ),
                   _buildSettingItem(
                     icon: Icons.info_outline,
                     title: 'App Info',
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MyWebViewScreen(
+                            url: 'http://devsystem.belcka.com:3001/app-info',pageTitle: "App Info",
+                          ),
+                        ),
+                      );
+                    },
                   ),
                   _buildSettingItem(
                     icon: Icons.swap_horiz,
                     title: 'Switch Company',
-                    onTap: () {},
+                    onTap: () {
+                      Get.toNamed(AppRoutes.switchCompanyScreen);
+                    },
                   ),
                   _buildSettingItem(
                     icon: Icons.delete_outline,
                     title: 'Delete Account',
-                    onTap: () {},
+                    onTap: () {
+                      Get.toNamed(AppRoutes.deleteAccountScreen);
+                    },
                     isDestructive: true,
                   ),
                 ],

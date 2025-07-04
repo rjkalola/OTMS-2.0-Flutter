@@ -15,6 +15,7 @@ import 'package:image_picker_android/image_picker_android.dart';
 import 'package:local_auth_android/local_auth_android.dart';
 import 'package:path_provider_android/path_provider_android.dart';
 import 'package:sqflite_android/sqflite_android.dart';
+import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_image_compress_common/flutter_image_compress_common.dart';
 import 'package:geocoding_ios/geocoding_ios.dart';
@@ -24,6 +25,7 @@ import 'package:image_picker_ios/image_picker_ios.dart';
 import 'package:local_auth_darwin/local_auth_darwin.dart';
 import 'package:path_provider_foundation/path_provider_foundation.dart';
 import 'package:sqflite_darwin/sqflite_darwin.dart';
+import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:file_selector_linux/file_selector_linux.dart';
@@ -37,6 +39,7 @@ import 'package:image_picker_macos/image_picker_macos.dart';
 import 'package:local_auth_darwin/local_auth_darwin.dart';
 import 'package:path_provider_foundation/path_provider_foundation.dart';
 import 'package:sqflite_darwin/sqflite_darwin.dart';
+import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:file_selector_windows/file_selector_windows.dart';
@@ -131,6 +134,15 @@ class _PluginRegistrant {
         );
       }
 
+      try {
+        AndroidWebViewPlatform.registerWith();
+      } catch (err) {
+        print(
+          '`webview_flutter_android` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+
     } else if (Platform.isIOS) {
       try {
         FilePickerIO.registerWith();
@@ -209,6 +221,15 @@ class _PluginRegistrant {
       } catch (err) {
         print(
           '`sqflite_darwin` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+
+      try {
+        WebKitWebViewPlatform.registerWith();
+      } catch (err) {
+        print(
+          '`webview_flutter_wkwebview` threw an error: $err. '
           'The app may not function as expected until you remove this plugin from pubspec.yaml'
         );
       }
@@ -328,6 +349,15 @@ class _PluginRegistrant {
       } catch (err) {
         print(
           '`sqflite_darwin` threw an error: $err. '
+          'The app may not function as expected until you remove this plugin from pubspec.yaml'
+        );
+      }
+
+      try {
+        WebKitWebViewPlatform.registerWith();
+      } catch (err) {
+        print(
+          '`webview_flutter_wkwebview` threw an error: $err. '
           'The app may not function as expected until you remove this plugin from pubspec.yaml'
         );
       }

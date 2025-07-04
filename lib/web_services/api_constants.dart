@@ -4,6 +4,7 @@ class ApiConstants {
 
   // static String appUrl = "http://206.189.17.166:3000";
   static String appUrl = "http://dev.belcka.com:3000";
+
   // static String appUrl = "http://belcka.com:3003";
 
   // static String appUrl = "http://belcka.com:3000";
@@ -41,6 +42,9 @@ class ApiConstants {
   static String storeCompanyDataUrl = '$appUrl/company/company-data/$companyId';
   static String editCompanyUrl = '$appUrl/company/edit-company';
   static String getCompanyDetailsUrl = '$appUrl/company/get-company';
+  static String getCompanyList = '$appUrl/company/list';
+  static String getSwitchCompanyList = '$appUrl/user/switch-company-list';
+  static String switchCompany = '$appUrl/company/switch-company';
 
   //dashboard
   static String changeDashboardUserPermissionSequenceUrl =
@@ -101,7 +105,6 @@ class ApiConstants {
   static String teamUnArchive = '$appUrl/team/unarchive';
   static String teamUserList = '$appUrl/team/user-list';
 
-
   //shifts
   static String shiftAdd = '$appUrl/shift/add';
   static String shiftEdit = '$appUrl/shift/edit';
@@ -118,6 +121,7 @@ class ApiConstants {
   static String getBillingInfo = '$appUrl/user-billing/get-billing-info';
   static String requestsGetRequestDetail =
       '$appUrl/requests/get-request-detail';
+  static String archiveAccount = '$appUrl/user/archive-account';
 
   //my requests
   static String getAllRequest = '$appUrl/requests/get-all-request';
