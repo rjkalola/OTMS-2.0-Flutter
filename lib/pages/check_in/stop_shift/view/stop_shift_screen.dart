@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/my_day_log_list_view.dart';
 import 'package:otm_inventory/pages/check_in/stop_shift/controller/stop_shift_controller.dart';
 import 'package:otm_inventory/pages/check_in/stop_shift/view/widgets/add_note_widget.dart';
+import 'package:otm_inventory/pages/check_in/stop_shift/view/widgets/break_log_list.dart';
 import 'package:otm_inventory/pages/check_in/stop_shift/view/widgets/start_stop_box_row.dart';
 import 'package:otm_inventory/pages/check_in/stop_shift/view/widgets/stop_shift_button.dart';
 import 'package:otm_inventory/pages/check_in/stop_shift/view/widgets/submit_for_approval_button.dart';
@@ -52,39 +54,45 @@ class _StopShiftScreenState extends State<StopShiftScreen> {
               inAsyncCall: controller.isLoading.value,
               opacity: 0,
               progressIndicator: const CustomProgressbar(),
-              child: Column(children: [
-                Expanded(
-                  child: CustomMapView(
-                      onMapCreated: controller.onMapCreated,
-                      target: controller.center),
-                ),
-                SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      SelectionScreenHeaderView(
-                        title: controller.isWorking.value
-                            ? 'my_shift'.tr
-                            : 'edit_my_shift'.tr,
-                        onBackPressed: () {
-                          controller.onBackPress();
-                        },
-                      ),
-                      StartStopBoxRow(),
-                      TotalHoursRow(),
-                      Visibility(
-                          visible: controller.isEdited.value,
-                          child: AddNoteWidget(
-                              controller: controller.noteController)),
-                      controller.isWorking.value
-                          ? StopShiftButton()
-                          : Visibility(
-                              visible: controller.isEdited.value,
-                              child: SubmitForApprovalButton(),
-                            )
-                    ],
+              child: Visibility(
+                visible: controller.isMainViewVisible.value,
+                child: Column(children: [
+                  Expanded(
+                    child: CustomMapView(
+                        onMapCreated: controller.onMapCreated,
+                        target: controller.center),
                   ),
-                )
-              ]),
+                  SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        SelectionScreenHeaderView(
+                          title: controller.isWorking.value
+                              ? 'my_shift'.tr
+                              : 'edit_my_shift'.tr,
+                          onBackPressed: () {
+                            controller.onBackPress();
+                          },
+                        ),
+                        StartStopBoxRow(),
+                        BreakLogList(
+                            breakLogList:
+                                controller.workLogInfo.value.breakLog ?? []),
+                        TotalHoursRow(),
+                        Visibility(
+                            visible: controller.isEdited.value,
+                            child: AddNoteWidget(
+                                controller: controller.noteController)),
+                        controller.isWorking.value
+                            ? StopShiftButton()
+                            : Visibility(
+                                visible: controller.isEdited.value,
+                                child: SubmitForApprovalButton(),
+                              )
+                      ],
+                    ),
+                  )
+                ]),
+              ),
             ),
           ),
         )),

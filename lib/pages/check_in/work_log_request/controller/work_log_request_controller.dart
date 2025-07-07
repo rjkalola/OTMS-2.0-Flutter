@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_repository.dart';
 import 'package:otm_inventory/pages/check_in/work_log_request/controller/work_log_request_repository.dart';
 import 'package:otm_inventory/pages/check_in/work_log_request/model/work_log_details_info.dart';
 import 'package:otm_inventory/pages/check_in/work_log_request/model/work_log_request_details_response.dart';

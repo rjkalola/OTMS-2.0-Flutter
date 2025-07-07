@@ -50,6 +50,16 @@ class AppStorage extends GetxController {
     }
   }
 
+  void setThemeMode(bool isDarkMode) {
+    storage.write(AppConstants.sharedPreferenceKey.themeMode, isDarkMode);
+  }
+
+  bool getThemeMode() {
+    final isDarkMode =
+        storage.read(AppConstants.sharedPreferenceKey.themeMode) ?? false;
+    return isDarkMode;
+  }
+
   void setAccessToken(String token) {
     storage.write(AppConstants.sharedPreferenceKey.accessToken, token);
   }

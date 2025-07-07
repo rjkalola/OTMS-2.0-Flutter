@@ -8,7 +8,10 @@ class StopShiftRepository {
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
-    ApiRequest(url: ApiConstants.requestWorkLogChange, data: data, isFormData: false)
+    ApiRequest(
+            url: ApiConstants.requestWorkLogChange,
+            data: data,
+            isFormData: false)
         .postRequest(
       onSuccess: (data) {
         onSuccess!(data);
@@ -17,4 +20,20 @@ class StopShiftRepository {
     );
   }
 
+  void getWorkLogDetails({
+    Map<String, dynamic>? queryParameters,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+            url: ApiConstants.getWorkLogDetails,
+            queryParameters: queryParameters,
+            isFormData: false)
+        .getRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
 }

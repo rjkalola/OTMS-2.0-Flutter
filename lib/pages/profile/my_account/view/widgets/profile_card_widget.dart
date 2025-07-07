@@ -35,13 +35,13 @@ class ProfileCardWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('${UserUtils.getLoginUserName()}', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400)),
+                Text('${UserUtils.getLoginUserName()}', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
                 Text('${UserUtils.getLoginUserTrade()}', style: TextStyle(color: Colors.grey,fontWeight: FontWeight.bold,fontSize: 13)),
               ],
             ),
           ),
           IconButton(
-            icon: const Icon(Icons.settings, color: Colors.black, size: 35,),
+            icon: const Icon(Icons.settings, color: Colors.black, size: 35),
             onPressed: () {
               Get.toNamed(AppRoutes.userSettingsScreen);
             },

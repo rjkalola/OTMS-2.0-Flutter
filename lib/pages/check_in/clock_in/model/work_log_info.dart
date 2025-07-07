@@ -1,3 +1,5 @@
+import 'package:otm_inventory/pages/shifts/create_shift/model/break_info.dart';
+
 class WorkLogInfo {
   int? id;
   int? shiftId;
@@ -7,6 +9,7 @@ class WorkLogInfo {
   String? workEndTime;
   int? totalWorkSeconds;
   bool? isRequestPending;
+  List<BreakInfo>? breakLog;
 
   WorkLogInfo(
       {this.id,
@@ -16,7 +19,8 @@ class WorkLogInfo {
       this.workStartTime,
       this.workEndTime,
       this.totalWorkSeconds,
-      this.isRequestPending});
+      this.isRequestPending,
+      this.breakLog});
 
   WorkLogInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -27,6 +31,12 @@ class WorkLogInfo {
     workEndTime = json['work_end_time'];
     totalWorkSeconds = json['total_work_seconds'];
     isRequestPending = json['is_request_pending'];
+    if (json['break_log'] != null) {
+      breakLog = <BreakInfo>[];
+      json['break_log'].forEach((v) {
+        breakLog!.add(new BreakInfo.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -39,6 +49,9 @@ class WorkLogInfo {
     data['work_end_time'] = this.workEndTime;
     data['total_work_seconds'] = this.totalWorkSeconds;
     data['is_request_pending'] = this.isRequestPending;
+    if (this.breakLog != null) {
+      data['break_log'] = this.breakLog!.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }

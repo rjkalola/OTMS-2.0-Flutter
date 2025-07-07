@@ -38,13 +38,13 @@ class UserSettingsScreen extends StatelessWidget {
               )
                   : ListView(
                 children: [
-                  _buildSettingItem(
-                    icon: Icons.language,
-                    title: 'Language',
-                    subtitle: 'English (United States)',
-                    onTap: () {},
-                  ),
-                  BuildDarkModeItemWidget(),
+                  // _buildSettingItem(
+                  //   icon: Icons.language,
+                  //   title: 'Language',
+                  //   subtitle: 'English (United States)',
+                  //   onTap: () {},
+                  // ),
+                  // BuildDarkModeItemWidget(),
                   _buildSettingItem(
                     icon: Icons.description,
                     title: 'Privacy and Policy',

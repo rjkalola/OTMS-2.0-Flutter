@@ -3,11 +3,9 @@ class ApiConstants {
   // static String appUrl = "https://apidev.otmsystem.com/v1";
 
   // static String appUrl = "http://206.189.17.166:3000";
-  static String appUrl = "http://dev.belcka.com:3000";
+  // static String appUrl = "http://dev.belcka.com:3000";
 
-  // static String appUrl = "http://belcka.com:3003";
-
-  // static String appUrl = "http://belcka.com:3000";
+  static String appUrl = "http://belcka.com:3003";
 
   // static String appUrl = "https://dev.otmsystem.com/api/v1";
   // static String appUrl = "https://otmsystem.com/api/v1";
@@ -131,7 +129,8 @@ class ApiConstants {
   //start work
   static String userStartWork = '$appUrl/user-start-work';
   static String userStopWork = '$appUrl/user-stop-work';
-  static String userWorkLogList = '$appUrl/user-daylogs-list';
+  static String userWorkLogList = '$appUrl/user-worklogs-list';
+  static String getWorkLogDetails = '$appUrl/get-worklog-detail';
   static String requestWorkLogChange = '$appUrl/request-worklog-change';
   static String workLogRequestDetails = '$appUrl/requests/get-request-detail';
   static String workLogRequestApproveReject = '$appUrl/worklog-request/action';

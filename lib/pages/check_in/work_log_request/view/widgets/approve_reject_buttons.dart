@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/widgets/PrimaryBorderButton.dart';
 import 'package:otm_inventory/widgets/PrimaryButton.dart';
 
 class ApproveRejectButtons extends StatelessWidget {

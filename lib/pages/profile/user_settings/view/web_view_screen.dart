@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../../../../res/colors.dart';
@@ -15,13 +16,27 @@ class MyWebViewScreen extends StatefulWidget {
 
 class _MyWebViewScreenState extends State<MyWebViewScreen> {
   late final WebViewController _controller;
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    print("widget.url:"+widget.url);
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onPageStarted: (url) {
+            setState(() {
+              isLoading = true;
+            });
+          },
+          onPageFinished: (url) {
+            setState(() {
+              isLoading = false;
+            });
+          },
+        ),
+      )
       ..loadRequest(Uri.parse(widget.url));
   }
 
@@ -35,7 +50,15 @@ class _MyWebViewScreenState extends State<MyWebViewScreen> {
         bgColor: dashBoardBgColor,
         isBack: true,
       ),
-      body: WebViewWidget(controller: _controller),
+      body: Stack(
+        children: [
+          WebViewWidget(controller: _controller),
+          if (isLoading)
+            const Center(
+              child: CustomProgressbar(),
+            ),
+        ],
+      ),
     );
   }
 }

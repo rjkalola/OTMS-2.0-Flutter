@@ -176,9 +176,13 @@ class RequestCard extends StatelessWidget {
               ),
               SizedBox(height: 8),
               Text(
-                (request.rejectReason?.trim().isEmpty ?? true)
+                request.statusText == "rejected"
+                    ? ((request.rejectReason?.trim().isEmpty ?? true)
                     ? ""
-                    : "Note: ${request.rejectReason!}",
+                    : "Note: ${request.rejectReason!.trim()}")
+                    : ((request.note?.trim().isEmpty ?? true)
+                    ? ""
+                    : "Note: ${request.note!.trim()}"),
               ),
               SizedBox(height: 8),
               Align(

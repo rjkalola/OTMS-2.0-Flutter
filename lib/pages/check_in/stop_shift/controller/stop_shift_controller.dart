@@ -9,6 +9,7 @@ import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_utils.
 import 'package:otm_inventory/pages/check_in/clock_in/model/work_log_info.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/model/work_log_list_response.dart';
 import 'package:otm_inventory/pages/check_in/stop_shift/controller/stop_shift_repository.dart';
+import 'package:otm_inventory/pages/check_in/stop_shift/model/work_log_details_response.dart';
 import 'package:otm_inventory/pages/common/listener/select_time_listener.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/date_utils.dart';
@@ -22,11 +23,13 @@ import '../../../../utils/app_constants.dart';
 
 class StopShiftController extends GetxController implements SelectTimeListener {
   final RxBool isLoading = false.obs,
+      isMainViewVisible = false.obs,
       isInternetNotAvailable = false.obs,
       isLocationLoaded = true.obs,
       isDataUpdated = false.obs,
       isWorking = false.obs,
       isEdited = false.obs;
+
   final RxString startTime = "".obs, stopTime = "".obs;
   String initiallyStartTime = "", initiallyStopTime = "";
   final RxInt initialTotalWorkTime = 0.obs, updatedTotalWorkingTime = 0.obs;
@@ -50,15 +53,9 @@ class StopShiftController extends GetxController implements SelectTimeListener {
     super.onInit();
     var arguments = Get.arguments;
     if (arguments != null) {
-      workLogInfo.value =
-          arguments[AppConstants.intentKey.workLogInfo] ?? WorkLogInfo();
-      date = arguments[AppConstants.intentKey.date] ?? "";
-      isCurrentDay = ClockInUtils.isCurrentDay(date);
-      print("isCurrentDay:" + isCurrentDay.toString());
-      setInitialTime();
+      workLogId = arguments[AppConstants.intentKey.workLogId]??0;
     }
-    locationRequest();
-    appLifeCycle();
+    getWorkLogDetailsApi();
   }
 
   Future<void> userStopWorkApi() async {
@@ -148,6 +145,43 @@ class StopShiftController extends GetxController implements SelectTimeListener {
               BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.Message);
           Get.back(result: true);
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          // isInternetNotAvailable.value = true;
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        }
+      },
+    );
+  }
+
+  Future<void> getWorkLogDetailsApi() async {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["worklog_id"] = workLogId;
+
+    _api.getWorkLogDetails(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          isMainViewVisible.value = true;
+          WorkLogDetailsResponse response = WorkLogDetailsResponse.fromJson(
+              jsonDecode(responseModel.result!));
+          workLogInfo.value = response.info!;
+          date = DateUtil.changeDateFormat(
+              workLogInfo.value.workStartTime ?? "",
+              DateUtil.DD_MM_YYYY_TIME_24_SLASH2,
+              DateUtil.DD_MM_YYYY_SLASH);
+          isCurrentDay = ClockInUtils.isCurrentDay(date);
+          print("isCurrentDay:" + isCurrentDay.toString());
+          setInitialTime();
+          locationRequest();
+          appLifeCycle();
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }

@@ -4,8 +4,10 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:otm_inventory/pages/profile/my_account/controller/my_account_controller.dart';
+import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/widgets/other_widgets/user_avtar_view.dart';
+import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
 
 class MenuButtonsGridWidget extends StatelessWidget {
   MenuButtonsGridWidget({super.key});
@@ -44,13 +46,17 @@ class MenuButtonsGridWidget extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  Icon(controller.menuItems[index]['icon'], color: Colors.blue,size: 28,),
+                  Icon(controller.menuItems[index]['icon'], color: Colors.blue,size: 28,weight: 100,),
                   const SizedBox(width: 8),
                   Expanded(
-                    child: Text(
-                      controller.menuItems[index]['title'],
+                    child: PrimaryTextView(
+                      text: controller.menuItems[index]['title'],
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16,
                       textAlign: TextAlign.center,
-                      style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 17),
+                      color: primaryTextColorLight,
+                      softWrap: true,
+                      maxLine: 2,
                     ),
                   ),
                 ],

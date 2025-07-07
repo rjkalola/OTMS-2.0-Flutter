@@ -7,6 +7,7 @@ import 'package:otm_inventory/pages/common/menu_items_list_bottom_dialog.dart';
 import 'package:otm_inventory/pages/timesheet/timesheet_list/controller/timesheet_list_repository.dart';
 import 'package:otm_inventory/pages/timesheet/timesheet_list/model/time_sheet_info.dart';
 import 'package:otm_inventory/pages/timesheet/timesheet_list/model/time_sheet_list_response.dart';
+import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/web_services/response/module_info.dart';
@@ -91,6 +92,16 @@ class TimeSheetListController extends GetxController
     if (dialogType == AppConstants.dialogIdentifier.selectDayFilter) {
       isResetEnable.value = true;
       filterPerDay = info.name!.toLowerCase();
+      getTimeSheetListApi();
+    }
+  }
+
+  onClickWorkLogItem(int workLogId) async {
+    var arguments = {AppConstants.intentKey.workLogId: workLogId};
+    var result =
+        await Get.toNamed(AppRoutes.stopShiftScreen, arguments: arguments);
+    print("result:" + result.toString());
+    if (result != null && result) {
       getTimeSheetListApi();
     }
   }

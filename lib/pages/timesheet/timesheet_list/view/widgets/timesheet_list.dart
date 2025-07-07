@@ -36,28 +36,20 @@ class TimeSheetList extends StatelessWidget {
               TimeSheetInfo info = controller.timeSheetList[position];
               return CardViewDashboardItem(
                   margin: EdgeInsets.fromLTRB(14, 7, 14, 7),
-                  child: GestureDetector(
-                    onTap: () {
-                      controller.timeSheetList[position].isExpanded =
-                          !(controller.timeSheetList[position].isExpanded ??
-                              false);
-                      controller.timeSheetList.refresh();
-                    },
-                    child: Column(
-                      children: [
-                        userDetailsView(info, position),
-                        WeekNumberTitle(
-                          position: position,
-                          info: info,
-                        ),
-                        DayLogList(
-                          parentPosition: position,
-                        ),
-                        SizedBox(
-                          height: 4,
-                        ),
-                      ],
-                    ),
+                  child: Column(
+                    children: [
+                      userDetailsView(info, position),
+                      WeekNumberTitle(
+                        position: position,
+                        info: info,
+                      ),
+                      DayLogList(
+                        parentPosition: position,
+                      ),
+                      SizedBox(
+                        height: 4,
+                      ),
+                    ],
                   ));
             },
             itemCount: controller.timeSheetList.length,
@@ -76,47 +68,58 @@ class TimeSheetList extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(10, 12, 10, 12),
         color: Colors.transparent,
         child: Obx(
-          () => Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              UserAvtarView(
-                imageUrl: info.userThumbImage ?? "",
-                imageSize: 46,
-              ),
-              SizedBox(
-                width: 12,
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TitleTextView(
-                      text: info.userName ?? "",
+          () => GestureDetector(
+            onTap: (){
+              controller.timeSheetList[position].isExpanded =
+              !(controller.timeSheetList[position].isExpanded ??
+                  false);
+              controller.timeSheetList.refresh();
+            },
+            child: Container(
+              color: Colors.transparent,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  UserAvtarView(
+                    imageUrl: info.userThumbImage ?? "",
+                    imageSize: 46,
+                  ),
+                  SizedBox(
+                    width: 12,
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TitleTextView(
+                          text: info.userName ?? "",
+                        ),
+                        SubtitleTextView(
+                          text: info.tradeName ?? "",
+                        )
+                      ],
                     ),
-                    SubtitleTextView(
-                      text: info.tradeName ?? "",
-                    )
-                  ],
-                ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  TitleTextView(
+                    text: DateUtil.seconds_To_HH_MM(info.payableWorkSeconds ?? 0),
+                    fontSize: 17,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  ExpandCollapseArrowWidget(
+                      isOpen:
+                          controller.timeSheetList[position].isExpanded ?? false),
+                  SizedBox(
+                    width: 6,
+                  ),
+                ],
               ),
-              SizedBox(
-                width: 10,
-              ),
-              TitleTextView(
-                text: DateUtil.seconds_To_HH_MM(info.payableWorkSeconds ?? 0),
-                fontSize: 17,
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              ExpandCollapseArrowWidget(
-                  isOpen:
-                      controller.timeSheetList[position].isExpanded ?? false),
-              SizedBox(
-                width: 6,
-              ),
-            ],
+            ),
           ),
         ),
       );

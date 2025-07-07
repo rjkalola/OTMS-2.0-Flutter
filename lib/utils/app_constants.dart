@@ -66,6 +66,7 @@ class IntentKey {
   final String fromStartShiftScreen = 'FROM_START_SHIFT_SCREEN';
   final String workLogInfo = "WORK_LOG_INFO";
   final String ID = "ID";
+  final String workLogId = "WORK_LOG_ID";
   final String date = "DATE";
 }
 
@@ -120,6 +121,7 @@ class SharedPreferenceKey {
   final String checkLogId = "CHECK_LOG_ID";
   final String projectId = "PROJECT_ID";
   final String shiftId = "SHIFT_ID";
+  final String themeMode = "THEME_MODE";
 }
 
 class Action {

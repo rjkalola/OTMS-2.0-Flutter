@@ -11,12 +11,13 @@ class CardViewDashboardItem extends StatelessWidget {
       this.shadowColor,
       this.borderColor,
       this.boxColor,
-      this.margin});
+      this.margin,
+      this.padding});
 
   final Widget child;
   final double? elevation, borderRadius, borderWidth;
   final Color? shadowColor, borderColor, boxColor;
-  final EdgeInsetsGeometry? margin;
+  final EdgeInsetsGeometry? margin, padding;
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +29,7 @@ class CardViewDashboardItem extends StatelessWidget {
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(borderRadius ?? 20)),
       child: Container(
+        padding: padding ?? EdgeInsets.all(0),
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(

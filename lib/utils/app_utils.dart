@@ -1,11 +1,11 @@
 import 'dart:io';
 
+import 'package:bot_toast/bot_toast.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/pages/common/model/user_info.dart';
 import 'package:otm_inventory/res/colors.dart';
@@ -34,17 +34,27 @@ class AppUtils {
 
   static showToastMessage(String message) {
     if (message.isNotEmpty) {
-      Fluttertoast.showToast(
-        msg: message,
+      BotToast.showText(
+        text: message,
+        align: Alignment.bottomCenter, // or .center
+        duration: Duration(seconds: 1),
       );
+      // Fluttertoast.showToast(
+      //   msg: message,
+      // );
     }
   }
 
   static showApiResponseMessage(String? message) {
     if (!StringHelper.isEmptyString(message)) {
-      Fluttertoast.showToast(
-        msg: message ?? "",
+      BotToast.showText(
+        text: message??"",
+        align: Alignment.bottomCenter, // or .center
+        duration: Duration(seconds: 1),
       );
+     /* Fluttertoast.showToast(
+        msg: message ?? "",
+      );*/
       // Get.rawSnackbar(message: message);
     }
   }
