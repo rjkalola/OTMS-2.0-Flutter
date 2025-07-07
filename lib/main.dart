@@ -24,25 +24,23 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        builder: BotToastInit(),
-        navigatorObservers: [BotToastNavigatorObserver()],
-        title: 'app_title'.tr,
-        translations: Strings(),
-        locale: const Locale('en', 'us'),
-        getPages: AppPages.list,
-        theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: defaultAccentColor),
-            useMaterial3: true,
-            dialogBackgroundColor: Colors.white),
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      builder: BotToastInit(),
+      navigatorObservers: [BotToastNavigatorObserver()],
+      title: 'app_title'.tr,
+      translations: Strings(),
+      locale: const Locale('en', 'us'),
+      getPages: AppPages.list,
+      theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: defaultAccentColor),
+          useMaterial3: true,
+          dialogBackgroundColor: Colors.white),
 
-        // theme: ThemeData.light(),
-        // darkTheme: ThemeData.dark(),
-        // themeMode: themeController.isDarkMode ? ThemeMode.dark : ThemeMode.light,
-        home: SplashScreen(),
-      ),
+      // theme: ThemeData.light(),
+      // darkTheme: ThemeData.dark(),
+      // themeMode: themeController.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+      home: SplashScreen(),
     );
   }
 }
