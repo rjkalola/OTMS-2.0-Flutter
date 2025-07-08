@@ -45,6 +45,10 @@ class BillingDetailsNewController extends GetxController {
   RxBool isLoading = false.obs, isInternetNotAvailable = false.obs, isMainViewVisible = false.obs;
   final billingInfo = BillingInfo().obs;
 
+  String taxInfo = "";
+  String address = "";
+  String bankDetails = "";
+
   @override
   void onInit() {
     super.onInit();
@@ -70,6 +74,42 @@ class BillingDetailsNewController extends GetxController {
           bankNameController.value.text = billingInfo.value.bankName ?? "";
           accountNumberController.value.text = "${billingInfo.value.accountNo ?? 0}";
           sortCodeController.value.text = billingInfo.value.shortCode ?? "";
+
+          if ((billingInfo.value.utrNumber ?? "").isNotEmpty &&
+              (billingInfo.value.ninNumber ?? "").isNotEmpty) {
+            taxInfo = "${billingInfo.value.utrNumber} / ${billingInfo.value.ninNumber}";
+          }
+          else if ((billingInfo.value.utrNumber ?? "").isNotEmpty) {
+            taxInfo = billingInfo.value.utrNumber ?? "";
+          }
+          else if ((billingInfo.value.ninNumber ?? "").isNotEmpty) {
+            taxInfo = billingInfo.value.ninNumber ?? "";
+          }
+          else{
+            taxInfo = "";
+          }
+
+          if ((billingInfo.value.address ?? "").isNotEmpty){
+            address = "${billingInfo.value.address}";
+          }
+          else{
+            address = "Address & Postcode";
+          }
+
+          if ((billingInfo.value.shortCode ?? "").isNotEmpty &&
+              (billingInfo.value.accountNo ?? "").isNotEmpty) {
+            bankDetails = "${billingInfo.value.shortCode ?? ""} / ${billingInfo.value.accountNo ?? ""}";
+          }
+          else if ((billingInfo.value.shortCode ?? "").isNotEmpty) {
+            bankDetails = billingInfo.value.shortCode ?? "";
+          }
+          else if ((billingInfo.value.accountNo ?? "").isNotEmpty) {
+            bankDetails = billingInfo.value.accountNo ?? "";
+          }
+          else{
+            bankDetails = "";
+          }
+
           isMainViewVisible.value = true;
         }
         else{

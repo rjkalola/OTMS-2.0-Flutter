@@ -31,7 +31,8 @@ class ClockInController extends GetxController {
   final RxString totalWorkHours = "".obs, remainingBreakTime = "".obs;
   final _api = ClockInRepository();
   late GoogleMapController mapController;
-  final center = LatLng(37.42796133580664, -122.085749655962).obs;
+  final center =
+      LatLng(AppConstants.defaultLatitude, AppConstants.defaultLongitude).obs;
   final dashboardResponse = DashboardResponse().obs;
   String? latitude, longitude, location, shiftId;
   final locationService = LocationServiceNew();
@@ -117,7 +118,7 @@ class ClockInController extends GetxController {
             }
           }
           if (response.userIsWorking ?? false) {
-            stopTimer();
+            // stopTimer();
             startTimer();
           } else {
             stopTimer();
@@ -207,6 +208,7 @@ class ClockInController extends GetxController {
   }
 
   void startTimer() {
+    // AppUtils.showApiResponseMessage("start timer");
     _timer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
       CounterDetails details =
           ClockInUtils.getTotalWorkHours(workLogData.value);

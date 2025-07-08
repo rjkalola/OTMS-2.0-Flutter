@@ -27,6 +27,9 @@ class BillingDetailsNewScreen extends StatefulWidget {
 class _BillingDetailsNewScreenState extends State<BillingDetailsNewScreen> {
   final controller = Get.put(BillingDetailsNewController());
 
+
+  //NavigationCard(label: "TAX info", value: taxInfo),
+
   @override
   Widget build(BuildContext context) {
     return Obx(() => Container(
@@ -84,9 +87,9 @@ class _BillingDetailsNewScreenState extends State<BillingDetailsNewScreen> {
                                     const SizedBox(height: 10),
                                     InfoCard(label: "Phone number", value:"${controller.billingInfo.value.extension ?? ""} ${controller.billingInfo.value.phone ?? ""}", isLink: true),
                                     InfoCard(label: "Email", value: controller.billingInfo.value.email ?? "", isLink: true),
-                                    NavigationCard(value: controller.billingInfo.value.address ?? ""),
-                                    NavigationCard(label: "TAX info", value: "${controller.billingInfo.value.utrNumber ?? ""} / ${controller.billingInfo.value.ninNumber ?? ""}"),
-                                    NavigationCard(label: "Bank Details", value: "${controller.billingInfo.value.shortCode ?? ""} / ${controller.billingInfo.value.accountNo ?? ""}"),
+                                    NavigationCard(value: controller.address),
+                                    NavigationCard(label: "TAX info", value: controller.taxInfo),
+                                    NavigationCard(label: "Bank Details", value: controller.bankDetails),
                                     NavigationCard(label: "Rates", value: controller.billingInfo.value.net_rate_perDay != null
                                         ? "${controller.billingInfo.value.tradeName ?? ""} - ${controller.billingInfo.value.currency ?? ""}${controller.billingInfo.value.net_rate_perDay}"
                                         : "${controller.billingInfo.value.tradeName ?? ""}",),

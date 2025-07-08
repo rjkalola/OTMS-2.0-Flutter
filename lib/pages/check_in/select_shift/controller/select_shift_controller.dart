@@ -29,7 +29,7 @@ class SelectShiftController extends GetxController {
   final _api = SelectShiftRepository();
   final noteController = TextEditingController().obs;
   late GoogleMapController mapController;
-  final center = LatLng(23.0225, 72.5714).obs;
+  final center = LatLng(AppConstants.defaultLatitude, AppConstants.defaultLongitude).obs;
   final locationService = LocationServiceNew();
   String latitude = "", longitude = "", location = "";
   final searchController = TextEditingController().obs;

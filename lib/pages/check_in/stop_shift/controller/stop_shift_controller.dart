@@ -37,7 +37,7 @@ class StopShiftController extends GetxController implements SelectTimeListener {
   final noteController = TextEditingController().obs;
   late GoogleMapController mapController;
   String? latitude, longitude, location;
-  final center = LatLng(23.0225, 72.5714).obs;
+  final center = LatLng(AppConstants.defaultLatitude, AppConstants.defaultLongitude).obs;
   final locationService = LocationServiceNew();
   final workLogInfo = WorkLogInfo().obs;
   int workLogId = 0;
@@ -53,7 +53,7 @@ class StopShiftController extends GetxController implements SelectTimeListener {
     super.onInit();
     var arguments = Get.arguments;
     if (arguments != null) {
-      workLogId = arguments[AppConstants.intentKey.workLogId]??0;
+      workLogId = arguments[AppConstants.intentKey.workLogId] ?? 0;
     }
     getWorkLogDetailsApi();
   }
@@ -77,7 +77,8 @@ class StopShiftController extends GetxController implements SelectTimeListener {
               BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.Message);
           if (isCurrentDay) {
-            getUserWorkLogListApi();
+            // getUserWorkLogListApi();
+            getWorkLogDetailsApi();
           } else {
             Get.back(result: true);
           }
@@ -244,7 +245,7 @@ class StopShiftController extends GetxController implements SelectTimeListener {
         !StringHelper.isEmptyString(workLogInfo.value.workEndTime)
             ? workLogInfo.value.totalWorkSeconds ?? 0
             : getTotalTimeDifference(startTime.value, stopTime.value);*/
-    initialTotalWorkTime.value = workLogInfo.value.totalWorkSeconds ?? 0;
+    initialTotalWorkTime.value = workLogInfo.value.payableWorkSeconds ?? 0;
     isWorking.value = StringHelper.isEmptyString(workLogInfo.value.workEndTime);
   }
 
@@ -286,10 +287,12 @@ class StopShiftController extends GetxController implements SelectTimeListener {
     updatedTotalWorkingTime.value =
         getTotalTimeDifference(startTime.value ?? "", stopTime.value ?? "");
 
-    isEdited.value =
+    /*  isEdited.value =
         (updatedTotalWorkingTime.value != initialTotalWorkTime.value) ||
             ((initiallyStartTime != startTime.value) ||
-                (initiallyStopTime != stopTime.value));
+                (initiallyStopTime != stopTime.value));*/
+    isEdited.value = (initiallyStartTime != startTime.value) ||
+        (initiallyStopTime != stopTime.value);
     workLogInfo.refresh();
   }
 

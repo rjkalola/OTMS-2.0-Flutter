@@ -29,9 +29,10 @@ class WorkLogRequestController extends GetxController
   final RxString startTime = "".obs, stopTime = "".obs;
   final _api = WorkLogRequestRepository();
   final noteController = TextEditingController().obs;
+  final displayNoteController = TextEditingController().obs;
   late GoogleMapController mapController;
   String? latitude, longitude, location;
-  final center = LatLng(23.0225, 72.5714).obs;
+  final center = LatLng(AppConstants.defaultLatitude, AppConstants.defaultLongitude).obs;
   final locationService = LocationServiceNew();
   final workLogInfo = WorkLogDetailsInfo().obs;
   int requestLogId = 0;
@@ -72,7 +73,7 @@ class WorkLogRequestController extends GetxController
               !StringHelper.isEmptyString(workLogInfo.value.workEndTime)
                   ? changeFullDateToSortTime(workLogInfo.value.workEndTime)
                   : getCurrentTime();
-          noteController.value.text = workLogInfo.value.note ?? "";
+          displayNoteController.value.text = workLogInfo.value.note ?? "";
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
@@ -94,6 +95,7 @@ class WorkLogRequestController extends GetxController
     map["request_worklog_id"] = workLogInfo.value.id ?? 0;
     map["status"] = status;
     map["user_id"] = workLogInfo.value.userId ?? 0;
+    map["note"] = StringHelper.getText(noteController.value);
 
     _api.workLogRequestApproveReject(
       data: map,

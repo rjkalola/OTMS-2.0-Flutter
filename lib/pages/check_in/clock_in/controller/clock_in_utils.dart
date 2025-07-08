@@ -40,13 +40,14 @@ class ClockInUtils {
         final String shiftEnd =
             "$todayDate ${DateUtil.changeDateFormat(logs.shiftInfo?.endTime ?? "", DateUtil.HH_MM_24, DateUtil.HH_MM_SS_24_2)}";
 
-        print("shiftStart:" + shiftStart);
-        print("shiftEnd:" + shiftEnd);
+        // print("shiftStart:" + shiftStart);
+        // print("shiftEnd:" + shiftEnd);
 
         final DateTime shiftStartTime = fullFormat.parse(shiftStart);
         final DateTime shiftEndTime = fullFormat.parse(shiftEnd);
 
         for (var log in logs.workLogInfo!) {
+          print("============");
           if ((log.id ?? 0) != 0 && logs.shiftInfo?.id! == log.shiftId) {
             DateTime? workStartTime, workEndTime;
 
@@ -69,12 +70,14 @@ class ClockInUtils {
               } else {
                 workEndTime = currentDateTime;
               }
-              print("Difference:" +
-                  DateUtil.seconds_To_HH_MM_SS(DateUtil.dateDifferenceInSeconds(
-                      date1: workStartTime, date2: workEndTime)));
+              // print("Difference:" +
+              //     DateUtil.seconds_To_HH_MM_SS(DateUtil.dateDifferenceInSeconds(
+              //         date1: workStartTime, date2: workEndTime)));
               totalWorkHourSeconds = totalWorkHourSeconds +
                   DateUtil.dateDifferenceInSeconds(
                       date1: workStartTime, date2: workEndTime);
+              // print("${log.totalWorkSeconds}:${DateUtil.dateDifferenceInSeconds(
+              //     date1: workStartTime, date2: workEndTime)}");
             } else {
               if (fullFormat.parse(workEnd).isBefore(shiftStartTime)) {
                 workEndTime = shiftStartTime;
@@ -87,59 +90,92 @@ class ClockInUtils {
               totalWorkHourSeconds = totalWorkHourSeconds +
                   DateUtil.dateDifferenceInSeconds(
                       date1: workStartTime, date2: workEndTime);
+              // print("${log.totalWorkSeconds}:${DateUtil.dateDifferenceInSeconds(
+              //     date1: workStartTime, date2: workEndTime)}");
 
               // totalWorkHourSeconds =
               //     totalWorkHourSeconds + (log.totalWorkSeconds ?? 0);
             }
-          }
-        }
 
-        //Break hour calculate
-        for (var breakInfo in logs.shiftInfo!.breaks!) {
-          if (!StringHelper.isEmptyString(breakInfo.breakStartTime) &&
-              !StringHelper.isEmptyString(breakInfo.breakEndTime)) {
-            final String breakStart =
-                "$todayDate ${DateUtil.changeDateFormat(breakInfo.breakStartTime ?? "", DateUtil.HH_MM_24, DateUtil.HH_MM_SS_24_2)}";
-            final String breakEnd =
-                "$todayDate ${DateUtil.changeDateFormat(breakInfo.breakEndTime ?? "", DateUtil.HH_MM_24, DateUtil.HH_MM_SS_24_2)}";
+            //Break hour calculate
+            for (var breakInfo in logs.shiftInfo!.breaks!) {
+              if (!StringHelper.isEmptyString(breakInfo.breakStartTime) &&
+                  !StringHelper.isEmptyString(breakInfo.breakEndTime)) {
+                final String breakStart =
+                    "$todayDate ${DateUtil.changeDateFormat(breakInfo.breakStartTime ?? "", DateUtil.HH_MM_24, DateUtil.HH_MM_SS_24_2)}";
+                final String breakEnd =
+                    "$todayDate ${DateUtil.changeDateFormat(breakInfo.breakEndTime ?? "", DateUtil.HH_MM_24, DateUtil.HH_MM_SS_24_2)}";
 
-            // print("breakStart:" + breakStart);
-            // print("breakEnd:" + breakEnd);
+                DateTime? breakStartTime = fullFormat.parse(breakStart);
+                DateTime? breakEndTime = fullFormat.parse(breakEnd);
 
-            DateTime? breakStartTime, breakEndTime;
+                // Skip if break ends before work starts or starts after work ends
+                if (breakEndTime.isBefore(workStartTime) ||
+                    breakStartTime.isAfter(workEndTime)) {
+                  continue;
+                }
 
-            if (currentDateTime.isAfter(fullFormat.parse(breakStart)) &&
-                currentDateTime.isBefore(fullFormat.parse(breakEnd))) {
-              breakStartTime = fullFormat.parse(breakStart);
-              breakEndTime = currentDateTime;
-              print("breakStart:" + breakStart);
-              print("breakEnd:" + breakEnd);
-              int totalSeconds = DateUtil.dateDifferenceInSeconds(
-                  date1: breakStartTime, date2: breakEndTime);
-              totalBreakHourSeconds = totalBreakHourSeconds + totalSeconds;
+                if (currentDateTime.isAfter(breakStartTime) &&
+                    currentDateTime.isBefore(breakEndTime)) {
+                  final remaining = breakEndTime.difference(currentDateTime);
+                  remainingBreakSeconds = remaining.inSeconds;
+                  isOnBreak = true;
+                }
 
-              int totalRemainingSeconds = (DateUtil.dateDifferenceInSeconds(
-                      date1: fullFormat.parse(breakStart),
-                      date2: fullFormat.parse(breakEnd))) -
-                  totalSeconds;
+                // Clamp break time within workStart and workEnd
+                final actualStart = breakStartTime.isBefore(workStartTime)
+                    ? workStartTime
+                    : breakStartTime;
+                final actualEnd = breakEndTime.isAfter(workEndTime)
+                    ? workEndTime
+                    : breakEndTime;
+                Duration totalBreakTime = actualEnd.difference(actualStart);
+                print("totalBreakTime:" + totalBreakTime.inSeconds.toString());
+                // total += totalBreakTime;
+                totalBreakHourSeconds = totalBreakHourSeconds+ totalBreakTime.inSeconds;
 
-              remainingBreakSeconds = totalRemainingSeconds;
-              print(
-                  "totalRemainingSeconds:" + totalRemainingSeconds.toString());
-
-              isOnBreak = true;
-            } else if (currentDateTime.isAfter(fullFormat.parse(breakStart)) &&
-                currentDateTime.isAfter(fullFormat.parse(breakEnd))) {
-              breakStartTime = fullFormat.parse(breakStart);
-              breakEndTime = fullFormat.parse(breakEnd);
-              totalBreakHourSeconds = totalBreakHourSeconds +
-                  DateUtil.dateDifferenceInSeconds(
+                /*  if (currentDateTime.isAfter(fullFormat.parse(breakStart)) &&
+                    currentDateTime.isBefore(fullFormat.parse(breakEnd))) {
+                  breakStartTime = fullFormat.parse(breakStart);
+                  breakEndTime = currentDateTime;
+                  // print("breakStart:" + breakStart);
+                  // print("breakEnd:" + breakEnd);
+                  int totalSeconds = DateUtil.dateDifferenceInSeconds(
                       date1: breakStartTime, date2: breakEndTime);
+                  print("break:" + totalSeconds.toString());
+                  totalBreakHourSeconds = totalBreakHourSeconds + totalSeconds;
+
+                  int totalRemainingSeconds = (DateUtil.dateDifferenceInSeconds(
+                          date1: fullFormat.parse(breakStart),
+                          date2: fullFormat.parse(breakEnd))) -
+                      totalSeconds;
+
+                  remainingBreakSeconds = totalRemainingSeconds;
+                  // print(
+                  //     "totalRemainingSeconds:" + totalRemainingSeconds.toString());
+
+                  isOnBreak = true;
+                } else if (currentDateTime
+                        .isAfter(fullFormat.parse(breakStart)) &&
+                    currentDateTime.isAfter(fullFormat.parse(breakEnd))) {
+                  breakStartTime = fullFormat.parse(breakStart);
+                  breakEndTime = fullFormat.parse(breakEnd);
+                  totalBreakHourSeconds = totalBreakHourSeconds +
+                      DateUtil.dateDifferenceInSeconds(
+                          date1: breakStartTime, date2: breakEndTime);
+                  print("break:" +
+                      DateUtil.dateDifferenceInSeconds(
+                              date1: breakStartTime, date2: breakEndTime)
+                          .toString());
+                }*/
+              }
             }
           }
         }
       }
     }
+    print("totalWorkHourSeconds:"+totalWorkHourSeconds.toString());
+    print("totalBreakHourSeconds:"+totalBreakHourSeconds.toString());
     int totalWorkTime = 0;
     if (totalWorkHourSeconds > totalBreakHourSeconds) {
       totalWorkTime = totalWorkHourSeconds - totalBreakHourSeconds;

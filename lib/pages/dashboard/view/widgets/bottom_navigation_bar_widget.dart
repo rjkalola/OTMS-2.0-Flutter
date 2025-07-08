@@ -18,30 +18,6 @@ class BottomNavigationBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      // return BottomNavigationBar(
-      //   elevation: 0,
-      //   items: <BottomNavigationBarItem>[
-      //     BottomNavigationBarItem(
-      //         activeIcon: setActiveTab(),
-      //         icon: SvgPicture.asset(Drawable.tab1Icon, width: 30),
-      //         label: ''),
-      //     // BottomNavigationBarItem(
-      //     //     activeIcon: Image.asset(Drawable.activeProfileTabIcon, width: 26),
-      //     //     icon: Image.asset(Drawable.inactiveProfileTabIcon, width: 26),
-      //     //     label: ''),
-      //     BottomNavigationBarItem(
-      //         activeIcon:
-      //             SvgPicture.asset(Drawable.activeMoreTabIcon, width: 30),
-      //         icon: SvgPicture.asset(Drawable.inactiveMoreTabIcon, width: 30),
-      //         label: ''),
-      //   ],
-      //   currentIndex: dashboardController.selectedIndex.value,
-      //   type: BottomNavigationBarType.fixed,
-      //   showUnselectedLabels: false,
-      //   showSelectedLabels: false,
-      //   backgroundColor: bottomTabBackgroundColor,
-      //   onTap: dashboardController.onItemTapped,
-      // );
       return Padding(
         padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
         child: Container(
@@ -66,10 +42,6 @@ class BottomNavigationBarWidget extends StatelessWidget {
                         height: 24,
                         color:
                             isSelected ? defaultAccentColor : Colors.black54),
-                    // Icon(
-                    //   DataUtils.tabIcons[index],
-                    //   color: isSelected ? Colors.blue : Colors.black54,
-                    // ),
                     if (isSelected)
                       Padding(
                         padding: const EdgeInsets.only(top: 4.0),
@@ -91,22 +63,4 @@ class BottomNavigationBarWidget extends StatelessWidget {
     });
   }
 
-  Widget setActiveTab() => Column(
-        children: [
-          ImageUtils.setSvgAssetsImage(
-              path: Drawable.tab1Icon,
-              width: 24,
-              height: 24,
-              color: defaultAccentColor),
-          SizedBox(
-            height: 4,
-          ),
-          PrimaryTextView(
-            text: "Home",
-            color: defaultAccentColor,
-            fontWeight: FontWeight.w400,
-            fontSize: 14,
-          )
-        ],
-      );
 }

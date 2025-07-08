@@ -6,6 +6,7 @@ import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
+import 'package:otm_inventory/utils/custom_cache_manager.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
@@ -47,6 +48,9 @@ class ImageUtils {
         ? ClipRRect(
             borderRadius: BorderRadius.circular(radius ?? 45),
             child: CachedNetworkImage(
+              fadeInDuration: Duration.zero,
+              fadeOutDuration: Duration.zero,
+              cacheManager: CustomCacheManager(),
               imageUrl: url ?? "",
               fit: fit ?? BoxFit.cover,
               width: width,
@@ -55,6 +59,10 @@ class ImageUtils {
                   getEmptyUserViewContainer(width: width, height: height),
               errorWidget: (context, url, error) =>
                   getEmptyUserViewContainer(width: width, height: height),
+              imageBuilder: (context, imageProvider) => Image(
+                image: imageProvider,
+                fit: BoxFit.cover,
+              ),
             ),
           )
         : getEmptyUserViewContainer(width: width, height: height);

@@ -19,10 +19,9 @@ import 'package:otm_inventory/web_services/response/response_model.dart';
 import '../../../dashboard/tabs/home_tab2/view/home_tab.dart';
 
 class MyAccountController extends GetxController with GetSingleTickerProviderStateMixin{
-
   final _api = MyAccountRepository();
   RxBool isLoading = false.obs, isInternetNotAvailable = false.obs, isMainViewVisible = false.obs;
-
+  final title = 'dashboard'.tr.obs;
   final selectedIndex = 0.obs;
   late final PageController pageController;
   final tabs = <Widget>[
@@ -46,16 +45,47 @@ class MyAccountController extends GetxController with GetSingleTickerProviderSta
     {'icon': Icons.home_outlined, 'title': 'Rent'},
     {'icon': Icons.history, 'title': 'History'},
   ];
+  //Home Tab
+  final selectedActionButtonPagerPosition = 0.obs;
+  final dashboardActionButtonsController = PageController(
+    initialPage: 0,
+  );
 
   @override
   void onInit() {
     super.onInit();
     isMainViewVisible.value = true;
+    pageController = PageController(initialPage: selectedIndex.value);
+    setTitle(selectedIndex.value);
+  }
+  void setTitle(int index) {
+    if (index == 0) {
+      title.value = 'dashboard'.tr;
+    }
+    else if (index == 1) {
+      title.value = 'more'.tr;
+    }
+  }
+  @override
+  void dispose() {
+    super.dispose();
+    pageController.dispose();
   }
   void onPageChanged(int index) {
     selectedIndex.value = index;
     print("selectedIndex.value:${selectedIndex.value}");
-    //setTitle(index);
+    setTitle(index);
+  }
+  void onItemTapped(int index) {
+    // if (index == 1) {
+    //   Navigator.push(
+    //     context,
+    //     MaterialPageRoute(builder: (context) => ScannerScreen()),
+    //   );
+    // } else {
+    pageController.jumpToPage(index);
+
+    // }
   }
   Future<void> moveToScreen(String rout, dynamic arguments) async {
     var result = await Get.toNamed(rout, arguments: arguments);

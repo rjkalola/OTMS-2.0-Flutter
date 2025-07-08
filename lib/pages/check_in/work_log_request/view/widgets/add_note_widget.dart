@@ -22,8 +22,8 @@ class AddNoteWidget extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(16, 18, 16, 18),
         child: TextFieldBorder(
           textEditingController: controller.value,
-          hintText: 'note'.tr,
-          labelText: 'note'.tr,
+          hintText: 'add_a_note'.tr,
+          labelText: 'add_a_note'.tr,
           textInputAction: TextInputAction.newline,
           validator: MultiValidator([]),
           isReadOnly: isReadOnly,

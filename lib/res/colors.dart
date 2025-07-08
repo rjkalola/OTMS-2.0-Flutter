@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:otm_inventory/res/theme/app_theme_extension.dart';
 
 const blueColor = Color.fromRGBO(0, 149, 246, 1);
 const primaryColor = Colors.white;
@@ -27,6 +28,9 @@ const disableComponentColor = Color(0xffc6c6c6);
 const darkYellowColor = Color(0xffefcc78);
 const dashBoardTabBgColor = Color(0xfff4f5f7);
 const dashBoardBgColor = Color(0xffF4F6F8);
-// const dashBoardBgColor = Color(0xffFDFEFF);
 Color dashBoardItemStrokeColor = Colors.grey.shade300;
 const blueBGButtonColor = Color(0xff007AFF);
+
+Color dashBoardBgColor_(BuildContext context) {
+  return Theme.of(context).extension<AppThemeExtension>()!.dashboardBgColor;
+}

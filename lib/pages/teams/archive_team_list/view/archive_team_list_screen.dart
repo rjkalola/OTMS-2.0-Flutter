@@ -22,7 +22,7 @@ class _ArchiveTeamListScreenState extends State<ArchiveTeamListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    SystemChrome.setSystemUIOverlayStyle( SystemUiOverlayStyle(
         statusBarColor: dashBoardBgColor,
         statusBarIconBrightness: Brightness.dark));
     return PopScope(

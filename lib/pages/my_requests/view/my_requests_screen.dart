@@ -9,6 +9,7 @@ import 'package:otm_inventory/pages/my_requests/model/my_requests_list_response.
 import 'package:otm_inventory/pages/my_requests/view/widgets/date_filter_my_requests_horizontal_list.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
+import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
 
@@ -176,13 +177,9 @@ class RequestCard extends StatelessWidget {
               ),
               SizedBox(height: 8),
               Text(
-                request.statusText == "rejected"
-                    ? ((request.rejectReason?.trim().isEmpty ?? true)
-                    ? ""
-                    : "Note: ${request.rejectReason!.trim()}")
-                    : ((request.note?.trim().isEmpty ?? true)
-                    ? ""
-                    : "Note: ${request.note!.trim()}"),
+                !StringHelper.isEmptyString(request.note)
+                    ? "Note: ${request.note!.trim()}"
+                    : "",
               ),
               SizedBox(height: 8),
               Align(

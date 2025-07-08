@@ -172,7 +172,7 @@ class MyDayLogListView extends StatelessWidget {
                                                                   .workEndTime)
                                                           ? DateUtil
                                                               .seconds_To_HH_MM(
-                                                                  info.totalWorkSeconds ??
+                                                                  info.payableWorkSeconds ??
                                                                       0)
                                                           : "00:00",
                                                       fontSize: 20,

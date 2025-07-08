@@ -17,6 +17,8 @@ class AppConstants {
   static const int productListLimit = 20;
   static const int defaultPhoneExtensionId = 1;
   static const String defaultPhoneExtension = "+44";
+  static const double defaultLatitude = 51.5072;
+  static const double defaultLongitude = 0.1276;
 
   // static const String defaultFlagUrl =
   //     "https://devcdn.otmsystem.com/flags/png/gb_32.png";

@@ -8,6 +8,9 @@ class WorkLogInfo {
   String? workStartTime;
   String? workEndTime;
   int? totalWorkSeconds;
+  int? totalBreakLogSeconds;
+  int? payableWorkSeconds;
+
   bool? isRequestPending;
   List<BreakInfo>? breakLog;
 
@@ -19,6 +22,8 @@ class WorkLogInfo {
       this.workStartTime,
       this.workEndTime,
       this.totalWorkSeconds,
+      this.payableWorkSeconds,
+      this.totalBreakLogSeconds,
       this.isRequestPending,
       this.breakLog});
 
@@ -30,6 +35,8 @@ class WorkLogInfo {
     workStartTime = json['work_start_time'];
     workEndTime = json['work_end_time'];
     totalWorkSeconds = json['total_work_seconds'];
+    payableWorkSeconds = json['payable_work_seconds'];
+    totalBreakLogSeconds = json['total_breaklog_seconds'];
     isRequestPending = json['is_request_pending'];
     if (json['break_log'] != null) {
       breakLog = <BreakInfo>[];
@@ -48,6 +55,9 @@ class WorkLogInfo {
     data['work_start_time'] = this.workStartTime;
     data['work_end_time'] = this.workEndTime;
     data['total_work_seconds'] = this.totalWorkSeconds;
+    data['total_work_seconds'] = this.totalWorkSeconds;
+    data['total_breaklog_seconds'] = this.totalBreakLogSeconds;
+    data['payable_work_seconds'] = this.payableWorkSeconds;
     data['is_request_pending'] = this.isRequestPending;
     if (this.breakLog != null) {
       data['break_log'] = this.breakLog!.map((v) => v.toJson()).toList();

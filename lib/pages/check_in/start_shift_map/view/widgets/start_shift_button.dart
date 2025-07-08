@@ -22,11 +22,10 @@ class StartShiftButton extends StatelessWidget {
         child: controller.isLocationLoaded.value
             ? Container(
                 width: double.infinity,
-                margin: EdgeInsets.all(12),
                 child: PrimaryButton(
                     buttonText: 'start_shift'.tr,
                     color: Colors.green,
-                    borderRadius: 16,
+                    borderRadius: 0,
                     onPressed: () {
                       var arguments = {
                         AppConstants.intentKey.fromStartShiftScreen: true,

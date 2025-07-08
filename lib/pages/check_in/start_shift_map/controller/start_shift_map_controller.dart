@@ -29,7 +29,7 @@ class StartShiftMapController extends GetxController
   final _api = StartShiftMapRepository();
   final shiftList = <ModuleInfo>[].obs;
   late GoogleMapController mapController;
-  final center = LatLng(23.0225, 72.5714).obs;
+  final center = LatLng(AppConstants.defaultLatitude, AppConstants.defaultLongitude).obs;
   final locationService = LocationServiceNew();
   String latitude = "", longitude = "", location = "";
 
@@ -62,8 +62,9 @@ class StartShiftMapController extends GetxController
           ShiftListResponse response =
               ShiftListResponse.fromJson(jsonDecode(responseModel.result!));
           for (var data in response.info!) {
-            if(data.status??false){
-              shiftList.add(ModuleInfo(id: data.id ?? 0, name: data.name ?? ""));
+            if (data.status ?? false) {
+              shiftList
+                  .add(ModuleInfo(id: data.id ?? 0, name: data.name ?? ""));
             }
           }
         } else {
@@ -137,6 +138,7 @@ class StartShiftMapController extends GetxController
     Position? latLon = await LocationServiceNew.getCurrentLocation();
     if (latLon != null) {
       isLocationLoaded.value = true;
+      isMainViewVisible.value = true;
       latitude = latLon.latitude.toString();
       longitude = latLon.longitude.toString();
       location = await LocationServiceNew.getAddressFromCoordinates(

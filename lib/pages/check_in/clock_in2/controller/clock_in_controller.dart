@@ -34,7 +34,7 @@ class ClockInController extends GetxController implements SelectItemListener {
       isMainViewVisible = true.obs;
   final _api = ClockInRepository();
   late GoogleMapController mapController;
-  final center = LatLng(37.42796133580664, -122.085749655962).obs;
+  final center = LatLng(AppConstants.defaultLatitude, AppConstants.defaultLongitude).obs;
   final dashboardResponse = DashboardResponse().obs;
   final resourcesData = NewTimeSheetResourcesResponse().obs;
   String? latitude, longitude, location, pwProjectId, shiftId;
