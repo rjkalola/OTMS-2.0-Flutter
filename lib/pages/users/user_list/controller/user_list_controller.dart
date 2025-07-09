@@ -7,6 +7,7 @@ import 'package:otm_inventory/pages/common/model/user_info.dart';
 import 'package:otm_inventory/pages/permissions/user_list/model/user_list_response.dart';
 import 'package:otm_inventory/pages/users/user_list/controller/user_list_repository.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
+import 'package:otm_inventory/utils/custom_cache_manager.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:otm_inventory/web_services/api_constants.dart';
 import 'package:otm_inventory/web_services/response/response_model.dart';
@@ -41,13 +42,14 @@ class UserListController extends GetxController {
       data: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
-          isMainViewVisible.value = true;
           UserListResponse response =
               UserListResponse.fromJson(jsonDecode(responseModel.result!));
+          // preloadUserImages(response.info ?? []);
           tempList.clear();
           tempList.addAll(response.info ?? []);
           usersList.value = tempList;
           usersList.refresh();
+          isMainViewVisible.value = true;
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
@@ -64,6 +66,13 @@ class UserListController extends GetxController {
         }
       },
     );
+  }
+
+  void preloadUserImages(List<UserInfo> list) {
+    for (var info in list) {
+      final cache = CustomCacheManager();
+      cache.downloadFile(info.userThumbImage ?? "");
+    }
   }
 
   Future<void> searchItem(String value) async {

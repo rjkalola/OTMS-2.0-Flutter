@@ -15,22 +15,57 @@ class NavigationCard extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Colors.white,
-        boxShadow: [BoxShadow(color: Colors.grey.shade300, blurRadius: 8,offset: Offset(0, 2))],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.shade300,
+            blurRadius: 8,
+            offset: Offset(0, 2),
+          )
+        ],
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center, // center the arrow vertically
         children: [
-          label.isEmpty
-              ? Text(value, style: TextStyle(fontWeight: FontWeight.w400,fontSize: 16,color: Colors.black))
-              : Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(label, style: TextStyle(color:Color(0xff999999), fontSize: 16,fontWeight: FontWeight.w400)),
-              SizedBox(height: 4),
-              Text(value, style: TextStyle(fontWeight: FontWeight.w400,fontSize: 16,color:Colors.black)),
-            ],
+          Expanded(
+            child: label.isEmpty
+                ? Text(
+              value,
+              style: TextStyle(
+                fontWeight: FontWeight.w400,
+                fontSize: 16,
+                color: Colors.black,
+              ),
+              softWrap: true,
+            )
+                : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  label,
+                  style: TextStyle(
+                    color: Color(0xff999999),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                SizedBox(height: 4),
+                Text(
+                  value,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 16,
+                    color: Colors.black,
+                  ),
+                  softWrap: true,
+                ),
+              ],
+            ),
           ),
-          Icon(Icons.arrow_forward_ios, size: 20, color: Colors.black),
+          SizedBox(width: 8),
+          Align(
+            alignment: Alignment.center, // ensures the arrow is centered
+            child: Icon(Icons.arrow_forward_ios, size: 20, color: Colors.black),
+          ),
         ],
       ),
     );

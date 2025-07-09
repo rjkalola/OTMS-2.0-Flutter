@@ -9,7 +9,6 @@ import 'package:otm_inventory/pages/my_requests/model/my_requests_list_response.
 import 'package:otm_inventory/pages/my_requests/view/widgets/date_filter_my_requests_horizontal_list.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
-import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
 
@@ -88,8 +87,8 @@ class RequestCard extends StatelessWidget {
   final MyRequestInfo request;
 
   RequestCard({required this.request});
-
   final controller = Get.put(MyRequestsController());
+  String noteText = "";
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +114,6 @@ class RequestCard extends StatelessWidget {
               var arguments = {
                 AppConstants.intentKey.ID: request.id ?? 0,
               };
-
               controller.moveToScreen(
                   AppRoutes.workLogRequestScreen, arguments);
             }
@@ -157,6 +155,7 @@ class RequestCard extends StatelessWidget {
                       ),
                     ),
                   ),
+                  SizedBox(width: 4),
                   Chip(
                     label: Text(
                       capitalizeFirst(request.statusText ?? ""),
@@ -175,13 +174,13 @@ class RequestCard extends StatelessWidget {
                   )
                 ],
               ),
-              SizedBox(height: 8),
-              Text(
-                !StringHelper.isEmptyString(request.note)
-                    ? "Note: ${request.note!.trim()}"
-                    : "",
-              ),
-              SizedBox(height: 8),
+              if ((request.note?.trim().isNotEmpty) ?? false)
+                ...[
+                  SizedBox(height: 8),
+                  Text(
+                    "Note: ${(request.note)!.trim()}",
+                  ),
+                ],
               Align(
                 alignment: Alignment.bottomRight,
                 child: Text(

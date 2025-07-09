@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:otm_inventory/pages/common/model/user_info.dart';
@@ -243,6 +244,15 @@ class AppStorage extends GetxController {
 
   String getShiftId() {
     final value = storage.read(AppConstants.sharedPreferenceKey.shiftId) ?? "0";
+    return value;
+  }
+
+  void setLastLocation(Position? value) {
+    storage.write(AppConstants.sharedPreferenceKey.userLocation, value);
+  }
+
+  Position? getLastLocation() {
+    final value = storage.read(AppConstants.sharedPreferenceKey.userLocation);
     return value;
   }
 

@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:otm_inventory/pages/common/listener/date_filter_listener.dart';
 import 'package:otm_inventory/pages/common/listener/select_date_range_listener.dart';
 import 'package:otm_inventory/pages/common/listener/select_time_listener.dart';
 import 'package:otm_inventory/res/colors.dart';
@@ -68,10 +67,20 @@ class DateUtil {
   }
 
   static String seconds_To_HH_MM(int totalSeconds) {
-    final duration = Duration(seconds: totalSeconds);
+    /* final duration = Duration(seconds: totalSeconds);
     final hours = duration.inHours.toString().padLeft(2, '0');
     final minutes = (duration.inMinutes % 60).toString().padLeft(2, '0');
-    return '$hours:$minutes';
+    return '$hours:$minutes';*/
+
+    final duration = Duration(seconds: totalSeconds);
+
+    double totalMinutes = duration.inSeconds / 60;
+    int roundedMinutes = totalMinutes.round();
+
+    int hours = roundedMinutes ~/ 60;
+    int minutes = roundedMinutes % 60;
+
+    return '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}';
   }
 
   static String seconds_To_HH_MM_SS(int totalSeconds) {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:otm_inventory/utils/app_storage.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class LocationServiceNew {
@@ -50,6 +51,7 @@ class LocationServiceNew {
         accuracy: LocationAccuracy.high,
       ),
     );
+    Get.find<AppStorage>().setLastLocation(position);
     print("Location: ${position.latitude}, ${position.longitude}");
     return position;
   }

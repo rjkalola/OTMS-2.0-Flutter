@@ -17,7 +17,7 @@ class AddressTextField extends StatelessWidget {
         textEditingController: controller.myAddressController.value,
         hintText: 'my_address'.tr,
         labelText: 'my_address'.tr,
-        keyboardType: TextInputType.emailAddress,
+        keyboardType: TextInputType.text,
         textInputAction: TextInputAction.next,
         onValueChange: (value) {
           //controller.onValueChange();
@@ -28,6 +28,7 @@ class AddressTextField extends StatelessWidget {
         ]),
         inputFormatters: <TextInputFormatter>[
           // for below version 2 use this
+          FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9@.,]')),
         ]);
   }
 }

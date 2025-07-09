@@ -28,6 +28,7 @@ class _BillingDetailsNewScreenState extends State<BillingDetailsNewScreen> {
   final controller = Get.put(BillingDetailsNewController());
 
 
+
   //NavigationCard(label: "TAX info", value: taxInfo),
 
   @override
@@ -38,7 +39,7 @@ class _BillingDetailsNewScreenState extends State<BillingDetailsNewScreen> {
         child: Scaffold(
           appBar: BaseAppBar(
             appBar: AppBar(),
-            title: "",
+            title: controller.billingInfo.value.companyName ?? "",
             isCenterTitle: false,
             bgColor: dashBoardBgColor,
             isBack: true,
@@ -93,7 +94,8 @@ class _BillingDetailsNewScreenState extends State<BillingDetailsNewScreen> {
                                     NavigationCard(label: "Rates", value: controller.billingInfo.value.net_rate_perDay != null
                                         ? "${controller.billingInfo.value.tradeName ?? ""} - ${controller.billingInfo.value.currency ?? ""}${controller.billingInfo.value.net_rate_perDay}"
                                         : "${controller.billingInfo.value.tradeName ?? ""}",),
-                                    Divider(height: 32),
+                                    Divider(height: 12),
+                                    const SizedBox(height: 12),
                                     NavigationCard(value: "Payslips"),
                                     NavigationCard(value: "Payment"),
                                     NavigationCard(value: "Invoice"),

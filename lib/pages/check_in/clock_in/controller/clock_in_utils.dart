@@ -47,7 +47,7 @@ class ClockInUtils {
         final DateTime shiftEndTime = fullFormat.parse(shiftEnd);
 
         for (var log in logs.workLogInfo!) {
-          print("============");
+          // print("============");
           if ((log.id ?? 0) != 0 && logs.shiftInfo?.id! == log.shiftId) {
             DateTime? workStartTime, workEndTime;
 
@@ -174,8 +174,8 @@ class ClockInUtils {
         }
       }
     }
-    print("totalWorkHourSeconds:"+totalWorkHourSeconds.toString());
-    print("totalBreakHourSeconds:"+totalBreakHourSeconds.toString());
+    // print("totalWorkHourSeconds:"+totalWorkHourSeconds.toString());
+    // print("totalBreakHourSeconds:"+totalBreakHourSeconds.toString());
     int totalWorkTime = 0;
     if (totalWorkHourSeconds > totalBreakHourSeconds) {
       totalWorkTime = totalWorkHourSeconds - totalBreakHourSeconds;

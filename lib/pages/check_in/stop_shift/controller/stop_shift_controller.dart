@@ -11,6 +11,7 @@ import 'package:otm_inventory/pages/check_in/clock_in/model/work_log_list_respon
 import 'package:otm_inventory/pages/check_in/stop_shift/controller/stop_shift_repository.dart';
 import 'package:otm_inventory/pages/check_in/stop_shift/model/work_log_details_response.dart';
 import 'package:otm_inventory/pages/common/listener/select_time_listener.dart';
+import 'package:otm_inventory/utils/app_storage.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/date_utils.dart';
 import 'package:otm_inventory/utils/location_service_new.dart';
@@ -55,6 +56,7 @@ class StopShiftController extends GetxController implements SelectTimeListener {
     if (arguments != null) {
       workLogId = arguments[AppConstants.intentKey.workLogId] ?? 0;
     }
+    setLocation(Get.find<AppStorage>().getLastLocation());
     getWorkLogDetailsApi();
   }
 
@@ -217,14 +219,23 @@ class StopShiftController extends GetxController implements SelectTimeListener {
     Position? latLon = await LocationServiceNew.getCurrentLocation();
     if (latLon != null) {
       isLocationLoaded.value = true;
-      latitude = latLon.latitude.toString();
-      longitude = latLon.longitude.toString();
+      setLocation(latLon);
+    }
+  }
+
+  Future<void> setLocation(Position? position) async {
+    if (position != null) {
+      latitude = position.latitude.toString();
+      longitude = position.longitude.toString();
+      center.value = LatLng(position.latitude, position.longitude);
       location = await LocationServiceNew.getAddressFromCoordinates(
-          latLon.latitude, latLon.longitude);
-      center.value = LatLng(latLon.latitude, latLon.longitude);
-      mapController.animateCamera(CameraUpdate.newCameraPosition(
+          position.latitude, position.longitude);
+      /* mapController.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(target: center.value, zoom: 15),
-      ));
+      ));*/
+      print("Location:" +
+          "Latitude: ${position.latitude}, Longitude: ${position.longitude}");
+      print("Address:${location ?? ""}");
     }
   }
 

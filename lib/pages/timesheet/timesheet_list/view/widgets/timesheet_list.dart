@@ -69,10 +69,9 @@ class TimeSheetList extends StatelessWidget {
         color: Colors.transparent,
         child: Obx(
           () => GestureDetector(
-            onTap: (){
+            onTap: () {
               controller.timeSheetList[position].isExpanded =
-              !(controller.timeSheetList[position].isExpanded ??
-                  false);
+                  !(controller.timeSheetList[position].isExpanded ?? false);
               controller.timeSheetList.refresh();
             },
             child: Container(
@@ -105,15 +104,16 @@ class TimeSheetList extends StatelessWidget {
                     width: 10,
                   ),
                   TitleTextView(
-                    text: DateUtil.seconds_To_HH_MM(info.payableWorkSeconds ?? 0),
+                    text:
+                        DateUtil.seconds_To_HH_MM(info.payableWorkSeconds ?? 0),
                     fontSize: 17,
                   ),
                   SizedBox(
                     width: 10,
                   ),
                   ExpandCollapseArrowWidget(
-                      isOpen:
-                          controller.timeSheetList[position].isExpanded ?? false),
+                      isOpen: controller.timeSheetList[position].isExpanded ??
+                          false),
                   SizedBox(
                     width: 6,
                   ),

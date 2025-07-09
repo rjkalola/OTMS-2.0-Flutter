@@ -53,6 +53,8 @@ class ClockInController extends GetxController {
       //     arguments[AppConstants.intentKey.fromSignUpScreen] ?? "";
     }
     shiftId = Get.find<AppStorage>().getShiftId();
+    setLocation(Get.find<AppStorage>().getLastLocation());
+
     locationRequest();
     appLifeCycle();
     getUserWorkLogListApi();
@@ -118,7 +120,7 @@ class ClockInController extends GetxController {
             }
           }
           if (response.userIsWorking ?? false) {
-            // stopTimer();
+            stopTimer();
             startTimer();
           } else {
             stopTimer();
@@ -164,16 +166,22 @@ class ClockInController extends GetxController {
     Position? latLon = await LocationServiceNew.getCurrentLocation();
     if (latLon != null) {
       isLocationLoaded.value = true;
-      latitude = latLon.latitude.toString();
-      longitude = latLon.longitude.toString();
+      setLocation(latLon);
+    }
+  }
+
+  Future<void> setLocation(Position? position) async {
+    if (position != null) {
+      latitude = position.latitude.toString();
+      longitude = position.longitude.toString();
+      center.value = LatLng(position.latitude, position.longitude);
       location = await LocationServiceNew.getAddressFromCoordinates(
-          latLon.latitude, latLon.longitude);
-      center.value = LatLng(latLon.latitude, latLon.longitude);
+          position.latitude, position.longitude);
       /* mapController.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(target: center.value, zoom: 15),
       ));*/
       print("Location:" +
-          "Latitude: ${latLon.latitude}, Longitude: ${latLon.longitude}");
+          "Latitude: ${position.latitude}, Longitude: ${position.longitude}");
       print("Address:${location ?? ""}");
     }
   }
@@ -208,14 +216,17 @@ class ClockInController extends GetxController {
   }
 
   void startTimer() {
-    // AppUtils.showApiResponseMessage("start timer");
+    _onTick(null);
     _timer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
-      CounterDetails details =
-          ClockInUtils.getTotalWorkHours(workLogData.value);
-      totalWorkHours.value = details.totalWorkTime;
-      isOnBreak.value = details.isOnBreak;
-      remainingBreakTime.value = details.remainingBreakTime;
+      _onTick(timer);
     });
+  }
+
+  void _onTick(Timer? timer) {
+    CounterDetails details = ClockInUtils.getTotalWorkHours(workLogData.value);
+    totalWorkHours.value = details.totalWorkTime;
+    isOnBreak.value = details.isOnBreak;
+    remainingBreakTime.value = details.remainingBreakTime;
   }
 
   void stopTimer() {
