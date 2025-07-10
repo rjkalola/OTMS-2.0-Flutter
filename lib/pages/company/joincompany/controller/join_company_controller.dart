@@ -10,6 +10,7 @@ import 'package:otm_inventory/pages/common/drop_down_list_dialog.dart';
 import 'package:otm_inventory/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:otm_inventory/pages/common/listener/SelectPhoneExtensionListener.dart';
 import 'package:otm_inventory/pages/common/listener/select_item_listener.dart';
+import 'package:otm_inventory/pages/common/model/user_response.dart';
 import 'package:otm_inventory/pages/common/phone_extension_list_dialog.dart';
 import 'package:otm_inventory/pages/company/joincompany/controller/join_company_repository.dart';
 import 'package:otm_inventory/pages/company/joincompany/model/get_companies_response.dart';
@@ -176,9 +177,19 @@ class JoinCompanyController extends GetxController
           isOtpViewVisible.value = true;
           isSelectTradeVisible.value = true;*/
 
-          BaseResponse response =
-              BaseResponse.fromJson(jsonDecode(responseModel.result!));
-          AppUtils.showApiResponseMessage(response.Message ?? "");
+          // BaseResponse response =
+          //     BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          // AppUtils.showApiResponseMessage(response.Message ?? "");
+          // moveToDashboard();
+
+          UserResponse response =
+              UserResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showApiResponseMessage(response.message ?? "");
+          int companyId = response.info?.companyId ?? 0;
+          Get.find<AppStorage>().setUserInfo(response.info!);
+          Get.find<AppStorage>().setCompanyId(companyId);
+          ApiConstants.companyId = companyId;
+          AppUtils.saveLoginUser(response.info!);
           moveToDashboard();
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");

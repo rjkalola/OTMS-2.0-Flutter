@@ -1,20 +1,24 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_repository.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_utils.dart';
+import 'package:otm_inventory/pages/check_in/clock_in/model/location_info.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/model/work_log_info.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/model/work_log_list_response.dart';
 import 'package:otm_inventory/pages/check_in/stop_shift/controller/stop_shift_repository.dart';
 import 'package:otm_inventory/pages/check_in/stop_shift/model/work_log_details_response.dart';
 import 'package:otm_inventory/pages/common/listener/select_time_listener.dart';
+import 'package:otm_inventory/res/drawable.dart';
 import 'package:otm_inventory/utils/app_storage.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/date_utils.dart';
 import 'package:otm_inventory/utils/location_service_new.dart';
+import 'package:otm_inventory/utils/map_utils.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:otm_inventory/web_services/api_constants.dart';
 import 'package:otm_inventory/web_services/response/base_response.dart';
@@ -38,7 +42,10 @@ class StopShiftController extends GetxController implements SelectTimeListener {
   final noteController = TextEditingController().obs;
   late GoogleMapController mapController;
   String? latitude, longitude, location;
-  final center = LatLng(AppConstants.defaultLatitude, AppConstants.defaultLongitude).obs;
+  final center =
+      LatLng(AppConstants.defaultLatitude, AppConstants.defaultLongitude).obs;
+  final RxSet<Marker> markers = <Marker>{}.obs;
+  final RxSet<Polyline> polylines = <Polyline>{}.obs;
   final locationService = LocationServiceNew();
   final workLogInfo = WorkLogInfo().obs;
   int workLogId = 0;
@@ -56,7 +63,12 @@ class StopShiftController extends GetxController implements SelectTimeListener {
     if (arguments != null) {
       workLogId = arguments[AppConstants.intentKey.workLogId] ?? 0;
     }
-    setLocation(Get.find<AppStorage>().getLastLocation());
+    LocationInfo? locationInfo = Get.find<AppStorage>().getLastLocation();
+    if (locationInfo != null) {
+      setLocation(double.parse(locationInfo.latitude ?? "0"),
+          double.parse(locationInfo.longitude ?? "0"));
+    }
+
     getWorkLogDetailsApi();
   }
 
@@ -182,6 +194,7 @@ class StopShiftController extends GetxController implements SelectTimeListener {
               DateUtil.DD_MM_YYYY_SLASH);
           isCurrentDay = ClockInUtils.isCurrentDay(date);
           print("isCurrentDay:" + isCurrentDay.toString());
+          setLocationPin();
           setInitialTime();
           locationRequest();
           appLifeCycle();
@@ -219,22 +232,20 @@ class StopShiftController extends GetxController implements SelectTimeListener {
     Position? latLon = await LocationServiceNew.getCurrentLocation();
     if (latLon != null) {
       isLocationLoaded.value = true;
-      setLocation(latLon);
+      setLocation(latLon.latitude, latLon.longitude);
     }
   }
 
-  Future<void> setLocation(Position? position) async {
-    if (position != null) {
-      latitude = position.latitude.toString();
-      longitude = position.longitude.toString();
-      center.value = LatLng(position.latitude, position.longitude);
-      location = await LocationServiceNew.getAddressFromCoordinates(
-          position.latitude, position.longitude);
+  Future<void> setLocation(double? lat, double? lon) async {
+    if (lat != null && lon != null) {
+      latitude = lat.toString();
+      longitude = lon.toString();
+      center.value = LatLng(lat, lon);
+      location = await LocationServiceNew.getAddressFromCoordinates(lat, lon);
       /* mapController.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(target: center.value, zoom: 15),
       ));*/
-      print("Location:" +
-          "Latitude: ${position.latitude}, Longitude: ${position.longitude}");
+      print("Location:" + "Latitude: ${latitude}, Longitude: ${longitude}");
       print("Address:${location ?? ""}");
     }
   }
@@ -305,6 +316,61 @@ class StopShiftController extends GetxController implements SelectTimeListener {
     isEdited.value = (initiallyStartTime != startTime.value) ||
         (initiallyStopTime != stopTime.value);
     workLogInfo.refresh();
+  }
+
+  Future<void> setLocationPin() async {
+    LocationInfo? start = workLogInfo.value.startWorkLocation;
+    LocationInfo? stop = workLogInfo.value.stopWorkLocation;
+
+    if (start != null) {
+      final icon = await MapUtils.createIcon(
+          assetPath: Drawable.redPin, width: 24, height: 34);
+      LatLng startWorkPosition = LatLng(double.parse(start.latitude ?? "0"),
+          double.parse(start.longitude ?? "0"));
+      addMarker(startWorkPosition, 'startwork', icon, title: '');
+    }
+
+    if (stop != null) {
+      final icon = await MapUtils.createIcon(
+          assetPath: Drawable.bluePin, width: 24, height: 34);
+      LatLng stopWorkPosition = LatLng(double.parse(stop.latitude ?? "0"),
+          double.parse(stop.longitude ?? "0"));
+      addMarker(stopWorkPosition, 'stopwork', icon, title: '');
+    }
+
+    if(start != null && stop != null){
+      LatLng startWorkPosition = LatLng(double.parse(start.latitude ?? "0"),
+          double.parse(start.longitude ?? "0"));
+      LatLng stopWorkPosition = LatLng(double.parse(stop.latitude ?? "0"),
+          double.parse(stop.longitude ?? "0"));
+      addPolyLone(startWorkPosition, stopWorkPosition);
+    }
+  }
+
+  void addMarker(LatLng position, String id, BitmapDescriptor icon,
+      {String? title}) {
+    final newMarker = Marker(
+      markerId: MarkerId(id),
+      position: position,
+      icon: icon,
+      infoWindow: InfoWindow(title: title ?? 'Marker $id'),
+    );
+
+    // Important: copy the existing markers to trigger reactive update
+    final updatedMarkers = Set<Marker>.from(markers);
+    updatedMarkers.add(newMarker);
+    markers.value = updatedMarkers;
+  }
+
+  void addPolyLone(LatLng start,LatLng stop){
+    final polyline = MapUtils.createPolyline(
+      id: 'route_1',
+      start: start,
+      end: stop,
+    );
+    final updatedPolylines = Set<Polyline>.from(polylines.value);
+    updatedPolylines.add(polyline);
+    polylines.value = updatedPolylines;
   }
 
   void onBackPress() {

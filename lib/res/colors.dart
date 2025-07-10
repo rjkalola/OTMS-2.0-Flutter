@@ -30,6 +30,9 @@ const dashBoardTabBgColor = Color(0xfff4f5f7);
 const dashBoardBgColor = Color(0xffF4F6F8);
 Color dashBoardItemStrokeColor = Colors.grey.shade300;
 const blueBGButtonColor = Color(0xff007AFF);
+const pendingTextColor = Color(0xfffe7f00);
+const approvedTextColor = Color(0xff32a753);
+const rejectTextColor = Color(0xffff484a);
 
 Color dashBoardBgColor_(BuildContext context) {
   return Theme.of(context).extension<AppThemeExtension>()!.dashboardBgColor;

@@ -321,9 +321,9 @@
     },
     {
       "name": "flutter_svg",
-      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/flutter_svg-2.1.0",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/flutter_svg-2.2.0",
       "packageUri": "lib/",
-      "languageVersion": "3.4"
+      "languageVersion": "3.6"
     },
     {
       "name": "flutter_test",
@@ -1082,7 +1082,7 @@
       "languageVersion": "3.2"
     }
   ],
-  "generated": "2025-07-07T13:42:19.932413Z",
+  "generated": "2025-07-10T09:52:44.886723Z",
   "generator": "pub",
   "generatorVersion": "3.6.2",
   "flutterRoot": "file:///Users/apple/Documents/flutterDev/flutter",

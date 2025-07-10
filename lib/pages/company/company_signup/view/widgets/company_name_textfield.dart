@@ -28,4 +28,5 @@ class CompanyNameTextField extends StatelessWidget {
       ),
     );
   }
+
 }

@@ -72,6 +72,8 @@ class _TimeSheetListScreenState extends State<TimeSheetListScreen>
                               startDate: controller.startDate,
                               endDate: controller.endDate,
                               listener: this,
+                              selectedPosition:
+                                  controller.selectedDateFilterIndex,
                             ),
                             TimeSheetList(),
                           ],

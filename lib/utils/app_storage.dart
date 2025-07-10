@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:otm_inventory/pages/check_in/clock_in/model/location_info.dart';
 import 'package:otm_inventory/pages/common/model/user_info.dart';
 import 'package:otm_inventory/pages/dashboard/models/dashboard_response.dart';
 import 'package:otm_inventory/pages/dashboard/models/permission_settings.dart';
@@ -247,12 +248,17 @@ class AppStorage extends GetxController {
     return value;
   }
 
-  void setLastLocation(Position? value) {
-    storage.write(AppConstants.sharedPreferenceKey.userLocation, value);
+  void setLastLocation(LocationInfo? value) {
+    storage.write(AppConstants.sharedPreferenceKey.lastLocation, value);
   }
 
-  Position? getLastLocation() {
-    final value = storage.read(AppConstants.sharedPreferenceKey.userLocation);
+  LocationInfo? getLastLocation() {
+    final value = storage.hasData(AppConstants.sharedPreferenceKey.lastLocation)
+        ? storage.read(AppConstants.sharedPreferenceKey.lastLocation)
+        : null;
+    if (value is Map<String, dynamic>) {
+      return LocationInfo.fromJson(value);
+    }
     return value;
   }
 

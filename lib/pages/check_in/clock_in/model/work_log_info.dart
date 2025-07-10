@@ -1,3 +1,4 @@
+import 'package:otm_inventory/pages/check_in/clock_in/model/location_info.dart';
 import 'package:otm_inventory/pages/shifts/create_shift/model/break_info.dart';
 
 class WorkLogInfo {
@@ -8,11 +9,12 @@ class WorkLogInfo {
   String? workStartTime;
   String? workEndTime;
   int? totalWorkSeconds;
-  int? totalBreakLogSeconds;
+  int? totalBreaklogSeconds;
   int? payableWorkSeconds;
-
   bool? isRequestPending;
   List<BreakInfo>? breakLog;
+  LocationInfo? startWorkLocation;
+  LocationInfo? stopWorkLocation;
 
   WorkLogInfo(
       {this.id,
@@ -22,10 +24,12 @@ class WorkLogInfo {
       this.workStartTime,
       this.workEndTime,
       this.totalWorkSeconds,
+      this.totalBreaklogSeconds,
       this.payableWorkSeconds,
-      this.totalBreakLogSeconds,
       this.isRequestPending,
-      this.breakLog});
+      this.breakLog,
+      this.startWorkLocation,
+      this.stopWorkLocation});
 
   WorkLogInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -35,8 +39,8 @@ class WorkLogInfo {
     workStartTime = json['work_start_time'];
     workEndTime = json['work_end_time'];
     totalWorkSeconds = json['total_work_seconds'];
+    totalBreaklogSeconds = json['total_breaklog_seconds'];
     payableWorkSeconds = json['payable_work_seconds'];
-    totalBreakLogSeconds = json['total_breaklog_seconds'];
     isRequestPending = json['is_request_pending'];
     if (json['break_log'] != null) {
       breakLog = <BreakInfo>[];
@@ -44,6 +48,12 @@ class WorkLogInfo {
         breakLog!.add(new BreakInfo.fromJson(v));
       });
     }
+    startWorkLocation = json['start_work_location'] != null
+        ? new LocationInfo.fromJson(json['start_work_location'])
+        : null;
+    stopWorkLocation = json['stop_work_location'] != null
+        ? new LocationInfo.fromJson(json['stop_work_location'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -55,12 +65,17 @@ class WorkLogInfo {
     data['work_start_time'] = this.workStartTime;
     data['work_end_time'] = this.workEndTime;
     data['total_work_seconds'] = this.totalWorkSeconds;
-    data['total_work_seconds'] = this.totalWorkSeconds;
-    data['total_breaklog_seconds'] = this.totalBreakLogSeconds;
+    data['total_breaklog_seconds'] = this.totalBreaklogSeconds;
     data['payable_work_seconds'] = this.payableWorkSeconds;
     data['is_request_pending'] = this.isRequestPending;
     if (this.breakLog != null) {
       data['break_log'] = this.breakLog!.map((v) => v.toJson()).toList();
+    }
+    if (this.startWorkLocation != null) {
+      data['start_work_location'] = this.startWorkLocation!.toJson();
+    }
+    if (this.stopWorkLocation != null) {
+      data['stop_work_location'] = this.stopWorkLocation!.toJson();
     }
     return data;
   }

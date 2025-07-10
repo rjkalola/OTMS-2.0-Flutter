@@ -11,11 +11,11 @@ import 'package:otm_inventory/pages/common/drop_down_list_dialog.dart';
 import 'package:otm_inventory/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:otm_inventory/pages/common/listener/SelectPhoneExtensionListener.dart';
 import 'package:otm_inventory/pages/common/listener/select_item_listener.dart';
+import 'package:otm_inventory/pages/common/model/user_response.dart';
 import 'package:otm_inventory/pages/common/phone_extension_list_dialog.dart';
+import 'package:otm_inventory/pages/company/company_signup/controller/company_signup_repository.dart';
 import 'package:otm_inventory/pages/manageattachment/controller/manage_attachment_controller.dart';
 import 'package:otm_inventory/pages/manageattachment/listener/select_attachment_listener.dart';
-import 'package:otm_inventory/pages/company/company_signup/controller/company_signup_repository.dart';
-import 'package:otm_inventory/pages/company/company_signup/model/company_registration_response.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/AlertDialogHelper.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
@@ -117,7 +117,7 @@ class CompanySignUpController extends GetxController
       formData: formData,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
-          CompanyRegistrationResponse response =
+          /*  CompanyRegistrationResponse response =
               CompanyRegistrationResponse.fromJson(
                   jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.message ?? "");
@@ -129,9 +129,17 @@ class CompanySignUpController extends GetxController
           Get.find<AppStorage>().setUserInfo(userInfo);
           Get.find<AppStorage>().setCompanyId(companyId);
           ApiConstants.companyId = companyId;
-          Get.offAllNamed(AppRoutes.teamUsersCountInfoScreen);
+          Get.offAllNamed(AppRoutes.teamUsersCountInfoScreen);*/
 
-          // moveToDashboard();
+          UserResponse response =
+              UserResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showApiResponseMessage(response.message ?? "");
+          int companyId = response.info?.companyId ?? 0;
+          Get.find<AppStorage>().setUserInfo(response.info!);
+          Get.find<AppStorage>().setCompanyId(companyId);
+          ApiConstants.companyId = companyId;
+          AppUtils.saveLoginUser(response.info!);
+          moveToDashboard();
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }

@@ -87,6 +87,7 @@ class RequestCard extends StatelessWidget {
   final MyRequestInfo request;
 
   RequestCard({required this.request});
+
   final controller = Get.put(MyRequestsController());
   String noteText = "";
 
@@ -164,8 +165,7 @@ class RequestCard extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    backgroundColor: getStatusColor(request.statusText ?? "")
-                        .withOpacity(0.1),
+                    backgroundColor: primaryColor,
                     shape: StadiumBorder(
                       side: BorderSide(
                         color: getStatusColor(request.statusText ?? ""),
@@ -174,13 +174,12 @@ class RequestCard extends StatelessWidget {
                   )
                 ],
               ),
-              if ((request.note?.trim().isNotEmpty) ?? false)
-                ...[
-                  SizedBox(height: 8),
-                  Text(
-                    "Note: ${(request.note)!.trim()}",
-                  ),
-                ],
+              if ((request.note?.trim().isNotEmpty) ?? false) ...[
+                SizedBox(height: 8),
+                Text(
+                  "Note: ${(request.note)!.trim()}",
+                ),
+              ],
               Align(
                 alignment: Alignment.bottomRight,
                 child: Text(
@@ -197,11 +196,11 @@ class RequestCard extends StatelessWidget {
 }
 
 Color getStatusColor(String status) {
-  Color color = primaryTextColor;
+  Color color = pendingTextColor;
   if (status == 'approved') {
-    color = Colors.green;
+    color = approvedTextColor;
   } else if (status == 'rejected') {
-    color = Colors.red;
+    color = rejectTextColor;
   }
   return color;
 }

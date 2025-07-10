@@ -124,7 +124,7 @@ class SharedPreferenceKey {
   final String projectId = "PROJECT_ID";
   final String shiftId = "SHIFT_ID";
   final String themeMode = "THEME_MODE";
-  final String userLocation = "USER_LOCATION";
+  final String lastLocation = "LAST_LOCATION";
 }
 
 class Action {

@@ -8,6 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_repository.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_utils.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/model/counter_details.dart';
+import 'package:otm_inventory/pages/check_in/clock_in/model/location_info.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/model/work_log_info.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/model/work_log_list_response.dart';
 import 'package:otm_inventory/pages/dashboard/models/dashboard_response.dart';
@@ -53,7 +54,11 @@ class ClockInController extends GetxController {
       //     arguments[AppConstants.intentKey.fromSignUpScreen] ?? "";
     }
     shiftId = Get.find<AppStorage>().getShiftId();
-    setLocation(Get.find<AppStorage>().getLastLocation());
+    LocationInfo? locationInfo = Get.find<AppStorage>().getLastLocation();
+    if (locationInfo != null) {
+      setLocation(double.parse(locationInfo.latitude ?? "0"),
+          double.parse(locationInfo.longitude ?? "0"));
+    }
 
     locationRequest();
     appLifeCycle();
@@ -166,22 +171,20 @@ class ClockInController extends GetxController {
     Position? latLon = await LocationServiceNew.getCurrentLocation();
     if (latLon != null) {
       isLocationLoaded.value = true;
-      setLocation(latLon);
+      setLocation(latLon.latitude, latLon.longitude);
     }
   }
 
-  Future<void> setLocation(Position? position) async {
-    if (position != null) {
-      latitude = position.latitude.toString();
-      longitude = position.longitude.toString();
-      center.value = LatLng(position.latitude, position.longitude);
-      location = await LocationServiceNew.getAddressFromCoordinates(
-          position.latitude, position.longitude);
+  Future<void> setLocation(double? lat, double? lon) async {
+    if (lat != null && lon != null) {
+      latitude = lat.toString();
+      longitude = lon.toString();
+      center.value = LatLng(lat, lon);
+      location = await LocationServiceNew.getAddressFromCoordinates(lat, lon);
       /* mapController.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(target: center.value, zoom: 15),
       ));*/
-      print("Location:" +
-          "Latitude: ${position.latitude}, Longitude: ${position.longitude}");
+      print("Location:" + "Latitude: ${latitude}, Longitude: ${longitude}");
       print("Address:${location ?? ""}");
     }
   }

@@ -59,8 +59,11 @@ class _StopShiftScreenState extends State<StopShiftScreen> {
                 child: Column(children: [
                   Expanded(
                     child: CustomMapView(
-                        onMapCreated: controller.onMapCreated,
-                        target: controller.center),
+                      onMapCreated: controller.onMapCreated,
+                      target: controller.center,
+                      markers: controller.markers,
+                      polylines: controller.polylines,
+                    ),
                   ),
                   SingleChildScrollView(
                     child: Column(

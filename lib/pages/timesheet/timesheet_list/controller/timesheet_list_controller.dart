@@ -21,6 +21,7 @@ class TimeSheetListController extends GetxController
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
       isResetEnable = false.obs;
+  final RxInt selectedDateFilterIndex = (-1).obs;
   final _api = TimesheetListRepository();
   final timeSheetList = <TimeSheetInfo>[].obs;
   int selectedIndex = 0, selectedTeamId = 0;
@@ -111,6 +112,7 @@ class TimeSheetListController extends GetxController
     filterPerDay = "";
     startDate = "";
     endDate = "";
+    selectedDateFilterIndex.value = -1;
     getTimeSheetListApi();
   }
 }
