@@ -95,14 +95,6 @@ class DateFilterOptionsHorizontalList extends StatelessWidget
         lastDate: lastDate,
         dialogIdentifier: dialogIdentifier,
         listener: this);
-
-    // showModalBottomSheet(
-    //   context: Get.context!,
-    //   builder: (_) => SizedBox(height: 400, child: IosStyleDateRangePicker()),
-    //   shape: RoundedRectangleBorder(
-    //     borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-    //   ),
-    // );
   }
 
   @override

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:otm_inventory/pages/check_in/stop_shift/view/widgets/add_note_widget.dart';
+import 'package:otm_inventory/pages/check_in/work_log_request/view/widgets/add_note_widget.dart';
 import 'package:otm_inventory/pages/check_in/work_log_request/controller/work_log_request_controller.dart';
 import 'package:otm_inventory/pages/check_in/work_log_request/view/widgets/display_note_widget.dart';
 import 'package:otm_inventory/pages/check_in/work_log_request/view/widgets/approve_reject_buttons.dart';
@@ -83,8 +83,10 @@ class _WorkLogRequestScreenState extends State<WorkLogRequestScreen> {
                               StartStopBoxRow(),
                               TotalHoursRow(),
                               DisplayNoteWidget(
-                                  isReadOnly: true,
-                                  controller: controller.displayNoteController),
+                                isReadOnly: true,
+                                note: controller.workLogInfo.value.note,
+                                status: controller.status,
+                              ),
                               Visibility(
                                   visible: (controller
                                                   .workLogInfo.value.status ??

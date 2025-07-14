@@ -20,6 +20,7 @@ import 'package:otm_inventory/pages/company/joincompany/view/join_comapny_screen
 import 'package:otm_inventory/pages/company/selectcompanytrade/view/select_company_trade_screen.dart';
 import 'package:otm_inventory/pages/company/switch_company/view/switch_company_screen.dart';
 import 'package:otm_inventory/pages/dashboard/view/dashboard_screen.dart';
+import 'package:otm_inventory/pages/filter/view/filter_screen.dart';
 import 'package:otm_inventory/pages/my_requests/view/my_requests_screen.dart';
 import 'package:otm_inventory/pages/permissions/company_permissions/view/company_permission_screen.dart';
 import 'package:otm_inventory/pages/permissions/permission_users/view/permission_users_screen.dart';
@@ -248,5 +249,6 @@ class AppPages {
         name: AppRoutes.userSettingsScreen, page: () => UserSettingsScreen()),
     GetPage(
         name: AppRoutes.deleteAccountScreen, page: () => DeleteAccountScreen()),
+    GetPage(name: AppRoutes.filterScreen, page: () => FilterScreen()),
   ];
 }

@@ -842,12 +842,6 @@
       "languageVersion": "3.3"
     },
     {
-      "name": "reorderables",
-      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/reorderables-0.6.0",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
       "name": "rxdart",
       "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/rxdart-0.28.0",
       "packageUri": "lib/",
@@ -1094,7 +1088,7 @@
       "languageVersion": "3.2"
     }
   ],
-  "generated": "2025-07-14T04:31:38.019885Z",
+  "generated": "2025-07-14T10:36:03.153702Z",
   "generator": "pub",
   "generatorVersion": "3.6.2",
   "flutterRoot": "file:///Users/apple/Documents/flutterDev/flutter",

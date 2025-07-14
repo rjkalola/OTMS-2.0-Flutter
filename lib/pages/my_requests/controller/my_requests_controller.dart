@@ -30,15 +30,16 @@ class MyRequestsController extends GetxController {
   final myRequestList = <MyRequestInfo>[].obs;
   List<MyRequestInfo> tempList = [];
   final RxInt selectedDateFilterIndex = (-1).obs;
+  Map<String, String> appliedFilters = {};
 
   @override
   void onInit() {
     super.onInit();
     isMainViewVisible.value = true;
-    getMyRequestsList();
+    getMyRequestsList(appliedFilters);
   }
 
-  void getMyRequestsList() async {
+  void getMyRequestsList(Map<String, String> appliedFilters) async {
     Map<String, dynamic> map = {};
     if (!UserUtils.isAdmin()) {
       map["user_id"] = UserUtils.getLoginUserId();
@@ -46,6 +47,7 @@ class MyRequestsController extends GetxController {
     map["company_id"] = ApiConstants.companyId;
     map["start_date"] = startDate;
     map["end_date"] = endDate;
+    map["filters"] = appliedFilters;
 
     isLoading.value = true;
     _api.getMyRequestsList(
@@ -80,7 +82,7 @@ class MyRequestsController extends GetxController {
   Future<void> moveToScreen(String rout, dynamic arguments) async {
     var result = await Get.toNamed(rout, arguments: arguments);
     if (result != null && result) {
-      getMyRequestsList();
+      getMyRequestsList(appliedFilters);
     }
   }
 
@@ -89,6 +91,7 @@ class MyRequestsController extends GetxController {
     startDate = "";
     endDate = "";
     selectedDateFilterIndex.value = -1;
-    getMyRequestsList();
+    appliedFilters = {};
+    getMyRequestsList(appliedFilters);
   }
 }

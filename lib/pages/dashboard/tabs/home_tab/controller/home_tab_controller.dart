@@ -109,7 +109,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
     }
   }
 
-  void getDashboardUserPermissionsApi(bool isProgress) {
+  Future<void> getDashboardUserPermissionsApi(bool isProgress) async {
     isLoading.value = isProgress;
     Map<String, dynamic> map = {};
     map["user_id"] = UserUtils.getLoginUserId();

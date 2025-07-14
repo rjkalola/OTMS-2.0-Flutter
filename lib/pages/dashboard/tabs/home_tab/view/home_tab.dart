@@ -49,26 +49,17 @@ class _HomeTabState extends State<HomeTab> with AutomaticKeepAliveClientMixin {
                 progressIndicator: const CustomProgressbar(),
                 child: Visibility(
                   visible: controller.isMainViewVisible.value,
-                  child: RefreshIndicator(
-                    onRefresh: () async {
-                      await controller.getUserWorkLogListApi();
-                    },
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        HeaderUserDetailsView(),
-                        // EditWidgetsButton(),
-                        SizedBox(
-                          height: 12,
-                        ),
-                        /* RefreshIndicator(
-                            onRefresh: () async {
-                              controller.pullToRefreshData();
-                            },
-                            child: DashboardGridView())*/
-                        DashboardGridView()
-                      ],
-                    ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      HeaderUserDetailsView(),
+                      // EditWidgetsButton(),
+                      SizedBox(
+                        height: 12,
+                      ),
+                       DashboardGridView()
+                      // DashboardGridView()
+                    ],
                   ),
                 ),
               ),

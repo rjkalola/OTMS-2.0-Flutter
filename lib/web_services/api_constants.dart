@@ -5,8 +5,8 @@ class ApiConstants {
   // static String appUrl = "http://dev.belcka.com:3000";
   //static String appUrl = "http://belcka.com:3003";
 
+  // static String appUrl = "http://devapp.belcka.com:3003";
   static String appUrl = "http://app.belcka.com:3003";
-
 
   static String accessToken = "";
   static int companyId = 0;
@@ -123,6 +123,7 @@ class ApiConstants {
   static String getAllRequest = '$appUrl/requests/get-all-request';
   static String approveRequest = '$appUrl/requests/approve-request';
   static String rejectRequest = '$appUrl/requests/reject-request';
+  static String getRequestFilters = '$appUrl/requests/get-filters';
 
   //start work
   static String userStartWork = '$appUrl/user-start-work';
@@ -132,6 +133,8 @@ class ApiConstants {
   static String requestWorkLogChange = '$appUrl/request-worklog-change';
   static String workLogRequestDetails = '$appUrl/requests/get-request-detail';
   static String workLogRequestApproveReject = '$appUrl/worklog-request/action';
+
+
 
   //timesheet
   static String getTimeSheetList = '$appUrl/timesheet/get';
@@ -161,4 +164,5 @@ class ApiConstants {
   static String getDashboardResponse = '$appUrl/dashboard';
   static String getSettingsUrl = '$appUrl/get-setting';
   static String getRequestCountUrl = '$appUrl/get-request-count';
+
 }

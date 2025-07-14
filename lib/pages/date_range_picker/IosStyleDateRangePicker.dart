@@ -33,7 +33,7 @@ class IosStyleDateRangePicker extends StatelessWidget {
               Get.back();
             },
           ),
-          Obx(() {
+        /*  Obx(() {
             final range = controller.selectedRange.value;
             if (range == null) return Text("No date selected");
 
@@ -43,7 +43,7 @@ class IosStyleDateRangePicker extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: Text("Selected: $start → $end"),
             );
-          }),
+          }),*/
         ],
       ),
     );

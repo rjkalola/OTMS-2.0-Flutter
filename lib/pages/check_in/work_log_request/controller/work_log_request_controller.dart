@@ -27,6 +27,7 @@ class WorkLogRequestController extends GetxController
       isDataUpdated = false.obs,
       isMainViewVisible = false.obs;
   final RxString startTime = "".obs, stopTime = "".obs;
+  final RxInt status = 0.obs;
   final _api = WorkLogRequestRepository();
   final noteController = TextEditingController().obs;
   final displayNoteController = TextEditingController().obs;
@@ -75,6 +76,7 @@ class WorkLogRequestController extends GetxController
                   ? changeFullDateToSortTime(workLogInfo.value.workEndTime)
                   : getCurrentTime();
           displayNoteController.value.text = workLogInfo.value.note ?? "";
+          status.value = workLogInfo.value.status ?? 0;
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }

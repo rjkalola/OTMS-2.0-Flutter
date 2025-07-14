@@ -26,9 +26,6 @@ class BillingDetailsNewScreen extends StatefulWidget {
 
 class _BillingDetailsNewScreenState extends State<BillingDetailsNewScreen> {
   final controller = Get.put(BillingDetailsNewController());
-
-
-
   //NavigationCard(label: "TAX info", value: taxInfo),
 
   @override
@@ -134,14 +131,14 @@ class _BillingDetailsNewScreenState extends State<BillingDetailsNewScreen> {
             }
           },
           style: ElevatedButton.styleFrom(
-            fixedSize: Size(126, 42),
+            fixedSize: Size(100, 40),
             backgroundColor: blueBGButtonColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30),
             ),
             padding: const EdgeInsets.symmetric(horizontal: 20),
           ),
-          child: Text('edit'.tr, style: TextStyle(color: Colors.white, fontSize: 20,fontWeight: FontWeight.bold)),
+          child: Text('edit'.tr, style: TextStyle(color: Colors.white, fontSize: 18,fontWeight: FontWeight.bold)),
         ),
       ))
     ];

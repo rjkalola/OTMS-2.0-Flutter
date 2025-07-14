@@ -11,6 +11,7 @@ import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:otm_inventory/widgets/text/TitleTextView.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../pages/common/listener/select_date_listener.dart';
 
@@ -150,7 +151,7 @@ class DateUtil {
       AppUtils.restoreStatusBar();
     }*/
 
-    AppUtils.restoreStatusBar();
+    /*AppUtils.restoreStatusBar();
 
     final DateTimeRange? picked = await showDateRangePicker(
       context: Get.context!,
@@ -183,7 +184,62 @@ class DateUtil {
 
     if (picked != null) {
       listener.onSelectDateRange(picked.start, picked.end, dialogIdentifier);
-    }
+    }*/
+
+    showDialog(
+      context: Get.context!,
+      barrierColor: Colors.black.withAlpha((0.3 * 255).toInt()),
+      // dim background
+      builder: (context) => Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        insetPadding: EdgeInsets.symmetric(horizontal: 16), // control width
+        backgroundColor: Colors.transparent, // <-- prevent white box
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.5,
+            color: backgroundColor,
+            child: SfDateRangePicker(
+              view: DateRangePickerView.month,
+              selectionMode: DateRangePickerSelectionMode.range,
+              showActionButtons: true,
+              // enableSwipeSelection: true, // Optional - only for swipe-selecting dates
+              showNavigationArrow: true,
+              backgroundColor: backgroundColor,
+              headerStyle: DateRangePickerHeaderStyle(
+                backgroundColor: backgroundColor, // Header background
+                textStyle: TextStyle(
+                  color: primaryTextColor, // Center date text
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              todayHighlightColor: CupertinoColors.systemBlue,
+              startRangeSelectionColor: CupertinoColors.systemBlue,
+              endRangeSelectionColor: CupertinoColors.systemBlue,
+              rangeSelectionColor: CupertinoColors.systemBlue.withOpacity(0.25),
+              selectionTextStyle: TextStyle(color: Colors.white),
+              initialSelectedRange: PickerDateRange(
+                initialFirstDate ?? DateTime.now().subtract(Duration(days: 7)),
+                initialLastDate ?? DateTime.now(),
+              ),
+              onSubmit: (value) {
+                if (value is PickerDateRange) {
+                  final start = value.startDate;
+                  final end = value.endDate;
+                  listener.onSelectDateRange(start!, end!, dialogIdentifier);
+                  print('Selected range: $start to $end');
+                }
+                Get.back();
+              },
+              onCancel: () => Get.back(),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   static Future<void> showDatePickerDialog(

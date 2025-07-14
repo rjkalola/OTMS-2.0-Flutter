@@ -27,47 +27,47 @@ class DashboardGridView extends StatelessWidget {
     );
     listDragItems.refresh();*/
 
-    return Obx(
-      () => Expanded(
-        child: Padding(
-          padding: EdgeInsets.only(left: 10, right: 10),
-          child: ReorderableBuilder(
-            scrollController: _scrollController,
-            onReorderPositions: (_) {
-              List<ReorderUpdateEntity> list = _;
-              ReorderUpdateEntity info = list.first;
-              controller.onReorderPermission(info.oldIndex, info.newIndex);
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Obx(
+          () => RefreshIndicator(
+            onRefresh: () async {
+              await controller.getDashboardUserPermissionsApi(
+                  false); // Add await to ensure proper async handling
             },
-            // onReorder: (ReorderedListFunction reorderedListFunction) {
-            //   controller.listPermissions.value =
-            //       reorderedListFunction(controller.listPermissions)
-            //           as List<PermissionInfo>;
-            //   // setState(() {
-            //   //   _fruits = reorderedListFunction(_fruits) as List<String>;
-            //   // });
-            // },
-            dragChildBoxDecoration: BoxDecoration(color: Colors.transparent),
-            builder: (children) {
-              return GridView(
-                key: _gridViewKey,
-                controller: _scrollController,
-                children: children,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 10,
-                  crossAxisSpacing: 10,
-                  mainAxisExtent: 90, // FIXED height of each tile
+            child: ReorderableBuilder(
+              scrollController: _scrollController,
+              onReorderPositions: (positions) {
+                final info = positions.first;
+                controller.onReorderPermission(info.oldIndex, info.newIndex);
+              },
+              dragChildBoxDecoration:
+                  const BoxDecoration(color: Colors.transparent),
+              builder: (children) {
+                return GridView(
+                  key: _gridViewKey,
+                  controller: _scrollController,
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  padding: const EdgeInsets.only(bottom: 16),
+                  children: children,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 10,
+                    crossAxisSpacing: 10,
+                    mainAxisExtent: 90,
+                  ),
+                );
+              },
+              children: List.generate(
+                controller.listPermissions.length,
+                (index) => DashboardGridItem(
+                  key: Key(controller.listPermissions[index].permissionId
+                          ?.toString() ??
+                      ''),
+                  info: controller.listPermissions[index],
+                  index: index,
                 ),
-              );
-            },
-            children: List.generate(
-              controller.listPermissions.length,
-              (index) => DashboardGridItem(
-                key: Key(controller.listPermissions[index].permissionId!
-                        .toString() ??
-                    ""),
-                info: controller.listPermissions[index],
-                index: index,
               ),
             ),
           ),

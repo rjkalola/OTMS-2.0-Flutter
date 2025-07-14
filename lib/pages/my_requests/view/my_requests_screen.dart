@@ -4,21 +4,26 @@ import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:otm_inventory/pages/common/listener/date_filter_listener.dart';
 import 'package:otm_inventory/pages/common/widgets/date_filter_options_horizontal_list.dart';
+import 'package:otm_inventory/pages/filter/view/filter_screen.dart';
 import 'package:otm_inventory/pages/my_requests/controller/my_requests_controller.dart';
 import 'package:otm_inventory/pages/my_requests/model/my_request_info.dart';
 import 'package:otm_inventory/pages/my_requests/model/my_requests_list_response.dart';
 import 'package:otm_inventory/pages/my_requests/view/widgets/date_filter_my_requests_horizontal_list.dart';
 import 'package:otm_inventory/pages/my_requests/view/widgets/request_type_label_widget.dart';
 import 'package:otm_inventory/res/colors.dart';
+import 'package:otm_inventory/res/drawable.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
+import 'package:otm_inventory/utils/image_utils.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
 import 'package:otm_inventory/widgets/text/toolbar_menu_item_text_view.dart';
+import 'package:path/path.dart';
 
 import '../../../utils/app_constants.dart';
 
 class MyRequestsScreen extends StatelessWidget implements DateFilterListener {
   final controller = Get.put(MyRequestsController());
+
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +96,7 @@ class MyRequestsScreen extends StatelessWidget implements DateFilterListener {
     controller.isResetEnable.value = true;
     controller.startDate = startDate;
     controller.endDate = endDate;
-    controller.getMyRequestsList();
+    controller.getMyRequestsList(controller.appliedFilters);
     print("startDate:" + startDate);
     print("endDate:" + endDate);
   }
@@ -108,6 +113,25 @@ class MyRequestsScreen extends StatelessWidget implements DateFilterListener {
           },
         ),
       ),
+      InkWell(
+        borderRadius: BorderRadius.circular(45),
+        onTap: () async {
+          var result = await Get.toNamed(AppRoutes.filterScreen,arguments: controller.appliedFilters);
+          if (result != null) {
+            controller.isResetEnable.value = true;
+            controller.appliedFilters = result;
+            controller.getMyRequestsList(result);
+          }
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(2),
+          child: ImageUtils.setSvgAssetsImage(
+              path: Drawable.filterIcon,
+              width: 26,
+              height: 26,
+              color: primaryTextColor),
+        ),
+      )
     ];
   }
 }
@@ -262,7 +286,6 @@ Color getRequestTypeColor(int requestType) {
   };
   return requestTypeColors[requestType] ?? Colors.grey; // Default color
 }
-
 String capitalizeFirst(String text) {
   if (text.isEmpty) return '';
   return text[0].toUpperCase() + text.substring(1);

@@ -89,18 +89,21 @@ class DayLogList extends StatelessWidget {
       CardViewDashboardItem(
         borderRadius: 15,
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
-          child: Column(
-            children: [
-              TitleTextView(
-                text: info.dayDateInt,
-                fontSize: 14,
-              ),
-              TitleTextView(
-                text: info.day,
-                fontSize: 14,
-              )
-            ],
+          padding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
+          child: SizedBox(
+            width: 50,
+            child: Column(
+              children: [
+                TitleTextView(
+                  text: info.dayDateInt,
+                  fontSize: 14,
+                ),
+                TitleTextView(
+                  text: info.day,
+                  fontSize: 14,
+                )
+              ],
+            ),
           ),
         ),
       );
