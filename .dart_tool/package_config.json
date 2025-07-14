@@ -950,6 +950,18 @@
       "languageVersion": "3.1"
     },
     {
+      "name": "syncfusion_flutter_core",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/syncfusion_flutter_core-29.1.38",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "syncfusion_flutter_datepicker",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/syncfusion_flutter_datepicker-29.1.38",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
       "name": "synchronized",
       "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/synchronized-3.3.0+3",
       "packageUri": "lib/",
@@ -1082,7 +1094,7 @@
       "languageVersion": "3.2"
     }
   ],
-  "generated": "2025-07-10T09:52:44.886723Z",
+  "generated": "2025-07-14T04:31:38.019885Z",
   "generator": "pub",
   "generatorVersion": "3.6.2",
   "flutterRoot": "file:///Users/apple/Documents/flutterDev/flutter",

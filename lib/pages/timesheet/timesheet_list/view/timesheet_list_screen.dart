@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:otm_inventory/pages/common/listener/date_filter_listener.dart';
 import 'package:otm_inventory/pages/common/widgets/date_filter_options_horizontal_list.dart';
 import 'package:otm_inventory/pages/timesheet/timesheet_list/controller/timesheet_list_controller.dart';
 import 'package:otm_inventory/pages/timesheet/timesheet_list/view/widgets/timesheet_list.dart';
-import 'package:otm_inventory/pages/timesheet/timesheet_list/view/widgets/week_number_title.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/res/drawable.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
@@ -18,8 +15,6 @@ import 'package:otm_inventory/web_services/response/module_info.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
 import 'package:otm_inventory/widgets/custom_views/no_internet_widgets.dart';
-import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
-import 'package:otm_inventory/widgets/text/TitleTextView.dart';
 import 'package:otm_inventory/widgets/text/toolbar_menu_item_text_view.dart';
 
 class TimeSheetListScreen extends StatefulWidget {
@@ -33,11 +28,14 @@ class _TimeSheetListScreenState extends State<TimeSheetListScreen>
     implements DateFilterListener {
   final controller = Get.put(TimeSheetListController());
 
+  // @override
+  // void initState() {
+  //   super.initState();
+  //  AppUtils.restoreStatusBar(); // restore on screen load
+  // }
+
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarColor: dashBoardBgColor,
-        statusBarIconBrightness: Brightness.dark));
     return Obx(
       () => Container(
         color: dashBoardBgColor,

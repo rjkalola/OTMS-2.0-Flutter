@@ -8,6 +8,7 @@ import 'package:otm_inventory/pages/permissions/user_list/model/user_list_respon
 import 'package:otm_inventory/pages/users/user_list/controller/user_list_repository.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/custom_cache_manager.dart';
+import 'package:otm_inventory/utils/image_utils.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:otm_inventory/web_services/api_constants.dart';
 import 'package:otm_inventory/web_services/response/response_model.dart';
@@ -44,7 +45,7 @@ class UserListController extends GetxController {
         if (responseModel.isSuccess) {
           UserListResponse response =
               UserListResponse.fromJson(jsonDecode(responseModel.result!));
-          // preloadUserImages(response.info ?? []);
+          ImageUtils.preloadUserImages(response.info ?? []);
           tempList.clear();
           tempList.addAll(response.info ?? []);
           usersList.value = tempList;

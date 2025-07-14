@@ -35,12 +35,14 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/file_selector_windows-0.9.3+4" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/geocoding_android-3.3.1" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/image_picker_linux-0.2.1+2" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/webview_flutter_android-4.7.0" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/sqflite-2.4.1" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/image_cropper_for_web-6.1.0" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/geocoding_ios-3.0.2" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_image_compress-2.4.0" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/permission_handler-11.4.0" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/image_picker_macos-0.2.1+2" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/webview_flutter-4.13.0" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/sqflite_darwin-2.4.1+1" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/geocoding-3.0.0" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/image_picker-1.1.2" />
@@ -50,8 +52,6 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/printing-5.14.2" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/google_maps_flutter_ios-2.15.2" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/sqflite_android-2.4.0" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/webview_flutter_android-4.7.0" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/webview_flutter-4.13.0" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/webview_flutter_wkwebview-3.22.0" />
     </CLASSES>
     <JAVADOC />

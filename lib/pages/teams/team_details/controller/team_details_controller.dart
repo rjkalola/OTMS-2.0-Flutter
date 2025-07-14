@@ -20,6 +20,7 @@ import 'package:otm_inventory/utils/AlertDialogHelper.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/data_utils.dart';
+import 'package:otm_inventory/utils/image_utils.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:otm_inventory/web_services/api_constants.dart';
 import 'package:otm_inventory/web_services/response/base_response.dart';
@@ -56,10 +57,11 @@ class TeamDetailsController extends GetxController
       data: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
-          isMainViewVisible.value = true;
           TeamDetailsResponse response =
               TeamDetailsResponse.fromJson(jsonDecode(responseModel.result!));
+          ImageUtils.preloadUserImages(response.info?.teamMembers ?? []);
           teamInfo.value = response.info!;
+          isMainViewVisible.value = true;
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }

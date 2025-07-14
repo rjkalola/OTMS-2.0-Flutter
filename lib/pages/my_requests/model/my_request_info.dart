@@ -14,6 +14,7 @@ class MyRequestInfo{
   String? note;
   String? statusText;
   int? requestType;
+  String? typeName;
 
   MyRequestInfo(
       {this.id,
@@ -30,7 +31,8 @@ class MyRequestInfo{
         this.endTime,
         this.note,
         this.statusText,
-        this.requestType});
+        this.requestType,
+      this.typeName});
 
   MyRequestInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -48,6 +50,7 @@ class MyRequestInfo{
     note = json['note'];
     statusText = json['status_text'];
     requestType = json['request_type'];
+    typeName = json['type_name'];
   }
 
   Map<String, dynamic> toJson() {
@@ -67,6 +70,7 @@ class MyRequestInfo{
     data['note'] = this.note;
     data['status_text'] = this.statusText;
     data['request_type'] = this.requestType;
+    data['type_name'] = this.typeName;
     return data;
   }
 }

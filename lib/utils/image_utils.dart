@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:otm_inventory/pages/common/model/user_info.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/custom_cache_manager.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
@@ -301,6 +302,13 @@ class ImageUtils {
           );
         },
       );
+    }
+  }
+
+  static void preloadUserImages(List<UserInfo> list) {
+    for (var info in list) {
+      final cache = CustomCacheManager();
+      cache.downloadFile(info.userThumbImage ?? "");
     }
   }
 }

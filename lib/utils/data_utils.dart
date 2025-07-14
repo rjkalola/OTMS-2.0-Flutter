@@ -341,9 +341,11 @@ class DataUtils {
   }
 
   static List<String> dateFilterList = [
-    "Current Week",
-    "Previous Week",
-    "2 Weeks ago",
+    "Week",
+    "Month",
+    "3 Month",
+    "6 Month",
+    "Year",
     "Custom"
   ];
 
@@ -354,4 +356,5 @@ class DataUtils {
     "6 Month",
     "Year"
   ];
+
 }

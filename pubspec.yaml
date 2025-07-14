@@ -76,6 +76,7 @@ dependencies:
   flutter_reorderable_grid_view: ^5.5.0
   reorderables: ^0.6.0
   webview_flutter: ^4.4.1
+  syncfusion_flutter_datepicker: ^29.1.38
 dev_dependencies:
   flutter_test:
     sdk: flutter

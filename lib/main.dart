@@ -25,8 +25,8 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    print(
-        "themeController.isDarkMode:" + themeController.isDarkMode.toString());
+    // print(
+    //     "themeController.isDarkMode:" + themeController.isDarkMode.toString());
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       builder: BotToastInit(),

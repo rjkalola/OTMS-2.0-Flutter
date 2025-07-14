@@ -32,7 +32,8 @@ class WorkLogRequestController extends GetxController
   final displayNoteController = TextEditingController().obs;
   late GoogleMapController mapController;
   String? latitude, longitude, location;
-  final center = LatLng(AppConstants.defaultLatitude, AppConstants.defaultLongitude).obs;
+  final center =
+      LatLng(AppConstants.defaultLatitude, AppConstants.defaultLongitude).obs;
   final locationService = LocationServiceNew();
   final workLogInfo = WorkLogDetailsInfo().obs;
   int requestLogId = 0;
@@ -92,7 +93,7 @@ class WorkLogRequestController extends GetxController
   Future<void> workLogRequestApproveRejectApi(int status) async {
     isLoading.value = true;
     Map<String, dynamic> map = {};
-    map["request_worklog_id"] = workLogInfo.value.id ?? 0;
+    map["request_worklog_id"] = workLogInfo.value.requestLogId ?? 0;
     map["status"] = status;
     map["user_id"] = workLogInfo.value.userId ?? 0;
     map["note"] = StringHelper.getText(noteController.value);

@@ -2,11 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:otm_inventory/pages/common/listener/select_date_range_listener.dart';
 import 'package:otm_inventory/pages/common/listener/select_time_listener.dart';
 import 'package:otm_inventory/res/colors.dart';
+import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:otm_inventory/widgets/text/TitleTextView.dart';
 
@@ -132,7 +134,7 @@ class DateUtil {
       required DateTime lastDate,
       required String dialogIdentifier,
       required SelectDateRangeListener listener}) async {
-    final DateTimeRange? picked = await showDateRangePicker(
+    /* final DateTimeRange? picked = await showDateRangePicker(
       context: Get.context!,
       firstDate: firstDate,
       lastDate: lastDate,
@@ -144,6 +146,42 @@ class DateUtil {
 
     if (picked != null) {
       // print("Start: ${picked.start}, End: ${picked.end}");
+      listener.onSelectDateRange(picked.start, picked.end, dialogIdentifier);
+      AppUtils.restoreStatusBar();
+    }*/
+
+    AppUtils.restoreStatusBar();
+
+    final DateTimeRange? picked = await showDateRangePicker(
+      context: Get.context!,
+      firstDate: firstDate,
+      lastDate: lastDate,
+      initialDateRange: DateTimeRange(
+        start: initialFirstDate ?? DateTime.now().subtract(Duration(days: 7)),
+        end: initialLastDate ?? DateTime.now(),
+      ),
+      builder: (context, child) {
+        return Theme(
+          data: Get.isDarkMode ? ThemeData.dark() : ThemeData.light(),
+          child: child!,
+        );
+      },
+    );
+
+    // ❗ Schedule restore TWICE: immediately and after frame
+    AppUtils.restoreStatusBar(); // First try
+
+    // Then try again after current frame
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      AppUtils.restoreStatusBar();
+    });
+
+    // Then try one more after delay (really ensures it)
+    Future.delayed(const Duration(milliseconds: 100), () {
+      AppUtils.restoreStatusBar();
+    });
+
+    if (picked != null) {
       listener.onSelectDateRange(picked.start, picked.end, dialogIdentifier);
     }
   }
@@ -309,38 +347,6 @@ class DateUtil {
     }
   }
 
-  static List<DateTime> getMyRequestsDateRange(String filterType) {
-    DateTime today = DateTime.now();
-    DateTime startOfWeek = DateTime.now(), endOfWeek = DateTime.now();
-    if (filterType == "Week") {
-      final start = today.subtract(Duration(days: today.weekday - 1));
-      final end = start.add(Duration(days: 6));
-      startOfWeek = start;
-      endOfWeek = end;
-    } else if (filterType == "Month") {
-      final start = DateTime(today.year, today.month, 1);
-      final end = DateTime(today.year, today.month + 1, 0);
-      startOfWeek = start;
-      endOfWeek = end;
-    } else if (filterType == "3 Month") {
-      final start = DateTime(today.year, today.month - 2, 1);
-      final end = DateTime(today.year, today.month + 1, 0);
-      startOfWeek = start;
-      endOfWeek = end;
-    } else if (filterType == "6 Month") {
-      final start = DateTime(today.year, today.month - 5, 1);
-      final end = DateTime(today.year, today.month + 1, 0);
-      startOfWeek = start;
-      endOfWeek = end;
-    } else if (filterType == "Year") {
-      final start = DateTime(today.year, 1, 1);
-      final end = DateTime(today.year, 12, 31);
-      startOfWeek = start;
-      endOfWeek = end;
-    }
-    return [startOfWeek, endOfWeek];
-  }
-
   static DateTime convertTimeOfDayToDateTime(TimeOfDay tod,
       {DateTime? baseDate}) {
     final now = baseDate ?? DateTime.now();
@@ -386,42 +392,89 @@ class DateUtil {
     return i;
   }
 
+  static List<DateTime> getMyRequestsDateRange(String filterType) {
+    DateTime today = DateTime.now();
+    DateTime startOfWeek = DateTime.now(), endOfWeek = DateTime.now();
+    if (filterType == "Week") {
+      final start = today.subtract(Duration(days: today.weekday - 1));
+      final end = start.add(Duration(days: 6));
+      startOfWeek = start;
+      endOfWeek = end;
+    } else if (filterType == "Month") {
+      final start = DateTime(today.year, today.month, 1);
+      final end = DateTime(today.year, today.month + 1, 0);
+      startOfWeek = start;
+      endOfWeek = end;
+    } else if (filterType == "3 Month") {
+      final start = DateTime(today.year, today.month - 2, 1);
+      final end = DateTime(today.year, today.month + 1, 0);
+      startOfWeek = start;
+      endOfWeek = end;
+    } else if (filterType == "6 Month") {
+      final start = DateTime(today.year, today.month - 5, 1);
+      final end = DateTime(today.year, today.month + 1, 0);
+      startOfWeek = start;
+      endOfWeek = end;
+    } else if (filterType == "Year") {
+      final start = DateTime(today.year, 1, 1);
+      final end = DateTime(today.year, 12, 31);
+      startOfWeek = start;
+      endOfWeek = end;
+    }
+    return [startOfWeek, endOfWeek];
+  }
+
   static List<DateTime> getDateWeekRange(String filterType) {
     DateTime now = DateTime.now();
 
-    DateTime startOfWeek = DateTime.now(), endOfWeek = DateTime.now();
-    if (filterType == "Current Week") {
+    DateTime start = DateTime.now(), end = DateTime.now();
+    if (filterType == "Week") {
       // Start of week (Monday)
-      startOfWeek = now.subtract(Duration(days: now.weekday - 1));
+      start = now.subtract(Duration(days: now.weekday - 1));
       // End of week (Sunday)
-      endOfWeek = startOfWeek.add(Duration(days: 6));
+      end = start.add(Duration(days: 6));
     } else if (filterType == "Previous Week") {
-      // Start of current week
-      DateTime startOfCurrentWeek =
-          now.subtract(Duration(days: now.weekday - 1));
-
+      /*   DateTime startOfCurrentWeek =
+      now.subtract(Duration(days: now.weekday - 1));
       // Start of previous week
-      startOfWeek = startOfCurrentWeek.subtract(Duration(days: 7));
-      endOfWeek = startOfWeek.add(Duration(days: 6));
+      start = startOfCurrentWeek.subtract(Duration(days: 7));
+      end = start.add(Duration(days: 6));*/
+
+      // Get current week's weekday (1 = Monday, 7 = Sunday)
+      int currentWeekday = now.weekday;
+      start = now.subtract(Duration(days: currentWeekday + 6));
+      // Current week's Sunday
+      end = now.add(Duration(days: 7 - currentWeekday));
     } else if (filterType == "2 Weeks ago") {
-      // Start of current week (Monday)
+      /*  // Start of current week (Monday)
       DateTime startOfCurrentWeek =
-          now.subtract(Duration(days: now.weekday - 1));
+      now.subtract(Duration(days: now.weekday - 1));
 
       // Start of the week 2 weeks ago
-      startOfWeek = startOfCurrentWeek.subtract(Duration(days: 14));
-      endOfWeek = startOfWeek.add(Duration(days: 6));
+      start = startOfCurrentWeek.subtract(Duration(days: 14));
+      end = start.add(Duration(days: 6));*/
+
+      // Weekday: Monday = 1, Sunday = 7
+      int weekday = now.weekday;
+      // 2 weeks ago Monday
+      start = now.subtract(Duration(days: weekday + 13));
+      // Current week's Sunday
+      end = now.add(Duration(days: 7 - weekday));
+    } else if (filterType == "Month") {
+      start = DateTime(now.year, now.month, 1);
+      end = DateTime(now.year, now.month + 1, 0);
+    } else if (filterType == "3 Month") {
+      start = DateTime(now.year, now.month - 2, 1);
+      end = DateTime(now.year, now.month + 1, 0);
+    } else if (filterType == "6 Month") {
+      start = DateTime(now.year, now.month - 5, 1);
+      end = DateTime(now.year, now.month + 1, 0);
+    } else if (filterType == "Year") {
+      start = DateTime(now.year, 1, 1);
+      end = DateTime(now.year, 12, 31);
     }
 
-    // // Format as yyyy-MM-dd
-    // String format(DateTime date) =>
-    //     "${date.year}/${date.month.toString().padLeft(2, '0')}/${date.day.toString().padLeft(2, '0')}";
-    //
-    // Map<String, String> map = {
-    //   'startDate': format(startOfWeek),
-    //   'endDate': format(endOfWeek),
-    // };
-    return [startOfWeek, endOfWeek];
+    return [start, end];
   }
 
   static String DD_MM_YYYY_DASH = "dd-MM-yyyy";

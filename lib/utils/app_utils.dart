@@ -48,11 +48,11 @@ class AppUtils {
   static showApiResponseMessage(String? message) {
     if (!StringHelper.isEmptyString(message)) {
       BotToast.showText(
-        text: message??"",
+        text: message ?? "",
         align: Alignment.bottomCenter, // or .center
         duration: Duration(seconds: 1),
       );
-     /* Fluttertoast.showToast(
+      /* Fluttertoast.showToast(
         msg: message ?? "",
       );*/
       // Get.rawSnackbar(message: message);
@@ -239,5 +239,15 @@ class AppUtils {
       color = Colors.orange;
     }
     return color;
+  }
+
+  static void restoreStatusBar() {
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark,
+        statusBarBrightness: Brightness.light,
+      ),
+    );
   }
 }

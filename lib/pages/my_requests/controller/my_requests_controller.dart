@@ -19,14 +19,17 @@ import 'package:otm_inventory/web_services/response/base_response.dart';
 import 'package:otm_inventory/web_services/response/response_model.dart';
 
 class MyRequestsController extends GetxController {
-
   final formKey = GlobalKey<FormState>();
   final _api = MyRequestsRepository();
-  RxBool isLoading = false.obs, isInternetNotAvailable = false.obs, isMainViewVisible = false.obs;
+  RxBool isLoading = false.obs,
+      isInternetNotAvailable = false.obs,
+      isMainViewVisible = false.obs,
+      isResetEnable = false.obs;
   String startDate = "", endDate = "";
 
   final myRequestList = <MyRequestInfo>[].obs;
   List<MyRequestInfo> tempList = [];
+  final RxInt selectedDateFilterIndex = (-1).obs;
 
   @override
   void onInit() {
@@ -34,9 +37,10 @@ class MyRequestsController extends GetxController {
     isMainViewVisible.value = true;
     getMyRequestsList();
   }
+
   void getMyRequestsList() async {
     Map<String, dynamic> map = {};
-    if (!UserUtils.isAdmin()){
+    if (!UserUtils.isAdmin()) {
       map["user_id"] = UserUtils.getLoginUserId();
     }
     map["company_id"] = ApiConstants.companyId;
@@ -49,7 +53,7 @@ class MyRequestsController extends GetxController {
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           MyRequestListResponse response =
-          MyRequestListResponse.fromJson(jsonDecode(responseModel.result!));
+              MyRequestListResponse.fromJson(jsonDecode(responseModel.result!));
           tempList.clear();
           tempList.addAll(response.requests ?? []);
 
@@ -57,12 +61,10 @@ class MyRequestsController extends GetxController {
           myRequestList.refresh();
 
           isMainViewVisible.value = true;
-        }
-        else{
+        } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;
-
       },
       onError: (ResponseModel error) {
         isLoading.value = false;
@@ -80,5 +82,13 @@ class MyRequestsController extends GetxController {
     if (result != null && result) {
       getMyRequestsList();
     }
+  }
+
+  void clearFilter() {
+    isResetEnable.value = false;
+    startDate = "";
+    endDate = "";
+    selectedDateFilterIndex.value = -1;
+    getMyRequestsList();
   }
 }
