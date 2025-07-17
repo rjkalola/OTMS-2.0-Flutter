@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/res/drawable.dart';
+import 'package:otm_inventory/res/theme/theme_config.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/data_utils.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
-import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
 
 import '../../../../res/colors.dart';
 import '../../controller/dashboard_controller.dart';
@@ -40,8 +38,11 @@ class BottomNavigationBarWidget extends StatelessWidget {
                         path: DataUtils.tabIcons[index],
                         width: 24,
                         height: 24,
-                        color:
-                            isSelected ? defaultAccentColor : Colors.black54),
+                        color: isSelected
+                            ? defaultAccentColor_(context)
+                            : ThemeConfig.isDarkMode
+                                ? Colors.white54
+                                : Colors.black54),
                     if (isSelected)
                       Padding(
                         padding: const EdgeInsets.only(top: 4.0),
@@ -62,5 +63,4 @@ class BottomNavigationBarWidget extends StatelessWidget {
       );
     });
   }
-
 }

@@ -395,6 +395,10 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       moveToScreen(appRout: AppRoutes.settingsScreen);
     } else if (info.slug == 'timesheet') {
       moveToScreen(appRout: AppRoutes.timeSheetListScreen);
+    } else if (info.slug == 'timesheets') {
+      var arguments = {AppConstants.intentKey.isAllUserTimeSheet: true};
+      moveToScreen(
+          appRout: AppRoutes.timeSheetListScreen, arguments: arguments);
     } else if (info.slug == 'bookkeeper') {
       moveToScreen(appRout: AppRoutes.billingDetailsScreen);
     } else if (info.slug == 'my_requests') {
@@ -417,6 +421,8 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
   void onSelectItem(int position, int id, String name, String action) {
     if (action == AppConstants.action.companyDetails) {
       moveToScreen(appRout: AppRoutes.companyDetailsScreen);
+    } else if (action == AppConstants.action.companies) {
+      moveToScreen(appRout: AppRoutes.companyListScreen);
     } else if (action == AppConstants.action.companyTrades) {
       moveToScreen(appRout: AppRoutes.companyTradesScreen);
     } else if (action == AppConstants.action.widgets) {
@@ -454,7 +460,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
     }
   }
 
-  void pullToRefreshData(){
+  void pullToRefreshData() {
     if (Get.find<AppStorage>().isLocalSequenceChanges()) {
       changeDashboardUserPermissionMultipleSequenceApi(
           isProgress: false,

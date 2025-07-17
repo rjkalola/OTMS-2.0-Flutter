@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/pages/common/model/user_info.dart';
 import 'package:otm_inventory/res/colors.dart';
+import 'package:otm_inventory/res/theme/theme_controller.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_storage.dart';
 import 'package:otm_inventory/utils/data_utils.dart';
@@ -98,6 +99,14 @@ class AppUtils {
     int colorInt = int.parse(colorNew);
     return colorInt;
   }
+
+  static Color getColor(String colorHexCode) {
+    String colorNew = '0xff$colorHexCode';
+    colorNew = colorNew.replaceAll("#", '');
+    int colorInt = int.parse(colorNew);
+    return Color(colorInt);
+  }
+
 
   static Future<bool> interNetCheck() async {
     try {
@@ -201,13 +210,14 @@ class AppUtils {
       Color? borderColor,
       double? shadowRadius,
       List<BoxShadow>? boxShadow}) {
+    bool isDark = Get.find<ThemeController>().isDarkMode;
     return BoxDecoration(
-      color: color ?? backgroundColor,
+      color: color ?? backgroundColor_(Get.context!),
       boxShadow: boxShadow ??
-          [AppUtils.boxShadow(Colors.grey.shade300, shadowRadius ?? 6)],
+          [AppUtils.boxShadow(shadowColor_(Get.context!), shadowRadius ?? 6)],
       border: Border.all(
           width: borderWidth ?? 0.6,
-          color: borderColor ?? Colors.grey.shade300),
+          color: borderColor ?? (isDark?Color(0xFF1F1F1F):Colors.grey.shade300)),
       borderRadius: BorderRadius.circular(radius ?? 45),
     );
   }
@@ -241,12 +251,16 @@ class AppUtils {
     return color;
   }
 
-  static void restoreStatusBar() {
+  static void setStatusBarColor() {
+    ThemeController themeController = Get.find();
+    bool isDarkMode = themeController.isDarkMode;
+
     SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(
+      SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.dark,
-        statusBarBrightness: Brightness.light,
+        statusBarIconBrightness:
+            isDarkMode ? Brightness.light : Brightness.dark,
+        statusBarBrightness: isDarkMode ? Brightness.dark : Brightness.light,
       ),
     );
   }

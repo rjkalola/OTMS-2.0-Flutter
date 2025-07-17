@@ -87,7 +87,7 @@ class DateFilterOptionsHorizontalList extends StatelessWidget
 
   void showDateRangePickerDialog(String dialogIdentifier, DateTime? startDate,
       DateTime? endDate, DateTime firstDate, DateTime lastDate) {
-    AppUtils.restoreStatusBar();
+    AppUtils.setStatusBarColor();
     DateUtil.showDateRangeDialog(
         initialFirstDate: startDate,
         initialLastDate: endDate,

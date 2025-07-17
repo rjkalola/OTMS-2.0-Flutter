@@ -24,6 +24,7 @@ import 'package:otm_inventory/utils/data_utils.dart';
 import 'package:otm_inventory/utils/date_utils.dart';
 import 'package:otm_inventory/utils/location_service_new.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
+import 'package:otm_inventory/utils/user_utils.dart';
 import 'package:otm_inventory/web_services/api_constants.dart';
 import 'package:otm_inventory/web_services/response/base_response.dart';
 import 'package:otm_inventory/web_services/response/module_info.dart';
@@ -71,7 +72,7 @@ class CompanyDetailsController extends GetxController
   Position? latLon = null;
   final locationService = LocationServiceNew();
   String? latitude, longitude, location;
-  int companyAdminId = 0;
+  int companyAdminId = 0, companyId = 0;
   final listCompanyAdmins = <ModuleInfo>[].obs;
   CompanyInfo? companyInfo;
 
@@ -81,8 +82,10 @@ class CompanyDetailsController extends GetxController
     // appLifeCycle();
     var arguments = Get.arguments;
     if (arguments != null) {
-      // fromSignUp.value =
-      //     arguments[AppConstants.intentKey.fromSignUpScreen] ?? "";
+      companyId = arguments[AppConstants.intentKey.companyId] ?? 0;
+    }
+    if (companyId == 0) {
+      companyId = ApiConstants.companyId;
     }
     /*var userInfo = AppStorage().getUserInfo();
     mExtensionId.value = userInfo.phoneExtensionId ?? 0;
@@ -123,7 +126,7 @@ class CompanyDetailsController extends GetxController
     isLoading.value = isProgress;
     Map<String, dynamic> map = {};
     map["flag"] = "adminList";
-    map["company_id"] = ApiConstants.companyId;
+    map["company_id"] = companyId;
     _api.getCompanyResourcesApi(
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
@@ -153,7 +156,7 @@ class CompanyDetailsController extends GetxController
   void getCompanyDetailsApi() {
     isLoading.value = true;
     Map<String, dynamic> map = {};
-    map["company_id"] = ApiConstants.companyId;
+    map["company_id"] =companyId;
     _api.getCompanyDetailsApi(
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
@@ -184,7 +187,7 @@ class CompanyDetailsController extends GetxController
 
   void editCompanyApi() async {
     Map<String, dynamic> map = {};
-    map["id"] = ApiConstants.companyId;
+    map["id"] = companyId;
     map["created_by"] = companyAdminId;
     map["name"] = StringHelper.getText(companyNameController.value);
     map["code"] = StringHelper.getText(companyCodeController.value);
@@ -235,7 +238,7 @@ class CompanyDetailsController extends GetxController
           BaseResponse response =
               BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.Message ?? "");
-          Get.back();
+          Get.back(result: true);
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }

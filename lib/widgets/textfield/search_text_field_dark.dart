@@ -35,10 +35,10 @@ class SearchTextFieldDark extends StatelessWidget {
           autofocus: autofocus ?? false,
           focusNode: focusNode,
           onTap: onTap,
-          style: const TextStyle(
+          style: TextStyle(
               fontWeight: FontWeight.w400,
               fontSize: 15,
-              color: primaryTextColor),
+              color: primaryTextColor_(context)),
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
             // prefixIcon: const Icon(Icons.search, color: primaryTextColor),
@@ -55,9 +55,13 @@ class SearchTextFieldDark extends StatelessWidget {
             hintText: hint ?? 'search'.tr,
             labelText: label,
             labelStyle: const TextStyle(
-                fontWeight: FontWeight.w400, fontSize: 16, color: Colors.black54),
+                fontWeight: FontWeight.w400,
+                fontSize: 16,
+                color: Colors.black54),
             hintStyle: const TextStyle(
-                fontWeight: FontWeight.w400, fontSize: 16, color: Colors.black54),
+                fontWeight: FontWeight.w400,
+                fontSize: 16,
+                color: Colors.black54),
             suffixIcon: isClearVisible.value
                 ? IconButton(
                     onPressed: onPressedClear,

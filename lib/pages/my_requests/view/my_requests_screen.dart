@@ -226,7 +226,7 @@ class RequestCard extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          backgroundColor: primaryColor,
+                          backgroundColor: backgroundColor,
                           shape: StadiumBorder(
                             side: BorderSide(
                                 color: getStatusColor(request.statusText ?? ""),

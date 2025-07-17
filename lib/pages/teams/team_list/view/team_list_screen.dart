@@ -6,6 +6,7 @@ import 'package:otm_inventory/pages/teams/team_list/controller/team_list_control
 import 'package:otm_inventory/pages/teams/team_list/view/widgets/search_team.dart';
 import 'package:otm_inventory/pages/teams/team_list/view/widgets/teams_list.dart';
 import 'package:otm_inventory/res/colors.dart';
+import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
@@ -23,20 +24,18 @@ class _TeamListScreenState extends State<TeamListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarColor: Colors.white,
-        statusBarIconBrightness: Brightness.dark));
+    AppUtils.setStatusBarColor();
     return Container(
-      color: dashBoardBgColor,
+      color: dashBoardBgColor_(context),
       child: SafeArea(
         child: Scaffold(
-          backgroundColor: dashBoardBgColor,
+          backgroundColor: dashBoardBgColor_(context),
           appBar: BaseAppBar(
             appBar: AppBar(),
             title: 'teams'.tr,
             isCenterTitle: false,
             isBack: true,
-            bgColor: dashBoardBgColor,
+            bgColor: dashBoardBgColor_(context),
             widgets: actionButtons(),
           ),
           body: Obx(() {

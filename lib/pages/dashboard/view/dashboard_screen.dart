@@ -22,9 +22,7 @@ class DashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarColor: dashBoardBgColor,
-        statusBarIconBrightness: Brightness.dark));
+    AppUtils.setStatusBarColor();
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) async {
@@ -50,14 +48,14 @@ class DashboardScreen extends StatelessWidget {
         }
       },*/
       child: Container(
-        color: dashBoardBgColor,
+        color: dashBoardBgColor_(context),
         child: SafeArea(
             child: Obx(() => ModalProgressHUD(
                 inAsyncCall: dashboardController.isLoading.value,
                 opacity: 0,
                 progressIndicator: const CustomProgressbar(),
                 child: Scaffold(
-                  backgroundColor: dashBoardBgColor,
+                  backgroundColor: dashBoardBgColor_(context),
                   // appBar: dashboardController.selectedIndex.value == 0
                   //     ? null
                   //     : BaseAppBar(

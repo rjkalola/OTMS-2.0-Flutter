@@ -27,7 +27,7 @@ class TitleTextView extends StatelessWidget {
         textAlign: textAlign ?? TextAlign.start,
         maxLines: maxLine,
         style: TextStyle(
-          color: color ?? primaryTextColor,
+          color: color ?? primaryTextColor_(context),
           fontWeight: fontWeight ?? FontWeight.w400,
           fontSize: fontSize ?? 16,
         ));

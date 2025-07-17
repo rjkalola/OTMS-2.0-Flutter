@@ -29,7 +29,7 @@ class ToolbarMenuItemTextView extends StatelessWidget {
         child: Text(
           text,
           style: TextStyle(
-              color: textColor ?? defaultAccentColor,
+              color: textColor ?? defaultAccentColor_(context),
               fontSize: fontSize ?? 16,
               fontWeight: fontWeight ?? FontWeight.w500),
         ),

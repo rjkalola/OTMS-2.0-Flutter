@@ -15,6 +15,7 @@ import 'package:otm_inventory/pages/check_in/start_shift_map/view/start_shift_ma
 import 'package:otm_inventory/pages/check_in/stop_shift/view/stop_shift_screen.dart';
 import 'package:otm_inventory/pages/check_in/work_log_request/view/work_log_request_screen.dart';
 import 'package:otm_inventory/pages/company/company_details/view/company_details_screen.dart';
+import 'package:otm_inventory/pages/company/company_list/view/company_list_screen.dart';
 import 'package:otm_inventory/pages/company/company_signup/view/company_signup_screen.dart';
 import 'package:otm_inventory/pages/company/joincompany/view/join_comapny_screen.dart';
 import 'package:otm_inventory/pages/company/selectcompanytrade/view/select_company_trade_screen.dart';
@@ -250,5 +251,6 @@ class AppPages {
     GetPage(
         name: AppRoutes.deleteAccountScreen, page: () => DeleteAccountScreen()),
     GetPage(name: AppRoutes.filterScreen, page: () => FilterScreen()),
+    GetPage(name: AppRoutes.companyListScreen, page: () => CompanyListScreen()),
   ];
 }

@@ -27,22 +27,25 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     // print(
     //     "themeController.isDarkMode:" + themeController.isDarkMode.toString());
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      builder: BotToastInit(),
-      navigatorObservers: [BotToastNavigatorObserver()],
-      title: 'app_title'.tr,
-      translations: Strings(),
-      locale: const Locale('en', 'us'),
-      getPages: AppPages.list,
-      theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: defaultAccentColor),
-          useMaterial3: true,
-          dialogBackgroundColor: Colors.white),
-      // theme: ThemeConfig.lightTheme,
-      // darkTheme: ThemeConfig.darkTheme,
-      // themeMode: themeController.isDarkMode ? ThemeMode.light : ThemeMode.dark,
-      home: SplashScreen(),
+    return Obx(
+      () => GetMaterialApp(
+        debugShowCheckedModeBanner: false,
+        builder: BotToastInit(),
+        navigatorObservers: [BotToastNavigatorObserver()],
+        title: 'app_title'.tr,
+        translations: Strings(),
+        locale: const Locale('en', 'us'),
+        getPages: AppPages.list,
+        // theme: ThemeData(
+        //     colorScheme: ColorScheme.fromSeed(seedColor: defaultAccentColor),
+        //     useMaterial3: true,
+        //     dialogBackgroundColor: Colors.white),
+        theme: ThemeConfig.lightTheme,
+        darkTheme: ThemeConfig.darkTheme,
+        themeMode:
+            themeController.isDarkMode ? ThemeMode.light : ThemeMode.dark,
+        home: SplashScreen(),
+      ),
     );
   }
 }

@@ -56,7 +56,7 @@ class _StartShiftMapScreenState extends State<StartShiftMapScreen> {
                                 },
                                 icon: Icon(
                                   Icons.arrow_back_ios_new_outlined,
-                                  size: 20,
+                                  size: 26,
                                 )),
                             StartShiftButton()
                           ],

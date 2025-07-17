@@ -148,10 +148,10 @@ class DateUtil {
     if (picked != null) {
       // print("Start: ${picked.start}, End: ${picked.end}");
       listener.onSelectDateRange(picked.start, picked.end, dialogIdentifier);
-      AppUtils.restoreStatusBar();
+      AppUtils.setStatusBarColor();
     }*/
 
-    /*AppUtils.restoreStatusBar();
+    /*AppUtils.setStatusBarColor();
 
     final DateTimeRange? picked = await showDateRangePicker(
       context: Get.context!,
@@ -170,16 +170,16 @@ class DateUtil {
     );
 
     // ❗ Schedule restore TWICE: immediately and after frame
-    AppUtils.restoreStatusBar(); // First try
+    AppUtils.setStatusBarColor(); // First try
 
     // Then try again after current frame
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      AppUtils.restoreStatusBar();
+      AppUtils.setStatusBarColor();
     });
 
     // Then try one more after delay (really ensures it)
     Future.delayed(const Duration(milliseconds: 100), () {
-      AppUtils.restoreStatusBar();
+      AppUtils.setStatusBarColor();
     });
 
     if (picked != null) {

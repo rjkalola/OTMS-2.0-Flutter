@@ -34,7 +34,7 @@ class _HomeTabState extends State<HomeTab> with AutomaticKeepAliveClientMixin {
   Widget build(BuildContext context) {
     return Obx(
       () => Scaffold(
-        backgroundColor: dashBoardBgColor,
+        backgroundColor: dashBoardBgColor_(context),
         // backgroundColor: const Color(0xfff4f5f7),
         body: controller.isInternetNotAvailable.value
             ? NoInternetWidget(
@@ -57,7 +57,7 @@ class _HomeTabState extends State<HomeTab> with AutomaticKeepAliveClientMixin {
                       SizedBox(
                         height: 12,
                       ),
-                       DashboardGridView()
+                      DashboardGridView()
                       // DashboardGridView()
                     ],
                   ),

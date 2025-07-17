@@ -6,7 +6,6 @@ import 'package:otm_inventory/pages/profile/user_settings/view/web_view_screen.d
 import 'package:otm_inventory/pages/profile/user_settings/view/widgets/build_dark_mode_item_widget.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
-import 'package:otm_inventory/web_services/api_constants.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
 

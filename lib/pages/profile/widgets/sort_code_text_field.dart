@@ -31,6 +31,7 @@ class SortCodeTextField extends StatelessWidget {
         isReadOnly: isReadOnly,
         isEnabled: isEnabled,
         onValueChange: onValueChange,
+
         onPressed: () {},
         validator: MultiValidator([
 

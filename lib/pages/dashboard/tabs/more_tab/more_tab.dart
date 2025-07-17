@@ -6,6 +6,7 @@ import 'package:otm_inventory/res/drawable.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_storage.dart';
+import 'package:otm_inventory/utils/app_utils.dart';
 
 import '../../../../res/colors.dart';
 import '../../../../utils/AlertDialogHelper.dart';
@@ -26,11 +27,9 @@ class MoreTabState extends State<MoreTab> implements DialogButtonClickListener {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarColor: Colors.white,
-        statusBarIconBrightness: Brightness.dark));
+   AppUtils.setStatusBarColor();
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: backgroundColor_(context),
       // appBar: AppBar(
       //   surfaceTintColor: Colors.transparent,
       //   leadingWidth: 32, // <-- Use this- and this
@@ -39,10 +38,10 @@ class MoreTabState extends State<MoreTab> implements DialogButtonClickListener {
       // ),
       body: Column(
         children: [
-          const Divider(
+           Divider(
             thickness: 1,
             height: 1,
-            color: dividerColor,
+            color: dividerColor_(context),
           ),
           const SizedBox(
             height: 6,
@@ -90,9 +89,9 @@ class MoreTabState extends State<MoreTab> implements DialogButtonClickListener {
     );
   }
 
-  Widget divider() => const Padding(
+  Widget divider() =>  Padding(
         padding: EdgeInsets.only(left: 18, right: 20),
-        child: Divider(thickness: 0.4, height: 0.4, color: dividerColor),
+        child: Divider(thickness: 0.4, height: 0.4, color: dividerColor_(context)),
       );
 
   @override

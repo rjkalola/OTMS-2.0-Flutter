@@ -134,10 +134,9 @@ class ApiConstants {
   static String workLogRequestDetails = '$appUrl/requests/get-request-detail';
   static String workLogRequestApproveReject = '$appUrl/worklog-request/action';
 
-
-
   //timesheet
   static String getTimeSheetList = '$appUrl/timesheet/get';
+  static String getTimeSheetListAllUsers = '$appUrl/timesheet/get-users-timesheet';
 
   static String registerResourcesUrl = '$appUrl/wn-resources';
   static String verifyPhoneUrl = '$appUrl/verify-phone';
@@ -164,5 +163,4 @@ class ApiConstants {
   static String getDashboardResponse = '$appUrl/dashboard';
   static String getSettingsUrl = '$appUrl/get-setting';
   static String getRequestCountUrl = '$appUrl/get-request-count';
-
 }

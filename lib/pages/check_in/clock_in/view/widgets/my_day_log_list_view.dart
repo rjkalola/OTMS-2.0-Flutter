@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_controller.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_utils.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/model/work_log_info.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/model/work_log_list_response.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/res/drawable.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
@@ -174,7 +173,9 @@ class MyDayLogListView extends StatelessWidget {
                                                               .seconds_To_HH_MM(
                                                                   info.payableWorkSeconds ??
                                                                       0)
-                                                          : "00:00",
+                                                          : controller
+                                                              .activeWorkHours
+                                                              .value,
                                                       fontSize: 20,
                                                       fontColor:
                                                           isActiveWorkLog(info)
@@ -191,11 +192,34 @@ class MyDayLogListView extends StatelessWidget {
                                                     SizedBox(
                                                       height: 2,
                                                     ),
-                                                    PrimaryTextView(
-                                                      text: fromToWorkTimeText(
-                                                          info),
-                                                      fontSize: 15,
-                                                      color: primaryTextColor,
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        PrimaryTextView(
+                                                          text:
+                                                              "(${controller.changeFullDateToSortTime(info.workStartTime)}",
+                                                          fontSize: 15,
+                                                          color:
+                                                              primaryTextColor,
+                                                        ),
+                                                        PrimaryTextView(
+                                                          text: " - ",
+                                                          fontSize: 15,
+                                                          color:
+                                                              primaryTextColor,
+                                                        ),
+                                                        PrimaryTextView(
+                                                          text: toWorkTimeText(
+                                                              info),
+                                                          fontSize: 15,
+                                                          color: isActiveWorkLog(
+                                                                  info)
+                                                              ? defaultAccentColor
+                                                              : primaryTextColor,
+                                                        )
+                                                      ],
                                                     )
                                                   ],
                                                 ),
@@ -372,7 +396,7 @@ class MyDayLogListView extends StatelessWidget {
     return StringHelper.isEmptyString(info.workEndTime);
   }
 
-  String fromToWorkTimeText(WorkLogInfo info) {
-    return "(${controller.changeFullDateToSortTime(info.workStartTime)} - ${!StringHelper.isEmptyString(info.workEndTime) ? controller.changeFullDateToSortTime(info.workEndTime) : "Working"})";
+  String toWorkTimeText(WorkLogInfo info) {
+    return "${!StringHelper.isEmptyString(info.workEndTime) ? controller.changeFullDateToSortTime(info.workEndTime) : "Working"})";
   }
 }

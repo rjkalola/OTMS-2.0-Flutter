@@ -47,16 +47,6 @@ class DashboardGridItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // !StringHelper.isEmptyString(info.title)
-                  //     ? PrimaryTextView(
-                  //         text: info.title ?? "",
-                  //         fontWeight: FontWeight.w500,
-                  //         fontSize: 14,
-                  //         textAlign: TextAlign.center,
-                  //         color: primaryTextColorLight,
-                  //         softWrap: true,
-                  //       )
-                  //     : Container()
                   Visibility(
                     visible: !StringHelper.isEmptyString(info.name),
                     child: PrimaryTextView(
@@ -64,7 +54,7 @@ class DashboardGridItem extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                       fontSize: 16,
                       textAlign: TextAlign.center,
-                      color: primaryTextColorLight,
+                      color: primaryTextColorLight_(context),
                       softWrap: true,
                       maxLine: 2,
                     ),
@@ -74,23 +64,13 @@ class DashboardGridItem extends StatelessWidget {
                     child: PrimaryTextView(
                       text: info.value ?? "",
                       textAlign: TextAlign.center,
-                      color: secondaryExtraLightTextColor,
+                      color: secondaryExtraLightTextColor_(context),
                       fontWeight: FontWeight.w400,
                       fontSize: 14,
                       softWrap: true,
                       maxLine: 1,
                     ),
                   ),
-                  // !StringHelper.isEmptyString(info.subTitle)
-                  //     ? PrimaryTextView(
-                  //         text: info.subTitle ?? "",
-                  //         textAlign: TextAlign.center,
-                  //         color: secondaryExtraLightTextColor,
-                  //         fontWeight: FontWeight.w400,
-                  //         fontSize: 14,
-                  //         softWrap: true,
-                  //       )
-                  //     : Container()
                 ],
               ),
             ),

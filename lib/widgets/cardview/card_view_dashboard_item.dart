@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:otm_inventory/res/colors.dart';
+import 'package:otm_inventory/utils/app_utils.dart';
+
+import '../../res/theme/theme_controller.dart';
 
 class CardViewDashboardItem extends StatelessWidget {
   const CardViewDashboardItem(
@@ -21,23 +25,27 @@ class CardViewDashboardItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = Get.find<ThemeController>().isDarkMode;
     return Card(
       margin: margin,
       elevation: elevation ?? 2,
-      shadowColor: shadowColor ?? Colors.black54,
-      color: boxColor ?? backgroundColor,
+      shadowColor: shadowColor ?? shadowColor_(context),
+      color: boxColor ?? backgroundColor_(context),
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(borderRadius ?? 20)),
       child: Container(
         padding: padding ?? EdgeInsets.all(0),
         decoration: BoxDecoration(
-            color: Colors.white,
+            color: backgroundColor_(context),
             borderRadius: BorderRadius.all(
               Radius.circular(borderRadius ?? 20),
             ),
             border: Border.all(
                 width: borderWidth ?? 1,
-                color: borderColor ?? Colors.grey.shade200)),
+                color: borderColor ??
+                    (isDark
+                        ? Color(AppUtils.haxColor("#2A2A2A"))
+                        : Color(AppUtils.haxColor("#EEEEEE"))))),
         child: child,
       ),
     );

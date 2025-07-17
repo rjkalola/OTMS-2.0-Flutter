@@ -25,7 +25,7 @@ class TotalHoursRow extends StatelessWidget {
               children: [
                 PrimaryTextView(
                   textAlign: TextAlign.start,
-                  text: 'total_hours_'.tr,
+                  text: "${'total_hours'.tr}:",
                   color: primaryTextColor,
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
@@ -41,7 +41,10 @@ class TotalHoursRow extends StatelessWidget {
                       : DateUtil.seconds_To_HH_MM(
                           controller.updatedTotalWorkingTime.value),
                   color: !controller.isEdited.value
-                      ? primaryTextColor
+                      ? (!StringHelper.isEmptyString(
+                              controller.workLogInfo.value.workEndTime)
+                          ? primaryTextColor
+                          : defaultAccentColor_(context))
                       : Colors.red,
                   fontSize: 18,
                   fontWeight: FontWeight.w600,

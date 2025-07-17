@@ -1,5 +1,5 @@
 class CounterDetails {
-  int totalWorkSeconds = 0;
+  int totalWorkSeconds = 0, activeWorkSeconds = 0;
   String totalWorkTime = "";
   int? totalBreakSeconds = 0;
   String? totalBreakTime = "";
@@ -9,6 +9,7 @@ class CounterDetails {
 
   CounterDetails(
       {required this.totalWorkSeconds,
+      required this.activeWorkSeconds,
       required this.totalWorkTime,
       this.totalBreakSeconds,
       this.totalBreakTime,
@@ -18,6 +19,7 @@ class CounterDetails {
 
   CounterDetails.fromJson(Map<String, dynamic> json) {
     totalWorkSeconds = json['totalWorkSeconds'];
+    activeWorkSeconds = json['activeWorkSeconds'];
     totalWorkTime = json['totalWorkTime'];
     totalBreakSeconds = json['totalBreakSeconds'];
     totalBreakTime = json['totalBreakTime'];
@@ -29,6 +31,7 @@ class CounterDetails {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['totalWorkSeconds'] = this.totalWorkSeconds;
+    data['activeWorkSeconds'] = this.activeWorkSeconds;
     data['totalWorkTime'] = this.totalWorkTime;
     data['totalBreakSeconds'] = this.totalBreakSeconds;
     data['totalBreakTime'] = this.totalBreakTime;

@@ -9,6 +9,7 @@ import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/PrimaryButton.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
+import 'package:keyboard_actions/keyboard_actions.dart';
 
 class BillingInfoScreen extends StatefulWidget {
   const BillingInfoScreen({super.key});
@@ -19,6 +20,27 @@ class BillingInfoScreen extends StatefulWidget {
 
 class _BillingInfoScreenState extends State<BillingInfoScreen> {
   final controller = Get.put(BillingInfoController());
+
+  KeyboardActionsConfig _buildKeyboardConfig() {
+    return KeyboardActionsConfig(
+      keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
+      nextFocus: false,
+      actions: [
+        KeyboardActionsItem(
+          focusNode: controller.focusNode,
+          toolbarButtons: [
+            (node) => TextButton(
+                  onPressed: () => node.unfocus(),
+                  child: Text(
+                    'Done',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                ),
+          ],
+        ),
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,29 +56,32 @@ class _BillingInfoScreenState extends State<BillingInfoScreen> {
             isBack: true,
           ),
           backgroundColor: dashBoardBgColor,
-          body: Obx(() {
-            return ModalProgressHUD(
-              inAsyncCall: controller.isLoading.value,
-              opacity: 0,
-              progressIndicator: const CustomProgressbar(),
-              child: controller.isInternetNotAvailable.value
-                  ? const Center(
-                      child: Text("No Internet"),
-                    )
-                  : SingleChildScrollView(
-                      child: Form(
-                          key: controller.formKey,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              GeneralView(),
-                              TaxInfoView(),
-                              BankDetailsView(),
-                            ],
-                          ))),
-
-            );
-          }),
+          body: KeyboardActions(
+              config: _buildKeyboardConfig(),
+              child: Obx(
+                () {
+                  return ModalProgressHUD(
+                    inAsyncCall: controller.isLoading.value,
+                    opacity: 0,
+                    progressIndicator: const CustomProgressbar(),
+                    child: controller.isInternetNotAvailable.value
+                        ? const Center(
+                            child: Text("No Internet"),
+                          )
+                        : SingleChildScrollView(
+                            child: Form(
+                                key: controller.formKey,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    GeneralView(),
+                                    TaxInfoView(),
+                                    BankDetailsView(),
+                                  ],
+                                ))),
+                  );
+                },
+              )),
           // This is where bottomNavigationBar should go
           bottomNavigationBar: SafeArea(
             child: Padding(
@@ -72,7 +97,11 @@ class _BillingInfoScreenState extends State<BillingInfoScreen> {
                     borderRadius: BorderRadius.circular(30),
                   ),
                 ),
-                child: Text('save'.tr, style: TextStyle(color: Colors.white, fontSize: 20,fontWeight: FontWeight.bold)),
+                child: Text('save'.tr,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold)),
               ),
             ),
           ),

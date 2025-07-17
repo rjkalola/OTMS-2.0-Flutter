@@ -30,7 +30,7 @@ class PrimaryTextView extends StatelessWidget {
         maxLines: maxLine,
         overflow: overflow,
         style: TextStyle(
-          color: color ?? primaryTextColor,
+          color: color ?? primaryTextColor_(context),
           fontWeight: fontWeight ?? FontWeight.normal,
           fontSize: fontSize,
         ));

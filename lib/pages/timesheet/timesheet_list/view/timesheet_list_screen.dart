@@ -31,7 +31,7 @@ class _TimeSheetListScreenState extends State<TimeSheetListScreen>
   // @override
   // void initState() {
   //   super.initState();
-  //  AppUtils.restoreStatusBar(); // restore on screen load
+  //  AppUtils.setStatusBarColor(); // restore on screen load
   // }
 
   @override
@@ -130,7 +130,7 @@ class _TimeSheetListScreenState extends State<TimeSheetListScreen>
     controller.isResetEnable.value = true;
     controller.startDate = startDate;
     controller.endDate = endDate;
-    controller.getTimeSheetListApi();
+    controller.loadTimesheetData();
     print("startDate:" + startDate);
     print("endDate:" + endDate);
   }

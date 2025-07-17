@@ -7,8 +7,10 @@ import 'package:otm_inventory/pages/profile/widgets/name_on_account_text_field.d
 import 'package:otm_inventory/pages/profile/widgets/name_on_utr_text_field.dart';
 import 'package:otm_inventory/pages/profile/widgets/sort_code_text_field.dart';
 import 'package:otm_inventory/pages/profile/billing_info/view/widgets/title_text.dart';
+import 'package:otm_inventory/pages/profile/widgets/sort_code_text_field_keyboard.dart';
 import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:otm_inventory/widgets/text/TitleTextView.dart';
+
 
 class BankDetailsView extends StatelessWidget {
    BankDetailsView({super.key});
@@ -38,9 +40,11 @@ class BankDetailsView extends StatelessWidget {
             AccountNumberTextField(
               controller: controller.accountNumberController,
             ),
-            SortCodeTextField(
-              controller: controller.sortCodeController,
-            ),
+            SizedBox(height: 16,),
+            SortCodeTextFieldKeyboard(
+                controller: controller.sortCodeController,
+                focusNode: controller.focusNode,
+            )
           ],
         ),
       )),

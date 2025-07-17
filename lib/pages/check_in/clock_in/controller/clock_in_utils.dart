@@ -7,6 +7,7 @@ import 'package:otm_inventory/utils/string_helper.dart';
 class ClockInUtils {
   static CounterDetails getTotalWorkHours(WorkLogListResponse? logs) {
     int totalWorkHourSeconds = 0,
+        activeWorkSeconds = 0,
         totalBreakHourSeconds = 0,
         remainingBreakSeconds = 0;
     bool isOnBreak = false;
@@ -70,14 +71,11 @@ class ClockInUtils {
               } else {
                 workEndTime = currentDateTime;
               }
-              // print("Difference:" +
-              //     DateUtil.seconds_To_HH_MM_SS(DateUtil.dateDifferenceInSeconds(
-              //         date1: workStartTime, date2: workEndTime)));
               totalWorkHourSeconds = totalWorkHourSeconds +
                   DateUtil.dateDifferenceInSeconds(
                       date1: workStartTime, date2: workEndTime);
-              // print("${log.totalWorkSeconds}:${DateUtil.dateDifferenceInSeconds(
-              //     date1: workStartTime, date2: workEndTime)}");
+              activeWorkSeconds = DateUtil.dateDifferenceInSeconds(
+                  date1: workStartTime, date2: workEndTime);
             } else {
               if (fullFormat.parse(workEnd).isBefore(shiftStartTime)) {
                 workEndTime = shiftStartTime;
@@ -90,11 +88,6 @@ class ClockInUtils {
               totalWorkHourSeconds = totalWorkHourSeconds +
                   DateUtil.dateDifferenceInSeconds(
                       date1: workStartTime, date2: workEndTime);
-              // print("${log.totalWorkSeconds}:${DateUtil.dateDifferenceInSeconds(
-              //     date1: workStartTime, date2: workEndTime)}");
-
-              // totalWorkHourSeconds =
-              //     totalWorkHourSeconds + (log.totalWorkSeconds ?? 0);
             }
 
             //Break hour calculate
@@ -130,9 +123,14 @@ class ClockInUtils {
                     ? workEndTime
                     : breakEndTime;
                 Duration totalBreakTime = actualEnd.difference(actualStart);
-                print("totalBreakTime:" + totalBreakTime.inSeconds.toString());
                 // total += totalBreakTime;
-                totalBreakHourSeconds = totalBreakHourSeconds+ totalBreakTime.inSeconds;
+                totalBreakHourSeconds =
+                    totalBreakHourSeconds + totalBreakTime.inSeconds;
+
+                if (StringHelper.isEmptyString(workEnd)) {
+                  activeWorkSeconds =
+                      activeWorkSeconds - totalBreakTime.inSeconds;
+                }
 
                 /*  if (currentDateTime.isAfter(fullFormat.parse(breakStart)) &&
                     currentDateTime.isBefore(fullFormat.parse(breakEnd))) {
@@ -184,6 +182,7 @@ class ClockInUtils {
     }
     var details = CounterDetails(
         totalWorkSeconds: totalWorkTime,
+        activeWorkSeconds: activeWorkSeconds,
         totalWorkTime: DateUtil.seconds_To_HH_MM_SS(totalWorkTime),
         remainingBreakTime: DateUtil.seconds_To_HH_MM_SS(remainingBreakSeconds),
         remainingBreakSeconds: remainingBreakSeconds,

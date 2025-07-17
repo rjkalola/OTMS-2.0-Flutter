@@ -51,7 +51,10 @@ class DataUtils {
         name: 'user_permissions'.tr,
         action: AppConstants.action.userPermissions,
         icon: Drawable.permissionIcon));
-
+    arrayItems.add(ModuleInfo(
+        name: 'companies'.tr,
+        action: AppConstants.action.companies,
+        icon: Drawable.usersPermissionIcon));
     return arrayItems;
   }
 

@@ -40,7 +40,6 @@ class BillingInfoController extends GetxController
   final bankNameController = TextEditingController().obs;
   final accountNumberController = TextEditingController().obs;
   final sortCodeController = TextEditingController().obs;
-
   final mExtension = AppConstants.defaultPhoneExtension.obs;
   final mExtensionId = AppConstants.defaultPhoneExtensionId.obs;
   final mFlag = AppConstants.defaultFlagUrl.obs;
@@ -49,6 +48,7 @@ class BillingInfoController extends GetxController
   final _api = BillingInfoRepository();
   RxBool isLoading = false.obs, isInternetNotAvailable = false.obs;
   final billingInfo = BillingInfo().obs;
+  final FocusNode focusNode = FocusNode();
   var arguments = Get.arguments;
 
   @override

@@ -44,6 +44,7 @@ class IntentKey {
   final String companyData = 'COMPANY_DATA';
   final String companyCode = 'COMPANY_CODE';
   final String fromSignUpScreen = 'FROM_SIGN_UP_SCREEN';
+  final String isAllUserTimeSheet = 'IS_ALL_USER_TIMESHEET';
   final String fromDashboardScreen = 'FROM_DASHBOARD_SCREEN';
   final String dashboardTabIndex = 'DASHBOARD_TAB_INDEX';
   final String stockCountType = 'STOCK_COUNT_TYPE';
@@ -170,6 +171,7 @@ class Action {
   final String archiveTeam = 'ARCHIVE_TEAM';
   final String archiveShift = 'ARCHIVE_SHIFT';
   final String generateCode = 'GENERATE_CODE';
+  final String addOrJoin = 'ADD_OR_JOIN';
 
   final String companyDetails = "COMPANY_DETAILS";
   final String companyTrades = "COMPANY_TRADES";
@@ -177,6 +179,7 @@ class Action {
   final String companyPermissions = "COMPANY_PERMISSIONS";
   final String userPermissions = "USER_PERMISSIONS";
   final String settings = "SETTINGS";
+  final String companies = "COMPANIES";
 }
 
 class StockCountType {

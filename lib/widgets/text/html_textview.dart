@@ -25,7 +25,7 @@ class HtmlTextView extends StatelessWidget {
     return Html(data: text, style: {
       "body": Style(
         textAlign: textAlign ?? TextAlign.start,
-        color: color ?? primaryTextColor,
+        color: color ?? primaryTextColor_(context),
         fontWeight: fontWeight ?? FontWeight.normal,
         fontSize: FontSize(fontSize ?? 14),
       ),

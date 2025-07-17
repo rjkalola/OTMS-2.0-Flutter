@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:otm_inventory/res/theme/theme_config.dart';
 import 'package:otm_inventory/utils/app_storage.dart';
 
 
@@ -18,6 +19,8 @@ class ThemeController extends GetxController {
     _isDarkMode.value = value;
     Get.find<AppStorage>().setThemeMode(value);
     Get.changeThemeMode(value ? ThemeMode.dark : ThemeMode.light);
+    final controller = Get.put(ThemeController());
+    ThemeConfig.isDarkMode = controller.isDarkMode;
   }
 
   void _loadTheme() async {

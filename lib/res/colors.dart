@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:otm_inventory/res/theme/app_theme_extension.dart';
 
-const blueColor = Color.fromRGBO(0, 149, 246, 1);
-const primaryColor = Colors.white;
-const secondaryColor = Colors.grey;
 const primaryTextColor = Color(0xff1A1A1A);
 const primaryTextColorLight = Color(0xff262626);
 const secondaryTextColor = Color(0xff737373);
@@ -34,6 +31,146 @@ const pendingTextColor = Color(0xfffe7f00);
 const approvedTextColor = Color(0xff32a753);
 const rejectTextColor = Color(0xffff484a);
 
+Color primaryTextColor_(BuildContext context) {
+  return Theme.of(context).extension<AppThemeExtension>()!.primaryTextColor;
+}
+
+Color primaryTextColorLight_(BuildContext context) {
+  return Theme.of(context)
+      .extension<AppThemeExtension>()!
+      .primaryTextColorLight;
+}
+
+Color secondaryTextColor_(BuildContext context) {
+  return Theme.of(context).extension<AppThemeExtension>()!.secondaryTextColor;
+}
+
+Color secondaryLightTextColor_(BuildContext context) {
+  return Theme.of(context)
+      .extension<AppThemeExtension>()!
+      .secondaryLightTextColor;
+}
+
+Color secondaryExtraLightTextColor_(BuildContext context) {
+  return Theme.of(context)
+      .extension<AppThemeExtension>()!
+      .secondaryExtraLightTextColor;
+}
+
+Color defaultAccentColor_(BuildContext context) {
+  return Theme.of(context).extension<AppThemeExtension>()!.defaultAccentColor;
+}
+
+Color defaultAccentLightColor_(BuildContext context) {
+  return Theme.of(context)
+      .extension<AppThemeExtension>()!
+      .defaultAccentLightColor;
+}
+
+Color backgroundColor_(BuildContext context) {
+  return Theme.of(context).extension<AppThemeExtension>()!.backgroundColor;
+}
+
+Color statusBarColor_(BuildContext context) {
+  return Theme.of(context).extension<AppThemeExtension>()!.statusBarColor;
+}
+
+Color statusBarComponentColor_(BuildContext context) {
+  return Theme.of(context)
+      .extension<AppThemeExtension>()!
+      .statusBarComponentColor;
+}
+
+Color titleBgColor_(BuildContext context) {
+  return Theme.of(context).extension<AppThemeExtension>()!.titleBgColor;
+}
+
+Color snackBarColor_(BuildContext context) {
+  return Theme.of(context).extension<AppThemeExtension>()!.snackBarColor;
+}
+
+Color dividerColor_(BuildContext context) {
+  return Theme.of(context).extension<AppThemeExtension>()!.dividerColor;
+}
+
+Color bottomTabbackgroundColor_(BuildContext context) {
+  return Theme.of(context)
+      .extension<AppThemeExtension>()!
+      .bottomTabbackgroundColor;
+}
+
+Color hintColor_(BuildContext context) {
+  return Theme.of(context).extension<AppThemeExtension>()!.hintColor;
+}
+
+Color normalTextFieldBorderColor_(BuildContext context) {
+  return Theme.of(context)
+      .extension<AppThemeExtension>()!
+      .normalTextFieldBorderColor;
+}
+
+Color focusedTextFieldBorderColor_(BuildContext context) {
+  return Theme.of(context)
+      .extension<AppThemeExtension>()!
+      .focusedTextFieldBorderColor;
+}
+
+Color normalTextFieldBorderDarkColor_(BuildContext context) {
+  return Theme.of(context)
+      .extension<AppThemeExtension>()!
+      .normalTextFieldBorderDarkColor;
+}
+
+Color focusedTextFieldBorderDarkColor_(BuildContext context) {
+  return Theme.of(context)
+      .extension<AppThemeExtension>()!
+      .focusedTextFieldBorderDarkColor;
+}
+
+Color rectangleBorderColor_(BuildContext context) {
+  return Theme.of(context).extension<AppThemeExtension>()!.rectangleBorderColor;
+}
+
+Color disableComponentColor_(BuildContext context) {
+  return Theme.of(context)
+      .extension<AppThemeExtension>()!
+      .disableComponentColor;
+}
+
+Color darkYellowColor_(BuildContext context) {
+  return Theme.of(context).extension<AppThemeExtension>()!.darkYellowColor;
+}
+
+Color dashBoardTabBgColor_(BuildContext context) {
+  return Theme.of(context).extension<AppThemeExtension>()!.dashBoardTabBgColor;
+}
+
 Color dashBoardBgColor_(BuildContext context) {
   return Theme.of(context).extension<AppThemeExtension>()!.dashboardBgColor;
+}
+
+Color dashBoardItemStrokeColor_(BuildContext context) {
+  return Theme.of(context)
+      .extension<AppThemeExtension>()!
+      .dashBoardItemStrokeColor;
+}
+
+Color blueBGButtonColor_(BuildContext context) {
+  return Theme.of(context).extension<AppThemeExtension>()!.blueBGButtonColor;
+}
+
+Color pendingTextColor_(BuildContext context) {
+  return Theme.of(context).extension<AppThemeExtension>()!.pendingTextColor;
+}
+
+Color approvedTextColor_(BuildContext context) {
+  return Theme.of(context).extension<AppThemeExtension>()!.approvedTextColor;
+}
+
+Color rejectTextColor_(BuildContext context) {
+  return Theme.of(context).extension<AppThemeExtension>()!.rejectTextColor;
+}
+
+Color shadowColor_(BuildContext context) {
+  return Theme.of(context).extension<AppThemeExtension>()!.shadowColor;
 }

@@ -106,16 +106,18 @@ class ManageAttachmentController extends GetxController
           //   CropAspectRatioPreset.square,
           //   CropAspectRatioPresetCustom(),
           // ],
-          aspectRatioPresets: [
+            lockAspectRatio: true,
+        /*  aspectRatioPresets: [
             CropAspectRatioPreset.square,
-          ],
+          ]*/
         ),
         IOSUiSettings(
           title: 'edit_photo'.tr,
-          aspectRatioPresets: [
+         /* aspectRatioPresets: [
             CropAspectRatioPreset.square,
             // IMPORTANT: iOS supports only one custom aspect ratio in preset list
-          ],
+          ],*/
+          aspectRatioLockEnabled: true,
         ),
       ],
     );
@@ -143,16 +145,18 @@ class ManageAttachmentController extends GetxController
           //   CropAspectRatioPreset.square,
           //   CropAspectRatioPresetCustom(),
           // ],
-          aspectRatioPresets: [
+         /* aspectRatioPresets: [
             CropAspectRatioPreset.square,
-          ],
+          ],*/
+          lockAspectRatio: true,
         ),
         IOSUiSettings(
           title: 'edit_photo'.tr,
-          aspectRatioPresets: [
+         /* aspectRatioPresets: [
             CropAspectRatioPreset.square,
             // IMPORTANT: iOS supports only one custom aspect ratio in preset list
-          ],
+          ],*/
+          aspectRatioLockEnabled: true,
         ),
       ],
     );

@@ -32,18 +32,6 @@
       "languageVersion": "2.18"
     },
     {
-      "name": "barcode",
-      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/barcode-2.2.9",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
-      "name": "bidi",
-      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/bidi-2.0.13",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
       "name": "boolean_selector",
       "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/boolean_selector-2.1.1",
       "packageUri": "lib/",
@@ -302,12 +290,6 @@
       "languageVersion": "3.5"
     },
     {
-      "name": "flutter_pdfview",
-      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/flutter_pdfview-1.4.0+1",
-      "packageUri": "lib/",
-      "languageVersion": "2.17"
-    },
-    {
       "name": "flutter_plugin_android_lifecycle",
       "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.28",
       "packageUri": "lib/",
@@ -483,21 +465,21 @@
     },
     {
       "name": "image_cropper",
-      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/image_cropper-9.1.0",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/image_cropper-6.0.0",
       "packageUri": "lib/",
-      "languageVersion": "3.3"
+      "languageVersion": "2.18"
     },
     {
       "name": "image_cropper_for_web",
-      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/image_cropper_for_web-6.1.0",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/image_cropper_for_web-4.0.0",
       "packageUri": "lib/",
-      "languageVersion": "3.3"
+      "languageVersion": "2.18"
     },
     {
       "name": "image_cropper_platform_interface",
-      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/image_cropper_platform_interface-7.1.0",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/image_cropper_platform_interface-5.0.0",
       "packageUri": "lib/",
-      "languageVersion": "3.3"
+      "languageVersion": "2.18"
     },
     {
       "name": "image_picker",
@@ -554,6 +536,12 @@
       "languageVersion": "3.3"
     },
     {
+      "name": "js",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/js-0.7.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.1"
+    },
+    {
       "name": "json_annotation",
       "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/json_annotation-4.9.0",
       "packageUri": "lib/",
@@ -564,6 +552,12 @@
       "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/json_serializable-6.9.5",
       "packageUri": "lib/",
       "languageVersion": "3.6"
+    },
+    {
+      "name": "keyboard_actions",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/keyboard_actions-4.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
     },
     {
       "name": "leak_tracker",
@@ -728,18 +722,6 @@
       "languageVersion": "3.2"
     },
     {
-      "name": "pdf",
-      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/pdf-3.11.3",
-      "packageUri": "lib/",
-      "languageVersion": "2.19"
-    },
-    {
-      "name": "pdf_widget_wrapper",
-      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/pdf_widget_wrapper-1.0.4",
-      "packageUri": "lib/",
-      "languageVersion": "2.18"
-    },
-    {
       "name": "permission_handler",
       "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/permission_handler-11.4.0",
       "packageUri": "lib/",
@@ -812,12 +794,6 @@
       "languageVersion": "3.0"
     },
     {
-      "name": "printing",
-      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/printing-5.14.2",
-      "packageUri": "lib/",
-      "languageVersion": "3.3"
-    },
-    {
       "name": "pub_semver",
       "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/pub_semver-2.2.0",
       "packageUri": "lib/",
@@ -828,12 +804,6 @@
       "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/pubspec_parse-1.5.0",
       "packageUri": "lib/",
       "languageVersion": "3.6"
-    },
-    {
-      "name": "qr",
-      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/qr-3.0.2",
-      "packageUri": "lib/",
-      "languageVersion": "3.4"
     },
     {
       "name": "qr_code_scanner_plus",
@@ -1029,7 +999,7 @@
     },
     {
       "name": "webview_flutter",
-      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/webview_flutter-4.13.0",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/webview_flutter-4.12.0",
       "packageUri": "lib/",
       "languageVersion": "3.6"
     },
@@ -1047,7 +1017,7 @@
     },
     {
       "name": "webview_flutter_wkwebview",
-      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/webview_flutter_wkwebview-3.22.0",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/webview_flutter_wkwebview-3.21.0",
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
@@ -1088,7 +1058,7 @@
       "languageVersion": "3.2"
     }
   ],
-  "generated": "2025-07-14T10:36:03.153702Z",
+  "generated": "2025-07-16T06:21:45.341769Z",
   "generator": "pub",
   "generatorVersion": "3.6.2",
   "flutterRoot": "file:///Users/apple/Documents/flutterDev/flutter",

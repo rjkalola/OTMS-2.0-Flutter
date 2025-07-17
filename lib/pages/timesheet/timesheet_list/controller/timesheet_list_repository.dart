@@ -10,7 +10,26 @@ class TimesheetListRepository {
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
-    ApiRequest(url: ApiConstants.getTimeSheetList, data: data, isFormData: false)
+    ApiRequest(
+            url: ApiConstants.getTimeSheetList, data: data, isFormData: false)
+        .getRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
+
+  void getTimeSheetListAllUsers({
+    // Map<String, dynamic>? queryParameters,
+    Map<String, dynamic>? queryParameters,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+            url: ApiConstants.getTimeSheetListAllUsers,
+            queryParameters: queryParameters,
+            isFormData: false)
         .getRequest(
       onSuccess: (data) {
         onSuccess!(data);

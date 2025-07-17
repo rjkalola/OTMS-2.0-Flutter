@@ -47,7 +47,7 @@ class StartShiftMapController extends GetxController
     }
     locationRequest();
     appLifeCycle();
-    getShiftListApi();
+    // getShiftListApi();
   }
 
   void getShiftListApi() {

@@ -10,11 +10,11 @@ class TimeSheetListResponse {
 
   TimeSheetListResponse(
       {this.isSuccess,
-        this.message,
-        this.userId,
-        this.companyId,
-        this.currency,
-        this.info});
+      this.message,
+      this.userId,
+      this.companyId,
+      this.currency,
+      this.info});
 
   TimeSheetListResponse.fromJson(Map<String, dynamic> json) {
     isSuccess = json['IsSuccess'];

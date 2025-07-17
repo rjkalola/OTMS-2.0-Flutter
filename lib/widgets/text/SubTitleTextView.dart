@@ -27,7 +27,7 @@ class SubtitleTextView extends StatelessWidget {
         textAlign: textAlign ?? TextAlign.start,
         maxLines: maxLine,
         style: TextStyle(
-          color: color ?? secondaryLightTextColor,
+          color: color ?? secondaryLightTextColor_(context),
           fontWeight: fontWeight ?? FontWeight.normal,
           fontSize: fontSize ?? 14,
         ));

@@ -78,4 +78,5 @@ class AppRoutes {
   static const String switchCompanyScreen = '/switch_company_screen';
   static const String deleteAccountScreen = '/delete_account_screen';
   static const String filterScreen = '/filter_screen';
+  static const String companyListScreen = '/company_list_screen';
 }
