@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/pages/common/listener/menu_item_listener.dart';
 import 'package:otm_inventory/pages/common/model/dialog_title_view.dart';
+import 'package:otm_inventory/res/theme/theme_config.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:otm_inventory/web_services/response/module_info.dart';
@@ -74,7 +75,9 @@ class MenuItemsListBottomDialogState extends State<MenuItemsListBottomDialog> {
               style: TextStyle(
                 fontWeight: FontWeight.w400,
                 fontSize: 17,
-                color: Colors.black54,
+                color: ThemeConfig.isDarkMode
+                    ? Colors.white54
+                    : Colors.black54,
               ),
             ),
           )),

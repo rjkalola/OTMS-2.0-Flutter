@@ -6,6 +6,7 @@ import 'package:otm_inventory/res/theme/theme_config.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
+import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:otm_inventory/widgets/other_widgets/user_avtar_view.dart';
 import 'package:otm_inventory/widgets/shapes/badge_count_widget.dart';
 import 'package:otm_inventory/widgets/shapes/badge_count_with_child_widget.dart';
@@ -20,13 +21,8 @@ class HeaderUserDetailsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.fromLTRB(14, 20, 14, 0),
-      decoration: AppUtils.getDashboardItemDecoration(
-          borderWidth: 2,
-          borderColor: dashBoardItemStrokeColor_(context),
-          shadowRadius: 1,
-          radius: 20),
+    return CardViewDashboardItem(
+      margin: EdgeInsets.fromLTRB(14, 20, 14, 6),
       padding: EdgeInsets.fromLTRB(16, 14, 16, 14),
       child: Row(
         children: [

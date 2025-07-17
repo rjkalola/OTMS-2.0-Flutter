@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:otm_inventory/res/theme/theme_config.dart';
 
 import '../../res/colors.dart';
 
 class TextFieldBorder extends StatelessWidget {
-  const TextFieldBorder(
+  TextFieldBorder(
       {super.key,
       this.textEditingController,
       this.hintText = "",
@@ -61,8 +62,10 @@ class TextFieldBorder extends StatelessWidget {
       focusNode: focusNode,
       onFieldSubmitted: onFieldSubmitted,
       onChanged: onValueChange,
-      style: const TextStyle(
-          fontWeight: FontWeight.w400, fontSize: 15, color: primaryTextColor),
+      style: TextStyle(
+          fontWeight: FontWeight.w400,
+          fontSize: 15,
+          color: primaryTextColor_(context)),
       controller: textEditingController,
       keyboardType: keyboardType,
       textInputAction: textInputAction,
@@ -95,10 +98,14 @@ class TextFieldBorder extends StatelessWidget {
         ),
         hintText: hintText,
         labelText: labelText,
-        labelStyle: const TextStyle(
-            fontWeight: FontWeight.w400, fontSize: 16, color: Colors.grey),
-        hintStyle: const TextStyle(
-            fontWeight: FontWeight.w400, fontSize: 16, color: Colors.grey),
+        labelStyle: TextStyle(
+            fontWeight: FontWeight.w400,
+            fontSize: 16,
+            color: ThemeConfig.isDarkMode ? Color(0xFF424242) : Colors.grey),
+        hintStyle: TextStyle(
+            fontWeight: FontWeight.w400,
+            fontSize: 16,
+            color: ThemeConfig.isDarkMode ? Color(0xFF424242) : Colors.grey),
       ),
       validator: validator!,
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:otm_inventory/res/theme/theme_config.dart';
 
 import '../../res/colors.dart';
 
@@ -96,10 +97,14 @@ class TextFieldBorderDark extends StatelessWidget {
         ),
         hintText: hintText,
         labelText: labelText,
-        labelStyle: const TextStyle(
-            fontWeight: FontWeight.w400, fontSize: 16, color: Colors.black54),
-        hintStyle: const TextStyle(
-            fontWeight: FontWeight.w400, fontSize: 16, color: Colors.black54),
+        labelStyle: TextStyle(
+            fontWeight: FontWeight.w400,
+            fontSize: 16,
+            color: ThemeConfig.isDarkMode ? Color(0xFF424242) : Colors.grey),
+        hintStyle: TextStyle(
+            fontWeight: FontWeight.w400,
+            fontSize: 16,
+            color: ThemeConfig.isDarkMode ? Color(0xFF424242) : Colors.grey),
       ),
       validator: validator!,
     );

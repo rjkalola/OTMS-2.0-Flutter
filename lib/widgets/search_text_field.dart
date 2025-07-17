@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:otm_inventory/res/theme/theme_config.dart';
 
 import '../../res/colors.dart';
 
@@ -54,10 +55,16 @@ class SearchTextField extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(45))),
             hintText: hint ?? 'search'.tr,
             labelText: label,
-            labelStyle: const TextStyle(
-                fontWeight: FontWeight.w400, fontSize: 16, color: Colors.grey),
-            hintStyle: const TextStyle(
-                fontWeight: FontWeight.w400, fontSize: 16, color: Colors.grey),
+            labelStyle: TextStyle(
+                fontWeight: FontWeight.w400,
+                fontSize: 16,
+                color:
+                    ThemeConfig.isDarkMode ? Color(0xFF424242) : Colors.grey),
+            hintStyle: TextStyle(
+                fontWeight: FontWeight.w400,
+                fontSize: 16,
+                color:
+                    ThemeConfig.isDarkMode ? Color(0xFF424242) : Colors.grey),
             suffixIcon: isClearVisible.value
                 ? IconButton(
                     onPressed: onPressedClear,

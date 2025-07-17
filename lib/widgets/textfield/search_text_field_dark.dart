@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:otm_inventory/res/theme/theme_config.dart';
 
 import '../../res/colors.dart';
 
@@ -42,26 +43,36 @@ class SearchTextFieldDark extends StatelessWidget {
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
             // prefixIcon: const Icon(Icons.search, color: primaryTextColor),
-            enabledBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Color(0xff8a8a8a), width: 1),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                  color: ThemeConfig.isDarkMode
+                      ? Color(0xFF757575)
+                      : Color(0xff8a8a8a),
+                  width: 1),
               borderRadius: BorderRadius.all(Radius.circular(45)),
             ),
-            border: const OutlineInputBorder(
-                borderSide: BorderSide(color: Color(0xff8a8a8a), width: 1),
+            border: OutlineInputBorder(
+                borderSide: BorderSide(color: ThemeConfig.isDarkMode
+                    ? Color(0xFF757575)
+                    : Color(0xff8a8a8a), width: 1),
                 borderRadius: BorderRadius.all(Radius.circular(45))),
-            focusedBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: Color(0xff6e6e6e), width: 1.4),
+            focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: ThemeConfig.isDarkMode
+                    ? Color(0xFF757575)
+                    : Color(0xff8a8a8a), width: 1.4),
                 borderRadius: BorderRadius.all(Radius.circular(45))),
             hintText: hint ?? 'search'.tr,
             labelText: label,
-            labelStyle: const TextStyle(
+            labelStyle: TextStyle(
                 fontWeight: FontWeight.w400,
                 fontSize: 16,
-                color: Colors.black54),
-            hintStyle: const TextStyle(
+                color:
+                    ThemeConfig.isDarkMode ? Colors.white54 : Colors.black54),
+            hintStyle: TextStyle(
                 fontWeight: FontWeight.w400,
                 fontSize: 16,
-                color: Colors.black54),
+                color:
+                    ThemeConfig.isDarkMode ? Colors.white54 : Colors.black54),
             suffixIcon: isClearVisible.value
                 ? IconButton(
                     onPressed: onPressedClear,
