@@ -65,7 +65,7 @@ class ShiftsList extends StatelessWidget {
                                         info.showFrequncy),
                                     child: SubtitleTextView(
                                       text: info.showFrequncy ?? "",
-                                      color: primaryTextColor,
+                                      color: primaryTextColor_(context),
                                       fontSize: 15,
                                     ),
                                   ),

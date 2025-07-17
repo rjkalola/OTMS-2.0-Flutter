@@ -91,7 +91,7 @@ class SelectProjectBottomDialogState extends State<SelectProjectBottomDialog> {
                       text: 'all_projects'.tr,
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
-                      color: secondaryExtraLightTextColor,
+                      color: secondaryExtraLightTextColor_(context),
                     )),
               ),
               Flexible(
@@ -132,9 +132,9 @@ class SelectProjectBottomDialogState extends State<SelectProjectBottomDialog> {
                       Text(
                         tempList[i].name ?? "",
                         textAlign: TextAlign.start,
-                        style: const TextStyle(
+                        style:  TextStyle(
                             fontSize: 17,
-                            color: primaryTextColor,
+                            color: primaryTextColor_(context),
                             fontWeight: FontWeight.w500),
                       )
                     ],

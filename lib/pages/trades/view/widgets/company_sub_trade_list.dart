@@ -28,7 +28,7 @@ class CompanySubTradeList extends StatelessWidget {
               children: [
                 PrimaryTextView(
                   text: info.name,
-                  color: primaryTextColor,
+                  color: primaryTextColor_(context),
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
                 ),

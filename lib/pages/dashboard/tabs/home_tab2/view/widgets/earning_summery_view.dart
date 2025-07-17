@@ -37,7 +37,7 @@ class EarningSummaryView extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        color: primaryTextColor,
+                        color: primaryTextColor_(context),
                         fontWeight: FontWeight.w400,
                         fontSize: 15,
                       )),
@@ -48,7 +48,7 @@ class EarningSummaryView extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        color: primaryTextColor,
+                        color: primaryTextColor_(context),
                         fontWeight: FontWeight.w600,
                         fontSize: 24,
                       )),

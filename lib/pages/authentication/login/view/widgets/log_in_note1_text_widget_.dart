@@ -12,8 +12,8 @@ class LogInNote1TextWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 12, bottom: 0, left: 20, right: 20),
       child: Text('log_in_note1'.tr,
-          style: const TextStyle(
-            color: primaryTextColor,
+          style:  TextStyle(
+            color: primaryTextColor_(context),
             fontSize: 30,
             fontWeight: FontWeight.bold,
           )),

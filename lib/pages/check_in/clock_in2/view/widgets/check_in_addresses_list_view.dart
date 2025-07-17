@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/res/drawable.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
@@ -75,7 +76,7 @@ class CheckInAddressesListView extends StatelessWidget {
                                 path: Drawable.addCreateNewPlusIcon,
                                 width: 22,
                                 height: 22,
-                                color: primaryTextColor),
+                                color: primaryTextColor_(context)),
                           )
                         ],
                       ),
@@ -133,7 +134,7 @@ class CheckInAddressesListView extends StatelessWidget {
                                     textAlign: TextAlign.center,
                                     text: "06:00",
                                     fontSize: 22,
-                                    color: primaryTextColor,
+                                    color: primaryTextColor_(context),
                                     fontWeight: FontWeight.w600,
                                   )),
                               Icon(
@@ -170,7 +171,7 @@ class CheckInAddressesListView extends StatelessWidget {
         child: PrimaryTextView(
           text: text ?? "",
           fontSize: 14,
-          color: primaryTextColor,
+          color: primaryTextColor_(Get.context!),
           fontWeight: FontWeight.w500,
           softWrap: true,
         ),

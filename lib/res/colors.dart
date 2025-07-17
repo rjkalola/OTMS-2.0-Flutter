@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:otm_inventory/res/theme/app_theme_extension.dart';
 
-const primaryTextColor = Color(0xff1A1A1A);
-const primaryTextColorLight = Color(0xff262626);
-const secondaryTextColor = Color(0xff737373);
-const secondaryLightTextColor = Color(0xff606a74);
-const secondaryExtraLightTextColor = Color(0xff979797);
+// const primaryTextColor = Color(0xff1A1A1A);
+// const primaryTextColorLight = Color(0xff262626);
+// const secondaryTextColor = Color(0xff737373);
+// const secondaryLightTextColor = Color(0xff606a74);
+// const secondaryExtraLightTextColor = Color(0xff979797);
 const defaultAccentColor = Color(0xff0065ff);
 const defaultAccentLightColor = Color(0xff89b0f4);
 const backgroundColor = Color(0xffffffff);
@@ -24,7 +24,7 @@ const rectangleBorderColor = Color(0xffcdcdce);
 const disableComponentColor = Color(0xffc6c6c6);
 const darkYellowColor = Color(0xffefcc78);
 const dashBoardTabBgColor = Color(0xfff4f5f7);
-const dashBoardBgColor = Color(0xffF4F6F8);
+// const dashBoardBgColor = Color(0xffF4F6F8);
 Color dashBoardItemStrokeColor = Colors.grey.shade300;
 const blueBGButtonColor = Color(0xff007AFF);
 const pendingTextColor = Color(0xfffe7f00);

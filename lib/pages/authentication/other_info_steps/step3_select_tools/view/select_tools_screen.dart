@@ -69,8 +69,8 @@ class _SelectToolsScreenState extends State<SelectToolsScreen> {
                                   padding: const EdgeInsets.only(
                                       top: 8, bottom: 0, left: 20, right: 20),
                                   child: Text('business_field_info_note1'.tr,
-                                      style: const TextStyle(
-                                        color: primaryTextColor,
+                                      style:  TextStyle(
+                                        color: primaryTextColor_(context),
                                         fontSize: 26,
                                         fontWeight: FontWeight.bold,
                                       )),
@@ -82,15 +82,15 @@ class _SelectToolsScreenState extends State<SelectToolsScreen> {
                                     text: 'business_field_info_note2'.tr,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
-                                    color: secondaryTextColor,
+                                    color: secondaryTextColor_(context),
                                   ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(
                                       top: 18, bottom: 0, left: 20, right: 20),
                                   child: Text('operations'.tr,
-                                      style: const TextStyle(
-                                        color: primaryTextColor,
+                                      style:  TextStyle(
+                                        color: primaryTextColor_(context),
                                         fontSize: 24,
                                         fontWeight: FontWeight.bold,
                                       )),

@@ -29,7 +29,7 @@ class TotalHoursRow extends StatelessWidget {
                   child: PrimaryTextView(
                     textAlign: TextAlign.start,
                     text: getHintText(controller.workLogInfo.value.status ?? 0),
-                    color: primaryTextColor,
+                    color: primaryTextColor_(context),
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
                   ),
@@ -86,7 +86,7 @@ class TotalHoursRow extends StatelessWidget {
     } else if (status == AppConstants.status.approved) {
       return approvedTextColor;
     } else {
-      return primaryTextColor;
+      return primaryTextColor_(Get.context!);
     }
   }
 }

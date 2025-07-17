@@ -17,7 +17,7 @@ class CompanyNoteText extends StatelessWidget {
         child: PrimaryTextView(
           text:
               "You're Registering your account with ${controller.companyDetails.value.companyName}, Please select the trade:",
-          color: primaryTextColor,
+          color: primaryTextColor_(context),
           fontSize: 17,
           softWrap: true,
           textAlign: TextAlign.center,

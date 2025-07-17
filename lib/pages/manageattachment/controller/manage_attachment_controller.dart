@@ -100,7 +100,7 @@ class ManageAttachmentController extends GetxController
         AndroidUiSettings(
           toolbarTitle: 'edit_photo'.tr,
           toolbarColor: backgroundColor,
-          toolbarWidgetColor: primaryTextColor,
+          toolbarWidgetColor: primaryTextColor_(Get.context!),
           // aspectRatioPresets: [
           //   CropAspectRatioPreset.original,
           //   CropAspectRatioPreset.square,
@@ -139,7 +139,7 @@ class ManageAttachmentController extends GetxController
         AndroidUiSettings(
           toolbarTitle: 'edit_photo'.tr,
           toolbarColor: backgroundColor,
-          toolbarWidgetColor: primaryTextColor,
+          toolbarWidgetColor: primaryTextColor_(Get.context!),
           // aspectRatioPresets: [
           //   CropAspectRatioPreset.original,
           //   CropAspectRatioPreset.square,

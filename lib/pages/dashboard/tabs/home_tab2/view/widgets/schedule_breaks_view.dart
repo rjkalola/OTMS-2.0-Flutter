@@ -61,7 +61,7 @@ class ScheduleBreaksView extends StatelessWidget {
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                             style: TextStyle(
-                                              color: secondaryLightTextColor,
+                                              color: secondaryLightTextColor_(context),
                                               fontWeight: FontWeight.w500,
                                               fontSize: 14,
                                             )),
@@ -72,7 +72,7 @@ class ScheduleBreaksView extends StatelessWidget {
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                             style: TextStyle(
-                                              color: primaryTextColor,
+                                              color: primaryTextColor_(context),
                                               fontWeight: FontWeight.w600,
                                               fontSize: 24,
                                             ))

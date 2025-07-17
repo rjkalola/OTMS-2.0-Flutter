@@ -49,9 +49,9 @@ class SettingItem extends StatelessWidget {
                 child: Text(
                   title,
                   textAlign: TextAlign.start,
-                  style: const TextStyle(
+                  style:  TextStyle(
                       fontSize: 17,
-                      color: primaryTextColor,
+                      color: primaryTextColor_(context),
                       fontWeight: FontWeight.w600),
                 ),
               )

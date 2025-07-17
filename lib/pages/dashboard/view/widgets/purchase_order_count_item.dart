@@ -51,14 +51,14 @@ class PurchaseOrderCountItem extends StatelessWidget {
                   text: count.toString(),
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
-                  color: primaryTextColor,
+                  color: primaryTextColor_(context),
                 ),
                 PrimaryTextView(
                   softWrap: true,
                   text: title,
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
-                  color: primaryTextColor,
+                  color: primaryTextColor_(context),
                 )
               ],
             ),

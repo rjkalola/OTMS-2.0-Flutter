@@ -18,8 +18,8 @@ class TextFieldPhoneExtensionWidget extends StatelessWidget {
         onTap: () {
           onPressed!();
         },
-        style: const TextStyle(
-            fontWeight: FontWeight.w400, fontSize: 15, color: primaryTextColor),
+        style:  TextStyle(
+            fontWeight: FontWeight.w400, fontSize: 15, color: primaryTextColor_(context)),
         readOnly: true,
         controller: TextEditingController(text: mExtension),
         textAlign: TextAlign.center,

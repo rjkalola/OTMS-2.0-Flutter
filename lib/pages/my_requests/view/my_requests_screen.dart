@@ -128,7 +128,7 @@ class MyRequestsScreen extends StatelessWidget implements DateFilterListener {
               path: Drawable.filterIcon,
               width: 26,
               height: 26,
-              color: primaryTextColor),
+              color: primaryTextColor_(Get.context!)),
         ),
       )
     ];

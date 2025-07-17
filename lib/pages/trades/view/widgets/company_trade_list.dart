@@ -41,7 +41,7 @@ class CompanyTradeList extends StatelessWidget {
                                 text: controller
                                         .companyTradesList[position].name ??
                                     "",
-                                color: primaryTextColor,
+                                color: primaryTextColor_(context),
                                 fontSize: 17,
                                 fontWeight: FontWeight.w500,
                               ),

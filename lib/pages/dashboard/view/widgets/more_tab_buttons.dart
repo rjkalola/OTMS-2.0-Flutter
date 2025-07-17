@@ -30,9 +30,9 @@ class MoreTabButton extends StatelessWidget {
               height: 21,
               child: SvgPicture.asset(
                 iconPath,
-                // color: primaryTextColor,
+                // color: primaryTextColor_(context),
                 colorFilter:
-                    const ColorFilter.mode(primaryTextColor, BlendMode.srcIn),
+                     ColorFilter.mode(primaryTextColor_(context), BlendMode.srcIn),
               )),
           Expanded(
               child: Padding(
@@ -40,8 +40,8 @@ class MoreTabButton extends StatelessWidget {
             child: Text(mText,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  color: primaryTextColor,
+                style:  TextStyle(
+                  color: primaryTextColor_(context),
                   fontWeight: FontWeight.w500,
                   fontSize: 16,
                 )),

@@ -18,7 +18,7 @@ class NoInternetWidget extends StatelessWidget {
           PrimaryTextView(
             text: 'no_internet_text'.tr,
             fontSize: 18,
-            color: primaryTextColor,
+            color: primaryTextColor_(context),
             fontWeight: FontWeight.w500,
           ),
           SizedBox(

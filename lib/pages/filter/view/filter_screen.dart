@@ -137,7 +137,7 @@ class FilterScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      TextButton(onPressed: () => Get.back(), child: Text("Close",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: primaryTextColor),)),
+                      TextButton(onPressed: () => Get.back(), child: Text("Close",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: primaryTextColor_(context)),)),
                       TextButton(onPressed: () {
                         final selectedMap = controller.getSelectedFiltersAsMap();
                         print(selectedMap); // send to API, etc.

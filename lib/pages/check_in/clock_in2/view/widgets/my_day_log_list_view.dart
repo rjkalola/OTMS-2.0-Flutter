@@ -76,7 +76,7 @@ class MyDayLogListView extends StatelessWidget {
                           path: Drawable.addCreateNewPlusIcon,
                           width: 22,
                           height: 22,
-                          color: primaryTextColor),
+                          color: primaryTextColor_(context)),
                     )
                   ],
                 ),
@@ -143,13 +143,13 @@ class MyDayLogListView extends StatelessWidget {
                                         PrimaryTextView(
                                           text: "06:00",
                                           fontSize: 22,
-                                          color: primaryTextColor,
+                                          color: primaryTextColor_(context),
                                           fontWeight: FontWeight.w600,
                                         ),
                                         PrimaryTextView(
                                           text: "(12:00 - 13:00)",
                                           fontSize: 13,
-                                          color: primaryTextColor,
+                                          color: primaryTextColor_(context),
                                           fontWeight: FontWeight.w500,
                                         )
                                       ],
@@ -187,7 +187,7 @@ class MyDayLogListView extends StatelessWidget {
         child: PrimaryTextView(
           text: text ?? "",
           fontSize: 14,
-          color: primaryTextColor,
+          color: primaryTextColor_(Get.context!),
           fontWeight: FontWeight.w500,
           softWrap: true,
         ),

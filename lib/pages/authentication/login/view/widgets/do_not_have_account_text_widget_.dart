@@ -13,8 +13,8 @@ class DoNotHaveAnAccountWidget extends StatelessWidget {
       padding: const EdgeInsets.only(top: 20, bottom: 0),
       child: Center(
         child: Text('do_not_have_an_account'.tr,
-            style: const TextStyle(
-              color: secondaryLightTextColor,
+            style:  TextStyle(
+              color: secondaryLightTextColor_(context),
               fontSize: 16,
               fontWeight: FontWeight.w400,
             )),

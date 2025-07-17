@@ -38,7 +38,7 @@ class TeamMembersList extends StatelessWidget {
                   width: double.infinity,
                   child: PrimaryTextView(
                     textAlign: TextAlign.right,
-                    color: primaryTextColor,
+                    color: primaryTextColor_(context),
                     fontSize: 14,
                     text:
                         "${controller.teamInfo.value.teamMembers!.length} Members",

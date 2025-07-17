@@ -58,8 +58,8 @@ class TextFieldUnderline extends StatelessWidget {
       focusNode: focusNode,
       onFieldSubmitted: onFieldSubmitted,
       onChanged: onValueChange,
-      style: const TextStyle(
-          fontWeight: FontWeight.w400, fontSize: 15, color: primaryTextColor),
+      style:  TextStyle(
+          fontWeight: FontWeight.w400, fontSize: 15, color: primaryTextColor_(context)),
       controller: textEditingController,
       keyboardType: keyboardType,
       textInputAction: textInputAction,

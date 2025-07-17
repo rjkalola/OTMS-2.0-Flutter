@@ -25,8 +25,8 @@ class HomeTabHeaderView extends StatelessWidget {
           ),
           Text(
               "Welcome, ${AppStorage().getUserInfo().firstName} ${AppStorage().getUserInfo().lastName}",
-              style: const TextStyle(
-                color: primaryTextColor,
+              style:  TextStyle(
+                color: primaryTextColor_(context),
                 fontWeight: FontWeight.w600,
                 fontSize: 18,
               ))

@@ -81,7 +81,7 @@ class _SelectMultipleUserDialogState extends State<SelectMultipleUserDialog> {
                           softWrap: true,
                           fontWeight: FontWeight.w400,
                           fontSize: 17,
-                          color: primaryTextColor),
+                          color: primaryTextColor_(context)),
                     ),
                     GestureDetector(
                       onTap: () {

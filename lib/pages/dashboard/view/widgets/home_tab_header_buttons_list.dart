@@ -47,7 +47,7 @@ class HomeTabHeaderButtonsList extends StatelessWidget {
     //                   dashboardController.listHeaderButtons[position].title!,
     //                   overflow: TextOverflow.ellipsis,
     //                   style: const TextStyle(
-    //                     color: primaryTextColor,
+    //                     color: primaryTextColor_(context),
     //                     fontWeight: FontWeight.w500,
     //                     fontSize: 17,
     //                   ),

@@ -68,7 +68,7 @@ class ShiftSummeryDialogState extends State<ShiftSummeryDialog> {
                             PrimaryTextView(
                               textAlign: TextAlign.start,
                               text: 'shift_summery'.tr,
-                              color: primaryTextColor,
+                              color: primaryTextColor_(context),
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
                             ),
@@ -112,14 +112,14 @@ class ShiftSummeryDialogState extends State<ShiftSummeryDialog> {
                             PrimaryTextView(
                               textAlign: TextAlign.start,
                               text: 'total_hours_'.tr,
-                              color: primaryTextColor,
+                              color: primaryTextColor_(context),
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
                             ),
                             PrimaryTextView(
                               textAlign: TextAlign.start,
                               text: "2:00",
-                              color: primaryTextColor,
+                              color: primaryTextColor_(context),
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
                             )
@@ -184,7 +184,7 @@ class ShiftSummeryDialogState extends State<ShiftSummeryDialog> {
                   text: title,
                   fontSize: 15,
                   fontWeight: FontWeight.w400,
-                  color: secondaryLightTextColor,
+                  color: secondaryLightTextColor_(context),
                 ),
               ),
               // Divider(
@@ -199,7 +199,7 @@ class ShiftSummeryDialogState extends State<ShiftSummeryDialog> {
                   children: [
                     PrimaryTextView(
                       text: time,
-                      color: primaryTextColor,
+                      color: primaryTextColor_(context),
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
                     ),
@@ -232,7 +232,7 @@ class ShiftSummeryDialogState extends State<ShiftSummeryDialog> {
                       child: PrimaryTextView(
                         textAlign: TextAlign.start,
                         text: address,
-                        color: primaryTextColor,
+                        color: primaryTextColor_(context),
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
                         softWrap: true,
@@ -310,7 +310,7 @@ class ShiftSummeryDialogState extends State<ShiftSummeryDialog> {
           PrimaryTextView(
             textAlign: TextAlign.start,
             text: title,
-            color: primaryTextColor,
+            color: primaryTextColor_(context),
             fontSize: 13,
             fontWeight: FontWeight.w700,
             softWrap: true,
@@ -387,7 +387,7 @@ class ShiftSummeryDialogState extends State<ShiftSummeryDialog> {
                       ),
                       PrimaryTextView(
                         text: 'edit_entry'.tr,
-                        color: primaryTextColor,
+                        color: primaryTextColor_(context),
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
                       )

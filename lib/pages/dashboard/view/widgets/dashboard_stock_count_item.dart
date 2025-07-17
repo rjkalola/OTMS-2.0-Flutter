@@ -26,7 +26,7 @@ class DashboardStockCountItem extends StatelessWidget {
             text: title,
             fontSize: 16,
             fontWeight: FontWeight.w500,
-            color: primaryTextColor,
+            color: primaryTextColor_(context),
           ),
           PrimaryTextView(
             text: value,

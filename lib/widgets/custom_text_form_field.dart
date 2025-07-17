@@ -31,8 +31,10 @@ class CustomTextFormField extends StatelessWidget {
       textInputAction: textInputAction,
       cursorColor: cursorColor,
       controller: textEditingController,
-      style: const TextStyle(
-          fontSize: 16, color: primaryTextColor, fontWeight: FontWeight.w400),
+      style: TextStyle(
+          fontSize: 16,
+          color: primaryTextColor_(context),
+          fontWeight: FontWeight.w400),
       decoration: InputDecoration(
         hintText: hintText,
         labelText: labelText,

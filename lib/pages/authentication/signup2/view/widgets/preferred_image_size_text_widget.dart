@@ -10,8 +10,8 @@ class PreferredImageSizeTextWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 4, bottom: 0, left: 16, right: 16),
       child: Text('hint_upload_user_image'.tr,
-          style: const TextStyle(
-            color: secondaryLightTextColor,
+          style:  TextStyle(
+            color: secondaryLightTextColor_(context),
             fontSize: 13,
             fontWeight: FontWeight.w400,
           )),

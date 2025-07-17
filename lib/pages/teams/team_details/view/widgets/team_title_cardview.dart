@@ -63,7 +63,7 @@ class TeamTitleCardView extends StatelessWidget {
                                         .supervisorPhoneWithExtension ??
                                     "",
                                 fontSize: 14,
-                                color: primaryTextColor)
+                                color: primaryTextColor_(context))
                           ],
                         )
                       ],

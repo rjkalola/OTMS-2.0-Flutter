@@ -12,7 +12,7 @@ class TitleText extends StatelessWidget {
     return PrimaryTextView(
       text: title ?? "",
       fontSize: 22,
-      color: primaryTextColor,
+      color: primaryTextColor_(context),
       fontWeight: FontWeight.w500,
     );
   }

@@ -57,7 +57,7 @@ class DayLogList extends StatelessWidget {
                                 width: 4,
                               ),
                               RightArrowWidget(
-                                color: primaryTextColor,
+                                color: primaryTextColor_(context),
                               )
                             ],
                           ),
@@ -112,7 +112,7 @@ class DayLogList extends StatelessWidget {
       TextViewWithContainer(
         text: info.shiftName ?? "",
         padding: EdgeInsets.fromLTRB(6, 1, 6, 1),
-        fontColor: primaryTextColor,
+        fontColor: primaryTextColor_(Get.context!),
         fontSize: 15,
         boxColor: Color(AppUtils.haxColor("#ACDBFE")),
         borderRadius: 5,

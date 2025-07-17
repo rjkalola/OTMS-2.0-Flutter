@@ -70,7 +70,7 @@ class MenuButtonsGridWidget extends StatelessWidget {
                             fontWeight: FontWeight.w600,
                             fontSize: 16,
                             textAlign: TextAlign.center,
-                            color: primaryTextColorLight,
+                            color: primaryTextColorLight_(context),
                             softWrap: true,
                             maxLine: 2,
                           ),

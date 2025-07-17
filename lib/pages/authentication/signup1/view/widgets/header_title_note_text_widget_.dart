@@ -19,7 +19,7 @@ class HeaderTitleNoteTextWidget extends StatelessWidget {
       child: Text(title,
           textAlign: textAlign,
           style: TextStyle(
-            color: primaryTextColor,
+            color: primaryTextColor_(context),
             fontSize: fontSize ?? 24,
             fontWeight: FontWeight.bold,
           )),

@@ -22,7 +22,7 @@ class HeaderLogo extends StatelessWidget {
           Icon(
             Icons.arrow_back_ios_new_outlined,
             size: 19,
-            color: primaryTextColor,
+            color: primaryTextColor_(context),
           ),
           SizedBox(
             width: 3,

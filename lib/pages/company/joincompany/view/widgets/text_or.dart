@@ -11,7 +11,7 @@ class TextOr extends StatelessWidget {
     return Center(
       child: PrimaryTextView(
         text: 'or'.tr.toUpperCase(),
-        color: primaryTextColor,
+        color: primaryTextColor_(context),
         fontSize: 17,
       ),
     );

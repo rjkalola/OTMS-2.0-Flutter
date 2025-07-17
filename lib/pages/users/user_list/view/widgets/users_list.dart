@@ -53,13 +53,13 @@ class UsersList extends StatelessWidget {
                                   PrimaryTextView(
                                     text: info.name ?? "",
                                     fontSize: 17,
-                                    color: primaryTextColor,
+                                    color: primaryTextColor_(context),
                                     fontWeight: FontWeight.w600,
                                   ),
                                   PrimaryTextView(
                                     text: info.tradeName ?? "",
                                     fontSize: 14,
-                                    color: secondaryLightTextColor,
+                                    color: secondaryLightTextColor_(context),
                                     fontWeight: FontWeight.w400,
                                   ),
                                 ],

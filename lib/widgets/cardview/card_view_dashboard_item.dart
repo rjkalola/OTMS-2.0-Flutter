@@ -44,7 +44,7 @@ class CardViewDashboardItem extends StatelessWidget {
                 width: borderWidth ?? 1,
                 color: borderColor ??
                     (isDark
-                        ? Color(AppUtils.haxColor("#2A2A2A"))
+                        ? Color(AppUtils.haxColor("#1A1A1A"))
                         : Color(AppUtils.haxColor("#EEEEEE"))))),
         child: child,
       ),

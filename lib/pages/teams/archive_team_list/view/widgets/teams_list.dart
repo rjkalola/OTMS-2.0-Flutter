@@ -61,7 +61,7 @@ class TeamsList extends StatelessWidget {
                                         : info.name ?? "",
                                     color: (info.isSubcontractor ?? false)
                                         ? defaultAccentColor
-                                        : primaryTextColor,
+                                        : primaryTextColor_(context),
                                   ),
                                   SubtitleTextView(
                                     text: info.supervisorName ?? "",

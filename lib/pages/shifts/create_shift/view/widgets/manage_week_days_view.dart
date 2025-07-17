@@ -25,7 +25,7 @@ class ManageWeekDaysView extends StatelessWidget {
             children: [
               PrimaryTextView(
                 text: 'select_days'.tr,
-                color: primaryTextColor,
+                color: primaryTextColor_(context),
                 fontSize: 19,
                 fontWeight: FontWeight.w600,
               ),

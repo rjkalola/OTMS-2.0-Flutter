@@ -42,13 +42,13 @@ class OtpViewJoinCompany extends StatelessWidget {
             PrimaryTextView(
               text: 'company_access_code'.tr,
               fontSize: 20,
-              color: primaryTextColor,
+              color: primaryTextColor_(context),
               fontWeight: FontWeight.w500,
             ),
             PrimaryTextView(
               text: 'enter_company_code_note'.tr,
               fontSize: 14,
-              color: primaryTextColor,
+              color: primaryTextColor_(context),
               fontWeight: FontWeight.w400,
               textAlign: TextAlign.center,
             ),
@@ -71,10 +71,10 @@ class OtpViewJoinCompany extends StatelessWidget {
                   cursor: Cursor(
                       color: defaultAccentColor, enabled: true, width: 1),
                   decoration: BoxLooseDecoration(
-                    textStyle: const TextStyle(
+                    textStyle:  TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w500,
-                        color: primaryTextColor),
+                        color: primaryTextColor_(context)),
                     strokeColorBuilder: PinListenColorBuilder(
                         Color(0xffc6c6c6), Color(0xffc6c6c6)),
                   ),
@@ -96,7 +96,7 @@ class OtpViewJoinCompany extends StatelessWidget {
             /*  PrimaryTextView(
               text: "${'resend_code_in'.tr} 00:30",
               fontSize: 16,
-              color: primaryTextColor,
+              color: primaryTextColor_(context),
               fontWeight: FontWeight.w400,
               textAlign: TextAlign.center,
             ),
@@ -109,7 +109,7 @@ class OtpViewJoinCompany extends StatelessWidget {
                   text: "${'did_not_get_the_code'.tr} ",
                   style: const TextStyle(
                       fontSize: 16,
-                      color: secondaryLightTextColor,
+                      color: secondaryLightTextColor_(context),
                       fontWeight: FontWeight.w400),
                   children: <TextSpan>[
                     TextSpan(
@@ -146,7 +146,7 @@ class OtpViewJoinCompany extends StatelessWidget {
               child: PrimaryTextView(
                 text: 'company_request_approved_note'.tr,
                 fontSize: 14,
-                color: secondaryLightTextColor,
+                color: secondaryLightTextColor_(context),
                 softWrap: true,
                 fontWeight: FontWeight.w400,
                 textAlign: TextAlign.center,

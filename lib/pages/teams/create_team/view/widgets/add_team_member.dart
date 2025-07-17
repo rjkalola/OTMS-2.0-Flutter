@@ -20,7 +20,7 @@ class AddTeamMember extends StatelessWidget {
         child: PrimaryTextView(
           fontWeight: FontWeight.w500,
           fontSize: 16,
-          color: primaryTextColor,
+          color: primaryTextColor_(context),
           text: 'add_team_members'.tr,
         ),
       )),

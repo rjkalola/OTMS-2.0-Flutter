@@ -89,7 +89,7 @@ class SelectShiftDialogState extends State<SelectShiftDialog> {
                     text: 'all_shifts'.tr,
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
-                    color: secondaryExtraLightTextColor,
+                    color: secondaryExtraLightTextColor_(context),
                   )),
             ),
             Flexible(child: setDropdownList(dialogType, listener))
@@ -123,16 +123,16 @@ class SelectShiftDialogState extends State<SelectShiftDialog> {
                             path: Drawable.homeDrawerIcon,
                             width: 24,
                             height: 24,
-                            color: primaryTextColor),
+                            color: primaryTextColor_(context)),
                         SizedBox(
                           width: 12,
                         ),
                         Text(
                           tempList[i].name ?? "Shift 1",
                           textAlign: TextAlign.start,
-                          style: const TextStyle(
+                          style:  TextStyle(
                               fontSize: 17,
-                              color: primaryTextColor,
+                              color: primaryTextColor_(context),
                               fontWeight: FontWeight.w500),
                         )
                       ],

@@ -55,7 +55,7 @@ class HomeTabActionButtonsList extends StatelessWidget {
     //                               .listHeaderButtons_[index][position].title!,
     //                           overflow: TextOverflow.ellipsis,
     //                           style: const TextStyle(
-    //                             color: primaryTextColor,
+    //                             color: primaryTextColor_(context),
     //                             fontWeight: FontWeight.w500,
     //                             fontSize: 15,
     //                           ),

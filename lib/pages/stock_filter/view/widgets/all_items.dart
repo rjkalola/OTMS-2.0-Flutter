@@ -27,8 +27,8 @@ class AllItems extends StatelessWidget {
                         child: Text(
                             softWrap: true,
                             'all'.tr,
-                            style: const TextStyle(
-                              color: primaryTextColor,
+                            style:  TextStyle(
+                              color: primaryTextColor_(context),
                               fontWeight: FontWeight.w500,
                               fontSize: 15,
                             )),

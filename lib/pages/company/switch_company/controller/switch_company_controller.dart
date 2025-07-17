@@ -4,9 +4,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/pages/common/listener/DialogButtonClickListener.dart';
+import 'package:otm_inventory/pages/common/listener/menu_item_listener.dart';
+import 'package:otm_inventory/pages/common/menu_items_list_bottom_dialog.dart';
 import 'package:otm_inventory/pages/company/company_list/model/company_list_response.dart';
 import 'package:otm_inventory/pages/company/company_signup/model/company_info.dart';
 import 'package:otm_inventory/pages/company/switch_company/controller/switch_company_repository.dart';
+import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/AlertDialogHelper.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_storage.dart';
@@ -15,10 +18,11 @@ import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:otm_inventory/utils/user_utils.dart';
 import 'package:otm_inventory/web_services/api_constants.dart';
 import 'package:otm_inventory/web_services/response/base_response.dart';
+import 'package:otm_inventory/web_services/response/module_info.dart';
 import 'package:otm_inventory/web_services/response/response_model.dart';
 
 class SwitchCompanyController extends GetxController
-    implements DialogButtonClickListener {
+    implements DialogButtonClickListener, MenuItemListener {
   final _api = SwitchCompanyRepository();
   final formKey = GlobalKey<FormState>();
   RxBool isLoading = false.obs,
@@ -150,6 +154,32 @@ class SwitchCompanyController extends GetxController
     if (dialogIdentifier == AppConstants.dialogIdentifier.joinCompany) {
       Get.back();
       switchCompanyApi();
+    }
+  }
+
+  void showMenuItemsDialog(BuildContext context) {
+    List<ModuleInfo> listItems = [];
+    listItems.add(ModuleInfo(
+        name: 'add_or_join'.tr, action: AppConstants.action.addOrJoin));
+    showCupertinoModalPopup(
+      context: context,
+      builder: (_) =>
+          MenuItemsListBottomDialog(list: listItems, listener: this),
+    );
+  }
+
+  @override
+  Future<void> onSelectMenuItem(ModuleInfo info, String dialogType) async {
+    if (info.action == AppConstants.action.addOrJoin) {
+      moveToScreen(AppRoutes.joinCompanyScreen, null);
+    }
+  }
+
+  Future<void> moveToScreen(String rout, dynamic arguments) async {
+    var result = await Get.toNamed(rout, arguments: arguments);
+    if (result != null && result) {
+      isDataUpdated.value = true;
+      getSwitchCompanyListApi();
     }
   }
 }

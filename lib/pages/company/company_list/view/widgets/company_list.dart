@@ -58,7 +58,7 @@ class CompanyList extends StatelessWidget {
                                   PrimaryTextView(
                                     text: info.name ?? "",
                                     fontSize: 17,
-                                    color: primaryTextColor,
+                                    color: primaryTextColor_(context),
                                     fontWeight: FontWeight.w600,
                                   ),
                                   Visibility(

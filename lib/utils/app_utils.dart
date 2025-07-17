@@ -240,7 +240,7 @@ class AppUtils {
   }
 
   static Color getStatusColor(int status) {
-    Color color = primaryTextColor;
+    Color color = primaryTextColor_(Get.context!);
     if (status == AppConstants.status.approved) {
       color = Colors.green;
     } else if (status == AppConstants.status.rejected) {

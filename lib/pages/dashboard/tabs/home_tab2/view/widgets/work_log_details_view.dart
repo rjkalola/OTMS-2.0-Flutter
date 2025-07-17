@@ -35,7 +35,7 @@ class WorkLogDetailsView extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        color: secondaryLightTextColor,
+                        color: secondaryLightTextColor_(context),
                         fontWeight: FontWeight.w500,
                         fontSize: 14,
                       )),
@@ -46,7 +46,7 @@ class WorkLogDetailsView extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        color: primaryTextColor,
+                        color: primaryTextColor_(context),
                         fontWeight: FontWeight.w600,
                         fontSize: 24,
                       )),
@@ -58,7 +58,7 @@ class WorkLogDetailsView extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        color: secondaryLightTextColor,
+                        color: secondaryLightTextColor_(context),
                         fontWeight: FontWeight.w500,
                         fontSize: 15,
                       )),

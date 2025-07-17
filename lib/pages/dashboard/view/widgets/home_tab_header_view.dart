@@ -19,8 +19,8 @@ class HomeTabHeaderView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 4),
             child: Text("Welcome, $userName",
-                style: const TextStyle(
-                  color: primaryTextColor,
+                style:  TextStyle(
+                  color: primaryTextColor_(context),
                   fontWeight: FontWeight.w500,
                   fontSize: 18,
                 )),

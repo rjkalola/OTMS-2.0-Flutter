@@ -35,6 +35,7 @@ class _SwitchCompanyScreenState extends State<SwitchCompanyScreen> {
             isCenterTitle: false,
             isBack: true,
             bgColor: dashBoardBgColor_(context),
+            widgets: actionButtons(),
           ),
           body: Obx(() {
             return ModalProgressHUD(
@@ -58,5 +59,19 @@ class _SwitchCompanyScreenState extends State<SwitchCompanyScreen> {
         ),
       ),
     );
+  }
+
+  List<Widget>? actionButtons() {
+    return [
+      Visibility(
+        visible: true,
+        child: IconButton(
+          icon: Icon(Icons.more_vert_outlined),
+          onPressed: () {
+            controller.showMenuItemsDialog(Get.context!);
+          },
+        ),
+      ),
+    ];
   }
 }

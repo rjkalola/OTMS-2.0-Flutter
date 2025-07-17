@@ -69,10 +69,10 @@ class GenerateOtpView extends StatelessWidget {
                     cursor: Cursor(
                         color: defaultAccentColor, enabled: true, width: 1),
                     decoration: BoxLooseDecoration(
-                      textStyle: const TextStyle(
+                      textStyle:  TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
-                          color: primaryTextColor),
+                          color: primaryTextColor_(context)),
                       strokeColorBuilder: PinListenColorBuilder(
                           Color(0xffc6c6c6), Color(0xffc6c6c6)),
                     ),
@@ -95,7 +95,7 @@ class GenerateOtpView extends StatelessWidget {
                 text:
                     "${'resend_code_in'.tr} ${DateUtil.seconds_To_MM_SS(timeRemaining!.value)}",
                 fontSize: 16,
-                color: primaryTextColor,
+                color: primaryTextColor_(context),
                 fontWeight: FontWeight.w400,
                 textAlign: TextAlign.center,
               ),
@@ -122,7 +122,7 @@ class GenerateOtpView extends StatelessWidget {
                       PrimaryTextView(
                         text: 'copy_code'.tr,
                         fontSize: 15,
-                        color: primaryTextColor,
+                        color: primaryTextColor_(context),
                       )
                     ],
                   ),
@@ -135,9 +135,9 @@ class GenerateOtpView extends StatelessWidget {
                   textAlign: TextAlign.center,
                   text: TextSpan(
                     text: "${'generate_password'.tr}, ",
-                    style: const TextStyle(
+                    style:  TextStyle(
                         fontSize: 16,
-                        color: secondaryTextColor,
+                        color: secondaryTextColor_(context),
                         fontWeight: FontWeight.w400),
                     children: <TextSpan>[
                       TextSpan(
@@ -150,7 +150,7 @@ class GenerateOtpView extends StatelessWidget {
                               fontSize: 16,
                               color: timeRemaining?.value == 0
                                   ? defaultAccentColor
-                                  : secondaryTextColor,
+                                  : secondaryTextColor_(context),
                               fontWeight: FontWeight.w500)),
                     ],
                   )),

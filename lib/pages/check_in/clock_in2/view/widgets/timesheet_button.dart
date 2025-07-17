@@ -39,7 +39,7 @@ class TimesheetButton extends StatelessWidget {
                     path: imageAssetsPath,
                     width: imageWidth,
                     height: imageHeight,
-                    color: primaryTextColor),
+                    color: primaryTextColor_(context)),
               ),
             ),
             SizedBox(
@@ -49,7 +49,7 @@ class TimesheetButton extends StatelessWidget {
               text: title,
               fontSize: 13,
               fontWeight: FontWeight.w400,
-              color: primaryTextColor,
+              color: primaryTextColor_(context),
             )
           ],
         ),

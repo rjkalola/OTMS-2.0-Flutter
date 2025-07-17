@@ -121,7 +121,7 @@ class MenuItemsListBottomDialogState extends State<MenuItemsListBottomDialog> {
                   padding: const EdgeInsets.fromLTRB(16, 6, 16, 6),
                   child: PrimaryTextView(
                     text: tempList[i].name ?? "",
-                    color: primaryTextColor,
+                    color: primaryTextColor_(context),
                     fontWeight: FontWeight.w500,
                     fontSize: 17,
                     softWrap: true,

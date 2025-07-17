@@ -103,10 +103,10 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                                     enabled: true,
                                     width: 1),
                                 decoration: CirclePinDecoration(
-                                    textStyle: const TextStyle(
+                                    textStyle:  TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w500,
-                                        color: primaryTextColor),
+                                        color: primaryTextColor_(context)),
                                     strokeColorBuilder: PinListenColorBuilder(
                                         Color(0xffc6c6c6), Color(0xffc6c6c6))),
                                 onCodeChanged: (code) {

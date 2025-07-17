@@ -37,12 +37,12 @@ class BuildDarkModeItemWidget extends StatelessWidget {
                 color: Colors.black,
                 size: 32,
               ),
-              title: const Text(
+              title:  Text(
                 'Dark mode',
                 style: TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 18,
-                    color: primaryTextColor),
+                    color: primaryTextColor_(context)),
               ),
               trailing: CustomSwitch(
                 onValueChange: (value) {

@@ -49,7 +49,7 @@ class StartShiftBox extends StatelessWidget {
               text: title,
               fontSize: 15,
               fontWeight: FontWeight.w400,
-              color: primaryTextColor,
+              color: primaryTextColor_(context),
             ),
           ),
           InkWell(
@@ -62,7 +62,7 @@ class StartShiftBox extends StatelessWidget {
                 children: [
                   PrimaryTextView(
                     text: time,
-                    color: primaryTextColor,
+                    color: primaryTextColor_(context),
                     fontSize: 20,
                     fontWeight: FontWeight.w600,
                   ),

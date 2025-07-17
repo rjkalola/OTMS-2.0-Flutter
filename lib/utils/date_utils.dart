@@ -211,7 +211,7 @@ class DateUtil {
               headerStyle: DateRangePickerHeaderStyle(
                 backgroundColor: backgroundColor, // Header background
                 textStyle: TextStyle(
-                  color: primaryTextColor, // Center date text
+                  color: primaryTextColor_(context), // Center date text
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
                 ),
@@ -273,7 +273,7 @@ class DateUtil {
                       padding: EdgeInsets.symmetric(horizontal: 16),
                       child: TitleTextView(
                         text: "Cancel",
-                        color: secondaryTextColor,
+                        color: secondaryTextColor_(Get.context!),
                       ),
                       onPressed: () => Get.back(),
                     ),
@@ -345,7 +345,7 @@ class DateUtil {
                       padding: EdgeInsets.symmetric(horizontal: 16),
                       child: TitleTextView(
                         text: "Cancel",
-                        color: secondaryTextColor,
+                        color: secondaryTextColor_(Get.context!),
                       ),
                       onPressed: () => Get.back(),
                     ),

@@ -25,7 +25,7 @@ class UserScoreView extends StatelessWidget {
             children: [
               PrimaryTextView(
                 text: 'your_weekly_score_is'.tr,
-                color: primaryTextColor,
+                color: primaryTextColor_(context),
                 fontSize: 17,
                 fontWeight: FontWeight.w400,
               ),

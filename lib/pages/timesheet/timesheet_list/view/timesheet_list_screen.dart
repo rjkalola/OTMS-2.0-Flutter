@@ -107,12 +107,12 @@ class _TimeSheetListScreenState extends State<TimeSheetListScreen>
               AppConstants.dialogIdentifier.selectDayFilter);
         },
         child: Padding(
-          padding: const EdgeInsets.all(2),
+          padding:  EdgeInsets.all(2),
           child: ImageUtils.setSvgAssetsImage(
               path: Drawable.filterIcon,
               width: 26,
               height: 26,
-              color: primaryTextColor),
+              color: primaryTextColor_(context)),
         ),
       ),
       IconButton(

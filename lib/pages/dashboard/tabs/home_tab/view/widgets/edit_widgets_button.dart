@@ -52,7 +52,7 @@ class EditWidgetsButton extends StatelessWidget {
                 fontWeight: FontWeight.w400,
                 fontSize: 15,
                 textAlign: TextAlign.center,
-                color: primaryTextColorLight,
+                color: primaryTextColorLight_(context),
                 softWrap: true,
                 maxLine: 2,
               ),

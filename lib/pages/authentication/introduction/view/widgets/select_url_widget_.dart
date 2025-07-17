@@ -15,8 +15,8 @@ class SelectUrl extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text("Live",
-              style: const TextStyle(
-                color: primaryTextColor,
+              style:  TextStyle(
+                color: primaryTextColor_(context),
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
               )),

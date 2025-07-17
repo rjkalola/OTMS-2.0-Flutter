@@ -11,7 +11,7 @@ class PreferredImageSizeView extends StatelessWidget {
       child: Align(
           alignment: Alignment.center,
           child: Text('Preferred image size: 600px X 250px.',
-              style: TextStyle(fontSize: 13, color: secondaryTextColor))),
+              style: TextStyle(fontSize: 13, color: secondaryTextColor_(context)))),
     );
   }
 }
