@@ -27,7 +27,7 @@ class DisplayNoteWidget extends StatelessWidget {
       () => Visibility(
         visible: !StringHelper.isEmptyString(note),
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 18, 16, 0),
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 18),
           child: TextFieldBorder(
             textEditingController: TextEditingController(text: note),
             hintText: getHintText(status.value),

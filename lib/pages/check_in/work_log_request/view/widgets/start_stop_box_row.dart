@@ -15,7 +15,7 @@ class StartStopBoxRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => Padding(
-        padding: const EdgeInsets.fromLTRB(12, 0, 12, 10),
+        padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
         child: Row(
           children: [
             StartShiftBox(

@@ -48,7 +48,8 @@ class CompanySignUpController extends GetxController
       isInternetNotAvailable = false.obs,
       isOtpViewVisible = false.obs;
   final List<ModuleInfo> listCurrency = <ModuleInfo>[].obs;
-  final fromSignUp = false.obs, isInitialResumeCall = false.obs;
+  final fromSignUp = false.obs,
+      isInitialResumeCall = false.obs;
   final mCompanyLogo = "".obs;
   final currencyId = 0.obs;
   bool locationLoaded = false;
@@ -65,7 +66,7 @@ class CompanySignUpController extends GetxController
     var arguments = Get.arguments;
     if (arguments != null) {
       fromSignUp.value =
-          arguments[AppConstants.intentKey.fromSignUpScreen] ?? "";
+          arguments[AppConstants.intentKey.fromSignUpScreen] ?? false;
     }
     /*var userInfo = AppStorage().getUserInfo();
     mExtensionId.value = userInfo.phoneExtensionId ?? 0;
@@ -90,7 +91,10 @@ class CompanySignUpController extends GetxController
 
   void companyRegistration() async {
     Map<String, dynamic> map = {};
-    map["created_by"] = Get.find<AppStorage>().getUserInfo().id;
+    map["created_by"] = Get
+        .find<AppStorage>()
+        .getUserInfo()
+        .id;
     map["name"] = StringHelper.getText(companyNameController.value);
     map["email"] = StringHelper.getText(companyEmailController.value);
     map["phone"] = StringHelper.getText(phoneController.value);
@@ -132,14 +136,18 @@ class CompanySignUpController extends GetxController
           Get.offAllNamed(AppRoutes.teamUsersCountInfoScreen);*/
 
           UserResponse response =
-              UserResponse.fromJson(jsonDecode(responseModel.result!));
+          UserResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.message ?? "");
           int companyId = response.info?.companyId ?? 0;
           Get.find<AppStorage>().setUserInfo(response.info!);
           Get.find<AppStorage>().setCompanyId(companyId);
           ApiConstants.companyId = companyId;
           AppUtils.saveLoginUser(response.info!);
-          moveToDashboard();
+          if (fromSignUp.value) {
+            Get.offAllNamed(AppRoutes.teamUsersCountInfoScreen);
+          } else {
+            moveToDashboard();
+          }
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
@@ -236,8 +244,8 @@ class CompanySignUpController extends GetxController
   }
 
   @override
-  void onSelectPhoneExtension(
-      int id, String extension, String flag, String country) {
+  void onSelectPhoneExtension(int id, String extension, String flag,
+      String country) {
     mFlag.value = flag;
     mExtension.value = extension;
     mExtensionId.value = id;

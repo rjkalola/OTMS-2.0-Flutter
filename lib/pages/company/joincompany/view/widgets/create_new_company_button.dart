@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:otm_inventory/pages/company/joincompany/controller/join_company_controller.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
+import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/widgets/PrimaryBorderButton.dart';
 import 'package:otm_inventory/widgets/PrimaryButton.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
@@ -22,7 +23,9 @@ class CreateNewCompanyButton extends StatelessWidget {
             buttonText: 'create_new_company'.tr,
             onPressed: () {
               if (!controller.isSelectTradeVisible.value) {
-                Get.toNamed(AppRoutes.companySignUpScreen);
+                var arguments = {AppConstants.intentKey.fromSignUpScreen: true};
+                Get.toNamed(AppRoutes.companySignUpScreen,
+                    arguments: arguments);
               }
               // controller.moveToCompanySignUp();
             }),
