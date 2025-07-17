@@ -85,15 +85,15 @@ class TextFieldBorder extends StatelessWidget {
         contentPadding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
         floatingLabelBehavior: FloatingLabelBehavior.auto,
         border: OutlineInputBorder(
-          borderSide: BorderSide(color: focusedTextFieldBorderColor, width: 1),
+          borderSide: BorderSide(color: focusedTextFieldBorderColor_(context), width: 1),
           borderRadius: BorderRadius.circular(borderRadius ?? 45.0),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: focusedTextFieldBorderColor, width: 1),
+          borderSide: BorderSide(color: focusedTextFieldBorderColor_(context), width: 1),
           borderRadius: BorderRadius.circular(borderRadius ?? 45.0),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: normalTextFieldBorderColor, width: 1),
+          borderSide: BorderSide(color: normalTextFieldBorderColor_(context), width: 1),
           borderRadius: BorderRadius.circular(borderRadius ?? 45.0),
         ),
         hintText: hintText,

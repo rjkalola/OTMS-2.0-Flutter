@@ -6,6 +6,7 @@ import 'package:otm_inventory/pages/check_in/start_shift_map/controller/start_sh
 import 'package:otm_inventory/pages/check_in/start_shift_map/view/widgets/start_shift_button.dart';
 import 'package:otm_inventory/pages/check_in/start_shift_map/view/widgets/start_shift_map_view.dart';
 import 'package:otm_inventory/res/colors.dart';
+import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/PrimaryButton.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
@@ -23,19 +24,17 @@ class _StartShiftMapScreenState extends State<StartShiftMapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarColor: dashBoardBgColor,
-        statusBarIconBrightness: Brightness.dark));
+    AppUtils.setStatusBarColor();
     return Container(
-      color: dashBoardBgColor,
+      color: dashBoardBgColor_(context),
       child: SafeArea(
         child: Scaffold(
-          backgroundColor: dashBoardBgColor,
+          backgroundColor: dashBoardBgColor_(context),
           /* appBar: BaseAppBar(
             appBar: AppBar(),
             title: 'shift'.tr,
             isCenterTitle: false,
-            bgColor: dashBoardBgColor,
+            bgColor: dashBoardBgColor_(context),
             isBack: true,
           ),*/
           body: Obx(() {

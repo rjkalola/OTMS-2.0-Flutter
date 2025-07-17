@@ -5,6 +5,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:otm_inventory/pages/teams/join_team_to_company/view/widgets/otp_view_join_company.dart';
 import 'package:otm_inventory/pages/teams/join_team_to_company/controller/join_team_to_company_controller.dart';
 import 'package:otm_inventory/res/colors.dart';
+import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
 import 'package:otm_inventory/widgets/custom_views/no_internet_widgets.dart';
@@ -22,20 +23,18 @@ class _JoinTeamToCompanyScreenState extends State<JoinTeamToCompanyScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarColor: dashBoardBgColor,
-        statusBarIconBrightness: Brightness.dark));
+      AppUtils.setStatusBarColor();
     return Container(
-      color: dashBoardBgColor,
+      color: dashBoardBgColor_(context),
       child: SafeArea(
         child: Scaffold(
-          backgroundColor: dashBoardBgColor,
+          backgroundColor: dashBoardBgColor_(context),
           appBar: BaseAppBar(
             appBar: AppBar(),
             title: 'join_a_company'.tr,
             isCenterTitle: false,
             isBack: true,
-            bgColor: dashBoardBgColor,
+            bgColor: dashBoardBgColor_(context),
           ),
           body: Obx(() {
             return ModalProgressHUD(

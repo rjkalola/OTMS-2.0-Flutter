@@ -6,6 +6,7 @@ import 'package:otm_inventory/pages/check_in/select_shift/controller/select_shif
 import 'package:otm_inventory/pages/check_in/select_shift/view/widgets/search_shift.dart';
 import 'package:otm_inventory/pages/check_in/select_shift/view/widgets/shifts_list.dart';
 import 'package:otm_inventory/res/colors.dart';
+import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/map_view/custom_map_view.dart';
 import 'package:otm_inventory/widgets/other_widgets/selection_screen_header_view.dart';
@@ -23,14 +24,12 @@ class _SelectShiftScreenState extends State<SelectShiftScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarColor: dashBoardBgColor,
-        statusBarIconBrightness: Brightness.dark));
+    AppUtils.setStatusBarColor();
     return Container(
-      color: dashBoardBgColor,
+      color: dashBoardBgColor_(context),
       child: SafeArea(
           child: Scaffold(
-        backgroundColor: dashBoardBgColor,
+        backgroundColor: dashBoardBgColor_(context),
         body: Obx(
           () => ModalProgressHUD(
             inAsyncCall: controller.isLoading.value,

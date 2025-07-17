@@ -19,14 +19,14 @@ class FilterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final isTablet = MediaQuery.of(context).size.width > 600;
     return Obx(() => Container(
-        color: dashBoardBgColor,
+        color: dashBoardBgColor_(context),
         child: SafeArea(
             child: Scaffold(
               appBar: BaseAppBar(
                 appBar: AppBar(),
                 title: "Filter",
                 isCenterTitle: false,
-                bgColor: dashBoardBgColor,
+                bgColor: dashBoardBgColor_(context),
                 isBack: true,
                 widgets: [
                   TextButton(
@@ -34,7 +34,7 @@ class FilterScreen extends StatelessWidget {
                   child: Text("Clear All", style: TextStyle(color: Colors.red,fontSize: 15,fontWeight: FontWeight.w500)),
                 ),],
               ),
-              backgroundColor: dashBoardBgColor,
+              backgroundColor: dashBoardBgColor_(context),
               body: ModalProgressHUD(
                 inAsyncCall: controller.isLoading.value,
                 opacity: 0,
@@ -130,7 +130,7 @@ class FilterScreen extends StatelessWidget {
                 ),
               ),
               bottomNavigationBar: BottomAppBar(
-                color: dashBoardBgColor,
+                color: dashBoardBgColor_(context),
                 elevation: 10,
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),

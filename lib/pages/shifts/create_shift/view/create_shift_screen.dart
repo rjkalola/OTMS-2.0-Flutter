@@ -22,6 +22,7 @@ import 'package:otm_inventory/pages/teams/team_list/view/widgets/search_team.dar
 import 'package:otm_inventory/pages/teams/team_list/view/widgets/teams_list.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/res/drawable.dart';
+import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/PrimaryButton.dart';
@@ -45,21 +46,19 @@ class _CreateShiftScreenState extends State<CreateShiftScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarColor: dashBoardBgColor,
-        statusBarIconBrightness: Brightness.dark));
+      AppUtils.setStatusBarColor();
     return Obx(
       () => Container(
-        color: dashBoardBgColor,
+        color: dashBoardBgColor_(context),
         child: SafeArea(
           child: Scaffold(
-            backgroundColor: dashBoardBgColor,
+            backgroundColor: dashBoardBgColor_(context),
             appBar: BaseAppBar(
               appBar: AppBar(),
               title: controller.title.value,
               isCenterTitle: false,
               isBack: true,
-              bgColor: dashBoardBgColor,
+              bgColor: dashBoardBgColor_(context),
               widgets: actionButtons(),
             ),
             body: ModalProgressHUD(

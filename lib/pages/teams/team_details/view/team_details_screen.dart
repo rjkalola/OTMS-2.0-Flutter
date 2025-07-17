@@ -33,16 +33,16 @@ class _TeamDetailsScreenState extends State<TeamDetailsScreen> {
       },
       child: Obx(
         () => Container(
-          color: dashBoardBgColor,
+          color: dashBoardBgColor_(context),
           child: SafeArea(
             child: Scaffold(
-              backgroundColor: dashBoardBgColor,
+              backgroundColor: dashBoardBgColor_(context),
               appBar: BaseAppBar(
                 appBar: AppBar(),
                 title: controller.teamInfo.value.name ?? "",
                 isCenterTitle: false,
                 isBack: true,
-                bgColor: dashBoardBgColor,
+                bgColor: dashBoardBgColor_(context),
                 widgets: actionButtons(),
                 onBackPressed: () {
                   controller.onBackPress();

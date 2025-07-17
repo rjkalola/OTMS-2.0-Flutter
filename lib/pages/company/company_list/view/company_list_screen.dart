@@ -6,6 +6,7 @@ import 'package:otm_inventory/pages/company/company_list/controller/company_list
 import 'package:otm_inventory/pages/company/company_list/view/widgets/company_list.dart';
 import 'package:otm_inventory/pages/company/company_list/view/widgets/search_company.dart';
 import 'package:otm_inventory/res/colors.dart';
+import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
 import 'package:otm_inventory/widgets/custom_views/no_internet_widgets.dart';
@@ -22,20 +23,18 @@ class _CompanyListScreenState extends State<CompanyListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarColor: dashBoardBgColor,
-        statusBarIconBrightness: Brightness.dark));
+      AppUtils.setStatusBarColor();
     return Container(
-      color: dashBoardBgColor,
+      color: dashBoardBgColor_(context),
       child: SafeArea(
         child: Scaffold(
-          backgroundColor: dashBoardBgColor,
+          backgroundColor: dashBoardBgColor_(context),
           appBar: BaseAppBar(
             appBar: AppBar(),
             title: 'companies'.tr,
             isCenterTitle: false,
             isBack: true,
-            bgColor: dashBoardBgColor,
+            bgColor: dashBoardBgColor_(context),
             widgets: actionButtons(),
           ),
           body: Obx(() {

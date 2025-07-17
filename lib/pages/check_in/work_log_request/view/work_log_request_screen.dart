@@ -29,9 +29,7 @@ class _WorkLogRequestScreenState extends State<WorkLogRequestScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarColor: dashBoardBgColor,
-        statusBarIconBrightness: Brightness.dark));
+      AppUtils.setStatusBarColor();
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) async {
@@ -39,16 +37,16 @@ class _WorkLogRequestScreenState extends State<WorkLogRequestScreen> {
         controller.onBackPress();
       },
       child: Container(
-        color: dashBoardBgColor,
+        color: dashBoardBgColor_(context),
         child: SafeArea(
             child: Scaffold(
-          backgroundColor: dashBoardBgColor,
+          backgroundColor: dashBoardBgColor_(context),
           /* appBar: BaseAppBar(
             appBar: AppBar(),
             title:
                 controller.isWorking.value ? 'my_shift'.tr : 'edit_my_shift'.tr,
             isCenterTitle: false,
-            bgColor: dashBoardBgColor,
+            bgColor: dashBoardBgColor_(context),
             isBack: true,
           ),*/
           body: Obx(

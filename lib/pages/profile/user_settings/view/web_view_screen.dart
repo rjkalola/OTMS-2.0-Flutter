@@ -47,7 +47,7 @@ class _MyWebViewScreenState extends State<MyWebViewScreen> {
         appBar: AppBar(),
         title: widget.pageTitle ?? "",
         isCenterTitle: false,
-        bgColor: dashBoardBgColor,
+        bgColor: dashBoardBgColor_(context),
         isBack: true,
       ),
       body: Stack(

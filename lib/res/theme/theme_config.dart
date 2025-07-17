@@ -21,7 +21,7 @@ class ThemeConfig {
     // ),
     extensions: <ThemeExtension<dynamic>>[
       const AppThemeExtension(
-        dashboardBgColor: AppColors.dashBoardBgColor, // light version
+        dashBoardBgColor: AppColors.dashBoardBgColor, // light version
         primaryTextColor: AppColors.primaryTextColor,
         primaryTextColorLight: AppColors.primaryTextColorLight,
         secondaryTextColor: AppColors.secondaryTextColor,
@@ -70,7 +70,7 @@ class ThemeConfig {
     // ),
     extensions: <ThemeExtension<dynamic>>[
       const AppThemeExtension(
-        dashboardBgColor: AppColors.dashBoardBgColorDark, // light version
+        dashBoardBgColor: AppColors.dashBoardBgColorDark, // light version
         primaryTextColor: AppColors.primaryTextColorDark,
         primaryTextColorLight: AppColors.primaryTextColorLightDark,
         secondaryTextColor: AppColors.secondaryTextColorDark,
@@ -84,7 +84,7 @@ class ThemeConfig {
         titleBgColor: AppColors.titleBgColorDark,
         snackBarColor: AppColors.snackBarColorDark,
         dividerColor: AppColors.dividerColorDark,
-        bottomTabbackgroundColor: AppColors.bottomTabbackgroundColorDark,
+        bottomTabbackgroundColor: AppColors.bottomTabBackgroundColorDark,
         hintColor: AppColors.hintColorDark,
         normalTextFieldBorderColor: AppColors.normalTextFieldBorderColorDark,
         focusedTextFieldBorderColor: AppColors.focusedTextFieldBorderColorDark,

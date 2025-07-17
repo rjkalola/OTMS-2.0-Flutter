@@ -55,7 +55,7 @@ class _HomeTabState extends State<HomeTab> {
   Widget build(BuildContext context) {
     return Obx(
       () => Scaffold(
-        backgroundColor: dashBoardTabBgColor,
+        backgroundColor: dashBoardTabBgColor_(context),
         // backgroundColor: const Color(0xfff4f5f7),
         body: Visibility(
           visible: controller.isMainViewVisible.value,

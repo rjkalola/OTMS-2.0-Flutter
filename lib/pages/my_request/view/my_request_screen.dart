@@ -27,16 +27,16 @@ class _MyRequestScreenState extends State<MyRequestScreen> {
         statusBarColor: Colors.white,
         statusBarIconBrightness: Brightness.dark));
     return Container(
-      color: dashBoardBgColor,
+      color: dashBoardBgColor_(context),
       child: SafeArea(
         child: Scaffold(
-          backgroundColor: dashBoardBgColor,
+          backgroundColor: dashBoardBgColor_(context),
           appBar: BaseAppBar(
             appBar: AppBar(),
             title: 'my_requests'.tr,
             isCenterTitle: false,
             isBack: true,
-            bgColor: dashBoardBgColor,
+            bgColor: dashBoardBgColor_(context),
           ),
           body: Obx(() {
             return ModalProgressHUD(

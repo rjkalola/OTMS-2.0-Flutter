@@ -6,6 +6,7 @@ import 'package:otm_inventory/pages/shifts/archive_shift_list/controller/archive
 import 'package:otm_inventory/pages/shifts/archive_shift_list/view/widgets/search_archive_shift.dart';
 import 'package:otm_inventory/pages/shifts/archive_shift_list/view/widgets/archive_shifts_list.dart';
 import 'package:otm_inventory/res/colors.dart';
+import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
 import 'package:otm_inventory/widgets/custom_views/no_internet_widgets.dart';
@@ -22,9 +23,7 @@ class _ArchiveShiftListScreenState extends State<ArchiveShiftListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarColor: dashBoardBgColor,
-        statusBarIconBrightness: Brightness.dark));
+      AppUtils.setStatusBarColor();
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) async {
@@ -32,10 +31,10 @@ class _ArchiveShiftListScreenState extends State<ArchiveShiftListScreen> {
         controller.onBackPress();
       },
       child: Container(
-        color: dashBoardBgColor,
+        color: dashBoardBgColor_(context),
         child: SafeArea(
           child: Scaffold(
-            backgroundColor: dashBoardBgColor,
+            backgroundColor: dashBoardBgColor_(context),
             appBar: BaseAppBar(
               appBar: AppBar(),
               title: 'archived_shifts'.tr,
@@ -44,7 +43,7 @@ class _ArchiveShiftListScreenState extends State<ArchiveShiftListScreen> {
               onBackPressed: () {
                 controller.onBackPress();
               },
-              bgColor: dashBoardBgColor,
+              bgColor: dashBoardBgColor_(context),
             ),
             body: Obx(() {
               return ModalProgressHUD(

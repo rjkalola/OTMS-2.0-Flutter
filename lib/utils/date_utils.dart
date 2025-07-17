@@ -332,7 +332,7 @@ class DateUtil {
         context: Get.context!,
         builder: (_) => Container(
           height: 300,
-          color: dashBoardBgColor,
+          color: dashBoardBgColor_(Get.context!),
           child: Column(
             children: [
               // Toolbar

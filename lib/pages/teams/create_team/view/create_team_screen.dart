@@ -34,16 +34,16 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
         statusBarIconBrightness: Brightness.dark));
     return Obx(
       () => Container(
-        color: dashBoardBgColor,
+        color: dashBoardBgColor_(context),
         child: SafeArea(
           child: Scaffold(
-            backgroundColor: dashBoardBgColor,
+            backgroundColor: dashBoardBgColor_(context),
             appBar: BaseAppBar(
               appBar: AppBar(),
               title: 'create_new_team'.tr,
               isCenterTitle: false,
               isBack: true,
-              bgColor: dashBoardBgColor,
+              bgColor: dashBoardBgColor_(context),
             ),
             body: ModalProgressHUD(
                 inAsyncCall: controller.isLoading.value,

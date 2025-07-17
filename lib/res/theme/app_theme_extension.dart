@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 @immutable
 class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
-  final Color dashboardBgColor,
+  final Color dashBoardBgColor,
       primaryTextColor,
       primaryTextColorLight,
       secondaryTextColor,
@@ -34,7 +34,7 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
       shadowColor;
 
   const AppThemeExtension(
-      {required this.dashboardBgColor,
+      {required this.dashBoardBgColor,
       required this.primaryTextColor,
       required this.primaryTextColorLight,
       required this.secondaryTextColor,
@@ -68,7 +68,7 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
   @override
   AppThemeExtension copyWith({Color? dashboardBg}) {
     return AppThemeExtension(
-        dashboardBgColor: dashboardBgColor,
+        dashBoardBgColor: dashBoardBgColor,
         primaryTextColor: primaryTextColor,
         primaryTextColorLight: primaryTextColorLight,
         secondaryTextColor: secondaryTextColor,
@@ -106,8 +106,8 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
       return this;
     }
     return AppThemeExtension(
-      dashboardBgColor:
-          Color.lerp(dashboardBgColor, other.dashboardBgColor, t)!,
+      dashBoardBgColor:
+          Color.lerp(dashBoardBgColor, other.dashBoardBgColor, t)!,
       primaryTextColor:
           Color.lerp(primaryTextColor, other.primaryTextColor, t)!,
       primaryTextColorLight:

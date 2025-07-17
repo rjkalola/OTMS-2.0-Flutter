@@ -11,6 +11,7 @@ import 'package:otm_inventory/pages/check_in/stop_shift/view/widgets/stop_shift_
 import 'package:otm_inventory/pages/check_in/stop_shift/view/widgets/submit_for_approval_button.dart';
 import 'package:otm_inventory/pages/check_in/stop_shift/view/widgets/total_hours_row.dart';
 import 'package:otm_inventory/res/colors.dart';
+import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/map_view/custom_map_view.dart';
 import 'package:otm_inventory/widgets/other_widgets/selection_screen_header_view.dart';
@@ -27,9 +28,7 @@ class _StopShiftScreenState extends State<StopShiftScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarColor: dashBoardBgColor,
-        statusBarIconBrightness: Brightness.dark));
+      AppUtils.setStatusBarColor();
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) async {
@@ -37,16 +36,16 @@ class _StopShiftScreenState extends State<StopShiftScreen> {
         controller.onBackPress();
       },
       child: Container(
-        color: dashBoardBgColor,
+        color: dashBoardBgColor_(context),
         child: SafeArea(
             child: Scaffold(
-          backgroundColor: dashBoardBgColor,
+          backgroundColor: dashBoardBgColor_(context),
           /* appBar: BaseAppBar(
             appBar: AppBar(),
             title:
                 controller.isWorking.value ? 'my_shift'.tr : 'edit_my_shift'.tr,
             isCenterTitle: false,
-            bgColor: dashBoardBgColor,
+            bgColor: dashBoardBgColor_(context),
             isBack: true,
           ),*/
           body: Obx(

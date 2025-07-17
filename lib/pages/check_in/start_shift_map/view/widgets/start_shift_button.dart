@@ -39,7 +39,7 @@ class StartShiftButton extends StatelessWidget {
             : Container(
                 width: double.infinity,
                 padding: EdgeInsets.all(9),
-                color: dashBoardBgColor,
+                color: dashBoardBgColor_(context),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

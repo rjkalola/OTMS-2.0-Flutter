@@ -13,6 +13,7 @@ import 'package:otm_inventory/pages/my_requests/view/widgets/request_type_label_
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/res/drawable.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
+import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
@@ -27,23 +28,21 @@ class MyRequestsScreen extends StatelessWidget implements DateFilterListener {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarColor: dashBoardBgColor,
-        statusBarIconBrightness: Brightness.dark));
+      AppUtils.setStatusBarColor();
 
     return Obx(() => Container(
-        color: dashBoardBgColor,
+        color: dashBoardBgColor_(context),
         child: SafeArea(
             child: Scaffold(
           appBar: BaseAppBar(
             appBar: AppBar(),
             title: "My Requests",
             isCenterTitle: false,
-            bgColor: dashBoardBgColor,
+            bgColor: dashBoardBgColor_(context),
             isBack: true,
             widgets: actionButtons(),
           ),
-          backgroundColor: dashBoardBgColor,
+          backgroundColor: dashBoardBgColor_(context),
           body: ModalProgressHUD(
             inAsyncCall: controller.isLoading.value,
             opacity: 0,

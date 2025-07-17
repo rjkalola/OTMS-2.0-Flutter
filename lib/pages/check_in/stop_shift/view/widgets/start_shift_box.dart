@@ -40,16 +40,16 @@ class StartShiftBox extends StatelessWidget {
               bottom: 6,
             ),
             decoration: AppUtils.getGrayBorderDecoration(
-                color: backgroundColor,
+                color: backgroundColor_(context),
                 borderColor: Colors.grey.shade400,
-                boxShadow: [AppUtils.boxShadow(Colors.grey.shade300, 6)],
+                boxShadow: [AppUtils.boxShadow(shadowColor_(context), 6)],
                 radius: 45),
             child: PrimaryTextView(
               textAlign: TextAlign.center,
               text: title,
               fontSize: 15,
               fontWeight: FontWeight.w400,
-              color: primaryTextColor,
+              color: primaryTextColor_(context),
             ),
           ),
           InkWell(
@@ -62,7 +62,7 @@ class StartShiftBox extends StatelessWidget {
                 children: [
                   PrimaryTextView(
                     text: time,
-                    color: primaryTextColor,
+                    color: primaryTextColor_(context),
                     fontSize: 20,
                     fontWeight: FontWeight.w600,
                   ),

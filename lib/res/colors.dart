@@ -146,7 +146,7 @@ Color dashBoardTabBgColor_(BuildContext context) {
 }
 
 Color dashBoardBgColor_(BuildContext context) {
-  return Theme.of(context).extension<AppThemeExtension>()!.dashboardBgColor;
+  return Theme.of(context).extension<AppThemeExtension>()!.dashBoardBgColor;
 }
 
 Color dashBoardItemStrokeColor_(BuildContext context) {

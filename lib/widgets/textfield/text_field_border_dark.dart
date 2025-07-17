@@ -61,8 +61,10 @@ class TextFieldBorderDark extends StatelessWidget {
       focusNode: focusNode,
       onFieldSubmitted: onFieldSubmitted,
       onChanged: onValueChange,
-      style: const TextStyle(
-          fontWeight: FontWeight.w400, fontSize: 15, color: primaryTextColor),
+      style: TextStyle(
+          fontWeight: FontWeight.w400,
+          fontSize: 15,
+          color: primaryTextColor_(context)),
       controller: textEditingController,
       keyboardType: keyboardType,
       textInputAction: textInputAction,
@@ -81,18 +83,18 @@ class TextFieldBorderDark extends StatelessWidget {
         contentPadding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
         floatingLabelBehavior: FloatingLabelBehavior.auto,
         border: OutlineInputBorder(
-          borderSide:
-              BorderSide(color: normalTextFieldBorderDarkColor, width: 1),
+          borderSide: BorderSide(
+              color: normalTextFieldBorderDarkColor_(context), width: 1),
           borderRadius: BorderRadius.circular(borderRadius ?? 45.0),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide:
-              BorderSide(color: focusedTextFieldBorderDarkColor, width: 1.6),
+          borderSide: BorderSide(
+              color: focusedTextFieldBorderDarkColor_(context), width: 1.6),
           borderRadius: BorderRadius.circular(borderRadius ?? 45.0),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide:
-              BorderSide(color: normalTextFieldBorderDarkColor, width: 1),
+          borderSide: BorderSide(
+              color: normalTextFieldBorderDarkColor_(context), width: 1),
           borderRadius: BorderRadius.circular(borderRadius ?? 45.0),
         ),
         hintText: hintText,

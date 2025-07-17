@@ -28,16 +28,16 @@ class _ShiftListScreenState extends State<ShiftListScreen> {
         statusBarColor: Colors.white,
         statusBarIconBrightness: Brightness.dark));
     return Container(
-      color: dashBoardBgColor,
+      color: dashBoardBgColor_(context),
       child: SafeArea(
         child: Scaffold(
-          backgroundColor: dashBoardBgColor,
+          backgroundColor: dashBoardBgColor_(context),
           appBar: BaseAppBar(
             appBar: AppBar(),
             title: 'shift'.tr,
             isCenterTitle: false,
             isBack: true,
-            bgColor: dashBoardBgColor,
+            bgColor: dashBoardBgColor_(context),
             widgets: actionButtons(),
           ),
           body: Obx(() {

@@ -5,6 +5,7 @@ import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_utils.
 import 'package:otm_inventory/pages/check_in/clock_in/model/work_log_info.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/res/drawable.dart';
+import 'package:otm_inventory/res/theme/theme_config.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/date_utils.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
@@ -68,7 +69,7 @@ class MyDayLogListView extends StatelessWidget {
                                             isWorking: isActiveWorkLog(info),
                                             boxShadow: [
                                               AppUtils.boxShadow(
-                                                  Colors.grey.shade300, 6)
+                                                  shadowColor_(context), 6)
                                             ]),
                                         child: InkWell(
                                           onTap: () {
@@ -104,57 +105,6 @@ class MyDayLogListView extends StatelessWidget {
                                               ),*/
                                               setProjectNameTextView(
                                                   info.shiftName ?? ""),
-                                              /*  Flexible(
-                                                  flex: 4,
-                                                  fit: FlexFit.tight,
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      TextViewWithContainer(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                left: 12,
-                                                                right: 12),
-                                                        borderRadius: 6,
-                                                        text: !StringHelper
-                                                                .isEmptyString(info
-                                                                    .workEndTime)
-                                                            ? DateUtil
-                                                                .seconds_To_HH_MM(
-                                                                    info.totalWorkSeconds ??
-                                                                        0)
-                                                            : "00:00",
-                                                        fontSize: 17,
-                                                        fontColor: isActiveWorkLog(
-                                                                info)
-                                                            ? Colors.white
-                                                            : primaryTextColor,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        boxColor:
-                                                            isActiveWorkLog(
-                                                                    info)
-                                                                ? Colors.green
-                                                                : Colors
-                                                                    .transparent,
-                                                      ),
-                                                      SizedBox(
-                                                        height: 2,
-                                                      ),
-                                                      PrimaryTextView(
-                                                        text:
-                                                            fromToWorkTimeText(
-                                                                info),
-                                                        fontSize: 13,
-                                                        color: primaryTextColor,
-                                                      )
-                                                    ],
-                                                  )),*/
                                               Expanded(
                                                 child: Column(
                                                   mainAxisAlignment:
@@ -177,10 +127,11 @@ class MyDayLogListView extends StatelessWidget {
                                                               .activeWorkHours
                                                               .value,
                                                       fontSize: 20,
-                                                      fontColor:
-                                                          isActiveWorkLog(info)
-                                                              ? Colors.white
-                                                              : primaryTextColor,
+                                                      fontColor: isActiveWorkLog(
+                                                              info)
+                                                          ? Colors.white
+                                                          : primaryTextColor_(
+                                                              context),
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       boxColor:
@@ -202,13 +153,15 @@ class MyDayLogListView extends StatelessWidget {
                                                               "(${controller.changeFullDateToSortTime(info.workStartTime)}",
                                                           fontSize: 15,
                                                           color:
-                                                              primaryTextColor,
+                                                              primaryTextColor_(
+                                                                  context),
                                                         ),
                                                         PrimaryTextView(
                                                           text: " - ",
                                                           fontSize: 15,
                                                           color:
-                                                              primaryTextColor,
+                                                              primaryTextColor_(
+                                                                  context),
                                                         ),
                                                         PrimaryTextView(
                                                           text: toWorkTimeText(
@@ -217,7 +170,8 @@ class MyDayLogListView extends StatelessWidget {
                                                           color: isActiveWorkLog(
                                                                   info)
                                                               ? defaultAccentColor
-                                                              : primaryTextColor,
+                                                              : primaryTextColor_(
+                                                                  context),
                                                         )
                                                       ],
                                                     )
@@ -277,12 +231,14 @@ class MyDayLogListView extends StatelessWidget {
         margin: EdgeInsets.only(left: 10, right: 10),
         padding: EdgeInsets.fromLTRB(6, 3, 6, 3),
         decoration: BoxDecoration(
-            color: Color(0xffACDBFE), borderRadius: BorderRadius.circular(4)),
+            color:
+                ThemeConfig.isDarkMode ? Color(0xFF339CFF) : Color(0xffACDBFE),
+            borderRadius: BorderRadius.circular(4)),
         child: PrimaryTextView(
           text: text ?? "",
           fontSize: 14,
           overflow: TextOverflow.ellipsis,
-          color: primaryTextColor,
+          color: ThemeConfig.isDarkMode ? Colors.white : Colors.black,
           fontWeight: FontWeight.w400,
           textAlign: TextAlign.center,
           softWrap: false,
@@ -358,7 +314,7 @@ class MyDayLogListView extends StatelessWidget {
               path: Drawable.addCreateNewPlusIcon,
               width: 22,
               height: 22,
-              color: primaryTextColor),
+              color: primaryTextColor_(Get.context!)),
         ),
       );
 
@@ -374,7 +330,7 @@ class MyDayLogListView extends StatelessWidget {
       double? borderRadius,
       List<BoxShadow>? boxShadow}) {
     return BoxDecoration(
-      color: backgroundColor,
+      color: backgroundColor_(Get.context!),
       boxShadow: boxShadow,
       border: Border.all(
           width: 0.9, color: getBorderColor(isWorking, isRequestPending)),
@@ -388,7 +344,7 @@ class MyDayLogListView extends StatelessWidget {
     } else if (isRequestPending) {
       return Colors.red;
     } else {
-      return Colors.grey.shade300;
+      return ThemeConfig.isDarkMode ? Color(0xFF1F1F1F) : Colors.grey.shade300;
     }
   }
 

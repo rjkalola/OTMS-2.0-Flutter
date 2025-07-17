@@ -38,15 +38,15 @@ class _TimeSheetListScreenState extends State<TimeSheetListScreen>
   Widget build(BuildContext context) {
     return Obx(
       () => Container(
-        color: dashBoardBgColor,
+        color: dashBoardBgColor_(context),
         child: SafeArea(
           child: Scaffold(
-            backgroundColor: dashBoardBgColor,
+            backgroundColor: dashBoardBgColor_(context),
             appBar: BaseAppBar(
               appBar: AppBar(),
               title: 'timesheets'.tr,
               isCenterTitle: false,
-              bgColor: dashBoardBgColor,
+              bgColor: dashBoardBgColor_(context),
               isBack: true,
               widgets: actionButtons(),
             ),

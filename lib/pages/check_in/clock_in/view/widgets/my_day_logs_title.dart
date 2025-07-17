@@ -23,7 +23,7 @@ class MyDayLogsTitle extends StatelessWidget {
                   ),
                   Container(
                     padding: EdgeInsets.fromLTRB(10, 4, 10, 4),
-                    color: dashBoardBgColor,
+                    color: dashBoardBgColor_(context),
                     child: TitleTextView(
                       text: 'my_day_logs'.tr,
                       fontWeight: FontWeight.w500,

@@ -59,8 +59,8 @@ class _SelectUserDialogState extends State<SelectUserDialog> {
             maxHeight: maxHeight,
           ),
           child: Container(
-            decoration: const BoxDecoration(
-                color: dashBoardBgColor,
+            decoration:  BoxDecoration(
+                color: dashBoardBgColor_(context),
                 borderRadius: BorderRadius.vertical(top: Radius.circular(10))),
             child: Column(mainAxisSize: MainAxisSize.min, children: [
               Container(

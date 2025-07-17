@@ -23,7 +23,7 @@ class _ArchiveTeamListScreenState extends State<ArchiveTeamListScreen> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle( SystemUiOverlayStyle(
-        statusBarColor: dashBoardBgColor,
+        statusBarColor: dashBoardBgColor_(context),
         statusBarIconBrightness: Brightness.dark));
     return PopScope(
       canPop: false,
@@ -32,10 +32,10 @@ class _ArchiveTeamListScreenState extends State<ArchiveTeamListScreen> {
         controller.onBackPress();
       },
       child: Container(
-        color: dashBoardBgColor,
+        color: dashBoardBgColor_(context),
         child: SafeArea(
           child: Scaffold(
-            backgroundColor: dashBoardBgColor,
+            backgroundColor: dashBoardBgColor_(context),
             appBar: BaseAppBar(
               appBar: AppBar(),
               title: 'archived_teams'.tr,
@@ -44,7 +44,7 @@ class _ArchiveTeamListScreenState extends State<ArchiveTeamListScreen> {
               onBackPressed: () {
                 controller.onBackPress();
               },
-              bgColor: dashBoardBgColor,
+              bgColor: dashBoardBgColor_(context),
             ),
             body: Obx(() {
               return ModalProgressHUD(

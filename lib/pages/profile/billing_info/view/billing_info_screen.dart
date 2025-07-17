@@ -45,17 +45,17 @@ class _BillingInfoScreenState extends State<BillingInfoScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: dashBoardBgColor,
+      color: dashBoardBgColor_(context),
       child: SafeArea(
         child: Scaffold(
           appBar: BaseAppBar(
             appBar: AppBar(),
             title: 'billing_info'.tr,
             isCenterTitle: false,
-            bgColor: dashBoardBgColor,
+            bgColor: dashBoardBgColor_(context),
             isBack: true,
           ),
-          backgroundColor: dashBoardBgColor,
+          backgroundColor: dashBoardBgColor_(context),
           body: KeyboardActions(
               config: _buildKeyboardConfig(),
               child: Obx(

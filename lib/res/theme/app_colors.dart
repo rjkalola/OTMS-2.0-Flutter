@@ -48,43 +48,42 @@ class AppColors {
 
 
 
-  static const dashBoardBgColorDark = Color(0xff151414);
+  static const dashBoardBgColorDark = Color(0xFF0B0907);
 
   // Text Colors
-  static const primaryTextColorDark = Color(0xFFE0E0E0);
-  static const primaryTextColorLightDark = Color(0xFFCCCCCC);
-  static const secondaryTextColorDark = Color(0xFF9E9E9E);
-  static const secondaryLightTextColorDark = Color(0xFFB0B0B0);
-  static const secondaryExtraLightTextColorDark = Color(0xFFBDBDBD);
+  static const primaryTextColorDark = Color(0xFFE5E5E5);
+  static const primaryTextColorLightDark = Color(0xFFD9D9D9);
+  static const secondaryTextColorDark = Color(0xFF8C8C8C);
+  static const secondaryLightTextColorDark = Color(0xFF9F958B);
+  static const secondaryExtraLightTextColorDark = Color(0xFF686868);
 
   // Accent
   static const defaultAccentColorDark = Color(0xFF4285F4); // slightly lighter for dark mode
   static const defaultAccentLightColorDark = Color(0xFF7BAAF7); // more visible on dark
 
   // Backgrounds
-  static const backgroundColorDark = Color(0xFF121212);
-  static const statusBarColorDark = Color(0xFF121212);
-  static const statusBarComponentColorDark = Colors.white;
-
-  static const titleBgColorDark = Color(0xFF1E1E1E); // darker shade for title blocks
-  static const snackBarColorDark = Color(0xFF2C2C2C); // dark snackbar bg
-  static const dividerColorDark = Color(0xFF3C3C3C); // subtle dark divider
-  static const bottomTabbackgroundColorDark = Color(0xFF1E1E1E);
+  static const backgroundColorDark = Color(0xFF000000);
+  static const statusBarColorDark = Color(0xFF000000);
+  static const statusBarComponentColorDark = Color(0xFFFFFFFF);
+  static const titleBgColorDark = Color(0xFF0B0A08);
+  static const snackBarColorDark = Color(0xFFCFCDCD);
+  static const dividerColorDark = Color(0xFF191511);
+  static const bottomTabBackgroundColorDark = Color(0xFF0B0A08);
 
   // TextField
-  static const hintColorDark = Color(0xFF888888);
-  static const normalTextFieldBorderColorDark = Color(0xFF888888);
-  static const focusedTextFieldBorderColorDark = Color(0xFFCCCCCC);
-  static const normalTextFieldBorderDarkColorDark = Color(0xFF666666);
-  static const focusedTextFieldBorderDarkColorDark = Color(0xFFAAAAAA);
-  static const rectangleBorderColorDark = Color(0xFF3D3D3D);
-  static const disableComponentColorDark = Color(0xFF555555); // muted for disabled elements
+  static const hintColorDark = Color(0xFF424242);
+  static const normalTextFieldBorderColorDark = Color(0xFF424242);
+  static const focusedTextFieldBorderColorDark = Color(0xFF919191);
+  static const normalTextFieldBorderDarkColorDark = Color(0xFF858585);
+  static const focusedTextFieldBorderDarkColorDark = Color(0xFF9E9E9E);
+  static const rectangleBorderColorDark = Color(0xFF323231);
+  static const disableComponentColorDark = Color(0xFF393939); // muted for disabled elements
 
   // Misc
-  static const darkYellowColorDark = Color(0xFFF0D98C); // lightened yellow for visibility
-  static const dashBoardTabBgColorDark = Color(0xFF1C1C1C);
-  static const Color dashBoardItemStrokeColorDark = Color(0xFF3C3C3C);
-  static const Color shadowColorDark = Color(0xFF595959);
+  static const darkYellowColorDark = Color(0xFFB38F00); // complementary to warm yellow
+  static const dashBoardTabBgColorDark = Color(0xFF0B0A08); // very dark gray
+  static const dashBoardItemStrokeColorDark = Color(0xFF1F1F1F); // dark neutral gray
+  static const shadowColorDark = Color(0xFF1F1F1F); // to maintain consistent shadow depth
 
   // Buttons & Status
   static const blueBGButtonColorDark = Color(0xFF1A73E8); // visible blue on dark

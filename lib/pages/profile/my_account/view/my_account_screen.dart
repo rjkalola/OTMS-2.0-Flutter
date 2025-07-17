@@ -17,17 +17,17 @@ class MyAccountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() => Container(
-        color: dashBoardBgColor,
+        color: dashBoardBgColor_(context),
         child: SafeArea(
             child: Scaffold(
               appBar: BaseAppBar(
                 appBar: AppBar(),
                 title: 'my_account'.tr,
                 isCenterTitle: false,
-                bgColor: dashBoardBgColor,
+                bgColor: dashBoardBgColor_(context),
                 isBack: true,
               ),
-              backgroundColor: dashBoardBgColor,
+              backgroundColor: dashBoardBgColor_(context),
               body: ModalProgressHUD(
                 inAsyncCall: controller.isLoading.value,
                 opacity: 0,
