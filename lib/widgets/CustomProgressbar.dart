@@ -11,7 +11,7 @@ class CustomProgressbar extends StatelessWidget {
     return Center(
       // child: CircularProgressIndicator(
       //   backgroundColor: Colors.white,
-      //   color: defaultAccentColor,
+      //   color: defaultAccentColor_(context),
       // ),
       // child: CustomCupertinoSpinner(color: Colors.grey),
       child: CustomCupertinoSpinner(radius: radius ?? 18, color: Colors.grey),

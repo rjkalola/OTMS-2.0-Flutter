@@ -8,7 +8,7 @@ import 'package:otm_inventory/pages/check_in/select_before_after_photos/view/wid
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
-
+import 'package:otm_inventory/utils/app_utils.dart';
 class SelectBeforeAfterPhotosScreen extends StatefulWidget {
   const SelectBeforeAfterPhotosScreen({super.key});
 
@@ -23,14 +23,12 @@ class _SelectBeforeAfterPhotosScreenState
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarColor: Colors.white,
-        statusBarIconBrightness: Brightness.dark));
+    AppUtils.setStatusBarColor();
     return Container(
-      color: backgroundColor,
+      color: backgroundColor_(context),
       child: SafeArea(
           child: Scaffold(
-        backgroundColor: backgroundColor,
+        backgroundColor: backgroundColor_(context),
         appBar: BaseAppBar(
           appBar: AppBar(),
           title: controller.title.value,
@@ -46,10 +44,10 @@ class _SelectBeforeAfterPhotosScreenState
               Expanded(
                 child: Column(
                   children: [
-                    const Divider(
+                     Divider(
                       thickness: 1,
                       height: 1,
-                      color: dividerColor,
+                      color: dividerColor_(context),
                     ),
                     BeforeAfterPhotosList(
                       onGridItemClick: controller.onGridItemClick,

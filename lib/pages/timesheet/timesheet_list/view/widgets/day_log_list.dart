@@ -4,6 +4,7 @@ import 'package:otm_inventory/pages/timesheet/timesheet_list/controller/timeshee
 import 'package:otm_inventory/pages/timesheet/timesheet_list/model/day_log_info.dart';
 import 'package:otm_inventory/pages/timesheet/timesheet_list/model/time_sheet_info.dart';
 import 'package:otm_inventory/res/colors.dart';
+import 'package:otm_inventory/res/theme/theme_config.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/date_utils.dart';
 import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
@@ -28,42 +29,40 @@ class DayLogList extends StatelessWidget {
           print("parentPosition:" + parentPosition.toString());
           print("position:" + position.toString());
           DayLogInfo info =
-          controller.timeSheetList[parentPosition].dayLogs![position];
+              controller.timeSheetList[parentPosition].dayLogs![position];
           return Obx(
-                () =>
-                Visibility(
-                    visible:
+            () => Visibility(
+                visible:
                     !(controller.timeSheetList[parentPosition].isExpanded ??
                         false),
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 9, 13, 9),
-                      child: GestureDetector(
-                        onTap: () {
-                          controller.onClickWorkLogItem(
-                              info.id ?? 0);
-                        },
-                        child: Container(
-                          color: Colors.transparent,
-                          child: Row(
-                            children: [
-                              dayDate(info),
-                              SizedBox(
-                                width: 4,
-                              ),
-                              shiftName(info),
-                              Expanded(child: Container()),
-                              totalWorkHour(info),
-                              SizedBox(
-                                width: 4,
-                              ),
-                              RightArrowWidget(
-                                color: primaryTextColor_(context),
-                              )
-                            ],
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 9, 13, 9),
+                  child: GestureDetector(
+                    onTap: () {
+                      controller.onClickWorkLogItem(info.id ?? 0);
+                    },
+                    child: Container(
+                      color: Colors.transparent,
+                      child: Row(
+                        children: [
+                          dayDate(info),
+                          SizedBox(
+                            width: 4,
                           ),
-                        ),
+                          shiftName(info),
+                          Expanded(child: Container()),
+                          totalWorkHour(info),
+                          SizedBox(
+                            width: 4,
+                          ),
+                          RightArrowWidget(
+                            color: primaryTextColor_(context),
+                          )
+                        ],
                       ),
-                    )),
+                    ),
+                  ),
+                )),
           );
         },
         itemCount: controller.timeSheetList[parentPosition].dayLogs!.length,
@@ -75,18 +74,16 @@ class DayLogList extends StatelessWidget {
         //     thickness: 0.8,
         //   ),
         // ),
-        separatorBuilder: (context, position) =>
-            Padding(
+        separatorBuilder: (context, position) => Padding(
               padding: const EdgeInsets.only(left: 16, right: 16),
               child: Divider(
                 height: 0,
-                color: dividerColor,
+                color: dividerColor_(context),
               ),
             ));
   }
 
-  Widget dayDate(DayLogInfo info) =>
-      CardViewDashboardItem(
+  Widget dayDate(DayLogInfo info) => CardViewDashboardItem(
         borderRadius: 15,
         child: Padding(
           padding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
@@ -108,18 +105,17 @@ class DayLogList extends StatelessWidget {
         ),
       );
 
-  Widget shiftName(DayLogInfo info) =>
-      TextViewWithContainer(
+  Widget shiftName(DayLogInfo info) => TextViewWithContainer(
         text: info.shiftName ?? "",
         padding: EdgeInsets.fromLTRB(6, 1, 6, 1),
-        fontColor: primaryTextColor_(Get.context!),
+        fontColor: ThemeConfig.isDarkMode ? Colors.white : Colors.black,
         fontSize: 15,
-        boxColor: Color(AppUtils.haxColor("#ACDBFE")),
+        boxColor:
+            ThemeConfig.isDarkMode ? Color(0xFF4BA0F3) : Color(0xffACDBFE),
         borderRadius: 5,
       );
 
-  Widget totalWorkHour(DayLogInfo info) =>
-      Column(
+  Widget totalWorkHour(DayLogInfo info) => Column(
         children: [
           TitleTextView(
             text: DateUtil.seconds_To_HH_MM(info.payableWorkSeconds ?? 0),

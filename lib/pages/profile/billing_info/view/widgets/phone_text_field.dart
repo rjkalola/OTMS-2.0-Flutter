@@ -15,7 +15,6 @@ import 'package:otm_inventory/widgets/textfield/text_field_border.dart';
 import 'package:otm_inventory/widgets/textfield/text_field_underline.dart';
 import 'package:otm_inventory/widgets/validator/custom_field_validator.dart';
 
-import '../../../../../widgets/custom_text_form_field.dart';
 
 class PhoneTextfieldWidget extends StatelessWidget {
   PhoneTextfieldWidget({super.key});

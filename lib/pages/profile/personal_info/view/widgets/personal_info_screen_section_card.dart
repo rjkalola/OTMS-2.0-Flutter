@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:otm_inventory/res/colors.dart';
 
 Widget PersonalInfoSectionCard({
   required String title,
@@ -6,9 +9,9 @@ Widget PersonalInfoSectionCard({
   Color backgroundColor = const Color(0xFFF9F9F9),
 }) {
   return Container(
-    margin: const EdgeInsets.symmetric(vertical: 8),
+    margin: EdgeInsets.symmetric(vertical: 8),
     decoration: BoxDecoration(
-      color: backgroundColor,
+      color: backgroundColor_(Get.context!),
       borderRadius: BorderRadius.circular(16),
       boxShadow: [
         BoxShadow(

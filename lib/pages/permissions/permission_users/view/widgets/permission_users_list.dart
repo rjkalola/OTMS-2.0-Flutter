@@ -86,11 +86,11 @@ class PermissionUsersList extends StatelessWidget {
               //     thickness: 0.8,
               //   ),
               // ),
-              separatorBuilder: (context, position) => const Padding(
+              separatorBuilder: (context, position) =>  Padding(
                     padding: EdgeInsets.only(left: 70, right: 16),
                     child: Divider(
                       height: 0,
-                      color: dividerColor,
+                      color: dividerColor_(context),
                       thickness: 2,
                     ),
                   )),

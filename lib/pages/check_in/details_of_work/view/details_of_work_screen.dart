@@ -11,7 +11,7 @@ import 'package:otm_inventory/pages/check_in/details_of_work/view/widgets/type_o
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
-
+import 'package:otm_inventory/utils/app_utils.dart';
 class DetailsOfWorkScreen extends StatefulWidget {
   const DetailsOfWorkScreen({super.key});
 
@@ -24,14 +24,12 @@ class _DetailsOfWorkScreenState extends State<DetailsOfWorkScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarColor: Colors.white,
-        statusBarIconBrightness: Brightness.dark));
+    AppUtils.setStatusBarColor();
     return Container(
-      color: backgroundColor,
+      color: backgroundColor_(context),
       child: SafeArea(
           child: Scaffold(
-        backgroundColor: backgroundColor,
+        backgroundColor: backgroundColor_(context),
         appBar: BaseAppBar(
           appBar: AppBar(),
           title: 'details_of_work'.tr,
@@ -47,10 +45,10 @@ class _DetailsOfWorkScreenState extends State<DetailsOfWorkScreen> {
               Expanded(
                 child: Column(
                   children: [
-                    const Divider(
+                     Divider(
                       thickness: 1,
                       height: 1,
-                      color: dividerColor,
+                      color: dividerColor_(context),
                     ),
                     TypeOfWorkTextField(),
                     DescriptionTextField(),

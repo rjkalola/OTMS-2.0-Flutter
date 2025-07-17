@@ -59,12 +59,12 @@ class SearchTextField extends StatelessWidget {
                 fontWeight: FontWeight.w400,
                 fontSize: 16,
                 color:
-                    ThemeConfig.isDarkMode ? Color(0xFF424242) : Colors.grey),
+                hintColor_(context)),
             hintStyle: TextStyle(
                 fontWeight: FontWeight.w400,
                 fontSize: 16,
                 color:
-                    ThemeConfig.isDarkMode ? Color(0xFF424242) : Colors.grey),
+                hintColor_(context)),
             suffixIcon: isClearVisible.value
                 ? IconButton(
                     onPressed: onPressedClear,

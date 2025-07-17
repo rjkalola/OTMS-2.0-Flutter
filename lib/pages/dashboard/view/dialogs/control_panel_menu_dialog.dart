@@ -4,6 +4,7 @@ import 'package:otm_inventory/pages/common/listener/select_item_listener.dart';
 import 'package:otm_inventory/pages/common/model/dialog_title_view.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/res/drawable.dart';
+import 'package:otm_inventory/res/theme/theme_config.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
@@ -104,10 +105,11 @@ class ControlPanelMenuDialogState extends State<ControlPanelMenuDialog> {
                       width: 44,
                       height: 44,
                       decoration: AppUtils.getGrayBorderDecoration(
-                          color: backgroundColor,
-                          borderColor: dividerColor,
+                          color: backgroundColor_(context),
+                          borderColor: dividerColor_(context),
                           borderWidth: 1),
                       child: ImageUtils.setSvgAssetsImage(
+                        color: primaryTextColor_(context),
                           path: tempList[position].icon ??
                               Drawable.truckPermissionIcon,
                           width: 24,
@@ -131,12 +133,12 @@ class ControlPanelMenuDialogState extends State<ControlPanelMenuDialog> {
           );
         },
         itemCount: tempList.length,
-        separatorBuilder: (context, position) => const Padding(
+        separatorBuilder: (context, position) =>  Padding(
           padding: EdgeInsets.only(left: 70),
           child: Divider(
             height: 0,
-            color: dividerColor,
-            thickness: 2,
+            color: dividerColor_(context),
+            thickness: ThemeConfig.isDarkMode?1:2,
           ),
         ),
       );

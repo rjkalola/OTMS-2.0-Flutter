@@ -120,7 +120,7 @@ class AlertDialogHelper {
                       child: Text(
                         'No',
                         style:
-                            TextStyle(color: defaultAccentColor, fontSize: 16),
+                            TextStyle(color: defaultAccentColor_(Get.context!), fontSize: 16),
                       ),
                     ),
                   ),
@@ -138,7 +138,7 @@ class AlertDialogHelper {
                       child: Text(
                         'Yes',
                         style:
-                            TextStyle(color: defaultAccentColor, fontSize: 16),
+                            TextStyle(color: defaultAccentColor_(Get.context!), fontSize: 16),
                       ),
                     ),
                   ),

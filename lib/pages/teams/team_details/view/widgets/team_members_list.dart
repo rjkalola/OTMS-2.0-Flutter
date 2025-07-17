@@ -48,7 +48,7 @@ class TeamMembersList extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 10, right: 10),
                   child: Divider(
                     height: 0,
-                    color: dividerColor,
+                    color: dividerColor_(context),
                   ),
                 ),
                 ListView.separated(
@@ -100,7 +100,7 @@ class TeamMembersList extends StatelessWidget {
                           padding: const EdgeInsets.only(left: 10, right: 10),
                           child: Divider(
                             height: 0,
-                            color: dividerColor,
+                            color: dividerColor_(context),
                           ),
                         ))
               ],

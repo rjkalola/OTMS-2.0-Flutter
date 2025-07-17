@@ -67,7 +67,7 @@ class ArchiveShiftsList extends StatelessWidget {
                               },
                               child: ImageUtils.setSvgAssetsImage(
                                   path: Drawable.unArchiveIcon,
-                                  color: defaultAccentColor,
+                                  color: defaultAccentColor_(context),
                                   width: 28,
                                   height: 28),
                             ),

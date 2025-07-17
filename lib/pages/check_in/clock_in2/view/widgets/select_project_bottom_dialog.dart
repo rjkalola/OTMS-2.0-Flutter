@@ -142,7 +142,7 @@ class SelectProjectBottomDialogState extends State<SelectProjectBottomDialog> {
                 ),
               ),
               Divider(
-                color: dividerColor,
+                color: dividerColor_(context),
               )
             ],
           );

@@ -100,9 +100,9 @@ class Drawable {
       'assets/images/ic_create_edit_pencil_write.svg';
   static const String imgHeaderLogo = 'assets/images/img_header_logo.png';
   static const String imgSplashCenterImage =
-      'assets/images/img_splash_center_image.png';
-  static const String imgSplashCenterImage2 =
-      'assets/images/img_splash_center_image_.svg';
+      'assets/images/img_splash_center_image.svg';
+  static const String imgSplashCenterImageDark =
+      'assets/images/img_splash_center_image_dark.svg';
 
   static const String imgAddUserImage = 'assets/images/img_add_user_image.png';
   static const String imgAddImage = 'assets/images/img_add_image.png';

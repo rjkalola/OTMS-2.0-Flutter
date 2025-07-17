@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:otm_inventory/res/theme/theme_config.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 
 class DialogHandleWidget extends StatelessWidget {
@@ -10,7 +11,7 @@ class DialogHandleWidget extends StatelessWidget {
       width: 50,
       height: 6,
       decoration: AppUtils.getGrayBorderDecoration(
-          color: Color(AppUtils.haxColor("#ADADAD"))),
+          color: Color(AppUtils.haxColor(ThemeConfig.isDarkMode?"#525252":"#ADADAD"))),
     );
   }
 }

@@ -6,30 +6,30 @@ import 'package:otm_inventory/res/theme/app_theme_extension.dart';
 // const secondaryTextColor = Color(0xff737373);
 // const secondaryLightTextColor = Color(0xff606a74);
 // const secondaryExtraLightTextColor = Color(0xff979797);
-const defaultAccentColor = Color(0xff0065ff);
-const defaultAccentLightColor = Color(0xff89b0f4);
-const backgroundColor = Color(0xffffffff);
-const statusBarColor = Color(0xffffffff);
-const statusBarComponentColor = Colors.black;
-const titleBgColor = Color(0xffF4F5F7);
-const snackBarColor = Color(0xff484848);
-const dividerColor = Color(0xffe6eaee);
-const bottomTabBackgroundColor = Color(0xfff4f5f7);
-const hintColor = Color(0xffbdbdbd);
-const normalTextFieldBorderColor = Color(0xffbdbdbd);
-const focusedTextFieldBorderColor = Color(0xff6e6e6e);
-const normalTextFieldBorderDarkColor = Color(0xff7a7a7a);
-const focusedTextFieldBorderDarkColor = Color(0xff616161);
-const rectangleBorderColor = Color(0xffcdcdce);
-const disableComponentColor = Color(0xffc6c6c6);
-const darkYellowColor = Color(0xffefcc78);
-const dashBoardTabBgColor = Color(0xfff4f5f7);
+// const defaultAccentColor = Color(0xff0065ff);
+// const defaultAccentLightColor = Color(0xff89b0f4);
+// const backgroundColor = Color(0xffffffff);
+// const statusBarColor = Color(0xffffffff);
+// const statusBarComponentColor = Colors.black;
+// const titleBgColor = Color(0xffF4F5F7);
+// const snackBarColor = Color(0xff484848);
+// const dividerColor = Color(0xffe6eaee);
+// const bottomTabBackgroundColor = Color(0xfff4f5f7);
+// const hintColor = Color(0xffbdbdbd);
+// const normalTextFieldBorderColor = Color(0xffbdbdbd);
+// const focusedTextFieldBorderColor = Color(0xff6e6e6e);
+// const normalTextFieldBorderDarkColor = Color(0xff7a7a7a);
+// const focusedTextFieldBorderDarkColor = Color(0xff616161);
+// const rectangleBorderColor = Color(0xffcdcdce);
+// const disableComponentColor = Color(0xffc6c6c6);
+// const darkYellowColor = Color(0xffefcc78);
+// const dashBoardTabBgColor = Color(0xfff4f5f7);
 // const dashBoardBgColor = Color(0xffF4F6F8);
-Color dashBoardItemStrokeColor = Colors.grey.shade300;
-const blueBGButtonColor = Color(0xff007AFF);
-const pendingTextColor = Color(0xfffe7f00);
-const approvedTextColor = Color(0xff32a753);
-const rejectTextColor = Color(0xffff484a);
+// Color dashBoardItemStrokeColor = Colors.grey.shade300;
+// const blueBGButtonColor = Color(0xff007AFF);
+// const pendingTextColor = Color(0xfffe7f00);
+// const approvedTextColor = Color(0xff32a753);
+// const rejectTextColor = Color(0xffff484a);
 
 Color primaryTextColor_(BuildContext context) {
   return Theme.of(context).extension<AppThemeExtension>()!.primaryTextColor;
@@ -69,16 +69,6 @@ Color defaultAccentLightColor_(BuildContext context) {
 
 Color backgroundColor_(BuildContext context) {
   return Theme.of(context).extension<AppThemeExtension>()!.backgroundColor;
-}
-
-Color statusBarColor_(BuildContext context) {
-  return Theme.of(context).extension<AppThemeExtension>()!.statusBarColor;
-}
-
-Color statusBarComponentColor_(BuildContext context) {
-  return Theme.of(context)
-      .extension<AppThemeExtension>()!
-      .statusBarComponentColor;
 }
 
 Color titleBgColor_(BuildContext context) {
@@ -127,37 +117,37 @@ Color focusedTextFieldBorderDarkColor_(BuildContext context) {
       .focusedTextFieldBorderDarkColor;
 }
 
-Color rectangleBorderColor_(BuildContext context) {
-  return Theme.of(context).extension<AppThemeExtension>()!.rectangleBorderColor;
-}
+// Color rectangleBorderColor_(BuildContext context) {
+//   return Theme.of(context).extension<AppThemeExtension>()!.rectangleBorderColor;
+// }
 
-Color disableComponentColor_(BuildContext context) {
-  return Theme.of(context)
-      .extension<AppThemeExtension>()!
-      .disableComponentColor;
-}
+// Color disableComponentColor_(BuildContext context) {
+//   return Theme.of(context)
+//       .extension<AppThemeExtension>()!
+//       .disableComponentColor;
+// }
 
-Color darkYellowColor_(BuildContext context) {
-  return Theme.of(context).extension<AppThemeExtension>()!.darkYellowColor;
-}
+// Color darkYellowColor_(BuildContext context) {
+//   return Theme.of(context).extension<AppThemeExtension>()!.darkYellowColor;
+// }
 
-Color dashBoardTabBgColor_(BuildContext context) {
-  return Theme.of(context).extension<AppThemeExtension>()!.dashBoardTabBgColor;
-}
+// Color dashBoardTabBgColor_(BuildContext context) {
+//   return Theme.of(context).extension<AppThemeExtension>()!.dashBoardTabBgColor;
+// }
 
 Color dashBoardBgColor_(BuildContext context) {
   return Theme.of(context).extension<AppThemeExtension>()!.dashBoardBgColor;
 }
 
-Color dashBoardItemStrokeColor_(BuildContext context) {
-  return Theme.of(context)
-      .extension<AppThemeExtension>()!
-      .dashBoardItemStrokeColor;
-}
+// Color dashBoardItemStrokeColor_(BuildContext context) {
+//   return Theme.of(context)
+//       .extension<AppThemeExtension>()!
+//       .dashBoardItemStrokeColor;
+// }
 
-Color blueBGButtonColor_(BuildContext context) {
-  return Theme.of(context).extension<AppThemeExtension>()!.blueBGButtonColor;
-}
+// Color blueBGButtonColor_(BuildContext context) {
+//   return Theme.of(context).extension<AppThemeExtension>()!.blueBGButtonColor;
+// }
 
 Color pendingTextColor_(BuildContext context) {
   return Theme.of(context).extension<AppThemeExtension>()!.pendingTextColor;

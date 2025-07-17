@@ -20,7 +20,7 @@ class CardView extends StatelessWidget {
             borderRadius: const BorderRadius.all(
               Radius.circular(6),
             ),
-            border: Border.all(color: dividerColor)),
+            border: Border.all(color: dividerColor_(context))),
         child: child,
       ),
     );

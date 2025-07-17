@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:otm_inventory/pages/common/listener/date_filter_listener.dart';
 import 'package:otm_inventory/pages/common/listener/select_date_range_listener.dart';
-import 'package:otm_inventory/pages/date_range_picker/IosStyleDateRangePicker.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/data_utils.dart';
@@ -41,7 +38,7 @@ class DateFilterOptionsHorizontalList extends StatelessWidget
           return Obx(
             () => CardViewDashboardItem(
                 borderColor: (selectedPosition.value == index)
-                    ? defaultAccentColor
+                    ? defaultAccentColor_(context)
                     : Colors.transparent,
                 child: GestureDetector(
                   onTap: () {

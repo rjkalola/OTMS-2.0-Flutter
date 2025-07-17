@@ -111,7 +111,7 @@ class FilterScreen extends StatelessWidget {
                                     return CheckboxListTile(
                                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
                                         side: BorderSide(color: Colors.grey.shade500),
-                                        activeColor: defaultAccentColor,
+                                        activeColor: defaultAccentColor_(context),
                                         checkColor: Colors.white,
                                       title: Text(item.name),
                                       value: item.selected,
@@ -144,7 +144,7 @@ class FilterScreen extends StatelessWidget {
                         controller.searchQuery.value = "";
                         Get.back(result: selectedMap);
                       },
-                          child: Text("Apply",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: defaultAccentColor),)),
+                          child: Text("Apply",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: defaultAccentColor_(context)),)),
                     ],
                   ),
                 ),

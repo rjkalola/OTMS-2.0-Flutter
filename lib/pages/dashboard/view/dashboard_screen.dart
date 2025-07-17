@@ -96,7 +96,7 @@ class DashboardScreen extends StatelessWidget {
       //           "+${'add_stock'.tr}",
       //           style: const TextStyle(
       //               fontSize: 16,
-      //               color: defaultAccentColor,
+      //               color: defaultAccentColor_(context),
       //               fontWeight: FontWeight.w500),
       //         ),
       //       )),

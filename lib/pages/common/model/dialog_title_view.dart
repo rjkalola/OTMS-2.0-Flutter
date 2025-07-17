@@ -10,8 +10,8 @@ class DialogTitleView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-          color: titleBgColor,
+      decoration:  BoxDecoration(
+          color: titleBgColor_(context),
           borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
       child: Stack(
         alignment: Alignment.center,

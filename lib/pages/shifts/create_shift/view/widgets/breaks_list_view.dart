@@ -54,10 +54,8 @@ class BreaksListView extends StatelessWidget {
                         onTap: () {
                           controller.selectedBreakPosition = position;
                           controller.showTimePickerDialog(
-                              AppConstants
-                                  .dialogIdentifier.selectBreakEndTime,
-                              DateUtil.getDateTimeFromHHMM(
-                                  info.breakEndTime));
+                              AppConstants.dialogIdentifier.selectBreakEndTime,
+                              DateUtil.getDateTimeFromHHMM(info.breakEndTime));
                         },
                       ),
                     ],
@@ -66,8 +64,9 @@ class BreaksListView extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     if ((controller.breaksList[position].breakId ?? 0) != 0) {
-                      controller.removeBreakIdsList
-                          .add((controller.breaksList[position].breakId ?? 0).toString());
+                      controller.removeBreakIdsList.add(
+                          (controller.breaksList[position].breakId ?? 0)
+                              .toString());
                     }
                     controller.isSaveEnable.value = true;
                     controller.breaksList.removeAt(position);
@@ -84,11 +83,11 @@ class BreaksListView extends StatelessWidget {
           );
         },
         itemCount: controller.breaksList.length,
-        separatorBuilder: (context, position) => const Padding(
+        separatorBuilder: (context, position) => Padding(
               padding: EdgeInsets.only(left: 16, right: 16),
               child: Divider(
                 height: 0,
-                color: dividerColor,
+                color: dividerColor_(context),
               ),
             )));
   }

@@ -140,7 +140,7 @@ class SelectShiftDialogState extends State<SelectShiftDialog> {
                   ),
                 ),
                 Divider(
-                  color: dividerColor,
+                  color: dividerColor_(context),
                 )
               ],
             );

@@ -18,8 +18,8 @@ class SignUpTextWidget extends StatelessWidget {
             Get.toNamed(AppRoutes.signUp1Screen);
           },
           child: Text('sign_up'.tr,
-              style: const TextStyle(
-                color: defaultAccentColor,
+              style:  TextStyle(
+                color: defaultAccentColor_(context),
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
               )),

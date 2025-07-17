@@ -28,7 +28,7 @@ class CompanyLogo extends StatelessWidget {
                 const EdgeInsets.only(left: 16, top: 24, right: 16, bottom: 20),
             padding: const EdgeInsets.all(10.0),
             decoration: BoxDecoration(
-              border: Border.all(color: dividerColor),
+              border: Border.all(color: dividerColor_(context)),
               shape: BoxShape.circle,
             ),
             child: ImageUtils.setCircularNetworkImage(

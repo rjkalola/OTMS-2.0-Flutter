@@ -65,7 +65,7 @@ class CompanyTradeList extends StatelessWidget {
                       ),
                       Divider(
                         height: 0,
-                        color: dividerColor,
+                        color: dividerColor_(context),
                         thickness: 2,
                       ),
                       Visibility(

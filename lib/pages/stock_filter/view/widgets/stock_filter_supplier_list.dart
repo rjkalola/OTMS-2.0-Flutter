@@ -12,7 +12,7 @@ class StockFilterSupplierList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() => Container(
-          color: titleBgColor,
+          color: titleBgColor_(context),
           child: ListView(
             physics: const AlwaysScrollableScrollPhysics(), //
             shrinkWrap: true,
@@ -29,8 +29,8 @@ class StockFilterSupplierList extends StatelessWidget {
                     Container(
                       width: double.maxFinite,
                       color: controller.selectedSupplierIndex.value == position
-                          ? backgroundColor
-                          : titleBgColor,
+                          ? backgroundColor_(context)
+                          : titleBgColor_(context),
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
                         child: Text(
@@ -43,8 +43,8 @@ class StockFilterSupplierList extends StatelessWidget {
                             )),
                       ),
                     ),
-                    const Divider(
-                      color: dividerColor,
+                     Divider(
+                      color: dividerColor_(context),
                       height: 0.5,
                       thickness: 0.5,
                     )

@@ -22,7 +22,7 @@ class ShiftNameTextField extends StatelessWidget {
         hintText: 'shift_name'.tr,
         labelText: 'shift_name'.tr,
         maxLength: 50,
-        keyboardType: TextInputType.number,
+        keyboardType: TextInputType.name,
         textInputAction: TextInputAction.done,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         onValueChange: (value) {

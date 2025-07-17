@@ -12,8 +12,8 @@ class SignUp2NoteTextWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 28, bottom: 14, left: 16, right: 16),
       child: Text('upload_photo_note_sign_up'.tr,
-          style: const TextStyle(
-            color: defaultAccentColor,
+          style:  TextStyle(
+            color: defaultAccentColor_(context),
             fontSize: 18,
             fontWeight: FontWeight.w500,
           )),

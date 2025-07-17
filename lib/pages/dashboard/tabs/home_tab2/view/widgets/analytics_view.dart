@@ -47,7 +47,7 @@ class AnalyticsView extends StatelessWidget {
               Icon(
                 Icons.keyboard_arrow_right,
                 size: 24,
-                color: defaultAccentColor,
+                color: defaultAccentColor_(context),
               ),
             ]),
           )

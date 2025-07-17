@@ -14,7 +14,7 @@ import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
 import 'package:otm_inventory/widgets/custom_views/no_internet_widgets.dart';
-
+import 'package:otm_inventory/utils/app_utils.dart';
 class SignUp2Screen extends StatefulWidget {
   const SignUp2Screen({super.key});
 
@@ -27,14 +27,12 @@ class _SignUp2ScreenState extends State<SignUp2Screen> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarColor: Colors.white,
-        statusBarIconBrightness: Brightness.dark));
+    AppUtils.setStatusBarColor();
     return Container(
-      color: backgroundColor,
+      color: backgroundColor_(context),
       child: SafeArea(
         child: Scaffold(
-          backgroundColor: backgroundColor,
+          backgroundColor: backgroundColor_(context),
           appBar: BaseAppBar(
             appBar: AppBar(),
             title: ''.tr,
@@ -51,12 +49,12 @@ class _SignUp2ScreenState extends State<SignUp2Screen> {
                     : Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                            const Padding(
+                             Padding(
                               padding: EdgeInsets.only(left: 16, right: 16),
                               child: Divider(
                                 thickness: 0.5,
                                 height: 0.5,
-                                color: defaultAccentColor,
+                                color: defaultAccentColor_(context),
                               ),
                             ),
                             const TopDividerWidget(),

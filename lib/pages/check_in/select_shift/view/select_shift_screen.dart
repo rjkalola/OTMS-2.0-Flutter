@@ -8,7 +8,9 @@ import 'package:otm_inventory/pages/check_in/select_shift/view/widgets/shifts_li
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
+import 'package:otm_inventory/widgets/map_view/bottom_curve_container.dart';
 import 'package:otm_inventory/widgets/map_view/custom_map_view.dart';
+import 'package:otm_inventory/widgets/map_view/map_back_arrow.dart';
 import 'package:otm_inventory/widgets/other_widgets/selection_screen_header_view.dart';
 import 'package:otm_inventory/widgets/text/TextViewWithContainer.dart';
 
@@ -40,9 +42,18 @@ class _SelectShiftScreenState extends State<SelectShiftScreen> {
               child: Column(children: [
                 Flexible(
                   flex: 2,
-                  child: CustomMapView(
-                      onMapCreated: controller.onMapCreated,
-                      target: controller.center),
+                  child: Stack(
+                    children: [
+                      CustomMapView(
+                        onMapCreated: controller.onMapCreated,
+                        target: controller.center,
+                      ),
+                      MapBackArrow(onBackPressed: () {
+                        Get.back();
+                      }),
+                      BottomCurveContainer()
+                    ],
+                  ),
                 ),
                 Flexible(
                     flex: 3,

@@ -40,7 +40,7 @@ class SelectToolItemsList extends StatelessWidget {
                 decoration: AppUtils.getDashboardItemDecoration(
                     borderWidth: 2,
                     borderColor: (controller.listItems[position].check ?? false)
-                        ? defaultAccentColor
+                        ? defaultAccentColor_(context)
                         : Colors.grey.shade300),
                 padding: EdgeInsets.fromLTRB(16, 10, 14, 10),
                 child: Row(

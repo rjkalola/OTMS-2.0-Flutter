@@ -37,7 +37,7 @@ class HeadOfficeLocationViewCompanySignup extends StatelessWidget {
               path: Drawable.myLocationIcon,
               width: 22,
               height: 22,
-              color: defaultAccentColor)
+              color: defaultAccentColor_(context))
         ],
       ),
     );

@@ -9,7 +9,7 @@ import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
 import 'package:otm_inventory/widgets/custom_views/no_internet_widgets.dart';
-
+import 'package:otm_inventory/utils/app_utils.dart';
 class TeamDetailsScreen extends StatefulWidget {
   const TeamDetailsScreen({super.key});
 
@@ -22,9 +22,7 @@ class _TeamDetailsScreenState extends State<TeamDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarColor: Colors.white,
-        statusBarIconBrightness: Brightness.dark));
+    AppUtils.setStatusBarColor();
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) async {

@@ -16,7 +16,7 @@ import 'package:otm_inventory/widgets/PrimaryButton.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
 import 'package:otm_inventory/widgets/custom_views/no_internet_widgets.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
-
+import 'package:otm_inventory/utils/app_utils.dart';
 class CreateTeamScreen extends StatefulWidget {
   const CreateTeamScreen({super.key});
 
@@ -29,9 +29,7 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarColor: Colors.white,
-        statusBarIconBrightness: Brightness.dark));
+    AppUtils.setStatusBarColor();
     return Obx(
       () => Container(
         color: dashBoardBgColor_(context),
@@ -40,7 +38,7 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
             backgroundColor: dashBoardBgColor_(context),
             appBar: BaseAppBar(
               appBar: AppBar(),
-              title: 'create_new_team'.tr,
+              title: controller.title.value,
               isCenterTitle: false,
               isBack: true,
               bgColor: dashBoardBgColor_(context),
@@ -81,8 +79,8 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
                                 padding: EdgeInsets.fromLTRB(14, 18, 14, 16),
                                 buttonText: 'save'.tr,
                                 color: controller.isSaveEnable.value
-                                    ? defaultAccentColor
-                                    : defaultAccentLightColor,
+                                    ? defaultAccentColor_(context)
+                                    : defaultAccentLightColor_(context),
                                 onPressed: () {
                                   if (controller.isSaveEnable.value) {
                                     if (controller.teamInfo != null) {

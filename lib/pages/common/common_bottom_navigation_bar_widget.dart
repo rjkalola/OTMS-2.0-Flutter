@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:otm_inventory/res/theme/theme_config.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/data_utils.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
@@ -25,7 +26,8 @@ class CommonBottomNavigationBarWidget extends StatelessWidget {
                 var arguments = {
                   AppConstants.intentKey.dashboardTabIndex: index,
                 };
-                Get.offAllNamed(AppRoutes.dashboardScreen, arguments: arguments);
+                Get.offAllNamed(AppRoutes.dashboardScreen,
+                    arguments: arguments);
               },
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -34,15 +36,17 @@ class CommonBottomNavigationBarWidget extends StatelessWidget {
                     path: DataUtils.tabIcons[index],
                     width: 24,
                     height: 24,
-                    color:
-                    Colors.black54,)
+                    color: ThemeConfig.isDarkMode
+                        ? Colors.white54
+                        : Colors.black54,
+                  )
                   // Padding(
                   //   padding: const EdgeInsets.only(top: 4.0),
                   //   child: Text(
                   //     DataUtils.tabLabels[index],
                   //     style: TextStyle(
                   //       fontSize: 12,
-                  //       color: defaultAccentColor,
+                  //       color: defaultAccentColor_(context),
                   //     ),
                   //   ),
                   // ),
@@ -54,5 +58,4 @@ class CommonBottomNavigationBarWidget extends StatelessWidget {
       ),
     );
   }
-
 }

@@ -64,7 +64,7 @@ class MenuItemsListBottomDialogState extends State<MenuItemsListBottomDialog> {
                     //     : CupertinoColors.activeBlue,
                     color: item.textColor != null
                         ? Color(AppUtils.haxColor(item.textColor ?? ""))
-                        : defaultAccentColor),
+                        : defaultAccentColor_(context)),
               ),
             );
           }).toList(),
@@ -132,7 +132,7 @@ class MenuItemsListBottomDialogState extends State<MenuItemsListBottomDialog> {
                   visible: i != tempList.length - 1,
                   child: Divider(
                     thickness: 1.2,
-                    color: dividerColor,
+                    color: dividerColor_(context),
                   ),
                 ),
               ],

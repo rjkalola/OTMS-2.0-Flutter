@@ -12,8 +12,8 @@ class UploadPhotoTextWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 40, bottom: 0, left: 16, right: 16),
       child: Text('upload_photo_capital'.tr,
-          style: const TextStyle(
-            color: defaultAccentColor,
+          style:  TextStyle(
+            color: defaultAccentColor_(context),
             fontSize: 24,
             fontWeight: FontWeight.w700,
           )),

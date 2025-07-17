@@ -52,7 +52,7 @@ class CompanySubTradeList extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(18, 0, 18, 0),
               child: Divider(
                 height: 0,
-                color: dividerColor,
+                color: dividerColor_(context),
                 thickness: 1,
               ),
             )));

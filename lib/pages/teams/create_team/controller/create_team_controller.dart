@@ -37,6 +37,7 @@ class CreateTeamController extends GetxController
   final userList = <UserInfo>[].obs;
   int supervisorId = 0;
   TeamInfo? teamInfo;
+  final title = ''.obs;
 
   @override
   void onInit() {
@@ -51,11 +52,13 @@ class CreateTeamController extends GetxController
 
   void setInitData() {
     if (teamInfo != null) {
+      title.value = 'Edit Team'.tr;
       teamNameController.value.text = teamInfo?.name ?? "";
       supervisorController.value.text = teamInfo?.supervisorName ?? "";
       supervisorId = teamInfo?.supervisorId ?? 0;
       teamMembersList.addAll(teamInfo?.teamMembers ?? []);
     } else {
+      title.value = 'create_new_team'.tr;
       isSaveEnable.value = true;
     }
   }

@@ -30,7 +30,7 @@ class SelectAllText extends StatelessWidget {
                   ? 'unselect_all'.tr
                   : 'select_all'.tr,
               fontSize: 17,
-              color: defaultAccentColor,
+              color: defaultAccentColor_(context),
               fontWeight: FontWeight.w500,
             ),
           ),

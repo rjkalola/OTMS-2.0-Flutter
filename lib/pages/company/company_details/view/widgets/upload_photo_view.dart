@@ -28,7 +28,7 @@ class UploadPhotoView extends StatelessWidget {
             margin: const EdgeInsets.only(left: 16, top: 4, right: 16),
             padding: const EdgeInsets.all(10.0),
             decoration: BoxDecoration(
-              border: Border.all(color: dividerColor),
+              border: Border.all(color: dividerColor_(context)),
               shape: BoxShape.circle,
             ),
             child: !StringHelper.isEmptyString(controller.mCompanyLogo.value)

@@ -21,14 +21,14 @@ class TopDividerWidget extends StatelessWidget {
           flex: flex1,
           child: Container(
             height: 5,
-            color: defaultAccentColor,
+            color: defaultAccentColor_(context),
           ),
         ),
         Flexible(
           flex: flex2,
           child: Container(
             height: 5,
-            color: dividerColor,
+            color: dividerColor_(context),
           ),
         ),
       ],

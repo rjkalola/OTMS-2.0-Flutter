@@ -78,8 +78,8 @@ class _BillingApprovalButtonsViewState extends State<BillingApprovalButtonsView>
                   }
                 },
                 style: OutlinedButton.styleFrom(
-                  side: BorderSide(color: defaultAccentColor),
-                  foregroundColor: defaultAccentColor,
+                  side: BorderSide(color: defaultAccentColor_(context)),
+                  foregroundColor: defaultAccentColor_(context),
                   textStyle: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),
                 ),
                 child: Text("Approve"),

@@ -91,7 +91,7 @@ class _BillingInfoScreenState extends State<BillingInfoScreen> {
                   controller.onSubmit();
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: blueBGButtonColor,
+                  backgroundColor: defaultAccentColor_(context),
                   minimumSize: Size(double.infinity, 50),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),

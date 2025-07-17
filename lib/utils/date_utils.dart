@@ -200,16 +200,16 @@ class DateUtil {
           borderRadius: BorderRadius.circular(20),
           child: Container(
             height: MediaQuery.of(context).size.height * 0.5,
-            color: backgroundColor,
+            color: backgroundColor_(context),
             child: SfDateRangePicker(
               view: DateRangePickerView.month,
               selectionMode: DateRangePickerSelectionMode.range,
               showActionButtons: true,
               // enableSwipeSelection: true, // Optional - only for swipe-selecting dates
               showNavigationArrow: true,
-              backgroundColor: backgroundColor,
+              backgroundColor: backgroundColor_(context),
               headerStyle: DateRangePickerHeaderStyle(
-                backgroundColor: backgroundColor, // Header background
+                backgroundColor: backgroundColor_(context), // Header background
                 textStyle: TextStyle(
                   color: primaryTextColor_(context), // Center date text
                   fontSize: 16,
@@ -281,7 +281,7 @@ class DateUtil {
                       padding: EdgeInsets.symmetric(horizontal: 16),
                       child: TitleTextView(
                         text: "Done",
-                        color: defaultAccentColor,
+                        color: defaultAccentColor_(Get.context!),
                       ),
                       onPressed: () {
                         selectDateListener.onSelectDate(
@@ -353,7 +353,7 @@ class DateUtil {
                       padding: EdgeInsets.symmetric(horizontal: 16),
                       child: TitleTextView(
                         text: "Done",
-                        color: defaultAccentColor,
+                        color: defaultAccentColor_(Get.context!),
                       ),
                       onPressed: () {
                         selectTimeListener.onSelectTime(

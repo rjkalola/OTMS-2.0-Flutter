@@ -93,8 +93,8 @@ class _CreateShiftScreenState extends State<CreateShiftScreen> {
                                 padding: EdgeInsets.fromLTRB(14, 18, 14, 16),
                                 buttonText: 'save'.tr,
                                 color: controller.isSaveEnable.value
-                                    ? defaultAccentColor
-                                    : defaultAccentLightColor,
+                                    ? defaultAccentColor_(context)
+                                    : defaultAccentLightColor_(context),
                                 onPressed: () {
                                   controller.onSubmit();
                                 })

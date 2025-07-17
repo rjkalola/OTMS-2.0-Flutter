@@ -55,7 +55,7 @@ class _HomeTabState extends State<HomeTab> {
   Widget build(BuildContext context) {
     return Obx(
       () => Scaffold(
-        backgroundColor: dashBoardTabBgColor_(context),
+        backgroundColor: dashBoardBgColor_(context),
         // backgroundColor: const Color(0xfff4f5f7),
         body: Visibility(
           visible: controller.isMainViewVisible.value,
@@ -65,7 +65,7 @@ class _HomeTabState extends State<HomeTab> {
               child: Container(
                 margin: EdgeInsets.fromLTRB(16, 0, 16, 0),
                 decoration: BoxDecoration(
-                    color: backgroundColor,
+                    color: backgroundColor_(context),
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(6),
                         topRight: Radius.circular(6))),
@@ -78,7 +78,7 @@ class _HomeTabState extends State<HomeTab> {
                     HomeTabActionButtonsDotsList(),
                     Divider(
                       thickness: 3,
-                      color: dividerColor,
+                      color: dividerColor_(context),
                     ),
                     JoinCompanyRequestView(),
                     JoinCompanyRequestDivider(),

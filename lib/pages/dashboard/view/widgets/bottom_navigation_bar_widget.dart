@@ -50,7 +50,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
                           DataUtils.tabLabels[index],
                           style: TextStyle(
                             fontSize: 12,
-                            color: defaultAccentColor,
+                            color: defaultAccentColor_(context),
                           ),
                         ),
                       ),

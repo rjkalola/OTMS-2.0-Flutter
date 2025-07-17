@@ -23,7 +23,7 @@ class AddAnotherBreakButton extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(16, 6, 16, 6),
             child: PrimaryTextView(
               fontWeight: FontWeight.w500,
-              color: defaultAccentColor,
+              color: defaultAccentColor_(context),
               fontSize: 15,
               textAlign: TextAlign.right,
               text: "+ ${'add_another_break'.tr}",

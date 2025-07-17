@@ -12,7 +12,7 @@ class TextFieldUnderline extends StatelessWidget {
       this.labelText = "",
       this.validator,
       this.inputFormatters,
-      this.cursorColor = defaultAccentColor,
+      this.cursorColor,
       this.keyboardType,
       this.textInputAction,
       this.isReadOnly,
@@ -58,8 +58,10 @@ class TextFieldUnderline extends StatelessWidget {
       focusNode: focusNode,
       onFieldSubmitted: onFieldSubmitted,
       onChanged: onValueChange,
-      style:  TextStyle(
-          fontWeight: FontWeight.w400, fontSize: 15, color: primaryTextColor_(context)),
+      style: TextStyle(
+          fontWeight: FontWeight.w400,
+          fontSize: 15,
+          color: primaryTextColor_(context)),
       controller: textEditingController,
       keyboardType: keyboardType,
       textInputAction: textInputAction,
@@ -78,20 +80,24 @@ class TextFieldUnderline extends StatelessWidget {
         contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
         floatingLabelBehavior: FloatingLabelBehavior.auto,
         border: UnderlineInputBorder(
-          borderSide: BorderSide(color: normalTextFieldBorderColor, width: 1),
+          borderSide: BorderSide(color: normalTextFieldBorderColor_(context), width: 1),
         ),
         focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: focusedTextFieldBorderColor, width: 1),
+          borderSide: BorderSide(color: focusedTextFieldBorderColor_(context), width: 1),
         ),
         enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: normalTextFieldBorderColor, width: 1),
+          borderSide: BorderSide(color: normalTextFieldBorderColor_(context), width: 1),
         ),
         hintText: hintText,
         labelText: labelText,
-        labelStyle: const TextStyle(
-            fontWeight: FontWeight.w400, fontSize: 16, color: Colors.grey),
-        hintStyle: const TextStyle(
-            fontWeight: FontWeight.w400, fontSize: 16, color: Colors.grey),
+        labelStyle: TextStyle(
+            fontWeight: FontWeight.w400,
+            fontSize: 16,
+            color: hintColor_(context)),
+        hintStyle: TextStyle(
+            fontWeight: FontWeight.w400,
+            fontSize: 16,
+            color: hintColor_(context)),
       ),
       validator: validator!,
     );

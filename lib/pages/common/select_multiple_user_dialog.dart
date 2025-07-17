@@ -58,13 +58,13 @@ class _SelectMultipleUserDialogState extends State<SelectMultipleUserDialog> {
             maxHeight: maxHeight,
           ),
           child: Container(
-            decoration: const BoxDecoration(
-                color: backgroundColor,
+            decoration:  BoxDecoration(
+                color: backgroundColor_(context),
                 borderRadius: BorderRadius.vertical(top: Radius.circular(10))),
             child: Column(mainAxisSize: MainAxisSize.min, children: [
               Container(
-                decoration: const BoxDecoration(
-                    color: titleBgColor,
+                decoration:  BoxDecoration(
+                    color: titleBgColor_(context),
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20))),
                 child: Row(
@@ -97,7 +97,7 @@ class _SelectMultipleUserDialogState extends State<SelectMultipleUserDialog> {
                             softWrap: true,
                             fontWeight: FontWeight.w500,
                             fontSize: 18,
-                            color: defaultAccentColor),
+                            color: defaultAccentColor_(context)),
                       ),
                     )
                   ],

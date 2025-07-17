@@ -27,7 +27,7 @@ class NoBillingDataView extends StatelessWidget {
               controller.moveToScreen(AppRoutes.billingInfoScreen, null);
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: blueBGButtonColor,
+              backgroundColor: defaultAccentColor_(context),
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30),

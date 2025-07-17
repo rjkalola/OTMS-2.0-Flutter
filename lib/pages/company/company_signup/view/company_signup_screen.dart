@@ -19,7 +19,7 @@ import 'package:otm_inventory/res/drawable.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/buttons/ContinueButton.dart';
 import 'package:otm_inventory/widgets/custom_views/no_internet_widgets.dart';
-
+import 'package:otm_inventory/utils/app_utils.dart';
 class CompanySignUpScreen extends StatefulWidget {
   const CompanySignUpScreen({super.key});
 
@@ -32,14 +32,12 @@ class _CompanySignUpScreenState extends State<CompanySignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarColor: Colors.white,
-        statusBarIconBrightness: Brightness.dark));
+    AppUtils.setStatusBarColor();
     return Container(
-      color: backgroundColor,
+      color: backgroundColor_(context),
       child: SafeArea(
         child: Scaffold(
-          backgroundColor: backgroundColor,
+          backgroundColor: backgroundColor_(context),
           // appBar: BaseAppBar(
           //     appBar: AppBar(),
           //     title: 'company_details'.tr,

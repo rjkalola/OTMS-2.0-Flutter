@@ -41,7 +41,7 @@ class BusinessFieldInfoItemsList extends StatelessWidget {
                 decoration: AppUtils.getDashboardItemDecoration(
                     borderWidth: 2,
                     borderColor: (controller.selectedIndex.value == position)
-                        ? defaultAccentColor
+                        ? defaultAccentColor_(context)
                         : Colors.grey.shade300),
                 padding: EdgeInsets.fromLTRB(16, 10, 14, 10),
                 child: Row(

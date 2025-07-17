@@ -15,7 +15,7 @@ class PendingApprovalTasksDivider extends StatelessWidget {
     return Obx(() => (controller.dashboardResponse.value.pendingApprovalCount ?? 0) > 0
         ? Divider(
       thickness: 3,
-      color: dividerColor,
+      color: dividerColor_(context),
     )
         : Container(),);
   }

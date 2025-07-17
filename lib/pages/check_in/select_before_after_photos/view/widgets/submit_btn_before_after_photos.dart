@@ -20,8 +20,8 @@ class SubmitBtnBeforeAfterPhotos extends StatelessWidget {
             onPressed: () {
               controller.onSubmitClick();
             },
-            fontColor: defaultAccentColor,
-            borderColor: defaultAccentColor),
+            fontColor: defaultAccentColor_(context),
+            borderColor: defaultAccentColor_(context)),
       ),
     );
   }

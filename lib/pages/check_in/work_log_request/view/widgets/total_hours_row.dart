@@ -60,7 +60,7 @@ class TotalHoursRow extends StatelessWidget {
                       text: DateUtil.seconds_To_HH_MM(controller
                               .workLogInfo.value.totalRequestWorkSeconds ??
                           0),
-                      color: pendingTextColor,
+                      color: pendingTextColor_(context),
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
                     )),
@@ -82,9 +82,9 @@ class TotalHoursRow extends StatelessWidget {
 
   Color getHourTextColor(int status) {
     if (status == AppConstants.status.rejected) {
-      return rejectTextColor;
+      return rejectTextColor_(Get.context!);
     } else if (status == AppConstants.status.approved) {
-      return approvedTextColor;
+      return approvedTextColor_(Get.context!);
     } else {
       return primaryTextColor_(Get.context!);
     }

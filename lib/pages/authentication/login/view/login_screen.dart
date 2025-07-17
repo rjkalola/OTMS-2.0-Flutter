@@ -1,12 +1,7 @@
-import 'dart:math';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:otm_inventory/pages/authentication/login/controller/login_controller.dart';
-import 'package:otm_inventory/pages/authentication/login/view/widgets/do_not_have_account_text_widget_.dart';
 import 'package:otm_inventory/pages/authentication/login/view/widgets/header_logo.dart';
 import 'package:otm_inventory/pages/authentication/login/view/widgets/log_in_note1_text_widget_.dart';
 import 'package:otm_inventory/pages/authentication/login/view/widgets/log_in_note2_text_widget_.dart';
@@ -14,10 +9,9 @@ import 'package:otm_inventory/pages/authentication/login/view/widgets/login_butt
 import 'package:otm_inventory/pages/authentication/login/view/widgets/otp_view.dart';
 import 'package:otm_inventory/pages/authentication/login/view/widgets/phone_extension_field_widget.dart';
 import 'package:otm_inventory/pages/authentication/login/view/widgets/phone_text_field_widget.dart';
-import 'package:otm_inventory/pages/authentication/login/view/widgets/sign_up_text_widget.dart';
 import 'package:otm_inventory/res/colors.dart';
+import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
-import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -40,14 +34,12 @@ class _LoginScreenState extends State<LoginScreen> {
           statusBarBrightness: Brightness.dark,
           statusBarIconBrightness: Brightness.dark,
         )));*/
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarColor: Colors.white,
-        statusBarIconBrightness: Brightness.dark));
+    AppUtils.setStatusBarColor();
     return Container(
-      color: backgroundColor,
+      color: backgroundColor_(context),
       child: SafeArea(
         child: Scaffold(
-          backgroundColor: backgroundColor,
+          backgroundColor: backgroundColor_(context),
           // appBar: BaseAppBar(
           //   appBar: AppBar(),
           //   title: 'login'.tr,

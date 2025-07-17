@@ -25,10 +25,9 @@ import '../../../utils/app_constants.dart';
 class MyRequestsScreen extends StatelessWidget implements DateFilterListener {
   final controller = Get.put(MyRequestsController());
 
-
   @override
   Widget build(BuildContext context) {
-      AppUtils.setStatusBarColor();
+    AppUtils.setStatusBarColor();
 
     return Obx(() => Container(
         color: dashBoardBgColor_(context),
@@ -115,7 +114,8 @@ class MyRequestsScreen extends StatelessWidget implements DateFilterListener {
       InkWell(
         borderRadius: BorderRadius.circular(45),
         onTap: () async {
-          var result = await Get.toNamed(AppRoutes.filterScreen,arguments: controller.appliedFilters);
+          var result = await Get.toNamed(AppRoutes.filterScreen,
+              arguments: controller.appliedFilters);
           if (result != null) {
             controller.isResetEnable.value = true;
             controller.appliedFilters = result;
@@ -225,7 +225,7 @@ class RequestCard extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          backgroundColor: backgroundColor,
+                          backgroundColor: backgroundColor_(context),
                           shape: StadiumBorder(
                             side: BorderSide(
                                 color: getStatusColor(request.statusText ?? ""),
@@ -266,11 +266,11 @@ class RequestCard extends StatelessWidget {
 }
 
 Color getStatusColor(String status) {
-  Color color = pendingTextColor;
+  Color color = pendingTextColor_(Get.context!);
   if (status == 'approved') {
-    color = approvedTextColor;
+    color = approvedTextColor_(Get.context!);
   } else if (status == 'rejected') {
-    color = rejectTextColor;
+    color = rejectTextColor_(Get.context!);
   }
   return color;
 }
@@ -285,6 +285,7 @@ Color getRequestTypeColor(int requestType) {
   };
   return requestTypeColors[requestType] ?? Colors.grey; // Default color
 }
+
 String capitalizeFirst(String text) {
   if (text.isEmpty) return '';
   return text[0].toUpperCase() + text.substring(1);

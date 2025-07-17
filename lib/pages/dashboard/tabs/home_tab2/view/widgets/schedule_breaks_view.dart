@@ -83,13 +83,13 @@ class ScheduleBreaksView extends StatelessWidget {
                                 Icon(
                                   Icons.keyboard_arrow_right,
                                   size: 24,
-                                  color: defaultAccentColor,
+                                  color: defaultAccentColor_(context),
                                 ),
                               ]),
                             ),
                             Divider(
                               thickness: 3,
-                              color: dividerColor,
+                              color: dividerColor_(context),
                             ),
                           ],
                         )

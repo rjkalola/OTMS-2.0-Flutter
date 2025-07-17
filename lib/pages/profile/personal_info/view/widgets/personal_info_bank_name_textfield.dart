@@ -13,7 +13,6 @@ import 'package:otm_inventory/widgets/PrimaryBorderButton.dart';
 import 'package:otm_inventory/widgets/textfield/text_field_border.dart';
 import 'package:otm_inventory/widgets/textfield/text_field_underline.dart';
 
-import '../../../../../widgets/custom_text_form_field.dart';
 
 class PersonalInfoBankNameTextFieldWidget extends StatelessWidget {
   PersonalInfoBankNameTextFieldWidget({super.key});

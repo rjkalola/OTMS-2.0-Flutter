@@ -39,7 +39,7 @@ class PrimaryBorderButton extends StatelessWidget {
           minimumSize: Size(width ?? double.infinity, height ?? 48),
           elevation: elevation ?? 0,
           side: BorderSide(
-              color: borderColor ?? defaultAccentColor,
+              color: borderColor ?? defaultAccentColor_(context),
               width: borderWidth ?? 1),
           shape: RoundedRectangleBorder(
             borderRadius:
@@ -48,7 +48,7 @@ class PrimaryBorderButton extends StatelessWidget {
         ),
         child: PrimaryTextView(
           text: buttonText,
-          color: fontColor ?? defaultAccentColor,
+          color: fontColor ?? defaultAccentColor_(context),
           fontSize: fontSize ?? 17,
           fontWeight: FontWeight.w500,
         ),

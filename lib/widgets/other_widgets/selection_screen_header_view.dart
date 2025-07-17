@@ -19,18 +19,22 @@ class SelectionScreenHeaderView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 6, bottom: 6),
+      padding: const EdgeInsets.only(bottom: 12),
       child: Stack(
         alignment: Alignment.center,
         children: [
           Align(
             alignment: Alignment.centerLeft,
-            child: IconButton(
-                onPressed: onBackPressed,
-                icon: Icon(
+            child: GestureDetector(
+              onTap: onBackPressed,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(14, 0, 10, 0),
+                child: Icon(
                   Icons.arrow_back_ios_new_outlined,
-                  size: 20,
-                )),
+                  size: 18,
+                ),
+              ),
+            ),
           ),
           TitleTextView(
             text: title,
@@ -41,7 +45,7 @@ class SelectionScreenHeaderView extends StatelessWidget {
               ? Align(
                   alignment: Alignment.centerRight,
                   child: TextViewWithContainer(
-                    padding: EdgeInsets.fromLTRB(8, 2, 8, 2),
+                    padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
                     margin: EdgeInsets.only(right: 15),
                     text: statusText ?? "",
                     borderRadius: 45,

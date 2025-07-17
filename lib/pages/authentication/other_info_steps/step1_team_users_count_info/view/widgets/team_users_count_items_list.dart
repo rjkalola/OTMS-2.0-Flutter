@@ -69,7 +69,7 @@ class TeamUsersCountItemsList extends StatelessWidget {
                 decoration: AppUtils.getDashboardItemDecoration(
                     borderWidth: 2,
                     borderColor: (selectedIndex == index)
-                        ? defaultAccentColor
+                        ? defaultAccentColor_(context)
                         : Colors.grey.shade300),
                 padding: EdgeInsets.all(12),
                 child: Center(

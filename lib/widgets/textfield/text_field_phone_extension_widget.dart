@@ -47,24 +47,24 @@ class TextFieldPhoneExtensionWidget extends StatelessWidget {
           floatingLabelBehavior: FloatingLabelBehavior.auto,
           border: OutlineInputBorder(
             borderSide:
-                BorderSide(color: focusedTextFieldBorderColor, width: 1),
+                BorderSide(color: focusedTextFieldBorderColor_(context), width: 1),
             borderRadius: BorderRadius.circular(45.0),
           ),
           focusedBorder: OutlineInputBorder(
             borderSide:
-                BorderSide(color: focusedTextFieldBorderColor, width: 1),
+                BorderSide(color: focusedTextFieldBorderColor_(context), width: 1),
             borderRadius: BorderRadius.circular(45.0),
           ),
           enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: normalTextFieldBorderColor, width: 1),
+            borderSide: BorderSide(color: normalTextFieldBorderColor_(context), width: 1),
             borderRadius: BorderRadius.circular(45.0),
           ),
           hintText: 'country_code'.tr,
           labelText: 'country_code'.tr,
-          labelStyle: const TextStyle(
-              fontWeight: FontWeight.w400, fontSize: 15, color: Colors.grey),
-          hintStyle: const TextStyle(
-              fontWeight: FontWeight.w400, fontSize: 15, color: Colors.grey),
+          labelStyle:  TextStyle(
+              fontWeight: FontWeight.w400, fontSize: 15, color: hintColor_(context)),
+          hintStyle:  TextStyle(
+              fontWeight: FontWeight.w400, fontSize: 15, color: hintColor_(context)),
         ),
       ),
       onTap: () {

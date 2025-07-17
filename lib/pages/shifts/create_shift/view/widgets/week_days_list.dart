@@ -27,11 +27,11 @@ class WeekDaysList extends StatelessWidget {
                 height: 30,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: info.status! ? defaultAccentColor : Colors.transparent,
+                  color: info.status! ? defaultAccentColor_(context) : Colors.transparent,
                   shape: BoxShape.circle,
                   border: Border.all(
                     color: info.status!
-                        ? defaultAccentColor
+                        ? defaultAccentColor_(context)
                         : Colors.grey.shade400,
                     width: 1,
                   ),

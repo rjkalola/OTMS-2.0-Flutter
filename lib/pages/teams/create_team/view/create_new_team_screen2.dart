@@ -123,7 +123,7 @@ class _CreateNewTeamScreenState extends State<CreateNewTeamScreen> {
           // Handle save logic
         },
         child: Text('save'.tr,
-            style: TextStyle(color: defaultAccentColor, fontSize: 16)),
+            style: TextStyle(color: defaultAccentColor_(context), fontSize: 16)),
       )
     ];
   }

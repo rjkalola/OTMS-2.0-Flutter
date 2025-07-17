@@ -18,7 +18,7 @@ class FooterPrimaryButton extends StatelessWidget {
         onPressed: () {
           onPressed();
         },
-        color: defaultAccentColor,
+        color: defaultAccentColor_(context),
         elevation: 0,
         height: 50,
         splashColor: Colors.white.withAlpha(30),

@@ -162,7 +162,7 @@ class _BillingDetailsScreenState extends State<BillingDetailsScreen> {
           },
           style: ElevatedButton.styleFrom(
             fixedSize: Size(126, 42),
-            backgroundColor: blueBGButtonColor,
+            backgroundColor: defaultAccentColor_(context),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30),
             ),

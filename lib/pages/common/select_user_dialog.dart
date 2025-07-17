@@ -64,8 +64,8 @@ class _SelectUserDialogState extends State<SelectUserDialog> {
                 borderRadius: BorderRadius.vertical(top: Radius.circular(10))),
             child: Column(mainAxisSize: MainAxisSize.min, children: [
               Container(
-                decoration: const BoxDecoration(
-                    color: backgroundColor,
+                decoration:  BoxDecoration(
+                    color: backgroundColor_(context),
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20))),
                 child: Row(

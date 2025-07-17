@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:otm_inventory/pages/check_in/stop_shift/controller/stop_shift_controller.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/res/drawable.dart';
+import 'package:otm_inventory/res/theme/theme_config.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
 import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
@@ -41,7 +42,9 @@ class StartShiftBox extends StatelessWidget {
             ),
             decoration: AppUtils.getGrayBorderDecoration(
                 color: backgroundColor_(context),
-                borderColor: Colors.grey.shade400,
+                borderColor: ThemeConfig.isDarkMode
+                    ? Color(0xFF424242)
+                    : Colors.grey.shade400,
                 boxShadow: [AppUtils.boxShadow(shadowColor_(context), 6)],
                 radius: 45),
             child: PrimaryTextView(
@@ -74,7 +77,8 @@ class StartShiftBox extends StatelessWidget {
                           !(controller.workLogInfo.value.isRequestPending ??
                               false),
                       child: ImageUtils.setSvgAssetsImage(
-                          path: Drawable.editPencilIcon, width: 13, height: 13))
+                          path: Drawable.editPencilIcon, width: 13, height: 13,color: primaryTextColor_(
+                          context)))
                 ],
               ),
             ),

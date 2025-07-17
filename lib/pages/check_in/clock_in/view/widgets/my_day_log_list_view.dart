@@ -169,7 +169,7 @@ class MyDayLogListView extends StatelessWidget {
                                                           fontSize: 15,
                                                           color: isActiveWorkLog(
                                                                   info)
-                                                              ? defaultAccentColor
+                                                              ? defaultAccentColor_(context)
                                                               : primaryTextColor_(
                                                                   context),
                                                         )

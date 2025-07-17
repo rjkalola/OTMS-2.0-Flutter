@@ -8,7 +8,7 @@ import 'package:otm_inventory/pages/permissions/search_user/view/widgets/users_l
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/custom_views/no_internet_widgets.dart';
-
+import 'package:otm_inventory/utils/app_utils.dart';
 class SearchUserScreen extends StatefulWidget {
   const SearchUserScreen({super.key});
 
@@ -21,14 +21,12 @@ class _UserListScreenState extends State<SearchUserScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarColor: Colors.white,
-        statusBarIconBrightness: Brightness.dark));
+    AppUtils.setStatusBarColor();
     return Container(
-      color: backgroundColor,
+      color: backgroundColor_(context),
       child: SafeArea(
         child: Scaffold(
-          backgroundColor: backgroundColor,
+          backgroundColor: backgroundColor_(context),
           appBar: AppBar(
               backgroundColor: Colors.white,
               title: SearchUsersWidget(),

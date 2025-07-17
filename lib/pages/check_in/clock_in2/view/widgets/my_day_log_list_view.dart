@@ -86,7 +86,7 @@ class MyDayLogListView extends StatelessWidget {
                           margin: EdgeInsets.only(left: 8, top: 7, bottom: 7),
                           padding: EdgeInsets.only(right: 8),
                           decoration: BoxDecoration(
-                            color: backgroundColor,
+                            color: backgroundColor_(context),
                             boxShadow: [
                               AppUtils.boxShadow(Colors.grey.shade300, 6)
                             ],
@@ -127,7 +127,7 @@ class MyDayLogListView extends StatelessWidget {
                                   ),
                                 ),
                                 Container(
-                                  color: dividerColor,
+                                  color: dividerColor_(context),
                                   width: 1,
                                   height: 50,
                                 ),

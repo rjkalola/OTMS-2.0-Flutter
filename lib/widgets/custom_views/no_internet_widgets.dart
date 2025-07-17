@@ -32,9 +32,9 @@ class NoInternetWidget extends StatelessWidget {
                 onPressed: () {
                   onPressed!();
                 },
-                fontColor: defaultAccentColor,
+                fontColor: defaultAccentColor_(context),
                 borderRadius: 45,
-                borderColor: defaultAccentColor),
+                borderColor: defaultAccentColor_(context)),
           )
         ],
       ),

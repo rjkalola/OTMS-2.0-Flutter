@@ -40,7 +40,7 @@ class StartShiftBox extends StatelessWidget {
               bottom: 6,
             ),
             decoration: AppUtils.getGrayBorderDecoration(
-                color: backgroundColor,
+                color: backgroundColor_(context),
                 borderColor: Colors.grey.shade400,
                 boxShadow: [AppUtils.boxShadow(Colors.grey.shade300, 6)],
                 radius: 45),

@@ -63,8 +63,8 @@ class DropDownListDialogState extends State<DropDownListDialog> {
             maxHeight: maxHeight,
           ),
           child: Container(
-            decoration: const BoxDecoration(
-                color: Colors.white,
+            decoration: BoxDecoration(
+                color: backgroundColor_(context),
                 borderRadius: BorderRadius.vertical(top: Radius.circular(10))),
             child: Column(mainAxisSize: MainAxisSize.min, children: [
               DialogTitleView(
@@ -93,118 +93,12 @@ class DropDownListDialogState extends State<DropDownListDialog> {
                   ),
                 ),
               ),
-              // Visibility(
-              //   visible: isSearchEnable,
-              //   child: Padding(
-              //     padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
-              //     child: TextField(
-              //       onChanged: (value) {
-              //         setState(() {
-              //           filterSearchResults(value, list);
-              //         });
-              //       },
-              //       decoration: InputDecoration(
-              //         contentPadding: const EdgeInsets.fromLTRB(0, 2, 14, 0),
-              //         prefixIcon:
-              //             const Icon(Icons.search, color: Colors.black26),
-              //         border: const OutlineInputBorder(
-              //           borderSide:
-              //               BorderSide(color: Color(0xffbab8b8), width: 1.3),
-              //         ),
-              //         focusedBorder: const OutlineInputBorder(
-              //           borderSide:
-              //               BorderSide(color: Color(0xffbab8b8), width: 1.3),
-              //         ),
-              //         hintText: 'search'.tr,
-              //       ),
-              //     ),
-              //   ),
-              // ),
               Flexible(child: setDropdownList(dialogType, listener))
             ]),
           ),
         );
       },
     );
-    // return StatefulBuilder(
-    //     builder: (BuildContext context, StateSetter setModalState) =>
-    //         DraggableScrollableSheet(
-    //           initialChildSize: 0.9,
-    //           maxChildSize: 0.9,
-    //           minChildSize: 0.5,
-    //           builder:
-    //               (BuildContext context, ScrollController scrollController) =>
-    //                   Container(
-    //             decoration: const BoxDecoration(
-    //                 color: Colors.white,
-    //                 borderRadius:
-    //                     BorderRadius.vertical(top: Radius.circular(20))),
-    //             child: Column(mainAxisSize: MainAxisSize.max, children: [
-    //               Container(
-    //                 decoration: const BoxDecoration(
-    //                     color: titleBgColor,
-    //                     borderRadius:
-    //                         BorderRadius.vertical(top: Radius.circular(20))),
-    //                 child: Stack(
-    //                   alignment: Alignment.center,
-    //                   children: [
-    //                     Align(
-    //                       alignment: Alignment.center,
-    //                       child: Padding(
-    //                         padding: const EdgeInsets.all(18.0),
-    //                         child: Text(
-    //                           title,
-    //                           style: const TextStyle(
-    //                               fontWeight: FontWeight.w600, fontSize: 17),
-    //                         ),
-    //                       ),
-    //                     ),
-    //                     Visibility(
-    //                       visible: isCloseEnable,
-    //                       child: Align(
-    //                           alignment: Alignment.centerRight,
-    //                           child: IconButton(
-    //                             onPressed: () {
-    //                               Get.back();
-    //                             },
-    //                             icon: const Icon(Icons.close, size: 20),
-    //                           )),
-    //                     )
-    //                   ],
-    //                 ),
-    //               ),
-    //               Visibility(
-    //                 visible: isSearchEnable,
-    //                 child: Padding(
-    //                   padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
-    //                   child: TextField(
-    //                     onChanged: (value) {
-    //                       setModalState(() {
-    //                         filterSearchResults(value, list);
-    //                       });
-    //                     },
-    //                     decoration: InputDecoration(
-    //                       contentPadding:
-    //                           const EdgeInsets.fromLTRB(0, 2, 14, 0),
-    //                       prefixIcon:
-    //                           const Icon(Icons.search, color: Colors.black26),
-    //                       border: const OutlineInputBorder(
-    //                         borderSide: BorderSide(
-    //                             color: Color(0xffbab8b8), width: 1.3),
-    //                       ),
-    //                       focusedBorder: const OutlineInputBorder(
-    //                         borderSide: BorderSide(
-    //                             color: Color(0xffbab8b8), width: 1.3),
-    //                       ),
-    //                       hintText: 'search'.tr,
-    //                     ),
-    //                   ),
-    //                 ),
-    //               ),
-    //               Expanded(child: setDropdownList(dialogType, listener))
-    //             ]),
-    //           ),
-    //         ));
   }
 
   Widget setDropdownList(String dialogType, SelectItemListener listener) =>
@@ -231,9 +125,9 @@ class DropDownListDialogState extends State<DropDownListDialog> {
                 child: Text(
                   tempList[i].name ?? "",
                   textAlign: TextAlign.start,
-                  style: const TextStyle(
+                  style:  TextStyle(
                       fontSize: 17,
-                      color: Color(0xff333333),
+                      color: primaryTextColor_(context),
                       fontWeight: FontWeight.w400),
                 ),
               ),

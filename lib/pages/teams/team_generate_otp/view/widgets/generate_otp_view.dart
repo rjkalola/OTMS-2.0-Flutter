@@ -67,7 +67,7 @@ class GenerateOtpView extends StatelessWidget {
                     ],
                     autoFocus: false,
                     cursor: Cursor(
-                        color: defaultAccentColor, enabled: true, width: 1),
+                        color: defaultAccentColor_(context), enabled: true, width: 1),
                     decoration: BoxLooseDecoration(
                       textStyle:  TextStyle(
                           fontSize: 18,
@@ -114,7 +114,7 @@ class GenerateOtpView extends StatelessWidget {
                       Icon(
                         Icons.copy,
                         size: 16,
-                        color: defaultAccentColor,
+                        color: defaultAccentColor_(context),
                       ),
                       SizedBox(
                         width: 6,
@@ -149,7 +149,7 @@ class GenerateOtpView extends StatelessWidget {
                           style: TextStyle(
                               fontSize: 16,
                               color: timeRemaining?.value == 0
-                                  ? defaultAccentColor
+                                  ? defaultAccentColor_(context)
                                   : secondaryTextColor_(context),
                               fontWeight: FontWeight.w500)),
                     ],

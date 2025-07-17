@@ -13,7 +13,7 @@ class TextFieldBorderDark extends StatelessWidget {
       this.labelText = "",
       this.validator,
       this.inputFormatters,
-      this.cursorColor = defaultAccentColor,
+      this.cursorColor ,
       this.keyboardType,
       this.textInputAction,
       this.isReadOnly,
@@ -102,11 +102,11 @@ class TextFieldBorderDark extends StatelessWidget {
         labelStyle: TextStyle(
             fontWeight: FontWeight.w400,
             fontSize: 16,
-            color: ThemeConfig.isDarkMode ? Color(0xFF424242) : Colors.grey),
+            color: hintColor_(context)),
         hintStyle: TextStyle(
             fontWeight: FontWeight.w400,
             fontSize: 16,
-            color: ThemeConfig.isDarkMode ? Color(0xFF424242) : Colors.grey),
+            color: hintColor_(context)),
       ),
       validator: validator!,
     );

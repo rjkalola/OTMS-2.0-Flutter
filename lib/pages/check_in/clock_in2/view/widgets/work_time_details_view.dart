@@ -16,7 +16,7 @@ class WorkTimeDetailsView extends StatelessWidget {
       margin: EdgeInsets.only(left: 16, right: 16),
       width: double.infinity,
       decoration: BoxDecoration(
-        border: Border.all(width: 1, color: dividerColor),
+        border: Border.all(width: 1, color: dividerColor_(context)),
         borderRadius: BorderRadius.circular(16),
         color: Color(0xff659DF2),
       ),

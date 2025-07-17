@@ -16,7 +16,7 @@ class PendingTasksDivider extends StatelessWidget {
       () => (controller.dashboardResponse.value.taskCount ?? 0) > 0
           ? Divider(
               thickness: 3,
-              color: dividerColor,
+              color: dividerColor_(context),
             )
           : Container(),
     );

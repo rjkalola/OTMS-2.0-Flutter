@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:get/get.dart';
 import 'package:otm_inventory/res/theme/theme_config.dart';
 
 import '../../res/colors.dart';
@@ -13,7 +14,7 @@ class TextFieldBorder extends StatelessWidget {
       this.labelText = "",
       this.validator,
       this.inputFormatters,
-      this.cursorColor = defaultAccentColor,
+      this.cursorColor,
       this.keyboardType,
       this.textInputAction,
       this.isReadOnly,
@@ -101,11 +102,11 @@ class TextFieldBorder extends StatelessWidget {
         labelStyle: TextStyle(
             fontWeight: FontWeight.w400,
             fontSize: 16,
-            color: ThemeConfig.isDarkMode ? Color(0xFF424242) : Colors.grey),
+            color: hintColor_(context)),
         hintStyle: TextStyle(
             fontWeight: FontWeight.w400,
             fontSize: 16,
-            color: ThemeConfig.isDarkMode ? Color(0xFF424242) : Colors.grey),
+            color: hintColor_(context)),
       ),
       validator: validator!,
     );

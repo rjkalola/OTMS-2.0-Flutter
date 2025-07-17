@@ -20,7 +20,7 @@ import 'package:sms_autofill/sms_autofill.dart';
 
 import '../../../authentication/introduction/view/widgets/login_button_widget.dart';
 import '../../../authentication/login/view/widgets/phone_extension_field_widget.dart';
-
+import 'package:otm_inventory/utils/app_utils.dart';
 class DeleteAccountScreen extends StatefulWidget {
   const DeleteAccountScreen({
     super.key,
@@ -35,13 +35,11 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarColor: Colors.white,
-        statusBarIconBrightness: Brightness.dark));
+    AppUtils.setStatusBarColor();
     return Container(
-      color: backgroundColor,
+      color: backgroundColor_(context),
       child: Scaffold(
-        backgroundColor: backgroundColor,
+        backgroundColor: backgroundColor_(context),
         appBar: BaseAppBar(
           appBar: AppBar(),
           title: 'delete_account'.tr,

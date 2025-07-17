@@ -37,7 +37,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: backgroundColor,
+      color: backgroundColor_(context),
       child: SafeArea(
         child: Scaffold(
           appBar: AppBar(
@@ -51,7 +51,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
             title: Text('personal_info'.tr),
             centerTitle: false,
           ),
-          backgroundColor: backgroundColor,
+          backgroundColor: backgroundColor_(context),
           bottomNavigationBar: Padding(
             padding: const EdgeInsets.all(24.0),
             child: SizedBox(

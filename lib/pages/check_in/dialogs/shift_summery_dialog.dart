@@ -103,7 +103,7 @@ class ShiftSummeryDialogState extends State<ShiftSummeryDialog> {
                         margin: const EdgeInsets.fromLTRB(14, 10, 14, 10),
                         padding: EdgeInsets.fromLTRB(12, 8, 12, 8),
                         decoration: AppUtils.getGrayBorderDecoration(
-                            color: backgroundColor,
+                            color: backgroundColor_(context),
                             borderColor: Colors.grey.shade300,
                             radius: 10),
                         child: Row(
@@ -164,7 +164,7 @@ class ShiftSummeryDialogState extends State<ShiftSummeryDialog> {
         fit: FlexFit.tight,
         child: Container(
           decoration: AppUtils.getGrayBorderDecoration(
-              color: backgroundColor,
+              color: backgroundColor_(context),
               borderColor: Colors.grey.shade300,
               radius: 10),
           child: Column(
@@ -176,7 +176,7 @@ class ShiftSummeryDialogState extends State<ShiftSummeryDialog> {
                   bottom: 6,
                 ),
                 decoration: AppUtils.getGrayBorderDecoration(
-                    color: backgroundColor,
+                    color: backgroundColor_(context),
                     borderColor: Colors.grey.shade300,
                     radius: 9),
                 child: PrimaryTextView(
@@ -216,7 +216,7 @@ class ShiftSummeryDialogState extends State<ShiftSummeryDialog> {
                 padding:
                     const EdgeInsets.only(top: 6, bottom: 6, left: 8, right: 8),
                 decoration: AppUtils.getGrayBorderDecoration(
-                    color: backgroundColor,
+                    color: backgroundColor_(context),
                     borderColor: Colors.grey.shade300,
                     radius: 9),
                 child: Row(
@@ -373,7 +373,7 @@ class ShiftSummeryDialogState extends State<ShiftSummeryDialog> {
                 child: Container(
                   height: 40,
                   decoration: AppUtils.getGrayBorderDecoration(
-                      color: backgroundColor,
+                      color: backgroundColor_(context),
                       borderColor: Color(AppUtils.haxColor("#FFDC4A")),
                       borderWidth: 1.5,
                       radius: 45),

@@ -12,7 +12,7 @@ class TextFieldUnderline extends StatelessWidget {
       this.labelText = "",
       this.validator,
       this.inputFormatters,
-      this.cursorColor = defaultAccentColor,
+      this.cursorColor ,
       this.keyboardType,
       this.textInputAction,
       this.isReadOnly,
@@ -72,23 +72,23 @@ class TextFieldUnderline extends StatelessWidget {
         contentPadding: const EdgeInsets.fromLTRB(0, 14, 0, 14),
         floatingLabelBehavior: FloatingLabelBehavior.auto,
         enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: normalTextFieldBorderColor),
+          borderSide: BorderSide(color: normalTextFieldBorderColor_(context)),
         ),
         focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: focusedTextFieldBorderColor, width: 2),
+          borderSide: BorderSide(color: focusedTextFieldBorderColor_(context), width: 2),
         ),
         // errorBorder: UnderlineInputBorder(
         //   borderSide: BorderSide(color: normalTextFieldBorderColor),
         // ),
         focusedErrorBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: focusedTextFieldBorderColor, width: 2),
+          borderSide: BorderSide(color: focusedTextFieldBorderColor_(context), width: 2),
         ),
         hintText: hintText,
         labelText: labelText,
-        labelStyle: const TextStyle(
-            fontWeight: FontWeight.w400, fontSize: 16, color: Colors.grey),
-        hintStyle: const TextStyle(
-            fontWeight: FontWeight.w400, fontSize: 16, color: Colors.grey),
+        labelStyle:  TextStyle(
+            fontWeight: FontWeight.w400, fontSize: 16, color: hintColor_(context)),
+        hintStyle:  TextStyle(
+            fontWeight: FontWeight.w400, fontSize: 16, color: hintColor_(context)),
       ),
       validator: validator!,
     );

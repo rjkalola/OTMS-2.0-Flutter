@@ -9,7 +9,7 @@ class ToolbarDividerCompanySignup extends StatelessWidget {
     return Divider(
       thickness: 5,
       height: 5,
-      color: defaultAccentColor,
+      color: defaultAccentColor_(context),
     );
   }
 }

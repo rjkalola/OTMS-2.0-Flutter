@@ -46,10 +46,10 @@ class MoreTabButton extends StatelessWidget {
                   fontSize: 16,
                 )),
           )),
-          const Icon(
+           Icon(
             Icons.keyboard_arrow_right,
             size: 24,
-            color: hintColor,
+            color: hintColor_(context),
           ),
         ]),
       ),

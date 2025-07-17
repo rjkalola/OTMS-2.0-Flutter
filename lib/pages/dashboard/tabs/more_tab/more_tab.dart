@@ -29,7 +29,7 @@ class MoreTabState extends State<MoreTab> implements DialogButtonClickListener {
   Widget build(BuildContext context) {
    AppUtils.setStatusBarColor();
     return Scaffold(
-      backgroundColor: backgroundColor_(context),
+      backgroundColor: dashBoardBgColor_(context),
       // appBar: AppBar(
       //   surfaceTintColor: Colors.transparent,
       //   leadingWidth: 32, // <-- Use this- and this

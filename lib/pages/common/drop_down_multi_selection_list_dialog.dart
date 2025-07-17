@@ -59,8 +59,8 @@ class DropDownMultiSelectionListDialogState
                         BorderRadius.vertical(top: Radius.circular(20))),
                 child: Column(mainAxisSize: MainAxisSize.max, children: [
                   Container(
-                    decoration: const BoxDecoration(
-                        color: titleBgColor,
+                    decoration:  BoxDecoration(
+                        color: titleBgColor_(context),
                         borderRadius:
                             BorderRadius.vertical(top: Radius.circular(20))),
                     child: Stack(
@@ -137,8 +137,8 @@ class DropDownMultiSelectionListDialogState
                             flex: 1,
                             child:PrimaryBorderButton(
                               buttonText: 'select'.tr,
-                              fontColor: defaultAccentColor,
-                              borderColor: defaultAccentColor,
+                              fontColor: defaultAccentColor_(context),
+                              borderColor: defaultAccentColor_(context),
                               onPressed: () {
                                 listener.onSelectMultiItem(
                                     tempList, dialogType);
@@ -180,7 +180,7 @@ class DropDownMultiSelectionListDialogState
               title: Padding(
                 padding: const EdgeInsets.fromLTRB(6, 0, 18, 0),
                 child: Row(children: [
-                  Checkbox(activeColor: defaultAccentColor,value: tempList[i].check??false, onChanged: (isCheck) {
+                  Checkbox(activeColor: defaultAccentColor_(context),value: tempList[i].check??false, onChanged: (isCheck) {
                     setState(() {
                       tempList[i].check = isCheck;
                     });

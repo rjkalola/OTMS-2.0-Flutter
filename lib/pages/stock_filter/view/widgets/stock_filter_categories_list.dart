@@ -60,10 +60,10 @@ class StockFilterCategoriesList extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const Padding(
+                     Padding(
                       padding: EdgeInsets.only(left: 14, right: 14),
                       child: Divider(
-                        color: dividerColor,
+                        color: dividerColor_(context),
                         height: 0.5,
                         thickness: 0.5,
                       ),

@@ -67,7 +67,7 @@ class OtpView extends StatelessWidget {
                   ],
                   autoFocus: true,
                   cursor: Cursor(
-                      color: defaultAccentColor, enabled: true, width: 1),
+                      color: defaultAccentColor_(context), enabled: true, width: 1),
                   decoration: BoxLooseDecoration(
                     textStyle:  TextStyle(
                         fontSize: 18,
@@ -119,7 +119,7 @@ class OtpView extends StatelessWidget {
                         style: TextStyle(
                             fontSize: 16,
                             color: timeRemaining?.value == 0
-                                ? defaultAccentColor
+                                ? defaultAccentColor_(context)
                                 : secondaryExtraLightTextColor_(context),
                             fontWeight: FontWeight.w500)),
                   ],

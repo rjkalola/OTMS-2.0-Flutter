@@ -10,7 +10,7 @@ class SettingItemDivider extends StatelessWidget {
       padding: EdgeInsets.only(left: 70, top: 9, right: 0),
       child: Divider(
         height: 0,
-        color: dividerColor,
+        color: dividerColor_(context),
         thickness: 2,
       ),
     );

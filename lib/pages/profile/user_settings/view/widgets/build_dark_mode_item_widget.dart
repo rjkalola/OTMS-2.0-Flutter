@@ -21,10 +21,10 @@ class BuildDarkModeItemWidget extends StatelessWidget {
         elevation: 2,
         shadowColor: Colors.black54,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        color: backgroundColor,
+        color: backgroundColor_(context),
         child: Container(
           decoration: BoxDecoration(
-              color: backgroundColor,
+              color: backgroundColor_(context),
               borderRadius: BorderRadius.all(
                 Radius.circular(20),
               ),

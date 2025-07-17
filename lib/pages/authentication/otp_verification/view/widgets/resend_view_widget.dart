@@ -27,9 +27,9 @@ class ResendViewWidget extends StatelessWidget {
                       ..onTap = () {
                         verifyOtpController.resendOtpApi();
                       },
-                    style: const TextStyle(
+                    style:  TextStyle(
                         fontSize: 16,
-                        color: defaultAccentColor,
+                        color: defaultAccentColor_(context),
                         fontWeight: FontWeight.w500)),
                 TextSpan(text: 'otm_received_note'.tr),
               ],

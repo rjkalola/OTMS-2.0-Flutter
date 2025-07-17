@@ -10,7 +10,7 @@ import '../../../res/colors.dart';
 import '../../../widgets/CustomProgressbar.dart';
 import '../../../widgets/appbar/base_appbar.dart';
 import '../controller/stock_filter_controller.dart';
-
+import 'package:otm_inventory/utils/app_utils.dart';
 class StockFilterScreen extends StatefulWidget {
   const StockFilterScreen({
     super.key,
@@ -25,12 +25,10 @@ class _StockFilterScreenState extends State<StockFilterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarColor: Colors.white,
-        statusBarIconBrightness: Brightness.dark));
+    AppUtils.setStatusBarColor();
     return Obx(() => SafeArea(
           child: Scaffold(
-            backgroundColor: backgroundColor,
+            backgroundColor: backgroundColor_(context),
             appBar: BaseAppBar(
               appBar: AppBar(),
               title: 'stock_filter'.tr,
@@ -77,8 +75,8 @@ class _StockFilterScreenState extends State<StockFilterScreen> {
                     //           flex: 1,
                     //           child:PrimaryBorderButton(
                     //             buttonText: 'apply'.tr,
-                    //             textColor: defaultAccentColor,
-                    //             borderColor: defaultAccentColor,
+                    //             textColor: defaultAccentColor_(context),
+                    //             borderColor: defaultAccentColor_(context),
                     //             onPressed: () {
                     //               stockFilterController.applyFilter();
                     //               // Get.back();
@@ -111,9 +109,9 @@ class _StockFilterScreenState extends State<StockFilterScreen> {
         ));
   }
 
-  Widget dividerItem() => const Divider(
+  Widget dividerItem() =>  Divider(
         thickness: 0.5,
         height: 0.5,
-        color: dividerColor,
+        color: dividerColor_(context),
       );
 }

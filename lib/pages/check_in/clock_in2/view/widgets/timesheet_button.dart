@@ -25,9 +25,9 @@ class TimesheetButton extends StatelessWidget {
         margin: EdgeInsets.only(left: 8, right: 8),
         padding: EdgeInsets.fromLTRB(10, 14, 10, 14),
         decoration: BoxDecoration(
-            color: backgroundColor,
+            color: backgroundColor_(context),
             boxShadow: [AppUtils.boxShadow(Colors.grey.shade200, 9)],
-            border: Border.all(width: 0.5, color: dividerColor),
+            border: Border.all(width: 0.5, color: dividerColor_(context)),
             borderRadius: BorderRadius.circular(15)),
         child: Column(
           children: [

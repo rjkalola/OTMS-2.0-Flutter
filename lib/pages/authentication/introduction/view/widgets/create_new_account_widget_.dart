@@ -18,11 +18,11 @@ class CreateNewAccount extends StatelessWidget {
             Get.toNamed(AppRoutes.signUp1Screen);
           },
           child: Text('create_new_account'.tr,
-              style: const TextStyle(
-                color: defaultAccentColor,
+              style:  TextStyle(
+                color: defaultAccentColor_(context),
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
-                decorationColor: defaultAccentColor,
+                decorationColor: defaultAccentColor_(context),
               )),
         ),
       ),

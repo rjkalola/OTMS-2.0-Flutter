@@ -26,8 +26,8 @@ class WidgetIconView extends StatelessWidget {
             width: 44,
             height: 44,
             decoration: AppUtils.getGrayBorderDecoration(
-                color: backgroundColor,
-                borderColor: dividerColor,
+                color: backgroundColor_(context),
+                borderColor: dividerColor_(context),
                 borderWidth: 1),
             child: ImageUtils.setSvgAssetsImage(
                 path:

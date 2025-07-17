@@ -11,6 +11,7 @@ import 'package:otm_inventory/pages/company/company_signup/model/company_info.da
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
+import 'package:otm_inventory/utils/user_utils.dart';
 import 'package:otm_inventory/web_services/api_constants.dart';
 import 'package:otm_inventory/web_services/response/module_info.dart';
 import 'package:otm_inventory/web_services/response/response_model.dart';
@@ -41,6 +42,7 @@ class CompanyListController extends GetxController implements MenuItemListener {
   void getCompanyListApi() {
     isLoading.value = true;
     Map<String, dynamic> map = {};
+    map["user_id"] = UserUtils.getLoginUserId();
     _api.getCompanyList(
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {

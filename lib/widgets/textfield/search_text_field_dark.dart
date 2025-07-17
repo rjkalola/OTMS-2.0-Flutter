@@ -52,27 +52,29 @@ class SearchTextFieldDark extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(45)),
             ),
             border: OutlineInputBorder(
-                borderSide: BorderSide(color: ThemeConfig.isDarkMode
-                    ? Color(0xFF757575)
-                    : Color(0xff8a8a8a), width: 1),
+                borderSide: BorderSide(
+                    color: ThemeConfig.isDarkMode
+                        ? Color(0xFF757575)
+                        : Color(0xff8a8a8a),
+                    width: 1),
                 borderRadius: BorderRadius.all(Radius.circular(45))),
             focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: ThemeConfig.isDarkMode
-                    ? Color(0xFF757575)
-                    : Color(0xff8a8a8a), width: 1.4),
+                borderSide: BorderSide(
+                    color: ThemeConfig.isDarkMode
+                        ? Color(0xFF757575)
+                        : Color(0xff8a8a8a),
+                    width: 1.4),
                 borderRadius: BorderRadius.all(Radius.circular(45))),
             hintText: hint ?? 'search'.tr,
             labelText: label,
             labelStyle: TextStyle(
                 fontWeight: FontWeight.w400,
                 fontSize: 16,
-                color:
-                    ThemeConfig.isDarkMode ? Colors.white54 : Colors.black54),
+                color: hintColor_(context)),
             hintStyle: TextStyle(
                 fontWeight: FontWeight.w400,
                 fontSize: 16,
-                color:
-                    ThemeConfig.isDarkMode ? Colors.white54 : Colors.black54),
+                color: hintColor_(context)),
             suffixIcon: isClearVisible.value
                 ? IconButton(
                     onPressed: onPressedClear,

@@ -91,7 +91,7 @@ class _PostCoderSearchScreenState extends State<PostCoderSearchScreen>{
                           },
                           style: OutlinedButton.styleFrom(
                             backgroundColor: Colors.transparent,
-                            side: BorderSide(color:blueBGButtonColor,
+                            side: BorderSide(color:defaultAccentColor_(context),
                                 width: 1.5),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30),
@@ -100,7 +100,7 @@ class _PostCoderSearchScreenState extends State<PostCoderSearchScreen>{
                           ),
                           child: Text(
                             'search'.tr,
-                            style: TextStyle(color: blueBGButtonColor,fontSize: 15,fontWeight: FontWeight.w400),
+                            style: TextStyle(color: defaultAccentColor_(context),fontSize: 15,fontWeight: FontWeight.w400),
                           ),
                         ),
                       ),

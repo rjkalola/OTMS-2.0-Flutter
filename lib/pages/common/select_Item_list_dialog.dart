@@ -41,25 +41,33 @@ class SelectItemListDialogState extends State<SelectItemListDialog> {
   Widget build(BuildContext context) {
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter setModalState) => Container(
-              decoration: const BoxDecoration(
-                  color: backgroundColor,
+              decoration: BoxDecoration(
+                  color: backgroundColor_(context),
                   borderRadius: BorderRadius.vertical(top: Radius.circular(0))),
               child: Column(mainAxisSize: MainAxisSize.min, children: [
                 Align(
                   alignment: Alignment.topLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
-                    child: Text(
-                      title,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w600, fontSize: 18),
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: titleBgColor_(context),
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(16),
+                            topRight: Radius.circular(16))),
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
+                      child: Text(
+                        title,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w600, fontSize: 18),
+                      ),
                     ),
                   ),
                 ),
-                const Divider(
+                Divider(
                   thickness: 1,
                   height: 1,
-                  color: dividerColor,
+                  color: dividerColor_(context),
                 ),
                 setDropdownList(dialogType, listener),
               ]),
@@ -86,9 +94,9 @@ class SelectItemListDialogState extends State<SelectItemListDialog> {
                   child: Text(
                     list[i].name ?? "",
                     textAlign: TextAlign.start,
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontSize: 17,
-                        color: Color(0xff333333),
+                        color: primaryTextColor_(context),
                         fontWeight: FontWeight.w400),
                   ),
                 ),

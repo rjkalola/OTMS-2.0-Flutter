@@ -14,7 +14,7 @@ class CustomDivider extends StatelessWidget {
     return Divider(
       thickness: thickness,
       height: height,
-      color: color ?? dividerColor,
+      color: color ?? dividerColor_(context),
     );
   }
 }

@@ -39,7 +39,7 @@ class InfoCard extends StatelessWidget {
           Text(
             value,
             style: TextStyle(
-                color: isLink ? blueBGButtonColor : Colors.black,
+                color: isLink ? defaultAccentColor_(context) : Colors.black,
                 fontWeight: FontWeight.w400,fontSize: 16),
           ),
         ],

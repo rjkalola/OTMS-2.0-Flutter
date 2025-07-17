@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:otm_inventory/pages/authentication/splash/splash_services.dart';
+import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/res/drawable.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
 
@@ -23,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: dashBoardBgColor_(context),
         body: SizedBox(
           height: double.infinity,
           width: double.infinity,

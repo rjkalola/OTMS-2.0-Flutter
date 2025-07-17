@@ -12,7 +12,7 @@ class EarningSummaryDivider extends StatelessWidget {
   Widget build(BuildContext context) {
     return Divider(
       thickness: 3,
-      color: dividerColor,
+      color: dividerColor_(context),
     );
   }
 }

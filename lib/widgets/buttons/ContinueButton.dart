@@ -27,7 +27,7 @@ class ContinueButton extends StatelessWidget {
       onPressed: () {
         onPressed();
       },
-      color: color ?? defaultAccentColor,
+      color: color ?? defaultAccentColor_(context),
       elevation: 0,
       height: 48,
       splashColor: Colors.white.withAlpha(30),

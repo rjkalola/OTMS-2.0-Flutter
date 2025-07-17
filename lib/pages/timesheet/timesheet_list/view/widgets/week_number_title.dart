@@ -28,7 +28,7 @@ class WeekNumberTitle extends StatelessWidget {
               ),
               Container(
                 padding: EdgeInsets.fromLTRB(10, 4, 10, 4),
-                color: backgroundColor,
+                color: backgroundColor_(context),
                 child: TitleTextView(
                   fontSize: 14,
                   text:

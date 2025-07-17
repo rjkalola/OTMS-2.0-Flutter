@@ -37,12 +37,12 @@ class PrimaryButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           minimumSize: Size(width ?? double.infinity, height ?? 48),
           elevation: elevation ?? 0,
-          backgroundColor: color ?? defaultAccentColor,
+          backgroundColor: color ?? defaultAccentColor_(context),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(borderRadius ?? 45),
           ),
         ),
-        // color: color ?? defaultAccentColor,
+        // color: color ?? defaultAccentColor_(context),
         // elevation: 0,
         // height: 48,
         // splashColor: Colors.white.withAlpha(30),

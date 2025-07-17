@@ -13,7 +13,9 @@ import 'package:otm_inventory/pages/check_in/stop_shift/view/widgets/total_hours
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
+import 'package:otm_inventory/widgets/map_view/bottom_curve_container.dart';
 import 'package:otm_inventory/widgets/map_view/custom_map_view.dart';
+import 'package:otm_inventory/widgets/map_view/map_back_arrow.dart';
 import 'package:otm_inventory/widgets/other_widgets/selection_screen_header_view.dart';
 
 class StopShiftScreen extends StatefulWidget {
@@ -28,7 +30,7 @@ class _StopShiftScreenState extends State<StopShiftScreen> {
 
   @override
   Widget build(BuildContext context) {
-      AppUtils.setStatusBarColor();
+    AppUtils.setStatusBarColor();
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) async {
@@ -57,11 +59,19 @@ class _StopShiftScreenState extends State<StopShiftScreen> {
                 visible: controller.isMainViewVisible.value,
                 child: Column(children: [
                   Expanded(
-                    child: CustomMapView(
-                      onMapCreated: controller.onMapCreated,
-                      target: controller.center,
-                      markers: controller.markers,
-                      polylines: controller.polylines,
+                    child: Stack(
+                      children: [
+                        CustomMapView(
+                          onMapCreated: controller.onMapCreated,
+                          target: controller.center,
+                          markers: controller.markers,
+                          polylines: controller.polylines,
+                        ),
+                        MapBackArrow(onBackPressed: () {
+                          controller.onBackPress();
+                        }),
+                        BottomCurveContainer()
+                      ],
                     ),
                   ),
                   SingleChildScrollView(

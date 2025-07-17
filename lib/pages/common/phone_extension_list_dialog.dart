@@ -54,8 +54,8 @@ class _PhoneExtensionListDialogState extends State<PhoneExtensionListDialog> {
             maxHeight: maxHeight,
           ),
           child: Container(
-            decoration: const BoxDecoration(
-                color: Colors.white,
+            decoration:  BoxDecoration(
+                color: backgroundColor_(context),
                 borderRadius: BorderRadius.vertical(top: Radius.circular(10))),
             child: Column(mainAxisSize: MainAxisSize.min, children: [
               DialogTitleView(
@@ -201,9 +201,9 @@ class _PhoneExtensionListDialogState extends State<PhoneExtensionListDialog> {
                             child: Text(
                               "${tempList[i].name!} (${tempList[i].phoneExtension!})",
                               textAlign: TextAlign.start,
-                              style: const TextStyle(
+                              style:  TextStyle(
                                   fontSize: 16,
-                                  color: Color(0xff333333),
+                                  color: primaryTextColor_(context),
                                   fontWeight: FontWeight.w400),
                             ),
                           )

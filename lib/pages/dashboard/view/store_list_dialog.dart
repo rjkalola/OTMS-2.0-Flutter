@@ -57,8 +57,8 @@ class StoreListDialogState extends State<StoreListDialog> {
                         BorderRadius.vertical(top: Radius.circular(20))),
                 child: Column(mainAxisSize: MainAxisSize.max, children: [
                   Container(
-                    decoration: const BoxDecoration(
-                        color: titleBgColor,
+                    decoration:  BoxDecoration(
+                        color: titleBgColor_(context),
                         borderRadius:
                             BorderRadius.vertical(top: Radius.circular(20))),
                     child: Stack(

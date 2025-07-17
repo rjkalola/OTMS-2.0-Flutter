@@ -31,15 +31,17 @@ class SettingItem extends StatelessWidget {
                 width: 44,
                 height: 44,
                 decoration: AppUtils.getGrayBorderDecoration(
-                    color: backgroundColor,
-                    borderColor: dividerColor,
+                    color: backgroundColor_(context),
+                    borderColor: dividerColor_(context),
                     borderWidth: 1),
                 child: ImageUtils.setSvgAssetsImage(
-                    path: iconPath,
-                    width: 26,
-                    height: 26,
-                    color:
-                    Color(AppUtils.haxColor(iconColor ?? "#000000"))),
+                  path: iconPath,
+                  width: 26,
+                  height: 26,
+                  color: iconColor != null
+                      ? Color(AppUtils.haxColor(iconColor!))
+                      : primaryTextColor_(context),
+                ),
               ),
               SizedBox(
                 width: 12,
@@ -49,7 +51,7 @@ class SettingItem extends StatelessWidget {
                 child: Text(
                   title,
                   textAlign: TextAlign.start,
-                  style:  TextStyle(
+                  style: TextStyle(
                       fontSize: 17,
                       color: primaryTextColor_(context),
                       fontWeight: FontWeight.w600),

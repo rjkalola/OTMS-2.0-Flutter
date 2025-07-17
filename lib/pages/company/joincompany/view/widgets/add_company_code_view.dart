@@ -36,8 +36,8 @@ class AddCompanyCode extends StatelessWidget {
               onPressed: () {
                 controller.onClickSearch();
               },
-              fontColor: defaultAccentColor,
-              borderColor: defaultAccentColor)
+              fontColor: defaultAccentColor_(context),
+              borderColor: defaultAccentColor_(context))
         ],
       ),
     );

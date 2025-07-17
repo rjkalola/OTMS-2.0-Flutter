@@ -12,7 +12,7 @@ import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
 import 'package:sms_autofill/sms_autofill.dart';
-
+import 'package:otm_inventory/utils/app_utils.dart';
 class VerifyOtpScreen extends StatefulWidget {
   const VerifyOtpScreen({
     super.key,
@@ -43,14 +43,12 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarColor: Colors.white,
-        statusBarIconBrightness: Brightness.dark));
+    AppUtils.setStatusBarColor();
     return Container(
-      color: backgroundColor,
+      color: backgroundColor_(context),
       child: SafeArea(
         child: Scaffold(
-          backgroundColor: backgroundColor,
+          backgroundColor: backgroundColor_(context),
           appBar: BaseAppBar(
             appBar: AppBar(),
             title: 'verify_otp'.tr,
@@ -70,16 +68,16 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Divider(
+                           Divider(
                             thickness: 1,
                             height: 1,
-                            color: dividerColor,
+                            color: dividerColor_(context),
                           ),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(20, 30, 20, 22),
                             child: Text('verify_otp_hint1'.tr,
-                                style: const TextStyle(
-                                    color: defaultAccentColor,
+                                style:  TextStyle(
+                                    color: defaultAccentColor_(context),
                                     fontSize: 19,
                                     fontWeight: FontWeight.w500)),
                           ),
@@ -99,7 +97,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                                 ],
                                 autoFocus: true,
                                 cursor: Cursor(
-                                    color: defaultAccentColor,
+                                    color: defaultAccentColor_(context),
                                     enabled: true,
                                     width: 1),
                                 decoration: CirclePinDecoration(

@@ -18,7 +18,7 @@ class UserScoreDivider extends StatelessWidget {
               controller.dashboardResponse.value.isOwner)
           ? Divider(
               thickness: 3,
-              color: dividerColor,
+              color: dividerColor_(context),
             )
           : Container(),
     );

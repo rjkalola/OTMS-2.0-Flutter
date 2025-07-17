@@ -7,7 +7,7 @@ import '../../../../res/colors.dart';
 import '../../../../routes/app_routes.dart';
 import '../../../../utils/app_storage.dart';
 import '../../../common/listener/DialogButtonClickListener.dart';
-
+import 'package:otm_inventory/utils/app_utils.dart';
 class ProfileTab extends StatefulWidget {
   const ProfileTab({super.key});
 
@@ -20,9 +20,7 @@ class ProfileTab extends StatefulWidget {
 class ProfileTabState extends State<ProfileTab> implements DialogButtonClickListener {
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarColor: Colors.white,
-        statusBarIconBrightness: Brightness.dark));
+    AppUtils.setStatusBarColor();
     return Scaffold(
       backgroundColor: Colors.white,
       // appBar: AppBar(
@@ -33,10 +31,10 @@ class ProfileTabState extends State<ProfileTab> implements DialogButtonClickList
       // ),
       body: Column(
         children: [
-          const Divider(
+           Divider(
             thickness: 1,
             height: 1,
-            color: dividerColor,
+            color: dividerColor_(context),
           ),
           const SizedBox(
             height: 6,
@@ -53,9 +51,9 @@ class ProfileTabState extends State<ProfileTab> implements DialogButtonClickList
     );
   }
 
-  Widget divider() => const Padding(
+  Widget divider() =>  Padding(
         padding: EdgeInsets.only(left: 18, right: 20),
-        child: Divider(thickness: 0.4, height: 0.4, color: dividerColor),
+        child: Divider(thickness: 0.4, height: 0.4, color: dividerColor_(context)),
       );
 
   @override

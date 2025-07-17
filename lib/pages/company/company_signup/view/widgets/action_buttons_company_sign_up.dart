@@ -24,8 +24,8 @@ class ActionButtonsCompanySignUp extends StatelessWidget {
             flex: 1,
             child: PrimaryBorderButton(
               buttonText: controller.fromSignUp.value ? 'skip'.tr : 'close'.tr,
-              textColor: defaultAccentColor,
-              borderColor: defaultAccentColor,
+              textColor: defaultAccentColor_(context),
+              borderColor: defaultAccentColor_(context),
               borderRadius: 45,
               onPressed: () {
                 Get.back();

@@ -132,7 +132,7 @@ class _BillingDetailsNewScreenState extends State<BillingDetailsNewScreen> {
           },
           style: ElevatedButton.styleFrom(
             fixedSize: Size(100, 40),
-            backgroundColor: blueBGButtonColor,
+            backgroundColor: defaultAccentColor_(context),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30),
             ),

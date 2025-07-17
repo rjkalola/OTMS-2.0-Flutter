@@ -68,7 +68,7 @@ class OtpViewJoinCompany extends StatelessWidget {
                     ],
                     autoFocus: true,
                     cursor: Cursor(
-                        color: defaultAccentColor, enabled: true, width: 1),
+                        color: defaultAccentColor_(context), enabled: true, width: 1),
                     decoration: BoxLooseDecoration(
                       textStyle:  TextStyle(
                           fontSize: 18,
@@ -119,7 +119,7 @@ class OtpViewJoinCompany extends StatelessWidget {
                             },
                           style: const TextStyle(
                               fontSize: 16,
-                              color: defaultAccentColor,
+                              color: defaultAccentColor_(context),
                               fontWeight: FontWeight.w500)),
                     ],
                   ))*/

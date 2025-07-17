@@ -40,7 +40,7 @@ class MyAccountBottomNavigationBar extends StatelessWidget {
                         width: 24,
                         height: 24,
                         color:
-                        isSelected ? defaultAccentColor : Colors.black54),
+                        isSelected ? defaultAccentColor_(context) : Colors.black54),
                     if (isSelected)
                       Padding(
                         padding: const EdgeInsets.only(top: 4.0),
@@ -48,7 +48,7 @@ class MyAccountBottomNavigationBar extends StatelessWidget {
                           DataUtils.tabLabels[index],
                           style: TextStyle(
                             fontSize: 12,
-                            color: defaultAccentColor,
+                            color: defaultAccentColor_(context),
                           ),
                         ),
                       ),
@@ -68,13 +68,13 @@ class MyAccountBottomNavigationBar extends StatelessWidget {
           path: Drawable.tab1Icon,
           width: 24,
           height: 24,
-          color: defaultAccentColor),
+          color: defaultAccentColor_(Get.context!)),
       SizedBox(
         height: 4,
       ),
       PrimaryTextView(
         text: "Home",
-        color: defaultAccentColor,
+        color: defaultAccentColor_(Get.context!),
         fontWeight: FontWeight.w400,
         fontSize: 14,
       )

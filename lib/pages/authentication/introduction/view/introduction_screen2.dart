@@ -9,6 +9,7 @@ import 'package:otm_inventory/pages/authentication/introduction/view/widgets/log
 import 'package:otm_inventory/pages/authentication/introduction/view/widgets/login_users_list.dart';
 
 import 'package:otm_inventory/res/colors.dart';
+import 'package:otm_inventory/utils/app_utils.dart';
 
 class IntroductionScreen extends StatefulWidget {
   const IntroductionScreen({super.key});
@@ -22,19 +23,17 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarColor: Colors.white,
-        statusBarIconBrightness: Brightness.dark));
+    AppUtils.setStatusBarColor();
     return Container(
-      color: backgroundColor,
+      color: backgroundColor_(context),
       child: SafeArea(
         child: Scaffold(
-          backgroundColor: backgroundColor,
+          backgroundColor: backgroundColor_(context),
           body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            const Divider(
+            Divider(
               thickness: 1,
               height: 1,
-              color: dividerColor,
+              color: dividerColor_(context),
             ),
             HeaderWidget(),
             AppLogoWidget(),
@@ -45,12 +44,12 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
             const SizedBox(
               height: 20,
             ),
-            const Padding(
+            Padding(
               padding: EdgeInsets.fromLTRB(14, 0, 14, 0),
               child: Divider(
                 thickness: 1,
                 height: 1,
-                color: dividerColor,
+                color: dividerColor_(context),
               ),
             ),
             CreateNewAccount(),

@@ -18,7 +18,7 @@ class DoItLater extends StatelessWidget {
         },
         child: PrimaryTextView(
           text: 'do_it_later'.tr.toUpperCase(),
-          color: defaultAccentColor,
+          color: defaultAccentColor_(context),
           fontSize: 16,
         ),
       ),

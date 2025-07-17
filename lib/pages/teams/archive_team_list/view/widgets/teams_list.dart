@@ -60,7 +60,7 @@ class TeamsList extends StatelessWidget {
                                         ? "${info.name} (${info.subcontractorCompanyName})"
                                         : info.name ?? "",
                                     color: (info.isSubcontractor ?? false)
-                                        ? defaultAccentColor
+                                        ? defaultAccentColor_(context)
                                         : primaryTextColor_(context),
                                   ),
                                   SubtitleTextView(
@@ -79,7 +79,7 @@ class TeamsList extends StatelessWidget {
                               },
                               child: ImageUtils.setSvgAssetsImage(
                                   path: Drawable.unArchiveIcon,
-                                  color: defaultAccentColor,
+                                  color: defaultAccentColor_(context),
                                   width: 28,
                                   height: 28),
                             ),

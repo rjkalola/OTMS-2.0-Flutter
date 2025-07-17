@@ -11,6 +11,7 @@ import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/PrimaryButton.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
 import 'package:otm_inventory/widgets/custom_views/no_internet_widgets.dart';
+import 'package:otm_inventory/widgets/map_view/map_back_arrow.dart';
 
 class StartShiftMapScreen extends StatefulWidget {
   const StartShiftMapScreen({super.key});
@@ -49,14 +50,9 @@ class _StartShiftMapScreenState extends State<StartShiftMapScreen> {
                         child: Stack(
                           children: [
                             StartShiftMapView(),
-                            IconButton(
-                                onPressed: () {
-                                  Get.back();
-                                },
-                                icon: Icon(
-                                  Icons.arrow_back_ios_new_outlined,
-                                  size: 26,
-                                )),
+                            MapBackArrow(onBackPressed: (){
+                              Get.back();
+                            },),
                             StartShiftButton()
                           ],
                         ),

@@ -18,7 +18,7 @@ class JoinCompanyRequestDivider extends StatelessWidget {
               controller.dashboardResponse.value.joinCompanyRequest)
           ? Divider(
               thickness: 3,
-              color: dividerColor,
+              color: dividerColor_(context),
             )
           : Container(),
     );

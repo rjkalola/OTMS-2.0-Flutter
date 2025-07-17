@@ -16,7 +16,7 @@ class MyLogAddressesTabs extends StatelessWidget {
         decoration: BoxDecoration(
             border: Border.all(width: 0.6, color: Colors.grey.shade300),
             borderRadius: BorderRadius.circular(12),
-            color: backgroundColor,
+            color: backgroundColor_(context),
             boxShadow: [AppUtils.boxShadow(Colors.grey.shade300, 6)]),
         child: Row(
           children: [

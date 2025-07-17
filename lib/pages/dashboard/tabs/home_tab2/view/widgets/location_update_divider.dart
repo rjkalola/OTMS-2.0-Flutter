@@ -13,7 +13,7 @@ class LocationUpdateDivider extends StatelessWidget {
     return Obx(() => controller.isUpdateLocationDividerVisible.value
         ? Divider(
       thickness: 3,
-      color: dividerColor,
+      color: dividerColor_(context),
     )
         : Container(),);
   }
