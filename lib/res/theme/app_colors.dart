@@ -21,6 +21,7 @@ class AppColors {
   static const snackBarColor = Color(0xff484848);
   static const dividerColor = Color(0xffe6eaee);
   static const bottomTabbackgroundColor = Color(0xfff4f5f7);
+  static const lightGreyColor = Color(0xFFEEEEEE);
 
   // TextField
   // static const hintColor = Color(0xffbdbdbd);
@@ -57,6 +58,7 @@ class AppColors {
   static const snackBarColorDark = Color(0xFFCFCDCD);
   static const dividerColorDark = Color(0xFF252525);
   static const bottomTabBackgroundColorDark = Color(0xFF0B0A08);
+  static const lightGreyColorDark = Color(0xFF212121);
 
   // TextField
   static const hintColorDark = Color(0xFF656565);
@@ -66,8 +68,7 @@ class AppColors {
   static const focusedTextFieldBorderDarkColorDark = Color(0xFF9E9E9E);
 
   // Misc
-  static const shadowColorDark =
-      Color(0xFF494949); // to maintain consistent shadow depth
+  static const shadowColorDark = Color(0xFF494949); // to maintain consistent shadow depth
 
   // Buttons & Status
   static const pendingTextColorDark = Color(0xFFFFA726); // bright orange

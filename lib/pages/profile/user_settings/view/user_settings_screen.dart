@@ -5,9 +5,11 @@ import 'package:otm_inventory/pages/profile/user_settings/controller/user_settin
 import 'package:otm_inventory/pages/profile/user_settings/view/web_view_screen.dart';
 import 'package:otm_inventory/pages/profile/user_settings/view/widgets/build_dark_mode_item_widget.dart';
 import 'package:otm_inventory/res/colors.dart';
+import 'package:otm_inventory/res/theme/theme_config.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
+import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
 
 class UserSettingsScreen extends StatelessWidget {
   UserSettingsScreen({Key? key}) : super(key: key);
@@ -105,40 +107,30 @@ class UserSettingsScreen extends StatelessWidget {
     String? subtitle,
     required VoidCallback onTap,
     bool isDestructive = false,
+
   }) {
-    return Card(
+    return CardViewDashboardItem(
         margin: EdgeInsets.fromLTRB(12, 6, 12, 6),
-        elevation: 2,
-        shadowColor: Colors.black54,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        color: backgroundColor_(Get.context!),
-        child: Container(
-          decoration: BoxDecoration(
-              color: backgroundColor_(Get.context!),
-              borderRadius: BorderRadius.all(
-                Radius.circular(20),
-              ),
-              border: Border.all(width: 1, color: Colors.grey.shade200)),
-          child: ListTile(
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            leading: Icon(
-              icon,
-              color: isDestructive ? Colors.red : Colors.black,
-              size: 32,
-            ),
-            title: Text(
-              title,
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 18,
-                color: isDestructive ? Colors.red : Colors.black,
-              ),
-            ),
-            subtitle: subtitle != null ? Text(subtitle) : null,
-            trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-            onTap: onTap,
+        child: ListTile(
+          contentPadding:
+          const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          leading: Icon(
+            icon,
+            color: isDestructive ? Colors.red : ThemeConfig.isDarkMode ? Colors.white : Colors.black,
+            size: 32,
           ),
+          title: Text(
+            title,
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 18,
+              color: isDestructive ? Colors.red : ThemeConfig.isDarkMode ? Colors.white : Colors.black,
+            ),
+          ),
+          subtitle: subtitle != null ? Text(subtitle) : null,
+          trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+          onTap: onTap,
         ));
   }
 }
+

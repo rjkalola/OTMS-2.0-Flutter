@@ -75,14 +75,14 @@ class _BillingDetailsNewScreenState extends State<BillingDetailsNewScreen> {
                                           .billingInfo.value.userThumbImage ??
                                           "",
                                     ),
-                                    const SizedBox(height: 10),
+                                    SizedBox(height: 10),
                                     // Name
                                     Text(
                                       controller.billingInfo.value.name ?? "",
                                       style: TextStyle(
                                           fontSize: 24, fontWeight: FontWeight.w600),
                                     ),
-                                    const SizedBox(height: 10),
+                                    SizedBox(height: 10),
                                     InfoCard(label: "Phone number", value:"${controller.billingInfo.value.extension ?? ""} ${controller.billingInfo.value.phone ?? ""}", isLink: true),
                                     InfoCard(label: "Email", value: controller.billingInfo.value.email ?? "", isLink: true),
                                     NavigationCard(value: controller.address),
@@ -91,8 +91,8 @@ class _BillingDetailsNewScreenState extends State<BillingDetailsNewScreen> {
                                     NavigationCard(label: "Rates", value: controller.billingInfo.value.net_rate_perDay != null
                                         ? "${controller.billingInfo.value.tradeName ?? ""} - ${controller.billingInfo.value.currency ?? ""}${controller.billingInfo.value.net_rate_perDay}"
                                         : "${controller.billingInfo.value.tradeName ?? ""}",),
-                                    Divider(height: 12),
-                                    const SizedBox(height: 12),
+                                    Divider(color: dividerColor_(context),height: 12,),
+                                    SizedBox(height: 12),
                                     NavigationCard(value: "Payslips"),
                                     NavigationCard(value: "Payment"),
                                     NavigationCard(value: "Invoice"),

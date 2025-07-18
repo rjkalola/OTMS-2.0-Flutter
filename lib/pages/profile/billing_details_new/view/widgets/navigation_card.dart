@@ -1,5 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/get_instance.dart';
+import 'package:otm_inventory/res/colors.dart';
+import 'package:otm_inventory/res/theme/theme_controller.dart';
+import 'package:otm_inventory/utils/app_utils.dart';
 
 class NavigationCard extends StatelessWidget {
   final String label;
@@ -9,20 +14,21 @@ class NavigationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = Get.find<ThemeController>().isDarkMode;
     return Container(
       margin: EdgeInsets.only(bottom: 12),
       padding: EdgeInsets.symmetric(horizontal: 12, vertical: 16),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.shade300,
-            blurRadius: 8,
-            offset: Offset(0, 2),
-          )
-        ],
-      ),
+          color: backgroundColor_(context),
+          borderRadius: BorderRadius.all(
+            Radius.circular(20),
+          ),
+          border: Border.all(
+              width: 1,
+              color: (isDark
+                  ? Color(AppUtils.haxColor("#1A1A1A"))
+                  : Color(AppUtils.haxColor("#EEEEEE")))
+          )),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center, // center the arrow vertically
         children: [
@@ -33,7 +39,7 @@ class NavigationCard extends StatelessWidget {
               style: TextStyle(
                 fontWeight: FontWeight.w400,
                 fontSize: 16,
-                color: Colors.black,
+                color: primaryTextColor_(context),
               ),
               softWrap: true,
             )
@@ -54,7 +60,7 @@ class NavigationCard extends StatelessWidget {
                   style: TextStyle(
                     fontWeight: FontWeight.w400,
                     fontSize: 16,
-                    color: Colors.black,
+                    color: primaryTextColor_(context)
                   ),
                   softWrap: true,
                 ),
@@ -64,7 +70,7 @@ class NavigationCard extends StatelessWidget {
           SizedBox(width: 8),
           Align(
             alignment: Alignment.center, // ensures the arrow is centered
-            child: Icon(Icons.arrow_forward_ios, size: 20, color: Colors.black),
+            child: Icon(Icons.arrow_forward_ios, size: 20, color: primaryTextColor_(context)),
           ),
         ],
       ),

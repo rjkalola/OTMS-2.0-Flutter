@@ -4,6 +4,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:otm_inventory/pages/filter/controller/filter_controller.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/res/drawable.dart';
+import 'package:otm_inventory/res/theme/app_colors.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
@@ -50,12 +51,11 @@ class FilterScreen extends StatelessWidget {
                       // Left Section Tabs
                       Container(
                         width: isTablet ? 200 : 150,
-                        color: Colors.grey[200],
+                        color: lightGreyColor(context),
                           child: ListView.builder(
                             itemCount: controller.sections.length,
                             itemBuilder: (_, index) {
                               final section = controller.sections[index];
-
                               return Obx(() {
                                 final isSelected = controller.selectedSectionIndex.value == index;
                                 final selectedCount = controller.getSelectedCount(index);
@@ -74,7 +74,7 @@ class FilterScreen extends StatelessWidget {
                                           ),
                                           child: Text(
                                             "$selectedCount",
-                                            style: TextStyle(color: Colors.black, fontSize: 15,fontWeight: FontWeight.w400),
+                                            style: TextStyle(color:primaryTextColor_(context), fontSize: 15,fontWeight: FontWeight.w400),
                                           ),
                                         ),
                                     ],

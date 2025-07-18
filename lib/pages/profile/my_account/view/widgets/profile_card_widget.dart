@@ -4,9 +4,11 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:otm_inventory/pages/common/model/user_info.dart';
+import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_storage.dart';
 import 'package:otm_inventory/utils/user_utils.dart';
+import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:otm_inventory/widgets/other_widgets/user_avtar_view.dart';
 
 class ProfileCardWidget extends StatelessWidget {
@@ -15,14 +17,9 @@ class ProfileCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Container(
+    return CardViewDashboardItem(
       margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       padding: EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [BoxShadow(color: Colors.grey.shade300, blurRadius: 8,offset: Offset(0, 2))],
-      ),
       child: Row(
         children: [
           UserAvtarView(
@@ -41,7 +38,7 @@ class ProfileCardWidget extends StatelessWidget {
             ),
           ),
           IconButton(
-            icon: const Icon(Icons.settings, color: Colors.black, size: 35),
+            icon: Icon(Icons.settings, color:primaryTextColor_(context), size: 35),
             onPressed: () {
               Get.toNamed(AppRoutes.userSettingsScreen);
             },

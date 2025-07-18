@@ -37,19 +37,19 @@ class TimeSheetListController extends GetxController
       isAllUserTimeSheet =
           arguments[AppConstants.intentKey.isAllUserTimeSheet] ?? "";
     }
-    loadTimesheetData();
+    loadTimesheetData(true);
   }
 
-  void loadTimesheetData() {
+  Future<void> loadTimesheetData(bool isProgress) async {
     if (isAllUserTimeSheet) {
-      getTimeSheetListAllUsersApi();
+      getTimeSheetListAllUsersApi(isProgress);
     } else {
-      getTimeSheetListApi();
+      getTimeSheetListApi(isProgress);
     }
   }
 
-  void getTimeSheetListApi() {
-    isLoading.value = true;
+  void getTimeSheetListApi(bool isProgress) {
+    isLoading.value = isProgress;
     Map<String, dynamic> map = {};
     map["start_date"] = startDate;
     map["end_date"] = endDate;
@@ -85,8 +85,8 @@ class TimeSheetListController extends GetxController
     );
   }
 
-  void getTimeSheetListAllUsersApi() {
-    isLoading.value = true;
+  void getTimeSheetListAllUsersApi(bool isProgress) {
+    isLoading.value = isProgress;
     Map<String, dynamic> map = {};
     map["start_date"] = startDate;
     map["end_date"] = endDate;
@@ -140,7 +140,7 @@ class TimeSheetListController extends GetxController
     if (dialogType == AppConstants.dialogIdentifier.selectDayFilter) {
       isResetEnable.value = true;
       filterPerDay = info.name!.toLowerCase();
-      loadTimesheetData();
+      loadTimesheetData(true);
     }
   }
 
@@ -150,7 +150,7 @@ class TimeSheetListController extends GetxController
         await Get.toNamed(AppRoutes.stopShiftScreen, arguments: arguments);
     print("result:" + result.toString());
     if (result != null && result) {
-      loadTimesheetData();
+      loadTimesheetData(true);
     }
   }
 
@@ -160,7 +160,7 @@ class TimeSheetListController extends GetxController
     startDate = "";
     endDate = "";
     selectedDateFilterIndex.value = -1;
-    loadTimesheetData();
+    loadTimesheetData(true);
   }
 
   @override

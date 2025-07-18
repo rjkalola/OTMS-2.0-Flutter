@@ -164,3 +164,7 @@ Color rejectTextColor_(BuildContext context) {
 Color shadowColor_(BuildContext context) {
   return Theme.of(context).extension<AppThemeExtension>()!.shadowColor;
 }
+
+Color lightGreyColor(BuildContext context) {
+  return Theme.of(context).extension<AppThemeExtension>()!.lightGreyColor;
+}

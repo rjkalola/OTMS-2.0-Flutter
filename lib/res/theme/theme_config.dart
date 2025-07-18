@@ -21,32 +21,32 @@ class ThemeConfig {
     // ),
     extensions: <ThemeExtension<dynamic>>[
       const AppThemeExtension(
-        dashBoardBgColor: AppColors.dashBoardBgColor,
-        // light version
-        primaryTextColor: AppColors.primaryTextColor,
-        primaryTextColorLight: AppColors.primaryTextColorLight,
-        secondaryTextColor: AppColors.secondaryTextColor,
-        secondaryLightTextColor: AppColors.secondaryLightTextColor,
-        secondaryExtraLightTextColor: AppColors.secondaryExtraLightTextColor,
-        defaultAccentColor: AppColors.defaultAccentColor,
-        defaultAccentLightColor: AppColors.defaultAccentLightColor,
-        backgroundColor: AppColors.backgroundColor,
-        titleBgColor: AppColors.titleBgColor,
-        snackBarColor: AppColors.snackBarColor,
-        dividerColor: AppColors.dividerColor,
-        bottomTabbackgroundColor: AppColors.bottomTabbackgroundColor,
-        hintColor: AppColors.hintColor,
-        normalTextFieldBorderColor: AppColors.normalTextFieldBorderColor,
-        focusedTextFieldBorderColor: AppColors.focusedTextFieldBorderColor,
-        normalTextFieldBorderDarkColor:
-            AppColors.normalTextFieldBorderDarkColor,
-        focusedTextFieldBorderDarkColor:
-            AppColors.focusedTextFieldBorderDarkColor,
-        pendingTextColor: AppColors.pendingTextColor,
-        approvedTextColor: AppColors.approvedTextColor,
-        rejectTextColor: AppColors.rejectTextColor,
-        shadowColor: AppColors.shadowColor,
-      ),
+          dashBoardBgColor: AppColors.dashBoardBgColor,
+          // light version
+          primaryTextColor: AppColors.primaryTextColor,
+          primaryTextColorLight: AppColors.primaryTextColorLight,
+          secondaryTextColor: AppColors.secondaryTextColor,
+          secondaryLightTextColor: AppColors.secondaryLightTextColor,
+          secondaryExtraLightTextColor: AppColors.secondaryExtraLightTextColor,
+          defaultAccentColor: AppColors.defaultAccentColor,
+          defaultAccentLightColor: AppColors.defaultAccentLightColor,
+          backgroundColor: AppColors.backgroundColor,
+          titleBgColor: AppColors.titleBgColor,
+          snackBarColor: AppColors.snackBarColor,
+          dividerColor: AppColors.dividerColor,
+          bottomTabbackgroundColor: AppColors.bottomTabbackgroundColor,
+          hintColor: AppColors.hintColor,
+          normalTextFieldBorderColor: AppColors.normalTextFieldBorderColor,
+          focusedTextFieldBorderColor: AppColors.focusedTextFieldBorderColor,
+          normalTextFieldBorderDarkColor:
+              AppColors.normalTextFieldBorderDarkColor,
+          focusedTextFieldBorderDarkColor:
+              AppColors.focusedTextFieldBorderDarkColor,
+          pendingTextColor: AppColors.pendingTextColor,
+          approvedTextColor: AppColors.approvedTextColor,
+          rejectTextColor: AppColors.rejectTextColor,
+          shadowColor: AppColors.shadowColor,
+          lightGreyColor: AppColors.lightGreyColor),
     ],
   );
 
@@ -65,33 +65,34 @@ class ThemeConfig {
     // ),
     extensions: <ThemeExtension<dynamic>>[
       const AppThemeExtension(
-        dashBoardBgColor: AppColors.dashBoardBgColorDark,
-        // light version
-        primaryTextColor: AppColors.primaryTextColorDark,
-        primaryTextColorLight: AppColors.primaryTextColorLightDark,
-        secondaryTextColor: AppColors.secondaryTextColorDark,
-        secondaryLightTextColor: AppColors.secondaryLightTextColorDark,
-        secondaryExtraLightTextColor:
-            AppColors.secondaryExtraLightTextColorDark,
-        defaultAccentColor: AppColors.defaultAccentColorDark,
-        defaultAccentLightColor: AppColors.defaultAccentLightColorDark,
-        backgroundColor: AppColors.backgroundColorDark,
-        titleBgColor: AppColors.titleBgColorDark,
-        snackBarColor: AppColors.snackBarColorDark,
-        dividerColor: AppColors.dividerColorDark,
-        bottomTabbackgroundColor: AppColors.bottomTabBackgroundColorDark,
-        hintColor: AppColors.hintColorDark,
-        normalTextFieldBorderColor: AppColors.normalTextFieldBorderColorDark,
-        focusedTextFieldBorderColor: AppColors.focusedTextFieldBorderColorDark,
-        normalTextFieldBorderDarkColor:
-            AppColors.normalTextFieldBorderDarkColorDark,
-        focusedTextFieldBorderDarkColor:
-            AppColors.focusedTextFieldBorderDarkColorDark,
-        pendingTextColor: AppColors.pendingTextColorDark,
-        approvedTextColor: AppColors.approvedTextColorDark,
-        rejectTextColor: AppColors.rejectTextColorDark,
-        shadowColor: AppColors.shadowColorDark,
-      ),
+          dashBoardBgColor: AppColors.dashBoardBgColorDark,
+          // light version
+          primaryTextColor: AppColors.primaryTextColorDark,
+          primaryTextColorLight: AppColors.primaryTextColorLightDark,
+          secondaryTextColor: AppColors.secondaryTextColorDark,
+          secondaryLightTextColor: AppColors.secondaryLightTextColorDark,
+          secondaryExtraLightTextColor:
+              AppColors.secondaryExtraLightTextColorDark,
+          defaultAccentColor: AppColors.defaultAccentColorDark,
+          defaultAccentLightColor: AppColors.defaultAccentLightColorDark,
+          backgroundColor: AppColors.backgroundColorDark,
+          titleBgColor: AppColors.titleBgColorDark,
+          snackBarColor: AppColors.snackBarColorDark,
+          dividerColor: AppColors.dividerColorDark,
+          bottomTabbackgroundColor: AppColors.bottomTabBackgroundColorDark,
+          hintColor: AppColors.hintColorDark,
+          normalTextFieldBorderColor: AppColors.normalTextFieldBorderColorDark,
+          focusedTextFieldBorderColor:
+              AppColors.focusedTextFieldBorderColorDark,
+          normalTextFieldBorderDarkColor:
+              AppColors.normalTextFieldBorderDarkColorDark,
+          focusedTextFieldBorderDarkColor:
+              AppColors.focusedTextFieldBorderDarkColorDark,
+          pendingTextColor: AppColors.pendingTextColorDark,
+          approvedTextColor: AppColors.approvedTextColorDark,
+          rejectTextColor: AppColors.rejectTextColorDark,
+          shadowColor: AppColors.shadowColorDark,
+          lightGreyColor: AppColors.lightGreyColorDark),
     ],
   );
 }

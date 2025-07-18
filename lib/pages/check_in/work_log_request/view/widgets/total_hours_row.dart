@@ -36,19 +36,21 @@ class TotalHoursRow extends StatelessWidget {
                 ),
                 PrimaryTextView(
                   textAlign: TextAlign.start,
-                  text: DateUtil.seconds_To_HH_MM((controller
-                                  .workLogInfo.value.status ??
-                              0) ==
-                          AppConstants.status.pending
-                      ? (controller.workLogInfo.value.payableWorkSeconds ?? 0)
-                      : (controller.workLogInfo.value.totalRequestWorkSeconds ??
-                          0)),
+                  // text: DateUtil.seconds_To_HH_MM((controller
+                  //                 .workLogInfo.value.status ??
+                  //             0) ==
+                  //         AppConstants.status.pending
+                  //     ? (controller.workLogInfo.value.payableWorkSeconds ?? 0)
+                  //     : (controller.workLogInfo.value.totalRequestWorkSeconds ??
+                  //         0)),
+                  text: DateUtil.seconds_To_HH_MM(
+                      (controller.workLogInfo.value.payableWorkSeconds ?? 0)),
                   color: getHourTextColor(
                       controller.workLogInfo.value.status ?? 0),
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                 ),
-                Visibility(
+                /*Visibility(
                     visible: (controller.workLogInfo.value.status ?? 0) ==
                         AppConstants.status.pending,
                     child: RightArrowWidget()),
@@ -63,7 +65,7 @@ class TotalHoursRow extends StatelessWidget {
                       color: pendingTextColor_(context),
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
-                    )),
+                    )),*/
               ],
             ),
           )),

@@ -4,14 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:otm_inventory/pages/check_in/clock_in/model/location_info.dart';
 import 'package:otm_inventory/pages/check_in/work_log_request/controller/work_log_request_repository.dart';
 import 'package:otm_inventory/pages/check_in/work_log_request/model/work_log_details_info.dart';
 import 'package:otm_inventory/pages/check_in/work_log_request/model/work_log_request_details_response.dart';
 import 'package:otm_inventory/pages/common/listener/DialogButtonClickListener.dart';
+import 'package:otm_inventory/res/drawable.dart';
 import 'package:otm_inventory/utils/AlertDialogHelper.dart';
+import 'package:otm_inventory/utils/app_storage.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/date_utils.dart';
 import 'package:otm_inventory/utils/location_service_new.dart';
+import 'package:otm_inventory/utils/map_utils.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:otm_inventory/web_services/api_constants.dart';
 import 'package:otm_inventory/web_services/response/base_response.dart';
@@ -38,6 +42,8 @@ class WorkLogRequestController extends GetxController
   final locationService = LocationServiceNew();
   final workLogInfo = WorkLogDetailsInfo().obs;
   int requestLogId = 0;
+  final RxSet<Marker> markers = <Marker>{}.obs;
+  final RxSet<Polyline> polylines = <Polyline>{}.obs;
 
   void onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -52,8 +58,13 @@ class WorkLogRequestController extends GetxController
       // setInitialTime();
     }
     getWorkLogRequestDetails();
-    locationRequest();
-    appLifeCycle();
+    // locationRequest();
+    // appLifeCycle();
+    LocationInfo? locationInfo = Get.find<AppStorage>().getLastLocation();
+    if (locationInfo != null) {
+      setLocation(double.parse(locationInfo.latitude ?? "0"),
+          double.parse(locationInfo.longitude ?? "0"));
+    }
   }
 
   Future<void> getWorkLogRequestDetails() async {
@@ -77,6 +88,10 @@ class WorkLogRequestController extends GetxController
                   : getCurrentTime();
           displayNoteController.value.text = workLogInfo.value.note ?? "";
           status.value = workLogInfo.value.status ?? 0;
+
+          setLocationPin();
+          locationRequest();
+          appLifeCycle();
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
@@ -142,14 +157,21 @@ class WorkLogRequestController extends GetxController
     Position? latLon = await LocationServiceNew.getCurrentLocation();
     if (latLon != null) {
       isLocationLoaded.value = true;
-      latitude = latLon.latitude.toString();
-      longitude = latLon.longitude.toString();
-      location = await LocationServiceNew.getAddressFromCoordinates(
-          latLon.latitude, latLon.longitude);
-      center.value = LatLng(latLon.latitude, latLon.longitude);
-      mapController.animateCamera(CameraUpdate.newCameraPosition(
+      setLocation(latLon.latitude, latLon.longitude);
+    }
+  }
+
+  Future<void> setLocation(double? lat, double? lon) async {
+    if (lat != null && lon != null) {
+      latitude = lat.toString();
+      longitude = lon.toString();
+      center.value = LatLng(lat, lon);
+      location = await LocationServiceNew.getAddressFromCoordinates(lat, lon);
+      /* mapController.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(target: center.value, zoom: 15),
-      ));
+      ));*/
+      print("Location:" + "Latitude: ${latitude}, Longitude: ${longitude}");
+      print("Address:${location ?? ""}");
     }
   }
 
@@ -200,5 +222,60 @@ class WorkLogRequestController extends GetxController
 
   void onBackPress() {
     Get.back(result: isDataUpdated.value);
+  }
+
+  Future<void> setLocationPin() async {
+    LocationInfo? start = workLogInfo.value.startWorkLocation;
+    LocationInfo? stop = workLogInfo.value.stopWorkLocation;
+
+    if (start != null) {
+      final icon = await MapUtils.createIcon(
+          assetPath: Drawable.redPin, width: 24, height: 34);
+      LatLng startWorkPosition = LatLng(double.parse(start.latitude ?? "0"),
+          double.parse(start.longitude ?? "0"));
+      addMarker(startWorkPosition, 'startwork', icon, title: '');
+    }
+
+    if (stop != null) {
+      final icon = await MapUtils.createIcon(
+          assetPath: Drawable.bluePin, width: 24, height: 34);
+      LatLng stopWorkPosition = LatLng(double.parse(stop.latitude ?? "0"),
+          double.parse(stop.longitude ?? "0"));
+      addMarker(stopWorkPosition, 'stopwork', icon, title: '');
+    }
+
+    if (start != null && stop != null) {
+      LatLng startWorkPosition = LatLng(double.parse(start.latitude ?? "0"),
+          double.parse(start.longitude ?? "0"));
+      LatLng stopWorkPosition = LatLng(double.parse(stop.latitude ?? "0"),
+          double.parse(stop.longitude ?? "0"));
+      addPolyLone(startWorkPosition, stopWorkPosition);
+    }
+  }
+
+  void addMarker(LatLng position, String id, BitmapDescriptor icon,
+      {String? title}) {
+    final newMarker = Marker(
+      markerId: MarkerId(id),
+      position: position,
+      icon: icon,
+      infoWindow: InfoWindow(title: title ?? 'Marker $id'),
+    );
+
+    // Important: copy the existing markers to trigger reactive update
+    final updatedMarkers = Set<Marker>.from(markers);
+    updatedMarkers.add(newMarker);
+    markers.value = updatedMarkers;
+  }
+
+  void addPolyLone(LatLng start, LatLng stop) {
+    final polyline = MapUtils.createPolyline(
+      id: 'route_1',
+      start: start,
+      end: stop,
+    );
+    final updatedPolylines = Set<Polyline>.from(polylines.value);
+    updatedPolylines.add(polyline);
+    polylines.value = updatedPolylines;
   }
 }

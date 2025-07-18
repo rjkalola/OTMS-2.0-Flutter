@@ -6,6 +6,7 @@ import 'package:otm_inventory/pages/company/company_signup/controller/company_si
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/res/theme/theme_config.dart';
 import 'package:otm_inventory/res/theme/theme_controller.dart';
+import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:otm_inventory/widgets/switch/custom_switch.dart';
 
 class BuildDarkModeItemWidget extends StatelessWidget {
@@ -16,41 +17,29 @@ class BuildDarkModeItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => Card(
+      () => CardViewDashboardItem(
         margin: EdgeInsets.fromLTRB(12, 6, 12, 6),
-        elevation: 2,
-        shadowColor: Colors.black54,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        color: backgroundColor_(context),
-        child: Container(
-          decoration: BoxDecoration(
-              color: backgroundColor_(context),
-              borderRadius: BorderRadius.all(
-                Radius.circular(20),
-              ),
-              border: Border.all(width: 1, color: Colors.grey.shade200)),
-          child: ListTile(
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              leading: const Icon(
-                Icons.dark_mode_outlined,
-                color: Colors.black,
-                size: 32,
-              ),
-              title:  Text(
-                'Dark mode',
-                style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 18,
-                    color: primaryTextColor_(context)),
-              ),
-              trailing: CustomSwitch(
-                onValueChange: (value) {
-                  controller.toggleTheme(value);
-                },
-                mValue: controller.isDarkMode,
-              )),
-        ),
+        child:ListTile(
+            contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            leading: Icon(
+              Icons.dark_mode_outlined,
+              color: primaryTextColor_(context),
+              size: 32,
+            ),
+            title:  Text(
+              'Dark mode',
+              style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 18,
+                  color: primaryTextColor_(context)),
+            ),
+            trailing: CustomSwitch(
+              onValueChange: (value) {
+                controller.toggleTheme(value);
+              },
+              mValue: controller.isDarkMode,
+            ))
       ),
     );
   }

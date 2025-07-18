@@ -1,3 +1,6 @@
+import 'package:otm_inventory/pages/check_in/clock_in/model/location_info.dart';
+import 'package:otm_inventory/pages/shifts/create_shift/model/break_info.dart';
+
 class WorkLogDetailsInfo {
   int? id;
   int? requestLogId;
@@ -15,6 +18,9 @@ class WorkLogDetailsInfo {
   String? rejectReason;
   int? status;
   String? statusText;
+  List<BreakInfo>? breakLog;
+  LocationInfo? startWorkLocation;
+  LocationInfo? stopWorkLocation;
 
   WorkLogDetailsInfo(
       {this.id,
@@ -32,7 +38,10 @@ class WorkLogDetailsInfo {
         this.note,
         this.rejectReason,
         this.status,
-        this.statusText});
+        this.statusText,
+        this.breakLog,
+        this.startWorkLocation,
+        this.stopWorkLocation});
 
   WorkLogDetailsInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -51,6 +60,18 @@ class WorkLogDetailsInfo {
     rejectReason = json['reject_reason'];
     status = json['status'];
     statusText = json['status_text'];
+    if (json['break_log'] != null) {
+      breakLog = <BreakInfo>[];
+      json['break_log'].forEach((v) {
+        breakLog!.add(new BreakInfo.fromJson(v));
+      });
+    }
+    startWorkLocation = json['start_work_location'] != null
+        ? new LocationInfo.fromJson(json['start_work_location'])
+        : null;
+    stopWorkLocation = json['stop_work_location'] != null
+        ? new LocationInfo.fromJson(json['stop_work_location'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -71,6 +92,15 @@ class WorkLogDetailsInfo {
     data['reject_reason'] = this.rejectReason;
     data['status'] = this.status;
     data['status_text'] = this.statusText;
+    if (this.breakLog != null) {
+      data['break_log'] = this.breakLog!.map((v) => v.toJson()).toList();
+    }
+    if (this.startWorkLocation != null) {
+      data['start_work_location'] = this.startWorkLocation!.toJson();
+    }
+    if (this.stopWorkLocation != null) {
+      data['stop_work_location'] = this.stopWorkLocation!.toJson();
+    }
     return data;
   }
 }

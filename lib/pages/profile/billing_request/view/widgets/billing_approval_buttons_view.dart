@@ -4,6 +4,7 @@ import 'package:get/get_instance/get_instance.dart';
 import 'package:otm_inventory/pages/profile/billing_request/controller/billing_request_controller.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/utils/user_utils.dart';
+import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
 
 class BillingApprovalButtonsView extends StatefulWidget {
   @override
@@ -21,21 +22,9 @@ class _BillingApprovalButtonsViewState extends State<BillingApprovalButtonsView>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
+    return CardViewDashboardItem(
       margin: EdgeInsets.all(16),
       padding: EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.shade300,
-            blurRadius: 8,
-            offset: Offset(0, 2),
-          ),
-        ],
-      ),
       child: showActionCard
           ? Column(
         crossAxisAlignment: CrossAxisAlignment.start,

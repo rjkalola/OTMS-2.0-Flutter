@@ -21,6 +21,7 @@ class UserUtils {
     return (userId ?? 0) == (info.id ?? 0);
   }
 
+
   static bool isAdmin() {
     UserInfo info = Get.find<AppStorage>().getUserInfo();
     int userRoleId = info.userRoleId ?? 0;

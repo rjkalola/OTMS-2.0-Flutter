@@ -28,40 +28,45 @@ class TimeSheetList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-        child: ListView.separated(
-            physics: const AlwaysScrollableScrollPhysics(),
-            shrinkWrap: true,
-            scrollDirection: Axis.vertical,
-            itemBuilder: (context, position) {
-              TimeSheetInfo info = controller.timeSheetList[position];
-              return CardViewDashboardItem(
-                  margin: EdgeInsets.fromLTRB(14, 7, 14, 7),
-                  child: Column(
-                    children: [
-                      userDetailsView(info, position),
-                      WeekNumberTitle(
-                        position: position,
-                        info: info,
-                      ),
-                      DayLogList(
-                        parentPosition: position,
-                      ),
-                      SizedBox(
-                        height: 4,
-                      ),
-                    ],
-                  ));
-            },
-            itemCount: controller.timeSheetList.length,
-            // separatorBuilder: (context, position) => const Padding(
-            //   padding: EdgeInsets.only(left: 100),
-            //   child: Divider(
-            //     height: 0,
-            //     color: dividerColor,
-            //     thickness: 0.8,
-            //   ),
-            // ),
-            separatorBuilder: (context, position) => Container()));
+        child: RefreshIndicator(
+          onRefresh: () async {
+            await controller.loadTimesheetData(true); // Add await to ensure proper async handling
+          },
+          child: ListView.separated(
+              physics: const AlwaysScrollableScrollPhysics(),
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              itemBuilder: (context, position) {
+                TimeSheetInfo info = controller.timeSheetList[position];
+                return CardViewDashboardItem(
+                    margin: EdgeInsets.fromLTRB(14, 7, 14, 7),
+                    child: Column(
+                      children: [
+                        userDetailsView(info, position),
+                        WeekNumberTitle(
+                          position: position,
+                          info: info,
+                        ),
+                        DayLogList(
+                          parentPosition: position,
+                        ),
+                        SizedBox(
+                          height: 4,
+                        ),
+                      ],
+                    ));
+              },
+              itemCount: controller.timeSheetList.length,
+              // separatorBuilder: (context, position) => const Padding(
+              //   padding: EdgeInsets.only(left: 100),
+              //   child: Divider(
+              //     height: 0,
+              //     color: dividerColor,
+              //     thickness: 0.8,
+              //   ),
+              // ),
+              separatorBuilder: (context, position) => Container()),
+        ));
   }
 
   Widget userDetailsView(TimeSheetInfo info, int position) => Container(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/pages/shifts/create_shift/controller/create_shift_controller.dart';
+import 'package:otm_inventory/res/theme/theme_config.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
 
@@ -30,7 +31,9 @@ class SelectShiftTimeRow extends StatelessWidget {
               width: 84,
               padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
               decoration: AppUtils.getGrayBorderDecoration(
-                  radius: 4, color: Color(AppUtils.haxColor("#e8e8e8"))),
+                  radius: 4,
+                  color: Color(AppUtils.haxColor(
+                      ThemeConfig.isDarkMode ? "#171717" : "#e8e8e8"))),
               child: PrimaryTextView(
                 textAlign: TextAlign.center,
                 fontWeight: FontWeight.w500,

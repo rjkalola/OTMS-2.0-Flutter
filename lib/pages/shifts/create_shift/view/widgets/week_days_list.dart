@@ -39,7 +39,7 @@ class WeekDaysList extends StatelessWidget {
                 child: Text(
                   info.name!.substring(0, 1).toUpperCase(),
                   style: TextStyle(
-                    color: info.status! ? Colors.white : Colors.black,
+                    color: info.status! ? Colors.white : primaryTextColor_(context),
                     fontWeight: FontWeight.w500,
                   ),
                 ),

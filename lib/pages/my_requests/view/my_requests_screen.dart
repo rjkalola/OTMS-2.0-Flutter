@@ -17,6 +17,7 @@ import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
+import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:otm_inventory/widgets/text/toolbar_menu_item_text_view.dart';
 import 'package:path/path.dart';
 
@@ -151,11 +152,8 @@ class RequestCard extends StatelessWidget {
           // your main card container
           margin: const EdgeInsets.only(top: 16),
           padding: const EdgeInsets.all(0),
-          child: Card(
-            color: Colors.white,
-            margin: EdgeInsets.only(bottom: 12),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          child: CardViewDashboardItem(
+            margin: EdgeInsets.fromLTRB(12, 6, 12, 6),
             child: Padding(
               padding: EdgeInsets.all(12),
               child: GestureDetector(
@@ -187,7 +185,7 @@ class RequestCard extends StatelessWidget {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
-                              color: Colors.black, // Border color
+                              color: primaryTextColor_(context), // Border color
                               width: 1.5, // Border width
                             ),
                           ),

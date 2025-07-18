@@ -400,7 +400,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       moveToScreen(
           appRout: AppRoutes.timeSheetListScreen, arguments: arguments);
     } else if (info.slug == 'bookkeeper') {
-      moveToScreen(appRout: AppRoutes.billingDetailsScreen);
+      moveToScreen(appRout: AppRoutes.billingDetailsNewScreen);
     } else if (info.slug == 'my_requests') {
       moveToScreen(appRout: AppRoutes.myRequestsScreen);
     }

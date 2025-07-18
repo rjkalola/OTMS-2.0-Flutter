@@ -130,7 +130,7 @@ class _TimeSheetListScreenState extends State<TimeSheetListScreen>
     controller.isResetEnable.value = true;
     controller.startDate = startDate;
     controller.endDate = endDate;
-    controller.loadTimesheetData();
+    controller.loadTimesheetData(true);
     print("startDate:" + startDate);
     print("endDate:" + endDate);
   }

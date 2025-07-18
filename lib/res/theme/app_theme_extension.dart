@@ -23,7 +23,8 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
       pendingTextColor,
       approvedTextColor,
       rejectTextColor,
-      shadowColor;
+      shadowColor,
+      lightGreyColor;
 
   const AppThemeExtension(
       {required this.dashBoardBgColor,
@@ -47,7 +48,8 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
       required this.pendingTextColor,
       required this.approvedTextColor,
       required this.rejectTextColor,
-      required this.shadowColor});
+      required this.shadowColor,
+      required this.lightGreyColor});
 
   @override
   AppThemeExtension copyWith({Color? dashboardBg}) {
@@ -73,7 +75,8 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
         pendingTextColor: pendingTextColor,
         approvedTextColor: approvedTextColor,
         rejectTextColor: approvedTextColor,
-        shadowColor: shadowColor);
+        shadowColor: shadowColor,
+        lightGreyColor: lightGreyColor);
   }
 
   @override
@@ -121,6 +124,7 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
           Color.lerp(approvedTextColor, other.approvedTextColor, t)!,
       rejectTextColor: Color.lerp(rejectTextColor, other.rejectTextColor, t)!,
       shadowColor: Color.lerp(shadowColor, other.shadowColor, t)!,
+      lightGreyColor: Color.lerp(lightGreyColor, other.lightGreyColor, t)!,
     );
   }
 }

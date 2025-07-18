@@ -8,6 +8,7 @@ import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
+import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:otm_inventory/widgets/other_widgets/user_avtar_view.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
 
@@ -41,23 +42,13 @@ class MenuButtonsGridWidget extends StatelessWidget {
             },
             splashColor: Colors.transparent,     // Removes splash effect
             highlightColor: Colors.transparent,
-            child: Container(
-              width: double.infinity,
+            child: CardViewDashboardItem(
               padding: EdgeInsets.fromLTRB(14, 12, 10, 12),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(20),
-                  ),
-                  border: Border.all(
-                      width: 1,
-                      color: Colors.grey.shade200)
-              ),
               child:Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(controller.menuItems[index]['icon'], color: Colors.blue,size: 28,weight: 100,),
+                  Icon(controller.menuItems[index]['icon'], color: defaultAccentColor_(context),size: 28,weight: 100,),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,

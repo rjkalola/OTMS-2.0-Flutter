@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:otm_inventory/pages/check_in/work_log_request/view/widgets/add_note_widget.dart';
 import 'package:otm_inventory/pages/check_in/work_log_request/controller/work_log_request_controller.dart';
-import 'package:otm_inventory/pages/check_in/work_log_request/view/widgets/display_note_widget.dart';
+import 'package:otm_inventory/pages/check_in/work_log_request/view/widgets/add_note_widget.dart';
 import 'package:otm_inventory/pages/check_in/work_log_request/view/widgets/approve_reject_buttons.dart';
+import 'package:otm_inventory/pages/check_in/work_log_request/view/widgets/break_log_list.dart';
+import 'package:otm_inventory/pages/check_in/work_log_request/view/widgets/display_note_widget.dart';
 import 'package:otm_inventory/pages/check_in/work_log_request/view/widgets/start_stop_box_row.dart';
 import 'package:otm_inventory/pages/check_in/work_log_request/view/widgets/total_hours_row.dart';
 import 'package:otm_inventory/res/colors.dart';
@@ -31,7 +31,7 @@ class _WorkLogRequestScreenState extends State<WorkLogRequestScreen> {
 
   @override
   Widget build(BuildContext context) {
-      AppUtils.setStatusBarColor();
+    AppUtils.setStatusBarColor();
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) async {
@@ -65,6 +65,8 @@ class _WorkLogRequestScreenState extends State<WorkLogRequestScreen> {
                           CustomMapView(
                             onMapCreated: controller.onMapCreated,
                             target: controller.center,
+                            markers: controller.markers,
+                            polylines: controller.polylines,
                           ),
                           MapBackArrow(onBackPressed: () {
                             controller.onBackPress();
@@ -91,6 +93,10 @@ class _WorkLogRequestScreenState extends State<WorkLogRequestScreen> {
                               ),
                               StartStopBoxRow(),
                               TotalHoursRow(),
+                              BreakLogList(
+                                  breakLogList:
+                                      controller.workLogInfo.value.breakLog ??
+                                          []),
                               DisplayNoteWidget(
                                 isReadOnly: true,
                                 note: controller.workLogInfo.value.note,
@@ -109,8 +115,9 @@ class _WorkLogRequestScreenState extends State<WorkLogRequestScreen> {
                                 visible: (controller.workLogInfo.value.status ??
                                             0) ==
                                         AppConstants.status.pending &&
-                                    !UserUtils.isLoginUser(
-                                        controller.workLogInfo.value.userId),
+                                    (!UserUtils.isLoginUser(controller
+                                            .workLogInfo.value.userId) ||
+                                        UserUtils.isAdmin()),
                                 child: ApproveRejectButtons(
                                   padding:
                                       const EdgeInsets.fromLTRB(12, 10, 12, 18),
