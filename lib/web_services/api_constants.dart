@@ -136,7 +136,8 @@ class ApiConstants {
 
   //timesheet
   static String getTimeSheetList = '$appUrl/timesheet/get';
-  static String getTimeSheetListAllUsers = '$appUrl/timesheet/get-users-timesheet';
+  static String getTimeSheetListAllUsers =
+      '$appUrl/timesheet/get-users-timesheet';
 
   static String registerResourcesUrl = '$appUrl/wn-resources';
   static String verifyPhoneUrl = '$appUrl/verify-phone';

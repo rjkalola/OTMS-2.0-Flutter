@@ -38,7 +38,7 @@ class AppColors {
   static const approvedTextColor = Color(0xff32a753);
   static const rejectTextColor = Color(0xffff484a);
 
-  static const dashBoardBgColorDark = Color(0xFF0E0E0E);
+  static const dashBoardBgColorDark = Color(0xFF121212);
 
   // Text Colors
   static const primaryTextColorDark = Color(0xFFE5E5E5);
