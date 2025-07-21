@@ -3,7 +3,7 @@ import 'package:otm_inventory/web_services/network/api_request.dart';
 import 'package:otm_inventory/web_services/response/response_model.dart';
 
 class StopShiftRepository {
-  void requestWorkLogChange2({
+  void requestWorkLogChange({
     dynamic data,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,

@@ -119,15 +119,22 @@ class _WorkLogRequestScreenState extends State<WorkLogRequestScreen> {
                                             .workLogInfo.value.userId) ||
                                         UserUtils.isAdmin()),
                                 child: ApproveRejectButtons(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(12, 10, 12, 18),
-                                  onClickApprove: () =>
-                                      controller.showActionDialog(AppConstants
-                                          .dialogIdentifier.approve),
-                                  onClickReject: () =>
-                                      controller.showActionDialog(
-                                          AppConstants.dialogIdentifier.reject),
-                                ),
+                                    padding: const EdgeInsets.fromLTRB(
+                                        12, 10, 12, 18),
+                                    onClickApprove: () =>
+                                        controller.showActionDialog(AppConstants
+                                            .dialogIdentifier.approve),
+                                    onClickReject: () {
+                                      String note = StringHelper.getText(
+                                          controller.noteController.value);
+                                      if (!StringHelper.isEmptyString(note)) {
+                                        controller.showActionDialog(AppConstants
+                                            .dialogIdentifier.reject);
+                                      } else {
+                                        AppUtils.showToastMessage(
+                                            'empty_note_error'.tr);
+                                      }
+                                    }),
                               )
                             ],
                           ),

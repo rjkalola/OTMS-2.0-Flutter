@@ -13,10 +13,11 @@ class TextFieldBorderDark extends StatelessWidget {
       this.labelText = "",
       this.validator,
       this.inputFormatters,
-      this.cursorColor ,
+      this.cursorColor,
       this.keyboardType,
       this.textInputAction,
       this.isReadOnly,
+      this.isEnabled,
       this.suffixIcon,
       this.maxLines,
       this.maxLength,
@@ -39,7 +40,7 @@ class TextFieldBorderDark extends StatelessWidget {
   final Color? cursorColor;
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
-  final bool? isReadOnly;
+  final bool? isReadOnly, isEnabled;
   final Icon? suffixIcon;
   final int? maxLines, maxLength;
   final TextAlignVertical? textAlignVertical;
@@ -61,6 +62,7 @@ class TextFieldBorderDark extends StatelessWidget {
       focusNode: focusNode,
       onFieldSubmitted: onFieldSubmitted,
       onChanged: onValueChange,
+      enabled: isEnabled,
       style: TextStyle(
           fontWeight: FontWeight.w400,
           fontSize: 15,

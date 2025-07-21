@@ -20,6 +20,7 @@ import 'package:otm_inventory/utils/date_utils.dart';
 import 'package:otm_inventory/utils/location_service_new.dart';
 import 'package:otm_inventory/utils/map_utils.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
+import 'package:otm_inventory/utils/user_utils.dart';
 import 'package:otm_inventory/web_services/api_constants.dart';
 import 'package:otm_inventory/web_services/response/base_response.dart';
 import 'package:otm_inventory/web_services/response/response_model.dart';
@@ -48,7 +49,7 @@ class StopShiftController extends GetxController implements SelectTimeListener {
   final RxSet<Polyline> polylines = <Polyline>{}.obs;
   final locationService = LocationServiceNew();
   final workLogInfo = WorkLogInfo().obs;
-  int workLogId = 0;
+  int workLogId = 0, userId = 0;
   String date = "";
   bool isCurrentDay = true;
 
@@ -62,6 +63,8 @@ class StopShiftController extends GetxController implements SelectTimeListener {
     var arguments = Get.arguments;
     if (arguments != null) {
       workLogId = arguments[AppConstants.intentKey.workLogId] ?? 0;
+      userId = arguments[AppConstants.intentKey.userId] ?? 0;
+      print("userId:" + userId.toString());
     }
     LocationInfo? locationInfo = Get.find<AppStorage>().getLastLocation();
     if (locationInfo != null) {
@@ -151,8 +154,11 @@ class StopShiftController extends GetxController implements SelectTimeListener {
     map["start_time"] = startTime.value;
     map["end_time"] = stopTime.value;
     map["note"] = StringHelper.getText(noteController.value);
+    if (UserUtils.isAdmin()) {
+      map["user_id"] = userId;
+    }
 
-    ClockInRepository().requestWorkLogChange2(
+    _api.requestWorkLogChange(
       data: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
@@ -242,9 +248,9 @@ class StopShiftController extends GetxController implements SelectTimeListener {
       longitude = lon.toString();
       center.value = LatLng(lat, lon);
       location = await LocationServiceNew.getAddressFromCoordinates(lat, lon);
-      /* mapController.animateCamera(CameraUpdate.newCameraPosition(
+      mapController.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(target: center.value, zoom: 15),
-      ));*/
+      ));
       print("Location:" + "Latitude: ${latitude}, Longitude: ${longitude}");
       print("Address:${location ?? ""}");
     }
@@ -338,7 +344,7 @@ class StopShiftController extends GetxController implements SelectTimeListener {
       addMarker(stopWorkPosition, 'stopwork', icon, title: '');
     }
 
-    if(start != null && stop != null){
+    if (start != null && stop != null) {
       LatLng startWorkPosition = LatLng(double.parse(start.latitude ?? "0"),
           double.parse(start.longitude ?? "0"));
       LatLng stopWorkPosition = LatLng(double.parse(stop.latitude ?? "0"),
@@ -362,7 +368,7 @@ class StopShiftController extends GetxController implements SelectTimeListener {
     markers.value = updatedMarkers;
   }
 
-  void addPolyLone(LatLng start,LatLng stop){
+  void addPolyLone(LatLng start, LatLng stop) {
     final polyline = MapUtils.createPolyline(
       id: 'route_1',
       start: start,

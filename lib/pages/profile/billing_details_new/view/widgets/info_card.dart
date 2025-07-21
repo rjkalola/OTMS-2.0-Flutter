@@ -1,13 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/profile/billing_details/view/widgets/address_text_field.dart';
-import 'package:otm_inventory/pages/profile/billing_details/view/widgets/email_text_field.dart';
-import 'package:otm_inventory/pages/profile/billing_details/view/widgets/first_name_text_field.dart';
-import 'package:otm_inventory/pages/profile/billing_details/view/widgets/last_name_text_field.dart';
-import 'package:otm_inventory/pages/profile/billing_details/view/widgets/middle_name_text_field.dart';
-import 'package:otm_inventory/pages/profile/billing_details/view/widgets/phone_text_field.dart';
-import 'package:otm_inventory/pages/profile/billing_details/view/widgets/postcode_text_field.dart';
-import 'package:otm_inventory/pages/profile/billing_details/view/widgets/title_text.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/res/theme/theme_controller.dart';
 import 'package:otm_inventory/utils/app_utils.dart';

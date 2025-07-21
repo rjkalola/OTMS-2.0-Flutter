@@ -5,7 +5,7 @@ import 'package:dio/dio.dart' as multi;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:otm_inventory/pages/profile/billing_details/model/billing_info_response.dart';
+import 'package:otm_inventory/pages/profile/billing_details_new/model/billing_info_response.dart';
 import 'package:otm_inventory/pages/profile/billing_details_new/controller/billing_details_new_repository.dart';
 import 'package:otm_inventory/pages/profile/billing_info/controller/billing_info_repository.dart';
 import 'package:otm_inventory/pages/profile/billing_info/model/billing_ifo.dart';

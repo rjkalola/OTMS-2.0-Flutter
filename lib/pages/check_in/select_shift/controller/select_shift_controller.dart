@@ -5,12 +5,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:otm_inventory/pages/check_in/clock_in/model/location_info.dart';
 import 'package:otm_inventory/pages/check_in/select_shift/controller/select_shift_repository.dart';
 import 'package:otm_inventory/pages/check_in/select_shift/model/start_work_response.dart';
 import 'package:otm_inventory/pages/shifts/shift_list/controller/shift_list_repository.dart';
 import 'package:otm_inventory/pages/shifts/shift_list/model/shift_list_response.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
+import 'package:otm_inventory/utils/app_storage.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/data_utils.dart';
 import 'package:otm_inventory/utils/location_service_new.dart';
@@ -29,7 +31,8 @@ class SelectShiftController extends GetxController {
   final _api = SelectShiftRepository();
   final noteController = TextEditingController().obs;
   late GoogleMapController mapController;
-  final center = LatLng(AppConstants.defaultLatitude, AppConstants.defaultLongitude).obs;
+  final center =
+      LatLng(AppConstants.defaultLatitude, AppConstants.defaultLongitude).obs;
   final locationService = LocationServiceNew();
   String latitude = "", longitude = "", location = "";
   final searchController = TextEditingController().obs;
@@ -48,6 +51,11 @@ class SelectShiftController extends GetxController {
     if (arguments != null) {
       fromStartShiftScreen =
           arguments[AppConstants.intentKey.fromStartShiftScreen] ?? "";
+    }
+    LocationInfo? locationInfo = Get.find<AppStorage>().getLastLocation();
+    if (locationInfo != null) {
+      setLocation(double.parse(locationInfo.latitude ?? "0"),
+          double.parse(locationInfo.longitude ?? "0"));
     }
     locationRequest();
     appLifeCycle();
@@ -163,16 +171,21 @@ class SelectShiftController extends GetxController {
     Position? latLon = await LocationServiceNew.getCurrentLocation();
     if (latLon != null) {
       isLocationLoaded.value = true;
-      latitude = latLon.latitude.toString();
-      longitude = latLon.longitude.toString();
-      location = await LocationServiceNew.getAddressFromCoordinates(
-          latLon.latitude, latLon.longitude);
-      center.value = LatLng(latLon.latitude, latLon.longitude);
+      setLocation(latLon.latitude, latLon.longitude);
+    }
+  }
+
+  Future<void> setLocation(double? lat, double? lon) async {
+    if (lat != null && lon != null) {
+      latitude = lat.toString();
+      longitude = lon.toString();
+      center.value = LatLng(lat, lon);
+      location = await LocationServiceNew.getAddressFromCoordinates(lat, lon);
       mapController.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(target: center.value, zoom: 15),
       ));
-      print("Location:" +
-          "Latitude: ${latLon.latitude}, Longitude: ${latLon.longitude}");
+      print("Location:" + "Latitude: ${latitude}, Longitude: ${longitude}");
+      print("Address:${location ?? ""}");
     }
   }
 

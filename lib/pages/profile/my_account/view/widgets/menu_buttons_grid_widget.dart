@@ -35,6 +35,7 @@ class MenuButtonsGridWidget extends StatelessWidget {
             onTap: () {
               if (index == 0) {
                 Get.toNamed(AppRoutes.billingDetailsNewScreen);
+                //Get.toNamed(AppRoutes.companyBillingsScreen);
               }
               else if (index == 3) {
                 Get.toNamed(AppRoutes.myRequestsScreen);

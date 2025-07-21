@@ -17,6 +17,7 @@ import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
 import 'package:otm_inventory/widgets/custom_views/no_internet_widgets.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
+
 class CreateTeamScreen extends StatefulWidget {
   const CreateTeamScreen({super.key});
 
@@ -98,5 +99,4 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
       ),
     );
   }
-
 }

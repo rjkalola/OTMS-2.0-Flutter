@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:otm_inventory/pages/profile/billing_details/controller/billing_details_controller.dart';
 import 'package:otm_inventory/pages/profile/billing_details_new/controller/billing_details_new_controller.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/routes/app_routes.dart';

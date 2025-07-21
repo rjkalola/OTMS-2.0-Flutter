@@ -56,6 +56,7 @@ class ClockInController extends GetxController {
       //     arguments[AppConstants.intentKey.fromSignUpScreen] ?? "";
     }
     shiftId = Get.find<AppStorage>().getShiftId();
+
     LocationInfo? locationInfo = Get.find<AppStorage>().getLastLocation();
     if (locationInfo != null) {
       setLocation(double.parse(locationInfo.latitude ?? "0"),
@@ -134,9 +135,7 @@ class ClockInController extends GetxController {
             CounterDetails details =
                 ClockInUtils.getTotalWorkHours(workLogData.value);
             totalWorkHours.value = details.totalWorkTime;
-            activeWorkHours.value = DateUtil
-                .seconds_To_HH_MM_SS(
-                0);
+            activeWorkHours.value = DateUtil.seconds_To_HH_MM_SS(0);
             isOnBreak.value = details.isOnBreak;
             remainingBreakTime.value = details.remainingBreakTime;
           }
@@ -233,9 +232,8 @@ class ClockInController extends GetxController {
   void _onTick(Timer? timer) {
     CounterDetails details = ClockInUtils.getTotalWorkHours(workLogData.value);
     totalWorkHours.value = details.totalWorkTime;
-    activeWorkHours.value = DateUtil
-        .seconds_To_HH_MM_SS(
-        details.activeWorkSeconds);
+    activeWorkHours.value =
+        DateUtil.seconds_To_HH_MM_SS(details.activeWorkSeconds);
     isOnBreak.value = details.isOnBreak;
     remainingBreakTime.value = details.remainingBreakTime;
   }

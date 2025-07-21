@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:otm_inventory/pages/profile/billing_details/view/widgets/no_billing_data_view.dart';
-import 'package:otm_inventory/pages/profile/billing_details/view/widgets/phone_with_extension_field.dart';
+import 'package:otm_inventory/pages/profile/billing_details_new/view/widgets/phone_with_extension_field.dart';
 import 'package:otm_inventory/pages/profile/billing_request/controller/billing_request_controller.dart';
 import 'package:otm_inventory/pages/profile/billing_request/view/widgets/bank_details_fields_view.dart';
 import 'package:otm_inventory/pages/profile/billing_request/view/widgets/billing_approval_buttons_view.dart';

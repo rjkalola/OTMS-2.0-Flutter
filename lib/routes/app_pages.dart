@@ -29,7 +29,6 @@ import 'package:otm_inventory/pages/permissions/search_user/view/search_user_scr
 import 'package:otm_inventory/pages/permissions/user_list/view/select_user_list_for_permission_screen.dart';
 import 'package:otm_inventory/pages/permissions/user_permissions/view/user_permission_screen.dart';
 import 'package:otm_inventory/pages/permissions/widgets/view/widgets_screen.dart';
-import 'package:otm_inventory/pages/profile/billing_details/view/billing_details_screen.dart';
 import 'package:otm_inventory/pages/profile/billing_details_new/view/billing_details_new_screen.dart';
 import 'package:otm_inventory/pages/profile/billing_info/view/billing_info_screen.dart';
 import 'package:otm_inventory/pages/profile/billing_request/view/billing_request_screen.dart';
@@ -38,6 +37,7 @@ import 'package:otm_inventory/pages/profile/delete_account/view/delete_account_s
 import 'package:otm_inventory/pages/profile/my_account/view/my_account_screen.dart';
 import 'package:otm_inventory/pages/profile/post_coder_search/view/post_coder_search_screen.dart';
 import 'package:otm_inventory/pages/profile/user_settings/view/user_settings_screen.dart';
+import 'package:otm_inventory/pages/project/add_project/view/add_project_screen.dart';
 import 'package:otm_inventory/pages/qr_code_scanner/view/qr_code_scanner.dart';
 import 'package:otm_inventory/pages/settings/view/settings_screen.dart';
 import 'package:otm_inventory/pages/shifts/archive_shift_list/view/archive_shift_list_screen.dart';
@@ -214,9 +214,9 @@ class AppPages {
     GetPage(
         name: AppRoutes.startShiftMapScreen, page: () => StartShiftMapScreen()),
     GetPage(name: AppRoutes.billingInfoScreen, page: () => BillingInfoScreen()),
-    GetPage(
-        name: AppRoutes.billingDetailsScreen,
-        page: () => BillingDetailsScreen()),
+    // GetPage(
+    //     name: AppRoutes.billingDetailsScreen,
+    //     page: () => BillingDetailsScreen()),
     GetPage(
         name: AppRoutes.companyBillingsScreen,
         page: () => CompanyBillingsScreen()),
@@ -252,5 +252,7 @@ class AppPages {
         name: AppRoutes.deleteAccountScreen, page: () => DeleteAccountScreen()),
     GetPage(name: AppRoutes.filterScreen, page: () => FilterScreen()),
     GetPage(name: AppRoutes.companyListScreen, page: () => CompanyListScreen()),
+    GetPage(name: AppRoutes.addProjectScreen, page: () => AddProjectScreen()),
+
   ];
 }

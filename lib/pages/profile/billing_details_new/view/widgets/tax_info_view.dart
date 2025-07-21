@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/profile/billing_details/controller/billing_details_controller.dart';
 import 'package:otm_inventory/pages/profile/billing_details_new/controller/billing_details_new_controller.dart';
 import 'package:otm_inventory/pages/profile/widgets/nin_text_field.dart';
 import 'package:otm_inventory/pages/profile/billing_info/view/widgets/title_text.dart';

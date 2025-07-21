@@ -63,7 +63,8 @@ class AppRoutes {
   static const String archiveShiftListScreen = '/archive_shift_list_screen';
   static const String startShiftMapScreen = '/start_shift_map_screen';
   static const String billingInfoScreen = '/billing_info_screen';
-  static const String billingDetailsScreen = '/billing_details_screen';
+
+  // static const String billingDetailsScreen = '/billing_details_screen';
   static const String companyBillingsScreen = '/company_billings_screen';
   static const String stopShiftScreen = '/stop_shift_screen';
   static const String selectShiftScreen = '/select_shift_screen';
@@ -79,4 +80,5 @@ class AppRoutes {
   static const String deleteAccountScreen = '/delete_account_screen';
   static const String filterScreen = '/filter_screen';
   static const String companyListScreen = '/company_list_screen';
+  static const String addProjectScreen = '/add_project_screen';
 }

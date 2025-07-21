@@ -29,6 +29,8 @@ class CompanyInfo {
   String? companyImage;
   String? companyThumbImage;
   bool? isActiveCompany;
+  String? tradeName;
+  String? netRatePerDay;
 
   CompanyInfo(
       {this.id,
@@ -60,7 +62,9 @@ class CompanyInfo {
       this.createdByInt,
       this.companyImage,
       this.companyThumbImage,
-      this.isActiveCompany});
+      this.isActiveCompany,
+        this.tradeName,
+      this.netRatePerDay});
 
   CompanyInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -93,6 +97,8 @@ class CompanyInfo {
     companyImage = json['company_image'];
     companyThumbImage = json['company_thumb_image'];
     isActiveCompany = json['isActiveCompany'];
+    tradeName = json['trade_name'];
+    netRatePerDay = json['net_rate_perDay'];
   }
 
   Map<String, dynamic> toJson() {
@@ -127,6 +133,8 @@ class CompanyInfo {
     data['company_image'] = this.companyImage;
     data['company_thumb_image'] = this.companyThumbImage;
     data['isActiveCompany'] = this.isActiveCompany;
+    data['trade_name'] = this.tradeName;
+    data['net_rate_perDay'] = this.netRatePerDay;
     return data;
   }
 }

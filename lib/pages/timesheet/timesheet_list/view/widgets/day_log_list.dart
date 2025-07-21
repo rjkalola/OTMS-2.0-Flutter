@@ -39,7 +39,8 @@ class DayLogList extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(10, 9, 13, 9),
                   child: GestureDetector(
                     onTap: () {
-                      controller.onClickWorkLogItem(info.id ?? 0);
+                      controller.onClickWorkLogItem(info.id ?? 0,
+                          controller.timeSheetList[parentPosition].userId ?? 0);
                     },
                     child: Container(
                       color: Colors.transparent,

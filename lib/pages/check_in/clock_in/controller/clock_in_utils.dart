@@ -55,15 +55,23 @@ class ClockInUtils {
             String workStart = log.workStartTime ?? "";
             String workEnd = log.workEndTime ?? "";
 
-            if (fullFormat.parse(workStart).isBefore(shiftStartTime)) {
-              workStartTime = shiftStartTime;
-            } else if (fullFormat.parse(workStart).isAfter(shiftEndTime)) {
-              workStartTime = shiftEndTime;
+            if (!StringHelper.isEmptyString(workEnd)) {
+              totalWorkHourSeconds =
+                  totalWorkHourSeconds + (log.payableWorkSeconds ?? 0);
+              totalBreakHourSeconds =
+                  totalBreakHourSeconds + (log.totalBreaklogSeconds ?? 0);
+              // payableWorkHourSeconds =
+              //     payableWorkHourSeconds + (log.payableWorkSeconds ?? 0);
             } else {
-              workStartTime = fullFormat.parse(workStart);
-            }
+              if (fullFormat.parse(workStart).isBefore(shiftStartTime)) {
+                workStartTime = shiftStartTime;
+              } else if (fullFormat.parse(workStart).isAfter(shiftEndTime)) {
+                workStartTime = shiftEndTime;
+              } else {
+                workStartTime = fullFormat.parse(workStart);
+              }
 
-            if (StringHelper.isEmptyString(workEnd)) {
+              // if (StringHelper.isEmptyString(workEnd)) {
               if (currentDateTime.isBefore(shiftStartTime)) {
                 workEndTime = shiftStartTime;
               } else if (currentDateTime.isAfter(shiftEndTime)) {
@@ -71,119 +79,74 @@ class ClockInUtils {
               } else {
                 workEndTime = currentDateTime;
               }
-              totalWorkHourSeconds = totalWorkHourSeconds +
-                  DateUtil.dateDifferenceInSeconds(
-                      date1: workStartTime, date2: workEndTime);
+
+              // totalWorkHourSeconds = totalWorkHourSeconds +
+              //     DateUtil.dateDifferenceInSeconds(
+              //         date1: workStartTime, date2: workEndTime);
               activeWorkSeconds = DateUtil.dateDifferenceInSeconds(
                   date1: workStartTime, date2: workEndTime);
-            } else {
-              if (fullFormat.parse(workEnd).isBefore(shiftStartTime)) {
-                workEndTime = shiftStartTime;
-              } else if (fullFormat.parse(workEnd).isAfter(shiftEndTime)) {
-                workEndTime = shiftEndTime;
-              } else {
-                workEndTime = fullFormat.parse(workEnd);
+
+              //Break hour calculate
+              for (var breakInfo in logs.shiftInfo!.breaks!) {
+                if (!StringHelper.isEmptyString(breakInfo.breakStartTime) &&
+                    !StringHelper.isEmptyString(breakInfo.breakEndTime)) {
+                  final String breakStart =
+                      "$todayDate ${DateUtil.changeDateFormat(breakInfo.breakStartTime ?? "", DateUtil.HH_MM_24, DateUtil.HH_MM_SS_24_2)}";
+                  final String breakEnd =
+                      "$todayDate ${DateUtil.changeDateFormat(breakInfo.breakEndTime ?? "", DateUtil.HH_MM_24, DateUtil.HH_MM_SS_24_2)}";
+
+                  DateTime? breakStartTime = fullFormat.parse(breakStart);
+                  DateTime? breakEndTime = fullFormat.parse(breakEnd);
+
+                  // Skip if break ends before work starts or starts after work ends
+                  if (breakEndTime.isBefore(workStartTime) ||
+                      breakStartTime.isAfter(workEndTime)) {
+                    continue;
+                  }
+
+                  if (currentDateTime.isAfter(breakStartTime) &&
+                      currentDateTime.isBefore(breakEndTime)) {
+                    final remaining = breakEndTime.difference(currentDateTime);
+                    remainingBreakSeconds = remaining.inSeconds;
+                    isOnBreak = true;
+                  }
+
+                  // Clamp break time within workStart and workEnd
+                  final actualStart = breakStartTime.isBefore(workStartTime)
+                      ? workStartTime
+                      : breakStartTime;
+                  final actualEnd = breakEndTime.isAfter(workEndTime)
+                      ? workEndTime
+                      : breakEndTime;
+                  Duration totalBreakTime = actualEnd.difference(actualStart);
+                  // total += totalBreakTime;
+                  totalBreakHourSeconds =
+                      totalBreakHourSeconds + totalBreakTime.inSeconds;
+
+                  if (StringHelper.isEmptyString(workEnd)) {
+                    activeWorkSeconds =
+                        activeWorkSeconds - totalBreakTime.inSeconds;
+                  }
+                }
               }
 
-              totalWorkHourSeconds = totalWorkHourSeconds +
-                  DateUtil.dateDifferenceInSeconds(
-                      date1: workStartTime, date2: workEndTime);
-            }
-
-            //Break hour calculate
-            for (var breakInfo in logs.shiftInfo!.breaks!) {
-              if (!StringHelper.isEmptyString(breakInfo.breakStartTime) &&
-                  !StringHelper.isEmptyString(breakInfo.breakEndTime)) {
-                final String breakStart =
-                    "$todayDate ${DateUtil.changeDateFormat(breakInfo.breakStartTime ?? "", DateUtil.HH_MM_24, DateUtil.HH_MM_SS_24_2)}";
-                final String breakEnd =
-                    "$todayDate ${DateUtil.changeDateFormat(breakInfo.breakEndTime ?? "", DateUtil.HH_MM_24, DateUtil.HH_MM_SS_24_2)}";
-
-                DateTime? breakStartTime = fullFormat.parse(breakStart);
-                DateTime? breakEndTime = fullFormat.parse(breakEnd);
-
-                // Skip if break ends before work starts or starts after work ends
-                if (breakEndTime.isBefore(workStartTime) ||
-                    breakStartTime.isAfter(workEndTime)) {
-                  continue;
-                }
-
-                if (currentDateTime.isAfter(breakStartTime) &&
-                    currentDateTime.isBefore(breakEndTime)) {
-                  final remaining = breakEndTime.difference(currentDateTime);
-                  remainingBreakSeconds = remaining.inSeconds;
-                  isOnBreak = true;
-                }
-
-                // Clamp break time within workStart and workEnd
-                final actualStart = breakStartTime.isBefore(workStartTime)
-                    ? workStartTime
-                    : breakStartTime;
-                final actualEnd = breakEndTime.isAfter(workEndTime)
-                    ? workEndTime
-                    : breakEndTime;
-                Duration totalBreakTime = actualEnd.difference(actualStart);
-                // total += totalBreakTime;
-                totalBreakHourSeconds =
-                    totalBreakHourSeconds + totalBreakTime.inSeconds;
-
-                if (StringHelper.isEmptyString(workEnd)) {
-                  activeWorkSeconds =
-                      activeWorkSeconds - totalBreakTime.inSeconds;
-                }
-
-                /*  if (currentDateTime.isAfter(fullFormat.parse(breakStart)) &&
-                    currentDateTime.isBefore(fullFormat.parse(breakEnd))) {
-                  breakStartTime = fullFormat.parse(breakStart);
-                  breakEndTime = currentDateTime;
-                  // print("breakStart:" + breakStart);
-                  // print("breakEnd:" + breakEnd);
-                  int totalSeconds = DateUtil.dateDifferenceInSeconds(
-                      date1: breakStartTime, date2: breakEndTime);
-                  print("break:" + totalSeconds.toString());
-                  totalBreakHourSeconds = totalBreakHourSeconds + totalSeconds;
-
-                  int totalRemainingSeconds = (DateUtil.dateDifferenceInSeconds(
-                          date1: fullFormat.parse(breakStart),
-                          date2: fullFormat.parse(breakEnd))) -
-                      totalSeconds;
-
-                  remainingBreakSeconds = totalRemainingSeconds;
-                  // print(
-                  //     "totalRemainingSeconds:" + totalRemainingSeconds.toString());
-
-                  isOnBreak = true;
-                } else if (currentDateTime
-                        .isAfter(fullFormat.parse(breakStart)) &&
-                    currentDateTime.isAfter(fullFormat.parse(breakEnd))) {
-                  breakStartTime = fullFormat.parse(breakStart);
-                  breakEndTime = fullFormat.parse(breakEnd);
-                  totalBreakHourSeconds = totalBreakHourSeconds +
-                      DateUtil.dateDifferenceInSeconds(
-                          date1: breakStartTime, date2: breakEndTime);
-                  print("break:" +
-                      DateUtil.dateDifferenceInSeconds(
-                              date1: breakStartTime, date2: breakEndTime)
-                          .toString());
-                }*/
-              }
+              totalWorkHourSeconds = totalWorkHourSeconds + activeWorkSeconds;
             }
           }
         }
       }
     }
-    // print("totalWorkHourSeconds:"+totalWorkHourSeconds.toString());
-    // print("totalBreakHourSeconds:"+totalBreakHourSeconds.toString());
-    int totalWorkTime = 0;
+
+   /* int totalWorkTime = 0;
     if (totalWorkHourSeconds > totalBreakHourSeconds) {
       totalWorkTime = totalWorkHourSeconds - totalBreakHourSeconds;
     } else {
       totalWorkTime = totalWorkHourSeconds;
-    }
+    }*/
     var details = CounterDetails(
-        totalWorkSeconds: totalWorkTime,
+        totalWorkSeconds: totalWorkHourSeconds,
         activeWorkSeconds: activeWorkSeconds,
-        totalWorkTime: DateUtil.seconds_To_HH_MM_SS(totalWorkTime),
+        totalWorkTime: DateUtil.seconds_To_HH_MM_SS(totalWorkHourSeconds),
         remainingBreakTime: DateUtil.seconds_To_HH_MM_SS(remainingBreakSeconds),
         remainingBreakSeconds: remainingBreakSeconds,
         isOnBreak: isOnBreak);

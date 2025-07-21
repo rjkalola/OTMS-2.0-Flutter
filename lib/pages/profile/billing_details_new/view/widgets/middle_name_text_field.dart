@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/profile/billing_details/controller/billing_details_controller.dart';
 import 'package:otm_inventory/pages/profile/billing_details_new/controller/billing_details_new_controller.dart';
 import 'package:otm_inventory/widgets/textfield/text_field_underline_.dart';
 

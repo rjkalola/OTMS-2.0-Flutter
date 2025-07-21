@@ -2,6 +2,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/pages/authentication/splash/splash_screen.dart';
+import 'package:otm_inventory/pages/project/add_project/view/add_project_screen.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/res/strings.dart';
 import 'package:otm_inventory/res/theme/theme_config.dart';
@@ -44,7 +45,7 @@ class _MyAppState extends State<MyApp> {
         darkTheme: ThemeConfig.darkTheme,
         themeMode:
             themeController.isDarkMode ? ThemeMode.light : ThemeMode.dark,
-        home: SplashScreen(),
+        home: AddProjectScreen(),
       ),
     );
   }

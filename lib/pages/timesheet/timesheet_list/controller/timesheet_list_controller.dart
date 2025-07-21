@@ -144,8 +144,11 @@ class TimeSheetListController extends GetxController
     }
   }
 
-  onClickWorkLogItem(int workLogId) async {
-    var arguments = {AppConstants.intentKey.workLogId: workLogId};
+  onClickWorkLogItem(int workLogId, int userId) async {
+    var arguments = {
+      AppConstants.intentKey.workLogId: workLogId,
+      AppConstants.intentKey.userId: userId
+    };
     var result =
         await Get.toNamed(AppRoutes.stopShiftScreen, arguments: arguments);
     print("result:" + result.toString());
