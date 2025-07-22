@@ -125,7 +125,7 @@ class DropDownListDialogState extends State<DropDownListDialog> {
                 child: Text(
                   tempList[i].name ?? "",
                   textAlign: TextAlign.start,
-                  style:  TextStyle(
+                  style: TextStyle(
                       fontSize: 17,
                       color: primaryTextColor_(context),
                       fontWeight: FontWeight.w400),

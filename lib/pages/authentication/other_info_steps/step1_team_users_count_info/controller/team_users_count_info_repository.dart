@@ -4,7 +4,7 @@ import 'package:otm_inventory/web_services/network/api_request.dart';
 import 'package:otm_inventory/web_services/response/response_model.dart';
 
 class TeamUsersCountInfoRepository {
-  void getCompanyResourcesApi({
+ /* void getCompanyResourcesApi({
     Map<String, dynamic>? queryParameters,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
@@ -18,5 +18,5 @@ class TeamUsersCountInfoRepository {
       },
       onError: (error) => {if (onError != null) onError(error)},
     );
-  }
+  }*/
 }

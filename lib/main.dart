@@ -45,7 +45,7 @@ class _MyAppState extends State<MyApp> {
         darkTheme: ThemeConfig.darkTheme,
         themeMode:
             themeController.isDarkMode ? ThemeMode.light : ThemeMode.dark,
-        home: AddProjectScreen(),
+        home: SplashScreen(),
       ),
     );
   }

@@ -48,8 +48,8 @@ class AddProjectScreenState extends State<AddProjectScreen> {
                 child: controller.isInternetNotAvailable.value
                     ? NoInternetWidget(
                         onPressed: () {
-                          // controller.isInternetNotAvailable.value = false;
-                          // controller.getTeamListApi();
+                          controller.isInternetNotAvailable.value = false;
+                          controller.loadResources(true);
                         },
                       )
                     : Visibility(
@@ -62,76 +62,83 @@ class AddProjectScreenState extends State<AddProjectScreen> {
                                 child: Padding(
                                   padding:
                                       const EdgeInsets.fromLTRB(16, 0, 16, 0),
-                                  child: SingleChildScrollView(child: Column(
-                                    children: [
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      ProjectNameTextField(),
-                                      SizedBox(
-                                        height: 18,
-                                      ),
-                                      DropDownTextField(
-                                        title: 'select_shift'.tr,
-                                        controller: controller.shiftController,
-                                        onValueChange: (value) {},
-                                        onPressed: () {},
-                                      ),
-                                      SizedBox(
-                                        height: 18,
-                                      ),
-                                      DropDownTextField(
-                                        title: 'select_teams'.tr,
-                                        controller: controller.teamController,
-                                        onValueChange: (value) {},
-                                        onPressed: () {},
-                                      ),
-                                      SizedBox(
-                                        height: 18,
-                                      ),
-                                      SiteAddressTextField(),
-                                      SizedBox(
-                                        height: 18,
-                                      ),
-                                      BudgetTextField(),
-                                      SizedBox(
-                                        height: 18,
-                                      ),
-                                      DropDownTextField(
-                                        title: 'add_geofence'.tr,
-                                        controller:
-                                        controller.addGeofenceController,
-                                        onValueChange: (value) {},
-                                        onPressed: () {},
-                                      ),
-                                      SizedBox(
-                                        height: 18,
-                                      ),
-                                      DropDownTextField(
-                                        title: 'add_addresses'.tr,
-                                        controller:
-                                        controller.addAddressesController,
-                                        onValueChange: (value) {},
-                                        onPressed: () {},
-                                      ),
-                                      SizedBox(
-                                        height: 18,
-                                      ),
-                                      StatusTextField(),
-                                      SizedBox(
-                                        height: 18,
-                                      ),
-                                      DescriptionTextField(),
-                                      SizedBox(
-                                        height: 18,
-                                      ),
-                                    ],
-                                  ),),
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      children: [
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        ProjectNameTextField(),
+                                        SizedBox(
+                                          height: 18,
+                                        ),
+                                        DropDownTextField(
+                                          title: 'select_shift'.tr,
+                                          controller:
+                                              controller.shiftController,
+                                          onValueChange: (value) {},
+                                          onPressed: () {
+                                            controller.showShiftList();
+                                          },
+                                        ),
+                                        SizedBox(
+                                          height: 18,
+                                        ),
+                                        DropDownTextField(
+                                          title: 'select_teams'.tr,
+                                          controller: controller.teamController,
+                                          onValueChange: (value) {},
+                                          onPressed: () {
+                                            controller.showTeamList();
+                                          },
+                                        ),
+                                        SizedBox(
+                                          height: 18,
+                                        ),
+                                        SiteAddressTextField(),
+                                        SizedBox(
+                                          height: 18,
+                                        ),
+                                        BudgetTextField(),
+                                        SizedBox(
+                                          height: 18,
+                                        ),
+                                        DropDownTextField(
+                                          title: 'add_geofence'.tr,
+                                          controller:
+                                              controller.addGeofenceController,
+                                          onValueChange: (value) {},
+                                          onPressed: () {},
+                                        ),
+                                        SizedBox(
+                                          height: 18,
+                                        ),
+                                        DropDownTextField(
+                                          title: 'add_addresses'.tr,
+                                          controller:
+                                              controller.addAddressesController,
+                                          onValueChange: (value) {},
+                                          onPressed: () {},
+                                        ),
+                                        SizedBox(
+                                          height: 18,
+                                        ),
+                                        StatusTextField(),
+                                        SizedBox(
+                                          height: 18,
+                                        ),
+                                        DescriptionTextField(),
+                                        SizedBox(
+                                          height: 18,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
                             PrimaryButton(
-                                padding: EdgeInsets.fromLTRB(14, 18, 14, 16),
+                                padding: EdgeInsets.fromLTRB(14, 16, 14, 16),
                                 buttonText: 'save'.tr,
                                 color: controller.isSaveEnable.value
                                     ? defaultAccentColor_(context)

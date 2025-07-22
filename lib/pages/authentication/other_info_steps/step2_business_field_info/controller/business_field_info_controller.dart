@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:otm_inventory/pages/authentication/other_info_steps/step1_team_users_count_info/controller/team_users_count_info_repository.dart';
 import 'package:otm_inventory/pages/authentication/other_info_steps/step1_team_users_count_info/model/CompanyResourcesResponse.dart';
 import 'package:otm_inventory/pages/authentication/other_info_steps/step2_business_field_info/controller/business_field_info_repository.dart';
+import 'package:otm_inventory/pages/company/company_details/controller/company_details_repository.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/web_services/api_constants.dart';
@@ -80,7 +81,7 @@ class BusinessFieldInfoController extends GetxController {
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["flag"] = "industryList";
-    TeamUsersCountInfoRepository().getCompanyResourcesApi(
+    CompanyDetailsRepository().getCompanyResourcesApi(
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:otm_inventory/web_services/response/module_info.dart';
 import 'package:otm_inventory/widgets/PrimaryBorderButton.dart';
+import 'package:otm_inventory/widgets/search_text_field.dart';
 
 import '../../res/colors.dart';
 import 'listener/select_multi_item_listener.dart';
@@ -31,6 +33,8 @@ class DropDownMultiSelectionListDialogState
   String dialogType;
   SelectMultiItemListener listener;
   List<ModuleInfo> tempList = [];
+  final isClearVisible = false.obs;
+  final searchController = TextEditingController().obs;
 
   DropDownMultiSelectionListDialogState(
       this.title, this.dialogType, this.list, this.listener);
@@ -44,6 +48,117 @@ class DropDownMultiSelectionListDialogState
 
   @override
   Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // Set a max height for bottom sheet (e.g. 80% of screen)
+        double maxHeight = constraints.maxHeight * 0.8;
+
+        return ConstrainedBox(
+          constraints: BoxConstraints(
+            maxHeight: maxHeight,
+          ),
+          child: Container(
+            decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius:
+                BorderRadius.vertical(top: Radius.circular(20))),
+            child: Column(mainAxisSize: MainAxisSize.min, children: [
+              Container(
+                decoration: BoxDecoration(
+                    color: titleBgColor_(context),
+                    borderRadius:
+                    BorderRadius.vertical(top: Radius.circular(20))),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Align(
+                      alignment: Alignment.center,
+                      child: Padding(
+                        padding: const EdgeInsets.all(18.0),
+                        child: Text(
+                          title,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w600, fontSize: 17),
+                        ),
+                      ),
+                    ),
+                    Align(
+                        alignment: Alignment.centerRight,
+                        child: IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: const Icon(Icons.close, size: 20),
+                        ))
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 6),
+                child: SizedBox(
+                  height: 44,
+                  child: SearchTextField(
+                    controller: searchController,
+                    isClearVisible: isClearVisible,
+                    onValueChange: (value) {
+                      filterSearchResults(value.toString(), list);
+                      isClearVisible.value =
+                      !StringHelper.isEmptyString(value.toString());
+                    },
+                    onPressedClear: () {
+                      searchController.value.clear();
+                      filterSearchResults("", list);
+                      isClearVisible.value = false;
+                    },
+                  ),
+                ),
+              ),
+              Flexible(child: setDropdownList(dialogType, listener)),
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Row(
+                  children: [
+                    Flexible(
+                      fit: FlexFit.tight,
+                      flex: 1,
+                      child: PrimaryBorderButton(
+                        buttonText: 'cancel'.tr,
+                        fontColor: Colors.red,
+                        borderColor: Colors.red,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 12,
+                    ),
+                    Flexible(
+                        fit: FlexFit.tight,
+                        flex: 1,
+                        child: PrimaryBorderButton(
+                          buttonText: 'select'.tr,
+                          fontColor: defaultAccentColor_(context),
+                          borderColor: defaultAccentColor_(context),
+                          onPressed: () {
+                            listener.onSelectMultiItem(
+                                tempList, dialogType);
+                            Navigator.pop(context);
+                          },
+                        )),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 28,
+              ),
+            ]),
+          ),
+        );
+      },
+    );
+
+/*
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter setModalState) =>
             DraggableScrollableSheet(
@@ -59,7 +174,7 @@ class DropDownMultiSelectionListDialogState
                         BorderRadius.vertical(top: Radius.circular(20))),
                 child: Column(mainAxisSize: MainAxisSize.max, children: [
                   Container(
-                    decoration:  BoxDecoration(
+                    decoration: BoxDecoration(
                         color: titleBgColor_(context),
                         borderRadius:
                             BorderRadius.vertical(top: Radius.circular(20))),
@@ -89,26 +204,22 @@ class DropDownMultiSelectionListDialogState
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
-                    child: TextField(
-                      onChanged: (value) {
-                        setModalState(() {
-                          filterSearchResults(value, list);
-                        });
-                      },
-                      decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.fromLTRB(0, 2, 14, 0),
-                        prefixIcon:
-                            const Icon(Icons.search, color: Colors.black26),
-                        border: const OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Color(0xffbab8b8), width: 1.3),
-                        ),
-                        focusedBorder: const OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Color(0xffbab8b8), width: 1.3),
-                        ),
-                        hintText: 'search'.tr,
+                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 6),
+                    child: SizedBox(
+                      height: 44,
+                      child: SearchTextField(
+                        controller: searchController,
+                        isClearVisible: isClearVisible,
+                        onValueChange: (value) {
+                          filterSearchResults(value.toString(), list);
+                          isClearVisible.value =
+                              !StringHelper.isEmptyString(value.toString());
+                        },
+                        onPressedClear: () {
+                          searchController.value.clear();
+                          filterSearchResults("", list);
+                          isClearVisible.value = false;
+                        },
                       ),
                     ),
                   ),
@@ -135,7 +246,7 @@ class DropDownMultiSelectionListDialogState
                         Flexible(
                             fit: FlexFit.tight,
                             flex: 1,
-                            child:PrimaryBorderButton(
+                            child: PrimaryBorderButton(
                               buttonText: 'select'.tr,
                               fontColor: defaultAccentColor_(context),
                               borderColor: defaultAccentColor_(context),
@@ -144,14 +255,17 @@ class DropDownMultiSelectionListDialogState
                                     tempList, dialogType);
                                 Navigator.pop(context);
                               },
-                            )
-                        ),
+                            )),
                       ],
                     ),
-                  )
+                  ),
+                  SizedBox(
+                    height: 28,
+                  ),
                 ]),
               ),
             ));
+*/
   }
 
   Widget setDropdownList(String dialogType, SelectMultiItemListener listener) =>
@@ -165,9 +279,9 @@ class DropDownMultiSelectionListDialogState
             return ListTile(
               onTap: () {
                 setState(() {
-                  if(tempList[i].check != null){
+                  if (tempList[i].check != null) {
                     tempList[i].check = !tempList[i].check!;
-                  }else{
+                  } else {
                     tempList[i].check = true;
                   }
                 });
@@ -180,11 +294,14 @@ class DropDownMultiSelectionListDialogState
               title: Padding(
                 padding: const EdgeInsets.fromLTRB(6, 0, 18, 0),
                 child: Row(children: [
-                  Checkbox(activeColor: defaultAccentColor_(context),value: tempList[i].check??false, onChanged: (isCheck) {
-                    setState(() {
-                      tempList[i].check = isCheck;
-                    });
-                  }),
+                  Checkbox(
+                      activeColor: defaultAccentColor_(context),
+                      value: tempList[i].check ?? false,
+                      onChanged: (isCheck) {
+                        setState(() {
+                          tempList[i].check = isCheck;
+                        });
+                      }),
                   Text(
                     tempList[i].name ?? "",
                     textAlign: TextAlign.start,

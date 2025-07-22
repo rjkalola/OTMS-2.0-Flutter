@@ -12,6 +12,7 @@ import 'package:otm_inventory/pages/common/listener/SelectPhoneExtensionListener
 import 'package:otm_inventory/pages/common/listener/select_item_listener.dart';
 import 'package:otm_inventory/pages/common/model/user_response.dart';
 import 'package:otm_inventory/pages/common/phone_extension_list_dialog.dart';
+import 'package:otm_inventory/pages/company/company_details/controller/company_details_repository.dart';
 import 'package:otm_inventory/pages/company/joincompany/controller/join_company_repository.dart';
 import 'package:otm_inventory/pages/company/joincompany/model/get_companies_response.dart';
 import 'package:otm_inventory/pages/company/joincompany/model/join_company_code_response.dart';
@@ -123,7 +124,7 @@ class JoinCompanyController extends GetxController
     Map<String, dynamic> map = {};
     map["flag"] = "tradeList";
     map["company_id"] = ApiConstants.companyId;
-    _api.getTradeListApi(
+    CompanyDetailsRepository().getCompanyResourcesApi(
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {

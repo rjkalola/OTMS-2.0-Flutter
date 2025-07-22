@@ -81,4 +81,5 @@ class AppRoutes {
   static const String filterScreen = '/filter_screen';
   static const String companyListScreen = '/company_list_screen';
   static const String addProjectScreen = '/add_project_screen';
+  static const String projectInfoScreen = '/project_info_screen';
 }

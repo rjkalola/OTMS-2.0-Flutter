@@ -3,12 +3,10 @@ import 'package:get/get.dart';
 import 'package:otm_inventory/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart';
 import 'package:otm_inventory/pages/dashboard/tabs/home_tab/model/permission_info.dart';
 import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/res/drawable.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
-import 'package:otm_inventory/widgets/card_view.dart';
 import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
 

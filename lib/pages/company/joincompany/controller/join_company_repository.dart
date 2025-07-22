@@ -64,7 +64,7 @@ class JoinCompanyRepository {
     );
   }
 
-  void getTradeListApi({
+ /* void getTradeListApi({
     Map<String, dynamic>? queryParameters,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
@@ -78,7 +78,7 @@ class JoinCompanyRepository {
       },
       onError: (error) => {if (onError != null) onError(error)},
     );
-  }
+  }*/
 
   void storeTradeApi({
     dynamic data,

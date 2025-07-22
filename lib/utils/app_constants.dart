@@ -12,6 +12,7 @@ class AppConstants {
   static const ShiftType shiftType = ShiftType();
   static const Results results = Results();
   static const Status status = Status();
+  static const CompanyResourcesFlag companyResourcesFlag = CompanyResourcesFlag();
 
   static String deviceType = Platform.isAndroid ? "1" : "2";
   static const int productListLimit = 20;
@@ -83,6 +84,7 @@ class DialogIdentifier {
   final String selectCurrency = 'SELECT_CURRENCY';
   final String selectProject = 'SELECT_PROJECT';
   final String selectShift = 'SELECT_SHIFT';
+  final String selectTeam = 'SELECT_TEAM';
   final String sortByDialog = 'SORT_BY_DIALOG';
   final String filterByDialog = 'FILTER_BY_DIALOG';
   final String attachmentOptionsList = 'ATTACHMENT_OPTIONS_LIST';
@@ -231,4 +233,11 @@ class Status {
   final int pending = 3;
   final int approved = 5;
   final int rejected = 12;
+}
+
+class CompanyResourcesFlag {
+  const CompanyResourcesFlag(); //
+
+  final String shiftList = "shiftList";
+  final String teamList = "teamList";
 }
