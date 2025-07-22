@@ -67,6 +67,15 @@ class StringHelper {
     return listString;
   }
 
+  static List<ModuleInfo> getCheckedItemsList(
+      List<ModuleInfo> listTotalItems, List<ModuleInfo> listSelectedItems) {
+    for (var info in listTotalItems) {
+      bool exists = listSelectedItems.any((data) => data.id == info.id);
+      info.check = exists;
+    }
+    return listTotalItems;
+  }
+
   static String getText(TextEditingController controller) {
     String text = "";
     if (!isEmptyString(controller.text.toString().trim())) {

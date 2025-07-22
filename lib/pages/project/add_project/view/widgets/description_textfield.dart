@@ -14,7 +14,7 @@ class DescriptionTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFieldBorderDark(
+    return Obx(() => TextFieldBorderDark(
       textEditingController: controller.descriptionController.value,
       hintText: 'description'.tr,
       labelText: 'description'.tr,
@@ -23,6 +23,6 @@ class DescriptionTextField extends StatelessWidget {
         controller.isSaveEnable.value = true;
       },
       validator: MultiValidator([]),
-    );
+    ),);
   }
 }

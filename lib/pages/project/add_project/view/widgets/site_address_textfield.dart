@@ -14,7 +14,7 @@ class SiteAddressTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFieldBorderDark(
+    return Obx(() => TextFieldBorderDark(
       textEditingController: controller.siteAddressController.value,
       hintText: 'site_address'.tr,
       labelText: 'site_address'.tr,
@@ -25,6 +25,6 @@ class SiteAddressTextField extends StatelessWidget {
         controller.isSaveEnable.value = true;
       },
       validator: MultiValidator([]),
-    );
+    ),);
   }
 }

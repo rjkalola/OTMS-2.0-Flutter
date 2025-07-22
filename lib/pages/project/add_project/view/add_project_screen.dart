@@ -4,9 +4,9 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:otm_inventory/pages/project/add_project/controller/add_project_controller.dart';
 import 'package:otm_inventory/pages/project/add_project/view/widgets/budget_textfield.dart';
 import 'package:otm_inventory/pages/project/add_project/view/widgets/description_textfield.dart';
+import 'package:otm_inventory/pages/project/add_project/view/widgets/project_code_textfield.dart';
 import 'package:otm_inventory/pages/project/add_project/view/widgets/project_name_textfield.dart';
 import 'package:otm_inventory/pages/project/add_project/view/widgets/site_address_textfield.dart';
-import 'package:otm_inventory/pages/project/add_project/view/widgets/status_textfield.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
@@ -100,7 +100,7 @@ class AddProjectScreenState extends State<AddProjectScreen> {
                                           height: 18,
                                         ),
                                         BudgetTextField(),
-                                        SizedBox(
+                                        /*  SizedBox(
                                           height: 18,
                                         ),
                                         DropDownTextField(
@@ -123,7 +123,11 @@ class AddProjectScreenState extends State<AddProjectScreen> {
                                         SizedBox(
                                           height: 18,
                                         ),
-                                        StatusTextField(),
+                                        StatusTextField(),*/
+                                        SizedBox(
+                                          height: 18,
+                                        ),
+                                        ProjectCodeTextField(),
                                         SizedBox(
                                           height: 18,
                                         ),
@@ -144,7 +148,13 @@ class AddProjectScreenState extends State<AddProjectScreen> {
                                     ? defaultAccentColor_(context)
                                     : defaultAccentLightColor_(context),
                                 onPressed: () {
-                                  if (controller.isSaveEnable.value) {}
+                                  if (controller.isSaveEnable.value) {
+                                    if (controller.projectInfo != null) {
+                                      controller.updateProjectApi();
+                                    } else {
+                                      controller.addProjectApi();
+                                    }
+                                  }
                                 })
                           ],
                         ),

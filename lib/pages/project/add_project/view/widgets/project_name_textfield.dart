@@ -14,8 +14,8 @@ class ProjectNameTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFieldBorderDark(
-      textEditingController: controller.projectCodeController.value,
+    return Obx(() => TextFieldBorderDark(
+      textEditingController: controller.projectNameController.value,
       hintText: 'project_name'.tr,
       labelText: 'project_name'.tr,
       isReadOnly: false,
@@ -29,6 +29,6 @@ class ProjectNameTextField extends StatelessWidget {
       validator: MultiValidator([
         RequiredValidator(errorText: 'required_field'.tr),
       ]),
-    );
+    ),);
   }
 }

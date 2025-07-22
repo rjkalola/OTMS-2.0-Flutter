@@ -15,7 +15,7 @@ class BudgetTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFieldBorderDark(
+    return Obx(() => TextFieldBorderDark(
       textEditingController: controller.budgetController.value,
       hintText: 'budget'.tr,
       labelText: 'budget'.tr,
@@ -29,6 +29,6 @@ class BudgetTextField extends StatelessWidget {
         FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
       ],
       validator: MultiValidator([]),
-    );
+    ),);
   }
 }
