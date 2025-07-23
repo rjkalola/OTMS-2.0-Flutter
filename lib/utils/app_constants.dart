@@ -172,6 +172,7 @@ class Action {
   final String subContractorDetails = 'SUB_CONTRACTOR_DETAILS';
   final String joinCompany = 'JOIN_COMPANY';
   final String archiveTeam = 'ARCHIVE_TEAM';
+  final String archivedItems = 'ARCHIVED_ITEMS';
   final String archiveShift = 'ARCHIVE_SHIFT';
   final String generateCode = 'GENERATE_CODE';
   final String addOrJoin = 'ADD_OR_JOIN';

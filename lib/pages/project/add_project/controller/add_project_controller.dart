@@ -24,10 +24,10 @@ class AddProjectController extends GetxController
   final teamController = TextEditingController().obs;
   final siteAddressController = TextEditingController().obs;
   final budgetController = TextEditingController().obs;
+  final projectCodeController = TextEditingController().obs;
 
   // final addGeofenceController = TextEditingController().obs;
   // final addAddressesController = TextEditingController().obs;
-  final projectCodeController = TextEditingController().obs;
 
   // final statusController = TextEditingController().obs;
   final descriptionController = TextEditingController().obs;
@@ -67,6 +67,7 @@ class AddProjectController extends GetxController
       siteAddressController.value.text = projectInfo?.address ?? "";
       budgetController.value.text = projectInfo?.budget ?? "";
       descriptionController.value.text = projectInfo?.description ?? "";
+      projectCodeController.value.text = projectInfo?.code ?? "";
       if (projectInfo!.shifts!.isNotEmpty) {
         shiftController.value.text =
             StringHelper.getCommaSeparatedNames(projectInfo!.shifts!);
@@ -125,7 +126,7 @@ class AddProjectController extends GetxController
   void updateProjectApi() async {
     if (valid()) {
       Map<String, dynamic> map = {};
-      map["id"] = ApiConstants.companyId;
+      map["id"] = projectInfo?.id??0;
       map["company_id"] = ApiConstants.companyId;
       map["name"] = StringHelper.getText(projectNameController.value);
       map["address"] = StringHelper.getText(siteAddressController.value);
@@ -137,7 +138,7 @@ class AddProjectController extends GetxController
       map["shift_ids"] = shiftIds;
 
       isLoading.value = true;
-      _api.addProject(
+      _api.updateProject(
         data: map,
         onSuccess: (ResponseModel responseModel) {
           if (responseModel.isSuccess) {
@@ -233,6 +234,7 @@ class AddProjectController extends GetxController
 
   @override
   void onSelectMultiItem(List<ModuleInfo> tempList, String action) {
+    isSaveEnable.value = true;
     List<ModuleInfo> listSelectedItems = [];
     for (int i = 0; i < tempList.length; i++) {
       if (tempList[i].check ?? false) {

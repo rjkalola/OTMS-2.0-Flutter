@@ -26,7 +26,7 @@ class ProjectCodeTextField extends StatelessWidget {
         controller.isSaveEnable.value = true;
       },
       inputFormatters: [
-        FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+        // FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
       ],
       validator: MultiValidator([]),
     ),);

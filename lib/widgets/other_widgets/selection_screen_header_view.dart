@@ -23,19 +23,19 @@ class SelectionScreenHeaderView extends StatelessWidget {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: GestureDetector(
-              onTap: onBackPressed,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(14, 0, 10, 0),
-                child: Icon(
-                  Icons.arrow_back_ios_new_outlined,
-                  size: 18,
-                ),
-              ),
-            ),
-          ),
+          // Align(
+          //   alignment: Alignment.centerLeft,
+          //   child: GestureDetector(
+          //     onTap: onBackPressed,
+          //     child: Padding(
+          //       padding: const EdgeInsets.fromLTRB(14, 0, 10, 0),
+          //       child: Icon(
+          //         Icons.arrow_back_ios_new_outlined,
+          //         size: 18,
+          //       ),
+          //     ),
+          //   ),
+          // ),
           TitleTextView(
             text: title,
             fontSize: 17,

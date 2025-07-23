@@ -385,7 +385,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       Get.toNamed(AppRoutes.userListScreen);
       // Get.toNamed(AppRoutes.createTeamScreen);
     } else if (info.slug == 'analytics') {
-      Get.toNamed(AppRoutes.addProjectScreen);
+      Get.toNamed(AppRoutes.projectListScreen);
       // Get.toNamed(AppRoutes.createTeamScreen);
     } else if (info.slug == 'shift') {
       getUserWorkLogListApi();

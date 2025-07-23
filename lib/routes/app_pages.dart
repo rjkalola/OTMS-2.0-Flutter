@@ -8,6 +8,7 @@ import 'package:otm_inventory/pages/authentication/otp_verification/view/verify_
 import 'package:otm_inventory/pages/authentication/signup1/view/signup1_screen.dart';
 import 'package:otm_inventory/pages/authentication/signup2/view/signup2_screen.dart';
 import 'package:otm_inventory/pages/authentication/splash/splash_screen.dart';
+import 'package:otm_inventory/pages/check_in/check_in/view/check_in_screen.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/view/clock_in_screen.dart';
 import 'package:otm_inventory/pages/check_in/select_before_after_photos/view/select_before_after_photos_screen.dart';
 import 'package:otm_inventory/pages/check_in/select_shift/view/select_shift_screen.dart';
@@ -39,6 +40,7 @@ import 'package:otm_inventory/pages/profile/post_coder_search/view/post_coder_se
 import 'package:otm_inventory/pages/profile/user_settings/view/user_settings_screen.dart';
 import 'package:otm_inventory/pages/project/add_project/view/add_project_screen.dart';
 import 'package:otm_inventory/pages/project/project_info/view/project_info_screen.dart';
+import 'package:otm_inventory/pages/project/project_list/view/project_list_screen.dart';
 import 'package:otm_inventory/pages/qr_code_scanner/view/qr_code_scanner.dart';
 import 'package:otm_inventory/pages/settings/view/settings_screen.dart';
 import 'package:otm_inventory/pages/shifts/archive_shift_list/view/archive_shift_list_screen.dart';
@@ -254,6 +256,8 @@ class AppPages {
     GetPage(name: AppRoutes.filterScreen, page: () => FilterScreen()),
     GetPage(name: AppRoutes.companyListScreen, page: () => CompanyListScreen()),
     GetPage(name: AppRoutes.addProjectScreen, page: () => AddProjectScreen()),
+    GetPage(name: AppRoutes.projectListScreen, page: () => ProjectListScreen()),
     GetPage(name: AppRoutes.projectInfoScreen, page: () => ProjectInfoScreen()),
+    GetPage(name: AppRoutes.checkInScreen, page: () => CheckInScreen()),
   ];
 }

@@ -15,20 +15,22 @@ class BudgetTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => TextFieldBorderDark(
-      textEditingController: controller.budgetController.value,
-      hintText: 'budget'.tr,
-      labelText: 'budget'.tr,
-      keyboardType: TextInputType.number,
-      textInputAction: TextInputAction.next,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      onValueChange: (value) {
-        controller.isSaveEnable.value = true;
-      },
-      inputFormatters: [
-        FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
-      ],
-      validator: MultiValidator([]),
-    ),);
+    return Obx(
+      () => TextFieldBorderDark(
+        textEditingController: controller.budgetController.value,
+        hintText: "${'budget'.tr} (£)",
+        labelText: "${'budget'.tr} (£)",
+        keyboardType: TextInputType.number,
+        textInputAction: TextInputAction.next,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        onValueChange: (value) {
+          controller.isSaveEnable.value = true;
+        },
+        inputFormatters: [
+          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+        ],
+        validator: MultiValidator([]),
+      ),
+    );
   }
 }

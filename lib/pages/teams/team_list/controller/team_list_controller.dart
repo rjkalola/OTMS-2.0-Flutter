@@ -120,7 +120,7 @@ class TeamListController extends GetxController implements MenuItemListener {
   }
 
   @override
-  Future<void> onSelectMenuItem(ModuleInfo info,String dialogType) async {
+  Future<void> onSelectMenuItem(ModuleInfo info, String dialogType) async {
     if (info.action == AppConstants.action.add) {
       moveToScreen(AppRoutes.createTeamScreen, null);
     } else if (info.action == AppConstants.action.generateCode) {

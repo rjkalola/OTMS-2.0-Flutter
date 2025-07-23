@@ -7,11 +7,24 @@ class MapBackArrow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-        onPressed: onBackPressed,
-        icon: Icon(
+    return InkWell(
+      onTap: onBackPressed,
+      child: Container(
+        margin: EdgeInsets.all(12),
+        alignment: Alignment.center,
+        width: 36,
+        // Diameter of the circle
+        height: 36,
+        decoration: BoxDecoration(
+          color: Color(0x4D000000), // Fill color of the circle
+          shape: BoxShape.circle,
+        ),
+        child: Icon(
           Icons.arrow_back_ios_new_outlined,
-          size: 26,
-        ));
+          size: 22,
+          color: Colors.white,
+        ),
+      ),
+    );
   }
 }

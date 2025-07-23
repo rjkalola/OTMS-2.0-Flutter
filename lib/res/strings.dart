@@ -289,6 +289,7 @@ class Strings extends Translations {
           'add_or_join': "Add or Join",
           'empty_note_error': "Please enter note",
           'add_project': "Add Project",
+          'archived_projects': "Archived Projects",
           'update_project': "Update Project",
           'project_name': "Project Name",
           'select_teams': "Select Teams",
