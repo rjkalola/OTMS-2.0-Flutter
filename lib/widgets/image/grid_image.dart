@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:otm_inventory/res/theme/theme_config.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
 
@@ -20,7 +21,7 @@ class GridImage extends StatelessWidget {
     return Container(
       // color of
       decoration: BoxDecoration(
-          color: Color(AppUtils.haxColor("#E6EAEE")),
+          color: ThemeConfig.isDarkMode ? Color(0xff232323) : Color(0xffdadada),
           borderRadius: BorderRadius.circular(fileRadius ?? 8.0)
           // border: Border.all(
           //   color: rectangleBorderColor,

@@ -90,8 +90,8 @@ class WorkLogRequestController extends GetxController
           status.value = workLogInfo.value.status ?? 0;
 
           setLocationPin();
-          locationRequest();
-          appLifeCycle();
+          // locationRequest();
+          // appLifeCycle();
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
@@ -234,6 +234,10 @@ class WorkLogRequestController extends GetxController
       LatLng startWorkPosition = LatLng(double.parse(start.latitude ?? "0"),
           double.parse(start.longitude ?? "0"));
       addMarker(startWorkPosition, 'startwork', icon, title: '');
+
+      if (stop == null) {
+        setLocation(startWorkPosition.latitude, startWorkPosition.longitude);
+      }
     }
 
     if (stop != null) {
@@ -242,6 +246,7 @@ class WorkLogRequestController extends GetxController
       LatLng stopWorkPosition = LatLng(double.parse(stop.latitude ?? "0"),
           double.parse(stop.longitude ?? "0"));
       addMarker(stopWorkPosition, 'stopwork', icon, title: '');
+      setLocation(stopWorkPosition.latitude, stopWorkPosition.longitude);
     }
 
     if (start != null && stop != null) {
@@ -250,6 +255,7 @@ class WorkLogRequestController extends GetxController
       LatLng stopWorkPosition = LatLng(double.parse(stop.latitude ?? "0"),
           double.parse(stop.longitude ?? "0"));
       addPolyLone(startWorkPosition, stopWorkPosition);
+      setLocation(stopWorkPosition.latitude, stopWorkPosition.longitude);
     }
   }
 

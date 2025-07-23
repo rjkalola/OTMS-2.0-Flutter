@@ -297,6 +297,7 @@ class Strings extends Translations {
           'budget': "Budget",
           'add_geofence': "Add Geofence",
           'add_addresses': "Add Addresses",
+          'address': "Address",
           'project_code': "Project Code",
           'start_date': "Start Date",
           'end_date': "End Date:",

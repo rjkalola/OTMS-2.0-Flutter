@@ -143,6 +143,8 @@ class ApiConstants {
   static String addProject = '$appUrl/project/create';
   static String updateProject = '$appUrl/project/update';
   static String getProjects = '$appUrl/project/get';
+  static String deleteProject = '$appUrl/project/delete';
+  static String archiveProject = '$appUrl/project/archive';
 
   static String registerResourcesUrl = '$appUrl/wn-resources';
   static String verifyPhoneUrl = '$appUrl/verify-phone';

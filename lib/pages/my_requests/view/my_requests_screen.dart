@@ -153,7 +153,7 @@ class RequestCard extends StatelessWidget {
           margin: const EdgeInsets.only(top: 16),
           padding: const EdgeInsets.all(0),
           child: CardViewDashboardItem(
-            margin: EdgeInsets.fromLTRB(12, 6, 12, 6),
+            margin: EdgeInsets.fromLTRB(6, 6, 6, 6),
             child: Padding(
               padding: EdgeInsets.all(12),
               child: GestureDetector(

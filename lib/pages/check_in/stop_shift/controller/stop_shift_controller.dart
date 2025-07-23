@@ -334,6 +334,10 @@ class StopShiftController extends GetxController implements SelectTimeListener {
       LatLng startWorkPosition = LatLng(double.parse(start.latitude ?? "0"),
           double.parse(start.longitude ?? "0"));
       addMarker(startWorkPosition, 'startwork', icon, title: '');
+
+      if (stop == null) {
+        setLocation(startWorkPosition.latitude, startWorkPosition.longitude);
+      }
     }
 
     if (stop != null) {
@@ -342,6 +346,7 @@ class StopShiftController extends GetxController implements SelectTimeListener {
       LatLng stopWorkPosition = LatLng(double.parse(stop.latitude ?? "0"),
           double.parse(stop.longitude ?? "0"));
       addMarker(stopWorkPosition, 'stopwork', icon, title: '');
+      setLocation(stopWorkPosition.latitude, stopWorkPosition.longitude);
     }
 
     if (start != null && stop != null) {
@@ -350,6 +355,7 @@ class StopShiftController extends GetxController implements SelectTimeListener {
       LatLng stopWorkPosition = LatLng(double.parse(stop.latitude ?? "0"),
           double.parse(stop.longitude ?? "0"));
       addPolyLone(startWorkPosition, stopWorkPosition);
+      setLocation(stopWorkPosition.latitude, stopWorkPosition.longitude);
     }
   }
 

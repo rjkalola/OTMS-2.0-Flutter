@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/my_day_log_list_view.dart';
 import 'package:otm_inventory/pages/check_in/stop_shift/controller/stop_shift_controller.dart';
 import 'package:otm_inventory/pages/check_in/stop_shift/view/widgets/add_note_widget.dart';
 import 'package:otm_inventory/pages/check_in/stop_shift/view/widgets/break_log_list.dart';

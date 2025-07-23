@@ -25,15 +25,16 @@ class _SelectBeforeAfterPhotosScreenState
   Widget build(BuildContext context) {
     AppUtils.setStatusBarColor();
     return Container(
-      color: backgroundColor_(context),
+      color: dashBoardBgColor_(context),
       child: SafeArea(
           child: Scaffold(
-        backgroundColor: backgroundColor_(context),
+        backgroundColor: dashBoardBgColor_(context),
         appBar: BaseAppBar(
           appBar: AppBar(),
           title: controller.title.value,
           isCenterTitle: false,
           isBack: true,
+          bgColor: dashBoardBgColor_(context),
         ),
         body: Obx(
           () => ModalProgressHUD(

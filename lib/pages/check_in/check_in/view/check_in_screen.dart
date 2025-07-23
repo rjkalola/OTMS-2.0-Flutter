@@ -2,15 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:otm_inventory/pages/check_in/check_in/controller/check_in_controller.dart';
-import 'package:otm_inventory/pages/check_in/stop_shift/view/widgets/start_stop_box_row.dart';
+import 'package:otm_inventory/pages/check_in/widgets/photos_count_view.dart';
+import 'package:otm_inventory/pages/check_in/widgets/start_stop_time_box.dart';
 import 'package:otm_inventory/res/colors.dart';
+import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
+import 'package:otm_inventory/widgets/PrimaryButton.dart';
 import 'package:otm_inventory/widgets/map_view/bottom_curve_container.dart';
 import 'package:otm_inventory/widgets/map_view/custom_map_view.dart';
 import 'package:otm_inventory/widgets/map_view/map_back_arrow.dart';
-import 'package:otm_inventory/widgets/other_widgets/selection_screen_header_view.dart';
-import 'package:otm_inventory/widgets/other_widgets/start_stop_box.dart';
+import 'package:otm_inventory/widgets/textfield/reusable/add_note_widget.dart';
+import 'package:otm_inventory/widgets/textfield/reusable/drop_down_text_field.dart';
 
 class CheckInScreen extends StatefulWidget {
   const CheckInScreen({super.key});
@@ -37,43 +40,109 @@ class _CheckInScreenState extends State<CheckInScreen> {
             progressIndicator: const CustomProgressbar(),
             child: Visibility(
               visible: controller.isMainViewVisible.value,
-              child: Column(children: [
-                Flexible(
-                  flex: 1,
-                  child: Stack(
-                    children: [
-                      CustomMapView(
-                        onMapCreated: controller.onMapCreated,
-                        target: controller.center,
-                      ),
-                      MapBackArrow(onBackPressed: () {
-                        Get.back();
-                      }),
-                      BottomCurveContainer()
-                    ],
-                  ),
-                ),
-                Flexible(
-                  flex: 2,
-                  child: SingleChildScrollView(
-                    child: Column(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 220,
+                    child: Stack(
                       children: [
-                        SelectionScreenHeaderView(
-                          title: 'check_in_'.tr,
-                          onBackPressed: () {
-                            Get.back();
-                          },
+                        CustomMapView(
+                          onMapCreated: controller.onMapCreated,
+                          target: controller.center,
                         ),
-                        StartStopBox(
-                            title: 'check_in_'.tr,
-                            time: "12:34".obs,
-                            address: "",
-                            isEditVisible: false.obs),
+                        MapBackArrow(onBackPressed: () {
+                          Get.back();
+                        }),
+                        BottomCurveContainer()
                       ],
                     ),
                   ),
-                )
-              ]),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
+                        child: Column(
+                          children: [
+                            // SelectionScreenHeaderView(
+                            //   title: 'check_in_'.tr,
+                            //   onBackPressed: () {
+                            //     Get.back();
+                            //   },
+                            // ),
+                            Row(
+                              children: [
+                                StartStopTimeBox(
+                                    title: 'check_in_'.tr,
+                                    time: "12:34".obs,
+                                    address: "",
+                                    isEditVisible: false.obs)
+                              ],
+                            ),
+                            SizedBox(
+                              height: 22,
+                            ),
+                            DropDownTextField(
+                              title: 'select_address'.tr,
+                              controller: controller.addressController,
+                              borderRadius: 15,
+                              onPressed: () {},
+                            ),
+                            SizedBox(
+                              height: 18,
+                            ),
+                            DropDownTextField(
+                              title: 'select_trade'.tr,
+                              controller: controller.tradeController,
+                              borderRadius: 15,
+                              onPressed: () {},
+                            ),
+                            SizedBox(
+                              height: 18,
+                            ),
+                            DropDownTextField(
+                              title: 'type_of_work'.tr,
+                              controller: controller.typeOfWorkController,
+                              borderRadius: 15,
+                              onPressed: () {},
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            PhotosCountView(
+                              title: 'photos_before'.tr,
+                              count: controller.listBeforePhotos.length,
+                              photosType: AppConstants.type.beforePhotos,
+                              onPressed: () {
+                                controller.onSelectPhotos(
+                                    AppConstants.type.beforePhotos,
+                                    controller.listBeforePhotos);
+                              },
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            AddNoteWidget(
+                              controller: controller.noteController,
+                              borderRadius: 15,
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: PrimaryButton(
+                      buttonText: 'check_in_'.tr,
+                      onPressed: () {},
+                      color: Colors.green,
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),

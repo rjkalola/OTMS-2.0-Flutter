@@ -40,6 +40,7 @@ class AddProjectScreenState extends State<AddProjectScreen> {
               isCenterTitle: false,
               isBack: true,
               bgColor: dashBoardBgColor_(context),
+              widgets: actionButtons(),
             ),
             body: ModalProgressHUD(
                 inAsyncCall: controller.isLoading.value,
@@ -163,5 +164,19 @@ class AddProjectScreenState extends State<AddProjectScreen> {
         ),
       ),
     );
+  }
+
+  List<Widget>? actionButtons() {
+    return [
+      Visibility(
+        visible: controller.projectInfo != null,
+        child: IconButton(
+          icon: Icon(Icons.more_vert_outlined),
+          onPressed: () {
+            controller.showMenuItemsDialog(Get.context!);
+          },
+        ),
+      ),
+    ];
   }
 }
