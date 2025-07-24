@@ -202,8 +202,10 @@ class StopShiftController extends GetxController implements SelectTimeListener {
           print("isCurrentDay:" + isCurrentDay.toString());
           setLocationPin();
           setInitialTime();
-          locationRequest();
-          appLifeCycle();
+          if (StringHelper.isEmptyString(workLogInfo.value.workEndTime)) {
+            locationRequest();
+            appLifeCycle();
+          }
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }

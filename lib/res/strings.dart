@@ -305,7 +305,7 @@ class Strings extends Translations {
           'price_work': "Price Work",
           'day_work': "Day Work",
           'total': "Total",
-          // '': "",
+          'project_all': "Projects (All)",
           // '': "",
           // '': "",
           // '': "",

@@ -26,7 +26,6 @@ import 'package:otm_inventory/web_services/response/module_info.dart';
 import 'package:otm_inventory/web_services/response/response_model.dart';
 
 class ProjectListController extends GetxController implements MenuItemListener {
-  final formKey = GlobalKey<FormState>();
   final _api = ProjectListRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
@@ -52,13 +51,19 @@ class ProjectListController extends GetxController implements MenuItemListener {
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
+          print("AAA");
           isMainViewVisible.value = true;
           ProjectListResponse response =
               ProjectListResponse.fromJson(jsonDecode(responseModel.result!));
+          print("BBB");
           tempList.clear();
+          print("CCC");
           tempList.addAll(response.info ?? []);
+          print("DDD");
           projectsList.value = tempList;
-          projectsList.refresh();
+          print("EEE");
+          // projectsList.refresh();
+          print("FFF");
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
@@ -66,11 +71,14 @@ class ProjectListController extends GetxController implements MenuItemListener {
       },
       onError: (ResponseModel error) {
         isLoading.value = false;
+        print("CCC");
         if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          print("DDD");
           isInternetNotAvailable.value = true;
           // AppUtils.showSnackBarMessage('no_internet'.tr);
           // Utils.showSnackBarMessage('no_internet'.tr);
         } else if (error.statusMessage!.isNotEmpty) {
+          print("EEE");
           AppUtils.showSnackBarMessage(error.statusMessage ?? "");
         }
       },

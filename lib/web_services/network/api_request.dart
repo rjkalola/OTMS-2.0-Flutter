@@ -85,18 +85,21 @@ class ApiRequest {
           );
         }
 
-        if (kDebugMode) print("Response Data ==> ${response.data}");
+        print("Response Data ==> ${response.data}");
 
         if (response.statusCode == 200 ||
             response.statusCode == 201 ||
             response.statusCode == 202 ||
             response.statusCode == 204) {
+          print("200");
           responseModel = returnResponse(true, jsonEncode(response.data),
               response.statusCode, response.statusMessage);
         } else if (response.statusCode == 401) {
+          print("401");
           showUnAuthorizedDialog();
           responseModel = returnResponse(false, null, 0, "");
         } else {
+          print("else code");
           BaseResponse baseResponse =
               BaseResponse.fromJson(jsonDecode(response.data));
           responseModel = returnResponse(
@@ -122,7 +125,12 @@ class ApiRequest {
           responseModel =
               returnResponse(null, response.statusCode, response.statusMessage);
         }*/
-        if (onSuccess != null) onSuccess(responseModel);
+        print("....");
+        if (onSuccess != null) {
+          print("onSuccess");
+          onSuccess(responseModel);
+        }
+        print("----");
       } else {
         responseModel = returnResponse(false, null,
             ApiConstants.CODE_NO_INTERNET_CONNECTION, 'try_again'.tr);
