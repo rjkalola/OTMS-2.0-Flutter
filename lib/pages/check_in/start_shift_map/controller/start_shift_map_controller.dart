@@ -6,6 +6,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:otm_inventory/pages/check_in/dialogs/select_shift_dialog.dart';
+import 'package:otm_inventory/pages/check_in/select_shift/controller/select_shift_repository.dart';
 import 'package:otm_inventory/pages/check_in/start_shift_map/controller/start_shift_map_repository.dart';
 import 'package:otm_inventory/pages/check_in/start_shift_map/model/start_work_response.dart';
 import 'package:otm_inventory/pages/common/listener/select_item_listener.dart';
@@ -29,7 +30,8 @@ class StartShiftMapController extends GetxController
   final _api = StartShiftMapRepository();
   final shiftList = <ModuleInfo>[].obs;
   late GoogleMapController mapController;
-  final center = LatLng(AppConstants.defaultLatitude, AppConstants.defaultLongitude).obs;
+  final center =
+      LatLng(AppConstants.defaultLatitude, AppConstants.defaultLongitude).obs;
   final locationService = LocationServiceNew();
   String latitude = "", longitude = "", location = "";
 
@@ -94,7 +96,7 @@ class StartShiftMapController extends GetxController
     map["location"] = location;
     map["device_type"] = AppConstants.deviceType;
     map["device_model_type"] = deviceModelName;
-    _api.userStartWork(
+    SelectShiftRepository().userStartWork(
       data: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {

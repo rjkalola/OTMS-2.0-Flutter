@@ -39,6 +39,7 @@ class SelectShiftController extends GetxController {
   final shiftList = <ModuleInfo>[].obs;
   List<ModuleInfo> tempList = [];
   bool fromStartShiftScreen = false;
+  int projectId = 0;
 
   void onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -51,6 +52,8 @@ class SelectShiftController extends GetxController {
     if (arguments != null) {
       fromStartShiftScreen =
           arguments[AppConstants.intentKey.fromStartShiftScreen] ?? "";
+      projectId = arguments[AppConstants.intentKey.ID] ?? 0;
+      print("Project ID" + projectId.toString());
     }
     LocationInfo? locationInfo = Get.find<AppStorage>().getLastLocation();
     if (locationInfo != null) {
@@ -106,6 +109,7 @@ class SelectShiftController extends GetxController {
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["shift_id"] = shiftId;
+    if (projectId > 0) map["project_id"] = projectId;
     map["latitude"] = latitude;
     map["longitude"] = longitude;
     map["location"] = location;

@@ -30,8 +30,8 @@ class _SearchShiftState extends State<SearchShift> {
         child: SearchTextFieldDark(
           controller: controller.searchController,
           isClearVisible: controller.isClearVisible,
-          hint: 'Search shift...',
-          label: 'Search shift...',
+          hint: 'search_shift'.tr,
+          label: 'search_shift'.tr,
           onValueChange: (value) {
             controller.searchItem(value.toString());
             controller.isClearVisible.value =

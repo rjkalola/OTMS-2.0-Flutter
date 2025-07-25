@@ -12,7 +12,8 @@ class AppConstants {
   static const ShiftType shiftType = ShiftType();
   static const Results results = Results();
   static const Status status = Status();
-  static const CompanyResourcesFlag companyResourcesFlag = CompanyResourcesFlag();
+  static const CompanyResourcesFlag companyResourcesFlag =
+      CompanyResourcesFlag();
 
   static String deviceType = Platform.isAndroid ? "1" : "2";
   static const int productListLimit = 20;
@@ -72,7 +73,11 @@ class IntentKey {
   final String workLogInfo = "WORK_LOG_INFO";
   final String ID = "ID";
   final String workLogId = "WORK_LOG_ID";
+  final String checkLogId = "CHECK_LOG_ID";
+  final String projectId = "PROJECT_ID";
   final String date = "DATE";
+  final String checkLogInfo = "CHECK_LOG_INFO";
+  final String isEditable = 'IS_EDITABLE';
 }
 
 class DialogIdentifier {
@@ -82,6 +87,7 @@ class DialogIdentifier {
   final String selectCompany = 'SELECT_COMPANY';
   final String joinCompany = 'JOIN_COMPANY';
   final String selectTrade = 'SELECT_TRADE';
+  final String selectTypeOfWork = 'SELECT_TYPE_OF_WORK';
   final String selectCurrency = 'SELECT_CURRENCY';
   final String selectProject = 'SELECT_PROJECT';
   final String selectShift = 'SELECT_SHIFT';
@@ -107,6 +113,8 @@ class DialogIdentifier {
   final String approve = 'APPROVE';
   final String reject = 'REJECT';
   final String delete = 'DELETE';
+  final String selectAddress = 'SELECT_ADDRESS';
+  final String deleteProject = 'DELETE_PROJECT';
 }
 
 class SharedPreferenceKey {
@@ -184,6 +192,9 @@ class Action {
   final String userPermissions = "USER_PERMISSIONS";
   final String settings = "SETTINGS";
   final String companies = "COMPANIES";
+
+  final String archiveProject = 'ARCHIVE_PROJECT';
+  final String archivedProjects = 'ARCHIVED_PROJECTS';
 }
 
 class StockCountType {

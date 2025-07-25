@@ -1,24 +1,32 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart' as multi;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:otm_inventory/pages/check_in/check_in/controller/check_in_repository.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/model/location_info.dart';
+import 'package:otm_inventory/pages/check_in/check_in/model/check_in_resources_response.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/model/work_log_info.dart';
-import 'package:otm_inventory/pages/check_in/stop_shift/controller/stop_shift_repository.dart';
+import 'package:otm_inventory/pages/common/drop_down_list_dialog.dart';
+import 'package:otm_inventory/pages/common/listener/select_item_listener.dart';
 import 'package:otm_inventory/pages/common/model/file_info.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
-import 'package:otm_inventory/utils/app_storage.dart';
+import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/date_utils.dart';
 import 'package:otm_inventory/utils/location_service_new.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
+import 'package:otm_inventory/web_services/api_constants.dart';
+import 'package:otm_inventory/web_services/response/base_response.dart';
+import 'package:otm_inventory/web_services/response/module_info.dart';
+import 'package:otm_inventory/web_services/response/response_model.dart';
 
 import '../../../../utils/app_constants.dart';
 
-class CheckInController extends GetxController {
+class CheckInController extends GetxController implements SelectItemListener {
   final RxBool isLoading = false.obs,
-      isMainViewVisible = true.obs,
+      isMainViewVisible = false.obs,
       isInternetNotAvailable = false.obs,
       isLocationLoaded = true.obs;
 
@@ -33,11 +41,19 @@ class CheckInController extends GetxController {
       LatLng(AppConstants.defaultLatitude, AppConstants.defaultLongitude).obs;
   final locationService = LocationServiceNew();
   final workLogInfo = WorkLogInfo().obs;
-  int workLogId = 0, userId = 0;
+  int workLogId = 0,
+      addressId = 0,
+      tradeId = 0,
+      typeOfWorkId = 0,
+      projectId = 0;
   String date = "";
   bool isCurrentDay = true;
   final listBeforePhotos = <FilesInfo>[].obs;
-  final listAfterPhotos = <FilesInfo>[].obs;
+  final addressList = <ModuleInfo>[].obs;
+  final tradeList = <ModuleInfo>[].obs;
+  final typeOfWorkList = <ModuleInfo>[].obs;
+  final RxString checkInTime = "".obs;
+  CheckInResourcesResponse? checkInResourcesData;
 
   void onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -49,15 +65,106 @@ class CheckInController extends GetxController {
     var arguments = Get.arguments;
     if (arguments != null) {
       workLogId = arguments[AppConstants.intentKey.workLogId] ?? 0;
-      userId = arguments[AppConstants.intentKey.userId] ?? 0;
+      projectId = arguments[AppConstants.intentKey.projectId] ?? 0;
     }
-    LocationInfo? locationInfo = Get.find<AppStorage>().getLastLocation();
+    checkInTime.value = getCurrentTime();
+    /*  LocationInfo? locationInfo = Get.find<AppStorage>().getLastLocation();
     if (locationInfo != null) {
       setLocation(double.parse(locationInfo.latitude ?? "0"),
           double.parse(locationInfo.longitude ?? "0"));
     }
     locationRequest();
-    appLifeCycle();
+    appLifeCycle();*/
+    checkInResourcesApi();
+  }
+
+  void checkInApi() async {
+    Map<String, dynamic> map = {};
+    map["user_worklog_id"] = workLogId;
+    map["address_id"] = addressId;
+    map["trade_id"] = tradeId;
+    map["type_of_work_id"] = typeOfWorkId;
+    map["comment"] = StringHelper.getText(noteController.value);
+    map["location"] = location;
+    map["latitude"] = latitude;
+    map["longitude"] = longitude;
+
+    multi.FormData formData = multi.FormData.fromMap(map);
+    print("reques value:" + map.toString());
+
+    for (int i = 0; i < listBeforePhotos.length; i++) {
+      if (!StringHelper.isEmptyString(listBeforePhotos[i].file)) {
+        formData.files.add(
+          MapEntry(
+            "before_attachments[]",
+            // or just 'images' depending on your backend
+            await multi.MultipartFile.fromFile(
+              listBeforePhotos[i].file ?? "",
+            ),
+          ),
+        );
+      }
+    }
+
+    isLoading.value = true;
+    _api.checkIn(
+      formData: formData,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          BaseResponse response =
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showApiResponseMessage(response.Message ?? "");
+          Get.back(result: true);
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        }
+      },
+    );
+  }
+
+  void checkInResourcesApi() async {
+    Map<String, dynamic> map = {};
+    isLoading.value = true;
+    _api.checkInResources(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          CheckInResourcesResponse response = CheckInResourcesResponse.fromJson(
+              jsonDecode(responseModel.result!));
+          checkInResourcesData = response;
+
+          if (projectId != 0) {
+            for (var info in checkInResourcesData!.addresses!) {
+              if (info.projectId == projectId) {
+                addressList.add(info);
+              }
+            }
+          } else {
+            addressList.addAll(checkInResourcesData!.addresses!);
+          }
+
+          tradeList.addAll(checkInResourcesData!.trades!);
+
+          isMainViewVisible.value = true;
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        }
+      },
+    );
   }
 
   void appLifeCycle() {
@@ -132,12 +239,74 @@ class CheckInController extends GetxController {
           listBeforePhotos.clear();
           listBeforePhotos
               .addAll(arguments[AppConstants.intentKey.photosList] ?? []);
-        } else if (photosType == AppConstants.type.afterPhotos) {
-          listAfterPhotos.clear();
-          listAfterPhotos
-              .addAll(arguments[AppConstants.intentKey.photosList] ?? []);
         }
       }
+    }
+  }
+
+  void showSelectAddressDialog() {
+    if (addressList.isNotEmpty) {
+      showDropDownDialog(AppConstants.dialogIdentifier.selectAddress,
+          'select_address'.tr, addressList, this);
+    } else {
+      AppUtils.showToastMessage('empty_data_message'.tr);
+    }
+  }
+
+  void showSelectTradeDialog() {
+    if (tradeList.isNotEmpty) {
+      showDropDownDialog(AppConstants.dialogIdentifier.selectTrade,
+          'select_trade'.tr, tradeList, this);
+    } else {
+      AppUtils.showToastMessage('empty_data_message'.tr);
+    }
+  }
+
+  void showSelectTypeOfWorkDialog() {
+    if (typeOfWorkList.isNotEmpty) {
+      showDropDownDialog(AppConstants.dialogIdentifier.selectTypeOfWork,
+          'type_of_work'.tr, typeOfWorkList, this);
+    } else {
+      AppUtils.showToastMessage('empty_data_message'.tr);
+    }
+  }
+
+  void showDropDownDialog(String dialogType, String title,
+      List<ModuleInfo> list, SelectItemListener listener) {
+    Get.bottomSheet(
+        DropDownListDialog(
+          title: title,
+          dialogType: dialogType,
+          list: list,
+          listener: listener,
+          isCloseEnable: true,
+          isSearchEnable: true,
+        ),
+        backgroundColor: Colors.transparent,
+        isScrollControlled: true);
+  }
+
+  @override
+  void onSelectItem(int position, int id, String name, String action) {
+    if (action == AppConstants.dialogIdentifier.selectAddress) {
+      addressController.value.text = name;
+      addressId = id;
+    } else if (action == AppConstants.dialogIdentifier.selectTrade) {
+      tradeController.value.text = name;
+      tradeId = id;
+
+      typeOfWorkController.value.text = "";
+      typeOfWorkId = 0;
+
+      typeOfWorkList.clear();
+      for (var info in checkInResourcesData!.typeOfWorks!) {
+        if (info.tradeId == tradeId) {
+          typeOfWorkList.add(info);
+        }
+      }
+    } else if (action == AppConstants.dialogIdentifier.selectTypeOfWork) {
+      typeOfWorkController.value.text = name;
+      typeOfWorkId = id;
     }
   }
 }

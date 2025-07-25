@@ -90,7 +90,7 @@ class ProjectListController extends GetxController implements MenuItemListener {
     listItems.add(ModuleInfo(name: 'add'.tr, action: AppConstants.action.add));
     listItems.add(ModuleInfo(
         name: 'archived_projects'.tr,
-        action: AppConstants.action.archivedItems));
+        action: AppConstants.action.archivedProjects));
     showCupertinoModalPopup(
       context: context,
       builder: (_) =>
@@ -102,6 +102,9 @@ class ProjectListController extends GetxController implements MenuItemListener {
   Future<void> onSelectMenuItem(ModuleInfo info, String dialogType) async {
     if (info.action == AppConstants.action.add) {
       moveToScreen(AppRoutes.addProjectScreen, null);
+    }
+    else if (info.action == AppConstants.action.archivedProjects) {
+      moveToScreen(AppRoutes.archiveProjectListScreen, null);
     }
   }
 

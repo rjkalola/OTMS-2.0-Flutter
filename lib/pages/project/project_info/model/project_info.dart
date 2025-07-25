@@ -11,6 +11,9 @@ class ProjectInfo {
   bool? status;
   List<ModuleInfo>? shifts;
   List<ModuleInfo>? teams;
+  int? addresses;
+  int? trades;
+  String? currency;
 
   ProjectInfo(
       {this.id,
@@ -22,7 +25,10 @@ class ProjectInfo {
         this.isArchive,
         this.status,
         this.shifts,
-        this.teams});
+        this.teams,
+        this.addresses,
+        this.trades,
+        this.currency});
 
   ProjectInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -33,6 +39,10 @@ class ProjectInfo {
     description = json['description'];
     isArchive = json['is_archive'];
     status = json['status'];
+    addresses = json['addresses'];
+    trades = json['trades'];
+    currency = json['currency'];
+
     if (json['shifts'] != null) {
       shifts = <ModuleInfo>[];
       json['shifts'].forEach((v) {
@@ -57,6 +67,10 @@ class ProjectInfo {
     data['description'] = this.description;
     data['is_archive'] = this.isArchive;
     data['status'] = this.status;
+    data['addresses'] = this.addresses;
+    data['trades'] = this.trades;
+    data['currency'] = this.currency;
+
     if (this.shifts != null) {
       data['shifts'] = this.shifts!.map((v) => v.toJson()).toList();
     }

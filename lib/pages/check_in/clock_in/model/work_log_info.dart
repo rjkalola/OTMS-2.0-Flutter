@@ -1,3 +1,4 @@
+import 'package:otm_inventory/pages/check_in/clock_in/model/check_log_info.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/model/location_info.dart';
 import 'package:otm_inventory/pages/shifts/create_shift/model/break_info.dart';
 
@@ -5,6 +6,8 @@ class WorkLogInfo {
   int? id;
   int? shiftId;
   String? shiftName;
+  int? projectId;
+  String? projectName;
   bool? isPricework;
   String? workStartTime;
   String? workEndTime;
@@ -15,11 +18,14 @@ class WorkLogInfo {
   List<BreakInfo>? breakLog;
   LocationInfo? startWorkLocation;
   LocationInfo? stopWorkLocation;
+  List<CheckLogInfo>? userChecklogs;
 
   WorkLogInfo(
       {this.id,
       this.shiftId,
       this.shiftName,
+      this.projectId,
+      this.projectName,
       this.isPricework,
       this.workStartTime,
       this.workEndTime,
@@ -29,12 +35,15 @@ class WorkLogInfo {
       this.isRequestPending,
       this.breakLog,
       this.startWorkLocation,
-      this.stopWorkLocation});
+      this.stopWorkLocation,
+      this.userChecklogs});
 
   WorkLogInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     shiftId = json['shift_id'];
     shiftName = json['shift_name'];
+    projectId = json['project_id'];
+    projectName = json['project_name'];
     isPricework = json['is_pricework'];
     workStartTime = json['work_start_time'];
     workEndTime = json['work_end_time'];
@@ -54,6 +63,12 @@ class WorkLogInfo {
     stopWorkLocation = json['stop_work_location'] != null
         ? new LocationInfo.fromJson(json['stop_work_location'])
         : null;
+    if (json['user_checklogs'] != null) {
+      userChecklogs = <CheckLogInfo>[];
+      json['user_checklogs'].forEach((v) {
+        userChecklogs!.add(new CheckLogInfo.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -61,6 +76,8 @@ class WorkLogInfo {
     data['id'] = this.id;
     data['shift_id'] = this.shiftId;
     data['shift_name'] = this.shiftName;
+    data['project_id'] = this.projectId;
+    data['project_name'] = this.projectName;
     data['is_pricework'] = this.isPricework;
     data['work_start_time'] = this.workStartTime;
     data['work_end_time'] = this.workEndTime;
@@ -76,6 +93,10 @@ class WorkLogInfo {
     }
     if (this.stopWorkLocation != null) {
       data['stop_work_location'] = this.stopWorkLocation!.toJson();
+    }
+    if (this.userChecklogs != null) {
+      data['user_checklogs'] =
+          this.userChecklogs!.map((v) => v.toJson()).toList();
     }
     return data;
   }

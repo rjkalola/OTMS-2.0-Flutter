@@ -31,7 +31,7 @@ class StartShiftButton extends StatelessWidget {
                       var arguments = {
                         AppConstants.intentKey.fromStartShiftScreen: true,
                       };
-                      Get.offNamed(AppRoutes.selectShiftScreen,
+                      Get.offNamed(AppRoutes.selectProjectScreen,
                           arguments: arguments);
                       // controller.showSelectShiftDialog();
                     }),

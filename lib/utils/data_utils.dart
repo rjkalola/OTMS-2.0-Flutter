@@ -104,10 +104,23 @@ class DataUtils {
   ];
 
   static List<String> listColors = [
-    '#FF7F00',
-    '#007AFF',
-    '#7523D3',
-    '#CB4646DD',
+    '#FF7F00', // Orange
+    '#007AFF', // Blue
+    '#7523D3', // Purple
+    '#CB4646DD', // Semi-transparent Red
+    '#32CD32', // Lime Green
+    '#FF1493', // Deep Pink
+    '#00CED1', // Dark Turquoise
+    '#FFD700', // Gold
+    '#6A5ACD', // Slate Blue
+    '#FF4500', // Orange Red
+    '#20B2AA', // Light Sea Green
+    '#9932CC', // Dark Orchid
+    '#DC143C', // Crimson
+    '#8B0000', // Dark Red
+    '#2E8B57', // Sea Green
+    '#8A2BE2', // Blue Violet
+    '#FF6347', // Tomato
   ];
 
   static PermissionInfo getEditWidget() {
@@ -360,4 +373,6 @@ class DataUtils {
     "Year"
   ];
 
+  static String workResponse =
+      "{\"IsSuccess\":true,\"message\":\"Userworklogsfetchedsuccessfully\",\"user_is_working\":false,\"total_working_seconds\":2496,\"total_break_seconds\":0,\"total_payable_working_seconds\":2496,\"shift_info\":null,\"work_start_date\":\"24/07/2025\",\"my_worklogs\":[{\"id\":124,\"shift_id\":1,\"shift_name\":\"regular\",\"is_pricework\":true,\"work_start_time\":\"24/07/2025 10:48:08\",\"work_end_time\":\"24/07/2025 11:29:44\",\"total_work_seconds\":2496,\"total_break_seconds\":0,\"payable_work_seconds\":2496,\"is_request_pending\":false,\"user_checklogs\":[{\"id\":1,\"checkin_date_time\":\"24/07/2025 10:48:13\",\"address_id\":1,\"address_name\":\"1Topham,Woodgreen\",\"trade_id\":1,\"trade_name\":\"ProjectManager\",\"type_of_work_id\":1,\"type_of_work_name\":\"test\",\"checkout_date_time\":\"24/07/2025 11:04:35\",\"total_work_seconds\":983},{\"id\":2,\"checkin_date_time\":\"24/07/2025 11:20:46\",\"address_id\":null,\"address_name\":null,\"trade_id\":null,\"trade_name\":null,\"type_of_work_id\":null,\"type_of_work_name\":null,\"checkout_date_time\":\"24/07/2025 11:29:44\",\"total_work_seconds\":538}]}]}";
 }

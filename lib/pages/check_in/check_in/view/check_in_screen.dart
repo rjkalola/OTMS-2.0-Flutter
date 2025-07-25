@@ -9,6 +9,7 @@ import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/PrimaryButton.dart';
+import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
 import 'package:otm_inventory/widgets/map_view/bottom_curve_container.dart';
 import 'package:otm_inventory/widgets/map_view/custom_map_view.dart';
 import 'package:otm_inventory/widgets/map_view/map_back_arrow.dart';
@@ -33,6 +34,14 @@ class _CheckInScreenState extends State<CheckInScreen> {
       child: SafeArea(
           child: Scaffold(
         backgroundColor: dashBoardBgColor_(context),
+        appBar: BaseAppBar(
+          appBar: AppBar(),
+          title: 'check_in_'.tr,
+          isCenterTitle: false,
+          isBack: true,
+          bgColor: dashBoardBgColor_(context),
+          // widgets: actionButtons()
+        ),
         body: Obx(
           () => ModalProgressHUD(
             inAsyncCall: controller.isLoading.value,
@@ -42,25 +51,10 @@ class _CheckInScreenState extends State<CheckInScreen> {
               visible: controller.isMainViewVisible.value,
               child: Column(
                 children: [
-                  SizedBox(
-                    height: 220,
-                    child: Stack(
-                      children: [
-                        CustomMapView(
-                          onMapCreated: controller.onMapCreated,
-                          target: controller.center,
-                        ),
-                        MapBackArrow(onBackPressed: () {
-                          Get.back();
-                        }),
-                        BottomCurveContainer()
-                      ],
-                    ),
-                  ),
                   Expanded(
                     child: SingleChildScrollView(
                       child: Padding(
-                        padding: EdgeInsets.fromLTRB(12, 0, 12, 0),
+                        padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
                         child: Column(
                           children: [
                             // SelectionScreenHeaderView(
@@ -73,7 +67,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
                               children: [
                                 StartStopTimeBox(
                                     title: 'check_in_'.tr,
-                                    time: "12:34".obs,
+                                    time: controller.checkInTime,
                                     address: "",
                                     isEditVisible: false.obs)
                               ],
@@ -85,7 +79,9 @@ class _CheckInScreenState extends State<CheckInScreen> {
                               title: 'select_address'.tr,
                               controller: controller.addressController,
                               borderRadius: 15,
-                              onPressed: () {},
+                              onPressed: () {
+                                controller.showSelectAddressDialog();
+                              },
                             ),
                             SizedBox(
                               height: 18,
@@ -94,7 +90,9 @@ class _CheckInScreenState extends State<CheckInScreen> {
                               title: 'select_trade'.tr,
                               controller: controller.tradeController,
                               borderRadius: 15,
-                              onPressed: () {},
+                              onPressed: () {
+                                controller.showSelectTradeDialog();
+                              },
                             ),
                             SizedBox(
                               height: 18,
@@ -103,7 +101,9 @@ class _CheckInScreenState extends State<CheckInScreen> {
                               title: 'type_of_work'.tr,
                               controller: controller.typeOfWorkController,
                               borderRadius: 15,
-                              onPressed: () {},
+                              onPressed: () {
+                                controller.showSelectTypeOfWorkDialog();
+                              },
                             ),
                             SizedBox(
                               height: 16,
@@ -137,7 +137,9 @@ class _CheckInScreenState extends State<CheckInScreen> {
                     padding: const EdgeInsets.all(12),
                     child: PrimaryButton(
                       buttonText: 'check_in_'.tr,
-                      onPressed: () {},
+                      onPressed: () {
+                        controller.checkInApi();
+                      },
                       color: Colors.green,
                     ),
                   )

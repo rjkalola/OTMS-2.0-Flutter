@@ -128,6 +128,13 @@ class DateUtil {
     }
   }
 
+  static String changeFullDateToSortTime(String? date) {
+    return !StringHelper.isEmptyString(date)
+        ? DateUtil.changeDateFormat(
+        date!, DateUtil.DD_MM_YYYY_TIME_24_SLASH2, DateUtil.HH_MM_24)
+        : "";
+  }
+
   static Future<void> showDateRangeDialog(
       {DateTime? initialFirstDate,
       DateTime? initialLastDate,

@@ -5,7 +5,7 @@ class ApiConstants {
   // static String appUrl = "http://dev.belcka.com:3000";
   //static String appUrl = "http://belcka.com:3003";
 
-  // static String appUrl = "http://devapp.belcka.com:3003";
+  // static String appUrl = "http://appdev.belcka.com:3000";
   static String appUrl = "http://app.belcka.com:3003";
 
   static String accessToken = "";
@@ -134,6 +134,12 @@ class ApiConstants {
   static String workLogRequestDetails = '$appUrl/requests/get-request-detail';
   static String workLogRequestApproveReject = '$appUrl/worklog-request/action';
 
+  //check In
+  static String checkIn = '$appUrl/check-in';
+  static String checkout = '$appUrl/check-out';
+  static String checkInResources = '$appUrl/user-checklog/get-resources';
+  static String checkLogDetails = '$appUrl/user-checklog/details';
+
   //timesheet
   static String getTimeSheetList = '$appUrl/timesheet/get';
   static String getTimeSheetListAllUsers =
@@ -145,6 +151,10 @@ class ApiConstants {
   static String getProjects = '$appUrl/project/get';
   static String deleteProject = '$appUrl/project/delete';
   static String archiveProject = '$appUrl/project/archive';
+  static String unarchiveProject = '$appUrl/project/unarchive';
+  static String getAddress = '$appUrl/address/get';
+  static String getProjectDetails = '$appUrl/project/project-detail';
+  static String projectArchiveList = '$appUrl/project/archive-list';
 
   static String registerResourcesUrl = '$appUrl/wn-resources';
   static String verifyPhoneUrl = '$appUrl/verify-phone';

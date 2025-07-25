@@ -12,6 +12,7 @@ import 'package:otm_inventory/pages/check_in/check_in/view/check_in_screen.dart'
 import 'package:otm_inventory/pages/check_in/check_out/view/check_out_screen.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/view/clock_in_screen.dart';
 import 'package:otm_inventory/pages/check_in/select_before_after_photos/view/select_before_after_photos_screen.dart';
+import 'package:otm_inventory/pages/check_in/select_project/view/select_project_screen.dart';
 import 'package:otm_inventory/pages/check_in/select_shift/view/select_shift_screen.dart';
 import 'package:otm_inventory/pages/check_in/start_shift_map/view/start_shift_map_screen.dart';
 import 'package:otm_inventory/pages/check_in/stop_shift/view/stop_shift_screen.dart';
@@ -40,6 +41,9 @@ import 'package:otm_inventory/pages/profile/my_account/view/my_account_screen.da
 import 'package:otm_inventory/pages/profile/post_coder_search/view/post_coder_search_screen.dart';
 import 'package:otm_inventory/pages/profile/user_settings/view/user_settings_screen.dart';
 import 'package:otm_inventory/pages/project/add_project/view/add_project_screen.dart';
+import 'package:otm_inventory/pages/project/address_list/view/address_list_screen.dart';
+import 'package:otm_inventory/pages/project/archive_projects/view/archive_project_list_screen.dart';
+import 'package:otm_inventory/pages/project/project_details/view/project_details_screen.dart';
 import 'package:otm_inventory/pages/project/project_info/view/project_info_screen.dart';
 import 'package:otm_inventory/pages/project/project_list/view/project_list_screen.dart';
 import 'package:otm_inventory/pages/qr_code_scanner/view/qr_code_scanner.dart';
@@ -261,5 +265,10 @@ class AppPages {
     GetPage(name: AppRoutes.projectInfoScreen, page: () => ProjectInfoScreen()),
     GetPage(name: AppRoutes.checkInScreen, page: () => CheckInScreen()),
     GetPage(name: AppRoutes.checkOutScreen, page: () => CheckOutScreen()),
+    GetPage(
+        name: AppRoutes.selectProjectScreen, page: () => SelectProjectScreen()),
+    GetPage(name: AppRoutes.addressListScreen, page: () => AddressListScreen()),
+    GetPage(name: AppRoutes.projectDetailsScreen, page: () => ProjectDetailsScreen()),
+    GetPage(name: AppRoutes.archiveProjectListScreen, page: () => ArchiveProjectListScreen()),
   ];
 }

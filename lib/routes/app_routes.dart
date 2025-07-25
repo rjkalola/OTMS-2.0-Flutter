@@ -85,4 +85,8 @@ class AppRoutes {
   static const String projectInfoScreen = '/project_info_screen';
   static const String checkInScreen = '/check_in_screen';
   static const String checkOutScreen = '/check_out_screen';
+  static const String selectProjectScreen = '/select_project_screen';
+  static const String addressListScreen = '/address_list_screen';
+  static const String projectDetailsScreen = '/project_details_screen';
+  static const String archiveProjectListScreen = '/archive_project_list_screen';
 }

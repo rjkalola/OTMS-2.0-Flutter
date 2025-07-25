@@ -8,17 +8,20 @@ class BeforeAfterPhotosList extends StatelessWidget {
       {super.key,
       required this.onGridItemClick,
       required this.filesList,
-      this.photosType});
+      this.photosType,
+      this.isEditable});
 
   final Function(int index, String action, String photosType) onGridItemClick;
   final List<FilesInfo> filesList;
   final String? photosType;
+  final bool? isEditable;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
         padding: const EdgeInsets.all(7.0),
         child: ImageGridview(
+            isEditable: isEditable,
             filesList: filesList,
             onViewClick: (int index) {
               onGridItemClick(

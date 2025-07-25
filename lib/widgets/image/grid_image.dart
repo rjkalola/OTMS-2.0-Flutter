@@ -10,11 +10,16 @@ import '../../utils/string_helper.dart';
 
 class GridImage extends StatelessWidget {
   const GridImage(
-      {super.key, this.file, required this.onRemoveClick, this.fileRadius});
+      {super.key,
+      this.file,
+      required this.onRemoveClick,
+      this.fileRadius,
+      this.isEditable});
 
   final String? file;
   final VoidCallback onRemoveClick;
   final double? fileRadius;
+  final bool? isEditable;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +36,7 @@ class GridImage extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           setFile(),
-          setCloseIcon(),
+          Visibility(visible: isEditable ?? false, child: setCloseIcon()),
         ],
       ),
     );

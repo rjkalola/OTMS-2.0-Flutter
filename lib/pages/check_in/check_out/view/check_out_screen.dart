@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:otm_inventory/pages/check_in/check_in/controller/check_in_controller.dart';
+import 'package:otm_inventory/pages/check_in/check_out/controller/check_out_controller.dart';
+import 'package:otm_inventory/pages/check_in/check_out/view/widgets/total_check_out_hours_row.dart';
 import 'package:otm_inventory/pages/check_in/widgets/photos_count_view.dart';
 import 'package:otm_inventory/pages/check_in/widgets/start_stop_time_box.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
+import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/PrimaryButton.dart';
+import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
 import 'package:otm_inventory/widgets/map_view/bottom_curve_container.dart';
 import 'package:otm_inventory/widgets/map_view/custom_map_view.dart';
 import 'package:otm_inventory/widgets/map_view/map_back_arrow.dart';
@@ -23,7 +27,7 @@ class CheckOutScreen extends StatefulWidget {
 }
 
 class _CheckOutScreenState extends State<CheckOutScreen> {
-  final controller = Get.put(CheckInController());
+  final controller = Get.put(CheckOutController());
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +37,14 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
       child: SafeArea(
           child: Scaffold(
         backgroundColor: dashBoardBgColor_(context),
+        appBar: BaseAppBar(
+          appBar: AppBar(),
+          title: 'check_out_'.tr,
+          isCenterTitle: false,
+          isBack: true,
+          bgColor: dashBoardBgColor_(context),
+          // widgets: actionButtons()
+        ),
         body: Obx(
           () => ModalProgressHUD(
             inAsyncCall: controller.isLoading.value,
@@ -42,21 +54,6 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
               visible: controller.isMainViewVisible.value,
               child: Column(
                 children: [
-                  SizedBox(
-                    height: 220,
-                    child: Stack(
-                      children: [
-                        CustomMapView(
-                          onMapCreated: controller.onMapCreated,
-                          target: controller.center,
-                        ),
-                        MapBackArrow(onBackPressed: () {
-                          Get.back();
-                        }),
-                        BottomCurveContainer()
-                      ],
-                    ),
-                  ),
                   Expanded(
                     child: SingleChildScrollView(
                       child: Padding(
@@ -73,7 +70,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                               children: [
                                 StartStopTimeBox(
                                     title: 'check_in_'.tr,
-                                    time: "12:34".obs,
+                                    time: controller.checkInTime,
                                     address: "",
                                     isEditVisible: false.obs),
                                 SizedBox(
@@ -81,17 +78,31 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                 ),
                                 StartStopTimeBox(
                                     title: 'check_out_'.tr,
-                                    time: "12:34".obs,
+                                    time: controller.checkOutTime,
                                     address: "",
                                     isEditVisible: false.obs)
                               ],
                             ),
                             SizedBox(
-                              height: 22,
+                              height: 12,
+                            ),
+                            TotalCheckOutHoursRow(),
+                            SizedBox(
+                              height: 18,
                             ),
                             DropDownTextField(
                               title: 'address'.tr,
                               controller: controller.addressController,
+                              borderRadius: 15,
+                              onPressed: () {},
+                              isArrowHide: true,
+                            ),
+                            SizedBox(
+                              height: 18,
+                            ),
+                            DropDownTextField(
+                              title: 'trade'.tr,
+                              controller: controller.tradeController,
                               borderRadius: 15,
                               onPressed: () {},
                               isArrowHide: true,
@@ -117,9 +128,12 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                   count: controller.listBeforePhotos.length,
                                   photosType: AppConstants.type.beforePhotos,
                                   onPressed: () {
+                                    // if (StringHelper.isEmptyString(controller
+                                    //     .checkLogInfo.value.checkoutDateTime)) {
                                     controller.onSelectPhotos(
                                         AppConstants.type.beforePhotos,
                                         controller.listBeforePhotos);
+                                    // }
                                   },
                                 ),
                                 PhotosCountView(
@@ -127,9 +141,12 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                   count: controller.listAfterPhotos.length,
                                   photosType: AppConstants.type.afterPhotos,
                                   onPressed: () {
-                                    controller.onSelectPhotos(
-                                        AppConstants.type.afterPhotos,
-                                        controller.listAfterPhotos);
+                                    if (StringHelper.isEmptyString(controller
+                                        .checkLogInfo.value.checkoutDateTime)) {
+                                      controller.onSelectPhotos(
+                                          AppConstants.type.afterPhotos,
+                                          controller.listAfterPhotos);
+                                    }
                                   },
                                 )
                               ],
@@ -137,9 +154,13 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                             SizedBox(
                               height: 16,
                             ),
-                            AddNoteWidget(
-                              controller: controller.noteController,
-                              borderRadius: 15,
+                            Visibility(
+                              visible: StringHelper.isEmptyString(controller
+                                  .checkLogInfo.value.checkoutDateTime),
+                              child: AddNoteWidget(
+                                controller: controller.noteController,
+                                borderRadius: 15,
+                              ),
                             ),
                             SizedBox(
                               height: 10,
@@ -149,12 +170,18 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: PrimaryButton(
-                      buttonText: 'check_out_'.tr,
-                      onPressed: () {},
-                      color: Colors.red,
+                  Visibility(
+                    visible: StringHelper.isEmptyString(
+                        controller.checkLogInfo.value.checkoutDateTime),
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: PrimaryButton(
+                        buttonText: 'check_out_'.tr,
+                        onPressed: () {
+                          controller.checkOutApi();
+                        },
+                        color: Colors.red,
+                      ),
                     ),
                   )
                 ],

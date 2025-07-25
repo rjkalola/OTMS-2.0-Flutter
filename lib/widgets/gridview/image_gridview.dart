@@ -11,13 +11,15 @@ class ImageGridview extends StatelessWidget {
       required this.onViewClick,
       required this.onRemoveClick,
       this.physics,
-      this.fileRadius});
+      this.fileRadius,
+      this.isEditable});
 
   final List<FilesInfo> filesList;
   final ValueChanged<int> onViewClick;
   final ValueChanged<int> onRemoveClick;
   final ScrollPhysics? physics;
   final double? fileRadius;
+  final bool? isEditable;
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +43,7 @@ class ImageGridview extends StatelessWidget {
                 onViewClick(index);
               },
               child: GridImage(
+                isEditable: isEditable,
                 file: filesList[index].file ?? "",
                 onRemoveClick: () {
                   onRemoveClick(index);

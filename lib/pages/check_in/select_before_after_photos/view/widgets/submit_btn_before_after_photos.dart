@@ -11,17 +11,20 @@ class SubmitBtnBeforeAfterPhotos extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-      child: SizedBox(
-        width: double.infinity,
-        child: PrimaryBorderButton(
-            buttonText: 'submit'.tr,
-            onPressed: () {
-              controller.onSubmitClick();
-            },
-            fontColor: defaultAccentColor_(context),
-            borderColor: defaultAccentColor_(context)),
+    return Visibility(
+      visible: controller.isEditable.value,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+        child: SizedBox(
+          width: double.infinity,
+          child: PrimaryBorderButton(
+              buttonText: 'submit'.tr,
+              onPressed: () {
+                controller.onSubmitClick();
+              },
+              fontColor: defaultAccentColor_(context),
+              borderColor: defaultAccentColor_(context)),
+        ),
       ),
     );
   }

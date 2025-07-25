@@ -42,20 +42,31 @@ class ProjectsList extends StatelessWidget {
                           AppConstants.intentKey.projectInfo: info,
                         };
                         controller.moveToScreen(
-                            AppRoutes.addProjectScreen, arguments);
+                            AppRoutes.projectDetailsScreen, arguments);
                       },
-                      child: Row(
+                      child:Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
-                            info.name ?? "",
-                            style: const TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w500),
+                          Expanded(
+                            child: Text(
+                              info.name ?? "",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              softWrap: true,
+                              overflow: TextOverflow.visible,
+                              maxLines: null,
+                            ),
                           ),
-                          Icon(
-                            Icons.arrow_forward_ios,
-                            size: 18,
-                            color: primaryTextColor_(context),
+                          Align(
+                            alignment: Alignment.center,
+                            child: Icon(
+                              Icons.arrow_forward_ios,
+                              size: 18,
+                              color: primaryTextColor_(context),
+                            ),
                           ),
                         ],
                       ),

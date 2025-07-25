@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_controller.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_utils.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/model/work_log_info.dart';
+import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/check_log_list_view.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/res/drawable.dart';
 import 'package:otm_inventory/res/theme/theme_config.dart';
@@ -36,53 +37,58 @@ class MyDayLogListView extends StatelessWidget {
                   (position) {
                     var info =
                         controller.workLogData.value.workLogInfo![position];
-                    return IntrinsicHeight(
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: 16,
-                          ),
-                          Stack(
-                            alignment: Alignment.center,
+                    return Column(
+                      children: [
+                        IntrinsicHeight(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              dottedLine(id: info.id ?? 0),
-                              circle(info),
-                              addCircle(id: info.id ?? 0)
-                            ],
-                          ),
-                          info.id != 0
-                              ? Expanded(
-                                  child: Stack(
-                                    children: [
-                                      Container(
-                                        margin: EdgeInsets.only(
-                                            left: 8,
-                                            top: 8,
-                                            bottom: 10,
-                                            right: 3),
-                                        height: 80,
-                                        decoration: itemDecoration(
-                                            isRequestPending:
-                                                info.isRequestPending ?? false,
-                                            isWorking: isActiveWorkLog(info),
-                                            boxShadow: [
-                                              AppUtils.boxShadow(
-                                                  shadowColor_(context), 6)
-                                            ]),
-                                        child: InkWell(
-                                          onTap: () {
-                                            controller.onClickWorkLogItem(info);
-                                            // controller.showShiftSummeryDialog();
-                                          },
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              /*Flexible(
+                              SizedBox(
+                                width: 16,
+                              ),
+                              Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  dottedLine(id: info.id ?? 0),
+                                  circle(info),
+                                  addCircle(id: info.id ?? 0)
+                                ],
+                              ),
+                              info.id != 0
+                                  ? Expanded(
+                                      child: Stack(
+                                        children: [
+                                          Container(
+                                            margin: EdgeInsets.only(
+                                                left: 8,
+                                                top: 8,
+                                                bottom: 10,
+                                                right: 3),
+                                            height: 86,
+                                            decoration: itemDecoration(
+                                                isRequestPending:
+                                                    info.isRequestPending ??
+                                                        false,
+                                                isWorking:
+                                                    isActiveWorkLog(info),
+                                                boxShadow: [
+                                                  AppUtils.boxShadow(
+                                                      shadowColor_(context), 6)
+                                                ]),
+                                            child: InkWell(
+                                              onTap: () {
+                                                controller
+                                                    .onClickWorkLogItem(info);
+                                                // controller.showShiftSummeryDialog();
+                                              },
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  /*Flexible(
                                                 flex: 4,
                                                 fit: FlexFit.tight,
                                                 child: Padding(
@@ -103,121 +109,150 @@ class MyDayLogListView extends StatelessWidget {
                                                   ),
                                                 ),
                                               ),*/
-                                              setProjectNameTextView(
-                                                  info.shiftName ?? ""),
-                                              Expanded(
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  children: [
-                                                    TextViewWithContainer(
-                                                      padding: EdgeInsets.only(
-                                                          left: 12, right: 12),
-                                                      borderRadius: 6,
-                                                      text: !StringHelper
+                                                  Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      setProjectNameTextView(
+                                                          info.shiftName ?? ""),
+                                                      Visibility(
+                                                          visible: !StringHelper
                                                               .isEmptyString(info
-                                                                  .workEndTime)
-                                                          ? DateUtil
-                                                              .seconds_To_HH_MM(
-                                                                  info.payableWorkSeconds ??
-                                                                      0)
-                                                          : controller
-                                                              .activeWorkHours
-                                                              .value,
-                                                      fontSize: 20,
-                                                      fontColor: isActiveWorkLog(
-                                                              info)
-                                                          ? Colors.white
-                                                          : primaryTextColor_(
-                                                              context),
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      boxColor:
-                                                          isActiveWorkLog(info)
-                                                              ? Colors.green
-                                                              : Colors
-                                                                  .transparent,
-                                                    ),
-                                                    SizedBox(
-                                                      height: 2,
-                                                    ),
-                                                    Row(
+                                                                  .projectName),
+                                                          child: SizedBox(
+                                                            height: 6,
+                                                          )),
+                                                      setProjectNameTextView(
+                                                          info.projectName ??
+                                                              "")
+                                                    ],
+                                                  ),
+                                                  Expanded(
+                                                    child: Column(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
                                                               .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
                                                       children: [
-                                                        PrimaryTextView(
-                                                          text:
-                                                              "(${controller.changeFullDateToSortTime(info.workStartTime)}",
-                                                          fontSize: 15,
-                                                          color:
-                                                              primaryTextColor_(
-                                                                  context),
+                                                        TextViewWithContainer(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  left: 12,
+                                                                  right: 12),
+                                                          borderRadius: 6,
+                                                          text: !StringHelper
+                                                                  .isEmptyString(info
+                                                                      .workEndTime)
+                                                              ? DateUtil
+                                                                  .seconds_To_HH_MM(
+                                                                      info.payableWorkSeconds ??
+                                                                          0)
+                                                              : controller
+                                                                  .activeWorkHours
+                                                                  .value,
+                                                          fontSize: 20,
+                                                          fontColor:
+                                                              isActiveWorkLog(
+                                                                      info)
+                                                                  ? Colors.white
+                                                                  : primaryTextColor_(
+                                                                      context),
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          boxColor:
+                                                              isActiveWorkLog(
+                                                                      info)
+                                                                  ? Colors.green
+                                                                  : Colors
+                                                                      .transparent,
                                                         ),
-                                                        PrimaryTextView(
-                                                          text: " - ",
-                                                          fontSize: 15,
-                                                          color:
-                                                              primaryTextColor_(
-                                                                  context),
+                                                        SizedBox(
+                                                          height: 2,
                                                         ),
-                                                        PrimaryTextView(
-                                                          text: toWorkTimeText(
-                                                              info),
-                                                          fontSize: 15,
-                                                          color: isActiveWorkLog(
-                                                                  info)
-                                                              ? defaultAccentColor_(
-                                                                  context)
-                                                              : primaryTextColor_(
-                                                                  context),
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            PrimaryTextView(
+                                                              text:
+                                                                  "(${controller.changeFullDateToSortTime(info.workStartTime)}",
+                                                              fontSize: 15,
+                                                              color:
+                                                                  primaryTextColor_(
+                                                                      context),
+                                                            ),
+                                                            PrimaryTextView(
+                                                              text: " - ",
+                                                              fontSize: 15,
+                                                              color:
+                                                                  primaryTextColor_(
+                                                                      context),
+                                                            ),
+                                                            PrimaryTextView(
+                                                              text:
+                                                                  toWorkTimeText(
+                                                                      info),
+                                                              fontSize: 15,
+                                                              color: isActiveWorkLog(
+                                                                      info)
+                                                                  ? defaultAccentColor_(
+                                                                      context)
+                                                                  : primaryTextColor_(
+                                                                      context),
+                                                            )
+                                                          ],
                                                         )
                                                       ],
-                                                    )
-                                                  ],
-                                                ),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    width: 45,
+                                                    height: double.infinity,
+                                                    padding: EdgeInsets.only(
+                                                        left: 8, right: 8),
+                                                    decoration: itemDecoration(
+                                                        isRequestPending:
+                                                            info.isRequestPending ??
+                                                                false,
+                                                        isWorking:
+                                                            isActiveWorkLog(
+                                                                info),
+                                                        borderRadius: 14),
+                                                    child: Icon(
+                                                      Icons
+                                                          .arrow_forward_ios_rounded,
+                                                      size: 28,
+                                                    ),
+                                                  )
+                                                ],
                                               ),
-                                              Container(
-                                                width: 45,
-                                                height: double.infinity,
-                                                padding: EdgeInsets.only(
-                                                    left: 8, right: 8),
-                                                decoration: itemDecoration(
-                                                    isRequestPending:
-                                                        info.isRequestPending ??
-                                                            false,
-                                                    isWorking:
-                                                        isActiveWorkLog(info),
-                                                    borderRadius: 14),
-                                                child: Icon(
-                                                  Icons
-                                                      .arrow_forward_ios_rounded,
-                                                  size: 28,
-                                                ),
-                                              )
-                                            ],
+                                            ),
                                           ),
-                                        ),
+                                          // Align(
+                                          //   alignment: Alignment.topRight,
+                                          //   child: CustomBadgeIcon(
+                                          //     count: 55,
+                                          //   ),
+                                          // ),
+                                          setItemTypeTextView(
+                                              text: 'shift'.tr,
+                                              color: "#FF7F00")
+                                        ],
                                       ),
-                                      // Align(
-                                      //   alignment: Alignment.topRight,
-                                      //   child: CustomBadgeIcon(
-                                      //     count: 55,
-                                      //   ),
-                                      // ),
-                                      setItemTypeTextView(
-                                          text: 'shift'.tr, color: "#FF7F00")
-                                    ],
-                                  ),
-                                )
-                              : emptyView(),
-                          SizedBox(
-                            width: 16,
-                          )
-                        ],
-                      ),
+                                    )
+                                  : emptyView(),
+                              SizedBox(
+                                width: 16,
+                              )
+                            ],
+                          ),
+                        ),
+                        CheckLogListView(parentIndex: position)
+                      ],
                     );
                   },
                 ),
@@ -227,7 +262,9 @@ class MyDayLogListView extends StatelessWidget {
     );
   }
 
-  Widget setProjectNameTextView(String? text) => Container(
+  Widget setProjectNameTextView(String? text) => Visibility(
+      visible: !StringHelper.isEmptyString(text),
+      child: Container(
         width: 70,
         margin: EdgeInsets.only(left: 10, right: 10),
         padding: EdgeInsets.fromLTRB(6, 3, 6, 3),
@@ -245,7 +282,7 @@ class MyDayLogListView extends StatelessWidget {
           softWrap: false,
           maxLine: 1,
         ),
-      );
+      ));
 
   Widget setItemTypeTextView({required String text, required String color}) =>
       Padding(
