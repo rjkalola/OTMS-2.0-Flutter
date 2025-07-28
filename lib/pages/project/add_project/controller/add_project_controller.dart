@@ -47,8 +47,7 @@ class AddProjectController extends GetxController
       isMainViewVisible = false.obs,
       isSaveEnable = false.obs;
   final title = ''.obs;
-  String teamIds = "",
-      shiftIds = "";
+  String teamIds = "", shiftIds = "";
   final shiftsList = <ModuleInfo>[].obs;
   final teamsList = <ModuleInfo>[].obs;
   ProjectInfo? projectInfo;
@@ -101,7 +100,7 @@ class AddProjectController extends GetxController
       map["name"] = StringHelper.getText(projectNameController.value);
       map["address"] = StringHelper.getText(siteAddressController.value);
       map["budget"] = StringHelper.getText(budgetController.value);
-          map["code"] = StringHelper.getText(projectCodeController.value);
+      map["code"] = StringHelper.getText(projectCodeController.value);
       map["description"] = StringHelper.getText(descriptionController.value);
       map["team_ids"] = teamIds;
       map["shift_ids"] = shiftIds;
@@ -112,7 +111,7 @@ class AddProjectController extends GetxController
         onSuccess: (ResponseModel responseModel) {
           if (responseModel.isSuccess) {
             BaseResponse response =
-            BaseResponse.fromJson(jsonDecode(responseModel.result!));
+                BaseResponse.fromJson(jsonDecode(responseModel.result!));
             AppUtils.showApiResponseMessage(response.Message ?? "");
             Get.back(result: true);
           } else {
@@ -151,7 +150,7 @@ class AddProjectController extends GetxController
         onSuccess: (ResponseModel responseModel) {
           if (responseModel.isSuccess) {
             BaseResponse response =
-            BaseResponse.fromJson(jsonDecode(responseModel.result!));
+                BaseResponse.fromJson(jsonDecode(responseModel.result!));
             AppUtils.showApiResponseMessage(response.Message ?? "");
             Get.back(result: true);
           } else {
@@ -171,36 +170,36 @@ class AddProjectController extends GetxController
     }
   }
 
-  void archiveProjectApi() {
-    isLoading.value = true;
-    Map<String, dynamic> map = {};
-    // map["company_id"] = ApiConstants.companyId;
-    map["id"] = projectInfo?.id ?? 0;
-    _api.archiveProject(
-      data: map,
-      onSuccess: (ResponseModel responseModel) {
-        if (responseModel.isSuccess) {
-          BaseResponse response =
-          BaseResponse.fromJson(jsonDecode(responseModel.result!));
-          AppUtils.showToastMessage(response.Message ?? "");
-          Get.back(result: true);
-        } else {
-          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
-        }
-        isLoading.value = false;
-      },
-      onError: (ResponseModel error) {
-        isLoading.value = false;
-        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
-          isInternetNotAvailable.value = true;
-          // AppUtils.showApiResponseMessage('no_internet'.tr);
-          // Utils.showApiResponseMessage('no_internet'.tr);
-        } else if (error.statusMessage!.isNotEmpty) {
-          AppUtils.showApiResponseMessage(error.statusMessage ?? "");
-        }
-      },
-    );
-  }
+  // void archiveProjectApi() {
+  //   isLoading.value = true;
+  //   Map<String, dynamic> map = {};
+  //   // map["company_id"] = ApiConstants.companyId;
+  //   map["id"] = projectInfo?.id ?? 0;
+  //   _api.archiveProject(
+  //     data: map,
+  //     onSuccess: (ResponseModel responseModel) {
+  //       if (responseModel.isSuccess) {
+  //         BaseResponse response =
+  //         BaseResponse.fromJson(jsonDecode(responseModel.result!));
+  //         AppUtils.showToastMessage(response.Message ?? "");
+  //         Get.back(result: true);
+  //       } else {
+  //         AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+  //       }
+  //       isLoading.value = false;
+  //     },
+  //     onError: (ResponseModel error) {
+  //       isLoading.value = false;
+  //       if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+  //         isInternetNotAvailable.value = true;
+  //         // AppUtils.showApiResponseMessage('no_internet'.tr);
+  //         // Utils.showApiResponseMessage('no_internet'.tr);
+  //       } else if (error.statusMessage!.isNotEmpty) {
+  //         AppUtils.showApiResponseMessage(error.statusMessage ?? "");
+  //       }
+  //     },
+  //   );
+  // }
 
   void deleteProjectApi() {
     isLoading.value = true;
@@ -211,7 +210,7 @@ class AddProjectController extends GetxController
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           BaseResponse response =
-          BaseResponse.fromJson(jsonDecode(responseModel.result!));
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showToastMessage(response.Message ?? "");
           Get.back(result: true);
         } else {
@@ -339,7 +338,7 @@ class AddProjectController extends GetxController
     if (info.action == AppConstants.action.delete) {
       showDeleteTeamDialog();
     } else if (info.action == AppConstants.action.archiveTeam) {
-      archiveProjectApi();
+      // archiveProjectApi();
     }
   }
 

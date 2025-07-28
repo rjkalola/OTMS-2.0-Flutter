@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:otm_inventory/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:otm_inventory/pages/common/listener/menu_item_listener.dart';
 import 'package:otm_inventory/pages/common/menu_items_list_bottom_dialog.dart';
 import 'package:otm_inventory/pages/dashboard/tabs/more_tab/more_tab.dart';
@@ -16,6 +17,7 @@ import 'package:otm_inventory/pages/project/project_details/model/project_detals
 import 'package:otm_inventory/pages/project/project_info/model/project_info.dart';
 import 'package:otm_inventory/pages/project/project_info/model/project_list_response.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
+import 'package:otm_inventory/utils/AlertDialogHelper.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_storage.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
@@ -28,11 +30,12 @@ import 'package:otm_inventory/web_services/response/response_model.dart';
 import '../../../dashboard/tabs/home_tab2/view/home_tab.dart';
 
 class ProjectDetailsController extends GetxController
-    implements MenuItemListener {
+    implements MenuItemListener, DialogButtonClickListener {
   final _api = ProjectDetailsRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
-      isMainViewVisible = false.obs;
+      isMainViewVisible = false.obs,
+      isDataUpdated = false.obs;
   final selectedIndex = 0.obs;
   late final PageController pageController;
   final tabs = <Widget>[
@@ -183,14 +186,21 @@ class ProjectDetailsController extends GetxController
 
   Future<void> moveToScreen(String rout, dynamic arguments) async {
     var result = await Get.toNamed(rout, arguments: arguments);
-    if (result != null && result) {}
+    if (result != null && result) {
+      isDataUpdated.value = true;
+      Get.back(result: true);
+    }
   }
 
   void showMenuItemsDialog(BuildContext context) {
     List<ModuleInfo> listItems = [];
-    listItems.add(ModuleInfo(
-        name: 'archive_project'.tr,
-        action: AppConstants.action.archiveProject));
+    // listItems.add(ModuleInfo(
+    //     name: 'archive_project'.tr,
+    //     action: AppConstants.action.archiveProject));
+    listItems
+        .add(ModuleInfo(name: 'delete'.tr, action: AppConstants.action.delete));
+    listItems
+        .add(ModuleInfo(name: 'edit'.tr, action: AppConstants.action.edit));
     showCupertinoModalPopup(
       context: context,
       builder: (_) =>
@@ -201,8 +211,46 @@ class ProjectDetailsController extends GetxController
   @override
   void onSelectMenuItem(ModuleInfo info, String dialogType) {
     // TODO: implement onSelectMenuItem
-    if (info.action == AppConstants.action.archiveProject) {
+    // if (info.action == AppConstants.action.archiveProject) {
+    //   archiveProjectApi();
+    // } else
+    if (info.action == AppConstants.action.delete) {
+      showDeleteTeamDialog();
+    } else if (info.action == AppConstants.action.edit) {
+      print("Edit click");
+      var arguments = {
+        AppConstants.intentKey.projectInfo: projectInfo,
+      };
+      moveToScreen(AppRoutes.addProjectScreen, arguments);
+    }
+  }
+
+  showDeleteTeamDialog() async {
+    AlertDialogHelper.showAlertDialog(
+        "",
+        'are_you_sure_you_want_to_delete'.tr,
+        'yes'.tr,
+        'no'.tr,
+        "",
+        true,
+        false,
+        this,
+        AppConstants.dialogIdentifier.deleteTeam);
+  }
+
+  @override
+  void onNegativeButtonClicked(String dialogIdentifier) {
+    Get.back();
+  }
+
+  @override
+  void onOtherButtonClicked(String dialogIdentifier) {}
+
+  @override
+  void onPositiveButtonClicked(String dialogIdentifier) {
+    if (dialogIdentifier == AppConstants.dialogIdentifier.deleteTeam) {
       archiveProjectApi();
+      Get.back();
     }
   }
 }

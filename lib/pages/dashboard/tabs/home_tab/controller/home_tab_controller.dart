@@ -384,7 +384,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
     } else if (info.slug == 'users') {
       Get.toNamed(AppRoutes.userListScreen);
       // Get.toNamed(AppRoutes.createTeamScreen);
-    } else if (info.slug == 'analytics') {
+    } else if (info.slug == 'projects') {
       Get.toNamed(AppRoutes.projectListScreen);
       // Get.toNamed(AppRoutes.createTeamScreen);
     } else if (info.slug == 'shift') {

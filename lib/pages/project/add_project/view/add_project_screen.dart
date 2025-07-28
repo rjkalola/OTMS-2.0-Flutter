@@ -40,7 +40,7 @@ class AddProjectScreenState extends State<AddProjectScreen> {
               isCenterTitle: false,
               isBack: true,
               bgColor: dashBoardBgColor_(context),
-              widgets: actionButtons(),
+              // widgets: actionButtons(),
             ),
             body: ModalProgressHUD(
                 inAsyncCall: controller.isLoading.value,
