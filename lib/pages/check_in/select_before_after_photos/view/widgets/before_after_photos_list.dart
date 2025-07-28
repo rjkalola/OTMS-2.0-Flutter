@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:otm_inventory/pages/common/model/file_info.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/widgets/gridview/image_gridview.dart';
+
+import '../../controller/select_before_after_photos_controller.dart';
 
 class BeforeAfterPhotosList extends StatelessWidget {
   BeforeAfterPhotosList(
@@ -15,6 +18,7 @@ class BeforeAfterPhotosList extends StatelessWidget {
   final List<FilesInfo> filesList;
   final String? photosType;
   final bool? isEditable;
+  final controller = Get.put(SelectBeforeAfterPhotosController());
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +32,9 @@ class BeforeAfterPhotosList extends StatelessWidget {
                   index, AppConstants.action.viewPhoto, photosType ?? "");
             },
             onRemoveClick: (int index) {
+              if ((filesList[index].id ?? 0) > 0) {
+                controller.removeIds.add(filesList[index].id.toString());
+              }
               onGridItemClick(
                   index, AppConstants.action.removePhoto, photosType ?? "");
             }));

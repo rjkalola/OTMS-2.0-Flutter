@@ -9,6 +9,7 @@ import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
+
 class SelectBeforeAfterPhotosScreen extends StatefulWidget {
   const SelectBeforeAfterPhotosScreen({super.key});
 
@@ -45,7 +46,7 @@ class _SelectBeforeAfterPhotosScreenState
               Expanded(
                 child: Column(
                   children: [
-                     Divider(
+                    Divider(
                       thickness: 1,
                       height: 1,
                       color: dividerColor_(context),
@@ -54,6 +55,7 @@ class _SelectBeforeAfterPhotosScreenState
                       onGridItemClick: controller.onGridItemClick,
                       filesList: controller.filesList,
                       photosType: controller.photosType,
+                      isEditable: controller.isEditable.value,
                     ),
                     const SizedBox(
                       height: 6,

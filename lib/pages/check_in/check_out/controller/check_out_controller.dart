@@ -45,6 +45,7 @@ class CheckOutController extends GetxController {
   final listAfterPhotos = <FilesInfo>[].obs;
   final checkLogInfo = CheckLogInfo().obs;
   final checkInTime = "".obs, checkOutTime = "".obs;
+  final listBeforeRemoveIds = <String>[];
 
   void onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -131,6 +132,8 @@ class CheckOutController extends GetxController {
     map["trade_id"] = checkLogInfo.value.tradeId ?? 0;
     map["type_of_work_id"] = checkLogInfo.value.typeOfWorkId ?? 0;
     map["comment"] = StringHelper.getText(addressController.value);
+    map["before_attachment_remove_ids"] =
+        StringHelper.getCommaSeparatedStringIds(listBeforeRemoveIds);
     map["location"] = location;
     map["latitude"] = latitude;
     map["longitude"] = longitude;
@@ -251,6 +254,7 @@ class CheckOutController extends GetxController {
       String photosType, List<FilesInfo> listPhotos) async {
     var result;
     var arguments = {
+      AppConstants.intentKey.removeIdsList: listBeforeRemoveIds,
       AppConstants.intentKey.photosType: photosType,
       AppConstants.intentKey.photosList: listPhotos,
       AppConstants.intentKey.isEditable:
@@ -271,6 +275,10 @@ class CheckOutController extends GetxController {
           listBeforePhotos.clear();
           listBeforePhotos
               .addAll(arguments[AppConstants.intentKey.photosList] ?? []);
+          listBeforeRemoveIds.clear();
+          listBeforeRemoveIds
+              .addAll(arguments[AppConstants.intentKey.removeIdsList] ?? []);
+          print("Remove Ids List:" + listBeforeRemoveIds.length.toString());
         } else if (photosType == AppConstants.type.afterPhotos) {
           listAfterPhotos.clear();
           listAfterPhotos

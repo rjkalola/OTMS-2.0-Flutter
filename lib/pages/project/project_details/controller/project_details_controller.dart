@@ -27,9 +27,12 @@ import 'package:otm_inventory/web_services/response/module_info.dart';
 import 'package:otm_inventory/web_services/response/response_model.dart';
 import '../../../dashboard/tabs/home_tab2/view/home_tab.dart';
 
-class ProjectDetailsController extends GetxController implements MenuItemListener{
+class ProjectDetailsController extends GetxController
+    implements MenuItemListener {
   final _api = ProjectDetailsRepository();
-  RxBool isLoading = false.obs, isInternetNotAvailable = false.obs, isMainViewVisible = false.obs;
+  RxBool isLoading = false.obs,
+      isInternetNotAvailable = false.obs,
+      isMainViewVisible = false.obs;
   final selectedIndex = 0.obs;
   late final PageController pageController;
   final tabs = <Widget>[
@@ -82,12 +85,12 @@ class ProjectDetailsController extends GetxController implements MenuItemListene
         if (responseModel.isSuccess) {
           isMainViewVisible.value = true;
           ProjectDetailsApiResponse response =
-          ProjectDetailsApiResponse.fromJson(jsonDecode(responseModel.result!));
+              ProjectDetailsApiResponse.fromJson(
+                  jsonDecode(responseModel.result!));
           projectInfo = response.info;
           if (projectInfo != null) {
             updateItemsWithApi(projectInfo!);
           }
-
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
@@ -105,6 +108,7 @@ class ProjectDetailsController extends GetxController implements MenuItemListene
       },
     );
   }
+
   void archiveProjectApi() {
     isLoading.value = true;
     Map<String, dynamic> map = {};
@@ -114,11 +118,10 @@ class ProjectDetailsController extends GetxController implements MenuItemListene
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           BaseResponse response =
-          BaseResponse.fromJson(jsonDecode(responseModel.result!));
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.Message ?? "");
           Get.back(result: true);
-        }
-        else{
+        } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;
@@ -135,18 +138,23 @@ class ProjectDetailsController extends GetxController implements MenuItemListene
       },
     );
   }
+
   void updateItemsWithApi(ProjectInfo project) {
     for (var item in items) {
       switch (item.title) {
         case 'Team':
-          item.subtitle = project.teams!.isNotEmpty ? project.teams!.map((e) => e.name).join(', ') : '';
+          item.subtitle = project.teams!.isNotEmpty
+              ? project.teams!.map((e) => e.name).join(', ')
+              : '';
           break;
         case 'Addresses':
           item.subtitle = project.addresses.toString();
           item.badge = project.addresses ?? 0;
           break;
         case 'Budget':
-          item.subtitle = project.budget != null ? '${project.currency ?? ""}${project.budget ?? 0.00}' : '£0.00';
+          item.subtitle = project.budget != null
+              ? '${project.currency ?? ""}${project.budget ?? 0.00}'
+              : '£0.00';
           break;
         case 'Trades':
           item.subtitle = project.trades.toString();
@@ -157,24 +165,27 @@ class ProjectDetailsController extends GetxController implements MenuItemListene
       }
     }
   }
+
   @override
   void dispose() {
     super.dispose();
     pageController.dispose();
   }
+
   void onPageChanged(int index) {
     selectedIndex.value = index;
     print("selectedIndex.value:${selectedIndex.value}");
   }
+
   void onItemTapped(int index) {
     pageController.jumpToPage(index);
   }
+
   Future<void> moveToScreen(String rout, dynamic arguments) async {
     var result = await Get.toNamed(rout, arguments: arguments);
-    if (result != null && result) {
-
-    }
+    if (result != null && result) {}
   }
+
   void showMenuItemsDialog(BuildContext context) {
     List<ModuleInfo> listItems = [];
     listItems.add(ModuleInfo(
@@ -186,6 +197,7 @@ class ProjectDetailsController extends GetxController implements MenuItemListene
           MenuItemsListBottomDialog(list: listItems, listener: this),
     );
   }
+
   @override
   void onSelectMenuItem(ModuleInfo info, String dialogType) {
     // TODO: implement onSelectMenuItem

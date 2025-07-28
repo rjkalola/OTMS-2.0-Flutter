@@ -141,12 +141,12 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                   count: controller.listAfterPhotos.length,
                                   photosType: AppConstants.type.afterPhotos,
                                   onPressed: () {
-                                    if (StringHelper.isEmptyString(controller
-                                        .checkLogInfo.value.checkoutDateTime)) {
-                                      controller.onSelectPhotos(
-                                          AppConstants.type.afterPhotos,
-                                          controller.listAfterPhotos);
-                                    }
+                                    // if (StringHelper.isEmptyString(controller
+                                    //     .checkLogInfo.value.checkoutDateTime)) {
+                                    controller.onSelectPhotos(
+                                        AppConstants.type.afterPhotos,
+                                        controller.listAfterPhotos);
+                                    // }
                                   },
                                 )
                               ],

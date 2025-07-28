@@ -47,7 +47,9 @@ class FooterButtonCheckInSwitchProject extends StatelessWidget {
                             AppConstants.intentKey.checkLogId:
                                 controller.selectedCheckLogInfo?.id ?? 0,
                             AppConstants.intentKey.workLogId:
-                                controller.selectedWorkLogInfo?.id ?? 0
+                                controller.selectedWorkLogInfo?.id ?? 0,
+                            AppConstants.intentKey.projectId:
+                            controller.selectedWorkLogInfo?.projectId ?? 0
                           };
                           controller.moveToScreen(
                               AppRoutes.checkOutScreen, arguments);
@@ -66,7 +68,9 @@ class FooterButtonCheckInSwitchProject extends StatelessWidget {
                         onPressed: () {
                           var arguments = {
                             AppConstants.intentKey.workLogId:
-                                controller.selectedWorkLogInfo?.id ?? 0
+                                controller.selectedWorkLogInfo?.id ?? 0,
+                            AppConstants.intentKey.projectId:
+                            controller.selectedWorkLogInfo?.projectId ?? 0
                           };
                           controller.moveToScreen(
                               AppRoutes.checkInScreen, arguments);

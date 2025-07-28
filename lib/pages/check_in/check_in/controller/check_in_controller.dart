@@ -66,6 +66,7 @@ class CheckInController extends GetxController implements SelectItemListener {
     if (arguments != null) {
       workLogId = arguments[AppConstants.intentKey.workLogId] ?? 0;
       projectId = arguments[AppConstants.intentKey.projectId] ?? 0;
+      print("Project ID:"+projectId.toString());
     }
     checkInTime.value = getCurrentTime();
     /*  LocationInfo? locationInfo = Get.find<AppStorage>().getLastLocation();

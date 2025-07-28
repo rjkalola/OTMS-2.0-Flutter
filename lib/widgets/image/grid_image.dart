@@ -36,7 +36,9 @@ class GridImage extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           setFile(),
-          Visibility(visible: isEditable ?? false, child: setCloseIcon()),
+          Visibility(
+              visible: (isEditable ?? true) ? true : false,
+              child: setCloseIcon()),
         ],
       ),
     );

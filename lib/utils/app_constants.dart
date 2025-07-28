@@ -78,6 +78,7 @@ class IntentKey {
   final String date = "DATE";
   final String checkLogInfo = "CHECK_LOG_INFO";
   final String isEditable = 'IS_EDITABLE';
+  final String removeIdsList = 'REMOVE_IDS_LIST';
 }
 
 class DialogIdentifier {

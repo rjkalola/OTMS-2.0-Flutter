@@ -44,7 +44,7 @@ class ProjectsList extends StatelessWidget {
                         controller.moveToScreen(
                             AppRoutes.projectDetailsScreen, arguments);
                       },
-                      child:Row(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [

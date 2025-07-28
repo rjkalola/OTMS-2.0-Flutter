@@ -18,6 +18,7 @@ class SelectBeforeAfterPhotosController extends GetxController
   final title = "".obs;
   final RxBool isEditable = true.obs;
   final ImagePicker _picker = ImagePicker();
+  var removeIds = <String>[];
 
   @override
   void onInit() {
@@ -36,19 +37,19 @@ class SelectBeforeAfterPhotosController extends GetxController
         filesList.add(info);
       }
       filesList.addAll(arguments[AppConstants.intentKey.photosList] ?? []);
+      removeIds
+          .addAll(arguments[AppConstants.intentKey.removeIdsList] ?? []);
     }
     // getRegisterResources();
   }
 
   onGridItemClick(int index, String action, String photoType) {
     if (action == AppConstants.action.viewPhoto) {
-      if(isEditable.value){
+      if (isEditable.value) {
         if (index == 0) {
           showAttachmentOptionsDialog();
         } else {}
-      }else{
-
-      }
+      } else {}
     } else if (action == AppConstants.action.removePhoto) {
       removePhotoFromList(index);
     }
@@ -148,6 +149,7 @@ class SelectBeforeAfterPhotosController extends GetxController
     var arguments = {
       AppConstants.intentKey.photosType: photosType,
       AppConstants.intentKey.photosList: filesList,
+      AppConstants.intentKey.removeIdsList: removeIds,
     };
     Get.back(result: arguments);
   }
