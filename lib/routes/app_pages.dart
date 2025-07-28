@@ -9,6 +9,7 @@ import 'package:otm_inventory/pages/authentication/signup1/view/signup1_screen.d
 import 'package:otm_inventory/pages/authentication/signup2/view/signup2_screen.dart';
 import 'package:otm_inventory/pages/authentication/splash/splash_screen.dart';
 import 'package:otm_inventory/pages/check_in/check_in/view/check_in_screen.dart';
+import 'package:otm_inventory/pages/check_in/check_log_details/view/check_log_details_screen.dart';
 import 'package:otm_inventory/pages/check_in/check_out/view/check_out_screen.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/view/clock_in_screen.dart';
 import 'package:otm_inventory/pages/check_in/select_before_after_photos/view/select_before_after_photos_screen.dart';
@@ -268,7 +269,14 @@ class AppPages {
     GetPage(
         name: AppRoutes.selectProjectScreen, page: () => SelectProjectScreen()),
     GetPage(name: AppRoutes.addressListScreen, page: () => AddressListScreen()),
-    GetPage(name: AppRoutes.projectDetailsScreen, page: () => ProjectDetailsScreen()),
-    GetPage(name: AppRoutes.archiveProjectListScreen, page: () => ArchiveProjectListScreen()),
+    GetPage(
+        name: AppRoutes.projectDetailsScreen,
+        page: () => ProjectDetailsScreen()),
+    GetPage(
+        name: AppRoutes.archiveProjectListScreen,
+        page: () => ArchiveProjectListScreen()),
+    GetPage(
+        name: AppRoutes.checkLogDetailsScreen,
+        page: () => CheckLogDetailsScreen()),
   ];
 }

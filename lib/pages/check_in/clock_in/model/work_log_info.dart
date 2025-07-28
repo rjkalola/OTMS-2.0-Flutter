@@ -19,6 +19,7 @@ class WorkLogInfo {
   LocationInfo? startWorkLocation;
   LocationInfo? stopWorkLocation;
   List<CheckLogInfo>? userChecklogs;
+  int? userCheckLogsCount;
 
   WorkLogInfo(
       {this.id,
@@ -36,7 +37,8 @@ class WorkLogInfo {
       this.breakLog,
       this.startWorkLocation,
       this.stopWorkLocation,
-      this.userChecklogs});
+      this.userChecklogs,
+      this.userCheckLogsCount});
 
   WorkLogInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -69,6 +71,7 @@ class WorkLogInfo {
         userChecklogs!.add(new CheckLogInfo.fromJson(v));
       });
     }
+    userCheckLogsCount = json['user_checklogs_count'];
   }
 
   Map<String, dynamic> toJson() {
@@ -98,6 +101,7 @@ class WorkLogInfo {
       data['user_checklogs'] =
           this.userChecklogs!.map((v) => v.toJson()).toList();
     }
+    data['user_checklogs_count'] = this.userCheckLogsCount;
     return data;
   }
 }

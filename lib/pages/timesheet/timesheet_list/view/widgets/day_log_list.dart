@@ -9,6 +9,7 @@ import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/date_utils.dart';
 import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:otm_inventory/widgets/other_widgets/right_arrow_widget.dart';
+import 'package:otm_inventory/widgets/shapes/badge_count_widget.dart';
 import 'package:otm_inventory/widgets/text/SubTitleTextView.dart';
 import 'package:otm_inventory/widgets/text/TextViewWithContainer.dart';
 import 'package:otm_inventory/widgets/text/TitleTextView.dart';
@@ -35,34 +36,53 @@ class DayLogList extends StatelessWidget {
                 visible:
                     !(controller.timeSheetList[parentPosition].isExpanded ??
                         false),
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 9, 13, 9),
-                  child: GestureDetector(
-                    onTap: () {
-                      controller.onClickWorkLogItem(info.id ?? 0,
-                          controller.timeSheetList[parentPosition].userId ?? 0);
-                    },
-                    child: Container(
-                      color: Colors.transparent,
-                      child: Row(
-                        children: [
-                          dayDate(info),
-                          SizedBox(
-                            width: 4,
+                child: Stack(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 12, 13, 12),
+                      child: GestureDetector(
+                        onTap: () {
+                          controller.onClickWorkLogItem(
+                              info.id ?? 0,
+                              controller.timeSheetList[parentPosition].userId ??
+                                  0);
+                        },
+                        child: Container(
+                          color: Colors.transparent,
+                          child: Row(
+                            children: [
+                              dayDate(info),
+                              SizedBox(
+                                width: 4,
+                              ),
+                              shiftName(info),
+                              Expanded(child: Container()),
+                              totalWorkHour(info),
+                              SizedBox(
+                                width: 4,
+                              ),
+                              RightArrowWidget(
+                                color: primaryTextColor_(context),
+                              )
+                            ],
                           ),
-                          shiftName(info),
-                          Expanded(child: Container()),
-                          totalWorkHour(info),
-                          SizedBox(
-                            width: 4,
-                          ),
-                          RightArrowWidget(
-                            color: primaryTextColor_(context),
-                          )
-                        ],
+                        ),
                       ),
                     ),
-                  ),
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: Visibility(
+                        visible: (info.userCheckLogsCount ?? 0) != 0,
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 16, top: 6),
+                          child: CustomBadgeIcon(
+                            count: info.userCheckLogsCount ?? 0,
+                            color: defaultAccentColor_(context),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
                 )),
           );
         },

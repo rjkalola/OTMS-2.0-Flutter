@@ -10,9 +10,6 @@ import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/PrimaryButton.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
-import 'package:otm_inventory/widgets/map_view/bottom_curve_container.dart';
-import 'package:otm_inventory/widgets/map_view/custom_map_view.dart';
-import 'package:otm_inventory/widgets/map_view/map_back_arrow.dart';
 import 'package:otm_inventory/widgets/textfield/reusable/add_note_widget.dart';
 import 'package:otm_inventory/widgets/textfield/reusable/drop_down_text_field.dart';
 

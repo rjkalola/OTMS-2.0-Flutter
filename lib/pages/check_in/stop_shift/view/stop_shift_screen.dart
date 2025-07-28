@@ -9,6 +9,8 @@ import 'package:otm_inventory/pages/check_in/stop_shift/view/widgets/stop_shift_
 import 'package:otm_inventory/pages/check_in/stop_shift/view/widgets/submit_for_approval_button.dart';
 import 'package:otm_inventory/pages/check_in/stop_shift/view/widgets/total_hours_row.dart';
 import 'package:otm_inventory/res/colors.dart';
+import 'package:otm_inventory/routes/app_routes.dart';
+import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/map_view/bottom_curve_container.dart';
@@ -79,8 +81,20 @@ class _StopShiftScreenState extends State<StopShiftScreen> {
                           title: controller.isWorking.value
                               ? 'my_shift'.tr
                               : 'edit_my_shift'.tr,
+                          userCheckLogCount:
+                              controller.workLogInfo.value.userCheckLogsCount ??
+                                  0,
                           onBackPressed: () {
                             controller.onBackPress();
+                          },
+                          onCheckLogCountClick: () {
+                            var arguments = {
+                              AppConstants.intentKey.workLogId:
+                              controller.workLogId
+                            };
+                            Get.toNamed(AppRoutes.checkLogDetailsScreen,
+                                arguments: arguments);
+                            print("onCheckLogCountClick");
                           },
                         ),
                         StartStopBoxRow(),

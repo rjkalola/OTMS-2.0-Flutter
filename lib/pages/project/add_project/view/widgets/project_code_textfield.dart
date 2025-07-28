@@ -15,20 +15,22 @@ class ProjectCodeTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => TextFieldBorderDark(
-      textEditingController: controller.projectCodeController.value,
-      hintText: 'project_code'.tr,
-      labelText: 'project_code'.tr,
-      keyboardType: TextInputType.number,
-      textInputAction: TextInputAction.next,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      onValueChange: (value) {
-        controller.isSaveEnable.value = true;
-      },
-      inputFormatters: [
-        // FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
-      ],
-      validator: MultiValidator([]),
-    ),);
+    return Obx(
+      () => TextFieldBorderDark(
+        textEditingController: controller.projectCodeController.value,
+        hintText: 'project_code'.tr,
+        labelText: 'project_code'.tr,
+        keyboardType: TextInputType.text,
+        textInputAction: TextInputAction.next,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        onValueChange: (value) {
+          controller.isSaveEnable.value = true;
+        },
+        inputFormatters: [
+          FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]')),
+        ],
+        validator: MultiValidator([]),
+      ),
+    );
   }
 }

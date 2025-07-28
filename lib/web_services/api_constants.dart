@@ -6,6 +6,7 @@ class ApiConstants {
   //static String appUrl = "http://belcka.com:3003";
 
   // static String appUrl = "http://appdev.belcka.com:3000";
+
   static String appUrl = "http://app.belcka.com:3003";
 
   static String accessToken = "";
@@ -144,6 +145,7 @@ class ApiConstants {
   static String getTimeSheetList = '$appUrl/timesheet/get';
   static String getTimeSheetListAllUsers =
       '$appUrl/timesheet/get-users-timesheet';
+  static String getCheckLogDetails = '$appUrl/timesheet/get-checklog-details';
 
   //project
   static String addProject = '$appUrl/project/create';

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
+import 'package:otm_inventory/widgets/shapes/badge_count_widget.dart';
 import 'package:otm_inventory/widgets/text/TextViewWithContainer.dart';
 import 'package:otm_inventory/widgets/text/TitleTextView.dart';
 
@@ -10,11 +12,15 @@ class SelectionScreenHeaderView extends StatelessWidget {
       this.title,
       this.statusText,
       this.statusColor,
-      required this.onBackPressed});
+      this.userCheckLogCount,
+      required this.onBackPressed,
+      this.onCheckLogCountClick});
 
   final String? title, statusText;
   final VoidCallback onBackPressed;
+  final VoidCallback? onCheckLogCountClick;
   final Color? statusColor;
+  final int? userCheckLogCount;
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +63,22 @@ class SelectionScreenHeaderView extends StatelessWidget {
                   ),
                 )
               : Container(),
+          Align(
+            alignment: Alignment.centerRight,
+            child: GestureDetector(
+              onTap: onCheckLogCountClick,
+              child: Visibility(
+                visible: (userCheckLogCount ?? 0) != 0,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 16, top: 0),
+                  child: CustomBadgeIcon(
+                    count: userCheckLogCount ?? 0,
+                    color: defaultAccentColor_(context),
+                  ),
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );

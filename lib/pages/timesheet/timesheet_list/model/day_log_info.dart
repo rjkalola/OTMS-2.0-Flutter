@@ -29,6 +29,7 @@ class DayLogInfo {
   int? status;
   String? createdAt;
   String? updatedAt;
+  int? userCheckLogsCount;
 
   DayLogInfo(
       {this.id,
@@ -60,7 +61,8 @@ class DayLogInfo {
       this.totalAmount,
       this.status,
       this.createdAt,
-      this.updatedAt});
+      this.updatedAt,
+      this.userCheckLogsCount});
 
   DayLogInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -93,6 +95,7 @@ class DayLogInfo {
     status = json['status'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    userCheckLogsCount = json['user_checklogs_count'];
   }
 
   Map<String, dynamic> toJson() {
@@ -127,6 +130,7 @@ class DayLogInfo {
     data['status'] = this.status;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
+    data['user_checklogs_count'] = this.userCheckLogsCount;
     return data;
   }
 }

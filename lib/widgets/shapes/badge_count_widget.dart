@@ -3,12 +3,9 @@ import 'package:flutter/material.dart';
 class CustomBadgeIcon extends StatelessWidget {
   final int count;
   final double? width, height;
+  final Color? color;
 
-  CustomBadgeIcon({
-    required this.count,
-    this.width,
-    this.height,
-  });
+  CustomBadgeIcon({required this.count, this.width, this.height, this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +14,7 @@ class CustomBadgeIcon extends StatelessWidget {
       width: width ?? 21,
       height: height ?? 21,
       decoration: BoxDecoration(
-        color: Colors.red,
+        color: color ?? Colors.red,
         shape: BoxShape.circle,
       ),
       child: Text(
