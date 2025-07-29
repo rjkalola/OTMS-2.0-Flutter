@@ -91,15 +91,12 @@ class ApiRequest {
             response.statusCode == 201 ||
             response.statusCode == 202 ||
             response.statusCode == 204) {
-          print("200");
           responseModel = returnResponse(true, jsonEncode(response.data),
               response.statusCode, response.statusMessage);
         } else if (response.statusCode == 401) {
-          print("401");
           showUnAuthorizedDialog();
           responseModel = returnResponse(false, null, 0, "");
         } else {
-          print("else code");
           BaseResponse baseResponse =
               BaseResponse.fromJson(jsonDecode(response.data));
           responseModel = returnResponse(
@@ -125,12 +122,9 @@ class ApiRequest {
           responseModel =
               returnResponse(null, response.statusCode, response.statusMessage);
         }*/
-        print("....");
         if (onSuccess != null) {
-          print("onSuccess");
           onSuccess(responseModel);
         }
-        print("----");
       } else {
         responseModel = returnResponse(false, null,
             ApiConstants.CODE_NO_INTERNET_CONNECTION, 'try_again'.tr);
@@ -149,7 +143,12 @@ class ApiRequest {
         } else {
           message = e.message ?? "";
         }
-        AppUtils.showApiResponseMessage(message);
+
+        if (url != ApiConstants.checkPhoneNumberExistUrl &&
+            url != ApiConstants.getLastWorkLog) {
+          AppUtils.showApiResponseMessage(message);
+        }
+
         print('Dio error: ${e.message}');
         print('Stack trace: $stackTrace');
         // final ApiException apiException = ApiException.fromDioError(e);
@@ -271,8 +270,10 @@ class ApiRequest {
         } else {
           message = e.message ?? "";
         }
-        if (url != ApiConstants.checkPhoneNumberExistUrl)
+        if (url != ApiConstants.checkPhoneNumberExistUrl &&
+            url != ApiConstants.getLastWorkLog) {
           AppUtils.showApiResponseMessage(message);
+        }
         print('Dio error: ${e.message}');
         print('Stack trace: $stackTrace');
         // final ApiException apiException = ApiException.fromDioError(e);
@@ -373,7 +374,10 @@ class ApiRequest {
         } else {
           message = e.message ?? "";
         }
-        AppUtils.showApiResponseMessage(message);
+        if (url != ApiConstants.checkPhoneNumberExistUrl &&
+            url != ApiConstants.getLastWorkLog) {
+          AppUtils.showApiResponseMessage(message);
+        }
         print('Dio error: ${e.message}');
         print('Stack trace: $stackTrace');
         // final ApiException apiException = ApiException.fromDioError(e);
@@ -496,7 +500,11 @@ class ApiRequest {
         } else {
           message = e.message ?? "";
         }
-        AppUtils.showApiResponseMessage(message);
+
+        if (url != ApiConstants.checkPhoneNumberExistUrl &&
+            url != ApiConstants.getLastWorkLog) {
+          AppUtils.showApiResponseMessage(message);
+        }
         print('Dio error: ${e.message}');
         print('Stack trace: $stackTrace');
         // final ApiException apiException = ApiException.fromDioError(e);

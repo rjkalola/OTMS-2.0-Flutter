@@ -90,4 +90,5 @@ class AppRoutes {
   static const String projectDetailsScreen = '/project_details_screen';
   static const String archiveProjectListScreen = '/archive_project_list_screen';
   static const String checkLogDetailsScreen = '/check_log_details_screen';
+  static const String imagePreviewScreen = '/image_preview_screen';
 }

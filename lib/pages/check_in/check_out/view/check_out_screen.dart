@@ -94,8 +94,10 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                               title: 'address'.tr,
                               controller: controller.addressController,
                               borderRadius: 15,
-                              onPressed: () {},
-                              isArrowHide: true,
+                              isArrowHide: !StringHelper.isEmptyString(controller.checkLogInfo.value.checkoutDateTime),
+                              onPressed: () {
+                                controller.showSelectAddressDialog();
+                              },
                             ),
                             SizedBox(
                               height: 18,
@@ -104,8 +106,10 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                               title: 'trade'.tr,
                               controller: controller.tradeController,
                               borderRadius: 15,
-                              onPressed: () {},
-                              isArrowHide: true,
+                              isArrowHide: !StringHelper.isEmptyString(controller.checkLogInfo.value.checkoutDateTime),
+                              onPressed: () {
+                                controller.showSelectTradeDialog();
+                              },
                             ),
                             SizedBox(
                               height: 18,
@@ -114,8 +118,10 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                               title: 'type_of_work'.tr,
                               controller: controller.typeOfWorkController,
                               borderRadius: 15,
-                              onPressed: () {},
-                              isArrowHide: true,
+                              isArrowHide: !StringHelper.isEmptyString(controller.checkLogInfo.value.checkoutDateTime),
+                              onPressed: () {
+                                controller.showSelectTypeOfWorkDialog();
+                              },
                             ),
                             SizedBox(
                               height: 16,

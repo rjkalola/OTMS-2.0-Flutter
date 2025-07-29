@@ -46,9 +46,22 @@ class ClockInController extends GetxController {
   WorkLogInfo? selectedWorkLogInfo = null;
   CheckLogInfo? selectedCheckLogInfo = null;
   Timer? _timer;
+  final ScrollController scrollController = ScrollController();
 
   void onMapCreated(GoogleMapController controller) {
     mapController = controller;
+  }
+
+  void scrollToBottom() {
+    Future.delayed(Duration(milliseconds: 100), () {
+      if (scrollController.hasClients) {
+        scrollController.animateTo(
+          scrollController.position.maxScrollExtent,
+          duration: Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    });
   }
 
   @override
@@ -150,9 +163,11 @@ class ClockInController extends GetxController {
 
             stopTimer();
             startTimer();
+
+            scrollToBottom();
           } else {
             isChecking.value = false;
-            print("isChecking.value:"+isChecking.value.toString());
+            print("isChecking.value:" + isChecking.value.toString());
             stopTimer();
             CounterDetails details =
                 ClockInUtils.getTotalWorkHours(workLogData.value);
@@ -275,6 +290,7 @@ class ClockInController extends GetxController {
   void onClose() {
     print("onClose");
     stopTimer();
+    scrollController.dispose();
     super.onClose();
   }
 }

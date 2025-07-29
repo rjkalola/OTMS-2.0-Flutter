@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -7,6 +10,7 @@ import 'package:otm_inventory/pages/common/select_Item_list_dialog.dart';
 import 'package:otm_inventory/pages/manageattachment/listener/select_attachment_listener.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
+import 'package:otm_inventory/utils/image_utils.dart';
 import 'package:otm_inventory/web_services/response/module_info.dart';
 
 class ManageAttachmentController extends GetxController
@@ -14,7 +18,6 @@ class ManageAttachmentController extends GetxController
   final ImagePicker _picker = ImagePicker();
   final imageQuality = 0;
   final double maxWidth = 0, maxHeight = 0;
-  final bool isResize = false;
   SelectAttachmentListener? attachmentListener;
 
   @override
@@ -41,50 +44,50 @@ class ManageAttachmentController extends GetxController
   void onSelectItem(int position, int id, String name, String action) {
     if (action == AppConstants.attachmentType.image ||
         action == AppConstants.attachmentType.camera) {
-      print("onSelectItem....");
       selectImage(action, attachmentListener);
+    } else if (action == AppConstants.attachmentType.multiImage) {
+      selectImage(action, attachmentListener, multiSelection: true);
     }
   }
 
-  void selectImage(String action, SelectAttachmentListener? listener) async {
-    print("selectImage....");
+  void selectImage(String action, SelectAttachmentListener? listener,
+      {bool? multiSelection}) async {
     attachmentListener ??= listener;
-    print("selectImage....111");
     try {
-      XFile? pickedFile;
       if (action == AppConstants.attachmentType.camera) {
-        if (isResize) {
-          pickedFile = await _picker.pickImage(
-            source: ImageSource.camera,
-            maxWidth: maxWidth,
-            maxHeight: maxHeight,
-            imageQuality: imageQuality,
-          );
-        } else {
-          pickedFile = await _picker.pickImage(
-            source: ImageSource.camera,
-          );
+        XFile? pickedFile = null;
+        pickedFile = await _picker.pickImage(
+          source: ImageSource.camera,
+          // maxWidth: maxWidth,
+          // maxHeight: maxHeight,
+          imageQuality: imageQuality,
+        );
+        if (pickedFile != null) {
+          List<String> files = [];
+          File? compressed =
+              await ImageUtils.compressImage(File(pickedFile.path));
+          files.add(
+              compressed != null ? compressed.path : pickedFile.path ?? "");
+          attachmentListener!.onSelectAttachment(files, action);
         }
-      } else if (action == AppConstants.attachmentType.image) {
-        if (isResize) {
-          pickedFile = await _picker.pickImage(
-            source: ImageSource.gallery,
-            maxWidth: maxWidth,
-            maxHeight: maxHeight,
-            imageQuality: imageQuality,
-          );
-        } else {
-          pickedFile = await _picker.pickImage(
-            source: ImageSource.gallery,
-          );
-        }
-      }
+      } else if (action == AppConstants.attachmentType.image ||
+          action == AppConstants.attachmentType.multiImage) {
+        FilePickerResult? result = await FilePicker.platform.pickFiles(
+          allowMultiple: multiSelection ?? false,
+          type: FileType.image,
+        );
 
-      if (pickedFile != null) {
-        print("pickedFile != null");
-        attachmentListener!.onSelectAttachment(pickedFile.path ?? "", action);
-        print("pickedFile != null 111");
-        print("Path:" + pickedFile.path ?? "");
+        if (result != null) {
+          List<File> results = result.paths.map((path) => File(path!)).toList();
+          List<String> files = [];
+          for (var file in results) {
+            // if(multiSelection??false){
+            File? compressed = await ImageUtils.compressImage(file);
+            files.add(compressed != null ? compressed.path : file.path);
+            // }
+          }
+          attachmentListener!.onSelectAttachment(files, action);
+        }
       }
     } catch (e) {
       print("error:" + e.toString());
@@ -106,14 +109,14 @@ class ManageAttachmentController extends GetxController
           //   CropAspectRatioPreset.square,
           //   CropAspectRatioPresetCustom(),
           // ],
-            lockAspectRatio: true,
-        /*  aspectRatioPresets: [
+          lockAspectRatio: true,
+          /*  aspectRatioPresets: [
             CropAspectRatioPreset.square,
           ]*/
         ),
         IOSUiSettings(
           title: 'edit_photo'.tr,
-         /* aspectRatioPresets: [
+          /* aspectRatioPresets: [
             CropAspectRatioPreset.square,
             // IMPORTANT: iOS supports only one custom aspect ratio in preset list
           ],*/
@@ -122,8 +125,10 @@ class ManageAttachmentController extends GetxController
       ],
     );
     if (croppedFile != null) {
-      attachmentListener!.onSelectAttachment(
-          croppedFile.path ?? "", AppConstants.attachmentType.croppedImage);
+      List<String> files = [];
+      files.add(croppedFile.path ?? "");
+      attachmentListener!
+          .onSelectAttachment(files, AppConstants.attachmentType.croppedImage);
     }
   }
 
@@ -145,14 +150,14 @@ class ManageAttachmentController extends GetxController
           //   CropAspectRatioPreset.square,
           //   CropAspectRatioPresetCustom(),
           // ],
-         /* aspectRatioPresets: [
+          /* aspectRatioPresets: [
             CropAspectRatioPreset.square,
           ],*/
           lockAspectRatio: true,
         ),
         IOSUiSettings(
           title: 'edit_photo'.tr,
-         /* aspectRatioPresets: [
+          /* aspectRatioPresets: [
             CropAspectRatioPreset.square,
             // IMPORTANT: iOS supports only one custom aspect ratio in preset list
           ],*/
@@ -161,8 +166,10 @@ class ManageAttachmentController extends GetxController
       ],
     );
     if (croppedFile != null) {
-      attachmentListener!.onSelectAttachment(
-          croppedFile.path ?? "", AppConstants.attachmentType.croppedImage);
+      List<String> files = [];
+      files.add(croppedFile.path ?? "");
+      attachmentListener!
+          .onSelectAttachment(files, AppConstants.attachmentType.croppedImage);
     }
   }
 }

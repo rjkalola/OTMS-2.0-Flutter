@@ -82,4 +82,9 @@ class UserUtils {
     UserInfo info = Get.find<AppStorage>().getUserInfo();
     return "${info.tradeName}";
   }
+
+  static int getLoginUserTradeId() {
+    UserInfo info = Get.find<AppStorage>().getUserInfo();
+    return info.tradeId ?? 0;
+  }
 }

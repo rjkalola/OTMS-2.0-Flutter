@@ -12,10 +12,10 @@ class CompanyLogoView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: ImageUtils.setNetworkImage(
-          controller.companyDetails.value.companyLogo ?? "",
-          220,
-          90,
-          BoxFit.contain),
+          url: controller.companyDetails.value.companyLogo ?? "",
+          width: 220,
+          height: 90,
+          fit: BoxFit.contain),
     );
   }
 }

@@ -61,14 +61,14 @@ class SignUp2Controller extends GetxController
   }
 
   @override
-  void onSelectAttachment(String path, String action) {
+  void onSelectAttachment(List<String> path, String action) {
     if (action == AppConstants.attachmentType.camera ||
         action == AppConstants.attachmentType.image) {
-      ManageAttachmentController().cropImage(path, this);
+      ManageAttachmentController().cropImage(path[0], this);
     } else if (action == AppConstants.attachmentType.croppedImage) {
-      print("cropped path:" + path);
+      print("cropped path:" + path[0]);
       print("action:" + action);
-      imagePath.value = path;
+      imagePath.value = path[0];
     }
   }
 

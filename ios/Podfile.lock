@@ -91,9 +91,9 @@ PODS:
   - qr_code_scanner_plus (0.2.6):
     - Flutter
     - MTBBarcodeScanner
-  - SDWebImage (5.19.2):
-    - SDWebImage/Core (= 5.19.2)
-  - SDWebImage/Core (5.19.2)
+  - SDWebImage (5.21.1):
+    - SDWebImage/Core (= 5.21.1)
+  - SDWebImage/Core (5.21.1)
   - SDWebImageWebPCoder (0.14.6):
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.17)
@@ -200,7 +200,7 @@ SPEC CHECKSUMS:
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
   permission_handler_apple: 9878588469a2b0d0fc1e048d9f43605f92e6cec2
   qr_code_scanner_plus: 3bfe4deb7f28996a63a2a580819d49dae80d5ed3
-  SDWebImage: dfe95b2466a9823cf9f0c6d01217c06550d7b29a
+  SDWebImage: f29024626962457f3470184232766516dee8dfea
   SDWebImageWebPCoder: e38c0a70396191361d60c092933e22c20d5b1380
   sms_autofill: c461043483362c3f1709ee76eaae6eb570b31686
   sqflite_darwin: 5a7236e3b501866c1c9befc6771dfd73ffb8702d

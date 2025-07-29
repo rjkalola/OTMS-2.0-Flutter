@@ -20,6 +20,7 @@ class WorkLogInfo {
   LocationInfo? stopWorkLocation;
   List<CheckLogInfo>? userChecklogs;
   int? userCheckLogsCount;
+  bool? isExpanded;
 
   WorkLogInfo(
       {this.id,
@@ -38,7 +39,8 @@ class WorkLogInfo {
       this.startWorkLocation,
       this.stopWorkLocation,
       this.userChecklogs,
-      this.userCheckLogsCount});
+      this.userCheckLogsCount,
+      this.isExpanded});
 
   WorkLogInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -72,6 +74,7 @@ class WorkLogInfo {
       });
     }
     userCheckLogsCount = json['user_checklogs_count'];
+    isExpanded = json['isExpanded'];
   }
 
   Map<String, dynamic> toJson() {
@@ -102,6 +105,7 @@ class WorkLogInfo {
           this.userChecklogs!.map((v) => v.toJson()).toList();
     }
     data['user_checklogs_count'] = this.userCheckLogsCount;
+    data['isExpanded'] = this.isExpanded;
     return data;
   }
 }

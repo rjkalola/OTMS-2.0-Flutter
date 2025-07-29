@@ -259,6 +259,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
           } else {
             moveToScreen(appRout: AppRoutes.startShiftMapScreen);
           }
+          // moveToScreen(appRout: AppRoutes.startShiftMapScreen);
         } else {
           moveToScreen(appRout: AppRoutes.startShiftMapScreen);
         }
@@ -268,8 +269,6 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
         isLoading.value = false;
         if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
           AppUtils.showApiResponseMessage('no_internet'.tr);
-        } else if (error.statusMessage!.isNotEmpty) {
-          AppUtils.showApiResponseMessage(error.statusMessage ?? "");
         }
       },
     );

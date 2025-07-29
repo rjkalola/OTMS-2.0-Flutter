@@ -5,13 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:otm_inventory/pages/check_in/dialogs/select_shift_dialog.dart';
+import 'package:otm_inventory/pages/check_in/clock_in/model/location_info.dart';
+import 'package:otm_inventory/pages/check_in/clock_in2/model/start_work_response.dart';
 import 'package:otm_inventory/pages/check_in/select_shift/controller/select_shift_repository.dart';
 import 'package:otm_inventory/pages/check_in/start_shift_map/controller/start_shift_map_repository.dart';
-import 'package:otm_inventory/pages/check_in/start_shift_map/model/start_work_response.dart';
-import 'package:otm_inventory/pages/common/listener/select_item_listener.dart';
-import 'package:otm_inventory/pages/shifts/shift_list/controller/shift_list_repository.dart';
-import 'package:otm_inventory/pages/shifts/shift_list/model/shift_list_response.dart';
+import 'package:otm_inventory/pages/check_in/start_shift_map/model/last_work_log_response.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_storage.dart';
@@ -21,11 +19,10 @@ import 'package:otm_inventory/web_services/api_constants.dart';
 import 'package:otm_inventory/web_services/response/module_info.dart';
 import 'package:otm_inventory/web_services/response/response_model.dart';
 
-class StartShiftMapController extends GetxController
-    implements SelectItemListener {
+class StartShiftMapController extends GetxController {
   final RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
-      isMainViewVisible = true.obs,
+      isMainViewVisible = false.obs,
       isLocationLoaded = true.obs;
   final _api = StartShiftMapRepository();
   final shiftList = <ModuleInfo>[].obs;
@@ -34,6 +31,7 @@ class StartShiftMapController extends GetxController
       LatLng(AppConstants.defaultLatitude, AppConstants.defaultLongitude).obs;
   final locationService = LocationServiceNew();
   String latitude = "", longitude = "", location = "";
+  final lastWorkLogData = LastWorkLog().obs;
 
   void onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -47,30 +45,31 @@ class StartShiftMapController extends GetxController
       // fromSignUp.value =
       //     arguments[AppConstants.intentKey.fromSignUpScreen] ?? "";
     }
+    LocationInfo? locationInfo = Get.find<AppStorage>().getLastLocation();
+    if (locationInfo != null) {
+      setLocation(double.parse(locationInfo.latitude ?? "0"),
+          double.parse(locationInfo.longitude ?? "0"));
+    }
     locationRequest();
     appLifeCycle();
     // getShiftListApi();
+    getLastWorkLogApi();
   }
 
-  void getShiftListApi() {
+  Future<void> getLastWorkLogApi() async {
     isLoading.value = true;
     Map<String, dynamic> map = {};
-    map["company_id"] = ApiConstants.companyId;
-    ShiftListRepository().getShiftList(
+
+    _api.getLastWorkLog(
       data: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           isMainViewVisible.value = true;
-          ShiftListResponse response =
-              ShiftListResponse.fromJson(jsonDecode(responseModel.result!));
-          for (var data in response.info!) {
-            if (data.status ?? false) {
-              shiftList
-                  .add(ModuleInfo(id: data.id ?? 0, name: data.name ?? ""));
-            }
-          }
+          LastWorkLog response =
+              LastWorkLog.fromJson(jsonDecode(responseModel.result!));
+          lastWorkLogData.value = response;
         } else {
-          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+          // AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;
       },
@@ -80,17 +79,20 @@ class StartShiftMapController extends GetxController
           // isInternetNotAvailable.value = true;
           AppUtils.showApiResponseMessage('no_internet'.tr);
         } else if (error.statusMessage!.isNotEmpty) {
-          AppUtils.showApiResponseMessage(error.statusMessage ?? "");
+          print("this method calling");
+          isMainViewVisible.value = true;
         }
       },
     );
   }
 
-  Future<void> userStartWorkApi(int shiftId) async {
+  Future<void> userStartWorkApi() async {
     String deviceModelName = await AppUtils.getDeviceName();
     isLoading.value = true;
     Map<String, dynamic> map = {};
-    map["shift_id"] = shiftId;
+    map["shift_id"] = lastWorkLogData.value.shiftId ?? 0;
+    ;
+    map["project_id"] = lastWorkLogData.value.projectId ?? 0;
     map["latitude"] = latitude;
     map["longitude"] = longitude;
     map["location"] = location;
@@ -104,7 +106,7 @@ class StartShiftMapController extends GetxController
               StartWorkResponse.fromJson(jsonDecode(responseModel.result!));
           Get.offNamed(AppRoutes.clockInScreen);
         } else {
-          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+          // AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;
       },
@@ -113,8 +115,6 @@ class StartShiftMapController extends GetxController
         if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
           // isInternetNotAvailable.value = true;
           AppUtils.showApiResponseMessage('no_internet'.tr);
-        } else if (error.statusMessage!.isNotEmpty) {
-          AppUtils.showApiResponseMessage(error.statusMessage ?? "");
         }
       },
     );
@@ -140,33 +140,21 @@ class StartShiftMapController extends GetxController
     Position? latLon = await LocationServiceNew.getCurrentLocation();
     if (latLon != null) {
       isLocationLoaded.value = true;
-      isMainViewVisible.value = true;
-      latitude = latLon.latitude.toString();
-      longitude = latLon.longitude.toString();
-      location = await LocationServiceNew.getAddressFromCoordinates(
-          latLon.latitude, latLon.longitude);
-      center.value = LatLng(latLon.latitude, latLon.longitude);
-      mapController.animateCamera(CameraUpdate.newCameraPosition(
-        CameraPosition(target: center.value, zoom: 15),
-      ));
+      setLocation(latLon.latitude, latLon.longitude);
     }
   }
 
-  void showSelectShiftDialog() {
-    Get.bottomSheet(
-        SelectShiftDialog(
-          dialogType: AppConstants.dialogIdentifier.selectShift,
-          list: shiftList,
-          listener: this,
-        ),
-        backgroundColor: Colors.transparent,
-        isScrollControlled: true);
-  }
-
-  @override
-  void onSelectItem(int position, int id, String name, String action) {
-    if (action == AppConstants.dialogIdentifier.selectShift) {
-      userStartWorkApi(id);
+  Future<void> setLocation(double? lat, double? lon) async {
+    if (lat != null && lon != null) {
+      latitude = lat.toString();
+      longitude = lon.toString();
+      center.value = LatLng(lat, lon);
+      location = await LocationServiceNew.getAddressFromCoordinates(lat, lon);
+      mapController.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(target: center.value, zoom: 15),
+      ));
+      print("Location:" + "Latitude: ${latitude}, Longitude: ${longitude}");
+      print("Address:${location ?? ""}");
     }
   }
 }

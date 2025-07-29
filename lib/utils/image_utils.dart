@@ -5,7 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:otm_inventory/pages/common/model/file_info.dart';
 import 'package:otm_inventory/pages/common/model/user_info.dart';
+import 'package:otm_inventory/routes/app_routes.dart';
+import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/custom_cache_manager.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
@@ -18,18 +21,26 @@ class ImageUtils {
   static String defaultUserAvtarUrl =
       "https://www.pngmart.com/files/22/User-Avatar-Profile-PNG-Isolated-Transparent-Picture.png";
 
-  Future<File?> compressImage(File file, {int quality = 70}) async {
+  static Future<File?> compressImage(File file, {int quality = 90}) async {
     try {
       final tempDir = await getTemporaryDirectory();
       final fileName = path.basenameWithoutExtension(file.path);
-      final outPath = path.join(tempDir.path, '${fileName}_compressed.jpg');
+
+      var outPath = "";
+      if (file.path.endsWith(".jpg") || file.path.endsWith(".jpeg")) {
+        outPath = path.join(tempDir.path, '${fileName}_compressed.jpg');
+      } else if (file.path.endsWith(".heic")) {
+        outPath = path.join(tempDir.path, '${fileName}_compressed.jpg');
+      } else if (file.path.endsWith(".png")) {
+        outPath = path.join(tempDir.path, '${fileName}_compressed.png');
+      }
 
       final compressed = await FlutterImageCompress.compressAndGetFile(
         file.absolute.path,
         outPath,
         quality: quality,
-        minWidth: 800,
-        minHeight: 600,
+        minWidth: 900,
+        minHeight: 900,
       );
 
       return File(compressed!.path);
@@ -70,28 +81,27 @@ class ImageUtils {
   }
 
   static Widget setNetworkImage(
-      String url, double width, double height, BoxFit? fit) {
+      {required String url,
+      required double width,
+      required double height,
+      BoxFit? fit}) {
     return !StringHelper.isEmptyString(url)
         ? Image.network(
             url,
             fit: fit ?? BoxFit.cover,
             width: width,
             height: height,
-            errorBuilder: (context, url, error) => Icon(
-              Icons.photo_outlined,
-              size: getEmptyIconSize(width, height),
-              weight: 300,
-            ),
+            errorBuilder: (context, url, error) => getEmptyViewContainer(
+                width: width, height: height, borderRadius: 0),
           )
-        : Icon(
-            Icons.photo_outlined,
-            size: getEmptyIconSize(width, height),
-            weight: 300,
-          );
+        : getEmptyViewContainer(width: width, height: height, borderRadius: 0);
   }
 
   static Widget setFileImage(
-      String url, double width, double height, BoxFit? fit) {
+      {required String url,
+      required double width,
+      required double height,
+      BoxFit? fit}) {
     return !StringHelper.isEmptyString(url)
         ? Image.file(
             File(url ?? ""),
@@ -99,11 +109,7 @@ class ImageUtils {
             height: height,
             fit: fit,
           )
-        : Icon(
-            Icons.photo_outlined,
-            size: getEmptyIconSize(width, height),
-            weight: 300,
-          );
+        : getEmptyViewContainer(width: width, height: height, borderRadius: 0);
   }
 
   static Widget setCircularNetworkImage(
@@ -310,5 +316,21 @@ class ImageUtils {
       final cache = CustomCacheManager();
       cache.downloadFile(info.userThumbImage ?? "");
     }
+  }
+
+  static ImageProvider? imageProvider(String imageUrl) {
+    if (imageUrl.startsWith("http")) {
+      return NetworkImage(imageUrl);
+    } else {
+      return FileImage(File(imageUrl));
+    }
+  }
+
+  static void moveToImagePreview(List<FilesInfo> filesList, int index) {
+    var arguments = {
+      AppConstants.intentKey.itemList: filesList,
+      AppConstants.intentKey.index: index,
+    };
+    Get.toNamed(AppRoutes.imagePreviewScreen, arguments: arguments);
   }
 }

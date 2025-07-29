@@ -1,3 +1,3 @@
 abstract class SelectAttachmentListener {
-  void onSelectAttachment(String path, String action);
+  void onSelectAttachment(List<String> paths, String action);
 }

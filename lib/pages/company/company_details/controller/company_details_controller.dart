@@ -367,11 +367,11 @@ class CompanyDetailsController extends GetxController
   }
 
   @override
-  void onSelectAttachment(String path, String action) {
+  void onSelectAttachment(List<String> path, String action) {
     if (action == AppConstants.attachmentType.image) {
-      ManageAttachmentController().cropCompanyLogo(path, this);
+      ManageAttachmentController().cropCompanyLogo(path[0], this);
     } else if (action == AppConstants.attachmentType.croppedImage) {
-      mCompanyLogo.value = path;
+      mCompanyLogo.value = path[0];
     }
   }
 

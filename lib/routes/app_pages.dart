@@ -26,6 +26,7 @@ import 'package:otm_inventory/pages/company/selectcompanytrade/view/select_compa
 import 'package:otm_inventory/pages/company/switch_company/view/switch_company_screen.dart';
 import 'package:otm_inventory/pages/dashboard/view/dashboard_screen.dart';
 import 'package:otm_inventory/pages/filter/view/filter_screen.dart';
+import 'package:otm_inventory/pages/image_preview/view/image_preview_screen.dart';
 import 'package:otm_inventory/pages/my_requests/view/my_requests_screen.dart';
 import 'package:otm_inventory/pages/permissions/company_permissions/view/company_permission_screen.dart';
 import 'package:otm_inventory/pages/permissions/permission_users/view/permission_users_screen.dart';
@@ -278,5 +279,9 @@ class AppPages {
     GetPage(
         name: AppRoutes.checkLogDetailsScreen,
         page: () => CheckLogDetailsScreen()),
+    GetPage(
+      name: AppRoutes.imagePreviewScreen,
+      page: () => ImagePreviewScreen(),
+    ),
   ];
 }

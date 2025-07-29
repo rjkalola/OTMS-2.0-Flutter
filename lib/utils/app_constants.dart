@@ -79,6 +79,8 @@ class IntentKey {
   final String checkLogInfo = "CHECK_LOG_INFO";
   final String isEditable = 'IS_EDITABLE';
   final String removeIdsList = 'REMOVE_IDS_LIST';
+  final String index = 'INDEX';
+  final String itemList = 'ITEM_LIST';
 }
 
 class DialogIdentifier {
@@ -211,6 +213,7 @@ class AttachmentType {
   const AttachmentType(); //
   final String image = "image";
   final String camera = "camera";
+  final String multiImage = "multi_image";
   final String croppedImage = "croppedImage";
 }
 

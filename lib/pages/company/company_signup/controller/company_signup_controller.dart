@@ -305,15 +305,15 @@ class CompanySignUpController extends GetxController
   }
 
   @override
-  void onSelectAttachment(String path, String action) {
+  void onSelectAttachment(List<String> path, String action) {
     print("onSelectAttachment");
     if (action == AppConstants.attachmentType.image) {
-      ManageAttachmentController().cropCompanyLogo(path, this);
+      ManageAttachmentController().cropCompanyLogo(path[0], this);
     } else if (action == AppConstants.attachmentType.croppedImage) {
-      print("cropped path:" + path);
+      print("cropped path:" + path[0]);
       print("action:" + action);
-      mCompanyLogo.value = path;
-      print("File Size:" + getFileSizeString(bytes: File(path).lengthSync()));
+      mCompanyLogo.value = path[0];
+      print("File Size:" + getFileSizeString(bytes: File(path[0]).lengthSync()));
     }
   }
 

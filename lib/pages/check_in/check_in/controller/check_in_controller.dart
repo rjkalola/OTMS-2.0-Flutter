@@ -17,6 +17,7 @@ import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/date_utils.dart';
 import 'package:otm_inventory/utils/location_service_new.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
+import 'package:otm_inventory/utils/user_utils.dart';
 import 'package:otm_inventory/web_services/api_constants.dart';
 import 'package:otm_inventory/web_services/response/base_response.dart';
 import 'package:otm_inventory/web_services/response/module_info.dart';
@@ -66,9 +67,15 @@ class CheckInController extends GetxController implements SelectItemListener {
     if (arguments != null) {
       workLogId = arguments[AppConstants.intentKey.workLogId] ?? 0;
       projectId = arguments[AppConstants.intentKey.projectId] ?? 0;
-      print("Project ID:"+projectId.toString());
+      print("Project ID:" + projectId.toString());
     }
     checkInTime.value = getCurrentTime();
+    if (UserUtils.getLoginUserTradeId() != 0) {
+      tradeController.value.text = UserUtils.getLoginUserTrade();
+      tradeId = UserUtils.getLoginUserTradeId();
+    } else if (UserUtils.isAdmin()) {
+      tradeController.value.text = 'admin'.tr;
+    }
     /*  LocationInfo? locationInfo = Get.find<AppStorage>().getLastLocation();
     if (locationInfo != null) {
       setLocation(double.parse(locationInfo.latitude ?? "0"),
