@@ -126,8 +126,7 @@ class MyDayLogDetailsView extends StatelessWidget {
                                                     controller.workInfo.value
                                                             .payableWorkSeconds ??
                                                         0)
-                                                : controller
-                                                    .activeWorkHours.value,
+                                                : DateUtil.seconds_To_HH_MM(0),
                                             fontSize: 20,
                                             fontColor: isActiveWorkLog(
                                                     controller.workInfo.value)

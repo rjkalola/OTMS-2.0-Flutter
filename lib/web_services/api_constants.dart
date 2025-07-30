@@ -155,9 +155,18 @@ class ApiConstants {
   static String deleteProject = '$appUrl/project/delete';
   static String archiveProject = '$appUrl/project/archive';
   static String unarchiveProject = '$appUrl/project/unarchive';
-  static String getAddress = '$appUrl/address/get';
   static String getProjectDetails = '$appUrl/project/project-detail';
   static String projectArchiveList = '$appUrl/project/archive-list';
+
+  //address
+  static String getAddress = '$appUrl/address/get';
+  static String addressCreate = '$appUrl/address/create';
+  static String addressUpdate = '$appUrl/address/update';
+  static String addressArchive = '$appUrl/address/archive';
+  static String addressDelete = '$appUrl/address/delete';
+  static String addressDetails = '$appUrl/address/address-detail';
+  static String addressArchiveList = '$appUrl/address/archive-list';
+  static String addressUnarchive = '$appUrl/address/unarchive';
 
   static String registerResourcesUrl = '$appUrl/wn-resources';
   static String verifyPhoneUrl = '$appUrl/verify-phone';

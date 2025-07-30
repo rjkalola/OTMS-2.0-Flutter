@@ -48,6 +48,9 @@ class _AddressListScreenState extends State<AddressListScreen> {
                 bgColor: dashBoardBgColor_(context),
                 isBack: true,
                 widgets: actionButtons(),
+                onBackPressed: () {
+                  controller.onBackPress();
+                },
               ),
               backgroundColor: dashBoardBgColor_(context),
               body: ModalProgressHUD(
@@ -58,88 +61,97 @@ class _AddressListScreenState extends State<AddressListScreen> {
                     ?  Center(
                   child: Text('no_internet_text'.tr),
                 )
-                    : Visibility(
-                    visible: controller.isMainViewVisible.value,
-                    child: // Project List
-                    Expanded(
-                      child:ListView.builder(
-                        itemCount: controller.addressList.length,
-                        padding: const EdgeInsets.all(12),
-                        itemBuilder: (context, index) {
-                          final item = controller.addressList[index];
-                          final status = item.statusText;
-                          final percent = item.progress;
-                          final color = getStatusColor(item.statusText ?? "");
-
-                          return Stack(
-                            children: [
-                              // Card Background
-                              CardViewDashboardItem(
-                                margin: const EdgeInsets.only(top: 10, bottom: 16),
-                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-                                child: Row(
+                    : Column(
+                      children: [Visibility(
+                          visible: controller.isMainViewVisible.value,
+                          child: Expanded(
+                            child:ListView.builder(
+                              itemCount: controller.addressList.length,
+                              padding: const EdgeInsets.all(12),
+                              itemBuilder: (context, index) {
+                                final item = controller.addressList[index];
+                                final status = item.statusText;
+                                final percent = item.progress;
+                                final color = getStatusColor(item.statusText ?? "");
+                                return Stack(
                                   children: [
-                                    const SizedBox(width: 4),
-                                    // Address Text
-                                    Expanded(
-                                      child: Text(
-                                        item.name ?? "",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16,
+                                    // Card Background
+                                    CardViewDashboardItem(
+                                      margin: const EdgeInsets.only(top: 10, bottom: 16),
+                                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+                                      child: InkWell(
+                                        onTap: () {
+                                          var arguments = {
+                                            AppConstants.intentKey.addressInfo: item,
+                                          };
+                                          controller.moveToScreen(
+                                              AppRoutes.addressDetailsScreen, arguments);
+                                        } ,
+                                        child: Row(
+                                          children: [
+                                            const SizedBox(width: 4),
+                                            // Address Text
+                                            Expanded(
+                                              child: Text(
+                                                item.name ?? "",
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 16,
+                                                ),
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                            // Percentage
+                                            Text(
+                                              '$percent',
+                                              style: TextStyle(
+                                                color: color,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                            const SizedBox(width: 4),
+                                            Align(
+                                              alignment: Alignment.center,
+                                              child: Icon(
+                                                Icons.arrow_forward_ios_rounded,
+                                                size: 16,
+                                                color: primaryTextColor_(context),
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        overflow: TextOverflow.ellipsis,
                                       ),
                                     ),
-                                    // Percentage
-                                    Text(
-                                      '$percent',
-                                      style: TextStyle(
-                                        color: color,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 4),
-                                    Align(
-                                      alignment: Alignment.center,
-                                      child: Icon(
-                                        Icons.arrow_forward_ios_rounded,
-                                        size: 16,
-                                        color: primaryTextColor_(context),
+
+                                    // Positioned Status Badge (Overlapping top-left)
+                                    Positioned(
+                                      left: 16,
+                                      top: 0,
+                                      child: Container(
+                                        padding:
+                                        const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                        decoration: BoxDecoration(
+                                          color: color,
+                                          borderRadius: BorderRadius.circular(20),
+                                        ),
+                                        child: Text(
+                                          item.statusText ?? "",
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ],
-                                ),
-                              ),
-
-                              // Positioned Status Badge (Overlapping top-left)
-                              Positioned(
-                                left: 16,
-                                top: 0,
-                                child: Container(
-                                  padding:
-                                  const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                                  decoration: BoxDecoration(
-                                    color: color,
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: Text(
-                                    item.statusText ?? "",
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
-                    )
-                ),
+                                );
+                              },
+                            ),
+                          )
+                      )],
+                    ),
               ),
               bottomNavigationBar: CommonBottomNavigationBarWidget(),
             )
@@ -147,12 +159,31 @@ class _AddressListScreenState extends State<AddressListScreen> {
     )
     );
   }
+
+  /*
   List<Widget>? actionButtons() {
     return [
+      /*
       Icon(Icons.search, color: primaryTextColor_(context)),
       SizedBox(width: 16),
       Icon(Icons.filter_alt_outlined, color: primaryTextColor_(context)),
       SizedBox(width: 16),
+      */
+    ];
+  }
+  */
+  List<Widget>? actionButtons() {
+    return [
+      SizedBox(width: 10),
+      Visibility(
+        visible: true,
+        child: IconButton(
+          icon: Icon(Icons.more_vert_outlined),
+          onPressed: () {
+            controller.showMenuItemsDialog(Get.context!);
+          },
+        ),
+      ),
     ];
   }
 }

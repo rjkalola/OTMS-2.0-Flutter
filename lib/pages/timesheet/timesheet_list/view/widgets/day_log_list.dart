@@ -140,6 +140,9 @@ class DayLogList extends StatelessWidget {
         children: [
           TitleTextView(
             text: DateUtil.seconds_To_HH_MM(info.payableWorkSeconds ?? 0),
+            color: (info.isRequestPending ?? false)
+                ? Colors.red
+                : primaryTextColor_(Get.context!),
             fontSize: 17,
           ),
           SubtitleTextView(

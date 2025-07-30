@@ -81,6 +81,8 @@ class IntentKey {
   final String removeIdsList = 'REMOVE_IDS_LIST';
   final String index = 'INDEX';
   final String itemList = 'ITEM_LIST';
+  final String addressInfo = "ADDRESS_INFO";
+  final String addressDetailsInfo = "ADDRESS_DETAILS_INFO";
 }
 
 class DialogIdentifier {
@@ -198,6 +200,7 @@ class Action {
 
   final String archiveProject = 'ARCHIVE_PROJECT';
   final String archivedProjects = 'ARCHIVED_PROJECTS';
+  final String archivedAddress = 'ARCHIVED_ADDRESS';
 }
 
 class StockCountType {

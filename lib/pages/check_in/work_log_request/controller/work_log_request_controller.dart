@@ -230,7 +230,7 @@ class WorkLogRequestController extends GetxController
 
     if (start != null) {
       final icon = await MapUtils.createIcon(
-          assetPath: Drawable.redPin, width: 24, height: 34);
+          assetPath: Drawable.bluePin, width: 24, height: 34);
       LatLng startWorkPosition = LatLng(double.parse(start.latitude ?? "0"),
           double.parse(start.longitude ?? "0"));
       addMarker(startWorkPosition, 'startwork', icon, title: '');
@@ -242,7 +242,7 @@ class WorkLogRequestController extends GetxController
 
     if (stop != null) {
       final icon = await MapUtils.createIcon(
-          assetPath: Drawable.bluePin, width: 24, height: 34);
+          assetPath: Drawable.redPin, width: 24, height: 34);
       LatLng stopWorkPosition = LatLng(double.parse(stop.latitude ?? "0"),
           double.parse(stop.longitude ?? "0"));
       addMarker(stopWorkPosition, 'stopwork', icon, title: '');

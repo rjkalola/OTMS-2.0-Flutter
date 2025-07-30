@@ -313,6 +313,7 @@ class Strings extends Translations {
           'archive_project':"Archive Project",
           'continue_shift': "Continue Shift",
           'admin': "Admin",
+          'archived_address': "Archived Addresses",
           // '': "",
           // '': "",
           // '': "",

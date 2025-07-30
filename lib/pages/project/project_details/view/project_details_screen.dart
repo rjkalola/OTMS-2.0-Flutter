@@ -8,6 +8,8 @@ import 'package:otm_inventory/pages/project/project_details/controller/project_d
 import 'package:otm_inventory/pages/project/project_details/model/project_detals_item.dart';
 import 'package:otm_inventory/pages/project/project_info/model/project_info.dart';
 import 'package:otm_inventory/res/colors.dart';
+import 'package:otm_inventory/routes/app_routes.dart';
+import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
 import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
@@ -55,7 +57,15 @@ class ProjectDetailsScreen extends StatelessWidget {
                           ),
                           itemBuilder: (context, index) {
                             return InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                if (controller.items[index].title == "Addresses"){
+                                  var arguments = {
+                                    AppConstants.intentKey.projectInfo: controller.projectInfo,
+                                  };
+                                  controller.moveToScreen(
+                                      AppRoutes.addressListScreen, arguments);
+                                }
+                              },
                               splashColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                               child: Stack(

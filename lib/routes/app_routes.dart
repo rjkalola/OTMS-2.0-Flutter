@@ -91,4 +91,8 @@ class AppRoutes {
   static const String archiveProjectListScreen = '/archive_project_list_screen';
   static const String checkLogDetailsScreen = '/check_log_details_screen';
   static const String imagePreviewScreen = '/image_preview_screen';
+  static const String addAddressScreen = '/add_address_screen';
+  static const String addressDetailsScreen = '/address_details_screen';
+  static const String archiveAddressListScreen = '/archive_address_list_screen';
+  static const String checkInRecordsScreen = '/check_in_records_screen';
 }

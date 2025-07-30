@@ -12,6 +12,7 @@ import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
+import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/map_view/bottom_curve_container.dart';
 import 'package:otm_inventory/widgets/map_view/custom_map_view.dart';
@@ -90,7 +91,7 @@ class _StopShiftScreenState extends State<StopShiftScreen> {
                           onCheckLogCountClick: () {
                             var arguments = {
                               AppConstants.intentKey.workLogId:
-                              controller.workLogId
+                                  controller.workLogId
                             };
                             Get.toNamed(AppRoutes.checkLogDetailsScreen,
                                 arguments: arguments);

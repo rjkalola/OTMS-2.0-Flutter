@@ -30,6 +30,7 @@ class DayLogInfo {
   String? createdAt;
   String? updatedAt;
   int? userCheckLogsCount;
+  bool? isRequestPending;
 
   DayLogInfo(
       {this.id,
@@ -62,7 +63,8 @@ class DayLogInfo {
       this.status,
       this.createdAt,
       this.updatedAt,
-      this.userCheckLogsCount});
+      this.userCheckLogsCount,
+      this.isRequestPending});
 
   DayLogInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -96,6 +98,7 @@ class DayLogInfo {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     userCheckLogsCount = json['user_checklogs_count'];
+    isRequestPending = json['is_request_pending'];
   }
 
   Map<String, dynamic> toJson() {
@@ -131,6 +134,7 @@ class DayLogInfo {
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     data['user_checklogs_count'] = this.userCheckLogsCount;
+    data['is_request_pending'] = this.isRequestPending;
     return data;
   }
 }

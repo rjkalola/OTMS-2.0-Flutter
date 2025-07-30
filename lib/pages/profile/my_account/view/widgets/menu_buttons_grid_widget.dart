@@ -49,7 +49,7 @@ class MenuButtonsGridWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(controller.menuItems[index]['icon'], color: defaultAccentColor_(context),size: 28,weight: 100,),
+                  Icon(controller.menuItems[index]['icon'], color: defaultAccentColor_(context),size: 26,weight: 1,),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
