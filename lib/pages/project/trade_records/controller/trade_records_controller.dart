@@ -50,7 +50,7 @@ class TradeRecordsController extends GetxController
     map["address_id"] = addressId;
 
     _api.getProjectTradeRecords(
-      data: map,
+      queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           isMainViewVisible.value = true;

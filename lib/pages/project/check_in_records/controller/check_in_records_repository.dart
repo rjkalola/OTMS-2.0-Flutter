@@ -5,11 +5,11 @@ import 'package:otm_inventory/web_services/response/response_model.dart';
 
 class CheckInRecordsRepository {
   void getProjectCheckLogs({
-    dynamic data,
+    Map<String, dynamic>? queryParameters,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
-    ApiRequest(url: ApiConstants.getProjectCheckLogs, data: data).getRequest(
+    ApiRequest(url: ApiConstants.getProjectCheckLogs, queryParameters: queryParameters).getRequest(
       onSuccess: (data) {
         onSuccess!(data);
       },

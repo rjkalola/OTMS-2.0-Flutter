@@ -49,7 +49,7 @@ class CheckInRecordsController extends GetxController
     map["address_id"] = addressId;
 
     _api.getProjectCheckLogs(
-      data: map,
+      queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           isMainViewVisible.value = true;

@@ -5,11 +5,14 @@ import 'package:otm_inventory/web_services/response/response_model.dart';
 
 class TradeRecordsRepository {
   void getProjectTradeRecords({
-    dynamic data,
+    Map<String, dynamic>? queryParameters,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
-    ApiRequest(url: ApiConstants.getProjectTradeRecords, data: data).getRequest(
+    ApiRequest(
+            url: ApiConstants.getProjectTradeRecords,
+            queryParameters: queryParameters)
+        .getRequest(
       onSuccess: (data) {
         onSuccess!(data);
       },
