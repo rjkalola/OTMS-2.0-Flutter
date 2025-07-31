@@ -41,6 +41,15 @@ class AddressDetailsGridItems extends StatelessWidget {
                 };
                 controller.moveToScreen(
                     AppRoutes.checkInRecordsScreen, arguments);
+              } else if (controller.items[index].title == "Trades") {
+                var arguments = {
+                  AppConstants.intentKey.projectId:
+                      controller.addressInfo?.projectId ?? 0,
+                  AppConstants.intentKey.addressId:
+                      controller.addressInfo?.id ?? 0,
+                };
+                controller.moveToScreen(
+                    AppRoutes.tradeRecordsScreen, arguments);
               }
             },
             splashColor: Colors.transparent,

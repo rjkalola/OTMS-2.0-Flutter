@@ -40,7 +40,7 @@ class AddressDetailsInfo{
   int? checkLog;
   int? priceWork;
   int? materials;
-  int? dayWork;
+  String? dayWork;
   int? total;
   int? checkIn;
 

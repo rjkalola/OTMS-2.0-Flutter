@@ -75,6 +75,14 @@ class ProjectDetailsScreen extends StatelessWidget {
                                   controller.moveToScreen(
                                       AppRoutes.checkInRecordsScreen,
                                       arguments);
+                                } else if (controller.items[index].title ==
+                                    "Trades") {
+                                  var arguments = {
+                                    AppConstants.intentKey.projectId:
+                                        controller.projectInfo?.id ?? 0 ?? 0,
+                                  };
+                                  controller.moveToScreen(
+                                      AppRoutes.tradeRecordsScreen, arguments);
                                 }
                               },
                               splashColor: Colors.transparent,

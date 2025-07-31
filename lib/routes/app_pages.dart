@@ -52,6 +52,7 @@ import 'package:otm_inventory/pages/project/check_in_records/view/check_in_recor
 import 'package:otm_inventory/pages/project/project_details/view/project_details_screen.dart';
 import 'package:otm_inventory/pages/project/project_info/view/project_info_screen.dart';
 import 'package:otm_inventory/pages/project/project_list/view/project_list_screen.dart';
+import 'package:otm_inventory/pages/project/trade_records/trade_records_screen.dart';
 import 'package:otm_inventory/pages/qr_code_scanner/view/qr_code_scanner.dart';
 import 'package:otm_inventory/pages/settings/view/settings_screen.dart';
 import 'package:otm_inventory/pages/shifts/archive_shift_list/view/archive_shift_list_screen.dart';
@@ -287,9 +288,7 @@ class AppPages {
       name: AppRoutes.imagePreviewScreen,
       page: () => ImagePreviewScreen(),
     ),
-    GetPage(
-        name: AppRoutes.addAddressScreen,
-        page: () => AddAddressScreen()),
+    GetPage(name: AppRoutes.addAddressScreen, page: () => AddAddressScreen()),
     GetPage(
         name: AppRoutes.addressDetailsScreen,
         page: () => AddressDetailsScreen()),
@@ -299,5 +298,7 @@ class AppPages {
     GetPage(
         name: AppRoutes.checkInRecordsScreen,
         page: () => CheckInRecordsScreen()),
+    GetPage(
+        name: AppRoutes.tradeRecordsScreen, page: () => TradeRecordsScreen()),
   ];
 }
