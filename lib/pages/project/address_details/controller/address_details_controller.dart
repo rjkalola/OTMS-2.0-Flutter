@@ -38,15 +38,6 @@ class AddressDetailsController extends GetxController
 
   final selectedIndex = 0.obs;
   late final PageController pageController;
-  final tabs = <Widget>[
-    // StockListScreen(),
-    HomeTab(),
-    // ProfileTab(),
-    MoreTab(),
-    MoreTab(),
-    MoreTab(),
-    MoreTab(),
-  ];
 
   final List<ProjectDetalsItem> items = [
     ProjectDetalsItem(title: 'Check-In', subtitle: ''),
@@ -177,13 +168,13 @@ class AddressDetailsController extends GetxController
     for (var item in items) {
       switch (item.title) {
         case 'Check-In':
-          item.subtitle = "";
+          item.subtitle = address.checkIn.toString();
           break;
         case 'Trades':
           item.subtitle = address.trades.toString();
           break;
         case 'Materials':
-        item.subtitle = "";
+        item.subtitle = "${address.currency}${address.materials.toString()}";
         break;
       }
     }
@@ -209,7 +200,6 @@ class AddressDetailsController extends GetxController
     var result = await Get.toNamed(rout, arguments: arguments);
     if (result != null && result) {
       isDataUpdated.value = true;
-      //Get.back(result: true);
       getAddressDetailsApi();
     }
   }

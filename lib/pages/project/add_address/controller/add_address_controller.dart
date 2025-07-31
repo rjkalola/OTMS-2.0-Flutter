@@ -82,7 +82,6 @@ class AddAddressController extends GetxController{
       map["id"] = addressDetailsInfo?.id ?? 0;
       map["project_id"] = addressDetailsInfo?.projectId ?? 0;
       map["name"] = StringHelper.getText(siteAddressController.value);
-      map["progress"] = 0;
       isLoading.value = true;
       _api.updateAddress(
         data: map,

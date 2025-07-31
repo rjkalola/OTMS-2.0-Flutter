@@ -160,18 +160,6 @@ class _AddressListScreenState extends State<AddressListScreen> {
     );
   }
 
-  /*
-  List<Widget>? actionButtons() {
-    return [
-      /*
-      Icon(Icons.search, color: primaryTextColor_(context)),
-      SizedBox(width: 16),
-      Icon(Icons.filter_alt_outlined, color: primaryTextColor_(context)),
-      SizedBox(width: 16),
-      */
-    ];
-  }
-  */
   List<Widget>? actionButtons() {
     return [
       SizedBox(width: 10),

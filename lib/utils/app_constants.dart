@@ -75,6 +75,7 @@ class IntentKey {
   final String workLogId = "WORK_LOG_ID";
   final String checkLogId = "CHECK_LOG_ID";
   final String projectId = "PROJECT_ID";
+  final String addressId = "ADDRESS_ID";
   final String date = "DATE";
   final String checkLogInfo = "CHECK_LOG_INFO";
   final String isEditable = 'IS_EDITABLE';

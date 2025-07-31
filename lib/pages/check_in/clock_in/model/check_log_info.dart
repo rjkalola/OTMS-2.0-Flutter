@@ -20,26 +20,39 @@ class CheckLogInfo {
   String? comment;
   List<CheckInAttachmentInfo>? beforeAttachments;
   List<CheckInAttachmentInfo>? afterAttachments;
+  int? userId;
+  String? userName;
+  String? userImage;
+  String? userThumbImage;
+  String? formattedCheckInTime;
+  String? formattedCheckOutTime;
 
-  CheckLogInfo(
-      {this.id,
-      this.userWorklogId,
-      this.addressId,
-      this.addressName,
-      this.tradeId,
-      this.tradeName,
-      this.typeOfWorkId,
-      this.typeOfWorkName,
-      this.dateAdded,
-      this.checkinDateTime,
-      this.checkoutDateTime,
-      this.totalMinutes,
-      this.totalWorkSeconds,
-      this.checkInLocation,
-      this.checkOutLocation,
-      this.comment,
-      this.beforeAttachments,
-      this.afterAttachments});
+  CheckLogInfo({
+    this.id,
+    this.userWorklogId,
+    this.addressId,
+    this.addressName,
+    this.tradeId,
+    this.tradeName,
+    this.typeOfWorkId,
+    this.typeOfWorkName,
+    this.dateAdded,
+    this.checkinDateTime,
+    this.checkoutDateTime,
+    this.totalMinutes,
+    this.totalWorkSeconds,
+    this.checkInLocation,
+    this.checkOutLocation,
+    this.comment,
+    this.beforeAttachments,
+    this.afterAttachments,
+    this.formattedCheckInTime,
+    this.formattedCheckOutTime,
+    this.userId,
+    this.userName,
+    this.userImage,
+    this.userThumbImage,
+  });
 
   CheckLogInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -74,6 +87,12 @@ class CheckLogInfo {
         afterAttachments!.add(new CheckInAttachmentInfo.fromJson(v));
       });
     }
+    formattedCheckInTime = json['formatted_check_in_time'];
+    formattedCheckOutTime = json['formatted_check_out_time'];
+    userId = json['user_id'];
+    userName = json['user_name'];
+    userImage = json['user_image'];
+    userThumbImage = json['user_thumb_image'];
   }
 
   Map<String, dynamic> toJson() {
@@ -106,6 +125,12 @@ class CheckLogInfo {
       data['after_attachments'] =
           this.afterAttachments!.map((v) => v.toJson()).toList();
     }
+    data['formatted_check_in_time'] = this.formattedCheckInTime;
+    data['formatted_check_out_time'] = this.formattedCheckOutTime;
+    data['user_id'] = this.userId;
+    data['user_name'] = this.userName;
+    data['user_image'] = this.userImage;
+    data['user_thumb_image'] = this.userThumbImage;
     return data;
   }
 }

@@ -185,7 +185,7 @@ SPEC CHECKSUMS:
   file_picker: b159e0c068aef54932bb15dc9fd1571818edaf49
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_image_compress_common: ec1d45c362c9d30a3f6a0426c297f47c52007e3e
-  geocoding_ios: d7460f56e80e118d57678efe5c2cdc888739ff18
+  geocoding_ios: eafacae6ad11a1eb56681f7d11df602a5fd49416
   geolocator_apple: 66b711889fd333205763b83c9dcf0a57a28c7afd
   Google-Maps-iOS-Utils: 66d6de12be1ce6d3742a54661e7a79cb317a9321
   google_maps_flutter_ios: e31555a04d1986ab130f2b9f24b6cdc861acc6d3
@@ -193,7 +193,7 @@ SPEC CHECKSUMS:
   image_cropper: 2c150b3d63f4feaad31054d20381ddac0a460e63
   image_picker_ios: c560581cceedb403a6ff17f2f816d7fea1421fc1
   libwebp: 02b23773aedb6ff1fd38cec7a77b81414c6842a8
-  local_auth_darwin: 66e40372f1c29f383a314c738c7446e2f7fdadc3
+  local_auth_darwin: fa4b06454df7df8e97c18d7ee55151c57e7af0de
   Mantle: c5aa8794a29a022dfbbfc9799af95f477a69b62d
   MTBBarcodeScanner: f453b33c4b7dfe545d8c6484ed744d55671788cb
   open_file_plus: 05737718530c14cf02868e3b7754d7fe4df76d8b

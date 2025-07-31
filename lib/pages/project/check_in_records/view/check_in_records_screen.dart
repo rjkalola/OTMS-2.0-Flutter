@@ -5,14 +5,8 @@ import 'package:otm_inventory/pages/common/listener/date_filter_listener.dart';
 import 'package:otm_inventory/pages/common/widgets/date_filter_options_horizontal_list.dart';
 import 'package:otm_inventory/pages/project/check_in_records/controller/check_in_records_controller.dart';
 import 'package:otm_inventory/pages/project/check_in_records/view/widgets/check_in_records_list.dart';
-import 'package:otm_inventory/pages/timesheet/timesheet_list/view/widgets/timesheet_list.dart';
+import 'package:otm_inventory/pages/project/check_in_records/view/widgets/project_address_title_view.dart';
 import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/res/drawable.dart';
-import 'package:otm_inventory/utils/app_constants.dart';
-import 'package:otm_inventory/utils/data_utils.dart';
-import 'package:otm_inventory/utils/image_utils.dart';
-import 'package:otm_inventory/utils/string_helper.dart';
-import 'package:otm_inventory/web_services/response/module_info.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
 import 'package:otm_inventory/widgets/custom_views/no_internet_widgets.dart';
@@ -60,6 +54,8 @@ class _CheckInRecordsScreenState extends State<CheckInRecordsScreen>
                         visible: controller.isMainViewVisible.value,
                         child: Column(
                           children: [
+                            ProjectAddressTitleView(
+                                title: controller.title.value),
                             DateFilterOptionsHorizontalList(
                               padding: EdgeInsets.fromLTRB(14, 0, 14, 6),
                               startDate: controller.startDate,
@@ -90,7 +86,7 @@ class _CheckInRecordsScreenState extends State<CheckInRecordsScreen>
           },
         ),
       ),
-      InkWell(
+      /* InkWell(
         borderRadius: BorderRadius.circular(45),
         onTap: () {
           List<ModuleInfo> listItems = [];
@@ -115,7 +111,7 @@ class _CheckInRecordsScreenState extends State<CheckInRecordsScreen>
         onPressed: () {
           // controller.showMenuItemsDialog(Get.context!);
         },
-      ),
+      ),*/
     ];
   }
 
@@ -125,7 +121,7 @@ class _CheckInRecordsScreenState extends State<CheckInRecordsScreen>
     controller.isResetEnable.value = true;
     controller.startDate = startDate;
     controller.endDate = endDate;
-    // controller.loadTimesheetData(true);
+    controller.getProjectCheckLogsApi(true);
     print("startDate:" + startDate);
     print("endDate:" + endDate);
   }

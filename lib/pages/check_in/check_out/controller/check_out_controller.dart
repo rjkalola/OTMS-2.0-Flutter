@@ -43,8 +43,7 @@ class CheckOutController extends GetxController implements SelectItemListener {
   final center =
       LatLng(AppConstants.defaultLatitude, AppConstants.defaultLongitude).obs;
   final locationService = LocationServiceNew();
-  int workLogId = 0,
-      checkLogId = 0,
+  int checkLogId = 0,
       addressId = 0,
       tradeId = 0,
       typeOfWorkId = 0,
@@ -70,8 +69,8 @@ class CheckOutController extends GetxController implements SelectItemListener {
     super.onInit();
     var arguments = Get.arguments;
     if (arguments != null) {
-      workLogId = arguments[AppConstants.intentKey.workLogId] ?? 0;
       checkLogId = arguments[AppConstants.intentKey.checkLogId] ?? 0;
+      projectId = arguments[AppConstants.intentKey.projectId] ?? 0;
     }
     getCheckLogDetailsApi();
     /* LocationInfo? locationInfo = Get.find<AppStorage>().getLastLocation();
@@ -232,7 +231,7 @@ class CheckOutController extends GetxController implements SelectItemListener {
               jsonDecode(responseModel.result!));
           checkInResourcesData = response;
 
-          if (projectId != 0) {
+          if (projectId != 0) { 
             for (var info in checkInResourcesData!.addresses!) {
               if (info.projectId == projectId) {
                 addressList.add(info);

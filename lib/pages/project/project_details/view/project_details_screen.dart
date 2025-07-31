@@ -58,12 +58,23 @@ class ProjectDetailsScreen extends StatelessWidget {
                           itemBuilder: (context, index) {
                             return InkWell(
                               onTap: () {
-                                if (controller.items[index].title == "Addresses"){
+                                if (controller.items[index].title ==
+                                    "Addresses") {
                                   var arguments = {
-                                    AppConstants.intentKey.projectInfo: controller.projectInfo,
+                                    AppConstants.intentKey.projectInfo:
+                                        controller.projectInfo,
                                   };
                                   controller.moveToScreen(
                                       AppRoutes.addressListScreen, arguments);
+                                } else if (controller.items[index].title ==
+                                    "Check-In") {
+                                  var arguments = {
+                                    AppConstants.intentKey.projectId:
+                                        controller.projectInfo?.id ?? 0 ?? 0,
+                                  };
+                                  controller.moveToScreen(
+                                      AppRoutes.checkInRecordsScreen,
+                                      arguments);
                                 }
                               },
                               splashColor: Colors.transparent,

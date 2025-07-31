@@ -17,9 +17,13 @@ class TextViewWithContainer extends StatelessWidget {
       this.width,
       this.height,
       this.alignment,
-      this.onTap});
+      this.onTap,
+      this.maxLines,
+      this.overflow,
+      this.softWrap});
 
   final String text;
+  final int? maxLines;
   final Color? fontColor, boxColor, borderColor;
   final double? fontSize, width, height, borderRadius, borderWidth;
   final FontWeight? fontWeight;
@@ -27,6 +31,8 @@ class TextViewWithContainer extends StatelessWidget {
   final EdgeInsetsGeometry? padding, margin;
   final AlignmentGeometry? alignment;
   final GestureTapCallback? onTap;
+  final TextOverflow? overflow;
+  final bool? softWrap;
 
   @override
   Widget build(BuildContext context) {
@@ -48,10 +54,14 @@ class TextViewWithContainer extends StatelessWidget {
         ),
         child: Text(
           text,
+          maxLines: maxLines,
+          overflow: overflow,
+          softWrap: softWrap,
           style: TextStyle(
-              color: fontColor,
-              fontSize: fontSize ?? 16,
-              fontWeight: fontWeight ?? FontWeight.w400),
+            color: fontColor,
+            fontSize: fontSize ?? 16,
+            fontWeight: fontWeight ?? FontWeight.w400,
+          ),
         ),
       ),
     );

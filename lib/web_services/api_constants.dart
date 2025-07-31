@@ -5,9 +5,9 @@ class ApiConstants {
   // static String appUrl = "http://dev.belcka.com:3000";
   //static String appUrl = "http://belcka.com:3003";
 
-  // static String appUrl = "http://appdev.belcka.com:3000";
+  static String appUrl = "http://appdev.belcka.com:3000";
 
-  static String appUrl = "http://app.belcka.com:3003";
+  // static String appUrl = "http://app.belcka.com:3003";
 
   static String accessToken = "";
   static int companyId = 0;
@@ -157,6 +157,7 @@ class ApiConstants {
   static String unarchiveProject = '$appUrl/project/unarchive';
   static String getProjectDetails = '$appUrl/project/project-detail';
   static String projectArchiveList = '$appUrl/project/archive-list';
+  static String getProjectCheckLogs = '$appUrl/project/get-checklogs';
 
   //address
   static String getAddress = '$appUrl/address/get';

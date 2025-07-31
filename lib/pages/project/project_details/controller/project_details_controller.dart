@@ -54,6 +54,7 @@ class ProjectDetailsController extends GetxController
     ProjectDetalsItem(title: 'Budget', subtitle: ''),
     ProjectDetalsItem(title: 'Project Details', subtitle: ''),
     ProjectDetalsItem(title: 'Trades', subtitle: ''),
+    ProjectDetalsItem(title: 'Check-In', subtitle: ''),
   ];
 
   ProjectInfo? projectInfo;
@@ -163,7 +164,10 @@ class ProjectDetailsController extends GetxController
           item.subtitle = project.trades.toString();
           break;
         case 'Project Details':
-          item.subtitle = ''; // Add any detail if available
+          item.subtitle = '';
+          break;
+        case 'Check-In':
+          item.subtitle = '';
           break;
       }
     }
@@ -188,7 +192,7 @@ class ProjectDetailsController extends GetxController
     var result = await Get.toNamed(rout, arguments: arguments);
     if (result != null && result) {
       isDataUpdated.value = true;
-      Get.back(result: true);
+      getProjectDetailsApi();
     }
   }
 

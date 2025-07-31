@@ -89,130 +89,137 @@ class CheckLogListView extends StatelessWidget {
                                               AppUtils.boxShadow(
                                                   shadowColor_(context), 6)
                                             ]),
-                                        child: InkWell(
+                                        child: GestureDetector(
                                           onTap: () {
                                             var arguments = {
                                               AppConstants.intentKey.checkLogId:
                                                   info.id ?? 0,
-                                              AppConstants.intentKey.workLogId:
-                                                  controller.workLogId
                                             };
                                             controller.moveToScreen(
                                                 AppRoutes.checkOutScreen,
                                                 arguments);
                                           },
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  setProjectNameTextView(
-                                                      info.addressName ?? ""),
-                                                  setProjectNameTextView(
-                                                      !StringHelper
-                                                              .isEmptyString(info
-                                                                  .typeOfWorkName)
-                                                          ? info.typeOfWorkName
-                                                          : info.tradeName)
-                                                ],
-                                              ),
-                                              Expanded(
-                                                child: Column(
+                                          child: Container(
+                                            color: Colors.transparent,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Column(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.center,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
                                                   children: [
-                                                    TextViewWithContainer(
-                                                      padding: EdgeInsets.only(
-                                                          left: 12, right: 12),
-                                                      borderRadius: 6,
-                                                      // text: !StringHelper
-                                                      //         .isEmptyString(info
-                                                      //             .checkoutDateTime)
-                                                      //     ? DateUtil
-                                                      //         .seconds_To_HH_MM(
-                                                      //             info.totalWorkSeconds ??
-                                                      //                 0)
-                                                      //     : controller
-                                                      //         .activeWorkHours
-                                                      //         .value,
-                                                      text: DateUtil
-                                                          .seconds_To_HH_MM(
-                                                              info.totalWorkSeconds ??
-                                                                  0),
-                                                      fontSize: 20,
-                                                      // fontColor: isActiveWorkLog(
-                                                      //         info)
-                                                      //     ? Colors.white
-                                                      //     : primaryTextColor_(
-                                                      //         context),
-                                                      fontColor:
-                                                          primaryTextColor_(
-                                                              context),
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      boxColor:
-                                                          Colors.transparent,
-                                                      /* boxColor:
+                                                    setProjectNameTextView(
+                                                        info.addressName ?? ""),
+                                                    setProjectNameTextView(
+                                                        !StringHelper
+                                                                .isEmptyString(info
+                                                                    .typeOfWorkName)
+                                                            ? info
+                                                                .typeOfWorkName
+                                                            : info.tradeName)
+                                                  ],
+                                                ),
+                                                Expanded(
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      TextViewWithContainer(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                left: 12,
+                                                                right: 12),
+                                                        borderRadius: 6,
+                                                        // text: !StringHelper
+                                                        //         .isEmptyString(info
+                                                        //             .checkoutDateTime)
+                                                        //     ? DateUtil
+                                                        //         .seconds_To_HH_MM(
+                                                        //             info.totalWorkSeconds ??
+                                                        //                 0)
+                                                        //     : controller
+                                                        //         .activeWorkHours
+                                                        //         .value,
+                                                        text: DateUtil
+                                                            .seconds_To_HH_MM(
+                                                                info.totalWorkSeconds ??
+                                                                    0),
+                                                        fontSize: 20,
+                                                        // fontColor: isActiveWorkLog(
+                                                        //         info)
+                                                        //     ? Colors.white
+                                                        //     : primaryTextColor_(
+                                                        //         context),
+                                                        fontColor:
+                                                            primaryTextColor_(
+                                                                context),
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        boxColor:
+                                                            Colors.transparent,
+                                                        /* boxColor:
                                                           isActiveWorkLog(info)
                                                               ? Colors.green
                                                               : Colors
                                                                   .transparent,*/
-                                                    ),
-                                                    SizedBox(
-                                                      height: 2,
-                                                    ),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        PrimaryTextView(
-                                                          text:
-                                                              "(${controller.changeFullDateToSortTime(info.checkinDateTime)}",
-                                                          fontSize: 15,
-                                                          color:
-                                                              primaryTextColor_(
-                                                                  context),
-                                                        ),
-                                                        PrimaryTextView(
-                                                          text: " - ",
-                                                          fontSize: 15,
-                                                          color:
-                                                              primaryTextColor_(
-                                                                  context),
-                                                        ),
-                                                        PrimaryTextView(
-                                                          text: toWorkTimeText(
-                                                              info),
-                                                          fontSize: 15,
-                                                          color: isActiveWorkLog(
-                                                                  info)
-                                                              ? defaultAccentColor_(
-                                                                  context)
-                                                              : primaryTextColor_(
-                                                                  context),
-                                                        )
-                                                      ],
-                                                    )
-                                                  ],
+                                                      ),
+                                                      SizedBox(
+                                                        height: 2,
+                                                      ),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          PrimaryTextView(
+                                                            text:
+                                                                "(${controller.changeFullDateToSortTime(info.checkinDateTime)}",
+                                                            fontSize: 15,
+                                                            color:
+                                                                primaryTextColor_(
+                                                                    context),
+                                                          ),
+                                                          PrimaryTextView(
+                                                            text: " - ",
+                                                            fontSize: 15,
+                                                            color:
+                                                                primaryTextColor_(
+                                                                    context),
+                                                          ),
+                                                          PrimaryTextView(
+                                                            text:
+                                                                toWorkTimeText(
+                                                                    info),
+                                                            fontSize: 15,
+                                                            color: isActiveWorkLog(
+                                                                    info)
+                                                                ? defaultAccentColor_(
+                                                                    context)
+                                                                : primaryTextColor_(
+                                                                    context),
+                                                          )
+                                                        ],
+                                                      )
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                              RightArrowWidget(
-                                                size: 30,
-                                                color:
-                                                    primaryTextColor_(context),
-                                              ),
-                                              SizedBox(
-                                                width: 6,
-                                              )
-                                            ],
+                                                RightArrowWidget(
+                                                  size: 30,
+                                                  color: primaryTextColor_(
+                                                      context),
+                                                ),
+                                                SizedBox(
+                                                  width: 6,
+                                                )
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ),

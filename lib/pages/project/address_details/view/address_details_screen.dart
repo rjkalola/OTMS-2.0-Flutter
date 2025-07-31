@@ -73,7 +73,7 @@ class _AddressDetailsScreenState extends State<AddressDetailsScreen>
                         controller.selectedDateFilterIndex,
                       ),
                       SizedBox(height: 16),
-                      //AddressDetailsGridItems()
+                      AddressDetailsGridItems()
                     ],
                   ),
                 )

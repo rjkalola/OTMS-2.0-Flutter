@@ -38,7 +38,7 @@ class ProjectsList extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
                     child: InkWell(
                       onTap: () {
-                        var arguments = {
+                         var arguments = {
                           AppConstants.intentKey.projectInfo: info,
                         };
                         controller.moveToScreen(

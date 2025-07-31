@@ -58,16 +58,18 @@ class MyDayLogDetailsView extends StatelessWidget {
                                   boxShadow: [
                                     AppUtils.boxShadow(shadowColor_(context), 6)
                                   ]),
-                              child: InkWell(
+                              child: GestureDetector(
                                 onTap: () {
-                                  // controller.onClickWorkLogItem(
-                                  //     controller.workInfo.value);
+                                  Get.back();
                                 },
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    /*Flexible(
+                                child: Container(
+                                  color: Colors.transparent,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      /*Flexible(
                                                 flex: 4,
                                                 fit: FlexFit.tight,
                                                 child: Padding(
@@ -88,111 +90,116 @@ class MyDayLogDetailsView extends StatelessWidget {
                                                   ),
                                                 ),
                                               ),*/
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        setProjectNameTextView(controller
-                                                .workInfo.value.shiftName ??
-                                            ""),
-                                        Visibility(
-                                            visible:
-                                                !StringHelper.isEmptyString(
-                                                    controller.workInfo.value
-                                                        .projectName),
-                                            child: SizedBox(
-                                              height: 6,
-                                            )),
-                                        setProjectNameTextView(controller
-                                                .workInfo.value.projectName ??
-                                            "")
-                                      ],
-                                    ),
-                                    Expanded(
-                                      child: Column(
+                                      Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
                                         children: [
-                                          TextViewWithContainer(
-                                            padding: EdgeInsets.only(
-                                                left: 12, right: 12),
-                                            borderRadius: 6,
-                                            text: !StringHelper.isEmptyString(
-                                                    controller.workInfo.value
-                                                        .workEndTime)
-                                                ? DateUtil.seconds_To_HH_MM(
-                                                    controller.workInfo.value
-                                                            .payableWorkSeconds ??
-                                                        0)
-                                                : DateUtil.seconds_To_HH_MM(0),
-                                            fontSize: 20,
-                                            fontColor: isActiveWorkLog(
-                                                    controller.workInfo.value)
-                                                ? Colors.white
-                                                : primaryTextColor_(context),
-                                            fontWeight: FontWeight.bold,
-                                            boxColor: isActiveWorkLog(
-                                                    controller.workInfo.value)
-                                                ? Colors.green
-                                                : Colors.transparent,
-                                          ),
-                                          SizedBox(
-                                            height: 2,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              PrimaryTextView(
-                                                text:
-                                                    "(${controller.changeFullDateToSortTime(controller.workInfo.value.workStartTime)}",
-                                                fontSize: 15,
-                                                color:
-                                                    primaryTextColor_(context),
-                                              ),
-                                              PrimaryTextView(
-                                                text: " - ",
-                                                fontSize: 15,
-                                                color:
-                                                    primaryTextColor_(context),
-                                              ),
-                                              PrimaryTextView(
-                                                text: toWorkTimeText(
-                                                    controller.workInfo.value),
-                                                fontSize: 15,
-                                                color: isActiveWorkLog(
-                                                        controller
-                                                            .workInfo.value)
-                                                    ? defaultAccentColor_(
-                                                        context)
-                                                    : primaryTextColor_(
-                                                        context),
-                                              )
-                                            ],
-                                          )
+                                          setProjectNameTextView(controller
+                                                  .workInfo.value.shiftName ??
+                                              ""),
+                                          Visibility(
+                                              visible:
+                                                  !StringHelper.isEmptyString(
+                                                      controller.workInfo.value
+                                                          .projectName),
+                                              child: SizedBox(
+                                                height: 6,
+                                              )),
+                                          setProjectNameTextView(controller
+                                                  .workInfo.value.projectName ??
+                                              "")
                                         ],
                                       ),
-                                    ),
-                                    Container(
-                                      width: 45,
-                                      height: double.infinity,
-                                      padding:
-                                          EdgeInsets.only(left: 8, right: 8),
-                                      decoration: itemDecoration(
-                                          isRequestPending: controller.workInfo
-                                                  .value.isRequestPending ??
-                                              false,
-                                          isWorking: isActiveWorkLog(
-                                              controller.workInfo.value),
-                                          borderRadius: 14),
-                                      child: Icon(
-                                        Icons.arrow_forward_ios_rounded,
-                                        size: 28,
+                                      Expanded(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            TextViewWithContainer(
+                                              padding: EdgeInsets.only(
+                                                  left: 12, right: 12),
+                                              borderRadius: 6,
+                                              text: !StringHelper.isEmptyString(
+                                                      controller.workInfo.value
+                                                          .workEndTime)
+                                                  ? DateUtil.seconds_To_HH_MM(
+                                                      controller.workInfo.value
+                                                              .payableWorkSeconds ??
+                                                          0)
+                                                  : DateUtil.seconds_To_HH_MM(
+                                                      0),
+                                              fontSize: 20,
+                                              fontColor: isActiveWorkLog(
+                                                      controller.workInfo.value)
+                                                  ? Colors.white
+                                                  : primaryTextColor_(context),
+                                              fontWeight: FontWeight.bold,
+                                              boxColor: isActiveWorkLog(
+                                                      controller.workInfo.value)
+                                                  ? Colors.green
+                                                  : Colors.transparent,
+                                            ),
+                                            SizedBox(
+                                              height: 2,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                PrimaryTextView(
+                                                  text:
+                                                      "(${controller.changeFullDateToSortTime(controller.workInfo.value.workStartTime)}",
+                                                  fontSize: 15,
+                                                  color: primaryTextColor_(
+                                                      context),
+                                                ),
+                                                PrimaryTextView(
+                                                  text: " - ",
+                                                  fontSize: 15,
+                                                  color: primaryTextColor_(
+                                                      context),
+                                                ),
+                                                PrimaryTextView(
+                                                  text: toWorkTimeText(
+                                                      controller
+                                                          .workInfo.value),
+                                                  fontSize: 15,
+                                                  color: isActiveWorkLog(
+                                                          controller
+                                                              .workInfo.value)
+                                                      ? defaultAccentColor_(
+                                                          context)
+                                                      : primaryTextColor_(
+                                                          context),
+                                                )
+                                              ],
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                    )
-                                  ],
+                                      Container(
+                                        width: 45,
+                                        height: double.infinity,
+                                        padding:
+                                            EdgeInsets.only(left: 8, right: 8),
+                                        decoration: itemDecoration(
+                                            isRequestPending: controller
+                                                    .workInfo
+                                                    .value
+                                                    .isRequestPending ??
+                                                false,
+                                            isWorking: isActiveWorkLog(
+                                                controller.workInfo.value),
+                                            borderRadius: 14),
+                                        child: Icon(
+                                          Icons.arrow_forward_ios_rounded,
+                                          size: 28,
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
