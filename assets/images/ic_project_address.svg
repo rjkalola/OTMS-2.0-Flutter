@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+    width="512" height="512" x="0" y="0" viewBox="0 0 682.667 682.667"
+    style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><defs stroke-width="24" style="stroke-width: 24;"><clipPath id="b" clipPathUnits="userSpaceOnUse" stroke-width="24" style="stroke-width: 24;"><path d="M0 512h512V0H0Z" fill="#000000" opacity="1" data-original="#000000" class="" stroke-width="24" style="stroke-width: 24;"></path></clipPath></defs><mask
+    id="a" stroke-width="24" style="stroke-width: 24;"><rect width="100%" height="100%" fill="#ffffff" opacity="1" data-original="#ffffff" stroke-width="24" style="stroke-width: 24;"></rect></mask><g
+    mask="url(#a)" stroke-width="24" style="stroke-width: 24;"><g clip-path="url(#b)" transform="matrix(1.33333 0 0 -1.33333 0 682.667)" stroke-width="24" style="stroke-width: 24;"><path d="M0 0c-57.99 0-105 47.01-105 105S-57.99 210 0 210s105-47.01 105-105" style="stroke-width: 24; stroke-linecap: round; stroke-linejoin: round; stroke-miterlimit: 10; stroke-dasharray: none; stroke-opacity: 1;" transform="translate(205 202)" fill="none" stroke="#000000" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-dasharray="none" stroke-opacity="1" data-original="#000000" class=""></path><path
+    d="M0 0c-67 106-178.879 165.551-178.998 287.217C-178.88 389.29-96.1 472 6 472s184.879-82.71 184.997-184.783"
+    style="stroke-width: 24; stroke-linecap: round; stroke-linejoin: round; stroke-miterlimit: 10; stroke-dasharray: none; stroke-opacity: 1;"
+    transform="translate(199 20)" fill="none" stroke="#000000" stroke-width="24"
+    stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-dasharray="none"
+    stroke-opacity="1" data-original="#000000" class=""></path><path
+    d="M0 0v-105.651C0-125.726 16.254-142 36.306-142h112.388C168.746-142 185-125.726 185-105.651V6"
+    style="stroke-width: 24; stroke-linecap: round; stroke-linejoin: round; stroke-miterlimit: 10; stroke-dasharray: none; stroke-opacity: 1;"
+    transform="translate(271 161)" fill="none" stroke="#000000" stroke-width="24"
+    stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-dasharray="none"
+    stroke-opacity="1" data-original="#000000" class=""></path><path
+    d="m0 0-103.232 94.379c-14.032 12.828-35.504 12.828-49.536 0L-256 0"
+    style="stroke-width: 24; stroke-linecap: round; stroke-linejoin: round; stroke-miterlimit: 10; stroke-dasharray: none; stroke-opacity: 1;"
+    transform="translate(492 134)" fill="none" stroke="#000000" stroke-width="24"
+    stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-dasharray="none"
+    stroke-opacity="1" data-original="#000000" class=""></path></g></g></g></svg>

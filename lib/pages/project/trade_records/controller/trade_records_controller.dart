@@ -22,7 +22,7 @@ class TradeRecordsController extends GetxController
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
       isResetEnable = false.obs;
-  final RxInt selectedDateFilterIndex = (-1).obs;
+  final RxInt selectedDateFilterIndex = (0).obs;
   final _api = TradeRecordsRepository();
   final listItems = <CheckLogInfo>[].obs;
   int selectedIndex = 0, projectId = 0, addressId = 0;

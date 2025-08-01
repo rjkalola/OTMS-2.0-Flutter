@@ -17,7 +17,9 @@ import '../../../../../routes/app_routes.dart';
 import '../../../../../utils/app_constants.dart';
 
 class CheckLogListView extends StatelessWidget {
-  CheckLogListView({super.key});
+  final bool isPriceWork;
+
+  CheckLogListView({super.key, required this.isPriceWork});
 
   final controller = Get.put(CheckLogDetailsController());
 
@@ -137,20 +139,12 @@ class CheckLogListView extends StatelessWidget {
                                                                 left: 12,
                                                                 right: 12),
                                                         borderRadius: 6,
-                                                        // text: !StringHelper
-                                                        //         .isEmptyString(info
-                                                        //             .checkoutDateTime)
-                                                        //     ? DateUtil
-                                                        //         .seconds_To_HH_MM(
-                                                        //             info.totalWorkSeconds ??
-                                                        //                 0)
-                                                        //     : controller
-                                                        //         .activeWorkHours
-                                                        //         .value,
-                                                        text: DateUtil
-                                                            .seconds_To_HH_MM(
-                                                                info.totalWorkSeconds ??
-                                                                    0),
+                                                        text: isPriceWork
+                                                            ? "£${info.priceWorkTotalAmount ?? "0"}"
+                                                            : DateUtil
+                                                                .seconds_To_HH_MM(
+                                                                    info.totalWorkSeconds ??
+                                                                        0),
                                                         fontSize: 20,
                                                         // fontColor: isActiveWorkLog(
                                                         //         info)

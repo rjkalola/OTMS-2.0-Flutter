@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:otm_inventory/pages/check_in/check_in/controller/check_in_controller.dart';
 import 'package:otm_inventory/pages/check_in/check_out/controller/check_out_controller.dart';
+import 'package:otm_inventory/pages/check_in/check_out/view/widgets/total_check_out_amount_row.dart';
 import 'package:otm_inventory/pages/check_in/check_out/view/widgets/total_check_out_hours_row.dart';
 import 'package:otm_inventory/pages/check_in/widgets/photos_count_view.dart';
 import 'package:otm_inventory/pages/check_in/widgets/start_stop_time_box.dart';
@@ -86,15 +87,25 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                             SizedBox(
                               height: 12,
                             ),
-                            TotalCheckOutHoursRow(),
-                            SizedBox(
-                              height: 18,
+                            controller.isPriceWork
+                                ? TotalCheckOutAmountRow()
+                                : TotalCheckOutHoursRow(),
+                            Visibility(
+                              visible: controller.isPriceWork
+                                  ? !StringHelper.isEmptyString(controller
+                                      .checkLogInfo.value.checkoutDateTime)
+                                  : true,
+                              child: SizedBox(
+                                height: 18,
+                              ),
                             ),
                             DropDownTextField(
                               title: 'address'.tr,
                               controller: controller.addressController,
                               borderRadius: 15,
-                              isArrowHide: !StringHelper.isEmptyString(controller.checkLogInfo.value.checkoutDateTime),
+                              isArrowHide: !StringHelper.isEmptyString(
+                                  controller
+                                      .checkLogInfo.value.checkoutDateTime),
                               onPressed: () {
                                 controller.showSelectAddressDialog();
                               },
@@ -106,7 +117,9 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                               title: 'trade'.tr,
                               controller: controller.tradeController,
                               borderRadius: 15,
-                              isArrowHide: !StringHelper.isEmptyString(controller.checkLogInfo.value.checkoutDateTime),
+                              isArrowHide: !StringHelper.isEmptyString(
+                                  controller
+                                      .checkLogInfo.value.checkoutDateTime),
                               onPressed: () {
                                 controller.showSelectTradeDialog();
                               },
@@ -118,7 +131,9 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                               title: 'type_of_work'.tr,
                               controller: controller.typeOfWorkController,
                               borderRadius: 15,
-                              isArrowHide: !StringHelper.isEmptyString(controller.checkLogInfo.value.checkoutDateTime),
+                              isArrowHide: !StringHelper.isEmptyString(
+                                  controller
+                                      .checkLogInfo.value.checkoutDateTime),
                               onPressed: () {
                                 controller.showSelectTypeOfWorkDialog();
                               },

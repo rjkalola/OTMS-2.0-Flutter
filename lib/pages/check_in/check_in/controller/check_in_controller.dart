@@ -8,7 +8,10 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:otm_inventory/pages/check_in/check_in/controller/check_in_repository.dart';
 import 'package:otm_inventory/pages/check_in/check_in/model/check_in_resources_response.dart';
+import 'package:otm_inventory/pages/check_in/check_in/model/type_of_work_resources_info.dart';
+import 'package:otm_inventory/pages/check_in/check_in/model/type_of_work_resources_response.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/model/work_log_info.dart';
+import 'package:otm_inventory/pages/check_in/dialogs/select_type_of_work_dialog.dart';
 import 'package:otm_inventory/pages/common/drop_down_list_dialog.dart';
 import 'package:otm_inventory/pages/common/listener/select_item_listener.dart';
 import 'package:otm_inventory/pages/common/model/file_info.dart';
@@ -48,11 +51,11 @@ class CheckInController extends GetxController implements SelectItemListener {
       typeOfWorkId = 0,
       projectId = 0;
   String date = "";
-  bool isCurrentDay = true;
+  bool isCurrentDay = true, isPriceWork = false;
   final listBeforePhotos = <FilesInfo>[].obs;
   final addressList = <ModuleInfo>[].obs;
   final tradeList = <ModuleInfo>[].obs;
-  final typeOfWorkList = <ModuleInfo>[].obs;
+  final typeOfWorkList = <TypeOfWorkResourcesInfo>[].obs;
   final RxString checkInTime = "".obs;
   CheckInResourcesResponse? checkInResourcesData;
 
@@ -67,6 +70,7 @@ class CheckInController extends GetxController implements SelectItemListener {
     if (arguments != null) {
       workLogId = arguments[AppConstants.intentKey.workLogId] ?? 0;
       projectId = arguments[AppConstants.intentKey.projectId] ?? 0;
+      isPriceWork = arguments[AppConstants.intentKey.isPriceWork] ?? false;
       print("Project ID:" + projectId.toString());
     }
     checkInTime.value = getCurrentTime();
@@ -161,6 +165,36 @@ class CheckInController extends GetxController implements SelectItemListener {
           tradeList.addAll(checkInResourcesData!.trades!);
 
           isMainViewVisible.value = true;
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        }
+      },
+    );
+  }
+
+  void getTypeOfWorkResourcesApi(int tradeId) async {
+    Map<String, dynamic> map = {};
+    map["trade_id"] = tradeId;
+    map["company_id"] = ApiConstants.companyId;
+    map["is_pricework"] = isPriceWork;
+    isLoading.value = true;
+    _api.getTypeOfWorkResources(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          TypeOfWorkResourcesResponse response =
+              TypeOfWorkResourcesResponse.fromJson(
+                  jsonDecode(responseModel.result!));
+          if ((response.info ?? []).isNotEmpty) {
+            typeOfWorkList.addAll(response.info!);
+          }
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
@@ -272,8 +306,14 @@ class CheckInController extends GetxController implements SelectItemListener {
 
   void showSelectTypeOfWorkDialog() {
     if (typeOfWorkList.isNotEmpty) {
-      showDropDownDialog(AppConstants.dialogIdentifier.selectTypeOfWork,
-          'type_of_work'.tr, typeOfWorkList, this);
+      Get.bottomSheet(
+          SelectTypeOfWorkDialog(
+            dialogType: AppConstants.dialogIdentifier.selectTypeOfWork,
+            list: typeOfWorkList,
+            listener: this,
+          ),
+          backgroundColor: Colors.transparent,
+          isScrollControlled: true);
     } else {
       AppUtils.showToastMessage('empty_data_message'.tr);
     }
@@ -307,11 +347,12 @@ class CheckInController extends GetxController implements SelectItemListener {
       typeOfWorkId = 0;
 
       typeOfWorkList.clear();
-      for (var info in checkInResourcesData!.typeOfWorks!) {
-        if (info.tradeId == tradeId) {
-          typeOfWorkList.add(info);
-        }
-      }
+      getTypeOfWorkResourcesApi(tradeId);
+      // for (var info in checkInResourcesData!.typeOfWorks!) {
+      //   if (info.tradeId == tradeId) {
+      //     typeOfWorkList.add(info);
+      //   }
+      // }
     } else if (action == AppConstants.dialogIdentifier.selectTypeOfWork) {
       typeOfWorkController.value.text = name;
       typeOfWorkId = id;

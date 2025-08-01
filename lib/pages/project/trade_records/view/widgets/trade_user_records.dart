@@ -25,107 +25,109 @@ class TradeUserRecords extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        scrollDirection: Axis.vertical,
-        itemBuilder: (context, position) {
-          CheckLogInfo info = controller.listItems[position];
-          return Stack(
-            children: [
-              CardViewDashboardItem(
-                margin: const EdgeInsets.fromLTRB(12, 9, 12, 10),
-                padding: const EdgeInsets.fromLTRB(10, 12, 10, 12),
-                child: Stack(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                      /*  var arguments = {
-                          AppConstants.intentKey.checkLogId: info.id ?? 0,
-                        };
-                        controller.moveToScreen(
-                            AppRoutes.checkOutScreen, arguments);*/
-                      },
-                      child: Container(
-                        color: Colors.transparent,
-                        child: Row(
-                          children: [
-                            UserAvtarView(imageUrl: info.userThumbImage ?? ""),
-                            SizedBox(
-                              width: 9,
-                            ),
-                            Expanded(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  TitleTextView(
-                                    text: info.userName,
-                                  ),
-                                  shiftName(info),
-                                ],
+    return Expanded(
+      child: ListView.separated(
+          physics: const AlwaysScrollableScrollPhysics(),
+          shrinkWrap: true,
+          scrollDirection: Axis.vertical,
+          itemBuilder: (context, position) {
+            CheckLogInfo info = controller.listItems[position];
+            return Stack(
+              children: [
+                CardViewDashboardItem(
+                  margin: const EdgeInsets.fromLTRB(12, 9, 12, 10),
+                  padding: const EdgeInsets.fromLTRB(10, 12, 10, 12),
+                  child: Stack(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                        /*  var arguments = {
+                            AppConstants.intentKey.checkLogId: info.id ?? 0,
+                          };
+                          controller.moveToScreen(
+                              AppRoutes.checkOutScreen, arguments);*/
+                        },
+                        child: Container(
+                          color: Colors.transparent,
+                          child: Row(
+                            children: [
+                              UserAvtarView(imageUrl: info.userThumbImage ?? ""),
+                              SizedBox(
+                                width: 9,
                               ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            // totalWorkHour(info),
-                            totalWorkHour(info),
-                            SizedBox(
-                              width: 4,
-                            ),
-                            RightArrowWidget(
-                              color: primaryTextColor_(context),
-                            )
-                          ],
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    TitleTextView(
+                                      text: info.userName,
+                                    ),
+                                    shiftName(info),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              // totalWorkHour(info),
+                              totalWorkHour(info),
+                              SizedBox(
+                                width: 4,
+                              ),
+                              RightArrowWidget(
+                                color: primaryTextColor_(context),
+                              )
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              Align(
-                alignment: Alignment.topRight,
-                child: Visibility(
-                  visible: (info.totalCheckLogs ?? 0) > 0,
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 16, top: 0),
-                    child: CustomBadgeIcon(
-                      count: info.totalCheckLogs ?? 0,
-                      color: defaultAccentColor_(context),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Visibility(
+                    visible: (info.totalCheckLogs ?? 0) > 0,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 16, top: 0),
+                      child: CustomBadgeIcon(
+                        count: info.totalCheckLogs ?? 0,
+                        color: defaultAccentColor_(context),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Visibility(
-                visible: !StringHelper.isEmptyString(info.tradeName),
-                child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 22),
-                      child: TextViewWithContainer(
-                        height: 18,
-                        padding: EdgeInsets.fromLTRB(6, 0, 6, 0),
-                        fontSize: 12,
-                        text: info.tradeName ?? "",
-                        fontColor: Colors.white,
-                        boxColor: AppUtils.getColor("#FF7F00"),
-                      ),
-                    )),
-              )
-            ],
-          );
-        },
-        itemCount: controller.listItems.length,
-        // separatorBuilder: (context, position) => const Padding(
-        //   padding: EdgeInsets.only(left: 100),
-        //   child: Divider(
-        //     height: 0,
-        //     color: dividerColor,
-        //     thickness: 0.8,
-        //   ),
-        // ),
-        separatorBuilder: (context, position) => Container());
+                Visibility(
+                  visible: !StringHelper.isEmptyString(info.tradeName),
+                  child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 22),
+                        child: TextViewWithContainer(
+                          height: 18,
+                          padding: EdgeInsets.fromLTRB(6, 0, 6, 0),
+                          fontSize: 12,
+                          text: info.tradeName ?? "",
+                          fontColor: Colors.white,
+                          boxColor: AppUtils.getColor("#FF7F00"),
+                        ),
+                      )),
+                )
+              ],
+            );
+          },
+          itemCount: controller.listItems.length,
+          // separatorBuilder: (context, position) => const Padding(
+          //   padding: EdgeInsets.only(left: 100),
+          //   child: Divider(
+          //     height: 0,
+          //     color: dividerColor,
+          //     thickness: 0.8,
+          //   ),
+          // ),
+          separatorBuilder: (context, position) => Container()),
+    );
   }
 
   Widget shiftName(CheckLogInfo info) {

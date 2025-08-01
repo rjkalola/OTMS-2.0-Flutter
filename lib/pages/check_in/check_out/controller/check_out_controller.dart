@@ -8,10 +8,13 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:otm_inventory/pages/check_in/check_in/controller/check_in_repository.dart';
 import 'package:otm_inventory/pages/check_in/check_in/model/check_in_resources_response.dart';
+import 'package:otm_inventory/pages/check_in/check_in/model/type_of_work_resources_info.dart';
+import 'package:otm_inventory/pages/check_in/check_in/model/type_of_work_resources_response.dart';
 import 'package:otm_inventory/pages/check_in/check_out/controller/check_out_repository.dart';
 import 'package:otm_inventory/pages/check_in/check_out/model/check_log_details_response.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_utils_.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/model/check_log_info.dart';
+import 'package:otm_inventory/pages/check_in/dialogs/select_type_of_work_dialog.dart';
 import 'package:otm_inventory/pages/common/listener/select_item_listener.dart';
 import 'package:otm_inventory/pages/common/model/file_info.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
@@ -49,7 +52,7 @@ class CheckOutController extends GetxController implements SelectItemListener {
       typeOfWorkId = 0,
       projectId = 0;
   String date = "";
-  bool isCurrentDay = true;
+  bool isCurrentDay = true, isPriceWork = false;
   final listBeforePhotos = <FilesInfo>[].obs;
   final listAfterPhotos = <FilesInfo>[].obs;
   final checkLogInfo = CheckLogInfo().obs;
@@ -58,7 +61,7 @@ class CheckOutController extends GetxController implements SelectItemListener {
   CheckInResourcesResponse? checkInResourcesData;
   final addressList = <ModuleInfo>[].obs;
   final tradeList = <ModuleInfo>[].obs;
-  final typeOfWorkList = <ModuleInfo>[].obs;
+  final typeOfWorkList = <TypeOfWorkResourcesInfo>[].obs;
 
   void onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -71,6 +74,7 @@ class CheckOutController extends GetxController implements SelectItemListener {
     if (arguments != null) {
       checkLogId = arguments[AppConstants.intentKey.checkLogId] ?? 0;
       projectId = arguments[AppConstants.intentKey.projectId] ?? 0;
+      isPriceWork = arguments[AppConstants.intentKey.isPriceWork] ?? false;
     }
     getCheckLogDetailsApi();
     /* LocationInfo? locationInfo = Get.find<AppStorage>().getLastLocation();
@@ -231,7 +235,7 @@ class CheckOutController extends GetxController implements SelectItemListener {
               jsonDecode(responseModel.result!));
           checkInResourcesData = response;
 
-          if (projectId != 0) { 
+          if (projectId != 0) {
             for (var info in checkInResourcesData!.addresses!) {
               if (info.projectId == projectId) {
                 addressList.add(info);
@@ -244,6 +248,36 @@ class CheckOutController extends GetxController implements SelectItemListener {
           tradeList.addAll(checkInResourcesData!.trades!);
 
           isMainViewVisible.value = true;
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        }
+      },
+    );
+  }
+
+  void getTypeOfWorkResourcesApi(int tradeId) async {
+    Map<String, dynamic> map = {};
+    map["trade_id"] = tradeId;
+    map["company_id"] = ApiConstants.companyId;
+    map["is_pricework"] = isPriceWork;
+    isLoading.value = true;
+    CheckInRepository().getTypeOfWorkResources(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          TypeOfWorkResourcesResponse response =
+              TypeOfWorkResourcesResponse.fromJson(
+                  jsonDecode(responseModel.result!));
+          if ((response.info ?? []).isNotEmpty) {
+            typeOfWorkList.addAll(response.info!);
+          }
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
@@ -369,13 +403,17 @@ class CheckOutController extends GetxController implements SelectItemListener {
   }
 
   void showSelectTypeOfWorkDialog() {
-    if (StringHelper.isEmptyString(checkLogInfo.value.checkoutDateTime)) {
-      if (typeOfWorkList.isNotEmpty) {
-        showDropDownDialog(AppConstants.dialogIdentifier.selectTypeOfWork,
-            'type_of_work'.tr, typeOfWorkList, this);
-      } else {
-        AppUtils.showToastMessage('empty_data_message'.tr);
-      }
+    if (typeOfWorkList.isNotEmpty) {
+      Get.bottomSheet(
+          SelectTypeOfWorkDialog(
+            dialogType: AppConstants.dialogIdentifier.selectTypeOfWork,
+            list: typeOfWorkList,
+            listener: this,
+          ),
+          backgroundColor: Colors.transparent,
+          isScrollControlled: true);
+    } else {
+      AppUtils.showToastMessage('empty_data_message'.tr);
     }
   }
 
@@ -407,11 +445,12 @@ class CheckOutController extends GetxController implements SelectItemListener {
       typeOfWorkId = 0;
 
       typeOfWorkList.clear();
-      for (var info in checkInResourcesData!.typeOfWorks!) {
+      getTypeOfWorkResourcesApi(tradeId);
+      /* for (var info in checkInResourcesData!.typeOfWorks!) {
         if (info.tradeId == tradeId) {
           typeOfWorkList.add(info);
         }
-      }
+      }*/
     } else if (action == AppConstants.dialogIdentifier.selectTypeOfWork) {
       typeOfWorkController.value.text = name;
       typeOfWorkId = id;

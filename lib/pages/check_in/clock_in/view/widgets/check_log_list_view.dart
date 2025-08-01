@@ -20,8 +20,10 @@ import '../../../../../utils/app_constants.dart';
 
 class CheckLogListView extends StatelessWidget {
   final int parentIndex;
+  final bool isPriceWork;
 
-  CheckLogListView({super.key, required this.parentIndex});
+  CheckLogListView(
+      {super.key, required this.parentIndex, required this.isPriceWork});
 
   final controller = Get.put(ClockInController());
 
@@ -108,7 +110,14 @@ class CheckLogListView extends StatelessWidget {
                                                       .value
                                                       .workLogInfo![parentIndex]
                                                       .projectId ??
-                                                  0
+                                                  0,
+                                              AppConstants.intentKey
+                                                  .isPriceWork: controller
+                                                      .workLogData
+                                                      .value
+                                                      .workLogInfo![parentIndex]
+                                                      .isPricework ??
+                                                  false
                                             };
                                             controller.moveToScreen(
                                                 AppRoutes.checkOutScreen,
@@ -152,26 +161,13 @@ class CheckLogListView extends StatelessWidget {
                                                                 left: 12,
                                                                 right: 12),
                                                         borderRadius: 6,
-                                                        // text: !StringHelper
-                                                        //         .isEmptyString(info
-                                                        //             .checkoutDateTime)
-                                                        //     ? DateUtil
-                                                        //         .seconds_To_HH_MM(
-                                                        //             info.totalWorkSeconds ??
-                                                        //                 0)
-                                                        //     : controller
-                                                        //         .activeWorkHours
-                                                        //         .value,
-                                                        text: DateUtil
-                                                            .seconds_To_HH_MM(
-                                                                info.totalWorkSeconds ??
-                                                                    0),
+                                                        text: isPriceWork
+                                                            ? "£${info.priceWorkTotalAmount ?? ""}"
+                                                            : DateUtil
+                                                                .seconds_To_HH_MM(
+                                                                    info.totalWorkSeconds ??
+                                                                        0),
                                                         fontSize: 20,
-                                                        // fontColor: isActiveWorkLog(
-                                                        //         info)
-                                                        //     ? Colors.white
-                                                        //     : primaryTextColor_(
-                                                        //         context),
                                                         fontColor:
                                                             primaryTextColor_(
                                                                 context),
@@ -179,11 +175,6 @@ class CheckLogListView extends StatelessWidget {
                                                             FontWeight.bold,
                                                         boxColor:
                                                             Colors.transparent,
-                                                        /* boxColor:
-                                                          isActiveWorkLog(info)
-                                                              ? Colors.green
-                                                              : Colors
-                                                                  .transparent,*/
                                                       ),
                                                       SizedBox(
                                                         height: 2,

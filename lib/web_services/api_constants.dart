@@ -5,9 +5,9 @@ class ApiConstants {
   // static String appUrl = "http://dev.belcka.com:3000";
   //static String appUrl = "http://belcka.com:3003";
 
-  static String appUrl = "http://appdev.belcka.com:3000";
+  // static String appUrl = "http://appdev.belcka.com:3000";
 
-  // static String appUrl = "http://app.belcka.com:3003";
+  static String appUrl = "http://app.belcka.com:3003";
 
   static String accessToken = "";
   static int companyId = 0;
@@ -140,6 +140,8 @@ class ApiConstants {
   static String checkIn = '$appUrl/check-in';
   static String checkout = '$appUrl/check-out';
   static String checkInResources = '$appUrl/user-checklog/get-resources';
+  static String getTypeOfWorkResources =
+      '$appUrl/type-works/get-work-resources';
   static String checkLogDetails = '$appUrl/user-checklog/details';
 
   //timesheet
@@ -169,6 +171,7 @@ class ApiConstants {
   static String addressDetails = '$appUrl/address/address-detail';
   static String addressArchiveList = '$appUrl/address/archive-list';
   static String addressUnarchive = '$appUrl/address/unarchive';
+  static String changeAddressProgress = '$appUrl/address/change-address-progress';
 
   static String registerResourcesUrl = '$appUrl/wn-resources';
   static String verifyPhoneUrl = '$appUrl/verify-phone';

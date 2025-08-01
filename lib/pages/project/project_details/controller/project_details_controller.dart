@@ -153,7 +153,7 @@ class ProjectDetailsController extends GetxController
           break;
         case 'Addresses':
           item.subtitle = project.addresses.toString();
-          item.badge = project.addresses ?? 0;
+          item.badge = project.completeAddress ?? 0;
           break;
         case 'Budget':
           item.subtitle = project.budget != null
@@ -167,7 +167,7 @@ class ProjectDetailsController extends GetxController
           item.subtitle = '';
           break;
         case 'Check-In':
-          item.subtitle = '';
+          item.subtitle = project.checkIns.toString();
           break;
       }
     }

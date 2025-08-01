@@ -221,7 +221,9 @@ class MyDayLogDetailsView extends StatelessWidget {
               ],
             ),
           ),
-          CheckLogListView()
+          CheckLogListView(
+            isPriceWork: controller.workInfo.value.isPricework ?? false,
+          )
         ],
       ),
     );

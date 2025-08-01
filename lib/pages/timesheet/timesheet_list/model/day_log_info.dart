@@ -31,6 +31,7 @@ class DayLogInfo {
   String? updatedAt;
   int? userCheckLogsCount;
   bool? isRequestPending;
+  String? priceWorkTotalAmount;
 
   DayLogInfo(
       {this.id,
@@ -64,7 +65,8 @@ class DayLogInfo {
       this.createdAt,
       this.updatedAt,
       this.userCheckLogsCount,
-      this.isRequestPending});
+      this.isRequestPending,
+      this.priceWorkTotalAmount});
 
   DayLogInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -99,6 +101,7 @@ class DayLogInfo {
     updatedAt = json['updated_at'];
     userCheckLogsCount = json['user_checklogs_count'];
     isRequestPending = json['is_request_pending'];
+    priceWorkTotalAmount = json['pricework_total_amount'];
   }
 
   Map<String, dynamic> toJson() {
@@ -135,6 +138,7 @@ class DayLogInfo {
     data['updated_at'] = this.updatedAt;
     data['user_checklogs_count'] = this.userCheckLogsCount;
     data['is_request_pending'] = this.isRequestPending;
+    data['pricework_total_amount'] = this.priceWorkTotalAmount;
     return data;
   }
 }

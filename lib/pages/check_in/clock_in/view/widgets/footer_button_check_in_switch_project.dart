@@ -49,7 +49,10 @@ class FooterButtonCheckInSwitchProject extends StatelessWidget {
                             AppConstants.intentKey.workLogId:
                                 controller.selectedWorkLogInfo?.id ?? 0,
                             AppConstants.intentKey.projectId:
-                            controller.selectedWorkLogInfo?.projectId ?? 0
+                                controller.selectedWorkLogInfo?.projectId ?? 0,
+                            AppConstants.intentKey.isPriceWork:
+                                controller.selectedWorkLogInfo?.isPricework ??
+                                    false
                           };
                           controller.moveToScreen(
                               AppRoutes.checkOutScreen, arguments);
@@ -70,7 +73,10 @@ class FooterButtonCheckInSwitchProject extends StatelessWidget {
                             AppConstants.intentKey.workLogId:
                                 controller.selectedWorkLogInfo?.id ?? 0,
                             AppConstants.intentKey.projectId:
-                            controller.selectedWorkLogInfo?.projectId ?? 0
+                                controller.selectedWorkLogInfo?.projectId ?? 0,
+                            AppConstants.intentKey.isPriceWork:
+                                controller.selectedWorkLogInfo?.isPricework ??
+                                    false
                           };
                           controller.moveToScreen(
                               AppRoutes.checkInScreen, arguments);

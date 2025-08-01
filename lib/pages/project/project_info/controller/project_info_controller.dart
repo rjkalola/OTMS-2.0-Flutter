@@ -8,7 +8,7 @@ class ProjectInfoController extends GetxController {
       isMainViewVisible = true.obs,
       isResetEnable = false.obs;
   String startDate = "", endDate = "";
-  final RxInt selectedDateFilterIndex = (-1).obs;
+  final RxInt selectedDateFilterIndex = (0).obs;
 
   @override
   void onInit() {

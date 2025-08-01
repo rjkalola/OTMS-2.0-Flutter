@@ -300,5 +300,6 @@ class AppPages {
         page: () => CheckInRecordsScreen()),
     GetPage(
         name: AppRoutes.tradeRecordsScreen, page: () => TradeRecordsScreen()),
+
   ];
 }

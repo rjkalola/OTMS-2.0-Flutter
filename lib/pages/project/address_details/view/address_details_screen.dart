@@ -83,7 +83,6 @@ class _AddressDetailsScreenState extends State<AddressDetailsScreen>
           ),
         )));
   }
-
   List<Widget>? actionButtons() {
     return [
       Visibility(
@@ -120,4 +119,3 @@ class _AddressDetailsScreenState extends State<AddressDetailsScreen>
     print("endDate:" + endDate);
   }
 }
-

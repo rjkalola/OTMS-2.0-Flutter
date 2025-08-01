@@ -127,6 +127,7 @@ class Drawable {
       'assets/images/ic_delete_permanent.svg';
   static const String diamondPermissionIcon =
       'assets/images/ic_diamond_permission.svg';
+  static const String projectAddressIcon = 'assets/images/ic_project_address.svg';
 
   static const String greenPin = 'assets/images/ic_pin_green.png';
   static const String bluePin = 'assets/images/ic_pin_blue.png';

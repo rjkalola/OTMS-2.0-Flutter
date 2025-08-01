@@ -15,6 +15,7 @@ import 'package:otm_inventory/pages/project/address_details/model/address_detail
 import 'package:otm_inventory/pages/project/address_list/model/address_info.dart';
 import 'package:otm_inventory/pages/project/project_details/model/project_details_api_response.dart';
 import 'package:otm_inventory/pages/project/project_details/model/project_detals_item.dart';
+import 'package:otm_inventory/pages/project/update_address_progress/view/update_address_progress_screen.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/AlertDialogHelper.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
@@ -26,6 +27,7 @@ import 'package:otm_inventory/web_services/api_constants.dart';
 import 'package:otm_inventory/web_services/response/base_response.dart';
 import 'package:otm_inventory/web_services/response/module_info.dart';
 import 'package:otm_inventory/web_services/response/response_model.dart';
+import 'package:path/path.dart';
 import '../../../dashboard/tabs/home_tab2/view/home_tab.dart';
 
 class AddressDetailsController extends GetxController
@@ -48,7 +50,7 @@ class AddressDetailsController extends GetxController
   AddressDetailsInfo? addressDetailsInfo;
   AddressInfo? addressInfo;
 
-  final RxInt selectedDateFilterIndex = (-1).obs;
+  final RxInt selectedDateFilterIndex = (0).obs;
   String filterPerDay = "", startDate = "", endDate = "";
 
   //Home Tab
@@ -219,6 +221,8 @@ class AddressDetailsController extends GetxController
         .add(ModuleInfo(name: 'delete'.tr, action: AppConstants.action.delete));
     listItems
         .add(ModuleInfo(name: 'edit'.tr, action: AppConstants.action.edit));
+    listItems
+        .add(ModuleInfo(name: 'change_progress'.tr, action: AppConstants.action.inProgress));
     showCupertinoModalPopup(
       context: context,
       builder: (_) =>
@@ -230,7 +234,6 @@ class AddressDetailsController extends GetxController
   }
   @override
   void onSelectMenuItem(ModuleInfo info, String dialogType) {
-    // TODO: implement onSelectMenuItem
     if (info.action == AppConstants.action.archiveProject){
     archiveAddressApi();
     }
@@ -243,8 +246,28 @@ class AddressDetailsController extends GetxController
       };
       moveToScreen(AppRoutes.addAddressScreen, arguments);
     }
+    else if (info.action == AppConstants.action.inProgress) {
+      openBottomSheet(Get.context!);
+    }
   }
+  void openBottomSheet(BuildContext context) async {
+    final result = await showModalBottomSheet<bool>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => UpdateAddressProgressScreen(
+        addressDetailsInfo: addressDetailsInfo!,
+      ),
+    );
 
+    if (result == true) {
+      isDataUpdated.value = true;
+      getAddressDetailsApi();
+    }
+  }
   showDeleteTeamDialog() async {
     AlertDialogHelper.showAlertDialog(
         "",

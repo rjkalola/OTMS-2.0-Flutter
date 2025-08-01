@@ -287,7 +287,10 @@ class MyDayLogListView extends StatelessWidget {
                         ),
                         Visibility(
                             visible: !(info.isExpanded ?? false),
-                            child: CheckLogListView(parentIndex: position))
+                            child: CheckLogListView(
+                              parentIndex: position,
+                              isPriceWork: info.isPricework ?? false,
+                            ))
                       ],
                     );
                   },

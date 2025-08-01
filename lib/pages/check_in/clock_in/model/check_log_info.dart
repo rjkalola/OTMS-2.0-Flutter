@@ -27,6 +27,7 @@ class CheckLogInfo {
   String? formattedCheckInTime;
   String? formattedCheckOutTime;
   int? totalCheckLogs;
+  String? priceWorkTotalAmount;
 
   CheckLogInfo(
       {this.id,
@@ -53,7 +54,8 @@ class CheckLogInfo {
       this.userName,
       this.userImage,
       this.userThumbImage,
-      this.totalCheckLogs});
+      this.totalCheckLogs,
+      this.priceWorkTotalAmount});
 
   CheckLogInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -95,6 +97,7 @@ class CheckLogInfo {
     userImage = json['user_image'];
     userThumbImage = json['user_thumb_image'];
     totalCheckLogs = json['total_checklogs'];
+    priceWorkTotalAmount = json['pricework_total_amount'];
   }
 
   Map<String, dynamic> toJson() {
@@ -134,6 +137,7 @@ class CheckLogInfo {
     data['user_image'] = this.userImage;
     data['user_thumb_image'] = this.userThumbImage;
     data['total_checklogs'] = this.totalCheckLogs;
+    data['pricework_total_amount'] = this.priceWorkTotalAmount;
     return data;
   }
 }
