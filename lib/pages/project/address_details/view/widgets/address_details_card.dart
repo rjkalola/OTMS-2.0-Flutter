@@ -33,6 +33,7 @@ class AddressDetailsCard extends StatelessWidget {
           AddressDetailsInfoRow(label: "Start date:", value: controller.addressDetailsInfo?.startDate ?? ""),
           AddressDetailsInfoRow(label: "End date:", value: controller.addressDetailsInfo?.endDate ?? ""),
           AddressDetailsInfoRow(label: "Status:", value: controller.addressDetailsInfo?.statusText ?? "", valueColor: getStatusColor(controller.addressDetailsInfo?.statusText ?? "")),
+          AddressDetailsInfoRow(label: "Progress:", value: controller.addressDetailsInfo?.progress ?? ""),
           AddressDetailsInfoRow(label: "Materials:", value: "${controller.addressDetailsInfo?.currency ?? ""}${controller.addressDetailsInfo?.materials ?? ""}"),
           AddressDetailsInfoRow(label: "Price Work:", value: "${controller.addressDetailsInfo?.currency ?? ""}${controller.addressDetailsInfo?.priceWork ?? ""}"),
           AddressDetailsInfoRow(label: "Day Work:", value: controller.addressDetailsInfo?.dayWork ?? ""),

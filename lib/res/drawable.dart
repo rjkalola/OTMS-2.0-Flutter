@@ -130,6 +130,7 @@ class Drawable {
   static const String briefingIcon = 'assets/images/briefing.svg';
   static const String clockIcon = 'assets/images/clock.svg';
   static const String poundIcon = 'assets/images/pound.svg';
+  static const String homeAddressIcon = 'assets/images/home_address.svg';
 
   static const String greenPin = 'assets/images/ic_pin_green.png';
   static const String bluePin = 'assets/images/ic_pin_blue.png';

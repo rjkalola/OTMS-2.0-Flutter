@@ -96,7 +96,14 @@ class CheckLogListView extends StatelessWidget {
                                             var arguments = {
                                               AppConstants.intentKey.checkLogId:
                                                   info.id ?? 0,
+                                              AppConstants.intentKey
+                                                  .isPriceWork: controller
+                                                      .workInfo
+                                                      .value
+                                                      .isPricework ??
+                                                  false
                                             };
+
                                             controller.moveToScreen(
                                                 AppRoutes.checkOutScreen,
                                                 arguments);

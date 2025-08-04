@@ -59,7 +59,7 @@ class ProjectDetailsController extends GetxController
         title: 'Addresses',
         subtitle: '',
         badge: 0,
-        iconPath: Drawable.locationMapNavigationPointer,
+        iconPath: Drawable.homeAddressIcon,
         iconColor: "#000000"),
     ProjectDetalsItem(
         title: 'Budget',

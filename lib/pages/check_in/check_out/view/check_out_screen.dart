@@ -87,11 +87,11 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                             SizedBox(
                               height: 12,
                             ),
-                            controller.isPriceWork
+                            controller.isPriceWork.value
                                 ? TotalCheckOutAmountRow()
                                 : TotalCheckOutHoursRow(),
                             Visibility(
-                              visible: controller.isPriceWork
+                              visible: controller.isPriceWork.value
                                   ? !StringHelper.isEmptyString(controller
                                       .checkLogInfo.value.checkoutDateTime)
                                   : true,

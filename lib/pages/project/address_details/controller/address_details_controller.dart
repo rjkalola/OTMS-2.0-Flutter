@@ -16,6 +16,7 @@ import 'package:otm_inventory/pages/project/address_list/model/address_info.dart
 import 'package:otm_inventory/pages/project/project_details/model/project_details_api_response.dart';
 import 'package:otm_inventory/pages/project/project_details/model/project_detals_item.dart';
 import 'package:otm_inventory/pages/project/update_address_progress/view/update_address_progress_screen.dart';
+import 'package:otm_inventory/res/drawable.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/AlertDialogHelper.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
@@ -42,9 +43,18 @@ class AddressDetailsController extends GetxController
   late final PageController pageController;
 
   final List<ProjectDetalsItem> items = [
-    ProjectDetalsItem(title: 'Check-In', subtitle: ''),
-    ProjectDetalsItem(title: 'Materials', subtitle: ''),
-    ProjectDetalsItem(title: 'Trades', subtitle: ''),
+    ProjectDetalsItem(title: 'Check-In',
+        subtitle: '',
+        iconPath: Drawable.clockIcon,
+        iconColor: "#000000"),
+    ProjectDetalsItem(title: 'Materials',
+        subtitle: '',
+        iconPath: Drawable.poundIcon,
+        iconColor: "#000000"),
+    ProjectDetalsItem(title: 'Trades',
+        subtitle: '',
+        iconPath: Drawable.tradesPermissionIcon,
+        iconColor: "#000000"),
   ];
 
   AddressDetailsInfo? addressDetailsInfo;
@@ -170,7 +180,7 @@ class AddressDetailsController extends GetxController
     for (var item in items) {
       switch (item.title) {
         case 'Check-In':
-          item.subtitle = address.checkIn.toString();
+          item.subtitle = address.checkIns.toString();
           break;
         case 'Trades':
           item.subtitle = address.trades.toString();

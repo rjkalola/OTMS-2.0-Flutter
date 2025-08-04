@@ -35,14 +35,12 @@ class AddressDetailsInfo{
   int? trades;
   String? startDate;
   String? endDate;
-
   String? currency;
-  int? checkLog;
   int? priceWork;
   int? materials;
   String? dayWork;
   int? total;
-  int? checkIn;
+  int? checkIns;
 
   AddressDetailsInfo(
       {this.id,
@@ -58,9 +56,8 @@ class AddressDetailsInfo{
         this.startDate,
         this.endDate,
       this.currency,
-      this.checkLog,
       this.dayWork,
-      this.checkIn,
+      this.checkIns,
       this.materials,
       this.priceWork,
       this.total});
@@ -79,12 +76,11 @@ class AddressDetailsInfo{
     startDate = json['start_date'];
     endDate = json['end_date'];
     currency = json['currency'];
-    checkLog = json['checklog'];
     priceWork = json['price_work'];
     materials = json['materials'];
     dayWork = json['day_work'];
     total = json['total'];
-    checkIn = json['check_in'];
+    checkIns = json['check_ins'];
   }
 
   Map<String, dynamic> toJson() {
@@ -99,17 +95,14 @@ class AddressDetailsInfo{
     data['project_id'] = this.projectId;
     data['project_name'] = this.projectName;
     data['trades'] = this.trades;
-
     data['start_date'] = this.startDate;
     data['end_date'] = this.endDate;
-
     data['currency'] = this.currency;
-    data['checklog'] = this.checkLog;
     data['price_work'] = this.priceWork;
     data['materials'] = this.materials;
     data['day_work'] = this.dayWork;
     data['total'] = this.total;
-    data['check_in'] = this.checkIn;
+    data['check_ins'] = this.checkIns;
 
     return data;
   }

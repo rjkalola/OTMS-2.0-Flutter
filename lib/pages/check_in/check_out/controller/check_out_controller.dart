@@ -34,7 +34,8 @@ class CheckOutController extends GetxController implements SelectItemListener {
   final RxBool isLoading = false.obs,
       isMainViewVisible = false.obs,
       isInternetNotAvailable = false.obs,
-      isLocationLoaded = true.obs;
+      isLocationLoaded = true.obs,
+      isPriceWork = false.obs;
 
   final _api = CheckOutRepository();
   final addressController = TextEditingController().obs;
@@ -52,7 +53,8 @@ class CheckOutController extends GetxController implements SelectItemListener {
       typeOfWorkId = 0,
       projectId = 0;
   String date = "";
-  bool isCurrentDay = true, isPriceWork = false;
+
+  bool isCurrentDay = true;
   final listBeforePhotos = <FilesInfo>[].obs;
   final listAfterPhotos = <FilesInfo>[].obs;
   final checkLogInfo = CheckLogInfo().obs;
@@ -74,7 +76,9 @@ class CheckOutController extends GetxController implements SelectItemListener {
     if (arguments != null) {
       checkLogId = arguments[AppConstants.intentKey.checkLogId] ?? 0;
       projectId = arguments[AppConstants.intentKey.projectId] ?? 0;
-      isPriceWork = arguments[AppConstants.intentKey.isPriceWork] ?? false;
+      isPriceWork.value =
+          arguments[AppConstants.intentKey.isPriceWork] ?? false;
+      print("isPriceWork.value:"+isPriceWork.value.toString());
     }
     getCheckLogDetailsApi();
     /* LocationInfo? locationInfo = Get.find<AppStorage>().getLastLocation();
@@ -128,6 +132,7 @@ class CheckOutController extends GetxController implements SelectItemListener {
           checkLogInfo.value = response.info!;
           isCurrentDay =
               ClockInUtils.isCurrentDay(checkLogInfo.value.dateAdded ?? "");
+          // isPriceWork.value = response.info!.isPricework ?? false;
           print("isCurrentDay:" + isCurrentDay.toString());
           setInitialTime();
           setInitialData();

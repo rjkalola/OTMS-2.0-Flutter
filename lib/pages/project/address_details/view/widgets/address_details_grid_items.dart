@@ -3,6 +3,8 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:otm_inventory/pages/project/address_details/controller/address_details_controller.dart';
 import 'package:otm_inventory/res/colors.dart';
+import 'package:otm_inventory/utils/app_utils.dart';
+import 'package:otm_inventory/utils/image_utils.dart';
 import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
 
 import '../../../../../routes/app_routes.dart';
@@ -63,7 +65,12 @@ class AddressDetailsGridItems extends StatelessWidget {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Icon(Icons.groups, size: 35, color: Colors.blue),
+                      ImageUtils.setSvgAssetsImage(
+                          path: controller.items[index].iconPath ?? "",
+                          color: AppUtils.getColor(
+                              controller.items[index].iconColor ?? ""),
+                          width: 30,
+                          height: 30),
                       SizedBox(
                         width: 8,
                       ),
