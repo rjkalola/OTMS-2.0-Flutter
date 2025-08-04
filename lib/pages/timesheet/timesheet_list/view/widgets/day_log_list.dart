@@ -142,8 +142,8 @@ class DayLogList extends StatelessWidget {
             text: (info.isPricework ?? false)
                 ? "£${info.priceWorkTotalAmount ?? "0"}"
                 : DateUtil.seconds_To_HH_MM(info.payableWorkSeconds ?? 0),
-            color: (info.isRequestPending ?? false)
-                ? Colors.red
+            color: info.requestStatus != null
+                ? AppUtils.getStatusColor(info.requestStatus ?? 0)
                 : primaryTextColor_(Get.context!),
             fontSize: 17,
           ),

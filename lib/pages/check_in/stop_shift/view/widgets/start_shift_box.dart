@@ -74,11 +74,13 @@ class StartShiftBox extends StatelessWidget {
                   ),
                   Visibility(
                       visible: !controller.isWorking.value &&
-                          !(controller.workLogInfo.value.isRequestPending ??
-                              false),
+                          (controller.workLogInfo.value.requestStatus ?? 0) ==
+                              0,
                       child: ImageUtils.setSvgAssetsImage(
-                          path: Drawable.editPencilIcon, width: 13, height: 13,color: primaryTextColor_(
-                          context)))
+                          path: Drawable.editPencilIcon,
+                          width: 13,
+                          height: 13,
+                          color: primaryTextColor_(context)))
                 ],
               ),
             ),

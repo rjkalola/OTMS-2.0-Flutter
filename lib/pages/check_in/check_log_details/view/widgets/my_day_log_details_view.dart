@@ -50,9 +50,8 @@ class MyDayLogDetailsView extends StatelessWidget {
                                   left: 8, top: 8, bottom: 10, right: 3),
                               height: 86,
                               decoration: itemDecoration(
-                                  isRequestPending: controller
-                                          .workInfo.value.isRequestPending ??
-                                      false,
+                                  requestStatus:
+                                      controller.workInfo.value.requestStatus,
                                   isWorking: isActiveWorkLog(
                                       controller.workInfo.value),
                                   boxShadow: [
@@ -185,11 +184,8 @@ class MyDayLogDetailsView extends StatelessWidget {
                                         padding:
                                             EdgeInsets.only(left: 8, right: 8),
                                         decoration: itemDecoration(
-                                            isRequestPending: controller
-                                                    .workInfo
-                                                    .value
-                                                    .isRequestPending ??
-                                                false,
+                                            requestStatus: controller
+                                                .workInfo.value.requestStatus,
                                             isWorking: isActiveWorkLog(
                                                 controller.workInfo.value),
                                             borderRadius: 14),
@@ -327,25 +323,29 @@ class MyDayLogDetailsView extends StatelessWidget {
 
   Decoration? itemDecoration(
       {required bool isWorking,
-      required bool isRequestPending,
+      int? requestStatus,
       double? borderRadius,
       List<BoxShadow>? boxShadow}) {
     return BoxDecoration(
       color: backgroundColor_(Get.context!),
       boxShadow: boxShadow,
       border: Border.all(
-          width: 0.9, color: getBorderColor(isWorking, isRequestPending)),
+          width: 0.9, color: getBorderColor(isWorking, requestStatus)),
       borderRadius: BorderRadius.circular(borderRadius ?? 15),
     );
   }
 
-  Color getBorderColor(bool isWorking, bool isRequestPending) {
+  Color getBorderColor(bool isWorking, int? requestStatus) {
     if (isWorking) {
       return Color(0xff2DC75C);
-    } else if (isRequestPending) {
-      return Colors.red;
     } else {
-      return ThemeConfig.isDarkMode ? Color(0xFF1F1F1F) : Colors.grey.shade300;
+      if (requestStatus == null) {
+        return ThemeConfig.isDarkMode
+            ? Color(0xFF1F1F1F)
+            : Colors.grey.shade300;
+      } else {
+        return AppUtils.getStatusColor(requestStatus ?? 0);
+      }
     }
   }
 

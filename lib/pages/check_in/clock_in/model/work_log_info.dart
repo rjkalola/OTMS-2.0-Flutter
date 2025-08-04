@@ -14,13 +14,15 @@ class WorkLogInfo {
   int? totalWorkSeconds;
   int? totalBreaklogSeconds;
   int? payableWorkSeconds;
-  bool? isRequestPending;
+
+  // bool? isRequestPending;
   List<BreakInfo>? breakLog;
   LocationInfo? startWorkLocation;
   LocationInfo? stopWorkLocation;
   List<CheckLogInfo>? userChecklogs;
   int? userCheckLogsCount;
   bool? isExpanded;
+  int? requestStatus;
 
   WorkLogInfo(
       {this.id,
@@ -34,13 +36,14 @@ class WorkLogInfo {
       this.totalWorkSeconds,
       this.totalBreaklogSeconds,
       this.payableWorkSeconds,
-      this.isRequestPending,
+      // this.isRequestPending,
       this.breakLog,
       this.startWorkLocation,
       this.stopWorkLocation,
       this.userChecklogs,
       this.userCheckLogsCount,
-      this.isExpanded});
+      this.isExpanded,
+      this.requestStatus});
 
   WorkLogInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -54,7 +57,7 @@ class WorkLogInfo {
     totalWorkSeconds = json['total_work_seconds'];
     totalBreaklogSeconds = json['total_breaklog_seconds'];
     payableWorkSeconds = json['payable_work_seconds'];
-    isRequestPending = json['is_request_pending'];
+    // isRequestPending = json['is_request_pending'];
     if (json['break_log'] != null) {
       breakLog = <BreakInfo>[];
       json['break_log'].forEach((v) {
@@ -75,6 +78,7 @@ class WorkLogInfo {
     }
     userCheckLogsCount = json['user_checklogs_count'];
     isExpanded = json['isExpanded'];
+    requestStatus = json['request_status'];
   }
 
   Map<String, dynamic> toJson() {
@@ -90,7 +94,7 @@ class WorkLogInfo {
     data['total_work_seconds'] = this.totalWorkSeconds;
     data['total_breaklog_seconds'] = this.totalBreaklogSeconds;
     data['payable_work_seconds'] = this.payableWorkSeconds;
-    data['is_request_pending'] = this.isRequestPending;
+    // data['is_request_pending'] = this.isRequestPending;
     if (this.breakLog != null) {
       data['break_log'] = this.breakLog!.map((v) => v.toJson()).toList();
     }
@@ -106,6 +110,7 @@ class WorkLogInfo {
     }
     data['user_checklogs_count'] = this.userCheckLogsCount;
     data['isExpanded'] = this.isExpanded;
+    data['request_status'] = this.requestStatus;
     return data;
   }
 }
