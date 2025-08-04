@@ -16,6 +16,7 @@ import 'package:otm_inventory/pages/project/project_details/model/project_detail
 import 'package:otm_inventory/pages/project/project_details/model/project_detals_item.dart';
 import 'package:otm_inventory/pages/project/project_info/model/project_info.dart';
 import 'package:otm_inventory/pages/project/project_info/model/project_list_response.dart';
+import 'package:otm_inventory/res/drawable.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/AlertDialogHelper.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
@@ -49,12 +50,37 @@ class ProjectDetailsController extends GetxController
   ];
 
   final List<ProjectDetalsItem> items = [
-    ProjectDetalsItem(title: 'Team', subtitle: ''),
-    ProjectDetalsItem(title: 'Addresses', subtitle: '', badge: 0),
-    ProjectDetalsItem(title: 'Budget', subtitle: ''),
-    ProjectDetalsItem(title: 'Project Details', subtitle: ''),
-    ProjectDetalsItem(title: 'Trades', subtitle: ''),
-    ProjectDetalsItem(title: 'Check-In', subtitle: ''),
+    ProjectDetalsItem(
+        title: 'Team',
+        subtitle: '',
+        iconPath: Drawable.teamPermissionIcon,
+        iconColor: "#000000"),
+    ProjectDetalsItem(
+        title: 'Addresses',
+        subtitle: '',
+        badge: 0,
+        iconPath: Drawable.locationMapNavigationPointer,
+        iconColor: "#000000"),
+    ProjectDetalsItem(
+        title: 'Budget',
+        subtitle: '',
+        iconPath: Drawable.poundIcon,
+        iconColor: "#000000"),
+    ProjectDetalsItem(
+        title: 'Project Details',
+        subtitle: '',
+        iconPath: Drawable.projectsIcon,
+        iconColor: "#000000"),
+    ProjectDetalsItem(
+        title: 'Trades',
+        subtitle: '',
+        iconPath: Drawable.tradesPermissionIcon,
+        iconColor: "#000000"),
+    ProjectDetalsItem(
+        title: 'Check-In',
+        subtitle: '',
+        iconPath: Drawable.clockIcon,
+        iconColor: "#000000"),
   ];
 
   ProjectInfo? projectInfo;

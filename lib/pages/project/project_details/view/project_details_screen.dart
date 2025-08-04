@@ -10,6 +10,9 @@ import 'package:otm_inventory/pages/project/project_info/model/project_info.dart
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
+import 'package:otm_inventory/utils/app_utils.dart';
+import 'package:otm_inventory/utils/image_utils.dart';
+import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
 import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
@@ -98,8 +101,15 @@ class ProjectDetailsScreen extends StatelessWidget {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
-                                        Icon(Icons.groups,
-                                            size: 35, color: Colors.blue),
+                                        ImageUtils.setSvgAssetsImage(
+                                            path: controller
+                                                    .items[index].iconPath ??
+                                                "",
+                                            color: AppUtils.getColor(controller
+                                                    .items[index].iconColor ??
+                                                ""),
+                                            width: 30,
+                                            height: 30),
                                         SizedBox(
                                           width: 8,
                                         ),

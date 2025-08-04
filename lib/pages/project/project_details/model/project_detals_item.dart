@@ -2,7 +2,13 @@ class ProjectDetalsItem {
   String title;
   String subtitle;
   int? badge;
+  String? iconPath;
+  String? iconColor;
 
   ProjectDetalsItem(
-      {required this.title, required this.subtitle, this.badge});
+      {required this.title,
+      required this.subtitle,
+      this.badge,
+      this.iconPath,
+      this.iconColor});
 }

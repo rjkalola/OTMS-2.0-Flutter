@@ -38,8 +38,7 @@ class Drawable {
       'assets/user_permission_icons/edit_widget.svg';
   static const String billingInfoIcon =
       'assets/user_permission_icons/billing_info.svg';
-  static const String projectsIcon =
-      'assets/user_permission_icons/project.svg';
+  static const String projectsIcon = 'assets/user_permission_icons/project.svg';
 
   static const String splashScreenLogo = 'assets/images/splash_screen_logo.jpg';
   static const String activeHomeTabIcon =
@@ -127,10 +126,12 @@ class Drawable {
       'assets/images/ic_delete_permanent.svg';
   static const String diamondPermissionIcon =
       'assets/images/ic_diamond_permission.svg';
-  static const String projectAddressIcon = 'assets/images/ic_project_address.svg';
+  static const String addressIcon = 'assets/images/address.svg';
+  static const String briefingIcon = 'assets/images/briefing.svg';
+  static const String clockIcon = 'assets/images/clock.svg';
+  static const String poundIcon = 'assets/images/pound.svg';
 
   static const String greenPin = 'assets/images/ic_pin_green.png';
   static const String bluePin = 'assets/images/ic_pin_blue.png';
   static const String redPin = 'assets/images/ic_pin_red.png';
-
 }
