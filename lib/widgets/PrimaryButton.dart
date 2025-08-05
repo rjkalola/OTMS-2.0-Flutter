@@ -11,6 +11,8 @@ class PrimaryButton extends StatelessWidget {
   final Color? fontColor;
   final double? elevation, width, height;
   final EdgeInsetsGeometry? padding;
+  final int? maxLines;
+  final TextOverflow? overflow;
 
   const PrimaryButton(
       {super.key,
@@ -24,7 +26,9 @@ class PrimaryButton extends StatelessWidget {
       this.elevation,
       this.width,
       this.height,
-      this.padding});
+      this.padding,
+      this.maxLines,
+      this.overflow});
 
   @override
   Widget build(BuildContext context) {
@@ -42,14 +46,9 @@ class PrimaryButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(borderRadius ?? 45),
           ),
         ),
-        // color: color ?? defaultAccentColor_(context),
-        // elevation: 0,
-        // height: 48,
-        // splashColor: Colors.white.withAlpha(30),
-        // shape: RoundedRectangleBorder(
-        //   borderRadius: BorderRadius.circular(borderRadius ?? 45),
-        // ),
         child: Text(buttonText,
+            maxLines: maxLines,
+            overflow: overflow,
             style: TextStyle(
               color: fontColor ?? Colors.white,
               fontWeight: fontWeight ?? FontWeight.w500,

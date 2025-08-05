@@ -12,6 +12,8 @@ import 'package:otm_inventory/pages/check_in/clock_in/model/counter_details.dart
 import 'package:otm_inventory/pages/check_in/clock_in/model/location_info.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/model/work_log_info.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/model/work_log_list_response.dart';
+import 'package:otm_inventory/pages/check_in/clock_in2/model/start_work_response.dart';
+import 'package:otm_inventory/pages/check_in/select_shift/controller/select_shift_repository.dart';
 import 'package:otm_inventory/pages/dashboard/models/dashboard_response.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
@@ -83,6 +85,39 @@ class ClockInController extends GetxController {
     locationRequest();
     appLifeCycle();
     getUserWorkLogListApi();
+  }
+
+  Future<void> userStartWorkApi() async {
+    String deviceModelName = await AppUtils.getDeviceName();
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["shift_id"] = workLogData.value.shiftId ?? 0;
+    map["project_id"] = workLogData.value.projectId ?? 0;
+    map["latitude"] = latitude;
+    map["longitude"] = longitude;
+    map["location"] = location;
+    map["device_type"] = AppConstants.deviceType;
+    map["device_model_type"] = deviceModelName;
+    SelectShiftRepository().userStartWork(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          StartWorkResponse response =
+              StartWorkResponse.fromJson(jsonDecode(responseModel.result!));
+          getUserWorkLogListApi();
+        } else {
+          // AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          // isInternetNotAvailable.value = true;
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        }
+      },
+    );
   }
 
   Future<void> userStopWorkApi() async {

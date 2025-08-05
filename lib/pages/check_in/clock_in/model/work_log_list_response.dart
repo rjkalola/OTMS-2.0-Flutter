@@ -11,17 +11,25 @@ class WorkLogListResponse {
   ShiftInfo? shiftInfo;
   String? workStartDate;
   List<WorkLogInfo>? workLogInfo;
+  int? shiftId;
+  String? shiftName;
+  int? projectId;
+  String? projectName;
 
   WorkLogListResponse(
       {this.isSuccess,
-        this.message,
-        this.userIsWorking,
-        this.totalWorkingSeconds,
-        this.totalBreakSeconds,
-        this.totalPayableWorkingSeconds,
-        this.shiftInfo,
-        this.workStartDate,
-        this.workLogInfo});
+      this.message,
+      this.userIsWorking,
+      this.totalWorkingSeconds,
+      this.totalBreakSeconds,
+      this.totalPayableWorkingSeconds,
+      this.shiftInfo,
+      this.workStartDate,
+      this.workLogInfo,
+      this.shiftId,
+      this.shiftName,
+      this.projectId,
+      this.projectName});
 
   WorkLogListResponse.fromJson(Map<String, dynamic> json) {
     isSuccess = json['IsSuccess'];
@@ -30,8 +38,14 @@ class WorkLogListResponse {
     totalWorkingSeconds = json['total_working_seconds'];
     totalBreakSeconds = json['total_break_seconds'];
     totalPayableWorkingSeconds = json['total_payable_working_seconds'];
-    shiftInfo = json['shift_info'] != null ? ShiftInfo.fromJson(json['shift_info']) : null;
+    shiftInfo = json['shift_info'] != null
+        ? ShiftInfo.fromJson(json['shift_info'])
+        : null;
     workStartDate = json['work_start_date'];
+    shiftId = json['shift_id'];
+    shiftName = json['shift_name'];
+    projectId = json['project_id'];
+    projectName = json['project_name'];
     if (json['my_worklogs'] != null) {
       workLogInfo = <WorkLogInfo>[];
       json['my_worklogs'].forEach((v) {
@@ -55,6 +69,10 @@ class WorkLogListResponse {
     if (this.workLogInfo != null) {
       data['my_worklogs'] = this.workLogInfo!.map((v) => v.toJson()).toList();
     }
+    data['shift_id'] = this.shiftId;
+    data['shift_name'] = this.shiftName;
+    data['project_id'] = this.projectId;
+    data['project_name'] = this.projectName;
     return data;
   }
 }

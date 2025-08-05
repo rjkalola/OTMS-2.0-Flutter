@@ -258,10 +258,6 @@ class StopShiftController extends GetxController implements SelectTimeListener {
     }
   }
 
-  void setEdited() {
-    isEdited.value = false;
-  }
-
   setInitialTime() {
     startTime.value = changeFullDateToSortTime(workLogInfo.value.workStartTime);
     stopTime.value = !StringHelper.isEmptyString(workLogInfo.value.workEndTime)

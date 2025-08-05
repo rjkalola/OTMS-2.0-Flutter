@@ -69,6 +69,7 @@ class SelectShiftController extends GetxController {
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
+    map["project_id"] = projectId;
     ShiftListRepository().getShiftList(
       data: map,
       onSuccess: (ResponseModel responseModel) {

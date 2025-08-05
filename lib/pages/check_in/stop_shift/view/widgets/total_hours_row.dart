@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:otm_inventory/pages/check_in/stop_shift/controller/stop_shift_controller.dart';
 import 'package:otm_inventory/res/colors.dart';
+import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/date_utils.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
@@ -40,12 +41,7 @@ class TotalHoursRow extends StatelessWidget {
                           : "Working"
                       : DateUtil.seconds_To_HH_MM(
                           controller.updatedTotalWorkingTime.value),
-                  color: !controller.isEdited.value
-                      ? (!StringHelper.isEmptyString(
-                              controller.workLogInfo.value.workEndTime)
-                          ? primaryTextColor_(context)
-                          : defaultAccentColor_(context))
-                      : Colors.red,
+                  color: getColor(context),
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                 )
@@ -53,5 +49,21 @@ class TotalHoursRow extends StatelessWidget {
             ),
           )),
     );
+  }
+
+  Color getColor(BuildContext context) {
+    Color color = primaryTextColor_(context);
+    if (controller.isEdited.value) {
+      color = Colors.red;
+    } else {
+      if (!StringHelper.isEmptyString(
+          controller.workLogInfo.value.workEndTime)) {
+        color = AppUtils.getStatusColor(
+            controller.workLogInfo.value.requestStatus ?? 0);
+      } else {
+        color = defaultAccentColor_(context);
+      }
+    }
+    return color;
   }
 }
