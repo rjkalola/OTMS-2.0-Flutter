@@ -95,7 +95,7 @@ class CheckInController extends GetxController implements SelectItemListener {
     map["user_worklog_id"] = workLogId;
     map["address_id"] = addressId;
     map["trade_id"] = tradeId;
-    map["type_of_work_id"] = typeOfWorkId;
+    map["company_task_id"] = typeOfWorkId;
     map["comment"] = StringHelper.getText(noteController.value);
     map["location"] = location;
     map["latitude"] = latitude;

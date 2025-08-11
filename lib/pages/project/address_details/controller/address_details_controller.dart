@@ -32,26 +32,30 @@ import 'package:path/path.dart';
 import '../../../dashboard/tabs/home_tab2/view/home_tab.dart';
 
 class AddressDetailsController extends GetxController
-    implements MenuItemListener, DialogButtonClickListener{
+    implements MenuItemListener, DialogButtonClickListener {
   final _api = AddressDetailsRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
-      isDataUpdated = false.obs,isResetEnable = false.obs;
+      isDataUpdated = false.obs,
+      isResetEnable = false.obs;
 
   final selectedIndex = 0.obs;
   late final PageController pageController;
 
   final List<ProjectDetalsItem> items = [
-    ProjectDetalsItem(title: 'Check-In',
+    ProjectDetalsItem(
+        title: 'Check-In',
         subtitle: '',
         iconPath: Drawable.clockIcon,
         iconColor: "#000000"),
-    ProjectDetalsItem(title: 'Materials',
+    ProjectDetalsItem(
+        title: 'Materials',
         subtitle: '',
         iconPath: Drawable.poundIcon,
         iconColor: "#000000"),
-    ProjectDetalsItem(title: 'Trades',
+    ProjectDetalsItem(
+        title: 'Trades',
         subtitle: '',
         iconPath: Drawable.tradesPermissionIcon,
         iconColor: "#000000"),
@@ -93,13 +97,13 @@ class AddressDetailsController extends GetxController
         if (responseModel.isSuccess) {
           isMainViewVisible.value = true;
           AddressDetailsInfoResponse response =
-          AddressDetailsInfoResponse.fromJson(jsonDecode(responseModel.result!));
+              AddressDetailsInfoResponse.fromJson(
+                  jsonDecode(responseModel.result!));
           addressDetailsInfo = response.info;
           if (addressDetailsInfo != null) {
             updateItemsWithApi(addressDetailsInfo!);
           }
-        }
-        else{
+        } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;
@@ -126,7 +130,7 @@ class AddressDetailsController extends GetxController
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           BaseResponse response =
-          BaseResponse.fromJson(jsonDecode(responseModel.result!));
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.Message ?? "");
           Get.back(result: true);
         } else {
@@ -146,6 +150,7 @@ class AddressDetailsController extends GetxController
       },
     );
   }
+
   void deleteAddressApi() {
     isLoading.value = true;
     Map<String, dynamic> map = {};
@@ -155,7 +160,7 @@ class AddressDetailsController extends GetxController
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           BaseResponse response =
-          BaseResponse.fromJson(jsonDecode(responseModel.result!));
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.Message ?? "");
           Get.back(result: true);
         } else {
@@ -186,11 +191,12 @@ class AddressDetailsController extends GetxController
           item.subtitle = address.trades.toString();
           break;
         case 'Materials':
-        item.subtitle = "${address.currency}${address.materials.toString()}";
-        break;
+          item.subtitle = "${address.currency}${address.materials.toString()}";
+          break;
       }
     }
   }
+
   @override
   void dispose() {
     super.dispose();
@@ -205,9 +211,11 @@ class AddressDetailsController extends GetxController
   void onItemTapped(int index) {
     pageController.jumpToPage(index);
   }
+
   void onBackPress() {
     Get.back(result: isDataUpdated.value);
   }
+
   Future<void> moveToScreen(String rout, dynamic arguments) async {
     var result = await Get.toNamed(rout, arguments: arguments);
     if (result != null && result) {
@@ -215,6 +223,7 @@ class AddressDetailsController extends GetxController
       getAddressDetailsApi();
     }
   }
+
   void clearFilter() {
     isResetEnable.value = false;
     filterPerDay = "";
@@ -223,43 +232,44 @@ class AddressDetailsController extends GetxController
     selectedDateFilterIndex.value = -1;
     loadAddressDetailsData(true);
   }
+
   void showMenuItemsDialog(BuildContext context) {
     List<ModuleInfo> listItems = [];
-    listItems
-        .add(ModuleInfo(name: 'archive'.tr, action: AppConstants.action.archiveProject));
+    listItems.add(ModuleInfo(
+        name: 'archive'.tr, action: AppConstants.action.archiveProject));
     listItems
         .add(ModuleInfo(name: 'delete'.tr, action: AppConstants.action.delete));
     listItems
         .add(ModuleInfo(name: 'edit'.tr, action: AppConstants.action.edit));
-    listItems
-        .add(ModuleInfo(name: 'change_progress'.tr, action: AppConstants.action.inProgress));
+    listItems.add(ModuleInfo(
+        name: 'change_progress'.tr, action: AppConstants.action.inProgress));
     showCupertinoModalPopup(
       context: context,
       builder: (_) =>
           MenuItemsListBottomDialog(list: listItems, listener: this),
     );
   }
+
   Future<void> loadAddressDetailsData(bool isProgress) async {
     getAddressDetailsApi();
   }
+
   @override
   void onSelectMenuItem(ModuleInfo info, String dialogType) {
-    if (info.action == AppConstants.action.archiveProject){
-    archiveAddressApi();
-    }
-    else if (info.action == AppConstants.action.delete) {
+    if (info.action == AppConstants.action.archiveProject) {
+      archiveAddressApi();
+    } else if (info.action == AppConstants.action.delete) {
       showDeleteTeamDialog();
-    }
-    else if (info.action == AppConstants.action.edit) {
+    } else if (info.action == AppConstants.action.edit) {
       var arguments = {
         AppConstants.intentKey.addressDetailsInfo: addressDetailsInfo
       };
       moveToScreen(AppRoutes.addAddressScreen, arguments);
-    }
-    else if (info.action == AppConstants.action.inProgress) {
+    } else if (info.action == AppConstants.action.inProgress) {
       openBottomSheet(Get.context!);
     }
   }
+
   void openBottomSheet(BuildContext context) async {
     final result = await showModalBottomSheet<bool>(
       context: context,
@@ -278,6 +288,7 @@ class AddressDetailsController extends GetxController
       getAddressDetailsApi();
     }
   }
+
   showDeleteTeamDialog() async {
     AlertDialogHelper.showAlertDialog(
         "",

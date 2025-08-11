@@ -133,8 +133,8 @@ class CheckInUserRecords extends StatelessWidget {
 
   Widget shiftName(CheckLogInfo info) {
     String name = "";
-    if (!StringHelper.isEmptyString(info.typeOfWorkName)) {
-      name = info.typeOfWorkName ?? "";
+    if (!StringHelper.isEmptyString(info.companyTaskName)) {
+      name = info.companyTaskName ?? "";
     }
     return !StringHelper.isEmptyString(name)
         ? IntrinsicWidth(

@@ -319,7 +319,7 @@ class Strings extends Translations {
           'change_progress': "Change Progress",
           'update_address': "Update Address",
           'add_address': "Add Address",
-          // '': "",
+          'progress': "Progress",
           // '': "",
           // '': "",
           // '': "",

@@ -12,7 +12,6 @@ class ClockInUtils {
         remainingBreakSeconds = 0;
     bool isOnBreak = false;
 
-    print("---------------");
     if (logs != null) {
       if (!(logs.userIsWorking ?? false)) {
         totalWorkHourSeconds = logs.totalPayableWorkingSeconds!;

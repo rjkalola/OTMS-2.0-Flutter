@@ -12,13 +12,18 @@ import 'package:otm_inventory/widgets/custom_views/no_internet_widgets.dart';
 
 class UpdateAddressProgressScreen extends StatefulWidget {
   final AddressDetailsInfo addressDetailsInfo;
-  const UpdateAddressProgressScreen({Key? key, required this.addressDetailsInfo}) : super(key: key);
+
+  const UpdateAddressProgressScreen(
+      {Key? key, required this.addressDetailsInfo})
+      : super(key: key);
 
   @override
-  _UpdateAddressProgressScreenState createState() => _UpdateAddressProgressScreenState();
+  _UpdateAddressProgressScreenState createState() =>
+      _UpdateAddressProgressScreenState();
 }
 
-class _UpdateAddressProgressScreenState extends State<UpdateAddressProgressScreen> {
+class _UpdateAddressProgressScreenState
+    extends State<UpdateAddressProgressScreen> {
   late final UpdateAddressProgressController controller;
 
   @override
@@ -29,7 +34,8 @@ class _UpdateAddressProgressScreenState extends State<UpdateAddressProgressScree
     );
     controller.selectedStatus = widget.addressDetailsInfo.statusText ?? "";
     String serverProgress = widget.addressDetailsInfo.progress ?? "";
-    controller.progress = double.tryParse(serverProgress.replaceAll('%', '')) ?? 0.0;
+    controller.progress =
+        double.tryParse(serverProgress.replaceAll('%', '')) ?? 0.0;
   }
 
   @override
@@ -54,13 +60,14 @@ class _UpdateAddressProgressScreenState extends State<UpdateAddressProgressScree
           // Status Dropdown
           Align(
             alignment: Alignment.centerLeft,
-            child: Text("Status", style: TextStyle(fontWeight: FontWeight.bold)),
+            child:
+                Text("Status", style: TextStyle(fontWeight: FontWeight.bold)),
           ),
           SizedBox(height: 6),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 12),
             decoration: BoxDecoration(
-              border: Border.all(color:primaryTextColor_(context)),
+              border: Border.all(color: primaryTextColor_(context)),
               borderRadius: BorderRadius.circular(12),
             ),
             child: DropdownButtonHideUnderline(
@@ -70,7 +77,8 @@ class _UpdateAddressProgressScreenState extends State<UpdateAddressProgressScree
                 items: controller.status.keys.map((key) {
                   return DropdownMenuItem(value: key, child: Text(key));
                 }).toList(),
-                onChanged: (value) => setState(() => controller.selectedStatus = value!),
+                onChanged: (value) =>
+                    setState(() => controller.selectedStatus = value!),
               ),
             ),
           ),
@@ -79,7 +87,8 @@ class _UpdateAddressProgressScreenState extends State<UpdateAddressProgressScree
           // Progress Slider
           Align(
             alignment: Alignment.centerLeft,
-            child: Text("Progress", style: TextStyle(fontWeight: FontWeight.bold)),
+            child:
+                Text("Progress", style: TextStyle(fontWeight: FontWeight.bold)),
           ),
           Row(
             children: [
@@ -90,7 +99,8 @@ class _UpdateAddressProgressScreenState extends State<UpdateAddressProgressScree
                   max: 100,
                   divisions: 100,
                   label: '${controller.progress.toInt()}%',
-                  onChanged: (value) => setState(() => controller.progress = value),
+                  onChanged: (value) =>
+                      setState(() => controller.progress = value),
                 ),
               ),
               Text("${controller.progress.toInt()}%"),
@@ -105,7 +115,8 @@ class _UpdateAddressProgressScreenState extends State<UpdateAddressProgressScree
                 buttonText: 'save'.tr,
                 color: defaultAccentColor_(context),
                 onPressed: () {
-                  controller.selectedStatusValue = controller.status[controller.selectedStatus]!;
+                  controller.selectedStatusValue =
+                      controller.status[controller.selectedStatus]!;
                   controller.onSavePressed(context);
                 }),
           ),

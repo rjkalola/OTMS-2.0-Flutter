@@ -8,8 +8,8 @@ class CheckLogInfo {
   String? addressName;
   int? tradeId;
   String? tradeName;
-  int? typeOfWorkId;
-  String? typeOfWorkName;
+  int? companyTaskTd;
+  String? companyTaskName;
   String? dateAdded;
   String? checkinDateTime;
   String? checkoutDateTime;
@@ -29,6 +29,7 @@ class CheckLogInfo {
   int? totalCheckLogs;
   String? priceWorkTotalAmount;
   bool? isPricework;
+  int? progress;
 
   CheckLogInfo(
       {this.id,
@@ -37,8 +38,8 @@ class CheckLogInfo {
       this.addressName,
       this.tradeId,
       this.tradeName,
-      this.typeOfWorkId,
-      this.typeOfWorkName,
+      this.companyTaskTd,
+      this.companyTaskName,
       this.dateAdded,
       this.checkinDateTime,
       this.checkoutDateTime,
@@ -57,7 +58,8 @@ class CheckLogInfo {
       this.userThumbImage,
       this.totalCheckLogs,
       this.priceWorkTotalAmount,
-      this.isPricework});
+      this.isPricework,
+      this.progress});
 
   CheckLogInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -66,8 +68,8 @@ class CheckLogInfo {
     addressName = json['address_name'];
     tradeId = json['trade_id'];
     tradeName = json['trade_name'];
-    typeOfWorkId = json['type_of_work_id'];
-    typeOfWorkName = json['type_of_work_name'];
+    companyTaskTd = json['company_task_id'];
+    companyTaskName = json['company_task_name'];
     dateAdded = json['date_added'];
     checkinDateTime = json['checkin_date_time'];
     checkoutDateTime = json['checkout_date_time'];
@@ -101,6 +103,7 @@ class CheckLogInfo {
     totalCheckLogs = json['total_checklogs'];
     priceWorkTotalAmount = json['pricework_total_amount'];
     isPricework = json['is_pricework'];
+    progress = json['progress'];
   }
 
   Map<String, dynamic> toJson() {
@@ -111,8 +114,8 @@ class CheckLogInfo {
     data['address_name'] = this.addressName;
     data['trade_id'] = this.tradeId;
     data['trade_name'] = this.tradeName;
-    data['type_of_work_id'] = this.typeOfWorkId;
-    data['type_of_work_name'] = this.typeOfWorkName;
+    data['company_task_id'] = this.companyTaskTd;
+    data['company_task_name'] = this.companyTaskName;
     data['date_added'] = this.dateAdded;
     data['checkin_date_time'] = this.checkinDateTime;
     data['checkout_date_time'] = this.checkoutDateTime;
@@ -142,6 +145,7 @@ class CheckLogInfo {
     data['total_checklogs'] = this.totalCheckLogs;
     data['pricework_total_amount'] = this.priceWorkTotalAmount;
     data['is_pricework'] = this.isPricework;
+    data['progress'] = this.progress;
     return data;
   }
 }

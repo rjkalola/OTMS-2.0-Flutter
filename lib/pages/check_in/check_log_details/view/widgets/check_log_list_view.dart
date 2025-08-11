@@ -38,7 +38,6 @@ class CheckLogListView extends StatelessWidget {
                   (position) {
                     var info =
                         controller.workInfo.value.userChecklogs![position];
-                    print("check Log:" + info.checkinDateTime!);
                     return IntrinsicHeight(
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -125,9 +124,9 @@ class CheckLogListView extends StatelessWidget {
                                                     setProjectNameTextView(
                                                         !StringHelper
                                                                 .isEmptyString(info
-                                                                    .typeOfWorkName)
+                                                                    .companyTaskName)
                                                             ? info
-                                                                .typeOfWorkName
+                                                                .companyTaskName
                                                             : info.tradeName)
                                                   ],
                                                 ),

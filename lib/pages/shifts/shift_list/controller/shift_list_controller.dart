@@ -49,6 +49,7 @@ class ShiftListController extends GetxController
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
+    map["project_id"] = 0;
     _api.getShiftList(
       data: map,
       onSuccess: (ResponseModel responseModel) {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:otm_inventory/pages/check_in/check_in/controller/check_in_controller.dart';
 import 'package:otm_inventory/pages/check_in/check_out/controller/check_out_controller.dart';
+import 'package:otm_inventory/pages/check_in/check_out/view/widgets/progress_view.dart';
 import 'package:otm_inventory/pages/check_in/check_out/view/widgets/total_check_out_amount_row.dart';
 import 'package:otm_inventory/pages/check_in/check_out/view/widgets/total_check_out_hours_row.dart';
 import 'package:otm_inventory/pages/check_in/widgets/photos_count_view.dart';
@@ -14,9 +14,7 @@ import 'package:otm_inventory/utils/string_helper.dart';
 import 'package:otm_inventory/widgets/CustomProgressbar.dart';
 import 'package:otm_inventory/widgets/PrimaryButton.dart';
 import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
-import 'package:otm_inventory/widgets/map_view/bottom_curve_container.dart';
-import 'package:otm_inventory/widgets/map_view/custom_map_view.dart';
-import 'package:otm_inventory/widgets/map_view/map_back_arrow.dart';
+import 'package:otm_inventory/widgets/slider/custom_slider.dart';
 import 'package:otm_inventory/widgets/textfield/reusable/add_note_widget.dart';
 import 'package:otm_inventory/widgets/textfield/reusable/drop_down_text_field.dart';
 
@@ -141,6 +139,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                             SizedBox(
                               height: 16,
                             ),
+                            ProgressView(),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [

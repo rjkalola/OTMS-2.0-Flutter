@@ -14,17 +14,17 @@ class TypeOfWorkResourcesInfo {
 
   TypeOfWorkResourcesInfo(
       {this.id,
-        this.name,
-        this.companyId,
-        this.companyName,
-        this.tradeId,
-        this.tradeName,
-        this.startDate,
-        this.duration,
-        this.isPricework,
-        this.rate,
-        this.repeatableJob,
-        this.units});
+      this.name,
+      this.companyId,
+      this.companyName,
+      this.tradeId,
+      this.tradeName,
+      this.startDate,
+      this.duration,
+      this.isPricework,
+      this.rate,
+      this.repeatableJob,
+      this.units});
 
   TypeOfWorkResourcesInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];

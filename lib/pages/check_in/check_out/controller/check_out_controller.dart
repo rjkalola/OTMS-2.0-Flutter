@@ -36,7 +36,7 @@ class CheckOutController extends GetxController implements SelectItemListener {
       isInternetNotAvailable = false.obs,
       isLocationLoaded = true.obs,
       isPriceWork = false.obs;
-
+  final RxInt progress = 0.obs;
   final _api = CheckOutRepository();
   final addressController = TextEditingController().obs;
   final tradeController = TextEditingController().obs;
@@ -51,7 +51,8 @@ class CheckOutController extends GetxController implements SelectItemListener {
       addressId = 0,
       tradeId = 0,
       typeOfWorkId = 0,
-      projectId = 0;
+      projectId = 0,
+      initialProgress = 0;
   String date = "";
 
   bool isCurrentDay = true;
@@ -78,7 +79,7 @@ class CheckOutController extends GetxController implements SelectItemListener {
       projectId = arguments[AppConstants.intentKey.projectId] ?? 0;
       isPriceWork.value =
           arguments[AppConstants.intentKey.isPriceWork] ?? false;
-      print("isPriceWork.value:"+isPriceWork.value.toString());
+      print("isPriceWork.value:" + isPriceWork.value.toString());
     }
     getCheckLogDetailsApi();
     /* LocationInfo? locationInfo = Get.find<AppStorage>().getLastLocation();
@@ -100,11 +101,11 @@ class CheckOutController extends GetxController implements SelectItemListener {
             : getCurrentTime();
     addressController.value.text = checkLogInfo.value.addressName ?? "-";
     tradeController.value.text = checkLogInfo.value.tradeName ?? "-";
-    typeOfWorkController.value.text = checkLogInfo.value.typeOfWorkName ?? "-";
+    typeOfWorkController.value.text = checkLogInfo.value.companyTaskName ?? "-";
 
     addressId = checkLogInfo.value.addressId ?? 0;
     tradeId = checkLogInfo.value.tradeId ?? 0;
-    typeOfWorkId = checkLogInfo.value.typeOfWorkId ?? 0;
+    typeOfWorkId = checkLogInfo.value.companyTaskTd ?? 0;
 
     for (var before in checkLogInfo.value.beforeAttachments!) {
       listBeforePhotos.add(FilesInfo(
@@ -132,6 +133,8 @@ class CheckOutController extends GetxController implements SelectItemListener {
           checkLogInfo.value = response.info!;
           isCurrentDay =
               ClockInUtils.isCurrentDay(checkLogInfo.value.dateAdded ?? "");
+          initialProgress = response.totalProgress ?? 0;
+          progress.value = response.totalProgress ?? 0;
           // isPriceWork.value = response.info!.isPricework ?? false;
           print("isCurrentDay:" + isCurrentDay.toString());
           setInitialTime();
@@ -155,9 +158,15 @@ class CheckOutController extends GetxController implements SelectItemListener {
   void checkOutApi() async {
     Map<String, dynamic> map = {};
     map["checklog_id"] = checkLogInfo.value.id ?? 0;
+    map["total_progress"] = progress.value;
+    if (initialProgress == 0) {
+      map["new_progress"] = progress.value;
+    } else {
+      map["new_progress"] = progress.value - initialProgress;
+    }
     map["address_id"] = addressId;
     map["trade_id"] = tradeId;
-    map["type_of_work_id"] = typeOfWorkId;
+    map["company_task_id"] = typeOfWorkId;
     map["comment"] = StringHelper.getText(addressController.value);
     map["before_attachment_remove_ids"] =
         StringHelper.getCommaSeparatedStringIds(listBeforeRemoveIds);
