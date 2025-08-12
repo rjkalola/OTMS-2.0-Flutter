@@ -16,6 +16,7 @@ import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_utils_
 import 'package:otm_inventory/pages/check_in/clock_in/model/check_log_info.dart';
 import 'package:otm_inventory/pages/check_in/dialogs/select_type_of_work_dialog.dart';
 import 'package:otm_inventory/pages/common/listener/select_item_listener.dart';
+import 'package:otm_inventory/pages/common/listener/select_type_of_work_listener.dart';
 import 'package:otm_inventory/pages/common/model/file_info.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
@@ -30,7 +31,8 @@ import 'package:otm_inventory/web_services/response/response_model.dart';
 import '../../../../utils/app_constants.dart';
 import '../../../common/drop_down_list_dialog.dart';
 
-class CheckOutController extends GetxController implements SelectItemListener {
+class CheckOutController extends GetxController
+    implements SelectItemListener, SelectTypeOfWorkListener {
   final RxBool isLoading = false.obs,
       isMainViewVisible = false.obs,
       isInternetNotAvailable = false.obs,
@@ -51,6 +53,7 @@ class CheckOutController extends GetxController implements SelectItemListener {
       addressId = 0,
       tradeId = 0,
       typeOfWorkId = 0,
+      companyTaskId = 0,
       projectId = 0,
       initialProgress = 0;
   String date = "";
@@ -105,7 +108,7 @@ class CheckOutController extends GetxController implements SelectItemListener {
 
     addressId = checkLogInfo.value.addressId ?? 0;
     tradeId = checkLogInfo.value.tradeId ?? 0;
-    typeOfWorkId = checkLogInfo.value.companyTaskTd ?? 0;
+    companyTaskId = checkLogInfo.value.companyTaskTd ?? 0;
 
     for (var before in checkLogInfo.value.beforeAttachments!) {
       listBeforePhotos.add(FilesInfo(
@@ -134,7 +137,12 @@ class CheckOutController extends GetxController implements SelectItemListener {
           isCurrentDay =
               ClockInUtils.isCurrentDay(checkLogInfo.value.dateAdded ?? "");
           initialProgress = response.totalProgress ?? 0;
-          progress.value = response.totalProgress ?? 0;
+          progress.value =
+              StringHelper.isEmptyString(checkLogInfo.value.checkoutDateTime)
+                  ? ((response.totalProgress ?? 0) == 0
+                      ? 100
+                      : response.totalProgress ?? 0)
+                  : (checkLogInfo.value.progress ?? 0);
           // isPriceWork.value = response.info!.isPricework ?? false;
           print("isCurrentDay:" + isCurrentDay.toString());
           setInitialTime();
@@ -166,7 +174,8 @@ class CheckOutController extends GetxController implements SelectItemListener {
     }
     map["address_id"] = addressId;
     map["trade_id"] = tradeId;
-    map["company_task_id"] = typeOfWorkId;
+    map["company_task_id"] = companyTaskId;
+    map["type_of_work_id"] = typeOfWorkId;
     map["comment"] = StringHelper.getText(addressController.value);
     map["before_attachment_remove_ids"] =
         StringHelper.getCommaSeparatedStringIds(listBeforeRemoveIds);
@@ -276,9 +285,10 @@ class CheckOutController extends GetxController implements SelectItemListener {
     );
   }
 
-  void getTypeOfWorkResourcesApi(int tradeId) async {
+  void getTypeOfWorkResourcesApi() async {
     Map<String, dynamic> map = {};
     map["trade_id"] = tradeId;
+    map["address_id"] = addressId;
     map["company_id"] = ApiConstants.companyId;
     map["is_pricework"] = isPriceWork;
     isLoading.value = true;
@@ -451,23 +461,38 @@ class CheckOutController extends GetxController implements SelectItemListener {
     if (action == AppConstants.dialogIdentifier.selectAddress) {
       addressController.value.text = name;
       addressId = id;
+
+      if (tradeId != 0) {
+        typeOfWorkController.value.text = "";
+        typeOfWorkId = 0;
+        companyTaskId = 0;
+
+        typeOfWorkList.clear();
+        getTypeOfWorkResourcesApi();
+      }
     } else if (action == AppConstants.dialogIdentifier.selectTrade) {
       tradeController.value.text = name;
       tradeId = id;
 
       typeOfWorkController.value.text = "";
       typeOfWorkId = 0;
+      companyTaskId = 0;
 
       typeOfWorkList.clear();
-      getTypeOfWorkResourcesApi(tradeId);
-      /* for (var info in checkInResourcesData!.typeOfWorks!) {
-        if (info.tradeId == tradeId) {
-          typeOfWorkList.add(info);
-        }
-      }*/
+      getTypeOfWorkResourcesApi();
     } else if (action == AppConstants.dialogIdentifier.selectTypeOfWork) {
       typeOfWorkController.value.text = name;
       typeOfWorkId = id;
+    }
+  }
+
+  @override
+  void onSelectTypeOfWork(int position, int typeOfWorkId, int companyTaskId,
+      String name, String action) {
+    if (action == AppConstants.dialogIdentifier.selectTypeOfWork) {
+      typeOfWorkController.value.text = name;
+      this.typeOfWorkId = typeOfWorkId;
+      this.companyTaskId = companyTaskId;
     }
   }
 }

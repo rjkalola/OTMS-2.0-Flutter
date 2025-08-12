@@ -101,11 +101,12 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                               title: 'address'.tr,
                               controller: controller.addressController,
                               borderRadius: 15,
-                              isArrowHide: !StringHelper.isEmptyString(
-                                  controller
-                                      .checkLogInfo.value.checkoutDateTime),
+                              // isArrowHide: !StringHelper.isEmptyString(
+                              //     controller
+                              //         .checkLogInfo.value.checkoutDateTime),
+                              isArrowHide: true,
                               onPressed: () {
-                                controller.showSelectAddressDialog();
+                                // controller.showSelectAddressDialog();
                               },
                             ),
                             SizedBox(
@@ -115,11 +116,12 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                               title: 'trade'.tr,
                               controller: controller.tradeController,
                               borderRadius: 15,
-                              isArrowHide: !StringHelper.isEmptyString(
-                                  controller
-                                      .checkLogInfo.value.checkoutDateTime),
+                              // isArrowHide: !StringHelper.isEmptyString(
+                              //     controller
+                              //         .checkLogInfo.value.checkoutDateTime),
+                              isArrowHide: true,
                               onPressed: () {
-                                controller.showSelectTradeDialog();
+                                // controller.showSelectTradeDialog();
                               },
                             ),
                             SizedBox(
@@ -129,11 +131,12 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                               title: 'type_of_work'.tr,
                               controller: controller.typeOfWorkController,
                               borderRadius: 15,
-                              isArrowHide: !StringHelper.isEmptyString(
-                                  controller
-                                      .checkLogInfo.value.checkoutDateTime),
+                              // isArrowHide: !StringHelper.isEmptyString(
+                              //     controller
+                              //         .checkLogInfo.value.checkoutDateTime),
+                              isArrowHide: true,
                               onPressed: () {
-                                controller.showSelectTypeOfWorkDialog();
+                                // controller.showSelectTypeOfWorkDialog();
                               },
                             ),
                             SizedBox(

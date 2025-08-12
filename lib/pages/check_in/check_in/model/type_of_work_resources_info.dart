@@ -1,5 +1,5 @@
 class TypeOfWorkResourcesInfo {
-  int? id;
+  int? id, companyTaskId, typeOfWorkId;
   String? name;
   int? companyId;
   String? companyName;
@@ -14,6 +14,8 @@ class TypeOfWorkResourcesInfo {
 
   TypeOfWorkResourcesInfo(
       {this.id,
+      this.companyTaskId,
+      this.typeOfWorkId,
       this.name,
       this.companyId,
       this.companyName,
@@ -28,6 +30,8 @@ class TypeOfWorkResourcesInfo {
 
   TypeOfWorkResourcesInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    companyTaskId = json['company_task_id'];
+    typeOfWorkId = json['type_of_work_id'];
     name = json['name'];
     companyId = json['company_id'];
     companyName = json['company_name'];
@@ -44,6 +48,8 @@ class TypeOfWorkResourcesInfo {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
+    data['company_task_id'] = this.companyTaskId;
+    data['type_of_work_id'] = this.typeOfWorkId;
     data['name'] = this.name;
     data['company_id'] = this.companyId;
     data['company_name'] = this.companyName;

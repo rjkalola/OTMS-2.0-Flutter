@@ -14,6 +14,7 @@ import 'package:otm_inventory/pages/check_in/clock_in/model/work_log_info.dart';
 import 'package:otm_inventory/pages/check_in/dialogs/select_type_of_work_dialog.dart';
 import 'package:otm_inventory/pages/common/drop_down_list_dialog.dart';
 import 'package:otm_inventory/pages/common/listener/select_item_listener.dart';
+import 'package:otm_inventory/pages/common/listener/select_type_of_work_listener.dart';
 import 'package:otm_inventory/pages/common/model/file_info.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
@@ -28,7 +29,8 @@ import 'package:otm_inventory/web_services/response/response_model.dart';
 
 import '../../../../utils/app_constants.dart';
 
-class CheckInController extends GetxController implements SelectItemListener {
+class CheckInController extends GetxController
+    implements SelectItemListener, SelectTypeOfWorkListener {
   final RxBool isLoading = false.obs,
       isMainViewVisible = false.obs,
       isInternetNotAvailable = false.obs,
@@ -49,6 +51,7 @@ class CheckInController extends GetxController implements SelectItemListener {
       addressId = 0,
       tradeId = 0,
       typeOfWorkId = 0,
+      companyTaskId = 0,
       projectId = 0;
   String date = "";
   bool isCurrentDay = true, isPriceWork = false;
@@ -95,7 +98,8 @@ class CheckInController extends GetxController implements SelectItemListener {
     map["user_worklog_id"] = workLogId;
     map["address_id"] = addressId;
     map["trade_id"] = tradeId;
-    map["company_task_id"] = typeOfWorkId;
+    map["company_task_id"] = companyTaskId;
+    map["type_of_work_id"] = typeOfWorkId;
     map["comment"] = StringHelper.getText(noteController.value);
     map["location"] = location;
     map["latitude"] = latitude;
@@ -179,9 +183,10 @@ class CheckInController extends GetxController implements SelectItemListener {
     );
   }
 
-  void getTypeOfWorkResourcesApi(int tradeId) async {
+  void getTypeOfWorkResourcesApi() async {
     Map<String, dynamic> map = {};
     map["trade_id"] = tradeId;
+    map["address_id"] = addressId;
     map["company_id"] = ApiConstants.companyId;
     map["is_pricework"] = isPriceWork;
     isLoading.value = true;
@@ -339,15 +344,25 @@ class CheckInController extends GetxController implements SelectItemListener {
     if (action == AppConstants.dialogIdentifier.selectAddress) {
       addressController.value.text = name;
       addressId = id;
+
+      if (tradeId != 0) {
+        typeOfWorkController.value.text = "";
+        typeOfWorkId = 0;
+        companyTaskId = 0;
+
+        typeOfWorkList.clear();
+        getTypeOfWorkResourcesApi();
+      }
     } else if (action == AppConstants.dialogIdentifier.selectTrade) {
       tradeController.value.text = name;
       tradeId = id;
 
       typeOfWorkController.value.text = "";
       typeOfWorkId = 0;
+      companyTaskId = 0;
 
       typeOfWorkList.clear();
-      getTypeOfWorkResourcesApi(tradeId);
+      getTypeOfWorkResourcesApi();
       // for (var info in checkInResourcesData!.typeOfWorks!) {
       //   if (info.tradeId == tradeId) {
       //     typeOfWorkList.add(info);
@@ -356,6 +371,16 @@ class CheckInController extends GetxController implements SelectItemListener {
     } else if (action == AppConstants.dialogIdentifier.selectTypeOfWork) {
       typeOfWorkController.value.text = name;
       typeOfWorkId = id;
+    }
+  }
+
+  @override
+  void onSelectTypeOfWork(int position, int typeOfWorkId, int companyTaskId,
+      String name, String action) {
+    if (action == AppConstants.dialogIdentifier.selectTypeOfWork) {
+      typeOfWorkController.value.text = name;
+      this.typeOfWorkId = typeOfWorkId;
+      this.companyTaskId = companyTaskId;
     }
   }
 }

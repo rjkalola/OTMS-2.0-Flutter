@@ -161,7 +161,11 @@ class CheckLogListView extends StatelessWidget {
                                                                 right: 12),
                                                         borderRadius: 6,
                                                         text: isPriceWork
-                                                            ? "£${info.priceWorkTotalAmount ?? ""}"
+                                                            ? (StringHelper
+                                                                    .isEmptyString(info
+                                                                        .checkoutDateTime)
+                                                                ? 'working'.tr
+                                                                : "£${info.priceWorkTotalAmount ?? ""}")
                                                             : DateUtil
                                                                 .seconds_To_HH_MM(
                                                                     info.totalWorkSeconds ??

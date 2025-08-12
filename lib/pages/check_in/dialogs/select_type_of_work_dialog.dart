@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:otm_inventory/pages/check_in/check_in/model/type_of_work_resources_info.dart';
 import 'package:otm_inventory/pages/check_in/check_in/model/type_of_work_resources_response.dart';
 import 'package:otm_inventory/pages/common/listener/select_item_listener.dart';
+import 'package:otm_inventory/pages/common/listener/select_type_of_work_listener.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/res/theme/theme_config.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
@@ -21,7 +22,7 @@ import 'package:otm_inventory/widgets/textfield/search_text_field_dark.dart';
 class SelectTypeOfWorkDialog extends StatefulWidget {
   final List<TypeOfWorkResourcesInfo> list;
   final String dialogType;
-  final SelectItemListener listener;
+  final SelectTypeOfWorkListener listener;
 
   const SelectTypeOfWorkDialog(
       {super.key,
@@ -37,7 +38,7 @@ class SelectTypeOfWorkDialog extends StatefulWidget {
 class SelectTypeOfWorkDialogState extends State<SelectTypeOfWorkDialog> {
   List<TypeOfWorkResourcesInfo> list;
   String dialogType;
-  SelectItemListener listener;
+  SelectTypeOfWorkListener listener;
   List<TypeOfWorkResourcesInfo> tempList = [];
   final isClearVisible = false.obs;
   final searchController = TextEditingController().obs;
@@ -108,7 +109,8 @@ class SelectTypeOfWorkDialogState extends State<SelectTypeOfWorkDialog> {
     });
   }
 
-  Widget setDropdownList(String dialogType, SelectItemListener listener) =>
+  Widget setDropdownList(
+          String dialogType, SelectTypeOfWorkListener listener) =>
       Container(
         margin: const EdgeInsets.only(top: 10),
         child: ListView.builder(
@@ -129,8 +131,12 @@ class SelectTypeOfWorkDialogState extends State<SelectTypeOfWorkDialog> {
                       child: InkWell(
                         onTap: () {
                           Get.back();
-                          listener.onSelectItem(i, tempList[i].id ?? 0,
-                              tempList[i].name ?? "", dialogType);
+                          listener.onSelectTypeOfWork(
+                              i,
+                              tempList[i].typeOfWorkId ?? 0,
+                              tempList[i].companyTaskId ?? 0,
+                              tempList[i].name ?? "",
+                              dialogType);
                         },
                         child: TitleTextView(
                           text: tempList[i].name ?? "",
