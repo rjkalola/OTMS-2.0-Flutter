@@ -47,7 +47,7 @@ class _PostCoderSearchScreenState extends State<PostCoderSearchScreen>{
             child: Scaffold(
               appBar: BaseAppBar(
                 appBar: AppBar(),
-                title: "Search Post Code",
+                title: "search_post_code".tr,
                 isCenterTitle: false,
                 bgColor: dashBoardBgColor_(context),
                 isBack: true
@@ -58,8 +58,8 @@ class _PostCoderSearchScreenState extends State<PostCoderSearchScreen>{
                 opacity: 0,
                 progressIndicator: const CustomProgressbar(),
                 child: controller.isInternetNotAvailable.value
-                    ? const Center(
-                  child: Text("No Internet"),
+                    ? Center(
+                  child: Text("no_internet_text".tr),
                 )
                     :  Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -69,8 +69,8 @@ class _PostCoderSearchScreenState extends State<PostCoderSearchScreen>{
                       TextFieldUnderline(
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           textEditingController: _controller,
-                          hintText: "Postcode or address",
-                          labelText: "Postcode or address",
+                          hintText: "postcode_address".tr,
+                          labelText: "postcode_address".tr,
                           keyboardType: TextInputType.name,
                           textInputAction: TextInputAction.next,
                           onValueChange: (value) {
@@ -107,7 +107,7 @@ class _PostCoderSearchScreenState extends State<PostCoderSearchScreen>{
 
                       SizedBox(height: 16),
                       if (addressResults.isNotEmpty)
-                        Text("${addressResults.length} addresses found",
+                        Text("${addressResults.length} ${'addresses_found'.tr}",
                             style: TextStyle(fontWeight: FontWeight.bold)),
                       SizedBox(height: 8),
                       Expanded(

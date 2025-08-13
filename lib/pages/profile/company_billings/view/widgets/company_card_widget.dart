@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:otm_inventory/pages/company/company_signup/model/company_info.dart';
@@ -77,7 +78,7 @@ class CompanyCardWidget extends StatelessWidget {
                             children: [
                               RichText(
                                 text: TextSpan(
-                                  text: 'Trade ',
+                                  text: 'trade '.tr,
                                   style: TextStyle(
                                     color: primaryTextColor_(context),
                                     fontSize: 14,
@@ -98,7 +99,7 @@ class CompanyCardWidget extends StatelessWidget {
                               SizedBox(height: 6),
                               RichText(
                                 text: TextSpan(
-                                  text: '(£) Net Per Day ',
+                                  text: '(£) ${'net_per_day'.tr} ',
                                   style: TextStyle(
                                     color: primaryTextColor_(context),
                                     fontSize: 14,

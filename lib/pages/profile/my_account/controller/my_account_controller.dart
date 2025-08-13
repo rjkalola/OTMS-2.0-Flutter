@@ -35,15 +35,15 @@ class MyAccountController extends GetxController with GetSingleTickerProviderSta
   ];
 
   final List<Map<String, dynamic>> menuItems = [
-    {'icon': Icons.receipt, 'title': 'Billing'},
-    {'icon': Icons.health_and_safety_outlined, 'title': 'Health Info'},
-    {'icon': Icons.favorite_border, 'title': 'Health & Safety'},
-    {'icon': Icons.request_page_outlined, 'title': 'My Requests'},
-    {'icon': Icons.insert_drive_file_outlined, 'title': 'Documents'},
-    {'icon': Icons.beach_access_outlined, 'title': 'My Leaves'},
-    {'icon': Icons.badge_outlined, 'title': 'Digital ID'},
-    {'icon': Icons.home_outlined, 'title': 'Rent'},
-    {'icon': Icons.history, 'title': 'History'},
+    {'icon': Icons.receipt, 'title': 'billing'.tr},
+    {'icon': Icons.health_and_safety_outlined, 'title': 'health_info'.tr},
+    {'icon': Icons.favorite_border, 'title': 'health_safety'.tr},
+    {'icon': Icons.request_page_outlined, 'title': 'my_requests'.tr},
+    {'icon': Icons.insert_drive_file_outlined, 'title': 'documents'.tr},
+    {'icon': Icons.beach_access_outlined, 'title': 'my_leaves'.tr},
+    {'icon': Icons.badge_outlined, 'title': 'digital_id'.tr},
+    {'icon': Icons.home_outlined, 'title': 'rent'.tr},
+    {'icon': Icons.history, 'title': 'history'.tr},
   ];
   //Home Tab
   final selectedActionButtonPagerPosition = 0.obs;

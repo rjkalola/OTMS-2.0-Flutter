@@ -32,7 +32,7 @@ class _BillingInfoScreenState extends State<BillingInfoScreen> {
             (node) => TextButton(
                   onPressed: () => node.unfocus(),
                   child: Text(
-                    'Done',
+                    'done'.tr,
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -65,8 +65,8 @@ class _BillingInfoScreenState extends State<BillingInfoScreen> {
                     opacity: 0,
                     progressIndicator: const CustomProgressbar(),
                     child: controller.isInternetNotAvailable.value
-                        ? const Center(
-                            child: Text("No Internet"),
+                        ? Center(
+                            child: Text("no_internet_text".tr),
                           )
                         : SingleChildScrollView(
                             child: Form(

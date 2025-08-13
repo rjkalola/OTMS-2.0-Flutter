@@ -33,8 +33,8 @@ class MyAccountScreen extends StatelessWidget {
                 opacity: 0,
                 progressIndicator: const CustomProgressbar(),
                 child: controller.isInternetNotAvailable.value
-                    ? const Center(
-                  child: Text("No Internet"),
+                    ?  Center(
+                  child: Text("no_internet_text".tr),
                 )
                     : Visibility(
                     visible: controller.isMainViewVisible.value,

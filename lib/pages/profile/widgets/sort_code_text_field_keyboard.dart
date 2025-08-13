@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 
@@ -31,7 +32,7 @@ class SortCodeTextFieldKeyboard extends StatelessWidget {
         autovalidateMode: AutovalidateMode.onUserInteraction,
         textEditingController: controller.value,
         hintText:"12-34-56",
-        labelText: 'Sort Code',
+        labelText: 'sort_code'.tr,
         keyboardType: TextInputType.number,
         textInputAction: TextInputAction.done,
         isReadOnly: isReadOnly,

@@ -34,8 +34,8 @@ class UserSettingsScreen extends StatelessWidget {
                 opacity: 0,
                 progressIndicator: const CustomProgressbar(),
                 child: controller.isInternetNotAvailable.value
-                    ? const Center(
-                        child: Text("No Internet"),
+                    ? Center(
+                        child: Text("no_internet_text".tr),
                       )
                     : ListView(
                         children: [
@@ -48,7 +48,7 @@ class UserSettingsScreen extends StatelessWidget {
                           BuildDarkModeItemWidget(),
                           _buildSettingItem(
                             icon: Icons.description,
-                            title: 'Privacy and Policy',
+                            title: 'privacy_policy'.tr,
                             onTap: () {
                               Navigator.push(
                                 context,
@@ -56,7 +56,7 @@ class UserSettingsScreen extends StatelessWidget {
                                   builder: (context) => MyWebViewScreen(
                                     url:
                                         'http://devsystem.belcka.com:3001/privacy-policy',
-                                    pageTitle: "Privacy and Policy",
+                                    pageTitle: 'privacy_policy'.tr,
                                   ),
                                 ),
                               );
@@ -64,7 +64,7 @@ class UserSettingsScreen extends StatelessWidget {
                           ),
                           _buildSettingItem(
                             icon: Icons.info_outline,
-                            title: 'App Info',
+                            title: 'app_info'.tr,
                             onTap: () {
                               Navigator.push(
                                 context,
@@ -72,7 +72,7 @@ class UserSettingsScreen extends StatelessWidget {
                                   builder: (context) => MyWebViewScreen(
                                     url:
                                         'http://devsystem.belcka.com:3001/app-info',
-                                    pageTitle: "App Info",
+                                    pageTitle:'app_info'.tr,
                                   ),
                                 ),
                               );
@@ -80,14 +80,14 @@ class UserSettingsScreen extends StatelessWidget {
                           ),
                           _buildSettingItem(
                             icon: Icons.swap_horiz,
-                            title: 'Switch Company',
+                            title: 'switch_company'.tr,
                             onTap: () {
                               Get.toNamed(AppRoutes.switchCompanyScreen);
                             },
                           ),
                           _buildSettingItem(
                             icon: Icons.delete_outline,
-                            title: 'Delete Account',
+                            title: 'delete_account'.tr,
                             onTap: () {
                               Get.toNamed(AppRoutes.deleteAccountScreen);
                             },

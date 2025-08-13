@@ -48,8 +48,8 @@ class _BillingDetailsNewScreenState extends State<BillingDetailsNewScreen> {
             opacity: 0,
             progressIndicator: const CustomProgressbar(),
             child: controller.isInternetNotAvailable.value
-                ? const Center(
-              child: Text("No Internet"),
+                ?  Center(
+              child: Text('no_internet_text'.tr),
             )
                 : Visibility(
                 visible: controller.isMainViewVisible.value,
@@ -83,19 +83,19 @@ class _BillingDetailsNewScreenState extends State<BillingDetailsNewScreen> {
                                           fontSize: 24, fontWeight: FontWeight.w600),
                                     ),
                                     SizedBox(height: 10),
-                                    InfoCard(label: "Phone number", value:"${controller.billingInfo.value.extension ?? ""} ${controller.billingInfo.value.phone ?? ""}", isLink: true),
-                                    InfoCard(label: "Email", value: controller.billingInfo.value.email ?? "", isLink: true),
+                                    InfoCard(label: 'phone_number'.tr, value:"${controller.billingInfo.value.extension ?? ""} ${controller.billingInfo.value.phone ?? ""}", isLink: true),
+                                    InfoCard(label: 'email'.tr, value: controller.billingInfo.value.email ?? "", isLink: true),
                                     NavigationCard(value: controller.address),
-                                    NavigationCard(label: "TAX info", value: controller.taxInfo),
-                                    NavigationCard(label: "Bank Details", value: controller.bankDetails),
-                                    NavigationCard(label: "Rates", value: controller.billingInfo.value.net_rate_perDay != null
+                                    NavigationCard(label: 'tax_info'.tr, value: controller.taxInfo),
+                                    NavigationCard(label: 'bank_details'.tr, value: controller.bankDetails),
+                                    NavigationCard(label: "rates", value: controller.billingInfo.value.net_rate_perDay != null
                                         ? "${controller.billingInfo.value.tradeName ?? ""} - ${controller.billingInfo.value.currency ?? ""}${controller.billingInfo.value.net_rate_perDay}"
                                         : "${controller.billingInfo.value.tradeName ?? ""}",),
                                     Divider(color: dividerColor_(context),height: 12,),
                                     SizedBox(height: 12),
-                                    NavigationCard(value: "Payslips"),
-                                    NavigationCard(value: "Payment"),
-                                    NavigationCard(value: "Invoice"),
+                                    NavigationCard(value: "payslips".tr),
+                                    NavigationCard(value: "payment".tr),
+                                    NavigationCard(value: "invoice".tr),
                                   ],
                                 ),
                               ),

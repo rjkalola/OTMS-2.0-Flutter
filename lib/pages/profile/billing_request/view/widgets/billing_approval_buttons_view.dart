@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:otm_inventory/pages/profile/billing_request/controller/billing_request_controller.dart';
@@ -30,20 +31,20 @@ class _BillingApprovalButtonsViewState extends State<BillingApprovalButtonsView>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "This billing data is awaiting for approval.",
+            "this_billing_data_is_awaiting_for_approval".tr,
             style: TextStyle(color: Colors.grey.shade600,fontSize: 15),
           ),
           SizedBox(height: 8),
 
           if (showNoteSection) ...[
-            Text("Do you want to leave a note?", style: TextStyle(color: Colors.grey.shade600)),
+            Text("do_you_want_to_leave_a_note".tr, style: TextStyle(color: Colors.grey.shade600)),
             SizedBox(height: 8),
             TextField(
               controller: _noteController,
               maxLines: 2,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: "Enter note",
+                hintText: "enter_note".tr,
                 contentPadding:
                 EdgeInsets.symmetric(horizontal: 12, vertical: 10),
               ),
@@ -71,7 +72,7 @@ class _BillingApprovalButtonsViewState extends State<BillingApprovalButtonsView>
                   foregroundColor: defaultAccentColor_(context),
                   textStyle: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),
                 ),
-                child: Text("Approve"),
+                child: Text("approve".tr),
               ),
               OutlinedButton(
                 onPressed: () {
@@ -91,7 +92,7 @@ class _BillingApprovalButtonsViewState extends State<BillingApprovalButtonsView>
                   foregroundColor: Colors.red,
                   textStyle: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),
                 ),
-                child: Text("Reject"),
+                child: Text("reject".tr),
               ),
             ],
           ),
@@ -99,7 +100,7 @@ class _BillingApprovalButtonsViewState extends State<BillingApprovalButtonsView>
       )
           : Center(
         child: Text(
-          "Billing information submission is pending for approval.",
+          "billing_information_submission_is_pending_for_approval".tr,
           style:
           TextStyle(color: Colors.red, fontSize: 15,fontWeight: FontWeight.w500),
           textAlign: TextAlign.center,

@@ -70,8 +70,8 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
               opacity: 0,
               progressIndicator: const CustomProgressbar(),
               child: loginController.isInternetNotAvailable.value
-                  ? const Center(
-                      child: Text("No Internet"),
+                  ?  Center(
+                      child: Text("no_internet_text".tr),
                     )
                   : SingleChildScrollView(
                       padding: const EdgeInsets.all(11.25),
@@ -128,7 +128,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                           const SizedBox(height: 16),
                           PersonalInfoSectionCard(
                             backgroundColor: Colors.white,
-                            title: 'Bank Details',
+                            title: 'bank_details'.tr,
                             children: [
                               PersonalInfoNameOnBankAccountTextfieldWidget(),
                               PersonalInfoBankNameTextFieldWidget(),

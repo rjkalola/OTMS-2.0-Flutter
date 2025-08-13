@@ -93,7 +93,7 @@ class BillingDetailsNewController extends GetxController {
             address = "${billingInfo.value.address}";
           }
           else{
-            address = "Address & Postcode";
+            address = 'address_postcode'.tr;
           }
 
           if ((billingInfo.value.shortCode ?? "").isNotEmpty &&

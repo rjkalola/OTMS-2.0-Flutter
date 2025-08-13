@@ -17,7 +17,7 @@ class NoBillingDataView extends StatelessWidget {
           Icon(Icons.receipt_long, size: 80, color: Colors.grey.shade400), // Optional icon
           const SizedBox(height: 16),
           Text(
-            'No Billing Info Available',
+            'no_billing_info_available'.tr,
             style: TextStyle(fontSize: 18, color: Colors.grey.shade600),
           ),
           const SizedBox(height: 24),
@@ -34,7 +34,7 @@ class NoBillingDataView extends StatelessWidget {
               ),
             ),
             child: Text(
-              'Add Billing Info',
+              'add_billing_info'.tr,
               style: TextStyle(fontSize: 16, color: Colors.white,fontWeight: FontWeight.bold),
             ),
           ),

@@ -34,7 +34,7 @@ class _BillingRequestScreenState extends State<BillingRequestScreen> {
         child: Scaffold(
           appBar: BaseAppBar(
             appBar: AppBar(),
-            title: 'Billing Info Request'.tr,
+            title: 'billing_info_request'.tr,
             isCenterTitle: false,
             bgColor: dashBoardBgColor_(context),
             isBack: true,
@@ -45,8 +45,8 @@ class _BillingRequestScreenState extends State<BillingRequestScreen> {
             opacity: 0,
             progressIndicator: const CustomProgressbar(),
             child: controller.isInternetNotAvailable.value
-                ? const Center(
-              child: Text("No Internet"),
+                ? Center(
+              child: Text("no_internet_text".tr),
             )
                 : Visibility(
                 visible: controller.isMainViewVisible.value,
@@ -88,7 +88,7 @@ class _BillingRequestScreenState extends State<BillingRequestScreen> {
                                       visible:(controller.billingRequestInfo.value.phone ?? "").isNotEmpty,
                                       child: PhoneWithExtensionField(
                                           "${controller.billingRequestInfo.value.extension ?? ""} ${controller.billingRequestInfo.value.phone ?? ""}",
-                                          "Phone number"),
+                                          "phone_number".tr),
                                     ),
                                     const SizedBox(height: 10),
                                     // Email
@@ -96,7 +96,7 @@ class _BillingRequestScreenState extends State<BillingRequestScreen> {
                                       visible:(controller.billingRequestInfo.value.email ?? "").isNotEmpty,
                                       child: PhoneWithExtensionField(
                                           controller.billingRequestInfo.value.email ?? "",
-                                          "Email"),
+                                          "email".tr),
                                     ),
                                     const SizedBox(height: 10),
                                     // My Address
@@ -104,7 +104,7 @@ class _BillingRequestScreenState extends State<BillingRequestScreen> {
                                       visible:(controller.billingRequestInfo.value.address ?? "").isNotEmpty,
                                       child: PhoneWithExtensionField(
                                           controller.billingRequestInfo.value.address ?? "",
-                                          "My Address"),
+                                          "my_address".tr),
                                     ),
                                     const SizedBox(height: 10),
                                     // Post code
@@ -112,7 +112,7 @@ class _BillingRequestScreenState extends State<BillingRequestScreen> {
                                       visible:(controller.billingRequestInfo.value.postCode ?? "").isNotEmpty,
                                       child: PhoneWithExtensionField(
                                           controller.billingRequestInfo.value.postCode ?? "",
-                                          "Post Code"),
+                                          "post_code".tr),
                                     ),
                                   ],
                                 ),
