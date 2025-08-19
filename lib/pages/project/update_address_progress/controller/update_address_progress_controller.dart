@@ -77,23 +77,23 @@ class UpdateAddressProgressController extends GetxController{
       showDialog(
         context: context,
         builder: (_) => AlertDialog(
-          title: Text("Warning"),
+          title: Text('warning'.tr),
           content: Text(
-            "You have to mark progress 100% to complete the task. Do you want to modify the progress?",
+            "${'update_progress_warning_text_one'.tr} 100% ${'update_progress_warning_text_two'.tr}. ${'update_progress_warning_text_three'.tr}?",
           ),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text("Yes"),
+              child: Text("yes".tr),
             ),
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
                 updateAddressProgressApi();
               },
-              child: Text("No"),
+              child: Text("no".tr),
             ),
           ],
         ),

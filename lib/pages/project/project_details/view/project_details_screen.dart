@@ -61,7 +61,7 @@ class ProjectDetailsScreen extends StatelessWidget {
                           itemBuilder: (context, index) {
                             return InkWell(
                               onTap: () {
-                                if (controller.items[index].title ==
+                                if (controller.items[index].flagName ==
                                     "Addresses") {
                                   var arguments = {
                                     AppConstants.intentKey.projectInfo:
@@ -69,7 +69,7 @@ class ProjectDetailsScreen extends StatelessWidget {
                                   };
                                   controller.moveToScreen(
                                       AppRoutes.addressListScreen, arguments);
-                                } else if (controller.items[index].title ==
+                                } else if (controller.items[index].flagName ==
                                     "Check-In") {
                                   var arguments = {
                                     AppConstants.intentKey.projectId:
@@ -78,7 +78,7 @@ class ProjectDetailsScreen extends StatelessWidget {
                                   controller.moveToScreen(
                                       AppRoutes.checkInRecordsScreen,
                                       arguments);
-                                } else if (controller.items[index].title ==
+                                } else if (controller.items[index].flagName ==
                                     "Trades") {
                                   var arguments = {
                                     AppConstants.intentKey.projectId:

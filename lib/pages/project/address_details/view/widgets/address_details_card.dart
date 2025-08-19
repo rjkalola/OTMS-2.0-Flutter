@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:otm_inventory/pages/project/address_details/controller/address_details_controller.dart';
@@ -29,15 +30,15 @@ class AddressDetailsCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AddressDetailsInfoRow(label: "Project:", value: controller.addressDetailsInfo?.projectName ?? ""),
-          AddressDetailsInfoRow(label: "Start date:", value: controller.addressDetailsInfo?.startDate ?? ""),
-          AddressDetailsInfoRow(label: "End date:", value: controller.addressDetailsInfo?.endDate ?? ""),
-          AddressDetailsInfoRow(label: "Status:", value: controller.addressDetailsInfo?.statusText ?? "", valueColor: getStatusColor(controller.addressDetailsInfo?.statusText ?? "")),
-          AddressDetailsInfoRow(label: "Progress:", value: controller.addressDetailsInfo?.progress ?? ""),
-          AddressDetailsInfoRow(label: "Materials:", value: "${controller.addressDetailsInfo?.currency ?? ""}${controller.addressDetailsInfo?.materials ?? ""}"),
-          AddressDetailsInfoRow(label: "Price Work:", value: "${controller.addressDetailsInfo?.currency ?? ""}${controller.addressDetailsInfo?.priceWork ?? ""}"),
-          AddressDetailsInfoRow(label: "Day Work:", value: controller.addressDetailsInfo?.dayWork ?? ""),
-          AddressDetailsInfoRow(label: "Total:", value: "${controller.addressDetailsInfo?.currency ?? ""}${controller.addressDetailsInfo?.total ?? ""}"),
+          AddressDetailsInfoRow(label: "${'project'.tr}:", value: controller.addressDetailsInfo?.projectName ?? ""),
+          AddressDetailsInfoRow(label: "${'start_date'.tr}:", value: controller.addressDetailsInfo?.startDate ?? ""),
+          AddressDetailsInfoRow(label: "${'end_date'.tr}:", value: controller.addressDetailsInfo?.endDate ?? ""),
+          AddressDetailsInfoRow(label: "${'status'.tr}:", value: controller.addressDetailsInfo?.statusText ?? "", valueColor: getStatusColor(controller.addressDetailsInfo?.statusText ?? "")),
+          AddressDetailsInfoRow(label: "${'progress'.tr}:", value: controller.addressDetailsInfo?.progress ?? ""),
+          AddressDetailsInfoRow(label: "${'materials'.tr}:", value: "${controller.addressDetailsInfo?.currency ?? ""}${controller.addressDetailsInfo?.materials ?? ""}"),
+          AddressDetailsInfoRow(label: "${'price_work'.tr}:", value: "${controller.addressDetailsInfo?.currency ?? ""}${controller.addressDetailsInfo?.priceWork ?? ""}"),
+          AddressDetailsInfoRow(label: "${'day_work'.tr}:", value: controller.addressDetailsInfo?.dayWork ?? ""),
+          AddressDetailsInfoRow(label: "${'total'.tr}:", value: "${controller.addressDetailsInfo?.currency ?? ""}${controller.addressDetailsInfo?.total ?? ""}"),
         ],
       ),
     );

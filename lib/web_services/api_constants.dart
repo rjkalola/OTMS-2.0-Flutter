@@ -137,6 +137,7 @@ class ApiConstants {
   static String getTypeOfWorkResources =
       '$appUrl/company-tasks/get-task-resources';
   static String checkLogDetails = '$appUrl/user-checklog/details';
+  static String getCompanyLocations = '$appUrl/company-locations/get';
 
   //timesheet
   static String getTimeSheetList = '$appUrl/timesheet/get';

@@ -45,20 +45,23 @@ class AddressDetailsController extends GetxController
 
   final List<ProjectDetalsItem> items = [
     ProjectDetalsItem(
-        title: 'Check-In',
+        title: 'check_in_'.tr,
         subtitle: '',
         iconPath: Drawable.clockIcon,
-        iconColor: "#000000"),
+        iconColor: "#000000",
+        flagName: "Check-In"),
     ProjectDetalsItem(
-        title: 'Materials',
+        title: 'materials'.tr,
         subtitle: '',
         iconPath: Drawable.poundIcon,
-        iconColor: "#000000"),
+        iconColor: "#000000",
+        flagName: "Materials"),
     ProjectDetalsItem(
-        title: 'Trades',
+        title: 'trades'.tr,
         subtitle: '',
         iconPath: Drawable.tradesPermissionIcon,
-        iconColor: "#000000"),
+        iconColor: "#000000",
+        flagName: "Trades"),
   ];
 
   AddressDetailsInfo? addressDetailsInfo;
@@ -183,7 +186,7 @@ class AddressDetailsController extends GetxController
 
   void updateItemsWithApi(AddressDetailsInfo address) {
     for (var item in items) {
-      switch (item.title) {
+      switch (item.flagName) {
         case 'Check-In':
           item.subtitle = address.checkIns.toString();
           break;

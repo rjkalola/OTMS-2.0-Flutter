@@ -34,7 +34,7 @@ class AddressDetailsGridItems extends StatelessWidget {
         itemBuilder: (context, index) {
           return InkWell(
             onTap: () {
-              if (controller.items[index].title == "Check-In") {
+              if (controller.items[index].flagName == "Check-In") {
                 var arguments = {
                   AppConstants.intentKey.projectId:
                       controller.addressInfo?.projectId ?? 0,
@@ -43,7 +43,7 @@ class AddressDetailsGridItems extends StatelessWidget {
                 };
                 controller.moveToScreen(
                     AppRoutes.checkInRecordsScreen, arguments);
-              } else if (controller.items[index].title == "Trades") {
+              } else if (controller.items[index].flagName == "Trades") {
                 var arguments = {
                   AppConstants.intentKey.projectId:
                       controller.addressInfo?.projectId ?? 0,

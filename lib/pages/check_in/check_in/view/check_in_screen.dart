@@ -105,6 +105,17 @@ class _CheckInScreenState extends State<CheckInScreen> {
                             SizedBox(
                               height: 16,
                             ),
+                            DropDownTextField(
+                              title: 'location'.tr,
+                              controller: controller.locationController,
+                              borderRadius: 15,
+                              onPressed: () {
+                                controller.showSelectLocationDialog();
+                              },
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
                             PhotosCountView(
                               title: 'photos_before'.tr,
                               count: controller.listBeforePhotos.length,

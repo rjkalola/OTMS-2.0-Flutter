@@ -142,6 +142,17 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                             SizedBox(
                               height: 16,
                             ),
+                            DropDownTextField(
+                              title: 'location'.tr,
+                              controller: controller.locationController,
+                              borderRadius: 15,
+                              isArrowHide: true,
+                              onPressed: () {
+                              },
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
                             ProgressView(),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

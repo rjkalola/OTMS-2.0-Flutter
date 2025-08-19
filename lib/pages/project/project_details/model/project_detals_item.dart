@@ -4,11 +4,13 @@ class ProjectDetalsItem {
   int? badge;
   String? iconPath;
   String? iconColor;
+  String? flagName;
 
   ProjectDetalsItem(
       {required this.title,
       required this.subtitle,
       this.badge,
       this.iconPath,
-      this.iconColor});
+      this.iconColor,
+      this.flagName});
 }

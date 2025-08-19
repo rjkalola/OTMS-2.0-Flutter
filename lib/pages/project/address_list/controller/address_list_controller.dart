@@ -89,7 +89,7 @@ class AddressListController extends GetxController implements MenuItemListener, 
   }
   void showMenuItemsDialog(BuildContext context) {
     List<ModuleInfo> listItems = [];
-    listItems.add(ModuleInfo(name: 'Add'.tr, action: AppConstants.action.add));
+    listItems.add(ModuleInfo(name: 'add'.tr, action: AppConstants.action.add));
     listItems.add(ModuleInfo(
         name: 'archived_address'.tr,
         action: AppConstants.action.archivedAddress));

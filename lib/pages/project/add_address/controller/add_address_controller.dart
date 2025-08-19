@@ -37,11 +37,11 @@ class AddAddressController extends GetxController{
       addressDetailsInfo = arguments[AppConstants.intentKey.addressDetailsInfo];
     }
     if (addressDetailsInfo != null){
-      title.value = 'Update Address';
+      title.value = 'update_address'.tr;
       siteAddressController.value.text = addressDetailsInfo?.name ?? "";
     }
     else{
-      title.value = 'Add Address';
+      title.value = 'add_address'.tr;
     }
   }
   void addAddressApi() async {

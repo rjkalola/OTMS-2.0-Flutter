@@ -41,6 +41,7 @@ class CheckOutController extends GetxController
   final RxInt progress = 0.obs;
   final _api = CheckOutRepository();
   final addressController = TextEditingController().obs;
+  final locationController = TextEditingController().obs;
   final tradeController = TextEditingController().obs;
   final typeOfWorkController = TextEditingController().obs;
   final noteController = TextEditingController().obs;
@@ -53,6 +54,7 @@ class CheckOutController extends GetxController
       addressId = 0,
       tradeId = 0,
       typeOfWorkId = 0,
+      locationId = 0,
       companyTaskId = 0,
       projectId = 0,
       initialProgress = 0;
@@ -103,12 +105,14 @@ class CheckOutController extends GetxController
                 checkLogInfo.value.checkoutDateTime ?? "")
             : getCurrentTime();
     addressController.value.text = checkLogInfo.value.addressName ?? "-";
+    locationController.value.text = checkLogInfo.value.locationName ?? "-";
     tradeController.value.text = checkLogInfo.value.tradeName ?? "-";
     typeOfWorkController.value.text = checkLogInfo.value.companyTaskName ?? "-";
 
     addressId = checkLogInfo.value.addressId ?? 0;
     tradeId = checkLogInfo.value.tradeId ?? 0;
     companyTaskId = checkLogInfo.value.companyTaskTd ?? 0;
+    locationId = checkLogInfo.value.locationId ?? 0;
 
     for (var before in checkLogInfo.value.beforeAttachments!) {
       listBeforePhotos.add(FilesInfo(

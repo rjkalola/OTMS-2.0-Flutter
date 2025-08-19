@@ -8,6 +8,8 @@ class CheckLogInfo {
   String? addressName;
   int? tradeId;
   String? tradeName;
+  int? locationId;
+  String? locationName;
   int? companyTaskTd;
   String? companyTaskName;
   String? dateAdded;
@@ -38,6 +40,8 @@ class CheckLogInfo {
       this.addressName,
       this.tradeId,
       this.tradeName,
+      this.locationId,
+      this.locationName,
       this.companyTaskTd,
       this.companyTaskName,
       this.dateAdded,
@@ -68,6 +72,8 @@ class CheckLogInfo {
     addressName = json['address_name'];
     tradeId = json['trade_id'];
     tradeName = json['trade_name'];
+    locationId = json['location_id'];
+    locationName = json['location_name'];
     companyTaskTd = json['company_task_id'];
     companyTaskName = json['company_task_name'];
     dateAdded = json['date_added'];
@@ -114,6 +120,8 @@ class CheckLogInfo {
     data['address_name'] = this.addressName;
     data['trade_id'] = this.tradeId;
     data['trade_name'] = this.tradeName;
+    data['location_id'] = this.locationId;
+    data['location_name'] = this.locationName;
     data['company_task_id'] = this.companyTaskTd;
     data['company_task_name'] = this.companyTaskName;
     data['date_added'] = this.dateAdded;

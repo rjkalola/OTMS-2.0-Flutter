@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:otm_inventory/pages/check_in/check_in/controller/check_in_repository.dart';
 import 'package:otm_inventory/pages/check_in/check_in/model/check_in_resources_response.dart';
+import 'package:otm_inventory/pages/check_in/check_in/model/company_locations_response.dart';
 import 'package:otm_inventory/pages/check_in/check_in/model/type_of_work_resources_info.dart';
 import 'package:otm_inventory/pages/check_in/check_in/model/type_of_work_resources_response.dart';
 import 'package:otm_inventory/pages/check_in/clock_in/model/work_log_info.dart';
@@ -38,6 +39,7 @@ class CheckInController extends GetxController
 
   final _api = CheckInRepository();
   final addressController = TextEditingController().obs;
+  final locationController = TextEditingController().obs;
   final tradeController = TextEditingController().obs;
   final typeOfWorkController = TextEditingController().obs;
   final noteController = TextEditingController().obs;
@@ -51,6 +53,7 @@ class CheckInController extends GetxController
       addressId = 0,
       tradeId = 0,
       typeOfWorkId = 0,
+      locationId = 0,
       companyTaskId = 0,
       projectId = 0;
   String date = "";
@@ -58,6 +61,7 @@ class CheckInController extends GetxController
   final listBeforePhotos = <FilesInfo>[].obs;
   final addressList = <ModuleInfo>[].obs;
   final tradeList = <ModuleInfo>[].obs;
+  final locationsList = <ModuleInfo>[].obs;
   final typeOfWorkList = <TypeOfWorkResourcesInfo>[].obs;
   final RxString checkInTime = "".obs;
   CheckInResourcesResponse? checkInResourcesData;
@@ -100,6 +104,7 @@ class CheckInController extends GetxController
     map["trade_id"] = tradeId;
     map["company_task_id"] = companyTaskId;
     map["type_of_work_id"] = typeOfWorkId;
+    map["location_id"] = locationId;
     map["comment"] = StringHelper.getText(noteController.value);
     map["location"] = location;
     map["latitude"] = latitude;
@@ -168,7 +173,7 @@ class CheckInController extends GetxController
 
           tradeList.addAll(checkInResourcesData!.trades!);
 
-          isMainViewVisible.value = true;
+          getCompanyLocationsApi();
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
@@ -200,6 +205,34 @@ class CheckInController extends GetxController
           if ((response.info ?? []).isNotEmpty) {
             typeOfWorkList.addAll(response.info!);
           }
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        }
+      },
+    );
+  }
+
+  void getCompanyLocationsApi() async {
+    Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
+    isLoading.value = true;
+    _api.getCompanyLocations(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          CompanyLocationsResponse response = CompanyLocationsResponse.fromJson(
+              jsonDecode(responseModel.result!));
+          if ((response.info ?? []).isNotEmpty) {
+            locationsList.addAll(response.info!);
+          }
+          isMainViewVisible.value = true;
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
@@ -309,6 +342,15 @@ class CheckInController extends GetxController
     }
   }
 
+  void showSelectLocationDialog() {
+    if (locationsList.isNotEmpty) {
+      showDropDownDialog(AppConstants.dialogIdentifier.selectLocation,
+          'location'.tr, locationsList, this);
+    } else {
+      AppUtils.showToastMessage('empty_data_message'.tr);
+    }
+  }
+
   void showSelectTypeOfWorkDialog() {
     if (typeOfWorkList.isNotEmpty) {
       Get.bottomSheet(
@@ -371,6 +413,9 @@ class CheckInController extends GetxController
     } else if (action == AppConstants.dialogIdentifier.selectTypeOfWork) {
       typeOfWorkController.value.text = name;
       typeOfWorkId = id;
+    } else if (action == AppConstants.dialogIdentifier.selectLocation) {
+      locationController.value.text = name;
+      locationId = id;
     }
   }
 

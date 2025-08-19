@@ -51,36 +51,42 @@ class ProjectDetailsController extends GetxController
 
   final List<ProjectDetalsItem> items = [
     ProjectDetalsItem(
-        title: 'Team',
+        title: 'team'.tr,
         subtitle: '',
         iconPath: Drawable.teamPermissionIcon,
-        iconColor: "#000000"),
+        iconColor: "#000000",
+        flagName: "Team"),
     ProjectDetalsItem(
-        title: 'Addresses',
+        title: 'addresses'.tr,
         subtitle: '',
         badge: 0,
         iconPath: Drawable.homeAddressIcon,
-        iconColor: "#000000"),
+        iconColor: "#000000",
+        flagName: "Addresses"),
     ProjectDetalsItem(
-        title: 'Budget',
+        title: 'budget'.tr,
         subtitle: '',
         iconPath: Drawable.poundIcon,
-        iconColor: "#000000"),
+        iconColor: "#000000",
+        flagName:"Budget"),
     ProjectDetalsItem(
-        title: 'Project Details',
+        title: 'project_details'.tr,
         subtitle: '',
         iconPath: Drawable.projectsIcon,
-        iconColor: "#000000"),
+        iconColor: "#000000",
+        flagName: "Project Details"),
     ProjectDetalsItem(
-        title: 'Trades',
+        title: 'trades'.tr,
         subtitle: '',
         iconPath: Drawable.tradesPermissionIcon,
-        iconColor: "#000000"),
+        iconColor: "#000000",
+        flagName:"Trades"),
     ProjectDetalsItem(
-        title: 'Check-In',
+        title: 'check_in_'.tr,
         subtitle: '',
         iconPath: Drawable.clockIcon,
-        iconColor: "#000000"),
+        iconColor: "#000000",
+        flagName:"Check-In"),
   ];
 
   ProjectInfo? projectInfo;
@@ -171,7 +177,7 @@ class ProjectDetailsController extends GetxController
 
   void updateItemsWithApi(ProjectInfo project) {
     for (var item in items) {
-      switch (item.title) {
+      switch (item.flagName) {
         case 'Team':
           item.subtitle = project.teams!.isNotEmpty
               ? project.teams!.map((e) => e.name).join(', ')

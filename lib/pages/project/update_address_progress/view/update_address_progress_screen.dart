@@ -61,7 +61,7 @@ class _UpdateAddressProgressScreenState
           Align(
             alignment: Alignment.centerLeft,
             child:
-                Text("Status", style: TextStyle(fontWeight: FontWeight.bold)),
+                Text("status".tr, style: TextStyle(fontWeight: FontWeight.bold)),
           ),
           SizedBox(height: 6),
           Container(
@@ -88,7 +88,7 @@ class _UpdateAddressProgressScreenState
           Align(
             alignment: Alignment.centerLeft,
             child:
-                Text("Progress", style: TextStyle(fontWeight: FontWeight.bold)),
+                Text("progress".tr, style: TextStyle(fontWeight: FontWeight.bold)),
           ),
           Row(
             children: [
