@@ -186,7 +186,8 @@ class ClockInController extends GetxController {
           selectedCheckLogInfo = null;
           if (response.userIsWorking ?? false) {
             isChecking.value = false;
-            if (selectedWorkLogInfo != null) {
+            if (selectedWorkLogInfo != null &&
+                selectedWorkLogInfo!.userChecklogs != null) {
               for (var checkInInfo in selectedWorkLogInfo!.userChecklogs!) {
                 if (StringHelper.isEmptyString(checkInInfo.checkoutDateTime)) {
                   selectedCheckLogInfo = checkInInfo;

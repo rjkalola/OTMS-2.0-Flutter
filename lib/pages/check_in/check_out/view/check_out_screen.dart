@@ -147,8 +147,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                               controller: controller.locationController,
                               borderRadius: 15,
                               isArrowHide: true,
-                              onPressed: () {
-                              },
+                              onPressed: () {},
                             ),
                             SizedBox(
                               height: 16,
@@ -212,7 +211,18 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                       child: PrimaryButton(
                         buttonText: 'check_out_'.tr,
                         onPressed: () {
-                          controller.checkOutApi();
+                          if (controller.checkLogInfo.value.isAttachment ??
+                              false) {
+                            if (controller.listBeforePhotos.isNotEmpty &&
+                                controller.listAfterPhotos.isNotEmpty) {
+                              controller.checkOutApi();
+                            } else {
+                              AppUtils.showToastMessage(
+                                  'msg_empty_before_after_Attachment'.tr);
+                            }
+                          } else {
+                            controller.checkOutApi();
+                          }
                         },
                         color: Colors.red,
                       ),

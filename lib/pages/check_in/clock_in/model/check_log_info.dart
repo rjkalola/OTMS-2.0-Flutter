@@ -30,7 +30,7 @@ class CheckLogInfo {
   String? formattedCheckOutTime;
   int? totalCheckLogs;
   String? priceWorkTotalAmount;
-  bool? isPricework;
+  bool? isPricework, isAttachment;
   int? progress;
 
   CheckLogInfo(
@@ -63,6 +63,7 @@ class CheckLogInfo {
       this.totalCheckLogs,
       this.priceWorkTotalAmount,
       this.isPricework,
+      this.isAttachment,
       this.progress});
 
   CheckLogInfo.fromJson(Map<String, dynamic> json) {
@@ -109,6 +110,7 @@ class CheckLogInfo {
     totalCheckLogs = json['total_checklogs'];
     priceWorkTotalAmount = json['pricework_total_amount'];
     isPricework = json['is_pricework'];
+    isAttachment = json['is_attachment'];
     progress = json['progress'];
   }
 
@@ -153,6 +155,7 @@ class CheckLogInfo {
     data['total_checklogs'] = this.totalCheckLogs;
     data['pricework_total_amount'] = this.priceWorkTotalAmount;
     data['is_pricework'] = this.isPricework;
+    data['is_attachment'] = this.isAttachment;
     data['progress'] = this.progress;
     return data;
   }
