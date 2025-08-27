@@ -57,8 +57,7 @@ class CheckInController extends GetxController
       companyTaskId = 0,
       projectId = 0;
   String date = "";
-  bool isCurrentDay = true,
-      isPriceWork = false;
+  bool isCurrentDay = true, isPriceWork = false;
   final listBeforePhotos = <FilesInfo>[].obs;
   final addressList = <ModuleInfo>[].obs;
   final tradeList = <ModuleInfo>[].obs;
@@ -134,7 +133,7 @@ class CheckInController extends GetxController
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           BaseResponse response =
-          BaseResponse.fromJson(jsonDecode(responseModel.result!));
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.Message ?? "");
           Get.back(result: true);
         } else {
@@ -201,8 +200,8 @@ class CheckInController extends GetxController
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           TypeOfWorkResourcesResponse response =
-          TypeOfWorkResourcesResponse.fromJson(
-              jsonDecode(responseModel.result!));
+              TypeOfWorkResourcesResponse.fromJson(
+                  jsonDecode(responseModel.result!));
           if ((response.info ?? []).isNotEmpty) {
             typeOfWorkList.addAll(response.info!);
           }
@@ -290,7 +289,7 @@ class CheckInController extends GetxController
   String changeFullDateToSortTime(String? date) {
     return !StringHelper.isEmptyString(date)
         ? DateUtil.changeDateFormat(
-        date!, DateUtil.DD_MM_YYYY_TIME_24_SLASH2, DateUtil.HH_MM_24)
+            date!, DateUtil.DD_MM_YYYY_TIME_24_SLASH2, DateUtil.HH_MM_24)
         : "";
   }
 
@@ -298,8 +297,8 @@ class CheckInController extends GetxController
     return DateUtil.getCurrentTimeInFormat(DateUtil.HH_MM_24);
   }
 
-  Future<void> onSelectPhotos(String photosType,
-      List<FilesInfo> listPhotos) async {
+  Future<void> onSelectPhotos(
+      String photosType, List<FilesInfo> listPhotos) async {
     var result;
     var arguments = {
       AppConstants.intentKey.photosType: photosType,

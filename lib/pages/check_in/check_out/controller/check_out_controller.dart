@@ -216,7 +216,7 @@ class CheckOutController extends GetxController
       }
     }
     for (int i = 0; i < listAfter.length; i++) {
-      print("after:" + listBefore[i].file!);
+      print("after:" + listAfter[i].file!);
       formData.files.add(
         MapEntry(
           "after_attachments[]",
