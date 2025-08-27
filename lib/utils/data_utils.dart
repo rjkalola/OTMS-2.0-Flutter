@@ -31,8 +31,11 @@ class DataUtils {
         name: 'widget'.tr,
         action: AppConstants.action.widgets,
         icon: Drawable.widgetIcon));
-    arrayItems
-        .add(ModuleInfo(name: 'notification'.tr, icon: Drawable.bellIcon));
+    arrayItems.add(ModuleInfo(
+      name: 'notification_settings'.tr,
+      icon: Drawable.bellIcon,
+      action: AppConstants.action.notificationSettings,
+    ));
     arrayItems.add(ModuleInfo(
         name: 'company_details'.tr,
         action: AppConstants.action.companyDetails,

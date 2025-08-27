@@ -200,7 +200,7 @@ class Action {
   final String userPermissions = "USER_PERMISSIONS";
   final String settings = "SETTINGS";
   final String companies = "COMPANIES";
-
+  final String notificationSettings = "NOTIFICATION_SETTINGS";
   final String archiveProject = 'ARCHIVE_PROJECT';
   final String archivedProjects = 'ARCHIVED_PROJECTS';
   final String archivedAddress = 'ARCHIVED_ADDRESS';

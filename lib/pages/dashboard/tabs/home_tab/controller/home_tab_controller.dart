@@ -439,6 +439,8 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       moveToScreen(
           appRout: AppRoutes.selectUserListForPermissionScreen,
           arguments: arguments);
+    } else if (action == AppConstants.action.notificationSettings) {
+      moveToScreen(appRout: AppRoutes.notificationSettingsScreen);
     }
   }
 

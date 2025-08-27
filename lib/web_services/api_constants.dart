@@ -194,4 +194,9 @@ class ApiConstants {
   static String getDashboardResponse = '$appUrl/dashboard';
   static String getSettingsUrl = '$appUrl/get-setting';
   static String getRequestCountUrl = '$appUrl/get-request-count';
+
+  static String getUserNotificationSettings =
+      '$appUrl/notifications/user-notifications';
+  static String getCompanyNotificationSettings =
+      '$appUrl/notifications/company-notifications';
 }

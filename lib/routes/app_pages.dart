@@ -28,6 +28,7 @@ import 'package:otm_inventory/pages/dashboard/view/dashboard_screen.dart';
 import 'package:otm_inventory/pages/filter/view/filter_screen.dart';
 import 'package:otm_inventory/pages/image_preview/view/image_preview_screen.dart';
 import 'package:otm_inventory/pages/my_requests/view/my_requests_screen.dart';
+import 'package:otm_inventory/pages/notification_settings/view/notification_settings_screen.dart';
 import 'package:otm_inventory/pages/permissions/company_permissions/view/company_permission_screen.dart';
 import 'package:otm_inventory/pages/permissions/permission_users/view/permission_users_screen.dart';
 import 'package:otm_inventory/pages/permissions/search_user/view/search_user_screen.dart';
@@ -300,6 +301,8 @@ class AppPages {
         page: () => CheckInRecordsScreen()),
     GetPage(
         name: AppRoutes.tradeRecordsScreen, page: () => TradeRecordsScreen()),
-
+    GetPage(
+        name: AppRoutes.notificationSettingsScreen,
+        page: () => NotificationSettingsScreen()),
   ];
 }

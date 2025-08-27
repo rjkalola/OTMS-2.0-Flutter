@@ -179,6 +179,7 @@ class Strings extends Translations {
           'select_country_code': "Select country code",
           'widget': "Widget",
           'notification': "Notification",
+          'notification_settings': "Notification Settings",
           'settings': "Settings",
           'trades': "Trades",
           'blank': "Blank",
@@ -361,8 +362,8 @@ class Strings extends Translations {
               "Do you want to modify the progress",
           'msg_empty_before_after_Attachment':
               "Please select before and after attachment.",
-          // '': "",
-          // '': "",
+          'push': "Push",
+          'feed': "Feed",
           // '': "",
           // '': "",
           // '': "",
