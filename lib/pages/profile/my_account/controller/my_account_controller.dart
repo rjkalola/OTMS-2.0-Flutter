@@ -18,9 +18,12 @@ import 'package:otm_inventory/web_services/response/base_response.dart';
 import 'package:otm_inventory/web_services/response/response_model.dart';
 import '../../../dashboard/tabs/home_tab2/view/home_tab.dart';
 
-class MyAccountController extends GetxController with GetSingleTickerProviderStateMixin{
+class MyAccountController extends GetxController
+    with GetSingleTickerProviderStateMixin {
   final _api = MyAccountRepository();
-  RxBool isLoading = false.obs, isInternetNotAvailable = false.obs, isMainViewVisible = false.obs;
+  RxBool isLoading = false.obs,
+      isInternetNotAvailable = false.obs,
+      isMainViewVisible = false.obs;
   final title = 'dashboard'.tr.obs;
   final selectedIndex = 0.obs;
   late final PageController pageController;
@@ -44,7 +47,12 @@ class MyAccountController extends GetxController with GetSingleTickerProviderSta
     {'icon': Icons.badge_outlined, 'title': 'digital_id'.tr},
     {'icon': Icons.home_outlined, 'title': 'rent'.tr},
     {'icon': Icons.history, 'title': 'history'.tr},
+    {
+      'icon': Icons.notifications_none_outlined,
+      'title': 'notification_settings'.tr
+    },
   ];
+
   //Home Tab
   final selectedActionButtonPagerPosition = 0.obs;
   final dashboardActionButtonsController = PageController(
@@ -58,24 +66,27 @@ class MyAccountController extends GetxController with GetSingleTickerProviderSta
     pageController = PageController(initialPage: selectedIndex.value);
     setTitle(selectedIndex.value);
   }
+
   void setTitle(int index) {
     if (index == 0) {
       title.value = 'dashboard'.tr;
-    }
-    else if (index == 1) {
+    } else if (index == 1) {
       title.value = 'more'.tr;
     }
   }
+
   @override
   void dispose() {
     super.dispose();
     pageController.dispose();
   }
+
   void onPageChanged(int index) {
     selectedIndex.value = index;
     print("selectedIndex.value:${selectedIndex.value}");
     setTitle(index);
   }
+
   void onItemTapped(int index) {
     // if (index == 1) {
     //   Navigator.push(
@@ -87,10 +98,9 @@ class MyAccountController extends GetxController with GetSingleTickerProviderSta
 
     // }
   }
+
   Future<void> moveToScreen(String rout, dynamic arguments) async {
     var result = await Get.toNamed(rout, arguments: arguments);
-    if (result != null && result) {
-
-    }
+    if (result != null && result) {}
   }
 }

@@ -8,6 +8,7 @@ import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/routes/app_routes.dart';
 import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/image_utils.dart';
+import 'package:otm_inventory/utils/user_utils.dart';
 import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:otm_inventory/widgets/other_widgets/user_avtar_view.dart';
 import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
@@ -25,10 +26,10 @@ class MenuButtonsGridWidget extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 16),
         itemCount: controller.menuItems.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            mainAxisSpacing: 10,
-            crossAxisSpacing: 10,
-            mainAxisExtent: 90,
+          crossAxisCount: 2,
+          mainAxisSpacing: 10,
+          crossAxisSpacing: 10,
+          mainAxisExtent: 90,
         ),
         itemBuilder: (context, index) {
           return InkWell(
@@ -36,27 +37,37 @@ class MenuButtonsGridWidget extends StatelessWidget {
               if (index == 0) {
                 Get.toNamed(AppRoutes.billingDetailsNewScreen);
                 //Get.toNamed(AppRoutes.companyBillingsScreen);
-              }
-              else if (index == 3) {
+              } else if (index == 3) {
                 Get.toNamed(AppRoutes.myRequestsScreen);
+              } else if (index == 9) {
+                var arguments = {
+                  AppConstants.intentKey.userId: UserUtils.getLoginUserId(),
+                };
+                Get.toNamed(AppRoutes.notificationSettingsScreen,
+                    arguments: arguments);
               }
             },
-            splashColor: Colors.transparent,     // Removes splash effect
+            splashColor: Colors.transparent, // Removes splash effect
             highlightColor: Colors.transparent,
             child: CardViewDashboardItem(
               padding: EdgeInsets.fromLTRB(14, 12, 10, 12),
-              child:Row(
+              child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(controller.menuItems[index]['icon'], color: defaultAccentColor_(context),size: 26,weight: 1,),
+                  Icon(
+                    controller.menuItems[index]['icon'],
+                    color: defaultAccentColor_(context),
+                    size: 26,
+                    weight: 1,
+                  ),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Visibility(
-                          visible:true,
+                          visible: true,
                           child: PrimaryTextView(
                             text: controller.menuItems[index]['title'],
                             fontWeight: FontWeight.w600,

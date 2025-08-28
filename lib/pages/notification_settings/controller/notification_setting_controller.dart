@@ -117,15 +117,13 @@ class NotificationSettingController extends GetxController {
     );
   }
 
-  /*void changeCompanyBulkTradeStatusApi() async {
+  void changeCompanyBulkNotificationSettingsApi() async {
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
-    // map["trade_id"] = tradeId;
-    // map["status"] = status ? 1 : 0;
-    map["trades"] = getRequestData();
+    map["notifications"] = getRequestData();
 
     isLoading.value = true;
-    _api.changeCompanyBulkTradeStatus(
+    _api.changeCompanyBulkNotificationSettings(
       data: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
@@ -145,7 +143,36 @@ class NotificationSettingController extends GetxController {
         }
       },
     );
-  }*/
+  }
+
+  void changeUserBulkNotificationSettingsApi() async {
+    Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
+    map["user_id"] = userId;
+    map["notifications"] = getRequestData();
+
+    isLoading.value = true;
+    _api.changeUserBulkNotificationSettings(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          Get.back(result: true);
+          BaseResponse response =
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showApiResponseMessage(response.Message ?? "");
+        } else {
+          // AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          // AppUtils.showApiResponseMessage('no_internet'.tr);
+        }
+      },
+    );
+  }
 
   List<SaveNotificationSettingRequest> getRequestData() {
     List<SaveNotificationSettingRequest> list = [];
@@ -204,7 +231,11 @@ class NotificationSettingController extends GetxController {
 
   void onBackPress() {
     if (isDataUpdated.value) {
-      // changeCompanyBulkTradeStatusApi();
+      if (userId != 0) {
+        changeUserBulkNotificationSettingsApi();
+      } else {
+        changeCompanyBulkNotificationSettingsApi();
+      }
     } else {
       Get.back();
     }

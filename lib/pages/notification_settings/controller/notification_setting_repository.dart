@@ -36,4 +36,38 @@ class NotificationSettingRepository {
       onError: (error) => {if (onError != null) onError(error)},
     );
   }
+
+  void changeCompanyBulkNotificationSettings({
+    dynamic data,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+            url: ApiConstants.changeCompanyBulkNotificationSettings,
+            data: data,
+            isFormData: false)
+        .postRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
+
+  void changeUserBulkNotificationSettings({
+    dynamic data,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+            url: ApiConstants.changeUserBulkNotificationSettings,
+            data: data,
+            isFormData: false)
+        .postRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
 }

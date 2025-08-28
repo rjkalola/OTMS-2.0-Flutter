@@ -96,6 +96,7 @@ class DialogIdentifier {
   final String selectTrade = 'SELECT_TRADE';
   final String selectLocation = 'SELECT_LOCATION';
   final String selectTypeOfWork = 'SELECT_TYPE_OF_WORK';
+  final String selectTypeOfDayWork = 'SELECT_TYPE_OF_DAY_WORK';
   final String selectCurrency = 'SELECT_CURRENCY';
   final String selectProject = 'SELECT_PROJECT';
   final String selectShift = 'SELECT_SHIFT';

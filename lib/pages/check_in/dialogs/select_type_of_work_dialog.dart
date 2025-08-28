@@ -8,6 +8,7 @@ import 'package:otm_inventory/pages/common/listener/select_item_listener.dart';
 import 'package:otm_inventory/pages/common/listener/select_type_of_work_listener.dart';
 import 'package:otm_inventory/res/colors.dart';
 import 'package:otm_inventory/res/theme/theme_config.dart';
+import 'package:otm_inventory/utils/app_constants.dart';
 import 'package:otm_inventory/utils/app_utils.dart';
 import 'package:otm_inventory/utils/data_utils.dart';
 import 'package:otm_inventory/utils/string_helper.dart';
@@ -66,7 +67,7 @@ class SelectTypeOfWorkDialogState extends State<SelectTypeOfWorkDialog> {
               borderRadius: BorderRadius.vertical(top: Radius.circular(10))),
           child: Column(mainAxisSize: MainAxisSize.min, children: [
             Padding(
-              padding: EdgeInsets.fromLTRB(0, 16, 12, 6),
+              padding: EdgeInsets.fromLTRB(0, 16, 0, 6),
               child: Row(
                 children: [
                   IconButton(
@@ -95,7 +96,18 @@ class SelectTypeOfWorkDialogState extends State<SelectTypeOfWorkDialog> {
                         isClearVisible.value = false;
                       },
                     ),
-                  )
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      Icons.add,
+                      size: 26,
+                    ),
+                    onPressed: () {
+                      Get.back();
+                      listener.onSelectTypeOfWork(0, 0, 0, "",
+                          AppConstants.dialogIdentifier.selectTypeOfDayWork);
+                    },
+                  ),
                 ],
               ),
             ),

@@ -188,7 +188,10 @@ class CheckInController extends GetxController
     );
   }
 
-  void getTypeOfWorkResourcesApi() async {
+  void getTypeOfWorkResourcesApi(
+      {required int addressId,
+      required bool isPriceWork,
+      bool? isFromDialog}) async {
     Map<String, dynamic> map = {};
     map["trade_id"] = tradeId;
     map["address_id"] = addressId;
@@ -204,6 +207,9 @@ class CheckInController extends GetxController
                   jsonDecode(responseModel.result!));
           if ((response.info ?? []).isNotEmpty) {
             typeOfWorkList.addAll(response.info!);
+          }
+          if (isFromDialog ?? false) {
+            showSelectTypeOfWorkDialog();
           }
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
@@ -393,7 +399,8 @@ class CheckInController extends GetxController
         companyTaskId = 0;
 
         typeOfWorkList.clear();
-        getTypeOfWorkResourcesApi();
+        getTypeOfWorkResourcesApi(
+            addressId: addressId, isPriceWork: isPriceWork);
       }
     } else if (action == AppConstants.dialogIdentifier.selectTrade) {
       tradeController.value.text = name;
@@ -404,12 +411,7 @@ class CheckInController extends GetxController
       companyTaskId = 0;
 
       typeOfWorkList.clear();
-      getTypeOfWorkResourcesApi();
-      // for (var info in checkInResourcesData!.typeOfWorks!) {
-      //   if (info.tradeId == tradeId) {
-      //     typeOfWorkList.add(info);
-      //   }
-      // }
+      getTypeOfWorkResourcesApi(addressId: addressId, isPriceWork: isPriceWork);
     } else if (action == AppConstants.dialogIdentifier.selectTypeOfWork) {
       typeOfWorkController.value.text = name;
       typeOfWorkId = id;
@@ -426,6 +428,10 @@ class CheckInController extends GetxController
       typeOfWorkController.value.text = name;
       this.typeOfWorkId = typeOfWorkId;
       this.companyTaskId = companyTaskId;
+    } else if (action == AppConstants.dialogIdentifier.selectTypeOfDayWork) {
+      typeOfWorkList.clear();
+      getTypeOfWorkResourcesApi(
+          addressId: 0, isPriceWork: false, isFromDialog: true);
     }
   }
 }

@@ -199,4 +199,8 @@ class ApiConstants {
       '$appUrl/notifications/user-notifications';
   static String getCompanyNotificationSettings =
       '$appUrl/notifications/company-notifications';
+  static String changeCompanyBulkNotificationSettings =
+      '$appUrl/notifications/change-company-bulk-notifications';
+  static String changeUserBulkNotificationSettings =
+      '$appUrl/notifications/change-user-bulk-notifications';
 }
