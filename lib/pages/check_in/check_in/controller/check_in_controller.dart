@@ -358,7 +358,8 @@ class CheckInController extends GetxController
   }
 
   void showSelectTypeOfWorkDialog() {
-    if (typeOfWorkList.isNotEmpty) {
+    // if (typeOfWorkList.isNotEmpty) {
+    if (tradeId != 0) {
       Get.bottomSheet(
           SelectTypeOfWorkDialog(
             dialogType: AppConstants.dialogIdentifier.selectTypeOfWork,
@@ -368,8 +369,11 @@ class CheckInController extends GetxController
           backgroundColor: Colors.transparent,
           isScrollControlled: true);
     } else {
-      AppUtils.showToastMessage('empty_data_message'.tr);
+      AppUtils.showToastMessage('please_select_trade'.tr);
     }
+    // } else {
+    //   AppUtils.showToastMessage('empty_data_message'.tr);
+    // }
   }
 
   void showDropDownDialog(String dialogType, String title,
