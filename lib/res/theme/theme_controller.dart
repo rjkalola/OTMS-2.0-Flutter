@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/res/theme/theme_config.dart';
-import 'package:otm_inventory/utils/app_storage.dart';
+import 'package:belcka/res/theme/theme_config.dart';
+import 'package:belcka/utils/app_storage.dart';
 
 class ThemeController extends GetxController {
   final _isDarkMode = false.obs;

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/permissions/permission_users/controller/permission_users_controller.dart';
-import 'package:otm_inventory/pages/permissions/permission_users/model/permission_user_info.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/utils/image_utils.dart';
-import 'package:otm_inventory/widgets/switch/custom_switch.dart';
+import 'package:belcka/pages/permissions/permission_users/controller/permission_users_controller.dart';
+import 'package:belcka/pages/permissions/permission_users/model/permission_user_info.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/utils/image_utils.dart';
+import 'package:belcka/widgets/switch/custom_switch.dart';
 
 class PermissionUsersList extends StatelessWidget {
   PermissionUsersList({super.key});

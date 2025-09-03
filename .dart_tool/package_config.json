@@ -8,6 +8,12 @@
       "languageVersion": "3.5"
     },
     {
+      "name": "_flutterfire_internals",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/_flutterfire_internals-1.3.61",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
       "name": "analyzer",
       "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/analyzer-7.7.1",
       "packageUri": "lib/",
@@ -146,6 +152,12 @@
       "languageVersion": "3.4"
     },
     {
+      "name": "dbus",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/dbus-0.7.11",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "device_info_plus",
       "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/device_info_plus-11.3.0",
       "packageUri": "lib/",
@@ -214,6 +226,42 @@
     {
       "name": "file_selector_windows",
       "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/file_selector_windows-0.9.3+4",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "firebase_core",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/firebase_core-4.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
+      "name": "firebase_core_platform_interface",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/firebase_core_platform_interface-6.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
+      "name": "firebase_core_web",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/firebase_core_web-3.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "firebase_messaging",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/firebase_messaging-16.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
+      "name": "firebase_messaging_platform_interface",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/firebase_messaging_platform_interface-4.7.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
+      "name": "firebase_messaging_web",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/firebase_messaging_web-4.0.1",
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
@@ -288,6 +336,30 @@
       "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/flutter_lints-5.0.0",
       "packageUri": "lib/",
       "languageVersion": "3.5"
+    },
+    {
+      "name": "flutter_local_notifications",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/flutter_local_notifications-19.4.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "flutter_local_notifications_linux",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/flutter_local_notifications_linux-6.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "flutter_local_notifications_platform_interface",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/flutter_local_notifications_platform_interface-9.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "flutter_local_notifications_windows",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/flutter_local_notifications_windows-1.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
     },
     {
       "name": "flutter_plugin_android_lifecycle",
@@ -914,6 +986,12 @@
       "languageVersion": "3.4"
     },
     {
+      "name": "timezone",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/timezone-0.10.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
       "name": "typed_data",
       "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/typed_data-1.4.0",
       "packageUri": "lib/",
@@ -1022,13 +1100,13 @@
       "languageVersion": "3.4"
     },
     {
-      "name": "otm_inventory",
+      "name": "belcka",
       "rootUri": "../",
       "packageUri": "lib/",
       "languageVersion": "3.2"
     }
   ],
-  "generated": "2025-08-29T06:31:17.345089Z",
+  "generated": "2025-09-03T12:23:40.125965Z",
   "generator": "pub",
   "generatorVersion": "3.6.2",
   "flutterRoot": "file:///Users/apple/Documents/flutterDev/flutter",

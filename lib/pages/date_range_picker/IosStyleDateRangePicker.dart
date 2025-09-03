@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/date_range_picker/DateRangeController.dart';
+import 'package:belcka/pages/date_range_picker/DateRangeController.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class IosStyleDateRangePicker extends StatelessWidget {

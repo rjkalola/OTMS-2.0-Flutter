@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:otm_inventory/pages/my_request/model/my_request_info.dart';
+import 'package:belcka/pages/my_request/model/my_request_info.dart';
 
 class MyRequestListResponse {
   bool? isSuccess;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/res/drawable.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/drawable.dart';
 
 class DoNotHaveAnAccountWidget extends StatelessWidget {
   const DoNotHaveAnAccountWidget({super.key});

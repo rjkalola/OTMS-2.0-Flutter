@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/res/theme/app_colors.dart';
-import 'package:otm_inventory/res/theme/app_theme_extension.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/theme/app_colors.dart';
+import 'package:belcka/res/theme/app_theme_extension.dart';
 
 class ThemeConfig {
   static bool isDarkMode = false;

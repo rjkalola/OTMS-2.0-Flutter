@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:otm_inventory/pages/authentication/login/controller/login_controller.dart';
-import 'package:otm_inventory/pages/authentication/login/view/widgets/header_logo.dart';
-import 'package:otm_inventory/pages/authentication/login/view/widgets/log_in_note1_text_widget_.dart';
-import 'package:otm_inventory/pages/authentication/login/view/widgets/log_in_note2_text_widget_.dart';
-import 'package:otm_inventory/pages/authentication/login/view/widgets/login_button_widget.dart';
-import 'package:otm_inventory/pages/authentication/login/view/widgets/otp_view.dart';
-import 'package:otm_inventory/pages/authentication/login/view/widgets/phone_extension_field_widget.dart';
-import 'package:otm_inventory/pages/authentication/login/view/widgets/phone_text_field_widget.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/widgets/CustomProgressbar.dart';
+import 'package:belcka/pages/authentication/login/controller/login_controller.dart';
+import 'package:belcka/pages/authentication/login/view/widgets/header_logo.dart';
+import 'package:belcka/pages/authentication/login/view/widgets/log_in_note1_text_widget_.dart';
+import 'package:belcka/pages/authentication/login/view/widgets/log_in_note2_text_widget_.dart';
+import 'package:belcka/pages/authentication/login/view/widgets/login_button_widget.dart';
+import 'package:belcka/pages/authentication/login/view/widgets/otp_view.dart';
+import 'package:belcka/pages/authentication/login/view/widgets/phone_extension_field_widget.dart';
+import 'package:belcka/pages/authentication/login/view/widgets/phone_text_field_widget.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/widgets/CustomProgressbar.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

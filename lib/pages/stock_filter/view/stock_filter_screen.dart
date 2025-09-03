@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:otm_inventory/pages/stock_filter/view/widgets/all_items.dart';
-import 'package:otm_inventory/pages/stock_filter/view/widgets/stock_filter_categories_list.dart';
-import 'package:otm_inventory/pages/stock_filter/view/widgets/stock_filter_supplier_list.dart';
+import 'package:belcka/pages/stock_filter/view/widgets/all_items.dart';
+import 'package:belcka/pages/stock_filter/view/widgets/stock_filter_categories_list.dart';
+import 'package:belcka/pages/stock_filter/view/widgets/stock_filter_supplier_list.dart';
 
 import '../../../res/colors.dart';
 import '../../../widgets/CustomProgressbar.dart';
 import '../../../widgets/appbar/base_appbar.dart';
 import '../controller/stock_filter_controller.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
+import 'package:belcka/utils/app_utils.dart';
 class StockFilterScreen extends StatefulWidget {
   const StockFilterScreen({
     super.key,

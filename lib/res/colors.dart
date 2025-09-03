@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:otm_inventory/res/theme/app_theme_extension.dart';
+import 'package:belcka/res/theme/app_theme_extension.dart';
 
 // const primaryTextColor = Color(0xff1A1A1A);
 // const primaryTextColorLight = Color(0xff262626);

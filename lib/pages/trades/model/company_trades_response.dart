@@ -1,4 +1,4 @@
-import 'package:otm_inventory/pages/trades/model/trade_info.dart';
+import 'package:belcka/pages/trades/model/trade_info.dart';
 
 class CompanyTradesResponse {
   bool? isSuccess;

@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/project/project_info/controller/project_info_repository.dart';
+import 'package:belcka/pages/project/project_info/controller/project_info_repository.dart';
 
 class ProjectInfoController extends GetxController {
   final _api = ProjectInfoRepository();

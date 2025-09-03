@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_navigation/get_navigation.dart';
-import 'package:otm_inventory/pages/profile/my_account/controller/my_account_controller.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/routes/app_routes.dart';
-import 'package:otm_inventory/utils/app_constants.dart';
-import 'package:otm_inventory/utils/image_utils.dart';
-import 'package:otm_inventory/utils/user_utils.dart';
-import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
-import 'package:otm_inventory/widgets/other_widgets/user_avtar_view.dart';
-import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
+import 'package:belcka/pages/profile/my_account/controller/my_account_controller.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/utils/image_utils.dart';
+import 'package:belcka/utils/user_utils.dart';
+import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/widgets/other_widgets/user_avtar_view.dart';
+import 'package:belcka/widgets/text/PrimaryTextView.dart';
 
 class MenuButtonsGridWidget extends StatelessWidget {
   MenuButtonsGridWidget({super.key});

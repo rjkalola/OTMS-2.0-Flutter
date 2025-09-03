@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/dashboard/controller/dashboard_controller.dart';
-import 'package:otm_inventory/widgets/card_view.dart';
+import 'package:belcka/pages/dashboard/controller/dashboard_controller.dart';
+import 'package:belcka/widgets/card_view.dart';
 import '../../../../../res/colors.dart';
 import '../../../../utils/app_utils.dart';
 

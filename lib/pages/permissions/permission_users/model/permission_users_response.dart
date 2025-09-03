@@ -1,4 +1,4 @@
-import 'package:otm_inventory/pages/permissions/permission_users/model/permission_user_info.dart';
+import 'package:belcka/pages/permissions/permission_users/model/permission_user_info.dart';
 
 class PermissionUsersResponse {
   bool? isSuccess;

@@ -1,4 +1,4 @@
-import 'package:otm_inventory/pages/company/company_signup/model/company_info.dart';
+import 'package:belcka/pages/company/company_signup/model/company_info.dart';
 
 class CompanyDetailsResponse {
   bool? isSuccess;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/utils/string_helper.dart';
-import 'package:otm_inventory/widgets/slider/custom_slider.dart';
-import 'package:otm_inventory/widgets/text/TitleTextView.dart';
+import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/widgets/slider/custom_slider.dart';
+import 'package:belcka/widgets/text/TitleTextView.dart';
 
 import '../../controller/check_out_controller.dart';
 

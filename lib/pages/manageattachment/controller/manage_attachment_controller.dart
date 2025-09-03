@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:otm_inventory/pages/common/listener/select_item_listener.dart';
-import 'package:otm_inventory/pages/common/select_Item_list_dialog.dart';
-import 'package:otm_inventory/pages/manageattachment/listener/select_attachment_listener.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/utils/app_constants.dart';
-import 'package:otm_inventory/utils/image_utils.dart';
-import 'package:otm_inventory/web_services/response/module_info.dart';
+import 'package:belcka/pages/common/listener/select_item_listener.dart';
+import 'package:belcka/pages/common/select_Item_list_dialog.dart';
+import 'package:belcka/pages/manageattachment/listener/select_attachment_listener.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/utils/image_utils.dart';
+import 'package:belcka/web_services/response/module_info.dart';
 
 class ManageAttachmentController extends GetxController
     implements SelectItemListener {

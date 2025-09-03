@@ -1,8 +1,8 @@
 import 'package:intl/intl.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/model/counter_details.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/model/work_log_list_response.dart';
-import 'package:otm_inventory/utils/date_utils.dart';
-import 'package:otm_inventory/utils/string_helper.dart';
+import 'package:belcka/pages/check_in/clock_in/model/counter_details.dart';
+import 'package:belcka/pages/check_in/clock_in/model/work_log_list_response.dart';
+import 'package:belcka/utils/date_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
 
 class ClockInUtils {
   static CounterDetails getTotalWorkHours(WorkLogListResponse? logs) {

@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:otm_inventory/pages/company/selectcompanytrade/controller/select_company_trade_controller.dart';
-import 'package:otm_inventory/pages/company/selectcompanytrade/view/widgets/company_logo_view.dart';
-import 'package:otm_inventory/pages/company/selectcompanytrade/view/widgets/company_note_text.dart';
-import 'package:otm_inventory/pages/company/selectcompanytrade/view/widgets/join_company_button.dart';
-import 'package:otm_inventory/pages/company/selectcompanytrade/view/widgets/select_trade_view.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/widgets/CustomProgressbar.dart';
-import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
-import 'package:otm_inventory/widgets/custom_views/no_internet_widgets.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
+import 'package:belcka/pages/company/selectcompanytrade/controller/select_company_trade_controller.dart';
+import 'package:belcka/pages/company/selectcompanytrade/view/widgets/company_logo_view.dart';
+import 'package:belcka/pages/company/selectcompanytrade/view/widgets/company_note_text.dart';
+import 'package:belcka/pages/company/selectcompanytrade/view/widgets/join_company_button.dart';
+import 'package:belcka/pages/company/selectcompanytrade/view/widgets/select_trade_view.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/widgets/CustomProgressbar.dart';
+import 'package:belcka/widgets/appbar/base_appbar.dart';
+import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
+import 'package:belcka/utils/app_utils.dart';
 class SelectCompanyTradeScreen extends StatefulWidget {
   const SelectCompanyTradeScreen({super.key});
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/shifts/archive_shift_list/controller/archive_shift_list_controller.dart';
-import 'package:otm_inventory/widgets/textfield/search_text_field_dark.dart';
+import 'package:belcka/pages/shifts/archive_shift_list/controller/archive_shift_list_controller.dart';
+import 'package:belcka/widgets/textfield/search_text_field_dark.dart';
 
 import '../../../../../utils/string_helper.dart';
 

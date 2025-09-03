@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_controller.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_utils.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/view/widgets/stop_shift_button.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/utils/date_utils.dart';
-import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
+import 'package:belcka/pages/check_in/clock_in/controller/clock_in_controller.dart';
+import 'package:belcka/pages/check_in/clock_in/controller/clock_in_utils.dart';
+import 'package:belcka/pages/check_in/clock_in/view/widgets/stop_shift_button.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/utils/date_utils.dart';
+import 'package:belcka/widgets/text/PrimaryTextView.dart';
 
 class WorkTimeDetailsView extends StatelessWidget {
   WorkTimeDetailsView({super.key});

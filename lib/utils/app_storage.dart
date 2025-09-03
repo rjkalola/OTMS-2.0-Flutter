@@ -3,15 +3,15 @@ import 'dart:convert';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/model/location_info.dart';
-import 'package:otm_inventory/pages/common/model/user_info.dart';
-import 'package:otm_inventory/pages/dashboard/models/dashboard_response.dart';
-import 'package:otm_inventory/pages/dashboard/models/permission_settings.dart';
-import 'package:otm_inventory/pages/dashboard/tabs/home_tab/model/local_permission_sequence_change_info.dart';
-import 'package:otm_inventory/pages/dashboard/tabs/home_tab/model/user_permissions_response.dart';
-import 'package:otm_inventory/utils/app_constants.dart';
-import 'package:otm_inventory/utils/string_helper.dart';
-import 'package:otm_inventory/web_services/api_constants.dart';
+import 'package:belcka/pages/check_in/clock_in/model/location_info.dart';
+import 'package:belcka/pages/common/model/user_info.dart';
+import 'package:belcka/pages/dashboard/models/dashboard_response.dart';
+import 'package:belcka/pages/dashboard/models/permission_settings.dart';
+import 'package:belcka/pages/dashboard/tabs/home_tab/model/local_permission_sequence_change_info.dart';
+import 'package:belcka/pages/dashboard/tabs/home_tab/model/user_permissions_response.dart';
+import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/web_services/api_constants.dart';
 
 import '../pages/dashboard/models/dashboard_stock_count_response.dart';
 

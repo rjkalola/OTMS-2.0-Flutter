@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/image_preview/controller/image_preview_controller.dart';
-import 'package:otm_inventory/utils/image_utils.dart';
+import 'package:belcka/pages/image_preview/controller/image_preview_controller.dart';
+import 'package:belcka/utils/image_utils.dart';
 
 class HorizontalListView extends StatelessWidget {
   HorizontalListView({super.key});

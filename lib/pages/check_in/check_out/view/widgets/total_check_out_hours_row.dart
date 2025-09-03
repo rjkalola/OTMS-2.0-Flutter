@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/check_in/check_out/controller/check_out_controller.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/utils/date_utils.dart';
-import 'package:otm_inventory/utils/string_helper.dart';
-import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
-import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
+import 'package:belcka/pages/check_in/check_out/controller/check_out_controller.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/utils/date_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/widgets/text/PrimaryTextView.dart';
 
 class TotalCheckOutHoursRow extends StatelessWidget {
   TotalCheckOutHoursRow({super.key});

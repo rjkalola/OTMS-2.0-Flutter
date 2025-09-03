@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/authentication/introduction/controller/introduction_controller.dart';
-import 'package:otm_inventory/pages/authentication/introduction/view/widgets/app_logo_widget.dart';
-import 'package:otm_inventory/pages/authentication/introduction/view/widgets/create_new_account_widget_.dart';
-import 'package:otm_inventory/pages/authentication/introduction/view/widgets/header_widget.dart';
-import 'package:otm_inventory/pages/authentication/introduction/view/widgets/img_introduction_image1.dart';
-import 'package:otm_inventory/pages/authentication/introduction/view/widgets/login_button_widget.dart';
-import 'package:otm_inventory/pages/authentication/introduction/view/widgets/login_users_list.dart';
-import 'package:otm_inventory/pages/authentication/signup1/view/widgets/header_title_note_text_widget_.dart';
+import 'package:belcka/pages/authentication/introduction/controller/introduction_controller.dart';
+import 'package:belcka/pages/authentication/introduction/view/widgets/app_logo_widget.dart';
+import 'package:belcka/pages/authentication/introduction/view/widgets/create_new_account_widget_.dart';
+import 'package:belcka/pages/authentication/introduction/view/widgets/header_widget.dart';
+import 'package:belcka/pages/authentication/introduction/view/widgets/img_introduction_image1.dart';
+import 'package:belcka/pages/authentication/introduction/view/widgets/login_button_widget.dart';
+import 'package:belcka/pages/authentication/introduction/view/widgets/login_users_list.dart';
+import 'package:belcka/pages/authentication/signup1/view/widgets/header_title_note_text_widget_.dart';
 
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/widgets/PrimaryButton.dart';
-import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/widgets/PrimaryButton.dart';
+import 'package:belcka/widgets/text/PrimaryTextView.dart';
 
 class IntroductionScreen extends StatefulWidget {
   const IntroductionScreen({super.key});

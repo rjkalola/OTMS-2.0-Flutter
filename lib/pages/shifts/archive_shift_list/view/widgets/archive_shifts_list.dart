@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/shifts/archive_shift_list/controller/archive_shift_list_controller.dart';
-import 'package:otm_inventory/pages/shifts/create_shift/model/shift_info.dart';
-import 'package:otm_inventory/pages/shifts/shift_list/view/widgets/break_list.dart';
-import 'package:otm_inventory/pages/teams/team_list/model/team_info.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/res/drawable.dart';
-import 'package:otm_inventory/utils/image_utils.dart';
-import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
-import 'package:otm_inventory/widgets/other_widgets/user_avtar_view.dart';
-import 'package:otm_inventory/widgets/text/SubTitleTextView.dart';
-import 'package:otm_inventory/widgets/text/TitleTextView.dart';
+import 'package:belcka/pages/shifts/archive_shift_list/controller/archive_shift_list_controller.dart';
+import 'package:belcka/pages/shifts/create_shift/model/shift_info.dart';
+import 'package:belcka/pages/shifts/shift_list/view/widgets/break_list.dart';
+import 'package:belcka/pages/teams/team_list/model/team_info.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/drawable.dart';
+import 'package:belcka/utils/image_utils.dart';
+import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/widgets/other_widgets/user_avtar_view.dart';
+import 'package:belcka/widgets/text/SubTitleTextView.dart';
+import 'package:belcka/widgets/text/TitleTextView.dart';
 
 import '../../../../../utils/app_constants.dart';
 

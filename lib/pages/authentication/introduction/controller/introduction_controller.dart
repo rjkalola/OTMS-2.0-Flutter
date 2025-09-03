@@ -2,15 +2,15 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/authentication/login/controller/login_repository.dart';
-import 'package:otm_inventory/pages/authentication/login/models/VerifyPhoneResponse.dart';
-import 'package:otm_inventory/pages/common/model/user_info.dart';
-import 'package:otm_inventory/routes/app_routes.dart';
-import 'package:otm_inventory/utils/app_constants.dart';
-import 'package:otm_inventory/utils/app_storage.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/web_services/api_constants.dart';
-import 'package:otm_inventory/web_services/response/response_model.dart';
+import 'package:belcka/pages/authentication/login/controller/login_repository.dart';
+import 'package:belcka/pages/authentication/login/models/VerifyPhoneResponse.dart';
+import 'package:belcka/pages/common/model/user_info.dart';
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/utils/app_storage.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/web_services/api_constants.dart';
+import 'package:belcka/web_services/response/response_model.dart';
 
 class IntroductionController extends GetxController {
   final phoneController = TextEditingController().obs;

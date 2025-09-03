@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/trades/controller/trades_controller.dart';
-import 'package:otm_inventory/pages/trades/model/trade_info.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/widgets/switch/custom_switch.dart';
-import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
+import 'package:belcka/pages/trades/controller/trades_controller.dart';
+import 'package:belcka/pages/trades/model/trade_info.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/widgets/switch/custom_switch.dart';
+import 'package:belcka/widgets/text/PrimaryTextView.dart';
 
 class CompanySubTradeList extends StatelessWidget {
   CompanySubTradeList({super.key, required this.parentPosition});

@@ -1,4 +1,4 @@
-import 'package:otm_inventory/pages/profile/billing_request/model/billing_request_info.dart';
+import 'package:belcka/pages/profile/billing_request/model/billing_request_info.dart';
 
 class BillingRequestInfoResponse {
   bool? isSuccess;

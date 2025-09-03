@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:otm_inventory/utils/image_utils.dart';
+import 'package:belcka/utils/image_utils.dart';
 
 class UserImage extends StatelessWidget {
   final String url;

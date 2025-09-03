@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/company/company_signup/controller/company_signup_controller.dart';
-import 'package:otm_inventory/pages/company/joincompany/controller/join_company_controller.dart';
-import 'package:otm_inventory/widgets/textfield/text_field_border.dart';
+import 'package:belcka/pages/company/company_signup/controller/company_signup_controller.dart';
+import 'package:belcka/pages/company/joincompany/controller/join_company_controller.dart';
+import 'package:belcka/widgets/textfield/text_field_border.dart';
 
 class CurrencyTextFieldCompanySignUp extends StatelessWidget {
   CurrencyTextFieldCompanySignUp({super.key});

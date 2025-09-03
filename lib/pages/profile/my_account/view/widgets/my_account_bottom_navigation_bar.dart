@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/profile/my_account/controller/my_account_controller.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/res/drawable.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/utils/data_utils.dart';
-import 'package:otm_inventory/utils/image_utils.dart';
-import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
+import 'package:belcka/pages/profile/my_account/controller/my_account_controller.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/drawable.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/data_utils.dart';
+import 'package:belcka/utils/image_utils.dart';
+import 'package:belcka/widgets/text/PrimaryTextView.dart';
 
 class MyAccountBottomNavigationBar extends StatelessWidget {
   MyAccountBottomNavigationBar({super.key});

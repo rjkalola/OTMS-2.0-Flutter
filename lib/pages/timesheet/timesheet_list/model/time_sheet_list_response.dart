@@ -1,4 +1,4 @@
-import 'package:otm_inventory/pages/timesheet/timesheet_list/model/time_sheet_info.dart';
+import 'package:belcka/pages/timesheet/timesheet_list/model/time_sheet_info.dart';
 
 class TimeSheetListResponse {
   bool? isSuccess;

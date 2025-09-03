@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/res/drawable.dart';
-import 'package:otm_inventory/utils/image_utils.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/drawable.dart';
+import 'package:belcka/utils/image_utils.dart';
 import 'package:get/get.dart';
 
 class HeaderLogo extends StatelessWidget {

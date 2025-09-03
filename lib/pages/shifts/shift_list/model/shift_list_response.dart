@@ -1,4 +1,4 @@
-import 'package:otm_inventory/pages/shifts/create_shift/model/shift_info.dart';
+import 'package:belcka/pages/shifts/create_shift/model/shift_info.dart';
 
 class ShiftListResponse {
   bool? isSuccess;

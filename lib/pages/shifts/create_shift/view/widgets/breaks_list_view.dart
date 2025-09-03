@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/common/model/user_info.dart';
-import 'package:otm_inventory/pages/permissions/user_list/controller/user_list_controller.dart';
-import 'package:otm_inventory/pages/shifts/create_shift/controller/create_shift_controller.dart';
-import 'package:otm_inventory/pages/shifts/create_shift/model/break_info.dart';
-import 'package:otm_inventory/pages/shifts/create_shift/view/widgets/select_shift_time_row.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/res/drawable.dart';
-import 'package:otm_inventory/routes/app_routes.dart';
-import 'package:otm_inventory/utils/date_utils.dart';
-import 'package:otm_inventory/utils/image_utils.dart';
-import 'package:otm_inventory/widgets/switch/custom_switch.dart';
+import 'package:belcka/pages/common/model/user_info.dart';
+import 'package:belcka/pages/permissions/user_list/controller/user_list_controller.dart';
+import 'package:belcka/pages/shifts/create_shift/controller/create_shift_controller.dart';
+import 'package:belcka/pages/shifts/create_shift/model/break_info.dart';
+import 'package:belcka/pages/shifts/create_shift/view/widgets/select_shift_time_row.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/drawable.dart';
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/date_utils.dart';
+import 'package:belcka/utils/image_utils.dart';
+import 'package:belcka/widgets/switch/custom_switch.dart';
 
 import '../../../../../../utils/app_constants.dart';
 

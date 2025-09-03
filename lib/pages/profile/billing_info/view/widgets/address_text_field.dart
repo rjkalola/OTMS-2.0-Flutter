@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/profile/billing_info/controller/billing_info_controller.dart';
-import 'package:otm_inventory/widgets/textfield/text_field_underline_.dart';
+import 'package:belcka/pages/profile/billing_info/controller/billing_info_controller.dart';
+import 'package:belcka/widgets/textfield/text_field_underline_.dart';
 
 class AddressTextField extends StatelessWidget {
   AddressTextField({super.key});

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/common/model/user_info.dart';
-import 'package:otm_inventory/pages/permissions/user_list/controller/user_list_controller.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/routes/app_routes.dart';
-import 'package:otm_inventory/utils/image_utils.dart';
-import 'package:otm_inventory/widgets/switch/custom_switch.dart';
+import 'package:belcka/pages/common/model/user_info.dart';
+import 'package:belcka/pages/permissions/user_list/controller/user_list_controller.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/image_utils.dart';
+import 'package:belcka/widgets/switch/custom_switch.dart';
 
 import '../../../../../../utils/app_constants.dart';
 

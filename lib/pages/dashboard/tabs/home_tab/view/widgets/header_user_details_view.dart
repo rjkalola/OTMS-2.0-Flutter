@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:otm_inventory/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/res/drawable.dart';
-import 'package:otm_inventory/res/theme/theme_config.dart';
-import 'package:otm_inventory/routes/app_routes.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/utils/image_utils.dart';
-import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
-import 'package:otm_inventory/widgets/other_widgets/user_avtar_view.dart';
-import 'package:otm_inventory/widgets/shapes/badge_count_widget.dart';
-import 'package:otm_inventory/widgets/shapes/badge_count_with_child_widget.dart';
-import 'package:otm_inventory/widgets/shapes/circle_widget.dart';
-import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
+import 'package:belcka/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/drawable.dart';
+import 'package:belcka/res/theme/theme_config.dart';
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/image_utils.dart';
+import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/widgets/other_widgets/user_avtar_view.dart';
+import 'package:belcka/widgets/shapes/badge_count_widget.dart';
+import 'package:belcka/widgets/shapes/badge_count_with_child_widget.dart';
+import 'package:belcka/widgets/shapes/circle_widget.dart';
+import 'package:belcka/widgets/text/PrimaryTextView.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -68,17 +68,17 @@ class HeaderUserDetailsView extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                print("notifications");
+                Get.toNamed(AppRoutes.notificationListScreen);
               },
               child: BudgeCountWithChild(
+                  count: 5,
                   child: ImageUtils.setSvgAssetsImage(
                       path: Drawable.bellIcon,
                       width: 28,
                       height: 28,
                       color: ThemeConfig.isDarkMode
                           ? AppUtils.getColor("#B7B3AD")
-                          : AppUtils.getColor("#484C52")),
-                  count: 5),
+                          : AppUtils.getColor("#484C52"))),
             )
           ],
         ),

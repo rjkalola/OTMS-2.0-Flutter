@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:otm_inventory/pages/permissions/company_permissions/controller/company_permission_controller.dart';
-import 'package:otm_inventory/pages/permissions/company_permissions/view/widgets/company_permissions_list.dart';
-import 'package:otm_inventory/pages/permissions/company_permissions/view/widgets/search_company_permission.dart';
-import 'package:otm_inventory/pages/permissions/company_permissions/view/widgets/select_all_text.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/widgets/CustomProgressbar.dart';
-import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
-import 'package:otm_inventory/widgets/custom_views/no_internet_widgets.dart';
-import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
+import 'package:belcka/pages/permissions/company_permissions/controller/company_permission_controller.dart';
+import 'package:belcka/pages/permissions/company_permissions/view/widgets/company_permissions_list.dart';
+import 'package:belcka/pages/permissions/company_permissions/view/widgets/search_company_permission.dart';
+import 'package:belcka/pages/permissions/company_permissions/view/widgets/select_all_text.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/widgets/CustomProgressbar.dart';
+import 'package:belcka/widgets/appbar/base_appbar.dart';
+import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
+import 'package:belcka/widgets/text/PrimaryTextView.dart';
+import 'package:belcka/utils/app_utils.dart';
 class CompanyPermissionScreen extends StatefulWidget {
   const CompanyPermissionScreen({super.key});
 

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/check_in/work_log_request/controller/work_log_request_controller.dart';
-import 'package:otm_inventory/pages/shifts/create_shift/model/break_info.dart';
-import 'package:otm_inventory/utils/date_utils.dart';
-import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
-import 'package:otm_inventory/widgets/text/TitleTextView.dart';
+import 'package:belcka/pages/check_in/work_log_request/controller/work_log_request_controller.dart';
+import 'package:belcka/pages/shifts/create_shift/model/break_info.dart';
+import 'package:belcka/utils/date_utils.dart';
+import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/widgets/text/TitleTextView.dart';
 
 class BreakLogList extends StatelessWidget {
   BreakLogList({super.key, required this.breakLogList});

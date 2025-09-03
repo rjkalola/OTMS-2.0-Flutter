@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/dashboard/tabs/home_tab2/controller/home_tab_controller.dart';
+import 'package:belcka/pages/dashboard/tabs/home_tab2/controller/home_tab_controller.dart';
 
 class HomeTabActionButtonsDotsList extends StatelessWidget {
   HomeTabActionButtonsDotsList({super.key});

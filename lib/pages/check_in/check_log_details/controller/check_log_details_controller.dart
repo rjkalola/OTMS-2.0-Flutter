@@ -2,16 +2,16 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/check_in/check_log_details/controller/check_log_details_repository.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/model/work_log_info.dart';
-import 'package:otm_inventory/pages/check_in/stop_shift/model/work_log_details_response.dart';
-import 'package:otm_inventory/routes/app_routes.dart';
-import 'package:otm_inventory/utils/app_constants.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/utils/date_utils.dart';
-import 'package:otm_inventory/utils/string_helper.dart';
-import 'package:otm_inventory/web_services/api_constants.dart';
-import 'package:otm_inventory/web_services/response/response_model.dart';
+import 'package:belcka/pages/check_in/check_log_details/controller/check_log_details_repository.dart';
+import 'package:belcka/pages/check_in/clock_in/model/work_log_info.dart';
+import 'package:belcka/pages/check_in/stop_shift/model/work_log_details_response.dart';
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/date_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/web_services/api_constants.dart';
+import 'package:belcka/web_services/response/response_model.dart';
 
 class CheckLogDetailsController extends GetxController {
   final RxBool isLoading = false.obs,

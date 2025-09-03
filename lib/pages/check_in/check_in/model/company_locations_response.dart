@@ -1,4 +1,4 @@
-import 'package:otm_inventory/web_services/response/module_info.dart';
+import 'package:belcka/web_services/response/module_info.dart';
 
 class CompanyLocationsResponse {
   bool? isSuccess;

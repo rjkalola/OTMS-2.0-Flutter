@@ -1,4 +1,4 @@
-import 'package:otm_inventory/pages/check_in/check_in/model/type_of_work_resources_info.dart';
+import 'package:belcka/pages/check_in/check_in/model/type_of_work_resources_info.dart';
 
 class TypeOfWorkResourcesResponse {
   bool? isSuccess;

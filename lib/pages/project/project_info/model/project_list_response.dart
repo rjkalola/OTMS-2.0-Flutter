@@ -1,4 +1,4 @@
-import 'package:otm_inventory/pages/project/project_info/model/project_info.dart';
+import 'package:belcka/pages/project/project_info/model/project_info.dart';
 
 class ProjectListResponse {
   bool? isSuccess;

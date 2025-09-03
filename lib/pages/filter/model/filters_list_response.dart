@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:otm_inventory/pages/filter/model/filter_section_model.dart';
+import 'package:belcka/pages/filter/model/filter_section_model.dart';
 
 class FiltersListResponse {
   bool? isSuccess;

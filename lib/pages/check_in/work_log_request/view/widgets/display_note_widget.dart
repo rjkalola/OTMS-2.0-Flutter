@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:otm_inventory/utils/string_helper.dart';
-import 'package:otm_inventory/widgets/textfield/text_field_border.dart';
-import 'package:otm_inventory/widgets/textfield/text_field_border_dark.dart';
+import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/widgets/textfield/text_field_border.dart';
+import 'package:belcka/widgets/textfield/text_field_border_dark.dart';
 
 import '../../../../../utils/app_constants.dart';
 

@@ -2,15 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/res/theme/theme_controller.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/theme/theme_controller.dart';
+import 'package:belcka/utils/app_utils.dart';
 
 class NavigationCard extends StatelessWidget {
   final String label;
   final String value;
+  final bool isShowArrow;
 
-  const NavigationCard({this.label = "", required this.value});
+  const NavigationCard({this.label = "", required this.value,this.isShowArrow = false});
 
   @override
   Widget build(BuildContext context) {
@@ -68,10 +69,11 @@ class NavigationCard extends StatelessWidget {
             ),
           ),
           SizedBox(width: 8),
-          Align(
+          Visibility(child: Align(
             alignment: Alignment.center, // ensures the arrow is centered
             child: Icon(Icons.arrow_forward_ios, size: 20, color: primaryTextColor_(context)),
-          ),
+          ),visible: isShowArrow,)
+
         ],
       ),
     );

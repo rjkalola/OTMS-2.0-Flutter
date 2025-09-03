@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/permissions/company_permissions/controller/company_permission_controller.dart';
-import 'package:otm_inventory/widgets/search_text_field.dart';
+import 'package:belcka/pages/permissions/company_permissions/controller/company_permission_controller.dart';
+import 'package:belcka/widgets/search_text_field.dart';
 
 import '../../../../../utils/string_helper.dart';
 

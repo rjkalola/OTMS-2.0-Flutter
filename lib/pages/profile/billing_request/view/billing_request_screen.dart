@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:otm_inventory/pages/profile/billing_details_new/view/widgets/phone_with_extension_field.dart';
-import 'package:otm_inventory/pages/profile/billing_request/controller/billing_request_controller.dart';
-import 'package:otm_inventory/pages/profile/billing_request/view/widgets/bank_details_fields_view.dart';
-import 'package:otm_inventory/pages/profile/billing_request/view/widgets/billing_approval_buttons_view.dart';
-import 'package:otm_inventory/pages/profile/billing_request/view/widgets/no_billing_request_data_view.dart';
-import 'package:otm_inventory/pages/profile/billing_request/view/widgets/tax_info_fields_view.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/routes/app_routes.dart';
-import 'package:otm_inventory/widgets/CustomProgressbar.dart';
-import 'package:otm_inventory/widgets/PrimaryButton.dart';
-import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
-import 'package:otm_inventory/widgets/other_widgets/user_avtar_view.dart';
+import 'package:belcka/pages/profile/billing_details_new/view/widgets/phone_with_extension_field.dart';
+import 'package:belcka/pages/profile/billing_request/controller/billing_request_controller.dart';
+import 'package:belcka/pages/profile/billing_request/view/widgets/bank_details_fields_view.dart';
+import 'package:belcka/pages/profile/billing_request/view/widgets/billing_approval_buttons_view.dart';
+import 'package:belcka/pages/profile/billing_request/view/widgets/no_billing_request_data_view.dart';
+import 'package:belcka/pages/profile/billing_request/view/widgets/tax_info_fields_view.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/widgets/CustomProgressbar.dart';
+import 'package:belcka/widgets/PrimaryButton.dart';
+import 'package:belcka/widgets/appbar/base_appbar.dart';
+import 'package:belcka/widgets/other_widgets/user_avtar_view.dart';
 import '../../../../utils/app_constants.dart';
 
 

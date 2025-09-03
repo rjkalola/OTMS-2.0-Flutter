@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/utils/image_utils.dart';
+import 'package:belcka/utils/image_utils.dart';
 
 import '../../res/colors.dart';
 

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/routes/app_pages.dart';
-import 'package:otm_inventory/routes/app_routes.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/widgets/PrimaryBorderButton.dart';
-import 'package:otm_inventory/widgets/PrimaryButton.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/routes/app_pages.dart';
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/widgets/PrimaryBorderButton.dart';
+import 'package:belcka/widgets/PrimaryButton.dart';
 
 import '../../controller/login_controller.dart';
 

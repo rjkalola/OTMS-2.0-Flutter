@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/check_in/stop_shift/controller/stop_shift_controller.dart';
-import 'package:otm_inventory/widgets/PrimaryButton.dart';
+import 'package:belcka/pages/check_in/stop_shift/controller/stop_shift_controller.dart';
+import 'package:belcka/widgets/PrimaryButton.dart';
 
 class StopShiftButton extends StatelessWidget {
   StopShiftButton({super.key});

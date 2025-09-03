@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:otm_inventory/pages/shifts/create_shift/view/widgets/shift_name_textfield.dart';
-import 'package:otm_inventory/pages/shifts/create_shift/view/widgets/shift_type.dart';
-import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/pages/shifts/create_shift/view/widgets/shift_name_textfield.dart';
+import 'package:belcka/pages/shifts/create_shift/view/widgets/shift_type.dart';
+import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 
 class ManageShiftTitle extends StatelessWidget {
   const ManageShiftTitle({super.key});

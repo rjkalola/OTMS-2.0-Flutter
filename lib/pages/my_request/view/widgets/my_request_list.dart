@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/my_request/controller/my_request_controller.dart';
-import 'package:otm_inventory/pages/my_request/model/my_request_info.dart';
-import 'package:otm_inventory/routes/app_routes.dart';
-import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
-import 'package:otm_inventory/widgets/other_widgets/user_avtar_view.dart';
-import 'package:otm_inventory/widgets/text/TitleTextView.dart';
+import 'package:belcka/pages/my_request/controller/my_request_controller.dart';
+import 'package:belcka/pages/my_request/model/my_request_info.dart';
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/widgets/other_widgets/user_avtar_view.dart';
+import 'package:belcka/widgets/text/TitleTextView.dart';
 
 import '../../../../../utils/app_constants.dart';
 

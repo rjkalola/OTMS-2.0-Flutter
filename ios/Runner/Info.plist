@@ -13,7 +13,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>otm_inventory</string>
+	<string>belcka</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -68,7 +68,7 @@
     <key>io.flutter.embedded_views_preview</key>
     <true/>
     <key>GMSApiKey</key>
-    <string>AIzaSyDDOWUo-4BVRwrbtkE2kPVz7USJCZqlwd4</string>
+    <string>AIzaSyAdLpTcvwOWzhK4maBtriznqiw5MwBNcZw</string>
     <key>NSAppTransportSecurity</key>
     <dict>
       <key>NSAllowsArbitraryLoads</key>

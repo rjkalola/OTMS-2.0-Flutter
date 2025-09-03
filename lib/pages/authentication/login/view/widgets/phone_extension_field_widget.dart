@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/authentication/login/controller/login_controller.dart';
-import 'package:otm_inventory/widgets/textfield/text_field_phone_extension_widget.dart';
+import 'package:belcka/pages/authentication/login/controller/login_controller.dart';
+import 'package:belcka/widgets/textfield/text_field_phone_extension_widget.dart';
 
 class PhoneExtensionFieldWidget extends StatelessWidget {
   PhoneExtensionFieldWidget({super.key});

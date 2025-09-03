@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/widgets/PrimaryButton.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/widgets/PrimaryButton.dart';
 
 class MyLogAddressesTabs extends StatelessWidget {
   const MyLogAddressesTabs({super.key});

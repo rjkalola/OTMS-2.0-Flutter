@@ -100,4 +100,6 @@ class AppRoutes {
       '/update_address_progress_screen';
   static const String notificationSettingsScreen =
       '/notification_settings_screen';
+  static const String notificationListScreen = '/notification_list_screen';
+  static const String ratesScreen = '/rates_screen';
 }

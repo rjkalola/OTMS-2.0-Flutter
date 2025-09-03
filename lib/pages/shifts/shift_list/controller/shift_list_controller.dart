@@ -2,24 +2,24 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/common/listener/DialogButtonClickListener.dart';
-import 'package:otm_inventory/pages/common/listener/menu_item_listener.dart';
-import 'package:otm_inventory/pages/common/menu_items_list_bottom_dialog.dart';
-import 'package:otm_inventory/pages/shifts/create_shift/controller/create_shift_repository.dart';
-import 'package:otm_inventory/pages/shifts/create_shift/model/shift_info.dart';
-import 'package:otm_inventory/pages/shifts/shift_list/controller/shift_list_repository.dart';
-import 'package:otm_inventory/pages/shifts/shift_list/model/shift_list_response.dart';
-import 'package:otm_inventory/pages/teams/team_list/model/team_info.dart';
-import 'package:otm_inventory/pages/teams/team_list/model/team_list_response.dart';
-import 'package:otm_inventory/routes/app_routes.dart';
-import 'package:otm_inventory/utils/AlertDialogHelper.dart';
-import 'package:otm_inventory/utils/app_constants.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/utils/string_helper.dart';
-import 'package:otm_inventory/web_services/api_constants.dart';
-import 'package:otm_inventory/web_services/response/base_response.dart';
-import 'package:otm_inventory/web_services/response/module_info.dart';
-import 'package:otm_inventory/web_services/response/response_model.dart';
+import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
+import 'package:belcka/pages/common/listener/menu_item_listener.dart';
+import 'package:belcka/pages/common/menu_items_list_bottom_dialog.dart';
+import 'package:belcka/pages/shifts/create_shift/controller/create_shift_repository.dart';
+import 'package:belcka/pages/shifts/create_shift/model/shift_info.dart';
+import 'package:belcka/pages/shifts/shift_list/controller/shift_list_repository.dart';
+import 'package:belcka/pages/shifts/shift_list/model/shift_list_response.dart';
+import 'package:belcka/pages/teams/team_list/model/team_info.dart';
+import 'package:belcka/pages/teams/team_list/model/team_list_response.dart';
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/AlertDialogHelper.dart';
+import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/web_services/api_constants.dart';
+import 'package:belcka/web_services/response/base_response.dart';
+import 'package:belcka/web_services/response/module_info.dart';
+import 'package:belcka/web_services/response/response_model.dart';
 
 class ShiftListController extends GetxController
     implements MenuItemListener, DialogButtonClickListener {

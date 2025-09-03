@@ -1,9 +1,9 @@
 import 'dart:ffi';
 
-import 'package:otm_inventory/pages/common/model/user_info.dart';
+import 'package:belcka/pages/common/model/user_info.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/utils/app_constants.dart';
-import 'package:otm_inventory/utils/app_storage.dart';
+import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/utils/app_storage.dart';
 
 class UserUtils {
   static int getLoginUserId() {

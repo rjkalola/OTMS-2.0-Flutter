@@ -1,19 +1,16 @@
+import 'package:belcka/pages/profile/billing_details_new/view/widgets/info_card.dart';
+import 'package:belcka/pages/profile/billing_details_new/view/widgets/navigation_card.dart';
+import 'package:belcka/pages/profile/billing_details_new/view/widgets/no_billing_data_view.dart';
+import 'package:belcka/pages/profile/billing_details_new/view/widgets/pending_for_approval_view.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/widgets/CustomProgressbar.dart';
+import 'package:belcka/widgets/appbar/base_appbar.dart';
+import 'package:belcka/widgets/other_widgets/user_avtar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:otm_inventory/pages/profile/billing_details_new/view/widgets/info_card.dart';
-import 'package:otm_inventory/pages/profile/billing_details_new/view/widgets/navigation_card.dart';
-import 'package:otm_inventory/pages/profile/billing_details_new/view/widgets/no_billing_data_view.dart';
-import 'package:otm_inventory/pages/profile/billing_details_new/view/widgets/pending_for_approval_view.dart';
-import 'package:otm_inventory/pages/profile/billing_details_new/view/widgets/tax_info_view.dart';
-import 'package:otm_inventory/pages/profile/billing_details_new/view/widgets/bank_details_view.dart';
-import 'package:otm_inventory/pages/profile/billing_details_new/view/widgets/phone_with_extension_field.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/routes/app_routes.dart';
-import 'package:otm_inventory/widgets/CustomProgressbar.dart';
-import 'package:otm_inventory/widgets/PrimaryButton.dart';
-import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
-import 'package:otm_inventory/widgets/other_widgets/user_avtar_view.dart';
+
 import '../../../../utils/app_constants.dart';
 import '../controller/billing_details_new_controller.dart';
 
@@ -88,10 +85,24 @@ class _BillingDetailsNewScreenState extends State<BillingDetailsNewScreen> {
                                     NavigationCard(value: controller.address),
                                     NavigationCard(label: 'tax_info'.tr, value: controller.taxInfo),
                                     NavigationCard(label: 'bank_details'.tr, value: controller.bankDetails),
-                                    NavigationCard(label: "rates", value: controller.billingInfo.value.net_rate_perDay != null
-                                        ? "${controller.billingInfo.value.tradeName ?? ""} - ${controller.billingInfo.value.currency ?? ""}${controller.billingInfo.value.net_rate_perDay}"
-                                        : "${controller.billingInfo.value.tradeName ?? ""}",),
-                                    Divider(color: dividerColor_(context),height: 12,),
+                                    InkWell(
+                                      onTap: () {
+                                        {
+                                          var arguments = {
+                                            AppConstants.intentKey.billingInfo: controller.billingInfo.value,
+                                          };
+                                          controller.moveToScreen(AppRoutes.ratesScreen, arguments);
+                                        }
+                                      },
+                                      child: NavigationCard(
+                                        label: "rates",
+                                        value: controller.billingInfo.value.net_rate_perDay != null
+                                            ? "${controller.billingInfo.value.tradeName ?? ""} - ${controller.billingInfo.value.currency ?? ""}${controller.billingInfo.value.net_rate_perDay}"
+                                            : "${controller.billingInfo.value.tradeName ?? ""}",
+                                        isShowArrow: true,
+                                      ),
+                                    ),
+                                    Divider(color: dividerColor_(context), height: 12),
                                     SizedBox(height: 12),
                                     NavigationCard(value: "payslips".tr),
                                     NavigationCard(value: "payment".tr),

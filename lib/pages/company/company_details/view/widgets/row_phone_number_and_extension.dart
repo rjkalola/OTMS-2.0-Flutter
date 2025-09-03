@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:otm_inventory/pages/company/company_details//view/widgets/text_field_phone_extension.dart';
-import 'package:otm_inventory/pages/company/company_details/view/widgets/text_field_phone_number.dart';
+import 'package:belcka/pages/company/company_details//view/widgets/text_field_phone_extension.dart';
+import 'package:belcka/pages/company/company_details/view/widgets/text_field_phone_number.dart';
 
 class RowPhoneNumberAndExtension extends StatelessWidget {
   const RowPhoneNumberAndExtension({super.key});

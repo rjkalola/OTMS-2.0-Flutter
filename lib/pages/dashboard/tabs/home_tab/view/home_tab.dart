@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:otm_inventory/pages/common/model/user_info.dart';
-import 'package:otm_inventory/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart';
-import 'package:otm_inventory/pages/dashboard/tabs/home_tab/view/widgets/dashboard_grid_view.dart';
-import 'package:otm_inventory/pages/dashboard/tabs/home_tab/view/widgets/header_user_details_view.dart';
-import 'package:otm_inventory/widgets/CustomProgressbar.dart';
-import 'package:otm_inventory/widgets/custom_views/no_internet_widgets.dart';
+import 'package:belcka/pages/common/model/user_info.dart';
+import 'package:belcka/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart';
+import 'package:belcka/pages/dashboard/tabs/home_tab/view/widgets/dashboard_grid_view.dart';
+import 'package:belcka/pages/dashboard/tabs/home_tab/view/widgets/header_user_details_view.dart';
+import 'package:belcka/widgets/CustomProgressbar.dart';
+import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
 
 import '../../../../../res/colors.dart';
 

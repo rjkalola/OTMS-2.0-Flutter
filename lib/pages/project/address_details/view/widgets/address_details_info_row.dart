@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 
 class AddressDetailsInfoRow extends StatelessWidget {
   final String label;

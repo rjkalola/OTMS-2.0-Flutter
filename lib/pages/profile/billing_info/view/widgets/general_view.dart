@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/profile/billing_info/controller/billing_info_controller.dart';
-import 'package:otm_inventory/pages/profile/billing_info/view/widgets/address_text_field.dart';
-import 'package:otm_inventory/pages/profile/billing_info/view/widgets/email_text_field.dart';
-import 'package:otm_inventory/pages/profile/billing_info/view/widgets/first_name_text_field.dart';
-import 'package:otm_inventory/pages/profile/billing_info/view/widgets/last_name_text_field.dart';
-import 'package:otm_inventory/pages/profile/billing_info/view/widgets/middle_name_text_field.dart';
-import 'package:otm_inventory/pages/profile/billing_info/view/widgets/phone_extension_text_field.dart';
-import 'package:otm_inventory/pages/profile/billing_info/view/widgets/phone_text_field.dart';
-import 'package:otm_inventory/pages/profile/billing_info/view/widgets/postcode_text_field.dart';
-import 'package:otm_inventory/pages/profile/billing_info/view/widgets/title_text.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/widgets/PrimaryButton.dart';
-import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/pages/profile/billing_info/controller/billing_info_controller.dart';
+import 'package:belcka/pages/profile/billing_info/view/widgets/address_text_field.dart';
+import 'package:belcka/pages/profile/billing_info/view/widgets/email_text_field.dart';
+import 'package:belcka/pages/profile/billing_info/view/widgets/first_name_text_field.dart';
+import 'package:belcka/pages/profile/billing_info/view/widgets/last_name_text_field.dart';
+import 'package:belcka/pages/profile/billing_info/view/widgets/middle_name_text_field.dart';
+import 'package:belcka/pages/profile/billing_info/view/widgets/phone_extension_text_field.dart';
+import 'package:belcka/pages/profile/billing_info/view/widgets/phone_text_field.dart';
+import 'package:belcka/pages/profile/billing_info/view/widgets/postcode_text_field.dart';
+import 'package:belcka/pages/profile/billing_info/view/widgets/title_text.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/widgets/PrimaryButton.dart';
+import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 
 
 class GeneralView extends StatelessWidget {

@@ -1,4 +1,4 @@
-import 'package:otm_inventory/pages/filter/model/filter_item_model.dart';
+import 'package:belcka/pages/filter/model/filter_item_model.dart';
 
 class FilterSection {
   final String key;

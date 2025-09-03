@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:otm_inventory/pages/common/model/file_info.dart';
-import 'package:otm_inventory/utils/app_constants.dart';
-import 'package:otm_inventory/widgets/gridview/image_gridview.dart';
+import 'package:belcka/pages/common/model/file_info.dart';
+import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/widgets/gridview/image_gridview.dart';
 
 class BeforePhotosList extends StatelessWidget {
   BeforePhotosList(

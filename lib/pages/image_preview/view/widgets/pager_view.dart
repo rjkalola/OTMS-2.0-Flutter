@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:otm_inventory/pages/image_preview/controller/image_preview_controller.dart';
-import 'package:otm_inventory/utils/image_utils.dart';
+import 'package:belcka/pages/image_preview/controller/image_preview_controller.dart';
+import 'package:belcka/utils/image_utils.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:get/get.dart';

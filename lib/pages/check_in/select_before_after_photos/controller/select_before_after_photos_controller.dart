@@ -1,12 +1,12 @@
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:otm_inventory/pages/common/model/file_info.dart';
-import 'package:otm_inventory/pages/manageattachment/controller/manage_attachment_controller.dart';
-import 'package:otm_inventory/pages/manageattachment/listener/select_attachment_listener.dart';
-import 'package:otm_inventory/utils/app_constants.dart';
-import 'package:otm_inventory/utils/image_utils.dart';
-import 'package:otm_inventory/utils/string_helper.dart';
-import 'package:otm_inventory/web_services/response/module_info.dart';
+import 'package:belcka/pages/common/model/file_info.dart';
+import 'package:belcka/pages/manageattachment/controller/manage_attachment_controller.dart';
+import 'package:belcka/pages/manageattachment/listener/select_attachment_listener.dart';
+import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/utils/image_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/web_services/response/module_info.dart';
 
 class SelectBeforeAfterPhotosController extends GetxController
     implements SelectAttachmentListener {

@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/check_in/check_log_details/controller/check_log_details_controller.dart';
-import 'package:otm_inventory/pages/check_in/check_log_details/view/widgets/check_log_list_view.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/model/work_log_info.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/res/drawable.dart';
-import 'package:otm_inventory/res/theme/theme_config.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/utils/date_utils.dart';
-import 'package:otm_inventory/utils/image_utils.dart';
-import 'package:otm_inventory/utils/string_helper.dart';
-import 'package:otm_inventory/widgets/custom_views/dotted_line_vertical_widget.dart';
-import 'package:otm_inventory/widgets/shapes/circle_widget.dart';
-import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
-import 'package:otm_inventory/widgets/text/TextViewWithContainer.dart';
+import 'package:belcka/pages/check_in/check_log_details/controller/check_log_details_controller.dart';
+import 'package:belcka/pages/check_in/check_log_details/view/widgets/check_log_list_view.dart';
+import 'package:belcka/pages/check_in/clock_in/model/work_log_info.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/drawable.dart';
+import 'package:belcka/res/theme/theme_config.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/date_utils.dart';
+import 'package:belcka/utils/image_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/widgets/custom_views/dotted_line_vertical_widget.dart';
+import 'package:belcka/widgets/shapes/circle_widget.dart';
+import 'package:belcka/widgets/text/PrimaryTextView.dart';
+import 'package:belcka/widgets/text/TextViewWithContainer.dart';
 
 class MyDayLogDetailsView extends StatelessWidget {
   MyDayLogDetailsView({super.key});

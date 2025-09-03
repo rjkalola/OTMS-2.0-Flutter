@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/res/drawable.dart';
-import 'package:otm_inventory/utils/app_storage.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/utils/image_utils.dart';
-import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
+import 'package:belcka/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/drawable.dart';
+import 'package:belcka/utils/app_storage.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/image_utils.dart';
+import 'package:belcka/widgets/text/PrimaryTextView.dart';
 
 class PendingApprovalTasksView extends StatelessWidget {
   final controller = Get.put(HomeTabController());

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:otm_inventory/res/colors.dart';
+import 'package:belcka/res/colors.dart';
 
 class PrimaryButton extends StatelessWidget {
   final String buttonText;

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/model/check_log_info.dart';
-import 'package:otm_inventory/pages/project/check_in_records/controller/check_in_records_controller.dart';
-import 'package:otm_inventory/pages/project/check_in_records/model/check_in_records_info.dart';
-import 'package:otm_inventory/pages/project/check_in_records/view/widgets/check_in_user_records.dart';
-import 'package:otm_inventory/pages/timesheet/timesheet_list/view/widgets/day_log_list.dart';
-import 'package:otm_inventory/widgets/text/TitleTextView.dart';
+import 'package:belcka/pages/check_in/clock_in/model/check_log_info.dart';
+import 'package:belcka/pages/project/check_in_records/controller/check_in_records_controller.dart';
+import 'package:belcka/pages/project/check_in_records/model/check_in_records_info.dart';
+import 'package:belcka/pages/project/check_in_records/view/widgets/check_in_user_records.dart';
+import 'package:belcka/pages/timesheet/timesheet_list/view/widgets/day_log_list.dart';
+import 'package:belcka/widgets/text/TitleTextView.dart';
 
 class CheckInRecordsList extends StatelessWidget {
   CheckInRecordsList({super.key});

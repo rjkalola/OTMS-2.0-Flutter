@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:otm_inventory/res/theme/theme_config.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/utils/image_utils.dart';
+import 'package:belcka/res/theme/theme_config.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/image_utils.dart';
 
 import '../../res/colors.dart';
 import '../../utils/string_helper.dart';

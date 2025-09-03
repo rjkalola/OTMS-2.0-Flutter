@@ -7,13 +7,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/common/model/user_info.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/res/theme/theme_controller.dart';
-import 'package:otm_inventory/utils/app_constants.dart';
-import 'package:otm_inventory/utils/app_storage.dart';
-import 'package:otm_inventory/utils/data_utils.dart';
-import 'package:otm_inventory/utils/string_helper.dart';
+import 'package:belcka/pages/common/model/user_info.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/theme/theme_controller.dart';
+import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/utils/app_storage.dart';
+import 'package:belcka/utils/data_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
 
 class AppUtils {
   static var mTime;

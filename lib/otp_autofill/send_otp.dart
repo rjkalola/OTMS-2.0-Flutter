@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:otm_inventory/otp_autofill/verify_otp.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
+import 'package:belcka/otp_autofill/verify_otp.dart';
+import 'package:belcka/utils/app_utils.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
 // ignore: must_be_immutable

@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:otm_inventory/utils/string_helper.dart';
-import 'package:otm_inventory/widgets/image/place_holder_error_image.dart';
+import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/widgets/image/place_holder_error_image.dart';
 
 class CachedImage extends StatelessWidget {
   const CachedImage(

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/check_in/select_before_after_photos/controller/select_before_after_photos_controller.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/widgets/PrimaryBorderButton.dart';
+import 'package:belcka/pages/check_in/select_before_after_photos/controller/select_before_after_photos_controller.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/widgets/PrimaryBorderButton.dart';
 
 class SubmitBtnBeforeAfterPhotos extends StatelessWidget {
   SubmitBtnBeforeAfterPhotos({super.key});

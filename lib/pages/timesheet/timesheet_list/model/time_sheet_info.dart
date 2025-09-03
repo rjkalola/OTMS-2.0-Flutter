@@ -1,4 +1,4 @@
-import 'package:otm_inventory/pages/timesheet/timesheet_list/model/day_log_info.dart';
+import 'package:belcka/pages/timesheet/timesheet_list/model/day_log_info.dart';
 
 class TimeSheetInfo {
   int? userId;

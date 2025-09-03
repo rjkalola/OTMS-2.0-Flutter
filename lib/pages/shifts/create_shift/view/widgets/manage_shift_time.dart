@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/shifts/create_shift/controller/create_shift_controller.dart';
-import 'package:otm_inventory/pages/shifts/create_shift/view/widgets/add_another_break_button.dart';
-import 'package:otm_inventory/pages/shifts/create_shift/view/widgets/break_title_text.dart';
-import 'package:otm_inventory/pages/shifts/create_shift/view/widgets/breaks_list_view.dart';
-import 'package:otm_inventory/pages/shifts/create_shift/view/widgets/select_shift_time_row.dart';
-import 'package:otm_inventory/utils/app_constants.dart';
-import 'package:otm_inventory/utils/date_utils.dart';
-import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/pages/shifts/create_shift/controller/create_shift_controller.dart';
+import 'package:belcka/pages/shifts/create_shift/view/widgets/add_another_break_button.dart';
+import 'package:belcka/pages/shifts/create_shift/view/widgets/break_title_text.dart';
+import 'package:belcka/pages/shifts/create_shift/view/widgets/breaks_list_view.dart';
+import 'package:belcka/pages/shifts/create_shift/view/widgets/select_shift_time_row.dart';
+import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/utils/date_utils.dart';
+import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 
 class ManageShiftTime extends StatelessWidget {
   ManageShiftTime({super.key});

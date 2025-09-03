@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:otm_inventory/pages/check_in/select_project/controller/select_project_controller.dart';
-import 'package:otm_inventory/pages/check_in/select_project/view/widgets/projects_list.dart';
-import 'package:otm_inventory/pages/check_in/select_project/view/widgets/search_project.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/widgets/CustomProgressbar.dart';
-import 'package:otm_inventory/widgets/map_view/bottom_curve_container.dart';
-import 'package:otm_inventory/widgets/map_view/custom_map_view.dart';
-import 'package:otm_inventory/widgets/map_view/map_back_arrow.dart';
-import 'package:otm_inventory/widgets/other_widgets/selection_screen_header_view.dart';
-import 'package:otm_inventory/widgets/text/TextViewWithContainer.dart';
+import 'package:belcka/pages/check_in/select_project/controller/select_project_controller.dart';
+import 'package:belcka/pages/check_in/select_project/view/widgets/projects_list.dart';
+import 'package:belcka/pages/check_in/select_project/view/widgets/search_project.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/widgets/CustomProgressbar.dart';
+import 'package:belcka/widgets/map_view/bottom_curve_container.dart';
+import 'package:belcka/widgets/map_view/custom_map_view.dart';
+import 'package:belcka/widgets/map_view/map_back_arrow.dart';
+import 'package:belcka/widgets/other_widgets/selection_screen_header_view.dart';
+import 'package:belcka/widgets/text/TextViewWithContainer.dart';
 
 class SelectProjectScreen extends StatefulWidget {
   const SelectProjectScreen({super.key});

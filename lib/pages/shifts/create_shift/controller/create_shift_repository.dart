@@ -1,4 +1,4 @@
-import 'package:otm_inventory/web_services/response/response_model.dart';
+import 'package:belcka/web_services/response/response_model.dart';
 
 import '../../../../web_services/api_constants.dart';
 import '../../../../web_services/network/api_request.dart';

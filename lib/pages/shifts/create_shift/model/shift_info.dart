@@ -1,5 +1,5 @@
-import 'package:otm_inventory/pages/shifts/create_shift/model/break_info.dart';
-import 'package:otm_inventory/pages/shifts/create_shift/model/week_day_info.dart';
+import 'package:belcka/pages/shifts/create_shift/model/break_info.dart';
+import 'package:belcka/pages/shifts/create_shift/model/week_day_info.dart';
 
 class ShiftInfo {
   int? id;

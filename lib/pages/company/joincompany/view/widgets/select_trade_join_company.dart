@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/company/joincompany/controller/join_company_controller.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/routes/app_routes.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/widgets/PrimaryButton.dart';
-import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
-import 'package:otm_inventory/widgets/textfield/text_field_border.dart';
+import 'package:belcka/pages/company/joincompany/controller/join_company_controller.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/widgets/PrimaryButton.dart';
+import 'package:belcka/widgets/text/PrimaryTextView.dart';
+import 'package:belcka/widgets/textfield/text_field_border.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
 class SelectTradeJoinCompany extends StatelessWidget {

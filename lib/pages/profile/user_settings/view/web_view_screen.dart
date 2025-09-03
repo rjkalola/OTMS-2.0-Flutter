@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:otm_inventory/widgets/CustomProgressbar.dart';
-import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
+import 'package:belcka/widgets/CustomProgressbar.dart';
+import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../../../../res/colors.dart';
 

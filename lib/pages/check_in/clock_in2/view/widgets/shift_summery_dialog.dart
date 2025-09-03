@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/common/listener/select_item_listener.dart';
-import 'package:otm_inventory/pages/common/model/file_info.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/res/drawable.dart';
-import 'package:otm_inventory/routes/app_routes.dart';
-import 'package:otm_inventory/utils/app_constants.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/utils/image_utils.dart';
-import 'package:otm_inventory/widgets/PrimaryButton.dart';
-import 'package:otm_inventory/widgets/shapes/circle_widget.dart';
-import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
-import 'package:otm_inventory/widgets/textfield/text_field_border.dart';
+import 'package:belcka/pages/common/listener/select_item_listener.dart';
+import 'package:belcka/pages/common/model/file_info.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/drawable.dart';
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/image_utils.dart';
+import 'package:belcka/widgets/PrimaryButton.dart';
+import 'package:belcka/widgets/shapes/circle_widget.dart';
+import 'package:belcka/widgets/text/PrimaryTextView.dart';
+import 'package:belcka/widgets/textfield/text_field_border.dart';
 
 class ShiftSummeryDialog extends StatefulWidget {
   final String dialogType;

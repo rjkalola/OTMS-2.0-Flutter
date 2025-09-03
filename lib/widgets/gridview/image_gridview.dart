@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/common/model/file_info.dart';
+import 'package:belcka/pages/common/model/file_info.dart';
 
 import '../image/grid_image.dart';
 

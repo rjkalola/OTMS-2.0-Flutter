@@ -5,14 +5,14 @@ import 'package:dio/dio.dart' as multi;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:otm_inventory/routes/app_routes.dart';
-import 'package:otm_inventory/utils/app_constants.dart';
-import 'package:otm_inventory/utils/app_storage.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/utils/data_utils.dart';
-import 'package:otm_inventory/web_services/api_constants.dart';
-import 'package:otm_inventory/pages/profile/personal_info//controller/personal_info_repository.dart';
-import 'package:otm_inventory/pages/common/phone_extension_list_dialog.dart';
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/utils/app_storage.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/data_utils.dart';
+import 'package:belcka/web_services/api_constants.dart';
+import 'package:belcka/pages/profile/personal_info//controller/personal_info_repository.dart';
+import 'package:belcka/pages/common/phone_extension_list_dialog.dart';
 
 class PersonalInfoController extends GetxController {
   final firstNameController = TextEditingController().obs;

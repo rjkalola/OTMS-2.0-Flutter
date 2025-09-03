@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:otm_inventory/pages/authentication/login/view/widgets/header_logo.dart';
-import 'package:otm_inventory/pages/authentication/other_info_steps/step1_team_users_count_info/view/widgets/team_users_count_items_list.dart';
-import 'package:otm_inventory/pages/authentication/other_info_steps/step2_business_field_info/controller/business_field_info_controller.dart';
-import 'package:otm_inventory/pages/authentication/other_info_steps/step2_business_field_info/view/widgets/business_field_info_items_list.dart';
-import 'package:otm_inventory/pages/authentication/signup1/view/widgets/header_title_note_text_widget_.dart';
-import 'package:otm_inventory/pages/authentication/signup1/view/widgets/top_divider_widget.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/widgets/CustomProgressbar.dart';
-import 'package:otm_inventory/widgets/buttons/ContinueButton.dart';
-import 'package:otm_inventory/widgets/custom_views/no_internet_widgets.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
+import 'package:belcka/pages/authentication/login/view/widgets/header_logo.dart';
+import 'package:belcka/pages/authentication/other_info_steps/step1_team_users_count_info/view/widgets/team_users_count_items_list.dart';
+import 'package:belcka/pages/authentication/other_info_steps/step2_business_field_info/controller/business_field_info_controller.dart';
+import 'package:belcka/pages/authentication/other_info_steps/step2_business_field_info/view/widgets/business_field_info_items_list.dart';
+import 'package:belcka/pages/authentication/signup1/view/widgets/header_title_note_text_widget_.dart';
+import 'package:belcka/pages/authentication/signup1/view/widgets/top_divider_widget.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/widgets/CustomProgressbar.dart';
+import 'package:belcka/widgets/buttons/ContinueButton.dart';
+import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
+import 'package:belcka/utils/app_utils.dart';
 
 class BusinessFieldInfoScreen extends StatefulWidget {
   BusinessFieldInfoScreen({super.key});

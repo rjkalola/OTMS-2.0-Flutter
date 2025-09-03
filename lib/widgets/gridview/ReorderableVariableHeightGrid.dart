@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:otm_inventory/widgets/gridview/VariableHeightGrid.dart';
+import 'package:belcka/widgets/gridview/VariableHeightGrid.dart';
 
 class ReorderableVariableHeightGridPage extends StatefulWidget {
   @override

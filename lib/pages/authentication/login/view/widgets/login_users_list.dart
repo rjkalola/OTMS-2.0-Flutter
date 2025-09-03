@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/authentication/login/controller/login_controller.dart';
-import 'package:otm_inventory/utils/app_storage.dart';
-import 'package:otm_inventory/utils/image_utils.dart';
-import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
+import 'package:belcka/pages/authentication/login/controller/login_controller.dart';
+import 'package:belcka/utils/app_storage.dart';
+import 'package:belcka/utils/image_utils.dart';
+import 'package:belcka/widgets/text/PrimaryTextView.dart';
 
 class LoginUsersList extends StatelessWidget {
   LoginUsersList({super.key});

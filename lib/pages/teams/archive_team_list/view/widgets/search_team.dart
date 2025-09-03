@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/teams/archive_team_list/controller/archive_team_list_controller.dart';
-import 'package:otm_inventory/widgets/textfield/search_text_field_dark.dart';
+import 'package:belcka/pages/teams/archive_team_list/controller/archive_team_list_controller.dart';
+import 'package:belcka/widgets/textfield/search_text_field_dark.dart';
 
 import '../../../../../utils/string_helper.dart';
 

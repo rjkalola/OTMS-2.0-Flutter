@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/authentication/signup1/controller/signup1_controller.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/routes/app_routes.dart';
-import 'package:otm_inventory/widgets/PrimaryBorderButton.dart';
-import 'package:otm_inventory/widgets/PrimaryButton.dart';
+import 'package:belcka/pages/authentication/signup1/controller/signup1_controller.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/widgets/PrimaryBorderButton.dart';
+import 'package:belcka/widgets/PrimaryButton.dart';
 
 class NextButtonWidget extends StatelessWidget {
   NextButtonWidget({super.key});

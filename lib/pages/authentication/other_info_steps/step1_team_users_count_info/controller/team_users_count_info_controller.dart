@@ -1,15 +1,15 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/authentication/other_info_steps/step1_team_users_count_info/controller/team_users_count_info_repository.dart';
-import 'package:otm_inventory/pages/authentication/other_info_steps/step1_team_users_count_info/model/CompanyResourcesResponse.dart';
-import 'package:otm_inventory/pages/company/company_details/controller/company_details_repository.dart';
-import 'package:otm_inventory/routes/app_routes.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/web_services/api_constants.dart';
-import 'package:otm_inventory/web_services/response/module_info.dart';
-import 'package:otm_inventory/web_services/response/response_model.dart';
-import 'package:otm_inventory/utils/app_constants.dart';
+import 'package:belcka/pages/authentication/other_info_steps/step1_team_users_count_info/controller/team_users_count_info_repository.dart';
+import 'package:belcka/pages/authentication/other_info_steps/step1_team_users_count_info/model/CompanyResourcesResponse.dart';
+import 'package:belcka/pages/company/company_details/controller/company_details_repository.dart';
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/web_services/api_constants.dart';
+import 'package:belcka/web_services/response/module_info.dart';
+import 'package:belcka/web_services/response/response_model.dart';
+import 'package:belcka/utils/app_constants.dart';
 
 class TeamUsersCountInfoController extends GetxController {
   final _api = TeamUsersCountInfoRepository();

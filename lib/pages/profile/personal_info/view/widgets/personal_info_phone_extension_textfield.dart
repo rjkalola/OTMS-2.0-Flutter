@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/widgets/textfield/text_field_phone_extension_widget.dart';
-import 'package:otm_inventory/widgets/textfield/text_field_underline.dart';
-import 'package:otm_inventory/pages/profile/personal_info/controller/personal_info_controller.dart';
+import 'package:belcka/widgets/textfield/text_field_phone_extension_widget.dart';
+import 'package:belcka/widgets/textfield/text_field_underline.dart';
+import 'package:belcka/pages/profile/personal_info/controller/personal_info_controller.dart';
 
 class PersonalInfoPhoneExtensionFieldWidget extends StatelessWidget {
   PersonalInfoPhoneExtensionFieldWidget({super.key});

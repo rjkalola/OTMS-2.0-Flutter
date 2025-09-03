@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:otm_inventory/pages/common/common_bottom_navigation_bar_widget.dart';
-import 'package:otm_inventory/pages/project/address_list/controller/address_list_controller.dart';
-import 'package:otm_inventory/pages/project/project_list/controller/project_list_controller.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/routes/app_routes.dart';
-import 'package:otm_inventory/widgets/CustomProgressbar.dart';
-import 'package:otm_inventory/widgets/PrimaryButton.dart';
-import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
-import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/pages/common/common_bottom_navigation_bar_widget.dart';
+import 'package:belcka/pages/project/address_list/controller/address_list_controller.dart';
+import 'package:belcka/pages/project/project_list/controller/project_list_controller.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/widgets/CustomProgressbar.dart';
+import 'package:belcka/widgets/PrimaryButton.dart';
+import 'package:belcka/widgets/appbar/base_appbar.dart';
+import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import '../../../../utils/app_constants.dart';
 
 class AddressListScreen extends StatefulWidget {

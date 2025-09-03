@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/web_services/response/module_info.dart';
-import 'package:otm_inventory/widgets/card_view.dart';
+import 'package:belcka/web_services/response/module_info.dart';
+import 'package:belcka/widgets/card_view.dart';
 
 import '../../res/colors.dart';
 import 'listener/select_item_listener.dart';

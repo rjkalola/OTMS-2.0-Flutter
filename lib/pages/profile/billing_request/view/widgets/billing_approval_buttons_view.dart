@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
-import 'package:otm_inventory/pages/profile/billing_request/controller/billing_request_controller.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/utils/user_utils.dart';
-import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/pages/profile/billing_request/controller/billing_request_controller.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/utils/user_utils.dart';
+import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 
 class BillingApprovalButtonsView extends StatefulWidget {
   @override

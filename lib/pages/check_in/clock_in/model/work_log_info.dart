@@ -1,6 +1,6 @@
-import 'package:otm_inventory/pages/check_in/clock_in/model/check_log_info.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/model/location_info.dart';
-import 'package:otm_inventory/pages/shifts/create_shift/model/break_info.dart';
+import 'package:belcka/pages/check_in/clock_in/model/check_log_info.dart';
+import 'package:belcka/pages/check_in/clock_in/model/location_info.dart';
+import 'package:belcka/pages/shifts/create_shift/model/break_info.dart';
 
 class WorkLogInfo {
   int? id;

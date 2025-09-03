@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/company/company_signup/controller/company_signup_controller.dart';
-import 'package:otm_inventory/widgets/textfield/text_field_phone_extension_widget.dart';
+import 'package:belcka/pages/company/company_signup/controller/company_signup_controller.dart';
+import 'package:belcka/widgets/textfield/text_field_phone_extension_widget.dart';
 
 class PhoneExtensionTextFieldCompanySignUp extends StatelessWidget {
   PhoneExtensionTextFieldCompanySignUp({super.key});

@@ -3,10 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:otm_inventory/pages/profile/post_coder_search/controller/post_coder_search_controller.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/widgets/CustomProgressbar.dart';
-import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
+import 'package:belcka/pages/profile/post_coder_search/controller/post_coder_search_controller.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/widgets/CustomProgressbar.dart';
+import 'package:belcka/widgets/appbar/base_appbar.dart';
 
 import '../../../../widgets/textfield/text_field_underline_.dart';
 

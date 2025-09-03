@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/profile/billing_details_new/controller/billing_details_new_controller.dart';
-import 'package:otm_inventory/pages/profile/widgets/nin_text_field.dart';
-import 'package:otm_inventory/pages/profile/billing_info/view/widgets/title_text.dart';
-import 'package:otm_inventory/pages/profile/widgets/utr_text_field.dart';
-import 'package:otm_inventory/pages/profile/widgets/name_on_utr_text_field.dart';
-import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/pages/profile/billing_details_new/controller/billing_details_new_controller.dart';
+import 'package:belcka/pages/profile/widgets/nin_text_field.dart';
+import 'package:belcka/pages/profile/billing_info/view/widgets/title_text.dart';
+import 'package:belcka/pages/profile/widgets/utr_text_field.dart';
+import 'package:belcka/pages/profile/widgets/name_on_utr_text_field.dart';
+import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 
 class TaxInfoView extends StatelessWidget {
   TaxInfoView({super.key});

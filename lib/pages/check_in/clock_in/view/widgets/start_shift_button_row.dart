@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/widgets/PrimaryButton.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/widgets/PrimaryButton.dart';
 
 import '../../../clock_in/controller/clock_in_controller.dart';
 

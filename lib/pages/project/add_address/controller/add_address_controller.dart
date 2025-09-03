@@ -2,17 +2,17 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/project/add_address/controller/add_address_repository.dart';
-import 'package:otm_inventory/pages/project/address_details/model/address_details_info.dart';
-import 'package:otm_inventory/pages/project/address_list/model/address_info.dart';
-import 'package:otm_inventory/pages/project/project_info/model/project_info.dart';
-import 'package:otm_inventory/utils/app_constants.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/utils/string_helper.dart';
-import 'package:otm_inventory/web_services/api_constants.dart';
-import 'package:otm_inventory/web_services/response/base_response.dart';
-import 'package:otm_inventory/web_services/response/module_info.dart';
-import 'package:otm_inventory/web_services/response/response_model.dart';
+import 'package:belcka/pages/project/add_address/controller/add_address_repository.dart';
+import 'package:belcka/pages/project/address_details/model/address_details_info.dart';
+import 'package:belcka/pages/project/address_list/model/address_info.dart';
+import 'package:belcka/pages/project/project_info/model/project_info.dart';
+import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/web_services/api_constants.dart';
+import 'package:belcka/web_services/response/base_response.dart';
+import 'package:belcka/web_services/response/module_info.dart';
+import 'package:belcka/web_services/response/response_model.dart';
 
 class AddAddressController extends GetxController{
   final siteAddressController = TextEditingController().obs;

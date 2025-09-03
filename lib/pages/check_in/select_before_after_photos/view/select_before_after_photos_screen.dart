@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:otm_inventory/pages/check_in/select_before_after_photos/controller/select_before_after_photos_controller.dart';
-import 'package:otm_inventory/pages/check_in/select_before_after_photos/view/widgets/before_after_photos_list.dart';
-import 'package:otm_inventory/pages/check_in/select_before_after_photos/view/widgets/submit_btn_before_after_photos.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/widgets/CustomProgressbar.dart';
-import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
+import 'package:belcka/pages/check_in/select_before_after_photos/controller/select_before_after_photos_controller.dart';
+import 'package:belcka/pages/check_in/select_before_after_photos/view/widgets/before_after_photos_list.dart';
+import 'package:belcka/pages/check_in/select_before_after_photos/view/widgets/submit_btn_before_after_photos.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/widgets/CustomProgressbar.dart';
+import 'package:belcka/widgets/appbar/base_appbar.dart';
+import 'package:belcka/utils/app_utils.dart';
 
 class SelectBeforeAfterPhotosScreen extends StatefulWidget {
   const SelectBeforeAfterPhotosScreen({super.key});

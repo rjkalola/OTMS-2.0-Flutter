@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/model/location_info.dart';
-import 'package:otm_inventory/utils/app_storage.dart';
+import 'package:belcka/pages/check_in/clock_in/model/location_info.dart';
+import 'package:belcka/utils/app_storage.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class LocationServiceNew {

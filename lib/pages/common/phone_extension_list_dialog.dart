@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/common/model/dialog_title_view.dart';
-import 'package:otm_inventory/utils/data_utils.dart';
-import 'package:otm_inventory/utils/image_utils.dart';
-import 'package:otm_inventory/utils/string_helper.dart';
-import 'package:otm_inventory/web_services/response/module_info.dart';
-import 'package:otm_inventory/widgets/search_text_field.dart';
+import 'package:belcka/pages/common/model/dialog_title_view.dart';
+import 'package:belcka/utils/data_utils.dart';
+import 'package:belcka/utils/image_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/web_services/response/module_info.dart';
+import 'package:belcka/widgets/search_text_field.dart';
 import '../../res/colors.dart';
 import 'listener/SelectPhoneExtensionListener.dart';
 

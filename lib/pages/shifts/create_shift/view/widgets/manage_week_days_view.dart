@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/shifts/create_shift/controller/create_shift_controller.dart';
-import 'package:otm_inventory/pages/shifts/create_shift/model/week_day_info.dart';
-import 'package:otm_inventory/pages/shifts/create_shift/view/widgets/week_days_list.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
-import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
-import 'package:otm_inventory/widgets/text/TitleTextView.dart';
+import 'package:belcka/pages/shifts/create_shift/controller/create_shift_controller.dart';
+import 'package:belcka/pages/shifts/create_shift/model/week_day_info.dart';
+import 'package:belcka/pages/shifts/create_shift/view/widgets/week_days_list.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/widgets/text/PrimaryTextView.dart';
+import 'package:belcka/widgets/text/TitleTextView.dart';
 
 class ManageWeekDaysView extends StatelessWidget {
   ManageWeekDaysView({super.key});

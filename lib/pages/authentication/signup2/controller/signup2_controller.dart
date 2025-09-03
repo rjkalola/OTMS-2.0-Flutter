@@ -1,20 +1,20 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/common/model/user_info.dart';
-import 'package:otm_inventory/pages/authentication/signup2/controller/signup2_repository.dart';
-import 'package:otm_inventory/pages/common/model/user_response.dart';
-import 'package:otm_inventory/pages/manageattachment/controller/manage_attachment_controller.dart';
-import 'package:otm_inventory/pages/manageattachment/listener/select_attachment_listener.dart';
-import 'package:otm_inventory/routes/app_routes.dart';
-import 'package:otm_inventory/utils/app_constants.dart';
-import 'package:otm_inventory/utils/app_storage.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/utils/string_helper.dart';
-import 'package:otm_inventory/web_services/api_constants.dart';
-import 'package:otm_inventory/web_services/response/module_info.dart';
+import 'package:belcka/pages/common/model/user_info.dart';
+import 'package:belcka/pages/authentication/signup2/controller/signup2_repository.dart';
+import 'package:belcka/pages/common/model/user_response.dart';
+import 'package:belcka/pages/manageattachment/controller/manage_attachment_controller.dart';
+import 'package:belcka/pages/manageattachment/listener/select_attachment_listener.dart';
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/utils/app_storage.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/web_services/api_constants.dart';
+import 'package:belcka/web_services/response/module_info.dart';
 import 'package:dio/dio.dart' as multi;
-import 'package:otm_inventory/web_services/response/response_model.dart';
+import 'package:belcka/web_services/response/response_model.dart';
 
 class SignUp2Controller extends GetxController
     implements SelectAttachmentListener {

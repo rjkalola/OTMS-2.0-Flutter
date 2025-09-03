@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:otm_inventory/widgets/shapes/CustomCupertinoSpinner.dart';
+import 'package:belcka/widgets/shapes/CustomCupertinoSpinner.dart';
 
 class CustomProgressbar extends StatelessWidget {
   const CustomProgressbar({super.key, this.radius});

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/common/listener/select_user_listener.dart';
-import 'package:otm_inventory/pages/common/model/user_info.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/utils/image_utils.dart';
-import 'package:otm_inventory/utils/string_helper.dart';
-import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
-import 'package:otm_inventory/widgets/checkbox/custom_checkbox.dart';
-import 'package:otm_inventory/widgets/search_text_field.dart';
-import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
-import 'package:otm_inventory/widgets/textfield/search_text_field_dark.dart';
+import 'package:belcka/pages/common/listener/select_user_listener.dart';
+import 'package:belcka/pages/common/model/user_info.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/utils/image_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/widgets/checkbox/custom_checkbox.dart';
+import 'package:belcka/widgets/search_text_field.dart';
+import 'package:belcka/widgets/text/PrimaryTextView.dart';
+import 'package:belcka/widgets/textfield/search_text_field_dark.dart';
 
 class SelectUserDialog extends StatefulWidget {
   final List<UserInfo> list;

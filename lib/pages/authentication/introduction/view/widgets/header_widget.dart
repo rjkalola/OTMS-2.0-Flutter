@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/authentication/introduction/view/widgets/dropdown_widget_language.dart';
+import 'package:belcka/pages/authentication/introduction/view/widgets/dropdown_widget_language.dart';
 
 class HeaderWidget extends StatelessWidget {
   HeaderWidget({super.key});

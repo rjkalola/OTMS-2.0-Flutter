@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_controller.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/widgets/text/TitleTextView.dart';
+import 'package:belcka/pages/check_in/clock_in/controller/clock_in_controller.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/widgets/text/TitleTextView.dart';
 
 class MyDayLogsTitle extends StatelessWidget {
   MyDayLogsTitle({super.key});

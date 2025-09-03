@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/controller/clock_in_controller.dart';
+import 'package:belcka/pages/check_in/clock_in/controller/clock_in_controller.dart';
 
 class MapView extends StatelessWidget {
   MapView({super.key});

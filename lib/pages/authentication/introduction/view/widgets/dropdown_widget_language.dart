@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/authentication/introduction/controller/introduction_controller.dart';
-import 'package:otm_inventory/res/drawable.dart';
-import 'package:otm_inventory/widgets/image/circular_svg_assets_image.dart';
+import 'package:belcka/pages/authentication/introduction/controller/introduction_controller.dart';
+import 'package:belcka/res/drawable.dart';
+import 'package:belcka/widgets/image/circular_svg_assets_image.dart';
 
 class LanguageDropdownWidget extends StatelessWidget {
   LanguageDropdownWidget({super.key});

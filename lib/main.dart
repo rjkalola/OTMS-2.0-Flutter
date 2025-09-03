@@ -1,17 +1,23 @@
+import 'package:belcka/utils/notification_service.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/authentication/splash/splash_screen.dart';
-import 'package:otm_inventory/pages/project/add_project/view/add_project_screen.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/res/strings.dart';
-import 'package:otm_inventory/res/theme/theme_config.dart';
-import 'package:otm_inventory/res/theme/theme_controller.dart';
-import 'package:otm_inventory/routes/app_pages.dart';
-import 'package:otm_inventory/utils/app_storage.dart';
+import 'package:belcka/pages/authentication/splash/splash_screen.dart';
+import 'package:belcka/res/strings.dart';
+import 'package:belcka/res/theme/theme_config.dart';
+import 'package:belcka/res/theme/theme_controller.dart';
+import 'package:belcka/routes/app_pages.dart';
+import 'package:belcka/utils/app_storage.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 void main() async {
   await Get.put(AppStorage()).initStorage();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  await NotificationService.init();
   Get.put(ThemeController());
   runApp(MyApp());
 }

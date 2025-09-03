@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/res/theme/theme_controller.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/widgets/PrimaryButton.dart';
-import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/theme/theme_controller.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/widgets/PrimaryButton.dart';
+import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import '../../../../authentication/login/view/widgets/phone_extension_field_widget.dart';
 
 class InfoCard extends StatelessWidget {

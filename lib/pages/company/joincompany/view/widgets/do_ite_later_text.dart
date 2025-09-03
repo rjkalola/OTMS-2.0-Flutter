@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/company/joincompany/controller/join_company_controller.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
+import 'package:belcka/pages/company/joincompany/controller/join_company_controller.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/widgets/text/PrimaryTextView.dart';
 
 class DoItLater extends StatelessWidget {
   DoItLater({super.key});

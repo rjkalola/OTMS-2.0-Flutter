@@ -3,15 +3,15 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/permissions/permission_users/controller/permission_users_repository.dart';
-import 'package:otm_inventory/pages/permissions/permission_users/model/permission_user_info.dart';
-import 'package:otm_inventory/pages/permissions/permission_users/model/permission_users_response.dart';
-import 'package:otm_inventory/pages/permissions/permission_users/model/save_permission_user_request.dart';
-import 'package:otm_inventory/utils/app_constants.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/utils/string_helper.dart';
-import 'package:otm_inventory/web_services/api_constants.dart';
-import 'package:otm_inventory/web_services/response/response_model.dart';
+import 'package:belcka/pages/permissions/permission_users/controller/permission_users_repository.dart';
+import 'package:belcka/pages/permissions/permission_users/model/permission_user_info.dart';
+import 'package:belcka/pages/permissions/permission_users/model/permission_users_response.dart';
+import 'package:belcka/pages/permissions/permission_users/model/save_permission_user_request.dart';
+import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/web_services/api_constants.dart';
+import 'package:belcka/web_services/response/response_model.dart';
 
 class PermissionUsersController extends GetxController {
   final _api = PermissionUsersRepository();

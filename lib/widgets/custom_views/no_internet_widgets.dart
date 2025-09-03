@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/widgets/PrimaryBorderButton.dart';
-import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/widgets/PrimaryBorderButton.dart';
+import 'package:belcka/widgets/text/PrimaryTextView.dart';
 
 class NoInternetWidget extends StatelessWidget {
   const NoInternetWidget({super.key, this.onPressed});

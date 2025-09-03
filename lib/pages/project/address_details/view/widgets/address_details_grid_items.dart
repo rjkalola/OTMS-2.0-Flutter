@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
-import 'package:otm_inventory/pages/project/address_details/controller/address_details_controller.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/utils/image_utils.dart';
-import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/pages/project/address_details/controller/address_details_controller.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/image_utils.dart';
+import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 
 import '../../../../../routes/app_routes.dart';
 import '../../../../../utils/app_constants.dart';

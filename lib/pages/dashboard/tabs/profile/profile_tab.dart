@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/utils/app_constants.dart';
+import 'package:belcka/utils/app_constants.dart';
 
 import '../../../../res/colors.dart';
 import '../../../../routes/app_routes.dart';
 import '../../../../utils/app_storage.dart';
 import '../../../common/listener/DialogButtonClickListener.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
+import 'package:belcka/utils/app_utils.dart';
 class ProfileTab extends StatefulWidget {
   const ProfileTab({super.key});
 

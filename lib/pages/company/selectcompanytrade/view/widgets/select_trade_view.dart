@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/company/joincompany/controller/join_company_controller.dart';
-import 'package:otm_inventory/pages/company/selectcompanytrade/controller/select_company_trade_controller.dart';
-import 'package:otm_inventory/pages/company/selectcompanytrade/view/select_company_trade_screen.dart';
-import 'package:otm_inventory/widgets/textfield/text_field_border.dart';
+import 'package:belcka/pages/company/joincompany/controller/join_company_controller.dart';
+import 'package:belcka/pages/company/selectcompanytrade/controller/select_company_trade_controller.dart';
+import 'package:belcka/pages/company/selectcompanytrade/view/select_company_trade_screen.dart';
+import 'package:belcka/widgets/textfield/text_field_border.dart';
 
 class SelectTradeView extends StatelessWidget {
   SelectTradeView({super.key});

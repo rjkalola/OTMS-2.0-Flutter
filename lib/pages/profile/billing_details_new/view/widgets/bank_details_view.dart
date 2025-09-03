@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/profile/billing_details_new/controller/billing_details_new_controller.dart';
-import 'package:otm_inventory/pages/profile/billing_info/controller/billing_info_controller.dart';
-import 'package:otm_inventory/pages/profile/widgets/account_number_text_field.dart';
-import 'package:otm_inventory/pages/profile/widgets/bank_name_text_field.dart';
-import 'package:otm_inventory/pages/profile/widgets/name_on_account_text_field.dart';
-import 'package:otm_inventory/pages/profile/widgets/name_on_utr_text_field.dart';
-import 'package:otm_inventory/pages/profile/widgets/sort_code_text_field.dart';
-import 'package:otm_inventory/pages/profile/billing_info/view/widgets/title_text.dart';
-import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
-import 'package:otm_inventory/widgets/text/TitleTextView.dart';
+import 'package:belcka/pages/profile/billing_details_new/controller/billing_details_new_controller.dart';
+import 'package:belcka/pages/profile/billing_info/controller/billing_info_controller.dart';
+import 'package:belcka/pages/profile/widgets/account_number_text_field.dart';
+import 'package:belcka/pages/profile/widgets/bank_name_text_field.dart';
+import 'package:belcka/pages/profile/widgets/name_on_account_text_field.dart';
+import 'package:belcka/pages/profile/widgets/name_on_utr_text_field.dart';
+import 'package:belcka/pages/profile/widgets/sort_code_text_field.dart';
+import 'package:belcka/pages/profile/billing_info/view/widgets/title_text.dart';
+import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/widgets/text/TitleTextView.dart';
 
 class BankDetailsView extends StatelessWidget {
    BankDetailsView({super.key});

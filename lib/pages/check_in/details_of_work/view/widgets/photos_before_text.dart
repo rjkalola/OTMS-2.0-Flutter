@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
+import 'package:belcka/widgets/text/PrimaryTextView.dart';
 
 class PhotosBeforeText extends StatelessWidget {
   const PhotosBeforeText({super.key});

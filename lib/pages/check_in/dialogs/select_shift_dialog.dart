@@ -2,17 +2,17 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/common/listener/select_item_listener.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/utils/data_utils.dart';
-import 'package:otm_inventory/utils/string_helper.dart';
-import 'package:otm_inventory/web_services/response/module_info.dart';
-import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
-import 'package:otm_inventory/widgets/other_widgets/right_arrow_widget.dart';
-import 'package:otm_inventory/widgets/shapes/circle_widget.dart';
-import 'package:otm_inventory/widgets/text/TitleTextView.dart';
-import 'package:otm_inventory/widgets/textfield/search_text_field_dark.dart';
+import 'package:belcka/pages/common/listener/select_item_listener.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/data_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/web_services/response/module_info.dart';
+import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/widgets/other_widgets/right_arrow_widget.dart';
+import 'package:belcka/widgets/shapes/circle_widget.dart';
+import 'package:belcka/widgets/text/TitleTextView.dart';
+import 'package:belcka/widgets/textfield/search_text_field_dark.dart';
 
 class SelectShiftDialog extends StatefulWidget {
   final List<ModuleInfo> list;

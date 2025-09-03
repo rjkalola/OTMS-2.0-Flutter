@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:otm_inventory/res/colors.dart';
+import 'package:belcka/res/colors.dart';
 
 import '../../../../widgets/card_view.dart';
 import '../../../../widgets/text/PrimaryTextView.dart';

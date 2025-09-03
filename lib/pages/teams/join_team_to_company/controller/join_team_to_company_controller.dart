@@ -3,21 +3,21 @@ import 'dart:convert';
 import 'package:dio/dio.dart' as multi;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/common/drop_down_list_dialog.dart';
-import 'package:otm_inventory/pages/common/listener/select_item_listener.dart';
-import 'package:otm_inventory/pages/company/joincompany/controller/join_company_repository.dart';
-import 'package:otm_inventory/pages/company/joincompany/model/join_company_response.dart';
-import 'package:otm_inventory/pages/company/joincompany/model/trade_list_response.dart';
-import 'package:otm_inventory/pages/teams/join_team_to_company/controller/join_team_to_company_repository.dart';
-import 'package:otm_inventory/routes/app_routes.dart';
-import 'package:otm_inventory/utils/app_constants.dart';
-import 'package:otm_inventory/utils/app_storage.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/utils/string_helper.dart';
-import 'package:otm_inventory/web_services/api_constants.dart';
-import 'package:otm_inventory/web_services/response/base_response.dart';
-import 'package:otm_inventory/web_services/response/module_info.dart';
-import 'package:otm_inventory/web_services/response/response_model.dart';
+import 'package:belcka/pages/common/drop_down_list_dialog.dart';
+import 'package:belcka/pages/common/listener/select_item_listener.dart';
+import 'package:belcka/pages/company/joincompany/controller/join_company_repository.dart';
+import 'package:belcka/pages/company/joincompany/model/join_company_response.dart';
+import 'package:belcka/pages/company/joincompany/model/trade_list_response.dart';
+import 'package:belcka/pages/teams/join_team_to_company/controller/join_team_to_company_repository.dart';
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/utils/app_storage.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/web_services/api_constants.dart';
+import 'package:belcka/web_services/response/base_response.dart';
+import 'package:belcka/web_services/response/module_info.dart';
+import 'package:belcka/web_services/response/response_model.dart';
 
 class JoinTeamToCompanyController extends GetxController
     implements SelectItemListener {

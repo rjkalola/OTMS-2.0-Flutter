@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:otm_inventory/res/theme/theme_config.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
+import 'package:belcka/res/theme/theme_config.dart';
+import 'package:belcka/utils/app_utils.dart';
 
 class DialogHandleWidget extends StatelessWidget {
   const DialogHandleWidget({super.key});

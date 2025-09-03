@@ -1,13 +1,13 @@
 import 'dart:io';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:otm_inventory/pages/company/company_details/controller/company_details_controller.dart';
-import 'package:otm_inventory/pages/company/company_signup/controller/company_signup_controller.dart';
-import 'package:otm_inventory/pages/teams/sub_contractor_details/controller/sub_contractor_details_controller.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/res/drawable.dart';
-import 'package:otm_inventory/utils/image_utils.dart';
-import 'package:otm_inventory/utils/string_helper.dart';
+import 'package:belcka/pages/company/company_details/controller/company_details_controller.dart';
+import 'package:belcka/pages/company/company_signup/controller/company_signup_controller.dart';
+import 'package:belcka/pages/teams/sub_contractor_details/controller/sub_contractor_details_controller.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/drawable.dart';
+import 'package:belcka/utils/image_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
 
 class CompanyLogo extends StatelessWidget {
   CompanyLogo({super.key});

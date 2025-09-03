@@ -1,5 +1,5 @@
-import 'package:otm_inventory/pages/check_in/clock_in/model/work_log_info.dart';
-import 'package:otm_inventory/pages/check_in/work_log_request/model/work_log_details_info.dart';
+import 'package:belcka/pages/check_in/clock_in/model/work_log_info.dart';
+import 'package:belcka/pages/check_in/work_log_request/model/work_log_details_info.dart';
 
 class WorkLogDetailsResponse {
   bool? isSuccess;

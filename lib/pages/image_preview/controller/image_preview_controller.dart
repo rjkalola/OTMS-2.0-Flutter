@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/common/model/file_info.dart';
-import 'package:otm_inventory/pages/image_preview/controller/image_preview_repository.dart';
-import 'package:otm_inventory/utils/app_constants.dart';
+import 'package:belcka/pages/common/model/file_info.dart';
+import 'package:belcka/pages/image_preview/controller/image_preview_repository.dart';
+import 'package:belcka/utils/app_constants.dart';
 
 class ImagePreviewController extends GetxController {
   final _api = ImagePreviewRepository();

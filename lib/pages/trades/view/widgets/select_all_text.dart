@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/trades/controller/trades_controller.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
+import 'package:belcka/pages/trades/controller/trades_controller.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/widgets/text/PrimaryTextView.dart';
 
 class SelectAllText extends StatelessWidget {
   SelectAllText({super.key});

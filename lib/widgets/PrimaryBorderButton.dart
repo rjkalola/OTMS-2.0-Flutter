@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/widgets/text/PrimaryTextView.dart';
 
 class PrimaryBorderButton extends StatelessWidget {
   final String buttonText;

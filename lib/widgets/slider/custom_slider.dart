@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/res/colors.dart';
+import 'package:belcka/res/colors.dart';
 
 class CustomSlider extends StatelessWidget {
   CustomSlider({super.key, required this.progress, required this.onChanged});

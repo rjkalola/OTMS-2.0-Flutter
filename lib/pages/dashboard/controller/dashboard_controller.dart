@@ -1,21 +1,23 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart' as multi;
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/dashboard/controller/dashboard_repository.dart';
-import 'package:otm_inventory/pages/dashboard/models/dashboard_response.dart';
-import 'package:otm_inventory/pages/dashboard/models/dashboard_stock_count_response.dart';
-import 'package:otm_inventory/pages/dashboard/models/permission_settings.dart';
-import 'package:otm_inventory/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart';
-import 'package:otm_inventory/pages/dashboard/tabs/home_tab/view/home_tab.dart';
-import 'package:otm_inventory/pages/dashboard/tabs/more_tab/more_tab.dart';
-import 'package:otm_inventory/routes/app_routes.dart';
+import 'package:belcka/pages/dashboard/controller/dashboard_repository.dart';
+import 'package:belcka/pages/dashboard/models/dashboard_response.dart';
+import 'package:belcka/pages/dashboard/models/dashboard_stock_count_response.dart';
+import 'package:belcka/pages/dashboard/models/permission_settings.dart';
+import 'package:belcka/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart';
+import 'package:belcka/pages/dashboard/tabs/home_tab/view/home_tab.dart';
+import 'package:belcka/pages/dashboard/tabs/more_tab/more_tab.dart';
+import 'package:belcka/routes/app_routes.dart';
 
 import '../../../utils/app_constants.dart';
 import '../../../utils/app_storage.dart';
 import '../../../utils/app_utils.dart';
+import '../../../utils/string_helper.dart';
 import '../../../web_services/api_constants.dart';
 import '../../../web_services/response/response_model.dart';
 
@@ -59,6 +61,17 @@ class DashboardController extends GetxController
 
     // setDashboardData();
     // getSettingApi();
+    getFirebaseToken();
+  }
+
+  Future<void> getFirebaseToken() async {
+    // Get token
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    String? token = await messaging.getToken();
+    // AppUtils.showSnackBarMessage(token ?? "token null");
+    if (!StringHelper.isEmptyString(token)) {
+      print("token:${token!}");
+    }
   }
 
   Future<void> setDashboardData() async {

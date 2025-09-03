@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-import 'package:otm_inventory/pages/authentication/other_info_steps/step1_team_users_count_info/model/CompanyResourcesResponse.dart';
-import 'package:otm_inventory/pages/common/listener/company_resources_listener.dart';
-import 'package:otm_inventory/pages/company/company_details/controller/company_details_repository.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/web_services/api_constants.dart';
-import 'package:otm_inventory/web_services/response/response_model.dart';
+import 'package:belcka/pages/authentication/other_info_steps/step1_team_users_count_info/model/CompanyResourcesResponse.dart';
+import 'package:belcka/pages/common/listener/company_resources_listener.dart';
+import 'package:belcka/pages/company/company_details/controller/company_details_repository.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/web_services/api_constants.dart';
+import 'package:belcka/web_services/response/response_model.dart';
 
 class CompanyResources {
   static void getResourcesApi(

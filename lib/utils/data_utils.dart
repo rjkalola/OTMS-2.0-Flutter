@@ -1,11 +1,11 @@
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/common/model/user_info.dart';
-import 'package:otm_inventory/pages/dashboard/tabs/home_tab/model/dashboard_grid_item_info.dart';
-import 'package:otm_inventory/pages/dashboard/tabs/home_tab/model/permission_info.dart';
-import 'package:otm_inventory/pages/dashboard/tabs/home_tab2/model/DashboardActionItemInfo.dart';
-import 'package:otm_inventory/pages/shifts/create_shift/model/week_day_info.dart';
-import 'package:otm_inventory/res/drawable.dart';
-import 'package:otm_inventory/web_services/response/module_info.dart';
+import 'package:belcka/pages/common/model/user_info.dart';
+import 'package:belcka/pages/dashboard/tabs/home_tab/model/dashboard_grid_item_info.dart';
+import 'package:belcka/pages/dashboard/tabs/home_tab/model/permission_info.dart';
+import 'package:belcka/pages/dashboard/tabs/home_tab2/model/DashboardActionItemInfo.dart';
+import 'package:belcka/pages/shifts/create_shift/model/week_day_info.dart';
+import 'package:belcka/res/drawable.dart';
+import 'package:belcka/web_services/response/module_info.dart';
 
 import 'app_constants.dart';
 

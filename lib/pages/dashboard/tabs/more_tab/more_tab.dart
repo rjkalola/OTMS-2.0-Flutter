@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/dashboard/view/widgets/more_tab_buttons.dart';
-import 'package:otm_inventory/res/drawable.dart';
-import 'package:otm_inventory/routes/app_routes.dart';
-import 'package:otm_inventory/utils/app_constants.dart';
-import 'package:otm_inventory/utils/app_storage.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
+import 'package:belcka/pages/dashboard/view/widgets/more_tab_buttons.dart';
+import 'package:belcka/res/drawable.dart';
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/utils/app_storage.dart';
+import 'package:belcka/utils/app_utils.dart';
 
 import '../../../../res/colors.dart';
 import '../../../../utils/AlertDialogHelper.dart';

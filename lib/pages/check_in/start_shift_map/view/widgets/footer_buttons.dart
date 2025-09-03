@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/check_in/start_shift_map/controller/start_shift_map_controller.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/widgets/text/TitleTextView.dart';
+import 'package:belcka/pages/check_in/start_shift_map/controller/start_shift_map_controller.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/widgets/text/TitleTextView.dart';
 
 import '../../../../../routes/app_routes.dart';
 import '../../../../../utils/app_constants.dart';

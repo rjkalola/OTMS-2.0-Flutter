@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/check_in/work_log_request/controller/work_log_request_controller.dart';
-import 'package:otm_inventory/pages/check_in/work_log_request/view/widgets/start_shift_box.dart';
-import 'package:otm_inventory/utils/string_helper.dart';
+import 'package:belcka/pages/check_in/work_log_request/controller/work_log_request_controller.dart';
+import 'package:belcka/pages/check_in/work_log_request/view/widgets/start_shift_box.dart';
+import 'package:belcka/utils/string_helper.dart';
 
 import '../../../../../utils/app_constants.dart';
 

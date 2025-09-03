@@ -1,4 +1,4 @@
-import 'package:otm_inventory/pages/teams/team_list/model/team_info.dart';
+import 'package:belcka/pages/teams/team_list/model/team_info.dart';
 
 class TeamDetailsResponse {
   bool? isSuccess;

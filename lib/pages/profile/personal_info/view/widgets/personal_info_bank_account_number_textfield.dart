@@ -3,15 +3,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/authentication/signup1/controller/signup1_controller.dart';
-import 'package:otm_inventory/pages/profile/personal_info/controller/personal_info_controller.dart';
-import 'package:otm_inventory/pages/profile/personal_info/view/personal_info_screen.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/res/drawable.dart';
-import 'package:otm_inventory/routes/app_routes.dart';
-import 'package:otm_inventory/widgets/PrimaryBorderButton.dart';
-import 'package:otm_inventory/widgets/textfield/text_field_border.dart';
-import 'package:otm_inventory/widgets/textfield/text_field_underline.dart';
+import 'package:belcka/pages/authentication/signup1/controller/signup1_controller.dart';
+import 'package:belcka/pages/profile/personal_info/controller/personal_info_controller.dart';
+import 'package:belcka/pages/profile/personal_info/view/personal_info_screen.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/drawable.dart';
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/widgets/PrimaryBorderButton.dart';
+import 'package:belcka/widgets/textfield/text_field_border.dart';
+import 'package:belcka/widgets/textfield/text_field_underline.dart';
 
 
 class PersonalInfoBankAccountNumberTextFieldWidget extends StatelessWidget {

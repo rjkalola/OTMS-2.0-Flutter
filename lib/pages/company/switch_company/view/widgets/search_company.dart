@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/company/switch_company/controller/switch_company_controller.dart';
-import 'package:otm_inventory/utils/string_helper.dart';
-import 'package:otm_inventory/widgets/textfield/search_text_field_dark.dart';
+import 'package:belcka/pages/company/switch_company/controller/switch_company_controller.dart';
+import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/widgets/textfield/search_text_field_dark.dart';
 
 class SearchCompany extends StatefulWidget {
   const SearchCompany({super.key});

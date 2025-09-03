@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-import 'package:otm_inventory/res/theme/theme_config.dart';
+import 'package:belcka/res/theme/theme_config.dart';
 
 import '../../res/colors.dart';
 

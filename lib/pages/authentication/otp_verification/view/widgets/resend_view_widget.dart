@@ -1,8 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/authentication/otp_verification/controller/verify_otp_controller.dart';
-import 'package:otm_inventory/res/colors.dart';
+import 'package:belcka/pages/authentication/otp_verification/controller/verify_otp_controller.dart';
+import 'package:belcka/res/colors.dart';
 
 class ResendViewWidget extends StatelessWidget {
   ResendViewWidget({super.key});

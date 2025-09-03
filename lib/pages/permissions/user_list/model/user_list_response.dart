@@ -1,4 +1,4 @@
-import 'package:otm_inventory/pages/common/model/user_info.dart';
+import 'package:belcka/pages/common/model/user_info.dart';
 
 class UserListResponse {
   bool? isSuccess;

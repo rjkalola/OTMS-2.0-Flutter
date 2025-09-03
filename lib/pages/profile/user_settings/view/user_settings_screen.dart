@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:otm_inventory/pages/profile/user_settings/controller/user_settings_controller.dart';
-import 'package:otm_inventory/pages/profile/user_settings/view/web_view_screen.dart';
-import 'package:otm_inventory/pages/profile/user_settings/view/widgets/build_dark_mode_item_widget.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/res/theme/theme_config.dart';
-import 'package:otm_inventory/routes/app_routes.dart';
-import 'package:otm_inventory/widgets/CustomProgressbar.dart';
-import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
-import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/pages/profile/user_settings/controller/user_settings_controller.dart';
+import 'package:belcka/pages/profile/user_settings/view/web_view_screen.dart';
+import 'package:belcka/pages/profile/user_settings/view/widgets/build_dark_mode_item_widget.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/theme/theme_config.dart';
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/widgets/CustomProgressbar.dart';
+import 'package:belcka/widgets/appbar/base_appbar.dart';
+import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 
 class UserSettingsScreen extends StatelessWidget {
   UserSettingsScreen({Key? key}) : super(key: key);

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:otm_inventory/pages/authentication/splash/splash_services.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/res/drawable.dart';
-import 'package:otm_inventory/utils/image_utils.dart';
+import 'package:belcka/pages/authentication/splash/splash_services.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/drawable.dart';
+import 'package:belcka/utils/image_utils.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/widgets/PrimaryBorderButton.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/widgets/PrimaryBorderButton.dart';
 
 class SaveButtonDetailsOfWork extends StatelessWidget {
   const SaveButtonDetailsOfWork({super.key});

@@ -1,4 +1,4 @@
-import 'package:otm_inventory/pages/project/check_in_records/model/check_in_records_info.dart';
+import 'package:belcka/pages/project/check_in_records/model/check_in_records_info.dart';
 
 class CheckInRecordsResponse {
   bool? isSuccess;

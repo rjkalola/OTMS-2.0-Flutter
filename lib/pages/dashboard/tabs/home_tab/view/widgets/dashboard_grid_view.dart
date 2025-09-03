@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_reorderable_grid_view/entities/reorder_update_entity.dart';
 import 'package:flutter_reorderable_grid_view/widgets/reorderable_builder.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart';
-import 'package:otm_inventory/pages/dashboard/tabs/home_tab/view/widgets/dashboard_grid_item.dart';
+import 'package:belcka/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart';
+import 'package:belcka/pages/dashboard/tabs/home_tab/view/widgets/dashboard_grid_item.dart';
 
 class DashboardGridView extends StatelessWidget {
   DashboardGridView({super.key});

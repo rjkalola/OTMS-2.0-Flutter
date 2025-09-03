@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:otm_inventory/pages/settings/controller/settings_controller.dart';
-import 'package:otm_inventory/pages/settings/view/widgets/setting_item.dart';
-import 'package:otm_inventory/pages/settings/view/widgets/setting_item_divider.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/res/drawable.dart';
-import 'package:otm_inventory/routes/app_routes.dart';
-import 'package:otm_inventory/widgets/CustomProgressbar.dart';
-import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
-import 'package:otm_inventory/widgets/custom_views/no_internet_widgets.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
+import 'package:belcka/pages/settings/controller/settings_controller.dart';
+import 'package:belcka/pages/settings/view/widgets/setting_item.dart';
+import 'package:belcka/pages/settings/view/widgets/setting_item_divider.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/drawable.dart';
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/widgets/CustomProgressbar.dart';
+import 'package:belcka/widgets/appbar/base_appbar.dart';
+import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
+import 'package:belcka/utils/app_utils.dart';
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
 

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/shifts/create_shift/controller/create_shift_controller.dart';
-import 'package:otm_inventory/res/theme/theme_config.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
+import 'package:belcka/pages/shifts/create_shift/controller/create_shift_controller.dart';
+import 'package:belcka/res/theme/theme_config.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/widgets/text/PrimaryTextView.dart';
 
 class SelectShiftTimeRow extends StatelessWidget {
   SelectShiftTimeRow(

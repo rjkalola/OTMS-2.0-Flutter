@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 
 class PendingForApprovalView extends StatelessWidget {
 

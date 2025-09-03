@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/check_in/select_project/controller/select_project_controller.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/web_services/response/module_info.dart';
-import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
-import 'package:otm_inventory/widgets/other_widgets/right_arrow_widget.dart';
-import 'package:otm_inventory/widgets/shapes/circle_widget.dart';
-import 'package:otm_inventory/widgets/text/TitleTextView.dart';
+import 'package:belcka/pages/check_in/select_project/controller/select_project_controller.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/web_services/response/module_info.dart';
+import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/widgets/other_widgets/right_arrow_widget.dart';
+import 'package:belcka/widgets/shapes/circle_widget.dart';
+import 'package:belcka/widgets/text/TitleTextView.dart';
 
 class ProjectsList extends StatelessWidget {
   ProjectsList({super.key});

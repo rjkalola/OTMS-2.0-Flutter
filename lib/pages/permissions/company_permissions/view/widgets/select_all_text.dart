@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/permissions/company_permissions/controller/company_permission_controller.dart';
-import 'package:otm_inventory/pages/permissions/user_permissions/controller/user_permission_controller.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
+import 'package:belcka/pages/permissions/company_permissions/controller/company_permission_controller.dart';
+import 'package:belcka/pages/permissions/user_permissions/controller/user_permission_controller.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/widgets/text/PrimaryTextView.dart';
 
 class SelectAllText extends StatelessWidget {
   SelectAllText({super.key});

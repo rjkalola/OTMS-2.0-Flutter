@@ -47,8 +47,11 @@
             android:name="flutterEmbedding"
             android:value="2" />
 
+<!--        <meta-data android:name="com.google.android.geo.API_KEY"-->
+<!--            android:value="AIzaSyDDOWUo-4BVRwrbtkE2kPVz7USJCZqlwd4"/>-->
+
         <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDDOWUo-4BVRwrbtkE2kPVz7USJCZqlwd4"/>
+            android:value="AIzaSyAdLpTcvwOWzhK4maBtriznqiw5MwBNcZw"/>
 
         <activity android:name="com.appmire.flutter.smsautofill.SmsAutoFillReceiver"/>
     </application>

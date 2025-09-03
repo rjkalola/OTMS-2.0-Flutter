@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:otm_inventory/pages/profile/billing_details_new/controller/billing_details_new_controller.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/routes/app_routes.dart';
+import 'package:belcka/pages/profile/billing_details_new/controller/billing_details_new_controller.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/routes/app_routes.dart';
 
 class NoBillingDataView extends StatelessWidget {
   NoBillingDataView({super.key});

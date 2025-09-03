@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:otm_inventory/pages/check_in/start_shift_map/controller/start_shift_map_controller.dart';
-import 'package:otm_inventory/pages/check_in/start_shift_map/view/widgets/footer_buttons.dart';
-import 'package:otm_inventory/pages/check_in/start_shift_map/view/widgets/start_shift_button.dart';
-import 'package:otm_inventory/pages/check_in/start_shift_map/view/widgets/start_shift_map_view.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/widgets/CustomProgressbar.dart';
-import 'package:otm_inventory/widgets/PrimaryButton.dart';
-import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
-import 'package:otm_inventory/widgets/custom_views/no_internet_widgets.dart';
-import 'package:otm_inventory/widgets/map_view/map_back_arrow.dart';
+import 'package:belcka/pages/check_in/start_shift_map/controller/start_shift_map_controller.dart';
+import 'package:belcka/pages/check_in/start_shift_map/view/widgets/footer_buttons.dart';
+import 'package:belcka/pages/check_in/start_shift_map/view/widgets/start_shift_button.dart';
+import 'package:belcka/pages/check_in/start_shift_map/view/widgets/start_shift_map_view.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/widgets/CustomProgressbar.dart';
+import 'package:belcka/widgets/PrimaryButton.dart';
+import 'package:belcka/widgets/appbar/base_appbar.dart';
+import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
+import 'package:belcka/widgets/map_view/map_back_arrow.dart';
 
 class StartShiftMapScreen extends StatefulWidget {
   const StartShiftMapScreen({super.key});

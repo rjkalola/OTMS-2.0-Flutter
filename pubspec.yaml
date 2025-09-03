@@ -1,4 +1,4 @@
-name: otm_inventory
+name: belcka
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -79,6 +79,9 @@ dependencies:
   webview_flutter_wkwebview: 3.21.0
   syncfusion_flutter_datepicker: ^29.1.38
   keyboard_actions: ^4.0.0
+  firebase_core: ^4.1.0
+  firebase_messaging: ^16.0.1
+  flutter_local_notifications: ^19.4.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

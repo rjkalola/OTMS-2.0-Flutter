@@ -1,5 +1,5 @@
-import 'package:otm_inventory/pages/check_in/clock_in/model/check_in_attachment_info.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/model/location_info.dart';
+import 'package:belcka/pages/check_in/clock_in/model/check_in_attachment_info.dart';
+import 'package:belcka/pages/check_in/clock_in/model/location_info.dart';
 
 class CheckLogInfo {
   int? id;

@@ -1,5 +1,5 @@
-import 'package:otm_inventory/pages/check_in/clock_in/model/work_log_info.dart';
-import 'package:otm_inventory/pages/shifts/create_shift/model/shift_info.dart';
+import 'package:belcka/pages/check_in/clock_in/model/work_log_info.dart';
+import 'package:belcka/pages/shifts/create_shift/model/shift_info.dart';
 
 class WorkLogListResponse {
   bool? isSuccess;

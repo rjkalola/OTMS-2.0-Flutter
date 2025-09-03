@@ -3,13 +3,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/my_request/controller/my_request_repository.dart';
-import 'package:otm_inventory/pages/my_request/model/my_request_info.dart';
-import 'package:otm_inventory/pages/my_request/model/my_requests_list_response.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/utils/user_utils.dart';
-import 'package:otm_inventory/web_services/api_constants.dart';
-import 'package:otm_inventory/web_services/response/response_model.dart';
+import 'package:belcka/pages/my_request/controller/my_request_repository.dart';
+import 'package:belcka/pages/my_request/model/my_request_info.dart';
+import 'package:belcka/pages/my_request/model/my_requests_list_response.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/user_utils.dart';
+import 'package:belcka/web_services/api_constants.dart';
+import 'package:belcka/web_services/response/response_model.dart';
 
 class MyRequestController extends GetxController {
   final formKey = GlobalKey<FormState>();

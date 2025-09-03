@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:otm_inventory/pages/company/company_signup/view/widgets/phone_extension_textfield_company_sign_up.dart';
-import 'package:otm_inventory/pages/company/company_signup/view/widgets/phone_number_textfield_company_signup.dart';
+import 'package:belcka/pages/company/company_signup/view/widgets/phone_extension_textfield_company_sign_up.dart';
+import 'package:belcka/pages/company/company_signup/view/widgets/phone_number_textfield_company_signup.dart';
 
 class PhoneNumberViewCompanySignUp extends StatelessWidget {
   const PhoneNumberViewCompanySignUp({super.key});

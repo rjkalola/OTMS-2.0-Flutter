@@ -1,14 +1,14 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/filter/controller/filter_repository.dart';
-import 'package:otm_inventory/pages/filter/model/filter_item_model.dart';
-import 'package:otm_inventory/pages/filter/model/filter_section_model.dart';
-import 'package:otm_inventory/pages/filter/model/filters_list_response.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/utils/user_utils.dart';
-import 'package:otm_inventory/web_services/api_constants.dart';
-import 'package:otm_inventory/web_services/response/response_model.dart';
+import 'package:belcka/pages/filter/controller/filter_repository.dart';
+import 'package:belcka/pages/filter/model/filter_item_model.dart';
+import 'package:belcka/pages/filter/model/filter_section_model.dart';
+import 'package:belcka/pages/filter/model/filters_list_response.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/user_utils.dart';
+import 'package:belcka/web_services/api_constants.dart';
+import 'package:belcka/web_services/response/response_model.dart';
 
 class FilterController extends GetxController {
   final _api = FilterRepository();

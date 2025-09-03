@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/common/model/file_info.dart';
-import 'package:otm_inventory/utils/app_constants.dart';
-import 'package:otm_inventory/widgets/gridview/image_gridview.dart';
+import 'package:belcka/pages/common/model/file_info.dart';
+import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/widgets/gridview/image_gridview.dart';
 
 import '../../controller/select_before_after_photos_controller.dart';
 

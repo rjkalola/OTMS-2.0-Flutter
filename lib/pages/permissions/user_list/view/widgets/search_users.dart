@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/permissions/company_permissions/controller/company_permission_controller.dart';
-import 'package:otm_inventory/pages/permissions/permission_users/controller/permission_users_controller.dart';
-import 'package:otm_inventory/pages/permissions/user_list/controller/user_list_controller.dart';
-import 'package:otm_inventory/utils/string_helper.dart';
-import 'package:otm_inventory/widgets/search_text_field.dart';
+import 'package:belcka/pages/permissions/company_permissions/controller/company_permission_controller.dart';
+import 'package:belcka/pages/permissions/permission_users/controller/permission_users_controller.dart';
+import 'package:belcka/pages/permissions/user_list/controller/user_list_controller.dart';
+import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/widgets/search_text_field.dart';
 
 
 class SearchUsersWidget extends StatefulWidget {

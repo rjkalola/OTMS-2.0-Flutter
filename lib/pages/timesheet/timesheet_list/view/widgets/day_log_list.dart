@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/timesheet/timesheet_list/controller/timesheet_list_controller.dart';
-import 'package:otm_inventory/pages/timesheet/timesheet_list/model/day_log_info.dart';
-import 'package:otm_inventory/pages/timesheet/timesheet_list/model/time_sheet_info.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/res/theme/theme_config.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/utils/date_utils.dart';
-import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
-import 'package:otm_inventory/widgets/other_widgets/right_arrow_widget.dart';
-import 'package:otm_inventory/widgets/shapes/badge_count_widget.dart';
-import 'package:otm_inventory/widgets/text/SubTitleTextView.dart';
-import 'package:otm_inventory/widgets/text/TextViewWithContainer.dart';
-import 'package:otm_inventory/widgets/text/TitleTextView.dart';
+import 'package:belcka/pages/timesheet/timesheet_list/controller/timesheet_list_controller.dart';
+import 'package:belcka/pages/timesheet/timesheet_list/model/day_log_info.dart';
+import 'package:belcka/pages/timesheet/timesheet_list/model/time_sheet_info.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/theme/theme_config.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/date_utils.dart';
+import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/widgets/other_widgets/right_arrow_widget.dart';
+import 'package:belcka/widgets/shapes/badge_count_widget.dart';
+import 'package:belcka/widgets/text/SubTitleTextView.dart';
+import 'package:belcka/widgets/text/TextViewWithContainer.dart';
+import 'package:belcka/widgets/text/TitleTextView.dart';
 
 class DayLogList extends StatelessWidget {
   DayLogList({super.key, required this.parentPosition});

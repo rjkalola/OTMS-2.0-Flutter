@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:otm_inventory/utils/image_utils.dart';
-import 'package:otm_inventory/widgets/shapes/circle_widget.dart';
+import 'package:belcka/utils/image_utils.dart';
+import 'package:belcka/widgets/shapes/circle_widget.dart';
 
 class UserAvtarView extends StatelessWidget {
   const UserAvtarView(

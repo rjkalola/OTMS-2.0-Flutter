@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/common/listener/menu_item_listener.dart';
-import 'package:otm_inventory/pages/common/model/dialog_title_view.dart';
-import 'package:otm_inventory/res/theme/theme_config.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/utils/string_helper.dart';
-import 'package:otm_inventory/web_services/response/module_info.dart';
-import 'package:otm_inventory/widgets/search_text_field.dart';
-import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
+import 'package:belcka/pages/common/listener/menu_item_listener.dart';
+import 'package:belcka/pages/common/model/dialog_title_view.dart';
+import 'package:belcka/res/theme/theme_config.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/web_services/response/module_info.dart';
+import 'package:belcka/widgets/search_text_field.dart';
+import 'package:belcka/widgets/text/PrimaryTextView.dart';
 
 import '../../res/colors.dart';
 import 'listener/select_item_listener.dart';

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/utils/string_helper.dart';
-import 'package:otm_inventory/widgets/shapes/badge_count_widget.dart';
-import 'package:otm_inventory/widgets/text/TextViewWithContainer.dart';
-import 'package:otm_inventory/widgets/text/TitleTextView.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/widgets/shapes/badge_count_widget.dart';
+import 'package:belcka/widgets/text/TextViewWithContainer.dart';
+import 'package:belcka/widgets/text/TitleTextView.dart';
 
 class SelectionScreenHeaderView extends StatelessWidget {
   const SelectionScreenHeaderView(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/stock_filter/controller/stock_filter_controller.dart';
+import 'package:belcka/pages/stock_filter/controller/stock_filter_controller.dart';
 
 import '../../../../res/colors.dart';
 

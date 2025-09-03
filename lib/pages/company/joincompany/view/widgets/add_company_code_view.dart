@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/company/joincompany/controller/join_company_controller.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/widgets/PrimaryBorderButton.dart';
-import 'package:otm_inventory/widgets/textfield/text_field_border.dart';
+import 'package:belcka/pages/company/joincompany/controller/join_company_controller.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/widgets/PrimaryBorderButton.dart';
+import 'package:belcka/widgets/textfield/text_field_border.dart';
 
 class AddCompanyCode extends StatelessWidget {
   AddCompanyCode({super.key});

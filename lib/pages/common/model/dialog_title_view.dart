@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/res/colors.dart';
+import 'package:belcka/res/colors.dart';
 
 class DialogTitleView extends StatelessWidget {
   const DialogTitleView({super.key, required this.title});

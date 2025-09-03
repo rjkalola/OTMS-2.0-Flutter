@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
-import 'package:otm_inventory/pages/company/company_signup/model/company_info.dart';
-import 'package:otm_inventory/pages/profile/company_billings/controller/company_billings_controller.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/routes/app_routes.dart';
-import 'package:otm_inventory/utils/app_constants.dart';
-import 'package:otm_inventory/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/pages/company/company_signup/model/company_info.dart';
+import 'package:belcka/pages/profile/company_billings/controller/company_billings_controller.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 
 class CompanyCardWidget extends StatelessWidget {
   CompanyInfo  company;

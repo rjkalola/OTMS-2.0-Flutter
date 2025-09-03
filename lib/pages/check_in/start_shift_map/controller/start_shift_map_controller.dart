@@ -5,19 +5,19 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:otm_inventory/pages/check_in/clock_in/model/location_info.dart';
-import 'package:otm_inventory/pages/check_in/clock_in2/model/start_work_response.dart';
-import 'package:otm_inventory/pages/check_in/select_shift/controller/select_shift_repository.dart';
-import 'package:otm_inventory/pages/check_in/start_shift_map/controller/start_shift_map_repository.dart';
-import 'package:otm_inventory/pages/check_in/start_shift_map/model/last_work_log_response.dart';
-import 'package:otm_inventory/routes/app_routes.dart';
-import 'package:otm_inventory/utils/app_constants.dart';
-import 'package:otm_inventory/utils/app_storage.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/utils/location_service_new.dart';
-import 'package:otm_inventory/web_services/api_constants.dart';
-import 'package:otm_inventory/web_services/response/module_info.dart';
-import 'package:otm_inventory/web_services/response/response_model.dart';
+import 'package:belcka/pages/check_in/clock_in/model/location_info.dart';
+import 'package:belcka/pages/check_in/clock_in2/model/start_work_response.dart';
+import 'package:belcka/pages/check_in/select_shift/controller/select_shift_repository.dart';
+import 'package:belcka/pages/check_in/start_shift_map/controller/start_shift_map_repository.dart';
+import 'package:belcka/pages/check_in/start_shift_map/model/last_work_log_response.dart';
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/utils/app_storage.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/location_service_new.dart';
+import 'package:belcka/web_services/api_constants.dart';
+import 'package:belcka/web_services/response/module_info.dart';
+import 'package:belcka/web_services/response/response_model.dart';
 
 class StartShiftMapController extends GetxController {
   final RxBool isLoading = false.obs,

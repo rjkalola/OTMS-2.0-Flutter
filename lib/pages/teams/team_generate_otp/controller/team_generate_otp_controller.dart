@@ -5,13 +5,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:otm_inventory/pages/teams/team_generate_otp/controller/team_generate_otp_repository.dart';
-import 'package:otm_inventory/pages/teams/team_generate_otp/model/team_generate_otp_response.dart';
-import 'package:otm_inventory/utils/app_constants.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/utils/date_utils.dart';
-import 'package:otm_inventory/web_services/api_constants.dart';
-import 'package:otm_inventory/web_services/response/response_model.dart';
+import 'package:belcka/pages/teams/team_generate_otp/controller/team_generate_otp_repository.dart';
+import 'package:belcka/pages/teams/team_generate_otp/model/team_generate_otp_response.dart';
+import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/date_utils.dart';
+import 'package:belcka/web_services/api_constants.dart';
+import 'package:belcka/web_services/response/response_model.dart';
 
 class TeamGenerateOtpController extends GetxController {
   final _api = TeamGenerateOtpRepository();

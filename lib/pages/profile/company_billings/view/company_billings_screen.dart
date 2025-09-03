@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:otm_inventory/pages/profile/company_billings/controller/company_billings_controller.dart';
-import 'package:otm_inventory/pages/profile/company_billings/view/widgets/company_card_widget.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/widgets/CustomProgressbar.dart';
-import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
+import 'package:belcka/pages/profile/company_billings/controller/company_billings_controller.dart';
+import 'package:belcka/pages/profile/company_billings/view/widgets/company_card_widget.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/widgets/CustomProgressbar.dart';
+import 'package:belcka/widgets/appbar/base_appbar.dart';
 
 class CompanyBillingsScreen extends StatelessWidget {
 

@@ -3,18 +3,18 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/common/listener/DialogButtonClickListener.dart';
-import 'package:otm_inventory/pages/shifts/archive_shift_list/controller/archive_shift_list_repository.dart';
-import 'package:otm_inventory/pages/shifts/create_shift/controller/create_shift_repository.dart';
-import 'package:otm_inventory/pages/shifts/create_shift/model/shift_info.dart';
-import 'package:otm_inventory/pages/shifts/shift_list/model/shift_list_response.dart';
-import 'package:otm_inventory/utils/AlertDialogHelper.dart';
-import 'package:otm_inventory/utils/app_constants.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/utils/string_helper.dart';
-import 'package:otm_inventory/web_services/api_constants.dart';
-import 'package:otm_inventory/web_services/response/base_response.dart';
-import 'package:otm_inventory/web_services/response/response_model.dart';
+import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
+import 'package:belcka/pages/shifts/archive_shift_list/controller/archive_shift_list_repository.dart';
+import 'package:belcka/pages/shifts/create_shift/controller/create_shift_repository.dart';
+import 'package:belcka/pages/shifts/create_shift/model/shift_info.dart';
+import 'package:belcka/pages/shifts/shift_list/model/shift_list_response.dart';
+import 'package:belcka/utils/AlertDialogHelper.dart';
+import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/web_services/api_constants.dart';
+import 'package:belcka/web_services/response/base_response.dart';
+import 'package:belcka/web_services/response/response_model.dart';
 
 class ArchiveShiftListController extends GetxController
     implements DialogButtonClickListener {

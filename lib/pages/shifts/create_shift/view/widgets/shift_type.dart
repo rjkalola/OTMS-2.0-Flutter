@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/shifts/create_shift/controller/create_shift_controller.dart';
-import 'package:otm_inventory/widgets/switch/custom_switch.dart';
-import 'package:otm_inventory/widgets/text/PrimaryTextView.dart';
+import 'package:belcka/pages/shifts/create_shift/controller/create_shift_controller.dart';
+import 'package:belcka/widgets/switch/custom_switch.dart';
+import 'package:belcka/widgets/text/PrimaryTextView.dart';
 
 class ShiftType extends StatelessWidget {
   ShiftType({super.key});

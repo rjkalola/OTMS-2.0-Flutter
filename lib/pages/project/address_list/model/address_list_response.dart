@@ -1,4 +1,4 @@
-import 'package:otm_inventory/pages/project/address_list/model/address_info.dart';
+import 'package:belcka/pages/project/address_list/model/address_info.dart';
 
 class AddressListResponse {
   bool? isSuccess;

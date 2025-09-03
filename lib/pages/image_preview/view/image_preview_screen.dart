@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/image_preview/controller/image_preview_controller.dart';
-import 'package:otm_inventory/pages/image_preview/view/widgets/horizontal_list_view.dart';
-import 'package:otm_inventory/pages/image_preview/view/widgets/pager_view.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/widgets/appbar/base_appbar.dart';
+import 'package:belcka/pages/image_preview/controller/image_preview_controller.dart';
+import 'package:belcka/pages/image_preview/view/widgets/horizontal_list_view.dart';
+import 'package:belcka/pages/image_preview/view/widgets/pager_view.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/widgets/appbar/base_appbar.dart';
 
 class ImagePreviewScreen extends StatefulWidget {
   @override

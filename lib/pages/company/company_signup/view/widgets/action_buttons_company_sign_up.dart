@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/company/company_signup/controller/company_signup_controller.dart';
-import 'package:otm_inventory/routes/app_routes.dart';
-import 'package:otm_inventory/widgets/PrimaryButton.dart';
-import 'package:otm_inventory/widgets/buttons/ContinueButton.dart';
+import 'package:belcka/pages/company/company_signup/controller/company_signup_controller.dart';
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/widgets/PrimaryButton.dart';
+import 'package:belcka/widgets/buttons/ContinueButton.dart';
 
 import '../../../../../res/colors.dart';
 import '../../../../../widgets/PrimaryBorderButton.dart';

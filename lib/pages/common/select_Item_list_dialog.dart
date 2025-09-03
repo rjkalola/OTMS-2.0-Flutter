@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/web_services/response/module_info.dart';
+import 'package:belcka/web_services/response/module_info.dart';
 
 import '../../res/colors.dart';
 import 'listener/select_item_listener.dart';

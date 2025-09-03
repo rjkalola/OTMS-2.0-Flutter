@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/teams/sub_contractor_details/controller/sub_contractor_details_repository.dart';
-import 'package:otm_inventory/pages/teams/sub_contractor_details/model/sub_contractor_details_response.dart';
-import 'package:otm_inventory/utils/app_constants.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/web_services/api_constants.dart';
-import 'package:otm_inventory/web_services/response/response_model.dart';
+import 'package:belcka/pages/teams/sub_contractor_details/controller/sub_contractor_details_repository.dart';
+import 'package:belcka/pages/teams/sub_contractor_details/model/sub_contractor_details_response.dart';
+import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/web_services/api_constants.dart';
+import 'package:belcka/web_services/response/response_model.dart';
 
 class SubContractorDetailsController extends GetxController {
   final _api = SubContractorDetailsRepository();

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:otm_inventory/pages/check_in/select_shift/controller/select_shift_controller.dart';
-import 'package:otm_inventory/pages/permissions/company_permissions/controller/company_permission_controller.dart';
-import 'package:otm_inventory/pages/permissions/permission_users/controller/permission_users_controller.dart';
-import 'package:otm_inventory/pages/shifts/shift_list/controller/shift_list_controller.dart';
-import 'package:otm_inventory/pages/teams/team_list/controller/team_list_controller.dart';
-import 'package:otm_inventory/pages/permissions/user_list/controller/user_list_controller.dart';
-import 'package:otm_inventory/widgets/search_text_field.dart';
-import 'package:otm_inventory/widgets/textfield/search_text_field_dark.dart';
+import 'package:belcka/pages/check_in/select_shift/controller/select_shift_controller.dart';
+import 'package:belcka/pages/permissions/company_permissions/controller/company_permission_controller.dart';
+import 'package:belcka/pages/permissions/permission_users/controller/permission_users_controller.dart';
+import 'package:belcka/pages/shifts/shift_list/controller/shift_list_controller.dart';
+import 'package:belcka/pages/teams/team_list/controller/team_list_controller.dart';
+import 'package:belcka/pages/permissions/user_list/controller/user_list_controller.dart';
+import 'package:belcka/widgets/search_text_field.dart';
+import 'package:belcka/widgets/textfield/search_text_field_dark.dart';
 
 import '../../../../../utils/string_helper.dart';
 

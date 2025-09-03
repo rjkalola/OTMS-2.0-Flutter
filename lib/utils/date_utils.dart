@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:otm_inventory/pages/common/listener/select_date_range_listener.dart';
-import 'package:otm_inventory/pages/common/listener/select_time_listener.dart';
-import 'package:otm_inventory/res/colors.dart';
-import 'package:otm_inventory/utils/app_utils.dart';
-import 'package:otm_inventory/utils/string_helper.dart';
-import 'package:otm_inventory/widgets/text/TitleTextView.dart';
+import 'package:belcka/pages/common/listener/select_date_range_listener.dart';
+import 'package:belcka/pages/common/listener/select_time_listener.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../pages/common/listener/select_date_listener.dart';
