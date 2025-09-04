@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:belcka/utils/user_utils.dart';
 import 'package:dio/dio.dart' as multi;
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,6 +20,7 @@ import '../../../utils/app_storage.dart';
 import '../../../utils/app_utils.dart';
 import '../../../utils/string_helper.dart';
 import '../../../web_services/api_constants.dart';
+import '../../../web_services/response/base_response.dart';
 import '../../../web_services/response/response_model.dart';
 
 class DashboardController extends GetxController
@@ -68,10 +70,44 @@ class DashboardController extends GetxController
     // Get token
     FirebaseMessaging messaging = FirebaseMessaging.instance;
     String? token = await messaging.getToken();
-    // AppUtils.showSnackBarMessage(token ?? "token null");
     if (!StringHelper.isEmptyString(token)) {
-      print("token:${token!}");
+      registerFcmAPI(token ?? "");
     }
+  }
+
+  void registerFcmAPI(String token) async {
+    Map<String, dynamic> map = {};
+    map["userId"] = UserUtils.getLoginUserId();
+    map["token"] = token;
+    map["device_type"] = AppConstants.deviceType;
+    // multi.FormData formData = multi.FormData.fromMap(map);
+
+    _api.registerFcm(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.statusCode == 200) {
+          BaseResponse response =
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          if (response.IsSuccess!) {
+
+          } else {
+            // AppUtils.showSnackBarMessage(response.message!);
+          }
+        } else {
+          // AppUtils.showSnackBarMessage(responseModel.statusMessage!);
+        }
+        // isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        // isLoading.value = false;
+        // if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+        //   isInternetNotAvailable.value = true;
+        //   // Utils.showSnackBarMessage('no_internet'.tr);
+        // } else if (error.statusMessage!.isNotEmpty) {
+        //   AppUtils.showSnackBarMessage(error.statusMessage!);
+        // }
+      },
+    );
   }
 
   Future<void> setDashboardData() async {

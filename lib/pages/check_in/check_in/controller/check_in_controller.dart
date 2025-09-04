@@ -84,6 +84,7 @@ class CheckInController extends GetxController
     if (UserUtils.getLoginUserTradeId() != 0) {
       tradeController.value.text = UserUtils.getLoginUserTrade();
       tradeId = UserUtils.getLoginUserTradeId();
+      print("tradeId:" + tradeId.toString());
     } else if (UserUtils.isAdmin()) {
       tradeController.value.text = 'admin'.tr;
     }

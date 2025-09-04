@@ -9,10 +9,10 @@ import 'package:belcka/widgets/textfield/text_field_underline_.dart';
 class NetPerDayTextField extends StatelessWidget {
   NetPerDayTextField(
       {super.key,
-      required this.controller,
-      this.onValueChange,
-      this.isReadOnly,
-      this.isEnabled});
+        required this.controller,
+        this.onValueChange,
+        this.isReadOnly,
+        this.isEnabled});
 
   final Rx<TextEditingController> controller;
   final ValueChanged<String>? onValueChange;
@@ -22,7 +22,7 @@ class NetPerDayTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => TextFieldUnderline(
+          () => TextFieldUnderline(
           autovalidateMode: AutovalidateMode.onUserInteraction,
           textEditingController: controller.value,
           hintText: "",
@@ -33,7 +33,9 @@ class NetPerDayTextField extends StatelessWidget {
           onValueChange: onValueChange,
           isEnabled: isEnabled,
           onPressed: () {},
-          validator: MultiValidator([]),
+          validator: MultiValidator([
+
+          ]),
           inputFormatters: <TextInputFormatter>[
             // for below version 2 use this
             DecimalTextInputFormatter(decimalRange: 2),
@@ -50,9 +52,9 @@ class DecimalTextInputFormatter extends TextInputFormatter {
 
   @override
   TextEditingValue formatEditUpdate(
-    TextEditingValue oldValue,
-    TextEditingValue newValue,
-  ) {
+      TextEditingValue oldValue,
+      TextEditingValue newValue,
+      ) {
     if (newValue.text.isEmpty) {
       return newValue;
     }

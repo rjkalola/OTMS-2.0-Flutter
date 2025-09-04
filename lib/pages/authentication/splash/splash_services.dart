@@ -47,7 +47,6 @@ class SplashServices {
   Future<void> initializeApp() async {
     // Handle initial notification (cold start)
 
-    print("AAAAA");
     if (!StringHelper.isEmptyString(ApiConstants.accessToken)) {
       RemoteMessage? message =
           await FirebaseMessaging.instance.getInitialMessage();
@@ -70,10 +69,8 @@ class SplashServices {
       });
     }
 
-    print("BBBBB");
     Timer(const Duration(seconds: 1), () async {
       if (ApiConstants.accessToken.isNotEmpty) {
-        print("CCCCC");
         if (ApiConstants.companyId != 0) {
           Get.offAllNamed(AppRoutes.dashboardScreen);
         } else {
@@ -81,7 +78,6 @@ class SplashServices {
         }
         // Get.offAllNamed(AppRoutes.dashboardScreen);
       } else {
-        print("DDDD");
         Get.offAllNamed(AppRoutes.introductionScreen);
       }
     });

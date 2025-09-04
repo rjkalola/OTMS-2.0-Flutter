@@ -54,5 +54,9 @@
             android:value="AIzaSyAdLpTcvwOWzhK4maBtriznqiw5MwBNcZw"/>
 
         <activity android:name="com.appmire.flutter.smsautofill.SmsAutoFillReceiver"/>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_stat_notification" />
     </application>
 </manifest>

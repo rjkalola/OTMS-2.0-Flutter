@@ -1,9 +1,10 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:belcka/pages/notifications/notification_list/controller/notification_list_repository.dart';
 import 'package:belcka/pages/notifications/notification_list/tabs/announcement_tab/view/announcement_tab.dart';
 import 'package:belcka/pages/notifications/notification_list/tabs/feed_tab/view/feed_tab.dart';
 import 'package:belcka/routes/app_routes.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../../utils/app_constants.dart';
 
@@ -14,6 +15,7 @@ class NotificationListController extends GetxController
       isMainViewVisible = true.obs;
   final title = 'notifications'.tr.obs;
   final selectedIndex = 0.obs;
+  final _api = NotificationListRepository();
 
   // final pageController = PageController();
   late final PageController pageController;

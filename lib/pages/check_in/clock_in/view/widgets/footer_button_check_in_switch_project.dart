@@ -25,7 +25,9 @@ class FooterButtonCheckInSwitchProject extends StatelessWidget {
                 flex: 1,
                 child: PrimaryButton(
                   buttonText: 'switch_project'.tr,
-                  onPressed: () {},
+                  onPressed: () {
+                    controller.userStopWorkApi();
+                  },
                   color: Color(0xffD5DDF2),
                   fontWeight: FontWeight.w500,
                   fontSize: 16,

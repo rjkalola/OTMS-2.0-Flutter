@@ -136,8 +136,9 @@ class ClockInController extends GetxController {
         if (responseModel.isSuccess) {
           BaseResponse response =
               BaseResponse.fromJson(jsonDecode(responseModel.result!));
-          AppUtils.showApiResponseMessage(response.Message);
+          // AppUtils.showApiResponseMessage(response.Message);
           getUserWorkLogListApi();
+          onClickStartShiftButton();
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }

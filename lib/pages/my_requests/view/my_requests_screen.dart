@@ -1,14 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:get/get.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:belcka/pages/common/listener/date_filter_listener.dart';
 import 'package:belcka/pages/common/widgets/date_filter_options_horizontal_list.dart';
-import 'package:belcka/pages/filter/view/filter_screen.dart';
 import 'package:belcka/pages/my_requests/controller/my_requests_controller.dart';
 import 'package:belcka/pages/my_requests/model/my_request_info.dart';
-import 'package:belcka/pages/my_requests/model/my_requests_list_response.dart';
-import 'package:belcka/pages/my_requests/view/widgets/date_filter_my_requests_horizontal_list.dart';
 import 'package:belcka/pages/my_requests/view/widgets/request_type_label_widget.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/res/drawable.dart';
@@ -19,7 +12,9 @@ import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/text/toolbar_menu_item_text_view.dart';
-import 'package:path/path.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 import '../../../utils/app_constants.dart';
 
@@ -168,12 +163,20 @@ class RequestCard extends StatelessWidget {
                       controller.moveToScreen(
                           AppRoutes.billingRequestScreen, arguments);
                     }
-                  } else if (requestType == 102) {
+                  }
+                  else if (requestType == 102) {
                     var arguments = {
                       AppConstants.intentKey.ID: request.id ?? 0,
                     };
                     controller.moveToScreen(
                         AppRoutes.workLogRequestScreen, arguments);
+                  }
+                  else if (requestType == 105) {
+                    var arguments = {
+                      "request_log_id": request.id ?? 0,
+                    };
+                    controller.moveToScreen(
+                        AppRoutes.ratesRequestScreen, arguments);
                   }
                 },
                 child: Column(

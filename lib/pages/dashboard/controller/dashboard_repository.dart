@@ -60,4 +60,21 @@ class DashboardRepository {
       onError: (error) => {if (onError != null) onError(error)},
     );
   }
+
+  void registerFcm({
+    dynamic data,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+        url: ApiConstants.registerFcmUrl,
+        data: data,
+        isFormData: false)
+        .postRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
 }

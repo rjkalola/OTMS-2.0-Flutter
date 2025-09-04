@@ -113,8 +113,7 @@ class ApiConstants {
   static String requestsGetRequestDetail =
       '$appUrl/requests/get-request-detail';
   static String archiveAccount = '$appUrl/user/archive-account';
-  static String changeCompanyRate =
-      '$appUrl/user-billing/change-company-rate';
+  static String changeCompanyRate = '$appUrl/user-billing/change-company-rate';
 
   //my requests
   static String getAllRequest = '$appUrl/requests/get-all-request';
@@ -196,7 +195,9 @@ class ApiConstants {
   static String getDashboardResponse = '$appUrl/dashboard';
   static String getSettingsUrl = '$appUrl/get-setting';
   static String getRequestCountUrl = '$appUrl/get-request-count';
+  static String registerFcmUrl = '$appUrl/notifications/save-token';
 
+  // Notification
   static String getUserNotificationSettings =
       '$appUrl/notifications/user-notifications';
   static String getCompanyNotificationSettings =
@@ -205,4 +206,5 @@ class ApiConstants {
       '$appUrl/notifications/change-company-bulk-notifications';
   static String changeUserBulkNotificationSettings =
       '$appUrl/notifications/change-user-bulk-notifications';
+  static String getFeedList = '$appUrl/get-feeds';
 }

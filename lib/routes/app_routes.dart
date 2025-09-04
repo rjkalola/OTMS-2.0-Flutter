@@ -102,4 +102,5 @@ class AppRoutes {
       '/notification_settings_screen';
   static const String notificationListScreen = '/notification_list_screen';
   static const String ratesScreen = '/rates_screen';
+  static const String ratesRequestScreen = '/rates_request_screen';
 }

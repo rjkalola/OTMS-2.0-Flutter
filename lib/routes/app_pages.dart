@@ -1,4 +1,5 @@
 import 'package:belcka/pages/profile/rates/view/rates_screen.dart';
+import 'package:belcka/pages/profile/rates_request/view/rates_request_screen.dart';
 import 'package:get/get.dart';
 import 'package:belcka/pages/authentication/introduction/view/introduction_screen.dart';
 import 'package:belcka/pages/authentication/login/view/login_screen.dart';
@@ -312,5 +313,8 @@ class AppPages {
     GetPage(
         name: AppRoutes.ratesScreen,
         page: () => RatesScreen()),
+    GetPage(
+        name: AppRoutes.ratesRequestScreen,
+        page: () => RatesRequestScreen()),
   ];
 }
