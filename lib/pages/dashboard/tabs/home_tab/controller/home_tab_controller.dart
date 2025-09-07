@@ -377,8 +377,12 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       };
       moveToScreen(
           appRout: AppRoutes.userPermissionScreen, arguments: arguments);
-    } else if (info.slug == 'teams') {
+    } else if (info.slug == 'team') {
       Get.toNamed(AppRoutes.teamListScreen);
+      // Get.toNamed(AppRoutes.createTeamScreen);
+    } else if (info.slug == 'teams') {
+      var arguments = {AppConstants.intentKey.isAllUserTeams: true};
+      Get.toNamed(AppRoutes.teamListScreen, arguments: arguments);
       // Get.toNamed(AppRoutes.createTeamScreen);
     } else if (info.slug == 'users') {
       Get.toNamed(AppRoutes.userListScreen);

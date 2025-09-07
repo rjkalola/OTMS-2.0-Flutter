@@ -1,3 +1,6 @@
+import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/widgets/text/TextViewWithContainer.dart';
+import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -73,6 +76,25 @@ class _TimeSheetListScreenState extends State<TimeSheetListScreen>
                               selectedPosition:
                                   controller.selectedDateFilterIndex,
                             ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    controller.clearFilter();
+                                  },
+                                  child: CardViewDashboardItem(
+                                    padding: EdgeInsets.fromLTRB(14, 2, 14, 2),
+                                    margin: EdgeInsets.only(
+                                        right: 12, bottom: 5, top: 2),
+                                    child: TitleTextView(
+                                      text: 'all'.tr,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
                             TimeSheetList(),
                           ],
                         ),
@@ -85,16 +107,16 @@ class _TimeSheetListScreenState extends State<TimeSheetListScreen>
 
   List<Widget>? actionButtons() {
     return [
-      Visibility(
-        visible: controller.isResetEnable.value,
-        child: ToolbarMenuItemTextView(
-          text: 'reset'.tr,
-          padding: EdgeInsets.only(left: 6, right: 10),
-          onTap: () {
-            controller.clearFilter();
-          },
-        ),
-      ),
+      // Visibility(
+      //   visible: controller.isResetEnable.value,
+      //   child: ToolbarMenuItemTextView(
+      //     text: 'reset'.tr,
+      //     padding: EdgeInsets.only(left: 6, right: 10),
+      //     onTap: () {
+      //       controller.clearFilter();
+      //     },
+      //   ),
+      // ),
       InkWell(
         borderRadius: BorderRadius.circular(45),
         onTap: () {
@@ -107,7 +129,7 @@ class _TimeSheetListScreenState extends State<TimeSheetListScreen>
               AppConstants.dialogIdentifier.selectDayFilter);
         },
         child: Padding(
-          padding:  EdgeInsets.all(2),
+          padding: EdgeInsets.all(2),
           child: ImageUtils.setSvgAssetsImage(
               path: Drawable.filterIcon,
               width: 26,
@@ -115,19 +137,22 @@ class _TimeSheetListScreenState extends State<TimeSheetListScreen>
               color: primaryTextColor_(context)),
         ),
       ),
-      IconButton(
+      SizedBox(
+        width: 6,
+      )
+      /* IconButton(
         icon: Icon(Icons.more_vert_outlined),
         onPressed: () {
           // controller.showMenuItemsDialog(Get.context!);
         },
-      ),
+      ),*/
     ];
   }
 
   @override
   void onSelectDateFilter(
       String startDate, String endDate, String dialogIdentifier) {
-    controller.isResetEnable.value = true;
+    // controller.isResetEnable.value = true;
     controller.startDate = startDate;
     controller.endDate = endDate;
     controller.loadTimesheetData(true);

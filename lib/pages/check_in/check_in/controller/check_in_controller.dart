@@ -36,7 +36,7 @@ class CheckInController extends GetxController
       isMainViewVisible = false.obs,
       isInternetNotAvailable = false.obs,
       isLocationLoaded = true.obs;
-
+  final formKey = GlobalKey<FormState>();
   final _api = CheckInRepository();
   final addressController = TextEditingController().obs;
   final locationController = TextEditingController().obs;

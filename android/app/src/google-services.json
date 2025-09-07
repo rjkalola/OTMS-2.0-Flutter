@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1046367619528",
+    "project_id": "belcka-8f2cd",
+    "storage_bucket": "belcka-8f2cd.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1046367619528:android:960eba8c1841f8f62418fd",
+        "android_client_info": {
+          "package_name": "com.app.otmsystem"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdx8IqB5lGom3gN2ptumujHxONQpNFQHE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

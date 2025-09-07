@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:belcka/pages/check_in/check_in/controller/check_in_controller.dart';
@@ -52,91 +53,98 @@ class _CheckInScreenState extends State<CheckInScreen> {
                     child: SingleChildScrollView(
                       child: Padding(
                         padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
-                        child: Column(
-                          children: [
-                            // SelectionScreenHeaderView(
-                            //   title: 'check_in_'.tr,
-                            //   onBackPressed: () {
-                            //     Get.back();
-                            //   },
-                            // ),
-                            Row(
-                              children: [
-                                StartStopTimeBox(
-                                    title: 'check_in_'.tr,
-                                    time: controller.checkInTime,
-                                    address: "",
-                                    isEditVisible: false.obs)
-                              ],
-                            ),
-                            SizedBox(
-                              height: 22,
-                            ),
-                            DropDownTextField(
-                              title: 'select_address'.tr,
-                              controller: controller.addressController,
-                              borderRadius: 15,
-                              onPressed: () {
-                                controller.showSelectAddressDialog();
-                              },
-                            ),
-                            SizedBox(
-                              height: 18,
-                            ),
-                            DropDownTextField(
-                              title: 'select_trade'.tr,
-                              controller: controller.tradeController,
-                              borderRadius: 15,
-                              onPressed: () {
-                                controller.showSelectTradeDialog();
-                              },
-                            ),
-                            SizedBox(
-                              height: 18,
-                            ),
-                            DropDownTextField(
-                              title: 'type_of_work'.tr,
-                              controller: controller.typeOfWorkController,
-                              borderRadius: 15,
-                              onPressed: () {
-                                controller.showSelectTypeOfWorkDialog();
-                              },
-                            ),
-                            SizedBox(
-                              height: 16,
-                            ),
-                            DropDownTextField(
-                              title: 'location'.tr,
-                              controller: controller.locationController,
-                              borderRadius: 15,
-                              onPressed: () {
-                                controller.showSelectLocationDialog();
-                              },
-                            ),
-                            SizedBox(
-                              height: 16,
-                            ),
-                            PhotosCountView(
-                              title: 'photos_before'.tr,
-                              count: controller.listBeforePhotos.length,
-                              photosType: AppConstants.type.beforePhotos,
-                              onPressed: () {
-                                controller.onSelectPhotos(
-                                    AppConstants.type.beforePhotos,
-                                    controller.listBeforePhotos);
-                              },
-                            ),
-                            SizedBox(
-                              height: 16,
-                            ),
-                            AddNoteWidget(
-                              controller: controller.noteController,
-                              borderRadius: 15,
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                          ],
+                        child: Form(
+                          key: controller.formKey,
+                          child: Column(
+                            children: [
+                              // SelectionScreenHeaderView(
+                              //   title: 'check_in_'.tr,
+                              //   onBackPressed: () {
+                              //     Get.back();
+                              //   },
+                              // ),
+                              Row(
+                                children: [
+                                  StartStopTimeBox(
+                                      title: 'check_in_'.tr,
+                                      time: controller.checkInTime,
+                                      address: "",
+                                      isEditVisible: false.obs)
+                                ],
+                              ),
+                              SizedBox(
+                                height: 22,
+                              ),
+                              DropDownTextField(
+                                title: 'select_address'.tr,
+                                controller: controller.addressController,
+                                borderRadius: 15,
+                                onPressed: () {
+                                  controller.showSelectAddressDialog();
+                                },
+                              ),
+                              SizedBox(
+                                height: 18,
+                              ),
+                              DropDownTextField(
+                                title: 'select_trade'.tr,
+                                controller: controller.tradeController,
+                                borderRadius: 15,
+                                onPressed: () {
+                                  controller.showSelectTradeDialog();
+                                },
+                              ),
+                              SizedBox(
+                                height: 18,
+                              ),
+                              DropDownTextField(
+                                title: 'type_of_work'.tr,
+                                controller: controller.typeOfWorkController,
+                                borderRadius: 15,
+                                validators: [
+                                  RequiredValidator(
+                                      errorText: 'required_field'.tr),
+                                ],
+                                onPressed: () {
+                                  controller.showSelectTypeOfWorkDialog();
+                                },
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              DropDownTextField(
+                                title: 'location'.tr,
+                                controller: controller.locationController,
+                                borderRadius: 15,
+                                onPressed: () {
+                                  controller.showSelectLocationDialog();
+                                },
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              PhotosCountView(
+                                title: 'photos_before'.tr,
+                                count: controller.listBeforePhotos.length,
+                                photosType: AppConstants.type.beforePhotos,
+                                onPressed: () {
+                                  controller.onSelectPhotos(
+                                      AppConstants.type.beforePhotos,
+                                      controller.listBeforePhotos);
+                                },
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              AddNoteWidget(
+                                controller: controller.noteController,
+                                borderRadius: 15,
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -146,7 +154,9 @@ class _CheckInScreenState extends State<CheckInScreen> {
                     child: PrimaryButton(
                       buttonText: 'check_in_'.tr,
                       onPressed: () {
-                        controller.checkInApi();
+                        if (controller.formKey.currentState!.validate()) {
+                          controller.checkInApi();
+                        }
                       },
                       color: Colors.green,
                     ),

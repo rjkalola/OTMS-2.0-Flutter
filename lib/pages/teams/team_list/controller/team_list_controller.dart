@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:belcka/utils/user_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -29,17 +30,22 @@ class TeamListController extends GetxController implements MenuItemListener {
       isMainViewVisible = false.obs,
       isClearVisible = false.obs,
       isDataUpdated = false.obs;
+  final title = "".obs;
   final searchController = TextEditingController().obs;
   final teamsList = <TeamInfo>[].obs;
   List<TeamInfo> tempList = [];
+  bool isAllUserTeams = false;
 
   @override
   void onInit() {
     super.onInit();
-    // var arguments = Get.arguments;
-    // if (arguments != null) {
-    //   permissionId = arguments[AppConstants.intentKey.permissionId] ?? 0;
-    // }
+    var arguments = Get.arguments;
+    if (arguments != null) {
+      isAllUserTeams =
+          arguments[AppConstants.intentKey.isAllUserTeams] ?? false;
+    }
+    // title.value = isAllUserTeams ? 'teams'.tr : 'team'.tr;
+    title.value = 'teams'.tr;
     getTeamListApi();
   }
 
@@ -47,6 +53,7 @@ class TeamListController extends GetxController implements MenuItemListener {
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
+    map["user_id"] = !isAllUserTeams ? UserUtils.getLoginUserId() : 0;
     _api.getTeamList(
       data: map,
       onSuccess: (ResponseModel responseModel) {

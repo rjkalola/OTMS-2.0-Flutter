@@ -47,6 +47,7 @@ class IntentKey {
   final String companyCode = 'COMPANY_CODE';
   final String fromSignUpScreen = 'FROM_SIGN_UP_SCREEN';
   final String isAllUserTimeSheet = 'IS_ALL_USER_TIMESHEET';
+  final String isAllUserTeams = 'IS_ALL_USER_TEAMS';
   final String fromDashboardScreen = 'FROM_DASHBOARD_SCREEN';
   final String dashboardTabIndex = 'DASHBOARD_TAB_INDEX';
   final String stockCountType = 'STOCK_COUNT_TYPE';

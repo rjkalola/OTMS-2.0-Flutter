@@ -25,45 +25,43 @@ class _TeamListScreenState extends State<TeamListScreen> {
   @override
   Widget build(BuildContext context) {
     AppUtils.setStatusBarColor();
-    return Container(
+    return Obx(() => Container(
       color: dashBoardBgColor_(context),
       child: SafeArea(
         child: Scaffold(
           backgroundColor: dashBoardBgColor_(context),
           appBar: BaseAppBar(
             appBar: AppBar(),
-            title: 'teams'.tr,
+            title: controller.title.value,
             isCenterTitle: false,
             isBack: true,
             bgColor: dashBoardBgColor_(context),
             widgets: actionButtons(),
           ),
-          body: Obx(() {
-            return ModalProgressHUD(
-                inAsyncCall: controller.isLoading.value,
-                opacity: 0,
-                progressIndicator: const CustomProgressbar(),
-                child: controller.isInternetNotAvailable.value
-                    ? NoInternetWidget(
-                        onPressed: () {
-                          controller.isInternetNotAvailable.value = false;
-                          controller.getTeamListApi();
-                        },
-                      )
-                    : Visibility(
-                        visible: controller.isMainViewVisible.value,
-                        child: Column(
-                          children: [
-                            Divider(),
-                            SearchTeamWidget(),
-                            TeamsList()
-                          ],
-                        ),
-                      ));
-          }),
+          body: ModalProgressHUD(
+              inAsyncCall: controller.isLoading.value,
+              opacity: 0,
+              progressIndicator: const CustomProgressbar(),
+              child: controller.isInternetNotAvailable.value
+                  ? NoInternetWidget(
+                onPressed: () {
+                  controller.isInternetNotAvailable.value = false;
+                  controller.getTeamListApi();
+                },
+              )
+                  : Visibility(
+                visible: controller.isMainViewVisible.value,
+                child: Column(
+                  children: [
+                    Divider(),
+                    SearchTeamWidget(),
+                    TeamsList()
+                  ],
+                ),
+              )),
         ),
       ),
-    );
+    ),);
   }
 
   List<Widget>? actionButtons() {

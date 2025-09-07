@@ -32,10 +32,10 @@ class FeedTabController extends GetxController {
   void getFeedListApi() {
     isLoading.value = true;
     Map<String, dynamic> map = {};
-    // map["user_id"] = UserUtils.getLoginUserId();
-    // map["company_id"] = ApiConstants.companyId;
-    map["user_id"] = 13;
-    map["company_id"] = 5;
+    map["user_id"] = UserUtils.getLoginUserId();
+    map["company_id"] = ApiConstants.companyId;
+    // map["user_id"] = 13;
+    // map["company_id"] = 5;
     _api.getFeedList(
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {

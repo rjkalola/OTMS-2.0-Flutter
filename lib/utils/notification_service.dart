@@ -84,6 +84,8 @@ class NotificationService {
 
   static void showForegroundNotification(RemoteMessage message) {
     final notification = message.notification;
+    print("title:"+notification!.title!);
+    print("body:"+notification!.body!);
 
     if (notification != null) {
       _localNotifications.show(

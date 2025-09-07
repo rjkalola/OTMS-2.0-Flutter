@@ -35,7 +35,7 @@ class TimeSheetListController extends GetxController
     var arguments = Get.arguments;
     if (arguments != null) {
       isAllUserTimeSheet =
-          arguments[AppConstants.intentKey.isAllUserTimeSheet] ?? "";
+          arguments[AppConstants.intentKey.isAllUserTimeSheet] ?? false;
     }
     loadTimesheetData(true);
   }
@@ -138,7 +138,7 @@ class TimeSheetListController extends GetxController
   @override
   Future<void> onSelectMenuItem(ModuleInfo info, String dialogType) async {
     if (dialogType == AppConstants.dialogIdentifier.selectDayFilter) {
-      isResetEnable.value = true;
+      // isResetEnable.value = true;
       filterPerDay = info.name!.toLowerCase();
       loadTimesheetData(true);
     }

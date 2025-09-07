@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
@@ -29,7 +30,8 @@ class SelectProjectController extends GetxController {
       isClearVisible = false.obs;
   final _api = SelectProjectRepository();
   final noteController = TextEditingController().obs;
-  late GoogleMapController mapController;
+  // late GoogleMapController mapController;
+  final Completer<GoogleMapController> mapController = Completer();
   final center =
       LatLng(AppConstants.defaultLatitude, AppConstants.defaultLongitude).obs;
   final locationService = LocationServiceNew();
@@ -40,7 +42,10 @@ class SelectProjectController extends GetxController {
   bool fromStartShiftScreen = false;
 
   void onMapCreated(GoogleMapController controller) {
-    mapController = controller;
+    if (!mapController.isCompleted) {
+      mapController.complete(controller);
+    }
+    // mapController = controller;
   }
 
   @override
@@ -142,7 +147,8 @@ class SelectProjectController extends GetxController {
       longitude = lon.toString();
       center.value = LatLng(lat, lon);
       location = await LocationServiceNew.getAddressFromCoordinates(lat, lon);
-      mapController.animateCamera(CameraUpdate.newCameraPosition(
+      final controller = await mapController.future;
+      controller.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(target: center.value, zoom: 15),
       ));
       print("Location:" + "Latitude: ${latitude}, Longitude: ${longitude}");
