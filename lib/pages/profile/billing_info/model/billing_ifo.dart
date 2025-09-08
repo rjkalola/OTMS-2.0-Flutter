@@ -1,4 +1,6 @@
 
+import 'dart:ffi';
+
 class BillingInfo {
   int? id;
   int? userId;
@@ -29,6 +31,7 @@ class BillingInfo {
   String? tradeName;
   String? joiningDate;
   String? companyName;
+  bool? is_rate_requested;
 
   BillingInfo(
       {this.id,
@@ -59,7 +62,8 @@ class BillingInfo {
       this.net_rate_perDay,
       this.tradeName,
       this.tradeId,
-      this.companyName});
+      this.companyName,
+      this.is_rate_requested});
 
   BillingInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -91,6 +95,7 @@ class BillingInfo {
     tradeName = json['trade_name'];
     joiningDate = json['joining_date'];
     companyName = json['company_name'];
+    is_rate_requested = json['is_rate_requested'];
   }
 
   Map<String, dynamic> toJson() {
@@ -124,6 +129,7 @@ class BillingInfo {
     data['trade_name'] = this.tradeName;
     data['joining_date'] = this.joiningDate;
     data['company_name'] = this.companyName;
+    data['is_rate_requested'] = this.is_rate_requested;
     return data;
   }
 }

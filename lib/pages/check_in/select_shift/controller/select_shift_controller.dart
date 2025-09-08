@@ -48,6 +48,7 @@ class SelectShiftController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    print("Screen Open");
     var arguments = Get.arguments;
     if (arguments != null) {
       fromStartShiftScreen =
@@ -200,5 +201,11 @@ class SelectShiftController extends GetxController {
     int randomNumber = random.nextInt(DataUtils.listColors.length - 1);
     color = DataUtils.listColors[randomNumber];
     return color;
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+    Get.delete<SelectShiftController>();
   }
 }

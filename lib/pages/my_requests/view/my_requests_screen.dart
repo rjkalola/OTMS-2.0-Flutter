@@ -172,11 +172,13 @@ class RequestCard extends StatelessWidget {
                         AppRoutes.workLogRequestScreen, arguments);
                   }
                   else if (requestType == 105) {
-                    var arguments = {
-                      "request_log_id": request.id ?? 0,
-                    };
-                    controller.moveToScreen(
-                        AppRoutes.ratesRequestScreen, arguments);
+                    if (status == "pending") {
+                      var arguments = {
+                        "request_log_id": request.id ?? 0,
+                      };
+                      controller.moveToScreen(
+                          AppRoutes.ratesRequestScreen, arguments);
+                    }
                   }
                 },
                 child: Column(

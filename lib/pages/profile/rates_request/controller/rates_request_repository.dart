@@ -20,12 +20,31 @@ class RatesRequestRepository {
       onError: (error) => {if (onError != null) onError(error)},
     );
   }
-  void changeCompanyRate({
+  void wsCallApproveRequest({
     dynamic data,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
-    ApiRequest(url: ApiConstants.changeCompanyRate, data: data, isFormData: false)
+    ApiRequest(
+        url: ApiConstants.approveRequest,
+        data: data,
+        isFormData: false)
+        .postRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
+  void wsCallRejectRequest({
+    dynamic data,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+        url: ApiConstants.rejectRequest,
+        data: data,
+        isFormData: false)
         .postRequest(
       onSuccess: (data) {
         onSuccess!(data);

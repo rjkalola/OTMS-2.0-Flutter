@@ -1,30 +1,26 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:get/get.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:belcka/pages/authentication/login/view/widgets/header_logo.dart';
-import 'package:belcka/pages/authentication/signup1/controller/signup1_controller.dart';
-import 'package:belcka/pages/authentication/signup1/view/widgets/firstname_lastname_textfield_widget.dart';
-import 'package:belcka/pages/authentication/signup1/view/widgets/next_button_widget.dart';
-import 'package:belcka/pages/authentication/signup1/view/widgets/phone_extension_field_widget.dart';
-import 'package:belcka/pages/authentication/signup1/view/widgets/phone_text_field_widget.dart';
 import 'package:belcka/pages/authentication/signup1/view/widgets/header_title_note_text_widget_.dart';
 import 'package:belcka/pages/authentication/signup1/view/widgets/top_divider_widget.dart';
+import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:belcka/pages/company/joincompany/controller/join_company_controller.dart';
-import 'package:belcka/pages/company/joincompany/view/widgets/add_company_code_view.dart';
-import 'package:belcka/pages/company/joincompany/view/widgets/do_ite_later_text.dart';
-import 'package:belcka/pages/company/joincompany/view/widgets/join_company_button.dart';
 import 'package:belcka/pages/company/joincompany/view/widgets/create_new_company_button.dart';
+import 'package:belcka/pages/company/joincompany/view/widgets/join_company_button.dart';
 import 'package:belcka/pages/company/joincompany/view/widgets/otp_view_join_company.dart';
 import 'package:belcka/pages/company/joincompany/view/widgets/select_trade_join_company.dart';
-import 'package:belcka/pages/company/joincompany/view/widgets/select_your_role_view.dart';
 import 'package:belcka/pages/company/joincompany/view/widgets/text_or.dart';
-import 'package:belcka/pages/company/joincompany/view/widgets/select_company_view.dart';
 import 'package:belcka/res/colors.dart';
-import 'package:belcka/widgets/CustomProgressbar.dart';
-import 'package:belcka/widgets/appbar/base_appbar.dart';
-import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/AlertDialogHelper.dart';
+import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/utils/app_storage.dart';
 import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/widgets/CustomProgressbar.dart';
+import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
+import 'package:belcka/widgets/text/TitleTextView.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+
 class JoinCompanyScreen extends StatefulWidget {
   const JoinCompanyScreen({super.key});
 
@@ -32,7 +28,8 @@ class JoinCompanyScreen extends StatefulWidget {
   State<JoinCompanyScreen> createState() => _JoinCompanyScreenState();
 }
 
-class _JoinCompanyScreenState extends State<JoinCompanyScreen> {
+class _JoinCompanyScreenState extends State<JoinCompanyScreen>
+    implements DialogButtonClickListener {
   final controller = Get.put(JoinCompanyController());
 
   @override
@@ -67,11 +64,39 @@ class _JoinCompanyScreenState extends State<JoinCompanyScreen> {
                               flex1: 2,
                               flex2: 4,
                             ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(8, 14, 16, 0),
-                              child: HeaderLogo(
-                                isBackDisable: true,
-                              ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(8, 14, 16, 0),
+                                  child: HeaderLogo(
+                                    isBackDisable: true,
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    AlertDialogHelper.showAlertDialog(
+                                        "",
+                                        'logout_msg'.tr,
+                                        'yes'.tr,
+                                        'no'.tr,
+                                        "",
+                                        true,
+                                        false,
+                                        this,
+                                        AppConstants.dialogIdentifier.logout);
+                                  },
+                                  child: Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(8, 9, 16, 9),
+                                    child: TitleTextView(
+                                      text: 'logout'.tr,
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                )
+                              ],
                             ),
                             HeaderTitleNoteTextWidget(
                               title: 'create_or_join_company'.tr,
@@ -117,4 +142,23 @@ class _JoinCompanyScreenState extends State<JoinCompanyScreen> {
       ),
     );
   }
+
+  @override
+  void onNegativeButtonClicked(String dialogIdentifier) {
+    if (dialogIdentifier == AppConstants.dialogIdentifier.logout) {
+      Get.back();
+    }
+  }
+
+  @override
+  void onPositiveButtonClicked(String dialogIdentifier) {
+    if (dialogIdentifier == AppConstants.dialogIdentifier.logout) {
+      // dashboardController.logoutAPI();
+      Get.find<AppStorage>().clearAllData();
+      Get.offAllNamed(AppRoutes.introductionScreen);
+    }
+  }
+
+  @override
+  void onOtherButtonClicked(String dialogIdentifier) {}
 }

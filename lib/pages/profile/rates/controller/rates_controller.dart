@@ -34,6 +34,7 @@ class RatesController extends GetxController implements SelectItemListener, Dial
   var grossPerDay = 0.0.obs;
   var cis = 0.0.obs;
   int? tradeId = 0;
+  bool isRateRequested = false;
   
   final List<ModuleInfo> listTrades = <ModuleInfo>[].obs;
 
@@ -47,10 +48,10 @@ class RatesController extends GetxController implements SelectItemListener, Dial
     billingInfo.value.userId = UserUtils.getLoginUserId();
     billingInfo.value.companyId = ApiConstants.companyId;
     netPerDayController.value.addListener(calculateGrossAndCIS);
-
     getTradeDataApi();
   }
   void setInitData() {
+    isRateRequested = billingInfo.value.is_rate_requested ?? false;
     tradeId = billingInfo.value.tradeId;
     netPerDayController.value.text = "${billingInfo.value.net_rate_perDay ?? 0}";
     tradeController.value.text = billingInfo.value.tradeName ?? "";

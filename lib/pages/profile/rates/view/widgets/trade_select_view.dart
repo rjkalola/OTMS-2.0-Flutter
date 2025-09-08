@@ -26,7 +26,9 @@ class TradeSelectView extends StatelessWidget {
           suffixIcon: const Icon(Icons.arrow_drop_down),
           validator: MultiValidator([]),
           onPressed: () {
-            controller.showTradeList();
+            if (controller.isRateRequested == false){
+              controller.showTradeList();
+            }
           }),
     );
   }

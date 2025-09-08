@@ -71,7 +71,7 @@ class HeaderUserDetailsView extends StatelessWidget {
                 Get.toNamed(AppRoutes.notificationListScreen);
               },
               child: BudgeCountWithChild(
-                  count: 5,
+                  count: 0,
                   child: ImageUtils.setSvgAssetsImage(
                       path: Drawable.bellIcon,
                       width: 28,

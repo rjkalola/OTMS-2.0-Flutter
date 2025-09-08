@@ -44,9 +44,6 @@ class RatesRequestController extends GetxController{
       getRateRequestInfo();
     }
   }
-  void onSubmit() {
-    changeCompanyRateAPI();
-  }
   void getRateRequestInfo() async {
     Map<String, dynamic> map = {};
     map["request_log_id"] = requestLogId;
@@ -103,21 +100,48 @@ class RatesRequestController extends GetxController{
     }
     return 0.0;
   }
-  void changeCompanyRateAPI() async {
+  void approveRequest() async {
     Map<String, dynamic> map = {};
+    map["log_id"] = requestLogId;
     map["user_id"] = UserUtils.getLoginUserId();
-    map["company_id"] = ApiConstants.companyId;
-    double netPerDay = double.parse(netPerDayController.value.text ?? "");
-    map["new_rate_perDay"] = netPerDay;
-    _api.changeCompanyRate(
+
+    isLoading.value = true;
+    _api.wsCallApproveRequest(
       data: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
-          BaseResponse response =
-          BaseResponse.fromJson(jsonDecode(responseModel.result!));
-          AppUtils.showApiResponseMessage(response.Message ?? "");
           Get.back(result: true);
-        } else {
+        }
+        else{
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showApiResponseMessage(error.statusMessage);
+        }
+      },
+    );
+  }
+
+  void rejectRequest(String note) async {
+    Map<String, dynamic> map = {};
+    map["log_id"] = requestLogId;
+    map["user_id"] = UserUtils.getLoginUserId();
+    map["reason"] = note;
+
+    isLoading.value = true;
+    _api.wsCallRejectRequest(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          Get.back(result: true);
+        }
+        else{
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;

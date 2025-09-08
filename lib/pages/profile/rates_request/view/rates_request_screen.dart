@@ -1,3 +1,5 @@
+import 'package:belcka/pages/profile/rates_request/view/widgets/rate_request_pending_for_approval.dart';
+import 'package:belcka/utils/user_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -134,6 +136,7 @@ class _RatesRequestScreenState extends State<RatesRequestScreen> {
                                 ),
                                 SizedBox(height: 24,),
                                 */
+                        (UserUtils.isAdmin()) ?
                         Row(
                           children: [
                             Expanded(
@@ -146,7 +149,9 @@ class _RatesRequestScreenState extends State<RatesRequestScreen> {
                                   ),
                                   padding: EdgeInsets.zero, // important!
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  controller.rejectRequest("");
+                                },
                                 child: const Text(
                                   "Reject",
                                   style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold, color: Colors.white),
@@ -164,7 +169,9 @@ class _RatesRequestScreenState extends State<RatesRequestScreen> {
                                   ),
                                   padding: EdgeInsets.zero, // important!
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  controller.approveRequest();
+                                },
                                 child: const Text(
                                   "Approve",
                                   style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold, color: Colors.white),
@@ -172,7 +179,7 @@ class _RatesRequestScreenState extends State<RatesRequestScreen> {
                               ),
                             ),
                           ],
-                        )
+                        ) : RateRequestPendingForApproval()
                       ],
                     ),
                   )),

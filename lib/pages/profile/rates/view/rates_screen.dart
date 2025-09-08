@@ -1,3 +1,4 @@
+import 'package:belcka/pages/profile/rates_request/view/widgets/rate_request_pending_for_approval.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -74,6 +75,7 @@ class _RatesScreenState extends State<RatesScreen> {
                       Divider(height: 24),
                       NetPerDayTextField(
                         controller: controller.netPerDayController,
+                        isEnabled: !(controller.isRateRequested),
                       ),
                       SizedBox(height: 16),
                       // Gross per day and CIS row
@@ -120,9 +122,10 @@ class _RatesScreenState extends State<RatesScreen> {
                               ),
                               SizedBox(height: 24,),
                               */
+
                       Padding(
                         padding: const EdgeInsets.all(0.0),
-                        child: ElevatedButton(
+                        child: (controller.isRateRequested == false) ? ElevatedButton(
                           onPressed: () {
                             controller.onSubmit();
                           },
@@ -138,7 +141,7 @@ class _RatesScreenState extends State<RatesScreen> {
                                   color:Colors.white,
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold)),
-                        ),
+                        ) : RateRequestPendingForApproval(),
                       )
                     ],
                   ),

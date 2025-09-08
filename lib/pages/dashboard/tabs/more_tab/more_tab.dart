@@ -27,7 +27,7 @@ class MoreTabState extends State<MoreTab> implements DialogButtonClickListener {
 
   @override
   Widget build(BuildContext context) {
-   AppUtils.setStatusBarColor();
+    AppUtils.setStatusBarColor();
     return Scaffold(
       backgroundColor: dashBoardBgColor_(context),
       // appBar: AppBar(
@@ -38,7 +38,7 @@ class MoreTabState extends State<MoreTab> implements DialogButtonClickListener {
       // ),
       body: Column(
         children: [
-           Divider(
+          Divider(
             thickness: 1,
             height: 1,
             color: dividerColor_(context),
@@ -89,9 +89,10 @@ class MoreTabState extends State<MoreTab> implements DialogButtonClickListener {
     );
   }
 
-  Widget divider() =>  Padding(
+  Widget divider() => Padding(
         padding: EdgeInsets.only(left: 18, right: 20),
-        child: Divider(thickness: 0.4, height: 0.4, color: dividerColor_(context)),
+        child:
+            Divider(thickness: 0.4, height: 0.4, color: dividerColor_(context)),
       );
 
   @override

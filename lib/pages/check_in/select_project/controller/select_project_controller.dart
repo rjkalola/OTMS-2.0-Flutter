@@ -165,6 +165,7 @@ class SelectProjectController extends GetxController {
   }
 
   Future<void> moveToScreen(int? projectId) async {
+    print("projectId:"+projectId.toString());
     var arguments = {
       AppConstants.intentKey.fromStartShiftScreen: fromStartShiftScreen,
       AppConstants.intentKey.ID: projectId ?? 0,
@@ -178,5 +179,11 @@ class SelectProjectController extends GetxController {
         Get.back(result: true);
       }
     }
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+    Get.delete<SelectProjectController>();
   }
 }

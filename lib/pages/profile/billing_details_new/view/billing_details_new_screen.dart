@@ -96,7 +96,7 @@ class _BillingDetailsNewScreenState extends State<BillingDetailsNewScreen> {
                                       },
                                       child: NavigationCard(
                                         label: "rates",
-                                        value: controller.billingInfo.value.net_rate_perDay != null
+                                        value: controller.billingInfo.value.net_rate_perDay != ""
                                             ? "${controller.billingInfo.value.tradeName ?? ""} - ${controller.billingInfo.value.currency ?? ""}${controller.billingInfo.value.net_rate_perDay}"
                                             : "${controller.billingInfo.value.tradeName ?? ""}",
                                         isShowArrow: true,
