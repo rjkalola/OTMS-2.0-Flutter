@@ -12,7 +12,7 @@ import 'package:belcka/pages/dashboard/models/dashboard_stock_count_response.dar
 import 'package:belcka/pages/dashboard/models/permission_settings.dart';
 import 'package:belcka/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart';
 import 'package:belcka/pages/dashboard/tabs/home_tab/view/home_tab.dart';
-import 'package:belcka/pages/dashboard/tabs/more_tab/more_tab.dart';
+import 'package:belcka/pages/dashboard/tabs/more_tab/view/more_tab.dart';
 import 'package:belcka/routes/app_routes.dart';
 
 import '../../../utils/app_constants.dart';

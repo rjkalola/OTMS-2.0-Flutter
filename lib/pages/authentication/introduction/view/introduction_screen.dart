@@ -36,7 +36,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
           body: Column(
             children: [
               SizedBox(
-                height: 50,
+                height: 40,
               ),
               AppLogoWidget(),
               Expanded(
@@ -65,7 +65,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                       ),
                       // Expanded(child: LoginUsersList()),
                       const SizedBox(
-                        height: 30,
+                        height: 26,
                       ),
                       LoginButtonWidget(),
                       CreateNewAccount(),

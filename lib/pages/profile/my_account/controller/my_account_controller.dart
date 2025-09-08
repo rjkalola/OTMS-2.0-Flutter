@@ -5,7 +5,7 @@ import 'package:dio/dio.dart' as multi;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:belcka/pages/dashboard/tabs/more_tab/more_tab.dart';
+import 'package:belcka/pages/dashboard/tabs/more_tab/view/more_tab.dart';
 import 'package:belcka/pages/profile/my_account/controller/my_account_repository.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_constants.dart';

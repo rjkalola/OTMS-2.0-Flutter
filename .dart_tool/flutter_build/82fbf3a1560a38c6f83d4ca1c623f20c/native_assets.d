@@ -1,1 +1,0 @@
- /Users/apple/Documents/My\ Projects/Stypix\ Project/Belka\ App\ Git/.dart_tool/flutter_build/82fbf3a1560a38c6f83d4ca1c623f20c/native_assets.yaml: 

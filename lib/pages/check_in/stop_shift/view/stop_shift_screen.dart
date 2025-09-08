@@ -1,3 +1,4 @@
+import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -71,7 +72,33 @@ class _StopShiftScreenState extends State<StopShiftScreen> {
                         MapBackArrow(onBackPressed: () {
                           controller.onBackPress();
                         }),
-                        BottomCurveContainer()
+                        BottomCurveContainer(),
+                        Visibility(
+                          visible: (controller
+                                      .workLogInfo.value.userCheckLogsCount ??
+                                  0) !=
+                              0,
+                          child: Align(
+                            alignment: Alignment.bottomRight,
+                            child: Padding(
+                              padding: EdgeInsets.fromLTRB(0, 0, 12, 24),
+                              child: PrimaryButton(
+                                  width: 100,
+                                  height: 38,
+                                  buttonText: "${'check_in_'.tr} (${
+                                  controller.workLogInfo.value.userCheckLogsCount ??
+                                  0})",
+                                  onPressed: () {
+                                    var arguments = {
+                                      AppConstants.intentKey.workLogId:
+                                          controller.workLogId
+                                    };
+                                    Get.toNamed(AppRoutes.checkLogDetailsScreen,
+                                        arguments: arguments);
+                                  }),
+                            ),
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -82,9 +109,10 @@ class _StopShiftScreenState extends State<StopShiftScreen> {
                           title: controller.isWorking.value
                               ? 'my_shift'.tr
                               : 'edit_my_shift'.tr,
-                          userCheckLogCount:
-                              controller.workLogInfo.value.userCheckLogsCount ??
-                                  0,
+                          // userCheckLogCount:
+                          //     controller.workLogInfo.value.userCheckLogsCount ??
+                          //         0,
+                          userCheckLogCount: 0,
                           onBackPressed: () {
                             controller.onBackPress();
                           },
@@ -95,7 +123,6 @@ class _StopShiftScreenState extends State<StopShiftScreen> {
                             };
                             Get.toNamed(AppRoutes.checkLogDetailsScreen,
                                 arguments: arguments);
-                            print("onCheckLogCountClick");
                           },
                         ),
                         StartStopBoxRow(),

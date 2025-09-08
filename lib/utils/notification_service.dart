@@ -129,13 +129,17 @@ class NotificationService {
 
   static void notificationClick(Map<String, dynamic>? data) {
     if (data != null) {
+      print("data:" + data.toString());
       final notificationType = data['notification_type'] ?? "";
-      print("notificationType:" + notificationType);
-      final orderId = data['order_id'] ?? "";
-      print("orderId:::" + orderId);
+      final company_id = data['company_id'] ?? "";
+      final user_id = data['user_id'] ?? "";
+      final receiver_id = data['receiver_id'] ?? "";
+      print("notificationType:::" + notificationType);
+      print("company_id:::" + company_id);
+      print("user_id:::" + user_id);
+      print("receiver_id:::" + receiver_id);
 
-      if ((notificationType == "9251" || notificationType == "9252") &&
-          !StringHelper.isEmptyString(orderId)) {
+      if ((notificationType == "9251" || notificationType == "9252")) {
         print("1111");
         // String rout = AppRoutes.orderDetailsScreen;
         // var arguments = {

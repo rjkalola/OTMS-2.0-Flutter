@@ -17,6 +17,7 @@ class ApiConstants {
   //login
   static String sendLoginOtpUrl = '$appUrl/send-otp-login';
   static String loginUrl = '$appUrl/app-login';
+  static String logoutUrl = '$appUrl/logout';
 
   //register
   static String sendRegisterOtpUrl = '$appUrl/send-otp-register';
@@ -172,9 +173,6 @@ class ApiConstants {
 
   static String registerResourcesUrl = '$appUrl/wn-resources';
   static String verifyPhoneUrl = '$appUrl/verify-phone';
-
-  // static String loginUrl = '$appUrl/login-new';
-  static String logoutUrl = '$appUrl/logout';
 
   // static String checkPhoneNumberExistUrl = '$appUrl/check-phone-exist';
   static String userSignUpUrl = '$appUrl/wn-kkm';

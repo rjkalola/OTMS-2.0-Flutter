@@ -14,7 +14,7 @@ class ImgIntroductionImage1 extends StatelessWidget {
         path: ThemeConfig.isDarkMode
             ? Drawable.imgSplashCenterImageDark
             : Drawable.imgSplashCenterImage,
-        width: 320,
-        height: 320);
+        width: 300,
+        height: 300);
   }
 }

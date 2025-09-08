@@ -9,7 +9,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:belcka/pages/common/listener/menu_item_listener.dart';
 import 'package:belcka/pages/common/menu_items_list_bottom_dialog.dart';
-import 'package:belcka/pages/dashboard/tabs/more_tab/more_tab.dart';
+import 'package:belcka/pages/dashboard/tabs/more_tab/view/more_tab.dart';
 import 'package:belcka/pages/project/address_details/controller/address_details_repository.dart';
 import 'package:belcka/pages/project/address_details/model/address_details_info.dart';
 import 'package:belcka/pages/project/address_list/model/address_info.dart';

@@ -1,20 +1,11 @@
 import 'dart:convert';
 
-import 'package:dio/dio.dart' as multi;
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:belcka/pages/authentication/login/models/RegisterResourcesResponse.dart';
-import 'package:belcka/pages/common/model/user_info.dart';
-import 'package:belcka/pages/authentication/signup1/controller/signup1_repository.dart';
 import 'package:belcka/pages/common/drop_down_list_dialog.dart';
 import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
-import 'package:belcka/pages/common/listener/SelectPhoneExtensionListener.dart';
 import 'package:belcka/pages/common/listener/select_item_listener.dart';
 import 'package:belcka/pages/common/model/user_response.dart';
-import 'package:belcka/pages/common/phone_extension_list_dialog.dart';
 import 'package:belcka/pages/company/company_details/controller/company_details_repository.dart';
 import 'package:belcka/pages/company/joincompany/controller/join_company_repository.dart';
-import 'package:belcka/pages/company/joincompany/model/get_companies_response.dart';
 import 'package:belcka/pages/company/joincompany/model/join_company_code_response.dart';
 import 'package:belcka/pages/company/joincompany/model/join_company_response.dart';
 import 'package:belcka/pages/company/joincompany/model/trade_list_response.dart';
@@ -25,9 +16,11 @@ import 'package:belcka/utils/app_storage.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/web_services/api_constants.dart';
-import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/web_services/response/response_model.dart';
+import 'package:dio/dio.dart' as multi;
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class JoinCompanyController extends GetxController
     implements SelectItemListener, DialogButtonClickListener {
