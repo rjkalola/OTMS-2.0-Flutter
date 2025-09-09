@@ -9,19 +9,25 @@ import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/text/PrimaryTextView.dart';
 
+import '../../../../../utils/app_constants.dart';
+
 class StartShiftBox extends StatelessWidget {
   StartShiftBox(
       {super.key,
       required this.title,
       required this.time,
+      this.oldTime,
       required this.address,
       required this.timePickerType,
+      this.status,
       this.onTap});
 
   final String title;
   final String time;
+  final String? oldTime;
   final String address;
   final String timePickerType;
+  final int? status;
   final GestureTapCallback? onTap;
 
   final controller = Get.put(WorkLogRequestController());
@@ -55,30 +61,36 @@ class StartShiftBox extends StatelessWidget {
               color: primaryTextColor_(context),
             ),
           ),
-          InkWell(
-            onTap: onTap,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 20, bottom: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  PrimaryTextView(
-                    text: time,
-                    color: primaryTextColor_(context),
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Visibility(
-                      visible: false,
-                      child: ImageUtils.setSvgAssetsImage(
-                          path: Drawable.editPencilIcon, width: 13, height: 13))
-                ],
-              ),
+          SizedBox(
+            height: 20,
+          ),
+          Visibility(
+            visible: (status ?? 0) == AppConstants.status.pending,
+            child: PrimaryTextView(
+              text: oldTime,
+              color: primaryTextColor_(context),
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
             ),
+          ),
+          Visibility(
+              visible: (status ?? 0) == AppConstants.status.pending,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 6, bottom: 6),
+                child: Icon(
+                  Icons.keyboard_arrow_down_outlined,
+                  size: 26,
+                  color: Colors.grey,
+                ),
+              )),
+          PrimaryTextView(
+            text: time,
+            color: primaryTextColor_(context),
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+          ),
+          SizedBox(
+            height: 20,
           ),
         ],
       )),

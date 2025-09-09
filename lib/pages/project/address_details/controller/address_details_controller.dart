@@ -67,7 +67,7 @@ class AddressDetailsController extends GetxController
   AddressDetailsInfo? addressDetailsInfo;
   AddressInfo? addressInfo;
 
-  final RxInt selectedDateFilterIndex = (0).obs;
+  final RxInt selectedDateFilterIndex = (1).obs;
   String filterPerDay = "", startDate = "", endDate = "";
 
   //Home Tab

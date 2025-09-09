@@ -68,7 +68,7 @@ class ProjectDetailsController extends GetxController
         subtitle: '',
         iconPath: Drawable.poundIcon,
         iconColor: "#000000",
-        flagName:"Budget"),
+        flagName: "Budget"),
     ProjectDetalsItem(
         title: 'project_details'.tr,
         subtitle: '',
@@ -80,16 +80,18 @@ class ProjectDetailsController extends GetxController
         subtitle: '',
         iconPath: Drawable.tradesPermissionIcon,
         iconColor: "#000000",
-        flagName:"Trades"),
+        flagName: "Trades"),
     ProjectDetalsItem(
         title: 'check_in_'.tr,
         subtitle: '',
         iconPath: Drawable.clockIcon,
         iconColor: "#000000",
-        flagName:"Check-In"),
+        flagName: "Check-In"),
   ];
 
   ProjectInfo? projectInfo;
+  int projectId = 0;
+  bool fromNotification = false;
 
   //Home Tab
   final selectedActionButtonPagerPosition = 0.obs;
@@ -104,7 +106,9 @@ class ProjectDetailsController extends GetxController
     pageController = PageController(initialPage: selectedIndex.value);
     var arguments = Get.arguments;
     if (arguments != null) {
-      projectInfo = arguments[AppConstants.intentKey.projectInfo];
+      projectId = arguments[AppConstants.intentKey.projectId] ?? 0;
+      fromNotification =
+          arguments[AppConstants.intentKey.fromNotification] ?? false;
     }
     getProjectDetailsApi();
   }
@@ -113,7 +117,7 @@ class ProjectDetailsController extends GetxController
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
-    map["project_id"] = projectInfo?.id ?? 0;
+    map["project_id"] = projectId;
 
     _api.getProjectDetails(
       queryParameters: map,
@@ -286,6 +290,14 @@ class ProjectDetailsController extends GetxController
   void onPositiveButtonClicked(String dialogIdentifier) {
     if (dialogIdentifier == AppConstants.dialogIdentifier.deleteTeam) {
       archiveProjectApi();
+      Get.back();
+    }
+  }
+
+  void onBackPress() {
+    if (fromNotification) {
+      Get.offAllNamed(AppRoutes.dashboardScreen);
+    } else {
       Get.back();
     }
   }

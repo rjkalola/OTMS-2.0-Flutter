@@ -31,7 +31,6 @@ class CheckLogDetailsController extends GetxController {
     if (arguments != null && arguments is Map) {
       workLogId = arguments[AppConstants.intentKey.workLogId] ?? 0;
     }
-
     getCheckLogDetailsApi();
   }
 

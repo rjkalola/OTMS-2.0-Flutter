@@ -360,6 +360,7 @@ class DataUtils {
   }
 
   static List<String> dateFilterList = [
+    "Reset",
     "Week",
     "Month",
     "3 Month",

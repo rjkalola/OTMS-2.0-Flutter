@@ -1,9 +1,3 @@
-import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
-import 'package:belcka/widgets/text/TextViewWithContainer.dart';
-import 'package:belcka/widgets/text/TitleTextView.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:belcka/pages/common/listener/date_filter_listener.dart';
 import 'package:belcka/pages/common/widgets/date_filter_options_horizontal_list.dart';
 import 'package:belcka/pages/timesheet/timesheet_list/controller/timesheet_list_controller.dart';
@@ -17,8 +11,12 @@ import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
+import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
-import 'package:belcka/widgets/text/toolbar_menu_item_text_view.dart';
+import 'package:belcka/widgets/text/TitleTextView.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class TimeSheetListScreen extends StatefulWidget {
   const TimeSheetListScreen({super.key});
@@ -76,25 +74,25 @@ class _TimeSheetListScreenState extends State<TimeSheetListScreen>
                               selectedPosition:
                                   controller.selectedDateFilterIndex,
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    controller.clearFilter();
-                                  },
-                                  child: CardViewDashboardItem(
-                                    padding: EdgeInsets.fromLTRB(14, 2, 14, 2),
-                                    margin: EdgeInsets.only(
-                                        right: 12, bottom: 5, top: 2),
-                                    child: TitleTextView(
-                                      text: 'all'.tr,
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.end,
+                            //   crossAxisAlignment: CrossAxisAlignment.end,
+                            //   children: [
+                            //     GestureDetector(
+                            //       onTap: () {
+                            //         controller.clearFilter();
+                            //       },
+                            //       child: CardViewDashboardItem(
+                            //         padding: EdgeInsets.fromLTRB(14, 2, 14, 2),
+                            //         margin: EdgeInsets.only(
+                            //             right: 12, bottom: 5, top: 2),
+                            //         child: TitleTextView(
+                            //           text: 'all'.tr,
+                            //         ),
+                            //       ),
+                            //     )
+                            //   ],
+                            // ),
                             TimeSheetList(),
                           ],
                         ),

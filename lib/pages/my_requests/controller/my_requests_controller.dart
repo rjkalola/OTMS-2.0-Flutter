@@ -29,7 +29,7 @@ class MyRequestsController extends GetxController {
 
   final myRequestList = <MyRequestInfo>[].obs;
   List<MyRequestInfo> tempList = [];
-  final RxInt selectedDateFilterIndex = (0).obs;
+  final RxInt selectedDateFilterIndex = (1).obs;
   Map<String, String> appliedFilters = {};
 
   @override

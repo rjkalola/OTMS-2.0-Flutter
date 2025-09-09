@@ -1,7 +1,3 @@
-import 'package:belcka/widgets/PrimaryButton.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:belcka/pages/check_in/stop_shift/controller/stop_shift_controller.dart';
 import 'package:belcka/pages/check_in/stop_shift/view/widgets/add_note_widget.dart';
 import 'package:belcka/pages/check_in/stop_shift/view/widgets/break_log_list.dart';
@@ -13,12 +9,15 @@ import 'package:belcka/res/colors.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
-import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
+import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:belcka/widgets/map_view/bottom_curve_container.dart';
 import 'package:belcka/widgets/map_view/custom_map_view.dart';
 import 'package:belcka/widgets/map_view/map_back_arrow.dart';
 import 'package:belcka/widgets/other_widgets/selection_screen_header_view.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class StopShiftScreen extends StatefulWidget {
   const StopShiftScreen({super.key});

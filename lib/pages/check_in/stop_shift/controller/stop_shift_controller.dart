@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:belcka/routes/app_routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -51,7 +52,7 @@ class StopShiftController extends GetxController implements SelectTimeListener {
   final workLogInfo = WorkLogInfo().obs;
   int workLogId = 0, userId = 0;
   String date = "";
-  bool isCurrentDay = true;
+  bool isCurrentDay = true, fromNotification = false;
 
   void onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -64,6 +65,8 @@ class StopShiftController extends GetxController implements SelectTimeListener {
     if (arguments != null) {
       workLogId = arguments[AppConstants.intentKey.workLogId] ?? 0;
       userId = arguments[AppConstants.intentKey.userId] ?? 0;
+      fromNotification =
+          arguments[AppConstants.intentKey.fromNotification] ?? false;
       print("userId:" + userId.toString());
     }
     LocationInfo? locationInfo = Get.find<AppStorage>().getLastLocation();
@@ -384,6 +387,10 @@ class StopShiftController extends GetxController implements SelectTimeListener {
   }
 
   void onBackPress() {
-    Get.back(result: isDataUpdated.value);
+    if (fromNotification) {
+      Get.offAllNamed(AppRoutes.dashboardScreen);
+    } else {
+      Get.back(result: isDataUpdated.value);
+    }
   }
 }

@@ -86,7 +86,7 @@ class AlertDialogHelper {
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 60, vertical: 60),
           decoration: BoxDecoration(
-            color: Color(0xFFD6D6D6),
+            color: dashBoardBgColor_(Get.context!),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Column(
@@ -119,8 +119,9 @@ class AlertDialogHelper {
                       },
                       child: Text(
                         'No',
-                        style:
-                            TextStyle(color: defaultAccentColor_(Get.context!), fontSize: 16),
+                        style: TextStyle(
+                            color: defaultAccentColor_(Get.context!),
+                            fontSize: 16),
                       ),
                     ),
                   ),
@@ -137,8 +138,9 @@ class AlertDialogHelper {
                       },
                       child: Text(
                         'Yes',
-                        style:
-                            TextStyle(color: defaultAccentColor_(Get.context!), fontSize: 16),
+                        style: TextStyle(
+                            color: defaultAccentColor_(Get.context!),
+                            fontSize: 16),
                       ),
                     ),
                   ),

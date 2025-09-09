@@ -160,7 +160,7 @@ class SwitchCompanyController extends GetxController
   void showMenuItemsDialog(BuildContext context) {
     List<ModuleInfo> listItems = [];
     listItems.add(ModuleInfo(
-        name: 'add_or_join'.tr, action: AppConstants.action.addOrJoin));
+        name: 'create_or_join'.tr, action: AppConstants.action.addOrJoin));
     showCupertinoModalPopup(
       context: context,
       builder: (_) =>

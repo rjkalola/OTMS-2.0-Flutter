@@ -37,6 +37,7 @@ class TeamDetailsController extends GetxController
       isDataUpdated = false.obs;
   final teamInfo = TeamInfo().obs;
   int teamId = 0;
+  bool fromNotification = false;
 
   @override
   void onInit() {
@@ -44,6 +45,8 @@ class TeamDetailsController extends GetxController
     var arguments = Get.arguments;
     if (arguments != null) {
       teamId = arguments[AppConstants.intentKey.teamId] ?? 0;
+      fromNotification =
+          arguments[AppConstants.intentKey.fromNotification] ?? false;
     }
     getTeamDetailsApi();
   }
@@ -237,6 +240,10 @@ class TeamDetailsController extends GetxController
   }
 
   void onBackPress() {
-    Get.back(result: isDataUpdated.value);
+    if (fromNotification) {
+      Get.offAllNamed(AppRoutes.dashboardScreen);
+    } else {
+      Get.back(result: isDataUpdated.value);
+    }
   }
 }

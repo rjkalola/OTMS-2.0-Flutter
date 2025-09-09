@@ -37,21 +37,15 @@ class DateFilterOptionsHorizontalList extends StatelessWidget
         itemBuilder: (context, index) {
           return Obx(
             () => CardViewDashboardItem(
-                borderColor: (selectedPosition.value == index)
+                borderColor: (selectedPosition.value == index &&
+                        selectedPosition.value != -1 &&
+                        selectedPosition.value != 0)
                     ? defaultAccentColor_(context)
                     : Colors.transparent,
                 child: GestureDetector(
                   onTap: () {
                     selectedPosition.value = index;
-                    if (DataUtils.dateFilterList[index] != "Custom") {
-                      List<DateTime> listDates = DateUtil.getDateWeekRange(
-                          DataUtils.dateFilterList[index]);
-                      String startDate = DateUtil.dateToString(
-                          listDates[0], DateUtil.DD_MM_YYYY_SLASH);
-                      String endDate = DateUtil.dateToString(
-                          listDates[1], DateUtil.DD_MM_YYYY_SLASH);
-                      listener?.onSelectDateFilter(startDate, endDate, "");
-                    } else {
+                    if (DataUtils.dateFilterList[index] == "Custom") {
                       DateTime? startDateTime =
                           !StringHelper.isEmptyString(startDate)
                               ? DateUtil.stringToDate(
@@ -64,6 +58,17 @@ class DateFilterOptionsHorizontalList extends StatelessWidget
                               : null;
                       showDateRangePickerDialog("", startDateTime, endDateTime,
                           DateTime(1900), DateTime(2100));
+                    }
+                    if (DataUtils.dateFilterList[index] == "Reset") {
+                      listener?.onSelectDateFilter("", "", "");
+                    } else {
+                      List<DateTime> listDates = DateUtil.getDateWeekRange(
+                          DataUtils.dateFilterList[index]);
+                      String startDate = DateUtil.dateToString(
+                          listDates[0], DateUtil.DD_MM_YYYY_SLASH);
+                      String endDate = DateUtil.dateToString(
+                          listDates[1], DateUtil.DD_MM_YYYY_SLASH);
+                      listener?.onSelectDateFilter(startDate, endDate, "");
                     }
                   },
                   child: Container(

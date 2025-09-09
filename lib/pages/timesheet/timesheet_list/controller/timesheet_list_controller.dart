@@ -21,7 +21,7 @@ class TimeSheetListController extends GetxController
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
       isResetEnable = false.obs;
-  final RxInt selectedDateFilterIndex = (0).obs;
+  final RxInt selectedDateFilterIndex = (1).obs;
   final _api = TimesheetListRepository();
   final timeSheetList = <TimeSheetInfo>[].obs;
   bool isAllUserTimeSheet = false;

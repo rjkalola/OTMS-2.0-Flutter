@@ -21,9 +21,14 @@ class StartStopBoxRow extends StatelessWidget {
             StartShiftBox(
               title: 'start_shift'.tr,
               time: controller.startTime.value,
+              oldTime: controller.workLogInfo.value.oldStartTime != null
+                  ? controller.changeFullDateToSortTime(
+                      controller.workLogInfo.value.oldStartTime)
+                  : "",
               address: "650, High road, 650, High road,",
               timePickerType:
                   AppConstants.dialogIdentifier.selectShiftStartTime,
+              status: controller.workLogInfo.value.status,
               onTap: () {},
             ),
             SizedBox(
@@ -35,8 +40,13 @@ class StartStopBoxRow extends StatelessWidget {
                       controller.workLogInfo.value.workEndTime)
                   ? controller.stopTime.value
                   : controller.getCurrentTime(),
+              oldTime: controller.workLogInfo.value.oldEndTime != null
+                  ? controller.changeFullDateToSortTime(
+                      controller.workLogInfo.value.oldEndTime)
+                  : "",
               address: "650, High road, 650, High road,",
               timePickerType: AppConstants.dialogIdentifier.selectShiftEndTime,
+              status: controller.workLogInfo.value.status,
               onTap: () {},
             ),
           ],

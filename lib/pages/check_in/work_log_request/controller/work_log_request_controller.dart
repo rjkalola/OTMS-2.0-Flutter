@@ -30,6 +30,7 @@ class WorkLogRequestController extends GetxController
       isLocationLoaded = true.obs,
       isDataUpdated = false.obs,
       isMainViewVisible = false.obs;
+  final formKey = GlobalKey<FormState>();
   final RxString startTime = "".obs, stopTime = "".obs;
   final RxInt status = 0.obs;
   final _api = WorkLogRequestRepository();
@@ -88,6 +89,10 @@ class WorkLogRequestController extends GetxController
                   : getCurrentTime();
           displayNoteController.value.text = workLogInfo.value.note ?? "";
           status.value = workLogInfo.value.status ?? 0;
+
+          print("Olds start:"+ workLogInfo.value.oldStartTime!);
+          print("Olds end:"+ workLogInfo.value.oldEndTime!);
+          print("oldPayableWorkSeconds:"+ workLogInfo.value.oldPayableWorkSeconds!.toString());
 
           setLocationPin();
           // locationRequest();
@@ -283,5 +288,9 @@ class WorkLogRequestController extends GetxController
     final updatedPolylines = Set<Polyline>.from(polylines.value);
     updatedPolylines.add(polyline);
     polylines.value = updatedPolylines;
+  }
+
+  bool valid() {
+    return formKey.currentState!.validate();
   }
 }

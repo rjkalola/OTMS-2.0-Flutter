@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../routes/app_routes.dart';
+import 'app_constants.dart';
 
 class NotificationService {
   static final FlutterLocalNotificationsPlugin _localNotifications =
@@ -84,8 +85,8 @@ class NotificationService {
 
   static void showForegroundNotification(RemoteMessage message) {
     final notification = message.notification;
-    print("title:"+notification!.title!);
-    print("body:"+notification!.body!);
+    print("title:" + notification!.title!);
+    print("body:" + notification!.body!);
 
     if (notification != null) {
       _localNotifications.show(
@@ -131,28 +132,77 @@ class NotificationService {
     if (data != null) {
       print("data:" + data.toString());
       final notificationType = data['notification_type'] ?? "";
-      final company_id = data['company_id'] ?? "";
-      final user_id = data['user_id'] ?? "";
-      final receiver_id = data['receiver_id'] ?? "";
+      // final company_id = data['company_id'] ?? "";
+      // final user_id = data['user_id'] ?? "";
+      // final receiver_id = data['receiver_id'] ?? "";
       print("notificationType:::" + notificationType);
-      print("company_id:::" + company_id);
-      print("user_id:::" + user_id);
-      print("receiver_id:::" + receiver_id);
+      // print("company_id:::" + company_id);
+      // print("user_id:::" + user_id);
+      // print("receiver_id:::" + receiver_id);
 
-      if ((notificationType == "9251" || notificationType == "9252")) {
-        print("1111");
-        // String rout = AppRoutes.orderDetailsScreen;
-        // var arguments = {
-        //   AppConstants.intentKey.mId: int.parse(orderId),
-        //   AppConstants.intentKey.fromNotification: true,
-        // };
-        // Get.offNamed(rout, arguments: arguments);
+      //Team
+      if (notificationType ==
+              AppConstants.notificationType.USER_ADDED_TO_TEAM ||
+          notificationType ==
+              AppConstants.notificationType.USER_REMOVED_FROM_TEAM) {
+        final teamId = data['team_id'] ?? "0";
+        print("teamId is:" + teamId);
+
+        String rout = AppRoutes.teamDetailsScreen;
+        var arguments = {
+          AppConstants.intentKey.teamId:
+              !StringHelper.isEmptyString(teamId) ? int.parse(teamId) : 0,
+          AppConstants.intentKey.fromNotification: true,
+        };
+        Get.offAllNamed(rout, arguments: arguments);
+      } else if (notificationType ==
+              AppConstants.notificationType.TIMESHEET_APPROVE ||
+          notificationType ==
+              AppConstants.notificationType.TIMESHEET_UNAPPROVE ||
+          notificationType ==
+              AppConstants.notificationType.TIMESHEET_CHANGE_HOURS ||
+          notificationType ==
+              AppConstants.notificationType.TIMESHEET_REQUEST_REJECT ||
+          notificationType ==
+              AppConstants.notificationType.TIMESHEET_REQUEST_DELETE ||
+          notificationType ==
+              AppConstants.notificationType.TIMESHEET_TO_BE_PAID ||
+          notificationType == AppConstants.notificationType.TIMESHEET_EDIT ||
+          notificationType == AppConstants.notificationType.WORKLOG_APPROVE ||
+          notificationType == AppConstants.notificationType.WORKLOG_REJECT ||
+          notificationType ==
+              AppConstants.notificationType.TIME_CLOCK_EDIT_WORKLOG) {
+        final workLogId = data['worklog_id'] ?? "0";
+        final userId = data['user_id'] ?? "0";
+        print("workLogId is:" + workLogId);
+        print("userId is:" + userId);
+        String rout = AppRoutes.stopShiftScreen;
+        var arguments = {
+          AppConstants.intentKey.workLogId:
+              !StringHelper.isEmptyString(workLogId) ? int.parse(workLogId) : 0,
+          AppConstants.intentKey.userId:
+              !StringHelper.isEmptyString(userId) ? int.parse(userId) : 0,
+          AppConstants.intentKey.fromNotification: true,
+        };
+        Get.offAllNamed(rout, arguments: arguments);
+      } else if (notificationType ==
+          AppConstants.notificationType.ASSIGN_USER_TO_PROJECT) {
+        final projectId = data['project_id'] ?? "0";
+        print("projectId is:" + projectId);
+        String rout = AppRoutes.projectDetailsScreen;
+        var arguments = {
+          AppConstants.intentKey.projectId:
+              !StringHelper.isEmptyString(projectId) ? int.parse(projectId) : 0,
+          AppConstants.intentKey.fromNotification: true,
+        };
+        Get.offAllNamed(rout, arguments: arguments);
+      } else if (notificationType ==
+          AppConstants.notificationType.JOIN_COMPANY) {
+        Get.offAllNamed(AppRoutes.userListScreen);
       } else {
-        print("2222");
         Get.offAllNamed(AppRoutes.splashScreen);
       }
     } else {
-      print("3333");
       Get.offAllNamed(AppRoutes.splashScreen);
     }
   }
