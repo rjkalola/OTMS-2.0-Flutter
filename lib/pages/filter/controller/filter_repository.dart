@@ -3,16 +3,14 @@ import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/network/api_request.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 
-class FilterRepository{
+class FilterRepository {
   void getRequestFilters({
     dynamic data,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
     ApiRequest(
-        url: ApiConstants.getRequestFilters,
-        data: data,
-        isFormData: false)
+            url: ApiConstants.getRequestFilters, data: data, isFormData: false)
         .getRequest(
       onSuccess: (data) {
         onSuccess!(data);

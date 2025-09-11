@@ -12,7 +12,9 @@ import 'package:belcka/web_services/response/response_model.dart';
 
 class FilterController extends GetxController {
   final _api = FilterRepository();
-  RxBool isLoading = false.obs, isInternetNotAvailable = false.obs, isMainViewVisible = false.obs;
+  RxBool isLoading = false.obs,
+      isInternetNotAvailable = false.obs,
+      isMainViewVisible = false.obs;
 
   final sections = <FilterSection>[].obs;
   var selectedSectionIndex = 0.obs;
@@ -25,6 +27,7 @@ class FilterController extends GetxController {
     item.selected = !item.selected;
     sections.refresh();
   }
+
   void clearAll() {
     for (var section in sections) {
       for (var item in section.data) {
@@ -33,6 +36,7 @@ class FilterController extends GetxController {
     }
     sections.refresh();
   }
+
   void applyExistingFilters(Map<String, String> filtersFromAPI) {
     for (final section in sections) {
       final key = section.key;
@@ -55,17 +59,17 @@ class FilterController extends GetxController {
     }
     sections.refresh(); // Refresh UI
   }
+
   List<FilterItem> get filteredItems {
     final section = sections[selectedSectionIndex.value];
     return section.data
-        .where((item) => item.name.toLowerCase().contains(searchQuery.value.toLowerCase()))
+        .where((item) =>
+            item.name.toLowerCase().contains(searchQuery.value.toLowerCase()))
         .toList();
   }
+
   int getSelectedCount(int sectionIndex) {
-    return sections[sectionIndex]
-        .data
-        .where((item) => item.selected)
-        .length;
+    return sections[sectionIndex].data.where((item) => item.selected).length;
   }
 
   Map<String, String> getSelectedFiltersAsMap() {
@@ -89,6 +93,7 @@ class FilterController extends GetxController {
     isMainViewVisible.value = false;
     getRequestFilters();
   }
+
   void getRequestFilters() async {
     Map<String, dynamic> map = {};
     isLoading.value = true;
@@ -96,9 +101,8 @@ class FilterController extends GetxController {
       data: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
-
           FiltersListResponse response =
-          FiltersListResponse.fromJson(jsonDecode(responseModel.result!));
+              FiltersListResponse.fromJson(jsonDecode(responseModel.result!));
 
           tempList.clear();
           tempList.addAll(response.info ?? []);
@@ -112,12 +116,10 @@ class FilterController extends GetxController {
           }
 
           isMainViewVisible.value = true;
-        }
-        else{
+        } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;
-
       },
       onError: (ResponseModel error) {
         isLoading.value = false;

@@ -1,4 +1,6 @@
+import 'package:belcka/pages/profile/rates_request/view/widgets/add_note_field_widget.dart';
 import 'package:belcka/pages/profile/rates_request/view/widgets/rate_request_pending_for_approval.dart';
+import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -26,169 +28,199 @@ class _RatesRequestScreenState extends State<RatesRequestScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Container(
-      color: dashBoardBgColor_(context),
-      child: SafeArea(
-        child: Scaffold(
-          appBar: BaseAppBar(
-            appBar: AppBar(),
-            title: "rate_request".tr,
-            isCenterTitle: false,
-            bgColor: dashBoardBgColor_(context),
-            isBack: true,
-          ),
-          backgroundColor: dashBoardBgColor_(context),
-          body: ModalProgressHUD(
-            inAsyncCall: controller.isLoading.value,
-            opacity: 0,
-            progressIndicator: const CustomProgressbar(),
-            child: controller.isInternetNotAvailable.value
-                ? Center(
-              child: Text("no_internet_text".tr),
-            )
-                : Visibility(
-                  visible: controller.isMainViewVisible.value,
-                  child: SingleChildScrollView(
-                  child: CardViewDashboardItem(
-                    margin: EdgeInsets.all(16),
-                    padding: EdgeInsets.all(16),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Title
-                        Text(
-                          "rates".tr,
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(height: 16),
-                        // Trade field
-                        Text(
-                          "trade".tr,
-                          style: TextStyle(fontSize: 14),
-                        ),
-                        SizedBox(height: 4),
-                        Text(
-                          "${controller.tradeName}",
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                        ),
-                        Divider(height: 24),
-                        // Join company date
-                        Text(
-                          "join_company_date".tr,
-                          style: TextStyle(fontSize: 14),
-                        ),
-                        SizedBox(height: 4),
-                        Text(
-                          "${controller.joiningDate}",
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                        ),
-                        Divider(height: 24),
-                        NetPerDayTextField(
-                          controller: controller.netPerDayController,
-                          isEnabled: false,
-                        ),
-                        SizedBox(height: 16),
-                        // Gross per day and CIS row
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (didPop, result) async {
+          if (didPop || result != null) return;
+          controller.onBackPress();
+        },
+      child: Obx(() => Container(
+        color: dashBoardBgColor_(context),
+        child: SafeArea(
+          child: Scaffold(
+            appBar: BaseAppBar(
+              appBar: AppBar(),
+              title: "rate_request".tr,
+              isCenterTitle: false,
+              bgColor: dashBoardBgColor_(context),
+              isBack: true,
+              onBackPressed: () {
+                controller.onBackPress();
+              },
+            ),
+            backgroundColor: dashBoardBgColor_(context),
+            body: ModalProgressHUD(
+              inAsyncCall: controller.isLoading.value,
+              opacity: 0,
+              progressIndicator: const CustomProgressbar(),
+              child: controller.isInternetNotAvailable.value
+                  ? Center(
+                child: Text("no_internet_text".tr),
+              )
+                  : Form(
+                    key: controller.formKey,
+                    child: Visibility(
+                      visible: controller.isMainViewVisible.value,
+                      child: SingleChildScrollView(
+                      child: CardViewDashboardItem(
+                        margin: EdgeInsets.all(16),
+                        padding: EdgeInsets.all(16),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            // Title
                             Text(
-                              "gross_per_day".tr,
-                              style: TextStyle(fontSize: 15),
+                              "rates".tr,
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
+                            SizedBox(height: 16),
+                            // Trade field
                             Text(
-                              "${controller.rateRequestInfo.value.currency ?? ""}${controller.grossPerDay.toStringAsFixed(2)}",
-                              style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                              "trade".tr,
+                              style: TextStyle(fontSize: 14),
                             ),
-                          ],
-                        ),
-                        SizedBox(height: 8),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
+                            SizedBox(height: 4),
                             Text(
-                              "${'cis'.tr} 20%",
-                              style: TextStyle(fontSize: 15),
+                              "${controller.tradeName}",
+                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                             ),
+                            Divider(height: 24),
+                            // Join company date
                             Text(
-                              "${controller.rateRequestInfo.value.currency ?? ""}${controller.cis.toStringAsFixed(2)}",
-                              style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                              "join_company_date".tr,
+                              style: TextStyle(fontSize: 14),
                             ),
-                          ],
-                        ),
-                        SizedBox(height: 32),
-                        // Rate history link
-                        /*
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Text(
-                                    "rate_history".tr,
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color:Colors.blueAccent,
-                                      fontWeight: FontWeight.w600,
+                            SizedBox(height: 4),
+                            Text(
+                              "${controller.joiningDate}",
+                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                            ),
+                            Divider(height: 24),
+                            NetPerDayTextField(
+                              controller: controller.netPerDayController,
+                              isEnabled: false,
+                            ),
+                            SizedBox(height: 16),
+                            // Gross per day and CIS row
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "gross_per_day".tr,
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                                Text(
+                                  "${controller.rateRequestInfo.value.currency ?? ""}${controller.grossPerDay.toStringAsFixed(2)}",
+                                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 8),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "${'cis'.tr} 20%",
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                                Text(
+                                  "${controller.rateRequestInfo.value.currency ?? ""}${controller.cis.toStringAsFixed(2)}",
+                                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 32),
+                            // Rate history link
+                            /*
+                                    Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Text(
+                                        "rate_history".tr,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color:Colors.blueAccent,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                SizedBox(height: 24,),
-                                */
-                        (UserUtils.isAdmin()) ?
-                        Row(
-                          children: [
-                            Expanded(
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  fixedSize: const Size(double.infinity, 45),
-                                  backgroundColor: Colors.red,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                  padding: EdgeInsets.zero, // important!
-                                ),
-                                onPressed: () {
-                                  controller.rejectRequest("");
-                                },
-                                child: const Text(
-                                  "Reject",
-                                  style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold, color: Colors.white),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 16), // Gap between buttons
-                            Expanded(
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  fixedSize: const Size(double.infinity, 45),
-                                  backgroundColor: Colors.green,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                  padding: EdgeInsets.zero, // important!
-                                ),
-                                onPressed: () {
-                                  controller.approveRequest();
-                                },
-                                child: const Text(
-                                  "Approve",
-                                  style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold, color: Colors.white),
-                                ),
-                              ),
-                            ),
+                                    SizedBox(height: 24,),
+                                    */
+                            (UserUtils.isAdmin() && (controller.rateRequestInfo.value.statusText == "pending")) ?
+                            Column(
+                              spacing: 8,
+                              children: [
+                                AddNoteFieldWidget(
+                                    controller: controller.noteController,
+                                isReadOnly: false,),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          fixedSize: const Size(double.infinity, 45),
+                                          backgroundColor: Colors.red,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(30),
+                                          ),
+                                          padding: EdgeInsets.zero, // important!
+                                        ),
+                                        onPressed: () {
+                                          if (controller.valid()) {
+                                            controller.showActionDialog(
+                                                AppConstants
+                                                    .dialogIdentifier.reject);
+                                          }
+                                        },
+                                        child: const Text(
+                                          "Reject",
+                                          style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold, color: Colors.white),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 16), // Gap between buttons
+                                    Expanded(
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          fixedSize: const Size(double.infinity, 45),
+                                          backgroundColor: Colors.green,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(30),
+                                          ),
+                                          padding: EdgeInsets.zero, // important!
+                                        ),
+                                        onPressed: () {
+                                          controller.showActionDialog(
+                                              AppConstants
+                                                  .dialogIdentifier
+                                                  .approve);
+                                        },
+                                        child: const Text(
+                                          "Approve",
+                                          style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold, color: Colors.white),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ) ,
+                              ],
+                            ) : Visibility(
+                              visible: (controller.rateRequestInfo.value.statusText == "pending") ? true : false,
+                                child: RateRequestPendingForApproval())
                           ],
-                        ) : RateRequestPendingForApproval()
-                      ],
+                        ),
+                      )),
                     ),
-                  )),
-                ),
+                  ),
+            ),
+            // This is where bottomNavigationBar should go
           ),
-          // This is where bottomNavigationBar should go
         ),
+      )
       ),
-    )
     );
   }
 }

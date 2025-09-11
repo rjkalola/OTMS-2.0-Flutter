@@ -40,6 +40,9 @@ class ProjectDetailsScreen extends StatelessWidget {
                 bgColor: dashBoardBgColor_(context),
                 isBack: true,
                 widgets: actionButtons(),
+                onBackPressed: () {
+                  controller.onBackPress();
+                },
               ),
               backgroundColor: dashBoardBgColor_(context),
               body: ModalProgressHUD(
@@ -91,7 +94,8 @@ class ProjectDetailsScreen extends StatelessWidget {
                                           controller.projectInfo?.id ?? 0 ?? 0,
                                     };
                                     controller.moveToScreen(
-                                        AppRoutes.tradeRecordsScreen, arguments);
+                                        AppRoutes.tradeRecordsScreen,
+                                        arguments);
                                   }
                                 },
                                 splashColor: Colors.transparent,
@@ -111,9 +115,10 @@ class ProjectDetailsScreen extends StatelessWidget {
                                               path: controller
                                                       .items[index].iconPath ??
                                                   "",
-                                              color: AppUtils.getColor(controller
-                                                      .items[index].iconColor ??
-                                                  ""),
+                                              color: AppUtils.getColor(
+                                                  controller.items[index]
+                                                          .iconColor ??
+                                                      ""),
                                               width: 30,
                                               height: 30),
                                           SizedBox(
@@ -133,7 +138,8 @@ class ProjectDetailsScreen extends StatelessWidget {
                                                     fontSize: 16,
                                                   ),
                                                   softWrap: false,
-                                                  overflow: TextOverflow.ellipsis,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                   maxLines: 2,
                                                 ),
                                                 if (controller.items[index]
@@ -143,7 +149,8 @@ class ProjectDetailsScreen extends StatelessWidget {
                                                         .items[index].subtitle,
                                                     style: TextStyle(
                                                       color: Colors.grey,
-                                                      fontWeight: FontWeight.w500,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                       fontSize: 15,
                                                     ),
                                                     softWrap: true,
@@ -157,7 +164,8 @@ class ProjectDetailsScreen extends StatelessWidget {
                                         ],
                                       ),
                                     ),
-                                    if ((controller.items[index].badge != null) &&
+                                    if ((controller.items[index].badge !=
+                                            null) &&
                                         ((controller.items[index].badge ?? 0) >
                                             0))
                                       Positioned(

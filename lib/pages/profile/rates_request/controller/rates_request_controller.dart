@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:ffi';
 
+import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
+import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:dio/dio.dart' as multi;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -19,8 +21,9 @@ import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 
-class RatesRequestController extends GetxController{
+class RatesRequestController extends GetxController implements DialogButtonClickListener{
   final netPerDayController = TextEditingController().obs;
+  final noteController = TextEditingController().obs;
   final formKey = GlobalKey<FormState>();
   final _api = RatesRequestRepository();
   RxBool isLoading = false.obs, isInternetNotAvailable = false.obs, isMainViewVisible = false.obs;
@@ -34,6 +37,7 @@ class RatesRequestController extends GetxController{
   double grossPerDay = 0.0;
   double cis = 0.0;
   int requestLogId = 0;
+  bool fromNotification = false;
 
   @override
   void onInit() {
@@ -41,6 +45,8 @@ class RatesRequestController extends GetxController{
     var arguments = Get.arguments;
     if (arguments != null) {
       requestLogId = arguments["request_log_id"] ?? 0;
+      fromNotification =
+          arguments[AppConstants.intentKey.fromNotification] ?? false;
       getRateRequestInfo();
     }
   }
@@ -104,6 +110,7 @@ class RatesRequestController extends GetxController{
     Map<String, dynamic> map = {};
     map["log_id"] = requestLogId;
     map["user_id"] = UserUtils.getLoginUserId();
+    map["note"] = StringHelper.getText(noteController.value);
 
     isLoading.value = true;
     _api.wsCallApproveRequest(
@@ -128,11 +135,11 @@ class RatesRequestController extends GetxController{
     );
   }
 
-  void rejectRequest(String note) async {
+  void rejectRequest() async {
     Map<String, dynamic> map = {};
     map["log_id"] = requestLogId;
     map["user_id"] = UserUtils.getLoginUserId();
-    map["reason"] = note;
+    map["reason"] = StringHelper.getText(noteController.value);
 
     isLoading.value = true;
     _api.wsCallRejectRequest(
@@ -155,5 +162,49 @@ class RatesRequestController extends GetxController{
         }
       },
     );
+  }
+
+  showActionDialog(String dialogType) async {
+    AlertDialogHelper.showAlertDialog(
+        "",
+        dialogType == AppConstants.dialogIdentifier.approve
+            ? 'are_you_sure_you_want_to_approve'.tr
+            : 'are_you_sure_you_want_to_reject'.tr,
+        'yes'.tr,
+        'no'.tr,
+        "",
+        true,
+        false,
+        this,
+        dialogType);
+  }
+
+  @override
+  void onNegativeButtonClicked(String dialogIdentifier) {
+    Get.back();
+  }
+
+  @override
+  void onOtherButtonClicked(String dialogIdentifier) {}
+
+  @override
+  void onPositiveButtonClicked(String dialogIdentifier) {
+    if (dialogIdentifier == AppConstants.dialogIdentifier.approve) {
+      Get.back();
+      approveRequest();
+    } else if (dialogIdentifier == AppConstants.dialogIdentifier.reject) {
+      Get.back();
+      rejectRequest();
+    }
+  }
+  bool valid() {
+    return formKey.currentState!.validate();
+  }
+  void onBackPress() {
+    if (fromNotification) {
+      Get.offAllNamed(AppRoutes.dashboardScreen);
+    } else {
+      Get.back();
+    }
   }
 }

@@ -1,0 +1,42 @@
+import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
+import 'package:get/get.dart';
+import 'package:belcka/widgets/textfield/text_field_border.dart';
+import 'package:belcka/widgets/textfield/text_field_border_dark.dart';
+
+class AddNoteFieldWidget extends StatelessWidget {
+  AddNoteFieldWidget(
+      {super.key,
+        required this.controller,
+        this.onValueChange,
+        this.isReadOnly});
+
+  final Rx<TextEditingController> controller;
+  final ValueChanged<String>? onValueChange;
+  final bool? isReadOnly;
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(
+          () => Padding(
+        padding: const EdgeInsets.fromLTRB(0, 0, 0, 18),
+        child: TextFieldBorder(
+          textEditingController: controller.value,
+          hintText: 'add_a_note'.tr,
+          labelText: 'add_a_note'.tr,
+          textInputAction: TextInputAction.newline,
+          validator: MultiValidator([
+            RequiredValidator(errorText: 'empty_note_error'.tr),
+            MinLengthValidator(60, errorText: 'note_min_length_error'.tr),
+            MaxLengthValidator(500, errorText: 'note_max_length_error'.tr),
+          ]),
+          isReadOnly: isReadOnly,
+          textAlignVertical: TextAlignVertical.top,
+          onValueChange: onValueChange,
+          borderRadius: 16,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+        ),
+      ),
+    );
+  }
+}

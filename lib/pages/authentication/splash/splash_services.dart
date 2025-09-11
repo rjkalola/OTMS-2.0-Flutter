@@ -59,14 +59,14 @@ class SplashServices {
       // Tapping notification (background)
       FirebaseMessaging.onMessageOpenedApp.listen((message) {
         // NotificationService.handleMessageNavigation(message);
-        print("message1::::"+message.data!.toString());
+        print("message1::::" + message.data!.toString());
         NotificationService.notificationClick(message.data);
         // _handleMessageNavigation(message);
       });
 
       // Foreground messages
       FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-        print("message2::::"+message.data!.toString());
+        print("message2::::" + message.data!.toString());
         NotificationService.showForegroundNotification(message);
       });
     }

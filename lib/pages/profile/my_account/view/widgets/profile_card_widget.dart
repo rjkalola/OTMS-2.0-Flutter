@@ -20,30 +20,35 @@ class ProfileCardWidget extends StatelessWidget {
     return CardViewDashboardItem(
       margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       padding: EdgeInsets.all(12),
-      child: Row(
-        children: [
-          UserAvtarView(
-            isOnlineStatusVisible: true,
-            imageSize: 50,
-            imageUrl:info.userImage ?? "",
-          ),
-          SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('${UserUtils.getLoginUserName()}', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
-                Text('${UserUtils.getLoginUserTrade()}', style: TextStyle(color: Colors.grey,fontWeight: FontWeight.bold,fontSize: 13)),
-              ],
+      child: GestureDetector(
+        onTap: () {
+          Get.toNamed(AppRoutes.myProfileDetailsScreen);
+        },
+        child: Row(
+          children: [
+            UserAvtarView(
+              isOnlineStatusVisible: true,
+              imageSize: 50,
+              imageUrl:info.userImage ?? "",
             ),
-          ),
-          IconButton(
-            icon: Icon(Icons.settings, color:primaryTextColor_(context), size: 35),
-            onPressed: () {
-              Get.toNamed(AppRoutes.userSettingsScreen);
-            },
-          ),
-        ],
+            SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('${UserUtils.getLoginUserName()}', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
+                  Text('${UserUtils.getLoginUserTrade()}', style: TextStyle(color: Colors.grey,fontWeight: FontWeight.bold,fontSize: 13)),
+                ],
+              ),
+            ),
+            IconButton(
+              icon: Icon(Icons.settings, color:primaryTextColor_(context), size: 35),
+              onPressed: () {
+                Get.toNamed(AppRoutes.userSettingsScreen);
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

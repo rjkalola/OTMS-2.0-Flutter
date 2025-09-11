@@ -1,3 +1,4 @@
+import 'package:belcka/pages/profile/my_profile_details/view/my_profile_details_screen.dart';
 import 'package:belcka/pages/profile/rates/view/rates_screen.dart';
 import 'package:belcka/pages/profile/rates_request/view/rates_request_screen.dart';
 import 'package:get/get.dart';
@@ -316,5 +317,8 @@ class AppPages {
     GetPage(
         name: AppRoutes.ratesRequestScreen,
         page: () => RatesRequestScreen()),
+    GetPage(
+        name: AppRoutes.myProfileDetailsScreen,
+        page: () => MyProfileDetailsScreen()),
   ];
 }

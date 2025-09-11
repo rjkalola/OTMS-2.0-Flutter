@@ -140,6 +140,10 @@ class NotificationService {
       // print("user_id:::" + user_id);
       // print("receiver_id:::" + receiver_id);
 
+      final requestType = data['request_type'] ?? "0";
+      int requestTypeInt =
+          !StringHelper.isEmptyString(requestType) ? int.parse(requestType) : 0;
+
       //Team
       if (notificationType ==
               AppConstants.notificationType.USER_ADDED_TO_TEAM ||
@@ -199,6 +203,38 @@ class NotificationService {
       } else if (notificationType ==
           AppConstants.notificationType.JOIN_COMPANY) {
         Get.offAllNamed(AppRoutes.userListScreen);
+      } else if (requestTypeInt == 103) {
+        //Billing Info
+        if (notificationType ==
+                AppConstants.notificationType.CREATE_BILLING_INFO ||
+            (notificationType ==
+                AppConstants.notificationType.UPDATE_BILLING_INFO) ||
+            (notificationType == AppConstants.notificationType.ADD_REQUEST) ||
+            (notificationType ==
+                AppConstants.notificationType.UPDATE_REQUEST)) {
+          final requestLogId = data['request_log_id'] ?? "0";
+          print("request_log_id is:" + requestLogId);
+          String rout = AppRoutes.billingRequestScreen;
+          var arguments = {
+            "request_log_id": !StringHelper.isEmptyString(requestLogId)
+                ? int.parse(requestLogId)
+                : 0,
+            AppConstants.intentKey.fromNotification: true
+          };
+          Get.offAllNamed(rout, arguments: arguments);
+        }
+      } else if (requestTypeInt == 105) {
+        //Rate
+        final requestLogId = data['request_log_id'] ?? "0";
+        print("request_log_id is:" + requestLogId);
+        String rout = AppRoutes.ratesRequestScreen;
+        var arguments = {
+          "request_log_id": !StringHelper.isEmptyString(requestLogId)
+              ? int.parse(requestLogId)
+              : 0,
+          AppConstants.intentKey.fromNotification: true
+        };
+        Get.offAllNamed(rout, arguments: arguments);
       } else {
         Get.offAllNamed(AppRoutes.splashScreen);
       }

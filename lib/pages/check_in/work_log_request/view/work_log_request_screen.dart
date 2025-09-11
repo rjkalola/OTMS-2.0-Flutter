@@ -108,11 +108,12 @@ class _WorkLogRequestScreenState extends State<WorkLogRequestScreen> {
                                 ),
                                 Visibility(
                                     visible:
-                                        (controller.workLogInfo.value.status ??
-                                                    0) ==
-                                                AppConstants.status.pending &&
-                                            !UserUtils.isLoginUser(controller
-                                                .workLogInfo.value.userId),
+                                    (controller.workLogInfo.value.status ??
+                                        0) ==
+                                        AppConstants.status.pending &&
+                                        (!UserUtils.isLoginUser(controller
+                                            .workLogInfo.value.userId) ||
+                                            UserUtils.isAdmin()),
                                     child: AddNoteWidget(
                                         controller: controller.noteController)),
                                 Visibility(

@@ -205,4 +205,7 @@ class ApiConstants {
   static String changeUserBulkNotificationSettings =
       '$appUrl/notifications/change-user-bulk-notifications';
   static String getFeedList = '$appUrl/get-feeds';
+
+  //my account
+  static String userProfile = '$appUrl/user/profile';
 }
