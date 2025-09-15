@@ -32,41 +32,44 @@ class DayLogInfo {
   int? userCheckLogsCount;
   String? priceWorkTotalAmount;
   int? requestStatus;
+  bool? isCheck;
 
-  DayLogInfo(
-      {this.id,
-      this.shiftId,
-      this.shiftName,
-      this.teamId,
-      this.teamName,
-      this.tradeName,
-      this.timesheetId,
-      this.type,
-      this.supervisorId,
-      this.projectId,
-      this.addressId,
-      this.isPricework,
-      this.dateAdded,
-      this.day,
-      this.dayDateInt,
-      this.startTime,
-      this.endTime,
-      this.startTimeFormat,
-      this.endTimeFormat,
-      this.location,
-      this.latitude,
-      this.longitude,
-      this.actualWorkSeconds,
-      this.totalBreakSeconds,
-      this.payableWorkSeconds,
-      this.perHourRate,
-      this.totalAmount,
-      this.status,
-      this.createdAt,
-      this.updatedAt,
-      this.userCheckLogsCount,
-      this.priceWorkTotalAmount,
-      this.requestStatus});
+  DayLogInfo({
+    this.id,
+    this.shiftId,
+    this.shiftName,
+    this.teamId,
+    this.teamName,
+    this.tradeName,
+    this.timesheetId,
+    this.type,
+    this.supervisorId,
+    this.projectId,
+    this.addressId,
+    this.isPricework,
+    this.dateAdded,
+    this.day,
+    this.dayDateInt,
+    this.startTime,
+    this.endTime,
+    this.startTimeFormat,
+    this.endTimeFormat,
+    this.location,
+    this.latitude,
+    this.longitude,
+    this.actualWorkSeconds,
+    this.totalBreakSeconds,
+    this.payableWorkSeconds,
+    this.perHourRate,
+    this.totalAmount,
+    this.status,
+    this.createdAt,
+    this.updatedAt,
+    this.userCheckLogsCount,
+    this.priceWorkTotalAmount,
+    this.requestStatus,
+    this.isCheck,
+  });
 
   DayLogInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -102,6 +105,7 @@ class DayLogInfo {
     userCheckLogsCount = json['user_checklogs_count'];
     priceWorkTotalAmount = json['pricework_total_amount'];
     requestStatus = json['request_status'];
+    isCheck = json['isCheck'];
   }
 
   Map<String, dynamic> toJson() {
@@ -139,6 +143,7 @@ class DayLogInfo {
     data['user_checklogs_count'] = this.userCheckLogsCount;
     data['pricework_total_amount'] = this.priceWorkTotalAmount;
     data['request_status'] = this.requestStatus;
+    data['isCheck'] = this.isCheck;
     return data;
   }
 }

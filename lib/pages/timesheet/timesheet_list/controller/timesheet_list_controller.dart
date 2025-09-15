@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
-import 'package:get/get.dart';
 import 'package:belcka/pages/common/listener/menu_item_listener.dart';
 import 'package:belcka/pages/common/menu_items_list_bottom_dialog.dart';
 import 'package:belcka/pages/timesheet/timesheet_list/controller/timesheet_list_repository.dart';
@@ -11,6 +9,8 @@ import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/web_services/response/module_info.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 
 import '../../../../web_services/api_constants.dart';
 import '../../../../web_services/response/response_model.dart';
@@ -20,7 +20,9 @@ class TimeSheetListController extends GetxController
   final RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
-      isResetEnable = false.obs;
+      isResetEnable = false.obs,
+      isEditEnable = false.obs,
+      isCheckAll = false.obs;
   final RxInt selectedDateFilterIndex = (1).obs;
   final _api = TimesheetListRepository();
   final timeSheetList = <TimeSheetInfo>[].obs;
@@ -123,7 +125,40 @@ class TimeSheetListController extends GetxController
     );
   }
 
-  void showMenuItemsDialog(
+  void showMenuItemsDialog(BuildContext context) {
+    List<ModuleInfo> listItems = [];
+    listItems.add(ModuleInfo(name: 'add'.tr, action: AppConstants.action.add));
+    listItems
+        .add(ModuleInfo(name: 'edit'.tr, action: AppConstants.action.edit));
+    listItems
+        .add(ModuleInfo(name: 'share'.tr, action: AppConstants.action.share));
+    listItems.add(ModuleInfo(
+        name: 'view_amount'.tr, action: AppConstants.action.viewAmount));
+    listItems.add(ModuleInfo(
+        name: 'history_logs'.tr, action: AppConstants.action.historyLogs));
+    showCupertinoModalPopup(
+      context: context,
+      builder: (_) =>
+          MenuItemsListBottomDialog(list: listItems, listener: this),
+    );
+  }
+
+  void showActionMenuItemsDialog(BuildContext context) {
+    List<ModuleInfo> listItems = [];
+    listItems
+        .add(ModuleInfo(name: 'lock'.tr, action: AppConstants.action.lock));
+    listItems.add(ModuleInfo(
+        name: 'mark_as_paid'.tr, action: AppConstants.action.markAsPaid));
+    listItems.add(
+        ModuleInfo(name: 'archive'.tr, action: AppConstants.action.archive));
+    showCupertinoModalPopup(
+      context: context,
+      builder: (_) =>
+          MenuItemsListBottomDialog(list: listItems, listener: this),
+    );
+  }
+
+  void showFilterMenuItemsDialog(
       BuildContext context, List<ModuleInfo> listItems, String dialogType) {
     showCupertinoModalPopup(
       context: context,
@@ -137,10 +172,16 @@ class TimeSheetListController extends GetxController
 
   @override
   Future<void> onSelectMenuItem(ModuleInfo info, String dialogType) async {
+    print("onSelectMenuItem");
     if (dialogType == AppConstants.dialogIdentifier.selectDayFilter) {
       // isResetEnable.value = true;
       filterPerDay = info.name!.toLowerCase();
       loadTimesheetData(true);
+    } else {
+      if (info.action == AppConstants.action.edit) {
+        print("test: AppConstants.action.edit");
+        isEditEnable.value = true;
+      }
     }
   }
 
@@ -164,6 +205,50 @@ class TimeSheetListController extends GetxController
     endDate = "";
     selectedDateFilterIndex.value = -1;
     loadTimesheetData(true);
+  }
+
+  void checkSelectAll() {
+    bool isAllSelected = true;
+    for (var info in timeSheetList) {
+      for (var data in info.dayLogs!) {
+        if ((data.isCheck ?? false) == false) {
+          isAllSelected = false;
+          break;
+        }
+      }
+      if (!isAllSelected) break;
+    }
+
+    isCheckAll.value = isAllSelected;
+  }
+
+  void checkAll() {
+    isCheckAll.value = true;
+    for (var info in timeSheetList) {
+      for (var data in info.dayLogs!) {
+        data.isCheck = true;
+      }
+    }
+    timeSheetList.refresh();
+  }
+
+  void unCheckAll() {
+    isCheckAll.value = false;
+    for (var info in timeSheetList) {
+      for (var data in info.dayLogs!) {
+        data.isCheck = false;
+      }
+    }
+    timeSheetList.refresh();
+  }
+
+  void onBackPress() {
+    if (isEditEnable.value) {
+      isEditEnable.value = false;
+      unCheckAll();
+    } else {
+      Get.back();
+    }
   }
 
   @override

@@ -196,6 +196,12 @@ class Action {
   final String archiveShift = 'ARCHIVE_SHIFT';
   final String generateCode = 'GENERATE_CODE';
   final String addOrJoin = 'ADD_OR_JOIN';
+  final String share = 'SHARE';
+  final String viewAmount = 'VIEW_AMOUNT';
+  final String historyLogs = 'HISTORY_LOGS';
+  final String lock = 'LOCK';
+  final String markAsPaid = 'MARK_AS_PAID';
+  final String archive = 'ARCHIVE';
 
   final String companyDetails = "COMPANY_DETAILS";
   final String companyTrades = "COMPANY_TRADES";

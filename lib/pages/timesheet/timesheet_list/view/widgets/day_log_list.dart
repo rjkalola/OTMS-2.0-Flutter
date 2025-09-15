@@ -1,3 +1,4 @@
+import 'package:belcka/widgets/checkbox/custom_checkbox.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:belcka/pages/timesheet/timesheet_list/controller/timesheet_list_controller.dart';
@@ -39,18 +40,36 @@ class DayLogList extends StatelessWidget {
                 child: Stack(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 12, 13, 12),
+                      padding: EdgeInsets.fromLTRB(
+                          controller.isEditEnable.value ? 0 : 10, 12, 13, 12),
                       child: GestureDetector(
                         onTap: () {
-                          controller.onClickWorkLogItem(
-                              info.id ?? 0,
-                              controller.timeSheetList[parentPosition].userId ??
-                                  0);
+                          if (!controller.isEditEnable.value) {
+                            controller.onClickWorkLogItem(
+                                info.id ?? 0,
+                                controller
+                                        .timeSheetList[parentPosition].userId ??
+                                    0);
+                          } else {
+                            info.isCheck = !(info.isCheck ?? false);
+                            controller.timeSheetList.refresh();
+                          }
+                          controller.checkSelectAll();
                         },
                         child: Container(
                           color: Colors.transparent,
                           child: Row(
                             children: [
+                              Visibility(
+                                visible: controller.isEditEnable.value,
+                                child: CustomCheckbox(
+                                    onValueChange: (value) {
+                                      info.isCheck = !(info.isCheck ?? false);
+                                      controller.timeSheetList.refresh();
+                                      controller.checkSelectAll();
+                                    },
+                                    mValue: info.isCheck ?? false),
+                              ),
                               dayDate(info),
                               SizedBox(
                                 width: 4,
