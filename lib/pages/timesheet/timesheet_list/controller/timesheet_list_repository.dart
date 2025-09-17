@@ -37,4 +37,19 @@ class TimesheetListRepository {
       onError: (error) => {if (onError != null) onError(error)},
     );
   }
+
+  void archiveTimesheet({
+    dynamic data,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+            url: ApiConstants.archiveTimesheet, data: data, isFormData: false)
+        .postRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
 }

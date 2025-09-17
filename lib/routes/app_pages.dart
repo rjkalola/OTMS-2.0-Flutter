@@ -1,6 +1,7 @@
 import 'package:belcka/pages/profile/my_profile_details/view/my_profile_details_screen.dart';
 import 'package:belcka/pages/profile/rates/view/rates_screen.dart';
 import 'package:belcka/pages/profile/rates_request/view/rates_request_screen.dart';
+import 'package:belcka/pages/timesheet/add_time_sheet/view/add_time_sheet_screen.dart';
 import 'package:get/get.dart';
 import 'package:belcka/pages/authentication/introduction/view/introduction_screen.dart';
 import 'package:belcka/pages/authentication/login/view/login_screen.dart';
@@ -75,7 +76,6 @@ import 'package:belcka/pages/timesheet/timesheet_list/view/timesheet_list_screen
 import 'package:belcka/pages/trades/view/company_trades_screen.dart';
 import 'package:belcka/pages/users/user_list/view/user_list_screen.dart';
 
-import '../pages/stock_filter/view/stock_filter_screen.dart';
 import 'app_routes.dart';
 
 class AppPages {
@@ -107,10 +107,6 @@ class AppPages {
     GetPage(
       name: AppRoutes.dashboardScreen,
       page: () => DashboardScreen(),
-    ),
-    GetPage(
-      name: AppRoutes.stockFilterScreen,
-      page: () => StockFilterScreen(),
     ),
     GetPage(
       name: AppRoutes.joinCompanyScreen,
@@ -311,14 +307,13 @@ class AppPages {
     GetPage(
         name: AppRoutes.notificationListScreen,
         page: () => NotificationListScreen()),
+    GetPage(name: AppRoutes.ratesScreen, page: () => RatesScreen()),
     GetPage(
-        name: AppRoutes.ratesScreen,
-        page: () => RatesScreen()),
-    GetPage(
-        name: AppRoutes.ratesRequestScreen,
-        page: () => RatesRequestScreen()),
+        name: AppRoutes.ratesRequestScreen, page: () => RatesRequestScreen()),
     GetPage(
         name: AppRoutes.myProfileDetailsScreen,
         page: () => MyProfileDetailsScreen()),
+    GetPage(
+        name: AppRoutes.addTimeSheetScreen, page: () => AddTimeSheetScreen()),
   ];
 }

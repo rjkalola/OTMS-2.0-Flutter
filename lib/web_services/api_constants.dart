@@ -120,7 +120,6 @@ class ApiConstants {
   static String getAllRequest = '$appUrl/requests/get-all-request';
   static String approveRequest = '$appUrl/requests/approve-request';
   static String rejectRequest = '$appUrl/requests/reject-request';
-  static String getRequestFilters = '$appUrl/requests/get-filters';
 
   //start work
   static String userStartWork = '$appUrl/user-start-work';
@@ -146,6 +145,9 @@ class ApiConstants {
   static String getTimeSheetListAllUsers =
       '$appUrl/timesheet/get-users-timesheet';
   static String getCheckLogDetails = '$appUrl/timesheet/get-checklog-details';
+  static String archiveTimesheet = '$appUrl/timesheet/archive';
+  static String unarchiveTimesheet = '$appUrl/timesheet/unarchive';
+  static String addTimesheetWorkLog = '$appUrl/timesheet/save-worklog';
 
   //project
   static String addProject = '$appUrl/project/create';
@@ -208,4 +210,8 @@ class ApiConstants {
 
   //my account
   static String userProfile = '$appUrl/user/profile';
+
+  //filters
+  static String getRequestFilters = '$appUrl/requests/get-filters';
+  static String getTimesheetFilters = '$appUrl/timesheet/get-resources';
 }

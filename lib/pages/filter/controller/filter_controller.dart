@@ -1,14 +1,14 @@
 import 'dart:convert';
 
-import 'package:get/get.dart';
 import 'package:belcka/pages/filter/controller/filter_repository.dart';
-import 'package:belcka/pages/filter/model/filter_item_model.dart';
-import 'package:belcka/pages/filter/model/filter_section_model.dart';
+import 'package:belcka/pages/filter/model/filter_info.dart';
 import 'package:belcka/pages/filter/model/filters_list_response.dart';
 import 'package:belcka/utils/app_utils.dart';
-import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/response_model.dart';
+import 'package:get/get.dart';
+
+import '../../../utils/app_constants.dart';
 
 class FilterController extends GetxController {
   final _api = FilterRepository();
@@ -16,21 +16,32 @@ class FilterController extends GetxController {
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs;
 
-  final sections = <FilterSection>[].obs;
+  final sections = <FilterInfo>[].obs;
   var selectedSectionIndex = 0.obs;
   var searchQuery = ''.obs;
+  String filterType = "";
 
-  List<FilterSection> tempList = [];
+  List<FilterInfo> tempList = [];
+
+  @override
+  void onInit() {
+    super.onInit();
+    var arguments = Get.arguments;
+    if (arguments != null) {
+      filterType = arguments[AppConstants.intentKey.filterType] ?? "";
+    }
+    getFilters();
+  }
 
   void toggleItemSelection(int sectionIndex, int itemIndex) {
-    final item = sections[sectionIndex].data[itemIndex];
-    item.selected = !item.selected;
+    final item = sections[sectionIndex].data![itemIndex];
+    item.selected = !(item.selected ?? false);
     sections.refresh();
   }
 
   void clearAll() {
     for (var section in sections) {
-      for (var item in section.data) {
+      for (var item in section.data!) {
         item.selected = false;
       }
     }
@@ -40,19 +51,25 @@ class FilterController extends GetxController {
   void applyExistingFilters(Map<String, String> filtersFromAPI) {
     for (final section in sections) {
       final key = section.key;
+      print("key:" + key!);
       if (filtersFromAPI.containsKey(key)) {
         final selectedIds = filtersFromAPI[key]!
             .split(',')
-            .map((e) => int.tryParse(e))
+            .map((e) => e)
             .where((e) => e != null)
             .toSet();
 
-        for (var item in section.data) {
-          item.selected = selectedIds.contains(item.id);
+        for (var item in section.data!) {
+          if (filterType == AppConstants.filterType.timesheetFilter) {
+            item.selected = selectedIds
+                .contains(key == "day" ? item.key : item.id.toString());
+          } else {
+            item.selected = selectedIds.contains(item.id.toString());
+          }
         }
       } else {
         // No previous values — unselect all
-        for (var item in section.data) {
+        for (var item in section.data!) {
           item.selected = false;
         }
       }
@@ -60,44 +77,55 @@ class FilterController extends GetxController {
     sections.refresh(); // Refresh UI
   }
 
-  List<FilterItem> get filteredItems {
+  List<FilterInfo> get filteredItems {
     final section = sections[selectedSectionIndex.value];
-    return section.data
+    return section.data!
         .where((item) =>
-            item.name.toLowerCase().contains(searchQuery.value.toLowerCase()))
+            item.name!.toLowerCase().contains(searchQuery.value.toLowerCase()))
         .toList();
   }
 
   int getSelectedCount(int sectionIndex) {
-    return sections[sectionIndex].data.where((item) => item.selected).length;
+    return sections[sectionIndex]
+        .data!
+        .where((item) => (item.selected ?? false))
+        .length;
   }
 
   Map<String, String> getSelectedFiltersAsMap() {
     final result = <String, String>{};
     for (final section in sections) {
-      final selectedIds = section.data
-          .where((item) => item.selected)
-          .map((item) => item.id.toString())
-          .toList();
+      List<String> selectedIds = [];
+      if (filterType == AppConstants.filterType.timesheetFilter) {
+        selectedIds = section.data!
+            .where((item) => (item.selected ?? false))
+            .map((item) =>
+                section.key == "day" ? item.key.toString() : item.id.toString())
+            .toList();
+      } else {
+        selectedIds = section.data!
+            .where((item) => (item.selected ?? false))
+            .map((item) => item.id.toString())
+            .toList();
+      }
       if (selectedIds.isNotEmpty) {
-        result[section.key] = selectedIds.join(',');
+        result[section.key!] = selectedIds.join(',');
       }
     }
     return result;
   }
 
-  @override
-  void onInit() {
-    // TODO: implement onInit
-    super.onInit();
-    isMainViewVisible.value = false;
-    getRequestFilters();
-  }
-
-  void getRequestFilters() async {
+  void getFilters() async {
+    String url = "";
+    if (filterType == AppConstants.filterType.myRequestFilter) {
+      url = ApiConstants.getRequestFilters;
+    } else if (filterType == AppConstants.filterType.timesheetFilter) {
+      url = ApiConstants.getTimesheetFilters;
+    }
     Map<String, dynamic> map = {};
     isLoading.value = true;
-    _api.getRequestFilters(
+    _api.getFilters(
+      url: url,
       data: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
@@ -110,7 +138,9 @@ class FilterController extends GetxController {
           sections.value = tempList;
           sections.refresh();
 
-          final filterData = Get.arguments as Map<String, String>?;
+          // final filterData = Get.arguments as Map<String, String>?;
+          var arguments = Get.arguments;
+          final filterData = arguments[AppConstants.intentKey.filterData];
           if (filterData != null) {
             applyExistingFilters(filterData);
           }

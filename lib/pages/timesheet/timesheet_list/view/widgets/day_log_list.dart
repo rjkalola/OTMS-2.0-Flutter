@@ -28,8 +28,6 @@ class DayLogList extends StatelessWidget {
         shrinkWrap: true,
         scrollDirection: Axis.vertical,
         itemBuilder: (context, position) {
-          print("parentPosition:" + parentPosition.toString());
-          print("position:" + position.toString());
           DayLogInfo info =
               controller.timeSheetList[parentPosition].dayLogs![position];
           return Obx(

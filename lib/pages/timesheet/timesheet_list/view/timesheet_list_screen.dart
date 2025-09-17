@@ -147,13 +147,14 @@ class _TimeSheetListScreenState extends State<TimeSheetListScreen>
         child: InkWell(
           borderRadius: BorderRadius.circular(45),
           onTap: () {
-            List<ModuleInfo> listItems = [];
-            for (var info in DataUtils.getWeekDays()) {
-              listItems.add(ModuleInfo(
-                  name: StringHelper.capitalizeFirstLetter(info.name)));
-            }
-            controller.showFilterMenuItemsDialog(context, listItems,
-                AppConstants.dialogIdentifier.selectDayFilter);
+            // List<ModuleInfo> listItems = [];
+            // for (var info in DataUtils.getWeekDays()) {
+            //   listItems.add(ModuleInfo(
+            //       name: StringHelper.capitalizeFirstLetter(info.name)));
+            // }
+            // controller.showFilterMenuItemsDialog(context, listItems,
+            //     AppConstants.dialogIdentifier.selectDayFilter);
+            controller.moveToTimesheetFilters();
           },
           child: Padding(
             padding: EdgeInsets.all(2),
@@ -186,6 +187,10 @@ class _TimeSheetListScreenState extends State<TimeSheetListScreen>
     // controller.isResetEnable.value = true;
     controller.startDate = startDate;
     controller.endDate = endDate;
+    if (StringHelper.isEmptyString(startDate) &&
+        StringHelper.isEmptyString(startDate)) {
+      controller.appliedFilters = {};
+    }
     controller.loadTimesheetData(true);
     print("startDate:" + startDate);
     print("endDate:" + endDate);

@@ -104,4 +104,5 @@ class AppRoutes {
   static const String ratesScreen = '/rates_screen';
   static const String ratesRequestScreen = '/rates_request_screen';
   static const String myProfileDetailsScreen = '/my_profile_details_screen';
+  static const String addTimeSheetScreen = '/add_time_sheet_screen';
 }

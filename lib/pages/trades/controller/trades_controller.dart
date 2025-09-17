@@ -1,22 +1,15 @@
 import 'dart:convert';
-import 'package:dio/dio.dart' as multi;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:belcka/pages/stock_filter/controller/stock_filter_repository.dart';
-import 'package:belcka/pages/stock_filter/model/filter_info.dart';
-import 'package:belcka/pages/stock_filter/model/filter_request.dart';
-import 'package:belcka/pages/stock_filter/model/stock_filter_response.dart';
 import 'package:belcka/pages/trades/controller/trades_repository.dart';
 import 'package:belcka/pages/trades/model/company_trades_response.dart';
 import 'package:belcka/pages/trades/model/save_trade_request.dart';
 import 'package:belcka/pages/trades/model/trade_info.dart';
 import 'package:belcka/utils/app_utils.dart';
-import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/base_response.dart';
 
-import '../../../utils/app_storage.dart';
 import '../../../web_services/response/response_model.dart';
 
 class TradesController extends GetxController {

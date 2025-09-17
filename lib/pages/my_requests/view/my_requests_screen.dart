@@ -110,8 +110,13 @@ class MyRequestsScreen extends StatelessWidget implements DateFilterListener {
       InkWell(
         borderRadius: BorderRadius.circular(45),
         onTap: () async {
-          var result = await Get.toNamed(AppRoutes.filterScreen,
-              arguments: controller.appliedFilters);
+          var arguments = {
+            AppConstants.intentKey.filterType:
+                AppConstants.filterType.myRequestFilter,
+            AppConstants.intentKey.filterData: controller.appliedFilters,
+          };
+          var result =
+              await Get.toNamed(AppRoutes.filterScreen, arguments: arguments);
           if (result != null) {
             controller.isResetEnable.value = true;
             controller.appliedFilters = result;
@@ -163,15 +168,13 @@ class RequestCard extends StatelessWidget {
                       controller.moveToScreen(
                           AppRoutes.billingRequestScreen, arguments);
                     }
-                  }
-                  else if (requestType == 102) {
+                  } else if (requestType == 102) {
                     var arguments = {
                       AppConstants.intentKey.ID: request.id ?? 0,
                     };
                     controller.moveToScreen(
                         AppRoutes.workLogRequestScreen, arguments);
-                  }
-                  else if (requestType == 105) {
+                  } else if (requestType == 105) {
                     var arguments = {
                       "request_log_id": request.id ?? 0,
                     };

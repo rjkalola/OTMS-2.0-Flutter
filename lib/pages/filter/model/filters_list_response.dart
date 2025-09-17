@@ -1,11 +1,10 @@
-import 'dart:ui';
 
-import 'package:belcka/pages/filter/model/filter_section_model.dart';
+import 'package:belcka/pages/filter/model/filter_info.dart';
 
 class FiltersListResponse {
   bool? isSuccess;
   String? message;
-  List<FilterSection>? info;
+  List<FilterInfo>? info;
 
   FiltersListResponse({this.isSuccess, this.message, this.info});
 
@@ -13,9 +12,9 @@ class FiltersListResponse {
     isSuccess = json['IsSuccess'];
     message = json['message'];
     if (json['info'] != null) {
-      info = <FilterSection>[];
+      info = <FilterInfo>[];
       json['info'].forEach((v) {
-        info!.add(new FilterSection.fromJson(v));
+        info!.add(new FilterInfo.fromJson(v));
       });
     }
   }

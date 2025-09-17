@@ -15,6 +15,7 @@ class AppConstants {
   static const CompanyResourcesFlag companyResourcesFlag =
       CompanyResourcesFlag();
   static const NotificationType notificationType = NotificationType();
+  static const FilterType filterType = FilterType();
 
   static String deviceType = Platform.isAndroid ? "1" : "2";
   static const int productListLimit = 20;
@@ -88,6 +89,8 @@ class IntentKey {
   final String addressInfo = "ADDRESS_INFO";
   final String addressDetailsInfo = "ADDRESS_DETAILS_INFO";
   final String fromNotification = "FROM_NOTIFICATION";
+  final String filterType = "FILTER_TYPE";
+  final String filterData = "FILTER_DATA";
 }
 
 class DialogIdentifier {
@@ -127,6 +130,7 @@ class DialogIdentifier {
   final String delete = 'DELETE';
   final String selectAddress = 'SELECT_ADDRESS';
   final String deleteProject = 'DELETE_PROJECT';
+  final String selectDate = 'SELECT_DATE';
 }
 
 class SharedPreferenceKey {
@@ -185,6 +189,8 @@ class Action {
   final String selectCompanyListDialog = "selectCompanyListDialog";
   final String selectTradeListDialog = "selectTradeListDialog";
   final String selectSupervisorDialog = 'selectSupervisorDialog';
+  final String selectProjectDialog = 'selectProjectDialog';
+  final String selectShiftDialog = 'selectShiftDialog';
   final String add = 'ADD';
   final String edit = 'EDIT';
   final String delete = 'DELETE';
@@ -273,6 +279,13 @@ class CompanyResourcesFlag {
 
   final String shiftList = "shiftList";
   final String teamList = "teamList";
+}
+
+class FilterType {
+  const FilterType(); //
+
+  final String myRequestFilter = "My_REQUEST_FILTER";
+  final String timesheetFilter = "TIMESHEET_FILTER";
 }
 
 class NotificationType {

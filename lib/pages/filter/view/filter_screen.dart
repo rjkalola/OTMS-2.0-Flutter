@@ -73,7 +73,7 @@ class FilterScreen extends StatelessWidget {
                                       .selectedSectionIndex.value = index,
                                   title: Row(
                                     children: [
-                                      Expanded(child: Text(section.name)),
+                                      Expanded(child: Text(section.name ?? "")),
                                       if (selectedCount > 0)
                                         Container(
                                           padding: EdgeInsets.symmetric(
@@ -126,7 +126,7 @@ class FilterScreen extends StatelessWidget {
                                       final sectionIndex =
                                           controller.selectedSectionIndex.value;
                                       final itemIndex = controller
-                                          .sections[sectionIndex].data
+                                          .sections[sectionIndex].data!
                                           .indexOf(item);
                                       return CheckboxListTile(
                                         shape: RoundedRectangleBorder(
@@ -137,7 +137,7 @@ class FilterScreen extends StatelessWidget {
                                         activeColor:
                                             defaultAccentColor_(context),
                                         checkColor: Colors.white,
-                                        title: Text(item.name),
+                                        title: Text(item.name ?? ""),
                                         value: item.selected,
                                         onChanged: (_) =>
                                             controller.toggleItemSelection(

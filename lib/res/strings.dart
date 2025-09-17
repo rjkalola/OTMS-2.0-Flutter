@@ -382,7 +382,10 @@ class Strings extends Translations {
           'view_amount': "View Amount",
           'history_logs': "History/Logs",
           'action': "Action",
-// '': "",
+          'add_timesheet': "Add Timesheet",
+          'select_date': "Select Date",
+          'error_wrong_time_selection':
+              "Start Shift time must be less than End Shift time.",
 // '': "",
           // '': "",
 // '': "",

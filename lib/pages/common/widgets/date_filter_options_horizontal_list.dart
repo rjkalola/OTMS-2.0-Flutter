@@ -58,8 +58,7 @@ class DateFilterOptionsHorizontalList extends StatelessWidget
                               : null;
                       showDateRangePickerDialog("", startDateTime, endDateTime,
                           DateTime(1900), DateTime(2100));
-                    }
-                    if (DataUtils.dateFilterList[index] == "Reset") {
+                    } else if (DataUtils.dateFilterList[index] == "Reset") {
                       listener?.onSelectDateFilter("", "", "");
                     } else {
                       List<DateTime> listDates = DateUtil.getDateWeekRange(
