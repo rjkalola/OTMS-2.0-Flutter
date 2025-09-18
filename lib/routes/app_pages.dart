@@ -2,6 +2,7 @@ import 'package:belcka/pages/profile/my_profile_details/view/my_profile_details_
 import 'package:belcka/pages/profile/rates/view/rates_screen.dart';
 import 'package:belcka/pages/profile/rates_request/view/rates_request_screen.dart';
 import 'package:belcka/pages/timesheet/add_time_sheet/view/add_time_sheet_screen.dart';
+import 'package:belcka/pages/timesheet/archive_timesheet_list/view/archive_timesheet_list_screen.dart';
 import 'package:get/get.dart';
 import 'package:belcka/pages/authentication/introduction/view/introduction_screen.dart';
 import 'package:belcka/pages/authentication/login/view/login_screen.dart';
@@ -315,5 +316,8 @@ class AppPages {
         page: () => MyProfileDetailsScreen()),
     GetPage(
         name: AppRoutes.addTimeSheetScreen, page: () => AddTimeSheetScreen()),
+    GetPage(
+        name: AppRoutes.archiveTimeSheetListScreen,
+        page: () => ArchiveTimesheetListScreen()),
   ];
 }

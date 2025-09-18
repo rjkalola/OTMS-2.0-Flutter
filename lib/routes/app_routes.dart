@@ -69,6 +69,8 @@ class AppRoutes {
   static const String stopShiftScreen = '/stop_shift_screen';
   static const String selectShiftScreen = '/select_shift_screen';
   static const String timeSheetListScreen = '/timesheet_list_screen';
+  static const String archiveTimeSheetListScreen =
+      '/archive_timesheet_list_screen';
   static const String myRequestsScreen = '/my_requests_screen';
   static const String billingRequestScreen = '/billing_request_screen';
   static const String workLogRequestScreen = '/work_log_request_screen';

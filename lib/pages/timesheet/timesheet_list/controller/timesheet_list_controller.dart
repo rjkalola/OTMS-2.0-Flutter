@@ -8,6 +8,7 @@ import 'package:belcka/pages/timesheet/timesheet_list/model/time_sheet_list_resp
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/module_info.dart';
 import 'package:flutter/cupertino.dart';
@@ -60,6 +61,7 @@ class TimeSheetListController extends GetxController
     map["shift_id"] = "";
     map["filter_per_day"] = filterPerDay;
     map["filters"] = appliedFilters;
+    map["is_archive"] = false;
 
     _api.getTimeSheetList(
       data: map,
@@ -72,6 +74,7 @@ class TimeSheetListController extends GetxController
           tempList.addAll(response.info ?? []);
           timeSheetList.value = tempList;
           timeSheetList.refresh();
+          isEditEnable.value = false;
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
@@ -98,7 +101,8 @@ class TimeSheetListController extends GetxController
     // map["shift_id"] = "";
     // map["filter_per_day"] = filterPerDay;
     map["company_id"] = ApiConstants.companyId;
-    map["filters"] =jsonEncode(appliedFilters);
+    map["filters"] = jsonEncode(appliedFilters);
+    map["is_archive"] = false;
 
     _api.getTimeSheetListAllUsers(
       queryParameters: map,
@@ -112,6 +116,7 @@ class TimeSheetListController extends GetxController
           tempList.addAll(response.info ?? []);
           timeSheetList.value = tempList;
           timeSheetList.refresh();
+          isEditEnable.value = false;
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
@@ -130,11 +135,11 @@ class TimeSheetListController extends GetxController
     );
   }
 
-  void archiveTimesheetApi(int? id) {
+  void archiveTimesheetApi(String? ids) {
     isLoading.value = true;
     Map<String, dynamic> map = {};
     // map["company_id"] = ApiConstants.companyId;
-    map["timesheet_id"] = id ?? 0;
+    map["ids"] = ids ?? "";
     _api.archiveTimesheet(
       data: map,
       onSuccess: (ResponseModel responseModel) {
@@ -142,6 +147,7 @@ class TimeSheetListController extends GetxController
           BaseResponse response =
               BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.Message ?? "");
+          loadTimesheetData(true);
           // shiftList.removeAt(selectedShiftIndex);
           // shiftList.refresh();
         } else {
@@ -167,6 +173,9 @@ class TimeSheetListController extends GetxController
     listItems.add(ModuleInfo(name: 'add'.tr, action: AppConstants.action.add));
     listItems
         .add(ModuleInfo(name: 'edit'.tr, action: AppConstants.action.edit));
+    listItems.add(ModuleInfo(
+        name: 'archived_timesheets'.tr,
+        action: AppConstants.action.archivedTimesheet));
     listItems
         .add(ModuleInfo(name: 'share'.tr, action: AppConstants.action.share));
     listItems.add(ModuleInfo(
@@ -218,16 +227,18 @@ class TimeSheetListController extends GetxController
       if (info.action == AppConstants.action.add) {
         moveToScreen(AppRoutes.addTimeSheetScreen, null);
       } else if (info.action == AppConstants.action.edit) {
-        print("test: AppConstants.action.edit");
         isEditEnable.value = true;
+      } else if (info.action == AppConstants.action.archive) {
+        String checkedIds = getCheckedIds();
+        if (!StringHelper.isEmptyString(checkedIds)) {
+          archiveTimesheetApi(checkedIds);
+        }
+      } else if (info.action == AppConstants.action.archivedTimesheet) {
+        var arguments = {
+          AppConstants.intentKey.isAllUserTimeSheet: isAllUserTimeSheet,
+        };
+        moveToScreen(AppRoutes.archiveTimeSheetListScreen, arguments);
       }
-    }
-  }
-
-  moveToScreen(String path, dynamic arguments) async {
-    var result = await Get.toNamed(path, arguments: arguments);
-    if (result != null && result) {
-      // getUserWorkLogListApi();
     }
   }
 
@@ -286,6 +297,25 @@ class TimeSheetListController extends GetxController
       }
     }
     timeSheetList.refresh();
+  }
+
+  String getCheckedIds() {
+    List<String> listIds = [];
+    for (var info in timeSheetList) {
+      for (var data in info.dayLogs!) {
+        if (data.isCheck ?? false) {
+          listIds.add(data.id.toString());
+        }
+      }
+    }
+    return StringHelper.getCommaSeparatedStringIds(listIds);
+  }
+
+  moveToScreen(String path, dynamic arguments) async {
+    var result = await Get.toNamed(path, arguments: arguments);
+    if (result != null && result) {
+      loadTimesheetData(true);
+    }
   }
 
   Future<void> moveToTimesheetFilters() async {

@@ -11,12 +11,13 @@ import 'package:belcka/pages/shifts/shift_list/model/shift_list_response.dart';
 import 'package:belcka/pages/timesheet/add_time_sheet/controler/add_time_sheet_repository.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/date_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/web_services/api_constants.dart';
+import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 import '../../../../utils/app_constants.dart';
 
@@ -50,42 +51,44 @@ class AddTimeSheetController extends GetxController
     getProjectListApi();
   }
 
-  // void getTimeSheetListApi(bool isProgress) {
-  //   isLoading.value = isProgress;
-  //   Map<String, dynamic> map = {};
-  //   map["start_date"] = startDate;
-  //   map["end_date"] = endDate;
-  //   map["shift_id"] = "";
-  //   map["filter_per_day"] = filterPerDay;
-  //
-  //   _api.getTimeSheetList(
-  //     data: map,
-  //     onSuccess: (ResponseModel responseModel) {
-  //       if (responseModel.isSuccess) {
-  //         isMainViewVisible.value = true;
-  //         TimeSheetListResponse response =
-  //             TimeSheetListResponse.fromJson(jsonDecode(responseModel.result!));
-  //         tempList.clear();
-  //         tempList.addAll(response.info ?? []);
-  //         timeSheetList.value = tempList;
-  //         timeSheetList.refresh();
-  //       } else {
-  //         AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
-  //       }
-  //       isLoading.value = false;
-  //     },
-  //     onError: (ResponseModel error) {
-  //       isLoading.value = false;
-  //       if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
-  //         isInternetNotAvailable.value = true;
-  //         // AppUtils.showSnackBarMessage('no_internet'.tr);
-  //         // Utils.showSnackBarMessage('no_internet'.tr);
-  //       } else if (error.statusMessage!.isNotEmpty) {
-  //         AppUtils.showSnackBarMessage(error.statusMessage ?? "");
-  //       }
-  //     },
-  //   );
-  // }
+  void addTimesheetWorkLogApi(bool isProgress) {
+    isLoading.value = isProgress;
+    Map<String, dynamic> map = {};
+    map["date"] = DateUtil.changeDateFormat(
+        StringHelper.getText(selectDateController.value),
+        DateUtil.DD_MM_YYYY_DASH,
+        DateUtil.YYYY_MM_DD_DASH);
+    map["start_time"] = StringHelper.getText(startTimeController.value);
+    map["end_time"] = StringHelper.getText(endTimeController.value);
+    map["shift_id"] = shiftId;
+    map["project_id"] = projectId;
+
+    _api.addTimesheetWorkLog(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          isMainViewVisible.value = true;
+          BaseResponse response =
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showApiResponseMessage(response.Message ?? "");
+          Get.back(result: true);
+        } else {
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+          // AppUtils.showSnackBarMessage('no_internet'.tr);
+          // Utils.showSnackBarMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
 
   void getProjectListApi() {
     isLoading.value = true;
@@ -251,8 +254,8 @@ class AddTimeSheetController extends GetxController
   void onClickSave() {
     if (valid()) {
       if (!startShiftTime!.isAfter(endShiftTime!)) {
-
-      }else{
+        addTimesheetWorkLogApi(true);
+      } else {
         AppUtils.showToastMessage('error_wrong_time_selection'.tr);
       }
     }

@@ -208,6 +208,7 @@ class Action {
   final String lock = 'LOCK';
   final String markAsPaid = 'MARK_AS_PAID';
   final String archive = 'ARCHIVE';
+  final String archivedTimesheet = 'ARCHIVED_TIMESHEET';
 
   final String companyDetails = "COMPANY_DETAILS";
   final String companyTrades = "COMPANY_TRADES";
