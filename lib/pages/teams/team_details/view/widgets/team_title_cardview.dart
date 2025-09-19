@@ -1,3 +1,4 @@
+import 'package:belcka/utils/app_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:belcka/pages/teams/team_details/controller/team_details_controller.dart';
@@ -49,22 +50,29 @@ class TeamTitleCardView extends StatelessWidget {
                         SizedBox(
                           height: 3,
                         ),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.phone_outlined,
-                              size: 18,
-                            ),
-                            SizedBox(
-                              width: 4,
-                            ),
-                            PrimaryTextView(
-                                text: controller.teamInfo.value
-                                        .supervisorPhoneWithExtension ??
-                                    "",
-                                fontSize: 14,
-                                color: primaryTextColor_(context))
-                          ],
+                        GestureDetector(
+                          onTap: () {
+                            AppUtils.onClickPhoneNumber(controller.teamInfo
+                                    .value.supervisorPhoneWithExtension ??
+                                "");
+                          },
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.phone_outlined,
+                                size: 18,
+                              ),
+                              SizedBox(
+                                width: 4,
+                              ),
+                              PrimaryTextView(
+                                  text: controller.teamInfo.value
+                                          .supervisorPhoneWithExtension ??
+                                      "",
+                                  fontSize: 14,
+                                  color: primaryTextColor_(context))
+                            ],
+                          ),
                         )
                       ],
                     ),

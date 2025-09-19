@@ -998,6 +998,54 @@
       "languageVersion": "3.5"
     },
     {
+      "name": "url_launcher",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/url_launcher-6.3.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.6"
+    },
+    {
+      "name": "url_launcher_android",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/url_launcher_android-6.3.17",
+      "packageUri": "lib/",
+      "languageVersion": "3.6"
+    },
+    {
+      "name": "url_launcher_ios",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/url_launcher_ios-6.3.3",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "url_launcher_linux",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/url_launcher_linux-3.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
+      "name": "url_launcher_macos",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/url_launcher_macos-3.2.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
+      "name": "url_launcher_platform_interface",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/url_launcher_platform_interface-2.3.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.1"
+    },
+    {
+      "name": "url_launcher_web",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/url_launcher_web-2.4.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.6"
+    },
+    {
+      "name": "url_launcher_windows",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/url_launcher_windows-3.1.4",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
       "name": "uuid",
       "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/uuid-4.5.1",
       "packageUri": "lib/",
@@ -1106,7 +1154,7 @@
       "languageVersion": "3.2"
     }
   ],
-  "generated": "2025-09-17T06:32:36.811465Z",
+  "generated": "2025-09-19T11:59:30.256961Z",
   "generator": "pub",
   "generatorVersion": "3.6.2",
   "flutterRoot": "file:///Users/apple/Documents/flutterDev/flutter",

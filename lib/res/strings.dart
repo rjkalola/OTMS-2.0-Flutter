@@ -388,8 +388,8 @@ class Strings extends Translations {
           'select_date': "Select Date",
           'error_wrong_time_selection':
               "Start Shift time must be less than End Shift time.",
-// '': "",
-          // '': "",
+          'call': "Call",
+          'message': "Message",
 // '': "",
 // '': "",
 // '': "",

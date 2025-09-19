@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:belcka/res/theme/theme_config.dart';
+import 'package:belcka/web_services/response/module_info.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
@@ -14,6 +16,7 @@ import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_storage.dart';
 import 'package:belcka/utils/data_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AppUtils {
   static var mTime;
@@ -106,7 +109,6 @@ class AppUtils {
     int colorInt = int.parse(colorNew);
     return Color(colorInt);
   }
-
 
   static Future<bool> interNetCheck() async {
     try {
@@ -217,7 +219,8 @@ class AppUtils {
           [AppUtils.boxShadow(shadowColor_(Get.context!), shadowRadius ?? 6)],
       border: Border.all(
           width: borderWidth ?? 0.6,
-          color: borderColor ?? (isDark?Color(0xFF1F1F1F):Colors.grey.shade300)),
+          color: borderColor ??
+              (isDark ? Color(0xFF1F1F1F) : Colors.grey.shade300)),
       borderRadius: BorderRadius.circular(radius ?? 45),
     );
   }
@@ -265,4 +268,55 @@ class AppUtils {
     );
   }
 
+  static void onClickPhoneNumber(String phoneNumber) {
+    List<ModuleInfo> listItems = [];
+    listItems
+        .add(ModuleInfo(name: 'call'.tr, action: AppConstants.action.edit));
+    listItems
+        .add(ModuleInfo(name: 'message'.tr, action: AppConstants.action.add));
+
+    showCupertinoModalPopup(
+      context: Get.context!,
+      builder: (_) => Padding(
+        padding: const EdgeInsets.only(bottom: 10),
+        child: CupertinoActionSheet(
+            actions: listItems.map((item) {
+              return CupertinoActionSheetAction(
+                onPressed: () async {
+                  Get.back();
+                  if (item.action == AppConstants.action.edit) {
+                    final Uri uri = Uri(scheme: 'tel', path: phoneNumber);
+                    await launchUrl(uri);
+                  } else if (item.action == AppConstants.action.add) {
+                    final Uri uri = Uri(scheme: 'sms', path: phoneNumber);
+                    await launchUrl(uri);
+                  }
+                },
+                // isDestructiveAction: item.isDestructive,
+                child: Text(
+                  item.name ?? "",
+                  style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 17,
+                      color: item.textColor != null
+                          ? Color(AppUtils.haxColor(item.textColor ?? ""))
+                          : defaultAccentColor_(Get.context!)),
+                ),
+              );
+            }).toList(),
+            cancelButton: CupertinoActionSheetAction(
+              onPressed: () => Navigator.pop(Get.context!),
+              child: Text(
+                "Cancel",
+                style: TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 17,
+                  color:
+                      ThemeConfig.isDarkMode ? Colors.white54 : Colors.black54,
+                ),
+              ),
+            )),
+      ),
+    );
+  }
 }

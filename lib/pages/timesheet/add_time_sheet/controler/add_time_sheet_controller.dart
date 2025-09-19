@@ -36,7 +36,8 @@ class AddTimeSheetController extends GetxController
   final projectController = TextEditingController().obs;
   DateTime? selectDate;
   DateTime? startShiftTime, endShiftTime;
-  int projectId = 0, shiftId = 0;
+  int projectId = 0,
+      shiftId = 0;
   final shiftList = <ModuleInfo>[].obs;
   final projectsList = <ModuleInfo>[].obs;
 
@@ -54,10 +55,7 @@ class AddTimeSheetController extends GetxController
   void addTimesheetWorkLogApi(bool isProgress) {
     isLoading.value = isProgress;
     Map<String, dynamic> map = {};
-    map["date"] = DateUtil.changeDateFormat(
-        StringHelper.getText(selectDateController.value),
-        DateUtil.DD_MM_YYYY_DASH,
-        DateUtil.YYYY_MM_DD_DASH);
+    map["date"] = StringHelper.getText(selectDateController.value);
     map["start_time"] = StringHelper.getText(startTimeController.value);
     map["end_time"] = StringHelper.getText(endTimeController.value);
     map["shift_id"] = shiftId;
@@ -69,7 +67,7 @@ class AddTimeSheetController extends GetxController
         if (responseModel.isSuccess) {
           isMainViewVisible.value = true;
           BaseResponse response =
-              BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.Message ?? "");
           Get.back(result: true);
         } else {
@@ -100,7 +98,7 @@ class AddTimeSheetController extends GetxController
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           ProjectListResponse response =
-              ProjectListResponse.fromJson(jsonDecode(responseModel.result!));
+          ProjectListResponse.fromJson(jsonDecode(responseModel.result!));
           projectsList.clear();
           for (var data in response.info!) {
             projectsList
@@ -134,7 +132,7 @@ class AddTimeSheetController extends GetxController
         if (responseModel.isSuccess) {
           isMainViewVisible.value = true;
           ShiftListResponse response =
-              ShiftListResponse.fromJson(jsonDecode(responseModel.result!));
+          ShiftListResponse.fromJson(jsonDecode(responseModel.result!));
           shiftList.clear();
           for (var data in response.info!) {
             if (data.status ?? false) {

@@ -155,7 +155,7 @@ class DayLogList extends StatelessWidget {
   Widget totalWorkHour(DayLogInfo info) => Column(
         children: [
           TitleTextView(
-            text: (info.isPricework ?? false)
+            text: ((info.isPricework ?? false) || controller.isViewAmount.value)
                 ? "£${info.priceWorkTotalAmount ?? "0"}"
                 : DateUtil.seconds_To_HH_MM(info.payableWorkSeconds ?? 0),
             color: info.requestStatus != null

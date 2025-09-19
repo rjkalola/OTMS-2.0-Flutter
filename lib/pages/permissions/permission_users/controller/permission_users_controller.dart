@@ -81,7 +81,7 @@ class PermissionUsersController extends GetxController {
     map["permission_id"] = permissionId;
     map["company_id"] = ApiConstants.companyId;
     map["users"] = getRequestData();
-
+    print("users data:" + jsonEncode(getRequestData()));
     isLoading.value = true;
     _api.changePermissionUserStatus(
       data: map,

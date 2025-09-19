@@ -24,7 +24,8 @@ class TimeSheetListController extends GetxController
       isMainViewVisible = false.obs,
       isResetEnable = false.obs,
       isEditEnable = false.obs,
-      isCheckAll = false.obs;
+      isCheckAll = false.obs,
+      isViewAmount = false.obs;
   final RxInt selectedDateFilterIndex = (1).obs;
   final _api = TimesheetListRepository();
   final timeSheetList = <TimeSheetInfo>[].obs;
@@ -75,6 +76,7 @@ class TimeSheetListController extends GetxController
           timeSheetList.value = tempList;
           timeSheetList.refresh();
           isEditEnable.value = false;
+          isViewAmount.value = false;
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
@@ -117,6 +119,7 @@ class TimeSheetListController extends GetxController
           timeSheetList.value = tempList;
           timeSheetList.refresh();
           isEditEnable.value = false;
+          isViewAmount.value = false;
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
@@ -176,12 +179,12 @@ class TimeSheetListController extends GetxController
     listItems.add(ModuleInfo(
         name: 'archived_timesheets'.tr,
         action: AppConstants.action.archivedTimesheet));
-    listItems
-        .add(ModuleInfo(name: 'share'.tr, action: AppConstants.action.share));
+    // listItems
+    //     .add(ModuleInfo(name: 'share'.tr, action: AppConstants.action.share));
     listItems.add(ModuleInfo(
         name: 'view_amount'.tr, action: AppConstants.action.viewAmount));
-    listItems.add(ModuleInfo(
-        name: 'history_logs'.tr, action: AppConstants.action.historyLogs));
+    // listItems.add(ModuleInfo(
+    //     name: 'history_logs'.tr, action: AppConstants.action.historyLogs));
     showCupertinoModalPopup(
       context: context,
       builder: (_) =>
@@ -191,10 +194,10 @@ class TimeSheetListController extends GetxController
 
   void showActionMenuItemsDialog(BuildContext context) {
     List<ModuleInfo> listItems = [];
-    listItems
-        .add(ModuleInfo(name: 'lock'.tr, action: AppConstants.action.lock));
-    listItems.add(ModuleInfo(
-        name: 'mark_as_paid'.tr, action: AppConstants.action.markAsPaid));
+    // listItems
+    //     .add(ModuleInfo(name: 'lock'.tr, action: AppConstants.action.lock));
+    // listItems.add(ModuleInfo(
+    //     name: 'mark_as_paid'.tr, action: AppConstants.action.markAsPaid));
     listItems.add(
         ModuleInfo(name: 'archive'.tr, action: AppConstants.action.archive));
     showCupertinoModalPopup(
@@ -238,6 +241,8 @@ class TimeSheetListController extends GetxController
           AppConstants.intentKey.isAllUserTimeSheet: isAllUserTimeSheet,
         };
         moveToScreen(AppRoutes.archiveTimeSheetListScreen, arguments);
+      } else if (info.action == AppConstants.action.viewAmount) {
+        isViewAmount.value = true;
       }
     }
   }
