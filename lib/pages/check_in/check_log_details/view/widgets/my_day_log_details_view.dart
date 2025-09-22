@@ -307,11 +307,18 @@ class MyDayLogDetailsView extends StatelessWidget {
         visible: id == 0,
         child: GestureDetector(
           onTap: () {},
-          child: ImageUtils.setSvgAssetsImage(
-              path: Drawable.addCreateNewPlusIcon,
-              width: 22,
-              height: 22,
-              color: primaryTextColor_(Get.context!)),
+          child: Stack(
+            children: [
+              CircleWidget(color: dashBoardBgColor_(Get.context!),
+                  width: 22,
+                  height: 22),
+              ImageUtils.setSvgAssetsImage(
+                  path: Drawable.addCreateNewPlusIcon,
+                  width: 22,
+                  height: 22,
+                  color: primaryTextColor_(Get.context!))
+            ],
+          ),
         ),
       );
 

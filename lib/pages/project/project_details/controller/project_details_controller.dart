@@ -237,8 +237,8 @@ class ProjectDetailsController extends GetxController
     // listItems.add(ModuleInfo(
     //     name: 'archive_project'.tr,
     //     action: AppConstants.action.archiveProject));
-    listItems
-        .add(ModuleInfo(name: 'delete'.tr, action: AppConstants.action.delete));
+    listItems.add(
+        ModuleInfo(name: 'archive'.tr, action: AppConstants.action.delete));
     listItems
         .add(ModuleInfo(name: 'edit'.tr, action: AppConstants.action.edit));
     showCupertinoModalPopup(

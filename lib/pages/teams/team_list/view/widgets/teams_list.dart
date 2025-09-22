@@ -46,7 +46,7 @@ class TeamsList extends StatelessWidget {
                         padding: EdgeInsets.fromLTRB(14, 12, 10, 12),
                         color: Colors.transparent,
                         child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             UserAvtarView(
                               imageUrl: info.supervisorThumbImage ?? "",

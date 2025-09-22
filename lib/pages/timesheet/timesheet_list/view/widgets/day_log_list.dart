@@ -15,10 +15,11 @@ import 'package:belcka/widgets/text/TextViewWithContainer.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
 
 class DayLogList extends StatelessWidget {
-  DayLogList({super.key, required this.parentPosition});
+  DayLogList(
+      {super.key, required this.parentPosition, required this.weekPosition});
 
   final controller = Get.put(TimeSheetListController());
-  final int parentPosition;
+  final int parentPosition, weekPosition;
 
   @override
   Widget build(BuildContext context) {
@@ -27,82 +28,78 @@ class DayLogList extends StatelessWidget {
         shrinkWrap: true,
         scrollDirection: Axis.vertical,
         itemBuilder: (context, position) {
-          DayLogInfo info =
-              controller.timeSheetList[parentPosition].dayLogs![position];
+          DayLogInfo info = controller.timeSheetList[parentPosition]
+              .weekLogs![weekPosition].dayLogs![position];
           return Obx(
-            () => Visibility(
-                visible:
-                    !(controller.timeSheetList[parentPosition].isExpanded ??
-                        false),
-                child: Stack(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(
-                          controller.isEditEnable.value ? 0 : 10, 12, 13, 12),
-                      child: GestureDetector(
-                        onTap: () {
-                          if (!controller.isEditEnable.value) {
-                            controller.onClickWorkLogItem(
-                                info.id ?? 0,
-                                controller
-                                        .timeSheetList[parentPosition].userId ??
-                                    0);
-                          } else {
-                            info.isCheck = !(info.isCheck ?? false);
-                            controller.timeSheetList.refresh();
-                          }
-                          controller.checkSelectAll();
-                        },
-                        child: Container(
-                          color: Colors.transparent,
-                          child: Row(
-                            children: [
-                              Visibility(
-                                visible: controller.isEditEnable.value,
-                                child: CustomCheckbox(
-                                    onValueChange: (value) {
-                                      info.isCheck = !(info.isCheck ?? false);
-                                      controller.timeSheetList.refresh();
-                                      controller.checkSelectAll();
-                                    },
-                                    mValue: info.isCheck ?? false),
-                              ),
-                              dayDate(info),
-                              SizedBox(
-                                width: 4,
-                              ),
-                              shiftName(info),
-                              Expanded(child: Container()),
-                              totalWorkHour(info),
-                              SizedBox(
-                                width: 4,
-                              ),
-                              RightArrowWidget(
-                                color: primaryTextColor_(context),
-                              )
-                            ],
+            () => Stack(
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(
+                      controller.isEditEnable.value ? 0 : 10, 12, 13, 12),
+                  child: GestureDetector(
+                    onTap: () {
+                      if (!controller.isEditEnable.value) {
+                        controller.onClickWorkLogItem(
+                            info.id ?? 0,
+                            controller.timeSheetList[parentPosition].userId ??
+                                0);
+                      } else {
+                        info.isCheck = !(info.isCheck ?? false);
+                        controller.timeSheetList.refresh();
+                      }
+                      controller.checkSelectAll();
+                    },
+                    child: Container(
+                      color: Colors.transparent,
+                      child: Row(
+                        children: [
+                          Visibility(
+                            visible: controller.isEditEnable.value,
+                            child: CustomCheckbox(
+                                onValueChange: (value) {
+                                  info.isCheck = !(info.isCheck ?? false);
+                                  controller.timeSheetList.refresh();
+                                  controller.checkSelectAll();
+                                },
+                                mValue: info.isCheck ?? false),
                           ),
-                        ),
+                          dayDate(info),
+                          SizedBox(
+                            width: 4,
+                          ),
+                          shiftName(info),
+                          Expanded(child: Container()),
+                          totalWorkHour(info),
+                          SizedBox(
+                            width: 4,
+                          ),
+                          RightArrowWidget(
+                            color: primaryTextColor_(context),
+                          )
+                        ],
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: Visibility(
-                        visible: (info.userCheckLogsCount ?? 0) != 0,
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 16, top: 6),
-                          child: CustomBadgeIcon(
-                            count: info.userCheckLogsCount ?? 0,
-                            color: defaultAccentColor_(context),
-                          ),
-                        ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Visibility(
+                    visible: (info.userCheckLogsCount ?? 0) != 0,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 16, top: 6),
+                      child: CustomBadgeIcon(
+                        count: info.userCheckLogsCount ?? 0,
+                        color: defaultAccentColor_(context),
                       ),
-                    )
-                  ],
-                )),
+                    ),
+                  ),
+                )
+              ],
+            ),
           );
         },
-        itemCount: controller.timeSheetList[parentPosition].dayLogs!.length,
+        itemCount: controller.timeSheetList[parentPosition]
+            .weekLogs![weekPosition].dayLogs!.length,
         // separatorBuilder: (context, position) => const Padding(
         //   padding: EdgeInsets.only(left: 100),
         //   child: Divider(

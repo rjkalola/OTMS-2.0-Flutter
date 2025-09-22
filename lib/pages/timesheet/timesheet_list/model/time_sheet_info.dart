@@ -1,4 +1,5 @@
 import 'package:belcka/pages/timesheet/timesheet_list/model/day_log_info.dart';
+import 'package:belcka/pages/timesheet/timesheet_list/model/week_log_info.dart';
 
 class TimeSheetInfo {
   int? userId;
@@ -19,6 +20,7 @@ class TimeSheetInfo {
   int? payableWorkSeconds;
   bool? isExpanded;
   List<DayLogInfo>? dayLogs;
+  List<WeekLogInfo>? weekLogs;
 
   TimeSheetInfo(
       {this.userId,
@@ -38,7 +40,8 @@ class TimeSheetInfo {
       this.totalBreakSeconds,
       this.payableWorkSeconds,
       this.isExpanded,
-      this.dayLogs});
+      this.dayLogs,
+      this.weekLogs});
 
   TimeSheetInfo.fromJson(Map<String, dynamic> json) {
     userId = json['user_id'];
@@ -64,6 +67,12 @@ class TimeSheetInfo {
         dayLogs!.add(new DayLogInfo.fromJson(v));
       });
     }
+    if (json['week_logs'] != null) {
+      weekLogs = <WeekLogInfo>[];
+      json['week_logs'].forEach((v) {
+        weekLogs!.add(new WeekLogInfo.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -87,6 +96,9 @@ class TimeSheetInfo {
     data['isExpanded'] = this.isExpanded;
     if (this.dayLogs != null) {
       data['day_logs'] = this.dayLogs!.map((v) => v.toJson()).toList();
+    }
+    if (this.weekLogs != null) {
+      data['week_logs'] = this.weekLogs!.map((v) => v.toJson()).toList();
     }
     return data;
   }

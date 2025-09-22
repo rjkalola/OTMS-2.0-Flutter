@@ -379,6 +379,7 @@ class Strings extends Translations {
           'note_min_length_error': "Note must be at least 60 characters",
           'note_max_length_error': "Note must not exceed 500 characters",
           'lock': "Lock",
+          'unlock': "Unlock",
           'mark_as_paid': "Mark as paid",
           'share': "Share",
           'view_amount': "View Amount",

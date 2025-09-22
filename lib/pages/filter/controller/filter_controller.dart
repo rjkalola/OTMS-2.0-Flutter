@@ -4,6 +4,7 @@ import 'package:belcka/pages/filter/controller/filter_repository.dart';
 import 'package:belcka/pages/filter/model/filter_info.dart';
 import 'package:belcka/pages/filter/model/filters_list_response.dart';
 import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:get/get.dart';
@@ -132,11 +133,22 @@ class FilterController extends GetxController {
           FiltersListResponse response =
               FiltersListResponse.fromJson(jsonDecode(responseModel.result!));
 
-          tempList.clear();
-          tempList.addAll(response.info ?? []);
-
-          sections.value = tempList;
-          sections.refresh();
+          if (filterType == AppConstants.filterType.myRequestFilter &&
+              !UserUtils.isAdmin()) {
+            tempList.clear();
+            for (var info in response.info!) {
+              if (info.key == "status") {
+                tempList.add(info);
+              }
+            }
+            sections.value = tempList;
+            sections.refresh();
+          } else {
+            tempList.clear();
+            tempList.addAll(response.info ?? []);
+            sections.value = tempList;
+            sections.refresh();
+          }
 
           // final filterData = Get.arguments as Map<String, String>?;
           var arguments = Get.arguments;

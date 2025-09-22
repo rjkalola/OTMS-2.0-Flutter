@@ -1,24 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:belcka/pages/common/model/user_info.dart';
-import 'package:belcka/pages/permissions/user_list/controller/user_list_controller.dart';
 import 'package:belcka/pages/timesheet/timesheet_list/controller/timesheet_list_controller.dart';
 import 'package:belcka/pages/timesheet/timesheet_list/model/time_sheet_info.dart';
-import 'package:belcka/pages/timesheet/timesheet_list/view/widgets/day_log_list.dart';
-import 'package:belcka/pages/timesheet/timesheet_list/view/widgets/week_number_title.dart';
-import 'package:belcka/res/colors.dart';
-import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/pages/timesheet/timesheet_list/view/widgets/week_log_list.dart';
 import 'package:belcka/utils/date_utils.dart';
-import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/other_widgets/expand_collapse_arrow_widget.dart';
 import 'package:belcka/widgets/other_widgets/user_avtar_view.dart';
-import 'package:belcka/widgets/switch/custom_switch.dart';
-import 'package:belcka/widgets/text/PrimaryTextView.dart';
 import 'package:belcka/widgets/text/SubTitleTextView.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
-
-import '../../../../../../utils/app_constants.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class TimeSheetList extends StatelessWidget {
   TimeSheetList({super.key});
@@ -29,44 +19,43 @@ class TimeSheetList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
         child: RefreshIndicator(
-          onRefresh: () async {
-            await controller.loadTimesheetData(true); // Add await to ensure proper async handling
+      onRefresh: () async {
+        await controller.loadTimesheetData(
+            true); // Add await to ensure proper async handling
+      },
+      child: ListView.separated(
+          physics: const AlwaysScrollableScrollPhysics(),
+          shrinkWrap: true,
+          scrollDirection: Axis.vertical,
+          itemBuilder: (context, position) {
+            TimeSheetInfo info = controller.timeSheetList[position];
+            return CardViewDashboardItem(
+                margin: EdgeInsets.fromLTRB(14, 7, 14, 7),
+                child: Column(
+                  children: [
+                    userDetailsView(info, position),
+                    // WeekNumberTitle(
+                    //   position: position,
+                    //   info: info,
+                    // ),
+                    // DayLogList(
+                    //   parentPosition: position,
+                    // ),
+                    WeekLogList(parentPosition: position),
+                  ],
+                ));
           },
-          child: ListView.separated(
-              physics: const AlwaysScrollableScrollPhysics(),
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              itemBuilder: (context, position) {
-                TimeSheetInfo info = controller.timeSheetList[position];
-                return CardViewDashboardItem(
-                    margin: EdgeInsets.fromLTRB(14, 7, 14, 7),
-                    child: Column(
-                      children: [
-                        userDetailsView(info, position),
-                        WeekNumberTitle(
-                          position: position,
-                          info: info,
-                        ),
-                        DayLogList(
-                          parentPosition: position,
-                        ),
-                        SizedBox(
-                          height: 4,
-                        ),
-                      ],
-                    ));
-              },
-              itemCount: controller.timeSheetList.length,
-              // separatorBuilder: (context, position) => const Padding(
-              //   padding: EdgeInsets.only(left: 100),
-              //   child: Divider(
-              //     height: 0,
-              //     color: dividerColor,
-              //     thickness: 0.8,
-              //   ),
-              // ),
-              separatorBuilder: (context, position) => Container()),
-        ));
+          itemCount: controller.timeSheetList.length,
+          // separatorBuilder: (context, position) => const Padding(
+          //   padding: EdgeInsets.only(left: 100),
+          //   child: Divider(
+          //     height: 0,
+          //     color: dividerColor,
+          //     thickness: 0.8,
+          //   ),
+          // ),
+          separatorBuilder: (context, position) => Container()),
+    ));
   }
 
   Widget userDetailsView(TimeSheetInfo info, int position) => Container(

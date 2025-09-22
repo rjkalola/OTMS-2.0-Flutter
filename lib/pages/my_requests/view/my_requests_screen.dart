@@ -8,6 +8,7 @@ import 'package:belcka/res/drawable.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/image_utils.dart';
+import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
@@ -31,7 +32,7 @@ class MyRequestsScreen extends StatelessWidget implements DateFilterListener {
             child: Scaffold(
           appBar: BaseAppBar(
             appBar: AppBar(),
-            title: "My Requests",
+            title: UserUtils.isAdmin() ? 'requests'.tr : 'my_requests'.tr,
             isCenterTitle: false,
             bgColor: dashBoardBgColor_(context),
             isBack: true,

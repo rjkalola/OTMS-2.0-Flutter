@@ -308,7 +308,7 @@ class CreateShiftController extends GetxController
     // listItems.add(ModuleInfo(
     //     name: 'archive'.tr, action: AppConstants.action.archiveShift));
     listItems
-        .add(ModuleInfo(name: 'delete'.tr, action: AppConstants.action.delete));
+        .add(ModuleInfo(name: 'archive'.tr, action: AppConstants.action.delete));
     showCupertinoModalPopup(
       context: context,
       builder: (_) =>

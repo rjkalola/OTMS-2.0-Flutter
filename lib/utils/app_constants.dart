@@ -206,6 +206,7 @@ class Action {
   final String viewAmount = 'VIEW_AMOUNT';
   final String historyLogs = 'HISTORY_LOGS';
   final String lock = 'LOCK';
+  final String unlock = 'UNLOCK';
   final String markAsPaid = 'MARK_AS_PAID';
   final String archive = 'ARCHIVE';
   final String archivedTimesheet = 'ARCHIVED_TIMESHEET';
@@ -285,7 +286,7 @@ class CompanyResourcesFlag {
 class FilterType {
   const FilterType(); //
 
-  final String myRequestFilter = "My_REQUEST_FILTER";
+  final String myRequestFilter = "MY_REQUEST_FILTER";
   final String timesheetFilter = "TIMESHEET_FILTER";
 }
 

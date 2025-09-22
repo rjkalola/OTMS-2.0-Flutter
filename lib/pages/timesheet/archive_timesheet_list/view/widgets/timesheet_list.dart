@@ -1,7 +1,6 @@
 import 'package:belcka/pages/timesheet/archive_timesheet_list/controller/archive_timesheet_list_controller.dart';
+import 'package:belcka/pages/timesheet/archive_timesheet_list/view/widgets/week_log_list.dart';
 import 'package:belcka/pages/timesheet/timesheet_list/model/time_sheet_info.dart';
-import 'package:belcka/pages/timesheet/archive_timesheet_list/view/widgets/day_log_list.dart';
-import 'package:belcka/pages/timesheet/archive_timesheet_list/view/widgets/week_number_title.dart';
 import 'package:belcka/utils/date_utils.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/other_widgets/expand_collapse_arrow_widget.dart';
@@ -20,44 +19,46 @@ class TimeSheetList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
         child: RefreshIndicator(
-          onRefresh: () async {
-            await controller.loadTimesheetData(true); // Add await to ensure proper async handling
+      onRefresh: () async {
+        await controller.loadTimesheetData(
+            true); // Add await to ensure proper async handling
+      },
+      child: ListView.separated(
+          physics: const AlwaysScrollableScrollPhysics(),
+          shrinkWrap: true,
+          scrollDirection: Axis.vertical,
+          itemBuilder: (context, position) {
+            TimeSheetInfo info = controller.timeSheetList[position];
+            return CardViewDashboardItem(
+                margin: EdgeInsets.fromLTRB(14, 7, 14, 7),
+                child: Column(
+                  children: [
+                    userDetailsView(info, position),
+                    // WeekNumberTitle(
+                    //   position: position,
+                    //   info: info,
+                    // ),
+                    // DayLogList(
+                    //   parentPosition: position,
+                    // ),
+                    // SizedBox(
+                    //   height: 4,
+                    // ),
+                    WeekLogList(parentPosition: position),
+                  ],
+                ));
           },
-          child: ListView.separated(
-              physics: const AlwaysScrollableScrollPhysics(),
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              itemBuilder: (context, position) {
-                TimeSheetInfo info = controller.timeSheetList[position];
-                return CardViewDashboardItem(
-                    margin: EdgeInsets.fromLTRB(14, 7, 14, 7),
-                    child: Column(
-                      children: [
-                        userDetailsView(info, position),
-                        WeekNumberTitle(
-                          position: position,
-                          info: info,
-                        ),
-                        DayLogList(
-                          parentPosition: position,
-                        ),
-                        SizedBox(
-                          height: 4,
-                        ),
-                      ],
-                    ));
-              },
-              itemCount: controller.timeSheetList.length,
-              // separatorBuilder: (context, position) => const Padding(
-              //   padding: EdgeInsets.only(left: 100),
-              //   child: Divider(
-              //     height: 0,
-              //     color: dividerColor,
-              //     thickness: 0.8,
-              //   ),
-              // ),
-              separatorBuilder: (context, position) => Container()),
-        ));
+          itemCount: controller.timeSheetList.length,
+          // separatorBuilder: (context, position) => const Padding(
+          //   padding: EdgeInsets.only(left: 100),
+          //   child: Divider(
+          //     height: 0,
+          //     color: dividerColor,
+          //     thickness: 0.8,
+          //   ),
+          // ),
+          separatorBuilder: (context, position) => Container()),
+    ));
   }
 
   Widget userDetailsView(TimeSheetInfo info, int position) => Container(

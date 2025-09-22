@@ -183,8 +183,8 @@ class TeamDetailsController extends GetxController
     } else {
       listItems
           .add(ModuleInfo(name: 'edit'.tr, action: AppConstants.action.edit));
-      listItems.add(
-          ModuleInfo(name: 'delete'.tr, action: AppConstants.action.delete));
+      // listItems.add(
+      //     ModuleInfo(name: 'delete'.tr, action: AppConstants.action.delete));
       listItems.add(ModuleInfo(
           name: 'create_code'.tr, action: AppConstants.action.createCode));
       listItems.add(ModuleInfo(

@@ -233,12 +233,14 @@ class ArchiveTimesheetListController extends GetxController
     bool isAllSelected = true;
     isChecked.value = false;
     for (var info in timeSheetList) {
-      for (var data in info.dayLogs!) {
-        if ((data.isCheck ?? false) == false) {
-          isAllSelected = false;
-        }
-        if ((data.isCheck ?? false)) {
-          isChecked.value = true;
+      for (var weekData in info.weekLogs!) {
+        for (var data in weekData.dayLogs!) {
+          if ((data.isCheck ?? false) == false) {
+            isAllSelected = false;
+          }
+          if ((data.isCheck ?? false)) {
+            isChecked.value = true;
+          }
         }
       }
       // if (!isAllSelected) break;
@@ -250,29 +252,37 @@ class ArchiveTimesheetListController extends GetxController
   void checkAll() {
     isCheckAll.value = true;
     for (var info in timeSheetList) {
-      for (var data in info.dayLogs!) {
-        data.isCheck = true;
+      for (var weekData in info.weekLogs!) {
+        for (var data in weekData.dayLogs!) {
+          data.isCheck = true;
+        }
       }
     }
+    if (timeSheetList.isNotEmpty) isChecked.value = true;
     timeSheetList.refresh();
   }
 
   void unCheckAll() {
     isCheckAll.value = false;
     for (var info in timeSheetList) {
-      for (var data in info.dayLogs!) {
-        data.isCheck = false;
+      for (var weekData in info.weekLogs!) {
+        for (var data in weekData.dayLogs!) {
+          data.isCheck = false;
+        }
       }
     }
+    isChecked.value = false;
     timeSheetList.refresh();
   }
 
   String getCheckedIds() {
     List<String> listIds = [];
     for (var info in timeSheetList) {
-      for (var data in info.dayLogs!) {
-        if (data.isCheck ?? false) {
-          listIds.add(data.id.toString());
+      for (var weekData in info.weekLogs!) {
+        for (var data in weekData.dayLogs!) {
+          if (data.isCheck ?? false) {
+            listIds.add(data.id.toString());
+          }
         }
       }
     }

@@ -15,10 +15,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class DayLogList extends StatelessWidget {
-  DayLogList({super.key, required this.parentPosition});
+  DayLogList({super.key, required this.parentPosition, required this.weekPosition});
 
   final controller = Get.put(ArchiveTimesheetListController());
-  final int parentPosition;
+  final int parentPosition, weekPosition;
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +27,8 @@ class DayLogList extends StatelessWidget {
         shrinkWrap: true,
         scrollDirection: Axis.vertical,
         itemBuilder: (context, position) {
-          DayLogInfo info =
-              controller.timeSheetList[parentPosition].dayLogs![position];
+          DayLogInfo info = controller.timeSheetList[parentPosition]
+              .weekLogs![weekPosition].dayLogs![position];
           return Obx(
             () => Visibility(
                 visible:
@@ -90,7 +90,8 @@ class DayLogList extends StatelessWidget {
                 )),
           );
         },
-        itemCount: controller.timeSheetList[parentPosition].dayLogs!.length,
+        itemCount: controller.timeSheetList[parentPosition]
+            .weekLogs![weekPosition].dayLogs!.length,
         // separatorBuilder: (context, position) => const Padding(
         //   padding: EdgeInsets.only(left: 100),
         //   child: Divider(

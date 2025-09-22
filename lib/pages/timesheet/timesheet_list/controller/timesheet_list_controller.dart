@@ -24,6 +24,7 @@ class TimeSheetListController extends GetxController
       isMainViewVisible = false.obs,
       isResetEnable = false.obs,
       isEditEnable = false.obs,
+      isEditStatusEnable = false.obs,
       isCheckAll = false.obs,
       isViewAmount = false.obs;
   final RxInt selectedDateFilterIndex = (1).obs;
@@ -196,6 +197,8 @@ class TimeSheetListController extends GetxController
     List<ModuleInfo> listItems = [];
     // listItems
     //     .add(ModuleInfo(name: 'lock'.tr, action: AppConstants.action.lock));
+    // listItems
+    //     .add(ModuleInfo(name: 'unlock'.tr, action: AppConstants.action.lock));
     // listItems.add(ModuleInfo(
     //     name: 'mark_as_paid'.tr, action: AppConstants.action.markAsPaid));
     listItems.add(
@@ -272,10 +275,12 @@ class TimeSheetListController extends GetxController
   void checkSelectAll() {
     bool isAllSelected = true;
     for (var info in timeSheetList) {
-      for (var data in info.dayLogs!) {
-        if ((data.isCheck ?? false) == false) {
-          isAllSelected = false;
-          break;
+      for (var weekData in info.weekLogs!) {
+        for (var data in weekData.dayLogs!) {
+          if ((data.isCheck ?? false) == false) {
+            isAllSelected = false;
+            break;
+          }
         }
       }
       if (!isAllSelected) break;
@@ -287,8 +292,10 @@ class TimeSheetListController extends GetxController
   void checkAll() {
     isCheckAll.value = true;
     for (var info in timeSheetList) {
-      for (var data in info.dayLogs!) {
-        data.isCheck = true;
+      for (var weekData in info.weekLogs!) {
+        for (var data in weekData.dayLogs!) {
+          data.isCheck = true;
+        }
       }
     }
     timeSheetList.refresh();
@@ -297,8 +304,10 @@ class TimeSheetListController extends GetxController
   void unCheckAll() {
     isCheckAll.value = false;
     for (var info in timeSheetList) {
-      for (var data in info.dayLogs!) {
-        data.isCheck = false;
+      for (var weekData in info.weekLogs!) {
+        for (var data in weekData.dayLogs!) {
+          data.isCheck = false;
+        }
       }
     }
     timeSheetList.refresh();
@@ -307,9 +316,11 @@ class TimeSheetListController extends GetxController
   String getCheckedIds() {
     List<String> listIds = [];
     for (var info in timeSheetList) {
-      for (var data in info.dayLogs!) {
-        if (data.isCheck ?? false) {
-          listIds.add(data.id.toString());
+      for (var weekData in info.weekLogs!) {
+        for (var data in weekData.dayLogs!) {
+          if (data.isCheck ?? false) {
+            listIds.add(data.id.toString());
+          }
         }
       }
     }
