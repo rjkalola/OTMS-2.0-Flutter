@@ -38,14 +38,17 @@ class DayLogList extends StatelessWidget {
                       controller.isEditEnable.value ? 0 : 10, 12, 13, 12),
                   child: GestureDetector(
                     onTap: () {
-                      if (!controller.isEditEnable.value) {
+                      if (!controller.isEditEnable.value &&
+                          !controller.isEditStatusEnable.value) {
                         controller.onClickWorkLogItem(
                             info.id ?? 0,
                             controller.timeSheetList[parentPosition].userId ??
                                 0);
                       } else {
-                        info.isCheck = !(info.isCheck ?? false);
-                        controller.timeSheetList.refresh();
+                        if (controller.isEditEnable.value) {
+                          info.isCheck = !(info.isCheck ?? false);
+                          controller.timeSheetList.refresh();
+                        }
                       }
                       controller.checkSelectAll();
                     },

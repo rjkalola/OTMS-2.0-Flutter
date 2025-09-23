@@ -63,6 +63,7 @@ class CheckInController extends GetxController
   final tradeList = <ModuleInfo>[].obs;
   final locationsList = <ModuleInfo>[].obs;
   final typeOfWorkList = <TypeOfWorkResourcesInfo>[].obs;
+  final selectedTypeOfWorkList = <TypeOfWorkResourcesInfo>[].obs;
   final RxString checkInTime = "".obs;
   CheckInResourcesResponse? checkInResourcesData;
 
@@ -115,13 +116,13 @@ class CheckInController extends GetxController
     print("reques value:" + map.toString());
 
     for (int i = 0; i < listBeforePhotos.length; i++) {
-      if (!StringHelper.isEmptyString(listBeforePhotos[i].file)) {
+      if (!StringHelper.isEmptyString(listBeforePhotos[i].imageUrl)) {
         formData.files.add(
           MapEntry(
             "before_attachments[]",
             // or just 'images' depending on your backend
             await multi.MultipartFile.fromFile(
-              listBeforePhotos[i].file ?? "",
+              listBeforePhotos[i].imageUrl ?? "",
             ),
           ),
         );
@@ -358,6 +359,12 @@ class CheckInController extends GetxController
     }
   }
 
+  void onSelectTypeOfWorkPhotos(int position) {
+    // onSelectPhotos(
+    //     AppConstants.type.beforePhotos,
+    //     controller.listBeforePhotos);
+  }
+
   void showSelectTypeOfWorkDialog() {
     // if (typeOfWorkList.isNotEmpty) {
     if (tradeId != 0) {
@@ -365,6 +372,7 @@ class CheckInController extends GetxController
           SelectTypeOfWorkDialog(
             dialogType: AppConstants.dialogIdentifier.selectTypeOfWork,
             list: typeOfWorkList,
+            selectedItemList: selectedTypeOfWorkList,
             listener: this,
           ),
           backgroundColor: Colors.transparent,
@@ -426,13 +434,29 @@ class CheckInController extends GetxController
     }
   }
 
-  @override
+  /*@override
   void onSelectTypeOfWork(int position, int typeOfWorkId, int companyTaskId,
       String name, String action) {
     if (action == AppConstants.dialogIdentifier.selectTypeOfWork) {
       typeOfWorkController.value.text = name;
       this.typeOfWorkId = typeOfWorkId;
       this.companyTaskId = companyTaskId;
+    } else if (action == AppConstants.dialogIdentifier.selectTypeOfDayWork) {
+      typeOfWorkList.clear();
+      getTypeOfWorkResourcesApi(
+          addressId: 0, isPriceWork: false, isFromDialog: true);
+    }
+  }*/
+
+  @override
+  void onSelectTypeOfWork(
+      List<TypeOfWorkResourcesInfo> listSelectedItems, String action) {
+    if (action == AppConstants.dialogIdentifier.selectTypeOfWork) {
+      selectedTypeOfWorkList.clear();
+      selectedTypeOfWorkList.value = listSelectedItems;
+      // typeOfWorkController.value.text = name;
+      // this.typeOfWorkId = typeOfWorkId;
+      // this.companyTaskId = companyTaskId;
     } else if (action == AppConstants.dialogIdentifier.selectTypeOfDayWork) {
       typeOfWorkList.clear();
       getTypeOfWorkResourcesApi(

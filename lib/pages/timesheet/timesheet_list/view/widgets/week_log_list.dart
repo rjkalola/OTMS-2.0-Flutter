@@ -31,8 +31,8 @@ class WeekLogList extends StatelessWidget {
                       height: 6,
                     ),
                     WeekNumberTitle(
+                      parentPosition: parentPosition,
                       position: position,
-                      info: info,
                     ),
                     DayLogList(
                       parentPosition: parentPosition,

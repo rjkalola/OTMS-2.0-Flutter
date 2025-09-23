@@ -157,7 +157,7 @@ class SelectBeforeAfterPhotosController extends GetxController
   addPhotoToList(String? path) {
     if (!StringHelper.isEmptyString(path)) {
       FilesInfo info = FilesInfo();
-      info.file = path;
+      info.imageUrl = path;
       filesList.add(info);
       print(filesList.length.toString());
     }

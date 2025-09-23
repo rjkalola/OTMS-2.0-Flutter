@@ -5,11 +5,8 @@ import 'package:belcka/pages/timesheet/timesheet_list/view/widgets/select_all_ti
 import 'package:belcka/pages/timesheet/timesheet_list/view/widgets/timesheet_list.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/res/drawable.dart';
-import 'package:belcka/utils/app_constants.dart';
-import 'package:belcka/utils/data_utils.dart';
 import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
-import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
@@ -54,10 +51,10 @@ class _TimeSheetListScreenState extends State<TimeSheetListScreen>
                 title: 'timesheets'.tr,
                 isCenterTitle: false,
                 bgColor: dashBoardBgColor_(context),
-                isBack: true,
+                isBack: false,
                 onBackPressed: () {
                   controller.onBackPress();
-                },
+                } ,
                 widgets: actionButtons(),
               ),
               body: ModalProgressHUD(
@@ -120,19 +117,22 @@ class _TimeSheetListScreenState extends State<TimeSheetListScreen>
   List<Widget>? actionButtons() {
     return [
       Visibility(
-        visible: controller.isEditEnable.value,
+        visible: controller.isEditEnable.value ||
+            controller.isEditStatusEnable.value,
         child: ToolbarMenuItemTextView(
           text: 'cancel'.tr,
           textColor: secondaryTextColor_(context),
           padding: EdgeInsets.only(left: 6, right: 10),
           onTap: () {
-            controller.isEditEnable.value = false;
             controller.unCheckAll();
+            controller.isEditEnable.value = false;
+            controller.isEditStatusEnable.value = false;
           },
         ),
       ),
       Visibility(
-        visible: controller.isEditEnable.value,
+        visible: controller.isEditEnable.value ||
+            controller.isEditStatusEnable.value,
         child: ToolbarMenuItemTextView(
           text: 'action'.tr,
           textColor: defaultAccentColor_(context),
@@ -143,7 +143,8 @@ class _TimeSheetListScreenState extends State<TimeSheetListScreen>
         ),
       ),
       Visibility(
-        visible: !controller.isEditEnable.value,
+        visible: !controller.isEditEnable.value &&
+            !controller.isEditStatusEnable.value,
         child: InkWell(
           borderRadius: BorderRadius.circular(45),
           onTap: () {
@@ -167,7 +168,8 @@ class _TimeSheetListScreenState extends State<TimeSheetListScreen>
         ),
       ),
       Visibility(
-        visible: !controller.isEditEnable.value,
+        visible: !controller.isEditEnable.value &&
+            !controller.isEditStatusEnable.value,
         child: IconButton(
           icon: Icon(Icons.more_vert_outlined),
           onPressed: () {

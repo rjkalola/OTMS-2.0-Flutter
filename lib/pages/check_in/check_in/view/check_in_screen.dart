@@ -1,3 +1,4 @@
+import 'package:belcka/pages/check_in/check_in/view/widgets/selected_type_of_work.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
@@ -112,6 +113,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
                               SizedBox(
                                 height: 16,
                               ),
+                              SelectedTypeOfWork(),
                               DropDownTextField(
                                 title: 'location'.tr,
                                 controller: controller.locationController,

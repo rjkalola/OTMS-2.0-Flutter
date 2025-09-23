@@ -8,15 +8,17 @@ class WeekLogInfo {
   String? endDateMonth;
   int? dayLogCount;
   List<DayLogInfo>? dayLogs;
+  bool? isCheck;
 
   WeekLogInfo(
       {this.weekNumber,
-        this.startDate,
-        this.endDate,
-        this.startDateMonth,
-        this.endDateMonth,
-        this.dayLogCount,
-        this.dayLogs});
+      this.startDate,
+      this.endDate,
+      this.startDateMonth,
+      this.endDateMonth,
+      this.dayLogCount,
+      this.dayLogs,
+      this.isCheck});
 
   WeekLogInfo.fromJson(Map<String, dynamic> json) {
     weekNumber = json['week_number'];
@@ -31,6 +33,7 @@ class WeekLogInfo {
         dayLogs!.add(new DayLogInfo.fromJson(v));
       });
     }
+    isCheck = json['isCheck'];
   }
 
   Map<String, dynamic> toJson() {
@@ -44,6 +47,7 @@ class WeekLogInfo {
     if (this.dayLogs != null) {
       data['day_logs'] = this.dayLogs!.map((v) => v.toJson()).toList();
     }
+    data['isCheck'] = this.isCheck;
     return data;
   }
 }

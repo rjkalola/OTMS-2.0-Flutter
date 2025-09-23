@@ -13,7 +13,8 @@ class SelectAllTimesheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => Visibility(
-        visible: controller.isEditEnable.value,
+        visible: controller.isEditEnable.value ||
+            controller.isEditStatusEnable.value,
         child: GestureDetector(
           onTap: () {
             if (controller.isCheckAll.value) {

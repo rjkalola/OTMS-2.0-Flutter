@@ -391,6 +391,7 @@ class Strings extends Translations {
               "Start Shift time must be less than End Shift time.",
           'call': "Call",
           'message': "Message",
+          'note':"Note",
 // '': "",
 // '': "",
 // '': "",

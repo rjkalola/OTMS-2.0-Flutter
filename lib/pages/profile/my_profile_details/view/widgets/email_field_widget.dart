@@ -21,18 +21,18 @@ class EmailFieldWidget extends StatelessWidget {
         labelText: 'email'.tr,
         keyboardType: TextInputType.emailAddress,
         textInputAction: TextInputAction.done,
-        isReadOnly: true,
-        isEnabled: false,
+        isReadOnly: false,
+        isEnabled: true,
         onValueChange: (value) {
           //controller.onValueChange();
         },
         onPressed: () {},
         validator: MultiValidator([
-          RequiredValidator(errorText: 'required_field'.tr),
+          //RequiredValidator(errorText: 'required_field'.tr),
+          EmailValidator(errorText: "Enter a valid email")
         ]),
         inputFormatters: <TextInputFormatter>[
-          // for below version 2 use this
-          FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+
         ]);
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:belcka/pages/profile/billing_details_new/model/user_pay_rate_response.dart';
 import 'package:dio/dio.dart' as multi;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -44,17 +45,46 @@ class BillingDetailsNewController extends GetxController {
   final _api = BillingDetailsNewRepository();
   RxBool isLoading = false.obs, isInternetNotAvailable = false.obs, isMainViewVisible = false.obs;
   final billingInfo = BillingInfo().obs;
+  final userPayRateInfo = UserPayRateInfo().obs;
 
   String taxInfo = "";
   String address = "";
   String bankDetails = "";
+  bool showPayRate = false;
 
   @override
   void onInit() {
     super.onInit();
     getBillingInfo();
+    getPayRatePermissionAPI();
   }
+  void getPayRatePermissionAPI() async {
+    Map<String, dynamic> map = {};
+    map["user_id"] = UserUtils.getLoginUserId();
+    map["company_id"] = ApiConstants.companyId;
+    _api.getUserPayRatePermission(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          UserPayRateResponse response =
+          UserPayRateResponse.fromJson(jsonDecode(responseModel.result!));
+          userPayRateInfo.value = response.info!;
+          showPayRate = userPayRateInfo.value.showPayRate ?? false;
 
+        }
+        else{
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+      },
+      onError: (ResponseModel error) {
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showApiResponseMessage(error.statusMessage);
+        }
+      },
+    );
+  }
   void getBillingInfo() async {
     Map<String, dynamic> map = {};
     map["user_id"] = UserUtils.getLoginUserId();

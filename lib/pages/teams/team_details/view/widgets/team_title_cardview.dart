@@ -1,4 +1,5 @@
 import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:belcka/pages/teams/team_details/controller/team_details_controller.dart';
@@ -44,8 +45,13 @@ class TeamTitleCardView extends StatelessWidget {
                         TitleTextView(
                           text: controller.teamInfo.value.supervisorName ?? "",
                         ),
-                        SubtitleTextView(
-                          text: controller.teamInfo.value.supervisorTrade ?? "",
+                        Visibility(
+                          visible: !StringHelper.isEmptyString(
+                              controller.teamInfo.value.supervisorTrade),
+                          child: SubtitleTextView(
+                            text:
+                                controller.teamInfo.value.supervisorTrade ?? "",
+                          ),
                         ),
                         SizedBox(
                           height: 3,

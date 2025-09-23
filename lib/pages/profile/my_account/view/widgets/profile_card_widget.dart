@@ -1,3 +1,4 @@
+import 'package:belcka/pages/profile/my_profile_details/view/widgets/full_screen_image_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,19 +17,29 @@ class ProfileCardWidget extends StatelessWidget {
   UserInfo info = Get.find<AppStorage>().getUserInfo();
   @override
   Widget build(BuildContext context) {
+    // TODO: implement build
     return CardViewDashboardItem(
       margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       padding: EdgeInsets.all(12),
       child: GestureDetector(
         onTap: () {
-          Get.toNamed(AppRoutes.myProfileDetailsScreen);
+          //Get.toNamed(AppRoutes.myProfileDetailsScreen);
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => FullScreenImageView(
+                imageUrl: info.userImage ?? "",
+              ),
+            ),
+          );
         },
         child: Row(
           children: [
             UserAvtarView(
               isOnlineStatusVisible: true,
               imageSize: 50,
-              imageUrl:info.userImage ?? "",
+              imageUrl:info.userThumbImage ?? "",
             ),
             SizedBox(width: 12),
             Expanded(

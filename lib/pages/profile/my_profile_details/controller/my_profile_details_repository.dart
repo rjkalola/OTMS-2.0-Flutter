@@ -20,4 +20,20 @@ class MyProfileDetailsRepository{
       onError: (error) => {if (onError != null) onError(error)},
     );
   }
+  void updateProfile({
+    multi.FormData? formData,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+        url: ApiConstants.updateProfile,
+        formData: formData,
+        isFormData: true)
+        .postRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
 }

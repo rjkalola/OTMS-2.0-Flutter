@@ -8,7 +8,8 @@ class MyProfileInfoResponse {
   MyProfileInfoResponse.fromJson(Map<String, dynamic> json) {
     isSuccess = json['IsSuccess'];
     message = json['message'];
-    info = json['info'] != null ? new MyProfileInfo.fromJson(json['info']) : null;
+    info =
+        json['info'] != null ? new MyProfileInfo.fromJson(json['info']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -22,7 +23,7 @@ class MyProfileInfoResponse {
   }
 }
 
-class MyProfileInfo{
+class MyProfileInfo {
   int? id;
   String? email;
   String? extension;
@@ -34,19 +35,23 @@ class MyProfileInfo{
   int? tradeId;
   String? tradeName;
   bool? isWorking;
+  String? firstName;
+  String? lastName;
 
   MyProfileInfo(
       {this.id,
-        this.email,
-        this.extension,
-        this.phone,
-        this.phoneWithExtension,
-        this.userName,
-        this.userImage,
-        this.userThumbImage,
-        this.tradeId,
-        this.tradeName,
-        this.isWorking});
+      this.email,
+      this.extension,
+      this.phone,
+      this.phoneWithExtension,
+      this.userName,
+      this.userImage,
+      this.userThumbImage,
+      this.tradeId,
+      this.tradeName,
+      this.isWorking,
+      this.firstName,
+      this.lastName});
 
   MyProfileInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -60,6 +65,8 @@ class MyProfileInfo{
     tradeId = json['trade_id'];
     tradeName = json['trade_name'];
     isWorking = json['is_working'];
+    firstName = json['first_name'];
+    lastName = json['last_name'];
   }
 
   Map<String, dynamic> toJson() {
@@ -75,6 +82,8 @@ class MyProfileInfo{
     data['trade_id'] = this.tradeId;
     data['trade_name'] = this.tradeName;
     data['is_working'] = this.isWorking;
+    data['first_name'] = this.firstName;
+    data['last_name'] = this.lastName;
     return data;
   }
 }

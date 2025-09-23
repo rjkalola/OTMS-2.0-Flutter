@@ -20,4 +20,20 @@ class BillingDetailsNewRepository {
       onError: (error) => {if (onError != null) onError(error)},
     );
   }
+  void getUserPayRatePermission({
+    Map<String, dynamic>? queryParameters,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+        url: ApiConstants.userPayRatePermission,
+        queryParameters: queryParameters,
+        isFormData: false)
+        .getRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
 }

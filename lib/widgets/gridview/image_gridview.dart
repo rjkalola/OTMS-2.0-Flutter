@@ -44,7 +44,7 @@ class ImageGridview extends StatelessWidget {
               },
               child: GridImage(
                 isEditable: isEditable,
-                file: filesList[index].file ?? "",
+                file: filesList[index].imageUrl ?? "",
                 onRemoveClick: () {
                   onRemoveClick(index);
                 },

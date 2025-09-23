@@ -24,7 +24,7 @@ class PagerView extends StatelessWidget {
           builder: (context, index) {
             return PhotoViewGalleryPageOptions(
               imageProvider: ImageUtils.imageProvider(
-                  controller.filesList[index].file ?? ""),
+                  controller.filesList[index].imageUrl ?? ""),
               minScale: PhotoViewComputedScale.contained,
               maxScale: PhotoViewComputedScale.covered * 2.5,
               heroAttributes:

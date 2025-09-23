@@ -28,113 +28,120 @@ class _BillingRequestScreenState extends State<BillingRequestScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Container(
-      color: dashBoardBgColor_(context),
-      child: SafeArea(
-        child: Scaffold(
-          appBar: BaseAppBar(
-            appBar: AppBar(),
-            title: 'billing_info_request'.tr,
-            isCenterTitle: false,
-            bgColor: dashBoardBgColor_(context),
-            isBack: true,
-          ),
-          backgroundColor: dashBoardBgColor_(context),
-          body: ModalProgressHUD(
-            inAsyncCall: controller.isLoading.value,
-            opacity: 0,
-            progressIndicator: const CustomProgressbar(),
-            child: controller.isInternetNotAvailable.value
-                ? Center(
-              child: Text("no_internet_text".tr),
-            )
-                : Visibility(
-                visible: controller.isMainViewVisible.value,
-                child: (controller
-                    .billingRequestInfo.value.id ?? 0) != 0 ? Column(
-                      children: [
-                        Expanded(
-                          child: SingleChildScrollView(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              //profile UI
-                              Container(
-                                padding: EdgeInsets.fromLTRB(16, 14, 16, 0),
-                                width: double.infinity,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    // Avatar
-                                    UserAvtarView(
-                                      imageSize: 60,
-                                      imageUrl: controller
-                                          .billingRequestInfo.value.userThumbImage ??
-                                          "",
-                                    ),
-                                    const SizedBox(height: 10),
-                                    // Name
-                                    Visibility(
-                                      visible:(controller.billingRequestInfo.value.name ?? "").isNotEmpty,
-                                      child: Text(
-                                        controller.billingRequestInfo.value.name ?? "",
-                                        style: TextStyle(
-                                            fontSize: 24, fontWeight: FontWeight.w600),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop || result != null) return;
+        controller.onBackPress();
+      },
+      child: Obx(() => Container(
+        color: dashBoardBgColor_(context),
+        child: SafeArea(
+          child: Scaffold(
+            appBar: BaseAppBar(
+              appBar: AppBar(),
+              title: 'billing_info_request'.tr,
+              isCenterTitle: false,
+              bgColor: dashBoardBgColor_(context),
+              isBack: true,
+            ),
+            backgroundColor: dashBoardBgColor_(context),
+            body: ModalProgressHUD(
+              inAsyncCall: controller.isLoading.value,
+              opacity: 0,
+              progressIndicator: const CustomProgressbar(),
+              child: controller.isInternetNotAvailable.value
+                  ? Center(
+                child: Text("no_internet_text".tr),
+              )
+                  : Visibility(
+                  visible: controller.isMainViewVisible.value,
+                  child: (controller
+                      .billingRequestInfo.value.id ?? 0) != 0 ? Column(
+                        children: [
+                          Expanded(
+                            child: SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                //profile UI
+                                Container(
+                                  padding: EdgeInsets.fromLTRB(16, 14, 16, 0),
+                                  width: double.infinity,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      // Avatar
+                                      UserAvtarView(
+                                        imageSize: 60,
+                                        imageUrl: controller
+                                            .billingRequestInfo.value.userThumbImage ??
+                                            "",
                                       ),
-                                    ),
-                                    const SizedBox(height: 10),
-                                    // Phone
-                                    Visibility(
-                                      visible:(controller.billingRequestInfo.value.phone ?? "").isNotEmpty,
-                                      child: PhoneWithExtensionField(
-                                          "${controller.billingRequestInfo.value.extension ?? ""} ${controller.billingRequestInfo.value.phone ?? ""}",
-                                          "phone_number".tr),
-                                    ),
-                                    const SizedBox(height: 10),
-                                    // Email
-                                    Visibility(
-                                      visible:(controller.billingRequestInfo.value.email ?? "").isNotEmpty,
-                                      child: PhoneWithExtensionField(
-                                          controller.billingRequestInfo.value.email ?? "",
-                                          "email".tr),
-                                    ),
-                                    const SizedBox(height: 10),
-                                    // My Address
-                                    Visibility(
-                                      visible:(controller.billingRequestInfo.value.address ?? "").isNotEmpty,
-                                      child: PhoneWithExtensionField(
-                                          controller.billingRequestInfo.value.address ?? "",
-                                          "my_address".tr),
-                                    ),
-                                    const SizedBox(height: 10),
-                                    // Post code
-                                    Visibility(
-                                      visible:(controller.billingRequestInfo.value.postCode ?? "").isNotEmpty,
-                                      child: PhoneWithExtensionField(
-                                          controller.billingRequestInfo.value.postCode ?? "",
-                                          "post_code".tr),
-                                    ),
-                                  ],
+                                      const SizedBox(height: 10),
+                                      // Name
+                                      Visibility(
+                                        visible:(controller.billingRequestInfo.value.name ?? "").isNotEmpty,
+                                        child: Text(
+                                          controller.billingRequestInfo.value.name ?? "",
+                                          style: TextStyle(
+                                              fontSize: 24, fontWeight: FontWeight.w600),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 10),
+                                      // Phone
+                                      Visibility(
+                                        visible:(controller.billingRequestInfo.value.phone ?? "").isNotEmpty,
+                                        child: PhoneWithExtensionField(
+                                            "${controller.billingRequestInfo.value.extension ?? ""} ${controller.billingRequestInfo.value.phone ?? ""}",
+                                            "phone_number".tr),
+                                      ),
+                                      const SizedBox(height: 10),
+                                      // Email
+                                      Visibility(
+                                        visible:(controller.billingRequestInfo.value.email ?? "").isNotEmpty,
+                                        child: PhoneWithExtensionField(
+                                            controller.billingRequestInfo.value.email ?? "",
+                                            "email".tr),
+                                      ),
+                                      const SizedBox(height: 10),
+                                      // My Address
+                                      Visibility(
+                                        visible:(controller.billingRequestInfo.value.address ?? "").isNotEmpty,
+                                        child: PhoneWithExtensionField(
+                                            controller.billingRequestInfo.value.address ?? "",
+                                            "my_address".tr),
+                                      ),
+                                      const SizedBox(height: 10),
+                                      // Post code
+                                      Visibility(
+                                        visible:(controller.billingRequestInfo.value.postCode ?? "").isNotEmpty,
+                                        child: PhoneWithExtensionField(
+                                            controller.billingRequestInfo.value.postCode ?? "",
+                                            "post_code".tr),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
 
-                              Visibility(
-                                visible: (controller.billingRequestInfo.value.nameOnUtr ?? "").isNotEmpty || (controller.billingRequestInfo.value.utrNumber ?? "").isNotEmpty || (controller.billingRequestInfo.value.ninNumber ?? "").isNotEmpty,
-                                  child: TaxInfoFieldsView()),
+                                Visibility(
+                                  visible: (controller.billingRequestInfo.value.nameOnUtr ?? "").isNotEmpty || (controller.billingRequestInfo.value.utrNumber ?? "").isNotEmpty || (controller.billingRequestInfo.value.ninNumber ?? "").isNotEmpty,
+                                    child: TaxInfoFieldsView()),
 
-                              Visibility(
-                                visible: (controller.billingRequestInfo.value.nameOnAccount ?? "").isNotEmpty || (controller.billingRequestInfo.value.bankName ?? "").isNotEmpty || (controller.billingRequestInfo.value.accountNo ?? "").isNotEmpty || (controller.billingRequestInfo.value.shortCode ?? "").isNotEmpty,
-                                  child: BankDetailsFieldsView()),
-                            ],
-                          )
+                                Visibility(
+                                  visible: (controller.billingRequestInfo.value.nameOnAccount ?? "").isNotEmpty || (controller.billingRequestInfo.value.bankName ?? "").isNotEmpty || (controller.billingRequestInfo.value.accountNo ?? "").isNotEmpty || (controller.billingRequestInfo.value.shortCode ?? "").isNotEmpty,
+                                    child: BankDetailsFieldsView()),
+                              ],
+                            )
+                            ),
                           ),
-                        ),
-                        BillingApprovalButtonsView()
-                      ],
-                    ) : NoBillingRequestDataView()),
+                          BillingApprovalButtonsView()
+                        ],
+                      ) : NoBillingRequestDataView()),
+            ),
           ),
         ),
-      ),
-    ),);
+      ),),
+    );
   }
 }

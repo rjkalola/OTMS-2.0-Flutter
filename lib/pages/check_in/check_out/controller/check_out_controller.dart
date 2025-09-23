@@ -116,12 +116,12 @@ class CheckOutController extends GetxController
 
     for (var before in checkLogInfo.value.beforeAttachments!) {
       listBeforePhotos.add(FilesInfo(
-          id: before.id, file: before.imageUrl, fileThumb: before.thumbUrl));
+          id: before.id, imageUrl: before.imageUrl, thumbUrl: before.thumbUrl));
     }
 
     for (var after in checkLogInfo.value.afterAttachments!) {
       listAfterPhotos.add(FilesInfo(
-          id: after.id, file: after.imageUrl, fileThumb: after.thumbUrl));
+          id: after.id, imageUrl: after.imageUrl, thumbUrl: after.thumbUrl));
     }
   }
 
@@ -192,18 +192,18 @@ class CheckOutController extends GetxController
 
     List<FilesInfo> listBefore = [];
     for (var before in listBeforePhotos) {
-      if (!StringHelper.isEmptyString(before.file) && (before.id ?? 0) == 0) {
+      if (!StringHelper.isEmptyString(before.imageUrl) && (before.id ?? 0) == 0) {
         listBefore.add(before);
       }
     }
     for (int i = 0; i < listBefore.length; i++) {
-      print("before:" + listBefore[i].file!);
+      print("before:" + listBefore[i].imageUrl!);
       formData.files.add(
         MapEntry(
           "before_attachments[]",
           // or just 'images' depending on your backend
           await multi.MultipartFile.fromFile(
-            listBefore[i].file ?? "",
+            listBefore[i].imageUrl ?? "",
           ),
         ),
       );
@@ -211,18 +211,18 @@ class CheckOutController extends GetxController
 
     List<FilesInfo> listAfter = [];
     for (var after in listAfterPhotos) {
-      if (!StringHelper.isEmptyString(after.file) && (after.id ?? 0) == 0) {
+      if (!StringHelper.isEmptyString(after.imageUrl) && (after.id ?? 0) == 0) {
         listAfter.add(after);
       }
     }
     for (int i = 0; i < listAfter.length; i++) {
-      print("after:" + listAfter[i].file!);
+      print("after:" + listAfter[i].imageUrl!);
       formData.files.add(
         MapEntry(
           "after_attachments[]",
           // or just 'images' depending on your backend
           await multi.MultipartFile.fromFile(
-            listAfter[i].file ?? "",
+            listAfter[i].imageUrl ?? "",
           ),
         ),
       );
@@ -436,6 +436,7 @@ class CheckOutController extends GetxController
           SelectTypeOfWorkDialog(
             dialogType: AppConstants.dialogIdentifier.selectTypeOfWork,
             list: typeOfWorkList,
+            selectedItemList: [],
             listener: this,
           ),
           backgroundColor: Colors.transparent,
@@ -490,13 +491,18 @@ class CheckOutController extends GetxController
     }
   }
 
+  // @override
+  // void onSelectTypeOfWork(int position, int typeOfWorkId, int companyTaskId,
+  //     String name, String action) {
+  //   if (action == AppConstants.dialogIdentifier.selectTypeOfWork) {
+  //     typeOfWorkController.value.text = name;
+  //     this.typeOfWorkId = typeOfWorkId;
+  //     this.companyTaskId = companyTaskId;
+  //   }
+  // }
+
   @override
-  void onSelectTypeOfWork(int position, int typeOfWorkId, int companyTaskId,
-      String name, String action) {
-    if (action == AppConstants.dialogIdentifier.selectTypeOfWork) {
-      typeOfWorkController.value.text = name;
-      this.typeOfWorkId = typeOfWorkId;
-      this.companyTaskId = companyTaskId;
-    }
+  void onSelectTypeOfWork(List<TypeOfWorkResourcesInfo> listAllItems, String action) {
+
   }
 }

@@ -33,7 +33,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
         actions: widgets,
         centerTitle: isCenterTitle,
-        titleSpacing: isBack ? 0 : 20,
+        titleSpacing: (isBack||onBackPressed != null) ? 0 : 20,
         automaticallyImplyLeading: isBack,
         leading: IconButton(
           icon: Icon(

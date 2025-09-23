@@ -77,6 +77,7 @@ class TimeSheetListController extends GetxController
           timeSheetList.value = tempList;
           timeSheetList.refresh();
           isEditEnable.value = false;
+          isEditStatusEnable.value = false;
           isViewAmount.value = false;
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
@@ -120,6 +121,7 @@ class TimeSheetListController extends GetxController
           timeSheetList.value = tempList;
           timeSheetList.refresh();
           isEditEnable.value = false;
+          isEditStatusEnable.value = false;
           isViewAmount.value = false;
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
@@ -195,14 +197,26 @@ class TimeSheetListController extends GetxController
 
   void showActionMenuItemsDialog(BuildContext context) {
     List<ModuleInfo> listItems = [];
-    // listItems
-    //     .add(ModuleInfo(name: 'lock'.tr, action: AppConstants.action.lock));
-    // listItems
-    //     .add(ModuleInfo(name: 'unlock'.tr, action: AppConstants.action.lock));
-    // listItems.add(ModuleInfo(
-    //     name: 'mark_as_paid'.tr, action: AppConstants.action.markAsPaid));
-    listItems.add(
-        ModuleInfo(name: 'archive'.tr, action: AppConstants.action.archive));
+    if (isEditEnable.value) {
+      listItems.add(
+          ModuleInfo(name: 'archive'.tr, action: AppConstants.action.archive));
+    } else if (isEditStatusEnable.value) {
+      listItems
+          .add(ModuleInfo(name: 'lock'.tr, action: AppConstants.action.lock));
+      listItems
+          .add(ModuleInfo(name: 'unlock'.tr, action: AppConstants.action.lock));
+      listItems.add(ModuleInfo(
+          name: 'mark_as_paid'.tr, action: AppConstants.action.markAsPaid));
+    } else {
+      listItems.add(
+          ModuleInfo(name: 'archive'.tr, action: AppConstants.action.archive));
+      listItems
+          .add(ModuleInfo(name: 'lock'.tr, action: AppConstants.action.lock));
+      listItems
+          .add(ModuleInfo(name: 'unlock'.tr, action: AppConstants.action.lock));
+      listItems.add(ModuleInfo(
+          name: 'mark_as_paid'.tr, action: AppConstants.action.markAsPaid));
+    }
     showCupertinoModalPopup(
       context: context,
       builder: (_) =>
@@ -233,11 +247,30 @@ class TimeSheetListController extends GetxController
       if (info.action == AppConstants.action.add) {
         moveToScreen(AppRoutes.addTimeSheetScreen, null);
       } else if (info.action == AppConstants.action.edit) {
-        isEditEnable.value = true;
+        showActionMenuItemsDialog(Get.context!);
       } else if (info.action == AppConstants.action.archive) {
-        String checkedIds = getCheckedIds();
-        if (!StringHelper.isEmptyString(checkedIds)) {
-          archiveTimesheetApi(checkedIds);
+        if (isEditEnable.value) {
+          String checkedIds = getCheckedIds();
+          if (!StringHelper.isEmptyString(checkedIds)) {
+            archiveTimesheetApi(checkedIds);
+          }
+        } else {
+          isEditEnable.value = true;
+        }
+      } else if (info.action == AppConstants.action.lock) {
+        if (isEditStatusEnable.value) {
+        } else {
+          isEditStatusEnable.value = true;
+        }
+      } else if (info.action == AppConstants.action.unlock) {
+        if (isEditStatusEnable.value) {
+        } else {
+          isEditStatusEnable.value = true;
+        }
+      } else if (info.action == AppConstants.action.markAsPaid) {
+        if (isEditStatusEnable.value) {
+        } else {
+          isEditStatusEnable.value = true;
         }
       } else if (info.action == AppConstants.action.archivedTimesheet) {
         var arguments = {
@@ -275,15 +308,25 @@ class TimeSheetListController extends GetxController
   void checkSelectAll() {
     bool isAllSelected = true;
     for (var info in timeSheetList) {
-      for (var weekData in info.weekLogs!) {
-        for (var data in weekData.dayLogs!) {
-          if ((data.isCheck ?? false) == false) {
+      if (isEditEnable.value) {
+        for (var weekData in info.weekLogs!) {
+          for (var data in weekData.dayLogs!) {
+            if ((data.isCheck ?? false) == false) {
+              isAllSelected = false;
+              break;
+            }
+          }
+        }
+        if (!isAllSelected) break;
+      } else if (isEditStatusEnable.value) {
+        for (var weekData in info.weekLogs!) {
+          if ((weekData.isCheck ?? false) == false) {
             isAllSelected = false;
             break;
           }
         }
+        if (!isAllSelected) break;
       }
-      if (!isAllSelected) break;
     }
 
     isCheckAll.value = isAllSelected;
@@ -292,9 +335,15 @@ class TimeSheetListController extends GetxController
   void checkAll() {
     isCheckAll.value = true;
     for (var info in timeSheetList) {
-      for (var weekData in info.weekLogs!) {
-        for (var data in weekData.dayLogs!) {
-          data.isCheck = true;
+      if (isEditEnable.value) {
+        for (var weekData in info.weekLogs!) {
+          for (var data in weekData.dayLogs!) {
+            data.isCheck = true;
+          }
+        }
+      } else if (isEditStatusEnable.value) {
+        for (var weekData in info.weekLogs!) {
+          weekData.isCheck = true;
         }
       }
     }
@@ -304,9 +353,15 @@ class TimeSheetListController extends GetxController
   void unCheckAll() {
     isCheckAll.value = false;
     for (var info in timeSheetList) {
-      for (var weekData in info.weekLogs!) {
-        for (var data in weekData.dayLogs!) {
-          data.isCheck = false;
+      if (isEditEnable.value) {
+        for (var weekData in info.weekLogs!) {
+          for (var data in weekData.dayLogs!) {
+            data.isCheck = false;
+          }
+        }
+      } else if (isEditStatusEnable.value) {
+        for (var weekData in info.weekLogs!) {
+          weekData.isCheck = false;
         }
       }
     }
@@ -350,9 +405,10 @@ class TimeSheetListController extends GetxController
   }
 
   void onBackPress() {
-    if (isEditEnable.value) {
-      isEditEnable.value = false;
+    if (isEditEnable.value || isEditStatusEnable.value) {
       unCheckAll();
+      isEditEnable.value = false;
+      isEditStatusEnable.value = false;
     } else {
       Get.back();
     }

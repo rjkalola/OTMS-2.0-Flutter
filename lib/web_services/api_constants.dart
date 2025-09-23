@@ -148,6 +148,9 @@ class ApiConstants {
   static String archiveTimesheet = '$appUrl/timesheet/archive';
   static String unarchiveTimesheet = '$appUrl/timesheet/unarchive';
   static String addTimesheetWorkLog = '$appUrl/timesheet/save-worklog';
+  static String lockTimesheet = '$appUrl/timesheet/approve';
+  static String unlockTimesheet = '$appUrl/timesheet/unapprove';
+  static String paidTimesheet = '$appUrl/timesheet/paid';
 
   //project
   static String addProject = '$appUrl/project/create';
@@ -210,6 +213,9 @@ class ApiConstants {
 
   //my account
   static String userProfile = '$appUrl/user/profile';
+  static String userPayRatePermission =
+      '$appUrl/setting/user-payrate-permission';
+  static String updateProfile = '$appUrl/user/update-profile';
 
   //filters
   static String getRequestFilters = '$appUrl/requests/get-filters';

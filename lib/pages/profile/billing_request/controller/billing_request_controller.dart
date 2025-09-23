@@ -44,6 +44,7 @@ class BillingRequestController extends GetxController {
   RxBool isLoading = false.obs, isInternetNotAvailable = false.obs, isMainViewVisible = false.obs;
   final billingRequestInfo = BillingRequestInfo().obs;
   int requestLogId = 0;
+  bool fromNotification = false;
 
   @override
   void onInit() {
@@ -51,6 +52,8 @@ class BillingRequestController extends GetxController {
     var arguments = Get.arguments;
     if (arguments != null) {
       requestLogId = arguments["request_log_id"] ?? 0;
+      fromNotification =
+          arguments[AppConstants.intentKey.fromNotification] ?? false;
     }
     getBillingRequestInfo();
   }
@@ -148,5 +151,12 @@ class BillingRequestController extends GetxController {
         }
       },
     );
+  }
+  void onBackPress() {
+    if (fromNotification) {
+      Get.offAllNamed(AppRoutes.dashboardScreen);
+    } else {
+      Get.back();
+    }
   }
 }

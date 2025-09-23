@@ -1,3 +1,5 @@
+import 'package:belcka/pages/common/model/file_info.dart';
+
 class TypeOfWorkResourcesInfo {
   int? id, companyTaskId, typeOfWorkId;
   String? name;
@@ -11,6 +13,9 @@ class TypeOfWorkResourcesInfo {
   String? rate;
   String? repeatableJob;
   String? units;
+  List<FilesInfo>? beforeAttachments;
+  List<FilesInfo>? afterAttachments;
+  bool? isCheck;
 
   TypeOfWorkResourcesInfo(
       {this.id,
@@ -26,7 +31,10 @@ class TypeOfWorkResourcesInfo {
       this.isPricework,
       this.rate,
       this.repeatableJob,
-      this.units});
+      this.units,
+      this.beforeAttachments,
+      this.afterAttachments,
+      this.isCheck});
 
   TypeOfWorkResourcesInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -43,6 +51,19 @@ class TypeOfWorkResourcesInfo {
     rate = json['rate'];
     repeatableJob = json['repeatable_job'];
     units = json['units'];
+    if (json['before_attachments'] != null) {
+      beforeAttachments = <FilesInfo>[];
+      json['before_attachments'].forEach((v) {
+        beforeAttachments!.add(new FilesInfo.fromJson(v));
+      });
+    }
+    if (json['after_attachments'] != null) {
+      afterAttachments = <FilesInfo>[];
+      json['after_attachments'].forEach((v) {
+        afterAttachments!.add(new FilesInfo.fromJson(v));
+      });
+    }
+    isCheck = json['isCheck'];
   }
 
   Map<String, dynamic> toJson() {
@@ -61,6 +82,52 @@ class TypeOfWorkResourcesInfo {
     data['rate'] = this.rate;
     data['repeatable_job'] = this.repeatableJob;
     data['units'] = this.units;
+    if (this.beforeAttachments != null) {
+      data['before_attachments'] =
+          this.beforeAttachments!.map((v) => v.toJson()).toList();
+    }
+    if (this.afterAttachments != null) {
+      data['after_attachments'] =
+          this.afterAttachments!.map((v) => v.toJson()).toList();
+    }
+    data['isCheck'] = this.isCheck;
     return data;
+  }
+
+  /// ✅ Copy method
+  TypeOfWorkResourcesInfo copyWith({
+    int? id,
+    int? companyTaskId,
+    int? typeOfWorkId,
+    String? name,
+    int? companyId,
+    String? companyName,
+    int? tradeId,
+    String? tradeName,
+    String? startDate,
+    String? duration,
+    bool? isPricework,
+    String? rate,
+    String? repeatableJob,
+    String? units,
+    bool? isCheck,
+  }) {
+    return TypeOfWorkResourcesInfo(
+      id: id ?? this.id,
+      companyTaskId: companyTaskId ?? this.companyTaskId,
+      typeOfWorkId: typeOfWorkId ?? this.typeOfWorkId,
+      name: name ?? this.name,
+      companyId: companyId ?? this.companyId,
+      companyName: companyName ?? this.companyName,
+      tradeId: tradeId ?? this.tradeId,
+      tradeName: tradeName ?? this.tradeName,
+      startDate: startDate ?? this.startDate,
+      duration: duration ?? this.duration,
+      isPricework: isPricework ?? this.isPricework,
+      rate: rate ?? this.rate,
+      repeatableJob: repeatableJob ?? this.repeatableJob,
+      units: units ?? this.units,
+      isCheck: isCheck ?? this.isCheck,
+    );
   }
 }

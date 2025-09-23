@@ -33,7 +33,7 @@ class _BillingDetailsNewScreenState extends State<BillingDetailsNewScreen> {
         child: Scaffold(
           appBar: BaseAppBar(
             appBar: AppBar(),
-            title: controller.billingInfo.value.companyName ?? "",
+            title: "billing_info".tr,
             isCenterTitle: false,
             bgColor: dashBoardBgColor_(context),
             isBack: true,
@@ -85,23 +85,28 @@ class _BillingDetailsNewScreenState extends State<BillingDetailsNewScreen> {
                                     NavigationCard(value: controller.address),
                                     NavigationCard(label: 'tax_info'.tr, value: controller.taxInfo),
                                     NavigationCard(label: 'bank_details'.tr, value: controller.bankDetails),
-                                    InkWell(
-                                      onTap: () {
-                                        {
-                                          var arguments = {
-                                            AppConstants.intentKey.billingInfo: controller.billingInfo.value,
-                                          };
-                                          controller.moveToScreen(AppRoutes.ratesScreen, arguments);
-                                        }
-                                      },
-                                      child: NavigationCard(
-                                        label: "rates".tr,
-                                        value: controller.billingInfo.value.net_rate_perDay != ""
-                                            ? "${controller.billingInfo.value.tradeName ?? ""} - ${controller.billingInfo.value.currency ?? ""}${controller.billingInfo.value.net_rate_perDay}"
-                                            : "${controller.billingInfo.value.tradeName ?? ""}",
-                                        isShowArrow: true,
+
+                                    Visibility(
+                                      visible: controller.showPayRate,
+                                      child: InkWell(
+                                        onTap: () {
+                                          {
+                                            var arguments = {
+                                              AppConstants.intentKey.billingInfo: controller.billingInfo.value,
+                                            };
+                                            controller.moveToScreen(AppRoutes.ratesScreen, arguments);
+                                          }
+                                        },
+                                        child: NavigationCard(
+                                          label: "rates".tr,
+                                          value: controller.billingInfo.value.net_rate_perDay != ""
+                                              ? "${controller.billingInfo.value.tradeName ?? ""} - ${controller.billingInfo.value.currency ?? ""}${controller.billingInfo.value.net_rate_perDay}"
+                                              : "${controller.billingInfo.value.tradeName ?? ""}",
+                                          isShowArrow: true,
+                                        ),
                                       ),
                                     ),
+
                                     Divider(color: dividerColor_(context), height: 12),
                                     SizedBox(height: 12),
                                     NavigationCard(value: "payslips".tr),

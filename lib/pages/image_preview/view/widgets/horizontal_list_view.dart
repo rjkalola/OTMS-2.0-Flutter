@@ -29,15 +29,15 @@ class HorizontalListView extends StatelessWidget {
                       width: 3,
                     ),
                   ),
-                  child: (controller.filesList[index].file ?? "")
+                  child: (controller.filesList[index].imageUrl ?? "")
                           .startsWith("http")
                       ? ImageUtils.setNetworkImage(
-                          url: controller.filesList[index].file ?? "",
+                          url: controller.filesList[index].imageUrl ?? "",
                           width: 80,
                           height: 80,
                           fit: BoxFit.cover)
                       : ImageUtils.setFileImage(
-                          url: controller.filesList[index].file ?? "",
+                          url: controller.filesList[index].imageUrl ?? "",
                           width: 80,
                           height: 80,
                           fit: BoxFit.cover)),

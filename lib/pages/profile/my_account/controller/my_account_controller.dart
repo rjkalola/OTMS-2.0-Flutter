@@ -41,7 +41,7 @@ class MyAccountController extends GetxController
     {'icon': Icons.receipt, 'title': 'billing'.tr},
     {'icon': Icons.health_and_safety_outlined, 'title': 'health_info'.tr},
     {'icon': Icons.favorite_border, 'title': 'health_safety'.tr},
-    {'icon': Icons.request_page_outlined, 'title': 'my_requests'.tr},
+    {'icon': Icons.request_page_outlined, 'title': UserUtils.isAdmin() ? "requests".tr : "my_requests".tr},
     {'icon': Icons.insert_drive_file_outlined, 'title': 'documents'.tr},
     {'icon': Icons.beach_access_outlined, 'title': 'my_leaves'.tr},
     {'icon': Icons.badge_outlined, 'title': 'digital_id'.tr},

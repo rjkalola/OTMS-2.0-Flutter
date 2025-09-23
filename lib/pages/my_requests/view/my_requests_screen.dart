@@ -32,7 +32,7 @@ class MyRequestsScreen extends StatelessWidget implements DateFilterListener {
             child: Scaffold(
           appBar: BaseAppBar(
             appBar: AppBar(),
-            title: UserUtils.isAdmin() ? 'requests'.tr : 'my_requests'.tr,
+            title: UserUtils.isAdmin() ? "requests".tr : "my_requests".tr,
             isCenterTitle: false,
             bgColor: dashBoardBgColor_(context),
             isBack: true,
@@ -44,8 +44,8 @@ class MyRequestsScreen extends StatelessWidget implements DateFilterListener {
             opacity: 0,
             progressIndicator: const CustomProgressbar(),
             child: controller.isInternetNotAvailable.value
-                ? const Center(
-                    child: Text("No Internet"),
+                ? Center(
+                    child: Text("no_internet_text".tr),
                   )
                 : Visibility(
                     visible: controller.isMainViewVisible.value,
@@ -111,13 +111,8 @@ class MyRequestsScreen extends StatelessWidget implements DateFilterListener {
       InkWell(
         borderRadius: BorderRadius.circular(45),
         onTap: () async {
-          var arguments = {
-            AppConstants.intentKey.filterType:
-                AppConstants.filterType.myRequestFilter,
-            AppConstants.intentKey.filterData: controller.appliedFilters,
-          };
-          var result =
-              await Get.toNamed(AppRoutes.filterScreen, arguments: arguments);
+          var result = await Get.toNamed(AppRoutes.filterScreen,
+              arguments: controller.appliedFilters);
           if (result != null) {
             controller.isResetEnable.value = true;
             controller.appliedFilters = result;
@@ -169,13 +164,15 @@ class RequestCard extends StatelessWidget {
                       controller.moveToScreen(
                           AppRoutes.billingRequestScreen, arguments);
                     }
-                  } else if (requestType == 102) {
+                  }
+                  else if (requestType == 102) {
                     var arguments = {
                       AppConstants.intentKey.ID: request.id ?? 0,
                     };
                     controller.moveToScreen(
                         AppRoutes.workLogRequestScreen, arguments);
-                  } else if (requestType == 105) {
+                  }
+                  else if (requestType == 105) {
                     var arguments = {
                       "request_log_id": request.id ?? 0,
                     };
@@ -242,7 +239,7 @@ class RequestCard extends StatelessWidget {
                     if ((request.note?.trim().isNotEmpty) ?? false) ...[
                       SizedBox(height: 8),
                       Text(
-                        "Note: ${(request.note)!.trim()}",
+                        "${'note'.tr}: ${(request.note)!.trim()}",
                       ),
                     ],
                     Align(

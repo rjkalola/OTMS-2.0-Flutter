@@ -1,4 +1,5 @@
 import 'package:belcka/pages/profile/my_profile_details/controller/my_profile_details_controller.dart';
+import 'package:belcka/widgets/validator/custom_field_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -21,18 +22,28 @@ class PhoneFieldWidget extends StatelessWidget {
         labelText: 'phone_number'.tr,
         keyboardType: TextInputType.phone,
         textInputAction: TextInputAction.next,
-        isReadOnly: true,
-        isEnabled: false,
+        isReadOnly: false,
+        isEnabled: true,
         onValueChange: (value) {
           //controller.onValueChange();
         },
         onPressed: () {},
         validator: MultiValidator([
           RequiredValidator(errorText: 'required_field'.tr),
+          CustomFieldValidator((value) {
+            return value != null && !value.startsWith("0");
+          }, errorText: 'error_phone_number_start_with_zero'.tr),
+          CustomFieldValidator((value) {
+            return value != null && value.length == 10;
+          }, errorText: 'error_phone_number_contain_10_digits'.tr),
+          CustomFieldValidator((value) {
+            return value != null && !controller.isPhoneNumberExist.value;
+          }, errorText: 'error_phone_number_already_exist'.tr),
         ]),
         inputFormatters: <TextInputFormatter>[
           // for below version 2 use this
-          FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+          FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+          LengthLimitingTextInputFormatter(10),
         ]);
   }
 }

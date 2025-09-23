@@ -1,5 +1,10 @@
+import 'dart:io' show File;
+
 import 'package:belcka/pages/profile/my_profile_details/controller/my_profile_details_controller.dart';
 import 'package:belcka/pages/profile/my_profile_details/view/widgets/full_screen_image_view.dart';
+import 'package:belcka/res/drawable.dart';
+import 'package:belcka/utils/image_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
@@ -12,6 +17,7 @@ class ProfileAvatarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        /*
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -20,6 +26,12 @@ class ProfileAvatarWidget extends StatelessWidget {
             ),
           ),
         );
+        */
+
+        if (!controller.isOtpViewVisible.value) {
+          controller.showAttachmentOptionsDialog();
+        }
+
       },
       child: Center(
         child: Stack(
@@ -36,7 +48,8 @@ class ProfileAvatarWidget extends StatelessWidget {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
-                child: Image.network(
+                child: !StringHelper.isEmptyString(controller.imagePath.value) ? Image.file(
+                  File(controller.imagePath.value ?? "")) : Image.network(
                   "${controller.myProfileInfo.value.userThumbImage}",
                   fit: BoxFit.cover,
                 ),
