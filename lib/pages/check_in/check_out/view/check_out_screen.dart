@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:belcka/pages/check_in/check_out/view/widgets/selected_type_of_work.dart';
 import 'package:belcka/pages/check_in/check_out/controller/check_out_controller.dart';
 import 'package:belcka/pages/check_in/check_out/view/widgets/progress_view.dart';
 import 'package:belcka/pages/check_in/check_out/view/widgets/total_check_out_amount_row.dart';
@@ -14,9 +12,11 @@ import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
-import 'package:belcka/widgets/slider/custom_slider.dart';
 import 'package:belcka/widgets/textfield/reusable/add_note_widget.dart';
 import 'package:belcka/widgets/textfield/reusable/drop_down_text_field.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class CheckOutScreen extends StatefulWidget {
   const CheckOutScreen({super.key});
@@ -142,18 +142,22 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                             SizedBox(
                               height: 16,
                             ),
-                            DropDownTextField(
-                              title: 'location'.tr,
-                              controller: controller.locationController,
-                              borderRadius: 15,
-                              isArrowHide: true,
-                              onPressed: () {},
-                            ),
-                            SizedBox(
-                              height: 16,
-                            ),
-                            ProgressView(),
-                            Row(
+                            SelectedTypeOfWork(),
+                            // DropDownTextField(
+                            //   title: 'location'.tr,
+                            //   controller: controller.locationController,
+                            //   borderRadius: 15,
+                            //   isArrowHide: true,
+                            //   onPressed: () {},
+                            // ),
+                            // SizedBox(
+                            //   height: 16,
+                            // ),
+                            // ProgressView(),
+                            // SizedBox(
+                            //   height: 10,
+                            // ),
+                            /* Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 PhotosCountView(
@@ -186,7 +190,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                             ),
                             SizedBox(
                               height: 16,
-                            ),
+                            ),*/
                             Visibility(
                               visible: StringHelper.isEmptyString(controller
                                   .checkLogInfo.value.checkoutDateTime),
@@ -196,7 +200,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                               ),
                             ),
                             SizedBox(
-                              height: 10,
+                              height: 16,
                             ),
                           ],
                         ),
@@ -211,18 +215,24 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                       child: PrimaryButton(
                         buttonText: 'check_out_'.tr,
                         onPressed: () {
-                          if (controller.checkLogInfo.value.isAttachment ??
+                          if (controller.isValidPhotos()) {
+                            controller.checkOutApi();
+                          } else {
+                            AppUtils.showToastMessage(
+                                'msg_empty_before_after_attachment'.tr);
+                          }
+                          /* if (controller.checkLogInfo.value.isAttachment ??
                               false) {
                             if (controller.listBeforePhotos.isNotEmpty &&
                                 controller.listAfterPhotos.isNotEmpty) {
                               controller.checkOutApi();
                             } else {
                               AppUtils.showToastMessage(
-                                  'msg_empty_before_after_Attachment'.tr);
+                                  'msg_empty_before_after_attachment'.tr);
                             }
                           } else {
                             controller.checkOutApi();
-                          }
+                          }*/
                         },
                         color: Colors.red,
                       ),

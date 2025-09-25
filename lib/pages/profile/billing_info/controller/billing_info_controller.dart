@@ -77,6 +77,7 @@ class BillingInfoController extends GetxController
     bankNameController.value.text = billingInfo.value.bankName ?? "";
     accountNumberController.value.text = billingInfo.value.accountNo ?? "";
     sortCodeController.value.text = billingInfo.value.shortCode ?? "";
+    mFlag.value = AppUtils.getFlagByExtension(mExtension.value);
   }
   void addBillingInfoAPI() async {
     // Map<String, dynamic> map = {};

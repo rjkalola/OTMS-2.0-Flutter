@@ -1,3 +1,5 @@
+import 'package:belcka/pages/my_requests/controller/my_requests_controller.dart';
+import 'package:belcka/pages/my_requests/view/my_requests_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -41,8 +43,8 @@ class MenuButtonsGridWidget extends StatelessWidget {
               else if (index == 1) {
 
               }
-              else if (index == 3) {
-                Get.toNamed(AppRoutes.myRequestsScreen);
+              else if (index == 3){
+                Get.toNamed(AppRoutes.myRequestsScreen,arguments: true);
               }
               else if (index == 9) {
                 var arguments = {

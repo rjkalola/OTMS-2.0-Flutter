@@ -17,6 +17,7 @@ import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
 import 'package:belcka/utils/app_utils.dart';
+
 class SignUp1Screen extends StatefulWidget {
   const SignUp1Screen({super.key});
 

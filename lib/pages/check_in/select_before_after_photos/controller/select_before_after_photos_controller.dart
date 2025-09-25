@@ -10,13 +10,16 @@ import 'package:belcka/web_services/response/module_info.dart';
 
 class SelectBeforeAfterPhotosController extends GetxController
     implements SelectAttachmentListener {
-  // final companyNameController = TextEditingController().obs;
   final RxBool isLoading = false.obs, isInternetNotAvailable = false.obs;
-  var filesList = <FilesInfo>[].obs;
+  var beforePhotosList = <FilesInfo>[].obs;
+  var afterPhotosList = <FilesInfo>[].obs;
   var selectedImageIndex = 0;
   var photosType = "";
-  final title = "".obs;
-  final RxBool isEditable = true.obs;
+
+  // final title = "".obs;
+  final RxBool isEditable = true.obs,
+      isBeforeEnable = false.obs,
+      isAfterEnable = false.obs;
   final ImagePicker _picker = ImagePicker();
   var removeIds = <String>[];
 
@@ -27,35 +30,58 @@ class SelectBeforeAfterPhotosController extends GetxController
     var arguments = Get.arguments;
 
     if (arguments != null) {
-      photosType = arguments[AppConstants.intentKey.photosType] ?? "";
-      title.value = photosType == AppConstants.type.beforePhotos
-          ? 'photos_before'.tr
-          : 'photos_after'.tr;
+      // photosType = arguments[AppConstants.intentKey.photosType] ?? "";
+      // title.value = photosType == AppConstants.type.beforePhotos
+      //     ? 'photos_before'.tr
+      //     : 'photos_after'.tr;
       isEditable.value = arguments[AppConstants.intentKey.isEditable] ?? true;
       if (isEditable.value) {
         FilesInfo info = FilesInfo();
-        filesList.add(info);
+        beforePhotosList.add(info);
+        afterPhotosList.add(info);
       }
-      filesList.addAll(arguments[AppConstants.intentKey.photosList] ?? []);
+      if (arguments.containsKey(AppConstants.intentKey.beforePhotosList)) {
+        beforePhotosList
+            .addAll(arguments[AppConstants.intentKey.beforePhotosList] ?? []);
+        isBeforeEnable.value = true;
+      }
+
+      if (arguments.containsKey(AppConstants.intentKey.removeIdsList)) {
+        afterPhotosList
+            .addAll(arguments[AppConstants.intentKey.afterPhotosList] ?? []);
+        isAfterEnable.value = true;
+      }
+
       removeIds.addAll(arguments[AppConstants.intentKey.removeIdsList] ?? []);
     }
     // getRegisterResources();
   }
 
   onGridItemClick(int index, String action, String photoType) {
+    this.photosType = photoType;
     if (action == AppConstants.action.viewPhoto) {
       if (isEditable.value) {
         if (index == 0) {
           showAttachmentOptionsDialog();
         } else {
-          ImageUtils.moveToImagePreview(
-              filesList.sublist(1, filesList.length), index - 1);
+          if (photosType == AppConstants.type.beforePhotos) {
+            ImageUtils.moveToImagePreview(
+                beforePhotosList.sublist(1, beforePhotosList.length),
+                index - 1);
+          } else if (photosType == AppConstants.type.afterPhotos) {
+            ImageUtils.moveToImagePreview(
+                afterPhotosList.sublist(1, afterPhotosList.length), index - 1);
+          }
         }
       } else {
-        ImageUtils.moveToImagePreview(filesList, index);
+        if (photosType == AppConstants.type.beforePhotos) {
+          ImageUtils.moveToImagePreview(beforePhotosList, index);
+        } else if (photosType == AppConstants.type.afterPhotos) {
+          ImageUtils.moveToImagePreview(afterPhotosList, index);
+        }
       }
     } else if (action == AppConstants.action.removePhoto) {
-      removePhotoFromList(index);
+      removePhotoFromList(index: index);
     }
   }
 
@@ -158,14 +184,24 @@ class SelectBeforeAfterPhotosController extends GetxController
     if (!StringHelper.isEmptyString(path)) {
       FilesInfo info = FilesInfo();
       info.imageUrl = path;
-      filesList.add(info);
-      print(filesList.length.toString());
+      if (photosType == AppConstants.type.beforePhotos) {
+        beforePhotosList.add(info);
+        print(beforePhotosList.length.toString());
+      } else if (photosType == AppConstants.type.afterPhotos) {
+        afterPhotosList.add(info);
+        print(afterPhotosList.length.toString());
+      }
     }
   }
 
-  removePhotoFromList(int index) {
-    filesList.removeAt(index);
-    /*if (filesList[index].id != null && filesList[index].id! > 0) {
+  removePhotoFromList({required int index}) {
+    if (photosType == AppConstants.type.beforePhotos) {
+      beforePhotosList.removeAt(index);
+    } else if (photosType == AppConstants.type.afterPhotos) {
+      afterPhotosList.removeAt(index);
+    }
+
+    /*if (beforePhotosList[index].id != null && beforePhotosList[index].id! > 0) {
       selectedImageIndex = index;
       AlertDialogHelper.showAlertDialog(
           "",
@@ -177,15 +213,17 @@ class SelectBeforeAfterPhotosController extends GetxController
           this,
           AppConstants.dialogIdentifier.deleteProductImage);
     } else {
-      filesList.removeAt(index);
+      beforePhotosList.removeAt(index);
     }*/
   }
 
   onSubmitClick() {
-    filesList.removeAt(0);
+    beforePhotosList.removeAt(0);
+    afterPhotosList.removeAt(0);
     var arguments = {
       AppConstants.intentKey.photosType: photosType,
-      AppConstants.intentKey.photosList: filesList,
+      AppConstants.intentKey.beforePhotosList: beforePhotosList,
+      AppConstants.intentKey.afterPhotosList: afterPhotosList,
       AppConstants.intentKey.removeIdsList: removeIds,
     };
     Get.back(result: arguments);

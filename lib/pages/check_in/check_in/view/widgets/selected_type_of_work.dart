@@ -28,6 +28,7 @@ class SelectedTypeOfWork extends StatelessWidget {
             itemCount: controller.selectedTypeOfWorkList.length,
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, i) {
               TypeOfWorkResourcesInfo info =
                   controller.selectedTypeOfWorkList[i];
@@ -74,22 +75,24 @@ class SelectedTypeOfWork extends StatelessWidget {
                                       size: 22,
                                     ),
                                   ),
-                                  // Align(
-                                  //   alignment: Alignment.bottomRight,
-                                  //   child: Icon(
-                                  //     Icons.add_circle_outlined,
-                                  //     size: 22,
-                                  //     color: defaultAccentColor_(context),
-                                  //   ),
-                                  // ),
-                                  Align(
-                                    alignment: Alignment.bottomRight,
-                                    child: Icon(
-                                      Icons.check_circle_rounded,
-                                      size: 22,
-                                      color: Colors.green,
-                                    ),
-                                  )
+                                  !StringHelper.isEmptyList(
+                                          info.beforeAttachments)
+                                      ? Align(
+                                          alignment: Alignment.bottomRight,
+                                          child: Icon(
+                                            Icons.check_circle_rounded,
+                                            size: 22,
+                                            color: Colors.green,
+                                          ),
+                                        )
+                                      : Align(
+                                          alignment: Alignment.bottomRight,
+                                          child: Icon(
+                                            Icons.add_circle_outlined,
+                                            size: 22,
+                                            color: defaultAccentColor_(context),
+                                          ),
+                                        ),
                                 ],
                               ),
                             ),
@@ -97,18 +100,20 @@ class SelectedTypeOfWork extends StatelessWidget {
                         ],
                       )),
                   Padding(
-                    padding: const EdgeInsets.only(left: 28),
+                    padding: const EdgeInsets.only(left: 16),
                     child: Row(
                       children: [
                         textContainerItem(
                             info.tradeName ?? "", AppUtils.getColor("#FF7F00")),
-                        textContainerItem(
+                         textContainerItem(
                             info.duration ?? "", AppUtils.getColor("#7523D3")),
                         (info.isPricework ?? false)
                             ? textContainerItem(
                                 info.rate ?? "", AppUtils.getColor("#FF008C"))
                             : textContainerItem(info.repeatableJob ?? "",
-                                AppUtils.getColor("#32A852"))
+                                AppUtils.getColor("#32A852")),
+                        textContainerItem(info.locationName ?? "",
+                            AppUtils.getColor("#F44336")),
                       ],
                     ),
                   )

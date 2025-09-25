@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:belcka/pages/common/listener/menu_item_listener.dart';
+import 'package:belcka/pages/common/menu_items_list_bottom_dialog.dart';
 import 'package:dio/dio.dart' as multi;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +34,7 @@ import '../../../../utils/app_constants.dart';
 import '../../../common/drop_down_list_dialog.dart';
 
 class CheckOutController extends GetxController
-    implements SelectItemListener, SelectTypeOfWorkListener {
+    implements SelectItemListener, SelectTypeOfWorkListener, MenuItemListener {
   final RxBool isLoading = false.obs,
       isMainViewVisible = false.obs,
       isInternetNotAvailable = false.obs,
@@ -57,8 +59,9 @@ class CheckOutController extends GetxController
       locationId = 0,
       companyTaskId = 0,
       projectId = 0,
-      initialProgress = 0;
-  String date = "";
+      initialProgress = 0,
+      selectedPhotosIndex = 0;
+  String date = "", selectedPhotosType = "";
 
   bool isCurrentDay = true;
   final listBeforePhotos = <FilesInfo>[].obs;
@@ -70,6 +73,7 @@ class CheckOutController extends GetxController
   final addressList = <ModuleInfo>[].obs;
   final tradeList = <ModuleInfo>[].obs;
   final typeOfWorkList = <TypeOfWorkResourcesInfo>[].obs;
+  final selectedTypeOfWorkList = <TypeOfWorkResourcesInfo>[].obs;
 
   void onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -114,7 +118,7 @@ class CheckOutController extends GetxController
     companyTaskId = checkLogInfo.value.companyTaskTd ?? 0;
     locationId = checkLogInfo.value.locationId ?? 0;
 
-    for (var before in checkLogInfo.value.beforeAttachments!) {
+    /*for (var before in checkLogInfo.value.beforeAttachments!) {
       listBeforePhotos.add(FilesInfo(
           id: before.id, imageUrl: before.imageUrl, thumbUrl: before.thumbUrl));
     }
@@ -122,7 +126,10 @@ class CheckOutController extends GetxController
     for (var after in checkLogInfo.value.afterAttachments!) {
       listAfterPhotos.add(FilesInfo(
           id: after.id, imageUrl: after.imageUrl, thumbUrl: after.thumbUrl));
-    }
+    }*/
+
+    selectedTypeOfWorkList.addAll(checkLogInfo.value.taskList ?? []);
+    setTypeOfWorkText();
   }
 
   Future<void> getCheckLogDetailsApi() async {
@@ -170,29 +177,36 @@ class CheckOutController extends GetxController
   void checkOutApi() async {
     Map<String, dynamic> map = {};
     map["checklog_id"] = checkLogInfo.value.id ?? 0;
-    map["total_progress"] = progress.value;
+    /* map["total_progress"] = progress.value;
     if (initialProgress == 0) {
       map["new_progress"] = progress.value;
     } else {
       map["new_progress"] = progress.value - initialProgress;
-    }
+    }*/
     map["address_id"] = addressId;
     map["trade_id"] = tradeId;
-    map["company_task_id"] = companyTaskId;
-    map["type_of_work_id"] = typeOfWorkId;
+    // map["company_task_id"] = companyTaskId;
+    // map["type_of_work_id"] = typeOfWorkId;
     map["comment"] = StringHelper.getText(noteController.value);
     map["before_attachment_remove_ids"] =
         StringHelper.getCommaSeparatedStringIds(listBeforeRemoveIds);
     map["location"] = location;
     map["latitude"] = latitude;
     map["longitude"] = longitude;
+    for (int i = 0; i < selectedTypeOfWorkList.length; i++) {
+      map["new_progress[${selectedTypeOfWorkList[i].companyTaskId}]"] =
+          (selectedTypeOfWorkList[i].progress ?? 0) > 0
+              ? (selectedTypeOfWorkList[i].progress ?? 0)
+              : 100;
+    }
 
     multi.FormData formData = multi.FormData.fromMap(map);
     print("reques value:" + map.toString());
 
-    List<FilesInfo> listBefore = [];
+    /* List<FilesInfo> listBefore = [];
     for (var before in listBeforePhotos) {
-      if (!StringHelper.isEmptyString(before.imageUrl) && (before.id ?? 0) == 0) {
+      if (!StringHelper.isEmptyString(before.imageUrl) &&
+          (before.id ?? 0) == 0) {
         listBefore.add(before);
       }
     }
@@ -226,7 +240,54 @@ class CheckOutController extends GetxController
           ),
         ),
       );
+    }*/
+
+    for (int i = 0; i < selectedTypeOfWorkList.length; i++) {
+      print("index:" + i.toString());
+      List<FilesInfo> listBeforePhotos = [];
+      for (var photo in selectedTypeOfWorkList[i].beforeAttachments!) {
+        if (!StringHelper.isEmptyString(photo.imageUrl) &&
+            (photo.id ?? 0) == 0) {
+          listBeforePhotos.add(photo);
+        }
+      }
+      for (var photo in listBeforePhotos) {
+        print(
+            "before_company_task_attachments[${selectedTypeOfWorkList[i].companyTaskId}]:" +
+                photo.imageUrl!);
+        formData.files.add(
+          MapEntry(
+            "before_company_task_attachments[${selectedTypeOfWorkList[i].companyTaskId}]",
+            await multi.MultipartFile.fromFile(
+              photo.imageUrl ?? "",
+            ),
+          ),
+        );
+      }
+
+      List<FilesInfo> listAfterPhotos = [];
+      for (var photo in selectedTypeOfWorkList[i].afterAttachments!) {
+        if (!StringHelper.isEmptyString(photo.imageUrl) &&
+            (photo.id ?? 0) == 0) {
+          listAfterPhotos.add(photo);
+        }
+      }
+
+      for (var photo in listAfterPhotos) {
+        print(
+            "after_company_task_attachments[${selectedTypeOfWorkList[i].companyTaskId}]:" +
+                photo.imageUrl!);
+        formData.files.add(
+          MapEntry(
+            "after_company_task_attachments[${selectedTypeOfWorkList[i].companyTaskId}]",
+            await multi.MultipartFile.fromFile(
+              photo.imageUrl ?? "",
+            ),
+          ),
+        );
+      }
     }
+    print("------------------------------------------------");
 
     isLoading.value = true;
     _api.checkOut(
@@ -370,13 +431,49 @@ class CheckOutController extends GetxController
     return DateUtil.getCurrentTimeInFormat(DateUtil.HH_MM_24);
   }
 
+  void onSelectTypeOfWorkPhotos(int position) {
+    selectedPhotosIndex = position;
+    onSelectPhotos(
+        selectedTypeOfWorkList[selectedPhotosIndex].beforeAttachments ?? [],
+        selectedTypeOfWorkList[selectedPhotosIndex].afterAttachments ?? []);
+    // showPhotosTypeDialog(Get.context!);
+  }
+
+  void showPhotosTypeDialog(BuildContext context) {
+    List<ModuleInfo> listItems = [];
+    // listItems.add(ModuleInfo(
+    //     name: 'archive'.tr, action: AppConstants.action.archiveShift));
+    listItems.add(ModuleInfo(
+        name: 'photos_before'.tr, action: AppConstants.action.beforePhotos));
+    listItems.add(ModuleInfo(
+        name: 'photos_after'.tr, action: AppConstants.action.afterPhotos));
+    showCupertinoModalPopup(
+      context: context,
+      builder: (_) =>
+          MenuItemsListBottomDialog(list: listItems, listener: this),
+    );
+  }
+
+  @override
+  void onSelectMenuItem(ModuleInfo info, String dialogType) {
+    // if (info.action == AppConstants.action.beforePhotos) {
+    //   selectedPhotosType = AppConstants.type.beforePhotos;
+    //   onSelectPhotos(selectedPhotosType,
+    //       selectedTypeOfWorkList[selectedPhotosIndex].beforeAttachments ?? []);
+    // } else if (info.action == AppConstants.action.afterPhotos) {
+    //   selectedPhotosType = AppConstants.type.afterPhotos;
+    //   onSelectPhotos(selectedPhotosType,
+    //       selectedTypeOfWorkList[selectedPhotosIndex].afterAttachments ?? []);
+    // }
+  }
+
   Future<void> onSelectPhotos(
-      String photosType, List<FilesInfo> listPhotos) async {
+      List<FilesInfo> listBeforePhotos, List<FilesInfo> listAfterPhotos) async {
     var result;
     var arguments = {
       AppConstants.intentKey.removeIdsList: listBeforeRemoveIds,
-      AppConstants.intentKey.photosType: photosType,
-      AppConstants.intentKey.photosList: listPhotos,
+      AppConstants.intentKey.beforePhotosList: listBeforePhotos,
+      AppConstants.intentKey.afterPhotosList: listAfterPhotos,
       AppConstants.intentKey.isEditable:
           StringHelper.isEmptyString(checkLogInfo.value.checkoutDateTime),
     };
@@ -390,8 +487,8 @@ class CheckOutController extends GetxController
     if (result != null) {
       var arguments = result;
       if (arguments != null) {
-        photosType = arguments[AppConstants.intentKey.photosType] ?? "";
-        if (photosType == AppConstants.type.beforePhotos) {
+        // photosType = arguments[AppConstants.intentKey.photosType] ?? "";
+        /* if (photosType == AppConstants.type.beforePhotos) {
           listBeforePhotos.clear();
           listBeforePhotos
               .addAll(arguments[AppConstants.intentKey.photosList] ?? []);
@@ -403,9 +500,48 @@ class CheckOutController extends GetxController
           listAfterPhotos.clear();
           listAfterPhotos
               .addAll(arguments[AppConstants.intentKey.photosList] ?? []);
-        }
+        }*/
+        // if (photosType == AppConstants.type.beforePhotos) {
+
+        var beforeList = <FilesInfo>[].obs;
+        beforeList
+            .addAll(arguments[AppConstants.intentKey.beforePhotosList] ?? []);
+        selectedTypeOfWorkList[selectedPhotosIndex].beforeAttachments = [];
+        selectedTypeOfWorkList[selectedPhotosIndex]
+            .beforeAttachments!
+            .addAll(beforeList);
+        listBeforeRemoveIds.clear();
+        listBeforeRemoveIds
+            .addAll(arguments[AppConstants.intentKey.removeIdsList] ?? []);
+
+        // selectedTypeOfWorkList.refresh();
+        // } else if (photosType == AppConstants.type.afterPhotos) {
+
+        var afterList = <FilesInfo>[].obs;
+        afterList
+            .addAll(arguments[AppConstants.intentKey.afterPhotosList] ?? []);
+        selectedTypeOfWorkList[selectedPhotosIndex].afterAttachments = [];
+        selectedTypeOfWorkList[selectedPhotosIndex]
+            .afterAttachments!
+            .addAll(afterList);
+
+        selectedTypeOfWorkList.refresh();
+
+        // }
       }
     }
+  }
+
+  bool isValidPhotos() {
+    bool valid = true;
+    for (var info in selectedTypeOfWorkList) {
+      if (StringHelper.isEmptyList(info.beforeAttachments) ||
+          StringHelper.isEmptyList(info.afterAttachments)) {
+        valid = false;
+        break;
+      }
+    }
+    return valid;
   }
 
   void showSelectAddressDialog() {
@@ -502,7 +638,33 @@ class CheckOutController extends GetxController
   // }
 
   @override
-  void onSelectTypeOfWork(List<TypeOfWorkResourcesInfo> listAllItems, String action) {
+  void onSelectTypeOfWork(
+      List<TypeOfWorkResourcesInfo> listAllItems, String action) {}
 
+  void setTypeOfWorkText() {
+    if (selectedTypeOfWorkList.isNotEmpty) {
+      typeOfWorkController.value.text =
+          "${selectedTypeOfWorkList.length} ${'task_selected'.tr}";
+    } else {
+      typeOfWorkController.value.text = "-";
+    }
+  }
+
+  List<String> getTaskIds() {
+    List<String> listIds = [];
+    // List<String> listTypeOfWorkIds = [];
+    List<String> listTaskIds = [];
+
+    for (var item in selectedTypeOfWorkList) {
+      listTaskIds.add((item.companyTaskId ?? 0).toString());
+    }
+
+    // String typeOfWorkIds = listTypeOfWorkIds.join(",");
+    // listIds.add(typeOfWorkIds);
+
+    String taskIds = listTaskIds.join(",");
+    listIds.add(taskIds);
+
+    return listIds;
   }
 }

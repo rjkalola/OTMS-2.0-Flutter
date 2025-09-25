@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:belcka/pages/check_in/check_in/controller/check_in_repository.dart';
 import 'package:belcka/pages/check_in/check_in/model/check_in_resources_response.dart';
@@ -55,7 +56,8 @@ class CheckInController extends GetxController
       typeOfWorkId = 0,
       locationId = 0,
       companyTaskId = 0,
-      projectId = 0;
+      projectId = 0,
+      selectedPhotosIndex = 0;
   String date = "";
   bool isCurrentDay = true, isPriceWork = false;
   final listBeforePhotos = <FilesInfo>[].obs;
@@ -104,8 +106,11 @@ class CheckInController extends GetxController
     map["user_worklog_id"] = workLogId;
     map["address_id"] = addressId;
     map["trade_id"] = tradeId;
-    map["company_task_id"] = companyTaskId;
-    map["type_of_work_id"] = typeOfWorkId;
+    // map["company_task_id"] = companyTaskId;
+    // map["type_of_work_id"] = typeOfWorkId;
+    List<String> listParams = listParamIds();
+    map["company_task_ids"] = listParams[1];
+    map["type_of_work_ids"] = listParams[0];
     map["location_id"] = locationId;
     map["comment"] = StringHelper.getText(noteController.value);
     map["location"] = location;
@@ -115,7 +120,7 @@ class CheckInController extends GetxController
     multi.FormData formData = multi.FormData.fromMap(map);
     print("reques value:" + map.toString());
 
-    for (int i = 0; i < listBeforePhotos.length; i++) {
+    /* for (int i = 0; i < listBeforePhotos.length; i++) {
       if (!StringHelper.isEmptyString(listBeforePhotos[i].imageUrl)) {
         formData.files.add(
           MapEntry(
@@ -127,6 +132,41 @@ class CheckInController extends GetxController
           ),
         );
       }
+    }*/
+
+    for (int i = 0; i < selectedTypeOfWorkList.length; i++) {
+      List<FilesInfo> listPhotos = [];
+      String photosKey = "";
+      if ((selectedTypeOfWorkList[i].typeOfWorkId ?? 0) != 0 &&
+          (selectedTypeOfWorkList[i].companyTaskId ?? 0) == 0) {
+        photosKey =
+            "before_type_of_work_attachments[${selectedTypeOfWorkList[i].typeOfWorkId}]";
+      } else if ((selectedTypeOfWorkList[i].typeOfWorkId ?? 0) == 0 &&
+          (selectedTypeOfWorkList[i].companyTaskId ?? 0) != 0) {
+        photosKey =
+            "before_company_task_attachments[${selectedTypeOfWorkList[i].companyTaskId}]";
+      }
+      print("photosKey:" + photosKey);
+      for (var photo in selectedTypeOfWorkList[i].beforeAttachments!) {
+        if (!StringHelper.isEmptyString(photo.imageUrl) &&
+            (photo.id ?? 0) == 0) {
+          listPhotos.add(photo);
+        }
+      }
+      for (int j = 0; j < listPhotos.length; j++) {
+        print("before:" + listPhotos[j].imageUrl!);
+        formData.files.add(
+          MapEntry(
+            photosKey,
+            // or just 'images' depending on your backend
+            await multi.MultipartFile.fromFile(
+              listPhotos[j].imageUrl ?? "",
+            ),
+          ),
+        );
+      }
+
+      print("------------------------------------------------");
     }
 
     isLoading.value = true;
@@ -310,7 +350,7 @@ class CheckInController extends GetxController
     var result;
     var arguments = {
       AppConstants.intentKey.photosType: photosType,
-      AppConstants.intentKey.photosList: listPhotos,
+      AppConstants.intentKey.beforePhotosList: listPhotos,
     };
     // result = await Get.toNamed(AppRoutes.selectBeforeAfterPhotosScreen,
     //     arguments: arguments);
@@ -324,11 +364,35 @@ class CheckInController extends GetxController
       if (arguments != null) {
         photosType = arguments[AppConstants.intentKey.photosType] ?? "";
         if (photosType == AppConstants.type.beforePhotos) {
-          listBeforePhotos.clear();
-          listBeforePhotos
-              .addAll(arguments[AppConstants.intentKey.photosList] ?? []);
+          var filesList = <FilesInfo>[].obs;
+          filesList.addAll(arguments[AppConstants.intentKey.beforePhotosList] ?? []);
+          selectedTypeOfWorkList[selectedPhotosIndex].beforeAttachments = [];
+          selectedTypeOfWorkList[selectedPhotosIndex]
+              .beforeAttachments!
+              .addAll(filesList);
+          selectedTypeOfWorkList.refresh();
         }
       }
+    }
+  }
+
+  bool isValidPhotos() {
+    bool valid = true;
+    for (var info in selectedTypeOfWorkList) {
+      if (StringHelper.isEmptyList(info.beforeAttachments)) {
+        valid = false;
+        break;
+      }
+    }
+    return valid;
+  }
+
+  void setTypeOfWorkText() {
+    if (selectedTypeOfWorkList.isNotEmpty) {
+      typeOfWorkController.value.text =
+          "${selectedTypeOfWorkList.length} ${'task_selected'.tr}";
+    } else {
+      typeOfWorkController.value.text = "";
     }
   }
 
@@ -360,9 +424,9 @@ class CheckInController extends GetxController
   }
 
   void onSelectTypeOfWorkPhotos(int position) {
-    // onSelectPhotos(
-    //     AppConstants.type.beforePhotos,
-    //     controller.listBeforePhotos);
+    selectedPhotosIndex = position;
+    onSelectPhotos(AppConstants.type.beforePhotos,
+        selectedTypeOfWorkList[position].beforeAttachments ?? []);
   }
 
   void showSelectTypeOfWorkDialog() {
@@ -411,6 +475,9 @@ class CheckInController extends GetxController
         typeOfWorkId = 0;
         companyTaskId = 0;
 
+        selectedTypeOfWorkList.clear();
+        setTypeOfWorkText();
+
         typeOfWorkList.clear();
         getTypeOfWorkResourcesApi(
             addressId: addressId, isPriceWork: isPriceWork);
@@ -422,6 +489,9 @@ class CheckInController extends GetxController
       typeOfWorkController.value.text = "";
       typeOfWorkId = 0;
       companyTaskId = 0;
+
+      selectedTypeOfWorkList.clear();
+      setTypeOfWorkText();
 
       typeOfWorkList.clear();
       getTypeOfWorkResourcesApi(addressId: addressId, isPriceWork: isPriceWork);
@@ -454,6 +524,7 @@ class CheckInController extends GetxController
     if (action == AppConstants.dialogIdentifier.selectTypeOfWork) {
       selectedTypeOfWorkList.clear();
       selectedTypeOfWorkList.value = listSelectedItems;
+      setTypeOfWorkText();
       // typeOfWorkController.value.text = name;
       // this.typeOfWorkId = typeOfWorkId;
       // this.companyTaskId = companyTaskId;
@@ -462,5 +533,27 @@ class CheckInController extends GetxController
       getTypeOfWorkResourcesApi(
           addressId: 0, isPriceWork: false, isFromDialog: true);
     }
+  }
+
+  List<String> listParamIds() {
+    List<String> listIds = [];
+    List<String> listTypeOfWorkIds = [];
+    List<String> listTaskIds = [];
+
+    for (var item in selectedTypeOfWorkList) {
+      if ((item.typeOfWorkId ?? 0) != 0 && (item.companyTaskId ?? 0) == 0) {
+        listTypeOfWorkIds.add(item.typeOfWorkId.toString());
+      } else if ((item.typeOfWorkId ?? 0) == 0 &&
+          (item.companyTaskId ?? 0) != 0) {
+        listTaskIds.add(item.companyTaskId.toString());
+      }
+    }
+
+    String typeOfWorkIds = listTypeOfWorkIds.join(",");
+    String taskIds = listTaskIds.join(",");
+    listIds.add(typeOfWorkIds);
+    listIds.add(taskIds);
+
+    return listIds;
   }
 }

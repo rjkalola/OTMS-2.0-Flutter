@@ -174,6 +174,48 @@ class TimeSheetListController extends GetxController
     );
   }
 
+  void changeTimesheetStatusApi(String? ids, String action) {
+    String url = "";
+    print("action:"+action);
+    if (action == AppConstants.action.lock) {
+      url = ApiConstants.lockTimesheet;
+    } else if (action == AppConstants.action.unlock) {
+      url = ApiConstants.unlockTimesheet;
+    } else if (action == AppConstants.action.markAsPaid) {
+      url = ApiConstants.paidTimesheet;
+    }
+    print("url:"+url);
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    // map["company_id"] = ApiConstants.companyId;
+    map["ids"] = ids ?? "";
+    _api.changeTimesheetStatus(
+      url: url,
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          BaseResponse response =
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showApiResponseMessage(response.Message ?? "");
+          loadTimesheetData(true);
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+          // AppUtils.showApiResponseMessage('no_internet'.tr);
+          // Utils.showApiResponseMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showApiResponseMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
+
   void showMenuItemsDialog(BuildContext context) {
     List<ModuleInfo> listItems = [];
     listItems.add(ModuleInfo(name: 'add'.tr, action: AppConstants.action.add));
@@ -204,7 +246,7 @@ class TimeSheetListController extends GetxController
       listItems
           .add(ModuleInfo(name: 'lock'.tr, action: AppConstants.action.lock));
       listItems
-          .add(ModuleInfo(name: 'unlock'.tr, action: AppConstants.action.lock));
+          .add(ModuleInfo(name: 'unlock'.tr, action: AppConstants.action.unlock));
       listItems.add(ModuleInfo(
           name: 'mark_as_paid'.tr, action: AppConstants.action.markAsPaid));
     } else {
@@ -213,7 +255,7 @@ class TimeSheetListController extends GetxController
       listItems
           .add(ModuleInfo(name: 'lock'.tr, action: AppConstants.action.lock));
       listItems
-          .add(ModuleInfo(name: 'unlock'.tr, action: AppConstants.action.lock));
+          .add(ModuleInfo(name: 'unlock'.tr, action: AppConstants.action.unlock));
       listItems.add(ModuleInfo(
           name: 'mark_as_paid'.tr, action: AppConstants.action.markAsPaid));
     }
@@ -259,16 +301,25 @@ class TimeSheetListController extends GetxController
         }
       } else if (info.action == AppConstants.action.lock) {
         if (isEditStatusEnable.value) {
+          String statusIds = getStatusIds();
+          print("statusIds:" + statusIds);
+          changeTimesheetStatusApi(statusIds, AppConstants.action.lock);
         } else {
           isEditStatusEnable.value = true;
         }
       } else if (info.action == AppConstants.action.unlock) {
         if (isEditStatusEnable.value) {
+          String statusIds = getStatusIds();
+          print("statusIds:" + statusIds);
+          changeTimesheetStatusApi(statusIds, AppConstants.action.unlock);
         } else {
           isEditStatusEnable.value = true;
         }
       } else if (info.action == AppConstants.action.markAsPaid) {
         if (isEditStatusEnable.value) {
+          String statusIds = getStatusIds();
+          print("statusIds:" + statusIds);
+          changeTimesheetStatusApi(statusIds, AppConstants.action.markAsPaid);
         } else {
           isEditStatusEnable.value = true;
         }
@@ -375,6 +426,23 @@ class TimeSheetListController extends GetxController
         for (var data in weekData.dayLogs!) {
           if (data.isCheck ?? false) {
             listIds.add(data.id.toString());
+          }
+        }
+      }
+    }
+    return StringHelper.getCommaSeparatedStringIds(listIds);
+  }
+
+  String getStatusIds() {
+    List<String> listIds = [];
+    for (var info in timeSheetList) {
+      for (var weekData in info.weekLogs!) {
+        if (weekData.isCheck ?? false) {
+          for (var data in weekData.dayLogs!) {
+            String timeSheetId = (data.timesheetId ?? 0).toString();
+            if (!listIds.contains(timeSheetId)) {
+              listIds.add(timeSheetId);
+            }
           }
         }
       }

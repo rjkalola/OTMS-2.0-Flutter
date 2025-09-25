@@ -1,3 +1,4 @@
+import 'package:belcka/pages/check_in/check_in/model/type_of_work_resources_info.dart';
 import 'package:belcka/pages/check_in/clock_in/model/check_in_attachment_info.dart';
 import 'package:belcka/pages/check_in/clock_in/model/location_info.dart';
 
@@ -32,6 +33,7 @@ class CheckLogInfo {
   String? priceWorkTotalAmount;
   bool? isPricework, isAttachment;
   int? progress;
+  List<TypeOfWorkResourcesInfo>? taskList;
 
   CheckLogInfo(
       {this.id,
@@ -64,7 +66,8 @@ class CheckLogInfo {
       this.priceWorkTotalAmount,
       this.isPricework,
       this.isAttachment,
-      this.progress});
+      this.progress,
+      this.taskList});
 
   CheckLogInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -112,6 +115,12 @@ class CheckLogInfo {
     isPricework = json['is_pricework'];
     isAttachment = json['is_attachment'];
     progress = json['progress'];
+    if (json['task_list'] != null) {
+      taskList = <TypeOfWorkResourcesInfo>[];
+      json['task_list'].forEach((v) {
+        taskList!.add(new TypeOfWorkResourcesInfo.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -157,6 +166,9 @@ class CheckLogInfo {
     data['is_pricework'] = this.isPricework;
     data['is_attachment'] = this.isAttachment;
     data['progress'] = this.progress;
+    if (this.taskList != null) {
+      data['task_list'] = this.taskList!.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }

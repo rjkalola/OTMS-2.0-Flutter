@@ -1,3 +1,5 @@
+import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -32,7 +34,8 @@ class _SelectBeforeAfterPhotosScreenState
         backgroundColor: dashBoardBgColor_(context),
         appBar: BaseAppBar(
           appBar: AppBar(),
-          title: controller.title.value,
+          // title: controller.title.value,
+          title: "",
           isCenterTitle: false,
           isBack: true,
           bgColor: dashBoardBgColor_(context),
@@ -45,21 +48,63 @@ class _SelectBeforeAfterPhotosScreenState
             child: Column(children: [
               Expanded(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Divider(
-                      thickness: 1,
-                      height: 1,
-                      color: dividerColor_(context),
+                    // Divider(
+                    //   thickness: 1,
+                    //   height: 1,
+                    //   color: dividerColor_(context),
+                    // ),
+                    SizedBox(
+                      height: 4,
                     ),
-                    BeforeAfterPhotosList(
-                      onGridItemClick: controller.onGridItemClick,
-                      filesList: controller.filesList,
-                      photosType: controller.photosType,
-                      isEditable: controller.isEditable.value,
+                    Visibility(
+                      visible: controller.isBeforeEnable.value,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 20),
+                            child: TitleTextView(
+                              text: 'photos_before'.tr,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          BeforeAfterPhotosList(
+                            onGridItemClick: controller.onGridItemClick,
+                            filesList: controller.beforePhotosList,
+                            photosType: AppConstants.type.beforePhotos,
+                            isEditable: controller.isEditable.value,
+                          ),
+                          SizedBox(
+                            height: 24,
+                          ),
+                        ],
+                      ),
                     ),
-                    const SizedBox(
-                      height: 6,
-                    ),
+                    Visibility(
+                      visible: controller.isAfterEnable.value,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 20),
+                            child: TitleTextView(
+                              text: 'photos_after'.tr,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          BeforeAfterPhotosList(
+                            onGridItemClick: controller.onGridItemClick,
+                            filesList: controller.afterPhotosList,
+                            photosType: AppConstants.type.afterPhotos,
+                            isEditable: controller.isEditable.value,
+                          ),
+                        ],
+                      ),
+                    )
                   ],
                 ),
               ),

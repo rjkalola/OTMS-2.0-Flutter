@@ -38,6 +38,8 @@ class TeamsList extends StatelessWidget {
                       onTap: () {
                         var arguments = {
                           AppConstants.intentKey.teamId: info.id ?? 0,
+                          AppConstants.intentKey.isAllUserTeams:
+                              controller.isAllUserTeams.value
                         };
                         controller.moveToScreen(
                             AppRoutes.teamDetailsScreen, arguments);

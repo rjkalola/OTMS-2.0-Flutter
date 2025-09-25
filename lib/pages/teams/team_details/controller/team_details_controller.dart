@@ -34,7 +34,8 @@ class TeamDetailsController extends GetxController
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
       isClearVisible = false.obs,
-      isDataUpdated = false.obs;
+      isDataUpdated = false.obs,
+      isAllUserTeams = false.obs;
   final teamInfo = TeamInfo().obs;
   int teamId = 0;
   bool fromNotification = false;
@@ -45,6 +46,8 @@ class TeamDetailsController extends GetxController
     var arguments = Get.arguments;
     if (arguments != null) {
       teamId = arguments[AppConstants.intentKey.teamId] ?? 0;
+      isAllUserTeams.value =
+          arguments[AppConstants.intentKey.isAllUserTeams] ?? false;
       fromNotification =
           arguments[AppConstants.intentKey.fromNotification] ?? false;
     }

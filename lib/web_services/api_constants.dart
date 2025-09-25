@@ -46,6 +46,7 @@ class ApiConstants {
 
   //trades
   static String getCompanyTradesUrl = '$appUrl/trade/get-company-trades';
+  static String createTrade = '$appUrl/trade/create-trade';
 
   // static String changeCompanyTradeStatus =
   //     '$appUrl/trade/change-company-trade-status';

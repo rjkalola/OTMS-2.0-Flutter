@@ -1,3 +1,4 @@
+import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:belcka/pages/common/model/file_info.dart';
@@ -23,20 +24,21 @@ class BeforeAfterPhotosList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(7.0),
-        child: ImageGridview(
-            isEditable: isEditable,
-            filesList: filesList,
-            onViewClick: (int index) {
-              onGridItemClick(
-                  index, AppConstants.action.viewPhoto, photosType ?? "");
-            },
-            onRemoveClick: (int index) {
-              if ((filesList[index].id ?? 0) > 0) {
-                controller.removeIds.add(filesList[index].id.toString());
-              }
-              onGridItemClick(
-                  index, AppConstants.action.removePhoto, photosType ?? "");
-            }));
+      padding: const EdgeInsets.fromLTRB(10, 6, 10, 0),
+      child: ImageGridview(
+          isEditable: isEditable,
+          filesList: filesList,
+          onViewClick: (int index) {
+            onGridItemClick(
+                index, AppConstants.action.viewPhoto, photosType ?? "");
+          },
+          onRemoveClick: (int index) {
+            if ((filesList[index].id ?? 0) > 0) {
+              controller.removeIds.add(filesList[index].id.toString());
+            }
+            onGridItemClick(
+                index, AppConstants.action.removePhoto, photosType ?? "");
+          }),
+    );
   }
 }

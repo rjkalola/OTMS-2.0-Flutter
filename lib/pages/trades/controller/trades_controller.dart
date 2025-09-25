@@ -1,4 +1,10 @@
 import 'dart:convert';
+import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
+import 'package:belcka/pages/common/listener/menu_item_listener.dart';
+import 'package:belcka/pages/common/menu_items_list_bottom_dialog.dart';
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/web_services/response/module_info.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,7 +18,7 @@ import 'package:belcka/web_services/response/base_response.dart';
 
 import '../../../web_services/response/response_model.dart';
 
-class TradesController extends GetxController {
+class TradesController extends GetxController implements MenuItemListener, DialogButtonClickListener{
   final _api = TradesRepository();
   final formKey = GlobalKey<FormState>();
   RxBool isLoading = false.obs,
@@ -145,6 +151,48 @@ class TradesController extends GetxController {
       changeCompanyBulkTradeStatusApi();
     } else {
       Get.back();
+    }
+  }
+  void showMenuItemsDialog(BuildContext context) {
+    List<ModuleInfo> listItems = [];
+    listItems.add(ModuleInfo(name: 'add'.tr, action: AppConstants.action.add));
+    showCupertinoModalPopup(
+      context: context,
+      builder: (_) =>
+          MenuItemsListBottomDialog(list: listItems, listener: this),
+    );
+  }
+  Future<void> moveToScreen(String rout, dynamic arguments) async {
+    var result = await Get.toNamed(rout, arguments: arguments);
+    if (result != null && result) {
+      isDataUpdated.value = true;
+      getCompanyTradesApi();
+    }
+  }
+  @override
+  void onNegativeButtonClicked(String dialogIdentifier) {
+    // TODO: implement onNegativeButtonClicked
+    Get.back();
+  }
+
+  @override
+  void onOtherButtonClicked(String dialogIdentifier) {
+    // TODO: implement onOtherButtonClicked
+  }
+
+  @override
+  void onPositiveButtonClicked(String dialogIdentifier) {
+    // TODO: implement onPositiveButtonClicked
+  }
+
+  @override
+  void onSelectMenuItem(ModuleInfo info, String dialogType) {
+    // TODO: implement onSelectMenuItem
+    if (info.action == AppConstants.action.add) {
+      var arguments = {
+        //AppConstants.intentKey.projectInfo: projectInfo,
+      };
+      moveToScreen(AppRoutes.addTradesScreen, arguments);
     }
   }
 }

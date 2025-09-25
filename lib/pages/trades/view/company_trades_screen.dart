@@ -40,7 +40,7 @@ class _CompanyTradesScreenState extends State<CompanyTradesScreen> {
               title: 'trades'.tr,
               isCenterTitle: false,
               isBack: true,
-              // widgets: actionButtons(),
+               widgets: actionButtons(),
               onBackPressed: () {
                 controller.onBackPress();
               },
@@ -72,6 +72,7 @@ class _CompanyTradesScreenState extends State<CompanyTradesScreen> {
     );
   }
 
+  /*
   List<Widget>? actionButtons() {
     print("controller.isDataUpdated.value:" +
         controller.isDataUpdated.value.toString());
@@ -91,6 +92,22 @@ class _CompanyTradesScreenState extends State<CompanyTradesScreen> {
               : defaultAccentLightColor_(context),
         ),
       )
+    ];
+  }
+  */
+
+  List<Widget>? actionButtons() {
+    return [
+      SizedBox(width: 10),
+      Visibility(
+        visible: true,
+        child: IconButton(
+          icon: Icon(Icons.more_vert_outlined),
+          onPressed: () {
+            controller.showMenuItemsDialog(Get.context!);
+          },
+        ),
+      ),
     ];
   }
 }

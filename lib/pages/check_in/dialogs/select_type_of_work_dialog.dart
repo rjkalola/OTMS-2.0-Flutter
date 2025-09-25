@@ -134,39 +134,42 @@ class SelectTypeOfWorkDialogState extends State<SelectTypeOfWorkDialog> {
               ),
             ),
             Flexible(child: setDropdownList(dialogType, listener)),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-              child: Row(
-                children: [
-                  Flexible(
-                    flex: 1,
-                    child: PrimaryButton(
-                        buttonText: 'select'.tr,
-                        onPressed: () {
-                          Get.back();
-                          List<TypeOfWorkResourcesInfo> listItems = [];
-                          for (var info in tempList) {
-                            if (info.isCheck ?? false) {
-                              listItems.add(info);
+            Visibility(
+              visible: !StringHelper.isEmptyList(list),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+                child: Row(
+                  children: [
+                    Flexible(
+                      flex: 1,
+                      child: PrimaryButton(
+                          buttonText: 'select'.tr,
+                          onPressed: () {
+                            Get.back();
+                            List<TypeOfWorkResourcesInfo> listItems = [];
+                            for (var info in tempList) {
+                              if (info.isCheck ?? false) {
+                                listItems.add(info);
+                              }
                             }
-                          }
-                          listener.onSelectTypeOfWork(listItems, dialogType);
-                        }),
-                  ),
-                  SizedBox(
-                    width: 12,
-                  ),
-                  Flexible(
-                    flex: 1,
-                    child: PrimaryBorderButton(
-                        buttonText: 'cancel'.tr,
-                        borderColor: secondaryLightTextColor_(context),
-                        fontColor: secondaryLightTextColor_(context),
-                        onPressed: () {
-                          Get.back();
-                        }),
-                  )
-                ],
+                            listener.onSelectTypeOfWork(listItems, dialogType);
+                          }),
+                    ),
+                    SizedBox(
+                      width: 12,
+                    ),
+                    Flexible(
+                      flex: 1,
+                      child: PrimaryBorderButton(
+                          buttonText: 'cancel'.tr,
+                          borderColor: secondaryLightTextColor_(context),
+                          fontColor: secondaryLightTextColor_(context),
+                          onPressed: () {
+                            Get.back();
+                          }),
+                    )
+                  ],
+                ),
               ),
             ),
             SizedBox(
@@ -238,7 +241,9 @@ class SelectTypeOfWorkDialogState extends State<SelectTypeOfWorkDialog> {
                             ? textContainerItem(tempList[i].rate ?? "",
                                 AppUtils.getColor("#FF008C"))
                             : textContainerItem(tempList[i].repeatableJob ?? "",
-                                AppUtils.getColor("#32A852"))
+                                AppUtils.getColor("#32A852")),
+                        textContainerItem(tempList[i].locationName ?? "",
+                            AppUtils.getColor("#F44336")),
                       ],
                     ),
                   )

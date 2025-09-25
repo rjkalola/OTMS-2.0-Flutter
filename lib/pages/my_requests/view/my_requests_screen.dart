@@ -32,7 +32,7 @@ class MyRequestsScreen extends StatelessWidget implements DateFilterListener {
             child: Scaffold(
           appBar: BaseAppBar(
             appBar: AppBar(),
-            title: UserUtils.isAdmin() ? "requests".tr : "my_requests".tr,
+            title: controller.isFromMyProfile.value ? "my_requests".tr : "requests".tr,
             isCenterTitle: false,
             bgColor: dashBoardBgColor_(context),
             isBack: true,

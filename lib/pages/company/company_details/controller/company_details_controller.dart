@@ -156,7 +156,7 @@ class CompanyDetailsController extends GetxController
   void getCompanyDetailsApi() {
     isLoading.value = true;
     Map<String, dynamic> map = {};
-    map["company_id"] =companyId;
+    map["company_id"] = companyId;
     _api.getCompanyDetailsApi(
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {

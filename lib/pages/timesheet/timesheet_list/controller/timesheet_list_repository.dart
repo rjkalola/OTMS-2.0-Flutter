@@ -69,12 +69,13 @@ class TimesheetListRepository {
   }
 
   void changeTimesheetStatus({
+    required String url,
     dynamic data,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
     ApiRequest(
-        url: ApiConstants.unarchiveTimesheet, data: data, isFormData: false)
+        url: url, data: data, isFormData: false)
         .postRequest(
       onSuccess: (data) {
         onSuccess!(data);

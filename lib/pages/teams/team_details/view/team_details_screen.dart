@@ -10,6 +10,7 @@ import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
 import 'package:belcka/utils/app_utils.dart';
+
 class TeamDetailsScreen extends StatefulWidget {
   const TeamDetailsScreen({super.key});
 
@@ -77,7 +78,7 @@ class _TeamDetailsScreenState extends State<TeamDetailsScreen> {
   List<Widget>? actionButtons() {
     return [
       Visibility(
-        visible: true,
+        visible: controller.isAllUserTeams.value,
         child: IconButton(
           icon: Icon(Icons.more_vert_outlined),
           onPressed: () {

@@ -13,8 +13,10 @@ class TypeOfWorkResourcesInfo {
   String? rate;
   String? repeatableJob;
   String? units;
+  String? locationName;
   List<FilesInfo>? beforeAttachments;
   List<FilesInfo>? afterAttachments;
+  int? progress;
   bool? isCheck;
 
   TypeOfWorkResourcesInfo(
@@ -32,8 +34,10 @@ class TypeOfWorkResourcesInfo {
       this.rate,
       this.repeatableJob,
       this.units,
+      this.locationName,
       this.beforeAttachments,
       this.afterAttachments,
+      this.progress,
       this.isCheck});
 
   TypeOfWorkResourcesInfo.fromJson(Map<String, dynamic> json) {
@@ -51,6 +55,7 @@ class TypeOfWorkResourcesInfo {
     rate = json['rate'];
     repeatableJob = json['repeatable_job'];
     units = json['units'];
+    locationName = json['location_name'];
     if (json['before_attachments'] != null) {
       beforeAttachments = <FilesInfo>[];
       json['before_attachments'].forEach((v) {
@@ -63,6 +68,7 @@ class TypeOfWorkResourcesInfo {
         afterAttachments!.add(new FilesInfo.fromJson(v));
       });
     }
+    progress = json['progress'];
     isCheck = json['isCheck'];
   }
 
@@ -82,6 +88,7 @@ class TypeOfWorkResourcesInfo {
     data['rate'] = this.rate;
     data['repeatable_job'] = this.repeatableJob;
     data['units'] = this.units;
+    data['location_name'] = this.locationName;
     if (this.beforeAttachments != null) {
       data['before_attachments'] =
           this.beforeAttachments!.map((v) => v.toJson()).toList();
@@ -90,6 +97,7 @@ class TypeOfWorkResourcesInfo {
       data['after_attachments'] =
           this.afterAttachments!.map((v) => v.toJson()).toList();
     }
+    data['progress'] = this.progress;
     data['isCheck'] = this.isCheck;
     return data;
   }
@@ -110,6 +118,10 @@ class TypeOfWorkResourcesInfo {
     String? rate,
     String? repeatableJob,
     String? units,
+    String? locationName,
+    List<FilesInfo>? beforeAttachments,
+    List<FilesInfo>? afterAttachments,
+    int? progress,
     bool? isCheck,
   }) {
     return TypeOfWorkResourcesInfo(
@@ -127,6 +139,10 @@ class TypeOfWorkResourcesInfo {
       rate: rate ?? this.rate,
       repeatableJob: repeatableJob ?? this.repeatableJob,
       units: units ?? this.units,
+      locationName: locationName ?? this.locationName,
+      beforeAttachments: beforeAttachments ?? this.beforeAttachments,
+      afterAttachments: afterAttachments ?? this.afterAttachments,
+      progress: progress ?? this.progress,
       isCheck: isCheck ?? this.isCheck,
     );
   }

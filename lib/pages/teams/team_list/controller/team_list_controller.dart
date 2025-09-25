@@ -29,23 +29,24 @@ class TeamListController extends GetxController implements MenuItemListener {
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
       isClearVisible = false.obs,
-      isDataUpdated = false.obs;
+      isDataUpdated = false.obs,
+      isAllUserTeams = false.obs;
   final title = "".obs;
   final searchController = TextEditingController().obs;
   final teamsList = <TeamInfo>[].obs;
   List<TeamInfo> tempList = [];
-  bool isAllUserTeams = false;
+
 
   @override
   void onInit() {
     super.onInit();
     var arguments = Get.arguments;
     if (arguments != null) {
-      isAllUserTeams =
+      isAllUserTeams.value =
           arguments[AppConstants.intentKey.isAllUserTeams] ?? false;
     }
-    // title.value = isAllUserTeams ? 'teams'.tr : 'team'.tr;
-    title.value = 'teams'.tr;
+    title.value = isAllUserTeams.value ? 'teams'.tr : 'team'.tr;
+    // title.value = 'teams'.tr;
     getTeamListApi();
   }
 
@@ -53,14 +54,14 @@ class TeamListController extends GetxController implements MenuItemListener {
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
-    map["user_id"] = !isAllUserTeams ? UserUtils.getLoginUserId() : 0;
+    map["user_id"] = !isAllUserTeams.value ? UserUtils.getLoginUserId() : 0;
     _api.getTeamList(
       data: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           isMainViewVisible.value = true;
           TeamListResponse response =
-              TeamListResponse.fromJson(jsonDecode(responseModel.result!));
+          TeamListResponse.fromJson(jsonDecode(responseModel.result!));
           tempList.clear();
           tempList.addAll(response.info ?? []);
           teamsList.value = tempList;
@@ -90,8 +91,9 @@ class TeamListController extends GetxController implements MenuItemListener {
       results = tempList;
     } else {
       results = tempList
-          .where((element) => (!StringHelper.isEmptyString(element.name) &&
-              element.name!.toLowerCase().contains(value.toLowerCase())))
+          .where((element) =>
+      (!StringHelper.isEmptyString(element.name) &&
+          element.name!.toLowerCase().contains(value.toLowerCase())))
           .toList();
     }
     teamsList.value = results;

@@ -114,18 +114,18 @@ class _CheckInScreenState extends State<CheckInScreen> {
                                 height: 16,
                               ),
                               SelectedTypeOfWork(),
-                              DropDownTextField(
-                                title: 'location'.tr,
-                                controller: controller.locationController,
-                                borderRadius: 15,
-                                onPressed: () {
-                                  controller.showSelectLocationDialog();
-                                },
-                              ),
-                              SizedBox(
-                                height: 16,
-                              ),
-                              PhotosCountView(
+                              // DropDownTextField(
+                              //   title: 'location'.tr,
+                              //   controller: controller.locationController,
+                              //   borderRadius: 15,
+                              //   onPressed: () {
+                              //     controller.showSelectLocationDialog();
+                              //   },
+                              // ),
+                              // SizedBox(
+                              //   height: 16,
+                              // ),
+                            /*  PhotosCountView(
                                 title: 'photos_before'.tr,
                                 count: controller.listBeforePhotos.length,
                                 photosType: AppConstants.type.beforePhotos,
@@ -137,7 +137,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
                               ),
                               SizedBox(
                                 height: 16,
-                              ),
+                              ),*/
                               AddNoteWidget(
                                 controller: controller.noteController,
                                 borderRadius: 15,
@@ -157,7 +157,12 @@ class _CheckInScreenState extends State<CheckInScreen> {
                       buttonText: 'check_in_'.tr,
                       onPressed: () {
                         if (controller.formKey.currentState!.validate()) {
-                          controller.checkInApi();
+                          if (controller.isValidPhotos()) {
+                            controller.checkInApi();
+                          } else {
+                            AppUtils.showToastMessage(
+                                'msg_empty_before_attachment'.tr);
+                          }
                         }
                       },
                       color: Colors.green,

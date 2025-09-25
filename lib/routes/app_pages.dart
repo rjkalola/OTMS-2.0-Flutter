@@ -1,3 +1,4 @@
+import 'package:belcka/pages/add_trades/view/add_trades_screen.dart';
 import 'package:belcka/pages/profile/my_profile_details/view/my_profile_details_screen.dart';
 import 'package:belcka/pages/profile/rates/view/rates_screen.dart';
 import 'package:belcka/pages/profile/rates_request/view/rates_request_screen.dart';
@@ -153,6 +154,9 @@ class AppPages {
       name: AppRoutes.companyTradesScreen,
       page: () => CompanyTradesScreen(),
     ),
+    GetPage(
+        name: AppRoutes.addTradesScreen,
+        page: () => AddTradesScreen()),
     GetPage(
       name: AppRoutes.companyPermissionScreen,
       page: () => CompanyPermissionScreen(),

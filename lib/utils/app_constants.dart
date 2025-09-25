@@ -59,6 +59,8 @@ class IntentKey {
   final String count = 'COUNT';
   final String photosType = 'PHOTOS_TYPE';
   final String photosList = 'PHOTOS_LIST';
+  final String beforePhotosList = 'BEFORE_PHOTOS_LIST';
+  final String afterPhotosList = 'AFTER_PHOTOS_LIST';
   final String addressList = 'ADDRESS_LIST';
   final String permissionStep1Info = "PERMISSION_STEP1_INFO";
   final String permissionStep2Info = "PERMISSION_STEP2_INFO";
@@ -131,6 +133,7 @@ class DialogIdentifier {
   final String selectAddress = 'SELECT_ADDRESS';
   final String deleteProject = 'DELETE_PROJECT';
   final String selectDate = 'SELECT_DATE';
+  final String selectCategory = 'SELECT_CATEGORY';
 }
 
 class SharedPreferenceKey {
@@ -222,6 +225,8 @@ class Action {
   final String archiveProject = 'ARCHIVE_PROJECT';
   final String archivedProjects = 'ARCHIVED_PROJECTS';
   final String archivedAddress = 'ARCHIVED_ADDRESS';
+  final String beforePhotos = 'BEFORE_PHOTOS';
+  final String afterPhotos = 'AFTER_PHOTOS';
 }
 
 class StockCountType {
@@ -274,6 +279,9 @@ class Status {
   final int pending = 3;
   final int approved = 5;
   final int rejected = 12;
+  // 6 lock
+  // 7 unlock
+  // 9 paid
 }
 
 class CompanyResourcesFlag {

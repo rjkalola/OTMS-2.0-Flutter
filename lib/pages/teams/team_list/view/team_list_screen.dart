@@ -25,49 +25,51 @@ class _TeamListScreenState extends State<TeamListScreen> {
   @override
   Widget build(BuildContext context) {
     AppUtils.setStatusBarColor();
-    return Obx(() => Container(
-      color: dashBoardBgColor_(context),
-      child: SafeArea(
-        child: Scaffold(
-          backgroundColor: dashBoardBgColor_(context),
-          appBar: BaseAppBar(
-            appBar: AppBar(),
-            title: controller.title.value,
-            isCenterTitle: false,
-            isBack: true,
-            bgColor: dashBoardBgColor_(context),
-            widgets: actionButtons(),
+    return Obx(
+      () => Container(
+        color: dashBoardBgColor_(context),
+        child: SafeArea(
+          child: Scaffold(
+            backgroundColor: dashBoardBgColor_(context),
+            appBar: BaseAppBar(
+              appBar: AppBar(),
+              title: controller.title.value,
+              isCenterTitle: false,
+              isBack: true,
+              bgColor: dashBoardBgColor_(context),
+              widgets: actionButtons(),
+            ),
+            body: ModalProgressHUD(
+                inAsyncCall: controller.isLoading.value,
+                opacity: 0,
+                progressIndicator: const CustomProgressbar(),
+                child: controller.isInternetNotAvailable.value
+                    ? NoInternetWidget(
+                        onPressed: () {
+                          controller.isInternetNotAvailable.value = false;
+                          controller.getTeamListApi();
+                        },
+                      )
+                    : Visibility(
+                        visible: controller.isMainViewVisible.value,
+                        child: Column(
+                          children: [
+                            Divider(),
+                            SearchTeamWidget(),
+                            TeamsList()
+                          ],
+                        ),
+                      )),
           ),
-          body: ModalProgressHUD(
-              inAsyncCall: controller.isLoading.value,
-              opacity: 0,
-              progressIndicator: const CustomProgressbar(),
-              child: controller.isInternetNotAvailable.value
-                  ? NoInternetWidget(
-                onPressed: () {
-                  controller.isInternetNotAvailable.value = false;
-                  controller.getTeamListApi();
-                },
-              )
-                  : Visibility(
-                visible: controller.isMainViewVisible.value,
-                child: Column(
-                  children: [
-                    Divider(),
-                    SearchTeamWidget(),
-                    TeamsList()
-                  ],
-                ),
-              )),
         ),
       ),
-    ),);
+    );
   }
 
   List<Widget>? actionButtons() {
     return [
       Visibility(
-        visible: true,
+        visible: controller.isAllUserTeams.value,
         child: IconButton(
           icon: Icon(Icons.more_vert_outlined),
           onPressed: () {
