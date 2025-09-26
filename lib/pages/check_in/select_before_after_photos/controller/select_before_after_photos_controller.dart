@@ -26,7 +26,7 @@ class SelectBeforeAfterPhotosController extends GetxController
   @override
   void onInit() {
     super.onInit();
-    print("SelectBeforeAfterPhotosController");
+    print("SelectBeforeAfterPhotosController::::");
     var arguments = Get.arguments;
 
     if (arguments != null) {
@@ -46,7 +46,7 @@ class SelectBeforeAfterPhotosController extends GetxController
         isBeforeEnable.value = true;
       }
 
-      if (arguments.containsKey(AppConstants.intentKey.removeIdsList)) {
+      if (arguments.containsKey(AppConstants.intentKey.afterPhotosList)) {
         afterPhotosList
             .addAll(arguments[AppConstants.intentKey.afterPhotosList] ?? []);
         isAfterEnable.value = true;

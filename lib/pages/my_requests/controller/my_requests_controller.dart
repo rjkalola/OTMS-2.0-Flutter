@@ -43,7 +43,7 @@ class MyRequestsController extends GetxController {
 
   void getMyRequestsList(Map<String, String> appliedFilters) async {
     Map<String, dynamic> map = {};
-    if (isFromMyProfile.value == true){
+    if (isFromMyProfile.value == true) {
       map["user_id"] = UserUtils.getLoginUserId();
     }
     map["company_id"] = ApiConstants.companyId;

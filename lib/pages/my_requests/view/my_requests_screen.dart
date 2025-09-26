@@ -32,7 +32,9 @@ class MyRequestsScreen extends StatelessWidget implements DateFilterListener {
             child: Scaffold(
           appBar: BaseAppBar(
             appBar: AppBar(),
-            title: controller.isFromMyProfile.value ? "my_requests".tr : "requests".tr,
+            title: controller.isFromMyProfile.value
+                ? "my_requests".tr
+                : "requests".tr,
             isCenterTitle: false,
             bgColor: dashBoardBgColor_(context),
             isBack: true,
@@ -111,21 +113,29 @@ class MyRequestsScreen extends StatelessWidget implements DateFilterListener {
       InkWell(
         borderRadius: BorderRadius.circular(45),
         onTap: () async {
-          var result = await Get.toNamed(AppRoutes.filterScreen,
-              arguments: controller.appliedFilters);
+          var arguments = {
+            AppConstants.intentKey.filterType:
+                AppConstants.filterType.myRequestFilter,
+            AppConstants.intentKey.filterData: controller.appliedFilters,
+          };
+          var result =
+              await Get.toNamed(AppRoutes.filterScreen, arguments: arguments);
           if (result != null) {
             controller.isResetEnable.value = true;
             controller.appliedFilters = result;
             controller.getMyRequestsList(result);
           }
         },
-        child: Padding(
-          padding: const EdgeInsets.all(2),
-          child: ImageUtils.setSvgAssetsImage(
-              path: Drawable.filterIcon,
-              width: 26,
-              height: 26,
-              color: primaryTextColor_(Get.context!)),
+        child: Visibility(
+          visible: !controller.isFromMyProfile.value,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 9),
+            child: ImageUtils.setSvgAssetsImage(
+                path: Drawable.filterIcon,
+                width: 26,
+                height: 26,
+                color: primaryTextColor_(Get.context!)),
+          ),
         ),
       )
     ];
@@ -164,15 +174,13 @@ class RequestCard extends StatelessWidget {
                       controller.moveToScreen(
                           AppRoutes.billingRequestScreen, arguments);
                     }
-                  }
-                  else if (requestType == 102) {
+                  } else if (requestType == 102) {
                     var arguments = {
                       AppConstants.intentKey.ID: request.id ?? 0,
                     };
                     controller.moveToScreen(
                         AppRoutes.workLogRequestScreen, arguments);
-                  }
-                  else if (requestType == 105) {
+                  } else if (requestType == 105) {
                     var arguments = {
                       "request_log_id": request.id ?? 0,
                     };

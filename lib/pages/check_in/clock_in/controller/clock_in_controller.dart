@@ -267,12 +267,43 @@ class ClockInController extends GetxController {
     }
   }
 
-  onClickStartShiftButton() async {
+  onClickStartShiftButton({dynamic arguments}) async {
     var result;
-    result = await Get.toNamed(AppRoutes.selectProjectScreen);
+    result =
+        await Get.toNamed(AppRoutes.selectProjectScreen, arguments: arguments);
     if (result != null) {
       getUserWorkLogListApi();
     }
+  }
+
+  onCLickCheckInButton(){
+    var arguments = {
+      AppConstants.intentKey.workLogId:
+      selectedWorkLogInfo?.id ?? 0,
+      AppConstants.intentKey.projectId:
+      selectedWorkLogInfo?.projectId ?? 0,
+      AppConstants.intentKey.isPriceWork:
+      selectedWorkLogInfo?.isPricework ??
+          false
+    };
+    moveToScreen(
+        AppRoutes.checkInScreen, arguments);
+  }
+
+  onCLickCheckOutButton(){
+    var arguments = {
+      AppConstants.intentKey.checkLogId:
+      selectedCheckLogInfo?.id ?? 0,
+      AppConstants.intentKey.workLogId:
+      selectedWorkLogInfo?.id ?? 0,
+      AppConstants.intentKey.projectId:
+      selectedWorkLogInfo?.projectId ?? 0,
+      AppConstants.intentKey.isPriceWork:
+      selectedWorkLogInfo?.isPricework ??
+          false
+    };
+    moveToScreen(
+        AppRoutes.checkOutScreen, arguments);
   }
 
   onClickStopShiftButton() async {

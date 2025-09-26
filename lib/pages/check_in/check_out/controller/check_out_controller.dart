@@ -433,10 +433,12 @@ class CheckOutController extends GetxController
 
   void onSelectTypeOfWorkPhotos(int position) {
     selectedPhotosIndex = position;
-    onSelectPhotos(
+    /* onSelectPhotos(
         selectedTypeOfWorkList[selectedPhotosIndex].beforeAttachments ?? [],
-        selectedTypeOfWorkList[selectedPhotosIndex].afterAttachments ?? []);
+        selectedTypeOfWorkList[selectedPhotosIndex].afterAttachments ?? []);*/
     // showPhotosTypeDialog(Get.context!);
+    onSelectPhotos(AppConstants.type.afterPhotos,
+        selectedTypeOfWorkList[position].afterAttachments ?? []);
   }
 
   void showPhotosTypeDialog(BuildContext context) {
@@ -467,7 +469,7 @@ class CheckOutController extends GetxController
     // }
   }
 
-  Future<void> onSelectPhotos(
+  /* Future<void> onSelectPhotos(
       List<FilesInfo> listBeforePhotos, List<FilesInfo> listAfterPhotos) async {
     var result;
     var arguments = {
@@ -488,7 +490,7 @@ class CheckOutController extends GetxController
       var arguments = result;
       if (arguments != null) {
         // photosType = arguments[AppConstants.intentKey.photosType] ?? "";
-        /* if (photosType == AppConstants.type.beforePhotos) {
+        */ /* if (photosType == AppConstants.type.beforePhotos) {
           listBeforePhotos.clear();
           listBeforePhotos
               .addAll(arguments[AppConstants.intentKey.photosList] ?? []);
@@ -500,7 +502,7 @@ class CheckOutController extends GetxController
           listAfterPhotos.clear();
           listAfterPhotos
               .addAll(arguments[AppConstants.intentKey.photosList] ?? []);
-        }*/
+        }*/ /*
         // if (photosType == AppConstants.type.beforePhotos) {
 
         var beforeList = <FilesInfo>[].obs;
@@ -528,6 +530,38 @@ class CheckOutController extends GetxController
         selectedTypeOfWorkList.refresh();
 
         // }
+      }
+    }
+  }*/
+
+  Future<void> onSelectPhotos(
+      String photosType, List<FilesInfo> listPhotos) async {
+    var result;
+    var arguments = {
+      AppConstants.intentKey.photosType: photosType,
+      AppConstants.intentKey.afterPhotosList: listPhotos,
+    };
+    // result = await Get.toNamed(AppRoutes.selectBeforeAfterPhotosScreen,
+    //     arguments: arguments);
+
+    result = await Navigator.of(Get.context!).pushNamed(
+        AppRoutes.selectBeforeAfterPhotosScreen,
+        arguments: arguments);
+
+    if (result != null) {
+      var arguments = result;
+      if (arguments != null) {
+        photosType = arguments[AppConstants.intentKey.photosType] ?? "";
+        if (photosType == AppConstants.type.afterPhotos) {
+          var filesList = <FilesInfo>[].obs;
+          filesList
+              .addAll(arguments[AppConstants.intentKey.afterPhotosList] ?? []);
+          selectedTypeOfWorkList[selectedPhotosIndex].afterAttachments = [];
+          selectedTypeOfWorkList[selectedPhotosIndex]
+              .afterAttachments!
+              .addAll(filesList);
+          selectedTypeOfWorkList.refresh();
+        }
       }
     }
   }

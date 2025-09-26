@@ -27,13 +27,11 @@ class FooterButtonCheckInSwitchProject extends StatelessWidget {
                   buttonText: 'switch_project'.tr,
                   onPressed: () {
                     var arguments = {
-                      AppConstants.intentKey.fromStartShiftScreen: true,
                       AppConstants.intentKey.switchProject: true,
                       AppConstants.intentKey.workLogId:
                           controller.selectedWorkLogInfo?.id ?? 0,
                     };
-                    Get.toNamed(AppRoutes.selectProjectScreen,
-                        arguments: arguments);
+                    controller.onClickStartShiftButton(arguments: arguments);
                     // controller.userStopWorkApi();
                   },
                   color: Color(0xffD5DDF2),
@@ -53,19 +51,7 @@ class FooterButtonCheckInSwitchProject extends StatelessWidget {
                       child: PrimaryButton(
                         buttonText: 'check_out_'.tr,
                         onPressed: () {
-                          var arguments = {
-                            AppConstants.intentKey.checkLogId:
-                                controller.selectedCheckLogInfo?.id ?? 0,
-                            AppConstants.intentKey.workLogId:
-                                controller.selectedWorkLogInfo?.id ?? 0,
-                            AppConstants.intentKey.projectId:
-                                controller.selectedWorkLogInfo?.projectId ?? 0,
-                            AppConstants.intentKey.isPriceWork:
-                                controller.selectedWorkLogInfo?.isPricework ??
-                                    false
-                          };
-                          controller.moveToScreen(
-                              AppRoutes.checkOutScreen, arguments);
+                          controller.onCLickCheckOutButton();
                         },
                         color: Color(0xffFF6464),
                         fontWeight: FontWeight.w500,
@@ -79,17 +65,7 @@ class FooterButtonCheckInSwitchProject extends StatelessWidget {
                       child: PrimaryButton(
                         buttonText: 'check_in_'.tr,
                         onPressed: () {
-                          var arguments = {
-                            AppConstants.intentKey.workLogId:
-                                controller.selectedWorkLogInfo?.id ?? 0,
-                            AppConstants.intentKey.projectId:
-                                controller.selectedWorkLogInfo?.projectId ?? 0,
-                            AppConstants.intentKey.isPriceWork:
-                                controller.selectedWorkLogInfo?.isPricework ??
-                                    false
-                          };
-                          controller.moveToScreen(
-                              AppRoutes.checkInScreen, arguments);
+                          controller.onCLickCheckInButton();
                         },
                         color: Colors.green,
                         fontWeight: FontWeight.w500,
