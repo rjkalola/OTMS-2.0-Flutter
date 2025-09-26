@@ -20,23 +20,23 @@ class FeedInfo {
 
   FeedInfo(
       {this.id,
-        this.companyId,
-        this.companyName,
-        this.userId,
-        this.userName,
-        this.userImageName,
-        this.userImage,
-        this.userThumbImage,
-        this.companyImage,
-        this.companyThumbImage,
-        this.message,
-        this.action,
-        this.requestType,
-        this.dateAdded,
-        this.weekStart,
-        this.weekEnd,
-        this.feedType,
-        this.unreadFeeds});
+      this.companyId,
+      this.companyName,
+      this.userId,
+      this.userName,
+      this.userImageName,
+      this.userImage,
+      this.userThumbImage,
+      this.companyImage,
+      this.companyThumbImage,
+      this.message,
+      this.action,
+      this.requestType,
+      this.dateAdded,
+      this.weekStart,
+      this.weekEnd,
+      this.feedType,
+      this.unreadFeeds});
 
   FeedInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];

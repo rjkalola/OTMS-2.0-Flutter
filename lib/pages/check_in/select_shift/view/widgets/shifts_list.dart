@@ -31,7 +31,11 @@ class ShiftsList extends StatelessWidget {
                       padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
                       child: InkWell(
                         onTap: () {
-                          controller.userStartWorkApi(info.id ?? 0);
+                          if (controller.switchProject) {
+                            controller.userStopWorkApi(info.id ?? 0);
+                          } else {
+                            controller.userStartWorkApi(info.id ?? 0);
+                          }
                         },
                         child: Row(
                           children: [

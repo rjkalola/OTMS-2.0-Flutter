@@ -32,7 +32,7 @@ class TimeSheetListController extends GetxController
   final timeSheetList = <TimeSheetInfo>[].obs;
   bool isAllUserTimeSheet = false;
   int selectedIndex = 0, selectedTeamId = 0;
-  String filterPerDay = "", startDate = "", endDate = "";
+  String filterPerDay = "", startDate = "", endDate = "", selectedAction = "";
   List<TimeSheetInfo> tempList = [];
   Map<String, String> appliedFilters = {};
 
@@ -176,7 +176,7 @@ class TimeSheetListController extends GetxController
 
   void changeTimesheetStatusApi(String? ids, String action) {
     String url = "";
-    print("action:"+action);
+    print("action:" + action);
     if (action == AppConstants.action.lock) {
       url = ApiConstants.lockTimesheet;
     } else if (action == AppConstants.action.unlock) {
@@ -184,7 +184,7 @@ class TimeSheetListController extends GetxController
     } else if (action == AppConstants.action.markAsPaid) {
       url = ApiConstants.paidTimesheet;
     }
-    print("url:"+url);
+    print("url:" + url);
     isLoading.value = true;
     Map<String, dynamic> map = {};
     // map["company_id"] = ApiConstants.companyId;
@@ -245,8 +245,8 @@ class TimeSheetListController extends GetxController
     } else if (isEditStatusEnable.value) {
       listItems
           .add(ModuleInfo(name: 'lock'.tr, action: AppConstants.action.lock));
-      listItems
-          .add(ModuleInfo(name: 'unlock'.tr, action: AppConstants.action.unlock));
+      listItems.add(
+          ModuleInfo(name: 'unlock'.tr, action: AppConstants.action.unlock));
       listItems.add(ModuleInfo(
           name: 'mark_as_paid'.tr, action: AppConstants.action.markAsPaid));
     } else {
@@ -254,8 +254,8 @@ class TimeSheetListController extends GetxController
           ModuleInfo(name: 'archive'.tr, action: AppConstants.action.archive));
       listItems
           .add(ModuleInfo(name: 'lock'.tr, action: AppConstants.action.lock));
-      listItems
-          .add(ModuleInfo(name: 'unlock'.tr, action: AppConstants.action.unlock));
+      listItems.add(
+          ModuleInfo(name: 'unlock'.tr, action: AppConstants.action.unlock));
       listItems.add(ModuleInfo(
           name: 'mark_as_paid'.tr, action: AppConstants.action.markAsPaid));
     }
@@ -286,6 +286,7 @@ class TimeSheetListController extends GetxController
       filterPerDay = info.name!.toLowerCase();
       loadTimesheetData(true);
     } else {
+      selectedAction = info.action ?? "";
       if (info.action == AppConstants.action.add) {
         moveToScreen(AppRoutes.addTimeSheetScreen, null);
       } else if (info.action == AppConstants.action.edit) {

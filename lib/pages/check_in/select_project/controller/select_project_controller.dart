@@ -30,6 +30,7 @@ class SelectProjectController extends GetxController {
       isClearVisible = false.obs;
   final _api = SelectProjectRepository();
   final noteController = TextEditingController().obs;
+
   // late GoogleMapController mapController;
   final Completer<GoogleMapController> mapController = Completer();
   final center =
@@ -39,7 +40,8 @@ class SelectProjectController extends GetxController {
   final searchController = TextEditingController().obs;
   final projectsList = <ModuleInfo>[].obs;
   List<ModuleInfo> tempList = [];
-  bool fromStartShiftScreen = false;
+  bool fromStartShiftScreen = false, switchProject = false;
+  int workLogId = 0;
 
   void onMapCreated(GoogleMapController controller) {
     if (!mapController.isCompleted) {
@@ -54,7 +56,9 @@ class SelectProjectController extends GetxController {
     var arguments = Get.arguments;
     if (arguments != null) {
       fromStartShiftScreen =
-          arguments[AppConstants.intentKey.fromStartShiftScreen] ?? "";
+          arguments[AppConstants.intentKey.fromStartShiftScreen] ?? false;
+      switchProject = arguments[AppConstants.intentKey.switchProject] ?? false;
+      workLogId = arguments[AppConstants.intentKey.workLogId] ?? 0;
     }
     LocationInfo? locationInfo = Get.find<AppStorage>().getLastLocation();
     if (locationInfo != null) {
@@ -165,9 +169,11 @@ class SelectProjectController extends GetxController {
   }
 
   Future<void> moveToScreen(int? projectId) async {
-    print("projectId:"+projectId.toString());
+    print("projectId:" + projectId.toString());
     var arguments = {
       AppConstants.intentKey.fromStartShiftScreen: fromStartShiftScreen,
+      AppConstants.intentKey.switchProject: switchProject,
+      AppConstants.intentKey.workLogId: workLogId,
       AppConstants.intentKey.ID: projectId ?? 0,
     };
     if (fromStartShiftScreen) {

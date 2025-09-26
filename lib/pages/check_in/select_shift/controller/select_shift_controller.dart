@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:belcka/pages/check_in/clock_in/controller/clock_in_repository.dart';
+import 'package:belcka/web_services/response/base_response.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -38,8 +40,8 @@ class SelectShiftController extends GetxController {
   final searchController = TextEditingController().obs;
   final shiftList = <ModuleInfo>[].obs;
   List<ModuleInfo> tempList = [];
-  bool fromStartShiftScreen = false;
-  int projectId = 0;
+  bool fromStartShiftScreen = false, switchProject = false;
+  int projectId = 0, workLogId = 0;
 
   void onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -52,8 +54,10 @@ class SelectShiftController extends GetxController {
     var arguments = Get.arguments;
     if (arguments != null) {
       fromStartShiftScreen =
-          arguments[AppConstants.intentKey.fromStartShiftScreen] ?? "";
+          arguments[AppConstants.intentKey.fromStartShiftScreen] ?? false;
+      switchProject = arguments[AppConstants.intentKey.switchProject] ?? false;
       projectId = arguments[AppConstants.intentKey.ID] ?? 0;
+      workLogId = arguments[AppConstants.intentKey.workLogId] ?? 0;
       print("Project ID" + projectId.toString());
     }
     LocationInfo? locationInfo = Get.find<AppStorage>().getLastLocation();
@@ -130,6 +134,39 @@ class SelectShiftController extends GetxController {
           }
         } else {
           // AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          // isInternetNotAvailable.value = true;
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        }
+      },
+    );
+  }
+
+  Future<void> userStopWorkApi(int shiftId) async {
+    String deviceModelName = await AppUtils.getDeviceName();
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["user_worklog_id"] = workLogId;
+    map["latitude"] = latitude;
+    map["longitude"] = longitude;
+    map["location"] = location;
+    map["device_type"] = AppConstants.deviceType;
+    map["device_model_type"] = deviceModelName;
+    ClockInRepository().userStopWork(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          BaseResponse response =
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          // AppUtils.showApiResponseMessage(response.Message);
+          userStartWorkApi(shiftId);
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;
       },

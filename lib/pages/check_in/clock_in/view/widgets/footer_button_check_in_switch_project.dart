@@ -26,7 +26,15 @@ class FooterButtonCheckInSwitchProject extends StatelessWidget {
                 child: PrimaryButton(
                   buttonText: 'switch_project'.tr,
                   onPressed: () {
-                    controller.userStopWorkApi();
+                    var arguments = {
+                      AppConstants.intentKey.fromStartShiftScreen: true,
+                      AppConstants.intentKey.switchProject: true,
+                      AppConstants.intentKey.workLogId:
+                          controller.selectedWorkLogInfo?.id ?? 0,
+                    };
+                    Get.toNamed(AppRoutes.selectProjectScreen,
+                        arguments: arguments);
+                    // controller.userStopWorkApi();
                   },
                   color: Color(0xffD5DDF2),
                   fontWeight: FontWeight.w500,

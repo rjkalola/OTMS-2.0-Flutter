@@ -75,6 +75,7 @@ class IntentKey {
   final String shiftInfo = "SHIFT_INFO";
   final String billingInfo = "BILLING_INFO";
   final String fromStartShiftScreen = 'FROM_START_SHIFT_SCREEN';
+  final String switchProject = 'SWITCH_PROJECT';
   final String workLogInfo = "WORK_LOG_INFO";
   final String ID = "ID";
   final String workLogId = "WORK_LOG_ID";
