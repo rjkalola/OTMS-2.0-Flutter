@@ -50,13 +50,13 @@ class BillingDetailsNewController extends GetxController {
   String taxInfo = "";
   String address = "";
   String bankDetails = "";
-  bool showPayRate = false;
+  bool showPayRate = true;
 
   @override
   void onInit() {
     super.onInit();
     getBillingInfo();
-    getPayRatePermissionAPI();
+    //getPayRatePermissionAPI();
   }
   void getPayRatePermissionAPI() async {
     Map<String, dynamic> map = {};

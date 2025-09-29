@@ -38,6 +38,7 @@ class RatesRequestController extends GetxController implements DialogButtonClick
   double cis = 0.0;
   int requestLogId = 0;
   bool fromNotification = false;
+  var isShowSaveButton = true.obs;
 
   @override
   void onInit() {
@@ -107,6 +108,7 @@ class RatesRequestController extends GetxController implements DialogButtonClick
     return 0.0;
   }
   void approveRequest() async {
+    isShowSaveButton.value = false;
     Map<String, dynamic> map = {};
     map["log_id"] = requestLogId;
     map["user_id"] = UserUtils.getLoginUserId();
@@ -126,6 +128,7 @@ class RatesRequestController extends GetxController implements DialogButtonClick
       },
       onError: (ResponseModel error) {
         isLoading.value = false;
+        isShowSaveButton.value = true;
         if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
           AppUtils.showApiResponseMessage('no_internet'.tr);
         } else if (error.statusMessage!.isNotEmpty) {
@@ -136,6 +139,7 @@ class RatesRequestController extends GetxController implements DialogButtonClick
   }
 
   void rejectRequest() async {
+    isShowSaveButton.value = false;
     Map<String, dynamic> map = {};
     map["log_id"] = requestLogId;
     map["user_id"] = UserUtils.getLoginUserId();
@@ -155,6 +159,7 @@ class RatesRequestController extends GetxController implements DialogButtonClick
       },
       onError: (ResponseModel error) {
         isLoading.value = false;
+        isShowSaveButton.value = true;
         if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
           AppUtils.showApiResponseMessage('no_internet'.tr);
         } else if (error.statusMessage!.isNotEmpty) {

@@ -15,6 +15,7 @@ import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:path/path.dart';
 
 import '../../../teams/join_team_to_company/model/trade_list_response.dart';
 
@@ -35,7 +36,7 @@ class RatesController extends GetxController implements SelectItemListener, Dial
   var cis = 0.0.obs;
   int? tradeId = 0;
   bool isRateRequested = false;
-  
+  var isShowSaveButton = true.obs;
   final List<ModuleInfo> listTrades = <ModuleInfo>[].obs;
 
   @override
@@ -97,6 +98,7 @@ class RatesController extends GetxController implements SelectItemListener, Dial
       },
       onError: (ResponseModel error) {
         isLoading.value = false;
+        isShowSaveButton.value = true;
         if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
           AppUtils.showApiResponseMessage('no_internet'.tr);
         } else if (error.statusMessage!.isNotEmpty) {

@@ -50,6 +50,7 @@ class BillingInfoController extends GetxController
   final billingInfo = BillingInfo().obs;
   final FocusNode focusNode = FocusNode();
   var arguments = Get.arguments;
+  var isShowSaveButton = true.obs;
 
   @override
   void onInit() {
@@ -102,6 +103,7 @@ class BillingInfoController extends GetxController
       },
       onError: (ResponseModel error) {
         isLoading.value = false;
+        isShowSaveButton.value = true;
         if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
           AppUtils.showApiResponseMessage('no_internet'.tr);
         } else if (error.statusMessage!.isNotEmpty) {
@@ -133,6 +135,7 @@ class BillingInfoController extends GetxController
       },
       onError: (ResponseModel error) {
         isLoading.value = false;
+        isShowSaveButton.value = true;
         if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
           AppUtils.showApiResponseMessage('no_internet'.tr);
         } else if (error.statusMessage!.isNotEmpty) {
@@ -167,6 +170,8 @@ class BillingInfoController extends GetxController
       billingInfo.value.accountNo = StringHelper.getText(accountNumberController.value);
       billingInfo.value.shortCode =
           StringHelper.getText(sortCodeController.value);
+
+      isShowSaveButton.value = false;
 
       if ((billingInfo.value.id ?? 0) != 0) {
         updateBillingInfoAPI();

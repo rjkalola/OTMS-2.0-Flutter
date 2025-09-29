@@ -150,63 +150,66 @@ class _RatesRequestScreenState extends State<RatesRequestScreen> {
                                     SizedBox(height: 24,),
                                     */
                             (UserUtils.isAdmin() && (controller.rateRequestInfo.value.statusText == "pending")) ?
-                            Column(
-                              spacing: 8,
-                              children: [
-                                AddNoteFieldWidget(
-                                    controller: controller.noteController,
-                                isReadOnly: false,),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          fixedSize: const Size(double.infinity, 45),
-                                          backgroundColor: Colors.red,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(30),
+                            Visibility(
+                              visible: controller.isShowSaveButton.value,
+                              child: Column(
+                                spacing: 8,
+                                children: [
+                                  AddNoteFieldWidget(
+                                      controller: controller.noteController,
+                                  isReadOnly: false,),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            fixedSize: const Size(double.infinity, 45),
+                                            backgroundColor: Colors.red,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(30),
+                                            ),
+                                            padding: EdgeInsets.zero, // important!
                                           ),
-                                          padding: EdgeInsets.zero, // important!
+                                          onPressed: () {
+                                            if (controller.valid()) {
+                                              controller.showActionDialog(
+                                                  AppConstants
+                                                      .dialogIdentifier.reject);
+                                            }
+                                          },
+                                          child: const Text(
+                                            "Reject",
+                                            style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold, color: Colors.white),
+                                          ),
                                         ),
-                                        onPressed: () {
-                                          if (controller.valid()) {
+                                      ),
+                                      const SizedBox(width: 16), // Gap between buttons
+                                      Expanded(
+                                        child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            fixedSize: const Size(double.infinity, 45),
+                                            backgroundColor: Colors.green,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(30),
+                                            ),
+                                            padding: EdgeInsets.zero, // important!
+                                          ),
+                                          onPressed: () {
                                             controller.showActionDialog(
                                                 AppConstants
-                                                    .dialogIdentifier.reject);
-                                          }
-                                        },
-                                        child: const Text(
-                                          "Reject",
-                                          style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold, color: Colors.white),
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(width: 16), // Gap between buttons
-                                    Expanded(
-                                      child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          fixedSize: const Size(double.infinity, 45),
-                                          backgroundColor: Colors.green,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(30),
+                                                    .dialogIdentifier
+                                                    .approve);
+                                          },
+                                          child: const Text(
+                                            "Approve",
+                                            style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold, color: Colors.white),
                                           ),
-                                          padding: EdgeInsets.zero, // important!
-                                        ),
-                                        onPressed: () {
-                                          controller.showActionDialog(
-                                              AppConstants
-                                                  .dialogIdentifier
-                                                  .approve);
-                                        },
-                                        child: const Text(
-                                          "Approve",
-                                          style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold, color: Colors.white),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ) ,
-                              ],
+                                    ],
+                                  ) ,
+                                ],
+                              ),
                             ) : Visibility(
                               visible: (controller.rateRequestInfo.value.statusText == "pending") ? true : false,
                                 child: RateRequestPendingForApproval())

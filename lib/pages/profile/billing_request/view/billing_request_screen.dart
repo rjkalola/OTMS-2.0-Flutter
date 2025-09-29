@@ -135,7 +135,9 @@ class _BillingRequestScreenState extends State<BillingRequestScreen> {
                             )
                             ),
                           ),
-                          BillingApprovalButtonsView()
+                          Visibility(
+                            visible: controller.isShowSaveButton.value,
+                              child: BillingApprovalButtonsView())
                         ],
                       ) : NoBillingRequestDataView()),
             ),

@@ -45,6 +45,7 @@ class BillingRequestController extends GetxController {
   final billingRequestInfo = BillingRequestInfo().obs;
   int requestLogId = 0;
   bool fromNotification = false;
+  var isShowSaveButton = true.obs;
 
   @override
   void onInit() {
@@ -97,6 +98,7 @@ class BillingRequestController extends GetxController {
   }
 
   void approveRequest() async {
+    isShowSaveButton.value = false;
     Map<String, dynamic> map = {};
     map["log_id"] = requestLogId;
     map["user_id"] = UserUtils.getLoginUserId();
@@ -115,6 +117,7 @@ class BillingRequestController extends GetxController {
       },
       onError: (ResponseModel error) {
         isLoading.value = false;
+        isShowSaveButton.value = true;
         if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
           AppUtils.showApiResponseMessage('no_internet'.tr);
         } else if (error.statusMessage!.isNotEmpty) {
@@ -125,6 +128,7 @@ class BillingRequestController extends GetxController {
   }
 
   void rejectRequest(String note) async {
+    isShowSaveButton.value = false;
     Map<String, dynamic> map = {};
     map["log_id"] = requestLogId;
     map["user_id"] = UserUtils.getLoginUserId();
@@ -144,6 +148,7 @@ class BillingRequestController extends GetxController {
       },
       onError: (ResponseModel error) {
         isLoading.value = false;
+        isShowSaveButton.value = true;
         if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
           AppUtils.showApiResponseMessage('no_internet'.tr);
         } else if (error.statusMessage!.isNotEmpty) {

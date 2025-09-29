@@ -123,26 +123,36 @@ class _RatesScreenState extends State<RatesScreen> {
                               SizedBox(height: 24,),
                               */
 
-                      Padding(
-                        padding: const EdgeInsets.all(0.0),
-                        child: (controller.isRateRequested == false) ? ElevatedButton(
-                          onPressed: () {
-                            controller.onSubmit();
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: defaultAccentColor_(context),
-                            minimumSize: Size(double.infinity, 50),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
+
+                      Visibility(
+                        visible: controller.isShowSaveButton.value,
+                        child: Padding(
+                          padding: const EdgeInsets.all(0.0),
+                          child: (controller.isRateRequested == false) ? ElevatedButton(
+                            onPressed: () {
+                              double netPerDay = double.parse(controller.netPerDayController.value.text ?? "");
+                              if (netPerDay > 0){
+                                FocusScope.of(context).unfocus();
+                                controller.isShowSaveButton.value = false;
+                                controller.onSubmit();
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: defaultAccentColor_(context),
+                              minimumSize: Size(double.infinity, 50),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
                             ),
-                          ),
-                          child: Text('send'.tr,
-                              style: TextStyle(
-                                  color:Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold)),
-                        ) : RateRequestPendingForApproval(),
+                            child: Text('send'.tr,
+                                style: TextStyle(
+                                    color:Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold)),
+                          ) : RateRequestPendingForApproval(),
+                        ),
                       )
+
                     ],
                   ),
                 )),
