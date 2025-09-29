@@ -1,3 +1,4 @@
+import 'package:belcka/utils/user_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
@@ -25,11 +26,11 @@ class AddNoteWidget extends StatelessWidget {
           hintText: 'add_a_note'.tr,
           labelText: 'add_a_note'.tr,
           textInputAction: TextInputAction.newline,
-          validator: MultiValidator([
+          validator: MultiValidator((!UserUtils.isAdmin()) ? [
             RequiredValidator(errorText: 'empty_note_error'.tr),
             MinLengthValidator(60, errorText: 'note_min_length_error'.tr),
             MaxLengthValidator(500, errorText: 'note_max_length_error'.tr),
-          ]),
+          ] : []),
           isReadOnly: isReadOnly,
           textAlignVertical: TextAlignVertical.top,
           onValueChange: onValueChange,

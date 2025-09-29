@@ -1,3 +1,4 @@
+import 'package:belcka/pages/profile/my_account/full_screen_image_view/full_screen_image_view_screen.dart';
 import 'package:belcka/pages/profile/my_profile_details/view/widgets/full_screen_image_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,11 +25,10 @@ class ProfileCardWidget extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           //Get.toNamed(AppRoutes.myProfileDetailsScreen);
-
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (_) => FullScreenImageView(
+              builder: (_) => FullScreenImageViewScreen(
                 imageUrl: info.userImage ?? "",
               ),
             ),

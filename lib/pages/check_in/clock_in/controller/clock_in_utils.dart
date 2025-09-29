@@ -136,7 +136,7 @@ class ClockInUtils {
       }
     }
 
-   /* int totalWorkTime = 0;
+    /* int totalWorkTime = 0;
     if (totalWorkHourSeconds > totalBreakHourSeconds) {
       totalWorkTime = totalWorkHourSeconds - totalBreakHourSeconds;
     } else {

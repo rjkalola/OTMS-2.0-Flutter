@@ -174,6 +174,19 @@ class RequestCard extends StatelessWidget {
                       controller.moveToScreen(
                           AppRoutes.billingRequestScreen, arguments);
                     }
+                    else{
+                      if (request.userId == UserUtils.getLoginUserId()){
+                        controller.moveToScreen(AppRoutes.billingDetailsNewScreen,[]);
+                      }
+                      else{
+                        var arguments = {
+                          "user_id": request.userId ?? 0,
+                        };
+                        controller.moveToScreen(
+                            AppRoutes.otherUserBillingDetailsScreen, arguments);
+                      }
+                    }
+
                   } else if (requestType == 102) {
                     var arguments = {
                       AppConstants.intentKey.ID: request.id ?? 0,

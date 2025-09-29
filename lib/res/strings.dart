@@ -399,6 +399,7 @@ class Strings extends Translations {
           'trade_name':"Trade Name",
           'select_category':"Select Category",
           'empty_category_list':"No category found",
+          'payment': "Payment",
 // '': "",
 // '': "",
 // '': "",

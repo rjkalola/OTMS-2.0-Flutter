@@ -28,7 +28,7 @@ class AddressTextField extends StatelessWidget {
         ]),
         inputFormatters: <TextInputFormatter>[
           // for below version 2 use this
-          FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9@.,]')),
+
         ]);
   }
 }
