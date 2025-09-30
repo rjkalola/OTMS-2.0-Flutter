@@ -1,10 +1,8 @@
 import 'package:belcka/pages/check_in/check_in/controller/check_in_controller.dart';
 import 'package:belcka/pages/check_in/check_in/model/type_of_work_resources_info.dart';
 import 'package:belcka/res/colors.dart';
-import 'package:belcka/res/drawable.dart';
 import 'package:belcka/res/theme/theme_config.dart';
 import 'package:belcka/utils/app_utils.dart';
-import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/text/TextViewWithContainer.dart';
@@ -105,7 +103,7 @@ class SelectedTypeOfWork extends StatelessWidget {
                       children: [
                         textContainerItem(
                             info.tradeName ?? "", AppUtils.getColor("#FF7F00")),
-                         textContainerItem(
+                        textContainerItem(
                             info.duration ?? "", AppUtils.getColor("#7523D3")),
                         (info.isPricework ?? false)
                             ? textContainerItem(

@@ -1,4 +1,6 @@
 import 'package:belcka/pages/add_trades/view/add_trades_screen.dart';
+import 'package:belcka/pages/check_in/check_in_photos_preview/view/check_in_photos_preview_screen.dart';
+import 'package:belcka/pages/check_in/type_of_work_details/view/type_of_work_details_screen.dart';
 import 'package:belcka/pages/profile/my_profile_details/view/my_profile_details_screen.dart';
 import 'package:belcka/pages/profile/other_user_billing/billing_details/view/other_user_billing_details_screen.dart';
 import 'package:belcka/pages/profile/rates/view/rates_screen.dart';
@@ -155,9 +157,7 @@ class AppPages {
       name: AppRoutes.companyTradesScreen,
       page: () => CompanyTradesScreen(),
     ),
-    GetPage(
-        name: AppRoutes.addTradesScreen,
-        page: () => AddTradesScreen()),
+    GetPage(name: AppRoutes.addTradesScreen, page: () => AddTradesScreen()),
     GetPage(
       name: AppRoutes.companyPermissionScreen,
       page: () => CompanyPermissionScreen(),
@@ -327,5 +327,11 @@ class AppPages {
     GetPage(
         name: AppRoutes.otherUserBillingDetailsScreen,
         page: () => OtherUserBillingDetailsScreen()),
+    GetPage(
+        name: AppRoutes.typeOfWorkDetailsScreen,
+        page: () => TypeOfWorkDetailsScreen()),
+    GetPage(
+        name: AppRoutes.checkInPhotosPreviewScreen,
+        page: () => CheckInPhotosPreviewScreen()),
   ];
 }

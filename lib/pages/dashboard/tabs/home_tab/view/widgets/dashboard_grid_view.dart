@@ -55,7 +55,7 @@ class DashboardGridView extends StatelessWidget {
                     crossAxisCount: 2,
                     mainAxisSpacing: 10,
                     crossAxisSpacing: 10,
-                    mainAxisExtent: 90,
+                    mainAxisExtent: 100,
                   ),
                 );
               },

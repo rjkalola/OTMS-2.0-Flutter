@@ -1,3 +1,4 @@
+import 'package:belcka/widgets/checkbox/custom_checkbox.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:belcka/pages/trades/controller/trades_controller.dart';
@@ -32,7 +33,15 @@ class CompanySubTradeList extends StatelessWidget {
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
                 ),
-                CustomSwitch(
+                controller.isDeleteOptionEnabled.value == true ? CustomCheckbox(onValueChange: (value){
+                  print("value:" + value.toString());
+                  info.status = !info.status!;
+                  controller.companyTradesList.refresh();
+                  controller.isDataUpdated.value = true;
+                  controller.checkSelectAll();
+                  controller.checkDeleteButton();
+
+                }, mValue: info.status) : CustomSwitch(
                     onValueChange: (value) {
                       print("value:" + value.toString());
                       info.status = !info.status!;

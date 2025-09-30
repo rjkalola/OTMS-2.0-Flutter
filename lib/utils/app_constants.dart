@@ -94,6 +94,7 @@ class IntentKey {
   final String fromNotification = "FROM_NOTIFICATION";
   final String filterType = "FILTER_TYPE";
   final String filterData = "FILTER_DATA";
+  final String typeOfWorkInfo = "TYPE_OF_WORK_INFO";
 }
 
 class DialogIdentifier {
@@ -280,9 +281,9 @@ class Status {
   final int pending = 3;
   final int approved = 5;
   final int rejected = 12;
-  // 6 lock
-  // 7 unlock
-  // 9 paid
+// 6 lock
+// 7 unlock
+// 9 paid
 }
 
 class CompanyResourcesFlag {

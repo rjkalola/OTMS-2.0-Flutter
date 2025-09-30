@@ -34,135 +34,125 @@ class SelectedTypeOfWork extends StatelessWidget {
                   controller.selectedTypeOfWorkList[i];
               return Stack(
                 children: [
-                  CardViewDashboardItem(
-                      elevation: 1,
-                      shadowColor: Colors.black45,
-                      borderRadius: 16,
-                      margin: EdgeInsets.fromLTRB(0, 14, 0, 14),
-                      padding: EdgeInsets.fromLTRB(16, 9, 12, 9),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: TitleTextView(
-                              text: info.name ?? "",
-                              fontSize: 17,
+                  GestureDetector(
+                    onTap: () {
+                      controller.typeOfWorkDetails(info);
+                    },
+                    child: CardViewDashboardItem(
+                        elevation: 1,
+                        shadowColor: Colors.black45,
+                        borderRadius: 16,
+                        margin: EdgeInsets.fromLTRB(0, 14, 0, 14),
+                        padding: EdgeInsets.fromLTRB(16, 9, 12, 9),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: TitleTextView(
+                                text: info.name ?? "",
+                                fontSize: 17,
+                              ),
                             ),
-                          ),
-                          Row(
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  controller.onSelectTypeOfWorkPhotos(i);
-                                },
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  height: 48,
-                                  width: 48,
-                                  child: Stack(
+                            Row(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    if (StringHelper.isEmptyString(controller
+                                        .checkLogInfo.value.checkoutDateTime)) {
+                                      controller.onSelectTypeOfWorkPhotos(i);
+                                    } else {
+                                      controller.typeOfWorkDetails(info);
+                                    }
+                                  },
+                                  child: Container(
                                     alignment: Alignment.center,
-                                    children: [
-                                      Container(
-                                        decoration:
-                                            AppUtils.getGrayBorderDecoration(
-                                                borderWidth: 1,
-                                                borderColor:
-                                                    ThemeConfig.isDarkMode
-                                                        ? Colors.white
-                                                        : Colors.black26,
-                                                radius: 45),
-                                        alignment: Alignment.center,
-                                        height: 36,
-                                        width: 36,
-                                        child: Icon(
-                                          Icons.camera_alt_rounded,
-                                          size: 22,
+                                    height: 48,
+                                    width: 48,
+                                    child: Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        Container(
+                                          decoration:
+                                              AppUtils.getGrayBorderDecoration(
+                                                  borderWidth: 1,
+                                                  borderColor:
+                                                      ThemeConfig.isDarkMode
+                                                          ? Colors.white
+                                                          : Colors.black26,
+                                                  radius: 45),
+                                          alignment: Alignment.center,
+                                          height: 36,
+                                          width: 36,
+                                          child: Icon(
+                                            Icons.camera_alt_rounded,
+                                            size: 22,
+                                          ),
                                         ),
-                                      ),
-                                      !StringHelper.isEmptyList(
-                                                  info.beforeAttachments) &&
-                                              !StringHelper.isEmptyList(
-                                                  info.afterAttachments)
-                                          ? Align(
-                                              alignment: Alignment.bottomRight,
-                                              child: Icon(
-                                                Icons.check_circle_rounded,
-                                                size: 22,
-                                                color: Colors.green,
-                                              ),
-                                            )
-                                          : StringHelper.isEmptyList(
-                                                      info.beforeAttachments) &&
-                                                  StringHelper.isEmptyList(
-                                                      info.afterAttachments)
-                                              ? Align(
-                                                  alignment:
-                                                      Alignment.bottomRight,
-                                                  child: Icon(
-                                                    Icons.add_circle_outlined,
-                                                    size: 22,
-                                                    color: defaultAccentColor_(
-                                                        context),
-                                                  ),
-                                                )
-                                              : Align(
-                                                  alignment:
-                                                      Alignment.bottomRight,
-                                                  child: CustomBadgeIcon(
-                                                    width: 22,
-                                                    height: 22,
-                                                    count: info
-                                                            .beforeAttachments!
-                                                            .isNotEmpty
-                                                        ? info
-                                                            .beforeAttachments!
-                                                            .length
-                                                        : info.afterAttachments!
-                                                            .length,
-                                                    color: defaultAccentColor_(
-                                                        context),
-                                                  ),
+                                        !StringHelper.isEmptyList(
+                                                info.afterAttachments)
+                                            ? Align(
+                                                alignment:
+                                                    Alignment.bottomRight,
+                                                child: Icon(
+                                                  Icons.check_circle_rounded,
+                                                  size: 22,
+                                                  color: Colors.green,
                                                 ),
-                                    ],
+                                              )
+                                            : Align(
+                                                alignment:
+                                                    Alignment.bottomRight,
+                                                child: Icon(
+                                                  Icons.add_circle_outlined,
+                                                  size: 22,
+                                                  color: defaultAccentColor_(
+                                                      context),
+                                                ),
+                                              ),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  if (StringHelper.isEmptyString(controller
-                                      .checkLogInfo.value.checkoutDateTime)) {
-                                    showNumberPicker(
-                                        context,
-                                        (info.progress ?? 0) != 0
-                                            ? (info.progress ?? 0)
-                                            : 100,
-                                        i);
-                                  }
-                                },
-                                child: Container(
-                                  width: 44,
-                                  alignment: Alignment.center,
-                                  padding: EdgeInsets.fromLTRB(0, 3, 0, 3),
-                                  decoration: AppUtils.getGrayBorderDecoration(
-                                      radius: 9,
-                                      borderColor:
-                                          secondaryExtraLightTextColor_(
-                                              context)),
-                                  child: TitleTextView(
-                                    fontSize: 15,
-                                    text: ((info.progress ?? 0) != 0
-                                            ? (info.progress ?? 0)
-                                            : 100)
-                                        .toString(),
-                                  ),
+                                SizedBox(
+                                  width: 10,
                                 ),
-                              )
-                            ],
-                          )
-                        ],
-                      )),
+                                GestureDetector(
+                                  onTap: () {
+                                    if (StringHelper.isEmptyString(controller
+                                        .checkLogInfo.value.checkoutDateTime)) {
+                                      showNumberPicker(
+                                          context,
+                                          (info.progress ?? 0) != 0
+                                              ? (info.progress ?? 0)
+                                              : 100,
+                                          i);
+                                    }else {
+                                      controller.typeOfWorkDetails(info);
+                                    }
+                                  },
+                                  child: Container(
+                                    width: 44,
+                                    alignment: Alignment.center,
+                                    padding: EdgeInsets.fromLTRB(0, 3, 0, 3),
+                                    decoration:
+                                        AppUtils.getGrayBorderDecoration(
+                                            radius: 9,
+                                            borderColor:
+                                                secondaryExtraLightTextColor_(
+                                                    context)),
+                                    child: TitleTextView(
+                                      fontSize: 15,
+                                      text: ((info.progress ?? 0) != 0
+                                              ? (info.progress ?? 0)
+                                              : 100)
+                                          .toString(),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            )
+                          ],
+                        )),
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(left: 16),
                     child: Row(

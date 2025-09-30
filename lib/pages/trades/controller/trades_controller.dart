@@ -27,6 +27,7 @@ class TradesController extends GetxController implements MenuItemListener, Dialo
       isDataUpdated = false.obs,
       isCheckAll = false.obs;
   final companyTradesList = <TradeInfo>[].obs;
+  var isDeleteOptionEnabled = false.obs, hasSelection = false.obs;
 
   @override
   void onInit() {
@@ -95,7 +96,33 @@ class TradesController extends GetxController implements MenuItemListener, Dialo
       },
     );
   }
+  void deleteCompanyBulkTradeStatusApi() async {
+    Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
+    map["trade_ids"] = getSelectedTradeIds();
 
+    isLoading.value = true;
+    _api.deleteCompanyBulkTrades(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          Get.back(result: true);
+          BaseResponse response =
+          BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showApiResponseMessage(response.Message ?? "");
+        } else {
+          // AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          // AppUtils.showApiResponseMessage('no_internet'.tr);
+        }
+      },
+    );
+  }
   List<SaveTradeRequest> getRequestData() {
     List<SaveTradeRequest> list = [];
     if (companyTradesList.isNotEmpty) {
@@ -108,6 +135,19 @@ class TradesController extends GetxController implements MenuItemListener, Dialo
       }
     }
     return list;
+  }
+  String getSelectedTradeIds() {
+    List<int> selectedIds = [];
+    if (companyTradesList.isNotEmpty) {
+      for (var info in companyTradesList) {
+        for (var tradeInfo in info.trades!) {
+          if (tradeInfo.status == true) {
+            selectedIds.add(tradeInfo.id!);
+          }
+        }
+      }
+    }
+    return selectedIds.join(",");
   }
 
   void checkSelectAll() {
@@ -123,10 +163,24 @@ class TradesController extends GetxController implements MenuItemListener, Dialo
     }
     isCheckAll.value = isAllSelected;
   }
+  void checkDeleteButton() {
+    bool isShowDelete = false;
+    for (var info in companyTradesList) {
+      for (var data in info.trades!) {
+        if ((data.status ?? false) == true) {
+          isShowDelete = true;
+          break;
+        }
+      }
+      if (isShowDelete) break;
+    }
+    hasSelection.value = isShowDelete;
+  }
 
   void checkAll() {
     isDataUpdated.value = true;
     isCheckAll.value = true;
+    hasSelection.value = true;
     for (var info in companyTradesList) {
       for (var data in info.trades!) {
         data.status = true;
@@ -138,6 +192,7 @@ class TradesController extends GetxController implements MenuItemListener, Dialo
   void unCheckAll() {
     isDataUpdated.value = true;
     isCheckAll.value = false;
+    hasSelection.value = false;
     for (var info in companyTradesList) {
       for (var data in info.trades!) {
         data.status = false;
@@ -145,17 +200,23 @@ class TradesController extends GetxController implements MenuItemListener, Dialo
     }
     companyTradesList.refresh();
   }
-
   void onBackPress() {
-    if (isDataUpdated.value) {
-      changeCompanyBulkTradeStatusApi();
-    } else {
+    if (isDeleteOptionEnabled.value == true){
       Get.back();
+    }
+    else{
+      if (isDataUpdated.value) {
+        changeCompanyBulkTradeStatusApi();
+      }
+      else{
+        Get.back();
+      }
     }
   }
   void showMenuItemsDialog(BuildContext context) {
     List<ModuleInfo> listItems = [];
     listItems.add(ModuleInfo(name: 'add'.tr, action: AppConstants.action.add));
+    listItems.add(ModuleInfo(name: 'delete'.tr, action: AppConstants.action.delete));
     showCupertinoModalPopup(
       context: context,
       builder: (_) =>
@@ -193,6 +254,11 @@ class TradesController extends GetxController implements MenuItemListener, Dialo
         //AppConstants.intentKey.projectInfo: projectInfo,
       };
       moveToScreen(AppRoutes.addTradesScreen, arguments);
+    }
+    else if (info.action == AppConstants.action.delete) {
+      isDeleteOptionEnabled.value = true;
+      unCheckAll();
+      companyTradesList.refresh();
     }
   }
 }

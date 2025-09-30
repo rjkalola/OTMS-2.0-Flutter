@@ -26,7 +26,7 @@ class DashboardGridItem extends StatelessWidget {
       },
       child: Container(
         width: double.infinity,
-        padding: EdgeInsets.fromLTRB(14, 12, 10, 12),
+        padding: EdgeInsets.fromLTRB(14, 0, 10, 0),
         color: Colors.transparent,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -59,14 +59,18 @@ class DashboardGridItem extends StatelessWidget {
                   ),
                   Visibility(
                     visible: !StringHelper.isEmptyString(info.value),
-                    child: PrimaryTextView(
-                      text: info.value ?? "",
-                      textAlign: TextAlign.center,
-                      color: secondaryExtraLightTextColor_(context),
-                      fontWeight: FontWeight.w400,
-                      fontSize: 14,
-                      softWrap: true,
-                      maxLine: 1,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 8, right: 8),
+                      child: PrimaryTextView(
+                        text: info.value ?? "",
+                        textAlign: TextAlign.center,
+                        color: secondaryExtraLightTextColor_(context),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
+                        softWrap: true,
+                        overflow: TextOverflow.ellipsis,
+                        maxLine: 2,
+                      ),
                     ),
                   ),
                 ],

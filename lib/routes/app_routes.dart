@@ -108,5 +108,9 @@ class AppRoutes {
   static const String ratesRequestScreen = '/rates_request_screen';
   static const String myProfileDetailsScreen = '/my_profile_details_screen';
   static const String addTimeSheetScreen = '/add_time_sheet_screen';
-  static const String otherUserBillingDetailsScreen = '/other_user_billing_details_screen';
+  static const String otherUserBillingDetailsScreen =
+      '/other_user_billing_details_screen';
+  static const String typeOfWorkDetailsScreen = '/type_of_work_details_screen';
+  static const String checkInPhotosPreviewScreen =
+      '/check_in_photos_preview_screen';
 }

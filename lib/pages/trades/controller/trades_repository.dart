@@ -37,4 +37,20 @@ class TradesRepository {
       onError: (error) => {if (onError != null) onError(error)},
     );
   }
+  void deleteCompanyBulkTrades({
+    dynamic data,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+        url: ApiConstants.deleteCompanyBulkTrades,
+        data: data,
+        isFormData: false)
+        .postRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
 }

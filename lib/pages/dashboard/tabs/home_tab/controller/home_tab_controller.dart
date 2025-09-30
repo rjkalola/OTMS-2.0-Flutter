@@ -1,6 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:belcka/pages/check_in/clock_in/controller/clock_in_utils_.dart';
+import 'package:belcka/pages/check_in/clock_in/model/counter_details.dart';
+import 'package:belcka/pages/check_in/clock_in/model/work_log_info.dart';
+import 'package:belcka/utils/date_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:belcka/pages/check_in/clock_in/controller/clock_in_repository.dart';
@@ -29,7 +33,8 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
   final _api = HomeTabRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
-      isMainViewVisible = false.obs;
+      isMainViewVisible = false.obs,
+      isOnBreak = false.obs;
 
   // RxString nextUpdateLocationTime = "".obs;
 
@@ -38,6 +43,12 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
   final dashboardResponse = DashboardResponse().obs;
   final listPermissions = <PermissionInfo>[].obs;
   UserInfo? userInfo;
+
+  Timer? _timer;
+  final RxString totalWorkHours = "".obs,
+      remainingBreakTime = "".obs,
+      activeWorkHours = "".obs;
+  final workLogData = WorkLogListResponse().obs;
 
   @override
   void onInit() {
@@ -127,6 +138,8 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
           AppStorage().setUserPermissionsResponse(response);
           listPermissions.clear();
           listPermissions.addAll(response.permissions ?? []);
+          updateShiftValue(isClearValue: false);
+          getUserWorkLogListApi(isShiftClick: false, isProgress: false);
         } else {
           // AppUtils.showSnackBarMessage(responseModel.statusMessage!);
         }
@@ -242,33 +255,68 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
     );
   }
 
-  Future<void> getUserWorkLogListApi() async {
-    isLoading.value = true;
+  Future<void> getUserWorkLogListApi(
+      {required bool isShiftClick, required bool isProgress}) async {
+    isLoading.value = isProgress;
     Map<String, dynamic> map = {};
     map["date"] = "";
     map["shift_id"] = 0;
     ClockInRepository().getUserWorkLogList(
       data: map,
       onSuccess: (ResponseModel responseModel) {
-        if (responseModel.isSuccess) {
-          WorkLogListResponse response =
-              WorkLogListResponse.fromJson(jsonDecode(responseModel.result!));
-          if (response.workLogInfo!.isNotEmpty ||
-              (response.userIsWorking ?? false)) {
-            moveToScreen(appRout: AppRoutes.clockInScreen);
+        if (isShiftClick) {
+          if (responseModel.isSuccess) {
+            WorkLogListResponse response =
+                WorkLogListResponse.fromJson(jsonDecode(responseModel.result!));
+            if (response.workLogInfo!.isNotEmpty ||
+                (response.userIsWorking ?? false)) {
+              moveToScreen(appRout: AppRoutes.clockInScreen);
+            } else {
+              moveToScreen(appRout: AppRoutes.startShiftMapScreen);
+            }
           } else {
             moveToScreen(appRout: AppRoutes.startShiftMapScreen);
           }
-          // moveToScreen(appRout: AppRoutes.startShiftMapScreen);
         } else {
-          moveToScreen(appRout: AppRoutes.startShiftMapScreen);
+          if (responseModel.isSuccess) {
+            WorkLogListResponse response =
+                WorkLogListResponse.fromJson(jsonDecode(responseModel.result!));
+            workLogData.value = response;
+
+            // if (ClockInUtils.isCurrentDay(
+            //     workLogData.value.workStartDate ?? "")) {
+            //   workLogData.value.workLogInfo!.add(WorkLogInfo(id: 0));
+            // }
+
+            if (response.userIsWorking ?? false) {
+              stopTimer();
+              startTimer();
+            } else {
+              if (response.workLogInfo!.isNotEmpty) {
+                stopTimer();
+                CounterDetails details =
+                    ClockInUtils.getTotalWorkHours(workLogData.value);
+                totalWorkHours.value = details.totalWorkTime;
+                activeWorkHours.value = DateUtil.seconds_To_HH_MM_SS(0);
+                isOnBreak.value = details.isOnBreak;
+                remainingBreakTime.value = details.remainingBreakTime;
+                updateShiftValue(isClearValue: false);
+              } else {
+                updateShiftValue(isClearValue: true);
+              }
+            }
+          } else {
+            stopTimer();
+            updateShiftValue(isClearValue: true);
+          }
         }
+
         isLoading.value = false;
       },
       onError: (ResponseModel error) {
         isLoading.value = false;
         if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
-          AppUtils.showApiResponseMessage('no_internet'.tr);
+          // AppUtils.showApiResponseMessage('no_internet'.tr);
         }
       },
     );
@@ -391,7 +439,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       Get.toNamed(AppRoutes.projectListScreen);
       // Get.toNamed(AppRoutes.createTeamScreen);
     } else if (info.slug == 'shift') {
-      getUserWorkLogListApi();
+      getUserWorkLogListApi(isShiftClick: true, isProgress: true);
       /* if (UserUtils.isWorking()) {
         Get.toNamed(AppRoutes.clockInScreen);
       } else {
@@ -477,5 +525,45 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
     } else {
       getDashboardUserPermissionsApi(false);
     }
+  }
+
+  void startTimer() {
+    _onTick(null);
+    _timer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
+      _onTick(timer);
+    });
+  }
+
+  void _onTick(Timer? timer) {
+    CounterDetails details = ClockInUtils.getTotalWorkHours(workLogData.value);
+    totalWorkHours.value = details.totalWorkTime;
+    activeWorkHours.value =
+        DateUtil.seconds_To_HH_MM_SS(details.activeWorkSeconds);
+    isOnBreak.value = details.isOnBreak;
+    remainingBreakTime.value = details.remainingBreakTime;
+    updateShiftValue(isClearValue: false);
+  }
+
+  void updateShiftValue({required bool isClearValue}) {
+    final index = listPermissions.indexWhere((e) => e.slug == "shift");
+    if (index != -1) {
+      if (!isClearValue) {
+        String value = "";
+        if (isOnBreak.value) {
+          value = 'on_break'.tr;
+        } else {
+          value = totalWorkHours.value;
+        }
+        listPermissions[index].value = value;
+        listPermissions.refresh();
+      } else {
+        listPermissions[index].value = "";
+        listPermissions.refresh();
+      }
+    }
+  }
+
+  void stopTimer() {
+    _timer?.cancel();
   }
 }

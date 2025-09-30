@@ -11,6 +11,7 @@ import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
 import 'package:belcka/widgets/text/PrimaryTextView.dart';
 import 'package:belcka/utils/app_utils.dart';
+
 class CompanyTradesScreen extends StatefulWidget {
   const CompanyTradesScreen({super.key});
 
@@ -30,45 +31,76 @@ class _CompanyTradesScreenState extends State<CompanyTradesScreen> {
         if (didPop || result != null) return;
         controller.onBackPress();
       },
-      child: Obx(() => Container(
-        color: backgroundColor_(context),
-        child: SafeArea(
-          child: Scaffold(
-            backgroundColor: backgroundColor_(context),
-            appBar: BaseAppBar(
-              appBar: AppBar(),
-              title: 'trades'.tr,
-              isCenterTitle: false,
-              isBack: true,
-               widgets: actionButtons(),
-              onBackPressed: () {
-                controller.onBackPress();
-              },
+      child: Obx(
+        () => Container(
+          color: backgroundColor_(context),
+          child: SafeArea(
+            child: Scaffold(
+              backgroundColor: backgroundColor_(context),
+              appBar: BaseAppBar(
+                appBar: AppBar(),
+                title: 'trades'.tr,
+                isCenterTitle: false,
+                isBack: true,
+                widgets: actionButtons(),
+                onBackPressed: () {
+                  controller.onBackPress();
+                },
+              ),
+              body: ModalProgressHUD(
+                  inAsyncCall: controller.isLoading.value,
+                  opacity: 0,
+                  progressIndicator: const CustomProgressbar(),
+                  child: controller.isInternetNotAvailable.value
+                      ? NoInternetWidget(
+                          onPressed: () {
+                            controller.isInternetNotAvailable.value = false;
+                            // controller.getCompanyDetailsApi();
+                          },
+                        )
+                      : Visibility(
+                          visible: controller.isMainViewVisible.value,
+                          child: Column(
+                            children: [
+                              Divider(),
+                              SelectAllText(),
+                              CompanyTradeList()
+                            ],
+                          ),
+                        )),
+              bottomNavigationBar: controller.isDeleteOptionEnabled.value &&
+                      controller.hasSelection.value
+                  ? SafeArea(
+                      child: Visibility(
+                        visible: true,
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              print(controller.getSelectedTradeIds());
+                              controller.deleteCompanyBulkTradeStatusApi();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red,
+                              minimumSize: Size(double.infinity, 50),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                            ),
+                            child: Text('delete'.tr,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold)),
+                          ),
+                        ),
+                      ),
+                    )
+                  : null,
             ),
-            body: ModalProgressHUD(
-                inAsyncCall: controller.isLoading.value,
-                opacity: 0,
-                progressIndicator: const CustomProgressbar(),
-                child: controller.isInternetNotAvailable.value
-                    ? NoInternetWidget(
-                  onPressed: () {
-                    controller.isInternetNotAvailable.value = false;
-                    // controller.getCompanyDetailsApi();
-                  },
-                )
-                    : Visibility(
-                  visible: controller.isMainViewVisible.value,
-                  child: Column(
-                    children: [
-                      Divider(),
-                      SelectAllText(),
-                      CompanyTradeList()
-                    ],
-                  ),
-                )),
           ),
         ),
-      ),),
+      ),
     );
   }
 
