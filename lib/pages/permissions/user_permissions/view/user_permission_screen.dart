@@ -14,6 +14,7 @@ import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
 import 'package:belcka/widgets/text/PrimaryTextView.dart';
 import 'package:belcka/utils/app_utils.dart';
+
 class UserPermissionScreen extends StatefulWidget {
   const UserPermissionScreen({super.key});
 
@@ -33,50 +34,52 @@ class _UserPermissionScreenState extends State<UserPermissionScreen> {
         if (didPop || result != null) return;
         controller.onBackPress();
       },
-      child: Obx(() => Container(
-        color: backgroundColor_(context),
-        child: SafeArea(
-          child: Scaffold(
-            backgroundColor: backgroundColor_(context),
-            appBar: BaseAppBar(
-              appBar: AppBar(),
-              title: controller.fromDashboard.value
-                  ? 'edit_widget'.tr
-                  : 'user_permissions'.tr,
-              isCenterTitle: false,
-              isBack: true,
-              // widgets: actionButtons(),
-              onBackPressed: () {
-                controller.onBackPress();
-              },
+      child: Obx(
+        () => Container(
+          color: backgroundColor_(context),
+          child: SafeArea(
+            child: Scaffold(
+              backgroundColor: backgroundColor_(context),
+              appBar: BaseAppBar(
+                appBar: AppBar(),
+                title: controller.fromDashboard.value
+                    ? 'edit_widget'.tr
+                    : 'user_permissions'.tr,
+                isCenterTitle: false,
+                isBack: true,
+                // widgets: actionButtons(),
+                onBackPressed: () {
+                  controller.onBackPress();
+                },
+              ),
+              body: ModalProgressHUD(
+                  inAsyncCall: controller.isLoading.value,
+                  opacity: 0,
+                  progressIndicator: const CustomProgressbar(),
+                  child: controller.isInternetNotAvailable.value
+                      ? NoInternetWidget(
+                          onPressed: () {
+                            controller.isInternetNotAvailable.value = false;
+                            controller.getCompanyPermissionsApi();
+                          },
+                        )
+                      : Visibility(
+                          visible: controller.isMainViewVisible.value,
+                          child: Column(
+                            children: [
+                              Divider(),
+                              !controller.fromDashboard.value
+                                  ? SearchUserPermissionWidget()
+                                  : Container(),
+                              SelectAllText(),
+                              UserPermissionsList()
+                            ],
+                          ),
+                        )),
             ),
-            body: ModalProgressHUD(
-                inAsyncCall: controller.isLoading.value,
-                opacity: 0,
-                progressIndicator: const CustomProgressbar(),
-                child: controller.isInternetNotAvailable.value
-                    ? NoInternetWidget(
-                  onPressed: () {
-                    controller.isInternetNotAvailable.value = false;
-                    controller.getCompanyPermissionsApi();
-                  },
-                )
-                    : Visibility(
-                  visible: controller.isMainViewVisible.value,
-                  child: Column(
-                    children: [
-                      Divider(),
-                      !controller.fromDashboard.value
-                          ? SearchUserPermissionWidget()
-                          : Container(),
-                      SelectAllText(),
-                      UserPermissionsList()
-                    ],
-                  ),
-                )),
           ),
         ),
-      ),),
+      ),
     );
   }
 

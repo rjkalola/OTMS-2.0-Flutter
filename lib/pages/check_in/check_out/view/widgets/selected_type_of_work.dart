@@ -36,7 +36,7 @@ class SelectedTypeOfWork extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      controller.typeOfWorkDetails(info);
+                      controller.typeOfWorkDetails(info, i);
                     },
                     child: CardViewDashboardItem(
                         elevation: 1,
@@ -60,7 +60,7 @@ class SelectedTypeOfWork extends StatelessWidget {
                                         .checkLogInfo.value.checkoutDateTime)) {
                                       controller.onSelectTypeOfWorkPhotos(i);
                                     } else {
-                                      controller.typeOfWorkDetails(info);
+                                      controller.typeOfWorkDetails(info, i);
                                     }
                                   },
                                   child: Container(
@@ -125,12 +125,12 @@ class SelectedTypeOfWork extends StatelessWidget {
                                               ? (info.progress ?? 0)
                                               : 100,
                                           i);
-                                    }else {
-                                      controller.typeOfWorkDetails(info);
+                                    } else {
+                                      controller.typeOfWorkDetails(info, i);
                                     }
                                   },
                                   child: Container(
-                                    width: 44,
+                                    width: 55,
                                     alignment: Alignment.center,
                                     padding: EdgeInsets.fromLTRB(0, 3, 0, 3),
                                     decoration:
@@ -141,10 +141,8 @@ class SelectedTypeOfWork extends StatelessWidget {
                                                     context)),
                                     child: TitleTextView(
                                       fontSize: 15,
-                                      text: ((info.progress ?? 0) != 0
-                                              ? (info.progress ?? 0)
-                                              : 100)
-                                          .toString(),
+                                      text:
+                                          "${((info.progress ?? 0) != 0 ? (info.progress ?? 0) : 100)}%",
                                     ),
                                   ),
                                 )

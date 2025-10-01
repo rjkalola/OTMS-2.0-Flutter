@@ -64,7 +64,10 @@ class UserPermissionController extends GetxController {
           isMainViewVisible.value = true;
           UserPermissionsResponse response = UserPermissionsResponse.fromJson(
               jsonDecode(responseModel.result!));
-          if (UserUtils.isAdmin()) {
+          tempList.clear();
+          tempList.addAll(response.permissions ?? []);
+          userPermissionList.value = tempList;
+         /* if (UserUtils.isAdmin()) {
             tempList.clear();
             tempList.addAll(response.permissions ?? []);
             userPermissionList.value = tempList;
@@ -74,7 +77,7 @@ class UserPermissionController extends GetxController {
                 .where((e) => e.status ?? false)
                 .toList());
             userPermissionList.value = tempList;
-          }
+          }*/
           userPermissionList.refresh();
           checkSelectAll();
         } else {

@@ -4,8 +4,6 @@ import 'package:belcka/pages/profile/billing_info/controller/billing_info_contro
 import 'package:belcka/pages/profile/widgets/account_number_text_field.dart';
 import 'package:belcka/pages/profile/widgets/bank_name_text_field.dart';
 import 'package:belcka/pages/profile/widgets/name_on_account_text_field.dart';
-import 'package:belcka/pages/profile/widgets/name_on_utr_text_field.dart';
-import 'package:belcka/pages/profile/widgets/sort_code_text_field.dart';
 import 'package:belcka/pages/profile/billing_info/view/widgets/title_text.dart';
 import 'package:belcka/pages/profile/widgets/sort_code_text_field_keyboard.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';

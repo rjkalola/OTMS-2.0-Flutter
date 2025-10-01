@@ -364,10 +364,9 @@ class Strings extends Translations {
           'update_progress_warning_text_two': "to complete the task",
           'update_progress_warning_text_three':
               "Do you want to modify the progress",
-          'msg_empty_before_after_attachment':
-              "Please select at least 1 before and after photo.",
           'msg_empty_before_attachment':
               "Please select at least 1 before photo.",
+          'msg_empty_after_attachment': "Please select at least 1 after photo.",
           'push': "Push",
           'feed': "Feed",
           'announcement': "Announcement",
@@ -404,6 +403,8 @@ class Strings extends Translations {
           'decoration': "Decoration",
           'quantity': "Quantity",
           'estimation_duration': "Estimation Duration",
+          'requested_shift': "Requested Shift",
+          'actual_shift': "Actual Shift",
 // '': "",
           // '': "",
 // '': "",

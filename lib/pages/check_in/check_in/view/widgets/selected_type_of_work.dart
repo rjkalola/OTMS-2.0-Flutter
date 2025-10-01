@@ -32,71 +32,78 @@ class SelectedTypeOfWork extends StatelessWidget {
                   controller.selectedTypeOfWorkList[i];
               return Stack(
                 children: [
-                  CardViewDashboardItem(
-                      elevation: 1,
-                      shadowColor: Colors.black45,
-                      borderRadius: 16,
-                      margin: EdgeInsets.fromLTRB(0, 14, 0, 14),
-                      padding: EdgeInsets.fromLTRB(16, 9, 12, 9),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: TitleTextView(
-                              text: info.name ?? "",
-                              fontSize: 17,
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              controller.onSelectTypeOfWorkPhotos(i);
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              height: 48,
-                              width: 48,
-                              child: Stack(
-                                alignment: Alignment.center,
-                                children: [
-                                  Container(
-                                    decoration:
-                                        AppUtils.getGrayBorderDecoration(
-                                            borderWidth: 1,
-                                            borderColor: ThemeConfig.isDarkMode
-                                                ? Colors.white
-                                                : Colors.black26,
-                                            radius: 45),
-                                    alignment: Alignment.center,
-                                    height: 36,
-                                    width: 36,
-                                    child: Icon(
-                                      Icons.camera_alt_rounded,
-                                      size: 22,
-                                    ),
-                                  ),
-                                  !StringHelper.isEmptyList(
-                                          info.beforeAttachments)
-                                      ? Align(
-                                          alignment: Alignment.bottomRight,
-                                          child: Icon(
-                                            Icons.check_circle_rounded,
-                                            size: 22,
-                                            color: Colors.green,
-                                          ),
-                                        )
-                                      : Align(
-                                          alignment: Alignment.bottomRight,
-                                          child: Icon(
-                                            Icons.add_circle_outlined,
-                                            size: 22,
-                                            color: defaultAccentColor_(context),
-                                          ),
-                                        ),
-                                ],
+                  GestureDetector(
+                    onTap: () {
+                      controller.typeOfWorkDetails(info);
+                    },
+                    child: CardViewDashboardItem(
+                        elevation: 1,
+                        shadowColor: Colors.black45,
+                        borderRadius: 16,
+                        margin: EdgeInsets.fromLTRB(0, 14, 0, 14),
+                        padding: EdgeInsets.fromLTRB(16, 9, 12, 9),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: TitleTextView(
+                                text: info.name ?? "",
+                                fontSize: 17,
                               ),
                             ),
-                          )
-                        ],
-                      )),
+                            InkWell(
+                              onTap: () {
+                                controller.onSelectTypeOfWorkPhotos(i);
+                              },
+                              child: Container(
+                                alignment: Alignment.center,
+                                height: 48,
+                                width: 48,
+                                child: Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Container(
+                                      decoration:
+                                          AppUtils.getGrayBorderDecoration(
+                                              borderWidth: 1,
+                                              borderColor:
+                                                  ThemeConfig.isDarkMode
+                                                      ? Colors.white
+                                                      : Colors.black26,
+                                              radius: 45),
+                                      alignment: Alignment.center,
+                                      height: 36,
+                                      width: 36,
+                                      child: Icon(
+                                        Icons.camera_alt_rounded,
+                                        size: 22,
+                                      ),
+                                    ),
+                                    !StringHelper.isEmptyList(
+                                            info.beforeAttachments)
+                                        ? Align(
+                                            alignment: Alignment.bottomRight,
+                                            child: Icon(
+                                              Icons.check_circle_rounded,
+                                              size: 22,
+                                              color: Colors.green,
+                                            ),
+                                          )
+                                        : Align(
+                                            alignment: Alignment.bottomRight,
+                                            child: Icon(
+                                              Icons.add_circle_outlined,
+                                              size: 22,
+                                              color:
+                                                  defaultAccentColor_(context),
+                                            ),
+                                          ),
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                        )),
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(left: 16),
                     child: Row(

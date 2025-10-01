@@ -117,7 +117,9 @@ class GeneralView extends StatelessWidget {
                   Flexible(
                       flex: 3,
                       child:
-                      PhoneTextfieldWidget()),
+                      PhoneTextfieldWidget(
+
+                      )),
                 ],
               ),
             ],

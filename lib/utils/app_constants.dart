@@ -80,6 +80,7 @@ class IntentKey {
   final String ID = "ID";
   final String workLogId = "WORK_LOG_ID";
   final String checkLogId = "CHECK_LOG_ID";
+  final String companyTaskId = "COMPANY_TASK_ID";
   final String projectId = "PROJECT_ID";
   final String isPriceWork = "IS_PRICE_WORK";
   final String addressId = "ADDRESS_ID";

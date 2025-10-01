@@ -18,7 +18,7 @@ class AddressTextField extends StatelessWidget {
         hintText: 'my_address'.tr,
         labelText: 'my_address'.tr,
         keyboardType: TextInputType.text,
-        textInputAction: TextInputAction.next,
+        textInputAction: TextInputAction.done,
         onValueChange: (value) {
           //controller.onValueChange();
         },

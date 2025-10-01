@@ -1,3 +1,4 @@
+import 'package:belcka/pages/check_in/work_log_request/view/widgets/pending_request_time_box.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -95,7 +96,10 @@ class _WorkLogRequestScreenState extends State<WorkLogRequestScreen> {
                                     controller.onBackPress();
                                   },
                                 ),
-                                StartStopBoxRow(),
+                                (controller.workLogInfo.value.status ?? 0) ==
+                                        AppConstants.status.pending
+                                    ? PendingRequestTimeBox()
+                                    : StartStopBoxRow(),
                                 TotalHoursRow(),
                                 BreakLogList(
                                     breakLogList:
@@ -108,12 +112,14 @@ class _WorkLogRequestScreenState extends State<WorkLogRequestScreen> {
                                 ),
                                 Visibility(
                                     visible:
-                                    (controller.workLogInfo.value.status ??
-                                        0) ==
-                                        AppConstants.status.pending &&
-                                        (!UserUtils.isLoginUser(controller
-                                            .workLogInfo.value.userId) ||
-                                            UserUtils.isAdmin()),
+                                        (controller.workLogInfo.value.status ??
+                                                    0) ==
+                                                AppConstants.status.pending &&
+                                            (!UserUtils.isLoginUser(controller
+                                                    .workLogInfo
+                                                    .value
+                                                    .userId) ||
+                                                UserUtils.isAdmin()),
                                     child: AddNoteWidget(
                                         controller: controller.noteController)),
                                 Visibility(

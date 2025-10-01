@@ -19,7 +19,7 @@ class FirstNameTextField extends StatelessWidget {
         hintText: 'first_name'.tr,
         labelText: 'first_name'.tr,
         keyboardType: TextInputType.name,
-        textInputAction: TextInputAction.next,
+        textInputAction: TextInputAction.done,
         onValueChange: (value) {
           //controller.onValueChange();
         },

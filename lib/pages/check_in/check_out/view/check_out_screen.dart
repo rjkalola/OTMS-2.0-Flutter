@@ -1,12 +1,9 @@
-import 'package:belcka/pages/check_in/check_out/view/widgets/selected_type_of_work.dart';
 import 'package:belcka/pages/check_in/check_out/controller/check_out_controller.dart';
-import 'package:belcka/pages/check_in/check_out/view/widgets/progress_view.dart';
+import 'package:belcka/pages/check_in/check_out/view/widgets/selected_type_of_work.dart';
 import 'package:belcka/pages/check_in/check_out/view/widgets/total_check_out_amount_row.dart';
 import 'package:belcka/pages/check_in/check_out/view/widgets/total_check_out_hours_row.dart';
-import 'package:belcka/pages/check_in/widgets/photos_count_view.dart';
 import 'package:belcka/pages/check_in/widgets/start_stop_time_box.dart';
 import 'package:belcka/res/colors.dart';
-import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
@@ -219,7 +216,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                             controller.checkOutApi();
                           } else {
                             AppUtils.showToastMessage(
-                                'msg_empty_before_after_attachment'.tr);
+                                'msg_empty_after_attachment'.tr);
                           }
                           /* if (controller.checkLogInfo.value.isAttachment ??
                               false) {

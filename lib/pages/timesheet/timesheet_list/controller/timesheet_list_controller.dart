@@ -27,6 +27,7 @@ class TimeSheetListController extends GetxController
       isEditStatusEnable = false.obs,
       isCheckAll = false.obs,
       isViewAmount = false.obs;
+  final RxString title = "".obs;
   final RxInt selectedDateFilterIndex = (1).obs;
   final _api = TimesheetListRepository();
   final timeSheetList = <TimeSheetInfo>[].obs;
@@ -43,6 +44,11 @@ class TimeSheetListController extends GetxController
     if (arguments != null) {
       isAllUserTimeSheet =
           arguments[AppConstants.intentKey.isAllUserTimeSheet] ?? false;
+    }
+    if (isAllUserTimeSheet) {
+      title.value = 'timesheets'.tr;
+    } else {
+      title.value = 'timesheet'.tr;
     }
     loadTimesheetData(true);
   }

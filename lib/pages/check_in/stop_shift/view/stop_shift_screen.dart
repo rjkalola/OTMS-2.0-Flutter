@@ -1,6 +1,7 @@
 import 'package:belcka/pages/check_in/stop_shift/controller/stop_shift_controller.dart';
 import 'package:belcka/pages/check_in/stop_shift/view/widgets/add_note_widget.dart';
 import 'package:belcka/pages/check_in/stop_shift/view/widgets/break_log_list.dart';
+import 'package:belcka/pages/check_in/stop_shift/view/widgets/pending_request_time_box.dart';
 import 'package:belcka/pages/check_in/stop_shift/view/widgets/start_stop_box_row.dart';
 import 'package:belcka/pages/check_in/stop_shift/view/widgets/stop_shift_button.dart';
 import 'package:belcka/pages/check_in/stop_shift/view/widgets/submit_for_approval_button.dart';
@@ -84,9 +85,8 @@ class _StopShiftScreenState extends State<StopShiftScreen> {
                               child: PrimaryButton(
                                   width: 100,
                                   height: 38,
-                                  buttonText: "${'check_in_'.tr} (${
-                                  controller.workLogInfo.value.userCheckLogsCount ??
-                                  0})",
+                                  buttonText:
+                                      "${'check_in_'.tr} (${controller.workLogInfo.value.userCheckLogsCount ?? 0})",
                                   onPressed: () {
                                     var arguments = {
                                       AppConstants.intentKey.workLogId:
@@ -124,7 +124,10 @@ class _StopShiftScreenState extends State<StopShiftScreen> {
                                 arguments: arguments);
                           },
                         ),
-                        StartStopBoxRow(),
+                        (controller.workLogInfo.value.requestStatus ?? 0) ==
+                                AppConstants.status.pending
+                            ? PendingRequestTimeBox()
+                            : StartStopBoxRow(),
                         BreakLogList(
                             breakLogList:
                                 controller.workLogInfo.value.breakLog ?? []),

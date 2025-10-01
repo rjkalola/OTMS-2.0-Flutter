@@ -18,7 +18,7 @@ class PostcodeTextField extends StatelessWidget {
         hintText: 'post_code'.tr,
         labelText: 'post_code'.tr,
         keyboardType: TextInputType.emailAddress,
-        textInputAction: TextInputAction.next,
+        textInputAction: TextInputAction.done,
         onValueChange: (value) {
           //controller.onValueChange();
         },

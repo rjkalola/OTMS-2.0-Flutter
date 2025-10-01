@@ -1,3 +1,4 @@
+import 'package:belcka/pages/check_in/check_in_photos_preview/controller/check_in_photos_preview_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:belcka/pages/image_preview/controller/image_preview_controller.dart';
@@ -6,7 +7,7 @@ import 'package:belcka/utils/image_utils.dart';
 class HorizontalListView extends StatelessWidget {
   HorizontalListView({super.key});
 
-  final controller = Get.put(ImagePreviewController());
+  final controller = Get.put(CheckInPhotosPreviewController());
 
   @override
   Widget build(BuildContext context) {

@@ -25,7 +25,7 @@ class BeforeAfterPhotosList extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 6, 10, 0),
       child: ImageGridview(
-          isEditable: isEditable,
+          isEditable: false,
           filesList: filesList,
           onViewClick: (int index) {
             onGridItemClick(

@@ -23,6 +23,9 @@ class WorkLogInfo {
   int? userCheckLogsCount;
   bool? isExpanded;
   int? requestStatus;
+  String? oldStartTime;
+  String? oldEndTime;
+  int? oldPayableWorkSeconds;
 
   WorkLogInfo(
       {this.id,
@@ -43,7 +46,10 @@ class WorkLogInfo {
       this.userChecklogs,
       this.userCheckLogsCount,
       this.isExpanded,
-      this.requestStatus});
+      this.requestStatus,
+      this.oldStartTime,
+      this.oldEndTime,
+      this.oldPayableWorkSeconds});
 
   WorkLogInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -79,6 +85,9 @@ class WorkLogInfo {
     userCheckLogsCount = json['user_checklogs_count'];
     isExpanded = json['isExpanded'];
     requestStatus = json['request_status'];
+    oldStartTime = json['old_start_time'];
+    oldEndTime = json['old_end_time'];
+    oldPayableWorkSeconds = json['old_payable_work_seconds'];
   }
 
   Map<String, dynamic> toJson() {
@@ -111,6 +120,9 @@ class WorkLogInfo {
     data['user_checklogs_count'] = this.userCheckLogsCount;
     data['isExpanded'] = this.isExpanded;
     data['request_status'] = this.requestStatus;
+    data['old_start_time'] = this.oldStartTime;
+    data['old_end_time'] = this.oldEndTime;
+    data['old_payable_work_seconds'] = this.oldPayableWorkSeconds;
     return data;
   }
 }

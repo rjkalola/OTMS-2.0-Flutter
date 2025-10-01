@@ -18,7 +18,7 @@ class EmailTextField extends StatelessWidget {
         hintText: 'email'.tr,
         labelText: 'email'.tr,
         keyboardType: TextInputType.emailAddress,
-        textInputAction: TextInputAction.next,
+        textInputAction: TextInputAction.done,
         onValueChange: (value) {
           //controller.onValueChange();
         },

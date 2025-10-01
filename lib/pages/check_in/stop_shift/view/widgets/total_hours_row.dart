@@ -1,3 +1,5 @@
+import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/widgets/other_widgets/right_arrow_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:belcka/pages/check_in/stop_shift/controller/stop_shift_controller.dart';
@@ -22,15 +24,34 @@ class TotalHoursRow extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.fromLTRB(12, 7, 12, 7),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                PrimaryTextView(
-                  textAlign: TextAlign.start,
-                  text: "${'total_hours'.tr}:",
-                  color: primaryTextColor_(context),
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
+                Expanded(
+                  child: PrimaryTextView(
+                    textAlign: TextAlign.start,
+                    text: "${'total_hours'.tr}:",
+                    color: primaryTextColor_(context),
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
+                Visibility(
+                    visible:
+                        (controller.workLogInfo.value.requestStatus ?? 0) ==
+                            AppConstants.status.pending,
+                    child: PrimaryTextView(
+                      textAlign: TextAlign.start,
+                      text: DateUtil.seconds_To_HH_MM(
+                          controller.workLogInfo.value.oldPayableWorkSeconds ??
+                              0),
+                      color: primaryTextColor_(context),
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    )),
+                Visibility(
+                    visible:
+                        (controller.workLogInfo.value.requestStatus ?? 0) ==
+                            AppConstants.status.pending,
+                    child: RightArrowWidget()),
                 PrimaryTextView(
                   textAlign: TextAlign.start,
                   text: !controller.isEdited.value

@@ -142,6 +142,10 @@ class ApiConstants {
       '$appUrl/company-tasks/get-task-resources';
   static String checkLogDetails = '$appUrl/user-checklog/details';
   static String getCompanyLocations = '$appUrl/company-locations/get';
+  static String addCheckLogAttachments =
+      '$appUrl/user-checklog/add-attachments';
+  static String removeCheckLogAttachment =
+      '$appUrl/user-checklog/remove-attachment';
 
   //timesheet
   static String getTimeSheetList = '$appUrl/timesheet/get';

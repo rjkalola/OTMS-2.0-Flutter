@@ -423,6 +423,35 @@ class CheckInController extends GetxController
     }
   }
 
+  Future<void> typeOfWorkDetails(TypeOfWorkResourcesInfo info) async {
+    var result;
+
+    var arguments = {
+      AppConstants.intentKey.typeOfWorkInfo: info,
+      AppConstants.intentKey.isEditable: false,
+      AppConstants.intentKey.beforePhotosList: info.beforeAttachments ?? [],
+    };
+
+    result = await Navigator.of(Get.context!)
+        .pushNamed(AppRoutes.typeOfWorkDetailsScreen, arguments: arguments);
+
+    if (result != null) {
+      var arguments = result;
+      if (arguments != null) {
+        // if (photosType == AppConstants.type.beforePhotos) {
+        //   var filesList = <FilesInfo>[].obs;
+        //   filesList
+        //       .addAll(arguments[AppConstants.intentKey.beforePhotosList] ?? []);
+        //   selectedTypeOfWorkList[selectedPhotosIndex].beforeAttachments = [];
+        //   selectedTypeOfWorkList[selectedPhotosIndex]
+        //       .beforeAttachments!
+        //       .addAll(filesList);
+        //   selectedTypeOfWorkList.refresh();
+        // }
+      }
+    }
+  }
+
   void onSelectTypeOfWorkPhotos(int position) {
     selectedPhotosIndex = position;
     onSelectPhotos(AppConstants.type.beforePhotos,

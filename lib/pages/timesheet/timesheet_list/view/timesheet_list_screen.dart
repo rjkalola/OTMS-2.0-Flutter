@@ -51,7 +51,7 @@ class _TimeSheetListScreenState extends State<TimeSheetListScreen>
               backgroundColor: dashBoardBgColor_(context),
               appBar: BaseAppBar(
                 appBar: AppBar(),
-                title: 'timesheets'.tr,
+                title: controller.title.value,
                 isCenterTitle: false,
                 bgColor: dashBoardBgColor_(context),
                 isBack: false,
@@ -120,7 +120,7 @@ class _TimeSheetListScreenState extends State<TimeSheetListScreen>
 
   List<Widget>? actionButtons() {
     return [
-    /*  Visibility(
+      /*  Visibility(
         visible: controller.isEditEnable.value ||
             controller.isEditStatusEnable.value,
         child: ToolbarMenuItemTextView(
@@ -173,7 +173,8 @@ class _TimeSheetListScreenState extends State<TimeSheetListScreen>
       ),
       Visibility(
         visible: !controller.isEditEnable.value &&
-            !controller.isEditStatusEnable.value,
+            !controller.isEditStatusEnable.value &&
+            controller.isAllUserTimeSheet,
         child: IconButton(
           icon: Icon(Icons.more_vert_outlined),
           onPressed: () {

@@ -60,7 +60,8 @@ class CheckOutController extends GetxController
       companyTaskId = 0,
       projectId = 0,
       initialProgress = 0,
-      selectedPhotosIndex = 0;
+      selectedPhotosIndex = 0,
+      selectedTypeOfWorkIndex = 0;
   String date = "", selectedPhotosType = "";
 
   bool isCurrentDay = true;
@@ -441,13 +442,18 @@ class CheckOutController extends GetxController
         selectedTypeOfWorkList[position].afterAttachments ?? []);
   }
 
-  Future<void> typeOfWorkDetails(TypeOfWorkResourcesInfo info) async {
+  Future<void> typeOfWorkDetails(
+      TypeOfWorkResourcesInfo info, int index) async {
+    selectedTypeOfWorkIndex = index;
     var result;
 
     var arguments = {
       AppConstants.intentKey.typeOfWorkInfo: info,
+      AppConstants.intentKey.checkLogId: checkLogId,
       AppConstants.intentKey.afterPhotosList: info.afterAttachments ?? [],
       AppConstants.intentKey.beforePhotosList: info.beforeAttachments ?? [],
+      AppConstants.intentKey.isEditable:
+          !StringHelper.isEmptyString(checkLogInfo.value.checkoutDateTime),
     };
 
     result = await Navigator.of(Get.context!)
@@ -456,16 +462,15 @@ class CheckOutController extends GetxController
     if (result != null) {
       var arguments = result;
       if (arguments != null) {
-        // if (photosType == AppConstants.type.beforePhotos) {
-        //   var filesList = <FilesInfo>[].obs;
-        //   filesList
-        //       .addAll(arguments[AppConstants.intentKey.beforePhotosList] ?? []);
-        //   selectedTypeOfWorkList[selectedPhotosIndex].beforeAttachments = [];
-        //   selectedTypeOfWorkList[selectedPhotosIndex]
-        //       .beforeAttachments!
-        //       .addAll(filesList);
-        //   selectedTypeOfWorkList.refresh();
-        // }
+        TypeOfWorkResourcesInfo? info =
+            arguments[AppConstants.intentKey.typeOfWorkInfo];
+        if (info != null) {
+          selectedTypeOfWorkList[selectedTypeOfWorkIndex] =
+              selectedTypeOfWorkList[selectedTypeOfWorkIndex].copyWith(
+                  beforeAttachments: info.beforeAttachments,
+                  afterAttachments: info.afterAttachments);
+          selectedTypeOfWorkList.refresh();
+        }
       }
     }
   }
