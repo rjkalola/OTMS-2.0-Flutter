@@ -73,6 +73,7 @@ class CheckInPhotosPreviewController extends GetxController
 
     Map<String, dynamic> map = {};
     map["checklog_id"] = checkLogId;
+    map["company_task_id"] = companyTaskId;
     multi.FormData formData = multi.FormData.fromMap(map);
     print("reques value:" + map.toString());
 

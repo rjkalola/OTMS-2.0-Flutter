@@ -227,6 +227,8 @@ class TimeSheetListController extends GetxController
     listItems.add(ModuleInfo(name: 'add'.tr, action: AppConstants.action.add));
     listItems
         .add(ModuleInfo(name: 'edit'.tr, action: AppConstants.action.edit));
+    listItems.add(
+        ModuleInfo(name: 'archive'.tr, action: AppConstants.action.archive));
     listItems.add(ModuleInfo(
         name: 'archived_timesheets'.tr,
         action: AppConstants.action.archivedTimesheet));
@@ -296,7 +298,8 @@ class TimeSheetListController extends GetxController
       if (info.action == AppConstants.action.add) {
         moveToScreen(AppRoutes.addTimeSheetScreen, null);
       } else if (info.action == AppConstants.action.edit) {
-        showActionMenuItemsDialog(Get.context!);
+        // showActionMenuItemsDialog(Get.context!);
+        isEditStatusEnable.value = true;
       } else if (info.action == AppConstants.action.archive) {
         if (isEditEnable.value) {
           String checkedIds = getCheckedIds();

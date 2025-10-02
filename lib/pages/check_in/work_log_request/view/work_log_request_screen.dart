@@ -128,7 +128,7 @@ class _WorkLogRequestScreenState extends State<WorkLogRequestScreen> {
                                                   0) ==
                                               AppConstants.status.pending &&
                                           (!UserUtils.isLoginUser(controller
-                                                  .workLogInfo.value.userId) ||
+                                                  .workLogInfo.value.userId) &&
                                               UserUtils.isAdmin()),
                                   child: ApproveRejectButtons(
                                       padding: const EdgeInsets.fromLTRB(

@@ -3,6 +3,7 @@ import 'package:belcka/pages/common/widgets/date_filter_options_horizontal_list.
 import 'package:belcka/pages/timesheet/timesheet_list/controller/timesheet_list_controller.dart';
 import 'package:belcka/pages/timesheet/timesheet_list/view/widgets/select_all_timesheet.dart';
 import 'package:belcka/pages/timesheet/timesheet_list/view/widgets/timesheet_action_buttons.dart';
+import 'package:belcka/pages/timesheet/timesheet_list/view/widgets/timesheet_archive_button.dart';
 import 'package:belcka/pages/timesheet/timesheet_list/view/widgets/timesheet_list.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/res/drawable.dart';
@@ -76,7 +77,8 @@ class _TimeSheetListScreenState extends State<TimeSheetListScreen>
                           child: Column(
                             children: [
                               Visibility(
-                                visible: !controller.isEditEnable.value,
+                                visible: !controller.isEditEnable.value &&
+                                    !controller.isEditStatusEnable.value,
                                 child: DateFilterOptionsHorizontalList(
                                   padding: EdgeInsets.fromLTRB(14, 0, 14, 6),
                                   startDate: controller.startDate,
@@ -108,6 +110,7 @@ class _TimeSheetListScreenState extends State<TimeSheetListScreen>
                               SelectAllTimesheet(),
                               TimeSheetList(),
                               TimeSheetActionButtons(),
+                              TimeSheetArchiveButton()
                             ],
                           ),
                         )),

@@ -1,8 +1,7 @@
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/string_helper.dart';
-import 'package:belcka/widgets/PrimaryBorderButton.dart';
-import 'package:belcka/widgets/PrimaryButton.dart';
+import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,8 +14,97 @@ class TimeSheetActionButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => Visibility(
+    return Obx(() => Visibility(
+          visible: controller.isEditStatusEnable.value,
+          child: Container(
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+            margin: EdgeInsets.only(top: 9),
+            color: backgroundColor_(context),
+            child: Row(
+              children: [
+                Flexible(
+                  flex: 2,
+                  fit: FlexFit.tight,
+                  child: GestureDetector(
+                    onTap: () {
+                      print("Lock Click");
+                      String statusIds = controller.getStatusIds();
+                      print("statusIds:" + statusIds);
+                      if (!StringHelper.isEmptyString(statusIds)) {
+                        controller.changeTimesheetStatusApi(
+                            statusIds, AppConstants.action.lock);
+                      }
+                    },
+                    child: TitleTextView(
+                      text: 'lock'.tr,
+                      textAlign: TextAlign.center,
+                      color: Colors.green,
+                      fontSize: 17,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                Container(
+                  width: 1,
+                  height: 32,
+                  color: dividerColor_(context),
+                ),
+                Flexible(
+                  flex: 2,
+                  fit: FlexFit.tight,
+                  child: GestureDetector(
+                    onTap: () {
+                      print("Unlock Click");
+                      String statusIds = controller.getStatusIds();
+                      print("statusIds:" + statusIds);
+                      if (!StringHelper.isEmptyString(statusIds)) {
+                        controller.changeTimesheetStatusApi(
+                            statusIds, AppConstants.action.unlock);
+                      }
+                    },
+                    child: TitleTextView(
+                      text: 'unlock'.tr,
+                      textAlign: TextAlign.center,
+                      color: Colors.red,
+                      fontSize: 17,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                Container(
+                  width: 1,
+                  height: 32,
+                  color: dividerColor_(context),
+                ),
+                Flexible(
+                  flex: 3,
+                  fit: FlexFit.tight,
+                  child: GestureDetector(
+                    onTap: () {
+                      print("Mark as paid Click");
+                      String statusIds = controller.getStatusIds();
+                      print("statusIds:" + statusIds);
+                      if (!StringHelper.isEmptyString(statusIds)) {
+                        controller.changeTimesheetStatusApi(
+                            statusIds, AppConstants.action.markAsPaid);
+                      }
+                    },
+                    child: TitleTextView(
+                      text: 'mark_as_paid'.tr,
+                      textAlign: TextAlign.center,
+                      color: defaultAccentColor_(context),
+                      fontSize: 17,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ));
+  }
+
+  /* () => Visibility(
         visible: controller.isEditEnable.value ||
             controller.isEditStatusEnable.value,
         child: Padding(
@@ -65,9 +153,7 @@ class TimeSheetActionButtons extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
-  }
+      ),*/
 
   String getButtonTitle() {
     String title = "";

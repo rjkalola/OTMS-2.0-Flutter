@@ -122,10 +122,8 @@ class TypeOfWorkDetailsController extends GetxController
     var result = await Get.toNamed(AppRoutes.checkInPhotosPreviewScreen,
         arguments: arguments);
     if (result != null) {
-      print("11111");
       var arguments = result;
       if (arguments != null) {
-        print("22222");
         String photosType = arguments[AppConstants.intentKey.photosType];
         var list = <FilesInfo>[].obs;
         list.addAll(arguments[AppConstants.intentKey.photosList] ?? []);
