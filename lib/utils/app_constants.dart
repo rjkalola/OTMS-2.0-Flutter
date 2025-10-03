@@ -282,6 +282,10 @@ class Status {
   final int pending = 3;
   final int approved = 5;
   final int rejected = 12;
+
+  final int lock = 6;
+  final int unlock = 7;
+  final int markAsPaid = 9;
 // 6 lock
 // 7 unlock
 // 9 paid

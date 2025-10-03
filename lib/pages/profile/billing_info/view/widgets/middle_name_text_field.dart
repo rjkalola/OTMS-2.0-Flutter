@@ -19,7 +19,7 @@ class MiddleNameTextField extends StatelessWidget {
         hintText: 'middle_name'.tr,
         labelText: 'middle_name'.tr,
         keyboardType: TextInputType.name,
-        textInputAction: TextInputAction.next,
+        textInputAction: TextInputAction.done,
         onValueChange: (value) {
           //controller.onValueChange();
         },

@@ -34,7 +34,8 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
-      isOnBreak = false.obs;
+      isOnBreak = false.obs,
+      isOnWorking = false.obs;
 
   // RxString nextUpdateLocationTime = "".obs;
 
@@ -287,7 +288,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
             //     workLogData.value.workStartDate ?? "")) {
             //   workLogData.value.workLogInfo!.add(WorkLogInfo(id: 0));
             // }
-
+            isOnWorking.value = response.userIsWorking ?? false;
             if (response.userIsWorking ?? false) {
               stopTimer();
               startTimer();

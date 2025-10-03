@@ -1,10 +1,12 @@
+import 'package:belcka/pages/profile/billing_info/view/widgets/name_on_utr_text_field.dart';
+import 'package:belcka/pages/profile/billing_info/view/widgets/nin_text_field.dart';
+import 'package:belcka/pages/profile/billing_info/view/widgets/utr_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:belcka/pages/profile/billing_info/controller/billing_info_controller.dart';
 import 'package:belcka/pages/profile/widgets/nin_text_field.dart';
 import 'package:belcka/pages/profile/billing_info/view/widgets/title_text.dart';
 import 'package:belcka/pages/profile/widgets/utr_text_field.dart';
-import 'package:belcka/pages/profile/widgets/name_on_utr_text_field.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 
 class TaxInfoView extends StatelessWidget {
@@ -26,13 +28,13 @@ class TaxInfoView extends StatelessWidget {
                 TitleText(
                   title: 'tax_info'.tr,
                 ),
-                NameOnUtrTextField(
+                NameOnUtrTextFieldBilling(
                   controller: controller.nameOnUTRController,
                 ),
-                UtrTextField(
+                UtrTextFieldBilling(
                   controller: controller.utrController,
                 ),
-                NINTextField(
+                NINTextFieldBilling(
                   controller: controller.ninController,
                 ),
               ],

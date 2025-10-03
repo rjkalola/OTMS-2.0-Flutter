@@ -2,6 +2,8 @@ import 'package:belcka/pages/timesheet/timesheet_list/controller/timesheet_list_
 import 'package:belcka/pages/timesheet/timesheet_list/model/week_log_info.dart';
 import 'package:belcka/pages/timesheet/timesheet_list/view/widgets/day_log_list.dart';
 import 'package:belcka/pages/timesheet/timesheet_list/view/widgets/week_number_title.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/utils/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -20,6 +22,7 @@ class WeekLogList extends StatelessWidget {
         itemBuilder: (context, position) {
           WeekLogInfo info =
               controller.timeSheetList[parentPosition].weekLogs![position];
+          int requestStatus = getStatus(info);
           return Obx(
             () => Visibility(
                 visible:
@@ -30,9 +33,28 @@ class WeekLogList extends StatelessWidget {
                     SizedBox(
                       height: 6,
                     ),
-                    WeekNumberTitle(
-                      parentPosition: parentPosition,
-                      position: position,
+                    Stack(
+                      children: [
+                        WeekNumberTitle(
+                          parentPosition: parentPosition,
+                          position: position,
+                        ),
+                        Visibility(
+                          visible: requestStatus == AppConstants.status.lock ||
+                              requestStatus == AppConstants.status.unlock ||
+                              requestStatus == AppConstants.status.markAsPaid,
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Container(
+                              color: backgroundColor_(context),
+                              alignment: Alignment.center,
+                              width: 40,
+                              height: 30,
+                              child: buildStatusIcon(requestStatus),
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                     DayLogList(
                       parentPosition: parentPosition,
@@ -46,5 +68,48 @@ class WeekLogList extends StatelessWidget {
         separatorBuilder: (context, position) => SizedBox(
               height: 0,
             ));
+  }
+
+  int getStatus(WeekLogInfo info) {
+    int status = -1;
+    List<int> allStatus = [];
+    for (var dayLog in info.dayLogs!) {
+      allStatus.add(dayLog.requestStatus ?? 0);
+    }
+
+    bool allStatusSame = allStatus.toSet().length == 1;
+    int checkedStatus = allStatus[0];
+    if (allStatus.isNotEmpty &&
+        allStatusSame &&
+        (checkedStatus == AppConstants.status.lock ||
+            checkedStatus == AppConstants.status.unlock ||
+            checkedStatus == AppConstants.status.markAsPaid)) {
+      status = checkedStatus;
+    }
+    return status;
+  }
+
+  Widget buildStatusIcon(int requestStatus) {
+    if (requestStatus == AppConstants.status.lock) {
+      return Icon(
+        Icons.lock_outline,
+        size: 20,
+        color: Colors.green,
+      );
+    } else if (requestStatus == AppConstants.status.unlock) {
+      return Icon(
+        Icons.lock_open_outlined,
+        size: 20,
+        color: Colors.red,
+      );
+    } else if (requestStatus == AppConstants.status.markAsPaid) {
+      return Icon(
+        Icons.euro_outlined,
+        size: 20,
+        color: defaultAccentColor_(Get.context!),
+      );
+    } else {
+      return Container();
+    }
   }
 }

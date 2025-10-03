@@ -35,7 +35,7 @@ class PhoneTextfieldWidget extends StatelessWidget {
               hintText: 'phone_number'.tr,
               labelText: 'phone_number'.tr,
               keyboardType: TextInputType.phone,
-              textInputAction: TextInputAction.next,
+              textInputAction: TextInputAction.done,
               onValueChange: (value) {
                 //controller.onValueChange();
               },

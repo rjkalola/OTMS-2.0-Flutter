@@ -1,3 +1,6 @@
+import 'package:belcka/pages/profile/billing_info/view/widgets/account_number_text_field.dart';
+import 'package:belcka/pages/profile/billing_info/view/widgets/bank_name_text_field.dart';
+import 'package:belcka/pages/profile/billing_info/view/widgets/name_on_account_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:belcka/pages/profile/billing_info/controller/billing_info_controller.dart';
@@ -29,13 +32,13 @@ class BankDetailsView extends StatelessWidget {
             TitleText(
               title: 'bank_details'.tr,
             ),
-            NameOnAccountTextField(
+            NameOnAccountTextFieldBilling(
               controller: controller.nameOnAccountController,
             ),
-            BankNameTextField(
+            BankNameTextFieldBilling(
               controller: controller.bankNameController,
             ),
-            AccountNumberTextField(
+            AccountNumberTextFieldBilling(
               controller: controller.accountNumberController,
             ),
             SizedBox(height: 16,),

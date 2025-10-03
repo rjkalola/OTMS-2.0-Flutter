@@ -20,66 +20,71 @@ class DashboardGridItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CardViewDashboardItem(
+        borderColor:
+            (controller.isOnWorking.value && (info.slug ?? "") == "shift")
+                ? Colors.green
+                : null,
         child: GestureDetector(
-      onTap: () {
-        controller.onClickPermission(index, info);
-      },
-      child: Container(
-        width: double.infinity,
-        padding: EdgeInsets.fromLTRB(14, 0, 10, 0),
-        color: Colors.transparent,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ImageUtils.setSvgAssetsImage(
-                path: "${AppConstants.permissionIconsAssetsPath}${info.icon}",
-                // path: Drawable.truckPermissionIcon,
-                width: 26,
-                height: 26,
-                color: info.color != null
-                    ? Color(AppUtils.haxColor(info.color ?? ""))
-                    : null),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Visibility(
-                    visible: !StringHelper.isEmptyString(info.name),
-                    child: PrimaryTextView(
-                      text: info.name ?? "",
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
-                      textAlign: TextAlign.center,
-                      color: primaryTextColorLight_(context),
-                      softWrap: true,
-                      maxLine: 2,
-                    ),
-                  ),
-                  Visibility(
-                    visible: !StringHelper.isEmptyString(info.value),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 8, right: 8),
-                      child: PrimaryTextView(
-                        text: info.value ?? "",
-                        textAlign: TextAlign.center,
-                        color: secondaryExtraLightTextColor_(context),
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16,
-                        softWrap: true,
-                        overflow: TextOverflow.ellipsis,
-                        maxLine: 2,
+          onTap: () {
+            controller.onClickPermission(index, info);
+          },
+          child: Container(
+            width: double.infinity,
+            padding: EdgeInsets.fromLTRB(14, 0, 10, 0),
+            color: Colors.transparent,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ImageUtils.setSvgAssetsImage(
+                    path:
+                        "${AppConstants.permissionIconsAssetsPath}${info.icon}",
+                    // path: Drawable.truckPermissionIcon,
+                    width: 26,
+                    height: 26,
+                    color: info.color != null
+                        ? Color(AppUtils.haxColor(info.color ?? ""))
+                        : null),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Visibility(
+                        visible: !StringHelper.isEmptyString(info.name),
+                        child: PrimaryTextView(
+                          text: info.name ?? "",
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                          textAlign: TextAlign.center,
+                          color: primaryTextColorLight_(context),
+                          softWrap: true,
+                          maxLine: 2,
+                        ),
                       ),
-                    ),
+                      Visibility(
+                        visible: !StringHelper.isEmptyString(info.value),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 8, right: 8),
+                          child: PrimaryTextView(
+                            text: info.value ?? "",
+                            textAlign: TextAlign.center,
+                            color: secondaryExtraLightTextColor_(context),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            softWrap: true,
+                            overflow: TextOverflow.ellipsis,
+                            maxLine: 2,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-    ));
+          ),
+        ));
     /* return Container(
       height: 90,
       decoration: AppUtils.getDashboardItemDecoration(
