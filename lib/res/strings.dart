@@ -244,6 +244,7 @@ class Strings extends Translations {
           'archived_teams': "Archived Teams",
           'create_code': "Create Code",
           'are_you_sure_you_want_to_delete': "Are you sure you want to delete?",
+          'are_you_sure_you_want_to_remove': "Are you sure you want to remove?",
           'are_you_sure_you_want_to_approve':
               "Are you sure you want to approve?",
           'are_you_sure_you_want_to_reject': "Are you sure you want to reject?",
@@ -387,6 +388,7 @@ class Strings extends Translations {
           'view_amount': "View Amount",
           'history_logs': "History/Logs",
           'action': "Action",
+          'remove': "Remove",
           'add_timesheet': "Add Timesheet",
           'select_date': "Select Date",
           'error_wrong_time_selection':

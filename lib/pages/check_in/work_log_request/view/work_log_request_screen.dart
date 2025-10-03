@@ -59,10 +59,11 @@ class _WorkLogRequestScreenState extends State<WorkLogRequestScreen> {
                   inAsyncCall: controller.isLoading.value,
                   opacity: 0,
                   progressIndicator: const CustomProgressbar(),
-                  child: Form(
+                  child: Form( 
                     key: controller.formKey,
                     child: Column(children: [
                       Expanded(
+                        flex: 4,
                         child: Stack(
                           children: [
                             CustomMapView(
@@ -80,107 +81,95 @@ class _WorkLogRequestScreenState extends State<WorkLogRequestScreen> {
                       ),
                       Visibility(
                           visible: controller.isMainViewVisible.value,
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                SelectionScreenHeaderView(
-                                  title: 'my_shift'.tr,
-                                  statusText:
-                                      StringHelper.capitalizeFirstLetter(
-                                          controller.workLogInfo.value
-                                                  .statusText ??
-                                              ""),
-                                  statusColor: AppUtils.getStatusColor(
-                                      controller.workLogInfo.value.status ?? 0),
-                                  onBackPressed: () {
-                                    controller.onBackPress();
-                                  },
-                                ),
-                                (controller.workLogInfo.value.status ?? 0) ==
-                                        AppConstants.status.pending
-                                    ? PendingRequestTimeBox()
-                                    : StartStopBoxRow(),
-                                TotalHoursRow(),
-                                BreakLogList(
-                                    breakLogList:
-                                        controller.workLogInfo.value.breakLog ??
-                                            []),
-                                DisplayNoteWidget(
-                                  isReadOnly: true,
-                                  note: controller.workLogInfo.value.note,
-                                  status: controller.status,
-                                ),
-                                Visibility(
+                          child: Expanded(
+                            flex: 5,
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  SelectionScreenHeaderView(
+                                    title: 'my_shift'.tr,
+                                    statusText:
+                                        StringHelper.capitalizeFirstLetter(
+                                            controller.workLogInfo.value
+                                                    .statusText ??
+                                                ""),
+                                    statusColor: AppUtils.getStatusColor(
+                                        controller.workLogInfo.value.status ?? 0),
+                                    onBackPressed: () {
+                                      controller.onBackPress();
+                                    },
+                                  ),
+                                  (controller.workLogInfo.value.status ?? 0) ==
+                                          AppConstants.status.pending
+                                      ? PendingRequestTimeBox()
+                                      : StartStopBoxRow(),
+                                  TotalHoursRow(),
+                                  BreakLogList(
+                                      breakLogList:
+                                          controller.workLogInfo.value.breakLog ??
+                                              []),
+                                  DisplayNoteWidget(
+                                    isReadOnly: true,
+                                    note: controller.workLogInfo.value.note,
+                                    status: controller.status,
+                                  ),
+                                  Visibility(
+                                      visible:
+                                          (controller.workLogInfo.value.status ??
+                                                      0) ==
+                                                  AppConstants.status.pending &&
+                                              (!UserUtils.isLoginUser(controller
+                                                      .workLogInfo
+                                                      .value
+                                                      .userId) ||
+                                                  UserUtils.isAdmin()),
+                                      child: AddNoteWidget(
+                                          controller: controller.noteController)),
+                                  Visibility(
                                     visible:
                                         (controller.workLogInfo.value.status ??
                                                     0) ==
                                                 AppConstants.status.pending &&
                                             (!UserUtils.isLoginUser(controller
-                                                    .workLogInfo
-                                                    .value
-                                                    .userId) ||
+                                                    .workLogInfo.value.userId) &&
                                                 UserUtils.isAdmin()),
-                                    child: AddNoteWidget(
-                                        controller: controller.noteController)),
-                                Visibility(
-                                  visible:
-                                      (controller.workLogInfo.value.status ??
-                                                  0) ==
-                                              AppConstants.status.pending &&
-                                          (!UserUtils.isLoginUser(controller
-                                                  .workLogInfo.value.userId) &&
-                                              UserUtils.isAdmin()),
-                                  child: ApproveRejectButtons(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          12, 10, 12, 18),
-                                      onClickApprove: () => {
-                                            if (controller.valid())
-                                              {
-                                                controller.showActionDialog(
-                                                    AppConstants
-                                                        .dialogIdentifier
-                                                        .approve),
-                                              }
-                                          },
-                                      onClickReject: () {
-                                        /* String note = StringHelper.getText(
-                                            controller.noteController.value);
-                                        if (!StringHelper.isEmptyString(note)) {
-                                          controller.showActionDialog(AppConstants
-                                              .dialogIdentifier.reject);
-                                        } else {
-                                          AppUtils.showToastMessage(
-                                              'empty_note_error'.tr);
-                                        }*/
+                                    child: ApproveRejectButtons(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            12, 10, 12, 18),
+                                        onClickApprove: () => {
+                                              if (controller.valid())
+                                                {
+                                                  controller.showActionDialog(
+                                                      AppConstants
+                                                          .dialogIdentifier
+                                                          .approve),
+                                                }
+                                            },
+                                        onClickReject: () {
+                                          /* String note = StringHelper.getText(
+                                              controller.noteController.value);
+                                          if (!StringHelper.isEmptyString(note)) {
+                                            controller.showActionDialog(AppConstants
+                                                .dialogIdentifier.reject);
+                                          } else {
+                                            AppUtils.showToastMessage(
+                                                'empty_note_error'.tr);
+                                          }*/
 
-                                        if (controller.valid()) {
-                                          controller.showActionDialog(
-                                              AppConstants
-                                                  .dialogIdentifier.reject);
-                                        }
-                                      }),
-                                )
-                              ],
+                                          if (controller.valid()) {
+                                            controller.showActionDialog(
+                                                AppConstants
+                                                    .dialogIdentifier.reject);
+                                          }
+                                        }),
+                                  )
+                                ],
+                              ),
                             ),
                           ))
                     ]),
                   ),
                 ),
-                // Center(
-                //   child: AlertDialog(
-                //     title: Text("Are you sure you want to approve?"),
-                //     actions: [
-                //       TextButton(
-                //         onPressed: () {},
-                //         child: Text("No"),
-                //       ),
-                //       TextButton(
-                //         onPressed: () {},
-                //         child: Text("Yes"),
-                //       ),
-                //     ],
-                //   ),
-                // ),
               ],
             ),
           ),

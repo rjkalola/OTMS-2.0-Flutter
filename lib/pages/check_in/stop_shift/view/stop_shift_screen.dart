@@ -61,6 +61,7 @@ class _StopShiftScreenState extends State<StopShiftScreen> {
                 visible: controller.isMainViewVisible.value,
                 child: Column(children: [
                   Expanded(
+                    flex: 4,
                     child: Stack(
                       children: [
                         CustomMapView(
@@ -101,48 +102,51 @@ class _StopShiftScreenState extends State<StopShiftScreen> {
                       ],
                     ),
                   ),
-                  SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        SelectionScreenHeaderView(
-                          title: controller.isWorking.value
-                              ? 'my_shift'.tr
-                              : 'edit_my_shift'.tr,
-                          // userCheckLogCount:
-                          //     controller.workLogInfo.value.userCheckLogsCount ??
-                          //         0,
-                          userCheckLogCount: 0,
-                          onBackPressed: () {
-                            controller.onBackPress();
-                          },
-                          onCheckLogCountClick: () {
-                            var arguments = {
-                              AppConstants.intentKey.workLogId:
-                                  controller.workLogId
-                            };
-                            Get.toNamed(AppRoutes.checkLogDetailsScreen,
-                                arguments: arguments);
-                          },
-                        ),
-                        (controller.workLogInfo.value.requestStatus ?? 0) ==
-                                AppConstants.status.pending
-                            ? PendingRequestTimeBox()
-                            : StartStopBoxRow(),
-                        BreakLogList(
-                            breakLogList:
-                                controller.workLogInfo.value.breakLog ?? []),
-                        TotalHoursRow(),
-                        Visibility(
-                            visible: controller.isEdited.value,
-                            child: AddNoteWidget(
-                                controller: controller.noteController)),
-                        controller.isWorking.value
-                            ? StopShiftButton()
-                            : Visibility(
-                                visible: controller.isEdited.value,
-                                child: SubmitForApprovalButton(),
-                              )
-                      ],
+                  Expanded(
+                    flex: 5,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          SelectionScreenHeaderView(
+                            title: controller.isWorking.value
+                                ? 'my_shift'.tr
+                                : 'edit_my_shift'.tr,
+                            // userCheckLogCount:
+                            //     controller.workLogInfo.value.userCheckLogsCount ??
+                            //         0,
+                            userCheckLogCount: 0,
+                            onBackPressed: () {
+                              controller.onBackPress();
+                            },
+                            onCheckLogCountClick: () {
+                              var arguments = {
+                                AppConstants.intentKey.workLogId:
+                                    controller.workLogId
+                              };
+                              Get.toNamed(AppRoutes.checkLogDetailsScreen,
+                                  arguments: arguments);
+                            },
+                          ),
+                          (controller.workLogInfo.value.requestStatus ?? 0) ==
+                                  AppConstants.status.pending
+                              ? PendingRequestTimeBox()
+                              : StartStopBoxRow(),
+                          BreakLogList(
+                              breakLogList:
+                                  controller.workLogInfo.value.breakLog ?? []),
+                          TotalHoursRow(),
+                          Visibility(
+                              visible: controller.isEdited.value,
+                              child: AddNoteWidget(
+                                  controller: controller.noteController)),
+                          controller.isWorking.value
+                              ? StopShiftButton()
+                              : Visibility(
+                                  visible: controller.isEdited.value,
+                                  child: SubmitForApprovalButton(),
+                                )
+                        ],
+                      ),
                     ),
                   )
                 ]),

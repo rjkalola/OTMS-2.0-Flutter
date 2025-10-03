@@ -146,17 +146,49 @@ class TeamDetailsController extends GetxController
     );
   }
 
-  showDeleteTeamDialog() async {
+  void deleteSubContractorApi() {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
+    map["team_id"] = teamId;
+    _api.deleteSubContractor(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          BaseResponse response = BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          Get.back(result: true);
+          AppUtils.showToastMessage(response.Message ?? "");
+        } else {
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+          // AppUtils.showSnackBarMessage('no_internet'.tr);
+          // Utils.showSnackBarMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
+
+  showDeleteTeamDialog(String dialogType) async {
     AlertDialogHelper.showAlertDialog(
         "",
-        'are_you_sure_you_want_to_delete'.tr,
+        dialogType == AppConstants.dialogIdentifier.delete
+            ? 'are_you_sure_you_want_to_delete'.tr
+            : 'are_you_sure_you_want_to_remove'.tr,
         'yes'.tr,
         'no'.tr,
         "",
         true,
         false,
         this,
-        AppConstants.dialogIdentifier.deleteTeam);
+        dialogType);
   }
 
   @override
@@ -173,6 +205,10 @@ class TeamDetailsController extends GetxController
       deleteTeamApi();
       Get.back();
     }
+    if (dialogIdentifier == AppConstants.dialogIdentifier.removeSubContractor) {
+      deleteSubContractorApi();
+      Get.back();
+    }
   }
 
   void showMenuItemsDialog(BuildContext context) {
@@ -183,6 +219,8 @@ class TeamDetailsController extends GetxController
       listItems.add(ModuleInfo(
           name: 'sub_contractor_details'.tr,
           action: AppConstants.action.subContractorDetails));
+      listItems.add(ModuleInfo(
+          name: 'remove'.tr, action: AppConstants.action.removeSubContractor));
     } else {
       listItems
           .add(ModuleInfo(name: 'edit'.tr, action: AppConstants.action.edit));
@@ -211,7 +249,7 @@ class TeamDetailsController extends GetxController
       };
       moveToScreen(AppRoutes.createTeamScreen, arguments);
     } else if (info.action == AppConstants.action.delete) {
-      showDeleteTeamDialog();
+      showDeleteTeamDialog(AppConstants.dialogIdentifier.deleteTeam);
     } else if (info.action == AppConstants.action.createCode) {
       var arguments = {
         AppConstants.intentKey.teamId: teamId,
@@ -223,7 +261,9 @@ class TeamDetailsController extends GetxController
         AppConstants.intentKey.companyId:
             teamInfo.value.subcontractorCompanyId ?? 0,
       };
-      Get.toNamed(AppRoutes.subContractorDetailsScreen, arguments: arguments);
+      moveToScreen(AppRoutes.subContractorDetailsScreen, arguments);
+    } else if (info.action == AppConstants.action.removeSubContractor) {
+      showDeleteTeamDialog(AppConstants.dialogIdentifier.removeSubContractor);
     } else if (info.action == AppConstants.action.joinCompany) {
       var arguments = {
         AppConstants.intentKey.teamId: teamId,

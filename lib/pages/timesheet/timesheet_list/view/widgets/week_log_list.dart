@@ -74,7 +74,7 @@ class WeekLogList extends StatelessWidget {
     int status = -1;
     List<int> allStatus = [];
     for (var dayLog in info.dayLogs!) {
-      allStatus.add(dayLog.requestStatus ?? 0);
+      allStatus.add(dayLog.status ?? 0);
     }
 
     bool allStatusSame = allStatus.toSet().length == 1;
@@ -104,7 +104,7 @@ class WeekLogList extends StatelessWidget {
       );
     } else if (requestStatus == AppConstants.status.markAsPaid) {
       return Icon(
-        Icons.euro_outlined,
+        Icons.currency_pound_outlined,
         size: 20,
         color: defaultAccentColor_(Get.context!),
       );

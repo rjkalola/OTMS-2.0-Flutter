@@ -1,12 +1,12 @@
 import 'dart:convert';
 
-import 'package:get/get.dart';
 import 'package:belcka/pages/teams/sub_contractor_details/controller/sub_contractor_details_repository.dart';
 import 'package:belcka/pages/teams/sub_contractor_details/model/sub_contractor_details_response.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/response_model.dart';
+import 'package:get/get.dart';
 
 class SubContractorDetailsController extends GetxController {
   final _api = SubContractorDetailsRepository();
@@ -14,7 +14,7 @@ class SubContractorDetailsController extends GetxController {
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs;
   final subContractorInfo = SubContractorInfo().obs;
-  int teamId = 0,companyId = 0;
+  int teamId = 0, companyId = 0;
 
   @override
   void onInit() {

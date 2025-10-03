@@ -124,6 +124,7 @@ class DialogIdentifier {
   final String selectMenuItemsDialog = 'selectMenuItemsDialog';
   final String selectTeamMembers = 'SELECT_TEAM_MEMBERS';
   final String deleteTeam = 'DELETE_TEAM';
+  final String removeSubContractor = 'REMOVE_SUB_CONTRACTOR';
   final String selectShiftStartTime = 'SELECT_SHIFT_START_TIME';
   final String selectShiftEndTime = 'SELECT_SHIFT_END_TIME';
   final String selectBreakStartTime = 'SELECT_BREAK_START_TIME';
@@ -202,6 +203,7 @@ class Action {
   final String delete = 'DELETE';
   final String createCode = 'CREATE_CODE';
   final String subContractorDetails = 'SUB_CONTRACTOR_DETAILS';
+  final String removeSubContractor = 'REMOVE_SUB_CONTRACTOR';
   final String joinCompany = 'JOIN_COMPANY';
   final String archiveTeam = 'ARCHIVE_TEAM';
   final String archivedItems = 'ARCHIVED_ITEMS';
