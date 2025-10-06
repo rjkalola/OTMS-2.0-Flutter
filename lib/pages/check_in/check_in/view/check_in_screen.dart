@@ -1,19 +1,17 @@
-import 'package:belcka/pages/check_in/check_in/view/widgets/selected_type_of_work.dart';
-import 'package:flutter/material.dart';
-import 'package:form_field_validator/form_field_validator.dart';
-import 'package:get/get.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:belcka/pages/check_in/check_in/controller/check_in_controller.dart';
-import 'package:belcka/pages/check_in/widgets/photos_count_view.dart';
+import 'package:belcka/pages/check_in/check_in/view/widgets/selected_type_of_work.dart';
 import 'package:belcka/pages/check_in/widgets/start_stop_time_box.dart';
 import 'package:belcka/res/colors.dart';
-import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/textfield/reusable/add_note_widget.dart';
 import 'package:belcka/widgets/textfield/reusable/drop_down_text_field.dart';
+import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
+import 'package:get/get.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class CheckInScreen extends StatefulWidget {
   const CheckInScreen({super.key});

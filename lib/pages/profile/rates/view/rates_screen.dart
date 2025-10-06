@@ -61,7 +61,21 @@ class _RatesScreenState extends State<RatesScreen> {
                         ),
                       ),
                       // Trade field
-                      TradeSelectView(),
+                      //TradeSelectView(),
+                      SizedBox(height: 16),
+                      // Trade
+                      Text(
+                        "trade".tr,
+                        style: TextStyle(fontSize: 14),
+                      ),
+                      SizedBox(height: 4),
+                      Text(
+                        controller.tradeController.value.text ?? "",
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                      ),
+                      Divider(height: 24),
+                      SizedBox(height: 16),
+
                       // Join company date
                       Text(
                         "join_company_date".tr,

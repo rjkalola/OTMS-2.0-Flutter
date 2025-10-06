@@ -155,7 +155,8 @@ class TeamDetailsController extends GetxController
       data: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
-          BaseResponse response = BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          BaseResponse response =
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
           Get.back(result: true);
           AppUtils.showToastMessage(response.Message ?? "");
         } else {

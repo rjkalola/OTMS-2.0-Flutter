@@ -152,9 +152,17 @@ class SelectProjectController extends GetxController {
       center.value = LatLng(lat, lon);
       location = await LocationServiceNew.getAddressFromCoordinates(lat, lon);
       final controller = await mapController.future;
-      controller.animateCamera(CameraUpdate.newCameraPosition(
-        CameraPosition(target: center.value, zoom: 15),
-      ));
+      // controller.animateCamera(CameraUpdate.newCameraPosition(
+      //   CameraPosition(target: center.value, zoom: 15),
+      // ));
+      final currentPosition = await controller.getZoomLevel();
+      print("currentPosition:" + currentPosition.toString());
+      controller.moveCamera(
+        CameraUpdate.newLatLngZoom(
+          center.value, // target
+          currentPosition, // zoom level
+        ),
+      );
       print("Location:" + "Latitude: ${latitude}, Longitude: ${longitude}");
       print("Address:${location ?? ""}");
     }

@@ -27,7 +27,7 @@ class CustomMapView extends StatelessWidget {
         myLocationButtonEnabled: false,
         initialCameraPosition: CameraPosition(
           target: target.value,
-          zoom: 11.0,
+          zoom: 15.0,
         ),
         markers: markers ?? <Marker>{},
         polylines: polylines ?? <Polyline>{},

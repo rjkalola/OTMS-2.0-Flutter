@@ -324,9 +324,17 @@ class CheckInController extends GetxController
       longitude = lon.toString();
       center.value = LatLng(lat, lon);
       location = await LocationServiceNew.getAddressFromCoordinates(lat, lon);
-      mapController.animateCamera(CameraUpdate.newCameraPosition(
+      final currentPosition = await mapController.getZoomLevel();
+      print("currentPosition:"+currentPosition.toString());
+      mapController.moveCamera(
+        CameraUpdate.newLatLngZoom(
+          center.value, // target
+          currentPosition, // zoom level
+        ),
+      );
+    /*  mapController.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(target: center.value, zoom: 15),
-      ));
+      ));*/
       print("Location:" + "Latitude: ${latitude}, Longitude: ${longitude}");
       print("Address:${location ?? ""}");
     }
