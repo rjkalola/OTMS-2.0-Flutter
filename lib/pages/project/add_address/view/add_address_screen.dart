@@ -1,3 +1,10 @@
+import 'package:belcka/pages/project/add_address/view/widgets/address_circle_size_progress.dart';
+import 'package:belcka/pages/project/add_address/view/widgets/place_list.dart';
+import 'package:belcka/pages/project/add_address/view/widgets/search_address_text_field.dart';
+import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/widgets/map_view/custom_map_view.dart';
+import 'package:belcka/widgets/slider/custom_slider.dart';
+import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -52,25 +59,69 @@ class AddAddressScreenState extends State<AddAddressScreen> {
                         child: Column(
                           children: [
                             Expanded(
-                              child: Form(
-                                key: controller.formKey,
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(16, 0, 16, 0),
-                                  child: SingleChildScrollView(
+                              child: Stack(
+                                children: [
+                                  Form(
+                                    key: controller.formKey,
                                     child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         SizedBox(
-                                          height: 18,
+                                          height: 16,
+                                        ),
+                                        SearchAddressTextField(),
+                                        SizedBox(
+                                          height: 22,
                                         ),
                                         SiteAddressTextField(),
                                         SizedBox(
+                                          height: 20,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 16, bottom: 4),
+                                          child: TitleTextView(
+                                            text:
+                                                "${'area_size'.tr} (${controller.circleRadius.value} Meter)",
+                                          ),
+                                        ),
+                                        AddressCircleSizeProgress(),
+                                        SizedBox(
                                           height: 18,
                                         ),
+                                        Expanded(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 16, right: 16),
+                                            child: Stack(
+                                              children: [
+                                                CustomMapView(
+                                                    onMapCreated:
+                                                        controller.onMapCreated,
+                                                    onCameraMove: (position) {},
+                                                    circles: controller.circles,
+                                                    markers: controller.marker,
+                                                    target: controller
+                                                        .selectedLatLng),
+                                                // Align(
+                                                //   alignment: Alignment.center,
+                                                //   child: Icon(
+                                                //     Icons.location_on,
+                                                //     size: 45,
+                                                //     color: defaultAccentColor_(
+                                                //         context),
+                                                //   ),
+                                                // )
+                                              ],
+                                            ),
+                                          ),
+                                        )
                                       ],
                                     ),
                                   ),
-                                ),
+                                  PlaceList()
+                                ],
                               ),
                             ),
                             PrimaryButton(
@@ -80,11 +131,10 @@ class AddAddressScreenState extends State<AddAddressScreen> {
                                     ? defaultAccentColor_(context)
                                     : defaultAccentLightColor_(context),
                                 onPressed: () {
-                                  if (controller.isSaveEnable.value){
+                                  if (controller.isSaveEnable.value) {
                                     if (controller.addressDetailsInfo != null) {
                                       controller.updateAddressApi();
-                                    }
-                                    else{
+                                    } else {
                                       controller.addAddressApi();
                                     }
                                   }

@@ -1,4 +1,8 @@
 import 'dart:convert';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/drawable.dart';
+import 'package:belcka/utils/google_place_service.dart';
+import 'package:belcka/utils/map_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,19 +17,57 @@ import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/web_services/response/response_model.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class AddAddressController extends GetxController{
+class AddAddressController extends GetxController {
   final siteAddressController = TextEditingController().obs;
+  final searchAddressController = TextEditingController().obs;
+
   final formKey = GlobalKey<FormState>();
   final _api = AddAddressRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
-      isSaveEnable = false.obs;
+      isSaveEnable = false.obs,
+      isClearVisible = false.obs;
+
   final title = ''.obs;
+  double latitude = 0, longitude = 0;
 
   ProjectInfo? projectInfo;
   AddressDetailsInfo? addressDetailsInfo;
+
+  late GoogleMapController mapController;
+  final selectedLatLng =
+      LatLng(AppConstants.defaultLatitude, AppConstants.defaultLongitude).obs;
+  final RxDouble circleRadius = 100.0.obs; // meters
+  final placesService =
+      GooglePlacesService("AIzaSyAdLpTcvwOWzhK4maBtriznqiw5MwBNcZw");
+  var searchResults = <Map<String, dynamic>>[].obs;
+
+  RxSet<Circle> get circles => {
+        Circle(
+          circleId: const CircleId("circle"),
+          center: selectedLatLng.value,
+          radius: circleRadius.value,
+          fillColor: Color(0x4D0065ff),
+          strokeColor: Colors.blue,
+          strokeWidth: 2,
+        )
+      }.obs;
+
+  RxSet<Marker> get marker  => {
+    Marker(
+      markerId: MarkerId("center"),
+      position: selectedLatLng.value,
+      icon: BitmapDescriptor.defaultMarker,
+      infoWindow: InfoWindow(title: ""),
+    )
+  }.obs;
+
+  void onMapCreated(GoogleMapController controller) {
+    mapController = controller;
+  }
 
   @override
   void onInit() {
@@ -36,14 +78,14 @@ class AddAddressController extends GetxController{
       projectInfo = arguments[AppConstants.intentKey.projectInfo];
       addressDetailsInfo = arguments[AppConstants.intentKey.addressDetailsInfo];
     }
-    if (addressDetailsInfo != null){
+    if (addressDetailsInfo != null) {
       title.value = 'update_address'.tr;
       siteAddressController.value.text = addressDetailsInfo?.name ?? "";
-    }
-    else{
+    } else {
       title.value = 'add_address'.tr;
     }
   }
+
   void addAddressApi() async {
     if (valid()) {
       Map<String, dynamic> map = {};
@@ -91,8 +133,7 @@ class AddAddressController extends GetxController{
                 BaseResponse.fromJson(jsonDecode(responseModel.result!));
             AppUtils.showApiResponseMessage(response.Message ?? "");
             Get.back(result: true);
-          }
-          else{
+          } else {
             AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
           }
           isLoading.value = false;
@@ -108,6 +149,7 @@ class AddAddressController extends GetxController{
       );
     }
   }
+
   void deleteAddressApi() {
     isLoading.value = true;
     Map<String, dynamic> map = {};
@@ -137,7 +179,32 @@ class AddAddressController extends GetxController{
       },
     );
   }
+
   bool valid() {
     return formKey.currentState!.validate();
+  }
+
+  Future<void> searchPlaces(String input) async {
+    if (input.isEmpty) return;
+    searchResults.value = await placesService.getAutocomplete(input);
+  }
+
+  Future<void> selectPlace(String placeId) async {
+    final loc = await placesService.getLatLngFromPlaceId(placeId);
+    final latLng = LatLng(loc['lat']!, loc['lng']!);
+    latitude = latLng.latitude;
+    longitude = latLng.longitude;
+
+    selectedLatLng.value = latLng;
+    // final controller = await mapController.future;
+    mapController.animateCamera(CameraUpdate.newLatLng(latLng));
+    searchResults.clear();
+  }
+
+  void clearSearch() {
+    searchAddressController.value.text = "";
+    isClearVisible.value = false;
+    searchResults.clear();
+    FocusScope.of(Get.context!).unfocus();
   }
 }
