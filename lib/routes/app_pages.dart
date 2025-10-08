@@ -1,13 +1,4 @@
 import 'package:belcka/pages/add_trades/view/add_trades_screen.dart';
-import 'package:belcka/pages/check_in/check_in_photos_preview/view/check_in_photos_preview_screen.dart';
-import 'package:belcka/pages/check_in/type_of_work_details/view/type_of_work_details_screen.dart';
-import 'package:belcka/pages/profile/my_profile_details/view/my_profile_details_screen.dart';
-import 'package:belcka/pages/profile/other_user_billing/billing_details/view/other_user_billing_details_screen.dart';
-import 'package:belcka/pages/profile/rates/view/rates_screen.dart';
-import 'package:belcka/pages/profile/rates_request/view/rates_request_screen.dart';
-import 'package:belcka/pages/timesheet/add_time_sheet/view/add_time_sheet_screen.dart';
-import 'package:belcka/pages/timesheet/archive_timesheet_list/view/archive_timesheet_list_screen.dart';
-import 'package:get/get.dart';
 import 'package:belcka/pages/authentication/introduction/view/introduction_screen.dart';
 import 'package:belcka/pages/authentication/login/view/login_screen.dart';
 import 'package:belcka/pages/authentication/other_info_steps/step1_team_users_count_info/view/team_users_count_info_screen.dart';
@@ -18,6 +9,7 @@ import 'package:belcka/pages/authentication/signup1/view/signup1_screen.dart';
 import 'package:belcka/pages/authentication/signup2/view/signup2_screen.dart';
 import 'package:belcka/pages/authentication/splash/splash_screen.dart';
 import 'package:belcka/pages/check_in/check_in/view/check_in_screen.dart';
+import 'package:belcka/pages/check_in/check_in_photos_preview/view/check_in_photos_preview_screen.dart';
 import 'package:belcka/pages/check_in/check_log_details/view/check_log_details_screen.dart';
 import 'package:belcka/pages/check_in/check_out/view/check_out_screen.dart';
 import 'package:belcka/pages/check_in/clock_in/view/clock_in_screen.dart';
@@ -26,6 +18,7 @@ import 'package:belcka/pages/check_in/select_project/view/select_project_screen.
 import 'package:belcka/pages/check_in/select_shift/view/select_shift_screen.dart';
 import 'package:belcka/pages/check_in/start_shift_map/view/start_shift_map_screen.dart';
 import 'package:belcka/pages/check_in/stop_shift/view/stop_shift_screen.dart';
+import 'package:belcka/pages/check_in/type_of_work_details/view/type_of_work_details_screen.dart';
 import 'package:belcka/pages/check_in/work_log_request/view/work_log_request_screen.dart';
 import 'package:belcka/pages/company/company_details/view/company_details_screen.dart';
 import 'package:belcka/pages/company/company_list/view/company_list_screen.dart';
@@ -37,6 +30,7 @@ import 'package:belcka/pages/dashboard/view/dashboard_screen.dart';
 import 'package:belcka/pages/filter/view/filter_screen.dart';
 import 'package:belcka/pages/image_preview/view/image_preview_screen.dart';
 import 'package:belcka/pages/my_requests/view/my_requests_screen.dart';
+import 'package:belcka/pages/notifications/create_announcement/view/create_announcement_screen.dart';
 import 'package:belcka/pages/notifications/notification_list/view/notification_list_screen.dart';
 import 'package:belcka/pages/notifications/notification_settings/view/notification_settings_screen.dart';
 import 'package:belcka/pages/permissions/company_permissions/view/company_permission_screen.dart';
@@ -51,7 +45,11 @@ import 'package:belcka/pages/profile/billing_request/view/billing_request_screen
 import 'package:belcka/pages/profile/company_billings/view/company_billings_screen.dart';
 import 'package:belcka/pages/profile/delete_account/view/delete_account_screen.dart';
 import 'package:belcka/pages/profile/my_account/view/my_account_screen.dart';
+import 'package:belcka/pages/profile/my_profile_details/view/my_profile_details_screen.dart';
+import 'package:belcka/pages/profile/other_user_billing/billing_details/view/other_user_billing_details_screen.dart';
 import 'package:belcka/pages/profile/post_coder_search/view/post_coder_search_screen.dart';
+import 'package:belcka/pages/profile/rates/view/rates_screen.dart';
+import 'package:belcka/pages/profile/rates_request/view/rates_request_screen.dart';
 import 'package:belcka/pages/profile/user_settings/view/user_settings_screen.dart';
 import 'package:belcka/pages/project/add_address/view/add_address_screen.dart';
 import 'package:belcka/pages/project/add_project/view/add_project_screen.dart';
@@ -77,9 +75,12 @@ import 'package:belcka/pages/teams/sub_contractor_details/view/sub_contractor_de
 import 'package:belcka/pages/teams/team_details/view/team_details_screen.dart';
 import 'package:belcka/pages/teams/team_generate_otp/view/team_generate_otp_screen.dart';
 import 'package:belcka/pages/teams/team_list/view/team_list_screen.dart';
+import 'package:belcka/pages/timesheet/add_time_sheet/view/add_time_sheet_screen.dart';
+import 'package:belcka/pages/timesheet/archive_timesheet_list/view/archive_timesheet_list_screen.dart';
 import 'package:belcka/pages/timesheet/timesheet_list/view/timesheet_list_screen.dart';
 import 'package:belcka/pages/trades/view/company_trades_screen.dart';
 import 'package:belcka/pages/users/user_list/view/user_list_screen.dart';
+import 'package:get/get.dart';
 
 import 'app_routes.dart';
 
@@ -333,5 +334,8 @@ class AppPages {
     GetPage(
         name: AppRoutes.checkInPhotosPreviewScreen,
         page: () => CheckInPhotosPreviewScreen()),
+    GetPage(
+        name: AppRoutes.createAnnouncementScreen,
+        page: () => CreateAnnouncementScreen()),
   ];
 }

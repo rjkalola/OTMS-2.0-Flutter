@@ -56,32 +56,38 @@ class _BillingInfoScreenState extends State<BillingInfoScreen> {
             isBack: true,
           ),
           backgroundColor: dashBoardBgColor_(context),
-          body: KeyboardActions(
+          body: GestureDetector(
+            onTap: () => FocusScope.of(context).unfocus(),
+            onPanDown: (_) => FocusScope.of(context).unfocus(), // dismiss on scroll drag
+            child: KeyboardActions(
               config: _buildKeyboardConfig(),
-              child: Obx(
-                () {
-                  return ModalProgressHUD(
-                    inAsyncCall: controller.isLoading.value,
-                    opacity: 0,
-                    progressIndicator: const CustomProgressbar(),
-                    child: controller.isInternetNotAvailable.value
-                        ? Center(
-                            child: Text("no_internet_text".tr),
-                          )
-                        : SingleChildScrollView(
-                            child: Form(
-                                key: controller.formKey,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    GeneralView(),
-                                    TaxInfoView(),
-                                    BankDetailsView(),
-                                  ],
-                                ))),
-                  );
-                },
-              )),
+              child: Obx(() {
+                return ModalProgressHUD(
+                  inAsyncCall: controller.isLoading.value,
+                  opacity: 0,
+                  progressIndicator: const CustomProgressbar(),
+                  child: controller.isInternetNotAvailable.value
+                      ? Center(child: Text("no_internet_text".tr))
+                      : SingleChildScrollView(
+                    keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
+                    physics: const BouncingScrollPhysics(),
+                    child: Form(
+                      key: controller.formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          GeneralView(),
+                          TaxInfoView(),
+                          BankDetailsView(),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              }),
+            ),
+          ),
           // This is where bottomNavigationBar should go
           bottomNavigationBar: SafeArea(
             child: Visibility(

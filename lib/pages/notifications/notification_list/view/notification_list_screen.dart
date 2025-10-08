@@ -1,3 +1,4 @@
+import 'package:belcka/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:belcka/pages/notifications/notification_list/controller/notification_list_controller.dart';
@@ -20,7 +21,7 @@ class _NotificationListScreenState extends State<NotificationListScreen> {
   @override
   Widget build(BuildContext context) {
     AppUtils.setStatusBarColor();
-    return Container(
+    return Obx(() => Container(
       color: dashBoardBgColor_(context),
       child: SafeArea(
         child: Scaffold(
@@ -31,29 +32,48 @@ class _NotificationListScreenState extends State<NotificationListScreen> {
               isCenterTitle: false,
               isBack: true,
               bgColor: dashBoardBgColor_(context),
-              // widgets: actionButtons(),
+              widgets: actionButtons(),
             ),
             body: controller.isInternetNotAvailable.value
                 ? NoInternetWidget(
-                    onPressed: () {
-                      controller.isInternetNotAvailable.value = false;
-                      // controller.getCompanyDetailsApi();
-                    },
-                  )
+              onPressed: () {
+                controller.isInternetNotAvailable.value = false;
+                // controller.getCompanyDetailsApi();
+              },
+            )
                 : Column(
-                    children: [
-                      NotificationTabBar(),
-                      Expanded(
-                        child: PageView(
-                          controller: controller.pageController,
-                          onPageChanged: controller.onPageChanged,
-                          physics: const NeverScrollableScrollPhysics(),
-                          children: controller.tabs,
-                        ),
-                      )
-                    ],
-                  )),
+              children: [
+                NotificationTabBar(),
+                Expanded(
+                  child: PageView(
+                    controller: controller.pageController,
+                    onPageChanged: controller.onPageChanged,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: controller.tabs,
+                  ),
+                )
+              ],
+            )),
       ),
-    );
+    ),);
+  }
+
+  List<Widget>? actionButtons() {
+    return [
+      Visibility(
+        visible: controller.selectedIndex.value == 1,
+        child: Padding(
+          padding: const EdgeInsets.only(right: 4),
+          child: IconButton(
+            padding: EdgeInsets.zero,
+            constraints: BoxConstraints(),
+            icon: Icon(Icons.add),
+            onPressed: () {
+              Get.toNamed(AppRoutes.createAnnouncementScreen);
+            },
+          ),
+        ),
+      ),
+    ];
   }
 }
