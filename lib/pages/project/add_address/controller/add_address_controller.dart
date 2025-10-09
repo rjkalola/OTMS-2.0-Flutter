@@ -1,22 +1,17 @@
 import 'dart:convert';
-import 'package:belcka/res/colors.dart';
-import 'package:belcka/res/drawable.dart';
-import 'package:belcka/utils/google_place_service.dart';
-import 'package:belcka/utils/map_utils.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
 import 'package:belcka/pages/project/add_address/controller/add_address_repository.dart';
-import 'package:belcka/pages/project/address_details/model/address_details_info.dart';
 import 'package:belcka/pages/project/address_list/model/address_info.dart';
 import 'package:belcka/pages/project/project_info/model/project_info.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/google_place_service.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/base_response.dart';
-import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/web_services/response/response_model.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class AddAddressController extends GetxController {
@@ -35,12 +30,12 @@ class AddAddressController extends GetxController {
   double latitude = 0, longitude = 0;
 
   ProjectInfo? projectInfo;
-  AddressDetailsInfo? addressDetailsInfo;
+  AddressInfo? addressDetailsInfo;
 
   late GoogleMapController mapController;
   final selectedLatLng =
       LatLng(AppConstants.defaultLatitude, AppConstants.defaultLongitude).obs;
-  final RxDouble circleRadius = 100.0.obs; // meters
+  final RxDouble circleRadius = 50.0.obs; // meters
   final placesService =
       GooglePlacesService("AIzaSyAdLpTcvwOWzhK4maBtriznqiw5MwBNcZw");
   var searchResults = <Map<String, dynamic>>[].obs;
@@ -56,14 +51,14 @@ class AddAddressController extends GetxController {
         )
       }.obs;
 
-  RxSet<Marker> get marker  => {
-    Marker(
-      markerId: MarkerId("center"),
-      position: selectedLatLng.value,
-      icon: BitmapDescriptor.defaultMarker,
-      infoWindow: InfoWindow(title: ""),
-    )
-  }.obs;
+  RxSet<Marker> get marker => {
+        Marker(
+          markerId: MarkerId("center"),
+          position: selectedLatLng.value,
+          icon: BitmapDescriptor.defaultMarker,
+          infoWindow: InfoWindow(title: ""),
+        )
+      }.obs;
 
   void onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -80,6 +75,14 @@ class AddAddressController extends GetxController {
     }
     if (addressDetailsInfo != null) {
       title.value = 'update_address'.tr;
+      latitude = addressDetailsInfo?.latitude ?? 0;
+      longitude = addressDetailsInfo?.longitude ?? 0;
+      if (latitude != 0 && longitude != 0) {
+        selectedLatLng.value = LatLng(latitude, longitude);
+      }
+      double radius = addressDetailsInfo?.radius?.toDouble() ?? 0;
+      circleRadius.value = radius != 0 ? radius : 50;
+
       siteAddressController.value.text = addressDetailsInfo?.name ?? "";
     } else {
       title.value = 'add_address'.tr;
@@ -91,7 +94,12 @@ class AddAddressController extends GetxController {
       Map<String, dynamic> map = {};
       map["project_id"] = projectInfo?.id ?? 0;
       map["name"] = StringHelper.getText(siteAddressController.value);
-
+      map["lat"] = latitude;
+      map["lng"] = longitude;
+      map["type"] = "circle";
+      map["boundary"] =
+          "{\"lat\":$latitude,\"lng\":$longitude,\"radius\":${circleRadius.value.toInt()}}";
+      print("Data:" + map.toString());
       isLoading.value = true;
       _api.addAddress(
         data: map,
@@ -124,6 +132,12 @@ class AddAddressController extends GetxController {
       map["id"] = addressDetailsInfo?.id ?? 0;
       map["project_id"] = addressDetailsInfo?.projectId ?? 0;
       map["name"] = StringHelper.getText(siteAddressController.value);
+      map["lat"] = latitude;
+      map["lng"] = longitude;
+      map["type"] = "circle";
+      map["boundary"] =
+          "{\"lat\":$latitude,\"lng\":$longitude,\"radius\":${circleRadius.value.toInt()}}";
+      print("Data:" + map.toString());
       isLoading.value = true;
       _api.updateAddress(
         data: map,

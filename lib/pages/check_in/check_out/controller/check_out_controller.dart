@@ -1,13 +1,5 @@
 import 'dart:convert';
 
-import 'package:belcka/pages/common/listener/menu_item_listener.dart';
-import 'package:belcka/pages/common/menu_items_list_bottom_dialog.dart';
-import 'package:dio/dio.dart' as multi;
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:belcka/pages/check_in/check_in/controller/check_in_repository.dart';
 import 'package:belcka/pages/check_in/check_in/model/check_in_resources_response.dart';
 import 'package:belcka/pages/check_in/check_in/model/type_of_work_resources_info.dart';
@@ -16,11 +8,15 @@ import 'package:belcka/pages/check_in/check_out/controller/check_out_repository.
 import 'package:belcka/pages/check_in/check_out/model/check_log_details_response.dart';
 import 'package:belcka/pages/check_in/clock_in/controller/clock_in_utils_.dart';
 import 'package:belcka/pages/check_in/clock_in/model/check_log_info.dart';
+import 'package:belcka/pages/check_in/clock_in/model/location_info.dart';
 import 'package:belcka/pages/check_in/dialogs/select_type_of_work_dialog.dart';
+import 'package:belcka/pages/common/listener/menu_item_listener.dart';
 import 'package:belcka/pages/common/listener/select_item_listener.dart';
 import 'package:belcka/pages/common/listener/select_type_of_work_listener.dart';
+import 'package:belcka/pages/common/menu_items_list_bottom_dialog.dart';
 import 'package:belcka/pages/common/model/file_info.dart';
 import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/app_storage.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/date_utils.dart';
 import 'package:belcka/utils/location_service_new.dart';
@@ -29,6 +25,12 @@ import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/web_services/response/response_model.dart';
+import 'package:dio/dio.dart' as multi;
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../../utils/app_constants.dart';
 import '../../../common/drop_down_list_dialog.dart';
@@ -92,13 +94,13 @@ class CheckOutController extends GetxController
       print("isPriceWork.value:" + isPriceWork.value.toString());
     }
     getCheckLogDetailsApi();
-    /* LocationInfo? locationInfo = Get.find<AppStorage>().getLastLocation();
+     LocationInfo? locationInfo = Get.find<AppStorage>().getLastLocation();
     if (locationInfo != null) {
       setLocation(double.parse(locationInfo.latitude ?? "0"),
           double.parse(locationInfo.longitude ?? "0"));
     }
     locationRequest();
-    appLifeCycle();*/
+    appLifeCycle();
   }
 
   void setInitialData() {
@@ -409,19 +411,19 @@ class CheckOutController extends GetxController
     if (lat != null && lon != null) {
       latitude = lat.toString();
       longitude = lon.toString();
-      center.value = LatLng(lat, lon);
+      // center.value = LatLng(lat, lon);
       location = await LocationServiceNew.getAddressFromCoordinates(lat, lon);
       /*mapController.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(target: center.value, zoom: 15),
       ));*/
-      final currentPosition = await mapController.getZoomLevel();
+     /* final currentPosition = await mapController.getZoomLevel();
       print("currentPosition:"+currentPosition.toString());
       mapController.moveCamera(
         CameraUpdate.newLatLngZoom(
           center.value, // target
           currentPosition, // zoom level
         ),
-      );
+      );*/
       print("Location:" + "Latitude: ${latitude}, Longitude: ${longitude}");
       print("Address:${location ?? ""}");
     }

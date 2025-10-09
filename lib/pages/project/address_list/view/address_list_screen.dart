@@ -41,52 +41,58 @@ class _AddressListScreenState extends State<AddressListScreen> {
         color: dashBoardBgColor_(context),
         child: SafeArea(
             child: Scaffold(
-              appBar: BaseAppBar(
-                appBar: AppBar(),
-                title: 'addresses'.tr,
-                isCenterTitle: false,
-                bgColor: dashBoardBgColor_(context),
-                isBack: true,
-                widgets: actionButtons(),
-                onBackPressed: () {
-                  controller.onBackPress();
-                },
-              ),
-              backgroundColor: dashBoardBgColor_(context),
-              body: ModalProgressHUD(
-                inAsyncCall: controller.isLoading.value,
-                opacity: 0,
-                progressIndicator: const CustomProgressbar(),
-                child: controller.isInternetNotAvailable.value
-                    ?  Center(
-                  child: Text('no_internet_text'.tr),
-                )
-                    : Column(
-                      children: [Visibility(
+          appBar: BaseAppBar(
+            appBar: AppBar(),
+            title: 'addresses'.tr,
+            isCenterTitle: false,
+            bgColor: dashBoardBgColor_(context),
+            isBack: true,
+            widgets: actionButtons(),
+            onBackPressed: () {
+              controller.onBackPress();
+            },
+          ),
+          backgroundColor: dashBoardBgColor_(context),
+          body: ModalProgressHUD(
+            inAsyncCall: controller.isLoading.value,
+            opacity: 0,
+            progressIndicator: const CustomProgressbar(),
+            child: controller.isInternetNotAvailable.value
+                ? Center(
+                    child: Text('no_internet_text'.tr),
+                  )
+                : Column(
+                    children: [
+                      Visibility(
                           visible: controller.isMainViewVisible.value,
                           child: Expanded(
-                            child:ListView.builder(
+                            child: ListView.builder(
                               itemCount: controller.addressList.length,
                               padding: const EdgeInsets.all(12),
                               itemBuilder: (context, index) {
                                 final item = controller.addressList[index];
                                 final status = item.statusText;
                                 final percent = item.progress;
-                                final color = getStatusColor(item.statusText ?? "");
+                                final color =
+                                    getStatusColor(item.statusText ?? "");
                                 return Stack(
                                   children: [
                                     // Card Background
                                     CardViewDashboardItem(
-                                      margin: const EdgeInsets.only(top: 10, bottom: 16),
-                                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+                                      margin: const EdgeInsets.only(
+                                          top: 10, bottom: 16),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 12, vertical: 14),
                                       child: InkWell(
                                         onTap: () {
                                           var arguments = {
-                                            AppConstants.intentKey.addressInfo: item,
+                                            AppConstants.intentKey.addressInfo:
+                                                item,
                                           };
                                           controller.moveToScreen(
-                                              AppRoutes.addressDetailsScreen, arguments);
-                                        } ,
+                                              AppRoutes.addressDetailsScreen,
+                                              arguments);
+                                        },
                                         child: Row(
                                           children: [
                                             const SizedBox(width: 4),
@@ -116,7 +122,8 @@ class _AddressListScreenState extends State<AddressListScreen> {
                                               child: Icon(
                                                 Icons.arrow_forward_ios_rounded,
                                                 size: 16,
-                                                color: primaryTextColor_(context),
+                                                color:
+                                                    primaryTextColor_(context),
                                               ),
                                             ),
                                           ],
@@ -129,11 +136,12 @@ class _AddressListScreenState extends State<AddressListScreen> {
                                       left: 16,
                                       top: 0,
                                       child: Container(
-                                        padding:
-                                        const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10, vertical: 4),
                                         decoration: BoxDecoration(
                                           color: color,
-                                          borderRadius: BorderRadius.circular(20),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                         ),
                                         child: Text(
                                           item.statusText ?? "",
@@ -149,15 +157,12 @@ class _AddressListScreenState extends State<AddressListScreen> {
                                 );
                               },
                             ),
-                          )
-                      )],
-                    ),
-              ),
-              bottomNavigationBar: CommonBottomNavigationBarWidget(),
-            )
-        )
-    )
-    );
+                          ))
+                    ],
+                  ),
+          ),
+          bottomNavigationBar: CommonBottomNavigationBarWidget(),
+        ))));
   }
 
   List<Widget>? actionButtons() {

@@ -1,34 +1,74 @@
-import 'package:belcka/web_services/response/module_info.dart';
-
 class AddressInfo {
   int? id;
-  int? projectId;
   String? name;
   bool? isArchived;
   bool? isDeleted;
   int? statusInt;
   String? progress;
   String? statusText;
+  int? projectId;
+  String? projectName;
+  int? trades;
+  String? startDate;
+  String? endDate;
+  String? currency;
+  int? priceWork;
+  int? materials;
+  String? dayWork;
+  int? total;
+  int? checkIns;
+  double? latitude;
+  double? longitude;
+  int? radius;
+  String? type;
 
   AddressInfo(
       {this.id,
-      this.projectId,
       this.name,
       this.isArchived,
       this.isDeleted,
       this.statusInt,
       this.progress,
-      this.statusText});
+      this.statusText,
+      this.projectId,
+      this.projectName,
+      this.trades,
+      this.startDate,
+      this.endDate,
+      this.currency,
+      this.dayWork,
+      this.checkIns,
+      this.materials,
+      this.priceWork,
+      this.total,
+      this.latitude,
+      this.longitude,
+      this.radius,
+      this.type});
 
   AddressInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    projectId = json['project_id'];
     name = json['name'];
     isArchived = json['is_archived'];
     isDeleted = json['is_deleted'];
     statusInt = json['status_int'];
     progress = json['progress'];
     statusText = json['status_text'];
+    projectId = json['project_id'];
+    projectName = json['project_name'];
+    trades = json['trades'];
+    startDate = json['start_date'];
+    endDate = json['end_date'];
+    currency = json['currency'];
+    priceWork = json['price_work'];
+    materials = json['materials'];
+    dayWork = json['day_work'];
+    total = json['total'];
+    checkIns = json['check_ins'];
+    latitude = json['latitude'];
+    longitude = json['longitude'];
+    radius = json['radius'];
+    type = json['type'];
   }
 
   Map<String, dynamic> toJson() {
@@ -41,6 +81,17 @@ class AddressInfo {
     data['progress'] = this.progress;
     data['status_text'] = this.statusText;
     data['project_id'] = this.projectId;
+    data['project_name'] = this.projectName;
+    data['trades'] = this.trades;
+    data['start_date'] = this.startDate;
+    data['end_date'] = this.endDate;
+    data['currency'] = this.currency;
+    data['price_work'] = this.priceWork;
+    data['materials'] = this.materials;
+    data['day_work'] = this.dayWork;
+    data['total'] = this.total;
+    data['check_ins'] = this.checkIns;
+
     return data;
   }
 }

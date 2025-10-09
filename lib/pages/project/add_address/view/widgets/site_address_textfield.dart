@@ -1,3 +1,4 @@
+import 'package:belcka/utils/string_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
@@ -16,20 +17,26 @@ class SiteAddressTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => Padding(
-        padding: const EdgeInsets.only(left: 16, right: 16),
-        child: TextFieldBorderDark(
-          textEditingController: controller.siteAddressController.value,
-          hintText: 'enter_address'.tr,
-          labelText: 'enter_address'.tr,
-          keyboardType: TextInputType.multiline,
-          textInputAction: TextInputAction.newline,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          onValueChange: (value) {
-            controller.isSaveEnable.value =
-                controller.siteAddressController.value.text.trim().isNotEmpty;
-          },
-          validator: MultiValidator([]),
+      () => Visibility(
+        visible: !StringHelper.isEmptyString(
+            controller.siteAddressController.value.text),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 16, right: 16),
+          child: TextFieldBorderDark(
+            textEditingController: controller.siteAddressController.value,
+            hintText: 'enter_address'.tr,
+            labelText: 'enter_address'.tr,
+            keyboardType: TextInputType.multiline,
+            textInputAction: TextInputAction.newline,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            onValueChange: (value) {
+              controller.isSaveEnable.value =
+                  controller.siteAddressController.value.text.trim().isNotEmpty;
+            },
+            validator: MultiValidator([
+              RequiredValidator(errorText: 'required_field'.tr),
+            ]),
+          ),
         ),
       ),
     );

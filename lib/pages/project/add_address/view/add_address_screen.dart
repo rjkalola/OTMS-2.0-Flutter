@@ -74,45 +74,67 @@ class AddAddressScreenState extends State<AddAddressScreen> {
                                         SizedBox(
                                           height: 22,
                                         ),
-                                        SiteAddressTextField(),
-                                        SizedBox(
-                                          height: 20,
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 16, bottom: 4),
-                                          child: TitleTextView(
-                                            text:
-                                                "${'area_size'.tr} (${controller.circleRadius.value} Meter)",
-                                          ),
-                                        ),
-                                        AddressCircleSizeProgress(),
-                                        SizedBox(
-                                          height: 18,
-                                        ),
-                                        Expanded(
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 16, right: 16),
-                                            child: Stack(
+                                        Visibility(
+                                          visible: !StringHelper.isEmptyString(
+                                              controller.siteAddressController
+                                                  .value.text),
+                                          child: Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
-                                                CustomMapView(
-                                                    onMapCreated:
-                                                        controller.onMapCreated,
-                                                    onCameraMove: (position) {},
-                                                    circles: controller.circles,
-                                                    markers: controller.marker,
-                                                    target: controller
-                                                        .selectedLatLng),
-                                                // Align(
-                                                //   alignment: Alignment.center,
-                                                //   child: Icon(
-                                                //     Icons.location_on,
-                                                //     size: 45,
-                                                //     color: defaultAccentColor_(
-                                                //         context),
-                                                //   ),
-                                                // )
+                                                SiteAddressTextField(),
+                                                SizedBox(
+                                                  height: 22,
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 16, bottom: 4),
+                                                  child: TitleTextView(
+                                                    text:
+                                                        "${'area_size'.tr} (${controller.circleRadius.value.toInt()} Meter)",
+                                                  ),
+                                                ),
+                                                AddressCircleSizeProgress(),
+                                                SizedBox(
+                                                  height: 18,
+                                                ),
+                                                Expanded(
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 16,
+                                                            right: 16),
+                                                    child: Stack(
+                                                      children: [
+                                                        CustomMapView(
+                                                          onMapCreated:
+                                                              controller
+                                                                  .onMapCreated,
+                                                          onCameraMove:
+                                                              (position) {},
+                                                          circles: controller
+                                                              .circles,
+                                                          markers:
+                                                              controller.marker,
+                                                          target: controller
+                                                              .selectedLatLng,
+                                                          initialZoom: 17,
+                                                        ),
+                                                        // Align(
+                                                        //   alignment: Alignment.center,
+                                                        //   child: Icon(
+                                                        //     Icons.location_on,
+                                                        //     size: 45,
+                                                        //     color: defaultAccentColor_(
+                                                        //         context),
+                                                        //   ),
+                                                        // )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )
                                               ],
                                             ),
                                           ),
@@ -124,21 +146,26 @@ class AddAddressScreenState extends State<AddAddressScreen> {
                                 ],
                               ),
                             ),
-                            PrimaryButton(
-                                padding: EdgeInsets.fromLTRB(14, 16, 14, 16),
-                                buttonText: 'save'.tr,
-                                color: controller.isSaveEnable.value
-                                    ? defaultAccentColor_(context)
-                                    : defaultAccentLightColor_(context),
-                                onPressed: () {
-                                  if (controller.isSaveEnable.value) {
-                                    if (controller.addressDetailsInfo != null) {
-                                      controller.updateAddressApi();
-                                    } else {
-                                      controller.addAddressApi();
+                            Visibility(
+                              visible: !StringHelper.isEmptyString(
+                                  controller.siteAddressController.value.text),
+                              child: PrimaryButton(
+                                  padding: EdgeInsets.fromLTRB(14, 16, 14, 16),
+                                  buttonText: 'save'.tr,
+                                  color: controller.isSaveEnable.value
+                                      ? defaultAccentColor_(context)
+                                      : defaultAccentLightColor_(context),
+                                  onPressed: () {
+                                    if (controller.isSaveEnable.value) {
+                                      if (controller.addressDetailsInfo !=
+                                          null) {
+                                        controller.updateAddressApi();
+                                      } else {
+                                        controller.addAddressApi();
+                                      }
                                     }
-                                  }
-                                })
+                                  }),
+                            )
                           ],
                         ),
                       )),

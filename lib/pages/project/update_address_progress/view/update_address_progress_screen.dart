@@ -1,17 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:belcka/pages/project/address_details/model/address_details_info.dart';
+import 'package:belcka/pages/project/address_list/model/address_info.dart';
 import 'package:belcka/pages/project/update_address_progress/controller/update_address_progress_controller.dart';
 import 'package:belcka/res/colors.dart';
-import 'package:belcka/utils/app_utils.dart';
-import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/PrimaryButton.dart';
-import 'package:belcka/widgets/appbar/base_appbar.dart';
-import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class UpdateAddressProgressScreen extends StatefulWidget {
-  final AddressDetailsInfo addressDetailsInfo;
+  final AddressInfo addressDetailsInfo;
 
   const UpdateAddressProgressScreen(
       {Key? key, required this.addressDetailsInfo})
@@ -60,8 +55,8 @@ class _UpdateAddressProgressScreenState
           // Status Dropdown
           Align(
             alignment: Alignment.centerLeft,
-            child:
-                Text("status".tr, style: TextStyle(fontWeight: FontWeight.bold)),
+            child: Text("status".tr,
+                style: TextStyle(fontWeight: FontWeight.bold)),
           ),
           SizedBox(height: 6),
           Container(
@@ -87,8 +82,8 @@ class _UpdateAddressProgressScreenState
           // Progress Slider
           Align(
             alignment: Alignment.centerLeft,
-            child:
-                Text("progress".tr, style: TextStyle(fontWeight: FontWeight.bold)),
+            child: Text("progress".tr,
+                style: TextStyle(fontWeight: FontWeight.bold)),
           ),
           Row(
             children: [

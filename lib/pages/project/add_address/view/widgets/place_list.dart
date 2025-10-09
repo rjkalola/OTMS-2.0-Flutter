@@ -26,6 +26,8 @@ class PlaceList extends StatelessWidget {
                   controller.selectPlace(place['place_id']);
                   controller.siteAddressController.value.text =
                       place['description'];
+                  controller.isSaveEnable.value =
+                      controller.siteAddressController.value.text.trim().isNotEmpty;
                  controller.clearSearch();
                 },
               );

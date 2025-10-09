@@ -9,7 +9,7 @@ class GooglePlacesService {
 
   Future<List<Map<String, dynamic>>> getAutocomplete(String input) async {
     final url =
-        'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&key=$apiKey&components=country:in';
+        'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&key=$apiKey&components=country:in|country:us|country:gb';
 
     final response = await http.get(Uri.parse(url));
     final data = json.decode(response.body);

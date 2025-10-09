@@ -11,7 +11,7 @@ import 'package:belcka/pages/common/listener/menu_item_listener.dart';
 import 'package:belcka/pages/common/menu_items_list_bottom_dialog.dart';
 import 'package:belcka/pages/dashboard/tabs/more_tab/view/more_tab.dart';
 import 'package:belcka/pages/project/address_details/controller/address_details_repository.dart';
-import 'package:belcka/pages/project/address_details/model/address_details_info.dart';
+import 'package:belcka/pages/project/address_details/model/address_details_response.dart';
 import 'package:belcka/pages/project/address_list/model/address_info.dart';
 import 'package:belcka/pages/project/project_details/model/project_details_api_response.dart';
 import 'package:belcka/pages/project/project_details/model/project_detals_item.dart';
@@ -64,7 +64,7 @@ class AddressDetailsController extends GetxController
         flagName: "Trades"),
   ];
 
-  AddressDetailsInfo? addressDetailsInfo;
+  AddressInfo? addressDetailsInfo;
   AddressInfo? addressInfo;
 
   final RxInt selectedDateFilterIndex = (1).obs;
@@ -99,9 +99,8 @@ class AddressDetailsController extends GetxController
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           isMainViewVisible.value = true;
-          AddressDetailsInfoResponse response =
-              AddressDetailsInfoResponse.fromJson(
-                  jsonDecode(responseModel.result!));
+          AddressDetailsResponse response = AddressDetailsResponse.fromJson(
+              jsonDecode(responseModel.result!));
           addressDetailsInfo = response.info;
           if (addressDetailsInfo != null) {
             updateItemsWithApi(addressDetailsInfo!);
@@ -184,7 +183,7 @@ class AddressDetailsController extends GetxController
     );
   }
 
-  void updateItemsWithApi(AddressDetailsInfo address) {
+  void updateItemsWithApi(AddressInfo address) {
     for (var item in items) {
       switch (item.flagName) {
         case 'Check-In':

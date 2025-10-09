@@ -17,6 +17,7 @@ class AddressCircleSizeProgress extends StatelessWidget {
         progress: controller.circleRadius.toInt().obs,
         onChanged: (newValue) {
           controller.circleRadius.value = newValue.roundToDouble().toDouble();
+          controller.isSaveEnable.value = true;
         },
       ),
     );

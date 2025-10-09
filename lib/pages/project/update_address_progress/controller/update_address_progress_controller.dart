@@ -1,8 +1,9 @@
 import 'dart:convert';
+import 'package:belcka/pages/project/address_list/model/address_info.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:belcka/pages/project/address_details/model/address_details_info.dart';
+import 'package:belcka/pages/project/address_details/model/address_details_response.dart';
 import 'package:belcka/pages/project/update_address_progress/controller/update_address_progress_repository.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
@@ -11,7 +12,7 @@ import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 
-class UpdateAddressProgressController extends GetxController{
+class UpdateAddressProgressController extends GetxController {
   final siteAddressController = TextEditingController().obs;
   final formKey = GlobalKey<FormState>();
   final _api = UpdateAddressProgressRepository();
@@ -20,7 +21,7 @@ class UpdateAddressProgressController extends GetxController{
       isMainViewVisible = false.obs,
       isSaveEnable = false.obs;
 
-  AddressDetailsInfo? addressDetailsInfo;
+  AddressInfo? addressDetailsInfo;
 
   UpdateAddressProgressController({required this.addressDetailsInfo});
 
@@ -39,6 +40,7 @@ class UpdateAddressProgressController extends GetxController{
     super.onInit();
     isMainViewVisible.value = true;
   }
+
   void updateAddressProgressApi() async {
     Get.back(result: true);
     Map<String, dynamic> map = {};
@@ -52,11 +54,9 @@ class UpdateAddressProgressController extends GetxController{
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           BaseResponse response =
-          BaseResponse.fromJson(jsonDecode(responseModel.result!));
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.Message ?? "");
-
-        }
-        else{
+        } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;
@@ -71,6 +71,7 @@ class UpdateAddressProgressController extends GetxController{
       },
     );
   }
+
   void onSavePressed(BuildContext context) {
     if (selectedStatus == "Completed" && progress < 100) {
       // Show confirmation dialog
@@ -98,19 +99,17 @@ class UpdateAddressProgressController extends GetxController{
           ],
         ),
       );
-    }
-    else{
+    } else {
       updateAddressProgressApi();
     }
   }
+
   int determineStatusFromProgress(double progress) {
     if (progress == 0) {
       return 13;
-    }
-    else if (progress == 100) {
+    } else if (progress == 100) {
       return 4;
-    }
-    else{
+    } else {
       return 3;
     }
   }

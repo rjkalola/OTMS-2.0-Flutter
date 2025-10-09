@@ -24,7 +24,8 @@ import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 
-class AddressListController extends GetxController implements MenuItemListener, DialogButtonClickListener{
+class AddressListController extends GetxController
+    implements MenuItemListener, DialogButtonClickListener {
   final formKey = GlobalKey<FormState>();
   final _api = AddressListRepository();
   RxBool isLoading = false.obs,
@@ -58,13 +59,12 @@ class AddressListController extends GetxController implements MenuItemListener, 
         if (responseModel.isSuccess) {
           isMainViewVisible.value = true;
           AddressListResponse response =
-          AddressListResponse.fromJson(jsonDecode(responseModel.result!));
+              AddressListResponse.fromJson(jsonDecode(responseModel.result!));
           tempList.clear();
           tempList.addAll(response.info ?? []);
           addressList.value = tempList;
           addressList.refresh();
-        }
-        else{
+        } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;
@@ -87,6 +87,7 @@ class AddressListController extends GetxController implements MenuItemListener, 
       getAddressListApi();
     }
   }
+
   void showMenuItemsDialog(BuildContext context) {
     List<ModuleInfo> listItems = [];
     listItems.add(ModuleInfo(name: 'add'.tr, action: AppConstants.action.add));
@@ -99,9 +100,11 @@ class AddressListController extends GetxController implements MenuItemListener, 
           MenuItemsListBottomDialog(list: listItems, listener: this),
     );
   }
+
   void onBackPress() {
     Get.back(result: isDataUpdated.value);
   }
+
   @override
   void onNegativeButtonClicked(String dialogIdentifier) {
     // TODO: implement onNegativeButtonClicked
@@ -126,8 +129,7 @@ class AddressListController extends GetxController implements MenuItemListener, 
         AppConstants.intentKey.projectInfo: projectInfo,
       };
       moveToScreen(AppRoutes.addAddressScreen, arguments);
-    }
-    else if (info.action == AppConstants.action.archivedAddress) {
+    } else if (info.action == AppConstants.action.archivedAddress) {
       var arguments = {
         AppConstants.intentKey.projectId: projectInfo?.id ?? 0,
       };

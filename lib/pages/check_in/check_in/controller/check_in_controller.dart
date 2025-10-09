@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:belcka/pages/check_in/clock_in/model/location_info.dart';
+import 'package:belcka/utils/app_storage.dart';
 import 'package:dio/dio.dart' as multi;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -91,13 +93,13 @@ class CheckInController extends GetxController
     } else if (UserUtils.isAdmin()) {
       tradeController.value.text = 'admin'.tr;
     }
-    /*  LocationInfo? locationInfo = Get.find<AppStorage>().getLastLocation();
+    LocationInfo? locationInfo = Get.find<AppStorage>().getLastLocation();
     if (locationInfo != null) {
       setLocation(double.parse(locationInfo.latitude ?? "0"),
           double.parse(locationInfo.longitude ?? "0"));
     }
     locationRequest();
-    appLifeCycle();*/
+    appLifeCycle();
     checkInResourcesApi();
   }
 
@@ -322,17 +324,17 @@ class CheckInController extends GetxController
     if (lat != null && lon != null) {
       latitude = lat.toString();
       longitude = lon.toString();
-      center.value = LatLng(lat, lon);
+      // center.value = LatLng(lat, lon);
       location = await LocationServiceNew.getAddressFromCoordinates(lat, lon);
-      final currentPosition = await mapController.getZoomLevel();
-      print("currentPosition:"+currentPosition.toString());
+      /*final currentPosition = await mapController.getZoomLevel();
+      print("currentPosition:" + currentPosition.toString());
       mapController.moveCamera(
         CameraUpdate.newLatLngZoom(
           center.value, // target
           currentPosition, // zoom level
         ),
-      );
-    /*  mapController.animateCamera(CameraUpdate.newCameraPosition(
+      );*/
+      /*  mapController.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(target: center.value, zoom: 15),
       ));*/
       print("Location:" + "Latitude: ${latitude}, Longitude: ${longitude}");
@@ -373,7 +375,8 @@ class CheckInController extends GetxController
         photosType = arguments[AppConstants.intentKey.photosType] ?? "";
         if (photosType == AppConstants.type.beforePhotos) {
           var filesList = <FilesInfo>[].obs;
-          filesList.addAll(arguments[AppConstants.intentKey.beforePhotosList] ?? []);
+          filesList
+              .addAll(arguments[AppConstants.intentKey.beforePhotosList] ?? []);
           selectedTypeOfWorkList[selectedPhotosIndex].beforeAttachments = [];
           selectedTypeOfWorkList[selectedPhotosIndex]
               .beforeAttachments!
