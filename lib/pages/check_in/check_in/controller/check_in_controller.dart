@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:belcka/pages/check_in/clock_in/model/location_info.dart';
+import 'package:belcka/res/drawable.dart';
 import 'package:belcka/utils/app_storage.dart';
+import 'package:belcka/utils/map_utils.dart';
 import 'package:dio/dio.dart' as multi;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -70,6 +72,7 @@ class CheckInController extends GetxController
   final selectedTypeOfWorkList = <TypeOfWorkResourcesInfo>[].obs;
   final RxString checkInTime = "".obs;
   CheckInResourcesResponse? checkInResourcesData;
+  final RxSet<Marker> markers = <Marker>{}.obs;
 
   void onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -324,19 +327,20 @@ class CheckInController extends GetxController
     if (lat != null && lon != null) {
       latitude = lat.toString();
       longitude = lon.toString();
-      // center.value = LatLng(lat, lon);
+      center.value = LatLng(lat, lon);
       location = await LocationServiceNew.getAddressFromCoordinates(lat, lon);
-      /*final currentPosition = await mapController.getZoomLevel();
+      setLocationPin(center.value);
+      final currentPosition = await mapController.getZoomLevel();
       print("currentPosition:" + currentPosition.toString());
       mapController.moveCamera(
         CameraUpdate.newLatLngZoom(
           center.value, // target
           currentPosition, // zoom level
         ),
-      );*/
-      /*  mapController.animateCamera(CameraUpdate.newCameraPosition(
-        CameraPosition(target: center.value, zoom: 15),
-      ));*/
+      );
+      //   mapController.animateCamera(CameraUpdate.newCameraPosition(
+      //   CameraPosition(target: center.value, zoom: 15),
+      // ));
       print("Location:" + "Latitude: ${latitude}, Longitude: ${longitude}");
       print("Address:${location ?? ""}");
     }
@@ -595,5 +599,27 @@ class CheckInController extends GetxController
     listIds.add(taskIds);
 
     return listIds;
+  }
+
+  Future<void> setLocationPin(LatLng? latLng) async {
+    if (latLng != null) {
+      final icon = await MapUtils.createIcon(
+          assetPath: Drawable.bluePin, width: 24, height: 34);
+      final newMarker = Marker(
+        markerId: MarkerId('checkin'),
+        position: latLng,
+        icon: icon,
+        infoWindow: InfoWindow(title: 'Check In'),
+      );
+
+      // Important: copy the existing markers to trigger reactive update
+      // final updatedMarkers = Set<Marker>.from(markers);
+      // updatedMarkers.add(newMarker);
+      // markers.value = updatedMarkers;
+
+      markers.removeWhere((m) => m.markerId == newMarker.markerId);
+      markers.add(newMarker);
+      markers.refresh();
+    }
   }
 }

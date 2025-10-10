@@ -15,11 +15,13 @@ import 'package:belcka/pages/common/listener/select_item_listener.dart';
 import 'package:belcka/pages/common/listener/select_type_of_work_listener.dart';
 import 'package:belcka/pages/common/menu_items_list_bottom_dialog.dart';
 import 'package:belcka/pages/common/model/file_info.dart';
+import 'package:belcka/res/drawable.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_storage.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/date_utils.dart';
 import 'package:belcka/utils/location_service_new.dart';
+import 'package:belcka/utils/map_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/base_response.dart';
@@ -77,6 +79,8 @@ class CheckOutController extends GetxController
   final tradeList = <ModuleInfo>[].obs;
   final typeOfWorkList = <TypeOfWorkResourcesInfo>[].obs;
   final selectedTypeOfWorkList = <TypeOfWorkResourcesInfo>[].obs;
+  final RxSet<Marker> markers = <Marker>{}.obs;
+  final RxSet<Circle> circles = <Circle>{}.obs;
 
   void onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -94,13 +98,11 @@ class CheckOutController extends GetxController
       print("isPriceWork.value:" + isPriceWork.value.toString());
     }
     getCheckLogDetailsApi();
-     LocationInfo? locationInfo = Get.find<AppStorage>().getLastLocation();
+    LocationInfo? locationInfo = Get.find<AppStorage>().getLastLocation();
     if (locationInfo != null) {
       setLocation(double.parse(locationInfo.latitude ?? "0"),
           double.parse(locationInfo.longitude ?? "0"));
     }
-    locationRequest();
-    appLifeCycle();
   }
 
   void setInitialData() {
@@ -133,6 +135,37 @@ class CheckOutController extends GetxController
 
     selectedTypeOfWorkList.addAll(checkLogInfo.value.taskList ?? []);
     setTypeOfWorkText();
+
+    if (checkLogInfo.value.checkInLocation != null) {
+      // print("lat"+(checkLogInfo.value.checkInLocation!.latitude ?? "0"));
+      // print("lon"+(checkLogInfo.value.checkInLocation!.longitude ?? "0"));
+      LatLng checkInLatLng = LatLng(
+          double.parse(checkLogInfo.value.checkInLocation!.latitude ?? "0"),
+          double.parse(checkLogInfo.value.checkInLocation!.longitude ?? "0"));
+      setLocationPin(true, checkInLatLng);
+    }
+
+    if (!StringHelper.isEmptyString(checkLogInfo.value.checkoutDateTime)) {
+      if (checkLogInfo.value.checkOutLocation != null) {
+        LatLng checkOutLatLng = LatLng(
+            double.parse(checkLogInfo.value.checkOutLocation!.latitude ?? "0"),
+            double.parse(
+                checkLogInfo.value.checkOutLocation!.longitude ?? "0"));
+        setLocationPin(false, checkOutLatLng);
+      } else {
+        locationRequest();
+        appLifeCycle();
+      }
+      if (checkLogInfo.value.circle != null) {
+        LatLng circleLatLng = LatLng(
+            double.parse(checkLogInfo.value.circle!.latitude ?? "0"),
+            double.parse(checkLogInfo.value.circle!.longitude ?? "0"));
+        setCircle(circleLatLng, checkLogInfo.value.circle?.radius ?? 0);
+      }
+    } else {
+      locationRequest();
+      appLifeCycle();
+    }
   }
 
   Future<void> getCheckLogDetailsApi() async {
@@ -411,19 +444,20 @@ class CheckOutController extends GetxController
     if (lat != null && lon != null) {
       latitude = lat.toString();
       longitude = lon.toString();
-      // center.value = LatLng(lat, lon);
+      center.value = LatLng(lat, lon);
       location = await LocationServiceNew.getAddressFromCoordinates(lat, lon);
+      setLocationPin(false, center.value);
       /*mapController.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(target: center.value, zoom: 15),
       ));*/
-     /* final currentPosition = await mapController.getZoomLevel();
-      print("currentPosition:"+currentPosition.toString());
+      final currentPosition = await mapController.getZoomLevel();
+      print("currentPosition:" + currentPosition.toString());
       mapController.moveCamera(
         CameraUpdate.newLatLngZoom(
           center.value, // target
           currentPosition, // zoom level
         ),
-      );*/
+      );
       print("Location:" + "Latitude: ${latitude}, Longitude: ${longitude}");
       print("Address:${location ?? ""}");
     }
@@ -744,5 +778,39 @@ class CheckOutController extends GetxController
     listIds.add(taskIds);
 
     return listIds;
+  }
+
+  Future<void> setLocationPin(bool isCheckInPin, LatLng? latLng) async {
+    if (latLng != null) {
+      final icon = await MapUtils.createIcon(
+          assetPath: isCheckInPin ? Drawable.bluePin : Drawable.redPin,
+          width: 24,
+          height: 34);
+      final newMarker = Marker(
+        markerId: MarkerId(isCheckInPin ? "checkin" : "checkout"),
+        position: latLng,
+        icon: icon,
+        infoWindow: InfoWindow(title: isCheckInPin ? "Check In" : "Check Out"),
+      );
+
+      markers.removeWhere((m) => m.markerId == newMarker.markerId);
+      markers.add(newMarker);
+      markers.refresh();
+    }
+  }
+
+  Future<void> setCircle(LatLng? latLng, int radius) async {
+    if (latLng != null) {
+      Circle circle = Circle(
+        circleId: const CircleId("circle"),
+        center: latLng,
+        radius: radius.toDouble(),
+        fillColor: Color(0x4D0065ff),
+        strokeColor: Colors.blue,
+        strokeWidth: 2,
+      );
+      circles.add(circle);
+      circles.refresh();
+    }
   }
 }

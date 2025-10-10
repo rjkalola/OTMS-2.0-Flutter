@@ -9,6 +9,7 @@ import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
+import 'package:belcka/widgets/map_view/custom_map_view.dart';
 import 'package:belcka/widgets/textfield/reusable/add_note_widget.dart';
 import 'package:belcka/widgets/textfield/reusable/drop_down_text_field.dart';
 import 'package:flutter/material.dart';
@@ -197,7 +198,17 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                               ),
                             ),
                             SizedBox(
-                              height: 16,
+                              height: 20,
+                            ),
+                            SizedBox(
+                              height: 200,
+                              child: CustomMapView(
+                                onMapCreated: controller.onMapCreated,
+                                target: controller.center,
+                                markers: controller.markers,
+                                circles: controller
+                                    .circles,
+                              ),
                             ),
                           ],
                         ),

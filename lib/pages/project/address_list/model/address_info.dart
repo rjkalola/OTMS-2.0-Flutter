@@ -65,8 +65,16 @@ class AddressInfo {
     dayWork = json['day_work'];
     total = json['total'];
     checkIns = json['check_ins'];
-    latitude = json['latitude'];
-    longitude = json['longitude'];
+    latitude = (json['latitude'] is int)
+        ? (json['latitude'] as int).toDouble()
+        : (json['latitude'] is double)
+        ? json['latitude'] as double
+        : 0.0;
+    longitude = (json['longitude'] is int)
+        ? (json['longitude'] as int).toDouble()
+        : (json['longitude'] is double)
+        ? json['longitude'] as double
+        : 0.0;
     radius = json['radius'];
     type = json['type'];
   }

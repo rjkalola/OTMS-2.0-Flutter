@@ -27,7 +27,8 @@ class AddAddressController extends GetxController {
       isClearVisible = false.obs;
 
   final title = ''.obs;
-  double latitude = 0, longitude = 0;
+  double latitude = AppConstants.defaultLatitude,
+      longitude = AppConstants.defaultLongitude;
 
   ProjectInfo? projectInfo;
   AddressInfo? addressDetailsInfo;

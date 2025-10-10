@@ -20,6 +20,7 @@ class CheckLogInfo {
   int? totalWorkSeconds;
   LocationInfo? checkInLocation;
   LocationInfo? checkOutLocation;
+  LocationInfo? circle;
   String? comment;
   List<CheckInAttachmentInfo>? beforeAttachments;
   List<CheckInAttachmentInfo>? afterAttachments;
@@ -53,6 +54,7 @@ class CheckLogInfo {
       this.totalWorkSeconds,
       this.checkInLocation,
       this.checkOutLocation,
+      this.circle,
       this.comment,
       this.beforeAttachments,
       this.afterAttachments,
@@ -86,11 +88,13 @@ class CheckLogInfo {
     totalMinutes = json['total_minutes'];
     totalWorkSeconds = json['total_work_seconds'];
     checkInLocation = json['check_in_location'] != null
-        ? new LocationInfo.fromJson(json['check_in_location'])
+        ? LocationInfo.fromJson(json['check_in_location'])
         : null;
     checkOutLocation = json['check_out_location'] != null
-        ? new LocationInfo.fromJson(json['check_out_location'])
+        ? LocationInfo.fromJson(json['check_out_location'])
         : null;
+    circle =
+        json['circle'] != null ? LocationInfo.fromJson(json['circle']) : null;
     comment = json['comment'];
     if (json['before_attachments'] != null) {
       beforeAttachments = <CheckInAttachmentInfo>[];
@@ -145,6 +149,9 @@ class CheckLogInfo {
     }
     if (this.checkOutLocation != null) {
       data['check_out_location'] = this.checkOutLocation!.toJson();
+    }
+    if (this.circle != null) {
+      data['circle'] = this.circle!.toJson();
     }
     data['comment'] = this.comment;
     if (this.beforeAttachments != null) {

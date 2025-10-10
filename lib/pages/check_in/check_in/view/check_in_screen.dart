@@ -6,6 +6,7 @@ import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
+import 'package:belcka/widgets/map_view/custom_map_view.dart';
 import 'package:belcka/widgets/textfield/reusable/add_note_widget.dart';
 import 'package:belcka/widgets/textfield/reusable/drop_down_text_field.dart';
 import 'package:flutter/material.dart';
@@ -123,7 +124,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
                               // SizedBox(
                               //   height: 16,
                               // ),
-                            /*  PhotosCountView(
+                              /*  PhotosCountView(
                                 title: 'photos_before'.tr,
                                 count: controller.listBeforePhotos.length,
                                 photosType: AppConstants.type.beforePhotos,
@@ -141,7 +142,15 @@ class _CheckInScreenState extends State<CheckInScreen> {
                                 borderRadius: 15,
                               ),
                               SizedBox(
-                                height: 10,
+                                height: 20,
+                              ),
+                              SizedBox(
+                                height: 200,
+                                child: CustomMapView(
+                                  onMapCreated: controller.onMapCreated,
+                                  target: controller.center,
+                                  markers: controller.markers,
+                                ),
                               ),
                             ],
                           ),
