@@ -35,7 +35,7 @@ class _MyProfileDetailsScreenState extends State<MyProfileDetailsScreen> {
         child: Scaffold(
           appBar: BaseAppBar(
             appBar: AppBar(),
-            title: 'my_account'.tr,
+            title: controller.isComingFromMyProfile ? 'my_account'.tr : "",
             isCenterTitle: false,
             bgColor: dashBoardBgColor_(context),
             isBack: true,
@@ -98,24 +98,37 @@ class _MyProfileDetailsScreenState extends State<MyProfileDetailsScreen> {
                                                 SizedBox(height: 16,),
 
                                                 //phone
-                                                Row(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                  children: [
-                                                    Flexible(
-                                                      flex: 2,
-                                                      child:
-                                                      PhoneExtensionField(),
-                                                    ),
-                                                    Flexible(
-                                                        flex: 3,
+                                                Visibility(
+                                                  visible:controller.isComingFromMyProfile ,
+                                                  child: Row(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+
+                                                    children: [
+                                                      Flexible(
+                                                        flex: 2,
                                                         child:
-                                                        PhoneFieldWidget()),
-                                                  ],
+                                                        PhoneExtensionField(),
+                                                      ),
+
+                                                      Flexible(
+                                                          flex: 3,
+                                                          child:
+                                                          PhoneFieldWidget()),
+                                                    ],
+                                                  ),
                                                 ),
 
+                                                Visibility(
+                                                  visible: !controller.isComingFromMyProfile,
+                                                    child: PhoneFieldWidget()),
+
                                                 EmailFieldWidget(),
-                                                SizedBox(height: 24,),
+
+                                                Visibility(
+                                                  visible: controller.isComingFromMyProfile,
+                                                    child: SizedBox(height: 24,)),
+
                                                 Column(
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
@@ -163,30 +176,32 @@ class _MyProfileDetailsScreenState extends State<MyProfileDetailsScreen> {
                                                     SizedBox(height: 24,),
                                                   ],
                                                 ),
+                                                Visibility(
+                                                  visible: controller.isComingFromMyProfile,
+                                                  child: ElevatedButton(
+                                                    onPressed: () {
+                                                      if (controller.valid()) {
+                                                        //controller.isOtpViewVisible.value = true;
+                                                        controller.updateProfileAPI();
 
-                                                ElevatedButton(
-                                                  onPressed: () {
-                                                    if (controller.valid()) {
+                                                      }
+                                                      //controller.onSubmit();
+                                                      //check if mobile number edited,then show otp screen, else directly call api
                                                       //controller.isOtpViewVisible.value = true;
-                                                      controller.updateProfileAPI();
-
-                                                    }
-                                                    //controller.onSubmit();
-                                                    //check if mobile number edited,then show otp screen, else directly call api
-                                                    //controller.isOtpViewVisible.value = true;
-                                                  },
-                                                  style: ElevatedButton.styleFrom(
-                                                    backgroundColor: defaultAccentColor_(context),
-                                                    minimumSize: Size(double.infinity, 50),
-                                                    shape: RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.circular(30),
+                                                    },
+                                                    style: ElevatedButton.styleFrom(
+                                                      backgroundColor: defaultAccentColor_(context),
+                                                      minimumSize: Size(double.infinity, 50),
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(30),
+                                                      ),
                                                     ),
+                                                    child: Text('${controller.isOtpViewVisible.value ? 'submit'.tr:'save'.tr}',
+                                                        style: TextStyle(
+                                                            color:Colors.white,
+                                                            fontSize: 20,
+                                                            fontWeight: FontWeight.bold)),
                                                   ),
-                                                  child: Text('${controller.isOtpViewVisible.value ? 'submit'.tr:'save'.tr}',
-                                                      style: TextStyle(
-                                                          color:Colors.white,
-                                                          fontSize: 20,
-                                                          fontWeight: FontWeight.bold)),
                                                 )
                                               ],
                                             ),

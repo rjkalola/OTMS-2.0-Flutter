@@ -17,15 +17,19 @@ class WriteAnnouncement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => TextFieldBorderDark(
-        textEditingController: controller.value,
-        hintText: 'write_announcement'.tr,
-        labelText: 'write_announcement'.tr,
-        textInputAction: TextInputAction.newline,
-        validator: MultiValidator([]),
-        isReadOnly: isReadOnly,
-        textAlignVertical: TextAlignVertical.top,
-        onValueChange: onValueChange,
+      () => Padding(
+        padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+        child: TextFieldBorderDark(
+          textEditingController: controller.value,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          hintText: 'write_announcement'.tr,
+          labelText: 'write_announcement'.tr,
+          textInputAction: TextInputAction.newline,
+          validator: MultiValidator([ RequiredValidator(errorText: 'required_field'.tr),]),
+          isReadOnly: isReadOnly,
+          textAlignVertical: TextAlignVertical.top,
+          onValueChange: onValueChange,
+        ),
       ),
     );
   }

@@ -1,3 +1,5 @@
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/user_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:belcka/pages/common/model/user_info.dart';
@@ -39,9 +41,20 @@ class UsersList extends StatelessWidget {
                         color: Colors.transparent,
                         child: Row(
                           children: [
-                            UserAvtarView(
-                              imageUrl: info.userThumbImage ?? "",
-                              imageSize: 52,
+                            GestureDetector(
+                              onTap: (){
+                                if (UserUtils.isAdmin()) {
+                                  var arguments = {
+                                    "user_id": info.id ?? 0,
+                                  };
+                                  controller.moveToScreen(
+                                      AppRoutes.myProfileDetailsScreen, arguments);
+                                }
+                              },
+                              child: UserAvtarView(
+                                imageUrl: info.userThumbImage ?? "",
+                                imageSize: 52,
+                              ),
                             ),
                             SizedBox(
                               width: 12,

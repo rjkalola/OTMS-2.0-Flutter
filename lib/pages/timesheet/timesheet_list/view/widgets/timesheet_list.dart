@@ -1,7 +1,9 @@
 import 'package:belcka/pages/timesheet/timesheet_list/controller/timesheet_list_controller.dart';
 import 'package:belcka/pages/timesheet/timesheet_list/model/time_sheet_info.dart';
 import 'package:belcka/pages/timesheet/timesheet_list/view/widgets/week_log_list.dart';
+import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/date_utils.dart';
+import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/other_widgets/expand_collapse_arrow_widget.dart';
 import 'package:belcka/widgets/other_widgets/user_avtar_view.dart';
@@ -74,9 +76,20 @@ class TimeSheetList extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  UserAvtarView(
-                    imageUrl: info.userThumbImage ?? "",
-                    imageSize: 46,
+                  GestureDetector(
+                    onTap: (){
+                      if (UserUtils.isAdmin()) {
+                        var arguments = {
+                          "user_id": info.userId ?? 0,
+                        };
+                        controller.moveToScreen(
+                            AppRoutes.myProfileDetailsScreen, arguments);
+                      }
+                    },
+                    child: UserAvtarView(
+                      imageUrl: info.userThumbImage ?? "",
+                      imageSize: 46,
+                    ),
                   ),
                   SizedBox(
                     width: 12,

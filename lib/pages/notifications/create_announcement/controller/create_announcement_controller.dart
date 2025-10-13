@@ -1,185 +1,107 @@
 import 'dart:convert';
 
+import 'package:belcka/pages/authentication/other_info_steps/step1_team_users_count_info/model/CompanyResourcesResponse.dart';
+import 'package:belcka/pages/common/drop_down_multi_selection_list_dialog.dart';
+import 'package:belcka/pages/common/listener/company_resources_listener.dart';
+import 'package:belcka/pages/common/listener/select_multi_item_listener.dart';
+import 'package:belcka/pages/common/model/file_info.dart';
+import 'package:belcka/pages/manageattachment/controller/manage_attachment_controller.dart';
+import 'package:belcka/pages/manageattachment/listener/select_attachment_listener.dart';
 import 'package:belcka/pages/notifications/create_announcement/controller/create_announcement_repository.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:belcka/pages/common/drop_down_list_dialog.dart';
-import 'package:belcka/pages/common/listener/select_item_listener.dart';
-import 'package:belcka/pages/common/listener/select_user_listener.dart';
-import 'package:belcka/pages/common/model/user_info.dart';
-import 'package:belcka/pages/common/select_multiple_user_dialog.dart';
-import 'package:belcka/pages/permissions/user_list/controller/user_list_repository.dart';
-import 'package:belcka/pages/permissions/user_list/model/user_list_response.dart';
-import 'package:belcka/pages/teams/create_team/controller/create_team_repository.dart';
-import 'package:belcka/pages/teams/team_list/model/team_info.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
-import 'package:belcka/utils/data_utils.dart';
+import 'package:belcka/utils/company_resources.dart';
+import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/web_services/response/response_model.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:dio/dio.dart' as multi;
 
 class CreateAnnouncementController extends GetxController
-    implements SelectUserListener, SelectItemListener {
+    implements
+        CompanyResourcesListener,
+        SelectMultiItemListener,
+        SelectAttachmentListener {
   final writeAnnouncementController = TextEditingController().obs;
   final usersController = TextEditingController().obs;
   final teamsController = TextEditingController().obs;
   final sendNotificationAsController = TextEditingController().obs;
-  final teamNameController = TextEditingController().obs;
-  final supervisorController = TextEditingController().obs;
 
   final formKey = GlobalKey<FormState>();
   final _api = CreateAnnouncementRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
-      isSaveEnable = false.obs;
-  final teamMembersList = <UserInfo>[].obs;
-  final teamUserList = <UserInfo>[].obs;
-  final userList = <UserInfo>[].obs;
-  int supervisorId = 0;
-  TeamInfo? teamInfo;
-  final title = ''.obs;
+      isSaveEnable = false.obs,
+      isCompanyUsers = true.obs;
+  RxString sendNotificationAs = "company".obs;
+  final usersList = <ModuleInfo>[].obs;
+  final teamsList = <ModuleInfo>[].obs;
+  var attachmentList = <FilesInfo>[].obs;
+  var teamIds = <int>[].obs;
+  var userIds = <int>[].obs;
 
   @override
   void onInit() {
     super.onInit();
     var arguments = Get.arguments;
-    if (arguments != null) {
-      teamInfo = arguments[AppConstants.intentKey.teamInfo];
-    }
-    teamUserListApiApi(teamInfo?.id ?? 0);
-    setInitData();
+    // if (arguments != null) {
+    //   teamInfo = arguments[AppConstants.intentKey.teamInfo];
+    // }
+    FilesInfo info = FilesInfo();
+    attachmentList.add(info);
+    loadResources(true);
   }
 
-  void setInitData() {
-    if (teamInfo != null) {
-      title.value = 'Edit Team'.tr;
-      teamNameController.value.text = teamInfo?.name ?? "";
-      supervisorController.value.text = teamInfo?.supervisorName ?? "";
-      supervisorId = teamInfo?.supervisorId ?? 0;
-      teamMembersList.addAll(teamInfo?.teamMembers ?? []);
-    } else {
-      title.value = 'create_new_team'.tr;
-      isSaveEnable.value = true;
-    }
+  void loadResources(bool isProgress) {
+    isLoading.value = isProgress;
+    CompanyResources.getResourcesApi(
+        flag: AppConstants.companyResourcesFlag.teamList, listener: this);
   }
 
-  void getUserListApi() {
-    isLoading.value = true;
+  void createAnnouncementApi() async {
     Map<String, dynamic> map = {};
+    map["title"] = StringHelper.getText(writeAnnouncementController.value);
+    map["company_users"] = isCompanyUsers.value;
+    map["team_ids[]"] = teamIds;
+    map["user_ids[]"] = userIds;
+    map["send_as"] = sendNotificationAs.value;
     map["company_id"] = ApiConstants.companyId;
-    UserListRepository().getUserList(
-      data: map,
+    map["user_id"] = UserUtils.getLoginUserId();
+
+    multi.FormData formData = multi.FormData.fromMap(map);
+    print("reques value:" + map.toString());
+
+    for (int i = 0; i < attachmentList.length; i++) {
+      if (!StringHelper.isEmptyString(attachmentList[i].imageUrl ?? "")) {
+        print("file:" + (attachmentList[i].imageUrl ?? ""));
+        formData.files.add(
+          MapEntry(
+            "files",
+            // or just 'images' depending on your backend
+            await multi.MultipartFile.fromFile(
+              attachmentList[i].imageUrl ?? "",
+            ),
+          ),
+        );
+      }
+      print("------------------------------------------------");
+    }
+
+    isLoading.value = true;
+    _api.createAnnouncement(
+      formData: formData,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
-          isMainViewVisible.value = true;
-          UserListResponse response =
-              UserListResponse.fromJson(jsonDecode(responseModel.result!));
-          userList.value = response.info!;
-        } else {
-          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
-        }
-        isLoading.value = false;
-      },
-      onError: (ResponseModel error) {
-        isLoading.value = false;
-        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
-          isInternetNotAvailable.value = true;
-          // AppUtils.showSnackBarMessage('no_internet'.tr);
-          // Utils.showSnackBarMessage('no_internet'.tr);
-        } else if (error.statusMessage!.isNotEmpty) {
-          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
-        }
-      },
-    );
-  }
-
-  void createTeamApi() async {
-    if (valid()) {
-      Map<String, dynamic> map = {};
-      map["company_id"] = ApiConstants.companyId;
-      map["supervisor_id"] = supervisorId;
-      map["name"] = StringHelper.getText(teamNameController.value);
-      map["team_member_ids"] =
-          UserUtils.getCommaSeparatedIdsString(teamMembersList);
-      isLoading.value = true;
-      _api.addTeam(
-        data: map,
-        onSuccess: (ResponseModel responseModel) {
-          if (responseModel.isSuccess) {
-            BaseResponse response =
-                BaseResponse.fromJson(jsonDecode(responseModel.result!));
-            AppUtils.showApiResponseMessage(response.Message ?? "");
-            Get.back(result: true);
-          } else {
-            AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
-          }
-          isLoading.value = false;
-        },
-        onError: (ResponseModel error) {
-          isLoading.value = false;
-          if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
-            AppUtils.showApiResponseMessage('no_internet'.tr);
-          } else if (error.statusMessage!.isNotEmpty) {
-            AppUtils.showApiResponseMessage(error.statusMessage);
-          }
-        },
-      );
-    }
-  }
-
-  void updateTeamApi() async {
-    if (valid()) {
-      Map<String, dynamic> map = {};
-      map["id"] = teamInfo?.id ?? 0;
-      map["company_id"] = ApiConstants.companyId;
-      map["supervisor_id"] = supervisorId;
-      map["name"] = StringHelper.getText(teamNameController.value);
-      map["team_member_ids"] =
-          UserUtils.getCommaSeparatedIdsString(teamMembersList);
-      isLoading.value = true;
-      _api.updateTeam(
-        data: map,
-        onSuccess: (ResponseModel responseModel) {
-          if (responseModel.isSuccess) {
-            BaseResponse response =
-                BaseResponse.fromJson(jsonDecode(responseModel.result!));
-            AppUtils.showApiResponseMessage(response.Message ?? "");
-            Get.back(result: true);
-          } else {
-            AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
-          }
-          isLoading.value = false;
-        },
-        onError: (ResponseModel error) {
-          isLoading.value = false;
-          if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
-            AppUtils.showApiResponseMessage('no_internet'.tr);
-          } else if (error.statusMessage!.isNotEmpty) {
-            AppUtils.showApiResponseMessage(error.statusMessage);
-          }
-        },
-      );
-    }
-  }
-
-  void teamUserListApiApi(int teamId) async {
-    Map<String, dynamic> map = {};
-    map["team_id"] = teamId;
-    map["company_id"] = ApiConstants.companyId;
-    isLoading.value = true;
-    _api.teamUserListApi(
-      queryParameters: map,
-      onSuccess: (ResponseModel responseModel) {
-        if (responseModel.isSuccess) {
-          UserListResponse response =
-              UserListResponse.fromJson(jsonDecode(responseModel.result!));
-          teamUserList.addAll(response.info!);
-          getUserListApi();
+          BaseResponse response =
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showApiResponseMessage(response.Message ?? "");
+          Get.back(result: true);
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
@@ -189,100 +111,143 @@ class CreateAnnouncementController extends GetxController
         isLoading.value = false;
         if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
           AppUtils.showApiResponseMessage('no_internet'.tr);
-        } else if (error.statusMessage!.isNotEmpty) {
-          AppUtils.showApiResponseMessage(error.statusMessage);
         }
       },
     );
   }
 
-  bool valid() {
-    return formKey.currentState!.validate();
+  @override
+  void onCompanyResourcesResponse(bool isSuccess,
+      CompanyResourcesResponse? response, String flag, bool isInternet) {
+    if (isInternet) {
+      if (isSuccess && response != null) {
+        if (flag == AppConstants.companyResourcesFlag.teamList) {
+          teamsList.addAll(response.info ?? []);
+          CompanyResources.getResourcesApi(
+              flag: AppConstants.companyResourcesFlag.userList, listener: this);
+        } else if (flag == AppConstants.companyResourcesFlag.userList) {
+          isLoading.value = false;
+          isMainViewVisible.value = true;
+          usersList.addAll(response.info ?? []);
+        }
+      }
+    } else {
+      isInternetNotAvailable.value = true;
+      // AppUtils.showApiResponseMessage('no_internet'.tr);
+    }
   }
 
-  void showSelectSupervisorDialog() {
-    if (userList.isNotEmpty) {
-      showDropDownDialog(
-          AppConstants.action.selectSupervisorDialog,
-          'select_supervisor'.tr,
-          DataUtils.getModuleListFromUserList(userList),
-          this);
+  void showUserList() {
+    if (usersList.isNotEmpty) {
+      showMultiSelectionDropDownDialog(AppConstants.dialogIdentifier.selectUser,
+          'select_users'.tr, usersList, this);
     } else {
       AppUtils.showToastMessage('empty_data_message'.tr);
     }
   }
 
-  void showDropDownDialog(String dialogType, String title,
-      List<ModuleInfo> list, SelectItemListener listener) {
+  void showTeamList() {
+    if (teamsList.isNotEmpty) {
+      showMultiSelectionDropDownDialog(AppConstants.dialogIdentifier.selectTeam,
+          'select_teams'.tr, teamsList, this);
+    } else {
+      AppUtils.showToastMessage('empty_data_message'.tr);
+    }
+  }
+
+  void showMultiSelectionDropDownDialog(String dialogType, String title,
+      List<ModuleInfo> list, SelectMultiItemListener listener) {
     Get.bottomSheet(
-        DropDownListDialog(
+        DropDownMultiSelectionListDialog(
           title: title,
           dialogType: dialogType,
           list: list,
           listener: listener,
-          isCloseEnable: true,
-          isSearchEnable: true,
         ),
         backgroundColor: Colors.transparent,
         isScrollControlled: true);
   }
 
-  /*void showSelectSupervisorDialog() {
-    Get.bottomSheet(
-        SelectUserDialog(
-            title: 'select_supervisor'.tr,
-            dialogIdentifier: AppConstants.action.selectSupervisorDialog,
-            list: userList,
-            listener: this),
-        backgroundColor: Colors.transparent,
-        isScrollControlled: true);
-  }*/
-
-  void showSelectTeamMemberListDialog() {
-    List<UserInfo> teamMembersDialogList = UserUtils.getCheckedUserList(
-        getUserListCopied(teamUserList), teamMembersList);
-    Get.bottomSheet(
-        SelectMultipleUserDialog(
-            title: 'select_team_members'.tr,
-            dialogIdentifier: AppConstants.dialogIdentifier.selectTeamMembers,
-            list: teamMembersDialogList,
-            listener: this),
-        backgroundColor: Colors.transparent,
-        isScrollControlled: true);
-  }
-
-  List<UserInfo> getUserListCopied(List<UserInfo> inputList) {
-    List<UserInfo> outputList = [];
-    for (var info in inputList) {
-      UserInfo data = UserInfo().copyUserInfo(userInfo: info);
-      outputList.add(data);
-    }
-    return outputList;
-  }
-
   @override
-  void onSelectMultipleUser(String dialogIdentifier, List<UserInfo> listUsers) {
-    if (dialogIdentifier == AppConstants.dialogIdentifier.selectTeamMembers) {
-      isSaveEnable.value = true;
-      teamMembersList.clear();
-      for (var info in listUsers) {
-        if (info.isCheck ?? false) {
-          teamMembersList.add(info);
-        }
+  void onSelectMultiItem(List<ModuleInfo> tempList, String action) {
+    isSaveEnable.value = true;
+    List<int> listSelectedItems = [];
+    for (int i = 0; i < tempList.length; i++) {
+      if (tempList[i].check ?? false) {
+        listSelectedItems.add(tempList[i].id ?? 0);
       }
-      teamMembersList.refresh();
+    }
+    if (action == AppConstants.dialogIdentifier.selectTeam) {
+      // teamsController.value.text =
+      //     StringHelper.getCommaSeparatedNames(listSelectedItems);
+      teamsController.value.text =
+          "${listSelectedItems.length} ${'teams'.tr} ${'selected'.tr}";
+      teamIds.clear();
+      teamIds.addAll(listSelectedItems);
+    } else if (action == AppConstants.dialogIdentifier.selectUser) {
+      // usersController.value.text =
+      //     StringHelper.getCommaSeparatedNames(listSelectedItems);
+      usersController.value.text =
+          "${listSelectedItems.length} ${'users'.tr} ${'selected'.tr}";
+      userIds.clear();
+      userIds.addAll(listSelectedItems);
     }
   }
 
-  @override
-  void onSelectUser(String dialogIdentifier, UserInfo userInfo) {}
+  onGridItemClick(int index, String action) {
+    if (action == AppConstants.action.viewPhoto) {
+      if (index == 0) {
+        showAttachmentOptionsDialog();
+      } else {
+        ImageUtils.moveToImagePreview(attachmentList, index);
+      }
+    } else if (action == AppConstants.action.removePhoto) {
+      removePhotoFromList(index: index);
+    }
+  }
+
+  showAttachmentOptionsDialog() async {
+    var listOptions = <ModuleInfo>[].obs;
+    ModuleInfo? info;
+
+    info = ModuleInfo();
+    info.name = 'camera'.tr;
+    info.action = AppConstants.attachmentType.camera;
+    listOptions.add(info);
+
+    info = ModuleInfo();
+    info.name = 'gallery'.tr;
+    info.action = AppConstants.attachmentType.multiImage;
+    listOptions.add(info);
+
+    ManageAttachmentController().showAttachmentOptionsDialog(
+        'select_photo_from_'.tr, listOptions, this);
+  }
 
   @override
-  void onSelectItem(int position, int id, String name, String action) {
-    if (action == AppConstants.action.selectSupervisorDialog) {
-      isSaveEnable.value = true;
-      supervisorController.value.text = name ?? "";
-      supervisorId = id ?? 0;
+  void onSelectAttachment(List<String> paths, String action) {
+    if (action == AppConstants.attachmentType.camera) {
+      addPhotoToList(paths[0]);
+    } else if (action == AppConstants.attachmentType.multiImage) {
+      for (var path in paths) {
+        addPhotoToList(path);
+      }
     }
+  }
+
+  addPhotoToList(String? path) {
+    if (!StringHelper.isEmptyString(path)) {
+      FilesInfo info = FilesInfo();
+      info.imageUrl = path;
+      attachmentList.add(info);
+    }
+  }
+
+  removePhotoFromList({required int index}) {
+    attachmentList.removeAt(index);
+  }
+
+  bool valid() {
+    return formKey.currentState!.validate();
   }
 }

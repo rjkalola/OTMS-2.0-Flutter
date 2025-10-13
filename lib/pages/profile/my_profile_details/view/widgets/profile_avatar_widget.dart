@@ -28,10 +28,11 @@ class ProfileAvatarWidget extends StatelessWidget {
         );
         */
 
-        if (!controller.isOtpViewVisible.value) {
-          controller.showAttachmentOptionsDialog();
+        if (controller.isComingFromMyProfile){
+          if (!controller.isOtpViewVisible.value) {
+            controller.showAttachmentOptionsDialog();
+          }
         }
-
       },
       child: Center(
         child: Stack(

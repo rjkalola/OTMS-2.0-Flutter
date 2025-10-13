@@ -22,8 +22,8 @@ class PhoneFieldWidget extends StatelessWidget {
         labelText: 'phone_number'.tr,
         keyboardType: TextInputType.phone,
         textInputAction: TextInputAction.next,
-        isReadOnly: false,
-        isEnabled: true,
+        isReadOnly: !controller.isComingFromMyProfile,
+        isEnabled: controller.isComingFromMyProfile,
         onValueChange: (value) {
           //controller.onValueChange();
         },

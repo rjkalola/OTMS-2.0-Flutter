@@ -89,4 +89,10 @@ class UserListController extends GetxController {
     }
     usersList.value = results;
   }
+  Future<void> moveToScreen(String rout, dynamic arguments) async {
+    var result = await Get.toNamed(rout, arguments: arguments);
+    if (result != null && result) {
+      getUserListApi();
+    }
+  }
 }

@@ -1,4 +1,6 @@
+import 'package:belcka/pages/profile/rates/view/widgets/trade_view.dart';
 import 'package:belcka/pages/profile/rates_request/view/widgets/rate_request_pending_for_approval.dart';
+import 'package:belcka/utils/user_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -61,21 +63,17 @@ class _RatesScreenState extends State<RatesScreen> {
                         ),
                       ),
                       // Trade field
-                      //TradeSelectView(),
-                      SizedBox(height: 16),
-                      // Trade
-                      Text(
-                        "trade".tr,
-                        style: TextStyle(fontSize: 14),
-                      ),
-                      SizedBox(height: 4),
-                      Text(
-                        controller.tradeController.value.text ?? "",
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                      ),
-                      Divider(height: 24),
                       SizedBox(height: 16),
 
+                      Visibility(
+                          visible: UserUtils.isAdmin() ,
+                          child: TradeSelectView()
+                      ),
+
+                      Visibility(
+                        visible: !UserUtils.isAdmin(),
+                          child: TradeView()),
+                      
                       // Join company date
                       Text(
                         "join_company_date".tr,

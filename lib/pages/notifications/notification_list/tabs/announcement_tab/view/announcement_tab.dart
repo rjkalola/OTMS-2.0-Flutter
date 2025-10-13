@@ -5,7 +5,6 @@ import 'package:belcka/pages/notifications/notification_list/tabs/announcement_t
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/app_utils.dart';
 
-
 class AnnouncementTab extends StatefulWidget {
   AnnouncementTab({super.key});
 
@@ -26,5 +25,4 @@ class AnnouncementTabState extends State<AnnouncementTab> {
       body: AnnouncementList(),
     );
   }
-
 }

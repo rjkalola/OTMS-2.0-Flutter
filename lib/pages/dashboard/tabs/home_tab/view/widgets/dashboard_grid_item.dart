@@ -24,6 +24,9 @@ class DashboardGridItem extends StatelessWidget {
             (controller.isOnWorking.value && (info.slug ?? "") == "shift")
                 ? Colors.green
                 : null,
+        borderWidth: (controller.isOnWorking.value && (info.slug ?? "") == "shift")
+            ? 2
+            : 1,
         child: GestureDetector(
           onTap: () {
             controller.onClickPermission(index, info);

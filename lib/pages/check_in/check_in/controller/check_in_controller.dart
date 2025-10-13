@@ -1,37 +1,35 @@
 import 'dart:convert';
 
-import 'package:belcka/pages/check_in/clock_in/model/location_info.dart';
-import 'package:belcka/res/drawable.dart';
-import 'package:belcka/utils/app_storage.dart';
-import 'package:belcka/utils/map_utils.dart';
-import 'package:dio/dio.dart' as multi;
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:belcka/pages/check_in/check_in/controller/check_in_repository.dart';
 import 'package:belcka/pages/check_in/check_in/model/check_in_resources_response.dart';
 import 'package:belcka/pages/check_in/check_in/model/company_locations_response.dart';
 import 'package:belcka/pages/check_in/check_in/model/type_of_work_resources_info.dart';
 import 'package:belcka/pages/check_in/check_in/model/type_of_work_resources_response.dart';
+import 'package:belcka/pages/check_in/clock_in/model/location_info.dart';
 import 'package:belcka/pages/check_in/clock_in/model/work_log_info.dart';
 import 'package:belcka/pages/check_in/dialogs/select_type_of_work_dialog.dart';
 import 'package:belcka/pages/common/drop_down_list_dialog.dart';
 import 'package:belcka/pages/common/listener/select_item_listener.dart';
 import 'package:belcka/pages/common/listener/select_type_of_work_listener.dart';
 import 'package:belcka/pages/common/model/file_info.dart';
+import 'package:belcka/res/drawable.dart';
 import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/app_storage.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/date_utils.dart';
 import 'package:belcka/utils/location_service_new.dart';
+import 'package:belcka/utils/map_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/web_services/response/response_model.dart';
+import 'package:dio/dio.dart' as multi;
+import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../../utils/app_constants.dart';
 

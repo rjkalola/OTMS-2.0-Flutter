@@ -1,4 +1,6 @@
+import 'package:belcka/pages/notifications/notification_list/tabs/announcement_tab/controller/announcement_tab_controller.dart';
 import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/user_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:belcka/pages/notifications/notification_list/controller/notification_list_controller.dart';
@@ -21,55 +23,61 @@ class _NotificationListScreenState extends State<NotificationListScreen> {
   @override
   Widget build(BuildContext context) {
     AppUtils.setStatusBarColor();
-    return Obx(() => Container(
-      color: dashBoardBgColor_(context),
-      child: SafeArea(
-        child: Scaffold(
-            backgroundColor: dashBoardBgColor_(context),
-            appBar: BaseAppBar(
-              appBar: AppBar(),
-              title: 'notifications'.tr,
-              isCenterTitle: false,
-              isBack: true,
-              bgColor: dashBoardBgColor_(context),
-              widgets: actionButtons(),
-            ),
-            body: controller.isInternetNotAvailable.value
-                ? NoInternetWidget(
-              onPressed: () {
-                controller.isInternetNotAvailable.value = false;
-                // controller.getCompanyDetailsApi();
-              },
-            )
-                : Column(
-              children: [
-                NotificationTabBar(),
-                Expanded(
-                  child: PageView(
-                    controller: controller.pageController,
-                    onPageChanged: controller.onPageChanged,
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: controller.tabs,
-                  ),
-                )
-              ],
-            )),
+    return Obx(
+      () => Container(
+        color: dashBoardBgColor_(context),
+        child: SafeArea(
+          child: Scaffold(
+              backgroundColor: dashBoardBgColor_(context),
+              appBar: BaseAppBar(
+                appBar: AppBar(),
+                title: 'notifications'.tr,
+                isCenterTitle: false,
+                isBack: true,
+                bgColor: dashBoardBgColor_(context),
+                widgets: actionButtons(),
+              ),
+              body: controller.isInternetNotAvailable.value
+                  ? NoInternetWidget(
+                      onPressed: () {
+                        controller.isInternetNotAvailable.value = false;
+                        // controller.getCompanyDetailsApi();
+                      },
+                    )
+                  : Column(
+                      children: [
+                        NotificationTabBar(),
+                        Expanded(
+                          child: PageView(
+                            controller: controller.pageController,
+                            onPageChanged: controller.onPageChanged,
+                            physics: const NeverScrollableScrollPhysics(),
+                            children: controller.tabs,
+                          ),
+                        )
+                      ],
+                    )),
+        ),
       ),
-    ),);
+    );
   }
 
   List<Widget>? actionButtons() {
     return [
       Visibility(
-        visible: controller.selectedIndex.value == 1,
+        visible: controller.selectedIndex.value == 1 && UserUtils.isAdmin(),
         child: Padding(
           padding: const EdgeInsets.only(right: 4),
           child: IconButton(
             padding: EdgeInsets.zero,
             constraints: BoxConstraints(),
             icon: Icon(Icons.add),
-            onPressed: () {
-              Get.toNamed(AppRoutes.createAnnouncementScreen);
+            onPressed: () async {
+              var result =
+                  await Get.toNamed(AppRoutes.createAnnouncementScreen);
+              if (result != null) {
+                Get.put(AnnouncementTabController()).getAnnouncementListApi();
+              }
             },
           ),
         ),

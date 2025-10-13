@@ -1,3 +1,5 @@
+import 'package:belcka/routes/app_routes.dart' show AppRoutes;
+import 'package:belcka/utils/user_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:belcka/pages/permissions/permission_users/controller/permission_users_controller.dart';
@@ -30,21 +32,31 @@ class PermissionUsersList extends StatelessWidget {
                         Expanded(
                           child: Row(
                             children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(45),
+                              GestureDetector(
+                                onTap: (){
+                                  if (UserUtils.isAdmin()) {
+                                    var arguments = {
+                                      "user_id": info.userId ?? 0,
+                                    };
+                                    Get.toNamed(AppRoutes.myProfileDetailsScreen,arguments: arguments);
+                                  }
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(45),
+                                    ),
+                                    border: Border.all(
+                                      width: 2,
+                                      color: Color(0xff1E1E1E),
+                                      style: BorderStyle.solid,
+                                    ),
                                   ),
-                                  border: Border.all(
-                                    width: 2,
-                                    color: Color(0xff1E1E1E),
-                                    style: BorderStyle.solid,
+                                  child: ImageUtils.setUserImage(
+                                    url: info.userThumbImage,
+                                    width: 40,
+                                    height: 40,
                                   ),
-                                ),
-                                child: ImageUtils.setUserImage(
-                                  url: info.userThumbImage,
-                                  width: 40,
-                                  height: 40,
                                 ),
                               ),
                               SizedBox(

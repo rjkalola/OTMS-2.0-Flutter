@@ -112,6 +112,7 @@ class DialogIdentifier {
   final String selectProject = 'SELECT_PROJECT';
   final String selectShift = 'SELECT_SHIFT';
   final String selectTeam = 'SELECT_TEAM';
+  final String selectUser = 'SELECT_USER';
   final String sortByDialog = 'SORT_BY_DIALOG';
   final String filterByDialog = 'FILTER_BY_DIALOG';
   final String attachmentOptionsList = 'ATTACHMENT_OPTIONS_LIST';
@@ -298,6 +299,7 @@ class CompanyResourcesFlag {
 
   final String shiftList = "shiftList";
   final String teamList = "teamList";
+  final String userList = "usersList";
 }
 
 class FilterType {

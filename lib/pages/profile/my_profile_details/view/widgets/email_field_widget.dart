@@ -21,8 +21,8 @@ class EmailFieldWidget extends StatelessWidget {
         labelText: 'email'.tr,
         keyboardType: TextInputType.emailAddress,
         textInputAction: TextInputAction.done,
-        isReadOnly: false,
-        isEnabled: true,
+        isReadOnly: !controller.isComingFromMyProfile,
+        isEnabled: controller.isComingFromMyProfile,
         onValueChange: (value) {
           //controller.onValueChange();
         },

@@ -1,3 +1,4 @@
+import 'package:belcka/utils/user_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:belcka/pages/common/model/user_info.dart';
@@ -59,7 +60,15 @@ class TeamMembersList extends StatelessWidget {
                       UserInfo info =
                           controller.teamInfo.value.teamMembers![position];
                       return GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          if (UserUtils.isAdmin()) {
+                            var arguments = {
+                              "user_id": info.id ?? 0,
+                            };
+                            controller.moveToScreen(
+                                AppRoutes.myProfileDetailsScreen, arguments);
+                          }
+                        },
                         child: Padding(
                           padding: EdgeInsets.fromLTRB(12, 10, 12, 10),
                           child: Row(

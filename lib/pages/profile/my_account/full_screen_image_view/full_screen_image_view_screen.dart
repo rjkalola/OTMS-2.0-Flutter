@@ -11,74 +11,82 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class FullScreenImageViewScreen extends StatefulWidget {
   final String imageUrl;
-  FullScreenImageViewScreen({Key? key, required this.imageUrl}) : super(key: key);
+
+  FullScreenImageViewScreen({Key? key, required this.imageUrl})
+      : super(key: key);
 
   @override
-  State<FullScreenImageViewScreen> createState() => _FullScreenImageViewScreenState();
-
+  State<FullScreenImageViewScreen> createState() =>
+      _FullScreenImageViewScreenState();
 }
 
 class _FullScreenImageViewScreenState extends State<FullScreenImageViewScreen> {
-
   final controller = Get.put(FullScreenImageViewController());
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Container(
-      color: dashBoardBgColor_(context),
-      child: SafeArea(
-        child: Scaffold(
-          appBar: BaseAppBar(
-            appBar: AppBar(),
-            title: "",
-            isCenterTitle: false,
-            bgColor: dashBoardBgColor_(context),
-            isBack: true,
-            widgets: [IconButton(
-              icon: const Icon(Icons.edit),
-              onPressed: () {
-                controller.showAttachmentOptionsDialog();
-              },
-            )],
-          ),
-          backgroundColor: dashBoardBgColor_(context),
-          body: ModalProgressHUD(
-            inAsyncCall: controller.isLoading.value,
-            opacity: 0,
-            progressIndicator: const CustomProgressbar(),
-            child: controller.isInternetNotAvailable.value
-                ?  Center(
-              child: Text('no_internet_text'.tr),
-            )
-                : InteractiveViewer(
-              panEnabled: true,
-              minScale: 1,
-              maxScale: 4,
-              child: SizedBox.expand(
-                child: Image.network(
-                  widget.imageUrl,
-                  fit: BoxFit.contain,
-                  loadingBuilder: (context, child, loadingProgress) {
-                    if (loadingProgress == null) return child;
-                    return Center(
-                      child: CircularProgressIndicator(
-                        value: loadingProgress.expectedTotalBytes != null
-                            ? loadingProgress.cumulativeBytesLoaded /
-                            (loadingProgress.expectedTotalBytes ?? 1)
-                            : null,
-                        color: Colors.white,
-                      ),
-                    );
+    return Obx(
+      () => Container(
+        color: dashBoardBgColor_(context),
+        child: SafeArea(
+          child: Scaffold(
+            appBar: BaseAppBar(
+              appBar: AppBar(),
+              title: "",
+              isCenterTitle: false,
+              bgColor: dashBoardBgColor_(context),
+              isBack: true,
+              widgets: [
+                IconButton(
+                  icon: const Icon(Icons.edit),
+                  onPressed: () {
+                    controller.showAttachmentOptionsDialog();
                   },
-                  errorBuilder: (context, error, stackTrace) => const Center(
-                    child: Icon(Icons.error, color: Colors.red),
-                  ),
-                ),
-              ),
+                )
+              ],
+            ),
+            backgroundColor: dashBoardBgColor_(context),
+            body: ModalProgressHUD(
+              inAsyncCall: controller.isLoading.value,
+              opacity: 0,
+              progressIndicator: const CustomProgressbar(),
+              child: controller.isInternetNotAvailable.value
+                  ? Center(
+                      child: Text('no_internet_text'.tr),
+                    )
+                  : InteractiveViewer(
+                      panEnabled: true,
+                      minScale: 1,
+                      maxScale: 4,
+                      child: SizedBox.expand(
+                        child: Image.network(
+                          widget.imageUrl,
+                          fit: BoxFit.contain,
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return Center(
+                              child: CircularProgressIndicator(
+                                value: loadingProgress.expectedTotalBytes !=
+                                        null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                        (loadingProgress.expectedTotalBytes ??
+                                            1)
+                                    : null,
+                                color: Colors.blue,
+                              ),
+                            );
+                          },
+                          errorBuilder: (context, error, stackTrace) =>
+                              const Center(
+                            child: Icon(Icons.error, color: Colors.red),
+                          ),
+                        ),
+                      ),
+                    ),
             ),
           ),
         ),
       ),
-    ),);
+    );
   }
 }

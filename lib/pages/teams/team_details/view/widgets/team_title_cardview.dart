@@ -1,5 +1,7 @@
+import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/utils/user_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:belcka/pages/teams/team_details/controller/team_details_controller.dart';
@@ -30,10 +32,21 @@ class TeamTitleCardView extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  UserAvtarView(
-                    imageUrl:
-                        controller.teamInfo.value.supervisorThumbImage ?? "",
-                    imageSize: 50,
+                  GestureDetector(
+                    onTap: (){
+                      if (UserUtils.isAdmin()) {
+                        var arguments = {
+                          "user_id": controller.teamInfo.value.supervisorId,
+                        };
+                        controller.moveToScreen(
+                            AppRoutes.myProfileDetailsScreen, arguments);
+                      }
+                    },
+                    child: UserAvtarView(
+                      imageUrl:
+                          controller.teamInfo.value.supervisorThumbImage ?? "",
+                      imageSize: 50,
+                    ),
                   ),
                   SizedBox(
                     width: 12,

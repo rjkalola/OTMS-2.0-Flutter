@@ -21,8 +21,8 @@ class LastNameFieldWidget extends StatelessWidget {
         labelText: 'last_name'.tr,
         keyboardType: TextInputType.name,
         textInputAction: TextInputAction.next,
-        isReadOnly: false,
-        isEnabled: true,
+        isReadOnly: !controller.isComingFromMyProfile,
+        isEnabled: controller.isComingFromMyProfile,
         onValueChange: (value) {
           //controller.onValueChange();
         },

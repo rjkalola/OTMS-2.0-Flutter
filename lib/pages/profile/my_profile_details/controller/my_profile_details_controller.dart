@@ -48,16 +48,25 @@ class MyProfileDetailsController extends GetxController implements SelectPhoneEx
       isOtpViewVisible = false.obs,
       isOtpVerified = false.obs;
   final imagePath = "".obs;
+  var isComingFromMyProfile = false;
+  int? userId = 0;
 
   @override
   void onInit() {
     super.onInit();
+    var arguments = Get.arguments;
+    if (arguments != null) {
+      userId = arguments["user_id"] ?? 0;
+    }
+    else{
+      userId = UserUtils.getLoginUserId();
+    }
     getProfileAPI();
   }
 
   void getProfileAPI() async {
     Map<String, dynamic> map = {};
-    map["user_id"] = UserUtils.getLoginUserId();
+    map["user_id"] = userId;
     map["company_id"] = ApiConstants.companyId;
     isLoading.value = true;
     _api.getProfile(
@@ -69,7 +78,14 @@ class MyProfileDetailsController extends GetxController implements SelectPhoneEx
           myProfileInfo.value = response.info!;
           firstNameController.value.text = myProfileInfo.value.firstName ?? "";
           lastNameController.value.text = myProfileInfo.value.lastName ?? "";
-          phoneController.value.text = myProfileInfo.value.phone ?? "";
+
+          if (isComingFromMyProfile){
+            phoneController.value.text = myProfileInfo.value.phone ?? "";
+          }
+          else{
+            phoneController.value.text = myProfileInfo.value.phoneWithExtension ?? "";
+          }
+
           emailController.value.text = myProfileInfo.value.email ?? "";
 
           isMainViewVisible.value = true;
@@ -142,6 +158,7 @@ class MyProfileDetailsController extends GetxController implements SelectPhoneEx
     );
   }
   showAttachmentOptionsDialog() async {
+
     print("pickImage");
     var listOptions = <ModuleInfo>[].obs;
     ModuleInfo? info;
