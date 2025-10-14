@@ -43,7 +43,8 @@ class ManageAttachmentController extends GetxController
   @override
   void onSelectItem(int position, int id, String name, String action) {
     if (action == AppConstants.attachmentType.image ||
-        action == AppConstants.attachmentType.camera) {
+        action == AppConstants.attachmentType.camera ||
+        action == AppConstants.attachmentType.documents) {
       selectImage(action, attachmentListener);
     } else if (action == AppConstants.attachmentType.multiImage) {
       selectImage(action, attachmentListener, multiSelection: true);
@@ -88,6 +89,36 @@ class ManageAttachmentController extends GetxController
           }
           attachmentListener!.onSelectAttachment(files, action);
         }
+      } else if (action == AppConstants.attachmentType.documents) {
+        print("documents select");
+        FilePickerResult? result = await FilePicker.platform.pickFiles(
+          allowMultiple: true,
+          type: FileType.custom,
+          allowedExtensions: ImageUtils.allAllowedExtensions,
+        );
+        print("documents selected 1");
+        if (result == null) return; // user canceled
+        print("documents selected 2");
+        final selectedFiles =
+            result.paths.whereType<String>().map((path) => File(path)).toList();
+
+        final List<String> files = [];
+
+        for (final file in selectedFiles) {
+          final ext = file.path.split('.').last.toLowerCase();
+
+          if (ImageUtils.imageExtensions.contains(ext)) {
+            // Compress images
+            final compressed = await ImageUtils.compressImage(file);
+            files.add(compressed?.path ?? file.path);
+          } else {
+            // Keep other files as-is
+            files.add(file.path);
+          }
+        }
+
+        // Callback with final paths
+        attachmentListener!.onSelectAttachment(files, action);
       }
     } catch (e) {
       print("error:" + e.toString());

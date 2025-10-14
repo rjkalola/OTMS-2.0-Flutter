@@ -1,10 +1,13 @@
 import 'dart:convert';
 
+import 'package:belcka/pages/common/model/file_info.dart';
 import 'package:belcka/pages/notifications/create_announcement/model/announcement_info.dart';
 import 'package:belcka/pages/notifications/create_announcement/model/announcement_list_response.dart';
 import 'package:belcka/pages/notifications/notification_list/tabs/announcement_tab/controller/announcement_tab_repository.dart';
+import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/custom_cache_manager.dart';
+import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/response_model.dart';
@@ -70,5 +73,9 @@ class AnnouncementTabController extends GetxController {
       final cache = CustomCacheManager();
       cache.downloadFile(info.senderThumbImage ?? "");
     }
+  }
+
+  onGridItemClick(int index, String action,int parentIndex) {
+    ImageUtils.moveToImagePreview(announcementList[parentIndex].documents!, index);
   }
 }

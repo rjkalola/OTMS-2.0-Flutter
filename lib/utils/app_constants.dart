@@ -250,6 +250,7 @@ class AttachmentType {
   final String camera = "camera";
   final String multiImage = "multi_image";
   final String croppedImage = "croppedImage";
+  final String documents = "documents";
 }
 
 class UserType {

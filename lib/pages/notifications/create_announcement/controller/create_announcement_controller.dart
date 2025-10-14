@@ -199,7 +199,13 @@ class CreateAnnouncementController extends GetxController
       if (index == 0) {
         showAttachmentOptionsDialog();
       } else {
-        ImageUtils.moveToImagePreview(attachmentList, index);
+        // var list = attachmentList.sublist(1,attachmentList.length);
+        // ImageUtils.moveToImagePreview(list, index-1);
+        final type = ImageUtils.getFileType(attachmentList[index].imageUrl??"");
+        print("type"+type);
+        print("type2"+(attachmentList[index].imageUrl??""));
+        ImageUtils.openAttachment(Get.context!, attachmentList[index].imageUrl??"", type);
+
       }
     } else if (action == AppConstants.action.removePhoto) {
       removePhotoFromList(index: index);
@@ -216,8 +222,8 @@ class CreateAnnouncementController extends GetxController
     listOptions.add(info);
 
     info = ModuleInfo();
-    info.name = 'gallery'.tr;
-    info.action = AppConstants.attachmentType.multiImage;
+    info.name = 'documents'.tr;
+    info.action = AppConstants.attachmentType.documents;
     listOptions.add(info);
 
     ManageAttachmentController().showAttachmentOptionsDialog(
@@ -228,7 +234,7 @@ class CreateAnnouncementController extends GetxController
   void onSelectAttachment(List<String> paths, String action) {
     if (action == AppConstants.attachmentType.camera) {
       addPhotoToList(paths[0]);
-    } else if (action == AppConstants.attachmentType.multiImage) {
+    } else if (action == AppConstants.attachmentType.documents) {
       for (var path in paths) {
         addPhotoToList(path);
       }

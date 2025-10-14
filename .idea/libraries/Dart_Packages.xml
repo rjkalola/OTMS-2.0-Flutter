@@ -828,6 +828,13 @@
             </list>
           </value>
         </entry>
+        <entry key="open_filex">
+          <value>
+            <list>
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/open_filex-4.7.0/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="package_config">
           <value>
             <list>
@@ -1457,6 +1464,7 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/modal_progress_hud_nsn-0.5.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/octo_image-2.1.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/open_file_plus-3.4.1+1/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/open_filex-4.7.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/package_config-2.2.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/path-1.9.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/path_parsing-1.1.0/lib" />

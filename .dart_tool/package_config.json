@@ -710,6 +710,12 @@
       "languageVersion": "2.19"
     },
     {
+      "name": "open_filex",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/open_filex-4.7.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "package_config",
       "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/package_config-2.2.0",
       "packageUri": "lib/",
@@ -1154,7 +1160,7 @@
       "languageVersion": "3.2"
     }
   ],
-  "generated": "2025-10-13T11:00:16.577347Z",
+  "generated": "2025-10-14T12:58:02.220572Z",
   "generator": "pub",
   "generatorVersion": "3.6.2",
   "flutterRoot": "file:///Users/apple/Documents/flutterDev/flutter",

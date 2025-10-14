@@ -1,4 +1,5 @@
 import 'package:belcka/pages/notifications/create_announcement/model/announcement_info.dart';
+import 'package:belcka/pages/notifications/notification_list/tabs/announcement_tab/view/widgets/attachment_list.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:belcka/pages/notifications/notification_list/tabs/announcement_tab/controller/announcement_tab_controller.dart';
@@ -49,25 +50,33 @@ class AnnouncementList extends StatelessWidget {
                               imageSize: 52,
                             ),
                           ),
-                          SizedBox(
-                            width: 12,
-                          ),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                PrimaryTextView(
-                                  text:
-                                      "Announcement from ${info.senderName ?? ""}: ${info.name ?? ""}",
-                                  fontSize: 17,
-                                  color: primaryTextColor_(context),
-                                  fontWeight: FontWeight.w500,
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 12),
+                                  child: PrimaryTextView(
+                                    text:
+                                        "Announcement from ${info.senderName ?? ""}: ${info.name ?? ""}",
+                                    fontSize: 17,
+                                    color: primaryTextColor_(context),
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
-                                PrimaryTextView(
-                                  text: info.date ?? "",
-                                  fontSize: 14,
-                                  color: secondaryLightTextColor_(context),
-                                  fontWeight: FontWeight.w400,
+                                AttachmentList(
+                                  onGridItemClick: controller.onGridItemClick,
+                                  filesList: info.documents!.obs,
+                                  parentIndex: position,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 12,top: 2),
+                                  child: PrimaryTextView(
+                                    text: info.date ?? "",
+                                    fontSize: 14,
+                                    color: secondaryLightTextColor_(context),
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
                               ],
                             ),

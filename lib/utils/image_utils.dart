@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:belcka/pages/manageattachment/view/document_web_view.dart';
+import 'package:belcka/pages/manageattachment/view/pdf_viewer_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
@@ -12,6 +14,7 @@ import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/custom_cache_manager.dart';
 import 'package:belcka/utils/string_helper.dart';
+import 'package:open_filex/open_filex.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 
@@ -20,6 +23,91 @@ import '../pages/common/widgets/image_preview_dialog.dart';
 class ImageUtils {
   static String defaultUserAvtarUrl =
       "https://www.pngmart.com/files/22/User-Avatar-Profile-PNG-Isolated-Transparent-Picture.png";
+
+  // 🎨 Image file extensions
+  static const List<String> imageExtensions = [
+    'jpg',
+    'jpeg',
+    'png',
+    'webp',
+    'heic',
+    'gif',
+  ];
+
+  // 🎥 Video file extensions
+  static const List<String> videoExtensions = [
+    'mp4',
+    'mov',
+    'm4v',
+  ];
+
+  // 🎵 Audio file extensions
+  static const List<String> audioExtensions = [
+    'mp3',
+    'wav',
+    'aac',
+    'm4a',
+    'ogg',
+    'opus'
+  ];
+
+  // 📄 Document file extensions
+  static const List<String> documentExtensions = [
+    'doc',
+    'docx',
+    'txt',
+    'xls',
+    'xlsx',
+  ];
+
+  // 🌍 Combined list for FilePicker
+  static const List<String> allAllowedExtensions = [
+    ...imageExtensions,
+    ...videoExtensions,
+    ...audioExtensions,
+    ...documentExtensions,
+    "pdf"
+  ];
+
+  static String getFileType(String pathOrUrl) {
+    final ext = pathOrUrl.split('.').last.toLowerCase();
+    const pdfExt = ['pdf'];
+
+    if (imageExtensions.contains(ext)) return 'image';
+    if (videoExtensions.contains(ext)) return 'video';
+    if (audioExtensions.contains(ext)) return 'audio';
+    if (documentExtensions.contains(ext)) return 'document';
+    if (pdfExt.contains(ext)) return 'pdf';
+    return 'other';
+  }
+
+  static Future<void> openAttachment(
+      BuildContext context, String path, String type) async {
+    if (type == 'image') {
+      Get.dialog(
+        Dialog(
+          insetPadding: const EdgeInsets.all(16),
+          child: Image.network(path, fit: BoxFit.contain),
+        ),
+      );
+    } else if (type == 'video') {
+      await OpenFilex.open(path); // Quick open via external app
+    } else if (type == 'audio') {
+      await OpenFilex.open(path);
+    }
+    // else if (type == 'pdf') {
+    //   Get.to(() => PdfViewerPage(filePath: path));
+    // }
+    // else if (type == 'document') {
+    //   final url = path.startsWith('http')
+    //       ? "https://docs.google.com/gview?embedded=true&url=$path"
+    //       : path;
+    //   Get.to(() => DocumentWebView(url: url) );
+    // }
+    else {
+      await OpenFilex.open(path);
+    }
+  }
 
   static Future<File?> compressImage(File file, {int quality = 90}) async {
     try {

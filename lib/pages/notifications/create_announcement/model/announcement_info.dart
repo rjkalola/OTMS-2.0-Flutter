@@ -1,3 +1,5 @@
+import 'package:belcka/pages/common/model/file_info.dart';
+
 class AnnouncementInfo {
   int? id;
   String? name;
@@ -9,7 +11,7 @@ class AnnouncementInfo {
   String? senderImage;
   String? senderThumbImage;
   String? senderName;
-  List<String>? documents;
+  List<FilesInfo>? documents;
   String? date;
   int? unreadCount;
   String? unreadIds;
@@ -41,7 +43,12 @@ class AnnouncementInfo {
     senderImage = json['sender_image'];
     senderThumbImage = json['sender_thumb_image'];
     senderName = json['sender_name'];
-    documents = json['documents'].cast<String>();
+    if (json['documents'] != null) {
+      documents = <FilesInfo>[];
+      json['documents'].forEach((v) {
+        documents!.add(new FilesInfo.fromJson(v));
+      });
+    }
     date = json['date'];
     unreadCount = json['unread_count'];
     unreadIds = json['unread_ids'];
@@ -59,7 +66,10 @@ class AnnouncementInfo {
     data['sender_image'] = this.senderImage;
     data['sender_thumb_image'] = this.senderThumbImage;
     data['sender_name'] = this.senderName;
-    data['documents'] = this.documents;
+    if (this.documents != null) {
+      data['documents'] =
+          this.documents!.map((v) => v.toJson()).toList();
+    }
     data['date'] = this.date;
     data['unread_count'] = this.unreadCount;
     data['unread_ids'] = this.unreadIds;
