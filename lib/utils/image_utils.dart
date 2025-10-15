@@ -1,12 +1,5 @@
 import 'dart:io';
 
-import 'package:belcka/pages/manageattachment/view/document_web_view.dart';
-import 'package:belcka/pages/manageattachment/view/pdf_viewer_page.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
 import 'package:belcka/pages/common/model/file_info.dart';
 import 'package:belcka/pages/common/model/user_info.dart';
 import 'package:belcka/routes/app_routes.dart';
@@ -14,9 +7,16 @@ import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/custom_cache_manager.dart';
 import 'package:belcka/utils/string_helper.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
+import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 
 import '../pages/common/widgets/image_preview_dialog.dart';
 
@@ -84,17 +84,57 @@ class ImageUtils {
   static Future<void> openAttachment(
       BuildContext context, String path, String type) async {
     if (type == 'image') {
-      Get.dialog(
-        Dialog(
-          insetPadding: const EdgeInsets.all(16),
-          child: Image.network(path, fit: BoxFit.contain),
-        ),
-      );
-    } else if (type == 'video') {
-      await OpenFilex.open(path); // Quick open via external app
-    } else if (type == 'audio') {
-      await OpenFilex.open(path);
+      ImageUtils.showImagePreviewDialog(path);
     }
+    // else if (type == 'video') {
+    //   await OpenFilex.open(path); // Quick open via external app
+    // } else if (type == 'audio') {
+    //   await OpenFilex.open(path);
+    // }
+
+    else {
+      if (path.startsWith("http")) {
+        final uri = Uri.parse(path);
+        if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+          throw 'Could not open $path';
+        }
+      } else {
+        await OpenFilex.open(path); //
+      }
+    }
+
+    /* if (type == 'video' || type == 'audio') {
+      await OpenFilex.open(path); // Works if path is local or valid URL
+      return;
+    }
+
+    // For documents / PDFs / Excel / Word etc.
+    File fileToOpen;
+
+    if (path.startsWith('http')) {
+      // Download file to temporary directory
+      final response = await http.get(Uri.parse(path));
+      if (response.statusCode != 200) {
+        Get.snackbar('Error', 'Failed to download file: ${response.statusCode}');
+        return;
+      }
+
+      final tempDir = await getTemporaryDirectory();
+      final fileName = path.split('/').last;
+      final filePath = '${tempDir.path}/$fileName';
+      fileToOpen = File(filePath);
+      await fileToOpen.writeAsBytes(response.bodyBytes);
+    } else {
+      fileToOpen = File(path);
+    }
+
+    if (!await fileToOpen.exists()) {
+      Get.snackbar('Error', 'File not found');
+      return;
+    }
+
+    await OpenFilex.open(fileToOpen.path);*/
+
     // else if (type == 'pdf') {
     //   Get.to(() => PdfViewerPage(filePath: path));
     // }
@@ -104,9 +144,9 @@ class ImageUtils {
     //       : path;
     //   Get.to(() => DocumentWebView(url: url) );
     // }
-    else {
+    /* else {
       await OpenFilex.open(path);
-    }
+    }*/
   }
 
   static Future<File?> compressImage(File file, {int quality = 90}) async {

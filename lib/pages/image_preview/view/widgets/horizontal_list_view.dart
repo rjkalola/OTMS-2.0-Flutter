@@ -1,3 +1,4 @@
+import 'package:belcka/widgets/image/document_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:belcka/pages/image_preview/controller/image_preview_controller.dart';
@@ -18,31 +19,37 @@ class HorizontalListView extends StatelessWidget {
         itemCount: controller.filesList.length,
         itemBuilder: (context, index) {
           return GestureDetector(
-            onTap: () => controller.onThumbnailTap(index),
-            child: Obx(
-              () => Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: index == controller.currentIndex.value
-                          ? Colors.blueAccent
-                          : Colors.transparent,
-                      width: 3,
+              onTap: () => controller.onThumbnailTap(index),
+              child: Obx(() => Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: index == controller.currentIndex.value
+                            ? Colors.blueAccent
+                            : Colors.transparent,
+                        width: 3,
+                      ),
                     ),
-                  ),
-                  child: (controller.filesList[index].imageUrl ?? "")
-                          .startsWith("http")
-                      ? ImageUtils.setNetworkImage(
-                          url: controller.filesList[index].imageUrl ?? "",
-                          width: 80,
-                          height: 80,
-                          fit: BoxFit.cover)
-                      : ImageUtils.setFileImage(
-                          url: controller.filesList[index].imageUrl ?? "",
-                          width: 80,
-                          height: 80,
-                          fit: BoxFit.cover)),
-            ),
-          );
+                    // child: (controller.filesList[index].imageUrl ?? "")
+                    //         .startsWith("http")
+                    //     ? ImageUtils.setNetworkImage(
+                    //         url: controller.filesList[index].imageUrl ?? "",
+                    //         width: 80,
+                    //         height: 80,
+                    //         fit: BoxFit.cover)
+                    //     : ImageUtils.setFileImage(
+                    //         url: controller.filesList[index].imageUrl ?? "",
+                    //         width: 80,
+                    //         height: 80,
+                    //         fit: BoxFit.cover)),
+
+                    child: DocumentView(
+                        onRemoveClick: () {},
+                        isEditable: false,
+                        fileRadius: 0,
+                        width: 80,
+                        height: 80,
+                        file: (controller.filesList[index].imageUrl ?? "")),
+                  )));
         },
       ),
     );

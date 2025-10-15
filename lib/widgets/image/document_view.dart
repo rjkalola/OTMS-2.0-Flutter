@@ -13,17 +13,22 @@ class DocumentView extends StatelessWidget {
       this.file,
       required this.onRemoveClick,
       this.fileRadius,
+      this.width,
+      this.height,
+      this.documentIconSize,
       this.isEditable});
 
   final String? file;
   final VoidCallback onRemoveClick;
-  final double? fileRadius;
+  final double? fileRadius, width, height, documentIconSize;
   final bool? isEditable;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       // color of
+      width: width,
+      height: height,
       decoration: BoxDecoration(
           color: ThemeConfig.isDarkMode ? Color(0xff232323) : Color(0xffdadada),
           borderRadius: BorderRadius.circular(fileRadius ?? 8.0)
@@ -94,26 +99,32 @@ class DocumentView extends StatelessWidget {
         case 'video':
           return Center(
             child: Icon(Icons.videocam,
-                size: 34, color: secondaryExtraLightTextColor_(Get.context!)),
+                size: documentIconSize ?? 34,
+                color: secondaryExtraLightTextColor_(Get.context!)),
           );
         case 'audio':
           return Center(
             child: Icon(Icons.audiotrack,
-                size: 34, color: secondaryExtraLightTextColor_(Get.context!)),
+                size: documentIconSize ?? 34,
+                color: secondaryExtraLightTextColor_(Get.context!)),
           );
         case 'document':
           return Center(
             child: Icon(Icons.insert_drive_file,
-                size: 34, color: secondaryExtraLightTextColor_(Get.context!)),
+                size: documentIconSize ?? 34,
+                color: secondaryExtraLightTextColor_(Get.context!)),
           );
         case 'pdf':
           return Center(
             child: Icon(Icons.picture_as_pdf_outlined,
-                size: 34, color: secondaryExtraLightTextColor_(Get.context!)),
+                size: documentIconSize ?? 34,
+                color: secondaryExtraLightTextColor_(Get.context!)),
           );
         default:
-          return const Center(
-            child: Icon(Icons.file_present, size: 34),
+          return Center(
+            child: Icon(Icons.insert_drive_file,
+                size: documentIconSize ?? 34,
+                color: secondaryExtraLightTextColor_(Get.context!)),
           );
       }
     } else {

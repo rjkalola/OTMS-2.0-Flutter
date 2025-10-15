@@ -23,6 +23,7 @@ class ImagePreviewController extends GetxController {
   ];
 
   final currentIndex = 0.obs;
+  final selectedFileType = "".obs;
   final pageController = PageController().obs;
 
   @override
