@@ -65,6 +65,7 @@ class ApiConstants {
 
   //user permissions
   static String getUserPermissions = '$appUrl/dashboard/user/permissions';
+  static String getNotificationCount = '$appUrl/get-notification-count';
 
   // static String changeUserPermissionStatus =
   //     '$appUrl/dashboard/user/change-permission-status';
@@ -226,6 +227,7 @@ class ApiConstants {
   static String userPayRatePermission =
       '$appUrl/setting/user-payrate-permission';
   static String updateProfile = '$appUrl/user/update-profile';
+  static String rateHistory = '$appUrl/requests/get-rate-history';
 
   //filters
   static String getRequestFilters = '$appUrl/requests/get-filters';

@@ -49,6 +49,7 @@ import 'package:belcka/pages/profile/my_profile_details/view/my_profile_details_
 import 'package:belcka/pages/profile/other_user_billing/billing_details/view/other_user_billing_details_screen.dart';
 import 'package:belcka/pages/profile/post_coder_search/view/post_coder_search_screen.dart';
 import 'package:belcka/pages/profile/rates/view/rates_screen.dart';
+import 'package:belcka/pages/profile/rates_history/view/rates_history_screen.dart';
 import 'package:belcka/pages/profile/rates_request/view/rates_request_screen.dart';
 import 'package:belcka/pages/profile/user_settings/view/user_settings_screen.dart';
 import 'package:belcka/pages/project/add_address/view/add_address_screen.dart';
@@ -337,5 +338,8 @@ class AppPages {
     GetPage(
         name: AppRoutes.createAnnouncementScreen,
         page: () => CreateAnnouncementScreen()),
+    GetPage(
+        name: AppRoutes.ratesHistoryScreen,
+        page: () => RatesHistoryScreen()),
   ];
 }

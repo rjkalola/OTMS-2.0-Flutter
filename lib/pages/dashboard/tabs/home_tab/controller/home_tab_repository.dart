@@ -77,4 +77,21 @@ class HomeTabRepository {
       onError: (error) => {if (onError != null) onError(error)},
     );
   }
+
+  void getNotificationCount({
+    Map<String, dynamic>? queryParameters,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+        url: ApiConstants.getNotificationCount,
+        queryParameters: queryParameters,
+        isFormData: false)
+        .getRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
 }

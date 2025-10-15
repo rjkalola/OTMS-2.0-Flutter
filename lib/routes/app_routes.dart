@@ -114,4 +114,5 @@ class AppRoutes {
   static const String checkInPhotosPreviewScreen =
       '/check_in_photos_preview_screen';
   static const String createAnnouncementScreen = '/create_announcement_screen';
+  static const String ratesHistoryScreen = '/rates_history_screen';
 }

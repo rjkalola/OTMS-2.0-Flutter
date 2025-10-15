@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:belcka/pages/check_in/clock_in/controller/clock_in_utils_.dart';
 import 'package:belcka/pages/check_in/clock_in/model/counter_details.dart';
 import 'package:belcka/pages/check_in/clock_in/model/work_log_info.dart';
+import 'package:belcka/pages/dashboard/tabs/home_tab/model/notification_count_response.dart';
 import 'package:belcka/utils/date_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -49,6 +50,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
   final RxString totalWorkHours = "".obs,
       remainingBreakTime = "".obs,
       activeWorkHours = "".obs;
+  final RxInt notificationCount = 0.obs;
   final workLogData = WorkLogListResponse().obs;
 
   @override
@@ -141,6 +143,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
           listPermissions.addAll(response.permissions ?? []);
           updateShiftValue(isClearValue: false);
           getUserWorkLogListApi(isShiftClick: false, isProgress: false);
+          getNotificationCountApi(isProgress: false);
         } else {
           // AppUtils.showSnackBarMessage(responseModel.statusMessage!);
         }
@@ -367,6 +370,41 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
         }*/
       }
     }
+  }
+
+  void getNotificationCountApi({
+    required bool isProgress,
+  }) {
+    isLoading.value = isProgress;
+    Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
+    _api.getNotificationCount(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          NotificationCountResponse response =
+              NotificationCountResponse.fromJson(
+                  jsonDecode(responseModel.result!));
+          notificationCount.value =
+              (response.feedCount ?? 0) + (response.announcementCount ?? 0);
+        } else {
+          // AppUtils.showSnackBarMessage(responseModel.statusMessage!);
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          /*  isInternetNotAvailable.value = true;
+          print("isInternetNotAvailable.value:" +
+              isInternetNotAvailable.value.toString());*/
+          // AppUtils.showApiResponseMessage('no_internet'.tr);
+        }
+        // else if (error.statusMessage!.isNotEmpty) {
+        //   AppUtils.showSnackBarMessage(error.statusMessage!);
+        // }
+      },
+    );
   }
 
   bool isEditWidgetBefore() {

@@ -70,15 +70,15 @@ class HeaderUserDetailsView extends StatelessWidget {
               onTap: () {
                 Get.toNamed(AppRoutes.notificationListScreen);
               },
-              child: BudgeCountWithChild(
-                  count: 0,
+              child:Obx(() =>  BudgeCountWithChild(
+                  count: controller.notificationCount.value,
                   child: ImageUtils.setSvgAssetsImage(
                       path: Drawable.bellIcon,
                       width: 28,
                       height: 28,
                       color: ThemeConfig.isDarkMode
                           ? AppUtils.getColor("#B7B3AD")
-                          : AppUtils.getColor("#484C52"))),
+                          : AppUtils.getColor("#484C52"))),),
             )
           ],
         ),

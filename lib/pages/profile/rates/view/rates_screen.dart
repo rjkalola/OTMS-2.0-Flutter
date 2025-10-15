@@ -1,5 +1,7 @@
 import 'package:belcka/pages/profile/rates/view/widgets/trade_view.dart';
 import 'package:belcka/pages/profile/rates_request/view/widgets/rate_request_pending_for_approval.dart';
+import 'package:belcka/res/theme/app_colors.dart';
+import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -118,23 +120,25 @@ class _RatesScreenState extends State<RatesScreen> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 32),
+                      SizedBox(height: 24),
                       // Rate history link
-                      /*
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: Text(
-                                  "rate_history".tr,
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color:Colors.blueAccent,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 24,),
-                              */
-
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                          onPressed: () {
+                            Get.toNamed(AppRoutes.ratesHistoryScreen);
+                          },
+                          child: Text(
+                            'rate_history'.tr,
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                              color:Colors.blueAccent,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 12,),
 
                       Visibility(
                         visible: controller.isShowSaveButton.value,
