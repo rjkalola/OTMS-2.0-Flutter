@@ -7,6 +7,7 @@ import 'package:belcka/pages/check_in/clock_in/model/counter_details.dart';
 import 'package:belcka/pages/check_in/clock_in/model/work_log_list_response.dart';
 import 'package:belcka/pages/common/listener/select_item_listener.dart';
 import 'package:belcka/pages/common/model/user_info.dart';
+import 'package:belcka/pages/common/model/user_response.dart';
 import 'package:belcka/pages/dashboard/controller/dashboard_controller.dart';
 import 'package:belcka/pages/dashboard/models/dashboard_response.dart';
 import 'package:belcka/pages/dashboard/tabs/home_tab/controller/home_tab_repository.dart';
@@ -15,6 +16,7 @@ import 'package:belcka/pages/dashboard/tabs/home_tab/model/notification_count_re
 import 'package:belcka/pages/dashboard/tabs/home_tab/model/permission_info.dart';
 import 'package:belcka/pages/dashboard/tabs/home_tab/model/user_permissions_response.dart';
 import 'package:belcka/pages/dashboard/view/dialogs/control_panel_menu_dialog.dart';
+import 'package:belcka/pages/profile/my_profile_details/controller/my_profile_details_repository.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_storage.dart';
@@ -27,8 +29,7 @@ import 'package:belcka/web_services/response/response_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class HomeTabController extends GetxController
-    // with WidgetsBindingObserver
+class HomeTabController extends GetxController // with WidgetsBindingObserver
     implements
         SelectItemListener {
   final _api = HomeTabRepository();
@@ -44,8 +45,9 @@ class HomeTabController extends GetxController
   final dashboardController = Get.put(DashboardController());
   final dashboardResponse = DashboardResponse().obs;
   final listPermissions = <PermissionInfo>[].obs;
-  UserInfo? userInfo;
 
+  // UserInfo? userInfo;
+  final userInfo = UserInfo().obs;
   Timer? _timer;
   final RxString totalWorkHours = "".obs,
       remainingBreakTime = "".obs,
@@ -57,7 +59,7 @@ class HomeTabController extends GetxController
   @override
   void onInit() {
     super.onInit();
-    userInfo = Get.find<AppStorage>().getUserInfo();
+    userInfo.value = Get.find<AppStorage>().getUserInfo();
     setInitialData();
     // WidgetsBinding.instance.addObserver(this);
     // appLifeCycle();
@@ -132,7 +134,7 @@ class HomeTabController extends GetxController
     }
   }
 
- /* void onActionButtonClick(String action) {
+  /* void onActionButtonClick(String action) {
     if (action == AppConstants.action.clockIn) {
       Get.toNamed(AppRoutes.clockInScreen);
     } else if (action == AppConstants.action.store) {
@@ -167,6 +169,7 @@ class HomeTabController extends GetxController
           updateShiftValue(isClearValue: false);
           getUserWorkLogListApi(isShiftClick: false, isProgress: false);
           getNotificationCountApi(isProgress: false);
+          getUserProfileAPI();
         } else {
           // AppUtils.showSnackBarMessage(responseModel.statusMessage!);
         }
@@ -430,6 +433,34 @@ class HomeTabController extends GetxController
     );
   }
 
+  void getUserProfileAPI() async {
+    Map<String, dynamic> map = {};
+    map["user_id"] = UserUtils.getLoginUserId();
+    map["company_id"] = ApiConstants.companyId;
+    MyProfileDetailsRepository().getProfile(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          UserResponse response =
+              UserResponse.fromJson(jsonDecode(responseModel.result!));
+          Get.find<AppStorage>().setUserInfo(response.info!);
+          ApiConstants.accessToken = response.info!.apiToken ?? "";
+          AppUtils.saveLoginUser(response.info!);
+          userInfo.value = Get.find<AppStorage>().getUserInfo();
+        } else {
+          // AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+      },
+      onError: (ResponseModel error) {
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          // AppUtils.showApiResponseMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          // AppUtils.showApiResponseMessage(error.statusMessage);
+        }
+      },
+    );
+  }
+
   bool isEditWidgetBefore() {
     bool isBefore = false;
 
@@ -569,9 +600,11 @@ class HomeTabController extends GetxController
     }
   }
 
-  Future<void> moveToScreen2({required String appRout, dynamic arguments}) async {
-    var result = await Get.toNamed(appRout,arguments: arguments);
+  Future<void> moveToScreen2(
+      {required String appRout, dynamic arguments}) async {
+    var result = await Get.toNamed(appRout, arguments: arguments);
     getNotificationCountApi(isProgress: false);
+    getUserProfileAPI();
   }
 
   void pullToRefreshData() {

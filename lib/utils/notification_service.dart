@@ -175,7 +175,9 @@ class NotificationService {
           notificationType == AppConstants.notificationType.WORKLOG_APPROVE ||
           notificationType == AppConstants.notificationType.WORKLOG_REJECT ||
           notificationType ==
-              AppConstants.notificationType.TIME_CLOCK_EDIT_WORKLOG) {
+              AppConstants.notificationType.TIME_CLOCK_EDIT_WORKLOG ||
+          notificationType ==
+              AppConstants.notificationType.USER_WORK_STOP_AUTOMATICALLY) {
         final workLogId = data['worklog_id'] ?? "0";
         final userId = data['user_id'] ?? "0";
         print("workLogId is:" + workLogId);

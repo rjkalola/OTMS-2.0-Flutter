@@ -28,7 +28,7 @@ class HeaderUserDetailsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CardViewDashboardItem(
+    return Obx(() => CardViewDashboardItem(
       margin: EdgeInsets.fromLTRB(14, 20, 14, 6),
       padding: EdgeInsets.fromLTRB(16, 14, 16, 14),
       child: GestureDetector(
@@ -38,7 +38,7 @@ class HeaderUserDetailsView extends StatelessWidget {
         child: Row(
           children: [
             UserAvtarView(
-              imageUrl: controller.userInfo?.userThumbImage ?? "",
+              imageUrl: controller.userInfo.value.userThumbImage ?? "",
               isOnlineStatusVisible: true,
             ),
             SizedBox(
@@ -50,7 +50,7 @@ class HeaderUserDetailsView extends StatelessWidget {
                 children: [
                   PrimaryTextView(
                     text:
-                        "Hi, ${controller.userInfo?.firstName} ${controller.userInfo?.lastName}",
+                    "Hi, ${controller.userInfo.value.firstName} ${controller.userInfo.value.lastName}",
                     fontWeight: FontWeight.w500,
                     fontSize: 17,
                     color: primaryTextColorLight_(context),
@@ -72,7 +72,7 @@ class HeaderUserDetailsView extends StatelessWidget {
                     appRout: AppRoutes.notificationListScreen);
               },
               child: Obx(
-                () => BudgeCountWithChild(
+                    () => BudgeCountWithChild(
                     count: controller.notificationCount.value,
                     child: ImageUtils.setSvgAssetsImage(
                         path: Drawable.bellIcon,
@@ -86,6 +86,6 @@ class HeaderUserDetailsView extends StatelessWidget {
           ],
         ),
       ),
-    );
+    ),);
   }
 }
