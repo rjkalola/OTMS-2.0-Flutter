@@ -68,7 +68,7 @@ class IntentKey {
   final String teamId = "TEAM_ID";
   final String companyId = "COMPANY_ID";
   final String teamInfo = "TEAM_INFO";
-  final String announcementInfo = "ANNOUNCEMENT_INFO";
+  final String announcementId = "ANNOUNCEMENT_ID";
   final String projectInfo = "PROJECT_INFO";
   final String userId = "USER_ID";
   final String userName = "USER_NAME";

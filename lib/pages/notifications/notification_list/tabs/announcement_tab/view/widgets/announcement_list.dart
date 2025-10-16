@@ -40,7 +40,8 @@ class AnnouncementList extends StatelessWidget {
                   child: GestureDetector(
                     onTap: () {
                       var arguments = {
-                        AppConstants.intentKey.announcementInfo: info,
+                        AppConstants.intentKey.announcementId: info.id ?? 0,
+                        AppConstants.intentKey.announcementId: info.id ?? 0,
                       };
                       controller.moveToScreen(
                           AppRoutes.announcementDetailsScreen, arguments);

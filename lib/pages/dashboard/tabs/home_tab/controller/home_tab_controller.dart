@@ -1,14 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:belcka/pages/check_in/clock_in/controller/clock_in_repository.dart';
 import 'package:belcka/pages/check_in/clock_in/controller/clock_in_utils_.dart';
 import 'package:belcka/pages/check_in/clock_in/model/counter_details.dart';
-import 'package:belcka/pages/check_in/clock_in/model/work_log_info.dart';
-import 'package:belcka/pages/dashboard/tabs/home_tab/model/notification_count_response.dart';
-import 'package:belcka/utils/date_utils.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:belcka/pages/check_in/clock_in/controller/clock_in_repository.dart';
 import 'package:belcka/pages/check_in/clock_in/model/work_log_list_response.dart';
 import 'package:belcka/pages/common/listener/select_item_listener.dart';
 import 'package:belcka/pages/common/model/user_info.dart';
@@ -16,6 +11,7 @@ import 'package:belcka/pages/dashboard/controller/dashboard_controller.dart';
 import 'package:belcka/pages/dashboard/models/dashboard_response.dart';
 import 'package:belcka/pages/dashboard/tabs/home_tab/controller/home_tab_repository.dart';
 import 'package:belcka/pages/dashboard/tabs/home_tab/model/local_permission_sequence_change_info.dart';
+import 'package:belcka/pages/dashboard/tabs/home_tab/model/notification_count_response.dart';
 import 'package:belcka/pages/dashboard/tabs/home_tab/model/permission_info.dart';
 import 'package:belcka/pages/dashboard/tabs/home_tab/model/user_permissions_response.dart';
 import 'package:belcka/pages/dashboard/view/dialogs/control_panel_menu_dialog.dart';
@@ -24,11 +20,15 @@ import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_storage.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/data_utils.dart';
+import 'package:belcka/utils/date_utils.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/response_model.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class HomeTabController extends GetxController // with WidgetsBindingObserver
+class HomeTabController extends GetxController
+    // with WidgetsBindingObserver
     implements
         SelectItemListener {
   final _api = HomeTabRepository();
@@ -52,6 +52,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       activeWorkHours = "".obs;
   final RxInt notificationCount = 0.obs;
   final workLogData = WorkLogListResponse().obs;
+  late final AppLifecycleListener? _appLifecycleListener;
 
   @override
   void onInit() {
@@ -59,18 +60,40 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
     userInfo = Get.find<AppStorage>().getUserInfo();
     setInitialData();
     // WidgetsBinding.instance.addObserver(this);
+    // appLifeCycle();
   }
+
+  // void appLifeCycle() {
+  //   print("appLifeCycle");
+  //   // _appLifecycleListener?.dispose();
+  //   _appLifecycleListener = AppLifecycleListener(
+  //     onResume: () async {
+  //       print("onResume call");
+  //     },
+  //     onInactive: () => print("⏸️ App inactive"),
+  //     onPause: () => print("⏸️ App paused"),
+  //     onDetach: () => print("❌ App detached"),
+  //     onHide: () => print("🙈 App hidden (Android 14 multi-window etc.)"),
+  //   );
+  // }
+
+  // @override
+  // void onClose() {
+  //   _appLifecycleListener?.dispose();
+  //   super.onClose();
+  // }
 
   // @override
   // void onClose() {
   //   WidgetsBinding.instance.removeObserver(this);
   //   super.onClose();
   // }
-
+  //
   // @override
   // void didChangeAppLifecycleState(AppLifecycleState state) {
+  //   print("didChangeAppLifecycleState");
   //   if (state == AppLifecycleState.resumed) {
-  //     getDashboardUserPermissionsApi(false);
+  //     print("onResume call");
   //   }
   // }
 
@@ -109,7 +132,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
     }
   }
 
-  void onActionButtonClick(String action) {
+ /* void onActionButtonClick(String action) {
     if (action == AppConstants.action.clockIn) {
       Get.toNamed(AppRoutes.clockInScreen);
     } else if (action == AppConstants.action.store) {
@@ -121,7 +144,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
     } else if (action == AppConstants.action.categories) {
       Get.offNamed(AppRoutes.categoryListScreen);
     }
-  }
+  }*/
 
   Future<void> getDashboardUserPermissionsApi(bool isProgress) async {
     isLoading.value = isProgress;
@@ -465,25 +488,16 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       moveToScreen(
           appRout: AppRoutes.userPermissionScreen, arguments: arguments);
     } else if (info.slug == 'team') {
-      Get.toNamed(AppRoutes.teamListScreen);
-      // Get.toNamed(AppRoutes.createTeamScreen);
+      moveToScreen2(appRout: AppRoutes.teamListScreen);
     } else if (info.slug == 'teams') {
       var arguments = {AppConstants.intentKey.isAllUserTeams: true};
-      Get.toNamed(AppRoutes.teamListScreen, arguments: arguments);
-      // Get.toNamed(AppRoutes.createTeamScreen);
+      moveToScreen2(appRout: AppRoutes.teamListScreen, arguments: arguments);
     } else if (info.slug == 'users') {
-      Get.toNamed(AppRoutes.userListScreen);
-      // Get.toNamed(AppRoutes.createTeamScreen);
+      moveToScreen2(appRout: AppRoutes.userListScreen);
     } else if (info.slug == 'projects') {
-      Get.toNamed(AppRoutes.projectListScreen);
-      // Get.toNamed(AppRoutes.createTeamScreen);
+      moveToScreen2(appRout: AppRoutes.projectListScreen);
     } else if (info.slug == 'shift') {
       getUserWorkLogListApi(isShiftClick: true, isProgress: true);
-      /* if (UserUtils.isWorking()) {
-        Get.toNamed(AppRoutes.clockInScreen);
-      } else {
-        Get.toNamed(AppRoutes.startShiftMapScreen);
-      }*/
     } else if (info.slug == 'settings') {
       moveToScreen(appRout: AppRoutes.settingsScreen);
     } else if (info.slug == 'timesheet') {
@@ -555,8 +569,8 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
     }
   }
 
-  Future<void> moveToNotificationScreen() async {
-    var result = await Get.toNamed(AppRoutes.notificationListScreen);
+  Future<void> moveToScreen2({required String appRout, dynamic arguments}) async {
+    var result = await Get.toNamed(appRout,arguments: arguments);
     getNotificationCountApi(isProgress: false);
   }
 

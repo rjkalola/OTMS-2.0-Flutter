@@ -26,6 +26,7 @@ class AnnouncementDetailsController extends GetxController
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
       isUpdated = false.obs;
+  int announcementId = 0;
   final info = AnnouncementInfo().obs;
 
   @override
@@ -33,18 +34,14 @@ class AnnouncementDetailsController extends GetxController
     super.onInit();
     var arguments = Get.arguments;
     if (arguments != null) {
-      info.value = arguments[AppConstants.intentKey.announcementInfo];
-      if (!(info.value.isRead ?? false)) {
-        isUpdated.value = true;
-        announcementReadApi();
-      }
+      announcementId = arguments[AppConstants.intentKey.announcementId] ?? 0;
     }
     announcementDetailApi();
   }
 
   void announcementDetailApi() async {
     Map<String, dynamic> map = {};
-    map["id"] = info.value.id ?? 0;
+    map["id"] = announcementId;
     map["user_id"] = UserUtils.getLoginUserId();
     isLoading.value = true;
     _api.announcementDetail(
@@ -56,6 +53,10 @@ class AnnouncementDetailsController extends GetxController
               AnnouncementDetailsResponse.fromJson(
                   jsonDecode(responseModel.result!));
           info.value = response.info!;
+          if (!(info.value.isRead ?? false)) {
+            isUpdated.value = true;
+            announcementReadApi();
+          }
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
@@ -72,7 +73,7 @@ class AnnouncementDetailsController extends GetxController
 
   void announcementDeleteApi() async {
     Map<String, dynamic> map = {};
-    map["id"] = info.value.id ?? 0;
+    map["id"] = announcementId;
     map["user_id"] = UserUtils.getLoginUserId();
     isLoading.value = true;
     _api.announcementDelete(

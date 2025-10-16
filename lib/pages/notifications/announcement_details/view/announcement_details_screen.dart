@@ -155,43 +155,42 @@ class _AnnouncementDetailsScreenState extends State<AnnouncementDetailsScreen> {
                                   height: 0,
                                   color: dividerColor_(context),
                                 ),
-                                Visibility(
-                                  visible: !StringHelper.isEmptyList(
-                                      controller.info.value.documents),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        height: 18,
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 16),
-                                        child: TitleTextView(
-                                          text: 'attachment'.tr,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            4, 3, 8, 14),
-                                        child: AttachmentList(
-                                          onGridItemClick:
-                                              controller.onGridItemClick,
-                                          filesList: controller
-                                              .info.value.documents!.obs,
-                                          parentIndex: 0,
-                                        ),
-                                      ),
-                                      Divider(
-                                        height: 0,
-                                        color: dividerColor_(context),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                                !StringHelper.isEmptyList(
+                                        controller.info.value.documents)
+                                    ? Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                            height: 18,
+                                          ),
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 16),
+                                            child: TitleTextView(
+                                              text: 'attachment'.tr,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                4, 3, 8, 14),
+                                            child: AttachmentList(
+                                              onGridItemClick:
+                                                  controller.onGridItemClick,
+                                              filesList: controller
+                                                  .info.value.documents!.obs,
+                                              parentIndex: 0,
+                                            ),
+                                          ),
+                                          Divider(
+                                            height: 0,
+                                            color: dividerColor_(context),
+                                          ),
+                                        ],
+                                      )
+                                    : Container(),
                               ],
                             ),
                           ),
