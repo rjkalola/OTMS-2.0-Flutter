@@ -16,4 +16,20 @@ class FeedTabRepository {
       onError: (error) => {if (onError != null) onError(error)},
     );
   }
+
+  void readFeed({
+    dynamic data,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(url: ApiConstants.readFeed, data: data)
+        .postRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
+
+
 }

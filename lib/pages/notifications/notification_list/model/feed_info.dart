@@ -18,6 +18,10 @@ class FeedInfo {
   int? feedType;
   int? unreadFeeds;
   bool? isRead;
+  int? teamId;
+  int? projectId;
+  int? requestLogId;
+  int? worklogId;
 
   FeedInfo(
       {this.id,
@@ -38,7 +42,11 @@ class FeedInfo {
       this.weekEnd,
       this.feedType,
       this.unreadFeeds,
-      this.isRead});
+      this.isRead,
+      this.teamId,
+      this.projectId,
+      this.requestLogId,
+      this.worklogId});
 
   FeedInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -60,6 +68,10 @@ class FeedInfo {
     feedType = json['feed_type'];
     unreadFeeds = json['unread_feeds'];
     isRead = json['is_read'];
+    teamId = json['team_id'];
+    projectId = json['project_id'];
+    requestLogId = json['request_log_id'];
+    worklogId = json['worklog_id'];
   }
 
   Map<String, dynamic> toJson() {
@@ -83,6 +95,11 @@ class FeedInfo {
     data['feed_type'] = this.feedType;
     data['unread_feeds'] = this.unreadFeeds;
     data['is_read'] = this.isRead;
+    data['team_id'] = this.teamId;
+    data['project_id'] = this.projectId;
+    data['request_log_id'] = this.requestLogId;
+    data['worklog_id'] = this.worklogId;
+
     return data;
   }
 }

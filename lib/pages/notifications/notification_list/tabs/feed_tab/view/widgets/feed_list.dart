@@ -43,6 +43,7 @@ class FeedList extends StatelessWidget {
                       // };
                       // Get.toNamed(AppRoutes.userPermissionScreen,
                       //     arguments: arguments);
+                      controller.notificationClick(info,position);
                     },
                     child: Container(
                       padding: const EdgeInsets.fromLTRB(10, 9, 10, 9),
