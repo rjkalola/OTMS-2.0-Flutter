@@ -36,7 +36,7 @@ class CardViewDashboardItem extends StatelessWidget {
       child: Container(
         padding: padding ?? EdgeInsets.all(0),
         decoration: BoxDecoration(
-            color: backgroundColor_(context),
+            color: boxColor ?? backgroundColor_(context),
             borderRadius: BorderRadius.all(
               Radius.circular(borderRadius ?? 20),
             ),

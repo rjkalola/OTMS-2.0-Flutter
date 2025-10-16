@@ -2,6 +2,8 @@ import 'package:belcka/pages/notifications/notification_list/model/feed_info.dar
 import 'package:belcka/pages/notifications/notification_list/tabs/feed_tab/controller/feed_tab_controller.dart';
 import 'package:belcka/pages/notifications/notification_list/tabs/feed_tab/view/widgets/message_view.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/theme/theme_config.dart';
+import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/other_widgets/user_avtar_view.dart';
 import 'package:belcka/widgets/text/PrimaryTextView.dart';
@@ -27,6 +29,11 @@ class FeedList extends StatelessWidget {
               return Padding(
                 padding: const EdgeInsets.fromLTRB(9, 4, 9, 4),
                 child: CardViewDashboardItem(
+                  boxColor: !(info.isRead ?? false)
+                      ? ThemeConfig.isDarkMode
+                          ? AppUtils.getColor("#22242f")
+                          : AppUtils.getColor("#edf2fb")
+                      : backgroundColor_(context),
                   child: GestureDetector(
                     onTap: () {
                       // var arguments = {

@@ -30,6 +30,7 @@ import 'package:belcka/pages/dashboard/view/dashboard_screen.dart';
 import 'package:belcka/pages/filter/view/filter_screen.dart';
 import 'package:belcka/pages/image_preview/view/image_preview_screen.dart';
 import 'package:belcka/pages/my_requests/view/my_requests_screen.dart';
+import 'package:belcka/pages/notifications/announcement_details/view/announcement_details_screen.dart';
 import 'package:belcka/pages/notifications/create_announcement/view/create_announcement_screen.dart';
 import 'package:belcka/pages/notifications/notification_list/view/notification_list_screen.dart';
 import 'package:belcka/pages/notifications/notification_settings/view/notification_settings_screen.dart';
@@ -339,7 +340,9 @@ class AppPages {
         name: AppRoutes.createAnnouncementScreen,
         page: () => CreateAnnouncementScreen()),
     GetPage(
-        name: AppRoutes.ratesHistoryScreen,
-        page: () => RatesHistoryScreen()),
+        name: AppRoutes.ratesHistoryScreen, page: () => RatesHistoryScreen()),
+    GetPage(
+        name: AppRoutes.announcementDetailsScreen,
+        page: () => AnnouncementDetailsScreen()),
   ];
 }

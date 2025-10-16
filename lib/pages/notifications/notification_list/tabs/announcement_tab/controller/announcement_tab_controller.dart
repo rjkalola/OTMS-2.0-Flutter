@@ -75,7 +75,15 @@ class AnnouncementTabController extends GetxController {
     }
   }
 
-  onGridItemClick(int index, String action,int parentIndex) {
-    ImageUtils.moveToImagePreview(announcementList[parentIndex].documents!, index);
+  onGridItemClick(int index, String action, int parentIndex) {
+    ImageUtils.moveToImagePreview(
+        announcementList[parentIndex].documents!, index);
+  }
+
+  Future<void> moveToScreen(String rout, dynamic arguments) async {
+    var result = await Get.toNamed(rout, arguments: arguments);
+    if (result != null && result) {
+      getAnnouncementListApi();
+    }
   }
 }

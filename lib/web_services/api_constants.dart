@@ -221,6 +221,9 @@ class ApiConstants {
   static String getFeedList = '$appUrl/get-feeds';
   static String createAnnouncement = '$appUrl/announcements/create';
   static String getAnnouncementList = '$appUrl/announcements/get-announcements';
+  static String announcementDetails = '$appUrl/announcements/detail';
+  static String announcementDelete = '$appUrl/announcements/delete';
+  static String announcementRead = '$appUrl/announcements/mark-as-read';
 
   //my account
   static String userProfile = '$appUrl/user/profile';

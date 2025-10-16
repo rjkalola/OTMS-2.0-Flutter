@@ -17,6 +17,7 @@ class FeedInfo {
   String? weekEnd;
   int? feedType;
   int? unreadFeeds;
+  bool? isRead;
 
   FeedInfo(
       {this.id,
@@ -36,7 +37,8 @@ class FeedInfo {
       this.weekStart,
       this.weekEnd,
       this.feedType,
-      this.unreadFeeds});
+      this.unreadFeeds,
+      this.isRead});
 
   FeedInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -57,6 +59,7 @@ class FeedInfo {
     weekEnd = json['week_end'];
     feedType = json['feed_type'];
     unreadFeeds = json['unread_feeds'];
+    isRead = json['is_read'];
   }
 
   Map<String, dynamic> toJson() {
@@ -79,6 +82,7 @@ class FeedInfo {
     data['week_end'] = this.weekEnd;
     data['feed_type'] = this.feedType;
     data['unread_feeds'] = this.unreadFeeds;
+    data['is_read'] = this.isRead;
     return data;
   }
 }

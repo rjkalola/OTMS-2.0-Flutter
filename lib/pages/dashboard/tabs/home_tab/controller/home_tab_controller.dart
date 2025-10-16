@@ -555,6 +555,11 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
     }
   }
 
+  Future<void> moveToNotificationScreen() async {
+    var result = await Get.toNamed(AppRoutes.notificationListScreen);
+    getNotificationCountApi(isProgress: false);
+  }
+
   void pullToRefreshData() {
     if (Get.find<AppStorage>().isLocalSequenceChanges()) {
       changeDashboardUserPermissionMultipleSequenceApi(

@@ -2,6 +2,7 @@ import 'package:belcka/pages/common/model/file_info.dart';
 
 class AnnouncementInfo {
   int? id;
+  int? announcementId;
   String? name;
   int? userId;
   String? userName;
@@ -15,9 +16,11 @@ class AnnouncementInfo {
   String? date;
   int? unreadCount;
   String? unreadIds;
+  bool? isRead;
 
   AnnouncementInfo(
       {this.id,
+      this.announcementId,
       this.name,
       this.userId,
       this.userName,
@@ -30,10 +33,12 @@ class AnnouncementInfo {
       this.documents,
       this.date,
       this.unreadCount,
-      this.unreadIds});
+      this.unreadIds,
+      this.isRead});
 
   AnnouncementInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    announcementId = json['announcement_id'];
     name = json['name'];
     userId = json['user_id'];
     userName = json['user_name'];
@@ -52,11 +57,13 @@ class AnnouncementInfo {
     date = json['date'];
     unreadCount = json['unread_count'];
     unreadIds = json['unread_ids'];
+    isRead = json['is_read'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
+    data['announcement_id'] = this.announcementId;
     data['name'] = this.name;
     data['user_id'] = this.userId;
     data['user_name'] = this.userName;
@@ -67,12 +74,12 @@ class AnnouncementInfo {
     data['sender_thumb_image'] = this.senderThumbImage;
     data['sender_name'] = this.senderName;
     if (this.documents != null) {
-      data['documents'] =
-          this.documents!.map((v) => v.toJson()).toList();
+      data['documents'] = this.documents!.map((v) => v.toJson()).toList();
     }
     data['date'] = this.date;
     data['unread_count'] = this.unreadCount;
     data['unread_ids'] = this.unreadIds;
+    data['is_read'] = this.isRead;
     return data;
   }
 }

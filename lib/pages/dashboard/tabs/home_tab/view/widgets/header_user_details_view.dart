@@ -68,7 +68,7 @@ class HeaderUserDetailsView extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                Get.toNamed(AppRoutes.notificationListScreen);
+                controller.moveToNotificationScreen();
               },
               child:Obx(() =>  BudgeCountWithChild(
                   count: controller.notificationCount.value,
