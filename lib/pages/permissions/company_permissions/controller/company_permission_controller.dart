@@ -43,9 +43,17 @@ class CompanyPermissionController extends GetxController {
           isMainViewVisible.value = true;
           UserPermissionsResponse response = UserPermissionsResponse.fromJson(
               jsonDecode(responseModel.result!));
-          tempList.clear();
+
+       /*   tempList.clear();
           tempList.addAll(response.permissions ?? []);
+          companyPermissionList.value = tempList;*/
+
+          tempList.clear();
+          tempList.addAll((response.permissions ?? [])
+              .where((e) => e.isApp ?? false)
+              .toList());
           companyPermissionList.value = tempList;
+
           companyPermissionList.refresh();
           checkSelectAll();
         } else {

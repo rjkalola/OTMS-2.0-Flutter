@@ -52,6 +52,7 @@ class FeedTabController extends GetxController {
           feedList.value = tempList;
           feedList.refresh();
           isMainViewVisible.value = true;
+          readAllFeeds();
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
@@ -70,9 +71,9 @@ class FeedTabController extends GetxController {
     );
   }
 
-  void readFeedApi(int? id) {
+  void readFeedApi(String? ids) {
     Map<String, dynamic> map = {};
-    map["feed_ids"] = (id ?? 0).toString();
+    map["feed_ids"] = ids;
     _api.readFeed(
       data: map,
       onSuccess: (ResponseModel responseModel) {
@@ -181,7 +182,7 @@ class FeedTabController extends GetxController {
   }
 
   moveToScreen(String rout, {dynamic arguments, required int index}) async {
-    readFeed(index);
+    // readFeed(index);
     Get.toNamed(rout, arguments: arguments);
   }
 
@@ -193,9 +194,25 @@ class FeedTabController extends GetxController {
     }
   }
 
-  void readFeed(int index) {
-    readFeedApi(feedList[index].id ?? 0);
+  /* void readFeed(int index) {
+    readFeedApi((feedList[index].id ?? 0).toString());
     feedList[index].isRead = true;
     feedList.refresh();
+  }*/
+
+  void readAllFeeds() {
+    String ids = "";
+    List<String> listIds = [];
+    if (feedList.isNotEmpty) {
+      for (var info in feedList) {
+        if (!(info.isRead ?? false)) {
+          listIds.add((info.id ?? 0).toString());
+        }
+      }
+    }
+    ids = listIds.join(",");
+    if (!StringHelper.isEmptyString(ids)) {
+      readFeedApi(ids);
+    }
   }
 }

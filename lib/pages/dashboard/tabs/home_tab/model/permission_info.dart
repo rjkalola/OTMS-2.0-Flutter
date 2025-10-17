@@ -11,6 +11,7 @@ class PermissionInfo {
   String? color;
   bool? isSequenceChanged;
   bool? isAdmin;
+  bool? isApp;
 
   PermissionInfo(
       {this.id,
@@ -24,7 +25,8 @@ class PermissionInfo {
       this.icon,
       this.color,
       this.isSequenceChanged,
-      this.isAdmin});
+      this.isAdmin,
+      this.isApp});
 
   PermissionInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -39,6 +41,7 @@ class PermissionInfo {
     color = json['color'];
     isSequenceChanged = json['isSequenceChanged'];
     isAdmin = json['is_admin'];
+    isApp = json['is_app'];
   }
 
   Map<String, dynamic> toJson() {
@@ -55,6 +58,7 @@ class PermissionInfo {
     data['color'] = this.color;
     data['isSequenceChanged'] = this.isSequenceChanged;
     data['is_admin'] = this.isAdmin;
+    data['is_app'] = this.isApp;
     return data;
   }
 }

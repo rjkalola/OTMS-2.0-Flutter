@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:belcka/pages/common/model/file_info.dart';
+import 'package:belcka/pages/notifications/announcement_details/controller/announcement_details_repository.dart';
 import 'package:belcka/pages/notifications/create_announcement/model/announcement_info.dart';
 import 'package:belcka/pages/notifications/create_announcement/model/announcement_list_response.dart';
 import 'package:belcka/pages/notifications/notification_list/tabs/announcement_tab/controller/announcement_tab_repository.dart';
@@ -8,6 +9,7 @@ import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/custom_cache_manager.dart';
 import 'package:belcka/utils/image_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/response_model.dart';
@@ -50,6 +52,7 @@ class AnnouncementTabController extends GetxController {
           announcementList.value = tempList;
           announcementList.refresh();
           isMainViewVisible.value = true;
+          readAllAnnouncement();
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
@@ -63,6 +66,29 @@ class AnnouncementTabController extends GetxController {
           // Utils.showSnackBarMessage('no_internet'.tr);
         } else if (error.statusMessage!.isNotEmpty) {
           AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
+
+  void announcementReadApi(String ids) async {
+    Map<String, dynamic> map = {};
+    map["announcement_ids"] = ids;
+    map["user_id"] = UserUtils.getLoginUserId();
+    // isLoading.value = true;
+    AnnouncementDetailsRepository().announcementRead(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        // isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        // isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          // AppUtils.showApiResponseMessage('no_internet'.tr);
         }
       },
     );
@@ -84,6 +110,22 @@ class AnnouncementTabController extends GetxController {
     var result = await Get.toNamed(rout, arguments: arguments);
     if (result != null && result) {
       getAnnouncementListApi();
+    }
+  }
+
+  void readAllAnnouncement() {
+    String ids = "";
+    List<String> listIds = [];
+    if (announcementList.isNotEmpty) {
+      for (var info in announcementList) {
+        if (!(info.isRead ?? false)) {
+          listIds.add((info.announcementId ?? 0).toString());
+        }
+      }
+    }
+    ids = listIds.join(",");
+    if (!StringHelper.isEmptyString(ids)) {
+      announcementReadApi(ids);
     }
   }
 }

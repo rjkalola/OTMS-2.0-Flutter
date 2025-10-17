@@ -53,10 +53,10 @@ class AnnouncementDetailsController extends GetxController
               AnnouncementDetailsResponse.fromJson(
                   jsonDecode(responseModel.result!));
           info.value = response.info!;
-          if (!(info.value.isRead ?? false)) {
-            isUpdated.value = true;
-            announcementReadApi();
-          }
+          // if (!(info.value.isRead ?? false)) {
+          //   isUpdated.value = true;
+          //   announcementReadApi();
+          // }
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }

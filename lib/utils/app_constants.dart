@@ -302,6 +302,9 @@ class CompanyResourcesFlag {
   final String shiftList = "shiftList";
   final String teamList = "teamList";
   final String userList = "usersList";
+  final String tradeList = "tradeList";
+
+
 }
 
 class FilterType {
