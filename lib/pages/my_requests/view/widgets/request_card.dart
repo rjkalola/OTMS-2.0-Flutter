@@ -5,6 +5,7 @@ import 'package:belcka/pages/my_requests/view/widgets/request_type_label_widget.
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:flutter/material.dart';
@@ -83,13 +84,7 @@ class RequestCard extends StatelessWidget {
                           ),
                           child: GestureDetector(
                             onTap: (){
-                              if (UserUtils.isAdmin()) {
-                                var arguments = {
-                                  "user_id": request.userId ?? 0,
-                                };
-                                controller.moveToScreen(
-                                    AppRoutes.myProfileDetailsScreen, arguments);
-                              }
+                              AppUtils.onClickUserAvatar(request.userId ?? 0);
                             },
                             child: CircleAvatar(
                               radius: 24,

@@ -2,6 +2,7 @@ import 'package:belcka/pages/timesheet/timesheet_list/controller/timesheet_list_
 import 'package:belcka/pages/timesheet/timesheet_list/model/time_sheet_info.dart';
 import 'package:belcka/pages/timesheet/timesheet_list/view/widgets/week_log_list.dart';
 import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/date_utils.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
@@ -78,13 +79,7 @@ class TimeSheetList extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: (){
-                      if (UserUtils.isAdmin()) {
-                        var arguments = {
-                          "user_id": info.userId ?? 0,
-                        };
-                        controller.moveToScreen(
-                            AppRoutes.myProfileDetailsScreen, arguments);
-                      }
+                      AppUtils.onClickUserAvatar(info.userId ?? 0);
                     },
                     child: UserAvtarView(
                       imageUrl: info.userThumbImage ?? "",

@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:belcka/res/theme/theme_config.dart';
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/response/module_info.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -318,5 +320,19 @@ class AppUtils {
             )),
       ),
     );
+  }
+
+  static void onClickUserAvatar(int userID) {
+    if (UserUtils.isAdmin()) {
+      var arguments = {
+        "user_id": userID,
+      };
+      Get.toNamed(AppRoutes.otherUserAccountScreen, arguments: arguments);
+    } else {
+      var arguments = {
+        "user_id": userID,
+      };
+      Get.toNamed(AppRoutes.myProfileDetailsScreen, arguments: arguments);
+    }
   }
 }

@@ -47,6 +47,7 @@ import 'package:belcka/pages/profile/company_billings/view/company_billings_scre
 import 'package:belcka/pages/profile/delete_account/view/delete_account_screen.dart';
 import 'package:belcka/pages/profile/my_account/view/my_account_screen.dart';
 import 'package:belcka/pages/profile/my_profile_details/view/my_profile_details_screen.dart';
+import 'package:belcka/pages/profile/other_user_account/view/other_user_account_screen.dart';
 import 'package:belcka/pages/profile/other_user_billing/billing_details/view/other_user_billing_details_screen.dart';
 import 'package:belcka/pages/profile/post_coder_search/view/post_coder_search_screen.dart';
 import 'package:belcka/pages/profile/rates/view/rates_screen.dart';
@@ -81,6 +82,7 @@ import 'package:belcka/pages/timesheet/add_time_sheet/view/add_time_sheet_screen
 import 'package:belcka/pages/timesheet/archive_timesheet_list/view/archive_timesheet_list_screen.dart';
 import 'package:belcka/pages/timesheet/timesheet_list/view/timesheet_list_screen.dart';
 import 'package:belcka/pages/trades/view/company_trades_screen.dart';
+import 'package:belcka/pages/users/invite_user/view/invite_user_screen.dart';
 import 'package:belcka/pages/users/user_list/view/user_list_screen.dart';
 import 'package:get/get.dart';
 
@@ -344,5 +346,9 @@ class AppPages {
     GetPage(
         name: AppRoutes.announcementDetailsScreen,
         page: () => AnnouncementDetailsScreen()),
+    GetPage(name: AppRoutes.inviteUserScreen, page: () => InviteUserScreen()),
+    GetPage(
+        name: AppRoutes.otherUserAccountScreen,
+        page: () => OtherUserAccountScreen()),
   ];
 }

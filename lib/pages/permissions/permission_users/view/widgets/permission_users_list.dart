@@ -1,4 +1,5 @@
 import 'package:belcka/routes/app_routes.dart' show AppRoutes;
+import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -34,12 +35,7 @@ class PermissionUsersList extends StatelessWidget {
                             children: [
                               GestureDetector(
                                 onTap: (){
-                                  if (UserUtils.isAdmin()) {
-                                    var arguments = {
-                                      "user_id": info.userId ?? 0,
-                                    };
-                                    Get.toNamed(AppRoutes.myProfileDetailsScreen,arguments: arguments);
-                                  }
+                                  AppUtils.onClickUserAvatar(info.userId ?? 0);
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(

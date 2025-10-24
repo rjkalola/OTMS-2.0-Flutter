@@ -34,13 +34,7 @@ class TeamTitleCardView extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: (){
-                      if (UserUtils.isAdmin()) {
-                        var arguments = {
-                          "user_id": controller.teamInfo.value.supervisorId,
-                        };
-                        controller.moveToScreen(
-                            AppRoutes.myProfileDetailsScreen, arguments);
-                      }
+                      AppUtils.onClickUserAvatar(controller.teamInfo.value.supervisorId ?? 0);
                     },
                     child: UserAvtarView(
                       imageUrl:

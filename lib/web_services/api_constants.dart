@@ -85,6 +85,7 @@ class ApiConstants {
 
   //users
   static String userList = '$appUrl/user/list';
+  static String inviteUser = '$appUrl/invite-user';
 
   //teams
   static String teamList = '$appUrl/team/list';

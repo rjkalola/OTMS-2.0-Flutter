@@ -47,6 +47,7 @@ class RatesHistoryScreen extends StatelessWidget implements DateFilterListener {
                   visible: controller.isMainViewVisible.value,
                   child: Column(
                     children: [
+                      /*
                       DateFilterOptionsHorizontalList(
                         padding: EdgeInsets.fromLTRB(14, 0, 14, 6),
                         startDate: controller.startDate,
@@ -54,6 +55,7 @@ class RatesHistoryScreen extends StatelessWidget implements DateFilterListener {
                         listener: this,
                         selectedPosition: controller.selectedDateFilterIndex,
                       ),
+                      */
                       Expanded(
                         child: (controller.rateHistoryList.length > 0) ? Stack(
                           children:[

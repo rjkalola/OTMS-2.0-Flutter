@@ -1,4 +1,5 @@
 import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -43,13 +44,7 @@ class UsersList extends StatelessWidget {
                           children: [
                             GestureDetector(
                               onTap: (){
-                                if (UserUtils.isAdmin()) {
-                                  var arguments = {
-                                    "user_id": info.id ?? 0,
-                                  };
-                                  controller.moveToScreen(
-                                      AppRoutes.myProfileDetailsScreen, arguments);
-                                }
+                                AppUtils.onClickUserAvatar(info.id ?? 0);
                               },
                               child: UserAvtarView(
                                 imageUrl: info.userThumbImage ?? "",

@@ -61,13 +61,7 @@ class TeamMembersList extends StatelessWidget {
                           controller.teamInfo.value.teamMembers![position];
                       return GestureDetector(
                         onTap: () {
-                          if (UserUtils.isAdmin()) {
-                            var arguments = {
-                              "user_id": info.id ?? 0,
-                            };
-                            controller.moveToScreen(
-                                AppRoutes.myProfileDetailsScreen, arguments);
-                          }
+                          AppUtils.onClickUserAvatar(info.id ?? 0);
                         },
                         child: Padding(
                           padding: EdgeInsets.fromLTRB(12, 10, 12, 10),

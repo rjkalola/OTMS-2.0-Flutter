@@ -1,3 +1,4 @@
+import 'package:belcka/utils/user_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -35,6 +36,7 @@ class _UserListScreenState extends State<UserListScreen> {
             isCenterTitle: false,
             isBack: true,
             bgColor: dashBoardBgColor_(context),
+            widgets: actionButtons(),
           ),
           body: Obx(() {
             return ModalProgressHUD(
@@ -62,5 +64,19 @@ class _UserListScreenState extends State<UserListScreen> {
         ),
       ),
     );
+  }
+
+  List<Widget>? actionButtons() {
+    return [
+      Visibility(
+        visible: true,
+        child: IconButton(
+          icon: Icon(Icons.more_vert_outlined),
+          onPressed: () {
+            controller.showMenuItemsDialog(Get.context!);
+          },
+        ),
+      ),
+    ];
   }
 }

@@ -234,6 +234,7 @@ class Action {
   final String archivedAddress = 'ARCHIVED_ADDRESS';
   final String beforePhotos = 'BEFORE_PHOTOS';
   final String afterPhotos = 'AFTER_PHOTOS';
+  final String inviteUser = 'INVITE_USER';
 }
 
 class StockCountType {
@@ -303,8 +304,6 @@ class CompanyResourcesFlag {
   final String teamList = "teamList";
   final String userList = "usersList";
   final String tradeList = "tradeList";
-
-
 }
 
 class FilterType {

@@ -1,0 +1,81 @@
+import 'package:belcka/pages/profile/other_user_account/other_user_full_screen_image_view/other_user_full_screen_image_view_controller.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/widgets/CustomProgressbar.dart';
+import 'package:belcka/widgets/appbar/base_appbar.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+
+class OtherUserFullScreenImageViewScreen extends StatefulWidget {
+  final String imageUrl;
+
+  OtherUserFullScreenImageViewScreen({Key? key, required this.imageUrl})
+      : super(key: key);
+
+  @override
+  State<OtherUserFullScreenImageViewScreen> createState() =>
+      _FullScreenImageViewScreenState();
+}
+
+class _FullScreenImageViewScreenState extends State<OtherUserFullScreenImageViewScreen> {
+  final controller = Get.put(OtherUserFullScreenImageViewController());
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(
+      () => Container(
+        color: dashBoardBgColor_(context),
+        child: SafeArea(
+          child: Scaffold(
+            appBar: BaseAppBar(
+              appBar: AppBar(),
+              title: "",
+              isCenterTitle: false,
+              bgColor: dashBoardBgColor_(context),
+              isBack: true,
+            ),
+            backgroundColor: dashBoardBgColor_(context),
+            body: ModalProgressHUD(
+              inAsyncCall: controller.isLoading.value,
+              opacity: 0,
+              progressIndicator: const CustomProgressbar(),
+              child: controller.isInternetNotAvailable.value
+                  ? Center(
+                      child: Text('no_internet_text'.tr),
+                    )
+                  : InteractiveViewer(
+                      panEnabled: true,
+                      minScale: 1,
+                      maxScale: 4,
+                      child: SizedBox.expand(
+                        child: Image.network(
+                          widget.imageUrl,
+                          fit: BoxFit.contain,
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return Center(
+                              child: CircularProgressIndicator(
+                                value: loadingProgress.expectedTotalBytes !=
+                                        null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                        (loadingProgress.expectedTotalBytes ??
+                                            1)
+                                    : null,
+                                color: Colors.blue,
+                              ),
+                            );
+                          },
+                          errorBuilder: (context, error, stackTrace) =>
+                              const Center(
+                            child: Icon(Icons.error, color: Colors.red),
+                          ),
+                        ),
+                      ),
+                    ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
