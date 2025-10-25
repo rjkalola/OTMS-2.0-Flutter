@@ -77,7 +77,8 @@ class LoginController extends GetxController
             if ((response.info!.companyId ?? 0) != 0) {
               Get.offAllNamed(AppRoutes.dashboardScreen);
             } else {
-              Get.offAllNamed(AppRoutes.joinCompanyScreen);
+              var arguments = {AppConstants.intentKey.fromSignUpScreen: true};
+              Get.offAllNamed(AppRoutes.joinCompanyScreen, arguments: arguments);
             }
           } else {
             AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");

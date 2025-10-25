@@ -113,6 +113,13 @@ class ApiConstants {
   static String shiftUnArchive = '$appUrl/shift/unarchive';
   static String changeShiftStatus = '$appUrl/shift/change-shift-status';
 
+  //Leaves
+  static String getLeaveTypesList = '$appUrl/company-leaves/get';
+  static String addLeave = '$appUrl/user-leaves/add-leave';
+  static String updateLeave = '$appUrl/user-leaves/update-leave';
+  static String getLeaveList = '$appUrl/user-leaves/get-list';
+  static String deleteLeave = '$appUrl/user-leaves/delete-leave';
+
   //billing info
   static String addBillingInfo = '$appUrl/user-billing/store-billing-info';
   static String updateBillingInfo = '$appUrl/user-billing/update-billing-info';
@@ -188,12 +195,6 @@ class ApiConstants {
 
   static String registerResourcesUrl = '$appUrl/wn-resources';
   static String verifyPhoneUrl = '$appUrl/verify-phone';
-
-  // static String checkPhoneNumberExistUrl = '$appUrl/check-phone-exist';
-  static String userSignUpUrl = '$appUrl/wn-kkm';
-  static String getCompaniesUrl = '$appUrl/get-companies';
-  static String joinCompanyCodeUrl = '$appUrl/join-company-code';
-  static String scanInviteCodeUrl = '$appUrl/scan-invite-code';
 
   // static String joinCompanyUrl = '$appUrl/join-company';
   static String newTimesheetResourcesUrl =

@@ -246,7 +246,8 @@ class SignUp1Controller extends GetxController
           ApiConstants.accessToken = response.info!.apiToken ?? "";
           print("Token:" + ApiConstants.accessToken);
           AppUtils.saveLoginUser(response.info!);
-          Get.offAllNamed(AppRoutes.joinCompanyScreen);
+          var arguments = {AppConstants.intentKey.fromSignUpScreen: true};
+          Get.offAllNamed(AppRoutes.joinCompanyScreen, arguments: arguments);
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }

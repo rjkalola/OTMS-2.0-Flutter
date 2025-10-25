@@ -75,8 +75,10 @@ class SplashServices {
       if (ApiConstants.accessToken.isNotEmpty) {
         if (ApiConstants.companyId != 0) {
           Get.offAllNamed(AppRoutes.dashboardScreen);
+          // Get.offAllNamed(AppRoutes.createLeaveScreen);
         } else {
-          Get.offAllNamed(AppRoutes.joinCompanyScreen);
+          var arguments = {AppConstants.intentKey.fromSignUpScreen: true};
+          Get.offAllNamed(AppRoutes.joinCompanyScreen, arguments: arguments);
         }
         // Get.offAllNamed(AppRoutes.dashboardScreen);
       } else {

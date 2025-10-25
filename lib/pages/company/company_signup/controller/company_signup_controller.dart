@@ -48,10 +48,10 @@ class CompanySignUpController extends GetxController
       isInternetNotAvailable = false.obs,
       isOtpViewVisible = false.obs;
   final List<ModuleInfo> listCurrency = <ModuleInfo>[].obs;
-  final fromSignUp = false.obs, isInitialResumeCall = false.obs;
+  final isInitialResumeCall = false.obs;
   final mCompanyLogo = "".obs;
   final currencyId = 0.obs;
-  bool locationLoaded = false;
+  bool locationLoaded = false, fromCompanySignUp = false;
   final _api = CompanySignUpRepository();
   Position? latLon = null;
   final locationService = LocationServiceNew();
@@ -64,7 +64,7 @@ class CompanySignUpController extends GetxController
     // appLifeCycle();
     var arguments = Get.arguments;
     if (arguments != null) {
-      fromSignUp.value =
+      fromCompanySignUp =
           arguments[AppConstants.intentKey.fromSignUpScreen] ?? false;
     }
     /*var userInfo = AppStorage().getUserInfo();
@@ -139,10 +139,10 @@ class CompanySignUpController extends GetxController
           Get.find<AppStorage>().setCompanyId(companyId);
           ApiConstants.companyId = companyId;
           AppUtils.saveLoginUser(response.info!);
-          if (fromSignUp.value) {
+          if (fromCompanySignUp) {
             Get.offAllNamed(AppRoutes.teamUsersCountInfoScreen);
           } else {
-            moveToDashboard();
+            Get.back(result: true);
           }
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
@@ -313,7 +313,8 @@ class CompanySignUpController extends GetxController
       print("cropped path:" + path[0]);
       print("action:" + action);
       mCompanyLogo.value = path[0];
-      print("File Size:" + getFileSizeString(bytes: File(path[0]).lengthSync()));
+      print(
+          "File Size:" + getFileSizeString(bytes: File(path[0]).lengthSync()));
     }
   }
 

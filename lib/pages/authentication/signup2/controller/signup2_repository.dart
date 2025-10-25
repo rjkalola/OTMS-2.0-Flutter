@@ -10,7 +10,7 @@ class SignUp2Repository {
     Function(ResponseModel error)? onError,
   }) {
     ApiRequest(
-            url: ApiConstants.userSignUpUrl,
+            url: ApiConstants.registerUrl,
             formData: formData,
             isFormData: true)
         .postRequest(

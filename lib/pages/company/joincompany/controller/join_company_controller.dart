@@ -40,76 +40,16 @@ class JoinCompanyController extends GetxController
   final otpController = TextEditingController().obs;
   final mOtpCode = "".obs;
   int tradeId = 0;
+  bool fromSignUpScreen = false;
 
   @override
   void onInit() {
     super.onInit();
-    // getCompaniesApi();
-    // getTradeDataApi();
-  }
-
-  onClickSearch() {
-    requestedCode.value = "";
-    if (!StringHelper.isEmptyString(
-        addCompanyCodeController.value.text.toString().trim())) {
-      joinCompanyCode(
-          "0", addCompanyCodeController.value.text.toString().trim());
-    } else {
-      AppUtils.showApiResponseMessage('please_enter_company_code'.tr);
+    var arguments = Get.arguments;
+    if (arguments != null) {
+      fromSignUpScreen =
+          arguments[AppConstants.intentKey.fromSignUpScreen] ?? false;
     }
-  }
-
-  Future<void> openQrCodeScanner() async {
-    requestedCode.value = await Get.toNamed(AppRoutes.qrCodeScannerScreen);
-    if (!StringHelper.isEmptyString(requestedCode.value)) {
-      scanInviteCode(requestedCode.value);
-    } else {
-      AppUtils.showToastMessage('error_invalid_qr_code_via_id_card_scan'.tr);
-    }
-  }
-
-  void joinCompanyCode(String id, String code) async {
-    isLoading.value = true;
-    Map<String, dynamic> map = {};
-    map["id"] = id ?? "";
-    map["code"] = code ?? "";
-    multi.FormData formData = multi.FormData.fromMap(map);
-    // isLoading.value = true;
-    _api.joinCompanyCode(
-      formData: formData,
-      onSuccess: (ResponseModel responseModel) {
-        if (responseModel.statusCode == 200) {
-          JoinCompanyCodeResponse response = JoinCompanyCodeResponse.fromJson(
-              jsonDecode(responseModel.result!));
-          if (response.isSuccess!) {
-            if (!StringHelper.isEmptyList(response.trades)) {
-              var arguments = {
-                AppConstants.intentKey.companyData: response,
-                AppConstants.intentKey.companyCode: requestedCode.value,
-                AppConstants.intentKey.fromSignUpScreen: true,
-              };
-              Get.toNamed(AppRoutes.selectCompanyTradeScreen,
-                  arguments: arguments);
-            } else {
-              // joinCompanyRequest(0, response.companyId ?? 0);
-            }
-          } else {
-            AppUtils.showApiResponseMessage(response.message);
-          }
-        } else {
-          AppUtils.showApiResponseMessage(responseModel.statusMessage!);
-        }
-        isLoading.value = false;
-      },
-      onError: (ResponseModel error) {
-        isLoading.value = false;
-        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
-          AppUtils.showApiResponseMessage('no_internet'.tr);
-        } else if (error.statusMessage!.isNotEmpty) {
-          AppUtils.showApiResponseMessage(error.statusMessage!);
-        }
-      },
-    );
   }
 
   void getTradeDataApi() {
@@ -158,24 +98,6 @@ class JoinCompanyController extends GetxController
       data: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
-          /* JoinCompanyResponse response =
-              JoinCompanyResponse.fromJson(jsonDecode(responseModel.result!));
-          AppUtils.showApiResponseMessage(response.message ?? "");
-          int companyId = response.info?.companyId ?? 0;
-          print("companyId:" + companyId.toString());
-          var userInfo = Get.find<AppStorage>().getUserInfo();
-          userInfo.companyId = companyId;
-          Get.find<AppStorage>().setUserInfo(userInfo);
-          Get.find<AppStorage>().setCompanyId(companyId);
-          ApiConstants.companyId = companyId;
-          isOtpViewVisible.value = true;
-          isSelectTradeVisible.value = true;*/
-
-          // BaseResponse response =
-          //     BaseResponse.fromJson(jsonDecode(responseModel.result!));
-          // AppUtils.showApiResponseMessage(response.Message ?? "");
-          // moveToDashboard();
-
           UserResponse response =
               UserResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.message ?? "");
@@ -184,7 +106,11 @@ class JoinCompanyController extends GetxController
           Get.find<AppStorage>().setCompanyId(companyId);
           ApiConstants.companyId = companyId;
           AppUtils.saveLoginUser(response.info!);
-          moveToDashboard();
+          if (fromSignUpScreen) {
+            Get.back(result: true);
+          } else {
+            moveToDashboard();
+          }
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
@@ -198,49 +124,6 @@ class JoinCompanyController extends GetxController
         // else if (error.statusMessage!.isNotEmpty) {
         //   AppUtils.showApiResponseMessage(error.statusMessage ?? "");
         // }
-      },
-    );
-  }
-
-  void scanInviteCode(String code) async {
-    isLoading.value = true;
-    Map<String, dynamic> map = {};
-    map["code"] = code ?? "";
-    multi.FormData formData = multi.FormData.fromMap(map);
-    // isLoading.value = true;
-    _api.scanInviteCode(
-      formData: formData,
-      onSuccess: (ResponseModel responseModel) {
-        if (responseModel.statusCode == 200) {
-          JoinCompanyCodeResponse response = JoinCompanyCodeResponse.fromJson(
-              jsonDecode(responseModel.result!));
-          if (response.isSuccess!) {
-            if (!StringHelper.isEmptyList(response.trades)) {
-              var arguments = {
-                AppConstants.intentKey.companyData: response,
-                AppConstants.intentKey.companyCode: requestedCode.value,
-                AppConstants.intentKey.fromSignUpScreen: true,
-              };
-              Get.toNamed(AppRoutes.selectCompanyTradeScreen,
-                  arguments: arguments);
-            } else {
-              // joinCompanyRequest(0, response.companyId ?? 0);
-            }
-          } else {
-            AppUtils.showApiResponseMessage(response.message!);
-          }
-        } else {
-          AppUtils.showApiResponseMessage(responseModel.statusMessage!);
-        }
-        isLoading.value = false;
-      },
-      onError: (ResponseModel error) {
-        isLoading.value = false;
-        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
-          AppUtils.showApiResponseMessage('no_internet'.tr);
-        } else if (error.statusMessage!.isNotEmpty) {
-          AppUtils.showApiResponseMessage(error.statusMessage!);
-        }
       },
     );
   }
@@ -266,7 +149,6 @@ class JoinCompanyController extends GetxController
           Get.find<AppStorage>().setCompanyId(companyId);
           ApiConstants.companyId = companyId;
           getTradeDataApi();
-          // moveToDashboard();
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
@@ -284,20 +166,17 @@ class JoinCompanyController extends GetxController
     );
   }
 
-  /* void joinCompanyRequest(int tradeId, int companyId) {
-    if (!StringHelper.isEmptyString(requestedCode.value)) {
-      joinCompanyApi(requestedCode.value, tradeId, 0);
-    } else {
-      joinCompanyApi("", tradeId, companyId);
-    }
-  }*/
-
   void moveToDashboard() {
     Get.offAllNamed(AppRoutes.dashboardScreen);
   }
 
-  void moveToCompanySignUp() {
-    Get.offAllNamed(AppRoutes.companySignUpScreen);
+  Future<void> moveToCompanySignUp() async {
+    var arguments = {AppConstants.intentKey.fromSignUpScreen: fromSignUpScreen};
+    var result =
+        await Get.toNamed(AppRoutes.companySignUpScreen, arguments: arguments);
+    if (result != null && result) {
+      Get.back(result: true);
+    }
   }
 
   void showCompanyListList() {
@@ -368,13 +247,18 @@ class JoinCompanyController extends GetxController
 
   @override
   void onPositiveButtonClicked(String dialogIdentifier) {
-    if (dialogIdentifier == AppConstants.dialogIdentifier.joinCompany) {
-      joinCompanyCode(companyId.toString(), "");
-      Get.back();
-    }
+    if (dialogIdentifier == AppConstants.dialogIdentifier.joinCompany) {}
   }
 
   onValueChange() {
     // formKey.currentState!.validate();
+  }
+
+  void onBackPress() {
+    if (fromSignUpScreen) {
+      Get.offNamed(AppRoutes.updateSignUpDetailsScreen);
+    } else {
+      Get.back();
+    }
   }
 }

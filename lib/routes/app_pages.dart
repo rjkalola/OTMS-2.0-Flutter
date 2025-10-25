@@ -8,6 +8,7 @@ import 'package:belcka/pages/authentication/otp_verification/view/verify_otp_scr
 import 'package:belcka/pages/authentication/signup1/view/signup1_screen.dart';
 import 'package:belcka/pages/authentication/signup2/view/signup2_screen.dart';
 import 'package:belcka/pages/authentication/splash/splash_screen.dart';
+import 'package:belcka/pages/authentication/update_sign_up_details/view/update_sign_up_details_screen.dart';
 import 'package:belcka/pages/check_in/check_in/view/check_in_screen.dart';
 import 'package:belcka/pages/check_in/check_in_photos_preview/view/check_in_photos_preview_screen.dart';
 import 'package:belcka/pages/check_in/check_log_details/view/check_log_details_screen.dart';
@@ -29,6 +30,7 @@ import 'package:belcka/pages/company/switch_company/view/switch_company_screen.d
 import 'package:belcka/pages/dashboard/view/dashboard_screen.dart';
 import 'package:belcka/pages/filter/view/filter_screen.dart';
 import 'package:belcka/pages/image_preview/view/image_preview_screen.dart';
+import 'package:belcka/pages/leaves/add_leave/view/create_leave_screen.dart';
 import 'package:belcka/pages/my_requests/view/my_requests_screen.dart';
 import 'package:belcka/pages/notifications/announcement_details/view/announcement_details_screen.dart';
 import 'package:belcka/pages/notifications/create_announcement/view/create_announcement_screen.dart';
@@ -105,6 +107,10 @@ class AppPages {
     GetPage(
       name: AppRoutes.signUp1Screen,
       page: () => SignUp1Screen(),
+    ),
+    GetPage(
+      name: AppRoutes.updateSignUpDetailsScreen,
+      page: () => UpdateSignUpDetailsScreen(),
     ),
     GetPage(
       name: AppRoutes.signUp2Screen,
@@ -350,5 +356,6 @@ class AppPages {
     GetPage(
         name: AppRoutes.otherUserAccountScreen,
         page: () => OtherUserAccountScreen()),
+    GetPage(name: AppRoutes.createLeaveScreen, page: () => CreateLeaveScreen()),
   ];
 }

@@ -6,6 +6,10 @@ import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_storage.dart';
 
 class UserUtils {
+  static UserInfo getUserInfo() {
+    return Get.find<AppStorage>().getUserInfo();
+  }
+
   static int getLoginUserId() {
     UserInfo info = Get.find<AppStorage>().getUserInfo();
     return info.id ?? 0;

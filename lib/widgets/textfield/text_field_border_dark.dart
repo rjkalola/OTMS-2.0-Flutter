@@ -19,6 +19,7 @@ class TextFieldBorderDark extends StatelessWidget {
       this.isReadOnly,
       this.isEnabled,
       this.suffixIcon,
+      this.minLines,
       this.maxLines,
       this.maxLength,
       this.textAlignVertical,
@@ -42,7 +43,7 @@ class TextFieldBorderDark extends StatelessWidget {
   final TextInputAction? textInputAction;
   final bool? isReadOnly, isEnabled;
   final Icon? suffixIcon;
-  final int? maxLines, maxLength;
+  final int? maxLines, minLines, maxLength;
   final TextAlignVertical? textAlignVertical;
   final TextAlign? textAlign;
   final GestureTapCallback? onPressed;
@@ -71,6 +72,7 @@ class TextFieldBorderDark extends StatelessWidget {
       keyboardType: keyboardType,
       textInputAction: textInputAction,
       maxLines: maxLines,
+      minLines: minLines,
       maxLength: maxLength,
       textAlignVertical: textAlignVertical,
       textAlign: textAlign ?? TextAlign.start,

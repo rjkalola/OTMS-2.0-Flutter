@@ -140,6 +140,8 @@ class DialogIdentifier {
   final String deleteProject = 'DELETE_PROJECT';
   final String selectDate = 'SELECT_DATE';
   final String selectCategory = 'SELECT_CATEGORY';
+  final String startDate = 'START_DATE';
+  final String endDate = 'END_DATE';
 }
 
 class SharedPreferenceKey {
@@ -200,6 +202,7 @@ class Action {
   final String selectSupervisorDialog = 'selectSupervisorDialog';
   final String selectProjectDialog = 'selectProjectDialog';
   final String selectShiftDialog = 'selectShiftDialog';
+  final String selectLeaveTypeDialog = 'selectLeaveTypeDialog';
   final String add = 'ADD';
   final String edit = 'EDIT';
   final String delete = 'DELETE';

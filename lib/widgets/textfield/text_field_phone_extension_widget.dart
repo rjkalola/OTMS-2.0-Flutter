@@ -6,10 +6,15 @@ import '../../res/colors.dart';
 
 class TextFieldPhoneExtensionWidget extends StatelessWidget {
   const TextFieldPhoneExtensionWidget(
-      {super.key, this.mFlag = "", this.mExtension = "", this.onPressed});
+      {super.key,
+      this.mFlag = "",
+      this.mExtension = "",
+      this.onPressed,
+      this.enabled});
 
   final String? mFlag, mExtension;
   final VoidCallback? onPressed;
+  final bool? enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +23,12 @@ class TextFieldPhoneExtensionWidget extends StatelessWidget {
         onTap: () {
           onPressed!();
         },
-        style:  TextStyle(
-            fontWeight: FontWeight.w400, fontSize: 15, color: primaryTextColor_(context)),
+        style: TextStyle(
+            fontWeight: FontWeight.w400,
+            fontSize: 15,
+            color: primaryTextColor_(context)),
         readOnly: true,
+        enabled: enabled,
         controller: TextEditingController(text: mExtension),
         textAlign: TextAlign.center,
         decoration: InputDecoration(
@@ -46,25 +54,30 @@ class TextFieldPhoneExtensionWidget extends StatelessWidget {
           contentPadding: const EdgeInsets.fromLTRB(14, 14, 14, 14),
           floatingLabelBehavior: FloatingLabelBehavior.auto,
           border: OutlineInputBorder(
-            borderSide:
-                BorderSide(color: focusedTextFieldBorderColor_(context), width: 1),
+            borderSide: BorderSide(
+                color: focusedTextFieldBorderColor_(context), width: 1),
             borderRadius: BorderRadius.circular(45.0),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide:
-                BorderSide(color: focusedTextFieldBorderColor_(context), width: 1),
+            borderSide: BorderSide(
+                color: focusedTextFieldBorderColor_(context), width: 1),
             borderRadius: BorderRadius.circular(45.0),
           ),
           enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: normalTextFieldBorderColor_(context), width: 1),
+            borderSide: BorderSide(
+                color: normalTextFieldBorderColor_(context), width: 1),
             borderRadius: BorderRadius.circular(45.0),
           ),
           hintText: 'country_code'.tr,
           labelText: 'country_code'.tr,
-          labelStyle:  TextStyle(
-              fontWeight: FontWeight.w400, fontSize: 15, color: hintColor_(context)),
-          hintStyle:  TextStyle(
-              fontWeight: FontWeight.w400, fontSize: 15, color: hintColor_(context)),
+          labelStyle: TextStyle(
+              fontWeight: FontWeight.w400,
+              fontSize: 15,
+              color: hintColor_(context)),
+          hintStyle: TextStyle(
+              fontWeight: FontWeight.w400,
+              fontSize: 15,
+              color: hintColor_(context)),
         ),
       ),
       onTap: () {

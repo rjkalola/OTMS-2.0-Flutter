@@ -157,6 +157,7 @@ class MyProfileDetailsController extends GetxController implements SelectPhoneEx
       },
     );
   }
+
   showAttachmentOptionsDialog() async {
 
     print("pickImage");
