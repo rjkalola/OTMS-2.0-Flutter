@@ -70,6 +70,7 @@ class IntentKey {
   final String teamInfo = "TEAM_INFO";
   final String announcementId = "ANNOUNCEMENT_ID";
   final String projectInfo = "PROJECT_INFO";
+  final String leaveInfo = "Leave_INFO";
   final String userId = "USER_ID";
   final String userName = "USER_NAME";
   final String userList = "USER_LIST";
@@ -238,6 +239,16 @@ class Action {
   final String beforePhotos = 'BEFORE_PHOTOS';
   final String afterPhotos = 'AFTER_PHOTOS';
   final String inviteUser = 'INVITE_USER';
+
+  final String billingInfo = 'BillingInfo';
+  final String healthInfo = 'HealthInfo';
+  final String healthSafety = 'HealthSafety';
+  final String myRequests = 'MyRequests';
+  final String documents = 'Documents';
+  final String myLeaves = 'MyLeaves';
+  final String digitalId = 'DigitalId';
+  final String rent = 'Rent';
+  final String history = 'History';
 }
 
 class StockCountType {

@@ -1,5 +1,6 @@
 import 'package:belcka/pages/my_requests/controller/my_requests_controller.dart';
 import 'package:belcka/pages/my_requests/view/my_requests_screen.dart';
+import 'package:belcka/pages/profile/my_account/model/my_account_menu_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -26,7 +27,7 @@ class MenuButtonsGridWidget extends StatelessWidget {
     return Expanded(
       child: GridView.builder(
         padding: EdgeInsets.symmetric(horizontal: 16),
-        itemCount: controller.menuItems.length,
+        itemCount: controller.menuItems().length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           mainAxisSpacing: 10,
@@ -34,19 +35,34 @@ class MenuButtonsGridWidget extends StatelessWidget {
           mainAxisExtent: 90,
         ),
         itemBuilder: (context, index) {
+          MyAccountMenuItem info = controller.menuItems()[index];
           return InkWell(
             onTap: () {
-              if (index == 0) {
-                Get.toNamed(AppRoutes.billingDetailsNewScreen);
-                //Get.toNamed(AppRoutes.companyBillingsScreen);
-              }
-              else if (index == 1) {
-
-              }
-              else if (index == 3){
-                Get.toNamed(AppRoutes.myRequestsScreen,arguments: true);
-              }
-              else if (index == 9) {
+              if (info.action == AppConstants.action.billingInfo) {
+                // if (controller.isOtherUserProfile.value == true) {
+                //
+                // } else {
+                //   Get.toNamed(AppRoutes.billingDetailsNewScreen);
+                // }
+                var arguments = {
+                  "user_id": controller.userId ?? UserUtils.getLoginUserId(),
+                };
+                Get.toNamed(AppRoutes.billingDetailsNewScreen,
+                    arguments: arguments);
+              } else if (index == 1) {
+              } else if (info.action == AppConstants.action.myRequests) {
+                var arguments = {
+                  "user_id": controller.userId ?? 0,
+                  // "isOtherUserProfile": controller.isOtherUserProfile.value
+                };
+                Get.toNamed(AppRoutes.myRequestsScreen, arguments: arguments);
+              } else if (info.action == AppConstants.action.myLeaves) {
+                var arguments = {
+                  AppConstants.intentKey.userId: controller.userId ?? 0,
+                };
+                Get.toNamed(AppRoutes.leaveListScreen, arguments: arguments);
+              } else if (info.action ==
+                  AppConstants.action.notificationSettings) {
                 var arguments = {
                   AppConstants.intentKey.userId: UserUtils.getLoginUserId(),
                 };
@@ -63,7 +79,7 @@ class MenuButtonsGridWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
-                    controller.menuItems[index]['icon'],
+                    info.iconData,
                     color: defaultAccentColor_(context),
                     size: 26,
                     weight: 1,
@@ -76,7 +92,7 @@ class MenuButtonsGridWidget extends StatelessWidget {
                         Visibility(
                           visible: true,
                           child: PrimaryTextView(
-                            text: controller.menuItems[index]['title'],
+                            text: info.title,
                             fontWeight: FontWeight.w600,
                             fontSize: 16,
                             textAlign: TextAlign.center,

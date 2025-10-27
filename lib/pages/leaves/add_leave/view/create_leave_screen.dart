@@ -11,6 +11,7 @@ import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
+import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:belcka/widgets/textfield/reusable/drop_down_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -42,6 +43,7 @@ class _CreateLeaveScreenState extends State<CreateLeaveScreen> {
               isCenterTitle: false,
               isBack: true,
               bgColor: dashBoardBgColor_(context),
+              widgets: actionButtons(),
             ),
             body: ModalProgressHUD(
                 inAsyncCall: controller.isLoading.value,
@@ -123,7 +125,15 @@ class _CreateLeaveScreenState extends State<CreateLeaveScreen> {
                                     ? defaultAccentColor_(context)
                                     : defaultAccentLightColor_(context),
                                 onPressed: () {
-                                  controller.valid();
+                                  if (controller.isSaveEnable.value) {
+                                    if (controller.valid()) {
+                                      if (controller.leaveInfo != null) {
+                                        controller.updateLeaveApi();
+                                      } else {
+                                        controller.addLeaveApi();
+                                      }
+                                    }
+                                  }
                                 })
                           ],
                         ),
@@ -140,4 +150,20 @@ class _CreateLeaveScreenState extends State<CreateLeaveScreen> {
           height: 0,
         ),
       );
+
+  List<Widget>? actionButtons() {
+    return [
+      Visibility(
+        visible: controller.leaveInfo != null,
+        child: TextButton(
+            onPressed: () {
+              controller.showRemoveLeaveDialog();
+            },
+            child: TitleTextView(
+              text: 'delete'.tr,
+              color: Colors.red,
+            )),
+      ),
+    ];
+  }
 }

@@ -325,12 +325,12 @@ class AppUtils {
   static void onClickUserAvatar(int userID) {
     if (UserUtils.isAdmin()) {
       var arguments = {
-        "user_id": userID,
+        AppConstants.intentKey.userId: userID,
       };
-      Get.toNamed(AppRoutes.otherUserAccountScreen, arguments: arguments);
+      Get.toNamed(AppRoutes.myAccountScreen, arguments: arguments);
     } else {
       var arguments = {
-        "user_id": userID,
+        AppConstants.intentKey.userId: userID,
       };
       Get.toNamed(AppRoutes.myProfileDetailsScreen, arguments: arguments);
     }

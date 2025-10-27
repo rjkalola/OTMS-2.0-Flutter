@@ -25,19 +25,31 @@ class MyRequestsController extends GetxController {
   final RxInt selectedDateFilterIndex = (1).obs;
   Map<String, String> appliedFilters = {};
   final isFromMyProfile = false.obs;
+  int? userId = 0;
+  final isOtherUserProfile = false.obs;
 
   @override
   void onInit() {
     super.onInit();
     isMainViewVisible.value = true;
-    isFromMyProfile.value = Get.arguments ?? false;
+    var arguments = Get.arguments;
+    if (arguments != null) {
+      isFromMyProfile.value = true;
+      userId = arguments["user_id"] ?? 0;
+      isOtherUserProfile.value = arguments["isOtherUserProfile"] ?? false;
+    }
+    else{
+      isOtherUserProfile.value = false;
+      isFromMyProfile.value = false;
+      userId = UserUtils.getLoginUserId();
+    }
     getMyRequestsList(appliedFilters);
   }
 
   void getMyRequestsList(Map<String, String> appliedFilters) async {
     Map<String, dynamic> map = {};
     if (isFromMyProfile.value == true) {
-      map["user_id"] = UserUtils.getLoginUserId();
+      map["user_id"] = userId;//UserUtils.getLoginUserId();
     }
     map["company_id"] = ApiConstants.companyId;
     map["start_date"] = startDate;

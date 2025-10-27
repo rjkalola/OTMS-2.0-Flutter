@@ -26,8 +26,9 @@ class AllDayWidget extends StatelessWidget {
             CustomSwitch(
                 onValueChange: (value) {
                   print("value:" + value.toString());
-                  // controller.isSaveEnable.value = true;
+                  controller.isSaveEnable.value = true;
                   controller.isAllDay.value = value;
+                  controller.setTotalDays();
                 },
                 mValue: controller.isAllDay.value)
           ],

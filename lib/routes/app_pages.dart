@@ -31,6 +31,7 @@ import 'package:belcka/pages/dashboard/view/dashboard_screen.dart';
 import 'package:belcka/pages/filter/view/filter_screen.dart';
 import 'package:belcka/pages/image_preview/view/image_preview_screen.dart';
 import 'package:belcka/pages/leaves/add_leave/view/create_leave_screen.dart';
+import 'package:belcka/pages/leaves/leave_list/view/leave_list_screen.dart';
 import 'package:belcka/pages/my_requests/view/my_requests_screen.dart';
 import 'package:belcka/pages/notifications/announcement_details/view/announcement_details_screen.dart';
 import 'package:belcka/pages/notifications/create_announcement/view/create_announcement_screen.dart';
@@ -49,7 +50,6 @@ import 'package:belcka/pages/profile/company_billings/view/company_billings_scre
 import 'package:belcka/pages/profile/delete_account/view/delete_account_screen.dart';
 import 'package:belcka/pages/profile/my_account/view/my_account_screen.dart';
 import 'package:belcka/pages/profile/my_profile_details/view/my_profile_details_screen.dart';
-import 'package:belcka/pages/profile/other_user_account/view/other_user_account_screen.dart';
 import 'package:belcka/pages/profile/other_user_billing/billing_details/view/other_user_billing_details_screen.dart';
 import 'package:belcka/pages/profile/post_coder_search/view/post_coder_search_screen.dart';
 import 'package:belcka/pages/profile/rates/view/rates_screen.dart';
@@ -268,7 +268,6 @@ class AppPages {
         name: AppRoutes.postCoderSearchScreen,
         page: () => PostCoderSearchScreen()),
     GetPage(name: AppRoutes.myAccountScreen, page: () => MyAccountScreen()),
-    GetPage(name: AppRoutes.myAccountScreen, page: () => MyAccountScreen()),
     GetPage(
         name: AppRoutes.billingDetailsNewScreen,
         page: () => BillingDetailsNewScreen()),
@@ -353,9 +352,7 @@ class AppPages {
         name: AppRoutes.announcementDetailsScreen,
         page: () => AnnouncementDetailsScreen()),
     GetPage(name: AppRoutes.inviteUserScreen, page: () => InviteUserScreen()),
-    GetPage(
-        name: AppRoutes.otherUserAccountScreen,
-        page: () => OtherUserAccountScreen()),
     GetPage(name: AppRoutes.createLeaveScreen, page: () => CreateLeaveScreen()),
+    GetPage(name: AppRoutes.leaveListScreen, page: () => LeaveListScreen()),
   ];
 }

@@ -119,6 +119,6 @@ class AppRoutes {
   static const String announcementDetailsScreen =
       '/announcement_details_screen';
   static const String inviteUserScreen = '/invite_user_screen';
-  static const String otherUserAccountScreen = '/other_user_account_screen';
   static const String createLeaveScreen = '/create_leave_screen';
+  static const String leaveListScreen = '/leave_list_screen';
 }

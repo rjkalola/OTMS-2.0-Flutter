@@ -422,14 +422,25 @@ class Strings extends Translations {
           'update_details': "Update Details",
           'update': "Update",
           'add_leave': "Add Leave",
+          'edit_leave': "Edit Leave",
           'leave_type': "Leave Type",
+          'leaves': "Leaves",
           'all_day': "All Day",
           'total_time_requested': "Total time requested",
           'work_days': "Work Days",
           'start_time': "Start Time",
           'end_time': "End Time",
           'manager_note': "Manager Note",
-// '': "",
+          'error_wrong_start_date_selection':
+              "Start date cannot be after end date",
+          'error_wrong_end_date_selection':
+              "End date cannot be before start date",
+          'error_wrong_start_time_selection':
+              "Start time cannot be after end time",
+          'error_wrong_end_time_selection':
+              "End time cannot be before start time",
+          'date': "Date",
+          'time': "Time",
           // '': "",
 // '': "",
 // '': "",

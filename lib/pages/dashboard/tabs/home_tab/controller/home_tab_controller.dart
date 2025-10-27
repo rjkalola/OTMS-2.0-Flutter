@@ -108,7 +108,10 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       UserPermissionsResponse response =
           Get.find<AppStorage>().getUserPermissionsResponse()!;
       listPermissions.clear();
-      listPermissions.addAll(response.permissions ?? []);
+      // listPermissions.addAll(response.permissions ?? []);
+      listPermissions.addAll((response.permissions ?? [])
+          .where((e) => e.isApp ?? false)
+          .toList());
       isMainViewVisible.value = true;
 
       bool isInternet = await AppUtils.interNetCheck();
@@ -165,7 +168,10 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
           response.permissions!.add(DataUtils.getEditWidget());
           AppStorage().setUserPermissionsResponse(response);
           listPermissions.clear();
-          listPermissions.addAll(response.permissions ?? []);
+          // listPermissions.addAll(response.permissions ?? []);
+          listPermissions.addAll((response.permissions ?? [])
+              .where((e) => e.isApp ?? false)
+              .toList());
           updateShiftValue(isClearValue: false);
           getUserWorkLogListApi(isShiftClick: false, isProgress: false);
           getNotificationCountApi(isProgress: false);
@@ -184,7 +190,10 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
             UserPermissionsResponse response =
                 Get.find<AppStorage>().getUserPermissionsResponse()!;
             listPermissions.clear();
-            listPermissions.addAll(response.permissions ?? []);
+            listPermissions.addAll((response.permissions ?? [])
+                .where((e) => e.isApp ?? false)
+                .toList());
+            // listPermissions.addAll(response.permissions ?? []);
           } else {
             isInternetNotAvailable.value = true;
           }
@@ -541,6 +550,8 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       moveToScreen(appRout: AppRoutes.billingDetailsNewScreen);
     } else if (info.slug == 'my_requests') {
       moveToScreen(appRout: AppRoutes.myRequestsScreen);
+    } else if (info.slug == 'analytics') {
+
     }
   }
 

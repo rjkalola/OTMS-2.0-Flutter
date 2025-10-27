@@ -11,8 +11,10 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class FullScreenImageViewScreen extends StatefulWidget {
   final String imageUrl;
+  final bool? isLoginUser;
 
-  FullScreenImageViewScreen({Key? key, required this.imageUrl})
+  FullScreenImageViewScreen(
+      {Key? key, required this.imageUrl, this.isLoginUser})
       : super(key: key);
 
   @override
@@ -37,11 +39,14 @@ class _FullScreenImageViewScreenState extends State<FullScreenImageViewScreen> {
               bgColor: dashBoardBgColor_(context),
               isBack: true,
               widgets: [
-                IconButton(
-                  icon: const Icon(Icons.edit),
-                  onPressed: () {
-                    controller.showAttachmentOptionsDialog();
-                  },
+                Visibility(
+                  visible: widget.isLoginUser ?? false,
+                  child: IconButton(
+                    icon: const Icon(Icons.edit),
+                    onPressed: () {
+                      controller.showAttachmentOptionsDialog();
+                    },
+                  ),
                 )
               ],
             ),

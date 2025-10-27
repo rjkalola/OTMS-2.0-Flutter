@@ -28,7 +28,7 @@ class MyRequestsScreen extends StatelessWidget implements DateFilterListener {
             child: Scaffold(
           appBar: BaseAppBar(
             appBar: AppBar(),
-            title: controller.isFromMyProfile.value
+            title: (controller.isFromMyProfile.value && !controller.isOtherUserProfile.value)
                 ? "my_requests".tr
                 : "requests".tr,
             isCenterTitle: false,

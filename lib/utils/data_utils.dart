@@ -48,8 +48,8 @@ class DataUtils {
         name: 'trades'.tr,
         action: AppConstants.action.companyTrades,
         icon: Drawable.tradesPermissionIcon));
-    arrayItems
-        .add(ModuleInfo(name: 'blank'.tr, icon: Drawable.chartPermissionIcon));
+    // arrayItems
+    //     .add(ModuleInfo(name: 'blank'.tr, icon: Drawable.chartPermissionIcon));
     arrayItems.add(ModuleInfo(
         name: 'user_permissions'.tr,
         action: AppConstants.action.userPermissions,

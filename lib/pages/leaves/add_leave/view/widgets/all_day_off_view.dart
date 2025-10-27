@@ -71,7 +71,7 @@ class AllDayOffView extends StatelessWidget {
                       onPressed: () {
                         controller.showTimePickerDialog(
                             AppConstants.dialogIdentifier.selectShiftEndTime,
-                            controller.endDate);
+                            controller.endTime);
                       },
                     ),
                   ),

@@ -52,15 +52,25 @@ class BillingDetailsNewController extends GetxController {
   String bankDetails = "";
   bool showPayRate = true;
 
+  int? userId = 0;
+
   @override
   void onInit() {
     super.onInit();
+    var arguments = Get.arguments;
+    if (arguments != null) {
+      isMainViewVisible.value = false;
+      userId = arguments["user_id"] ?? 0;
+    }
+    else{
+      userId = UserUtils.getLoginUserId();
+    }
     getBillingInfo();
     //getPayRatePermissionAPI();
   }
   void getPayRatePermissionAPI() async {
     Map<String, dynamic> map = {};
-    map["user_id"] = UserUtils.getLoginUserId();
+    map["user_id"] = userId;
     map["company_id"] = ApiConstants.companyId;
     _api.getUserPayRatePermission(
       queryParameters: map,
@@ -87,7 +97,7 @@ class BillingDetailsNewController extends GetxController {
   }
   void getBillingInfo() async {
     Map<String, dynamic> map = {};
-    map["user_id"] = UserUtils.getLoginUserId();
+    map["user_id"] = userId;
     map["company_id"] = ApiConstants.companyId;
     isLoading.value = true;
     _api.getBillingInfo(

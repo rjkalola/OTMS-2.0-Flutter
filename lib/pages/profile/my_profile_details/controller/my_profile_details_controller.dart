@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:belcka/pages/common/listener/SelectPhoneExtensionListener.dart';
+import 'package:belcka/pages/common/model/user_info.dart';
 import 'package:belcka/pages/common/model/user_response.dart';
 import 'package:belcka/pages/common/phone_extension_list_dialog.dart';
 import 'package:belcka/pages/manageattachment/controller/manage_attachment_controller.dart';
@@ -24,7 +25,8 @@ import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
-class MyProfileDetailsController extends GetxController implements SelectPhoneExtensionListener, SelectAttachmentListener{
+class MyProfileDetailsController extends GetxController
+    implements SelectPhoneExtensionListener, SelectAttachmentListener {
   final firstNameController = TextEditingController().obs;
   final lastNameController = TextEditingController().obs;
   final emailController = TextEditingController().obs;
@@ -33,9 +35,11 @@ class MyProfileDetailsController extends GetxController implements SelectPhoneEx
   final mFlag = AppConstants.defaultFlagUrl.obs;
   final formKey = GlobalKey<FormState>();
   final _api = MyProfileDetailsRepository();
-  RxBool isLoading = false.obs, isInternetNotAvailable = false.obs, isMainViewVisible = false.obs;
+  RxBool isLoading = false.obs,
+      isInternetNotAvailable = false.obs,
+      isMainViewVisible = false.obs;
 
-  final myProfileInfo = MyProfileInfo().obs;
+  final myProfileInfo = UserInfo().obs;
   final otpController = TextEditingController().obs;
   final mOtpCode = "".obs;
   final otmResendTimeRemaining = 30.obs;
@@ -56,9 +60,8 @@ class MyProfileDetailsController extends GetxController implements SelectPhoneEx
     super.onInit();
     var arguments = Get.arguments;
     if (arguments != null) {
-      userId = arguments["user_id"] ?? 0;
-    }
-    else{
+      userId = arguments[AppConstants.intentKey.userId] ?? 0;
+    } else {
       userId = UserUtils.getLoginUserId();
     }
     getProfileAPI();
@@ -74,27 +77,25 @@ class MyProfileDetailsController extends GetxController implements SelectPhoneEx
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           MyProfileInfoResponse response =
-          MyProfileInfoResponse.fromJson(jsonDecode(responseModel.result!));
+              MyProfileInfoResponse.fromJson(jsonDecode(responseModel.result!));
           myProfileInfo.value = response.info!;
           firstNameController.value.text = myProfileInfo.value.firstName ?? "";
           lastNameController.value.text = myProfileInfo.value.lastName ?? "";
 
-          if (isComingFromMyProfile){
+          if (isComingFromMyProfile) {
             phoneController.value.text = myProfileInfo.value.phone ?? "";
-          }
-          else{
-            phoneController.value.text = myProfileInfo.value.phoneWithExtension ?? "";
+          } else {
+            phoneController.value.text =
+                myProfileInfo.value.phoneWithExtension ?? "";
           }
 
           emailController.value.text = myProfileInfo.value.email ?? "";
 
           isMainViewVisible.value = true;
-        }
-        else{
+        } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;
-
       },
       onError: (ResponseModel error) {
         isLoading.value = false;
@@ -106,6 +107,7 @@ class MyProfileDetailsController extends GetxController implements SelectPhoneEx
       },
     );
   }
+
   void updateProfileAPI() async {
     Map<String, dynamic> map = {};
     map["first_name"] = StringHelper.getText(firstNameController.value);
@@ -132,22 +134,20 @@ class MyProfileDetailsController extends GetxController implements SelectPhoneEx
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.statusCode == 200) {
           UserResponse response =
-          UserResponse.fromJson(jsonDecode(responseModel.result!));
+              UserResponse.fromJson(jsonDecode(responseModel.result!));
           if (response.isSuccess!) {
             Get.find<AppStorage>().setUserInfo(response.info!);
             print("Token:" + ApiConstants.accessToken);
             AppUtils.saveLoginUser(response.info!);
             Get.offAllNamed(AppRoutes.dashboardScreen);
             //Get.back(result: true);
-          }
-          else{
+          } else {
             AppUtils.showApiResponseMessage(response.message);
           }
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;
-
       },
       onError: (ResponseModel error) {
         isLoading.value = false;
@@ -159,7 +159,6 @@ class MyProfileDetailsController extends GetxController implements SelectPhoneEx
   }
 
   showAttachmentOptionsDialog() async {
-
     print("pickImage");
     var listOptions = <ModuleInfo>[].obs;
     ModuleInfo? info;
@@ -177,11 +176,13 @@ class MyProfileDetailsController extends GetxController implements SelectPhoneEx
     ManageAttachmentController().showAttachmentOptionsDialog(
         'select_photo_from_'.tr, listOptions, this);
   }
+
   bool valid() {
     bool valid = false;
     valid = formKey.currentState!.validate();
     return valid;
   }
+
   @override
   void onSelectAttachment(List<String> path, String action) {
     if (action == AppConstants.attachmentType.camera ||
@@ -225,6 +226,7 @@ class MyProfileDetailsController extends GetxController implements SelectPhoneEx
     mExtension.value = extension;
     mExtensionId.value = id;
   }
+
   void showPhoneExtensionDialog() {
     Get.bottomSheet(
         PhoneExtensionListDialog(
