@@ -81,7 +81,10 @@ class RatesController extends GetxController implements SelectItemListener, Dial
     map["company_id"] = ApiConstants.companyId;
     map["trade_id"] = tradeId;
     double netPerDay = double.parse(netPerDayController.value.text ?? "");
+    double new_rate_perHour = netPerDay / 8;
     map["new_rate_perDay"] = netPerDay;
+    map["new_rate_perHour"] = new_rate_perHour;
+
     isLoading.value = true;
     _api.changeCompanyRate(
       data: map,

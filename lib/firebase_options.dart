@@ -42,29 +42,29 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyAdLpTcvwOWzhK4maBtriznqiw5MwBNcZw',
-    appId: '1:1046367619528:web:0052d384a1c66bd12418fd',
+    appId: '1:1046367619528:web:b62788a844e5ee8d2418fd',
     messagingSenderId: '1046367619528',
     projectId: 'belcka-8f2cd',
     authDomain: 'belcka-8f2cd.firebaseapp.com',
     storageBucket: 'belcka-8f2cd.firebasestorage.app',
-    measurementId: 'G-X39WLDVTHL',
+    measurementId: 'G-N8MFZ6274S',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAdx8IqB5lGom3gN2ptumujHxONQpNFQHE',
-    appId: '1:1046367619528:android:960eba8c1841f8f62418fd',
+    apiKey: 'AIzaSyDlwR38LTw4uEl8dG1oRICP5iovmYwsdNM',
+    appId: '1:1046367619528:android:4f064e42b7bd038f2418fd',
     messagingSenderId: '1046367619528',
     projectId: 'belcka-8f2cd',
     storageBucket: 'belcka-8f2cd.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCeSO8kd_VZSStJhMGAijEKHNiqpj-ix4Y',
-    appId: '1:1046367619528:ios:8c2d2a4eaae779e62418fd',
+    apiKey: 'AIzaSyD7OzO2KyPABWYJDuAPgnQACshdea55ceo',
+    appId: '1:1046367619528:ios:654f3054fe3921e62418fd',
     messagingSenderId: '1046367619528',
     projectId: 'belcka-8f2cd',
     storageBucket: 'belcka-8f2cd.firebasestorage.app',
-    iosBundleId: 'com.app.otmsystem',
+    iosBundleId: 'com.app.belcka',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(

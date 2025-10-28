@@ -62,7 +62,7 @@ dependencies:
   permission_handler: ^11.3.1
   #  double_tap_to_exit: ^1.0.1
   sms_autofill: ^2.4.0
-  change_app_package_name: ^1.2.0
+  change_app_package_name: ^1.5.0
   photo_view: ^0.15.0
   flutter_html: ^3.0.0-beta.2
   #  mobile_scanner: ^6.0.6

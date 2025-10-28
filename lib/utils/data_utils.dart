@@ -131,6 +131,7 @@ class DataUtils {
         name: 'edit_widget'.tr,
         slug: "edit_widget",
         permissionId: -1,
+        isApp: true,
         icon: "edit_widget.svg");
   }
 

@@ -7,6 +7,28 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:1046367619528:android:4f064e42b7bd038f2418fd",
+        "android_client_info": {
+          "package_name": "com.app.belcka"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlwR38LTw4uEl8dG1oRICP5iovmYwsdNM"
+        },
+        {
+          "current_key": "AIzaSyAdx8IqB5lGom3gN2ptumujHxONQpNFQHE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:1046367619528:android:960eba8c1841f8f62418fd",
         "android_client_info": {
           "package_name": "com.app.otmsystem"
@@ -14,6 +36,9 @@
       },
       "oauth_client": [],
       "api_key": [
+        {
+          "current_key": "AIzaSyDlwR38LTw4uEl8dG1oRICP5iovmYwsdNM"
+        },
         {
           "current_key": "AIzaSyAdx8IqB5lGom3gN2ptumujHxONQpNFQHE"
         }
