@@ -47,7 +47,7 @@ class CreateLeaveController extends GetxController
       isAllDay = true.obs;
   RxString totalDays = "0.0".obs;
   final leaveTypeList = <ModuleInfo>[].obs;
-  int leaveId = 0,userId = 0;
+  int leaveId = 0, userId = 0;
 
   LeaveInfo? leaveInfo;
   final title = ''.obs;
@@ -67,6 +67,7 @@ class CreateLeaveController extends GetxController
 
   void setInitData() {
     if (leaveInfo != null) {
+      userId = leaveInfo?.userId ?? 0;
       title.value = 'edit_leave'.tr;
       leaveId = leaveInfo?.leaveId ?? 0;
       leaveTypeController.value.text = leaveInfo?.leaveName ?? "";
@@ -237,7 +238,7 @@ class CreateLeaveController extends GetxController
       map["company_id"] = ApiConstants.companyId;
       map["user_leave_id"] = leaveInfo?.id ?? 0;
       map["leave_id"] = leaveId;
-      map["user_id"] = UserUtils.getLoginUserId();
+      map["user_id"] = userId;
       map["is_allday_leave"] = isAllDay.value;
       if (isAllDay.value) {
         map["start_date"] = StringHelper.getText(startDateController.value);

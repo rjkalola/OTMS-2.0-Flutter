@@ -109,9 +109,8 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
           Get.find<AppStorage>().getUserPermissionsResponse()!;
       listPermissions.clear();
       // listPermissions.addAll(response.permissions ?? []);
-      listPermissions.addAll((response.permissions ?? [])
-          .where((e) => e.isApp ?? false)
-          .toList());
+      listPermissions.addAll(
+          (response.permissions ?? []).where((e) => e.isApp ?? false).toList());
       isMainViewVisible.value = true;
 
       bool isInternet = await AppUtils.interNetCheck();
@@ -550,9 +549,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       moveToScreen(appRout: AppRoutes.billingDetailsNewScreen);
     } else if (info.slug == 'my_requests') {
       moveToScreen(appRout: AppRoutes.myRequestsScreen);
-    } else if (info.slug == 'analytics') {
-
-    }
+    } else if (info.slug == 'analytics') {}
   }
 
   Future<void> showControlPanelDialog() async {
@@ -597,17 +594,22 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
 
     });*/
     var result = await Get.toNamed(appRout, arguments: arguments);
-    if (Get.find<AppStorage>().isLocalSequenceChanges()) {
-      changeDashboardUserPermissionMultipleSequenceApi(
-          isProgress: false,
-          isLoadPermissionList: true,
-          isChangeSequence: false);
+    if (ApiConstants.companyId != 0) {
+      if (Get.find<AppStorage>().isLocalSequenceChanges()) {
+        changeDashboardUserPermissionMultipleSequenceApi(
+            isProgress: false,
+            isLoadPermissionList: true,
+            isChangeSequence: false);
+      } else {
+        getDashboardUserPermissionsApi(false);
+      }
+      if (Get.isBottomSheetOpen ?? false) {
+        Get.back();
+        showControlPanelDialog();
+      }
     } else {
-      getDashboardUserPermissionsApi(false);
-    }
-    if (Get.isBottomSheetOpen ?? false) {
-      Get.back();
-      showControlPanelDialog();
+      var arguments = {AppConstants.intentKey.fromSignUpScreen: true};
+      Get.offAllNamed(AppRoutes.joinCompanyScreen, arguments: arguments);
     }
   }
 

@@ -29,27 +29,16 @@ class UsersList extends StatelessWidget {
                   child: CardViewDashboardItem(
                     child: GestureDetector(
                       onTap: () {
-                        // var arguments = {
-                        //   AppConstants.intentKey.userId: info.id ?? 0,
-                        //   AppConstants.intentKey.userName: info.name ?? "",
-                        //   AppConstants.intentKey.userList: controller.usersList,
-                        // };
-                        // Get.toNamed(AppRoutes.userPermissionScreen,
-                        //     arguments: arguments);
+                        AppUtils.onClickUserAvatar(info.id ?? 0);
                       },
                       child: Container(
                         padding: const EdgeInsets.fromLTRB(10, 9, 10, 9),
                         color: Colors.transparent,
                         child: Row(
                           children: [
-                            GestureDetector(
-                              onTap: (){
-                                AppUtils.onClickUserAvatar(info.id ?? 0);
-                              },
-                              child: UserAvtarView(
-                                imageUrl: info.userThumbImage ?? "",
-                                imageSize: 52,
-                              ),
+                            UserAvtarView(
+                              imageUrl: info.userThumbImage ?? "",
+                              imageSize: 52,
                             ),
                             SizedBox(
                               width: 12,

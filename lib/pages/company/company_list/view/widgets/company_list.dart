@@ -1,3 +1,5 @@
+import 'package:belcka/res/drawable.dart';
+import 'package:belcka/utils/image_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:belcka/pages/common/model/user_info.dart';
@@ -40,7 +42,7 @@ class CompanyList extends StatelessWidget {
                             AppRoutes.companyDetailsScreen, arguments);
                       },
                       child: Container(
-                        padding: const EdgeInsets.fromLTRB(10, 9, 10, 9),
+                        padding: const EdgeInsets.fromLTRB(10, 9, 0, 9),
                         color: Colors.transparent,
                         child: Row(
                           children: [
@@ -73,9 +75,18 @@ class CompanyList extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            SizedBox(
-                              width: 12,
-                            ),
+                            IconButton(
+                                onPressed: () {
+                                  controller.showDeleteTeamDialog(info.id ?? 0);
+                                },
+                                icon: ImageUtils.setSvgAssetsImage(
+                                    path: Drawable.deleteIcon,
+                                    color: Colors.red,
+                                    width: 26,
+                                    height: 26)),
+                            // SizedBox(
+                            //   width: 6,
+                            // ),
                             // Visibility(
                             //   visible: ApiConstants.companyId != info.id,
                             //   child: CustomSwitch(

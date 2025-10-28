@@ -5,7 +5,7 @@ import 'package:belcka/web_services/response/response_model.dart';
 
 class CompanyListRepository {
   void getCompanyList({
-    Map<String, dynamic>? queryParameters ,
+    Map<String, dynamic>? queryParameters,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
@@ -19,4 +19,18 @@ class CompanyListRepository {
     );
   }
 
+  void deleteCompany({
+    Map<String, dynamic>? queryParameters,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+            url: ApiConstants.deleteCompany, queryParameters: queryParameters)
+        .postRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
 }

@@ -135,4 +135,5 @@ class Drawable {
   static const String greenPin = 'assets/images/ic_pin_green.png';
   static const String bluePin = 'assets/images/ic_pin_blue.png';
   static const String redPin = 'assets/images/ic_pin_red.png';
+  static const String deleteIcon = 'assets/images/ic_delete.svg';
 }

@@ -43,6 +43,7 @@ class LeaveListController extends GetxController implements MenuItemListener {
     Map<String, dynamic> map = {};
     map["start_date"] = startDate;
     map["end_date"] = endDate;
+    map["user_id"] = userId;
 
     _api.getLeaveList(
       data: map,

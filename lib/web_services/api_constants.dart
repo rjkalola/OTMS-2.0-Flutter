@@ -35,6 +35,7 @@ class ApiConstants {
   static String editCompanyUrl = '$appUrl/company/edit-company';
   static String getCompanyDetailsUrl = '$appUrl/company/get-company';
   static String getCompanyList = '$appUrl/company/list';
+  static String deleteCompany = '$appUrl/company/delete';
   static String getSwitchCompanyList = '$appUrl/user/switch-company-list';
   static String switchCompany = '$appUrl/company/switch-company';
 

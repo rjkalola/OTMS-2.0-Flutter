@@ -1,3 +1,4 @@
+import 'package:belcka/pages/company/company_list/view/widgets/delete_company_action_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -23,8 +24,8 @@ class _CompanyListScreenState extends State<CompanyListScreen> {
 
   @override
   Widget build(BuildContext context) {
-      AppUtils.setStatusBarColor();
-    return Container(
+    AppUtils.setStatusBarColor();
+    return Obx(() => Container(
       color: dashBoardBgColor_(context),
       child: SafeArea(
         child: Scaffold(
@@ -37,28 +38,31 @@ class _CompanyListScreenState extends State<CompanyListScreen> {
             bgColor: dashBoardBgColor_(context),
             widgets: actionButtons(),
           ),
-          body: Obx(() {
-            return ModalProgressHUD(
-                inAsyncCall: controller.isLoading.value,
-                opacity: 0,
-                progressIndicator: const CustomProgressbar(),
-                child: controller.isInternetNotAvailable.value
-                    ? NoInternetWidget(
-                        onPressed: () {
-                          controller.isInternetNotAvailable.value = false;
-                          controller.getCompanyListApi();
-                        },
-                      )
-                    : Visibility(
-                        visible: controller.isMainViewVisible.value,
-                        child: Column(
-                          children: [Divider(), SearchCompany(), CompanyList()],
-                        ),
-                      ));
-          }),
+          body: ModalProgressHUD(
+              inAsyncCall: controller.isLoading.value,
+              opacity: 0,
+              progressIndicator: const CustomProgressbar(),
+              child: controller.isInternetNotAvailable.value
+                  ? NoInternetWidget(
+                onPressed: () {
+                  controller.isInternetNotAvailable.value = false;
+                  controller.getCompanyListApi();
+                },
+              )
+                  : Visibility(
+                visible: controller.isMainViewVisible.value,
+                child: Column(
+                  children: [
+                    Divider(),
+                    SearchCompany(),
+                    CompanyList(),
+                    DeleteCompanyActionButtons()
+                  ],
+                ),
+              )),
         ),
       ),
-    );
+    ),);
   }
 
   List<Widget>? actionButtons() {

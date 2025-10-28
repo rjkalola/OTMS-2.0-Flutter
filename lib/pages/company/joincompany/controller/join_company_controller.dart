@@ -107,9 +107,9 @@ class JoinCompanyController extends GetxController
           ApiConstants.companyId = companyId;
           AppUtils.saveLoginUser(response.info!);
           if (fromSignUpScreen) {
-            Get.back(result: true);
-          } else {
             moveToDashboard();
+          } else {
+            Get.back(result: true);
           }
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
