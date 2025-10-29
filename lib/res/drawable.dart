@@ -40,6 +40,8 @@ class Drawable {
       'assets/user_permission_icons/billing_info.svg';
   static const String projectsIcon = 'assets/user_permission_icons/project.svg';
 
+
+
   static const String splashScreenLogo = 'assets/images/splash_screen_logo.jpg';
   static const String activeHomeTabIcon =
       'assets/images/ic_active_home_tab.svg';

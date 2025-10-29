@@ -335,4 +335,11 @@ class AppUtils {
       Get.toNamed(AppRoutes.myProfileDetailsScreen, arguments: arguments);
     }
   }
+
+  static void copyEmail(String? value) {
+    if (!StringHelper.isEmptyString(value)) {
+      Clipboard.setData(ClipboardData(text: value ?? ""));
+      AppUtils.showToastMessage('email_copied'.tr);
+    }
+  }
 }

@@ -44,9 +44,9 @@ class RatesController extends GetxController implements SelectItemListener, Dial
     super.onInit();
     if (arguments != null) {
       billingInfo.value = arguments[AppConstants.intentKey.billingInfo];
+      billingInfo.value.userId = arguments[AppConstants.intentKey.userId];
       setInitData();
     }
-    billingInfo.value.userId = UserUtils.getLoginUserId();
     billingInfo.value.companyId = ApiConstants.companyId;
     netPerDayController.value.addListener(calculateGrossAndCIS);
     getTradeDataApi();
@@ -77,7 +77,7 @@ class RatesController extends GetxController implements SelectItemListener, Dial
   }
   void changeCompanyRateAPI() async {
     Map<String, dynamic> map = {};
-    map["user_id"] = UserUtils.getLoginUserId();
+    map["user_id"] = billingInfo.value.userId;
     map["company_id"] = ApiConstants.companyId;
     map["trade_id"] = tradeId;
     double netPerDay = double.parse(netPerDayController.value.text ?? "");

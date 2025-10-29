@@ -1,3 +1,4 @@
+import 'package:belcka/utils/app_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -92,17 +93,27 @@ class _BillingRequestScreenState extends State<BillingRequestScreen> {
                                       // Phone
                                       Visibility(
                                         visible:(controller.billingRequestInfo.value.phone ?? "").isNotEmpty,
-                                        child: PhoneWithExtensionField(
-                                            "${controller.billingRequestInfo.value.extension ?? ""} ${controller.billingRequestInfo.value.phone ?? ""}",
-                                            "phone_number".tr),
+                                        child: GestureDetector(
+                                          onTap: (){
+                                            AppUtils.onClickPhoneNumber("${controller.billingRequestInfo.value.extension ?? ""}${controller.billingRequestInfo.value.phone ?? ""}");
+                                          },
+                                          child: PhoneWithExtensionField(
+                                              "${controller.billingRequestInfo.value.extension ?? ""} ${controller.billingRequestInfo.value.phone ?? ""}",
+                                              "phone_number".tr),
+                                        ),
                                       ),
                                       const SizedBox(height: 10),
                                       // Email
                                       Visibility(
                                         visible:(controller.billingRequestInfo.value.email ?? "").isNotEmpty,
-                                        child: PhoneWithExtensionField(
-                                            controller.billingRequestInfo.value.email ?? "",
-                                            "email".tr),
+                                        child: GestureDetector(
+                                          onTap: (){
+                                            AppUtils.copyEmail(controller.billingRequestInfo.value.email ?? "");
+                                          },
+                                          child: PhoneWithExtensionField(
+                                              controller.billingRequestInfo.value.email ?? "",
+                                              "email".tr),
+                                        ),
                                       ),
                                       const SizedBox(height: 10),
                                       // My Address

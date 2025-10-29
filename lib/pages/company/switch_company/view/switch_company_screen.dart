@@ -24,41 +24,54 @@ class _SwitchCompanyScreenState extends State<SwitchCompanyScreen> {
   @override
   Widget build(BuildContext context) {
     AppUtils.setStatusBarColor();
-    return Container(
-      color: dashBoardBgColor_(context),
-      child: SafeArea(
-        child: Scaffold(
-          backgroundColor: dashBoardBgColor_(context),
-          appBar: BaseAppBar(
-            appBar: AppBar(),
-            title: 'switch_company'.tr,
-            isCenterTitle: false,
-            isBack: true,
-            bgColor: dashBoardBgColor_(context),
-            widgets: actionButtons(),
+    return PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (didPop, result) async {
+          if (didPop || result != null) return;
+          controller.onBackPress();
+        },
+        child: Container(
+          color: dashBoardBgColor_(context),
+          child: SafeArea(
+            child: Scaffold(
+              backgroundColor: dashBoardBgColor_(context),
+              appBar: BaseAppBar(
+                appBar: AppBar(),
+                title: 'switch_company'.tr,
+                isCenterTitle: false,
+                isBack: false,
+                onBackPressed: (){
+                  controller.onBackPress();
+                },
+                bgColor: dashBoardBgColor_(context),
+                widgets: actionButtons(),
+              ),
+              body: Obx(() {
+                return ModalProgressHUD(
+                    inAsyncCall: controller.isLoading.value,
+                    opacity: 0,
+                    progressIndicator: const CustomProgressbar(),
+                    child: controller.isInternetNotAvailable.value
+                        ? NoInternetWidget(
+                            onPressed: () {
+                              controller.isInternetNotAvailable.value = false;
+                              controller.getSwitchCompanyListApi();
+                            },
+                          )
+                        : Visibility(
+                            visible: controller.isMainViewVisible.value,
+                            child: Column(
+                              children: [
+                                Divider(),
+                                SearchCompany(),
+                                CompanyList()
+                              ],
+                            ),
+                          ));
+              }),
+            ),
           ),
-          body: Obx(() {
-            return ModalProgressHUD(
-                inAsyncCall: controller.isLoading.value,
-                opacity: 0,
-                progressIndicator: const CustomProgressbar(),
-                child: controller.isInternetNotAvailable.value
-                    ? NoInternetWidget(
-                        onPressed: () {
-                          controller.isInternetNotAvailable.value = false;
-                          controller.getSwitchCompanyListApi();
-                        },
-                      )
-                    : Visibility(
-                        visible: controller.isMainViewVisible.value,
-                        child: Column(
-                          children: [Divider(), SearchCompany(), CompanyList()],
-                        ),
-                      ));
-          }),
-        ),
-      ),
-    );
+        ));
   }
 
   List<Widget>? actionButtons() {

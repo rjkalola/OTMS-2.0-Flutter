@@ -18,6 +18,8 @@ class TypeOfWorkResourcesInfo {
   List<FilesInfo>? afterAttachments;
   int? progress;
   bool? isCheck;
+  int? totalAttachments;
+  int? checklogId;
 
   TypeOfWorkResourcesInfo(
       {this.id,
@@ -38,7 +40,9 @@ class TypeOfWorkResourcesInfo {
       this.beforeAttachments,
       this.afterAttachments,
       this.progress,
-      this.isCheck});
+      this.isCheck,
+      this.totalAttachments,
+      this.checklogId});
 
   TypeOfWorkResourcesInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -70,6 +74,8 @@ class TypeOfWorkResourcesInfo {
     }
     progress = json['progress'];
     isCheck = json['isCheck'];
+    totalAttachments = json['total_attachments'];
+    checklogId = json['checklog_id'];
   }
 
   Map<String, dynamic> toJson() {
@@ -99,6 +105,8 @@ class TypeOfWorkResourcesInfo {
     }
     data['progress'] = this.progress;
     data['isCheck'] = this.isCheck;
+    data['total_attachments'] = this.totalAttachments;
+    data['checklog_id'] = this.checklogId;
     return data;
   }
 
@@ -123,6 +131,8 @@ class TypeOfWorkResourcesInfo {
     List<FilesInfo>? afterAttachments,
     int? progress,
     bool? isCheck,
+    int? totalAttachments,
+    int? checklogId,
   }) {
     return TypeOfWorkResourcesInfo(
       id: id ?? this.id,
@@ -144,6 +154,8 @@ class TypeOfWorkResourcesInfo {
       afterAttachments: afterAttachments ?? this.afterAttachments,
       progress: progress ?? this.progress,
       isCheck: isCheck ?? this.isCheck,
+      totalAttachments: totalAttachments ?? this.totalAttachments,
+      checklogId: checklogId ?? this.checklogId,
     );
   }
 }

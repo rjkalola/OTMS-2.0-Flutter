@@ -123,7 +123,7 @@ class CheckInRecordsController extends GetxController
     startDate = "";
     endDate = "";
     selectedDateFilterIndex.value = -1;
-    getProjectCheckLogsApi(true);
+    // getProjectCheckLogsApi(true);
   }
 
   @override

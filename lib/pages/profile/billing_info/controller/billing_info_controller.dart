@@ -57,9 +57,9 @@ class BillingInfoController extends GetxController
     super.onInit();
     if (arguments != null) {
       billingInfo.value = arguments[AppConstants.intentKey.billingInfo];
+      billingInfo.value.userId = arguments[AppConstants.intentKey.userId];
       setInitData();
     }
-    billingInfo.value.userId = UserUtils.getLoginUserId();
     billingInfo.value.companyId = ApiConstants.companyId;
   }
   void setInitData() {
@@ -69,7 +69,6 @@ class BillingInfoController extends GetxController
     emailController.value.text = billingInfo.value.email ?? "";
     postcodeController.value.text = billingInfo.value.postCode ?? "";
     myAddressController.value.text = billingInfo.value.address ?? "";
-    mExtension.value = billingInfo.value.extension ?? "";
     phoneController.value.text = billingInfo.value.phone ?? "";
     nameOnUTRController.value.text = billingInfo.value.nameOnUtr ?? "";
     utrController.value.text = billingInfo.value.utrNumber ?? "";
@@ -78,6 +77,11 @@ class BillingInfoController extends GetxController
     bankNameController.value.text = billingInfo.value.bankName ?? "";
     accountNumberController.value.text = billingInfo.value.accountNo ?? "";
     sortCodeController.value.text = billingInfo.value.shortCode ?? "";
+    
+    if (billingInfo.value.extension != null){
+      mExtension.value = billingInfo.value.extension ?? "";
+    }
+
     mFlag.value = AppUtils.getFlagByExtension(mExtension.value);
   }
   void addBillingInfoAPI() async {

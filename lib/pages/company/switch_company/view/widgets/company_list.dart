@@ -1,3 +1,6 @@
+import 'package:belcka/res/drawable.dart';
+import 'package:belcka/utils/image_utils.dart';
+import 'package:belcka/utils/user_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:belcka/pages/common/model/user_info.dart';
@@ -72,7 +75,20 @@ class CompanyList extends StatelessWidget {
                               ),
                             ),
                             SizedBox(
-                              width: 12,
+                              width: 8,
+                            ),
+                            Visibility(
+                              visible: UserUtils.getLoginUserId() ==
+                                  (info.createdByInt??""),
+                              child: IconButton(
+                                  onPressed: () {
+                                    controller.showDeleteTeamDialog(info.id ?? 0);
+                                  },
+                                  icon: ImageUtils.setSvgAssetsImage(
+                                      path: Drawable.deleteIcon,
+                                      color: Colors.red,
+                                      width: 26,
+                                      height: 26)),
                             ),
                             Visibility(
                               visible: ApiConstants.companyId != info.id,

@@ -2,8 +2,13 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:belcka/pages/check_in/clock_in/controller/clock_in_repository.dart';
+import 'package:belcka/pages/project/project_details/controller/project_details_repository.dart';
+import 'package:belcka/pages/project/project_details/model/project_details_api_response.dart';
+import 'package:belcka/pages/project/project_info/model/geofence_info.dart';
+import 'package:belcka/pages/project/project_info/model/project_info.dart';
 import 'package:belcka/web_services/response/base_response.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -42,6 +47,10 @@ class SelectShiftController extends GetxController {
   List<ModuleInfo> tempList = [];
   bool fromStartShiftScreen = false, switchProject = false;
   int projectId = 0, workLogId = 0;
+  final projectInfo = ProjectInfo().obs;
+  final RxSet<Polyline> polyLines = <Polyline>{}.obs;
+  final RxSet<Polygon> polygons = <Polygon>{}.obs;
+  final RxSet<Circle> circles = <Circle>{}.obs;
 
   void onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -79,7 +88,7 @@ class SelectShiftController extends GetxController {
       data: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
-          isMainViewVisible.value = true;
+          // isMainViewVisible.value = true;
           ShiftListResponse response =
               ShiftListResponse.fromJson(jsonDecode(responseModel.result!));
           tempList.clear();
@@ -93,6 +102,7 @@ class SelectShiftController extends GetxController {
           }
           shiftList.value = tempList;
           shiftList.refresh();
+          getProjectDetailsApi();
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
@@ -106,6 +116,31 @@ class SelectShiftController extends GetxController {
         } else if (error.statusMessage!.isNotEmpty) {
           AppUtils.showApiResponseMessage(error.statusMessage ?? "");
         }
+      },
+    );
+  }
+
+  void getProjectDetailsApi() {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
+    map["project_id"] = projectId;
+
+    ProjectDetailsRepository().getProjectDetails(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          isMainViewVisible.value = true;
+          ProjectDetailsApiResponse response =
+              ProjectDetailsApiResponse.fromJson(
+                  jsonDecode(responseModel.result!));
+          projectInfo.value = response.info!;
+          setZones();
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
       },
     );
   }
@@ -246,6 +281,54 @@ class SelectShiftController extends GetxController {
     int randomNumber = random.nextInt(DataUtils.listColors.length - 1);
     color = DataUtils.listColors[randomNumber];
     return color;
+  }
+
+  void setZones() {
+    if (projectInfo.value.geoFences != null) {
+      for (GeofenceInfo info in projectInfo.value.geoFences!) {
+        if ((info.type ?? "") == "circle" && info.radius != null) {
+          print("info.latitude:" + info.latitude!.toString());
+          print("info.longitude:" + info.longitude!.toString());
+          LatLng latLng = LatLng(double.parse(info.latitude ?? "0.0"),
+              double.parse(info.longitude ?? "0.0"));
+          Color color = !StringHelper.isEmptyString(info.color)
+              ? AppUtils.getColor(info.color ?? "")
+              : Colors.blue;
+          final circle = Circle(
+            circleId: CircleId((info.id ?? 0).toString()),
+            center: latLng,
+            radius: info.radius ?? 0,
+            fillColor: color.withValues(alpha: 0.3),
+            strokeColor: color,
+            strokeWidth: 2,
+          );
+          final updatedCircles = Set<Circle>.from(circles);
+          updatedCircles.add(circle);
+          circles.value = updatedCircles;
+        } else if ((info.type ?? "") == "polygon" && info.coordinates != null) {
+          print("info.latitude:" + info.latitude!.toString());
+          print("info.longitude:" + info.longitude!.toString());
+          List<LatLng> listLatLng = [];
+          for (GeofenceCoordinates coordinates in info.coordinates!) {
+            LatLng latLng = LatLng(coordinates.lat ?? 0, coordinates.lng ?? 0);
+            listLatLng.add(latLng);
+          }
+          Color color = !StringHelper.isEmptyString(info.color)
+              ? AppUtils.getColor(info.color ?? "")
+              : Colors.blue;
+          final polygon = Polygon(
+            polygonId: const PolygonId('area1'),
+            points: listLatLng,
+            strokeWidth: 2,
+            strokeColor: color,
+            fillColor: color.withValues(alpha: 0.3), // new opacity API
+          );
+          final updatedPolygon = Set<Polygon>.from(polygons);
+          updatedPolygon.add(polygon);
+          polygons.value = updatedPolygon;
+        }
+      }
+    }
   }
 
   @override

@@ -195,7 +195,7 @@ class _TimeSheetListScreenState extends State<TimeSheetListScreen>
     controller.startDate = startDate;
     controller.endDate = endDate;
     if (StringHelper.isEmptyString(startDate) &&
-        StringHelper.isEmptyString(startDate)) {
+        StringHelper.isEmptyString(endDate)) {
       controller.appliedFilters = {};
       controller.isViewAmount.value = false;
     }

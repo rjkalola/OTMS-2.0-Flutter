@@ -2,6 +2,7 @@ import 'package:belcka/pages/profile/rates/view/widgets/trade_view.dart';
 import 'package:belcka/pages/profile/rates_request/view/widgets/rate_request_pending_for_approval.dart';
 import 'package:belcka/res/theme/app_colors.dart';
 import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -126,7 +127,10 @@ class _RatesScreenState extends State<RatesScreen> {
                         alignment: Alignment.centerRight,
                         child: TextButton(
                           onPressed: () {
-                            Get.toNamed(AppRoutes.ratesHistoryScreen);
+                            var arguments = {
+                              AppConstants.intentKey.userId : controller.billingInfo.value.userId ?? UserUtils.getLoginUserId(),
+                            };
+                            Get.toNamed(AppRoutes.ratesHistoryScreen,arguments: arguments);
                           },
                           child: Text(
                             'rate_history'.tr,

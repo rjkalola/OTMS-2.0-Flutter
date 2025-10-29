@@ -193,6 +193,7 @@ class ApiConstants {
   static String addressUnarchive = '$appUrl/address/unarchive';
   static String changeAddressProgress =
       '$appUrl/address/change-address-progress';
+  static String addressDocuments = '$appUrl/address/address-document';
 
   static String registerResourcesUrl = '$appUrl/wn-resources';
   static String verifyPhoneUrl = '$appUrl/verify-phone';

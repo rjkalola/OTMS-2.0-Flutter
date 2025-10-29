@@ -10,6 +10,7 @@ import 'package:belcka/pages/profile/my_profile_details/view/widgets/phone_exten
 import 'package:belcka/pages/profile/my_profile_details/view/widgets/phone_field_widget.dart';
 import 'package:belcka/pages/profile/my_profile_details/view/widgets/profile_avatar_widget.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
@@ -96,34 +97,21 @@ class _MyProfileDetailsScreenState extends State<MyProfileDetailsScreen> {
                                                   Flexible(flex: 1, child: LastNameFieldWidget())
                                                 ]),
                                                 SizedBox(height: 16,),
-
-                                                //phone
                                                 Visibility(
-                                                  visible:controller.isComingFromMyProfile ,
-                                                  child: Row(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                  visible: true,
+                                                    child: GestureDetector(
+                                                      onTap: (){
+                                                        AppUtils.onClickPhoneNumber("${controller.phoneController.value}");
+                                                      },
+                                                        child: PhoneFieldWidget())),
 
-                                                    children: [
-                                                      Flexible(
-                                                        flex: 2,
-                                                        child:
-                                                        PhoneExtensionField(),
-                                                      ),
-
-                                                      Flexible(
-                                                          flex: 3,
-                                                          child:
-                                                          PhoneFieldWidget()),
-                                                    ],
-                                                  ),
-                                                ),
-
-                                                Visibility(
-                                                  visible: !controller.isComingFromMyProfile,
-                                                    child: PhoneFieldWidget()),
-
-                                                EmailFieldWidget(),
+                                                GestureDetector(
+                                                  onTap: (){
+                                                    if ((controller.emailController.value.text ?? "").isNotEmpty){
+                                                      AppUtils.copyEmail(controller.emailController.value.text ?? "");
+                                                    }
+                                                  },
+                                                    child: EmailFieldWidget()),
 
                                                 Visibility(
                                                   visible: controller.isComingFromMyProfile,

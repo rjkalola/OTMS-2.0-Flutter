@@ -1,17 +1,18 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:belcka/pages/common/listener/date_filter_listener.dart';
 import 'package:belcka/pages/common/widgets/date_filter_options_horizontal_list.dart';
 import 'package:belcka/pages/project/check_in_records/view/widgets/project_address_title_view.dart';
 import 'package:belcka/pages/project/trade_records/controller/trade_records_controller.dart';
 import 'package:belcka/pages/project/trade_records/view/widgets/trade_user_records.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
 import 'package:belcka/widgets/text/PrimaryTextView.dart';
 import 'package:belcka/widgets/text/toolbar_menu_item_text_view.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class TradeRecordsScreen extends StatefulWidget {
   const TradeRecordsScreen({super.key});
@@ -57,14 +58,18 @@ class _TradeRecordsScreenState extends State<TradeRecordsScreen>
                           children: [
                             ProjectAddressTitleView(
                                 title: controller.title.value),
-                            SizedBox(height: 2,),
+                            SizedBox(
+                              height: 2,
+                            ),
                             PrimaryTextView(
                               fontWeight: FontWeight.w500,
                               fontSize: 15,
                               text:
                                   "${controller.displayStartDate.value} - ${controller.displayEndDate.value}",
                             ),
-                            SizedBox(height: 10,),
+                            SizedBox(
+                              height: 10,
+                            ),
                             DateFilterOptionsHorizontalList(
                               padding: EdgeInsets.fromLTRB(14, 0, 14, 6),
                               startDate: controller.startDate,
@@ -88,16 +93,16 @@ class _TradeRecordsScreenState extends State<TradeRecordsScreen>
 
   List<Widget>? actionButtons() {
     return [
-      Visibility(
-        visible: controller.isResetEnable.value,
-        child: ToolbarMenuItemTextView(
-          text: 'reset'.tr,
-          padding: EdgeInsets.only(left: 6, right: 10),
-          onTap: () {
-            controller.clearFilter();
-          },
-        ),
-      ),
+      // Visibility(
+      //   visible: controller.isResetEnable.value,
+      //   child: ToolbarMenuItemTextView(
+      //     text: 'reset'.tr,
+      //     padding: EdgeInsets.only(left: 6, right: 10),
+      //     onTap: () {
+      //       controller.clearFilter();
+      //     },
+      //   ),
+      // ),
       /* InkWell(
         borderRadius: BorderRadius.circular(45),
         onTap: () {
@@ -133,6 +138,10 @@ class _TradeRecordsScreenState extends State<TradeRecordsScreen>
     controller.isResetEnable.value = true;
     controller.startDate = startDate;
     controller.endDate = endDate;
+    if (StringHelper.isEmptyString(startDate) &&
+        StringHelper.isEmptyString(endDate)) {
+      controller.clearFilter();
+    }
     controller.getProjectTradeRecordsApi(true);
     print("startDate:" + startDate);
     print("endDate:" + endDate);

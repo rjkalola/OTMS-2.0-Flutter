@@ -59,6 +59,7 @@ import 'package:belcka/pages/profile/user_settings/view/user_settings_screen.dar
 import 'package:belcka/pages/project/add_address/view/add_address_screen.dart';
 import 'package:belcka/pages/project/add_project/view/add_project_screen.dart';
 import 'package:belcka/pages/project/address_details/view/address_details_screen.dart';
+import 'package:belcka/pages/project/address_documents/view/address_documents_screen.dart';
 import 'package:belcka/pages/project/address_list/view/address_list_screen.dart';
 import 'package:belcka/pages/project/archive_addresses/view/archive_address_list_screen.dart';
 import 'package:belcka/pages/project/archive_projects/view/archive_project_list_screen.dart';
@@ -312,6 +313,9 @@ class AppPages {
     GetPage(
         name: AppRoutes.archiveAddressListScreen,
         page: () => ArchiveAddressListScreen()),
+    GetPage(
+        name: AppRoutes.addressDocumentsScreen,
+        page: () => AddressDocumentsScreen()),
     GetPage(
         name: AppRoutes.checkInRecordsScreen,
         page: () => CheckInRecordsScreen()),

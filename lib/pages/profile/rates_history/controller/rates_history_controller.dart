@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:belcka/pages/profile/rates_history/controller/rates_history_repository.dart';
 import 'package:belcka/pages/profile/rates_history/model/rates_history_response.dart';
+import 'package:belcka/utils/app_constants.dart';
 import 'package:get/get.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/user_utils.dart';
@@ -29,7 +30,8 @@ class RatesHistoryController extends GetxController {
   }
   void getRateHistory(Map<String, String> appliedFilters) async {
     Map<String, dynamic> map = {};
-    map["user_id"] = UserUtils.getLoginUserId();
+    var arguments = Get.arguments;
+    map["user_id"] =  arguments[AppConstants.intentKey.userId];
     map["company_id"] = ApiConstants.companyId;
     map["start_date"] = startDate;
     map["end_date"] = endDate;

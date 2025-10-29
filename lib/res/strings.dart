@@ -441,6 +441,7 @@ class Strings extends Translations {
               "End time cannot be before start time",
           'date': "Date",
           'time': "Time",
+          'email_copied':"Email Copied",
           // '': "",
 // '': "",
 // '': "",

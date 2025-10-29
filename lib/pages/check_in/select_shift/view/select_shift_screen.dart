@@ -47,6 +47,8 @@ class _SelectShiftScreenState extends State<SelectShiftScreen> {
                       CustomMapView(
                         onMapCreated: controller.onMapCreated,
                         target: controller.center,
+                        circles: controller.circles,
+                        polygons: controller.polygons,
                       ),
                       MapBackArrow(onBackPressed: () {
                         Get.back();
@@ -68,11 +70,11 @@ class _SelectShiftScreenState extends State<SelectShiftScreen> {
                         SearchShift(),
                         ShiftsList(),
                         TextViewWithContainer(
-                          onTap: (){
+                          onTap: () {
                             Get.back();
                           },
                           margin: EdgeInsetsDirectional.all(16),
-                          padding:EdgeInsetsDirectional.all(9) ,
+                          padding: EdgeInsetsDirectional.all(9),
                           width: double.infinity,
                           text: 'cancel'.tr,
                           borderColor: Colors.grey,

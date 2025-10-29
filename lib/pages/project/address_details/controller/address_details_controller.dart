@@ -62,6 +62,12 @@ class AddressDetailsController extends GetxController
         iconPath: Drawable.tradesPermissionIcon,
         iconColor: "#000000",
         flagName: "Trades"),
+    ProjectDetalsItem(
+        title: 'documents'.tr,
+        subtitle: '',
+        iconPath: Drawable.todoPermissionIcon,
+        iconColor: "#000000",
+        flagName: "Documents"),
   ];
 
   AddressInfo? addressDetailsInfo;
@@ -194,6 +200,9 @@ class AddressDetailsController extends GetxController
           break;
         case 'Materials':
           item.subtitle = "${address.currency}${address.materials.toString()}";
+          break;
+        case 'Documents':
+          item.subtitle = address.documents.toString();
           break;
       }
     }

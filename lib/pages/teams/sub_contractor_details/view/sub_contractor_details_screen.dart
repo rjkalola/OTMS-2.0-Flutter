@@ -71,21 +71,36 @@ class _SubContractorDetailsScreenState
                                                 .value.companyAdmin ??
                                             "-",
                                         iconData: Icons.person),
-                                    InfoTile(
-                                      title: 'phone_number'.tr,
-                                      value: controller
-                                              .subContractorInfo.value.phone ??
-                                          "-",
-                                      iconData: Icons.phone,
-                                      isCopyIconVisible: true,
-                                    ),
-                                    InfoTile(
-                                        title: 'email'.tr,
-                                        value: controller.subContractorInfo
-                                                .value.email ??
+
+                                    GestureDetector(
+                                      onTap: (){
+                                        AppUtils.onClickPhoneNumber(controller
+                                            .subContractorInfo.value.phone ?? "");
+                                      },
+                                      child: InfoTile(
+                                        title: 'phone_number'.tr,
+                                        value: controller
+                                                .subContractorInfo.value.phone ??
                                             "-",
-                                        iconData: Icons.email,
-                                        isCopyIconVisible: true)
+                                        iconData: Icons.phone,
+                                        isCopyIconVisible: true,
+                                      ),
+                                    ),
+
+                                    GestureDetector(
+                                      onTap: (){
+                                        if ((controller.subContractorInfo.value.email ?? "").isNotEmpty){
+                                          AppUtils.copyEmail(controller.subContractorInfo.value.email ?? "");
+                                        }
+                                      },
+                                      child: InfoTile(
+                                          title: 'email'.tr,
+                                          value: controller.subContractorInfo
+                                                  .value.email ??
+                                              "-",
+                                          iconData: Icons.email,
+                                          isCopyIconVisible: true),
+                                    )
                                   ],
                                 ),
                               ),

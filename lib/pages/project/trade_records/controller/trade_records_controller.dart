@@ -126,7 +126,7 @@ class TradeRecordsController extends GetxController
     startDate = "";
     endDate = "";
     selectedDateFilterIndex.value = -1;
-    getProjectTradeRecordsApi(true);
+    // getProjectTradeRecordsApi(true);
   }
 
   @override

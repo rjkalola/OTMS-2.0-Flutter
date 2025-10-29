@@ -1,3 +1,4 @@
+import 'package:belcka/utils/string_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -76,16 +77,16 @@ class _CheckInRecordsScreenState extends State<CheckInRecordsScreen>
 
   List<Widget>? actionButtons() {
     return [
-      Visibility(
-        visible: controller.isResetEnable.value,
-        child: ToolbarMenuItemTextView(
-          text: 'reset'.tr,
-          padding: EdgeInsets.only(left: 6, right: 10),
-          onTap: () {
-            controller.clearFilter();
-          },
-        ),
-      ),
+      // Visibility(
+      //   visible: controller.isResetEnable.value,
+      //   child: ToolbarMenuItemTextView(
+      //     text: 'reset'.tr,
+      //     padding: EdgeInsets.only(left: 6, right: 10),
+      //     onTap: () {
+      //       controller.clearFilter();
+      //     },
+      //   ),
+      // ),
       /* InkWell(
         borderRadius: BorderRadius.circular(45),
         onTap: () {
@@ -121,6 +122,10 @@ class _CheckInRecordsScreenState extends State<CheckInRecordsScreen>
     controller.isResetEnable.value = true;
     controller.startDate = startDate;
     controller.endDate = endDate;
+    if (StringHelper.isEmptyString(startDate) &&
+        StringHelper.isEmptyString(endDate)) {
+      controller.clearFilter();
+    }
     controller.getProjectCheckLogsApi(true);
     print("startDate:" + startDate);
     print("endDate:" + endDate);

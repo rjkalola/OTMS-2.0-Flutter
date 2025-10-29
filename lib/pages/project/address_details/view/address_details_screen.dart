@@ -1,3 +1,4 @@
+import 'package:belcka/utils/string_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -85,16 +86,16 @@ class _AddressDetailsScreenState extends State<AddressDetailsScreen>
   }
   List<Widget>? actionButtons() {
     return [
-      Visibility(
-        visible: controller.isResetEnable.value,
-        child: ToolbarMenuItemTextView(
-          text: 'reset'.tr,
-          padding: EdgeInsets.only(left: 0, right: 0),
-          onTap: () {
-            controller.clearFilter();
-          },
-        ),
-      ),
+      // Visibility(
+      //   visible: controller.isResetEnable.value,
+      //   child: ToolbarMenuItemTextView(
+      //     text: 'reset'.tr,
+      //     padding: EdgeInsets.only(left: 0, right: 0),
+      //     onTap: () {
+      //       controller.clearFilter();
+      //     },
+      //   ),
+      // ),
       const SizedBox(width: 10),
       Visibility(
         visible: true,
@@ -114,6 +115,10 @@ class _AddressDetailsScreenState extends State<AddressDetailsScreen>
     controller.isResetEnable.value = true;
     controller.startDate = startDate;
     controller.endDate = endDate;
+    if (StringHelper.isEmptyString(startDate) &&
+        StringHelper.isEmptyString(endDate)) {
+      controller.clearFilter();
+    }
     controller.loadAddressDetailsData(true);
     print("startDate:" + startDate);
     print("endDate:" + endDate);

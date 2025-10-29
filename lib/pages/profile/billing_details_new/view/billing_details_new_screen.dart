@@ -4,6 +4,7 @@ import 'package:belcka/pages/profile/billing_details_new/view/widgets/no_billing
 import 'package:belcka/pages/profile/billing_details_new/view/widgets/pending_for_approval_view.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/other_widgets/user_avtar_view.dart';
@@ -80,8 +81,19 @@ class _BillingDetailsNewScreenState extends State<BillingDetailsNewScreen> {
                                           fontSize: 24, fontWeight: FontWeight.w600),
                                     ),
                                     SizedBox(height: 10),
-                                    InfoCard(label: 'phone_number'.tr, value:"${controller.billingInfo.value.extension ?? ""} ${controller.billingInfo.value.phone ?? ""}", isLink: true),
-                                    InfoCard(label: 'email'.tr, value: controller.billingInfo.value.email ?? "", isLink: true),
+                                    GestureDetector(
+                                      onTap: (){
+                                        AppUtils.onClickPhoneNumber("${controller.billingInfo.value.extension ?? ""}${controller.billingInfo.value.phone ?? ""}");
+                                      },
+                                        child: InfoCard(label: 'phone_number'.tr, value:"${controller.billingInfo.value.extension ?? ""} ${controller.billingInfo.value.phone ?? ""}", isLink: true)),
+
+                                    GestureDetector(
+                                      onTap: (){
+                                        if ((controller.billingInfo.value.email ?? "").isNotEmpty){
+                                          AppUtils.copyEmail(controller.billingInfo.value.email ?? "");
+                                        }
+                                      },
+                                        child: InfoCard(label: 'email'.tr, value: controller.billingInfo.value.email ?? "", isLink: true)),
                                     NavigationCard(value: controller.address),
                                     NavigationCard(label: 'tax_info'.tr, value: controller.taxInfo),
                                     NavigationCard(label: 'bank_details'.tr, value: controller.bankDetails),
@@ -93,6 +105,7 @@ class _BillingDetailsNewScreenState extends State<BillingDetailsNewScreen> {
                                           {
                                             var arguments = {
                                               AppConstants.intentKey.billingInfo: controller.billingInfo.value,
+                                              AppConstants.intentKey.userId : controller.userId
                                             };
                                             controller.moveToScreen(AppRoutes.ratesScreen, arguments);
                                           }
@@ -142,6 +155,7 @@ class _BillingDetailsNewScreenState extends State<BillingDetailsNewScreen> {
             {
               var arguments = {
                 AppConstants.intentKey.billingInfo: controller.billingInfo.value,
+                AppConstants.intentKey.userId : controller.userId
               };
               controller.moveToScreen(AppRoutes.billingInfoScreen, arguments);
             }

@@ -1,3 +1,4 @@
+import 'package:belcka/pages/project/project_info/model/geofence_info.dart';
 import 'package:belcka/web_services/response/module_info.dart';
 
 class ProjectInfo {
@@ -11,6 +12,7 @@ class ProjectInfo {
   bool? status;
   List<ModuleInfo>? shifts;
   List<ModuleInfo>? teams;
+  List<GeofenceInfo>? geoFences;
   int? addresses;
   int? trades;
   String? currency;
@@ -19,18 +21,19 @@ class ProjectInfo {
 
   ProjectInfo(
       {this.id,
-        this.name,
-        this.address,
-        this.budget,
-        this.code,
-        this.description,
-        this.isArchive,
-        this.status,
-        this.shifts,
-        this.teams,
-        this.addresses,
-        this.trades,
-        this.currency,
+      this.name,
+      this.address,
+      this.budget,
+      this.code,
+      this.description,
+      this.isArchive,
+      this.status,
+      this.shifts,
+      this.teams,
+      this.geoFences,
+      this.addresses,
+      this.trades,
+      this.currency,
       this.checkIns,
       this.completeAddress});
 
@@ -61,6 +64,12 @@ class ProjectInfo {
         teams!.add(new ModuleInfo.fromJson(v));
       });
     }
+    if (json['geofences'] != null) {
+      geoFences = <GeofenceInfo>[];
+      json['geofences'].forEach((v) {
+        geoFences!.add(new GeofenceInfo.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -85,6 +94,9 @@ class ProjectInfo {
     }
     if (this.teams != null) {
       data['teams'] = this.teams!.map((v) => v.toJson()).toList();
+    }
+    if (this.geoFences != null) {
+      data['geofences'] = this.geoFences!.map((v) => v.toJson()).toList();
     }
     return data;
   }

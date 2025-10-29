@@ -21,6 +21,7 @@ class AddressInfo {
   double? longitude;
   int? radius;
   String? type;
+  int? documents;
 
   AddressInfo(
       {this.id,
@@ -44,7 +45,8 @@ class AddressInfo {
       this.latitude,
       this.longitude,
       this.radius,
-      this.type});
+      this.type,
+      this.documents});
 
   AddressInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -68,15 +70,16 @@ class AddressInfo {
     latitude = (json['latitude'] is int)
         ? (json['latitude'] as int).toDouble()
         : (json['latitude'] is double)
-        ? json['latitude'] as double
-        : 0.0;
+            ? json['latitude'] as double
+            : 0.0;
     longitude = (json['longitude'] is int)
         ? (json['longitude'] as int).toDouble()
         : (json['longitude'] is double)
-        ? json['longitude'] as double
-        : 0.0;
+            ? json['longitude'] as double
+            : 0.0;
     radius = json['radius'];
     type = json['type'];
+    documents = json['documents'];
   }
 
   Map<String, dynamic> toJson() {
@@ -99,6 +102,7 @@ class AddressInfo {
     data['day_work'] = this.dayWork;
     data['total'] = this.total;
     data['check_ins'] = this.checkIns;
+    data['documents'] = this.documents;
 
     return data;
   }

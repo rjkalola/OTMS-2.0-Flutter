@@ -172,8 +172,8 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
               .where((e) => e.isApp ?? false)
               .toList());
           updateShiftValue(isClearValue: false);
-          getUserWorkLogListApi(isShiftClick: false, isProgress: false);
-          getNotificationCountApi(isProgress: false);
+          // getUserWorkLogListApi(isShiftClick: false, isProgress: false);
+          // getNotificationCountApi(isProgress: false);
           getUserProfileAPI();
         } else {
           // AppUtils.showSnackBarMessage(responseModel.statusMessage!);
@@ -455,6 +455,17 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
           ApiConstants.accessToken = response.info!.apiToken ?? "";
           AppUtils.saveLoginUser(response.info!);
           userInfo.value = Get.find<AppStorage>().getUserInfo();
+          print("(response.info?.companyId ?? 0):"+(response.info?.companyId ?? 0).toString());
+          // if ((response.info?.companyId ?? 0) != 0) {
+          //   getUserWorkLogListApi(isShiftClick: false, isProgress: false);
+          //   getNotificationCountApi(isProgress: false);
+          // } else {
+          //   ApiConstants.companyId = 0;
+          //   Get.find<AppStorage>().setCompanyId(ApiConstants.companyId);
+          //   var arguments = {AppConstants.intentKey.fromSignUpScreen: true};
+          //   Get.offAllNamed(AppRoutes.switchCompanyScreen,
+          //       arguments: arguments);
+          // }
         } else {
           // AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
@@ -609,14 +620,14 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       }
     } else {
       var arguments = {AppConstants.intentKey.fromSignUpScreen: true};
-      Get.offAllNamed(AppRoutes.joinCompanyScreen, arguments: arguments);
+      Get.offAllNamed(AppRoutes.switchCompanyScreen, arguments: arguments);
     }
   }
 
   Future<void> moveToScreen2(
       {required String appRout, dynamic arguments}) async {
     var result = await Get.toNamed(appRout, arguments: arguments);
-    getNotificationCountApi(isProgress: false);
+    // getNotificationCountApi(isProgress: false);
     getUserProfileAPI();
   }
 

@@ -1,3 +1,4 @@
+import 'package:belcka/utils/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -24,7 +25,11 @@ class NoBillingDataView extends StatelessWidget {
           ElevatedButton(
             onPressed: () {
               // Navigate to add billing info screen or show form
-              controller.moveToScreen(AppRoutes.billingInfoScreen, null);
+              var arguments = {
+                AppConstants.intentKey.billingInfo: controller.billingInfo.value,
+                AppConstants.intentKey.userId : controller.userId
+              };
+              controller.moveToScreen(AppRoutes.billingInfoScreen, arguments);
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: defaultAccentColor_(context),

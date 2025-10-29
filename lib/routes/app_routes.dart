@@ -4,7 +4,8 @@ class AppRoutes {
   static const String loginScreen = '/login_screen';
   static const String signUp1Screen = '/signup1_screen';
   static const String signUp2Screen = '/signup2_screen';
-  static const String updateSignUpDetailsScreen = '/update_sign_up_details_screen';
+  static const String updateSignUpDetailsScreen =
+      '/update_sign_up_details_screen';
   static const String verifyOtpScreen = '/verify_otp_screen';
   static const String dashboardScreen = '/dashboard_screen';
   static const String joinCompanyScreen = '/join_company_screen';
@@ -121,4 +122,5 @@ class AppRoutes {
   static const String inviteUserScreen = '/invite_user_screen';
   static const String createLeaveScreen = '/create_leave_screen';
   static const String leaveListScreen = '/leave_list_screen';
+  static const String addressDocumentsScreen = '/address_documents_screen';
 }

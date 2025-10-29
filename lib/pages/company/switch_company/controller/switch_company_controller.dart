@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:belcka/pages/company/company_list/controller/company_list_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -34,6 +35,7 @@ class SwitchCompanyController extends GetxController
   final companyList = <CompanyInfo>[].obs;
   int selectedCompanyId = 0;
   List<CompanyInfo> tempList = [];
+  bool fromSignUpScreen = false;
 
   @override
   void onInit() {
@@ -42,6 +44,11 @@ class SwitchCompanyController extends GetxController
     // if (arguments != null) {
     //   permissionId = arguments[AppConstants.intentKey.permissionId] ?? 0;
     // }
+    var arguments = Get.arguments;
+    if (arguments != null) {
+      fromSignUpScreen =
+          arguments[AppConstants.intentKey.fromSignUpScreen] ?? false;
+    }
     getSwitchCompanyListApi();
   }
 
@@ -92,6 +99,7 @@ class SwitchCompanyController extends GetxController
           AppUtils.showSnackBarMessage(response.Message ?? "");
           Get.find<AppStorage>().setCompanyId(selectedCompanyId);
           ApiConstants.companyId = selectedCompanyId;
+          print("ApiConstants.companyId:"+ApiConstants.companyId.toString());
           Get.back(result: true);
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
@@ -104,6 +112,42 @@ class SwitchCompanyController extends GetxController
           isInternetNotAvailable.value = true;
           // AppUtils.showSnackBarMessage('no_internet'.tr);
           // Utils.showSnackBarMessage('no_internet'.tr);
+        }
+      },
+    );
+  }
+
+  void deleteCompanyApi() {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["id"] = selectedCompanyId;
+    CompanyListRepository().deleteCompany(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          BaseResponse response =
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showToastMessage(response.Message ?? "");
+          if (selectedCompanyId == ApiConstants.companyId) {
+            ApiConstants.companyId = 0;
+            Get.find<AppStorage>().setCompanyId(ApiConstants.companyId);
+            // var arguments = {AppConstants.intentKey.fromSignUpScreen: true};
+            // Get.offAllNamed(AppRoutes.switchCompanyScreen, arguments: arguments);
+          }
+          getSwitchCompanyListApi();
+        } else {
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+          // AppUtils.showSnackBarMessage('no_internet'.tr);
+          // Utils.showSnackBarMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
         }
       },
     );
@@ -154,6 +198,9 @@ class SwitchCompanyController extends GetxController
     if (dialogIdentifier == AppConstants.dialogIdentifier.joinCompany) {
       Get.back();
       switchCompanyApi();
+    } else if (dialogIdentifier == AppConstants.dialogIdentifier.delete) {
+      Get.back();
+      deleteCompanyApi();
     }
   }
 
@@ -180,6 +227,28 @@ class SwitchCompanyController extends GetxController
     if (result != null && result) {
       isDataUpdated.value = true;
       getSwitchCompanyListApi();
+    }
+  }
+
+  showDeleteTeamDialog(int companyId) async {
+    selectedCompanyId = companyId;
+    AlertDialogHelper.showAlertDialog(
+        "",
+        'are_you_sure_you_want_to_delete'.tr,
+        'yes'.tr,
+        'no'.tr,
+        "",
+        true,
+        false,
+        this,
+        AppConstants.dialogIdentifier.delete);
+  }
+
+  void onBackPress() {
+    if (fromSignUpScreen) {
+      Get.offNamed(AppRoutes.dashboardScreen);
+    } else {
+      Get.back();
     }
   }
 }

@@ -9,6 +9,7 @@ class CustomMapView extends StatelessWidget {
       required this.target,
       this.markers,
       this.polylines,
+      this.polygons,
       this.circles,
       this.onCameraMove,
       this.initialZoom});
@@ -17,6 +18,7 @@ class CustomMapView extends StatelessWidget {
   final Rx<LatLng> target;
   final RxSet<Marker>? markers;
   final RxSet<Polyline>? polylines;
+  final RxSet<Polygon>? polygons;
   final RxSet<Circle>? circles;
   final CameraPositionCallback? onCameraMove;
   final double? initialZoom;
@@ -38,6 +40,7 @@ class CustomMapView extends StatelessWidget {
         onCameraMove: onCameraMove,
         markers: markers ?? <Marker>{},
         polylines: polylines ?? <Polyline>{},
+        polygons: polygons ?? <Polygon>{},
         circles: circles ?? <Circle>{},
       ),
     );
