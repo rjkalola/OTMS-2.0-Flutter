@@ -16,6 +16,7 @@ import 'package:google_maps_flutter_web/google_maps_flutter_web.dart';
 import 'package:image_cropper_for_web/image_cropper_for_web.dart';
 import 'package:image_picker_for_web/image_picker_for_web.dart';
 import 'package:permission_handler_html/permission_handler_html.dart';
+import 'package:syncfusion_pdfviewer_web/pdfviewer_web.dart';
 import 'package:url_launcher_web/url_launcher_web.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
@@ -31,6 +32,7 @@ void registerPlugins([final Registrar? pluginRegistrar]) {
   ImageCropperPlugin.registerWith(registrar);
   ImagePickerPlugin.registerWith(registrar);
   WebPermissionHandler.registerWith(registrar);
+  SyncfusionFlutterPdfViewerPlugin.registerWith(registrar);
   UrlLauncherPlugin.registerWith(registrar);
   registrar.registerMessageHandler();
 }

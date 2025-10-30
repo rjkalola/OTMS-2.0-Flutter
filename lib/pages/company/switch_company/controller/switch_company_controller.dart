@@ -30,7 +30,8 @@ class SwitchCompanyController extends GetxController
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
       isClearVisible = false.obs,
-      isDataUpdated = false.obs;
+      isDataUpdated = false.obs,
+      isHaveCompany = true.obs;
   final searchController = TextEditingController().obs;
   final companyList = <CompanyInfo>[].obs;
   int selectedCompanyId = 0;
@@ -63,6 +64,7 @@ class SwitchCompanyController extends GetxController
           isMainViewVisible.value = true;
           CompanyListResponse response =
               CompanyListResponse.fromJson(jsonDecode(responseModel.result!));
+          isHaveCompany.value = response.info!.isNotEmpty;
           tempList.clear();
           tempList.addAll(response.info ?? []);
           companyList.value = tempList;
@@ -99,7 +101,7 @@ class SwitchCompanyController extends GetxController
           AppUtils.showSnackBarMessage(response.Message ?? "");
           Get.find<AppStorage>().setCompanyId(selectedCompanyId);
           ApiConstants.companyId = selectedCompanyId;
-          print("ApiConstants.companyId:"+ApiConstants.companyId.toString());
+          print("ApiConstants.companyId:" + ApiConstants.companyId.toString());
           Get.back(result: true);
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");

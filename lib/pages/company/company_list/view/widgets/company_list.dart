@@ -7,6 +7,7 @@ import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/other_widgets/user_avtar_view.dart';
+import 'package:belcka/widgets/switch/custom_switch.dart';
 import 'package:belcka/widgets/text/PrimaryTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -72,6 +73,18 @@ class CompanyList extends StatelessWidget {
                                 ],
                               ),
                             ),
+                            // IconButton(
+                            //     onPressed: () {
+                            //       controller.showDeleteTeamDialog(info.id ?? 0);
+                            //     },
+                            //     icon: ImageUtils.setSvgAssetsImage(
+                            //         path: Drawable.deleteIcon,
+                            //         color: Colors.red,
+                            //         width: 26,
+                            //         height: 26)),
+                            SizedBox(
+                              width: 8,
+                            ),
                             IconButton(
                                 onPressed: () {
                                   controller.showDeleteTeamDialog(info.id ?? 0);
@@ -81,21 +94,18 @@ class CompanyList extends StatelessWidget {
                                     color: Colors.red,
                                     width: 26,
                                     height: 26)),
-                            // SizedBox(
-                            //   width: 6,
-                            // ),
-                            // Visibility(
-                            //   visible: ApiConstants.companyId != info.id,
-                            //   child: CustomSwitch(
-                            //       onValueChange: (value) {
-                            //         info.isActiveCompany =
-                            //             !(info.isActiveCompany ?? false);
-                            //         controller.companyList.refresh();
-                            //         controller
-                            //             .showSwitchCompanyDialog(info.id ?? 0);
-                            //       },
-                            //       mValue: info.isActiveCompany ?? false),
-                            // ),
+                            Visibility(
+                              visible: ApiConstants.companyId != info.id,
+                              child: CustomSwitch(
+                                  onValueChange: (value) {
+                                    info.isActiveCompany =
+                                        !(info.isActiveCompany ?? false);
+                                    controller.companyList.refresh();
+                                    controller
+                                        .showSwitchCompanyDialog(info.id ?? 0);
+                                  },
+                                  mValue: info.isActiveCompany ?? false),
+                            ),
                             SizedBox(
                               width: 6,
                             ),

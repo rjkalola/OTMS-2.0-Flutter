@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:belcka/pages/common/model/file_info.dart';
 import 'package:belcka/pages/common/model/user_info.dart';
+import 'package:belcka/pages/manageattachment/view/document_web_view.dart';
+import 'package:belcka/pages/manageattachment/view/pdf_viewer_page.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
@@ -15,7 +17,6 @@ import 'package:get/get.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
-import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
 import '../pages/common/widgets/image_preview_dialog.dart';
@@ -91,7 +92,19 @@ class ImageUtils {
     // } else if (type == 'audio') {
     //   await OpenFilex.open(path);
     // }
-
+    else if (type == 'pdf') {
+      print("View PDF");
+      print(path);
+      Get.to(() => PdfViewerPage(
+            url: path,
+          ));
+    }
+    // else if (type == 'document') {
+    //   print("document");
+    //   Get.to(() => DocumentWebView(
+    //         url: path,
+    //       ));
+    // }
     else {
       if (path.startsWith("http")) {
         final uri = Uri.parse(path);

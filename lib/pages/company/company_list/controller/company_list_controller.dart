@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
+import 'package:belcka/pages/company/switch_company/controller/switch_company_repository.dart';
 import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:belcka/utils/app_storage.dart';
 import 'package:belcka/web_services/response/base_response.dart';
@@ -30,7 +31,8 @@ class CompanyListController extends GetxController
       isMainViewVisible = false.obs,
       isClearVisible = false.obs,
       isDataUpdated = false.obs,
-      isDeleteEnable = false.obs;
+      isDeleteEnable = false.obs,
+      isHaveCompany = true.obs;
   final searchController = TextEditingController().obs;
   final companyList = <CompanyInfo>[].obs;
   int selectedCompanyId = 0;
@@ -57,6 +59,7 @@ class CompanyListController extends GetxController
           isMainViewVisible.value = true;
           CompanyListResponse response =
               CompanyListResponse.fromJson(jsonDecode(responseModel.result!));
+          isHaveCompany.value = response.info!.isNotEmpty;
           tempList.clear();
           tempList.addAll(response.info ?? []);
           companyList.value = tempList;
@@ -108,6 +111,38 @@ class CompanyListController extends GetxController
           // Utils.showSnackBarMessage('no_internet'.tr);
         } else if (error.statusMessage!.isNotEmpty) {
           AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
+
+  void switchCompanyApi() {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["user_id"] = UserUtils.getLoginUserId();
+    map["company_id"] = selectedCompanyId;
+    SwitchCompanyRepository().switchCompany(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          BaseResponse response =
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showSnackBarMessage(response.Message ?? "");
+          Get.find<AppStorage>().setCompanyId(selectedCompanyId);
+          ApiConstants.companyId = selectedCompanyId;
+          print("ApiConstants.companyId:" + ApiConstants.companyId.toString());
+          getCompanyListApi();
+        } else {
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+          // AppUtils.showSnackBarMessage('no_internet'.tr);
+          // Utils.showSnackBarMessage('no_internet'.tr);
         }
       },
     );
@@ -168,7 +203,7 @@ class CompanyListController extends GetxController
         'yes'.tr,
         'no'.tr,
         "",
-        true,
+        false,
         false,
         this,
         AppConstants.dialogIdentifier.delete);
@@ -177,6 +212,10 @@ class CompanyListController extends GetxController
   @override
   void onNegativeButtonClicked(String dialogIdentifier) {
     Get.back();
+    for (var info in companyList) {
+      info.isActiveCompany = false;
+    }
+    companyList.refresh();
   }
 
   @override
@@ -187,6 +226,23 @@ class CompanyListController extends GetxController
     if (dialogIdentifier == AppConstants.dialogIdentifier.delete) {
       Get.back();
       deleteCompanyApi();
+    } else if (dialogIdentifier == AppConstants.dialogIdentifier.joinCompany) {
+      Get.back();
+      switchCompanyApi();
     }
+  }
+
+  showSwitchCompanyDialog(int companyId) async {
+    selectedCompanyId = companyId;
+    AlertDialogHelper.showAlertDialog(
+        "",
+        'are_you_sure_you_want_to_switch'.tr,
+        'yes'.tr,
+        'no'.tr,
+        "",
+        false,
+        false,
+        this,
+        AppConstants.dialogIdentifier.joinCompany);
   }
 }

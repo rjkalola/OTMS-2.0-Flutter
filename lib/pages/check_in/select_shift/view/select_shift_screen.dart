@@ -49,6 +49,7 @@ class _SelectShiftScreenState extends State<SelectShiftScreen> {
                         target: controller.center,
                         circles: controller.circles,
                         polygons: controller.polygons,
+                        polylines: controller.polyLines,
                       ),
                       MapBackArrow(onBackPressed: () {
                         Get.back();

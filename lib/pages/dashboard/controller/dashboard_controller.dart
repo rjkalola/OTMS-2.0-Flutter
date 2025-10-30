@@ -71,7 +71,9 @@ class DashboardController extends GetxController
     FirebaseMessaging messaging = FirebaseMessaging.instance;
     String? token = await messaging.getToken();
     if (!StringHelper.isEmptyString(token)) {
-      registerFcmAPI(token ?? "");
+      if (ApiConstants.companyId != 0) {
+        registerFcmAPI(token ?? "");
+      }
     }
   }
 
@@ -89,7 +91,6 @@ class DashboardController extends GetxController
           BaseResponse response =
               BaseResponse.fromJson(jsonDecode(responseModel.result!));
           if (response.IsSuccess!) {
-
           } else {
             // AppUtils.showSnackBarMessage(response.message!);
           }

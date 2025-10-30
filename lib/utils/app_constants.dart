@@ -16,6 +16,7 @@ class AppConstants {
       CompanyResourcesFlag();
   static const NotificationType notificationType = NotificationType();
   static const FilterType filterType = FilterType();
+  static const ZoneType zoneType = ZoneType();
 
   static String deviceType = Platform.isAndroid ? "1" : "2";
   static const int productListLimit = 20;
@@ -369,4 +370,12 @@ class NotificationType {
   final String APPROVE_REQUEST = "9004";
   final String ADD_REQUEST = "9005";
   final String UPDATE_REQUEST = "9006";
+}
+
+class ZoneType {
+  const ZoneType(); //
+
+  final String circle = "circle";
+  final String polyline = "polyline";
+  final String polygon = "polygon";
 }

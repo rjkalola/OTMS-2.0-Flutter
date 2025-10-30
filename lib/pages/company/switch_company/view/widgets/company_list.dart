@@ -1,17 +1,16 @@
-import 'package:belcka/res/drawable.dart';
-import 'package:belcka/utils/image_utils.dart';
-import 'package:belcka/utils/user_utils.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:belcka/pages/common/model/user_info.dart';
 import 'package:belcka/pages/company/company_signup/model/company_info.dart';
 import 'package:belcka/pages/company/switch_company/controller/switch_company_controller.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/drawable.dart';
+import 'package:belcka/utils/image_utils.dart';
+import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/other_widgets/user_avtar_view.dart';
 import 'package:belcka/widgets/switch/custom_switch.dart';
 import 'package:belcka/widgets/text/PrimaryTextView.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CompanyList extends StatelessWidget {
   CompanyList({super.key});

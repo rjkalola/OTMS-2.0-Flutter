@@ -18,6 +18,7 @@ import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_storage.dart';
 import 'package:belcka/utils/data_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AppUtils {
@@ -341,5 +342,45 @@ class AppUtils {
       Clipboard.setData(ClipboardData(text: value ?? ""));
       AppUtils.showToastMessage('email_copied'.tr);
     }
+  }
+
+  static Circle getCircle(
+      {required String id,
+      required LatLng latLng,
+      Color? color,
+      required double radius}) {
+    final circle = Circle(
+      circleId: CircleId(id),
+      center: latLng,
+      radius: radius,
+      fillColor: (color ?? Colors.black).withValues(alpha: 0.3),
+      strokeColor: color ?? Colors.black,
+      strokeWidth: 2,
+    );
+    return circle;
+  }
+
+  static Polyline getPolyline(
+      {required String id, required List<LatLng> listLatLng, Color? color}) {
+    final polyline = Polyline(
+      polylineId: PolylineId(id),
+      color: color ?? Colors.black,
+      width: 2,
+      points: listLatLng,
+    );
+    return polyline;
+  }
+
+  static Polygon getPolygon(
+      {required String id, required List<LatLng> listLatLng, Color? color}) {
+    final polygon = Polygon(
+      polygonId: PolygonId(id),
+      points: listLatLng,
+      strokeWidth: 2,
+      strokeColor: color ?? Colors.black,
+      fillColor:
+          (color ?? Colors.black).withValues(alpha: 0.3), // new opacity API
+    );
+    return polygon;
   }
 }

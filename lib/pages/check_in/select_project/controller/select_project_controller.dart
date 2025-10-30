@@ -73,8 +73,8 @@ class SelectProjectController extends GetxController {
   void getProjectListApi() {
     isLoading.value = true;
     Map<String, dynamic> map = {};
-    // map["company_id"] = ApiConstants.companyId;
-    map["company_id"] = 0;
+    map["company_id"] = ApiConstants.companyId;
+    // map["company_id"] = 0;
 
     ProjectListRepository().getProjectList(
       queryParameters: map,

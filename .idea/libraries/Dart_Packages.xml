@@ -1136,6 +1136,55 @@
             </list>
           </value>
         </entry>
+        <entry key="syncfusion_flutter_pdf">
+          <value>
+            <list>
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/syncfusion_flutter_pdf-29.1.38/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="syncfusion_flutter_pdfviewer">
+          <value>
+            <list>
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/syncfusion_flutter_pdfviewer-29.1.38/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="syncfusion_flutter_signaturepad">
+          <value>
+            <list>
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/syncfusion_flutter_signaturepad-29.1.38/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="syncfusion_pdfviewer_macos">
+          <value>
+            <list>
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/syncfusion_pdfviewer_macos-29.1.38/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="syncfusion_pdfviewer_platform_interface">
+          <value>
+            <list>
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/syncfusion_pdfviewer_platform_interface-29.1.38/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="syncfusion_pdfviewer_web">
+          <value>
+            <list>
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/syncfusion_pdfviewer_web-29.1.38/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="syncfusion_pdfviewer_windows">
+          <value>
+            <list>
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/syncfusion_pdfviewer_windows-29.1.38/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="synchronized">
           <value>
             <list>
@@ -1507,6 +1556,13 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/string_scanner-1.3.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/syncfusion_flutter_core-29.1.38/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/syncfusion_flutter_datepicker-29.1.38/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/syncfusion_flutter_pdf-29.1.38/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/syncfusion_flutter_pdfviewer-29.1.38/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/syncfusion_flutter_signaturepad-29.1.38/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/syncfusion_pdfviewer_macos-29.1.38/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/syncfusion_pdfviewer_platform_interface-29.1.38/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/syncfusion_pdfviewer_web-29.1.38/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/syncfusion_pdfviewer_windows-29.1.38/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/synchronized-3.3.0+3/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/term_glyph-1.2.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/test_api-0.7.3/lib" />

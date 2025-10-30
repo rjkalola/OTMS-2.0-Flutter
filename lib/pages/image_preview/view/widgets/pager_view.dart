@@ -42,7 +42,7 @@ class PagerView extends StatelessWidget {
               child: PhotoViewGestureDetectorScope(
                 axis: Axis.vertical, // or Axis.all to allow all gestures
                 child: InkWell(
-                  onTap: () async{
+                  onTap: () async {
                     await ImageUtils.openAttachment(context, fileUrl, type);
                   },
                   child: DocumentView(

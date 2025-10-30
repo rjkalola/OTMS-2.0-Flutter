@@ -108,9 +108,11 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       UserPermissionsResponse response =
           Get.find<AppStorage>().getUserPermissionsResponse()!;
       listPermissions.clear();
-      // listPermissions.addAll(response.permissions ?? []);
-      listPermissions.addAll(
-          (response.permissions ?? []).where((e) => e.isApp ?? false).toList());
+      if (ApiConstants.companyId != 0) {
+        listPermissions.addAll((response.permissions ?? [])
+            .where((e) => e.isApp ?? false)
+            .toList());
+      }
       isMainViewVisible.value = true;
 
       bool isInternet = await AppUtils.interNetCheck();
@@ -151,60 +153,64 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
   }*/
 
   Future<void> getDashboardUserPermissionsApi(bool isProgress) async {
-    isLoading.value = isProgress;
-    Map<String, dynamic> map = {};
-    map["user_id"] = UserUtils.getLoginUserId();
-    map["company_id"] = ApiConstants.companyId;
-    map["status"] = 1;
+    if (ApiConstants.companyId != 0) {
+      isLoading.value = isProgress;
+      Map<String, dynamic> map = {};
+      map["user_id"] = UserUtils.getLoginUserId();
+      map["company_id"] = ApiConstants.companyId;
+      map["status"] = 1;
 
-    _api.getDashboardUserPermissionsApi(
-      data: map,
-      onSuccess: (ResponseModel responseModel) {
-        if (responseModel.isSuccess) {
-          isMainViewVisible.value = true;
-          UserPermissionsResponse response = UserPermissionsResponse.fromJson(
-              jsonDecode(responseModel.result!));
-          response.permissions!.add(DataUtils.getEditWidget());
-          AppStorage().setUserPermissionsResponse(response);
-          listPermissions.clear();
-          // listPermissions.addAll(response.permissions ?? []);
-          listPermissions.addAll((response.permissions ?? [])
-              .where((e) => e.isApp ?? false)
-              .toList());
-          updateShiftValue(isClearValue: false);
-          // getUserWorkLogListApi(isShiftClick: false, isProgress: false);
-          // getNotificationCountApi(isProgress: false);
-          getUserProfileAPI();
-        } else {
-          // AppUtils.showSnackBarMessage(responseModel.statusMessage!);
-        }
-        isLoading.value = false;
-      },
-      onError: (ResponseModel error) {
-        isLoading.value = false;
-        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
-          UserPermissionsResponse? response =
-              Get.find<AppStorage>().getUserPermissionsResponse();
-          if (response != null && response.permissions != null) {
-            UserPermissionsResponse response =
-                Get.find<AppStorage>().getUserPermissionsResponse()!;
+      _api.getDashboardUserPermissionsApi(
+        data: map,
+        onSuccess: (ResponseModel responseModel) {
+          if (responseModel.isSuccess) {
+            isMainViewVisible.value = true;
+            UserPermissionsResponse response = UserPermissionsResponse.fromJson(
+                jsonDecode(responseModel.result!));
+            response.permissions!.add(DataUtils.getEditWidget());
+            AppStorage().setUserPermissionsResponse(response);
             listPermissions.clear();
             listPermissions.addAll((response.permissions ?? [])
                 .where((e) => e.isApp ?? false)
                 .toList());
-            // listPermissions.addAll(response.permissions ?? []);
+            updateShiftValue(isClearValue: false);
+            // getUserWorkLogListApi(isShiftClick: false, isProgress: false);
+            // getNotificationCountApi(isProgress: false);
+            getUserProfileAPI();
           } else {
-            isInternetNotAvailable.value = true;
+            // AppUtils.showSnackBarMessage(responseModel.statusMessage!);
           }
-          print("isInternetNotAvailable.value:" +
-              isInternetNotAvailable.value.toString());
-          // AppUtils.showApiResponseMessage('no_internet'.tr);
-        }
-        // else if (error.statusMessage!.isNotEmpty) {
-        //   AppUtils.showSnackBarMessage(error.statusMessage!);
-        // }
-      },
-    );
+          isLoading.value = false;
+        },
+        onError: (ResponseModel error) {
+          isLoading.value = false;
+          if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+            UserPermissionsResponse? response =
+                Get.find<AppStorage>().getUserPermissionsResponse();
+            if (response != null && response.permissions != null) {
+              UserPermissionsResponse response =
+                  Get.find<AppStorage>().getUserPermissionsResponse()!;
+              listPermissions.clear();
+              listPermissions.addAll((response.permissions ?? [])
+                  .where((e) => e.isApp ?? false)
+                  .toList());
+            } else {
+              isInternetNotAvailable.value = true;
+            }
+            print("isInternetNotAvailable.value:" +
+                isInternetNotAvailable.value.toString());
+            // AppUtils.showApiResponseMessage('no_internet'.tr);
+          } else {
+            getUserProfileAPI();
+          }
+          // else if (error.statusMessage!.isNotEmpty) {
+          //   AppUtils.showSnackBarMessage(error.statusMessage!);
+          // }
+        },
+      );
+    } else {
+      getUserProfileAPI();
+    }
   }
 
   /*void changeDashboardUserPermissionSequenceApi(
@@ -455,17 +461,18 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
           ApiConstants.accessToken = response.info!.apiToken ?? "";
           AppUtils.saveLoginUser(response.info!);
           userInfo.value = Get.find<AppStorage>().getUserInfo();
-          print("(response.info?.companyId ?? 0):"+(response.info?.companyId ?? 0).toString());
-          // if ((response.info?.companyId ?? 0) != 0) {
-          //   getUserWorkLogListApi(isShiftClick: false, isProgress: false);
-          //   getNotificationCountApi(isProgress: false);
-          // } else {
-          //   ApiConstants.companyId = 0;
-          //   Get.find<AppStorage>().setCompanyId(ApiConstants.companyId);
-          //   var arguments = {AppConstants.intentKey.fromSignUpScreen: true};
-          //   Get.offAllNamed(AppRoutes.switchCompanyScreen,
-          //       arguments: arguments);
-          // }
+          print("(response.info?.companyId ?? 0):" +
+              (response.info?.companyId ?? 0).toString());
+          if ((response.info?.companyId ?? 0) != 0) {
+            getUserWorkLogListApi(isShiftClick: false, isProgress: false);
+            getNotificationCountApi(isProgress: false);
+          } else {
+            ApiConstants.companyId = 0;
+            Get.find<AppStorage>().setCompanyId(ApiConstants.companyId);
+            var arguments = {AppConstants.intentKey.fromSignUpScreen: true};
+            Get.offAllNamed(AppRoutes.switchCompanyScreen,
+                arguments: arguments);
+          }
         } else {
           // AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
@@ -616,6 +623,9 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       }
       if (Get.isBottomSheetOpen ?? false) {
         Get.back();
+        if (Get.isBottomSheetOpen ?? false) {
+          Navigator.of(Get.context!).pop();
+        }
         showControlPanelDialog();
       }
     } else {

@@ -1,3 +1,5 @@
+import 'package:belcka/pages/company/switch_company/view/widgets/empty_company_widget.dart';
+import 'package:belcka/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -40,7 +42,7 @@ class _SwitchCompanyScreenState extends State<SwitchCompanyScreen> {
                 title: 'switch_company'.tr,
                 isCenterTitle: false,
                 isBack: false,
-                onBackPressed: (){
+                onBackPressed: () {
                   controller.onBackPress();
                 },
                 bgColor: dashBoardBgColor_(context),
@@ -63,8 +65,18 @@ class _SwitchCompanyScreenState extends State<SwitchCompanyScreen> {
                             child: Column(
                               children: [
                                 Divider(),
-                                SearchCompany(),
-                                CompanyList()
+                                controller.isHaveCompany.value
+                                    ? SearchCompany()
+                                    : Container(),
+                                controller.isHaveCompany.value
+                                    ? CompanyList()
+                                    : EmptyCompanyWidget(
+                                        onPressedJoin: () {
+                                          controller.moveToScreen(
+                                              AppRoutes.joinCompanyScreen,
+                                              null);
+                                        },
+                                      )
                               ],
                             ),
                           ));

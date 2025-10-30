@@ -102,7 +102,9 @@ class SelectShiftController extends GetxController {
           }
           shiftList.value = tempList;
           shiftList.refresh();
-          getProjectDetailsApi();
+          if (projectId != 0) {
+            getProjectDetailsApi();
+          }
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
@@ -286,7 +288,8 @@ class SelectShiftController extends GetxController {
   void setZones() {
     if (projectInfo.value.geoFences != null) {
       for (GeofenceInfo info in projectInfo.value.geoFences!) {
-        if ((info.type ?? "") == "circle" && info.radius != null) {
+        if ((info.type ?? "") == AppConstants.zoneType.circle &&
+            info.radius != null) {
           print("info.latitude:" + info.latitude!.toString());
           print("info.longitude:" + info.longitude!.toString());
           LatLng latLng = LatLng(double.parse(info.latitude ?? "0.0"),
@@ -294,20 +297,16 @@ class SelectShiftController extends GetxController {
           Color color = !StringHelper.isEmptyString(info.color)
               ? AppUtils.getColor(info.color ?? "")
               : Colors.blue;
-          final circle = Circle(
-            circleId: CircleId((info.id ?? 0).toString()),
-            center: latLng,
-            radius: info.radius ?? 0,
-            fillColor: color.withValues(alpha: 0.3),
-            strokeColor: color,
-            strokeWidth: 2,
-          );
+          final circle = AppUtils.getCircle(
+              id: (info.id ?? 0).toString(),
+              latLng: latLng,
+              radius: info.radius ?? 0,
+              color: color);
           final updatedCircles = Set<Circle>.from(circles);
           updatedCircles.add(circle);
           circles.value = updatedCircles;
-        } else if ((info.type ?? "") == "polygon" && info.coordinates != null) {
-          print("info.latitude:" + info.latitude!.toString());
-          print("info.longitude:" + info.longitude!.toString());
+        } else if ((info.type ?? "") == AppConstants.zoneType.polygon &&
+            info.coordinates != null) {
           List<LatLng> listLatLng = [];
           for (GeofenceCoordinates coordinates in info.coordinates!) {
             LatLng latLng = LatLng(coordinates.lat ?? 0, coordinates.lng ?? 0);
@@ -316,16 +315,30 @@ class SelectShiftController extends GetxController {
           Color color = !StringHelper.isEmptyString(info.color)
               ? AppUtils.getColor(info.color ?? "")
               : Colors.blue;
-          final polygon = Polygon(
-            polygonId: const PolygonId('area1'),
-            points: listLatLng,
-            strokeWidth: 2,
-            strokeColor: color,
-            fillColor: color.withValues(alpha: 0.3), // new opacity API
-          );
+          final polygon = AppUtils.getPolygon(
+              id: (info.id ?? 0).toString(),
+              listLatLng: listLatLng,
+              color: color);
           final updatedPolygon = Set<Polygon>.from(polygons);
           updatedPolygon.add(polygon);
           polygons.value = updatedPolygon;
+        } else if ((info.type ?? "") == AppConstants.zoneType.polyline &&
+            info.coordinates != null) {
+          List<LatLng> listLatLng = [];
+          for (GeofenceCoordinates coordinates in info.coordinates!) {
+            LatLng latLng = LatLng(coordinates.lat ?? 0, coordinates.lng ?? 0);
+            listLatLng.add(latLng);
+          }
+          Color color = !StringHelper.isEmptyString(info.color ?? "")
+              ? AppUtils.getColor(info.color ?? "#000000")
+              : Colors.blue;
+          final polyline = AppUtils.getPolyline(
+              id: (info.id ?? 0).toString(),
+              listLatLng: listLatLng,
+              color: color);
+          final updatedPolyline = Set<Polyline>.from(polyLines);
+          updatedPolyline.add(polyline);
+          polyLines.value = updatedPolyline;
         }
       }
     }
