@@ -2,7 +2,7 @@ class LocationInfo {
   String? latitude;
   String? longitude;
   String? location;
-  int? radius;
+  double? radius;
 
   LocationInfo({this.latitude, this.longitude, this.location, this.radius});
 
@@ -10,7 +10,12 @@ class LocationInfo {
     latitude = json['latitude'];
     longitude = json['longitude'];
     location = json['location'];
-    radius = json['radius'];
+    // radius = json['radius'];
+    radius = (json['radius'] is int)
+        ? (json['radius'] as int).toDouble()
+        : (json['radius'] is double)
+            ? json['radius'] as double
+            : 0.0;
   }
 
   Map<String, dynamic> toJson() {

@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/drawable.dart';
 import 'package:belcka/res/theme/theme_config.dart';
 import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/widgets/text/PrimaryTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -100,25 +102,41 @@ class DocumentView extends StatelessWidget {
           return Center(
             child: Icon(Icons.videocam,
                 size: documentIconSize ?? 34,
-                color: secondaryExtraLightTextColor_(Get.context!)),
+                color: defaultAccentColor_(Get.context!)),
           );
         case 'audio':
           return Center(
             child: Icon(Icons.audiotrack,
                 size: documentIconSize ?? 34,
-                color: secondaryExtraLightTextColor_(Get.context!)),
+                color: defaultAccentColor_(Get.context!)),
           );
         case 'document':
           return Center(
-            child: Icon(Icons.insert_drive_file,
-                size: documentIconSize ?? 34,
-                color: secondaryExtraLightTextColor_(Get.context!)),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Icon(Icons.insert_drive_file,
+                    size: documentIconSize ?? 50,
+                    color: secondaryExtraLightTextColor_(Get.context!)),
+                Padding(
+                  padding: const EdgeInsets.only(top: 9),
+                  child: PrimaryTextView(
+                    text: file!.split('.').last.toUpperCase(),
+                    fontSize: 8,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                  ),
+                )
+              ],
+            ),
           );
         case 'pdf':
           return Center(
-            child: Icon(Icons.picture_as_pdf_outlined,
-                size: documentIconSize ?? 34,
-                color: secondaryExtraLightTextColor_(Get.context!)),
+            child: ImageUtils.setSvgAssetsImage(
+                path: Drawable.pdfIcon,
+                width: 38,
+                height: 38,
+                color: Colors.red),
           );
         default:
           return Center(

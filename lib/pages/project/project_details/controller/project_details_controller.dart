@@ -102,7 +102,7 @@ class ProjectDetailsController extends GetxController
   @override
   void onInit() {
     super.onInit();
-    isMainViewVisible.value = true;
+    // isMainViewVisible.value = true;
     pageController = PageController(initialPage: selectedIndex.value);
     var arguments = Get.arguments;
     if (arguments != null) {

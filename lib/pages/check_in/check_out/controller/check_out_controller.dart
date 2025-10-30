@@ -799,12 +799,12 @@ class CheckOutController extends GetxController
     }
   }
 
-  Future<void> setCircle(LatLng? latLng, int radius) async {
+  Future<void> setCircle(LatLng? latLng, double radius) async {
     if (latLng != null) {
       Circle circle = Circle(
         circleId: const CircleId("circle"),
         center: latLng,
-        radius: radius.toDouble(),
+        radius: radius,
         fillColor: Color(0x4D0065ff),
         strokeColor: Colors.blue,
         strokeWidth: 2,

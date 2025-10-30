@@ -49,51 +49,57 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
       );
     }
 
-    return Scaffold(
-      backgroundColor: dashBoardBgColor_(context),
-      appBar: BaseAppBar(
-        appBar: AppBar(),
-        title: 'pdf_viewer'.tr,
-        isCenterTitle: false,
-        isBack: true,
-        bgColor: dashBoardBgColor_(context),
-        // widgets: actionButtons(),
-      ),
-      body: Stack(
-        children: [
-          Container(
-              alignment: Alignment.centerLeft,
-              width: double.infinity,
-              height: double.infinity,
-              child: pdfViewer),
-          if (_isLoading)
-            const Center(
-              child: CustomProgressbar(),
-            ),
-          if (_hasError)
-            Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(Icons.error_outline, color: Colors.red, size: 60),
-                  const SizedBox(height: 12),
-                  PrimaryTextView(
-                    text: _errorMessage,
-                    fontSize: 16,
+    return Container(
+      color: dashBoardBgColor_(context),
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: dashBoardBgColor_(context),
+          appBar: BaseAppBar(
+            appBar: AppBar(),
+            title: 'pdf_viewer'.tr,
+            isCenterTitle: false,
+            isBack: true,
+            bgColor: dashBoardBgColor_(context),
+            // widgets: actionButtons(),
+          ),
+          body: Stack(
+            children: [
+              Container(
+                  alignment: Alignment.centerLeft,
+                  width: double.infinity,
+                  height: double.infinity,
+                  child: pdfViewer),
+              if (_isLoading)
+                const Center(
+                  child: CustomProgressbar(),
+                ),
+              if (_hasError)
+                Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.error_outline,
+                          color: Colors.red, size: 60),
+                      const SizedBox(height: 12),
+                      PrimaryTextView(
+                        text: _errorMessage,
+                        fontSize: 16,
+                      ),
+                      SizedBox(height: 8),
+                      PrimaryButton(
+                          width: 120,
+                          height: 36,
+                          buttonText: 'reload'.tr,
+                          fontWeight: FontWeight.w400,
+                          onPressed: () {
+                            setState(() => _hasError = false);
+                          }),
+                    ],
                   ),
-                  SizedBox(height: 8),
-                  PrimaryButton(
-                      width: 120,
-                      height: 36,
-                      buttonText: 'reload'.tr,
-                      fontWeight: FontWeight.w400,
-                      onPressed: () {
-                        setState(() => _hasError = false);
-                      }),
-                ],
-              ),
-            ),
-        ],
+                ),
+            ],
+          ),
+        ),
       ),
     );
   }

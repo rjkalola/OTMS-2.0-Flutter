@@ -81,7 +81,10 @@ class AddAddressController extends GetxController {
       if (latitude != 0 && longitude != 0) {
         selectedLatLng.value = LatLng(latitude, longitude);
       }
-      double radius = addressDetailsInfo?.radius?.toDouble() ?? 0;
+      double radius = addressDetailsInfo?.radius ?? 0;
+      if (radius > 100) {
+        radius = 100;
+      }
       circleRadius.value = radius != 0 ? radius : 50;
 
       siteAddressController.value.text = addressDetailsInfo?.name ?? "";

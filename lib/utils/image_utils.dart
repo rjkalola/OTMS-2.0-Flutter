@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:belcka/pages/common/model/file_info.dart';
 import 'package:belcka/pages/common/model/user_info.dart';
+import 'package:belcka/pages/manageattachment/view/audio_player_screen.dart';
 import 'package:belcka/pages/manageattachment/view/document_web_view.dart';
 import 'package:belcka/pages/manageattachment/view/pdf_viewer_page.dart';
+import 'package:belcka/pages/manageattachment/view/video_player_screen.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
@@ -88,18 +90,20 @@ class ImageUtils {
       ImageUtils.showImagePreviewDialog(path);
     }
     // else if (type == 'video') {
-    //   await OpenFilex.open(path); // Quick open via external app
+    //   Get.to(() => VideoPlayerScreen(
+    //         source: path,
+    //         // isNetwork: path.startsWith("http"),
+    //       ));
     // } else if (type == 'audio') {
-    //   await OpenFilex.open(path);
+    //   Get.to(() => AudioPlayerScreen(url: path));
     // }
     else if (type == 'pdf') {
-      print("View PDF");
-      print(path);
       Get.to(() => PdfViewerPage(
             url: path,
           ));
     }
     // else if (type == 'document') {
+    //   final ext = path.split('.').last.toLowerCase();
     //   print("document");
     //   Get.to(() => DocumentWebView(
     //         url: path,
@@ -107,6 +111,17 @@ class ImageUtils {
     // }
     else {
       if (path.startsWith("http")) {
+        /* final ext = path.split('.').last.toLowerCase();
+        if (ext == 'doc' || ext == 'docx') {
+          Get.to(() => DocumentWebView(
+                url: path,
+              ));
+        } else {
+          final uri = Uri.parse(path);
+          if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+            throw 'Could not open $path';
+          }
+        }*/
         final uri = Uri.parse(path);
         if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
           throw 'Could not open $path';

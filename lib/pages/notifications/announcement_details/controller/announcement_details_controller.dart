@@ -121,8 +121,12 @@ class AnnouncementDetailsController extends GetxController
     );
   }
 
-  onGridItemClick(int index, String action, int parentIndex) {
-    ImageUtils.moveToImagePreview(info.value.documents!, index);
+  onGridItemClick(int index, String action, int parentIndex) async {
+    // ImageUtils.moveToImagePreview(info.value.documents!, index);
+    String fileUrl =
+        info.value.documents![index].imageUrl ?? "";
+    await ImageUtils.openAttachment(
+        Get.context!, fileUrl, ImageUtils.getFileType(fileUrl));
   }
 
   void showMenuItemsDialog(BuildContext context) {

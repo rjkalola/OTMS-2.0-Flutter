@@ -101,9 +101,13 @@ class AnnouncementTabController extends GetxController {
     }
   }
 
-  onGridItemClick(int index, String action, int parentIndex) {
-    ImageUtils.moveToImagePreview(
-        announcementList[parentIndex].documents!, index);
+  onGridItemClick(int index, String action, int parentIndex) async {
+    // ImageUtils.moveToImagePreview(
+    //     announcementList[parentIndex].documents!, index);
+    String fileUrl =
+        announcementList[parentIndex].documents![index].imageUrl ?? "";
+    await ImageUtils.openAttachment(
+        Get.context!, fileUrl, ImageUtils.getFileType(fileUrl));
   }
 
   Future<void> moveToScreen(String rout, dynamic arguments) async {

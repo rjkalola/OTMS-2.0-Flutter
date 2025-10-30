@@ -194,18 +194,17 @@ class CreateAnnouncementController extends GetxController
     }
   }
 
-  onGridItemClick(int index, String action) {
+  onGridItemClick(int index, String action) async {
     if (action == AppConstants.action.viewPhoto) {
       if (index == 0) {
         showAttachmentOptionsDialog();
       } else {
-        var list = attachmentList.sublist(1, attachmentList.length);
-        ImageUtils.moveToImagePreview(list, index - 1);
+        // var list = attachmentList.sublist(1, attachmentList.length);
+        // ImageUtils.moveToImagePreview(list, index - 1);
 
-        /*  final type = ImageUtils.getFileType(attachmentList[index].imageUrl??"");
-        print("type"+type);
-        print("type2"+(attachmentList[index].imageUrl??""));
-        ImageUtils.openAttachment(Get.context!, attachmentList[index].imageUrl??"", type);*/
+        String fileUrl = attachmentList[index].imageUrl ?? "";
+        await ImageUtils.openAttachment(
+            Get.context!, fileUrl, ImageUtils.getFileType(fileUrl));
       }
     } else if (action == AppConstants.action.removePhoto) {
       removePhotoFromList(index: index);

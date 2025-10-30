@@ -19,7 +19,7 @@ class AddressInfo {
   int? checkIns;
   double? latitude;
   double? longitude;
-  int? radius;
+  double? radius;
   String? type;
   int? documents;
 
@@ -77,7 +77,13 @@ class AddressInfo {
         : (json['longitude'] is double)
             ? json['longitude'] as double
             : 0.0;
-    radius = json['radius'];
+    // radius = json['radius'];
+    radius = (json['radius'] is int)
+        ? (json['radius'] as int).toDouble()
+        : (json['radius'] is double)
+            ? json['radius'] as double
+            : 0.0;
+
     type = json['type'];
     documents = json['documents'];
   }

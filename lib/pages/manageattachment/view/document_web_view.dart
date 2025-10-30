@@ -53,29 +53,34 @@ class _DocumentWebViewState extends State<DocumentWebView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: dashBoardBgColor_(context),
-      appBar: BaseAppBar(
-        appBar: AppBar(),
-        title: 'pdf_viewer'.tr,
-        isCenterTitle: false,
-        isBack: true,
-        bgColor: dashBoardBgColor_(context),
-        // widgets: actionButtons(),
-      ),
-      body: Stack(
-        children: [
-          if (widget.url.startsWith("http") && _controller != null)
-            WebViewWidget(controller: _controller!)
-          else if (widget.url.startsWith("http"))
-            const Center(
-              child: Text('Failed to load document'),
-            ),
-          if (_isLoading)
-            const Center(
-              child: CustomProgressbar(),
-            ),
-        ],
+    return Container(
+      color: dashBoardBgColor_(context),
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: dashBoardBgColor_(context),
+          appBar: BaseAppBar(
+            appBar: AppBar(),
+            title: 'documents'.tr,
+            isCenterTitle: false,
+            isBack: true,
+            bgColor: dashBoardBgColor_(context),
+            // widgets: actionButtons(),
+          ),
+          body: Stack(
+            children: [
+              if (widget.url.startsWith("http") && _controller != null)
+                WebViewWidget(controller: _controller!)
+              else if (widget.url.startsWith("http"))
+                const Center(
+                  child: Text('Failed to load document'),
+                ),
+              if (_isLoading)
+                const Center(
+                  child: CustomProgressbar(),
+                ),
+            ],
+          ),
+        ),
       ),
     );
   }
