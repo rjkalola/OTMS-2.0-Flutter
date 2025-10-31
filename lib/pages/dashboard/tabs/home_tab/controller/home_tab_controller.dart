@@ -27,6 +27,7 @@ import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:get/get.dart';
 
 class HomeTabController extends GetxController // with WidgetsBindingObserver
@@ -427,6 +428,12 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
                   jsonDecode(responseModel.result!));
           notificationCount.value =
               (response.feedCount ?? 0) + (response.announcementCount ?? 0);
+
+          if (notificationCount.value > 0) {
+            FlutterAppBadger.updateBadgeCount(notificationCount.value);
+          } else {
+            FlutterAppBadger.removeBadge();
+          }
         } else {
           // AppUtils.showSnackBarMessage(responseModel.statusMessage!);
         }
@@ -436,8 +443,8 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
         isLoading.value = false;
         if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
           /*  isInternetNotAvailable.value = true;
-          print("isInternetNotAvailable.value:" +
-              isInternetNotAvailable.value.toString());*/
+        print("isInternetNotAvailable.value:" +
+            isInternetNotAvailable.value.toString());*/
           // AppUtils.showApiResponseMessage('no_internet'.tr);
         }
         // else if (error.statusMessage!.isNotEmpty) {

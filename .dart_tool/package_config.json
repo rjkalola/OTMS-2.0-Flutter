@@ -116,6 +116,24 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "cloud_firestore",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/cloud_firestore-6.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
+      "name": "cloud_firestore_platform_interface",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/cloud_firestore_platform_interface-7.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
+      "name": "cloud_firestore_web",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/cloud_firestore_web-5.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
       "name": "collection",
       "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/collection-1.19.0",
       "packageUri": "lib/",
@@ -282,6 +300,12 @@
       "rootUri": "file:///Users/apple/Documents/flutterDev/flutter/packages/flutter",
       "packageUri": "lib/",
       "languageVersion": "3.3"
+    },
+    {
+      "name": "flutter_app_badger",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/flutter_app_badger-1.5.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "flutter_cache_manager",
@@ -1226,7 +1250,7 @@
       "languageVersion": "3.2"
     }
   ],
-  "generated": "2025-10-30T13:27:29.324982Z",
+  "generated": "2025-10-31T05:37:54.952979Z",
   "generator": "pub",
   "generatorVersion": "3.6.2",
   "flutterRoot": "file:///Users/apple/Documents/flutterDev/flutter",

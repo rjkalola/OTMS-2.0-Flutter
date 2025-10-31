@@ -135,6 +135,27 @@
             </list>
           </value>
         </entry>
+        <entry key="cloud_firestore">
+          <value>
+            <list>
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/cloud_firestore-6.0.2/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="cloud_firestore_platform_interface">
+          <value>
+            <list>
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/cloud_firestore_platform_interface-7.0.2/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="cloud_firestore_web">
+          <value>
+            <list>
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/cloud_firestore_web-5.0.2/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="collection">
           <value>
             <list>
@@ -328,6 +349,13 @@
           <value>
             <list>
               <option value="$PROJECT_DIR$/../../../flutterDev/flutter/packages/flutter/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="flutter_app_badger">
+          <value>
+            <list>
+              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_app_badger-1.5.0/lib" />
             </list>
           </value>
         </entry>
@@ -1445,6 +1473,9 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/checked_yaml-2.0.3/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/cli_util-0.4.2/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/clock-1.1.1/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/cloud_firestore-6.0.2/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/cloud_firestore_platform_interface-7.0.2/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/cloud_firestore_web-5.0.2/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/collection-1.19.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/convert-3.1.2/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/cross_file-0.3.4+2/lib" />
@@ -1472,6 +1503,7 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_messaging_platform_interface-4.7.2/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_messaging_web-4.0.2/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/fixnum-1.1.1/lib" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_app_badger-1.5.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_cache_manager-3.4.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_html-3.0.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_image_compress-2.4.0/lib" />

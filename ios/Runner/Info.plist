@@ -55,6 +55,10 @@
 	<array>
 		<string>remote-notification</string>
 	</array>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+    <true/>
+    <key>NSUserTrackingUsageDescription</key>
+    <string>We use this to deliver personalized notifications and track app activity.</string>
 	<key>UIFileSharingEnabled</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

@@ -1,6 +1,8 @@
 import 'package:belcka/utils/notification_service.dart';
 import 'package:bot_toast/bot_toast.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:get/get.dart';
 import 'package:belcka/pages/authentication/splash/splash_screen.dart';
 import 'package:belcka/res/strings.dart';
@@ -29,6 +31,13 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final ThemeController themeController = Get.find();
+  RxInt badgeCount = 0.obs;
+
+  @override
+  void initState() {
+    super.initState();
+    listenToFeedUpdates();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,5 +63,24 @@ class _MyAppState extends State<MyApp> {
         home: SplashScreen(),
       ),
     );
+  }
+  
+  void listenToFeedUpdates() {
+    FirebaseFirestore.instance
+        .collection('feeds')
+        .snapshots()
+        .listen((snapshot) {
+      final newCount = snapshot.docs.length; // or filter unread feeds
+      setBadgeCount(newCount);
+    });
+  }
+
+  void setBadgeCount(int count) async {
+    setState(() => badgeCount.value = count);
+    if (count > 0) {
+      FlutterAppBadger.updateBadgeCount(count);
+    } else {
+      FlutterAppBadger.removeBadge();
+    }
   }
 }
