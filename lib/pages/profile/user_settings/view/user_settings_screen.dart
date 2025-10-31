@@ -72,7 +72,7 @@ class UserSettingsScreen extends StatelessWidget {
                                   builder: (context) => MyWebViewScreen(
                                     url:
                                         'http://devsystem.belcka.com:3001/app-info',
-                                    pageTitle:'app_info'.tr,
+                                    pageTitle: 'app_info'.tr,
                                   ),
                                 ),
                               );
@@ -93,6 +93,14 @@ class UserSettingsScreen extends StatelessWidget {
                             },
                             isDestructive: true,
                           ),
+                          _buildSettingItem(
+                            icon: Icons.logout,
+                            title: 'logout'.tr,
+                            onTap: () {
+                              controller.showLogoutDialog();
+                            },
+                            isDestructive: true,
+                          ),
                         ],
                       ),
               ),
@@ -107,16 +115,19 @@ class UserSettingsScreen extends StatelessWidget {
     String? subtitle,
     required VoidCallback onTap,
     bool isDestructive = false,
-
   }) {
     return CardViewDashboardItem(
         margin: EdgeInsets.fromLTRB(12, 6, 12, 6),
         child: ListTile(
           contentPadding:
-          const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           leading: Icon(
             icon,
-            color: isDestructive ? Colors.red : ThemeConfig.isDarkMode ? Colors.white : Colors.black,
+            color: isDestructive
+                ? Colors.red
+                : ThemeConfig.isDarkMode
+                    ? Colors.white
+                    : Colors.black,
             size: 32,
           ),
           title: Text(
@@ -124,7 +135,11 @@ class UserSettingsScreen extends StatelessWidget {
             style: TextStyle(
               fontWeight: FontWeight.w500,
               fontSize: 18,
-              color: isDestructive ? Colors.red : ThemeConfig.isDarkMode ? Colors.white : Colors.black,
+              color: isDestructive
+                  ? Colors.red
+                  : ThemeConfig.isDarkMode
+                      ? Colors.white
+                      : Colors.black,
             ),
           ),
           subtitle: subtitle != null ? Text(subtitle) : null,
@@ -133,4 +148,3 @@ class UserSettingsScreen extends StatelessWidget {
         ));
   }
 }
-

@@ -1,4 +1,4 @@
-class MyRequestInfo{
+class MyRequestInfo {
   int? id;
   int? userId;
   String? date;
@@ -15,24 +15,26 @@ class MyRequestInfo{
   String? statusText;
   int? requestType;
   String? typeName;
+  int? leaveId;
 
   MyRequestInfo(
       {this.id,
-        this.userId,
-        this.date,
-        this.status,
-        this.rejectReason,
-        this.message,
-        this.userName,
-        this.userImage,
-        this.weekStart,
-        this.weekEnd,
-        this.startTime,
-        this.endTime,
-        this.note,
-        this.statusText,
-        this.requestType,
-      this.typeName});
+      this.userId,
+      this.date,
+      this.status,
+      this.rejectReason,
+      this.message,
+      this.userName,
+      this.userImage,
+      this.weekStart,
+      this.weekEnd,
+      this.startTime,
+      this.endTime,
+      this.note,
+      this.statusText,
+      this.requestType,
+      this.typeName,
+      this.leaveId});
 
   MyRequestInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -51,6 +53,7 @@ class MyRequestInfo{
     statusText = json['status_text'];
     requestType = json['request_type'];
     typeName = json['type_name'];
+    leaveId = json['leave_id'];
   }
 
   Map<String, dynamic> toJson() {
@@ -71,6 +74,7 @@ class MyRequestInfo{
     data['status_text'] = this.statusText;
     data['request_type'] = this.requestType;
     data['type_name'] = this.typeName;
+    data['leave_id'] = this.leaveId;
     return data;
   }
 }

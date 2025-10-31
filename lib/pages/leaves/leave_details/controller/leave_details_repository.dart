@@ -20,4 +20,38 @@ class LeaveDetailsRepository {
       onError: (error) => {if (onError != null) onError(error)},
     );
   }
+
+  void approveLeave({
+    Map<String, dynamic>? queryParameters,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+            url: ApiConstants.approveLeave,
+            queryParameters: queryParameters,
+            isFormData: false)
+        .postRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
+
+  void rejectLeave({
+    Map<String, dynamic>? queryParameters,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+            url: ApiConstants.rejectLeave,
+            queryParameters: queryParameters,
+            isFormData: false)
+        .postRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
 }

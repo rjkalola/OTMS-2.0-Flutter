@@ -257,6 +257,18 @@ class AppUtils {
     return color;
   }
 
+  static String getStatusText(int status) {
+    String statusText = "";
+    if (status == AppConstants.status.approved) {
+      statusText = 'approved'.tr;
+    } else if (status == AppConstants.status.rejected) {
+      statusText = 'rejected'.tr;
+    }else if (status == AppConstants.status.pending) {
+      statusText = 'pending'.tr;
+    }
+    return statusText;
+  }
+
   static void setStatusBarColor() {
     ThemeController themeController = Get.find();
     bool isDarkMode = themeController.isDarkMode;

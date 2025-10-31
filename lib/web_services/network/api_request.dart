@@ -175,8 +175,8 @@ class ApiRequest {
         if (kDebugMode) print("URL ==> $url");
         if (kDebugMode) print("isFormData ==> $isFormData");
         if (!isFormData!) {
-          if (kDebugMode) print("Request Data1 ==> ${data.toString()}");
           if (data != null) {
+            if (kDebugMode) print("Request Data1 ==> ${data.toString()}");
             response = await dio.post(
               url,
               data: data,
@@ -185,6 +185,8 @@ class ApiRequest {
               ),
             );
           } else {
+            if (kDebugMode)
+              print("Request queryParameters ==> ${queryParameters.toString()}");
             response = await dio.post(
               url,
               queryParameters: queryParameters,

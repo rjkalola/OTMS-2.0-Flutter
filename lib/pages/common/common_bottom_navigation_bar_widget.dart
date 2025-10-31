@@ -13,7 +13,11 @@ class CommonBottomNavigationBarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return SizedBox(
+      height: 1,
+      width: 1,
+    );
+   /* return Padding(
       padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 8),
@@ -56,6 +60,6 @@ class CommonBottomNavigationBarWidget extends StatelessWidget {
           }),
         ),
       ),
-    );
+    );*/
   }
 }

@@ -31,6 +31,7 @@ import 'package:belcka/pages/dashboard/view/dashboard_screen.dart';
 import 'package:belcka/pages/filter/view/filter_screen.dart';
 import 'package:belcka/pages/image_preview/view/image_preview_screen.dart';
 import 'package:belcka/pages/leaves/add_leave/view/create_leave_screen.dart';
+import 'package:belcka/pages/leaves/leave_details/view/leave_details_screen.dart';
 import 'package:belcka/pages/leaves/leave_list/view/leave_list_screen.dart';
 import 'package:belcka/pages/my_requests/view/my_requests_screen.dart';
 import 'package:belcka/pages/notifications/announcement_details/view/announcement_details_screen.dart';
@@ -358,5 +359,7 @@ class AppPages {
     GetPage(name: AppRoutes.inviteUserScreen, page: () => InviteUserScreen()),
     GetPage(name: AppRoutes.createLeaveScreen, page: () => CreateLeaveScreen()),
     GetPage(name: AppRoutes.leaveListScreen, page: () => LeaveListScreen()),
+    GetPage(
+        name: AppRoutes.leaveDetailsScreen, page: () => LeaveDetailsScreen()),
   ];
 }

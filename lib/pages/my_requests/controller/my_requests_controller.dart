@@ -37,8 +37,7 @@ class MyRequestsController extends GetxController {
       isFromMyProfile.value = true;
       userId = arguments["user_id"] ?? 0;
       isOtherUserProfile.value = arguments["isOtherUserProfile"] ?? false;
-    }
-    else{
+    } else {
       isOtherUserProfile.value = false;
       isFromMyProfile.value = false;
       userId = UserUtils.getLoginUserId();
@@ -49,7 +48,7 @@ class MyRequestsController extends GetxController {
   void getMyRequestsList(Map<String, String> appliedFilters) async {
     Map<String, dynamic> map = {};
     if (isFromMyProfile.value == true) {
-      map["user_id"] = userId;//UserUtils.getLoginUserId();
+      map["user_id"] = userId; //UserUtils.getLoginUserId();
     }
     map["company_id"] = ApiConstants.companyId;
     map["start_date"] = startDate;

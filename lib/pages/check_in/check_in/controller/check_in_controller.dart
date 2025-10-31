@@ -196,8 +196,10 @@ class CheckInController extends GetxController
   }
 
   void checkInResourcesApi() async {
-    Map<String, dynamic> map = {};
     isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["latitude"] = latitude ?? "";
+    map["longitude"] = longitude ?? "";
     _api.checkInResources(
       data: map,
       onSuccess: (ResponseModel responseModel) {

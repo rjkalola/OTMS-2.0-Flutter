@@ -120,6 +120,8 @@ class ApiConstants {
   static String updateLeave = '$appUrl/user-leaves/update-leave';
   static String getLeaveList = '$appUrl/user-leaves/get-list';
   static String leaveDetails = '$appUrl/user-leaves/details';
+  static String approveLeave = '$appUrl/user-leaves/approve';
+  static String rejectLeave = '$appUrl/user-leaves/reject';
   static String deleteLeave = '$appUrl/user-leaves/delete-leave';
 
   //billing info

@@ -447,6 +447,10 @@ class Strings extends Translations {
           'please_create_or_join_a_company_to_continue':
               "Please create or join a company to continue",
           'pdf_viewer': "Pdf Viewer",
+          'requested': "Requested",
+          'approved': "Approved",
+          'rejected': "Rejected",
+          'pending': "Pending",
 // '': "",
           // '': "",
 // '': "",

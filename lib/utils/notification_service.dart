@@ -205,6 +205,23 @@ class NotificationService {
       } else if (notificationType ==
           AppConstants.notificationType.JOIN_COMPANY) {
         Get.offAllNamed(AppRoutes.userListScreen);
+      } else if (notificationType == AppConstants.notificationType.leaveAdd ||
+          notificationType == AppConstants.notificationType.leaveUpdate ||
+          notificationType == AppConstants.notificationType.leaveDelete ||
+          notificationType == AppConstants.notificationType.leaveRequest ||
+          notificationType == AppConstants.notificationType.leaveApprove ||
+          notificationType == AppConstants.notificationType.leaveReject) {
+        final leaveId = data['leave_id'] ?? "";
+        if (!StringHelper.isEmptyString(leaveId)) {
+          var arguments = {
+            AppConstants.intentKey.leaveId:
+                !StringHelper.isEmptyString(leaveId) ? int.parse(leaveId) : 0,
+            AppConstants.intentKey.fromNotification: true,
+          };
+          Get.offAllNamed(AppRoutes.leaveDetailsScreen, arguments: arguments);
+        } else {
+          Get.offAllNamed(AppRoutes.splashScreen);
+        }
       } else if (requestTypeInt == 103) {
         //Billing Info
         if (notificationType ==

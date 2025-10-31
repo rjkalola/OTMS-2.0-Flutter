@@ -10,6 +10,7 @@ import 'package:belcka/pages/leaves/add_leave/model/leave_type_list_response.dar
 import 'package:belcka/pages/leaves/leave_details/controller/leave_details_repository.dart';
 import 'package:belcka/pages/leaves/leave_details/model/leave_details_response.dart';
 import 'package:belcka/pages/leaves/leave_list/model/leave_info.dart';
+import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
@@ -32,6 +33,7 @@ class LeaveDetailsController extends GetxController
   final startTimeController = TextEditingController().obs;
   final endTimeController = TextEditingController().obs;
   final noteController = TextEditingController().obs;
+  final requestNoteController = TextEditingController().obs;
 
   DateTime? selectDate, startDate, endDate;
   DateTime? startTime, endTime;
@@ -42,10 +44,13 @@ class LeaveDetailsController extends GetxController
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
       isSaveEnable = false.obs,
-      isAllDay = true.obs;
+      isAllDay = true.obs,
+      isFromRequest = false.obs,
+      isFromNotification = false.obs;
   RxString totalDays = "0.0".obs;
+  RxInt requestStatus = 0.obs;
   int leaveId = 0;
-  LeaveInfo? leaveInfo;
+  final leaveInfo = LeaveInfo().obs;
   final title = ''.obs;
 
   @override
@@ -54,99 +59,99 @@ class LeaveDetailsController extends GetxController
     var arguments = Get.arguments;
     if (arguments != null) {
       leaveId = arguments[AppConstants.intentKey.leaveId] ?? 0;
+      isFromRequest.value = arguments[AppConstants.intentKey.fromRequest] ?? false;
+      isFromNotification.value =
+          arguments[AppConstants.intentKey.fromNotification] ?? false;
       print("leaveId:$leaveId");
     }
     getLeaveDetailsApi();
   }
 
   void setInitData() {
-    if (leaveInfo != null) {
-      title.value = 'leave_details'.tr;
-      leaveId = leaveInfo?.leaveId ?? 0;
-      leaveTypeController.value.text = leaveInfo?.leaveName ?? "";
-      isAllDay.value = leaveInfo?.isAlldayLeave ?? false;
-      if (isAllDay.value) {
-        startDateController.value.text = leaveInfo?.startDate ?? "";
-        endDateController.value.text = leaveInfo?.endDate ?? "";
-        dateController.value.text = leaveInfo?.startDate ?? "";
+    title.value = 'leave_details'.tr;
+    // title.value = leaveInfo.value.userName ?? "";
+    leaveTypeController.value.text = leaveInfo.value.leaveName ?? "";
+    isAllDay.value = leaveInfo.value.isAlldayLeave ?? false;
+    requestStatus.value = leaveInfo.value.requestStatus ?? 0;
 
-        if (!StringHelper.isEmptyString(leaveInfo?.startDate ?? "")) {
-          startDate = DateUtil.stringToDate(
-              (leaveInfo?.startDate ?? ""), DateUtil.DD_MM_YYYY_SLASH);
-        }
+    if (isAllDay.value) {
+      startDateController.value.text = leaveInfo.value.startDate ?? "";
+      endDateController.value.text = leaveInfo.value.endDate ?? "";
+      dateController.value.text = leaveInfo.value.startDate ?? "";
 
-        if (!StringHelper.isEmptyString(leaveInfo?.endDate ?? "")) {
-          endDate = DateUtil.stringToDate(
-              (leaveInfo?.endDate ?? ""), DateUtil.DD_MM_YYYY_SLASH);
-        }
-
-        if (!StringHelper.isEmptyString(leaveInfo?.startDate ?? "")) {
-          selectDate = DateUtil.stringToDate(
-              (leaveInfo?.startDate ?? ""), DateUtil.DD_MM_YYYY_SLASH);
-        }
-
-        DateTime currentTime = DateTime.now();
-        startTime = DateTime(
-            currentTime.year, currentTime.month, currentTime.day, 9, 0);
-        endTime = DateTime(
-            currentTime.year, currentTime.month, currentTime.day, 17, 0);
-
-        startTimeController.value.text =
-            DateUtil.timeToString(startTime, DateUtil.HH_MM_24);
-        endTimeController.value.text =
-            DateUtil.timeToString(endTime, DateUtil.HH_MM_24);
-      } else {
-        startDateController.value.text = leaveInfo?.startDate ?? "";
-        endDateController.value.text = leaveInfo?.endDate ?? "";
-        dateController.value.text = leaveInfo?.startDate ?? "";
-        startTimeController.value.text = leaveInfo?.startTime ?? "";
-        endTimeController.value.text = leaveInfo?.endTime ?? "";
-
-        if (!StringHelper.isEmptyString(leaveInfo?.startDate ?? "")) {
-          startDate = DateUtil.stringToDate(
-              (leaveInfo?.startDate ?? ""), DateUtil.DD_MM_YYYY_SLASH);
-        }
-
-        if (!StringHelper.isEmptyString(leaveInfo?.endDate ?? "")) {
-          endDate = DateUtil.stringToDate(
-              (leaveInfo?.endDate ?? ""), DateUtil.DD_MM_YYYY_SLASH);
-        }
-
-        if (!StringHelper.isEmptyString(leaveInfo?.startDate ?? "")) {
-          selectDate = DateUtil.stringToDate(
-              (leaveInfo?.startDate ?? ""), DateUtil.DD_MM_YYYY_SLASH);
-        }
-
-        DateTime currentTime = DateTime.now();
-        if (!StringHelper.isEmptyString(leaveInfo?.startTime ?? "")) {
-          startTime = DateUtil.getDateTimeFromHHMM(leaveInfo?.startTime ?? "");
-        } else {
-          startTime = DateTime(
-              currentTime.year, currentTime.month, currentTime.day, 9, 0);
-        }
-
-        if (!StringHelper.isEmptyString(leaveInfo?.endTime ?? "")) {
-          endTime = DateUtil.getDateTimeFromHHMM(leaveInfo?.endTime ?? "");
-        } else {
-          endTime = DateTime(
-              currentTime.year, currentTime.month, currentTime.day, 17, 0);
-        }
+      if (!StringHelper.isEmptyString(leaveInfo.value.startDate ?? "")) {
+        startDate = DateUtil.stringToDate(
+            (leaveInfo.value.startDate ?? ""), DateUtil.DD_MM_YYYY_SLASH);
       }
 
-      noteController.value.text = leaveInfo?.managerNote ?? "";
+      if (!StringHelper.isEmptyString(leaveInfo.value.endDate ?? "")) {
+        endDate = DateUtil.stringToDate(
+            (leaveInfo.value.endDate ?? ""), DateUtil.DD_MM_YYYY_SLASH);
+      }
 
-      setTotalDays();
+      if (!StringHelper.isEmptyString(leaveInfo.value.startDate ?? "")) {
+        selectDate = DateUtil.stringToDate(
+            (leaveInfo.value.startDate ?? ""), DateUtil.DD_MM_YYYY_SLASH);
+      }
+
+      DateTime currentTime = DateTime.now();
+      startTime =
+          DateTime(currentTime.year, currentTime.month, currentTime.day, 9, 0);
+      endTime =
+          DateTime(currentTime.year, currentTime.month, currentTime.day, 17, 0);
+
+      startTimeController.value.text =
+          DateUtil.timeToString(startTime, DateUtil.HH_MM_24);
+      endTimeController.value.text =
+          DateUtil.timeToString(endTime, DateUtil.HH_MM_24);
     } else {
-      title.value = 'add_leave'.tr;
-      setInitialDateTime();
-      isSaveEnable.value = true;
+      startDateController.value.text = leaveInfo.value.startDate ?? "";
+      endDateController.value.text = leaveInfo.value.endDate ?? "";
+      dateController.value.text = leaveInfo.value.startDate ?? "";
+      startTimeController.value.text = leaveInfo.value.startTime ?? "";
+      endTimeController.value.text = leaveInfo.value.endTime ?? "";
+
+      if (!StringHelper.isEmptyString(leaveInfo.value.startDate ?? "")) {
+        startDate = DateUtil.stringToDate(
+            (leaveInfo.value.startDate ?? ""), DateUtil.DD_MM_YYYY_SLASH);
+      }
+
+      if (!StringHelper.isEmptyString(leaveInfo.value.endDate ?? "")) {
+        endDate = DateUtil.stringToDate(
+            (leaveInfo.value.endDate ?? ""), DateUtil.DD_MM_YYYY_SLASH);
+      }
+
+      if (!StringHelper.isEmptyString(leaveInfo.value.startDate ?? "")) {
+        selectDate = DateUtil.stringToDate(
+            (leaveInfo.value.startDate ?? ""), DateUtil.DD_MM_YYYY_SLASH);
+      }
+
+      DateTime currentTime = DateTime.now();
+      if (!StringHelper.isEmptyString(leaveInfo.value.startTime ?? "")) {
+        startTime =
+            DateUtil.getDateTimeFromHHMM(leaveInfo.value.startTime ?? "");
+      } else {
+        startTime = DateTime(
+            currentTime.year, currentTime.month, currentTime.day, 9, 0);
+      }
+
+      if (!StringHelper.isEmptyString(leaveInfo.value.endTime ?? "")) {
+        endTime = DateUtil.getDateTimeFromHHMM(leaveInfo.value.endTime ?? "");
+      } else {
+        endTime = DateTime(
+            currentTime.year, currentTime.month, currentTime.day, 17, 0);
+      }
     }
+
+    noteController.value.text = leaveInfo.value.managerNote ?? "";
+
+    setTotalDays();
   }
 
   void getLeaveDetailsApi() {
     isLoading.value = true;
     Map<String, dynamic> map = {};
-    map["company_id"] = ApiConstants.companyId;
+    map["user_leave_id"] = leaveId;
     _api.leaveDetails(
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
@@ -154,7 +159,7 @@ class LeaveDetailsController extends GetxController
           isMainViewVisible.value = true;
           LeaveDetailsResponse response =
               LeaveDetailsResponse.fromJson(jsonDecode(responseModel.result!));
-          leaveInfo = response.data!;
+          leaveInfo.value = response.data!;
           setInitData();
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
@@ -169,6 +174,92 @@ class LeaveDetailsController extends GetxController
           // Utils.showSnackBarMessage('no_internet'.tr);
         } else if (error.statusMessage!.isNotEmpty) {
           AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
+
+  void deleteLeaveApi() async {
+    Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
+    map["user_leave_id"] = leaveId;
+    print("map:" + map.toString());
+
+    isLoading.value = true;
+    CreateLeaveRepository().deleteLeave(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          BaseResponse response =
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showApiResponseMessage(response.Message ?? "");
+          Get.back(result: true);
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showApiResponseMessage(error.statusMessage);
+        }
+      },
+    );
+  }
+
+  Future<void> approveLeaveApi() async {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["user_leave_id"] = leaveId;
+    // map["note"] = StringHelper.getText(noteController.value);
+    _api.approveLeave(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          BaseResponse response =
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showApiResponseMessage(response.Message);
+          Get.back(result: true);
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        }
+      },
+    );
+  }
+
+  Future<void> rejectLeaveApi() async {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["user_leave_id"] = leaveId;
+    // map["note"] = StringHelper.getText(noteController.value);
+    print("map:" + map.toString());
+    _api.rejectLeave(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          BaseResponse response =
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showApiResponseMessage(response.Message);
+          Get.back(result: true);
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
         }
       },
     );
@@ -240,6 +331,21 @@ class LeaveDetailsController extends GetxController
         AppConstants.dialogIdentifier.delete);
   }
 
+  showActionDialog(String dialogType) async {
+    AlertDialogHelper.showAlertDialog(
+        "",
+        dialogType == AppConstants.dialogIdentifier.approve
+            ? 'are_you_sure_you_want_to_approve'.tr
+            : 'are_you_sure_you_want_to_reject'.tr,
+        'yes'.tr,
+        'no'.tr,
+        "",
+        true,
+        true,
+        this,
+        dialogType);
+  }
+
   @override
   void onNegativeButtonClicked(String dialogIdentifier) {
     Get.back();
@@ -250,7 +356,22 @@ class LeaveDetailsController extends GetxController
 
   @override
   void onPositiveButtonClicked(String dialogIdentifier) {
-    if (dialogIdentifier == AppConstants.dialogIdentifier.delete) {
+    if (dialogIdentifier == AppConstants.dialogIdentifier.approve) {
+      Get.back();
+      approveLeaveApi();
+    } else if (dialogIdentifier == AppConstants.dialogIdentifier.reject) {
+      Get.back();
+      rejectLeaveApi();
+    } else if (dialogIdentifier == AppConstants.dialogIdentifier.delete) {
+      Get.back();
+      deleteLeaveApi();
+    }
+  }
+
+  void onBackPress() {
+    if (isFromNotification.value) {
+      Get.offAllNamed(AppRoutes.dashboardScreen);
+    } else {
       Get.back();
     }
   }

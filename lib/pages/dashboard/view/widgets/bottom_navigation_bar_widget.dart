@@ -15,7 +15,11 @@ class BottomNavigationBarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
+    return SizedBox(
+      height: 1,
+      width: 1,
+    );
+    /* return Obx(() {
       return Padding(
         padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
         child: Container(
@@ -61,6 +65,6 @@ class BottomNavigationBarWidget extends StatelessWidget {
           ),
         ),
       );
-    });
+    });*/
   }
 }

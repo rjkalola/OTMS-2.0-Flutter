@@ -1,5 +1,6 @@
 import 'package:belcka/pages/my_requests/model/my_request_info.dart';
-import 'package:belcka/pages/my_requests/controller/my_requests_controller.dart' show MyRequestsController;
+import 'package:belcka/pages/my_requests/controller/my_requests_controller.dart'
+    show MyRequestsController;
 import 'package:belcka/pages/my_requests/view/my_requests_screen.dart';
 import 'package:belcka/pages/my_requests/view/widgets/request_type_label_widget.dart';
 import 'package:belcka/res/colors.dart';
@@ -36,7 +37,7 @@ class RequestCard extends StatelessWidget {
                 onTap: () {
                   String status = request.statusText ?? "";
                   int requestType = request.requestType ?? 0;
-                  if (requestType == 103) {
+                  if (requestType == AppConstants.requestType.billingInfo) {
                     if (status == "pending") {
                       var arguments = {
                         "request_log_id": request.id ?? 0,
@@ -50,8 +51,7 @@ class RequestCard extends StatelessWidget {
                         };
                         controller.moveToScreen(
                             AppRoutes.billingDetailsNewScreen, arguments);
-                      }
-                      else{
+                      } else {
                         var arguments = {
                           "user_id": request.userId ?? 0,
                         };
@@ -59,18 +59,25 @@ class RequestCard extends StatelessWidget {
                             AppRoutes.otherUserBillingDetailsScreen, arguments);
                       }
                     }
-                  } else if (requestType == 102) {
+                  } else if (requestType == AppConstants.requestType.shift) {
                     var arguments = {
                       AppConstants.intentKey.ID: request.id ?? 0,
                     };
                     controller.moveToScreen(
                         AppRoutes.workLogRequestScreen, arguments);
-                  } else if (requestType == 105) {
+                  } else if (requestType == AppConstants.requestType.company) {
                     var arguments = {
                       "request_log_id": request.id ?? 0,
                     };
                     controller.moveToScreen(
                         AppRoutes.ratesRequestScreen, arguments);
+                  } else if (requestType == AppConstants.requestType.leave) {
+                    var arguments = {
+                      AppConstants.intentKey.leaveId: request.leaveId ?? 0,
+                      AppConstants.intentKey.fromRequest: true,
+                    };
+                    controller.moveToScreen(
+                        AppRoutes.leaveDetailsScreen, arguments);
                   }
                 },
                 child: Column(
@@ -87,7 +94,7 @@ class RequestCard extends StatelessWidget {
                             ),
                           ),
                           child: GestureDetector(
-                            onTap: (){
+                            onTap: () {
                               AppUtils.onClickUserAvatar(request.userId ?? 0);
                             },
                             child: CircleAvatar(

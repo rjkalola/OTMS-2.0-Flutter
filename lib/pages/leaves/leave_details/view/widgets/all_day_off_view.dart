@@ -22,9 +22,11 @@ class AllDayOffView extends StatelessWidget {
               DropDownTextField(
                 title: 'select_date'.tr,
                 controller: controller.dateController,
+                isReadOnly: true,
+                // isEnabled: false,
+                isArrowHide: true,
                 validators: [
-                  if (!controller.isAllDay.value)
-                    RequiredValidator(errorText: 'required_field'.tr),
+
                 ],
                 onPressed: () {},
               ),
@@ -38,9 +40,11 @@ class AllDayOffView extends StatelessWidget {
                     child: DropDownTextField(
                       title: 'start_time'.tr,
                       controller: controller.startTimeController,
+                      isReadOnly: true,
+                      // isEnabled: false,
+                      isArrowHide: true,
                       validators: [
-                        if (!controller.isAllDay.value)
-                          RequiredValidator(errorText: 'required_field'.tr),
+
                       ],
                       onPressed: () {},
                     ),
@@ -53,9 +57,11 @@ class AllDayOffView extends StatelessWidget {
                     child: DropDownTextField(
                       title: 'end_time'.tr,
                       controller: controller.endTimeController,
+                      isReadOnly: true,
+                      // isEnabled: false,
+                      isArrowHide: true,
                       validators: [
-                        if (!controller.isAllDay.value)
-                          RequiredValidator(errorText: 'required_field'.tr),
+
                       ],
                       onPressed: () {},
                     ),

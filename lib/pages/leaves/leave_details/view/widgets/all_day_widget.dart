@@ -30,6 +30,7 @@ class AllDayWidget extends StatelessWidget {
                   controller.isAllDay.value = value;
                   controller.setTotalDays();
                 },
+                isDisable: true,
                 mValue: controller.isAllDay.value)
           ],
         ),

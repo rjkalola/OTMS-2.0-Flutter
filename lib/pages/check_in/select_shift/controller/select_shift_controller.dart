@@ -88,7 +88,6 @@ class SelectShiftController extends GetxController {
       data: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
-          // isMainViewVisible.value = true;
           ShiftListResponse response =
               ShiftListResponse.fromJson(jsonDecode(responseModel.result!));
           tempList.clear();
@@ -104,6 +103,8 @@ class SelectShiftController extends GetxController {
           shiftList.refresh();
           if (projectId != 0) {
             getProjectDetailsApi();
+          }else{
+            isMainViewVisible.value = true;
           }
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
