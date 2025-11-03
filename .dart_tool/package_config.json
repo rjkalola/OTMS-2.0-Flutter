@@ -38,12 +38,6 @@
       "languageVersion": "2.18"
     },
     {
-      "name": "audio_session",
-      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/audio_session-0.1.25",
-      "packageUri": "lib/",
-      "languageVersion": "3.4"
-    },
-    {
       "name": "boolean_selector",
       "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/boolean_selector-2.1.1",
       "packageUri": "lib/",
@@ -656,24 +650,6 @@
       "languageVersion": "3.6"
     },
     {
-      "name": "just_audio",
-      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/just_audio-0.9.46",
-      "packageUri": "lib/",
-      "languageVersion": "3.0"
-    },
-    {
-      "name": "just_audio_platform_interface",
-      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/just_audio_platform_interface-4.6.0",
-      "packageUri": "lib/",
-      "languageVersion": "2.17"
-    },
-    {
-      "name": "just_audio_web",
-      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/just_audio_web-0.4.16",
-      "packageUri": "lib/",
-      "languageVersion": "3.2"
-    },
-    {
       "name": "keyboard_actions",
       "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/keyboard_actions-4.2.0",
       "packageUri": "lib/",
@@ -1250,7 +1226,7 @@
       "languageVersion": "3.2"
     }
   ],
-  "generated": "2025-10-31T07:11:43.705830Z",
+  "generated": "2025-11-03T09:05:44.512278Z",
   "generator": "pub",
   "generatorVersion": "3.6.2",
   "flutterRoot": "file:///Users/apple/Documents/flutterDev/flutter",

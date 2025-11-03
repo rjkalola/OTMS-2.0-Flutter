@@ -1,23 +1,16 @@
-import 'package:belcka/utils/string_helper.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:belcka/pages/common/common_bottom_navigation_bar_widget.dart';
 import 'package:belcka/pages/common/listener/date_filter_listener.dart';
 import 'package:belcka/pages/common/widgets/date_filter_options_horizontal_list.dart';
-import 'package:belcka/pages/profile/my_account/view/widgets/menu_buttons_grid_widget.dart';
-import 'package:belcka/pages/profile/my_account/view/widgets/my_account_bottom_navigation_bar.dart';
 import 'package:belcka/pages/project/address_details/controller/address_details_controller.dart';
 import 'package:belcka/pages/project/address_details/view/widgets/address_details_card.dart';
 import 'package:belcka/pages/project/address_details/view/widgets/address_details_grid_items.dart';
 import 'package:belcka/res/colors.dart';
-import 'package:belcka/routes/app_routes.dart';
-import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
-import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
-import 'package:belcka/widgets/text/PrimaryTextView.dart';
-import 'package:belcka/widgets/text/toolbar_menu_item_text_view.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class AddressDetailsScreen extends StatefulWidget {
   const AddressDetailsScreen({super.key});

@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:belcka/pages/project/address_list/controller/address_list_repository.dart';
+import 'package:belcka/pages/project/address_list/model/address_info.dart';
+import 'package:belcka/pages/project/address_list/model/address_list_response.dart';
 import 'package:dio/dio.dart' as multi;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -32,9 +35,12 @@ class ProjectListController extends GetxController implements MenuItemListener {
       isMainViewVisible = false.obs,
       isClearVisible = false.obs,
       isDataUpdated = false.obs;
+  RxString selectedStatusFilter = "all".obs, activeProjectTitle = "".obs;
+  RxInt activeProjectId = 0.obs;
 
   final projectsList = <ProjectInfo>[].obs;
-  List<ProjectInfo> tempList = [];
+  final addressList = <AddressInfo>[].obs;
+  List<AddressInfo> tempList = [];
 
   @override
   void onInit() {
@@ -51,19 +57,13 @@ class ProjectListController extends GetxController implements MenuItemListener {
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
-          print("AAA");
-          isMainViewVisible.value = true;
           ProjectListResponse response =
               ProjectListResponse.fromJson(jsonDecode(responseModel.result!));
-          print("BBB");
-          tempList.clear();
-          print("CCC");
-          tempList.addAll(response.info ?? []);
-          print("DDD");
-          projectsList.value = tempList;
-          print("EEE");
+          // tempList.clear();
+          // tempList.addAll(response.info ?? []);
+          projectsList.value.addAll(response.info!);
           // projectsList.refresh();
-          print("FFF");
+          getAddressListApi();
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
@@ -71,14 +71,44 @@ class ProjectListController extends GetxController implements MenuItemListener {
       },
       onError: (ResponseModel error) {
         isLoading.value = false;
-        print("CCC");
         if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
-          print("DDD");
           isInternetNotAvailable.value = true;
           // AppUtils.showSnackBarMessage('no_internet'.tr);
           // Utils.showSnackBarMessage('no_internet'.tr);
         } else if (error.statusMessage!.isNotEmpty) {
-          print("EEE");
+          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
+
+  void getAddressListApi() {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    // map["project_id"] = activeProjectId.value;
+    map["project_id"] = 30;
+
+    AddressListRepository().getAddressList(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          isMainViewVisible.value = true;
+          AddressListResponse response =
+              AddressListResponse.fromJson(jsonDecode(responseModel.result!));
+          tempList.clear();
+          tempList.addAll(response.info ?? []);
+          addressList.value = tempList;
+          addressList.refresh();
+        } else {
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+        } else if (error.statusMessage!.isNotEmpty) {
           AppUtils.showSnackBarMessage(error.statusMessage ?? "");
         }
       },
@@ -102,8 +132,7 @@ class ProjectListController extends GetxController implements MenuItemListener {
   Future<void> onSelectMenuItem(ModuleInfo info, String dialogType) async {
     if (info.action == AppConstants.action.add) {
       moveToScreen(AppRoutes.addProjectScreen, null);
-    }
-    else if (info.action == AppConstants.action.archivedProjects) {
+    } else if (info.action == AppConstants.action.archivedProjects) {
       moveToScreen(AppRoutes.archiveProjectListScreen, null);
     }
   }

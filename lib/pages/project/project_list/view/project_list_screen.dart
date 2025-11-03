@@ -1,19 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:get/get.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:belcka/pages/project/project_list/view/widgets/address_list.dart';
 import 'package:belcka/pages/project/project_list/controller/project_list_controller.dart';
-import 'package:belcka/pages/project/project_list/view/widgets/projects_list.dart';
-import 'package:belcka/pages/teams/team_list/controller/team_list_controller.dart';
-import 'package:belcka/pages/teams/team_list/view/widgets/search_team.dart';
-import 'package:belcka/pages/teams/team_list/view/widgets/teams_list.dart';
+import 'package:belcka/pages/project/project_list/view/widgets/project_list_header_view.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/app_utils.dart';
-import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
-import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class ProjectListScreen extends StatefulWidget {
   const ProjectListScreen({super.key});
@@ -29,17 +24,17 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
   Widget build(BuildContext context) {
     AppUtils.setStatusBarColor();
     return Container(
-      color: dashBoardBgColor_(context),
+      color: backgroundColor_(context),
       child: SafeArea(
         child: Obx(
           () => Scaffold(
             backgroundColor: dashBoardBgColor_(context),
             appBar: BaseAppBar(
               appBar: AppBar(),
-              title: 'project_all'.tr,
+              title: "",
               isCenterTitle: false,
               isBack: true,
-              bgColor: dashBoardBgColor_(context),
+              bgColor: backgroundColor_(context),
               widgets: actionButtons(),
             ),
             body: ModalProgressHUD(
@@ -56,7 +51,13 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
                     : Visibility(
                         visible: controller.isMainViewVisible.value,
                         child: Column(
-                          children: [ProjectsList()],
+                          children: [
+                            ProjectListHeaderView(),
+                            SizedBox(
+                              height: 14,
+                            ),
+                            AddressList()
+                          ],
                         ),
                       )),
           ),

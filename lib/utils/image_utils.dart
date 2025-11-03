@@ -2,10 +2,7 @@ import 'dart:io';
 
 import 'package:belcka/pages/common/model/file_info.dart';
 import 'package:belcka/pages/common/model/user_info.dart';
-import 'package:belcka/pages/manageattachment/view/audio_player_screen.dart';
-import 'package:belcka/pages/manageattachment/view/document_web_view.dart';
 import 'package:belcka/pages/manageattachment/view/pdf_viewer_page.dart';
-import 'package:belcka/pages/manageattachment/view/video_player_screen.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';

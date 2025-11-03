@@ -263,7 +263,7 @@ class AppUtils {
       statusText = 'approved'.tr;
     } else if (status == AppConstants.status.rejected) {
       statusText = 'rejected'.tr;
-    }else if (status == AppConstants.status.pending) {
+    } else if (status == AppConstants.status.pending) {
       statusText = 'pending'.tr;
     }
     return statusText;

@@ -64,7 +64,7 @@ class _MyAppState extends State<MyApp> {
       ),
     );
   }
-  
+
   void listenToFeedUpdates() {
     FirebaseFirestore.instance
         .collection('feeds')

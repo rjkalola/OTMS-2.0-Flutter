@@ -45,7 +45,7 @@ class FeedList extends StatelessWidget {
                       //     arguments: arguments);
 
 
-                      // controller.notificationClick(info,position);
+                      controller.notificationClick(info,position);
                     },
                     child: Container(
                       padding: const EdgeInsets.fromLTRB(10, 9, 10, 9),

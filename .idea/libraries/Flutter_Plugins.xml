@@ -29,12 +29,10 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/webview_flutter_android-4.10.0" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/open_file_plus-3.4.1+1" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/file_selector_macos-0.9.4+3" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/audio_session-0.1.25" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/webview_flutter_wkwebview-3.21.0" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/url_launcher_windows-3.1.4" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/image_picker_android-0.8.13" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_core_web-3.1.1" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/just_audio_web-0.4.16" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/path_provider_linux-2.2.1" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/geolocator_apple-2.3.13" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_image_compress_common-1.0.6" />
@@ -67,7 +65,6 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/image_picker_macos-0.2.2" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/url_launcher_android-6.3.17" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/sqflite_android-2.4.0" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/just_audio-0.9.46" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/image_picker_for_web-3.1.0" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/file_picker-10.3.3" />
     </CLASSES>

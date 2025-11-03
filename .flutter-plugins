@@ -1,5 +1,4 @@
 # This is a generated file; do not edit or check into version control.
-audio_session=/Users/apple/.pub-cache/hosted/pub.dev/audio_session-0.1.25/
 cloud_firestore=/Users/apple/.pub-cache/hosted/pub.dev/cloud_firestore-6.0.2/
 cloud_firestore_web=/Users/apple/.pub-cache/hosted/pub.dev/cloud_firestore_web-5.0.2/
 device_info_plus=/Users/apple/.pub-cache/hosted/pub.dev/device_info_plus-11.3.0/
@@ -42,8 +41,6 @@ image_picker_ios=/Users/apple/.pub-cache/hosted/pub.dev/image_picker_ios-0.8.13/
 image_picker_linux=/Users/apple/.pub-cache/hosted/pub.dev/image_picker_linux-0.2.2/
 image_picker_macos=/Users/apple/.pub-cache/hosted/pub.dev/image_picker_macos-0.2.2/
 image_picker_windows=/Users/apple/.pub-cache/hosted/pub.dev/image_picker_windows-0.2.2/
-just_audio=/Users/apple/.pub-cache/hosted/pub.dev/just_audio-0.9.46/
-just_audio_web=/Users/apple/.pub-cache/hosted/pub.dev/just_audio_web-0.4.16/
 open_file_plus=/Users/apple/.pub-cache/hosted/pub.dev/open_file_plus-3.4.1+1/
 open_filex=/Users/apple/.pub-cache/hosted/pub.dev/open_filex-4.7.0/
 path_provider=/Users/apple/.pub-cache/hosted/pub.dev/path_provider-2.1.5/

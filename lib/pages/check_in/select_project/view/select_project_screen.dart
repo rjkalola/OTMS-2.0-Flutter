@@ -66,42 +66,45 @@ class _SelectProjectScreenState extends State<SelectProjectScreen> {
                         ),
                         SearchProject(),
                         ProjectsList(),
-                        Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: Row(
-                            children: [
-                              Flexible(
-                                flex: 1,
-                                child: TextViewWithContainer(
-                                  onTap: () {
-                                    controller.moveToScreen(0);
-                                  },
-                                  padding: EdgeInsetsDirectional.all(9),
-                                  width: double.infinity,
-                                  text: 'skip'.tr,
-                                  borderColor: Colors.grey,
-                                  alignment: Alignment.center,
-                                  borderRadius: 45,
+                        Visibility(
+                          visible: !controller.switchProject,
+                          child: Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Row(
+                              children: [
+                                Flexible(
+                                  flex: 1,
+                                  child: TextViewWithContainer(
+                                    onTap: () {
+                                      controller.moveToScreen(0);
+                                    },
+                                    padding: EdgeInsetsDirectional.all(9),
+                                    width: double.infinity,
+                                    text: 'skip'.tr,
+                                    borderColor: Colors.grey,
+                                    alignment: Alignment.center,
+                                    borderRadius: 45,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(
-                                width: 12,
-                              ),
-                              Flexible(
-                                flex: 1,
-                                child: TextViewWithContainer(
-                                  onTap: () {
-                                    Get.back();
-                                  },
-                                  padding: EdgeInsetsDirectional.all(9),
-                                  width: double.infinity,
-                                  text: 'cancel'.tr,
-                                  borderColor: Colors.grey,
-                                  alignment: Alignment.center,
-                                  borderRadius: 45,
+                                SizedBox(
+                                  width: 12,
                                 ),
-                              )
-                            ],
+                                Flexible(
+                                  flex: 1,
+                                  child: TextViewWithContainer(
+                                    onTap: () {
+                                      Get.back();
+                                    },
+                                    padding: EdgeInsetsDirectional.all(9),
+                                    width: double.infinity,
+                                    text: 'cancel'.tr,
+                                    borderColor: Colors.grey,
+                                    alignment: Alignment.center,
+                                    borderRadius: 45,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         )
                       ],
