@@ -2,6 +2,7 @@ import 'package:belcka/pages/profile/rates_request/view/widgets/add_note_field_w
 import 'package:belcka/pages/profile/rates_request/view/widgets/rate_request_pending_for_approval.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/user_utils.dart';
+import 'package:belcka/widgets/buttons/approve_reject_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -134,21 +135,6 @@ class _RatesRequestScreenState extends State<RatesRequestScreen> {
                               ],
                             ),
                             SizedBox(height: 32),
-                            // Rate history link
-                            /*
-                                    Align(
-                                      alignment: Alignment.centerRight,
-                                      child: Text(
-                                        "rate_history".tr,
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color:Colors.blueAccent,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(height: 24,),
-                                    */
                             (UserUtils.isAdmin() && (controller.rateRequestInfo.value.statusText == "pending")) ?
                             Visibility(
                               visible: controller.isShowSaveButton.value,
@@ -158,56 +144,21 @@ class _RatesRequestScreenState extends State<RatesRequestScreen> {
                                   AddNoteFieldWidget(
                                       controller: controller.noteController,
                                   isReadOnly: false,),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                            fixedSize: const Size(double.infinity, 45),
-                                            backgroundColor: Colors.red,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(30),
-                                            ),
-                                            padding: EdgeInsets.zero, // important!
-                                          ),
-                                          onPressed: () {
-                                            if (controller.valid()) {
-                                              controller.showActionDialog(
-                                                  AppConstants
-                                                      .dialogIdentifier.reject);
-                                            }
-                                          },
-                                          child: const Text(
-                                            "Reject",
-                                            style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold, color: Colors.white),
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 16), // Gap between buttons
-                                      Expanded(
-                                        child: ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                            fixedSize: const Size(double.infinity, 45),
-                                            backgroundColor: Colors.green,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(30),
-                                            ),
-                                            padding: EdgeInsets.zero, // important!
-                                          ),
-                                          onPressed: () {
-                                            controller.showActionDialog(
-                                                AppConstants
-                                                    .dialogIdentifier
-                                                    .approve);
-                                          },
-                                          child: const Text(
-                                            "Approve",
-                                            style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold, color: Colors.white),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ) ,
+                                  ApproveRejectButtons(
+                                      padding: const EdgeInsets.fromLTRB(12, 10, 12, 18),
+                                      onClickApprove: (){
+                                        controller.showActionDialog(
+                                            AppConstants
+                                                .dialogIdentifier
+                                                .approve);
+                                      },
+                                      onClickReject: () {
+                                        if (controller.valid()) {
+                                          controller.showActionDialog(
+                                              AppConstants
+                                                  .dialogIdentifier.reject);
+                                        }
+                                      }),
                                 ],
                               ),
                             ) : Visibility(

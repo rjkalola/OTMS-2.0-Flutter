@@ -106,7 +106,7 @@ class RateHistoryTimelineCard extends StatelessWidget {
               // Modified info (optional)
               if (item.actionBy != null)
                 Text(
-                  '${item.statusText?.capitalizeFirst} by ${item.actionBy} on ${item.date} at ${item.time}',
+                  '${((item.statusText ?? "").toLowerCase()) == "pending" ? "Requested" : item.statusText?.capitalizeFirst} by ${item.actionBy} on ${item.date} at ${item.time}',
                   style: const TextStyle(fontSize: 13),
                 ),
 

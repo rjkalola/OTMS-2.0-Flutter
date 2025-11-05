@@ -1,10 +1,13 @@
 import 'package:belcka/pages/project/address_list/model/address_info.dart';
 import 'package:belcka/pages/project/project_list/controller/project_list_controller.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/drawable.dart';
 import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/text/SubTitleTextView.dart';
 import 'package:belcka/widgets/text/TextViewWithContainer.dart';
+import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -19,86 +22,115 @@ class AddressList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() => Expanded(
-          child: ListView.separated(
-              physics: const AlwaysScrollableScrollPhysics(),
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              itemBuilder: (context, position) {
-                AddressInfo info = controller.addressList[position];
-                return Padding(
-                  padding: const EdgeInsets.fromLTRB(12, 3, 12, 3),
-                  child: CardViewDashboardItem(
-                    padding: EdgeInsets.fromLTRB(16, 10, 13, 10),
-                    child: InkWell(
-                      onTap: () {
-                        var arguments = {
-                          AppConstants.intentKey.addressInfo: info,
-                        };
-                        controller.moveToScreen(
-                            AppRoutes.addressDetailsScreen, arguments);
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  info.name ?? "",
-                                  style: TextStyle(
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w500,
-                                      color: primaryTextColor_(context)),
-                                  softWrap: true,
-                                  overflow: TextOverflow.visible,
-                                  maxLines: null,
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
+          child: controller.tempList.isNotEmpty
+              ? ListView.separated(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  itemBuilder: (context, position) {
+                    AddressInfo info = controller.addressList[position];
+                    return Padding(
+                      padding: const EdgeInsets.fromLTRB(12, 3, 12, 3),
+                      child: CardViewDashboardItem(
+                        padding: EdgeInsets.fromLTRB(16, 10, 13, 10),
+                        child: InkWell(
+                          onTap: () {
+                            var arguments = {
+                              AppConstants.intentKey.addressInfo: info,
+                            };
+                            controller.moveToScreen(
+                                AppRoutes.addressDetailsScreen, arguments);
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Expanded(
-                                      child: SubtitleTextView(
-                                        text: info.startDate,
-                                        fontSize: 16,
-                                      ),
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        ImageUtils.setSvgAssetsImage(
+                                            path: Drawable.homeDrawerIcon,
+                                            color: primaryTextColor_(context),
+                                            width: 25,
+                                            height: 25),
+                                        SizedBox(
+                                          width: 6,
+                                        ),
+                                        Flexible(
+                                          child: Text(
+                                            info.name ?? "",
+                                            style: TextStyle(
+                                                fontSize: 17,
+                                                fontWeight: FontWeight.w500,
+                                                color:
+                                                    primaryTextColor_(context)),
+                                            softWrap: true,
+                                            overflow: TextOverflow.visible,
+                                            maxLines: null,
+                                          ),
+                                        )
+                                      ],
                                     ),
-                                    TextViewWithContainer(
-                                      text: info.progress ?? "",
-                                      padding: EdgeInsets.fromLTRB(6, 1, 6, 1),
-                                      fontColor: Colors.white,
-                                      fontSize: 13,
-                                      boxColor: AppUtils.getStatusColor(
-                                          info.statusInt ?? 0),
-                                      borderRadius: 45,
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        ImageUtils.setSvgAssetsImage(
+                                            path: Drawable
+                                                .timesheetClockInScreenIcon,
+                                            color: primaryTextColor_(context),
+                                            width: 23,
+                                            height: 23),
+                                        SizedBox(
+                                          width: 8,
+                                        ),
+                                        Expanded(
+                                          child: SubtitleTextView(
+                                            text: info.startDate,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                        TextViewWithContainer(
+                                          text: info.progress ?? "",
+                                          padding:
+                                              EdgeInsets.fromLTRB(6, 1, 6, 1),
+                                          fontColor: Colors.white,
+                                          fontSize: 13,
+                                          boxColor: AppUtils.getStatusColor(
+                                              info.statusInt ?? 0),
+                                          borderRadius: 45,
+                                        )
+                                      ],
                                     )
                                   ],
-                                )
-                              ],
-                            ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 12,
+                              ),
+                              Align(
+                                alignment: Alignment.center,
+                                child: Icon(
+                                  Icons.arrow_forward_ios,
+                                  size: 18,
+                                  color: primaryTextColor_(context),
+                                ),
+                              ),
+                            ],
                           ),
-                          SizedBox(
-                            width: 12,
-                          ),
-                          Align(
-                            alignment: Alignment.center,
-                            child: Icon(
-                              Icons.arrow_forward_ios,
-                              size: 18,
-                              color: primaryTextColor_(context),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
-                    ),
-                  ),
-                );
-              },
-              itemCount: controller.addressList.length,
-              /* separatorBuilder: (context, position) => const Padding(
+                    );
+                  },
+                  itemCount: controller.addressList.length,
+                  /* separatorBuilder: (context, position) => const Padding(
                     padding: EdgeInsets.only(left: 70, right: 16),
                     child: Divider(
                       height: 0,
@@ -106,7 +138,12 @@ class AddressList extends StatelessWidget {
                       thickness: 2,
                     ),
                   )),*/
-              separatorBuilder: (context, position) => Container()),
+                  separatorBuilder: (context, position) => Container())
+              : Center(
+                  child: TitleTextView(
+                    text: 'empty_data_message'.tr,
+                  ),
+                ),
         ));
   }
 }

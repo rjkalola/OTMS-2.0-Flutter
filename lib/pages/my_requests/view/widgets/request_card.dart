@@ -66,12 +66,18 @@ class RequestCard extends StatelessWidget {
                     controller.moveToScreen(
                         AppRoutes.workLogRequestScreen, arguments);
                   } else if (requestType == AppConstants.requestType.company) {
+
+                    //Show buttons only if status is pending and both approver/rejecter are null
+                    bool showButtons = request.statusText == 'pending' && request.approvedBy == null && request.rejectedBy == null;
+
                     var arguments = {
                       "request_log_id": request.id ?? 0,
+                      "showButtons": showButtons,
                     };
                     controller.moveToScreen(
                         AppRoutes.ratesRequestScreen, arguments);
-                  } else if (requestType == AppConstants.requestType.leave) {
+                  }
+                  else if (requestType == AppConstants.requestType.leave) {
                     var arguments = {
                       AppConstants.intentKey.leaveId: request.leaveId ?? 0,
                       AppConstants.intentKey.fromRequest: true,

@@ -17,36 +17,41 @@ class ProjectTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-      child: Row(
-        children: [
-          Flexible(
-            child: PrimaryTextView(
-              text: !StringHelper.isEmptyString(
-                      controller.activeProjectTitle.value)
-                  ? controller.activeProjectTitle.value
-                  : 'select_project'.tr,
-              softWrap: true,
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
+      child: GestureDetector(
+        onTap: () {
+          controller.showActiveProjectDialogDialog();
+        },
+        child: Row(
+          children: [
+            Flexible(
+              child: PrimaryTextView(
+                text: !StringHelper.isEmptyString(
+                        controller.activeProjectTitle.value)
+                    ? controller.activeProjectTitle.value
+                    : 'select_project'.tr,
+                softWrap: true,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          SizedBox(
-            width: 12,
-          ),
-          Container(
-            decoration: AppUtils.getGrayBorderDecoration(
-                borderColor: defaultAccentColor_(context),
-                borderWidth: 1,
-                radius: 45),
-            alignment: Alignment.center,
-            width: 26,
-            height: 26,
-            child: RightArrowWidget(
-              size: 26,
-              color: defaultAccentColor_(context),
+            SizedBox(
+              width: 12,
             ),
-          )
-        ],
+            Container(
+              decoration: AppUtils.getGrayBorderDecoration(
+                  borderColor: defaultAccentColor_(context),
+                  borderWidth: 1,
+                  radius: 45),
+              alignment: Alignment.center,
+              width: 26,
+              height: 26,
+              child: RightArrowWidget(
+                size: 26,
+                color: defaultAccentColor_(context),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:belcka/widgets/buttons/approve_reject_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -51,51 +52,34 @@ class _BillingApprovalButtonsViewState extends State<BillingApprovalButtonsView>
             ),
           ],
           SizedBox(height: 12),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              OutlinedButton(
-                onPressed: () {
-                  if (selectedAction == "approve"){
-                    print("Approved: ${_noteController.text}");
-                    controller.approveRequest();
+
+          ApproveRejectButtons(
+              padding: const EdgeInsets.fromLTRB(12, 10, 12, 18),
+              onClickApprove: (){
+                if (selectedAction == "approve"){
+                  print("Approved: ${_noteController.text}");
+                  controller.approveRequest();
+                }
+                else{
+                  setState(() {
+                    showNoteSection = true;
+                    selectedAction = 'approve';
                   }
-                  else{
-                    setState(() {
-                      showNoteSection = true;
-                      selectedAction = 'approve';
-                    });
-                  }
-                },
-                style: OutlinedButton.styleFrom(
-                  side: BorderSide(color: defaultAccentColor_(context)),
-                  foregroundColor: defaultAccentColor_(context),
-                  textStyle: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),
-                ),
-                child: Text("approve".tr),
-              ),
-              OutlinedButton(
-                onPressed: () {
-                  if (selectedAction == "reject"){
-                    print("Rejected: ${_noteController.text}");
-                    controller.rejectRequest(_noteController.text ?? "");
-                  }
-                  else{
-                    setState(() {
-                      showNoteSection = true;
-                      selectedAction = 'reject';
-                    });
-                  }
-                },
-                style: OutlinedButton.styleFrom(
-                  side: BorderSide(color: Colors.red),
-                  foregroundColor: Colors.red,
-                  textStyle: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),
-                ),
-                child: Text("reject".tr),
-              ),
-            ],
-          ),
+                  );
+                }
+              },
+              onClickReject: () {
+                if (selectedAction == "reject"){
+                  print("Rejected: ${_noteController.text}");
+                  controller.rejectRequest(_noteController.text ?? "");
+                }
+                else{
+                  setState(() {
+                    showNoteSection = true;
+                    selectedAction = 'reject';
+                  });
+                }
+              })
         ],
       )
           : Center(

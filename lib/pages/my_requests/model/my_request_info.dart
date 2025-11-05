@@ -16,6 +16,8 @@ class MyRequestInfo {
   int? requestType;
   String? typeName;
   int? leaveId;
+  int? approvedBy;
+  int? rejectedBy;
 
   MyRequestInfo(
       {this.id,
@@ -34,7 +36,9 @@ class MyRequestInfo {
       this.statusText,
       this.requestType,
       this.typeName,
-      this.leaveId});
+      this.leaveId,
+      this.approvedBy,
+      this.rejectedBy});
 
   MyRequestInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -54,6 +58,8 @@ class MyRequestInfo {
     requestType = json['request_type'];
     typeName = json['type_name'];
     leaveId = json['leave_id'];
+    approvedBy = json['approved_by'];
+    rejectedBy = json['rejected_by'];
   }
 
   Map<String, dynamic> toJson() {
@@ -75,6 +81,8 @@ class MyRequestInfo {
     data['request_type'] = this.requestType;
     data['type_name'] = this.typeName;
     data['leave_id'] = this.leaveId;
+    data['approved_by'] = this.approvedBy;
+    data['rejected_by'] = this.rejectedBy;
     return data;
   }
 }

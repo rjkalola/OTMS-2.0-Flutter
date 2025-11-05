@@ -184,6 +184,7 @@ class ApiConstants {
   static String projectArchiveList = '$appUrl/project/archive-list';
   static String getProjectCheckLogs = '$appUrl/project/get-checklogs';
   static String getProjectTradeRecords = '$appUrl/trade/get-checklogs';
+  static String activeProject = '$appUrl/project/active';
 
   //address
   static String getAddress = '$appUrl/address/get';

@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:belcka/pages/common/listener/select_item_listener.dart';
 import 'package:belcka/pages/project/address_list/controller/address_list_repository.dart';
 import 'package:belcka/pages/project/address_list/model/address_info.dart';
 import 'package:belcka/pages/project/address_list/model/address_list_response.dart';
+import 'package:belcka/pages/project/project_list/view/active_project_dialog.dart';
 import 'package:dio/dio.dart' as multi;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +30,8 @@ import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 
-class ProjectListController extends GetxController implements MenuItemListener {
+class ProjectListController extends GetxController
+    implements MenuItemListener, SelectItemListener {
   final _api = ProjectListRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
@@ -36,11 +39,15 @@ class ProjectListController extends GetxController implements MenuItemListener {
       isClearVisible = false.obs,
       isDataUpdated = false.obs;
   RxString selectedStatusFilter = "all".obs, activeProjectTitle = "".obs;
-  RxInt activeProjectId = 0.obs;
+  RxInt activeProjectId = 0.obs,
+      allCount = 0.obs,
+      newCount = 0.obs,
+      pendingCount = 0.obs,
+      completeCount = 0.obs;
 
   final projectsList = <ProjectInfo>[].obs;
   final addressList = <AddressInfo>[].obs;
-  List<AddressInfo> tempList = [];
+  final tempList = <AddressInfo>[].obs;
 
   @override
   void onInit() {
@@ -61,9 +68,16 @@ class ProjectListController extends GetxController implements MenuItemListener {
               ProjectListResponse.fromJson(jsonDecode(responseModel.result!));
           // tempList.clear();
           // tempList.addAll(response.info ?? []);
-          projectsList.value.addAll(response.info!);
+          projectsList.clear();
+          projectsList.addAll(response.info!);
+          activeProjectId.value = response.id ?? 0;
+          activeProjectTitle.value = response.name ?? "";
           // projectsList.refresh();
-          getAddressListApi();
+          if (activeProjectId.value != 0) {
+            getAddressListApi(0);
+          } else {
+            isMainViewVisible.value = true;
+          }
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
@@ -82,11 +96,12 @@ class ProjectListController extends GetxController implements MenuItemListener {
     );
   }
 
-  void getAddressListApi() {
+  void getAddressListApi(int status) {
     isLoading.value = true;
     Map<String, dynamic> map = {};
-    // map["project_id"] = activeProjectId.value;
-    map["project_id"] = 30;
+    map["project_id"] = activeProjectId.value;
+    map["status"] = status;
+    // map["project_id"] = 30;
 
     AddressListRepository().getAddressList(
       queryParameters: map,
@@ -95,6 +110,10 @@ class ProjectListController extends GetxController implements MenuItemListener {
           isMainViewVisible.value = true;
           AddressListResponse response =
               AddressListResponse.fromJson(jsonDecode(responseModel.result!));
+          allCount.value = response.all ?? 0;
+          newCount.value = response.latest ?? 0;
+          pendingCount.value = response.pending ?? 0;
+          completeCount.value = response.completed ?? 0;
           tempList.clear();
           tempList.addAll(response.info ?? []);
           addressList.value = tempList;
@@ -108,6 +127,40 @@ class ProjectListController extends GetxController implements MenuItemListener {
         isLoading.value = false;
         if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
           isInternetNotAvailable.value = true;
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
+
+  void activeProjectAPI(int id, String title) {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
+    map["id"] = id;
+
+    _api.activeProject(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          BaseResponse response =
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showToastMessage(response.Message ?? "");
+          activeProjectId.value = id;
+          activeProjectTitle.value = title;
+          getAddressListApi(0);
+        } else {
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+          // AppUtils.showSnackBarMessage('no_internet'.tr);
+          // Utils.showSnackBarMessage('no_internet'.tr);
         } else if (error.statusMessage!.isNotEmpty) {
           AppUtils.showSnackBarMessage(error.statusMessage ?? "");
         }
@@ -142,6 +195,29 @@ class ProjectListController extends GetxController implements MenuItemListener {
     if (result != null && result) {
       isDataUpdated.value = true;
       getProjectListApi();
+    }
+  }
+
+  void showActiveProjectDialogDialog() {
+    if (projectsList.isNotEmpty) {
+      Get.bottomSheet(
+          ActiveProjectDialog(
+            dialogType: AppConstants.dialogIdentifier.selectProject,
+            list: projectsList,
+            selectedProjectId: activeProjectId.value,
+            listener: this,
+          ),
+          backgroundColor: Colors.transparent,
+          isScrollControlled: true);
+    } else {
+      AppUtils.showToastMessage('empty_project_list'.tr);
+    }
+  }
+
+  @override
+  void onSelectItem(int position, int id, String name, String action) {
+    if (action == AppConstants.dialogIdentifier.selectProject) {
+      activeProjectAPI(id, name);
     }
   }
 }

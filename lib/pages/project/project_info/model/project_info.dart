@@ -18,6 +18,7 @@ class ProjectInfo {
   String? currency;
   int? completeAddress;
   int? checkIns;
+  bool? isActive;
 
   ProjectInfo(
       {this.id,
@@ -35,7 +36,8 @@ class ProjectInfo {
       this.trades,
       this.currency,
       this.checkIns,
-      this.completeAddress});
+      this.completeAddress,
+      this.isActive});
 
   ProjectInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -51,6 +53,7 @@ class ProjectInfo {
     currency = json['currency'];
     checkIns = json['check_ins'];
     completeAddress = json['complete_address'];
+    isActive = json['is_active'];
 
     if (json['shifts'] != null) {
       shifts = <ModuleInfo>[];
@@ -85,9 +88,9 @@ class ProjectInfo {
     data['addresses'] = this.addresses;
     data['trades'] = this.trades;
     data['currency'] = this.currency;
-
     data['check_ins'] = this.checkIns;
     data['complete_address'] = this.completeAddress;
+    data['is_active'] = this.isActive;
 
     if (this.shifts != null) {
       data['shifts'] = this.shifts!.map((v) => v.toJson()).toList();

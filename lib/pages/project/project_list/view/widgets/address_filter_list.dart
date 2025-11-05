@@ -3,38 +3,77 @@ import 'package:belcka/pages/project/project_list/view/widgets/address_filter_it
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class AddressFilterList extends StatefulWidget {
-  final controller = Get.put(ProjectListController());
-
+class AddressFilterList extends StatelessWidget {
   AddressFilterList({super.key});
 
-  @override
-  State<AddressFilterList> createState() => _AddressFilterListState();
-}
+  final controller = Get.put(ProjectListController());
 
-class _AddressFilterListState extends State<AddressFilterList> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          AddressFilterItem(title: 'all'.tr, action: "all"),
-          SizedBox(
-            width: 6,
+    return Obx(() => Padding(
+          padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              AddressFilterItem(
+                title: 'all'.tr,
+                action: "all",
+                count: controller.allCount.value,
+              ),
+              SizedBox(
+                width: 6,
+              ),
+              AddressFilterItem(
+                  title: 'new'.tr,
+                  action: "new",
+                  count: controller.newCount.value),
+              SizedBox(
+                width: 6,
+              ),
+              AddressFilterItem(
+                  title: 'pending'.tr,
+                  action: "pending",
+                  count: controller.pendingCount.value),
+              SizedBox(
+                width: 6,
+              ),
+              AddressFilterItem(
+                  title: 'complete'.tr,
+                  action: "complete",
+                  count: controller.completeCount.value)
+            ],
           ),
-          AddressFilterItem(title: 'new'.tr, action: "new"),
-          SizedBox(
-            width: 6,
-          ),
-          AddressFilterItem(title: 'pending'.tr, action: "pending"),
-          SizedBox(
-            width: 6,
-          ),
-          AddressFilterItem(title: 'complete'.tr, action: "complete")
-        ],
-      ),
-    );
+        ));
   }
 }
+
+// class _AddressFilterListState extends State<AddressFilterList> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Obx(() => Padding(
+//       padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+//       child: Row(
+//         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//         children: [
+//           AddressFilterItem(
+//             title: 'all'.tr,
+//             action: "all",
+//             count: controller.allCount.value,
+//           ),
+//           SizedBox(
+//             width: 6,
+//           ),
+//           AddressFilterItem(title: 'new'.tr, action: "new"),
+//           SizedBox(
+//             width: 6,
+//           ),
+//           AddressFilterItem(title: 'pending'.tr, action: "pending"),
+//           SizedBox(
+//             width: 6,
+//           ),
+//           AddressFilterItem(title: 'complete'.tr, action: "complete")
+//         ],
+//       ),
+//     ),);
+//   }
+// }

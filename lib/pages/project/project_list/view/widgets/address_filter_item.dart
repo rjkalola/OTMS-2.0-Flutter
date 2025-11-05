@@ -9,8 +9,10 @@ import 'package:get/get.dart';
 class AddressFilterItem extends StatelessWidget {
   final controller = Get.put(ProjectListController());
   final String title, action;
+  final int? count;
 
-  AddressFilterItem({super.key, required this.title, required this.action});
+  AddressFilterItem(
+      {super.key, required this.title, required this.action, this.count});
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +31,7 @@ class AddressFilterItem extends StatelessWidget {
                 child: GestureDetector(
                   onTap: () {
                     controller.selectedStatusFilter.value = action;
+                    controller.getAddressListApi(getStatus(action));
                   },
                   child: Container(
                     color: Colors.transparent,
@@ -42,16 +45,33 @@ class AddressFilterItem extends StatelessWidget {
                     ),
                   ),
                 )),
-            Align(
-              alignment: Alignment.topRight,
-              child: CustomBadgeIcon(
-                count: 2,
-                color: defaultAccentColor_(context),
+            Visibility(
+              visible: (count ?? 0) != 0,
+              child: Align(
+                alignment: Alignment.topRight,
+                child: CustomBadgeIcon(
+                  count: count ?? 0,
+                  color: defaultAccentColor_(context),
+                ),
               ),
             )
           ],
         ),
       ),
     );
+  }
+
+  int getStatus(String action) {
+    int status = 0;
+    if (action == "all") {
+      status = 0;
+    } else if (action == "new") {
+      status = 13;
+    } else if (action == "pending") {
+      status = 3;
+    } else if (action == "complete") {
+      status = 4;
+    }
+    return status;
   }
 }
