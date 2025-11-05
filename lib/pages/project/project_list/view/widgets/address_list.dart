@@ -80,7 +80,8 @@ class AddressList extends StatelessWidget {
                                       height: 5,
                                     ),
                                     Row(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       children: [
                                         ImageUtils.setSvgAssetsImage(
                                             path: Drawable
@@ -103,7 +104,7 @@ class AddressList extends StatelessWidget {
                                               EdgeInsets.fromLTRB(6, 1, 6, 1),
                                           fontColor: Colors.white,
                                           fontSize: 13,
-                                          boxColor: AppUtils.getStatusColor(
+                                          boxColor: getStatusColor(
                                               info.statusInt ?? 0),
                                           borderRadius: 45,
                                         )
@@ -145,5 +146,18 @@ class AddressList extends StatelessWidget {
                   ),
                 ),
         ));
+  }
+
+  Color getStatusColor(int status) {
+    switch (status) {
+      case 4:
+        return Colors.green;
+      case 3:
+        return Colors.orange;
+      case 13:
+        return Colors.grey;
+      default:
+        return primaryTextColor_(Get.context!);
+    }
   }
 }

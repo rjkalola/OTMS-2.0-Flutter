@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:android_intent_plus/android_intent.dart';
+import 'package:android_intent_plus/flag.dart';
 import 'package:belcka/pages/common/model/file_info.dart';
 import 'package:belcka/pages/common/model/user_info.dart';
 import 'package:belcka/pages/manageattachment/view/pdf_viewer_page.dart';
@@ -85,16 +87,25 @@ class ImageUtils {
       BuildContext context, String path, String type) async {
     if (type == 'image') {
       ImageUtils.showImagePreviewDialog(path);
-    }
-    // else if (type == 'video') {
-    //   Get.to(() => VideoPlayerScreen(
-    //         source: path,
-    //         // isNetwork: path.startsWith("http"),
-    //       ));
-    // } else if (type == 'audio') {
-    //   Get.to(() => AudioPlayerScreen(url: path));
-    // }
-    else if (type == 'pdf') {
+    } else if (type == 'video' || type == 'audio') {
+      if (path.startsWith("http")) {
+        final uri = Uri.parse(path);
+        if (Platform.isAndroid) {
+          String mimeType = type == 'video' ? "video/*" : "audio/*";
+          final intent = AndroidIntent(
+            action: 'action_view',
+            data: uri.toString(),
+            type: mimeType, // ✅ Tells Android it’s media, not web
+            flags: <int>[Flag.FLAG_ACTIVITY_NEW_TASK],
+          );
+          await intent.launch();
+        } else if (Platform.isIOS) {
+          await launchUrl(uri, mode: LaunchMode.externalApplication);
+        }
+      } else {
+        await OpenFilex.open(path);
+      }
+    } else if (type == 'pdf') {
       Get.to(() => PdfViewerPage(
             url: path,
           ));
@@ -108,20 +119,18 @@ class ImageUtils {
     // }
     else {
       if (path.startsWith("http")) {
-        /* final ext = path.split('.').last.toLowerCase();
-        if (ext == 'doc' || ext == 'docx') {
-          Get.to(() => DocumentWebView(
-                url: path,
-              ));
-        } else {
-          final uri = Uri.parse(path);
-          if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-            throw 'Could not open $path';
-          }
-        }*/
-        final uri = Uri.parse(path);
-        if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-          throw 'Could not open $path';
+        if (Platform.isAndroid) {
+          final intent = AndroidIntent(
+            action: 'action_view',
+            data: Uri.parse(path).toString(),
+            flags: <int>[Flag.FLAG_ACTIVITY_NEW_TASK],
+          );
+          await intent.launch();
+        } else if (Platform.isIOS) {
+          await launchUrl(
+            Uri.parse(path),
+            mode: LaunchMode.externalApplication,
+          );
         }
       } else {
         await OpenFilex.open(path); //

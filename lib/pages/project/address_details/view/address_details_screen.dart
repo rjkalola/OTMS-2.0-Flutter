@@ -3,8 +3,10 @@ import 'package:belcka/pages/common/listener/date_filter_listener.dart';
 import 'package:belcka/pages/common/widgets/date_filter_options_horizontal_list.dart';
 import 'package:belcka/pages/project/address_details/controller/address_details_controller.dart';
 import 'package:belcka/pages/project/address_details/view/widgets/address_details_card.dart';
-import 'package:belcka/pages/project/address_details/view/widgets/address_details_grid_items.dart';
+import 'package:belcka/pages/project/address_details/view/widgets/check_in_records_list.dart';
+import 'package:belcka/pages/project/address_details/view/widgets/trade_user_records.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
@@ -26,14 +28,14 @@ class _AddressDetailsScreenState extends State<AddressDetailsScreen>
   @override
   Widget build(BuildContext context) {
     return Obx(() => Container(
-        color: dashBoardBgColor_(context),
+        color: backgroundColor_(context),
         child: SafeArea(
           child: Scaffold(
             appBar: BaseAppBar(
               appBar: AppBar(),
-              title: controller.addressDetailsInfo?.name ?? "",
+              title: "",
               isCenterTitle: false,
-              bgColor: dashBoardBgColor_(context),
+              bgColor: backgroundColor_(context),
               isBack: true,
               widgets: actionButtons(),
               onBackPressed: () {
@@ -47,36 +49,44 @@ class _AddressDetailsScreenState extends State<AddressDetailsScreen>
               progressIndicator: const CustomProgressbar(),
               child: controller.isInternetNotAvailable.value
                   ? Center(
-                child: Text('no_internet_text'.tr),
-              )
+                      child: Text('no_internet_text'.tr),
+                    )
                   : Visibility(
-                visible: controller.isMainViewVisible.value,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      AddressDetailsCard(),
-                      const SizedBox(height: 16),
-                      DateFilterOptionsHorizontalList(
-                        padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                        startDate: controller.startDate,
-                        endDate: controller.endDate,
-                        listener: this,
-                        selectedPosition:
-                        controller.selectedDateFilterIndex,
-                      ),
-                      SizedBox(height: 16),
-                      AddressDetailsGridItems()
-                    ],
-                  ),
-                )
-              ),
+                      visible: controller.isMainViewVisible.value,
+                      child: Padding(
+                        padding: const EdgeInsets.all(0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            AddressDetailsCard(),
+                            const SizedBox(height: 16),
+                            DateFilterOptionsHorizontalList(
+                              padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                              startDate: controller.startDate,
+                              endDate: controller.endDate,
+                              listener: this,
+                              selectedPosition:
+                                  controller.selectedDateFilterIndex,
+                            ),
+                            const SizedBox(height: 16),
+                            controller.selectedFilter.value ==
+                                    AppConstants.action.trades
+                                ? TradeUserRecords()
+                                : CheckInRecordsList()
+                            // SizedBox(height: 16),
+                            // Padding(
+                            //   padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+                            //   child: AddressDetailsGridItems(),
+                            // )
+                          ],
+                        ),
+                      )),
             ),
             bottomNavigationBar: CommonBottomNavigationBarWidget(),
           ),
         )));
   }
+
   List<Widget>? actionButtons() {
     return [
       // Visibility(
@@ -103,7 +113,8 @@ class _AddressDetailsScreenState extends State<AddressDetailsScreen>
   }
 
   @override
-  void onSelectDateFilter(String startDate, String endDate, String dialogIdentifier) {
+  void onSelectDateFilter(
+      String startDate, String endDate, String dialogIdentifier) {
     // TODO: implement onSelectDateFilter
     controller.isResetEnable.value = true;
     controller.startDate = startDate;

@@ -288,7 +288,7 @@ class AppPages {
     GetPage(name: AppRoutes.filterScreen, page: () => FilterScreen()),
     GetPage(name: AppRoutes.companyListScreen, page: () => CompanyListScreen()),
     GetPage(name: AppRoutes.addProjectScreen, page: () => AddProjectScreen()),
-    GetPage(name: AppRoutes.projectListScreen, page: () => ProjectListScreen2()),
+    GetPage(name: AppRoutes.projectListScreen, page: () => ProjectListScreen()),
     GetPage(name: AppRoutes.projectInfoScreen, page: () => ProjectInfoScreen()),
     GetPage(name: AppRoutes.checkInScreen, page: () => CheckInScreen()),
     GetPage(name: AppRoutes.checkOutScreen, page: () => CheckOutScreen()),

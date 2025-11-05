@@ -27,12 +27,22 @@ class _UpdateAddressProgressScreenState
     controller = UpdateAddressProgressController(
       addressDetailsInfo: widget.addressDetailsInfo,
     );
-    controller.selectedStatus = widget.addressDetailsInfo.statusText ?? "";
+    // Extract server-provided status
+    String serverStatus = widget.addressDetailsInfo.statusText ?? "";
+    // Validate it against the dropdown keys
+    if (controller.status.containsKey(serverStatus)) {
+      controller.selectedStatus = serverStatus;
+    }
+    else{
+      // Default to To Do if invalid
+      controller.selectedStatus = "To Do";
+    }
+    controller.selectedStatusValue = widget.addressDetailsInfo.statusInt ?? 0;
+    // Handle progress parsing safely
     String serverProgress = widget.addressDetailsInfo.progress ?? "";
     controller.progress =
         double.tryParse(serverProgress.replaceAll('%', '')) ?? 0.0;
   }
-
   @override
   Widget build(BuildContext context) {
     return Container(

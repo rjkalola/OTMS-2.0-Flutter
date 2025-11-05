@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-
+import 'package:belcka/pages/app_badge_ios.dart';
 import 'package:belcka/pages/check_in/clock_in/controller/clock_in_repository.dart';
 import 'package:belcka/pages/check_in/clock_in/controller/clock_in_utils_.dart';
 import 'package:belcka/pages/check_in/clock_in/model/counter_details.dart';
@@ -27,7 +27,6 @@ import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:get/get.dart';
 
 class HomeTabController extends GetxController // with WidgetsBindingObserver
@@ -428,11 +427,10 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
                   jsonDecode(responseModel.result!));
           notificationCount.value =
               (response.feedCount ?? 0) + (response.announcementCount ?? 0);
-
           if (notificationCount.value > 0) {
-            FlutterAppBadger.updateBadgeCount(notificationCount.value);
-          } else {
-            FlutterAppBadger.removeBadge();
+            AppBadge.update(notificationCount.value);
+          }else{
+            AppBadge.remove();
           }
         } else {
           // AppUtils.showSnackBarMessage(responseModel.statusMessage!);

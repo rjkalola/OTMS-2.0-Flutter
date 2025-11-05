@@ -13,6 +13,26 @@ import UserNotifications
         GMSServices.provideAPIKey("AIzaSyAdLpTcvwOWzhK4maBtriznqiw5MwBNcZw")  // Add this
         UNUserNotificationCenter.current().delegate = self
         GeneratedPluginRegistrant.register(with: self)
+        //New code for badge count in iOS.
+        let controller: FlutterViewController = window?.rootViewController as! FlutterViewController
+        let channel = FlutterMethodChannel(name: "app_badge_channel", binaryMessenger: controller.binaryMessenger)
+
+        channel.setMethodCallHandler { (call: FlutterMethodCall, result: @escaping FlutterResult) in
+            if call.method == "updateBadgeCount" {
+                if let args = call.arguments as? [String: Any],
+                   let count = args["count"] as? Int {
+                    UIApplication.shared.applicationIconBadgeNumber = count
+                    result(nil)
+                } else {
+                    result(FlutterError(code: "INVALID_ARGS", message: "Missing count", details: nil))
+                }
+            } else if call.method == "removeBadge" {
+                UIApplication.shared.applicationIconBadgeNumber = 0
+                result(nil)
+            } else {
+                result(FlutterMethodNotImplemented)
+            }
+        }
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)
     }
 

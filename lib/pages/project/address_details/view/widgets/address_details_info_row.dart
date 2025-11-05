@@ -21,7 +21,8 @@ class AddressDetailsInfoRow extends StatelessWidget {
         children: [
           Text(
             label,
-            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16,color: primaryTextColor_(
+                context)),
           ),
           SizedBox(width: 8),
           Expanded( // <-- allows wrapping

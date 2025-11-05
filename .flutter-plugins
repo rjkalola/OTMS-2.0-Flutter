@@ -1,4 +1,5 @@
 # This is a generated file; do not edit or check into version control.
+android_intent_plus=/Users/apple/.pub-cache/hosted/pub.dev/android_intent_plus-5.3.1/
 cloud_firestore=/Users/apple/.pub-cache/hosted/pub.dev/cloud_firestore-6.0.2/
 cloud_firestore_web=/Users/apple/.pub-cache/hosted/pub.dev/cloud_firestore_web-5.0.2/
 device_info_plus=/Users/apple/.pub-cache/hosted/pub.dev/device_info_plus-11.3.0/
@@ -10,7 +11,6 @@ firebase_core=/Users/apple/.pub-cache/hosted/pub.dev/firebase_core-4.1.1/
 firebase_core_web=/Users/apple/.pub-cache/hosted/pub.dev/firebase_core_web-3.1.1/
 firebase_messaging=/Users/apple/.pub-cache/hosted/pub.dev/firebase_messaging-16.0.2/
 firebase_messaging_web=/Users/apple/.pub-cache/hosted/pub.dev/firebase_messaging_web-4.0.2/
-flutter_app_badger=/Users/apple/.pub-cache/hosted/pub.dev/flutter_app_badger-1.5.0/
 flutter_image_compress=/Users/apple/.pub-cache/hosted/pub.dev/flutter_image_compress-2.4.0/
 flutter_image_compress_common=/Users/apple/.pub-cache/hosted/pub.dev/flutter_image_compress_common-1.0.6/
 flutter_image_compress_macos=/Users/apple/.pub-cache/hosted/pub.dev/flutter_image_compress_macos-1.0.3/

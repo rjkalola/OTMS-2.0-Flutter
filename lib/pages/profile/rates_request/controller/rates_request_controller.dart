@@ -48,7 +48,7 @@ class RatesRequestController extends GetxController implements DialogButtonClick
       requestLogId = arguments["request_log_id"] ?? 0;
       fromNotification =
           arguments[AppConstants.intentKey.fromNotification] ?? false;
-      isShowSaveButton.value = arguments["showButtons"] ?? true;
+      //isShowSaveButton.value = arguments["showButtons"] ?? true;
       getRateRequestInfo();
     }
   }

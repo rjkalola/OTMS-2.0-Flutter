@@ -253,6 +253,9 @@ class Action {
   final String digitalId = 'DigitalId';
   final String rent = 'Rent';
   final String history = 'History';
+
+  final String checkIn = "CheckIn";
+  final String trades = "Trades";
 }
 
 class StockCountType {

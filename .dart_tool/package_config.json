@@ -20,6 +20,12 @@
       "languageVersion": "3.5"
     },
     {
+      "name": "android_intent_plus",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/android_intent_plus-5.3.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.1"
+    },
+    {
       "name": "archive",
       "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/archive-4.0.7",
       "packageUri": "lib/",
@@ -294,12 +300,6 @@
       "rootUri": "file:///Users/apple/Documents/flutterDev/flutter/packages/flutter",
       "packageUri": "lib/",
       "languageVersion": "3.3"
-    },
-    {
-      "name": "flutter_app_badger",
-      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/flutter_app_badger-1.5.0",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
     },
     {
       "name": "flutter_cache_manager",
@@ -1226,7 +1226,7 @@
       "languageVersion": "3.2"
     }
   ],
-  "generated": "2025-11-05T07:13:31.460144Z",
+  "generated": "2025-11-05T13:37:21.116343Z",
   "generator": "pub",
   "generatorVersion": "3.6.2",
   "flutterRoot": "file:///Users/apple/Documents/flutterDev/flutter",

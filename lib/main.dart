@@ -1,16 +1,17 @@
-import 'package:belcka/utils/notification_service.dart';
-import 'package:bot_toast/bot_toast.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_app_badger/flutter_app_badger.dart';
-import 'package:get/get.dart';
+import 'package:belcka/pages/app_badge_ios.dart';
 import 'package:belcka/pages/authentication/splash/splash_screen.dart';
 import 'package:belcka/res/strings.dart';
 import 'package:belcka/res/theme/theme_config.dart';
 import 'package:belcka/res/theme/theme_controller.dart';
 import 'package:belcka/routes/app_pages.dart';
 import 'package:belcka/utils/app_storage.dart';
+import 'package:belcka/utils/notification_service.dart';
+import 'package:bot_toast/bot_toast.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
 import 'firebase_options.dart';
 
 void main() async {
@@ -78,9 +79,9 @@ class _MyAppState extends State<MyApp> {
   void setBadgeCount(int count) async {
     setState(() => badgeCount.value = count);
     if (count > 0) {
-      FlutterAppBadger.updateBadgeCount(count);
+      AppBadge.update(count);
     } else {
-      FlutterAppBadger.removeBadge();
+      AppBadge.remove();
     }
   }
 }

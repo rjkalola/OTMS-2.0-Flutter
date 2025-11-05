@@ -28,10 +28,10 @@ class UpdateAddressProgressController extends GetxController {
   final Map<String, int> status = {
     "In Progress": 3,
     "Completed": 4,
-    "Pending": 13
+    "To Do": 13
   };
 
-  String selectedStatus = "Pending";
+  String selectedStatus = "To Do";
   int? selectedStatusValue = 13;
   double progress = 0;
 
@@ -73,7 +73,7 @@ class UpdateAddressProgressController extends GetxController {
   }
 
   void onSavePressed(BuildContext context) {
-    if (selectedStatus == "Completed" && progress < 100) {
+    if (selectedStatusValue == 4 && progress < 100) {
       // Show confirmation dialog
       showDialog(
         context: context,

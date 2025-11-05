@@ -1,35 +1,34 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:dio/dio.dart' as multi;
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
+import 'package:belcka/pages/check_in/clock_in/model/check_log_info.dart';
 import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:belcka/pages/common/listener/menu_item_listener.dart';
 import 'package:belcka/pages/common/menu_items_list_bottom_dialog.dart';
-import 'package:belcka/pages/dashboard/tabs/more_tab/view/more_tab.dart';
 import 'package:belcka/pages/project/address_details/controller/address_details_repository.dart';
 import 'package:belcka/pages/project/address_details/model/address_details_response.dart';
 import 'package:belcka/pages/project/address_list/model/address_info.dart';
-import 'package:belcka/pages/project/project_details/model/project_details_api_response.dart';
+import 'package:belcka/pages/project/check_in_records/controller/check_in_records_repository.dart';
+import 'package:belcka/pages/project/check_in_records/model/check_in_records_info.dart';
+import 'package:belcka/pages/project/check_in_records/model/check_in_records_response.dart';
 import 'package:belcka/pages/project/project_details/model/project_detals_item.dart';
+import 'package:belcka/pages/project/trade_records/controller/trade_records_repository.dart';
+import 'package:belcka/pages/project/trade_records/model/trade_records_response.dart';
 import 'package:belcka/pages/project/update_address_progress/view/update_address_progress_screen.dart';
 import 'package:belcka/res/drawable.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:belcka/utils/app_constants.dart';
-import 'package:belcka/utils/app_storage.dart';
 import 'package:belcka/utils/app_utils.dart';
-import 'package:belcka/utils/data_utils.dart';
-import 'package:belcka/utils/user_utils.dart';
+import 'package:belcka/utils/date_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/web_services/response/response_model.dart';
-import 'package:path/path.dart';
-import '../../../dashboard/tabs/home_tab2/view/home_tab.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class AddressDetailsController extends GetxController
     implements MenuItemListener, DialogButtonClickListener {
@@ -39,42 +38,22 @@ class AddressDetailsController extends GetxController
       isMainViewVisible = false.obs,
       isDataUpdated = false.obs,
       isResetEnable = false.obs;
-
+  RxInt tradesCount = 0.obs,
+      checkInsCount = 0.obs,
+      documentsCount = 0.obs,
+      materialCount = 0.obs,
+      selectedDateFilterIndex = (1).obs;
+  RxString selectedFilter = AppConstants.action.checkIn.obs;
   final selectedIndex = 0.obs;
   late final PageController pageController;
 
-  final List<ProjectDetalsItem> items = [
-    ProjectDetalsItem(
-        title: 'check_in_'.tr,
-        subtitle: '',
-        iconPath: Drawable.clockIcon,
-        iconColor: "#000000",
-        flagName: "Check-In"),
-    ProjectDetalsItem(
-        title: 'materials'.tr,
-        subtitle: '',
-        iconPath: Drawable.poundIcon,
-        iconColor: "#000000",
-        flagName: "Materials"),
-    ProjectDetalsItem(
-        title: 'trades'.tr,
-        subtitle: '',
-        iconPath: Drawable.tradesPermissionIcon,
-        iconColor: "#000000",
-        flagName: "Trades"),
-    ProjectDetalsItem(
-        title: 'documents'.tr,
-        subtitle: '',
-        iconPath: Drawable.todoPermissionIcon,
-        iconColor: "#000000",
-        flagName: "Documents"),
-  ];
-
   AddressInfo? addressDetailsInfo;
   AddressInfo? addressInfo;
+  final listCheckInRecords = <CheckInRecordsInfo>[].obs;
+  final listTrades = <CheckLogInfo>[].obs;
 
-  final RxInt selectedDateFilterIndex = (1).obs;
   String filterPerDay = "", startDate = "", endDate = "";
+  int addressId = 0, projectId = 0;
 
   //Home Tab
   final selectedActionButtonPagerPosition = 0.obs;
@@ -89,6 +68,8 @@ class AddressDetailsController extends GetxController
     var arguments = Get.arguments;
     if (arguments != null) {
       addressInfo = arguments[AppConstants.intentKey.addressInfo];
+      addressId = addressInfo?.id ?? 0;
+      projectId = addressInfo?.projectId ?? 0;
     }
     getAddressDetailsApi();
   }
@@ -97,19 +78,29 @@ class AddressDetailsController extends GetxController
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["address_id"] = addressInfo?.id ?? 0;
-    map["start_date"] = startDate;
-    map["end_date"] = endDate;
+    map["start_date"] = !StringHelper.isEmptyString(startDate)
+        ? DateUtil.changeDateFormat(
+        startDate, DateUtil.DD_MM_YYYY_SLASH, DateUtil.YYYY_MM_DD_DASH)
+        : "";
+    map["end_date"] = !StringHelper.isEmptyString(endDate)
+        ? DateUtil.changeDateFormat(
+        endDate, DateUtil.DD_MM_YYYY_SLASH, DateUtil.YYYY_MM_DD_DASH)
+        : "";
 
     _api.getAddressDetails(
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
-          isMainViewVisible.value = true;
           AddressDetailsResponse response = AddressDetailsResponse.fromJson(
               jsonDecode(responseModel.result!));
           addressDetailsInfo = response.info;
           if (addressDetailsInfo != null) {
+            tradesCount.value = addressDetailsInfo?.trades ?? 0;
+            checkInsCount.value = addressDetailsInfo?.checkIns ?? 0;
+            documentsCount.value = addressDetailsInfo?.documents ?? 0;
+            materialCount.value = addressDetailsInfo?.materials ?? 0;
             updateItemsWithApi(addressDetailsInfo!);
+            onSelectAddressFilter(selectedFilter.value, false);
           }
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
@@ -124,6 +115,70 @@ class AddressDetailsController extends GetxController
           // Utils.showSnackBarMessage('no_internet'.tr);
         } else if (error.statusMessage!.isNotEmpty) {
           AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
+
+  void getProjectCheckLogsApi(bool isProgress) {
+    isLoading.value = isProgress;
+    Map<String, dynamic> map = {};
+    map["start_date"] = startDate;
+    map["end_date"] = endDate;
+    map["project_id"] = projectId;
+    map["address_id"] = addressId;
+
+    CheckInRecordsRepository().getProjectCheckLogs(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          isMainViewVisible.value = true;
+          CheckInRecordsResponse response = CheckInRecordsResponse.fromJson(
+              jsonDecode(responseModel.result!));
+          listCheckInRecords.clear();
+          listCheckInRecords.addAll(response.info ?? []);
+          listCheckInRecords.refresh();
+        } else {
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+        }
+      },
+    );
+  }
+
+  void getProjectTradeRecordsApi(bool isProgress) {
+    isLoading.value = isProgress;
+    Map<String, dynamic> map = {};
+    map["start_date"] = startDate;
+    map["end_date"] = endDate;
+    map["project_id"] = projectId;
+    map["address_id"] = addressId;
+
+    TradeRecordsRepository().getProjectTradeRecords(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          isMainViewVisible.value = true;
+          TradeRecordsResponse response =
+              TradeRecordsResponse.fromJson(jsonDecode(responseModel.result!));
+          listTrades.clear();
+          listTrades.addAll(response.info ?? []);
+          listTrades.refresh();
+        } else {
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
         }
       },
     );
@@ -241,7 +296,7 @@ class AddressDetailsController extends GetxController
     startDate = "";
     endDate = "";
     selectedDateFilterIndex.value = -1;
-    loadAddressDetailsData(true);
+    // loadAddressDetailsData(true);
   }
 
   void showMenuItemsDialog(BuildContext context) {
@@ -300,6 +355,15 @@ class AddressDetailsController extends GetxController
     }
   }
 
+  void onSelectAddressFilter(String action, bool isProgress) {
+    // clearFilter();
+    if (action == AppConstants.action.checkIn) {
+      getProjectCheckLogsApi(isProgress);
+    } else if (action == AppConstants.action.trades) {
+      getProjectTradeRecordsApi(isProgress);
+    }
+  }
+
   showDeleteTeamDialog() async {
     AlertDialogHelper.showAlertDialog(
         "",
@@ -328,4 +392,31 @@ class AddressDetailsController extends GetxController
       Get.back();
     }
   }
+
+  final List<ProjectDetalsItem> items = [
+    ProjectDetalsItem(
+        title: 'check_in_'.tr,
+        subtitle: '',
+        iconPath: Drawable.clockIcon,
+        iconColor: "#000000",
+        flagName: "Check-In"),
+    ProjectDetalsItem(
+        title: 'materials'.tr,
+        subtitle: '',
+        iconPath: Drawable.poundIcon,
+        iconColor: "#000000",
+        flagName: "Materials"),
+    ProjectDetalsItem(
+        title: 'trades'.tr,
+        subtitle: '',
+        iconPath: Drawable.tradesPermissionIcon,
+        iconColor: "#000000",
+        flagName: "Trades"),
+    ProjectDetalsItem(
+        title: 'documents'.tr,
+        subtitle: '',
+        iconPath: Drawable.todoPermissionIcon,
+        iconColor: "#000000",
+        flagName: "Documents"),
+  ];
 }
