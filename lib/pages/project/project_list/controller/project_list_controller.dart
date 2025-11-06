@@ -1,37 +1,32 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
+import 'package:belcka/pages/common/listener/menu_item_listener.dart';
 import 'package:belcka/pages/common/listener/select_item_listener.dart';
+import 'package:belcka/pages/common/menu_items_list_bottom_dialog.dart';
 import 'package:belcka/pages/project/address_list/controller/address_list_repository.dart';
 import 'package:belcka/pages/project/address_list/model/address_info.dart';
 import 'package:belcka/pages/project/address_list/model/address_list_response.dart';
-import 'package:belcka/pages/project/project_list/view/active_project_dialog.dart';
-import 'package:dio/dio.dart' as multi;
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:belcka/pages/common/listener/menu_item_listener.dart';
-import 'package:belcka/pages/common/menu_items_list_bottom_dialog.dart';
-import 'package:belcka/pages/company/company_list/model/company_list_response.dart';
-import 'package:belcka/pages/company/company_signup/model/company_info.dart';
-import 'package:belcka/pages/profile/company_billings/controller/company_billings_repository.dart';
+import 'package:belcka/pages/project/project_details/controller/project_details_repository.dart';
 import 'package:belcka/pages/project/project_info/model/project_info.dart';
 import 'package:belcka/pages/project/project_info/model/project_list_response.dart';
 import 'package:belcka/pages/project/project_list/controller/project_list_repository.dart';
+import 'package:belcka/pages/project/project_list/view/active_project_dialog.dart';
 import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:belcka/utils/app_constants.dart';
-import 'package:belcka/utils/app_storage.dart';
 import 'package:belcka/utils/app_utils.dart';
-import 'package:belcka/utils/data_utils.dart';
-import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/web_services/response/response_model.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ProjectListController extends GetxController
-    implements MenuItemListener, SelectItemListener {
+    implements MenuItemListener, SelectItemListener, DialogButtonClickListener {
   final _api = ProjectListRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
@@ -77,6 +72,9 @@ class ProjectListController extends GetxController
             getAddressListApi(0);
           } else {
             isMainViewVisible.value = true;
+            tempList.clear();
+            addressList.clear();
+            addressList.refresh();
           }
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
@@ -168,12 +166,51 @@ class ProjectListController extends GetxController
     );
   }
 
+  void archiveProjectApi() {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["id"] = activeProjectId.value;
+    ProjectDetailsRepository().archiveProject(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          BaseResponse response =
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showApiResponseMessage(response.Message ?? "");
+          getProjectListApi();
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+          // AppUtils.showApiResponseMessage('no_internet'.tr);
+          // Utils.showApiResponseMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showApiResponseMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
+
   void showMenuItemsDialog(BuildContext context) {
     List<ModuleInfo> listItems = [];
     listItems.add(ModuleInfo(name: 'add'.tr, action: AppConstants.action.add));
+    if (activeProjectId.value != 0) {
+      listItems
+          .add(ModuleInfo(name: 'edit'.tr, action: AppConstants.action.edit));
+      listItems.add(
+          ModuleInfo(name: 'archive'.tr, action: AppConstants.action.delete));
+      listItems.add(ModuleInfo(
+          name: 'add_address'.tr, action: AppConstants.action.addAddress));
+    }
     listItems.add(ModuleInfo(
         name: 'archived_projects'.tr,
         action: AppConstants.action.archivedProjects));
+
     showCupertinoModalPopup(
       context: context,
       builder: (_) =>
@@ -185,8 +222,42 @@ class ProjectListController extends GetxController
   Future<void> onSelectMenuItem(ModuleInfo info, String dialogType) async {
     if (info.action == AppConstants.action.add) {
       moveToScreen(AppRoutes.addProjectScreen, null);
+    } else if (info.action == AppConstants.action.edit) {
+      if (activeProjectId.value != 0) {
+        ProjectInfo? projectInfo;
+        for (var info in projectsList) {
+          if (activeProjectId.value == (info.id ?? 0)) {
+            projectInfo = info;
+            break;
+          }
+        }
+        if (projectInfo != null) {
+          var arguments = {
+            AppConstants.intentKey.projectInfo: projectInfo,
+          };
+          moveToScreen(AppRoutes.addProjectScreen, arguments);
+        }
+      }
+    } else if (info.action == AppConstants.action.delete) {
+      showDeleteProjectDialog();
     } else if (info.action == AppConstants.action.archivedProjects) {
       moveToScreen(AppRoutes.archiveProjectListScreen, null);
+    } else if (info.action == AppConstants.action.addAddress) {
+      if (activeProjectId.value != 0) {
+        ProjectInfo? projectInfo;
+        for (var info in projectsList) {
+          if (activeProjectId.value == (info.id ?? 0)) {
+            projectInfo = info;
+            break;
+          }
+        }
+        if (projectInfo != null) {
+          var arguments = {
+            AppConstants.intentKey.projectInfo: projectInfo,
+          };
+          moveToScreen(AppRoutes.addAddressScreen, arguments);
+        }
+      }
     }
   }
 
@@ -218,6 +289,35 @@ class ProjectListController extends GetxController
   void onSelectItem(int position, int id, String name, String action) {
     if (action == AppConstants.dialogIdentifier.selectProject) {
       activeProjectAPI(id, name);
+    }
+  }
+
+  showDeleteProjectDialog() async {
+    AlertDialogHelper.showAlertDialog(
+        "",
+        'are_you_sure_you_want_to_delete'.tr,
+        'yes'.tr,
+        'no'.tr,
+        "",
+        true,
+        false,
+        this,
+        AppConstants.dialogIdentifier.deleteProject);
+  }
+
+  @override
+  void onNegativeButtonClicked(String dialogIdentifier) {
+    Get.back();
+  }
+
+  @override
+  void onOtherButtonClicked(String dialogIdentifier) {}
+
+  @override
+  void onPositiveButtonClicked(String dialogIdentifier) {
+    if (dialogIdentifier == AppConstants.dialogIdentifier.deleteProject) {
+      archiveProjectApi();
+      Get.back();
     }
   }
 }

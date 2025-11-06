@@ -112,9 +112,32 @@ class _BillingDetailsNewScreenState extends State<BillingDetailsNewScreen> {
                                         },
                                         child: NavigationCard(
                                           label: "rates".tr,
-                                          value: controller.billingInfo.value.net_rate_perDay != ""
-                                              ? "${controller.billingInfo.value.tradeName ?? ""} - ${controller.billingInfo.value.currency ?? ""}${controller.billingInfo.value.net_rate_perDay}"
-                                              : "${controller.billingInfo.value.tradeName ?? ""}",
+                                          value: (controller.billingInfo.value.net_rate_perDay?.isNotEmpty ?? false)
+                                              ? RichText(
+                                            text: TextSpan(
+                                              style: TextStyle(
+                                                color: primaryTextColor_(context),
+                                                fontSize: 18,
+                                              ),
+                                              children: [
+                                                TextSpan(text: "${controller.billingInfo.value.tradeName ?? ""} - "),
+                                                TextSpan(
+                                                  text:
+                                                  "${controller.billingInfo.value.currency ?? ""}${controller.billingInfo.value.net_rate_perDay ?? ""}",
+                                                  style: const TextStyle(fontWeight: FontWeight.bold),
+                                                ),
+                                                const TextSpan(text: "/day"),
+                                              ],
+                                            ),
+                                          )
+                                              : Text(
+                                            controller.billingInfo.value.tradeName ?? "",
+                                            style: TextStyle(
+                                              color: primaryTextColor_(context),
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
                                           isShowArrow: true,
                                         ),
                                       ),

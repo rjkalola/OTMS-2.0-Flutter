@@ -4,6 +4,7 @@ import 'package:android_intent_plus/android_intent.dart';
 import 'package:android_intent_plus/flag.dart';
 import 'package:belcka/pages/common/model/file_info.dart';
 import 'package:belcka/pages/common/model/user_info.dart';
+import 'package:belcka/pages/manageattachment/view/audio_player_screen.dart';
 import 'package:belcka/pages/manageattachment/view/pdf_viewer_page.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_constants.dart';
@@ -87,18 +88,29 @@ class ImageUtils {
       BuildContext context, String path, String type) async {
     if (type == 'image') {
       ImageUtils.showImagePreviewDialog(path);
-    } else if (type == 'video' || type == 'audio') {
+    } else if (type == 'audio') {
+      Get.to(() => AudioPlayerScreen(
+            source: path,
+
+          ));
+    } else if (type == 'video') {
       if (path.startsWith("http")) {
         final uri = Uri.parse(path);
         if (Platform.isAndroid) {
-          String mimeType = type == 'video' ? "video/*" : "audio/*";
-          final intent = AndroidIntent(
-            action: 'action_view',
-            data: uri.toString(),
-            type: mimeType, // ✅ Tells Android it’s media, not web
-            flags: <int>[Flag.FLAG_ACTIVITY_NEW_TASK],
-          );
-          await intent.launch();
+          try {
+            final intent = AndroidIntent(
+              action: 'action_view',
+              data: uri.toString(),
+              type: 'video/*',
+              flags: <int>[Flag.FLAG_ACTIVITY_NEW_TASK],
+            );
+            await intent.launch();
+          } catch (e) {
+            await launchUrl(
+              Uri.parse(path),
+              mode: LaunchMode.externalApplication,
+            );
+          }
         } else if (Platform.isIOS) {
           await launchUrl(uri, mode: LaunchMode.externalApplication);
         }

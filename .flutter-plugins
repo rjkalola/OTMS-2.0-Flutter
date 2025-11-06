@@ -1,5 +1,11 @@
 # This is a generated file; do not edit or check into version control.
 android_intent_plus=/Users/apple/.pub-cache/hosted/pub.dev/android_intent_plus-5.3.1/
+audioplayers=/Users/apple/.pub-cache/hosted/pub.dev/audioplayers-6.5.1/
+audioplayers_android=/Users/apple/.pub-cache/hosted/pub.dev/audioplayers_android-5.2.1/
+audioplayers_darwin=/Users/apple/.pub-cache/hosted/pub.dev/audioplayers_darwin-6.3.0/
+audioplayers_linux=/Users/apple/.pub-cache/hosted/pub.dev/audioplayers_linux-4.2.1/
+audioplayers_web=/Users/apple/.pub-cache/hosted/pub.dev/audioplayers_web-5.1.1/
+audioplayers_windows=/Users/apple/.pub-cache/hosted/pub.dev/audioplayers_windows-4.2.1/
 cloud_firestore=/Users/apple/.pub-cache/hosted/pub.dev/cloud_firestore-6.0.2/
 cloud_firestore_web=/Users/apple/.pub-cache/hosted/pub.dev/cloud_firestore_web-5.0.2/
 device_info_plus=/Users/apple/.pub-cache/hosted/pub.dev/device_info_plus-11.3.0/

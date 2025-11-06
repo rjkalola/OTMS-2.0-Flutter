@@ -15,32 +15,35 @@ class ProjectListHeaderView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: backgroundColor_(context),
-        boxShadow: [AppUtils.boxShadow(shadowColor_(context), 10)],
-        border: Border.all(width: 0.6, color: Colors.transparent),
-        borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(28), bottomRight: Radius.circular(28)),
-      ),
-      child: Column(
-        children: [
-          ProjectTitle(),
-          Visibility(
-            visible: !StringHelper.isEmptyString(
-                controller.activeProjectTitle.value),
-            child: SizedBox(
-              height: 14,
-            ),
-          ),
-          Visibility(
+    return Obx(
+      () => Container(
+        decoration: BoxDecoration(
+          color: backgroundColor_(context),
+          boxShadow: [AppUtils.boxShadow(shadowColor_(context), 10)],
+          border: Border.all(width: 0.6, color: Colors.transparent),
+          borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(28),
+              bottomRight: Radius.circular(28)),
+        ),
+        child: Column(
+          children: [
+            ProjectTitle(),
+            Visibility(
               visible: !StringHelper.isEmptyString(
                   controller.activeProjectTitle.value),
-              child: AddressFilterList()),
-          SizedBox(
-            height: 16,
-          ),
-        ],
+              child: SizedBox(
+                height: 14,
+              ),
+            ),
+            Visibility(
+                visible: !StringHelper.isEmptyString(
+                    controller.activeProjectTitle.value),
+                child: AddressFilterList()),
+            SizedBox(
+              height: 16,
+            ),
+          ],
+        ),
       ),
     );
   }

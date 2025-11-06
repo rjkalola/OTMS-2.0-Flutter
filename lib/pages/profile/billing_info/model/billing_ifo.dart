@@ -32,6 +32,8 @@ class BillingInfo {
   String? joiningDate;
   String? companyName;
   bool? is_rate_requested;
+  String? oldNetRatePerDay;
+  String? newNetRatePerDay;
 
   BillingInfo(
       {this.id,
@@ -63,7 +65,9 @@ class BillingInfo {
       this.tradeName,
       this.tradeId,
       this.companyName,
-      this.is_rate_requested});
+      this.is_rate_requested,
+      this.newNetRatePerDay,
+      this.oldNetRatePerDay});
 
   BillingInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -89,13 +93,15 @@ class BillingInfo {
     userThumbImage = json['user_thumb_image'];
     status = json['status'];
     statusText = json['status_text'];
-    net_rate_perDay = json['net_rate_perDay'];
+    net_rate_perDay = json['net_rate_perDay'].toString();
     currency = json['currency'];
     tradeId = json['trade_id'];
     tradeName = json['trade_name'];
     joiningDate = json['joining_date'];
     companyName = json['company_name'];
     is_rate_requested = json['is_rate_requested'];
+    newNetRatePerDay = json['new_net_rate_perday'].toString();
+    oldNetRatePerDay = json['old_net_rate_perday'].toString();
   }
 
   Map<String, dynamic> toJson() {
@@ -130,6 +136,8 @@ class BillingInfo {
     data['joining_date'] = this.joiningDate;
     data['company_name'] = this.companyName;
     data['is_rate_requested'] = this.is_rate_requested;
+    data['new_net_rate_perday'] = this.newNetRatePerDay;
+    data['old_net_rate_perday'] = this.oldNetRatePerDay;
     return data;
   }
 }

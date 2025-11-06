@@ -13,7 +13,7 @@ class AppConstants {
   static const Results results = Results();
   static const Status status = Status();
   static const CompanyResourcesFlag companyResourcesFlag =
-      CompanyResourcesFlag();
+  CompanyResourcesFlag();
   static const NotificationType notificationType = NotificationType();
   static const RequestType requestType = RequestType();
   static const FilterType filterType = FilterType();
@@ -209,6 +209,7 @@ class Action {
   final String selectShiftDialog = 'selectShiftDialog';
   final String selectLeaveTypeDialog = 'selectLeaveTypeDialog';
   final String add = 'ADD';
+  final String addAddress = 'ADD_ADDRESS';
   final String edit = 'EDIT';
   final String delete = 'DELETE';
   final String createCode = 'CREATE_CODE';

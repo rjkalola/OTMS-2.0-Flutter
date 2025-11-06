@@ -19,7 +19,6 @@ class ProjectDetailsRepository{
     );
   }
   void archiveProject({
-    // Map<String, dynamic>? queryParameters,
     dynamic data,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,

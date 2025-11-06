@@ -15,7 +15,7 @@ class ProjectTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Obx(() => Padding(
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
       child: GestureDetector(
         onTap: () {
@@ -26,7 +26,7 @@ class ProjectTitle extends StatelessWidget {
             Flexible(
               child: PrimaryTextView(
                 text: !StringHelper.isEmptyString(
-                        controller.activeProjectTitle.value)
+                    controller.activeProjectTitle.value)
                     ? controller.activeProjectTitle.value
                     : 'select_project'.tr,
                 softWrap: true,
@@ -53,6 +53,6 @@ class ProjectTitle extends StatelessWidget {
           ],
         ),
       ),
-    );
+    ),);
   }
 }

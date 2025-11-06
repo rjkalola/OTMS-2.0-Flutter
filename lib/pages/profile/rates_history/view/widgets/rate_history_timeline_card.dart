@@ -1,6 +1,7 @@
 import 'package:belcka/pages/profile/rates_history/controller/rates_history_controller.dart';
 import 'package:belcka/pages/profile/rates_history/model/rates_history_response.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/theme/app_colors.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -83,22 +84,35 @@ class RateHistoryTimelineCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   if ((double.tryParse(item.newNetRatePerday ?? "") ?? 0) > 0)
-                  Text(
-                    "New Rate: ${item.currency}${item.newNetRatePerday ?? ""}/day",
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
+                    RichText(
+                      text: TextSpan(
+                        style: TextStyle(color: primaryTextColor_(context), fontSize: 15),
+                        children: [
+                          const TextSpan(text: 'New Rate: '),
+                          TextSpan(
+                            text: '${item.currency}${item.newNetRatePerday ?? ""}',
+                            style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 16),
+                          ),
+                          TextSpan(text: '/day'),
+                        ],
+                      ),
                     ),
-                  ),
                   SizedBox(height: 8,),
                   if ((double.tryParse(item.oldNetRatePerday ?? "") ?? 0) > 0)
-                  Text(
-                    "Old Rate: ${item.currency}${item.oldNetRatePerday ?? ""}/day",
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
+
+                    RichText(
+                      text: TextSpan(
+                        style: TextStyle(color: primaryTextColor_(context), fontSize: 15),
+                        children: [
+                          const TextSpan(text: 'Old Rate: '),
+                          TextSpan(
+                            text: '${item.currency}${item.oldNetRatePerday ?? ""}',
+                            style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 16),
+                          ),
+                          TextSpan(text: '/day'),
+                        ],
+                      ),
                     ),
-                  ),
                 ],
               ),
               Divider(height:24,color:lightGreyColor(context)),

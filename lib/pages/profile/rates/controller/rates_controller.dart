@@ -54,7 +54,14 @@ class RatesController extends GetxController implements SelectItemListener, Dial
   void setInitData() {
     isRateRequested = billingInfo.value.is_rate_requested ?? false;
     tradeId = billingInfo.value.tradeId;
-    netPerDayController.value.text = "${billingInfo.value.net_rate_perDay ?? 0}";
+
+    if (billingInfo.value.is_rate_requested ?? false){
+      netPerDayController.value.text = (billingInfo.value.oldNetRatePerDay ?? "").isEmpty ? billingInfo.value.net_rate_perDay ?? "" : billingInfo.value.oldNetRatePerDay ?? "";;
+    }
+    else{
+      netPerDayController.value.text = (billingInfo.value.newNetRatePerDay ?? "").isEmpty ? billingInfo.value.net_rate_perDay ?? "" : billingInfo.value.newNetRatePerDay ?? "";
+    }
+
     tradeController.value.text = billingInfo.value.tradeName ?? "";
     String joiningDateStr = billingInfo.value.joiningDate ?? "";
     joiningDate = joiningDateStr.split(" ").sublist(0, 3).join(" ");
