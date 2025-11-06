@@ -26,6 +26,7 @@ class AddressDetailsCard extends StatelessWidget {
     }
 
     return Container(
+      padding: EdgeInsets.only(top: 4),
       decoration: BoxDecoration(
         color: backgroundColor_(context),
         boxShadow: [AppUtils.boxShadow(shadowColor_(context), 10)],
@@ -46,7 +47,9 @@ class AddressDetailsCard extends StatelessWidget {
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                 ),
-                SizedBox(height: 8,),
+                SizedBox(
+                  height: 8,
+                ),
                 AddressDetailsInfoRow(
                     label: "${'start_date'.tr}:",
                     value: controller.addressDetailsInfo?.startDate ?? ""),

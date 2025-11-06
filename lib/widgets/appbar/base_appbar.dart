@@ -1,7 +1,7 @@
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/widgets/textfield/search_text_field_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:belcka/res/colors.dart';
-import 'package:belcka/res/theme/theme_config.dart';
 
 class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   final AppBar appBar;
@@ -11,6 +11,10 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? onBackPressed;
   final List<Widget>? widgets;
   final Color? bgColor;
+  final bool? isSearching, autoFocus;
+  final ValueChanged<String>? onValueChange;
+  final Rx<TextEditingController>? searchController;
+  final Rx<bool>? isClearVisible;
 
   BaseAppBar(
       {super.key,
@@ -20,20 +24,36 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
       this.isBack = false,
       this.widgets,
       this.onBackPressed,
-      this.bgColor});
+      this.bgColor,
+      this.isSearching,
+      this.searchController,
+      this.onValueChange,
+      this.isClearVisible,
+      this.autoFocus});
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
         backgroundColor: bgColor ?? backgroundColor_(context),
-        title: Text(
-          title,
-          style:  TextStyle(
-              color: primaryTextColor_(context), fontSize: 18, fontWeight: FontWeight.w500),
+        title: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          child: (isSearching ?? false)
+              ? SearchTextFieldAppBar(
+                  controller: searchController!,
+                  isClearVisible: isClearVisible!,
+                  autofocus: autoFocus,
+                  onValueChange: onValueChange)
+              : Text(
+                  title,
+                  style: TextStyle(
+                      color: primaryTextColor_(context),
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500),
+                ),
         ),
         actions: widgets,
         centerTitle: isCenterTitle,
-        titleSpacing: (isBack||onBackPressed != null) ? 0 : 20,
+        titleSpacing: (isBack || onBackPressed != null) ? 0 : 20,
         automaticallyImplyLeading: isBack,
         leading: IconButton(
           icon: Icon(

@@ -94,7 +94,7 @@ class AddressList extends StatelessWidget {
                                         ),
                                         Expanded(
                                           child: SubtitleTextView(
-                                            text: info.startDate,
+                                            text: info.dateAdded,
                                             fontSize: 16,
                                           ),
                                         ),

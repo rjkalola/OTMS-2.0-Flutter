@@ -17,6 +17,7 @@ import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/module_info.dart';
@@ -28,11 +29,14 @@ import 'package:get/get.dart';
 class ProjectListController extends GetxController
     implements MenuItemListener, SelectItemListener, DialogButtonClickListener {
   final _api = ProjectListRepository();
+  final searchAddressController = TextEditingController().obs;
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
       isClearVisible = false.obs,
-      isDataUpdated = false.obs;
+      isDataUpdated = false.obs,
+      isSearchEnable = false.obs,
+      isClearSearch = false.obs;
   RxString selectedStatusFilter = "all".obs, activeProjectTitle = "".obs;
   RxInt activeProjectId = 0.obs,
       allCount = 0.obs,
@@ -59,6 +63,7 @@ class ProjectListController extends GetxController
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
+          clearAddress();
           ProjectListResponse response =
               ProjectListResponse.fromJson(jsonDecode(responseModel.result!));
           // tempList.clear();
@@ -198,12 +203,13 @@ class ProjectListController extends GetxController
 
   void showMenuItemsDialog(BuildContext context) {
     List<ModuleInfo> listItems = [];
-    listItems.add(ModuleInfo(name: 'add'.tr, action: AppConstants.action.add));
+    listItems.add(
+        ModuleInfo(name: 'add_project'.tr, action: AppConstants.action.add));
     if (activeProjectId.value != 0) {
-      listItems
-          .add(ModuleInfo(name: 'edit'.tr, action: AppConstants.action.edit));
-      listItems.add(
-          ModuleInfo(name: 'archive'.tr, action: AppConstants.action.delete));
+      listItems.add(ModuleInfo(
+          name: 'edit_project'.tr, action: AppConstants.action.edit));
+      listItems.add(ModuleInfo(
+          name: 'archive_project'.tr, action: AppConstants.action.delete));
       listItems.add(ModuleInfo(
           name: 'add_address'.tr, action: AppConstants.action.addAddress));
     }
@@ -319,5 +325,24 @@ class ProjectListController extends GetxController
       archiveProjectApi();
       Get.back();
     }
+  }
+
+  Future<void> searchAddress(String value) async {
+    print(value);
+    List<AddressInfo> results = [];
+    if (value.isEmpty) {
+      results = tempList;
+    } else {
+      results = tempList
+          .where((element) => (!StringHelper.isEmptyString(element.name) &&
+              element.name!.toLowerCase().contains(value.toLowerCase())))
+          .toList();
+    }
+    addressList.value = results;
+  }
+
+  void clearAddress() {
+    searchAddressController.value.clear();
+    searchAddress("");
   }
 }

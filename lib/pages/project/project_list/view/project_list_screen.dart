@@ -2,7 +2,9 @@ import 'package:belcka/pages/project/project_list/view/widgets/address_list.dart
 import 'package:belcka/pages/project/project_list/controller/project_list_controller.dart';
 import 'package:belcka/pages/project/project_list/view/widgets/project_list_header_view.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/drawable.dart';
 import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
@@ -36,6 +38,13 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
               isBack: true,
               bgColor: backgroundColor_(context),
               widgets: actionButtons(),
+              isSearching: controller.isSearchEnable.value,
+              searchController: controller.searchAddressController,
+              onValueChange: (value) {
+                controller.searchAddress(value);
+              },
+              autoFocus: true,
+              isClearVisible: false.obs,
             ),
             body: ModalProgressHUD(
                 inAsyncCall: controller.isLoading.value,
@@ -75,7 +84,31 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
       //     style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
       //   ),
       // ),
-      const SizedBox(width: 10),
+      SizedBox(
+        width: 6,
+      ),
+      InkWell(
+        onTap: () {
+          if (controller.isSearchEnable.value) {
+            controller.clearAddress();
+          }
+          controller.isSearchEnable.value = !controller.isSearchEnable.value;
+        },
+        customBorder: const CircleBorder(),
+        child: Padding(
+          padding: EdgeInsets.all(6),
+          child: controller.isSearchEnable.value
+              ? Icon(
+                  Icons.close,
+                  color: primaryTextColor_(context),
+                )
+              : ImageUtils.setSvgAssetsImage(
+                  path: Drawable.searchIcon,
+                  width: 24,
+                  height: 24,
+                  color: primaryTextColor_(context)),
+        ),
+      ),
       Visibility(
         visible: true,
         child: IconButton(

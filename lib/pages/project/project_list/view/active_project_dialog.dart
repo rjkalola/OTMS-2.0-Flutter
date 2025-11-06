@@ -150,11 +150,11 @@ class ActiveProjectDialogState extends State<ActiveProjectDialog> {
                       Expanded(
                         child: GestureDetector(
                           onTap: () {
-                            var arguments = {
-                              AppConstants.intentKey.projectId: info.id ?? 0,
-                            };
-                            Get.toNamed(AppRoutes.projectDetailsScreen,
-                                arguments: arguments);
+                            // var arguments = {
+                            //   AppConstants.intentKey.projectId: info.id ?? 0,
+                            // };
+                            // Get.toNamed(AppRoutes.projectDetailsScreen,
+                            //     arguments: arguments);
                           },
                           child: TitleTextView(
                             text: tempList[i].name ?? "",

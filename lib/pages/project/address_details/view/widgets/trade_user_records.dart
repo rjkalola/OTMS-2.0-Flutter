@@ -74,11 +74,11 @@ class TradeUserRecords extends StatelessWidget {
                                     // totalWorkHour(info),
                                     totalWorkHour(info),
                                     SizedBox(
-                                      width: 4,
+                                      width: 12,
                                     ),
-                                    RightArrowWidget(
-                                      color: primaryTextColor_(context),
-                                    )
+                                    // RightArrowWidget(
+                                    //   color: primaryTextColor_(context),
+                                    // )
                                   ],
                                 ),
                               ),

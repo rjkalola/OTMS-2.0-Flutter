@@ -11,6 +11,7 @@ class AddressInfo {
   int? trades;
   String? startDate;
   String? endDate;
+  String? dateAdded;
   String? currency;
   int? priceWork;
   int? materials;
@@ -36,6 +37,7 @@ class AddressInfo {
       this.trades,
       this.startDate,
       this.endDate,
+      this.dateAdded,
       this.currency,
       this.dayWork,
       this.checkIns,
@@ -61,6 +63,7 @@ class AddressInfo {
     trades = json['trades'];
     startDate = json['start_date'];
     endDate = json['end_date'];
+    dateAdded = json['date_added'];
     currency = json['currency'];
     priceWork = json['price_work'];
     materials = json['materials'];
@@ -102,6 +105,7 @@ class AddressInfo {
     data['trades'] = this.trades;
     data['start_date'] = this.startDate;
     data['end_date'] = this.endDate;
+    data['date_added'] = this.dateAdded;
     data['currency'] = this.currency;
     data['price_work'] = this.priceWork;
     data['materials'] = this.materials;

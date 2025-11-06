@@ -33,11 +33,15 @@ import 'package:get/get.dart';
 class AddressDetailsController extends GetxController
     implements MenuItemListener, DialogButtonClickListener {
   final _api = AddressDetailsRepository();
+  final searchAddressController = TextEditingController().obs;
+
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
       isDataUpdated = false.obs,
-      isResetEnable = false.obs;
+      isResetEnable = false.obs,
+      isSearchEnable = false.obs,
+      isClearSearch = false.obs;
   RxInt tradesCount = 0.obs,
       checkInsCount = 0.obs,
       documentsCount = 0.obs,
@@ -50,7 +54,9 @@ class AddressDetailsController extends GetxController
   AddressInfo? addressDetailsInfo;
   AddressInfo? addressInfo;
   final listCheckInRecords = <CheckInRecordsInfo>[].obs;
+  final tempCheckInRecords = <CheckInRecordsInfo>[].obs;
   final listTrades = <CheckLogInfo>[].obs;
+  final tempTrades = <CheckLogInfo>[].obs;
 
   String filterPerDay = "", startDate = "", endDate = "";
   int addressId = 0, projectId = 0;
@@ -80,11 +86,11 @@ class AddressDetailsController extends GetxController
     map["address_id"] = addressInfo?.id ?? 0;
     map["start_date"] = !StringHelper.isEmptyString(startDate)
         ? DateUtil.changeDateFormat(
-        startDate, DateUtil.DD_MM_YYYY_SLASH, DateUtil.YYYY_MM_DD_DASH)
+            startDate, DateUtil.DD_MM_YYYY_SLASH, DateUtil.YYYY_MM_DD_DASH)
         : "";
     map["end_date"] = !StringHelper.isEmptyString(endDate)
         ? DateUtil.changeDateFormat(
-        endDate, DateUtil.DD_MM_YYYY_SLASH, DateUtil.YYYY_MM_DD_DASH)
+            endDate, DateUtil.DD_MM_YYYY_SLASH, DateUtil.YYYY_MM_DD_DASH)
         : "";
 
     _api.getAddressDetails(
@@ -135,8 +141,9 @@ class AddressDetailsController extends GetxController
           isMainViewVisible.value = true;
           CheckInRecordsResponse response = CheckInRecordsResponse.fromJson(
               jsonDecode(responseModel.result!));
-          listCheckInRecords.clear();
-          listCheckInRecords.addAll(response.info ?? []);
+          tempCheckInRecords.clear();
+          tempCheckInRecords.addAll(response.info ?? []);
+          listCheckInRecords.value = tempCheckInRecords;
           listCheckInRecords.refresh();
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
@@ -167,8 +174,9 @@ class AddressDetailsController extends GetxController
           isMainViewVisible.value = true;
           TradeRecordsResponse response =
               TradeRecordsResponse.fromJson(jsonDecode(responseModel.result!));
-          listTrades.clear();
-          listTrades.addAll(response.info ?? []);
+          tempTrades.clear();
+          tempTrades.addAll(response.info ?? []);
+          listTrades.value = tempTrades;
           listTrades.refresh();
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
@@ -296,17 +304,20 @@ class AddressDetailsController extends GetxController
     startDate = "";
     endDate = "";
     selectedDateFilterIndex.value = -1;
+    isSearchEnable.value = false;
+    clearSearch();
     // loadAddressDetailsData(true);
   }
 
   void showMenuItemsDialog(BuildContext context) {
     List<ModuleInfo> listItems = [];
     listItems.add(ModuleInfo(
-        name: 'archive'.tr, action: AppConstants.action.archiveProject));
-    listItems
-        .add(ModuleInfo(name: 'delete'.tr, action: AppConstants.action.delete));
-    listItems
-        .add(ModuleInfo(name: 'edit'.tr, action: AppConstants.action.edit));
+        name: 'archive_address'.tr,
+        action: AppConstants.action.archiveProject));
+    listItems.add(ModuleInfo(
+        name: 'delete_address'.tr, action: AppConstants.action.delete));
+    listItems.add(
+        ModuleInfo(name: 'edit_address'.tr, action: AppConstants.action.edit));
     listItems.add(ModuleInfo(
         name: 'change_progress'.tr, action: AppConstants.action.inProgress));
     showCupertinoModalPopup(
@@ -419,4 +430,52 @@ class AddressDetailsController extends GetxController
         iconColor: "#000000",
         flagName: "Documents"),
   ];
+
+  Future<void> searchItems(String value) async {
+    selectedFilter.value == AppConstants.action.trades
+        ? searchTradeRecords(value)
+        : searchCheckInRecords(value);
+  }
+
+  Future<void> searchTradeRecords(String value) async {
+    print(value);
+    List<CheckLogInfo> results = [];
+    if (value.isEmpty) {
+      results = tempTrades;
+    } else {
+      results = tempTrades
+          .where((element) => (!StringHelper.isEmptyString(element.userName) &&
+              element.userName!.toLowerCase().contains(value.toLowerCase())))
+          .toList();
+    }
+    listTrades.value = results;
+  }
+
+  Future<void> searchCheckInRecords(String value) async {
+    print(value);
+    List<CheckInRecordsInfo> results = [];
+    if (value.isEmpty) {
+      results = tempCheckInRecords;
+    } else {
+      for (CheckInRecordsInfo checkInRecordsInfo in tempCheckInRecords) {
+        List<CheckLogInfo> checkInResults = checkInRecordsInfo.data!
+            .where((element) =>
+                (!StringHelper.isEmptyString(element.userName) &&
+                    element.userName!
+                        .toLowerCase()
+                        .contains(value.toLowerCase())))
+            .toList();
+        checkInRecordsInfo.data!.clear();
+        checkInRecordsInfo.data!.addAll(checkInResults);
+        results.add(checkInRecordsInfo);
+      }
+    }
+    listCheckInRecords.value = results;
+  }
+
+  void clearSearch() {
+    searchAddressController.value.clear();
+    searchTradeRecords("");
+    searchCheckInRecords("");
+  }
 }

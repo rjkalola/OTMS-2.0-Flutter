@@ -45,7 +45,7 @@ class UpdateAddressProgressController extends GetxController {
     Get.back(result: true);
     Map<String, dynamic> map = {};
     map["id"] = addressDetailsInfo?.id ?? 0;
-    map["progress"] = progress;
+    map["progress"] = progress.toInt();
     map["status"] = determineStatusFromProgress(progress);
 
     isLoading.value = true;

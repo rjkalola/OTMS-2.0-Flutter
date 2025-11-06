@@ -19,7 +19,7 @@ class ProjectListHeaderView extends StatelessWidget {
       () => Container(
         decoration: BoxDecoration(
           color: backgroundColor_(context),
-          boxShadow: [AppUtils.boxShadow(shadowColor_(context), 10)],
+          boxShadow: [AppUtils.boxShadow(shadowColor_(context), 6)],
           border: Border.all(width: 0.6, color: Colors.transparent),
           borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(28),

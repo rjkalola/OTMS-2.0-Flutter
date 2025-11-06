@@ -40,8 +40,6 @@ class Drawable {
       'assets/user_permission_icons/billing_info.svg';
   static const String projectsIcon = 'assets/user_permission_icons/project.svg';
 
-
-
   static const String splashScreenLogo = 'assets/images/splash_screen_logo.jpg';
   static const String activeHomeTabIcon =
       'assets/images/ic_active_home_tab.svg';
@@ -139,4 +137,5 @@ class Drawable {
   static const String redPin = 'assets/images/ic_pin_red.png';
   static const String deleteIcon = 'assets/images/ic_delete.svg';
   static const String pdfIcon = 'assets/images/ic_pdf.svg';
+  static const String arrowRightCircle = 'assets/images/arrow_right_circle.svg';
 }

@@ -6,7 +6,9 @@ import 'package:belcka/pages/project/address_details/view/widgets/address_detail
 import 'package:belcka/pages/project/address_details/view/widgets/check_in_records_list.dart';
 import 'package:belcka/pages/project/address_details/view/widgets/trade_user_records.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/drawable.dart';
 import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
@@ -41,6 +43,13 @@ class _AddressDetailsScreenState extends State<AddressDetailsScreen>
               onBackPressed: () {
                 controller.onBackPress();
               },
+              isSearching: controller.isSearchEnable.value,
+              searchController: controller.searchAddressController,
+              onValueChange: (value) {
+                controller.searchItems(value);
+              },
+              autoFocus: true,
+              isClearVisible: false.obs,
             ),
             backgroundColor: dashBoardBgColor_(context),
             body: ModalProgressHUD(
@@ -89,17 +98,31 @@ class _AddressDetailsScreenState extends State<AddressDetailsScreen>
 
   List<Widget>? actionButtons() {
     return [
-      // Visibility(
-      //   visible: controller.isResetEnable.value,
-      //   child: ToolbarMenuItemTextView(
-      //     text: 'reset'.tr,
-      //     padding: EdgeInsets.only(left: 0, right: 0),
-      //     onTap: () {
-      //       controller.clearFilter();
-      //     },
-      //   ),
-      // ),
-      const SizedBox(width: 10),
+      SizedBox(
+        width: 6,
+      ),
+      InkWell(
+        onTap: () {
+          if (controller.isSearchEnable.value) {
+            controller.clearSearch();
+          }
+          controller.isSearchEnable.value = !controller.isSearchEnable.value;
+        },
+        customBorder: const CircleBorder(),
+        child: Padding(
+          padding: EdgeInsets.all(6),
+          child: controller.isSearchEnable.value
+              ? Icon(
+                  Icons.close,
+                  color: primaryTextColor_(context),
+                )
+              : ImageUtils.setSvgAssetsImage(
+                  path: Drawable.searchIcon,
+                  width: 24,
+                  height: 24,
+                  color: primaryTextColor_(context)),
+        ),
+      ),
       Visibility(
         visible: true,
         child: IconButton(
