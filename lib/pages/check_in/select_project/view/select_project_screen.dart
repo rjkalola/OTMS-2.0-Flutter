@@ -67,7 +67,8 @@ class _SelectProjectScreenState extends State<SelectProjectScreen> {
                         SearchProject(),
                         ProjectsList(),
                         Visibility(
-                          visible: !controller.switchProject,
+                          // visible: !controller.switchProject,
+                          visible: false,
                           child: Padding(
                             padding: const EdgeInsets.all(16),
                             child: Row(

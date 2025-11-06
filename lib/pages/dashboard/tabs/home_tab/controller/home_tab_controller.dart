@@ -38,7 +38,8 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
       isOnBreak = false.obs,
-      isOnWorking = false.obs;
+      isOnWorking = false.obs,
+      isOnDrag = false.obs;
 
   // RxString nextUpdateLocationTime = "".obs;
 
@@ -430,7 +431,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
               (response.feedCount ?? 0) + (response.announcementCount ?? 0);
           if (notificationCount.value > 0) {
             AppBadge.update(notificationCount.value);
-          }else{
+          } else {
             AppBadge.remove();
           }
         } else {
@@ -666,13 +667,16 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
   }
 
   void _onTick(Timer? timer) {
-    CounterDetails details = ClockInUtils.getTotalWorkHours(workLogData.value);
-    totalWorkHours.value = details.totalWorkTime;
-    activeWorkHours.value =
-        DateUtil.seconds_To_HH_MM_SS(details.activeWorkSeconds);
-    isOnBreak.value = details.isOnBreak;
-    remainingBreakTime.value = details.remainingBreakTime;
-    updateShiftValue(isClearValue: false);
+    if (!isOnDrag.value) {
+      CounterDetails details =
+          ClockInUtils.getTotalWorkHours(workLogData.value);
+      totalWorkHours.value = details.totalWorkTime;
+      activeWorkHours.value =
+          DateUtil.seconds_To_HH_MM_SS(details.activeWorkSeconds);
+      isOnBreak.value = details.isOnBreak;
+      remainingBreakTime.value = details.remainingBreakTime;
+      updateShiftValue(isClearValue: false);
+    }
   }
 
   void updateShiftValue({required bool isClearValue}) {

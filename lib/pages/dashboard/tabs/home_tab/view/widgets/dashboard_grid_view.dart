@@ -39,8 +39,18 @@ class DashboardGridView extends StatelessWidget {
             child: ReorderableBuilder(
               scrollController: _scrollController,
               onReorderPositions: (positions) {
+                print("onReorderPositions");
+                controller.isOnDrag.value = false;
                 final info = positions.first;
                 controller.onReorderPermission(info.oldIndex, info.newIndex);
+              },
+              onDragStarted: (positions){
+                controller.isOnDrag.value = true;
+                print("onDragStarted");
+              },
+              onDragEnd: (positions){
+                controller.isOnDrag.value = false;
+                print("onDragEnd");
               },
               dragChildBoxDecoration:
                   const BoxDecoration(color: Colors.transparent),
