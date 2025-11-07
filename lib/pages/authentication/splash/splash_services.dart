@@ -1,12 +1,14 @@
 import 'dart:async';
 
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:get/get.dart';
+import 'package:belcka/pages/check_in/clock_in/controller/clock_in_controller.dart';
+import 'package:belcka/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart';
 import 'package:belcka/res/theme/theme_config.dart';
 import 'package:belcka/res/theme/theme_controller.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_storage.dart';
 import 'package:belcka/web_services/api_constants.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:get/get.dart';
 
 import '../../../utils/app_constants.dart';
 import '../../../utils/notification_service.dart';
@@ -51,6 +53,7 @@ class SplashServices {
       RemoteMessage? message =
           await FirebaseMessaging.instance.getInitialMessage();
       if (message != null) {
+        refreshData(message.data);
         NotificationService.notificationClick(message.data);
         // _handleNotificationNavigation(message);
         return;
@@ -60,6 +63,7 @@ class SplashServices {
       FirebaseMessaging.onMessageOpenedApp.listen((message) {
         // NotificationService.handleMessageNavigation(message);
         print("message1::::" + message.data!.toString());
+        refreshData(message.data);
         NotificationService.notificationClick(message.data);
         // _handleMessageNavigation(message);
       });
@@ -67,6 +71,7 @@ class SplashServices {
       // Foreground messages
       FirebaseMessaging.onMessage.listen((RemoteMessage message) {
         print("message2::::" + message.data!.toString());
+        refreshData(message.data);
         NotificationService.showForegroundNotification(message);
       });
     }
@@ -85,5 +90,23 @@ class SplashServices {
         Get.offAllNamed(AppRoutes.introductionScreen);
       }
     });
+  }
+
+  Future<void> refreshData(Map<String, dynamic>? data) async {
+    if (data != null) {
+      final notificationType = data['notification_type'] ?? "";
+      if (notificationType ==
+          AppConstants.notificationType.USER_WORK_STOP_AUTOMATICALLY) {
+        if (Get.isRegistered<ClockInController>()) {
+          final controller = Get.find<ClockInController>();
+          controller.getUserWorkLogListApi(isProgress: false);
+        }
+
+        if (Get.isRegistered<HomeTabController>()) {
+          final controller = Get.find<HomeTabController>();
+          controller.getUserProfileAPI();
+        }
+      }
+    }
   }
 }

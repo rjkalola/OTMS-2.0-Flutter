@@ -29,71 +29,80 @@ class _AddressDetailsScreenState extends State<AddressDetailsScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Container(
-        color: backgroundColor_(context),
-        child: SafeArea(
-          child: Scaffold(
-            appBar: BaseAppBar(
-              appBar: AppBar(),
-              title: "",
-              isCenterTitle: false,
-              bgColor: backgroundColor_(context),
-              isBack: true,
-              widgets: actionButtons(),
-              onBackPressed: () {
-                controller.onBackPress();
-              },
-              isSearching: controller.isSearchEnable.value,
-              searchController: controller.searchAddressController,
-              onValueChange: (value) {
-                controller.searchItems(value);
-              },
-              autoFocus: true,
-              isClearVisible: false.obs,
-            ),
-            backgroundColor: dashBoardBgColor_(context),
-            body: ModalProgressHUD(
-              inAsyncCall: controller.isLoading.value,
-              opacity: 0,
-              progressIndicator: const CustomProgressbar(),
-              child: controller.isInternetNotAvailable.value
-                  ? Center(
-                      child: Text('no_internet_text'.tr),
-                    )
-                  : Visibility(
-                      visible: controller.isMainViewVisible.value,
-                      child: Padding(
-                        padding: const EdgeInsets.all(0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            AddressDetailsCard(),
-                            const SizedBox(height: 16),
-                            DateFilterOptionsHorizontalList(
-                              padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
-                              startDate: controller.startDate,
-                              endDate: controller.endDate,
-                              listener: this,
-                              selectedPosition:
-                                  controller.selectedDateFilterIndex,
+    return Obx(() => PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (didPop, result) async {
+          if (didPop || result != null) return;
+          controller.onBackPress();
+        },
+        child: Container(
+            color: backgroundColor_(context),
+            child: SafeArea(
+              child: Scaffold(
+                appBar: BaseAppBar(
+                  appBar: AppBar(),
+                  title: "",
+                  isCenterTitle: false,
+                  bgColor: backgroundColor_(context),
+                  isBack: true,
+                  widgets: actionButtons(),
+                  onBackPressed: () {
+                    controller.onBackPress();
+                  },
+                  isSearching: controller.isSearchEnable.value,
+                  searchController: controller.searchController,
+                  onValueChange: (value) {
+                    controller.searchItems(value);
+                  },
+                  autoFocus: true,
+                  isClearVisible: false.obs,
+                ),
+                backgroundColor: dashBoardBgColor_(context),
+                body: ModalProgressHUD(
+                  inAsyncCall: controller.isLoading.value,
+                  opacity: 0,
+                  progressIndicator: const CustomProgressbar(),
+                  child: controller.isInternetNotAvailable.value
+                      ? Center(
+                          child: Text('no_internet_text'.tr),
+                        )
+                      : Visibility(
+                          visible: controller.isMainViewVisible.value,
+                          child: Padding(
+                            padding: const EdgeInsets.all(0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                AddressDetailsCard(),
+                                const SizedBox(height: 16),
+                                DateFilterOptionsHorizontalList(
+                                  padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                                  startDate: controller.startDate,
+                                  endDate: controller.endDate,
+                                  listener: this,
+                                  selectedPosition:
+                                      controller.selectedDateFilterIndex,
+                                ),
+                                const SizedBox(height: 16),
+                                controller.selectedFilter.value ==
+                                        AppConstants.action.trades
+                                    ? TradeUserRecords()
+                                    : CheckInRecordsList(
+                                        searchText: controller
+                                            .searchController.value.text,
+                                      )
+                                // SizedBox(height: 16),
+                                // Padding(
+                                //   padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+                                //   child: AddressDetailsGridItems(),
+                                // )
+                              ],
                             ),
-                            const SizedBox(height: 16),
-                            controller.selectedFilter.value ==
-                                    AppConstants.action.trades
-                                ? TradeUserRecords()
-                                : CheckInRecordsList()
-                            // SizedBox(height: 16),
-                            // Padding(
-                            //   padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
-                            //   child: AddressDetailsGridItems(),
-                            // )
-                          ],
-                        ),
-                      )),
-            ),
-            bottomNavigationBar: CommonBottomNavigationBarWidget(),
-          ),
-        )));
+                          )),
+                ),
+                bottomNavigationBar: CommonBottomNavigationBarWidget(),
+              ),
+            ))));
   }
 
   List<Widget>? actionButtons() {

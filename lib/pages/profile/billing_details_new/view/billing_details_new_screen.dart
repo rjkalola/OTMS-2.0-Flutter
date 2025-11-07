@@ -112,7 +112,7 @@ class _BillingDetailsNewScreenState extends State<BillingDetailsNewScreen> {
                                         },
                                         child: NavigationCard(
                                           label: "rates".tr,
-                                          value: (controller.billingInfo.value.net_rate_perDay?.isNotEmpty ?? false)
+                                          value: (controller.currentRatePerDay.value.isNotEmpty)
                                               ? RichText(
                                             text: TextSpan(
                                               style: TextStyle(
@@ -123,10 +123,9 @@ class _BillingDetailsNewScreenState extends State<BillingDetailsNewScreen> {
                                                 TextSpan(text: "${controller.billingInfo.value.tradeName ?? ""} - "),
                                                 TextSpan(
                                                   text:
-                                                  "${controller.billingInfo.value.currency ?? ""}${controller.billingInfo.value.net_rate_perDay ?? ""}",
+                                                  "${controller.billingInfo.value.currency ?? ""}${controller.currentRatePerDay.value}",
                                                   style: const TextStyle(fontWeight: FontWeight.bold),
                                                 ),
-                                                const TextSpan(text: "/day"),
                                               ],
                                             ),
                                           )

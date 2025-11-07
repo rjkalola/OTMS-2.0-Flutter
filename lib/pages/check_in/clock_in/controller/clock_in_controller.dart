@@ -154,8 +154,8 @@ class ClockInController extends GetxController {
     );
   }
 
-  Future<void> getUserWorkLogListApi() async {
-    isLoading.value = true;
+  Future<void> getUserWorkLogListApi({bool? isProgress}) async {
+    isLoading.value = isProgress ?? true;
     Map<String, dynamic> map = {};
     map["date"] = "";
     map["shift_id"] = 0;
@@ -276,34 +276,25 @@ class ClockInController extends GetxController {
     }
   }
 
-  onCLickCheckInButton(){
+  onCLickCheckInButton() {
     var arguments = {
-      AppConstants.intentKey.workLogId:
-      selectedWorkLogInfo?.id ?? 0,
-      AppConstants.intentKey.projectId:
-      selectedWorkLogInfo?.projectId ?? 0,
+      AppConstants.intentKey.workLogId: selectedWorkLogInfo?.id ?? 0,
+      AppConstants.intentKey.projectId: selectedWorkLogInfo?.projectId ?? 0,
       AppConstants.intentKey.isPriceWork:
-      selectedWorkLogInfo?.isPricework ??
-          false
+          selectedWorkLogInfo?.isPricework ?? false
     };
-    moveToScreen(
-        AppRoutes.checkInScreen, arguments);
+    moveToScreen(AppRoutes.checkInScreen, arguments);
   }
 
-  onCLickCheckOutButton(){
+  onCLickCheckOutButton() {
     var arguments = {
-      AppConstants.intentKey.checkLogId:
-      selectedCheckLogInfo?.id ?? 0,
-      AppConstants.intentKey.workLogId:
-      selectedWorkLogInfo?.id ?? 0,
-      AppConstants.intentKey.projectId:
-      selectedWorkLogInfo?.projectId ?? 0,
+      AppConstants.intentKey.checkLogId: selectedCheckLogInfo?.id ?? 0,
+      AppConstants.intentKey.workLogId: selectedWorkLogInfo?.id ?? 0,
+      AppConstants.intentKey.projectId: selectedWorkLogInfo?.projectId ?? 0,
       AppConstants.intentKey.isPriceWork:
-      selectedWorkLogInfo?.isPricework ??
-          false
+          selectedWorkLogInfo?.isPricework ?? false
     };
-    moveToScreen(
-        AppRoutes.checkOutScreen, arguments);
+    moveToScreen(AppRoutes.checkOutScreen, arguments);
   }
 
   onClickStopShiftButton() async {

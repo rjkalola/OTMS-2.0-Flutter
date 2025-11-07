@@ -53,11 +53,16 @@ class AddressList extends StatelessWidget {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        ImageUtils.setSvgAssetsImage(
-                                            path: Drawable.homeDrawerIcon,
-                                            color: primaryTextColor_(context),
-                                            width: 25,
-                                            height: 25),
+                                        Container(
+                                          width: 25,
+                                          height: 25,
+                                          alignment: Alignment.center,
+                                          child: ImageUtils.setSvgAssetsImage(
+                                              path: Drawable.homeDrawerIcon,
+                                              color: primaryTextColor_(context),
+                                              width: 25,
+                                              height: 25),
+                                        ),
                                         SizedBox(
                                           width: 6,
                                         ),
@@ -83,12 +88,17 @@ class AddressList extends StatelessWidget {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
-                                        ImageUtils.setSvgAssetsImage(
-                                            path: Drawable
-                                                .timesheetClockInScreenIcon,
-                                            color: primaryTextColor_(context),
-                                            width: 23,
-                                            height: 23),
+                                        Container(
+                                          width: 25,
+                                          height: 25,
+                                          alignment: Alignment.center,
+                                          child: ImageUtils.setSvgAssetsImage(
+                                              path: Drawable
+                                                  .timesheetClockInScreenIcon,
+                                              color: primaryTextColor_(context),
+                                              width: 23,
+                                              height: 23),
+                                        ),
                                         SizedBox(
                                           width: 8,
                                         ),

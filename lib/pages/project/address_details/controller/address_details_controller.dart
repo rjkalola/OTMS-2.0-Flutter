@@ -33,7 +33,7 @@ import 'package:get/get.dart';
 class AddressDetailsController extends GetxController
     implements MenuItemListener, DialogButtonClickListener {
   final _api = AddressDetailsRepository();
-  final searchAddressController = TextEditingController().obs;
+  final searchController = TextEditingController().obs;
 
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
@@ -432,6 +432,13 @@ class AddressDetailsController extends GetxController
   ];
 
   Future<void> searchItems(String value) async {
+    // if(selectedFilter.value == AppConstants.action.trades){
+    //   searchTradeRecords(value);
+    // }else {
+    //   print("searchItems");
+    //   listCheckInRecords.value = tempCheckInRecords;
+    //   listCheckInRecords.refresh();
+    // }
     selectedFilter.value == AppConstants.action.trades
         ? searchTradeRecords(value)
         : searchCheckInRecords(value);
@@ -452,29 +459,36 @@ class AddressDetailsController extends GetxController
   }
 
   Future<void> searchCheckInRecords(String value) async {
-    print(value);
-    List<CheckInRecordsInfo> results = [];
+    print("searchCheckInRecords value: $value");
+
+    // If search text is empty, restore full list
     if (value.isEmpty) {
-      results = tempCheckInRecords;
-    } else {
-      for (CheckInRecordsInfo checkInRecordsInfo in tempCheckInRecords) {
-        List<CheckLogInfo> checkInResults = checkInRecordsInfo.data!
-            .where((element) =>
-                (!StringHelper.isEmptyString(element.userName) &&
-                    element.userName!
-                        .toLowerCase()
-                        .contains(value.toLowerCase())))
-            .toList();
-        checkInRecordsInfo.data!.clear();
-        checkInRecordsInfo.data!.addAll(checkInResults);
-        results.add(checkInRecordsInfo);
-      }
+      listCheckInRecords.value = List.from(tempCheckInRecords);
+      return;
     }
+
+    // Otherwise, filter nested data safely
+    final results = tempCheckInRecords
+        .map((record) {
+          final filteredLogs = (record.data ?? []).where((log) {
+            final name = log.userName?.toLowerCase() ?? '';
+            return name.contains(value.toLowerCase());
+          }).toList();
+
+          // Return a new object (don’t mutate the original one)
+          return CheckInRecordsInfo(
+            date: record.date,
+            data: filteredLogs,
+          );
+        })
+        .where((r) => r.data?.isNotEmpty ?? false)
+        .toList();
+
     listCheckInRecords.value = results;
   }
 
   void clearSearch() {
-    searchAddressController.value.clear();
+    searchController.value.clear();
     searchTradeRecords("");
     searchCheckInRecords("");
   }

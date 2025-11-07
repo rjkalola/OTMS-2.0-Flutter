@@ -51,6 +51,7 @@ class BillingDetailsNewController extends GetxController {
   String address = "";
   String bankDetails = "";
   bool showPayRate = true;
+  RxString currentRatePerDay = "".obs;
 
   int? userId = 0;
 
@@ -148,6 +149,13 @@ class BillingDetailsNewController extends GetxController {
           }
           else{
             bankDetails = "";
+          }
+
+          if (billingInfo.value.is_rate_requested ?? false){
+            currentRatePerDay.value = (billingInfo.value.oldNetRatePerDay ?? "").isEmpty ? billingInfo.value.net_rate_perDay ?? "" : billingInfo.value.oldNetRatePerDay ?? "";;
+          }
+          else{
+            currentRatePerDay.value = (billingInfo.value.newNetRatePerDay ?? "").isEmpty ? billingInfo.value.net_rate_perDay ?? "" : billingInfo.value.newNetRatePerDay ?? "";
           }
 
           isMainViewVisible.value = true;
