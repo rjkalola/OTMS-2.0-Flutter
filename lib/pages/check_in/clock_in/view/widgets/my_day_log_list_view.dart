@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:belcka/pages/check_in/clock_in/controller/clock_in_controller.dart';
 import 'package:belcka/pages/check_in/clock_in/controller/clock_in_utils.dart';
 import 'package:belcka/pages/check_in/clock_in/model/work_log_info.dart';
@@ -12,10 +10,11 @@ import 'package:belcka/utils/date_utils.dart';
 import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/widgets/custom_views/dotted_line_vertical_widget.dart';
-import 'package:belcka/widgets/other_widgets/expand_collapse_arrow_widget.dart';
 import 'package:belcka/widgets/shapes/circle_widget.dart';
 import 'package:belcka/widgets/text/PrimaryTextView.dart';
 import 'package:belcka/widgets/text/TextViewWithContainer.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class MyDayLogListView extends StatelessWidget {
   MyDayLogListView({super.key});
@@ -226,6 +225,10 @@ class MyDayLogListView extends StatelessWidget {
                                                                   false);
                                                           controller.workLogData
                                                               .refresh();
+                                                        } else {
+                                                          controller
+                                                              .onClickWorkLogItem(
+                                                                  info);
                                                         }
                                                       },
                                                       child: Container(

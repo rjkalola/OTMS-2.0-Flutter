@@ -1,23 +1,31 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:belcka/pages/dashboard/tabs/more_tab/view/more_tab.dart';
 import 'package:belcka/pages/profile/my_account/controller/my_account_repository.dart';
 import 'package:belcka/pages/profile/my_account/model/my_account_menu_item.dart';
 import 'package:belcka/pages/profile/my_profile_details/model/my_profile_info_response.dart';
-import 'package:belcka/res/drawable.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
+import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/response_model.dart';
+import 'package:belcka/widgets/PrimaryBorderButton.dart';
+import 'package:belcka/widgets/PrimaryButton.dart';
+import 'package:belcka/widgets/text/PrimaryTextView.dart';
+import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../dashboard/tabs/home_tab2/view/home_tab.dart';
 
 class MyAccountController extends GetxController
-    with GetSingleTickerProviderStateMixin {
+    with GetSingleTickerProviderStateMixin
+    implements DialogButtonClickListener {
   final _api = MyAccountRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
@@ -190,5 +198,135 @@ class MyAccountController extends GetxController
         }
       },
     );
+  }
+
+  void removeUserPermanentlyAPI() async {
+    Map<String, dynamic> map = {};
+    map["user_id"] = userId;
+    map["company_id"] = ApiConstants.companyId;
+    isLoading.value = true;
+    _api.removeUserPermanently(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          BaseResponse response =
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showToastMessage(response.Message ?? "");
+          Get.back(result: true);
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showApiResponseMessage(error.statusMessage);
+        }
+      },
+    );
+  }
+
+  void showRemoveUserOptionDialog() {
+    Get.defaultDialog(
+      title: '',
+      contentPadding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+      backgroundColor: backgroundColor_(Get.context!),
+      radius: 16,
+      barrierDismissible: false,
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(Icons.error_outline, color: Colors.red, size: 48),
+          const SizedBox(height: 16),
+          TitleTextView(
+            text:
+                "Delete \"${userInfo.value.firstName ?? ""} ${userInfo.value.lastName ?? ""}\"?",
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+          const SizedBox(height: 20),
+          PrimaryTextView(
+            text: 'remove_user_note1'.tr,
+            textAlign: TextAlign.center,
+            fontSize: 15,
+            color: primaryTextColor_(Get.context!),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          PrimaryTextView(
+            text: 'remove_user_note2'.tr,
+            textAlign: TextAlign.center,
+            fontSize: 15,
+            color: primaryTextColor_(Get.context!),
+          ),
+          const SizedBox(height: 24),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Flexible(
+                fit: FlexFit.tight,
+                flex: 2,
+                child: PrimaryBorderButton(
+                  height: 44,
+                  buttonText: 'archive'.tr,
+                  onPressed: () {
+                    Get.back();
+                  },
+                  fontColor: defaultAccentColor_(Get.context!),
+                  borderColor: defaultAccentColor_(Get.context!),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Flexible(
+                fit: FlexFit.tight,
+                flex: 3,
+                child: PrimaryButton(
+                  height: 44,
+                  buttonText: 'delete_forever'.tr,
+                  onPressed: () {
+                    Get.back();
+                  },
+                  color: Colors.red,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+        ],
+      ),
+    );
+  }
+
+  showRemoveUserConfirmationDialog(String dialogType) async {
+    AlertDialogHelper.showAlertDialog(
+        "",
+        'are_you_sure_you_want_to_remove'.tr,
+        'yes'.tr,
+        'no'.tr,
+        "",
+        true,
+        false,
+        this,
+        AppConstants.dialogIdentifier.delete);
+  }
+
+  @override
+  void onNegativeButtonClicked(String dialogIdentifier) {
+    Get.back();
+  }
+
+  @override
+  void onOtherButtonClicked(String dialogIdentifier) {}
+
+  @override
+  void onPositiveButtonClicked(String dialogIdentifier) {
+    if (dialogIdentifier == AppConstants.dialogIdentifier.delete) {
+      // removeUserPermanentlyAPI();
+      Get.back();
+    }
   }
 }

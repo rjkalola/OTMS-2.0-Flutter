@@ -1,3 +1,4 @@
+import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:belcka/pages/common/model/user_info.dart';
@@ -58,6 +59,28 @@ class BreaksListView extends StatelessWidget {
                               DateUtil.getDateTimeFromHHMM(info.breakEndTime));
                         },
                       ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(16, 2, 16, 0),
+                        child: Row(
+                          children: [
+                            TitleTextView(
+                              text: 'is_paid'.tr,
+                              fontSize: 16,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            CustomSwitch(
+                                onValueChange: (value) {
+                                  controller.isSaveEnable.value = true;
+                                  print("value:" + value.toString());
+                                  info.isPaid = !(info.isPaid ?? false);
+                                  controller.breaksList.refresh();
+                                },
+                                mValue: info.isPaid ?? false)
+                          ],
+                        ),
+                      )
                     ],
                   ),
                 ),

@@ -54,8 +54,7 @@ class UserSettingsScreen extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => MyWebViewScreen(
-                                    url:
-                                        'http://devsystem.belcka.com:3001/privacy-policy',
+                                    url: 'https://belcka.com/privacy-policy',
                                     pageTitle: 'privacy_policy'.tr,
                                   ),
                                 ),
@@ -70,8 +69,7 @@ class UserSettingsScreen extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => MyWebViewScreen(
-                                    url:
-                                        'http://devsystem.belcka.com:3001/app-info',
+                                    url: 'https://belcka.com/app-info',
                                     pageTitle: 'app_info'.tr,
                                   ),
                                 ),

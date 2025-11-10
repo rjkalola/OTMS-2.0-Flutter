@@ -461,6 +461,13 @@ class Strings extends Translations {
           'archive_address': "Archive Address",
           'edit_address': "Edit Address",
           'delete_address': "Delete Address",
+          'is_paid': "Is Paid",
+          'remove_user_note1':
+              "This will permanently erase all actions, history, and activity associated with the user. Once deleted, the data cannot be recovered.",
+          'remove_user_note2':
+              "To remove the user without losing their information, please select the Archive option instead.",
+          'remove_user': "Remove User",
+          'delete_forever': "Delete Forever",
           // '': "",
 // '': "",
 // '': "",

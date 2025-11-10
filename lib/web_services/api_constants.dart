@@ -240,6 +240,8 @@ class ApiConstants {
       '$appUrl/setting/user-payrate-permission';
   static String updateProfile = '$appUrl/user/update-profile';
   static String rateHistory = '$appUrl/requests/get-rate-history';
+  static String removeUserPermanently = '$appUrl/user/delete-account';
+  // static String archiveUser = '$appUrl/user/unarchive-account';
 
   //filters
   static String getRequestFilters = '$appUrl/requests/get-filters';
