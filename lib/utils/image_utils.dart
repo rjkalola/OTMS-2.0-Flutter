@@ -91,7 +91,6 @@ class ImageUtils {
     } else if (type == 'audio') {
       Get.to(() => AudioPlayerScreen(
             source: path,
-
           ));
     } else if (type == 'video') {
       if (path.startsWith("http")) {

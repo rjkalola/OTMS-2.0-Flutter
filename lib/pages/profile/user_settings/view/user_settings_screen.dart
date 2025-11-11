@@ -83,14 +83,14 @@ class UserSettingsScreen extends StatelessWidget {
                               Get.toNamed(AppRoutes.switchCompanyScreen);
                             },
                           ),
-                          _buildSettingItem(
-                            icon: Icons.delete_outline,
-                            title: 'delete_account'.tr,
-                            onTap: () {
-                              Get.toNamed(AppRoutes.deleteAccountScreen);
-                            },
-                            isDestructive: true,
-                          ),
+                          // _buildSettingItem(
+                          //   icon: Icons.delete_outline,
+                          //   title: 'delete_account'.tr,
+                          //   onTap: () {
+                          //     Get.toNamed(AppRoutes.deleteAccountScreen);
+                          //   },
+                          //   isDestructive: true,
+                          // ),
                           _buildSettingItem(
                             icon: Icons.logout,
                             title: 'logout'.tr,

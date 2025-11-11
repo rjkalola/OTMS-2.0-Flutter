@@ -229,13 +229,42 @@ class MyAccountController extends GetxController
     );
   }
 
+  void archiveUserAPI() async {
+    Map<String, dynamic> map = {};
+    map["user_id"] = userId;
+    map["company_id"] = ApiConstants.companyId;
+    isLoading.value = true;
+    _api.archiveUser(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          BaseResponse response =
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showToastMessage(response.Message ?? "");
+          Get.back(result: true);
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showApiResponseMessage(error.statusMessage);
+        }
+      },
+    );
+  }
+
   void showRemoveUserOptionDialog() {
     Get.defaultDialog(
       title: '',
       contentPadding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
       backgroundColor: backgroundColor_(Get.context!),
       radius: 16,
-      barrierDismissible: false,
+      barrierDismissible: true,
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -272,9 +301,12 @@ class MyAccountController extends GetxController
                 flex: 2,
                 child: PrimaryBorderButton(
                   height: 44,
+                  fontSize: 15,
                   buttonText: 'archive'.tr,
+                  fontWeight: FontWeight.w400,
                   onPressed: () {
                     Get.back();
+                    archiveUserAPI();
                   },
                   fontColor: defaultAccentColor_(Get.context!),
                   borderColor: defaultAccentColor_(Get.context!),
@@ -286,9 +318,12 @@ class MyAccountController extends GetxController
                 flex: 3,
                 child: PrimaryButton(
                   height: 44,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w400,
                   buttonText: 'delete_forever'.tr,
                   onPressed: () {
                     Get.back();
+                    showRemoveUserConfirmationDialog();
                   },
                   color: Colors.red,
                 ),
@@ -301,7 +336,7 @@ class MyAccountController extends GetxController
     );
   }
 
-  showRemoveUserConfirmationDialog(String dialogType) async {
+  showRemoveUserConfirmationDialog() async {
     AlertDialogHelper.showAlertDialog(
         "",
         'are_you_sure_you_want_to_remove'.tr,
@@ -325,7 +360,7 @@ class MyAccountController extends GetxController
   @override
   void onPositiveButtonClicked(String dialogIdentifier) {
     if (dialogIdentifier == AppConstants.dialogIdentifier.delete) {
-      // removeUserPermanentlyAPI();
+      removeUserPermanentlyAPI();
       Get.back();
     }
   }

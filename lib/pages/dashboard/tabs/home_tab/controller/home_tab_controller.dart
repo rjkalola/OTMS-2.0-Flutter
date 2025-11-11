@@ -465,7 +465,6 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
           UserResponse response =
               UserResponse.fromJson(jsonDecode(responseModel.result!));
           Get.find<AppStorage>().setUserInfo(response.info!);
-          ApiConstants.accessToken = response.info!.apiToken ?? "";
           AppUtils.saveLoginUser(response.info!);
           userInfo.value = Get.find<AppStorage>().getUserInfo();
           print("(response.info?.companyId ?? 0):" +

@@ -29,7 +29,21 @@ class MyAccountRepository {
             url: ApiConstants.removeUserPermanently,
             data: data,
             isFormData: false)
-        .getRequest(
+        .postRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
+
+  void archiveUser({
+    dynamic data,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(url: ApiConstants.archiveAccount, data: data, isFormData: false)
+        .postRequest(
       onSuccess: (data) {
         onSuccess!(data);
       },

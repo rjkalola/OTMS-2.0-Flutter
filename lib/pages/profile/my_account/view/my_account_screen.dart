@@ -5,6 +5,7 @@ import 'package:belcka/pages/profile/my_account/view/widgets/profile_card_widget
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
+import 'package:belcka/widgets/PrimaryBorderButton.dart';
 import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:flutter/material.dart';
@@ -50,13 +51,18 @@ class MyAccountScreen extends StatelessWidget {
                           ),
                           // Menu Buttons Grid
                           MenuButtonsGridWidget(),
-                          PrimaryButton(
-                            padding: EdgeInsets.fromLTRB(16, 16, 16, 30),
-                            buttonText: 'remove_user'.tr,
-                            onPressed: () {
-                              controller.showRemoveUserOptionDialog();
-                            },
-                            color: Colors.red,
+                          Visibility(
+                            visible: !UserUtils.isLoginUser(controller.userId),
+                            child: PrimaryBorderButton(
+                              padding: EdgeInsets.fromLTRB(16, 16, 16, 30),
+                              buttonText: 'remove_user'.tr,
+                              fontColor: Colors.red,
+                              fontSize: 16,
+                              onPressed: () {
+                                controller.showRemoveUserOptionDialog();
+                              },
+                              borderColor: Colors.red,
+                            ),
                           )
                         ],
                       ),

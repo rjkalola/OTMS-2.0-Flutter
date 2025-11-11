@@ -456,7 +456,7 @@ class CreateLeaveController extends GetxController
       final startDateOnly = getDateOnly(startDate!);
       final endDateOnly = getDateOnly(endDate!);
       totalDays.value =
-          (endDateOnly.difference(startDateOnly).inDays).toDouble().toString();
+          (endDateOnly.difference(startDateOnly).inDays+1).toDouble().toString();
     } else {
       DateTime currentDate = DateTime.now();
       final start = DateTime(currentDate.year, currentDate.month,
