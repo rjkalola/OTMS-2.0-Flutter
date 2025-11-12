@@ -241,6 +241,7 @@ class ApiConstants {
   static String updateProfile = '$appUrl/user/update-profile';
   static String rateHistory = '$appUrl/requests/get-rate-history';
   static String removeUserPermanently = '$appUrl/user/delete-account';
+  static String archiveUserAccount = '$appUrl/user/archive-user-account';
   // static String archiveUser = '$appUrl/user/unarchive-account';
 
   //filters

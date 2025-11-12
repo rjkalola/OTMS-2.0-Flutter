@@ -1,3 +1,5 @@
+import 'package:belcka/pages/leaves/leave_list/model/leave_info.dart';
+
 class DayLogInfo {
   int? id;
   int? shiftId;
@@ -32,6 +34,7 @@ class DayLogInfo {
   int? userCheckLogsCount;
   String? priceWorkTotalAmount;
   int? requestStatus;
+  LeaveInfo? leaveInfo;
   bool? isCheck;
 
   DayLogInfo({
@@ -68,6 +71,7 @@ class DayLogInfo {
     this.userCheckLogsCount,
     this.priceWorkTotalAmount,
     this.requestStatus,
+    this.leaveInfo,
     this.isCheck,
   });
 
@@ -105,6 +109,9 @@ class DayLogInfo {
     userCheckLogsCount = json['user_checklogs_count'];
     priceWorkTotalAmount = json['pricework_total_amount'];
     requestStatus = json['request_status'];
+    leaveInfo = json['leave_info'] != null
+        ? LeaveInfo.fromJson(json['leave_info'])
+        : null;
     isCheck = json['isCheck'];
   }
 
@@ -143,6 +150,9 @@ class DayLogInfo {
     data['user_checklogs_count'] = this.userCheckLogsCount;
     data['pricework_total_amount'] = this.priceWorkTotalAmount;
     data['request_status'] = this.requestStatus;
+    if (this.leaveInfo != null) {
+      data['leave_info'] = this.leaveInfo!.toJson();
+    }
     data['isCheck'] = this.isCheck;
     return data;
   }

@@ -428,6 +428,7 @@ class Strings extends Translations {
           'edit_leave': "Edit Leave",
           'leave_type': "Leave Type",
           'leaves': "Leaves",
+          'leave': "Leave",
           'leave_details': "Leave Details",
           'all_day': "All Day",
           'total_time_requested': "Total time requested",

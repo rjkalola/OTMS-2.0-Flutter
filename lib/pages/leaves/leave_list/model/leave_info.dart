@@ -9,6 +9,7 @@ class LeaveInfo {
   String? endDate;
   bool? isAlldayLeave;
   String? leaveName;
+  String? leaveType;
   String? startTime;
   String? endTime;
   String? totalTimeOfDays;
@@ -27,6 +28,7 @@ class LeaveInfo {
       this.endDate,
       this.isAlldayLeave,
       this.leaveName,
+      this.leaveType,
       this.startTime,
       this.endTime,
       this.totalTimeOfDays,
@@ -45,6 +47,7 @@ class LeaveInfo {
     endDate = json['end_date'];
     isAlldayLeave = json['is_allday_leave'];
     leaveName = json['leave_name'];
+    leaveType = json['leave_type'];
     startTime = json['start_time'];
     endTime = json['end_time'];
     totalTimeOfDays = json['total_time_of_days'];
@@ -65,6 +68,7 @@ class LeaveInfo {
     data['end_date'] = this.endDate;
     data['is_allday_leave'] = this.isAlldayLeave;
     data['leave_name'] = this.leaveName;
+    data['leave_type'] = this.leaveType;
     data['start_time'] = this.startTime;
     data['end_time'] = this.endTime;
     data['total_time_of_days'] = this.totalTimeOfDays;

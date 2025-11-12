@@ -1,3 +1,7 @@
+import 'package:belcka/pages/leaves/leave_list/model/leave_info.dart';
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/widgets/checkbox/custom_checkbox.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -30,76 +34,9 @@ class DayLogList extends StatelessWidget {
         itemBuilder: (context, position) {
           DayLogInfo info = controller.timeSheetList[parentPosition]
               .weekLogs![weekPosition].dayLogs![position];
-          return Obx(
-            () => Stack(
-              children: [
-                Padding(
-                  padding: EdgeInsets.fromLTRB(
-                      controller.isEditEnable.value ? 0 : 10, 12, 13, 12),
-                  child: GestureDetector(
-                    onTap: () {
-                      if (!controller.isEditEnable.value &&
-                          !controller.isEditStatusEnable.value) {
-                        controller.onClickWorkLogItem(
-                            info.id ?? 0,
-                            controller.timeSheetList[parentPosition].userId ??
-                                0);
-                      } else {
-                        if (controller.isEditEnable.value) {
-                          info.isCheck = !(info.isCheck ?? false);
-                          controller.timeSheetList.refresh();
-                        }
-                      }
-                      controller.checkSelectAll();
-                    },
-                    child: Container(
-                      color: Colors.transparent,
-                      child: Row(
-                        children: [
-                          Visibility(
-                            visible: controller.isEditEnable.value,
-                            child: CustomCheckbox(
-                                onValueChange: (value) {
-                                  info.isCheck = !(info.isCheck ?? false);
-                                  controller.timeSheetList.refresh();
-                                  controller.checkSelectAll();
-                                },
-                                mValue: info.isCheck ?? false),
-                          ),
-                          dayDate(info),
-                          SizedBox(
-                            width: 4,
-                          ),
-                          shiftName(info),
-                          Expanded(child: Container()),
-                          totalWorkHour(info),
-                          SizedBox(
-                            width: 4,
-                          ),
-                          RightArrowWidget(
-                            color: primaryTextColor_(context),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.topRight,
-                  child: Visibility(
-                    visible: (info.userCheckLogsCount ?? 0) != 0,
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 16, top: 6),
-                      child: CustomBadgeIcon(
-                        count: info.userCheckLogsCount ?? 0,
-                        color: defaultAccentColor_(context),
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          );
+          return (info.type ?? "") == "leave"
+              ? leaveItem(info)
+              : timeSheetItem(info);
         },
         itemCount: controller.timeSheetList[parentPosition]
             .weekLogs![weekPosition].dayLogs!.length,
@@ -142,13 +79,12 @@ class DayLogList extends StatelessWidget {
         ),
       );
 
-  Widget shiftName(DayLogInfo info) => TextViewWithContainer(
-        text: info.shiftName ?? "",
+  Widget shiftName(String? title, Color color) => TextViewWithContainer(
+        text: title ?? "",
         padding: EdgeInsets.fromLTRB(6, 1, 6, 1),
         fontColor: ThemeConfig.isDarkMode ? Colors.white : Colors.black,
         fontSize: 15,
-        boxColor:
-            ThemeConfig.isDarkMode ? Color(0xFF4BA0F3) : Color(0xffACDBFE),
+        boxColor: color,
         borderRadius: 5,
       );
 
@@ -169,4 +105,164 @@ class DayLogList extends StatelessWidget {
           )
         ],
       );
+
+  Widget timeSheetItem(DayLogInfo info) => Obx(
+        () => Stack(
+          children: [
+            Padding(
+              padding: EdgeInsets.fromLTRB(
+                  controller.isEditEnable.value ? 0 : 10, 12, 13, 12),
+              child: GestureDetector(
+                onTap: () {
+                  if (!controller.isEditEnable.value &&
+                      !controller.isEditStatusEnable.value) {
+                    controller.onClickWorkLogItem(info.id ?? 0,
+                        controller.timeSheetList[parentPosition].userId ?? 0);
+                  } else {
+                    if (controller.isEditEnable.value) {
+                      info.isCheck = !(info.isCheck ?? false);
+                      controller.timeSheetList.refresh();
+                    }
+                  }
+                  controller.checkSelectAll();
+                },
+                child: Container(
+                  color: Colors.transparent,
+                  child: Row(
+                    children: [
+                      Visibility(
+                        visible: controller.isEditEnable.value,
+                        child: CustomCheckbox(
+                            onValueChange: (value) {
+                              info.isCheck = !(info.isCheck ?? false);
+                              controller.timeSheetList.refresh();
+                              controller.checkSelectAll();
+                            },
+                            mValue: info.isCheck ?? false),
+                      ),
+                      dayDate(info),
+                      SizedBox(
+                        width: 4,
+                      ),
+                      shiftName(
+                          info.shiftName,
+                          ThemeConfig.isDarkMode
+                              ? Color(0xFF4BA0F3)
+                              : Color(0xffACDBFE)),
+                      Expanded(child: Container()),
+                      totalWorkHour(info),
+                      SizedBox(
+                        width: 4,
+                      ),
+                      RightArrowWidget(
+                        color: primaryTextColor_(Get.context!),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.topRight,
+              child: Visibility(
+                visible: (info.userCheckLogsCount ?? 0) != 0,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 16, top: 6),
+                  child: CustomBadgeIcon(
+                    count: info.userCheckLogsCount ?? 0,
+                    color: defaultAccentColor_(Get.context!),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      );
+
+  Widget leaveItem(DayLogInfo info) {
+    LeaveInfo? leaveInfo = info.leaveInfo;
+    return leaveInfo != null
+        ? Padding(
+            padding: EdgeInsets.fromLTRB(10, 12, 13, 12),
+            child: GestureDetector(
+              onTap: () {
+                int status = leaveInfo.requestStatus ?? 0;
+                if (status == 0 || status == AppConstants.status.approved) {
+                  var arguments = {
+                    AppConstants.intentKey.leaveInfo: leaveInfo,
+                    AppConstants.intentKey.userId: leaveInfo.userId ?? 0,
+                  };
+                  controller.moveToScreen(
+                      AppRoutes.createLeaveScreen, arguments);
+                } else {
+                  var arguments = {
+                    AppConstants.intentKey.leaveId: leaveInfo.id ?? 0,
+                  };
+                  controller.moveToScreen(
+                      AppRoutes.leaveDetailsScreen, arguments);
+                }
+              },
+              child: Container(
+                color: Colors.transparent,
+                child: Row(
+                  children: [
+                    dayDate(info),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        TitleTextView(
+                          text: leaveInfo.leaveName ?? "",
+                          fontWeight: FontWeight.w500,
+                          fontSize: 15,
+                        ),
+                        SizedBox(
+                          height: 4,
+                        ),
+                        shiftName('leave'.tr, Colors.red.withValues(alpha: 0.4))
+                      ],
+                    ),
+                    Expanded(child: Container()),
+                    Column(
+                      children: [
+                        TitleTextView(
+                          text: StringHelper.capitalizeFirstLetter(
+                              leaveInfo.leaveType ?? ""),
+                          color: leaveInfo.requestStatus != null
+                              ? AppUtils.getStatusColor(
+                                  leaveInfo.requestStatus ?? 0)
+                              : primaryTextColor_(Get.context!),
+                          fontSize: 17,
+                        ),
+                        !(leaveInfo.isAlldayLeave ?? false)
+                            ? SubtitleTextView(
+                                text:
+                                    "(${leaveInfo.startTime} - ${leaveInfo.endTime})",
+                                fontSize: 13,
+                              )
+                            : SizedBox(
+                                height: 1,
+                                child: SubtitleTextView(
+                                  text: "00:00 - 00:00",
+                                  fontSize: 13,
+                                  color: Colors.transparent,
+                                ),
+                              )
+                      ],
+                    ),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    RightArrowWidget(
+                      color: primaryTextColor_(Get.context!),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          )
+        : Container();
+  }
 }

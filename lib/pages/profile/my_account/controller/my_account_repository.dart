@@ -42,7 +42,7 @@ class MyAccountRepository {
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
-    ApiRequest(url: ApiConstants.archiveAccount, data: data, isFormData: false)
+    ApiRequest(url: ApiConstants.archiveUserAccount, data: data, isFormData: false)
         .postRequest(
       onSuccess: (data) {
         onSuccess!(data);
