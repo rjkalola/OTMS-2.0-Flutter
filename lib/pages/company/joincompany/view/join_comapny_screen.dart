@@ -126,7 +126,8 @@ class _JoinCompanyScreenState extends State<JoinCompanyScreen>
                                           code.toString();
                                       if (controller.mOtpCode.value.length ==
                                           6) {
-                                        controller.joinCompanyApi();
+                                        // controller.joinCompanyApi();
+                                        controller.validateTeamOTPApi();
                                       }
                                       print("onCodeChanged $code");
                                     },

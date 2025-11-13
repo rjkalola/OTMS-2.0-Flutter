@@ -133,8 +133,8 @@ class OtpViewJoinCompany extends StatelessWidget {
                     fontWeight: FontWeight.w400,
                     onPressed: () {
                       if (controller.mOtpCode.value.length == 6) {
-                        print("join_a_company API call");
-                        controller.joinCompanyApi();
+                        // controller.joinCompanyApi();
+                        controller.validateTeamOTPApi();
                       } else {
                         AppUtils.showSnackBarMessage('enter_otp'.tr);
                       }

@@ -9,6 +9,7 @@ import 'package:belcka/pages/company/joincompany/controller/join_company_reposit
 import 'package:belcka/pages/company/joincompany/model/join_company_code_response.dart';
 import 'package:belcka/pages/company/joincompany/model/join_company_response.dart';
 import 'package:belcka/pages/company/joincompany/model/trade_list_response.dart';
+import 'package:belcka/pages/company/joincompany/model/validate_team_otp_response.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:belcka/utils/app_constants.dart';
@@ -52,11 +53,11 @@ class JoinCompanyController extends GetxController
     }
   }
 
-  void getTradeDataApi() {
+  void getTradeDataApi(int companyId) {
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["flag"] = "tradeList";
-    map["company_id"] = ApiConstants.companyId;
+    map["company_id"] = companyId;
     CompanyDetailsRepository().getCompanyResourcesApi(
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
@@ -81,6 +82,39 @@ class JoinCompanyController extends GetxController
         }
         // else if (error.statusMessage!.isNotEmpty) {
         //   AppUtils.showApiResponseMessage(error.statusMessage!);
+        // }
+      },
+    );
+  }
+
+  void validateTeamOTPApi() async {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["otp"] = mOtpCode.value;
+    map["company_id"] = ApiConstants.companyId;
+    multi.FormData formData = multi.FormData.fromMap(map);
+    // isLoading.value = true;
+    _api.validateTeamOTP(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          ValidateTeamOtpResponse response = ValidateTeamOtpResponse.fromJson(
+              jsonDecode(responseModel.result!));
+          int companyId = response.info?.companyId ?? 0;
+          print("companyId:" + companyId.toString());
+          getTradeDataApi(companyId);
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        }
+        // else if (error.statusMessage!.isNotEmpty) {
+        //   AppUtils.showApiResponseMessage(error.statusMessage ?? "");
         // }
       },
     );
@@ -132,6 +166,7 @@ class JoinCompanyController extends GetxController
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["otp"] = mOtpCode.value;
+    map["trade_id"] = tradeId;
     multi.FormData formData = multi.FormData.fromMap(map);
     // isLoading.value = true;
     _api.joinCompany(
@@ -148,7 +183,12 @@ class JoinCompanyController extends GetxController
           Get.find<AppStorage>().setUserInfo(userInfo);
           Get.find<AppStorage>().setCompanyId(companyId);
           ApiConstants.companyId = companyId;
-          getTradeDataApi();
+          if (fromSignUpScreen) {
+            moveToDashboard();
+          } else {
+            Get.back(result: true);
+          }
+          // getTradeDataApi();
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }

@@ -70,12 +70,14 @@ class LeaveList extends StatelessWidget {
                           SizedBox(
                             width: 12,
                           ),
-                          Column(
+                          Expanded(
+                              child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               TitleTextView(
                                 text: info.userName ?? "",
                                 fontSize: 17,
+                                softWrap: true,
                               ),
                               SubtitleTextView(
                                 text: "${'date'.tr}: ${getDate(info)}",
@@ -89,7 +91,7 @@ class LeaveList extends StatelessWidget {
                                 ),
                               ),
                             ],
-                          )
+                          ))
                         ],
                       ),
                     ),

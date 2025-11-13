@@ -59,13 +59,16 @@ class UsersList extends StatelessWidget {
                           SizedBox(
                             width: 12,
                           ),
-                          Text(
-                            info.name ?? "",
-                            textAlign: TextAlign.start,
-                            style:  TextStyle(
-                                fontSize: 17,
-                                color: primaryTextColor_(context),
-                                fontWeight: FontWeight.w600),
+                          Flexible(
+                            child: Text(
+                              info.name ?? "",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                  fontSize: 17,
+                                  color: primaryTextColor_(context),
+                                  fontWeight: FontWeight.w600),
+                              softWrap: true,
+                            ),
                           )
                         ],
                       ),
@@ -82,7 +85,7 @@ class UsersList extends StatelessWidget {
               //     thickness: 0.8,
               //   ),
               // ),
-              separatorBuilder: (context, position) =>  Padding(
+              separatorBuilder: (context, position) => Padding(
                     padding: EdgeInsets.only(left: 70, right: 16),
                     child: Divider(
                       height: 0,

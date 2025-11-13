@@ -29,7 +29,7 @@ class UsersList extends StatelessWidget {
                   child: CardViewDashboardItem(
                     child: GestureDetector(
                       onTap: () {
-                        AppUtils.onClickUserAvatar(info.id ?? 0);
+                        controller.moveToUserProfile(info.id ?? 0);
                       },
                       child: Container(
                         padding: const EdgeInsets.fromLTRB(10, 9, 10, 9),

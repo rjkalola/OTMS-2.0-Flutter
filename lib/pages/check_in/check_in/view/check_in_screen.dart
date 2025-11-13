@@ -164,12 +164,13 @@ class _CheckInScreenState extends State<CheckInScreen> {
                       buttonText: 'check_in_'.tr,
                       onPressed: () {
                         if (controller.formKey.currentState!.validate()) {
-                          if (controller.isValidPhotos()) {
-                            controller.checkInApi();
-                          } else {
-                            AppUtils.showToastMessage(
-                                'msg_empty_before_attachment'.tr);
-                          }
+                          controller.checkInApi();
+                          // if (controller.isValidPhotos()) {
+                          //   controller.checkInApi();
+                          // } else {
+                          //   AppUtils.showToastMessage(
+                          //       'msg_empty_before_attachment'.tr);
+                          // }
                         }
                       },
                       color: Colors.green,

@@ -101,7 +101,7 @@ class InviteUserController extends GetxController
           BaseResponse response =
               BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showToastMessage(response.Message ?? "");
-          Get.back();
+          Get.back(result: true);
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }

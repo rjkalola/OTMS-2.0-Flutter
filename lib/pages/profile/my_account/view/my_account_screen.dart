@@ -6,7 +6,6 @@ import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/PrimaryBorderButton.dart';
-import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

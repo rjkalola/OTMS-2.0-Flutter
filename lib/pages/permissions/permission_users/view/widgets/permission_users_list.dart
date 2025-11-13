@@ -58,13 +58,16 @@ class PermissionUsersList extends StatelessWidget {
                               SizedBox(
                                 width: 12,
                               ),
-                              Text(
-                                info.userName ?? "",
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                    fontSize: 17,
-                                    color: primaryTextColor_(context),
-                                    fontWeight: FontWeight.w600),
+                              Flexible(
+                                child: Text(
+                                  info.userName ?? "",
+                                  textAlign: TextAlign.start,
+                                  softWrap: true,
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      color: primaryTextColor_(context),
+                                      fontWeight: FontWeight.w600),
+                                ),
                               )
                             ],
                           ),

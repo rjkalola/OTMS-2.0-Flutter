@@ -372,9 +372,11 @@ class TimeSheetListController extends GetxController
       if (isEditEnable.value) {
         for (var weekData in info.weekLogs!) {
           for (var data in weekData.dayLogs!) {
-            if ((data.isCheck ?? false) == false) {
-              isAllSelected = false;
-              break;
+            if ((data.type ?? "") == "Timesheet") {
+              if ((data.isCheck ?? false) == false) {
+                isAllSelected = false;
+                break;
+              }
             }
           }
         }
@@ -399,7 +401,9 @@ class TimeSheetListController extends GetxController
       if (isEditEnable.value) {
         for (var weekData in info.weekLogs!) {
           for (var data in weekData.dayLogs!) {
-            data.isCheck = true;
+            if ((data.type ?? "") == "Timesheet") {
+              data.isCheck = true;
+            }
           }
         }
       } else if (isEditStatusEnable.value) {
@@ -417,7 +421,9 @@ class TimeSheetListController extends GetxController
       if (isEditEnable.value) {
         for (var weekData in info.weekLogs!) {
           for (var data in weekData.dayLogs!) {
-            data.isCheck = false;
+            if ((data.type ?? "") == "Timesheet") {
+              data.isCheck = false;
+            }
           }
         }
       } else if (isEditStatusEnable.value) {
@@ -435,7 +441,9 @@ class TimeSheetListController extends GetxController
       for (var weekData in info.weekLogs!) {
         for (var data in weekData.dayLogs!) {
           if (data.isCheck ?? false) {
-            listIds.add(data.id.toString());
+            if ((data.type ?? "") == "Timesheet") {
+              listIds.add(data.id.toString());
+            }
           }
         }
       }

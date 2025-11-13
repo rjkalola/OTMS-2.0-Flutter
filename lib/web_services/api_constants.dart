@@ -38,6 +38,7 @@ class ApiConstants {
   static String deleteCompany = '$appUrl/company/delete';
   static String getSwitchCompanyList = '$appUrl/user/switch-company-list';
   static String switchCompany = '$appUrl/company/switch-company';
+  static String validateTeamOTP = '$appUrl/company/validate-team-otp';
 
   //dashboard
   static String changeDashboardUserPermissionSequenceUrl =
@@ -242,6 +243,7 @@ class ApiConstants {
   static String rateHistory = '$appUrl/requests/get-rate-history';
   static String removeUserPermanently = '$appUrl/user/delete-account';
   static String archiveUserAccount = '$appUrl/user/archive-user-account';
+
   // static String archiveUser = '$appUrl/user/unarchive-account';
 
   //filters

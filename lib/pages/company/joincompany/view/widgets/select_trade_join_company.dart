@@ -58,7 +58,8 @@ class SelectTradeJoinCompany extends StatelessWidget {
                     fontWeight: FontWeight.w400,
                     onPressed: () {
                       if (controller.tradeId != 0) {
-                        controller.storeTradeApi();
+                        // controller.storeTradeApi();
+                        controller.joinCompanyApi();
                       } else {
                         AppUtils.showToastMessage('please_select_trade'.tr);
                       }

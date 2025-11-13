@@ -173,25 +173,49 @@ class _TypeOfWorkDetailsScreenState extends State<TypeOfWorkDetailsScreen> {
                       ),
                     ),
                     Visibility(
-                      visible: controller.isBeforeEnable.value &&
-                          !StringHelper.isEmptyList(
-                              controller.beforePhotosList),
+                      visible: isBeforeEnable(),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(left: 20),
-                            child: TitleTextView(
-                              text: 'photos_before'.tr,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
+                            child: Row(
+                              children: [
+                                TitleTextView(
+                                  text: 'photos_before'.tr,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                SizedBox(
+                                  width: 6,
+                                ),
+                                Visibility(
+                                  visible: controller.isBeforeEnable.value &&
+                                      controller.isAfterEnable.value,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      controller.onGridItemClick(-1, "",
+                                          AppConstants.type.beforePhotos);
+                                    },
+                                    child: Icon(
+                                      Icons.add_circle_outline,
+                                      size: 24,
+                                    ),
+                                  ),
+                                )
+                              ],
                             ),
                           ),
-                          BeforeAfterPhotosList(
-                            onGridItemClick: controller.onGridItemClick,
-                            filesList: controller.beforePhotosList,
-                            photosType: AppConstants.type.beforePhotos,
-                            isEditable: controller.isEditable.value,
+                          Visibility(
+                            visible: controller.isBeforeEnable.value &&
+                                !StringHelper.isEmptyList(
+                                    controller.beforePhotosList),
+                            child: BeforeAfterPhotosList(
+                              onGridItemClick: controller.onGridItemClick,
+                              filesList: controller.beforePhotosList,
+                              photosType: AppConstants.type.beforePhotos,
+                              isEditable: controller.isEditable.value,
+                            ),
                           ),
                           SizedBox(
                             height: 24,
@@ -200,25 +224,49 @@ class _TypeOfWorkDetailsScreenState extends State<TypeOfWorkDetailsScreen> {
                       ),
                     ),
                     Visibility(
-                      visible: controller.isAfterEnable.value &&
-                          !StringHelper.isEmptyList(controller.afterPhotosList),
+                      visible: controller.isAfterEnable.value,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(left: 20),
-                            child: TitleTextView(
-                              text: 'photos_after'.tr,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
+                            child: Row(
+                              children: [
+                                TitleTextView(
+                                  text: 'photos_after'.tr,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                SizedBox(
+                                  width: 6,
+                                ),
+                                Visibility(
+                                  visible: controller.isBeforeEnable.value &&
+                                      controller.isAfterEnable.value,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      controller.onGridItemClick(-1, "",
+                                          AppConstants.type.beforePhotos);
+                                    },
+                                    child: Icon(
+                                      Icons.add_circle_outline,
+                                      size: 24,
+                                    ),
+                                  ),
+                                )
+                              ],
                             ),
                           ),
-                          BeforeAfterPhotosList(
-                            onGridItemClick: controller.onGridItemClick,
-                            filesList: controller.afterPhotosList,
-                            photosType: AppConstants.type.afterPhotos,
-                            isEditable: controller.isEditable.value,
-                          ),
+                          Visibility(
+                              visible: controller.isAfterEnable.value &&
+                                  !StringHelper.isEmptyList(
+                                      controller.afterPhotosList),
+                              child: BeforeAfterPhotosList(
+                                onGridItemClick: controller.onGridItemClick,
+                                filesList: controller.afterPhotosList,
+                                photosType: AppConstants.type.afterPhotos,
+                                isEditable: controller.isEditable.value,
+                              )),
                         ],
                       ),
                     )
@@ -251,5 +299,13 @@ class _TypeOfWorkDetailsScreenState extends State<TypeOfWorkDetailsScreen> {
             ),
           )
         : Container();
+  }
+
+  bool isBeforeEnable() {
+    if (controller.isBeforeEnable.value && !controller.isAfterEnable.value) {
+      return !StringHelper.isEmptyList(controller.beforePhotosList);
+    } else {
+      return true;
+    }
   }
 }

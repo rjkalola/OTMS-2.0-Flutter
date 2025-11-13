@@ -231,7 +231,7 @@ class MyAccountController extends GetxController
 
   void archiveUserAPI() async {
     Map<String, dynamic> map = {};
-    map["user_id"] = userId;
+    map["user_ids"] = userId.toString();
     map["company_id"] = ApiConstants.companyId;
     isLoading.value = true;
     _api.archiveUser(
@@ -301,7 +301,7 @@ class MyAccountController extends GetxController
                 flex: 2,
                 child: PrimaryBorderButton(
                   height: 44,
-                  fontSize: 15,
+                  fontSize: 14,
                   buttonText: 'archive'.tr,
                   fontWeight: FontWeight.w400,
                   onPressed: () {
@@ -312,13 +312,13 @@ class MyAccountController extends GetxController
                   borderColor: defaultAccentColor_(Get.context!),
                 ),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: 10),
               Flexible(
                 fit: FlexFit.tight,
                 flex: 3,
                 child: PrimaryButton(
                   height: 44,
-                  fontSize: 15,
+                  fontSize: 14,
                   fontWeight: FontWeight.w400,
                   buttonText: 'delete_forever'.tr,
                   onPressed: () {

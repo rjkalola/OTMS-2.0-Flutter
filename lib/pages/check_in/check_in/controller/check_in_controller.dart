@@ -138,37 +138,38 @@ class CheckInController extends GetxController
     }*/
 
     for (int i = 0; i < selectedTypeOfWorkList.length; i++) {
-      List<FilesInfo> listPhotos = [];
-      String photosKey = "";
-      if ((selectedTypeOfWorkList[i].typeOfWorkId ?? 0) != 0 &&
-          (selectedTypeOfWorkList[i].companyTaskId ?? 0) == 0) {
-        photosKey =
-            "before_type_of_work_attachments[${selectedTypeOfWorkList[i].typeOfWorkId}]";
-      } else if ((selectedTypeOfWorkList[i].typeOfWorkId ?? 0) == 0 &&
-          (selectedTypeOfWorkList[i].companyTaskId ?? 0) != 0) {
-        photosKey =
-            "before_company_task_attachments[${selectedTypeOfWorkList[i].companyTaskId}]";
-      }
-      print("photosKey:" + photosKey);
-      for (var photo in selectedTypeOfWorkList[i].beforeAttachments!) {
-        if (!StringHelper.isEmptyString(photo.imageUrl) &&
-            (photo.id ?? 0) == 0) {
-          listPhotos.add(photo);
+      if (selectedTypeOfWorkList[i].beforeAttachments != null) {
+        List<FilesInfo> listPhotos = [];
+        String photosKey = "";
+        if ((selectedTypeOfWorkList[i].typeOfWorkId ?? 0) != 0 &&
+            (selectedTypeOfWorkList[i].companyTaskId ?? 0) == 0) {
+          photosKey =
+              "before_type_of_work_attachments[${selectedTypeOfWorkList[i].typeOfWorkId}]";
+        } else if ((selectedTypeOfWorkList[i].typeOfWorkId ?? 0) == 0 &&
+            (selectedTypeOfWorkList[i].companyTaskId ?? 0) != 0) {
+          photosKey =
+              "before_company_task_attachments[${selectedTypeOfWorkList[i].companyTaskId}]";
+        }
+        print("photosKey:" + photosKey);
+        for (var photo in selectedTypeOfWorkList[i].beforeAttachments!) {
+          if (!StringHelper.isEmptyString(photo.imageUrl) &&
+              (photo.id ?? 0) == 0) {
+            listPhotos.add(photo);
+          }
+        }
+        for (int j = 0; j < listPhotos.length; j++) {
+          print("before:" + listPhotos[j].imageUrl!);
+          formData.files.add(
+            MapEntry(
+              photosKey,
+              // or just 'images' depending on your backend
+              await multi.MultipartFile.fromFile(
+                listPhotos[j].imageUrl ?? "",
+              ),
+            ),
+          );
         }
       }
-      for (int j = 0; j < listPhotos.length; j++) {
-        print("before:" + listPhotos[j].imageUrl!);
-        formData.files.add(
-          MapEntry(
-            photosKey,
-            // or just 'images' depending on your backend
-            await multi.MultipartFile.fromFile(
-              listPhotos[j].imageUrl ?? "",
-            ),
-          ),
-        );
-      }
-
       print("------------------------------------------------");
     }
 

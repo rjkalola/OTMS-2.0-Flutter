@@ -223,24 +223,13 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                       child: PrimaryButton(
                         buttonText: 'check_out_'.tr,
                         onPressed: () {
-                          if (controller.isValidPhotos()) {
-                            controller.checkOutApi();
-                          } else {
-                            AppUtils.showToastMessage(
-                                'msg_empty_after_attachment'.tr);
-                          }
-                          /* if (controller.checkLogInfo.value.isAttachment ??
-                              false) {
-                            if (controller.listBeforePhotos.isNotEmpty &&
-                                controller.listAfterPhotos.isNotEmpty) {
-                              controller.checkOutApi();
-                            } else {
-                              AppUtils.showToastMessage(
-                                  'msg_empty_before_after_attachment'.tr);
-                            }
-                          } else {
-                            controller.checkOutApi();
-                          }*/
+                          // if (controller.isValidPhotos()) {
+                          //   controller.checkOutApi();
+                          // } else {
+                          //   AppUtils.showToastMessage(
+                          //       'msg_empty_after_attachment'.tr);
+                          // }
+                          controller.checkOutApi();
                         },
                         color: Colors.red,
                       ),

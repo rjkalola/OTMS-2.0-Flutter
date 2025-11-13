@@ -11,6 +11,7 @@ import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/custom_cache_manager.dart';
 import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/web_services/response/response_model.dart';
@@ -96,6 +97,27 @@ class UserListController extends GetxController implements MenuItemListener {
 
   Future<void> moveToScreen(String rout, dynamic arguments) async {
     var result = await Get.toNamed(rout, arguments: arguments);
+    if (result != null && result) {
+      getUserListApi();
+    }
+  }
+
+  Future<void> moveToUserProfile(int userId) async {
+    var result = null;
+    if (UserUtils.isAdmin()) {
+      var arguments = {
+        AppConstants.intentKey.userId: userId,
+      };
+      result =
+          await Get.toNamed(AppRoutes.myAccountScreen, arguments: arguments);
+    } else {
+      var arguments = {
+        AppConstants.intentKey.userId: userId,
+      };
+      result = await Get.toNamed(AppRoutes.myProfileDetailsScreen,
+          arguments: arguments);
+    }
+
     if (result != null && result) {
       getUserListApi();
     }
