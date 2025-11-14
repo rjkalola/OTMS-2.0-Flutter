@@ -68,7 +68,6 @@ import 'package:belcka/pages/project/check_in_records/view/check_in_records_scre
 import 'package:belcka/pages/project/project_details/view/project_details_screen.dart';
 import 'package:belcka/pages/project/project_info/view/project_info_screen.dart';
 import 'package:belcka/pages/project/project_list/view/project_list_screen.dart';
-import 'package:belcka/pages/project/project_list/view/project_list_screen2.dart';
 import 'package:belcka/pages/project/trade_records/trade_records_screen.dart';
 import 'package:belcka/pages/qr_code_scanner/view/qr_code_scanner.dart';
 import 'package:belcka/pages/settings/view/settings_screen.dart';
@@ -87,6 +86,7 @@ import 'package:belcka/pages/timesheet/add_time_sheet/view/add_time_sheet_screen
 import 'package:belcka/pages/timesheet/archive_timesheet_list/view/archive_timesheet_list_screen.dart';
 import 'package:belcka/pages/timesheet/timesheet_list/view/timesheet_list_screen.dart';
 import 'package:belcka/pages/trades/view/company_trades_screen.dart';
+import 'package:belcka/pages/users/archive_user_list/view/archive_user_list_screen.dart';
 import 'package:belcka/pages/users/invite_user/view/invite_user_screen.dart';
 import 'package:belcka/pages/users/user_list/view/user_list_screen.dart';
 import 'package:get/get.dart';
@@ -231,6 +231,10 @@ class AppPages {
     GetPage(
       name: AppRoutes.userListScreen,
       page: () => UserListScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.archiveUserListScreen,
+      page: () => ArchiveUserListScreen(),
     ),
     GetPage(
       name: AppRoutes.archiveTeamListScreen,

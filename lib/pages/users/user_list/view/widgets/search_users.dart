@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:belcka/pages/users/user_list/controller/user_list_controller.dart';
 import 'package:belcka/utils/string_helper.dart';
-import 'package:belcka/widgets/search_text_field.dart';
 import 'package:belcka/widgets/textfield/search_text_field_dark.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SearchUsersWidget extends StatefulWidget {
   const SearchUsersWidget({super.key});

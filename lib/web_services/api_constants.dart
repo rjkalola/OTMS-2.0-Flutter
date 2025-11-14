@@ -88,6 +88,10 @@ class ApiConstants {
   //users
   static String userList = '$appUrl/user/list';
   static String inviteUser = '$appUrl/invite-user';
+  static String archiveUserList = '$appUrl/user/archive-users-list';
+  static String archiveUserAccount = '$appUrl/user/archive-user-account';
+  static String unarchiveUserAccount = '$appUrl/user/unarchive-account';
+  static String removeUserPermanently = '$appUrl/user/delete-account';
 
   //teams
   static String teamList = '$appUrl/team/list';
@@ -241,8 +245,6 @@ class ApiConstants {
       '$appUrl/setting/user-payrate-permission';
   static String updateProfile = '$appUrl/user/update-profile';
   static String rateHistory = '$appUrl/requests/get-rate-history';
-  static String removeUserPermanently = '$appUrl/user/delete-account';
-  static String archiveUserAccount = '$appUrl/user/archive-user-account';
 
   // static String archiveUser = '$appUrl/user/unarchive-account';
 

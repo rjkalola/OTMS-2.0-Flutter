@@ -13,7 +13,7 @@ class AppConstants {
   static const Results results = Results();
   static const Status status = Status();
   static const CompanyResourcesFlag companyResourcesFlag =
-  CompanyResourcesFlag();
+      CompanyResourcesFlag();
   static const NotificationType notificationType = NotificationType();
   static const RequestType requestType = RequestType();
   static const FilterType filterType = FilterType();
@@ -131,6 +131,7 @@ class DialogIdentifier {
   final String selectMenuItemsDialog = 'selectMenuItemsDialog';
   final String selectTeamMembers = 'SELECT_TEAM_MEMBERS';
   final String deleteTeam = 'DELETE_TEAM';
+  final String unArchiveUser = 'UN_ARCHIVE_USER';
   final String removeSubContractor = 'REMOVE_SUB_CONTRACTOR';
   final String selectShiftStartTime = 'SELECT_SHIFT_START_TIME';
   final String selectShiftEndTime = 'SELECT_SHIFT_END_TIME';
@@ -240,6 +241,7 @@ class Action {
   final String notificationSettings = "NOTIFICATION_SETTINGS";
   final String archiveProject = 'ARCHIVE_PROJECT';
   final String archivedProjects = 'ARCHIVED_PROJECTS';
+  final String archivedUsers = 'ARCHIVED_USERS';
   final String archivedAddress = 'ARCHIVED_ADDRESS';
   final String beforePhotos = 'BEFORE_PHOTOS';
   final String afterPhotos = 'AFTER_PHOTOS';

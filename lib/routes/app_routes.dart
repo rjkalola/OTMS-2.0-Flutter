@@ -124,4 +124,5 @@ class AppRoutes {
   static const String leaveListScreen = '/leave_list_screen';
   static const String leaveDetailsScreen = '/leave_details_screen';
   static const String addressDocumentsScreen = '/address_documents_screen';
+  static const String archiveUserListScreen = '/archive_user_list_screen';
 }

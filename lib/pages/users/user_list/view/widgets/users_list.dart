@@ -1,14 +1,11 @@
-import 'package:belcka/routes/app_routes.dart';
-import 'package:belcka/utils/app_utils.dart';
-import 'package:belcka/utils/user_utils.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:belcka/pages/common/model/user_info.dart';
 import 'package:belcka/pages/users/user_list/controller/user_list_controller.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/other_widgets/user_avtar_view.dart';
 import 'package:belcka/widgets/text/PrimaryTextView.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class UsersList extends StatelessWidget {
   UsersList({super.key});

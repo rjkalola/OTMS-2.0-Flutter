@@ -248,6 +248,8 @@ class Strings extends Translations {
           'are_you_sure_you_want_to_remove': "Are you sure you want to remove?",
           'are_you_sure_you_want_to_approve':
               "Are you sure you want to approve?",
+          'are_you_sure_you_want_to_unarchive':
+              "Are you sure you want to unarchive?",
           'are_you_sure_you_want_to_reject': "Are you sure you want to reject?",
           'sub_contractor_details': "Subcontractor Details",
           'copy_code': "Copy Code",
@@ -469,6 +471,7 @@ class Strings extends Translations {
               "To remove the user without losing their information, please select the Archive option instead.",
           'remove_user': "Remove User",
           'delete_forever': "Delete Forever",
+          'archived_users': "Archived Users",
           // '': "",
 // '': "",
 // '': "",

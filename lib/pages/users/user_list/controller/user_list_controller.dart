@@ -127,6 +127,8 @@ class UserListController extends GetxController implements MenuItemListener {
     List<ModuleInfo> listItems = [];
     listItems.add(ModuleInfo(
         name: 'invite_user'.tr, action: AppConstants.action.inviteUser));
+    listItems.add(ModuleInfo(
+        name: 'archived_users'.tr, action: AppConstants.action.archivedUsers));
     showCupertinoModalPopup(
       context: context,
       builder: (_) =>
@@ -138,6 +140,8 @@ class UserListController extends GetxController implements MenuItemListener {
   Future<void> onSelectMenuItem(ModuleInfo info, String dialogType) async {
     if (info.action == AppConstants.action.inviteUser) {
       moveToScreen(AppRoutes.inviteUserScreen, null);
+    } else if (info.action == AppConstants.action.archivedUsers) {
+      moveToScreen(AppRoutes.archiveUserListScreen, null);
     }
   }
 }

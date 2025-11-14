@@ -34,7 +34,7 @@ class PermissionUsersList extends StatelessWidget {
                           child: Row(
                             children: [
                               GestureDetector(
-                                onTap: (){
+                                onTap: () {
                                   AppUtils.onClickUserAvatar(info.userId ?? 0);
                                 },
                                 child: Container(
@@ -97,7 +97,7 @@ class PermissionUsersList extends StatelessWidget {
               //     thickness: 0.8,
               //   ),
               // ),
-              separatorBuilder: (context, position) =>  Padding(
+              separatorBuilder: (context, position) => Padding(
                     padding: EdgeInsets.only(left: 70, right: 16),
                     child: Divider(
                       height: 0,

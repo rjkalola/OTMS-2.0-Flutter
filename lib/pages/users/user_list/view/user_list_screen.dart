@@ -1,8 +1,3 @@
-import 'package:belcka/utils/user_utils.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:get/get.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:belcka/pages/users/user_list/controller/user_list_controller.dart';
 import 'package:belcka/pages/users/user_list/view/widgets/search_users.dart';
 import 'package:belcka/pages/users/user_list/view/widgets/users_list.dart';
@@ -11,6 +6,9 @@ import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class UserListScreen extends StatefulWidget {
   const UserListScreen({super.key});
