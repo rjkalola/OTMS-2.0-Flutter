@@ -145,7 +145,7 @@ class AddExpenseController extends GetxController
           if (responseModel.isSuccess) {
             BaseResponse response =
                 BaseResponse.fromJson(jsonDecode(responseModel.result!));
-            AppUtils.showApiResponseMessage(response.Message ?? "");
+            AppUtils.showToastMessage(response.Message ?? "");
             Get.back(result: true);
           } else {
             AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
@@ -206,7 +206,7 @@ class AddExpenseController extends GetxController
           if (responseModel.isSuccess) {
             BaseResponse response =
                 BaseResponse.fromJson(jsonDecode(responseModel.result!));
-            AppUtils.showApiResponseMessage(response.Message ?? "");
+            AppUtils.showToastMessage(response.Message ?? "");
             Get.back(result: true);
           } else {
             AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
@@ -283,13 +283,14 @@ class AddExpenseController extends GetxController
           if (expenseId != 0) {
             getExpenseDetailsApi();
           } else {
+            isLoading.value = false;
             isMainViewVisible.value = true;
             setInitData();
           }
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+          isLoading.value = false;
         }
-        isLoading.value = false;
       },
       onError: (ResponseModel error) {
         isLoading.value = false;
