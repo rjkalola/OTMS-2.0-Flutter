@@ -251,4 +251,10 @@ class ApiConstants {
   //filters
   static String getRequestFilters = '$appUrl/requests/get-filters';
   static String getTimesheetFilters = '$appUrl/timesheet/get-resources';
+
+  //expense
+  static String addExpense = '$appUrl/expense/add-expense';
+  static String editExpense = '$appUrl/expense/edit-expense';
+  static String expenseList = '$appUrl/expense/list';
+  static String expenseDetails = '$appUrl/expense/detail';
 }
