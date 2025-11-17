@@ -1,6 +1,5 @@
 import 'dart:ffi';
-
-import 'package:flutter/cupertino.dart';
+import 'package:belcka/widgets/liquid_glass_effect/switch/precise_toggle_widget.dart';
 import 'package:flutter/material.dart';
 
 class CustomSwitch extends StatelessWidget {
@@ -17,6 +16,7 @@ class CustomSwitch extends StatelessWidget {
       this.activeCircleColor,
       this.isDisable});
 
+  /*
   @override
   Widget build(BuildContext context) {
     return CupertinoSwitch(
@@ -29,5 +29,18 @@ class CustomSwitch extends StatelessWidget {
             }
           : null,
     );
+  }
+  */
+  @override
+  Widget build(BuildContext context) {
+    return PreciseToggle(
+        value: mValue,
+        onChanged: (value) {
+          if (isDisable == true) {
+            null;
+          } else {
+            onValueChange!(value);
+          }
+        });
   }
 }

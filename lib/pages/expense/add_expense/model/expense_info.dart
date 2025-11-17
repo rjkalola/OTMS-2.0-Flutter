@@ -25,7 +25,8 @@ class ExpenseInfo {
   int? worklogId;
   String? dateAdded;
   String? receiptDate;
-  String? totalAmount;
+  double? totalAmount;
+  String? currency;
   int? status;
   bool? isRequested;
   bool? isArchive;
@@ -59,6 +60,7 @@ class ExpenseInfo {
       this.dateAdded,
       this.receiptDate,
       this.totalAmount,
+      this.currency,
       this.status,
       this.isRequested,
       this.isArchive,
@@ -91,7 +93,13 @@ class ExpenseInfo {
     worklogId = json['worklog_id'];
     dateAdded = json['date_added'];
     receiptDate = json['receipt_date'];
-    totalAmount = json['total_amount'];
+    // totalAmount = json['total_amount'];
+    totalAmount = (json['total_amount'] is int)
+        ? (json['total_amount'] as int).toDouble()
+        : (json['total_amount'] is double)
+            ? json['total_amount'] as double
+            : 0.0;
+    currency = json['currency'];
     status = json['status'];
     isRequested = json['is_requested'];
     isArchive = json['is_archive'];
@@ -132,6 +140,7 @@ class ExpenseInfo {
     data['date_added'] = this.dateAdded;
     data['receipt_date'] = this.receiptDate;
     data['total_amount'] = this.totalAmount;
+    data['currency'] = this.currency;
     data['status'] = this.status;
     data['is_requested'] = this.isRequested;
     data['is_archive'] = this.isArchive;

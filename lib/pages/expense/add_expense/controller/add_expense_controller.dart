@@ -1,506 +1,538 @@
-// import 'dart:convert';
-//
-// import 'package:belcka/pages/common/drop_down_list_dialog.dart';
-// import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
-// import 'package:belcka/pages/common/listener/select_date_listener.dart';
-// import 'package:belcka/pages/common/listener/select_item_listener.dart';
-// import 'package:belcka/pages/common/listener/select_time_listener.dart';
-// import 'package:belcka/pages/expense/add_expense/model/expense_info.dart';
-// import 'package:belcka/pages/leaves/add_leave/controller/create_leave_repository.dart';
-// import 'package:belcka/pages/leaves/add_leave/model/leave_type_list_response.dart';
-// import 'package:belcka/pages/leaves/leave_list/model/leave_info.dart';
-// import 'package:belcka/utils/AlertDialogHelper.dart';
-// import 'package:belcka/utils/app_constants.dart';
-// import 'package:belcka/utils/app_utils.dart';
-// import 'package:belcka/utils/date_utils.dart';
-// import 'package:belcka/utils/string_helper.dart';
-// import 'package:belcka/utils/user_utils.dart';
-// import 'package:belcka/web_services/api_constants.dart';
-// import 'package:belcka/web_services/response/base_response.dart';
-// import 'package:belcka/web_services/response/module_info.dart';
-// import 'package:belcka/web_services/response/response_model.dart';
-// import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
-//
-// class AddExpenseController extends GetxController
-//     implements
-//         SelectItemListener,
-//         SelectDateListener,
-//         DialogButtonClickListener {
-//   final projectController = TextEditingController().obs;
-//   final addressController = TextEditingController().obs;
-//   final categoryController = TextEditingController().obs;
-//   final sumOfTotalController = TextEditingController().obs;
-//   final dateOfReceiptController = TextEditingController().obs;
-//   final noteController = TextEditingController().obs;
-//
-//   DateTime? selectDate, startDate, endDate;
-//
-//   final formKey = GlobalKey<FormState>();
-//   final _api = CreateLeaveRepository();
-//   RxBool isLoading = false.obs,
-//       isInternetNotAvailable = false.obs,
-//       isMainViewVisible = false.obs,
-//       isSaveEnable = false.obs;
-//
-//   final projectList = <ModuleInfo>[].obs;
-//   final addressList = <ModuleInfo>[].obs;
-//   final categoryList = <ModuleInfo>[].obs;
-//
-//   int projectId = 0, addressId = 0, userId = 0;
-//
-//   ExpenseInfo? leaveInfo;
-//   final title = ''.obs;
-//
-//   @override
-//   void onInit() {
-//     super.onInit();
-//     var arguments = Get.arguments;
-//     if (arguments != null) {
-//       userId = arguments[AppConstants.intentKey.userId] ?? 0;
-//       print("userId:$userId");
-//       leaveInfo = arguments[AppConstants.intentKey.leaveInfo];
-//     }
-//     setInitData();
-//     getLeaveTypesListApi();
-//   }
-//
-//   void setInitData() {
-//     if (leaveInfo != null) {
-//      /* userId = leaveInfo?.userId ?? 0;
-//       title.value = 'edit_leave'.tr;
-//       leaveId = leaveInfo?.leaveId ?? 0;
-//       leaveTypeController.value.text = leaveInfo?.leaveName ?? "";
-//       isAllDay.value = leaveInfo?.isAlldayLeave ?? false;
-//       if (isAllDay.value) {
-//         startDateController.value.text = leaveInfo?.startDate ?? "";
-//         endDateController.value.text = leaveInfo?.endDate ?? "";
-//         dateController.value.text = leaveInfo?.startDate ?? "";
-//
-//         if (!StringHelper.isEmptyString(leaveInfo?.startDate ?? "")) {
-//           startDate = DateUtil.stringToDate(
-//               (leaveInfo?.startDate ?? ""), DateUtil.DD_MM_YYYY_SLASH);
-//         }
-//
-//         if (!StringHelper.isEmptyString(leaveInfo?.endDate ?? "")) {
-//           endDate = DateUtil.stringToDate(
-//               (leaveInfo?.endDate ?? ""), DateUtil.DD_MM_YYYY_SLASH);
-//         }
-//
-//         if (!StringHelper.isEmptyString(leaveInfo?.startDate ?? "")) {
-//           selectDate = DateUtil.stringToDate(
-//               (leaveInfo?.startDate ?? ""), DateUtil.DD_MM_YYYY_SLASH);
-//         }
-//
-//         DateTime currentTime = DateTime.now();
-//         startTime = DateTime(
-//             currentTime.year, currentTime.month, currentTime.day, 9, 0);
-//         endTime = DateTime(
-//             currentTime.year, currentTime.month, currentTime.day, 17, 0);
-//
-//         startTimeController.value.text =
-//             DateUtil.timeToString(startTime, DateUtil.HH_MM_24);
-//         endTimeController.value.text =
-//             DateUtil.timeToString(endTime, DateUtil.HH_MM_24);
-//       } else {
-//         startDateController.value.text = leaveInfo?.startDate ?? "";
-//         endDateController.value.text = leaveInfo?.endDate ?? "";
-//         dateController.value.text = leaveInfo?.startDate ?? "";
-//         startTimeController.value.text = leaveInfo?.startTime ?? "";
-//         endTimeController.value.text = leaveInfo?.endTime ?? "";
-//
-//         if (!StringHelper.isEmptyString(leaveInfo?.startDate ?? "")) {
-//           startDate = DateUtil.stringToDate(
-//               (leaveInfo?.startDate ?? ""), DateUtil.DD_MM_YYYY_SLASH);
-//         }
-//
-//         if (!StringHelper.isEmptyString(leaveInfo?.endDate ?? "")) {
-//           endDate = DateUtil.stringToDate(
-//               (leaveInfo?.endDate ?? ""), DateUtil.DD_MM_YYYY_SLASH);
-//         }
-//
-//         if (!StringHelper.isEmptyString(leaveInfo?.startDate ?? "")) {
-//           selectDate = DateUtil.stringToDate(
-//               (leaveInfo?.startDate ?? ""), DateUtil.DD_MM_YYYY_SLASH);
-//         }
-//
-//         DateTime currentTime = DateTime.now();
-//         if (!StringHelper.isEmptyString(leaveInfo?.startTime ?? "")) {
-//           startTime = DateUtil.getDateTimeFromHHMM(leaveInfo?.startTime ?? "");
-//         } else {
-//           startTime = DateTime(
-//               currentTime.year, currentTime.month, currentTime.day, 9, 0);
-//         }
-//
-//         if (!StringHelper.isEmptyString(leaveInfo?.endTime ?? "")) {
-//           endTime = DateUtil.getDateTimeFromHHMM(leaveInfo?.endTime ?? "");
-//         } else {
-//           endTime = DateTime(
-//               currentTime.year, currentTime.month, currentTime.day, 17, 0);
-//         }
-//       }
-//
-//       noteController.value.text = leaveInfo?.managerNote ?? "";
-//
-//       setTotalDays();*/
-//     } else {
-//       title.value = 'add_leave'.tr;
-//       setInitialDateTime();
-//       isSaveEnable.value = true;
-//     }
-//   }
-//
-//   void getLeaveTypesListApi() {
-//     isLoading.value = true;
-//     Map<String, dynamic> map = {};
-//     map["company_id"] = ApiConstants.companyId;
-//     _api.getLeaveTypesList(
-//       queryParameters: map,
-//       onSuccess: (ResponseModel responseModel) {
-//         if (responseModel.isSuccess) {
-//           isMainViewVisible.value = true;
-//           LeaveTypeListResponse response =
-//               LeaveTypeListResponse.fromJson(jsonDecode(responseModel.result!));
-//           List<ModuleInfo> listItems = [];
-//           for (var info in response.info!) {
-//             listItems.add(ModuleInfo(id: info.id, name: info.name));
-//           }
-//           leaveTypeList.value = listItems;
-//         } else {
-//           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
-//         }
-//         isLoading.value = false;
-//       },
-//       onError: (ResponseModel error) {
-//         isLoading.value = false;
-//         if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
-//           isInternetNotAvailable.value = true;
-//           // AppUtils.showSnackBarMessage('no_internet'.tr);
-//           // Utils.showSnackBarMessage('no_internet'.tr);
-//         } else if (error.statusMessage!.isNotEmpty) {
-//           AppUtils.showSnackBarMessage(error.statusMessage ?? "");
-//         }
-//       },
-//     );
-//   }
-//
-//   void addLeaveApi() async {
-//     if (valid()) {
-//       Map<String, dynamic> map = {};
-//       map["company_id"] = ApiConstants.companyId;
-//       map["leave_id"] = leaveId;
-//       map["user_id"] = userId;
-//       map["is_allday_leave"] = isAllDay.value;
-//       if (isAllDay.value) {
-//         map["start_date"] = StringHelper.getText(startDateController.value);
-//         map["end_date"] = StringHelper.getText(endDateController.value);
-//         map["start_time"] = "";
-//         map["end_time"] = "";
-//       } else {
-//         map["start_date"] = StringHelper.getText(dateController.value);
-//         map["end_date"] = StringHelper.getText(dateController.value);
-//         map["start_time"] = StringHelper.getText(startTimeController.value);
-//         map["end_time"] = StringHelper.getText(endTimeController.value);
-//       }
-//       map["total_time_of_days"] = totalDays.value;
-//       map["manager_note"] = StringHelper.getText(noteController.value);
-//       print("map:" + map.toString());
-//
-//       isLoading.value = true;
-//       _api.addLeave(
-//         data: map,
-//         onSuccess: (ResponseModel responseModel) {
-//           if (responseModel.isSuccess) {
-//             BaseResponse response =
-//                 BaseResponse.fromJson(jsonDecode(responseModel.result!));
-//             AppUtils.showApiResponseMessage(response.Message ?? "");
-//             Get.back(result: true);
-//           } else {
-//             AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
-//           }
-//           isLoading.value = false;
-//         },
-//         onError: (ResponseModel error) {
-//           isLoading.value = false;
-//           if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
-//             AppUtils.showApiResponseMessage('no_internet'.tr);
-//           } else if (error.statusMessage!.isNotEmpty) {
-//             AppUtils.showApiResponseMessage(error.statusMessage);
-//           }
-//         },
-//       );
-//     }
-//   }
-//
-//   void updateLeaveApi() async {
-//     if (valid()) {
-//       Map<String, dynamic> map = {};
-//       map["company_id"] = ApiConstants.companyId;
-//       map["user_leave_id"] = leaveInfo?.id ?? 0;
-//       map["leave_id"] = leaveId;
-//       map["user_id"] = userId;
-//       map["is_allday_leave"] = isAllDay.value;
-//       if (isAllDay.value) {
-//         map["start_date"] = StringHelper.getText(startDateController.value);
-//         map["end_date"] = StringHelper.getText(endDateController.value);
-//         map["start_time"] = "";
-//         map["end_time"] = "";
-//       } else {
-//         map["start_date"] = StringHelper.getText(dateController.value);
-//         map["end_date"] = StringHelper.getText(dateController.value);
-//         map["start_time"] = StringHelper.getText(startTimeController.value);
-//         map["end_time"] = StringHelper.getText(endTimeController.value);
-//       }
-//       map["total_time_of_days"] = totalDays.value;
-//       map["manager_note"] = StringHelper.getText(noteController.value);
-//       print("map:" + map.toString());
-//
-//       isLoading.value = true;
-//       _api.updateLeave(
-//         data: map,
-//         onSuccess: (ResponseModel responseModel) {
-//           if (responseModel.isSuccess) {
-//             BaseResponse response =
-//                 BaseResponse.fromJson(jsonDecode(responseModel.result!));
-//             AppUtils.showApiResponseMessage(response.Message ?? "");
-//             Get.back(result: true);
-//           } else {
-//             AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
-//           }
-//           isLoading.value = false;
-//         },
-//         onError: (ResponseModel error) {
-//           isLoading.value = false;
-//           if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
-//             AppUtils.showApiResponseMessage('no_internet'.tr);
-//           } else if (error.statusMessage!.isNotEmpty) {
-//             AppUtils.showApiResponseMessage(error.statusMessage);
-//           }
-//         },
-//       );
-//     }
-//   }
-//
-//   void deleteLeaveApi() async {
-//     Map<String, dynamic> map = {};
-//     map["company_id"] = ApiConstants.companyId;
-//     map["user_leave_id"] = leaveInfo?.id ?? 0;
-//     print("map:" + map.toString());
-//
-//     isLoading.value = true;
-//     _api.deleteLeave(
-//       data: map,
-//       onSuccess: (ResponseModel responseModel) {
-//         if (responseModel.isSuccess) {
-//           BaseResponse response =
-//               BaseResponse.fromJson(jsonDecode(responseModel.result!));
-//           AppUtils.showApiResponseMessage(response.Message ?? "");
-//           Get.back(result: true);
-//         } else {
-//           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
-//         }
-//         isLoading.value = false;
-//       },
-//       onError: (ResponseModel error) {
-//         isLoading.value = false;
-//         if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
-//           AppUtils.showApiResponseMessage('no_internet'.tr);
-//         } else if (error.statusMessage!.isNotEmpty) {
-//           AppUtils.showApiResponseMessage(error.statusMessage);
-//         }
-//       },
-//     );
-//   }
-//
-//   bool valid() {
-//     return formKey.currentState!.validate();
-//   }
-//
-//   void showSelectLeaveTypeDialog() {
-//     if (leaveTypeList.isNotEmpty) {
-//       showDropDownDialog(AppConstants.action.selectLeaveTypeDialog,
-//           'leave_type'.tr, leaveTypeList, this);
-//     } else {
-//       AppUtils.showToastMessage('empty_data_message'.tr);
-//     }
-//   }
-//
-//   void showDropDownDialog(String dialogType, String title,
-//       List<ModuleInfo> list, SelectItemListener listener) {
-//     Get.bottomSheet(
-//         DropDownListDialog(
-//           title: title,
-//           dialogType: dialogType,
-//           list: list,
-//           listener: listener,
-//           isCloseEnable: true,
-//           isSearchEnable: true,
-//         ),
-//         backgroundColor: Colors.transparent,
-//         isScrollControlled: true);
-//   }
-//
-//   @override
-//   void onSelectItem(int position, int id, String name, String action) {
-//     if (action == AppConstants.action.selectLeaveTypeDialog) {
-//       isSaveEnable.value = true;
-//       leaveId = id;
-//       leaveTypeController.value.text = name;
-//     }
-//   }
-//
-//   void showDatePickerDialog(String dialogIdentifier, DateTime? date,
-//       DateTime firstDate, DateTime lastDate) {
-//     DateUtil.showDatePickerDialog(
-//         initialDate: date,
-//         firstDate: firstDate,
-//         lastDate: lastDate,
-//         dialogIdentifier: dialogIdentifier,
-//         selectDateListener: this);
-//   }
-//
-//   @override
-//   void onSelectDate(DateTime date, String dialogIdentifier) {
-//     if (dialogIdentifier == AppConstants.dialogIdentifier.selectDate) {
-//       selectDate = date;
-//       dateController.value.text =
-//           DateUtil.dateToString(date, DateUtil.DD_MM_YYYY_SLASH);
-//       isSaveEnable.value = true;
-//     } else if (dialogIdentifier == AppConstants.dialogIdentifier.startDate) {
-//       final startDateOnly = getDateOnly(date);
-//       final endDateOnly = getDateOnly(endDate!);
-//       if (!startDateOnly.isAfter(endDateOnly)) {
-//         startDate = date;
-//         startDateController.value.text =
-//             DateUtil.dateToString(date, DateUtil.DD_MM_YYYY_SLASH);
-//         isSaveEnable.value = true;
-//       } else {
-//         AppUtils.showToastMessage('error_wrong_start_date_selection'.tr);
-//       }
-//     } else if (dialogIdentifier == AppConstants.dialogIdentifier.endDate) {
-//       final startDateOnly = getDateOnly(startDate!);
-//       final endDateOnly = getDateOnly(date);
-//       if (!endDateOnly.isBefore(startDateOnly)) {
-//         endDate = date;
-//         endDateController.value.text =
-//             DateUtil.dateToString(date, DateUtil.DD_MM_YYYY_SLASH);
-//         isSaveEnable.value = true;
-//       } else {
-//         AppUtils.showToastMessage('error_wrong_end_date_selection'.tr);
-//       }
-//     }
-//     setTotalDays();
-//   }
-//
-//   void showTimePickerDialog(String dialogIdentifier, DateTime? time) {
-//     DateUtil.showTimePickerDialog(
-//         initialTime: time,
-//         dialogIdentifier: dialogIdentifier,
-//         selectTimeListener: this);
-//   }
-//
-//   @override
-//   void onSelectTime(DateTime time, String dialogIdentifier) {
-//     if (dialogIdentifier ==
-//         AppConstants.dialogIdentifier.selectShiftStartTime) {
-//       if (!time.isAfter(endTime!)) {
-//         startTime = time;
-//         startTimeController.value.text =
-//             DateUtil.timeToString(time, DateUtil.HH_MM_24);
-//         isSaveEnable.value = true;
-//       } else {
-//         AppUtils.showToastMessage('error_wrong_start_time_selection'.tr);
-//       }
-//     } else if (dialogIdentifier ==
-//         AppConstants.dialogIdentifier.selectShiftEndTime) {
-//       if (!time.isBefore(startTime!)) {
-//         endTime = time;
-//         endTimeController.value.text =
-//             DateUtil.timeToString(time, DateUtil.HH_MM_24);
-//         isSaveEnable.value = true;
-//       } else {
-//         AppUtils.showToastMessage('error_wrong_end_time_selection'.tr);
-//       }
-//     }
-//     setTotalDays();
-//   }
-//
-//   void setInitialDateTime() {
-//     DateTime currentDay = DateTime.now();
-//     selectDate = currentDay;
-//     startDate = currentDay;
-//     endDate = currentDay.add(Duration(days: 1));
-//     dateController.value.text =
-//         DateUtil.dateToString(selectDate, DateUtil.DD_MM_YYYY_SLASH);
-//     startDateController.value.text =
-//         DateUtil.dateToString(startDate, DateUtil.DD_MM_YYYY_SLASH);
-//     endDateController.value.text =
-//         DateUtil.dateToString(endDate, DateUtil.DD_MM_YYYY_SLASH);
-//
-//     DateTime currentTime = DateTime.now();
-//     startTime =
-//         DateTime(currentTime.year, currentTime.month, currentTime.day, 9, 0);
-//     endTime =
-//         DateTime(currentTime.year, currentTime.month, currentTime.day, 17, 0);
-//
-//     startTimeController.value.text =
-//         DateUtil.timeToString(startTime, DateUtil.HH_MM_24);
-//     endTimeController.value.text =
-//         DateUtil.timeToString(endTime, DateUtil.HH_MM_24);
-//
-//     setTotalDays();
-//   }
-//
-//   void setTotalDays() {
-//     if (isAllDay.value) {
-//       final startDateOnly = getDateOnly(startDate!);
-//       final endDateOnly = getDateOnly(endDate!);
-//       totalDays.value = (endDateOnly.difference(startDateOnly).inDays + 1)
-//           .toDouble()
-//           .toString();
-//     } else {
-//       DateTime currentDate = DateTime.now();
-//       final start = DateTime(currentDate.year, currentDate.month,
-//           currentDate.day, startTime!.hour, startTime!.minute); // 5 PM
-//       final end = DateTime(currentDate.year, currentDate.month, currentDate.day,
-//           endTime!.hour, endTime!.minute);
-//
-//       final timeDifference =
-//           end.difference(start).inMinutes / 60; // hours difference
-//       totalDays.value = (timeDifference / 24).toStringAsFixed(2);
-//     }
-//   }
-//
-//   DateTime getDateOnly(DateTime inputDate) {
-//     return DateTime(inputDate.year, inputDate.month, inputDate.day);
-//   }
-//
-//   showRemoveLeaveDialog() async {
-//     AlertDialogHelper.showAlertDialog(
-//         "",
-//         'are_you_sure_you_want_to_delete'.tr,
-//         'yes'.tr,
-//         'no'.tr,
-//         "",
-//         true,
-//         false,
-//         this,
-//         AppConstants.dialogIdentifier.delete);
-//   }
-//
-//   @override
-//   void onNegativeButtonClicked(String dialogIdentifier) {
-//     Get.back();
-//   }
-//
-//   @override
-//   void onOtherButtonClicked(String dialogIdentifier) {}
-//
-//   @override
-//   void onPositiveButtonClicked(String dialogIdentifier) {
-//     if (dialogIdentifier == AppConstants.dialogIdentifier.delete) {
-//       Get.back();
-//       deleteLeaveApi();
-//     }
-//   }
-// }
+import 'dart:convert';
+
+import 'package:belcka/pages/common/drop_down_list_dialog.dart';
+import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
+import 'package:belcka/pages/common/listener/select_date_listener.dart';
+import 'package:belcka/pages/common/listener/select_item_listener.dart';
+import 'package:belcka/pages/common/model/file_info.dart';
+import 'package:belcka/pages/expense/add_expense/controller/add_expense_repository.dart';
+import 'package:belcka/pages/expense/add_expense/model/expense_details_response.dart';
+import 'package:belcka/pages/expense/add_expense/model/expense_info.dart';
+import 'package:belcka/pages/expense/add_expense/model/expense_resources_response.dart';
+import 'package:belcka/pages/leaves/add_leave/model/leave_type_list_response.dart';
+import 'package:belcka/pages/manageattachment/controller/manage_attachment_controller.dart';
+import 'package:belcka/pages/manageattachment/listener/select_attachment_listener.dart';
+import 'package:belcka/utils/AlertDialogHelper.dart';
+import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/date_utils.dart';
+import 'package:belcka/utils/image_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/utils/user_utils.dart';
+import 'package:belcka/web_services/api_constants.dart';
+import 'package:belcka/web_services/response/base_response.dart';
+import 'package:belcka/web_services/response/module_info.dart';
+import 'package:belcka/web_services/response/response_model.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:dio/dio.dart' as multi;
+
+class AddExpenseController extends GetxController
+    implements
+        SelectItemListener,
+        SelectDateListener,
+        DialogButtonClickListener,
+        SelectAttachmentListener {
+  final projectController = TextEditingController().obs;
+  final addressController = TextEditingController().obs;
+  final categoryController = TextEditingController().obs;
+  final sumOfTotalController = TextEditingController().obs;
+  final dateOfReceiptController = TextEditingController().obs;
+  final noteController = TextEditingController().obs;
+
+  DateTime? selectDate;
+
+  final formKey = GlobalKey<FormState>();
+  final _api = AddExpenseRepository();
+  RxBool isLoading = false.obs,
+      isInternetNotAvailable = false.obs,
+      isMainViewVisible = false.obs,
+      isSaveEnable = true.obs;
+
+  final projectList = <ModuleInfo>[].obs;
+  final addressList = <ModuleInfo>[].obs;
+  final categoryList = <ModuleInfo>[].obs;
+  int expenseId = 0,
+      projectId = 0,
+      addressId = 0,
+      categoryId = 0,
+      userWorkLogId = 0,
+      userId = UserUtils.getLoginUserId();
+  final expenseInfo = ExpenseInfo().obs;
+  final title = ''.obs;
+  var attachmentList = <FilesInfo>[].obs;
+
+  ExpenseResourcesResponse? expenseResourcesData;
+
+  @override
+  void onInit() {
+    super.onInit();
+    var arguments = Get.arguments;
+    if (arguments != null) {
+      expenseId = arguments[AppConstants.intentKey.expenseId] ?? 0;
+      userId = arguments[AppConstants.intentKey.userId] ??
+          UserUtils.getLoginUserId();
+      // expenseInfo = arguments[AppConstants.intentKey.expenseInfo];
+    }
+    getExpenseResourcesApi();
+  }
+
+  void setInitData() {
+    FilesInfo info = FilesInfo();
+    attachmentList.add(info);
+    if (expenseId != 0) {
+      title.value = 'edit_expense'.tr;
+
+      projectId = expenseInfo.value.projectId ?? 0;
+      addressId = expenseInfo.value.addressId ?? 0;
+      categoryId = expenseInfo.value.categoryId ?? 0;
+
+      projectController.value.text = expenseInfo.value.projectName ?? "";
+      addressController.value.text = expenseInfo.value.addressName ?? "";
+      categoryController.value.text = expenseInfo.value.categoryName ?? "";
+      sumOfTotalController.value.text =
+          (expenseInfo.value.totalAmount ?? 0).toString();
+      dateOfReceiptController.value.text = expenseInfo.value.receiptDate ?? "";
+      noteController.value.text = expenseInfo.value.note ?? "";
+
+      attachmentList.addAll(expenseInfo.value.attachments ?? []);
+    } else {
+      title.value = 'add_expense'.tr;
+      setInitialDateTime();
+      isSaveEnable.value = true;
+    }
+  }
+
+  void addExpenseApi() async {
+    if (valid()) {
+      Map<String, dynamic> map = {};
+      map["user_id"] = userId;
+      map["project_id"] = projectId;
+      map["address_id"] = addressId;
+      map["user_worklog_id"] = userWorkLogId;
+      map["expense_category_id"] = categoryId;
+      map["receipt_date"] = StringHelper.getText(dateOfReceiptController.value);
+      map["total_amount"] = StringHelper.getText(sumOfTotalController.value);
+      map["note"] = StringHelper.getText(noteController.value);
+
+      multi.FormData formData = multi.FormData.fromMap(map);
+      print("reques value:" + map.toString());
+
+      List<String> listPhotos = [];
+      for (int i = 0; i < attachmentList.length; i++) {
+        if (!StringHelper.isEmptyString(attachmentList[i].imageUrl) &&
+            !attachmentList[i].imageUrl!.startsWith("http")) {
+          listPhotos.add(attachmentList[i].imageUrl ?? "");
+        }
+      }
+
+      for (int i = 0; i < listPhotos.length; i++) {
+        print("listPhotos[i]:" + listPhotos[i]);
+        formData.files.add(
+          MapEntry(
+            "files[]",
+            await multi.MultipartFile.fromFile(
+              listPhotos[i],
+            ),
+          ),
+        );
+      }
+
+      isLoading.value = true;
+      _api.addExpense(
+        formData: formData,
+        onSuccess: (ResponseModel responseModel) {
+          if (responseModel.isSuccess) {
+            BaseResponse response =
+                BaseResponse.fromJson(jsonDecode(responseModel.result!));
+            AppUtils.showApiResponseMessage(response.Message ?? "");
+            Get.back(result: true);
+          } else {
+            AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+          }
+          isLoading.value = false;
+        },
+        onError: (ResponseModel error) {
+          isLoading.value = false;
+          if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+            AppUtils.showApiResponseMessage('no_internet'.tr);
+          } else if (error.statusMessage!.isNotEmpty) {
+            AppUtils.showApiResponseMessage(error.statusMessage);
+          }
+        },
+      );
+    }
+  }
+
+  void editExpenseApi() async {
+    if (valid()) {
+      Map<String, dynamic> map = {};
+      map["expense_id"] = expenseId;
+      map["user_id"] = userId;
+      map["project_id"] = projectId;
+      map["address_id"] = addressId;
+      map["user_worklog_id"] = userWorkLogId;
+      map["expense_category_id"] = categoryId;
+      map["receipt_date"] = StringHelper.getText(dateOfReceiptController.value);
+      map["total_amount"] = StringHelper.getText(sumOfTotalController.value);
+      map["note"] = StringHelper.getText(noteController.value);
+
+      multi.FormData formData = multi.FormData.fromMap(map);
+      print("reques value:" + map.toString());
+
+      List<String> listPhotos = [];
+      for (int i = 0; i < attachmentList.length; i++) {
+        if (!StringHelper.isEmptyString(attachmentList[i].imageUrl) &&
+            !attachmentList[i].imageUrl!.startsWith("http")) {
+          listPhotos.add(attachmentList[i].imageUrl ?? "");
+        }
+      }
+
+      for (int i = 0; i < listPhotos.length; i++) {
+        formData.files.add(
+          MapEntry(
+            "files[]",
+            await multi.MultipartFile.fromFile(
+              listPhotos[i],
+            ),
+          ),
+        );
+      }
+
+      isLoading.value = true;
+      _api.editExpense(
+        formData: formData,
+        onSuccess: (ResponseModel responseModel) {
+          if (responseModel.isSuccess) {
+            BaseResponse response =
+                BaseResponse.fromJson(jsonDecode(responseModel.result!));
+            AppUtils.showApiResponseMessage(response.Message ?? "");
+            Get.back(result: true);
+          } else {
+            AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+          }
+          isLoading.value = false;
+        },
+        onError: (ResponseModel error) {
+          isLoading.value = false;
+          if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+            AppUtils.showApiResponseMessage('no_internet'.tr);
+          } else if (error.statusMessage!.isNotEmpty) {
+            AppUtils.showApiResponseMessage(error.statusMessage);
+          }
+        },
+      );
+    }
+  }
+
+/*  void deleteLeaveApi() async {
+    Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
+    map["user_leave_id"] = expenseInfo?.id ?? 0;
+    print("map:" + map.toString());
+
+    isLoading.value = true;
+    _api.deleteLeave(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          BaseResponse response =
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showApiResponseMessage(response.Message ?? "");
+          Get.back(result: true);
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showApiResponseMessage(error.statusMessage);
+        }
+      },
+    );
+  }*/
+
+  void getExpenseResourcesApi() async {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    _api.getExpenseResources(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          ExpenseResourcesResponse response = ExpenseResourcesResponse.fromJson(
+              jsonDecode(responseModel.result!));
+          expenseResourcesData = response;
+
+          if (projectId != 0) {
+            for (var info in expenseResourcesData!.addresses!) {
+              if (info.projectId == projectId) {
+                addressList.add(info);
+              }
+            }
+          } else {
+            addressList.addAll(expenseResourcesData!.addresses!);
+          }
+
+          projectList.addAll(expenseResourcesData!.projects!);
+          categoryList.addAll(expenseResourcesData!.categories!);
+
+          if (expenseId != 0) {
+            getExpenseDetailsApi();
+          } else {
+            isMainViewVisible.value = true;
+            setInitData();
+          }
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        }
+      },
+    );
+  }
+
+  void getExpenseDetailsApi() {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
+    map["expense_id"] = expenseId;
+    _api.expenseDetails(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          isMainViewVisible.value = true;
+          ExpenseDetailsResponse response = ExpenseDetailsResponse.fromJson(
+              jsonDecode(responseModel.result!));
+          expenseInfo.value = response.info!;
+          setInitData();
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+          // AppUtils.showApiResponseMessage('no_internet'.tr);
+          // Utils.showApiResponseMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showApiResponseMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
+
+  bool valid() {
+    return formKey.currentState!.validate();
+  }
+
+  void showSelectProjectDialog() {
+    if (projectList.isNotEmpty) {
+      showDropDownDialog(AppConstants.action.selectProjectDialog,
+          'select_project'.tr, projectList, this);
+    } else {
+      AppUtils.showToastMessage('empty_data_message'.tr);
+    }
+  }
+
+  void showSelectAddressDialog() {
+    if (projectId != 0) {
+      if (addressList.isNotEmpty) {
+        showDropDownDialog(AppConstants.action.selectAddressDialog,
+            'select_address'.tr, addressList, this);
+      } else {
+        AppUtils.showToastMessage('empty_data_message'.tr);
+      }
+    } else {
+      AppUtils.showToastMessage('please_select_project'.tr);
+    }
+  }
+
+  void showSelectCategoryDialog() {
+    if (categoryList.isNotEmpty) {
+      showDropDownDialog(AppConstants.action.selectCategoryDialog,
+          'select_category'.tr, categoryList, this);
+    } else {
+      AppUtils.showToastMessage('empty_data_message'.tr);
+    }
+  }
+
+  void showDropDownDialog(String dialogType, String title,
+      List<ModuleInfo> list, SelectItemListener listener) {
+    Get.bottomSheet(
+        DropDownListDialog(
+          title: title,
+          dialogType: dialogType,
+          list: list,
+          listener: listener,
+          isCloseEnable: true,
+          isSearchEnable: true,
+        ),
+        backgroundColor: Colors.transparent,
+        isScrollControlled: true);
+  }
+
+  @override
+  void onSelectItem(int position, int id, String name, String action) {
+    if (action == AppConstants.action.selectProjectDialog) {
+      isSaveEnable.value = true;
+      projectId = id;
+      projectController.value.text = name;
+
+      addressList.clear();
+      for (var info in expenseResourcesData!.addresses!) {
+        if (info.projectId == projectId) {
+          addressList.add(info);
+        }
+      }
+
+      addressId = 0;
+      addressController.value.text = "";
+    } else if (action == AppConstants.action.selectAddressDialog) {
+      isSaveEnable.value = true;
+      addressId = id;
+      addressController.value.text = name;
+    } else if (action == AppConstants.action.selectCategoryDialog) {
+      isSaveEnable.value = true;
+      categoryId = id;
+      categoryController.value.text = name;
+    }
+  }
+
+  void showDatePickerDialog(String dialogIdentifier, DateTime? date,
+      DateTime firstDate, DateTime lastDate) {
+    DateUtil.showDatePickerDialog(
+        initialDate: date,
+        firstDate: firstDate,
+        lastDate: lastDate,
+        dialogIdentifier: dialogIdentifier,
+        selectDateListener: this);
+  }
+
+  @override
+  void onSelectDate(DateTime date, String dialogIdentifier) {
+    if (dialogIdentifier == AppConstants.dialogIdentifier.selectDate) {
+      selectDate = date;
+      dateOfReceiptController.value.text =
+          DateUtil.dateToString(date, DateUtil.DD_MM_YYYY_SLASH);
+      isSaveEnable.value = true;
+    }
+  }
+
+  void setInitialDateTime() {
+    DateTime currentDay = DateTime.now();
+    selectDate = currentDay;
+    dateOfReceiptController.value.text =
+        DateUtil.dateToString(selectDate, DateUtil.DD_MM_YYYY_SLASH);
+  }
+
+  DateTime getDateOnly(DateTime inputDate) {
+    return DateTime(inputDate.year, inputDate.month, inputDate.day);
+  }
+
+  onGridItemClick(int index, String action) async {
+    if (action == AppConstants.action.viewPhoto) {
+      if (index == 0) {
+        showAttachmentOptionsDialog();
+      } else {
+        // var list = attachmentList.sublist(1, attachmentList.length);
+        // ImageUtils.moveToImagePreview(list, index - 1);
+
+        String fileUrl = attachmentList[index].imageUrl ?? "";
+        await ImageUtils.openAttachment(
+            Get.context!, fileUrl, ImageUtils.getFileType(fileUrl));
+      }
+    } else if (action == AppConstants.action.removePhoto) {
+      removePhotoFromList(index: index);
+    }
+  }
+
+  showAttachmentOptionsDialog() async {
+    var listOptions = <ModuleInfo>[].obs;
+    ModuleInfo? info;
+
+    info = ModuleInfo();
+    info.name = 'camera'.tr;
+    info.action = AppConstants.attachmentType.camera;
+    listOptions.add(info);
+
+    info = ModuleInfo();
+    info.name = 'gallery'.tr;
+    info.action = AppConstants.attachmentType.multiImage;
+    listOptions.add(info);
+
+    info = ModuleInfo();
+    info.name = 'pdf'.tr;
+    info.action = AppConstants.attachmentType.pdf;
+    listOptions.add(info);
+
+    ManageAttachmentController().showAttachmentOptionsDialog(
+        'select_photo_from_'.tr, listOptions, this);
+  }
+
+  @override
+  void onSelectAttachment(List<String> paths, String action) {
+    if (action == AppConstants.attachmentType.camera) {
+      addPhotoToList(paths[0]);
+    } else if (action == AppConstants.attachmentType.pdf) {
+      for (var path in paths) {
+        addPhotoToList(path);
+      }
+    } else if (action == AppConstants.attachmentType.multiImage) {
+      for (var path in paths) {
+        addPhotoToList(path);
+      }
+    }
+  }
+
+  addPhotoToList(String? path) {
+    if (!StringHelper.isEmptyString(path)) {
+      FilesInfo info = FilesInfo();
+      info.imageUrl = path;
+      attachmentList.add(info);
+    }
+  }
+
+  removePhotoFromList({required int index}) {
+    attachmentList.removeAt(index);
+  }
+
+  showRemoveLeaveDialog() async {
+    AlertDialogHelper.showAlertDialog(
+        "",
+        'are_you_sure_you_want_to_delete'.tr,
+        'yes'.tr,
+        'no'.tr,
+        "",
+        true,
+        false,
+        this,
+        AppConstants.dialogIdentifier.delete);
+  }
+
+  @override
+  void onNegativeButtonClicked(String dialogIdentifier) {
+    Get.back();
+  }
+
+  @override
+  void onOtherButtonClicked(String dialogIdentifier) {}
+
+  @override
+  void onPositiveButtonClicked(String dialogIdentifier) {
+    if (dialogIdentifier == AppConstants.dialogIdentifier.delete) {
+      Get.back();
+      // deleteLeaveApi();
+    }
+  }
+}

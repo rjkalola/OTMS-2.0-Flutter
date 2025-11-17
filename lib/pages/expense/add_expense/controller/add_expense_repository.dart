@@ -48,6 +48,20 @@ class AddExpenseRepository {
     );
   }
 
+  void expenseDetails({
+    Map<String, dynamic>? queryParameters,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(url: ApiConstants.expenseDetails, queryParameters: queryParameters, isFormData: false)
+        .getRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
+
   void deleteLeave({
     dynamic data,
     Function(ResponseModel responseModel)? onSuccess,
@@ -55,6 +69,21 @@ class AddExpenseRepository {
   }) {
     ApiRequest(url: ApiConstants.deleteLeave, data: data, isFormData: false)
         .postRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
+
+  void getExpenseResources({
+    dynamic data,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+        url: ApiConstants.getExpenseResources, data: data, isFormData: false)
+        .getRequest(
       onSuccess: (data) {
         onSuccess!(data);
       },

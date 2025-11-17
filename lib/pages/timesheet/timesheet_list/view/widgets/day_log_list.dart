@@ -34,9 +34,18 @@ class DayLogList extends StatelessWidget {
         itemBuilder: (context, position) {
           DayLogInfo info = controller.timeSheetList[parentPosition]
               .weekLogs![weekPosition].dayLogs![position];
+          String type = (info.type ?? "");
           return (info.type ?? "") == "leave"
               ? leaveItem(info)
               : timeSheetItem(info);
+
+          // if (type == "leave") {
+          //   return leaveItem(info);
+          // } else if (type == "expense") {
+          //   return expenseItem(info);
+          // } else {
+          //   return timeSheetItem(info);
+          // }
         },
         itemCount: controller.timeSheetList[parentPosition]
             .weekLogs![weekPosition].dayLogs!.length,
@@ -180,6 +189,93 @@ class DayLogList extends StatelessWidget {
       );
 
   Widget leaveItem(DayLogInfo info) {
+    LeaveInfo? leaveInfo = info.leaveInfo;
+    return leaveInfo != null
+        ? Padding(
+            padding: EdgeInsets.fromLTRB(10, 12, 13, 12),
+            child: GestureDetector(
+              onTap: () {
+                int status = leaveInfo.requestStatus ?? 0;
+                if (status == 0 || status == AppConstants.status.approved) {
+                  var arguments = {
+                    AppConstants.intentKey.leaveInfo: leaveInfo,
+                    AppConstants.intentKey.userId: leaveInfo.userId ?? 0,
+                  };
+                  controller.moveToScreen(
+                      AppRoutes.createLeaveScreen, arguments);
+                } else {
+                  var arguments = {
+                    AppConstants.intentKey.leaveId: leaveInfo.id ?? 0,
+                  };
+                  controller.moveToScreen(
+                      AppRoutes.leaveDetailsScreen, arguments);
+                }
+              },
+              child: Container(
+                color: Colors.transparent,
+                child: Row(
+                  children: [
+                    dayDate(info),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        TitleTextView(
+                          text: leaveInfo.leaveName ?? "",
+                          fontWeight: FontWeight.w500,
+                          fontSize: 15,
+                        ),
+                        SizedBox(
+                          height: 4,
+                        ),
+                        shiftName('leave'.tr, Colors.red.withValues(alpha: 0.4))
+                      ],
+                    ),
+                    Expanded(child: Container()),
+                    Column(
+                      children: [
+                        TitleTextView(
+                          text: StringHelper.capitalizeFirstLetter(
+                              leaveInfo.leaveType ?? ""),
+                          color: leaveInfo.requestStatus != null
+                              ? AppUtils.getStatusColor(
+                                  leaveInfo.requestStatus ?? 0)
+                              : primaryTextColor_(Get.context!),
+                          fontSize: 17,
+                        ),
+                        !(leaveInfo.isAlldayLeave ?? false)
+                            ? SubtitleTextView(
+                                text:
+                                    "(${leaveInfo.startTime} - ${leaveInfo.endTime})",
+                                fontSize: 13,
+                              )
+                            : SizedBox(
+                                height: 1,
+                                child: SubtitleTextView(
+                                  text: "00:00 - 00:00",
+                                  fontSize: 13,
+                                  color: Colors.transparent,
+                                ),
+                              )
+                      ],
+                    ),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    RightArrowWidget(
+                      color: primaryTextColor_(Get.context!),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          )
+        : Container();
+  }
+
+  Widget expenseItem(DayLogInfo info) {
     LeaveInfo? leaveInfo = info.leaveInfo;
     return leaveInfo != null
         ? Padding(

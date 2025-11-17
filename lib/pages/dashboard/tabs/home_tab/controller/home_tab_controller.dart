@@ -551,7 +551,11 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       moveToScreen(
           appRout: AppRoutes.userPermissionScreen, arguments: arguments);
     } else if (info.slug == 'team') {
-      moveToScreen2(appRout: AppRoutes.teamListScreen);
+      var arguments = {
+        AppConstants.intentKey.teamId: info.teamId ?? 0,
+        AppConstants.intentKey.isAllUserTeams: false
+      };
+      moveToScreen2(appRout: AppRoutes.teamDetailsScreen,arguments: arguments);
     } else if (info.slug == 'teams') {
       var arguments = {AppConstants.intentKey.isAllUserTeams: true};
       moveToScreen2(appRout: AppRoutes.teamListScreen, arguments: arguments);

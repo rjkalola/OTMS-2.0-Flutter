@@ -194,7 +194,8 @@ class ImageUtils {
     }*/
   }
 
-  static Future<File?> compressImage(File file, {int quality = 90}) async {
+  static Future<File?> compressImage(File file,
+      {int quality = 100, int? maxWidth, int? maxHeight}) async {
     try {
       final tempDir = await getTemporaryDirectory();
       final fileName = path.basenameWithoutExtension(file.path);
@@ -212,8 +213,8 @@ class ImageUtils {
         file.absolute.path,
         outPath,
         quality: quality,
-        minWidth: 900,
-        minHeight: 900,
+        minWidth: maxWidth??1500,
+        minHeight: maxHeight??1500,
       );
 
       return File(compressed!.path);

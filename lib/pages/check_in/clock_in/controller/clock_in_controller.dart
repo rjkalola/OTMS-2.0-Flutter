@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:belcka/utils/user_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -271,6 +272,18 @@ class ClockInController extends GetxController {
     var result;
     result =
         await Get.toNamed(AppRoutes.selectProjectScreen, arguments: arguments);
+    if (result != null) {
+      getUserWorkLogListApi();
+    }
+  }
+
+  onClickAddExpense({dynamic arguments}) async {
+    var result;
+    var arguments = {
+      AppConstants.intentKey.userId: UserUtils.getLoginUserId(),
+    };
+    result =
+        await Get.toNamed(AppRoutes.addExpenseScreen, arguments: arguments);
     if (result != null) {
       getUserWorkLogListApi();
     }

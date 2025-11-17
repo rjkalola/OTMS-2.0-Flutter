@@ -2,6 +2,7 @@ class PermissionInfo {
   int? id;
   int? permissionId;
   int? userId;
+  int? teamId;
   int? sequence;
   bool? status;
   String? name;
@@ -17,6 +18,7 @@ class PermissionInfo {
       {this.id,
       this.permissionId,
       this.userId,
+      this.teamId,
       this.sequence,
       this.status,
       this.name,
@@ -32,6 +34,7 @@ class PermissionInfo {
     id = json['id'];
     permissionId = json['permission_id'];
     userId = json['user_id'];
+    teamId = json['team_id'];
     sequence = json['sequence'];
     status = json['status'];
     name = json['name'];
@@ -49,6 +52,7 @@ class PermissionInfo {
     data['id'] = this.id;
     data['permission_id'] = this.permissionId;
     data['user_id'] = this.userId;
+    data['team_id'] = this.teamId;
     data['sequence'] = this.sequence;
     data['status'] = this.status;
     data['name'] = this.name;

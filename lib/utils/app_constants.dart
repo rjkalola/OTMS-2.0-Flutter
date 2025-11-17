@@ -73,8 +73,10 @@ class IntentKey {
   final String announcementId = "ANNOUNCEMENT_ID";
   final String projectInfo = "PROJECT_INFO";
   final String leaveInfo = "Leave_INFO";
+  final String expenseInfo = "EXPENSE_INFO";
   final String leaveId = "Leave_ID";
   final String userId = "USER_ID";
+  final String expenseId = "EXPENSE_ID";
   final String userName = "USER_NAME";
   final String userList = "USER_LIST";
   final String shiftInfo = "SHIFT_INFO";
@@ -207,6 +209,8 @@ class Action {
   final String selectTradeListDialog = "selectTradeListDialog";
   final String selectSupervisorDialog = 'selectSupervisorDialog';
   final String selectProjectDialog = 'selectProjectDialog';
+  final String selectAddressDialog = 'SelectAddressDialog';
+  final String selectCategoryDialog = 'SelectCategoryDialog';
   final String selectShiftDialog = 'selectShiftDialog';
   final String selectLeaveTypeDialog = 'selectLeaveTypeDialog';
   final String add = 'ADD';
@@ -277,6 +281,7 @@ class AttachmentType {
   final String multiImage = "multi_image";
   final String croppedImage = "croppedImage";
   final String documents = "documents";
+  final String pdf = "pdf";
 }
 
 class UserType {

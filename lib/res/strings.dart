@@ -213,7 +213,6 @@ class Strings extends Translations {
           'unauthorized_message':
               "We are signing you out as we found your account access from another device",
           'search_user': "Search  User",
-
           'date_of_birth': "Date of Birth",
           'post_code': "Post Code",
           'my_address': "My Address",
@@ -406,6 +405,7 @@ class Strings extends Translations {
           'task_selected': "Task Selected",
           'add_trade': "Add Trade",
           'trade_name': "Trade Name",
+          'category': "Category",
           'select_category': "Select Category",
           'selected': "Selected",
           'empty_category_list': "No category found",
@@ -453,6 +453,7 @@ class Strings extends Translations {
           'please_create_or_join_a_company_to_continue':
               "Please create or join a company to continue",
           'pdf_viewer': "Pdf Viewer",
+          'pdf': "Pdf",
           'requested': "Requested",
           'approved': "Approved",
           'rejected': "Rejected",
@@ -472,7 +473,13 @@ class Strings extends Translations {
           'remove_user': "Remove User",
           'delete_forever': "Delete Forever",
           'archived_users': "Archived Users",
-          // '': "",
+          'date_of_receipt': "Date of Receipt",
+          'add_expense': "Add Expense",
+          'edit_expense': "Edit Expense",
+          'expenses': "Expenses",
+          'sum_of_total': "Sum of total",
+          'please_select_project': "Please select project",
+          'enter_valid_amount': "Enter valid amount",
 // '': "",
 // '': "",
 // '': "",

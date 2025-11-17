@@ -78,13 +78,15 @@ class WeekLogList extends StatelessWidget {
     }
 
     bool allStatusSame = allStatus.toSet().length == 1;
-    int checkedStatus = allStatus[0];
-    if (allStatus.isNotEmpty &&
-        allStatusSame &&
-        (checkedStatus == AppConstants.status.lock ||
-            checkedStatus == AppConstants.status.unlock ||
-            checkedStatus == AppConstants.status.markAsPaid)) {
-      status = checkedStatus;
+    if(allStatus.isNotEmpty){
+      int checkedStatus = allStatus[0];
+      if (allStatus.isNotEmpty &&
+          allStatusSame &&
+          (checkedStatus == AppConstants.status.lock ||
+              checkedStatus == AppConstants.status.unlock ||
+              checkedStatus == AppConstants.status.markAsPaid)) {
+        status = checkedStatus;
+      }
     }
     return status;
   }

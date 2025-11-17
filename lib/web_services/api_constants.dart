@@ -257,4 +257,5 @@ class ApiConstants {
   static String editExpense = '$appUrl/expense/edit-expense';
   static String expenseList = '$appUrl/expense/list';
   static String expenseDetails = '$appUrl/expense/detail';
+  static String getExpenseResources = '$appUrl/expense/get-resources';
 }
