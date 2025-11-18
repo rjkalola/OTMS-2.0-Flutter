@@ -277,10 +277,13 @@ class ClockInController extends GetxController {
     }
   }
 
-  onClickAddExpense({dynamic arguments}) async {
+  onClickAddExpense(int workLogId) async {
     var result;
     var arguments = {
       AppConstants.intentKey.userId: UserUtils.getLoginUserId(),
+      AppConstants.intentKey.workLogId: workLogId,
+      AppConstants.intentKey.projectId: workLogData.value.projectId ?? 0,
+      AppConstants.intentKey.projectName: workLogData.value.projectName ?? 0,
     };
     result =
         await Get.toNamed(AppRoutes.addExpenseScreen, arguments: arguments);

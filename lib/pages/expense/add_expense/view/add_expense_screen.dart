@@ -79,9 +79,15 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                                             RequiredValidator(
                                                 errorText: 'required_field'.tr),
                                           ],
+                                          isArrowHide: !controller
+                                              .isProjectDropDownEnable.value,
                                           onPressed: () {
-                                            controller
-                                                .showSelectProjectDialog();
+                                            if (controller
+                                                .isProjectDropDownEnable
+                                                .value) {
+                                              controller
+                                                  .showSelectProjectDialog();
+                                            }
                                           },
                                         ),
                                       ),
@@ -242,10 +248,16 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                                 onPressed: () {
                                   if (controller.isSaveEnable.value) {
                                     if (controller.valid()) {
-                                      if (controller.expenseId != 0) {
-                                        controller.editExpenseApi();
+                                      if (controller.attachmentList.length >
+                                          1) {
+                                        if (controller.expenseId != 0) {
+                                          controller.editExpenseApi();
+                                        } else {
+                                          controller.addExpenseApi();
+                                        }
                                       } else {
-                                        controller.addExpenseApi();
+                                        AppUtils.showToastMessage(
+                                            'please_select_image'.tr);
                                       }
                                     }
                                   }
@@ -269,16 +281,17 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
   List<Widget>? actionButtons() {
     return [
       Visibility(
-        visible: false,
+        visible: controller.expenseId.value != 0,
         child: TextButton(
             onPressed: () {
-              controller.showRemoveLeaveDialog();
+              controller.showRemoveDialog();
             },
             child: TitleTextView(
               text: 'delete'.tr,
               color: Colors.red,
             )),
       ),
+      SizedBox(width: 6,)
     ];
   }
 }

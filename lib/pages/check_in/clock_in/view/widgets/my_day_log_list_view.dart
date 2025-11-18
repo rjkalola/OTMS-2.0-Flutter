@@ -393,8 +393,9 @@ class MyDayLogListView extends StatelessWidget {
           onTap: () {
             if (!(controller.workLogData.value.userIsWorking ?? false)) {
               controller.onClickStartShiftButton();
-            } else{
-              controller.onClickAddExpense();
+            } else {
+              controller
+                  .onClickAddExpense(controller.selectedWorkLogInfo?.id ?? 0);
             }
             // else if ((controller.workLogData.value.userIsWorking ?? false) &&
             //     !controller.isChecking.value) {

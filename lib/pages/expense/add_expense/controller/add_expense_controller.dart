@@ -47,17 +47,19 @@ class AddExpenseController extends GetxController
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
-      isSaveEnable = true.obs;
+      isSaveEnable = false.obs,
+      isProjectDropDownEnable = true.obs;
+  RxInt expenseId = 0.obs;
 
   final projectList = <ModuleInfo>[].obs;
   final addressList = <ModuleInfo>[].obs;
   final categoryList = <ModuleInfo>[].obs;
-  int expenseId = 0,
-      projectId = 0,
+  int projectId = 0,
       addressId = 0,
       categoryId = 0,
       userWorkLogId = 0,
       userId = UserUtils.getLoginUserId();
+  List<String> removeFileIds = [];
   final expenseInfo = ExpenseInfo().obs;
   final title = ''.obs;
   var attachmentList = <FilesInfo>[].obs;
@@ -69,9 +71,14 @@ class AddExpenseController extends GetxController
     super.onInit();
     var arguments = Get.arguments;
     if (arguments != null) {
-      expenseId = arguments[AppConstants.intentKey.expenseId] ?? 0;
+      expenseId.value = arguments[AppConstants.intentKey.expenseId] ?? 0;
       userId = arguments[AppConstants.intentKey.userId] ??
           UserUtils.getLoginUserId();
+      userWorkLogId = arguments[AppConstants.intentKey.workLogId] ?? 0;
+      projectId = arguments[AppConstants.intentKey.projectId] ?? 0;
+      projectController.value.text =
+          arguments[AppConstants.intentKey.projectName] ?? "";
+      isProjectDropDownEnable.value = projectId == 0;
       // expenseInfo = arguments[AppConstants.intentKey.expenseInfo];
     }
     getExpenseResourcesApi();
@@ -80,7 +87,7 @@ class AddExpenseController extends GetxController
   void setInitData() {
     FilesInfo info = FilesInfo();
     attachmentList.add(info);
-    if (expenseId != 0) {
+    if (expenseId.value != 0) {
       title.value = 'edit_expense'.tr;
 
       projectId = expenseInfo.value.projectId ?? 0;
@@ -167,15 +174,17 @@ class AddExpenseController extends GetxController
   void editExpenseApi() async {
     if (valid()) {
       Map<String, dynamic> map = {};
-      map["expense_id"] = expenseId;
+      map["expense_id"] = expenseId.value;
       map["user_id"] = userId;
       map["project_id"] = projectId;
       map["address_id"] = addressId;
-      map["user_worklog_id"] = userWorkLogId;
+      if (userWorkLogId != 0) map["user_worklog_id"] = userWorkLogId;
       map["expense_category_id"] = categoryId;
       map["receipt_date"] = StringHelper.getText(dateOfReceiptController.value);
       map["total_amount"] = StringHelper.getText(sumOfTotalController.value);
       map["note"] = StringHelper.getText(noteController.value);
+      map["remove_file_ids"] =
+          StringHelper.getCommaSeparatedStringIds(removeFileIds);
 
       multi.FormData formData = multi.FormData.fromMap(map);
       print("reques value:" + map.toString());
@@ -184,6 +193,7 @@ class AddExpenseController extends GetxController
       for (int i = 0; i < attachmentList.length; i++) {
         if (!StringHelper.isEmptyString(attachmentList[i].imageUrl) &&
             !attachmentList[i].imageUrl!.startsWith("http")) {
+          print("URL:" + attachmentList[i].imageUrl!);
           listPhotos.add(attachmentList[i].imageUrl ?? "");
         }
       }
@@ -280,7 +290,7 @@ class AddExpenseController extends GetxController
           projectList.addAll(expenseResourcesData!.projects!);
           categoryList.addAll(expenseResourcesData!.categories!);
 
-          if (expenseId != 0) {
+          if (expenseId.value != 0) {
             getExpenseDetailsApi();
           } else {
             isLoading.value = false;
@@ -305,7 +315,7 @@ class AddExpenseController extends GetxController
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
-    map["expense_id"] = expenseId;
+    map["expense_id"] = expenseId.value;
     _api.expenseDetails(
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
@@ -315,6 +325,36 @@ class AddExpenseController extends GetxController
               jsonDecode(responseModel.result!));
           expenseInfo.value = response.info!;
           setInitData();
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+          // AppUtils.showApiResponseMessage('no_internet'.tr);
+          // Utils.showApiResponseMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showApiResponseMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
+
+  void deleteExpenseApi() {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["expense_id"] = expenseId.value;
+    _api.deleteExpense(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          BaseResponse response =
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showToastMessage(response.Message ?? "");
+          Get.back(result: true);
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
@@ -454,6 +494,7 @@ class AddExpenseController extends GetxController
             Get.context!, fileUrl, ImageUtils.getFileType(fileUrl));
       }
     } else if (action == AppConstants.action.removePhoto) {
+      isSaveEnable.value = true;
       removePhotoFromList(index: index);
     }
   }
@@ -483,6 +524,7 @@ class AddExpenseController extends GetxController
 
   @override
   void onSelectAttachment(List<String> paths, String action) {
+    isSaveEnable.value = true;
     if (action == AppConstants.attachmentType.camera) {
       addPhotoToList(paths[0]);
     } else if (action == AppConstants.attachmentType.pdf) {
@@ -505,10 +547,13 @@ class AddExpenseController extends GetxController
   }
 
   removePhotoFromList({required int index}) {
+    if ((attachmentList[index].id ?? 0) != 0) {
+      removeFileIds.add(attachmentList[index].id.toString());
+    }
     attachmentList.removeAt(index);
   }
 
-  showRemoveLeaveDialog() async {
+  showRemoveDialog() async {
     AlertDialogHelper.showAlertDialog(
         "",
         'are_you_sure_you_want_to_delete'.tr,
@@ -533,7 +578,7 @@ class AddExpenseController extends GetxController
   void onPositiveButtonClicked(String dialogIdentifier) {
     if (dialogIdentifier == AppConstants.dialogIdentifier.delete) {
       Get.back();
-      // deleteLeaveApi();
+      deleteExpenseApi();
     }
   }
 }
