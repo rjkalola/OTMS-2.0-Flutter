@@ -34,13 +34,16 @@ class CustomSwitch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PreciseToggle(
-        value: mValue,
-        onChanged: (value) {
-          if (isDisable == true) {
-            null;
-          } else {
-            onValueChange!(value);
-          }
-        });
+      value: mValue,
+      onChanged: (value) {
+        if (isDisable == true) {
+          null;
+        } else {
+          onValueChange!(value);
+        }
+      },
+      activeColor: activeColor,
+      activeCircleColor: activeCircleColor,
+    );
   }
 }

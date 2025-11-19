@@ -126,4 +126,5 @@ class AppRoutes {
   static const String addressDocumentsScreen = '/address_documents_screen';
   static const String archiveUserListScreen = '/archive_user_list_screen';
   static const String addExpenseScreen = '/add_expense_screen';
+  static const String digitalIdCardScreen = '/digital_id_card_screen';
 }

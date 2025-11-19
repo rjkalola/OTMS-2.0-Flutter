@@ -9,7 +9,6 @@ import 'package:belcka/pages/expense/add_expense/controller/add_expense_reposito
 import 'package:belcka/pages/expense/add_expense/model/expense_details_response.dart';
 import 'package:belcka/pages/expense/add_expense/model/expense_info.dart';
 import 'package:belcka/pages/expense/add_expense/model/expense_resources_response.dart';
-import 'package:belcka/pages/leaves/add_leave/model/leave_type_list_response.dart';
 import 'package:belcka/pages/manageattachment/controller/manage_attachment_controller.dart';
 import 'package:belcka/pages/manageattachment/listener/select_attachment_listener.dart';
 import 'package:belcka/utils/AlertDialogHelper.dart';
@@ -23,9 +22,9 @@ import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/web_services/response/response_model.dart';
+import 'package:dio/dio.dart' as multi;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:dio/dio.dart' as multi;
 
 class AddExpenseController extends GetxController
     implements
@@ -58,7 +57,7 @@ class AddExpenseController extends GetxController
       addressId = 0,
       categoryId = 0,
       userWorkLogId = 0,
-      userId = UserUtils.getLoginUserId();
+      userId = 0;
   List<String> removeFileIds = [];
   final expenseInfo = ExpenseInfo().obs;
   final title = ''.obs;
@@ -72,8 +71,7 @@ class AddExpenseController extends GetxController
     var arguments = Get.arguments;
     if (arguments != null) {
       expenseId.value = arguments[AppConstants.intentKey.expenseId] ?? 0;
-      userId = arguments[AppConstants.intentKey.userId] ??
-          UserUtils.getLoginUserId();
+      userId = arguments[AppConstants.intentKey.userId] ?? 0;
       userWorkLogId = arguments[AppConstants.intentKey.workLogId] ?? 0;
       projectId = arguments[AppConstants.intentKey.projectId] ?? 0;
       projectController.value.text =
@@ -93,6 +91,8 @@ class AddExpenseController extends GetxController
       projectId = expenseInfo.value.projectId ?? 0;
       addressId = expenseInfo.value.addressId ?? 0;
       categoryId = expenseInfo.value.categoryId ?? 0;
+      userId = expenseInfo.value.userId ?? 0;
+      userWorkLogId = expenseInfo.value.worklogId ?? 0;
 
       projectController.value.text = expenseInfo.value.projectName ?? "";
       addressController.value.text = expenseInfo.value.addressName ?? "";

@@ -101,9 +101,14 @@ class DayLogList extends StatelessWidget {
   Widget totalWorkHour(DayLogInfo info) => Column(
         children: [
           TitleTextView(
-            text: ((info.isPricework ?? false) || controller.isViewAmount.value)
+            // text: ((info.isPricework ?? false) || controller.isViewAmount.value)
+            //     ? "£${info.priceWorkTotalAmount ?? "0"}"
+            //     : DateUtil.seconds_To_HH_MM(info.payableWorkSeconds ?? 0),
+            text: ((info.isPricework ?? false))
                 ? "£${info.priceWorkTotalAmount ?? "0"}"
-                : DateUtil.seconds_To_HH_MM(info.payableWorkSeconds ?? 0),
+                : (controller.isViewAmount.value
+                    ? "£${info.payableAmount ?? "0"}"
+                    : DateUtil.seconds_To_HH_MM(info.payableWorkSeconds ?? 0)),
             color: info.requestStatus != null
                 ? AppUtils.getStatusColor(info.requestStatus ?? 0)
                 : primaryTextColor_(Get.context!),
@@ -115,6 +120,24 @@ class DayLogList extends StatelessWidget {
           )
         ],
       );
+
+  // String getDayLogAmountToDisplay(DayLogInfo info) {
+  //   String value = "";
+  //   if (controller.isViewAmount.value) {
+  //     if ((info.isPricework ?? false)) {
+  //       value = "£${info.priceWorkTotalAmount ?? "0"}";
+  //     } else {
+  //       value = "£${info.payableAmount ?? "0"}";
+  //     }
+  //   } else {
+  //     if ((info.isPricework ?? false)) {
+  //       value = "£${info.priceWorkTotalAmount ?? "0"}";
+  //     } else {
+  //       value = DateUtil.seconds_To_HH_MM(info.payableWorkSeconds ?? 0);
+  //     }
+  //   }
+  //   return "";
+  // }
 
   Widget timeSheetItem(DayLogInfo info) => Obx(
         () => Stack(
@@ -221,7 +244,7 @@ class DayLogList extends StatelessWidget {
                       width: 4,
                     ),
                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TitleTextView(
                           text: leaveInfo.leaveName ?? "",
@@ -297,7 +320,7 @@ class DayLogList extends StatelessWidget {
                       width: 4,
                     ),
                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TitleTextView(
                           text: expenseInfo.projectName ?? "",

@@ -480,6 +480,7 @@ class Strings extends Translations {
           'sum_of_total': "Sum of total",
           'please_select_project': "Please select project",
           'enter_valid_amount': "Enter valid amount",
+          'digital_id_card': "Digital Id Card",
 // '': "",
 // '': "",
 // '': "",

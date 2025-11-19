@@ -251,6 +251,7 @@ class Action {
   final String beforePhotos = 'BEFORE_PHOTOS';
   final String afterPhotos = 'AFTER_PHOTOS';
   final String inviteUser = 'INVITE_USER';
+  final String addExpense = 'ADD_EXPENSE';
 
   final String billingInfo = 'BillingInfo';
   final String healthInfo = 'HealthInfo';

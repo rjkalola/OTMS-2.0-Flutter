@@ -78,7 +78,7 @@ class TimeSheetList extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       AppUtils.onClickUserAvatar(info.userId ?? 0);
                     },
                     child: UserAvtarView(
@@ -106,8 +106,10 @@ class TimeSheetList extends StatelessWidget {
                     width: 10,
                   ),
                   TitleTextView(
-                    text:
-                        DateUtil.seconds_To_HH_MM(info.payableWorkSeconds ?? 0),
+                    text: controller.isViewAmount.value
+                        ? "£${info.totalPayableAmount ?? "0"}"
+                        : DateUtil.seconds_To_HH_MM(
+                            info.payableWorkSeconds ?? 0),
                     fontSize: 17,
                   ),
                   SizedBox(

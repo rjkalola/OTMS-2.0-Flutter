@@ -9,6 +9,7 @@ import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/module_info.dart';
 import 'package:flutter/cupertino.dart';
@@ -224,20 +225,26 @@ class TimeSheetListController extends GetxController
 
   void showMenuItemsDialog(BuildContext context) {
     List<ModuleInfo> listItems = [];
-    listItems.add(ModuleInfo(name: 'add'.tr, action: AppConstants.action.add));
-    listItems
-        .add(ModuleInfo(name: 'edit'.tr, action: AppConstants.action.edit));
-    listItems.add(
-        ModuleInfo(name: 'archive'.tr, action: AppConstants.action.archive));
-    listItems.add(ModuleInfo(
-        name: 'archived_timesheets'.tr,
-        action: AppConstants.action.archivedTimesheet));
-    // listItems
-    //     .add(ModuleInfo(name: 'share'.tr, action: AppConstants.action.share));
-    listItems.add(ModuleInfo(
-        name: 'view_amount'.tr, action: AppConstants.action.viewAmount));
-    // listItems.add(ModuleInfo(
-    //     name: 'history_logs'.tr, action: AppConstants.action.historyLogs));
+    if (!isAllUserTimeSheet) {
+      listItems.add(ModuleInfo(
+          name: 'add_expense'.tr, action: AppConstants.action.addExpense));
+    } else {
+      listItems
+          .add(ModuleInfo(name: 'add'.tr, action: AppConstants.action.add));
+      listItems
+          .add(ModuleInfo(name: 'edit'.tr, action: AppConstants.action.edit));
+      listItems.add(
+          ModuleInfo(name: 'archive'.tr, action: AppConstants.action.archive));
+      listItems.add(ModuleInfo(
+          name: 'archived_timesheets'.tr,
+          action: AppConstants.action.archivedTimesheet));
+      // listItems
+      //     .add(ModuleInfo(name: 'share'.tr, action: AppConstants.action.share));
+      listItems.add(ModuleInfo(
+          name: 'view_amount'.tr, action: AppConstants.action.viewAmount));
+      // listItems.add(ModuleInfo(
+      //     name: 'history_logs'.tr, action: AppConstants.action.historyLogs));
+    }
     showCupertinoModalPopup(
       context: context,
       builder: (_) =>
@@ -339,7 +346,12 @@ class TimeSheetListController extends GetxController
         };
         moveToScreen(AppRoutes.archiveTimeSheetListScreen, arguments);
       } else if (info.action == AppConstants.action.viewAmount) {
-        isViewAmount.value = true;
+        isViewAmount.value = !isViewAmount.value;
+      } else if (info.action == AppConstants.action.addExpense) {
+        var arguments = {
+          AppConstants.intentKey.userId: UserUtils.getLoginUserId(),
+        };
+        moveToScreen(AppRoutes.addExpenseScreen, arguments);
       }
     }
   }

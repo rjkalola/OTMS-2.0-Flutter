@@ -1,20 +1,23 @@
+import 'package:belcka/res/colors.dart';
 import 'package:flutter/material.dart';
 
 /// ---------- PreciseToggle with subtle liquid-glass effects ----------
 class PreciseToggle extends StatefulWidget {
   final bool value;
   final ValueChanged<bool> onChanged;
-  const PreciseToggle({super.key, required this.value, required this.onChanged});
+  final Color? activeColor, activeCircleColor;
+  const PreciseToggle({super.key, required this.value, required this.onChanged,
+    required this.activeColor, required this.activeCircleColor});
 
   @override
   State<PreciseToggle> createState() => _PreciseToggleState();
 }
 
 class _PreciseToggleState extends State<PreciseToggle> with TickerProviderStateMixin {
-  static const double _trackWidth = 75; // overall control width
-  static const double _trackHeight = 36; // grey track height
-  static const double _thumbW = 50; // white thumb width (oval)
-  static const double _thumbH = 33; // white thumb height (oval)
+  static const double _trackWidth = 50; // overall control width
+  static const double _trackHeight = 25; // grey track height
+  static const double _thumbW = 32; // white thumb width (oval)
+  static const double _thumbH = 25; // white thumb height (oval)
   static const double _padding = 0; // inside horizontal padding
 
   late bool _val;
@@ -117,7 +120,7 @@ class _PreciseToggleState extends State<PreciseToggle> with TickerProviderStateM
                     child: SizedBox(
                       width: activeWidth.clamp(0.0, _trackWidth),
                       height: _trackHeight * 0.52,
-                      child: Container(color: const Color(0xFF2BB24B)), // green
+                      child: Container(color: defaultAccentColor_(context)), // blue
                     ),
                   ),
                 );
@@ -146,18 +149,18 @@ class _PreciseToggleState extends State<PreciseToggle> with TickerProviderStateM
                     child: Stack(
                       alignment: Alignment.center,
                       children: [
-                        // subtle glow behind thumb (green)
+                        // subtle glow behind thumb (blue)
                         Opacity(
                           opacity: glowOpacity,
                           child: Container(
                             width: _thumbW * 1.12,
                             height: _thumbH * 1.12,
                             decoration: BoxDecoration(
-                              color: const Color(0xFF2BB24B),
+                              color: widget.activeColor,
                               borderRadius: BorderRadius.circular(_thumbH),
                               boxShadow: [
                                 BoxShadow(
-                                  color: const Color(0xFF2BB24B).withOpacity(glowOpacity),
+                                  color: defaultAccentColor_(context).withOpacity(glowOpacity),
                                   blurRadius: 18 * (0.6 + glowOpacity),
                                   spreadRadius: 2,
                                 )

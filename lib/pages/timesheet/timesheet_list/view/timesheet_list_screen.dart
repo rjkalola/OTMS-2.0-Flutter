@@ -173,8 +173,7 @@ class _TimeSheetListScreenState extends State<TimeSheetListScreen>
       ),
       Visibility(
         visible: !controller.isEditEnable.value &&
-            !controller.isEditStatusEnable.value &&
-            controller.isAllUserTimeSheet,
+            !controller.isEditStatusEnable.value,
         child: IconButton(
           icon: Icon(Icons.more_vert_outlined),
           onPressed: () {

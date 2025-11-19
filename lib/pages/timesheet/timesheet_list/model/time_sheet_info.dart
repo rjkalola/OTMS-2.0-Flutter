@@ -8,6 +8,9 @@ class TimeSheetInfo {
   String? userImage;
   String? userThumbImage;
   String? amount;
+  String? totalPayableAmount;
+  String? payableAmount;
+  String? priceWorkTotalAmount;
   int? status;
   String? statusMessage;
   int? weekNumber;
@@ -29,6 +32,9 @@ class TimeSheetInfo {
       this.userImage,
       this.userThumbImage,
       this.amount,
+      this.payableAmount,
+      this.totalPayableAmount,
+      this.priceWorkTotalAmount,
       this.status,
       this.statusMessage,
       this.weekNumber,
@@ -50,6 +56,9 @@ class TimeSheetInfo {
     userImage = json['user_image'];
     userThumbImage = json['user_thumb_image'];
     amount = json['amount'];
+    payableAmount = json['payable_amount'];
+    totalPayableAmount = json['total_payable_amount'];
+    priceWorkTotalAmount = json['pricework_total_amount'];
     status = json['status'];
     statusMessage = json['status_message'];
     weekNumber = json['week_number'];
@@ -83,6 +92,9 @@ class TimeSheetInfo {
     data['user_image'] = this.userImage;
     data['user_thumb_image'] = this.userThumbImage;
     data['amount'] = this.amount;
+    data['payable_amount'] = this.payableAmount;
+    data['total_payable_amount'] = this.totalPayableAmount;
+    data['pricework_total_amount'] = this.priceWorkTotalAmount;
     data['status'] = this.status;
     data['status_message'] = this.statusMessage;
     data['week_number'] = this.weekNumber;

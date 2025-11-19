@@ -29,6 +29,7 @@ class DayLogInfo {
   int? payableWorkSeconds;
   String? perHourRate;
   String? totalAmount;
+  String? payableAmount;
   int? status;
   String? createdAt;
   String? updatedAt;
@@ -67,6 +68,7 @@ class DayLogInfo {
     this.payableWorkSeconds,
     this.perHourRate,
     this.totalAmount,
+    this.payableAmount,
     this.status,
     this.createdAt,
     this.updatedAt,
@@ -106,6 +108,7 @@ class DayLogInfo {
     payableWorkSeconds = json['payable_work_seconds'];
     perHourRate = json['per_hour_rate'];
     totalAmount = json['total_amount'];
+    payableAmount = json['payable_amount'];
     status = json['status'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
@@ -150,6 +153,7 @@ class DayLogInfo {
     data['payable_work_seconds'] = this.payableWorkSeconds;
     data['per_hour_rate'] = this.perHourRate;
     data['total_amount'] = this.totalAmount;
+    data['payable_amount'] = this.payableAmount;
     data['status'] = this.status;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;

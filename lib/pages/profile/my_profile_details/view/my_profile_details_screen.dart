@@ -101,7 +101,7 @@ class _MyProfileDetailsScreenState extends State<MyProfileDetailsScreen> {
                                                   visible: true,
                                                     child: GestureDetector(
                                                       onTap: (){
-                                                        AppUtils.onClickPhoneNumber("${controller.phoneController.value}");
+                                                        AppUtils.onClickPhoneNumber(controller.phoneController.value.text ?? "");
                                                       },
                                                         child: PhoneFieldWidget())),
 

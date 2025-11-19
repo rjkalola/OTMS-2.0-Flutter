@@ -28,6 +28,7 @@ import 'package:belcka/pages/company/joincompany/view/join_comapny_screen.dart';
 import 'package:belcka/pages/company/selectcompanytrade/view/select_company_trade_screen.dart';
 import 'package:belcka/pages/company/switch_company/view/switch_company_screen.dart';
 import 'package:belcka/pages/dashboard/view/dashboard_screen.dart';
+import 'package:belcka/pages/digital_id_card/view/digital_id_card_screen.dart';
 import 'package:belcka/pages/expense/add_expense/view/add_expense_screen.dart';
 import 'package:belcka/pages/filter/view/filter_screen.dart';
 import 'package:belcka/pages/image_preview/view/image_preview_screen.dart';
@@ -368,5 +369,7 @@ class AppPages {
     GetPage(
         name: AppRoutes.leaveDetailsScreen, page: () => LeaveDetailsScreen()),
     GetPage(name: AppRoutes.addExpenseScreen, page: () => AddExpenseScreen()),
+    GetPage(
+        name: AppRoutes.digitalIdCardScreen, page: () => DigitalIdCardScreen()),
   ];
 }
