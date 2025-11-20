@@ -199,12 +199,15 @@ class BillingInfoController extends GetxController
   }
 
   void searchPostCode() async {
-    final selectedAddress = await Get.toNamed(AppRoutes.postCoderSearchScreen, arguments: []);
-    if (selectedAddress != null) {
-      print("selected address ${selectedAddress}");
-
-      myAddressController.value.text = selectedAddress;
-
+    var arguments = {
+      "post_code": postcodeController.value.text ?? "",
+    };
+    final result = await Get.toNamed(AppRoutes.postCoderSearchScreen, arguments: arguments);
+    if (result != null) {
+      print("Selected Summaryline: ${result['summaryline']}");
+      print("Selected Postcode: ${result['postcode']}");
+      myAddressController.value.text = result['summaryline'];
+      postcodeController.value.text = result['postcode'];
     }
   }
   @override

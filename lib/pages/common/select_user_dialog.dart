@@ -59,12 +59,12 @@ class _SelectUserDialogState extends State<SelectUserDialog> {
             maxHeight: maxHeight,
           ),
           child: Container(
-            decoration:  BoxDecoration(
+            decoration: BoxDecoration(
                 color: dashBoardBgColor_(context),
                 borderRadius: BorderRadius.vertical(top: Radius.circular(10))),
             child: Column(mainAxisSize: MainAxisSize.min, children: [
               Container(
-                decoration:  BoxDecoration(
+                decoration: BoxDecoration(
                     color: backgroundColor_(context),
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20))),
@@ -150,7 +150,7 @@ class _SelectUserDialogState extends State<SelectUserDialog> {
                                 ),
                               ),
                               child: ImageUtils.setUserImage(
-                                url: tempList[i].userThumbImage,
+                                url: tempList[i].userThumbImage ?? "",
                                 width: 40,
                                 height: 40,
                               ),

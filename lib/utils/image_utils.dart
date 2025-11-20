@@ -213,8 +213,8 @@ class ImageUtils {
         file.absolute.path,
         outPath,
         quality: quality,
-        minWidth: maxWidth??1500,
-        minHeight: maxHeight??1500,
+        minWidth: maxWidth ?? 1500,
+        minHeight: maxHeight ?? 1500,
       );
 
       return File(compressed!.path);
@@ -225,6 +225,43 @@ class ImageUtils {
   }
 
   static Widget setUserImage(
+      {required String url,
+      required double width,
+      required double height,
+      BoxFit? fit,
+      double? radius}) {
+    return !StringHelper.isEmptyString(url)
+        ? Container(
+            width: width,
+            height: height,
+            clipBehavior: Clip.antiAlias,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+            ),
+            child: CachedNetworkImage(
+              height: height,
+              width: width,
+              fit: fit,
+              imageUrl: url ?? "",
+              placeholder: (context, url) =>
+                  getEmptyUserViewContainer(width: width, height: height),
+              errorWidget: (context, url, error) =>
+                  getEmptyUserViewContainer(width: width, height: height),
+            ),
+            // child: Image.network(
+            //   url,
+            //   fit: fit,
+            //   width: width,
+            //   height: height,
+            //   errorBuilder: (context, url, error) => getEmptyViewContainer(
+            //       width: width, height: height, borderRadius: borderRadius),
+            // ),
+          )
+        : getEmptyUserViewContainer(
+            width: width, height: height);
+  }
+
+  /* static Widget setUserImage(
       {required String? url,
       required double width,
       required double height,
@@ -252,7 +289,7 @@ class ImageUtils {
             ),
           )
         : getEmptyUserViewContainer(width: width, height: height);
-  }
+  }*/
 
   static Widget setNetworkImage(
       {required String url,
@@ -300,14 +337,24 @@ class ImageUtils {
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
             ),
-            child: Image.network(
-              url,
-              fit: fit,
-              width: width,
+            child: CachedNetworkImage(
               height: height,
-              errorBuilder: (context, url, error) => getEmptyViewContainer(
+              width: width,
+              fit: fit,
+              imageUrl: url ?? "",
+              placeholder: (context, url) => getEmptyViewContainer(
+                  width: width, height: height, borderRadius: borderRadius),
+              errorWidget: (context, url, error) => getEmptyViewContainer(
                   width: width, height: height, borderRadius: borderRadius),
             ),
+            // child: Image.network(
+            //   url,
+            //   fit: fit,
+            //   width: width,
+            //   height: height,
+            //   errorBuilder: (context, url, error) => getEmptyViewContainer(
+            //       width: width, height: height, borderRadius: borderRadius),
+            // ),
           )
         : getEmptyViewContainer(
             width: width, height: height, borderRadius: borderRadius);

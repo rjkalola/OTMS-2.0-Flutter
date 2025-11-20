@@ -23,7 +23,6 @@ class MenuButtonsGridWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Expanded(
       child: GridView.builder(
         padding: EdgeInsets.symmetric(horizontal: 16),
@@ -67,6 +66,12 @@ class MenuButtonsGridWidget extends StatelessWidget {
                   AppConstants.intentKey.userId: UserUtils.getLoginUserId(),
                 };
                 Get.toNamed(AppRoutes.notificationSettingsScreen,
+                    arguments: arguments);
+              } else if (info.action == AppConstants.action.digitalId) {
+                var arguments = {
+                  AppConstants.intentKey.userId: UserUtils.getLoginUserId(),
+                };
+                Get.toNamed(AppRoutes.digitalIdCardScreen,
                     arguments: arguments);
               }
             },

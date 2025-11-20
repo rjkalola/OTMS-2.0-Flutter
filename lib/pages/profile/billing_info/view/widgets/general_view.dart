@@ -71,31 +71,26 @@ class GeneralView extends StatelessWidget {
                             child:
                             PostcodeTextField(),
                           ),
-
                           Visibility(
-                            visible: false,
-                            child: SizedBox(
-                              height: 35,
-                              width: 86,
-                              child: OutlinedButton(
-                                onPressed: () {
-                                  controller.searchPostCode();
-                                },
-                                style: OutlinedButton.styleFrom(
-                                  backgroundColor: Colors.white,
-                                  side: BorderSide(color:defaultAccentColor_(context),
-                                  width: 1.5),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                  padding: EdgeInsets.zero,
+                            visible: true,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                controller.searchPostCode();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                fixedSize: Size(100, 40),
+                                backgroundColor: defaultAccentColor_(context),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
                                 ),
-                                child: Text(
-                                  'search'.tr,
-                                  style: TextStyle(color: defaultAccentColor_(context),fontSize: 15,fontWeight: FontWeight.w400),
-                                ),
+                                padding: const EdgeInsets.symmetric(horizontal: 20),
                               ),
-                            ),
+                              child: Text(
+                                'search'.tr,
+                                style: TextStyle(color: Colors.white, fontSize: 15,fontWeight: FontWeight.bold),
+                              ),
+                            )
+
                           ),
                         ],
                       ),

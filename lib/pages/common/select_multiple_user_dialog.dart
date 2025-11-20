@@ -166,7 +166,7 @@ class _SelectMultipleUserDialogState extends State<SelectMultipleUserDialog> {
                               ),
                             ),
                             child: ImageUtils.setUserImage(
-                              url: tempList[i].userThumbImage,
+                              url: tempList[i].userThumbImage??"",
                               width: 40,
                               height: 40,
                             ),
