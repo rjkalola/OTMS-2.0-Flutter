@@ -171,7 +171,6 @@ class NotificationService {
               AppConstants.notificationType.TIMESHEET_REQUEST_DELETE ||
           notificationType ==
               AppConstants.notificationType.TIMESHEET_TO_BE_PAID ||
-          notificationType == AppConstants.notificationType.TIMESHEET_EDIT ||
           notificationType == AppConstants.notificationType.WORKLOG_APPROVE ||
           notificationType == AppConstants.notificationType.WORKLOG_REJECT ||
           notificationType ==
@@ -186,6 +185,22 @@ class NotificationService {
         var arguments = {
           AppConstants.intentKey.workLogId:
               !StringHelper.isEmptyString(workLogId) ? int.parse(workLogId) : 0,
+          AppConstants.intentKey.userId:
+              !StringHelper.isEmptyString(userId) ? int.parse(userId) : 0,
+          AppConstants.intentKey.fromNotification: true,
+        };
+        Get.offAllNamed(rout, arguments: arguments);
+      } else if (notificationType ==
+          AppConstants.notificationType.TIMESHEET_EDIT) {
+        final requestLogId = data['request_log_id'] ?? "0";
+        final userId = data['user_id'] ?? "0";
+        print("requestLogId is:" + requestLogId);
+        print("userId is:" + userId);
+        String rout = AppRoutes.workLogRequestScreen;
+        var arguments = {
+          AppConstants.intentKey.ID: !StringHelper.isEmptyString(requestLogId)
+              ? int.parse(requestLogId)
+              : 0,
           AppConstants.intentKey.userId:
               !StringHelper.isEmptyString(userId) ? int.parse(userId) : 0,
           AppConstants.intentKey.fromNotification: true,
@@ -211,7 +226,7 @@ class NotificationService {
           notificationType == AppConstants.notificationType.leaveRequest ||
           notificationType == AppConstants.notificationType.leaveApprove ||
           notificationType == AppConstants.notificationType.leaveReject) {
-        final leaveId = data['leave_id'] ?? "";
+        final leaveId = data['record_id'] ?? "";
         if (!StringHelper.isEmptyString(leaveId)) {
           var arguments = {
             AppConstants.intentKey.leaveId:

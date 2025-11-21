@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:belcka/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -45,6 +46,7 @@ class WorkLogRequestController extends GetxController
   int requestLogId = 0;
   final RxSet<Marker> markers = <Marker>{}.obs;
   final RxSet<Polyline> polylines = <Polyline>{}.obs;
+  bool fromNotification = false;
 
   void onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -56,6 +58,8 @@ class WorkLogRequestController extends GetxController
     var arguments = Get.arguments;
     if (arguments != null) {
       requestLogId = arguments[AppConstants.intentKey.ID] ?? 0;
+      fromNotification =
+          arguments[AppConstants.intentKey.fromNotification] ?? false;
       // setInitialTime();
     }
     getWorkLogRequestDetails();
@@ -128,7 +132,8 @@ class WorkLogRequestController extends GetxController
           BaseResponse response =
               BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.Message);
-          Get.back(result: true);
+          isDataUpdated.value = true;
+          onBackPress();
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
@@ -227,7 +232,11 @@ class WorkLogRequestController extends GetxController
   }
 
   void onBackPress() {
-    Get.back(result: isDataUpdated.value);
+    if (fromNotification) {
+      Get.offAllNamed(AppRoutes.dashboardScreen);
+    } else {
+      Get.back(result: isDataUpdated.value);
+    }
   }
 
   Future<void> setLocationPin() async {

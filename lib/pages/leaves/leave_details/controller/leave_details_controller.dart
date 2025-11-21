@@ -59,7 +59,8 @@ class LeaveDetailsController extends GetxController
     var arguments = Get.arguments;
     if (arguments != null) {
       leaveId = arguments[AppConstants.intentKey.leaveId] ?? 0;
-      isFromRequest.value = arguments[AppConstants.intentKey.fromRequest] ?? false;
+      isFromRequest.value =
+          arguments[AppConstants.intentKey.fromRequest] ?? false;
       isFromNotification.value =
           arguments[AppConstants.intentKey.fromNotification] ?? false;
       print("leaveId:$leaveId");
@@ -299,8 +300,9 @@ class LeaveDetailsController extends GetxController
     if (isAllDay.value) {
       final startDateOnly = getDateOnly(startDate!);
       final endDateOnly = getDateOnly(endDate!);
-      totalDays.value =
-          (endDateOnly.difference(startDateOnly).inDays).toDouble().toString();
+      totalDays.value = (endDateOnly.difference(startDateOnly).inDays + 1)
+          .toDouble()
+          .toString();
     } else {
       DateTime currentDate = DateTime.now();
       final start = DateTime(currentDate.year, currentDate.month,
@@ -313,7 +315,7 @@ class LeaveDetailsController extends GetxController
       totalDays.value = (timeDifference / 24).toStringAsFixed(2);
     }
   }
-
+  
   DateTime getDateOnly(DateTime inputDate) {
     return DateTime(inputDate.year, inputDate.month, inputDate.day);
   }

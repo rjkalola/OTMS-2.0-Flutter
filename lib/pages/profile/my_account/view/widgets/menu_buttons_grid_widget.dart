@@ -69,7 +69,7 @@ class MenuButtonsGridWidget extends StatelessWidget {
                     arguments: arguments);
               } else if (info.action == AppConstants.action.digitalId) {
                 var arguments = {
-                  AppConstants.intentKey.userId: UserUtils.getLoginUserId(),
+                  AppConstants.intentKey.userId: controller.userId ?? 0,
                 };
                 Get.toNamed(AppRoutes.digitalIdCardScreen,
                     arguments: arguments);
