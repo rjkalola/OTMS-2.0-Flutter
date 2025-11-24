@@ -49,7 +49,14 @@ class RatesHistoryController extends GetxController {
           tempList.clear();
           tempList.addAll(response.info ?? []);
 
-          rateHistoryList.value = tempList;
+          final filteredList = tempList.where((item) {
+            final isPendingRequested =
+                (item.statusText ?? "").toLowerCase() == "pending" ||
+                    item.actionBy == null;
+            return !isPendingRequested;
+          }).toList();
+
+          rateHistoryList.value = filteredList;
           rateHistoryList.refresh();
 
           isMainViewVisible.value = true;

@@ -68,7 +68,7 @@ class _SelectShiftScreenState extends State<SelectShiftScreen> {
                             Get.back();
                           },
                         ),
-                        SearchShift(),
+                        // SearchShift(),
                         ShiftsList(),
                         TextViewWithContainer(
                           onTap: () {

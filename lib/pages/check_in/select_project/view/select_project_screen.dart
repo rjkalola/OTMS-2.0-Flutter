@@ -64,7 +64,7 @@ class _SelectProjectScreenState extends State<SelectProjectScreen> {
                             Get.back();
                           },
                         ),
-                        SearchProject(),
+                        // SearchProject(),
                         ProjectsList(),
                         Visibility(
                           // visible: !controller.switchProject,

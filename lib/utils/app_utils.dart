@@ -32,10 +32,12 @@ class AppUtils {
 
   static showSnackBarMessage(String message) {
     if (message.isNotEmpty) {
-      // Fluttertoast.showToast(
-      //   msg: message,
-      // );
-      Get.rawSnackbar(message: message);
+      // Get.rawSnackbar(message: message);
+      BotToast.showText(
+        text: message,
+        align: Alignment.bottomCenter, // or .center
+        duration: Duration(seconds: 3),
+      );
     }
   }
 
@@ -44,7 +46,7 @@ class AppUtils {
       BotToast.showText(
         text: message,
         align: Alignment.bottomCenter, // or .center
-        duration: Duration(seconds: 1),
+        duration: Duration(seconds: 3),
       );
       // Fluttertoast.showToast(
       //   msg: message,
@@ -57,7 +59,7 @@ class AppUtils {
       BotToast.showText(
         text: message ?? "",
         align: Alignment.bottomCenter, // or .center
-        duration: Duration(seconds: 1),
+        duration: Duration(seconds: 3),
       );
       /* Fluttertoast.showToast(
         msg: message ?? "",
@@ -349,12 +351,33 @@ class AppUtils {
     }
   }
 
-  static void copyEmail(String? value) {
+  static void copyEmail(String? value) async{
     if (!StringHelper.isEmptyString(value)) {
-      Clipboard.setData(ClipboardData(text: value ?? ""));
+      /*
+    Clipboard.setData(ClipboardData(text: value ?? ""));
+    AppUtils.showToastMessage('email_copied'.tr);
+    */
+      openEmailApp(value ?? "");
+    }
+  }
+  static void openEmailApp(String email) async {
+    final Uri uri = Uri(
+      scheme: 'mailto',
+      path: email,
+    );
+    try{
+      await launchUrl(
+        uri,
+        mode: LaunchMode.externalApplication,
+      );
+    }
+    catch (e){
+      print("No email app found or error: $e");
+      Clipboard.setData(ClipboardData(text: email));
       AppUtils.showToastMessage('email_copied'.tr);
     }
   }
+
 
   static Circle getCircle(
       {required String id,

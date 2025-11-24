@@ -257,8 +257,7 @@ class ImageUtils {
             //       width: width, height: height, borderRadius: borderRadius),
             // ),
           )
-        : getEmptyUserViewContainer(
-            width: width, height: height);
+        : getEmptyUserViewContainer(width: width, height: height);
   }
 
   /* static Widget setUserImage(

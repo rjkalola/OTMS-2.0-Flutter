@@ -315,7 +315,7 @@ class LeaveDetailsController extends GetxController
       totalDays.value = (timeDifference / 24).toStringAsFixed(2);
     }
   }
-  
+
   DateTime getDateOnly(DateTime inputDate) {
     return DateTime(inputDate.year, inputDate.month, inputDate.day);
   }

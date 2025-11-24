@@ -16,6 +16,8 @@ import 'package:belcka/widgets/text/TextViewWithContainer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../../utils/app_constants.dart';
+
 class MyDayLogListView extends StatelessWidget {
   MyDayLogListView({super.key});
 
@@ -394,8 +396,14 @@ class MyDayLogListView extends StatelessWidget {
             if (!(controller.workLogData.value.userIsWorking ?? false)) {
               controller.onClickStartShiftButton();
             } else {
-              controller
-                  .onClickAddExpense(controller.selectedWorkLogInfo?.id ?? 0);
+              // controller
+              //     .onClickAddExpense(controller.selectedWorkLogInfo?.id ?? 0);
+              var arguments = {
+                AppConstants.intentKey.switchProject: true,
+                AppConstants.intentKey.workLogId:
+                    controller.selectedWorkLogInfo?.id ?? 0,
+              };
+              controller.onClickStartShiftButton(arguments: arguments);
             }
             // else if ((controller.workLogData.value.userIsWorking ?? false) &&
             //     !controller.isChecking.value) {

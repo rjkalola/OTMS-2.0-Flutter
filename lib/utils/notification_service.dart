@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/utils/user_utils.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
@@ -143,6 +144,11 @@ class NotificationService {
       final requestType = data['request_type'] ?? "0";
       int requestTypeInt =
           !StringHelper.isEmptyString(requestType) ? int.parse(requestType) : 0;
+      final userId = data['user_id'] ?? "0";
+
+      int userIdInt = !StringHelper.isEmptyString(userId) ? int.parse(userId) : 0;
+
+      final status = data['status'] ?? "";
 
       //Team
       if (notificationType ==
@@ -237,28 +243,39 @@ class NotificationService {
         } else {
           Get.offAllNamed(AppRoutes.splashScreen);
         }
-      } else if (requestTypeInt == 103) {
-        //Billing Info
-        if (notificationType ==
-                AppConstants.notificationType.CREATE_BILLING_INFO ||
-            (notificationType ==
-                AppConstants.notificationType.UPDATE_BILLING_INFO) ||
-            (notificationType == AppConstants.notificationType.ADD_REQUEST) ||
-            (notificationType ==
-                AppConstants.notificationType.UPDATE_REQUEST)) {
-          final requestLogId = data['request_log_id'] ?? "0";
-          print("request_log_id is:" + requestLogId);
-          String rout = AppRoutes.billingRequestScreen;
+      }
+      //Billing
+      else if (notificationType == AppConstants.notificationType.CREATE_BILLING_INFO
+          || notificationType == AppConstants.notificationType.UPDATE_BILLING_INFO) {
+        String rout = AppRoutes.billingRequestScreen;
+        final requestLogId = data['request_log_id'] ?? "0";
+        var arguments = {
+          "request_log_id": !StringHelper.isEmptyString(requestLogId)
+              ? int.parse(requestLogId)
+              : 0,
+          AppConstants.intentKey.fromNotification: true
+        };
+        Get.offAllNamed(rout, arguments: arguments);
+      }
+      else if (notificationType == AppConstants.notificationType.REJECT_REQUEST
+          || notificationType == AppConstants.notificationType.APPROVE_REQUEST) {
+        if (userIdInt == UserUtils.getLoginUserId()) {
+          String rout = AppRoutes.billingDetailsNewScreen;
           var arguments = {
-            "request_log_id": !StringHelper.isEmptyString(requestLogId)
-                ? int.parse(requestLogId)
-                : 0,
-            AppConstants.intentKey.fromNotification: true
+            "user_id": userIdInt,
           };
           Get.offAllNamed(rout, arguments: arguments);
         }
-      } else if (requestTypeInt == 105) {
-        //Rate
+        else{
+          String rout = AppRoutes.otherUserBillingDetailsScreen;
+          var arguments = {
+            "user_id": userIdInt,
+          };
+          Get.offAllNamed(rout, arguments: arguments);
+        }
+      }
+      //Rate
+      else if (notificationType == AppConstants.notificationType.CHNAGE_RATE) {
         final requestLogId = data['request_log_id'] ?? "0";
         print("request_log_id is:" + requestLogId);
         String rout = AppRoutes.ratesRequestScreen;
@@ -269,10 +286,12 @@ class NotificationService {
           AppConstants.intentKey.fromNotification: true
         };
         Get.offAllNamed(rout, arguments: arguments);
-      } else {
+      }
+      else{
         Get.offAllNamed(AppRoutes.splashScreen);
       }
-    } else {
+    }
+    else{
       Get.offAllNamed(AppRoutes.splashScreen);
     }
   }
