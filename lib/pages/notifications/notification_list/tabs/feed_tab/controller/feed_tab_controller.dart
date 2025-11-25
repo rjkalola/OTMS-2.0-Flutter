@@ -152,24 +152,41 @@ class FeedTabController extends GetxController {
       } else if (notificationType ==
           AppConstants.notificationType.JOIN_COMPANY) {
         moveToScreen(AppRoutes.userListScreen, arguments: null, index: index);
-      } else if (info.requestType == 103) {
-        //Billing Info
-        if (notificationType ==
-                AppConstants.notificationType.CREATE_BILLING_INFO ||
-            (notificationType ==
-                AppConstants.notificationType.UPDATE_BILLING_INFO) ||
-            (notificationType == AppConstants.notificationType.ADD_REQUEST) ||
-            (notificationType ==
-                AppConstants.notificationType.UPDATE_REQUEST)) {
-          if ((info.requestLogId ?? 0) != 0) {
-            String rout = AppRoutes.billingRequestScreen;
-            var arguments = {
-              "request_log_id": info.requestLogId ?? 0,
-            };
-            moveToScreen(rout, arguments: arguments, index: index);
-          }
+      }
+      //Billing
+      else if (notificationType == AppConstants.notificationType.CREATE_BILLING_INFO
+          || notificationType == AppConstants.notificationType.UPDATE_BILLING_INFO) {
+        if ((info.requestLogId ?? 0) != 0) {
+          String rout = AppRoutes.billingRequestScreen;
+          var arguments = {
+            "request_log_id": info.requestLogId ?? 0,
+          };
+          moveToScreen(rout, arguments: arguments, index: index);
         }
-      } else if (info.requestType == 105) {
+      }
+      else if (notificationType == AppConstants.notificationType.REJECT_REQUEST
+          || notificationType == AppConstants.notificationType.APPROVE_REQUEST) {
+        if (info.userId == UserUtils.getLoginUserId()) {
+          String rout = AppRoutes.billingDetailsNewScreen;
+          var arguments = {
+            "user_id": info.userId,
+            AppConstants.intentKey.fromNotification: true
+          };
+          moveToScreen(rout, arguments: arguments, index: index);
+        }
+        else{
+          String rout = AppRoutes.otherUserBillingDetailsScreen;
+          var arguments = {
+            "user_id": info.userId,
+            AppConstants.intentKey.fromNotification: true
+          };
+          moveToScreen(rout, arguments: arguments, index: index);
+        }
+      }
+      //Rates
+      else if (notificationType == AppConstants.notificationType.CHNAGE_RATE
+          || notificationType == AppConstants.notificationType.APPROVE_RATE
+          || notificationType == AppConstants.notificationType.REJECT_RATE) {
         if ((info.requestLogId ?? 0) != 0) {
           String rout = AppRoutes.ratesRequestScreen;
           var arguments = {

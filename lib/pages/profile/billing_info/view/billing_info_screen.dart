@@ -89,31 +89,38 @@ class _BillingInfoScreenState extends State<BillingInfoScreen> {
             ),
           ),
           // This is where bottomNavigationBar should go
-          bottomNavigationBar: SafeArea(
-            child: Visibility(
-              visible: controller.isShowSaveButton.value,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    controller.onSubmit();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: defaultAccentColor_(context),
-                    minimumSize: Size(double.infinity, 50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+            bottomNavigationBar: Obx(() {
+              final enabled = controller.isSaveEnabled.value;
+              return SafeArea(
+                child: Visibility(
+                  visible: controller.isShowSaveButton.value,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Opacity(
+                      opacity: enabled ? 1.0 : 0.5,
+                      child: ElevatedButton(
+                        onPressed: enabled ? controller.onSubmit : null,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: defaultAccentColor_(context),
+                          minimumSize: const Size(double.infinity, 50),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                        ),
+                        child: Text(
+                          'save'.tr,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                  child: Text('save'.tr,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold)),
                 ),
-              ),
-            ),
-          ),
+              );
+            }),
         ),
       ),
     );

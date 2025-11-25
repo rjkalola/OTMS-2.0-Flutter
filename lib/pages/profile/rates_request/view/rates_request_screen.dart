@@ -135,7 +135,7 @@ class _RatesRequestScreenState extends State<RatesRequestScreen> {
                               ],
                             ),
                             SizedBox(height: 32),
-                            (UserUtils.isAdmin() && (controller.rateRequestInfo.value.statusText == "pending")) ?
+                            (UserUtils.isAdmin() && (controller.rateRequestInfo.value.statusText == "pending" && controller.rateRequestInfo.value.is_show == true)) ?
                             Visibility(
                               visible: controller.isShowSaveButton.value,
                               child: Column(
@@ -162,7 +162,7 @@ class _RatesRequestScreenState extends State<RatesRequestScreen> {
                                 ],
                               ),
                             ) : Visibility(
-                              visible: (controller.rateRequestInfo.value.statusText == "pending") ? true : false,
+                              visible: (controller.rateRequestInfo.value.statusText == "pending" && controller.rateRequestInfo.value.is_show == true) ? true : false,
                                 child: RateRequestPendingForApproval())
                           ],
                         ),

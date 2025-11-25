@@ -1,6 +1,9 @@
 import 'package:belcka/pages/check_in/stop_shift/controller/stop_shift_controller.dart';
 import 'package:belcka/pages/check_in/stop_shift/view/widgets/add_note_widget.dart';
 import 'package:belcka/pages/check_in/stop_shift/view/widgets/break_log_list.dart';
+import 'package:belcka/pages/check_in/stop_shift/view/widgets/check_in_hours_row.dart';
+import 'package:belcka/pages/check_in/stop_shift/view/widgets/current_log_summery.dart';
+import 'package:belcka/pages/check_in/stop_shift/view/widgets/penalty_hours_row.dart';
 import 'package:belcka/pages/check_in/stop_shift/view/widgets/pending_request_time_box.dart';
 import 'package:belcka/pages/check_in/stop_shift/view/widgets/start_stop_box_row.dart';
 import 'package:belcka/pages/check_in/stop_shift/view/widgets/stop_shift_button.dart';
@@ -139,15 +142,19 @@ class _StopShiftScreenState extends State<StopShiftScreen> {
                               visible: controller.isEdited.value,
                               child: AddNoteWidget(
                                   controller: controller.noteController)),
-                          controller.isWorking.value
-                              ? StopShiftButton()
-                              : Visibility(
-                                  visible: controller.isEdited.value,
-                                  child: SubmitForApprovalButton(),
-                                )
+
+                          // PenaltyHoursRow(),
+                          // CheckInHoursRow(),
+                          CurrentLogSummery(),
                         ],
                       ),
                     ),
+                  ),
+                  controller.isWorking.value
+                      ? StopShiftButton()
+                      : Visibility(
+                    visible: controller.isEdited.value,
+                    child: SubmitForApprovalButton(),
                   )
                 ]),
               ),

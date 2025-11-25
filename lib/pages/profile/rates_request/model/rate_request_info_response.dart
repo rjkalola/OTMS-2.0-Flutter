@@ -35,6 +35,7 @@ class RateRequestInfo {
   String? tradeName;
   int? requestType;
   String? tableName;
+  bool? is_show;
 
   RateRequestInfo(
       {this.id,
@@ -48,7 +49,8 @@ class RateRequestInfo {
         this.tradeId,
         this.tradeName,
         this.requestType,
-        this.tableName});
+        this.tableName,
+        this.is_show});
 
   RateRequestInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -63,6 +65,7 @@ class RateRequestInfo {
     tradeName = json['trade_name'];
     requestType = json['request_type'];
     tableName = json['table_name'];
+    is_show = json['is_show'];
   }
 
   Map<String, dynamic> toJson() {
@@ -79,6 +82,7 @@ class RateRequestInfo {
     data['trade_name'] = this.tradeName;
     data['request_type'] = this.requestType;
     data['table_name'] = this.tableName;
+    data['is_show'] = this.is_show;
     return data;
   }
 }

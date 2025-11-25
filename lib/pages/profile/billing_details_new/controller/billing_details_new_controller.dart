@@ -52,7 +52,7 @@ class BillingDetailsNewController extends GetxController {
   String bankDetails = "";
   bool showPayRate = true;
   RxString currentRatePerDay = "".obs;
-
+  bool fromNotification = false;
   int? userId = 0;
 
   @override
@@ -62,6 +62,8 @@ class BillingDetailsNewController extends GetxController {
     if (arguments != null) {
       isMainViewVisible.value = false;
       userId = arguments["user_id"] ?? 0;
+      fromNotification =
+          arguments[AppConstants.intentKey.fromNotification] ?? false;
     }
     else{
       userId = UserUtils.getLoginUserId();
@@ -181,6 +183,13 @@ class BillingDetailsNewController extends GetxController {
     var result = await Get.toNamed(rout, arguments: arguments);
     if (result != null && result) {
       getBillingInfo();
+    }
+  }
+  void onBackPress() {
+    if (fromNotification) {
+      Get.offAllNamed(AppRoutes.dashboardScreen);
+    } else {
+      Get.back();
     }
   }
 }

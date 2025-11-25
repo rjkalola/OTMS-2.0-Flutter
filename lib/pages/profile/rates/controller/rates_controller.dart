@@ -39,6 +39,13 @@ class RatesController extends GetxController implements SelectItemListener, Dial
   var isShowSaveButton = true.obs;
   final List<ModuleInfo> listTrades = <ModuleInfo>[].obs;
 
+  ///Save button control
+  RxBool isSaveEnabled = false.obs;
+
+  /// Store original values to detect change
+  String originalNetPerDay = "";
+  int? originalTradeId;
+
   @override
   void onInit() {
     super.onInit();
@@ -49,20 +56,23 @@ class RatesController extends GetxController implements SelectItemListener, Dial
     }
     billingInfo.value.companyId = ApiConstants.companyId;
     netPerDayController.value.addListener(calculateGrossAndCIS);
+
     getTradeDataApi();
   }
   void setInitData() {
     isRateRequested = billingInfo.value.is_rate_requested ?? false;
     tradeId = billingInfo.value.tradeId;
-
+    originalTradeId = tradeId;
     if (billingInfo.value.is_rate_requested ?? false){
       netPerDayController.value.text = (billingInfo.value.oldNetRatePerDay ?? "").isEmpty ? billingInfo.value.net_rate_perDay ?? "" : billingInfo.value.oldNetRatePerDay ?? "";;
     }
     else{
       netPerDayController.value.text = (billingInfo.value.newNetRatePerDay ?? "").isEmpty ? billingInfo.value.net_rate_perDay ?? "" : billingInfo.value.newNetRatePerDay ?? "";
     }
+    originalNetPerDay = netPerDayController.value.text;
 
     tradeController.value.text = billingInfo.value.tradeName ?? "";
+
     String joiningDateStr = billingInfo.value.joiningDate ?? "";
     joiningDate = joiningDateStr.split(" ").sublist(0, 3).join(" ");
     //calculate gross per day and cis 20%
@@ -72,8 +82,19 @@ class RatesController extends GetxController implements SelectItemListener, Dial
     final net = double.tryParse(netPerDayController.value.text ?? "") ?? 0.0;
     cis.value = net * 0.20;
     grossPerDay.value = net + cis.value;
+    _checkForChanges();
   }
-
+  /// Detect if Save button should be enabled
+  void _checkForChanges() {
+    bool changed = false;
+    if (netPerDayController.value.text != originalNetPerDay) {
+      changed = true;
+    }
+    if (tradeId != originalTradeId) {
+      changed = true;
+    }
+    isSaveEnabled.value = changed;
+  }
   @override
   void onClose() {
     netPerDayController.value.dispose();
@@ -176,6 +197,7 @@ class RatesController extends GetxController implements SelectItemListener, Dial
     if (action == AppConstants.dialogIdentifier.selectTrade) {
       tradeId = id;
       tradeController.value.text = name;
+      _checkForChanges();
     }
   }
 

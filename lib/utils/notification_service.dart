@@ -263,6 +263,7 @@ class NotificationService {
           String rout = AppRoutes.billingDetailsNewScreen;
           var arguments = {
             "user_id": userIdInt,
+            AppConstants.intentKey.fromNotification: true
           };
           Get.offAllNamed(rout, arguments: arguments);
         }
@@ -270,12 +271,13 @@ class NotificationService {
           String rout = AppRoutes.otherUserBillingDetailsScreen;
           var arguments = {
             "user_id": userIdInt,
+            AppConstants.intentKey.fromNotification: true
           };
           Get.offAllNamed(rout, arguments: arguments);
         }
       }
       //Rate
-      else if (notificationType == AppConstants.notificationType.CHNAGE_RATE) {
+      else if (notificationType == AppConstants.notificationType.CHNAGE_RATE || notificationType == AppConstants.notificationType.APPROVE_RATE || notificationType == AppConstants.notificationType.REJECT_RATE) {
         final requestLogId = data['request_log_id'] ?? "0";
         print("request_log_id is:" + requestLogId);
         String rout = AppRoutes.ratesRequestScreen;

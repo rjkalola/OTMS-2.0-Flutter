@@ -27,7 +27,7 @@ class _BillingApprovalButtonsViewState extends State<BillingApprovalButtonsView>
     return CardViewDashboardItem(
       margin: EdgeInsets.all(16),
       padding: EdgeInsets.all(16),
-      child: showActionCard
+      child: showActionCard && controller.billingRequestInfo.value.statusText == "pending"
           ? Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -82,14 +82,17 @@ class _BillingApprovalButtonsViewState extends State<BillingApprovalButtonsView>
               })
         ],
       )
-          : Center(
-        child: Text(
-          "billing_information_submission_is_pending_for_approval".tr,
-          style:
-          TextStyle(color: Colors.red, fontSize: 15,fontWeight: FontWeight.w500),
-          textAlign: TextAlign.center,
-        ),
-      ),
+          : Visibility(
+            visible: controller.billingRequestInfo.value.statusText == "pending",
+            child: Center(
+                    child: Text(
+            "billing_information_submission_is_pending_for_approval".tr,
+            style:
+            TextStyle(color: Colors.red, fontSize: 15,fontWeight: FontWeight.w500),
+            textAlign: TextAlign.center,
+                    ),
+                  ),
+          ),
     );
   }
 

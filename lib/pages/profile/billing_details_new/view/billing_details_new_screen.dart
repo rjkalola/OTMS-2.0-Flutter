@@ -28,141 +28,148 @@ class _BillingDetailsNewScreenState extends State<BillingDetailsNewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Container(
-      color: dashBoardBgColor_(context),
-      child: SafeArea(
-        child: Scaffold(
-          appBar: BaseAppBar(
-            appBar: AppBar(),
-            title: "billing_info".tr,
-            isCenterTitle: false,
-            bgColor: dashBoardBgColor_(context),
-            isBack: true,
-            widgets: actionButtons(),
-          ),
-          backgroundColor: dashBoardBgColor_(context),
-          body: ModalProgressHUD(
-            inAsyncCall: controller.isLoading.value,
-            opacity: 0,
-            progressIndicator: const CustomProgressbar(),
-            child: controller.isInternetNotAvailable.value
-                ?  Center(
-              child: Text('no_internet_text'.tr),
-            )
-                : Visibility(
-                visible: controller.isMainViewVisible.value,
-                child: (controller
-                    .billingInfo.value.id ?? 0) != 0 ? Column(
-                      children: [
-                        Expanded(
-                          child: SingleChildScrollView(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              //profile UI
-                              Container(
-                                padding: EdgeInsets.fromLTRB(16, 14, 16, 0),
-                                width: double.infinity,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    // Avatar
-                                    UserAvtarView(
-                                      imageSize: 60,
-                                      imageUrl: controller
-                                          .billingInfo.value.userThumbImage ??
-                                          "",
-                                    ),
-                                    SizedBox(height: 10),
-                                    // Name
-                                    Text(
-                                      controller.billingInfo.value.name ?? "",
-                                      style: TextStyle(
-                                          fontSize: 24, fontWeight: FontWeight.w600),
-                                    ),
-                                    SizedBox(height: 10),
-                                    GestureDetector(
-                                      onTap: (){
-                                        AppUtils.onClickPhoneNumber("${controller.billingInfo.value.extension ?? ""}${controller.billingInfo.value.phone ?? ""}");
-                                      },
-                                        child: InfoCard(label: 'phone_number'.tr, value:"${controller.billingInfo.value.extension ?? ""} ${controller.billingInfo.value.phone ?? ""}", isLink: true)),
+    return PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (didPop, result) async {
+          if (didPop || result != null) return;
+          controller.onBackPress();
+        },
+      child: Obx(() => Container(
+        color: dashBoardBgColor_(context),
+        child: SafeArea(
+          child: Scaffold(
+            appBar: BaseAppBar(
+              appBar: AppBar(),
+              title: "billing_info".tr,
+              isCenterTitle: false,
+              bgColor: dashBoardBgColor_(context),
+              isBack: true,
+              widgets: actionButtons(),
+            ),
+            backgroundColor: dashBoardBgColor_(context),
+            body: ModalProgressHUD(
+              inAsyncCall: controller.isLoading.value,
+              opacity: 0,
+              progressIndicator: const CustomProgressbar(),
+              child: controller.isInternetNotAvailable.value
+                  ?  Center(
+                child: Text('no_internet_text'.tr),
+              )
+                  : Visibility(
+                  visible: controller.isMainViewVisible.value,
+                  child: (controller
+                      .billingInfo.value.id ?? 0) != 0 ? Column(
+                        children: [
+                          Expanded(
+                            child: SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                //profile UI
+                                Container(
+                                  padding: EdgeInsets.fromLTRB(16, 14, 16, 0),
+                                  width: double.infinity,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      // Avatar
+                                      UserAvtarView(
+                                        imageSize: 60,
+                                        imageUrl: controller
+                                            .billingInfo.value.userThumbImage ??
+                                            "",
+                                      ),
+                                      SizedBox(height: 10),
+                                      // Name
+                                      Text(
+                                        controller.billingInfo.value.name ?? "",
+                                        style: TextStyle(
+                                            fontSize: 24, fontWeight: FontWeight.w600),
+                                      ),
+                                      SizedBox(height: 10),
+                                      GestureDetector(
+                                        onTap: (){
+                                          AppUtils.onClickPhoneNumber("${controller.billingInfo.value.extension ?? ""}${controller.billingInfo.value.phone ?? ""}");
+                                        },
+                                          child: InfoCard(label: 'phone_number'.tr, value:"${controller.billingInfo.value.extension ?? ""} ${controller.billingInfo.value.phone ?? ""}", isLink: true)),
 
-                                    GestureDetector(
-                                      onTap: (){
-                                        if ((controller.billingInfo.value.email ?? "").isNotEmpty){
-                                          AppUtils.copyEmail(controller.billingInfo.value.email ?? "");
-                                        }
-                                      },
-                                        child: InfoCard(label: 'email'.tr, value: controller.billingInfo.value.email ?? "", isLink: true)),
-                                    NavigationCard(value: controller.address),
-                                    NavigationCard(label: 'tax_info'.tr, value: controller.taxInfo),
-                                    NavigationCard(label: 'bank_details'.tr, value: controller.bankDetails),
-
-                                    Visibility(
-                                      visible: controller.showPayRate,
-                                      child: InkWell(
-                                        onTap: () {
-                                          {
-                                            var arguments = {
-                                              AppConstants.intentKey.billingInfo: controller.billingInfo.value,
-                                              AppConstants.intentKey.userId : controller.userId
-                                            };
-                                            controller.moveToScreen(AppRoutes.ratesScreen, arguments);
+                                      GestureDetector(
+                                        onTap: (){
+                                          if ((controller.billingInfo.value.email ?? "").isNotEmpty){
+                                            AppUtils.copyEmail(controller.billingInfo.value.email ?? "");
                                           }
                                         },
-                                        child: NavigationCard(
-                                          label: "rates".tr,
-                                          value: (controller.currentRatePerDay.value.isNotEmpty)
-                                              ? RichText(
-                                            text: TextSpan(
+                                          child: InfoCard(label: 'email'.tr, value: controller.billingInfo.value.email ?? "", isLink: true)),
+                                      NavigationCard(value: controller.address),
+                                      NavigationCard(label: 'tax_info'.tr, value: controller.taxInfo),
+                                      NavigationCard(label: 'bank_details'.tr, value: controller.bankDetails),
+
+                                      Visibility(
+                                        visible: controller.showPayRate,
+                                        child: InkWell(
+                                          onTap: () {
+                                            {
+                                              var arguments = {
+                                                AppConstants.intentKey.billingInfo: controller.billingInfo.value,
+                                                AppConstants.intentKey.userId : controller.userId
+                                              };
+                                              controller.moveToScreen(AppRoutes.ratesScreen, arguments);
+                                            }
+                                          },
+                                          child: NavigationCard(
+                                            label: "rates".tr,
+                                            value: (controller.currentRatePerDay.value.isNotEmpty)
+                                                ? RichText(
+                                              text: TextSpan(
+                                                style: TextStyle(
+                                                  color: primaryTextColor_(context),
+                                                  fontSize: 18,
+                                                ),
+                                                children: [
+                                                  TextSpan(text: "${controller.billingInfo.value.tradeName ?? ""} - "),
+                                                  TextSpan(
+                                                    text:
+                                                    "${controller.billingInfo.value.currency ?? ""}${controller.currentRatePerDay.value}",
+                                                    style: const TextStyle(fontWeight: FontWeight.bold),
+                                                  ),
+                                                ],
+                                              ),
+                                            )
+                                                : Text(
+                                              controller.billingInfo.value.tradeName ?? "",
                                               style: TextStyle(
                                                 color: primaryTextColor_(context),
-                                                fontSize: 18,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w400,
                                               ),
-                                              children: [
-                                                TextSpan(text: "${controller.billingInfo.value.tradeName ?? ""} - "),
-                                                TextSpan(
-                                                  text:
-                                                  "${controller.billingInfo.value.currency ?? ""}${controller.currentRatePerDay.value}",
-                                                  style: const TextStyle(fontWeight: FontWeight.bold),
-                                                ),
-                                              ],
                                             ),
-                                          )
-                                              : Text(
-                                            controller.billingInfo.value.tradeName ?? "",
-                                            style: TextStyle(
-                                              color: primaryTextColor_(context),
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w400,
-                                            ),
+                                            isShowArrow: true,
                                           ),
-                                          isShowArrow: true,
                                         ),
                                       ),
-                                    ),
 
-                                    Divider(color: dividerColor_(context), height: 12),
-                                    SizedBox(height: 12),
-                                    NavigationCard(value: "payslips".tr),
-                                    NavigationCard(value: "payment".tr),
-                                    NavigationCard(value: "invoice".tr),
-                                  ],
+                                      Divider(color: dividerColor_(context), height: 12),
+                                      SizedBox(height: 12),
+                                      NavigationCard(value: "payslips".tr),
+                                      NavigationCard(value: "payment".tr),
+                                      NavigationCard(value: "invoice".tr),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
-                          )),
-                        ),
-                        Visibility(
-                          visible: (controller.billingInfo.value.statusText ?? "") == "pending",
-                          child: PendingForApprovalView(),
-                        )
-                      ],
-                    ) : NoBillingDataView()),
+                              ],
+                            )),
+                          ),
+                          Visibility(
+                            visible: (controller.billingInfo.value.statusText ?? "") == "pending",
+                            child: PendingForApprovalView(),
+                          )
+                        ],
+                      ) : NoBillingDataView()),
+            ),
           ),
         ),
-      ),
-    ),);
+      ),),
+    );
   }
 
   List<Widget>? actionButtons() {

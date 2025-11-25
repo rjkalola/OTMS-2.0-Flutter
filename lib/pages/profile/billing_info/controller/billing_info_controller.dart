@@ -52,6 +52,9 @@ class BillingInfoController extends GetxController
   var arguments = Get.arguments;
   var isShowSaveButton = true.obs;
 
+  final isSaveEnabled = false.obs;
+  Map<String, dynamic> initialData = {};
+
   @override
   void onInit() {
     super.onInit();
@@ -61,6 +64,50 @@ class BillingInfoController extends GetxController
       setInitData();
     }
     billingInfo.value.companyId = ApiConstants.companyId;
+    setupListeners();
+  }
+  void setupListeners() {
+    List<TextEditingController> controllers = [
+      firstNameController.value,
+      lastNameController.value,
+      middleNameController.value,
+      emailController.value,
+      postcodeController.value,
+      myAddressController.value,
+      phoneController.value,
+      nameOnUTRController.value,
+      utrController.value,
+      ninController.value,
+      nameOnAccountController.value,
+      bankNameController.value,
+      accountNumberController.value,
+      sortCodeController.value,
+    ];
+    for (var c in controllers) {
+      c.addListener(checkForChanges);
+    }
+    // extension listener
+    ever(mExtension, (_) => checkForChanges());
+  }
+  void checkForChanges() {
+    final currentData = {
+      "firstName": firstNameController.value.text.trim(),
+      "lastName": lastNameController.value.text.trim(),
+      "middleName": middleNameController.value.text.trim(),
+      "email": emailController.value.text.trim(),
+      "postCode": postcodeController.value.text.trim(),
+      "address": myAddressController.value.text.trim(),
+      "phone": phoneController.value.text.trim(),
+      "nameOnUtr": nameOnUTRController.value.text.trim(),
+      "utrNumber": utrController.value.text.trim(),
+      "ninNumber": ninController.value.text.trim(),
+      "nameOnAccount": nameOnAccountController.value.text.trim(),
+      "bankName": bankNameController.value.text.trim(),
+      "accountNumber": accountNumberController.value.text.trim(),
+      "shortCode": sortCodeController.value.text.trim(),
+      "extension": mExtension.value,
+    };
+    isSaveEnabled.value = jsonEncode(initialData) != jsonEncode(currentData);
   }
   void setInitData() {
     firstNameController.value.text = billingInfo.value.firstName ?? "";
@@ -81,8 +128,26 @@ class BillingInfoController extends GetxController
     if (billingInfo.value.extension != null){
       mExtension.value = billingInfo.value.extension ?? "";
     }
-
     mFlag.value = AppUtils.getFlagByExtension(mExtension.value);
+
+    //Store initial values for comparison
+    initialData = {
+      "firstName": firstNameController.value.text,
+      "lastName": lastNameController.value.text,
+      "middleName": middleNameController.value.text,
+      "email": emailController.value.text,
+      "postCode": postcodeController.value.text,
+      "address": myAddressController.value.text,
+      "phone": phoneController.value.text,
+      "nameOnUtr": nameOnUTRController.value.text,
+      "utrNumber": utrController.value.text,
+      "ninNumber": ninController.value.text,
+      "nameOnAccount": nameOnAccountController.value.text,
+      "bankName": bankNameController.value.text,
+      "accountNumber": accountNumberController.value.text,
+      "shortCode": sortCodeController.value.text,
+      "extension": mExtension.value,
+    };
   }
   void addBillingInfoAPI() async {
     // Map<String, dynamic> map = {};
@@ -188,6 +253,7 @@ class BillingInfoController extends GetxController
   bool valid() {
     return formKey.currentState!.validate();
   }
+
   void showPhoneExtensionDialog() {
     Get.bottomSheet(
         PhoneExtensionListDialog(
@@ -208,6 +274,7 @@ class BillingInfoController extends GetxController
       print("Selected Postcode: ${result['postcode']}");
       myAddressController.value.text = result['summaryline'];
       postcodeController.value.text = result['postcode'];
+      checkForChanges();
     }
   }
   @override
@@ -216,5 +283,6 @@ class BillingInfoController extends GetxController
     mFlag.value = flag;
     mExtension.value = extension;
     billingInfo.value.extension = extension;
+    checkForChanges();
   }
 }

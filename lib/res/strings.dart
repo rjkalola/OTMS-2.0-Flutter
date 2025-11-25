@@ -485,6 +485,8 @@ class Strings extends Translations {
           'valid_until': "Valid Until",
           'joined': "Joined",
           'digital_id_slogan': "Time is Money. Control It.",
+          'penalty': "Penalty",
+          'current_log_summery': "Current log summery",
 // '': "",
 // '': "",
           // '': "",

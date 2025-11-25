@@ -378,6 +378,8 @@ class NotificationType {
 
   //User companies
   final String CHNAGE_RATE = "6001";
+  final String APPROVE_RATE = "13001";
+  final String REJECT_RATE = "13002";
 
 //Billing Info
   final String CREATE_BILLING_INFO = "9001";
