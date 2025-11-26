@@ -14,6 +14,7 @@ import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class TimeSheetListScreen extends StatefulWidget {
@@ -146,6 +147,27 @@ class _TimeSheetListScreenState extends State<TimeSheetListScreen>
           },
         ),
       ),*/
+      Visibility(
+        visible: !controller.isEditEnable.value &&
+            !controller.isEditStatusEnable.value &&
+            controller.isAllUserTimeSheet,
+        child: GestureDetector(
+          onTap: () {
+            controller.isExpanded.value = !controller.isExpanded.value;
+            controller.setExpandCollapse();
+          },
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(0, 0, 14, 0),
+            child: ImageUtils.setSvgAssetsImage(
+                path: controller.isExpanded.value
+                    ? Drawable.viewStream
+                    : Drawable.viewSmall,
+                width: 14,
+                height: 14,
+                color: primaryTextColor_(context)),
+          ),
+        ),
+      ),
       Visibility(
         visible: !controller.isEditEnable.value &&
             !controller.isEditStatusEnable.value,
