@@ -148,6 +148,9 @@ class NotificationService {
 
       int userIdInt = !StringHelper.isEmptyString(userId) ? int.parse(userId) : 0;
 
+      final requestedByUserId = data['requested_by'] ?? "0";
+      int requestedByUserIdInt = !StringHelper.isEmptyString(requestedByUserId) ? int.parse(requestedByUserId) : 0;
+
       final status = data['status'] ?? "";
 
       //Team
@@ -259,10 +262,10 @@ class NotificationService {
       }
       else if (notificationType == AppConstants.notificationType.REJECT_REQUEST
           || notificationType == AppConstants.notificationType.APPROVE_REQUEST) {
-        if (userIdInt == UserUtils.getLoginUserId()) {
+        if (requestedByUserIdInt == UserUtils.getLoginUserId()) {
           String rout = AppRoutes.billingDetailsNewScreen;
           var arguments = {
-            "user_id": userIdInt,
+            "user_id": requestedByUserIdInt,
             AppConstants.intentKey.fromNotification: true
           };
           Get.offAllNamed(rout, arguments: arguments);

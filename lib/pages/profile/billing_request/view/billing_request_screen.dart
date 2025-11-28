@@ -45,6 +45,9 @@ class _BillingRequestScreenState extends State<BillingRequestScreen> {
               isCenterTitle: false,
               bgColor: dashBoardBgColor_(context),
               isBack: true,
+              onBackPressed: (){
+                controller.onBackPress();
+              },
             ),
             backgroundColor: dashBoardBgColor_(context),
             body: ModalProgressHUD(

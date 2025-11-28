@@ -166,6 +166,8 @@ class ApiConstants {
       '$appUrl/user-checklog/add-attachments';
   static String removeCheckLogAttachment =
       '$appUrl/user-checklog/remove-attachment';
+  static String checkLocationOutsideBoundary =
+      '$appUrl/user-checklog/check-location';
 
   //timesheet
   static String getTimeSheetList = '$appUrl/timesheet/get';

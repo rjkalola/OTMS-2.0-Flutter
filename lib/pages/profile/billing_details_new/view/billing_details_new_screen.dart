@@ -44,6 +44,9 @@ class _BillingDetailsNewScreenState extends State<BillingDetailsNewScreen> {
               isCenterTitle: false,
               bgColor: dashBoardBgColor_(context),
               isBack: true,
+              onBackPressed: (){
+                controller.onBackPress();
+              },
               widgets: actionButtons(),
             ),
             backgroundColor: dashBoardBgColor_(context),

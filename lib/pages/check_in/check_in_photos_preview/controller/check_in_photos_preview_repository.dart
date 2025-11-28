@@ -37,4 +37,5 @@ class CheckInPhotosPreviewRepository {
       onError: (error) => {if (onError != null) onError(error)},
     );
   }
+
 }

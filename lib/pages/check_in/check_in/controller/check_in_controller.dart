@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:belcka/pages/check_in/check_in/controller/check_in_repository.dart';
 import 'package:belcka/pages/check_in/check_in/model/check_in_resources_response.dart';
+import 'package:belcka/pages/check_in/check_in/model/check_outside_boundary_response.dart';
 import 'package:belcka/pages/check_in/check_in/model/company_locations_response.dart';
 import 'package:belcka/pages/check_in/check_in/model/type_of_work_resources_info.dart';
 import 'package:belcka/pages/check_in/check_in/model/type_of_work_resources_response.dart';
@@ -301,6 +302,51 @@ class CheckInController extends GetxController
     );
   }
 
+  void checkLocationOutsideBoundaryApi(int addressId, String address) async {
+    Map<String, dynamic> map = {};
+    map["address_id"] = addressId;
+    map["latitude"] = latitude ?? "";
+    map["longitude"] = longitude ?? "";
+    isLoading.value = true;
+    _api.checkLocationOutsideBoundary(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          CheckOutsideBoundaryResponse response =
+              CheckOutsideBoundaryResponse.fromJson(
+                  jsonDecode(responseModel.result!));
+          if (response.outSideBoundary ?? false) {
+            AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+          } else {
+            addressController.value.text = address;
+            addressId = addressId;
+            if (tradeId != 0) {
+              typeOfWorkController.value.text = "";
+              typeOfWorkId = 0;
+              companyTaskId = 0;
+
+              selectedTypeOfWorkList.clear();
+              setTypeOfWorkText();
+
+              typeOfWorkList.clear();
+              getTypeOfWorkResourcesApi(
+                  addressId: addressId, isPriceWork: isPriceWork);
+            }
+          }
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        }
+      },
+    );
+  }
+
   void appLifeCycle() {
     AppLifecycleListener(
       onResume: () async {
@@ -512,21 +558,7 @@ class CheckInController extends GetxController
   @override
   void onSelectItem(int position, int id, String name, String action) {
     if (action == AppConstants.dialogIdentifier.selectAddress) {
-      addressController.value.text = name;
-      addressId = id;
-
-      if (tradeId != 0) {
-        typeOfWorkController.value.text = "";
-        typeOfWorkId = 0;
-        companyTaskId = 0;
-
-        selectedTypeOfWorkList.clear();
-        setTypeOfWorkText();
-
-        typeOfWorkList.clear();
-        getTypeOfWorkResourcesApi(
-            addressId: addressId, isPriceWork: isPriceWork);
-      }
+      checkLocationOutsideBoundaryApi(id, name);
     } else if (action == AppConstants.dialogIdentifier.selectTrade) {
       tradeController.value.text = name;
       tradeId = id;

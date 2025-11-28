@@ -79,6 +79,10 @@ class _CheckInScreenState extends State<CheckInScreen> {
                                 title: 'select_address'.tr,
                                 controller: controller.addressController,
                                 borderRadius: 15,
+                                validators: [
+                                  RequiredValidator(
+                                      errorText: 'required_field'.tr),
+                                ],
                                 onPressed: () {
                                   controller.showSelectAddressDialog();
                                 },
