@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:belcka/pages/project/project_info/model/geofence_info.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +38,7 @@ class StopShiftController extends GetxController implements SelectTimeListener {
       isWorking = false.obs,
       isEdited = false.obs;
 
-  final RxString startTime = "".obs, stopTime = "".obs;
+  final RxString startTime = "".obs, stopTime = "".obs, currency = "£".obs;
   String initiallyStartTime = "", initiallyStopTime = "";
   final RxInt initialTotalWorkTime = 0.obs, updatedTotalWorkingTime = 0.obs;
   final _api = StopShiftRepository();
@@ -53,6 +54,9 @@ class StopShiftController extends GetxController implements SelectTimeListener {
   int workLogId = 0, userId = 0;
   String date = "";
   bool isCurrentDay = true, fromNotification = false;
+  final RxSet<Polyline> polyLines = <Polyline>{}.obs;
+  final RxSet<Polygon> polygons = <Polygon>{}.obs;
+  final RxSet<Circle> circles = <Circle>{}.obs;
 
   void onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -197,6 +201,7 @@ class StopShiftController extends GetxController implements SelectTimeListener {
           WorkLogDetailsResponse response = WorkLogDetailsResponse.fromJson(
               jsonDecode(responseModel.result!));
           workLogInfo.value = response.info!;
+          currency.value = response.currency ?? "";
           date = DateUtil.changeDateFormat(
               workLogInfo.value.workStartTime ?? "",
               DateUtil.DD_MM_YYYY_TIME_24_SLASH2,
@@ -204,6 +209,7 @@ class StopShiftController extends GetxController implements SelectTimeListener {
           isCurrentDay = ClockInUtils.isCurrentDay(date);
           print("isCurrentDay:" + isCurrentDay.toString());
           setLocationPin();
+          setZones();
           setInitialTime();
           if (StringHelper.isEmptyString(workLogInfo.value.workEndTime)) {
             locationRequest();
@@ -257,7 +263,7 @@ class StopShiftController extends GetxController implements SelectTimeListener {
       //   CameraPosition(target: center.value, zoom: 15),
       // ));
       final currentPosition = await mapController.getZoomLevel();
-      print("currentPosition:"+currentPosition.toString());
+      print("currentPosition:" + currentPosition.toString());
       mapController.moveCamera(
         CameraUpdate.newLatLngZoom(
           center.value, // target
@@ -391,7 +397,65 @@ class StopShiftController extends GetxController implements SelectTimeListener {
     );
     final updatedPolylines = Set<Polyline>.from(polylines.value);
     updatedPolylines.add(polyline);
-    polylines.value = updatedPolylines;
+  }
+
+  void setZones() {
+    if (workLogInfo.value.geofences != null) {
+      for (GeofenceInfo info in workLogInfo.value.geofences!) {
+        if ((info.type ?? "") == AppConstants.zoneType.circle &&
+            info.radius != null) {
+          print("info.latitude:" + info.latitude!.toString());
+          print("info.longitude:" + info.longitude!.toString());
+          LatLng latLng = LatLng(double.parse(info.latitude ?? "0.0"),
+              double.parse(info.longitude ?? "0.0"));
+          Color color = !StringHelper.isEmptyString(info.color)
+              ? AppUtils.getColor(info.color ?? "")
+              : Colors.blue;
+          final circle = AppUtils.getCircle(
+              id: (info.id ?? 0).toString(),
+              latLng: latLng,
+              radius: info.radius ?? 0,
+              color: color);
+          final updatedCircles = Set<Circle>.from(circles);
+          updatedCircles.add(circle);
+          circles.value = updatedCircles;
+        } else if ((info.type ?? "") == AppConstants.zoneType.polygon &&
+            info.coordinates != null) {
+          List<LatLng> listLatLng = [];
+          for (GeofenceCoordinates coordinates in info.coordinates!) {
+            LatLng latLng = LatLng(coordinates.lat ?? 0, coordinates.lng ?? 0);
+            listLatLng.add(latLng);
+          }
+          Color color = !StringHelper.isEmptyString(info.color)
+              ? AppUtils.getColor(info.color ?? "")
+              : Colors.blue;
+          final polygon = AppUtils.getPolygon(
+              id: (info.id ?? 0).toString(),
+              listLatLng: listLatLng,
+              color: color);
+          final updatedPolygon = Set<Polygon>.from(polygons);
+          updatedPolygon.add(polygon);
+          polygons.value = updatedPolygon;
+        } else if ((info.type ?? "") == AppConstants.zoneType.polyline &&
+            info.coordinates != null) {
+          List<LatLng> listLatLng = [];
+          for (GeofenceCoordinates coordinates in info.coordinates!) {
+            LatLng latLng = LatLng(coordinates.lat ?? 0, coordinates.lng ?? 0);
+            listLatLng.add(latLng);
+          }
+          Color color = !StringHelper.isEmptyString(info.color ?? "")
+              ? AppUtils.getColor(info.color ?? "#000000")
+              : Colors.blue;
+          final polyline = AppUtils.getPolyline(
+              id: (info.id ?? 0).toString(),
+              listLatLng: listLatLng,
+              color: color);
+          final updatedPolyline = Set<Polyline>.from(polyLines);
+          updatedPolyline.add(polyline);
+          polyLines.value = updatedPolyline;
+        }
+      }
+    }
   }
 
   void onBackPress() {

@@ -1,5 +1,6 @@
 import 'package:belcka/pages/check_in/clock_in/model/check_log_info.dart';
 import 'package:belcka/pages/check_in/clock_in/model/location_info.dart';
+import 'package:belcka/pages/project/project_info/model/geofence_info.dart';
 import 'package:belcka/pages/shifts/create_shift/model/break_info.dart';
 
 class WorkLogInfo {
@@ -26,30 +27,53 @@ class WorkLogInfo {
   String? oldStartTime;
   String? oldEndTime;
   int? oldPayableWorkSeconds;
+  int? penaltySeconds;
+  String? allWorklogsAmount;
+  int? allWorklogsSeconds;
+  String? allExpenseAmount;
+  int? allExpenseCount;
+  String? allChecklogAmount;
+  int? allChecklogCount;
+  int? allPenaltySeconds;
+  String? totalDayEarnings;
+  String? currency;
+  List<GeofenceInfo>? geofences;
 
-  WorkLogInfo(
-      {this.id,
-      this.shiftId,
-      this.shiftName,
-      this.projectId,
-      this.projectName,
-      this.isPricework,
-      this.workStartTime,
-      this.workEndTime,
-      this.totalWorkSeconds,
-      this.totalBreaklogSeconds,
-      this.payableWorkSeconds,
-      // this.isRequestPending,
-      this.breakLog,
-      this.startWorkLocation,
-      this.stopWorkLocation,
-      this.userChecklogs,
-      this.userCheckLogsCount,
-      this.isExpanded,
-      this.requestStatus,
-      this.oldStartTime,
-      this.oldEndTime,
-      this.oldPayableWorkSeconds});
+  WorkLogInfo({
+    this.id,
+    this.shiftId,
+    this.shiftName,
+    this.projectId,
+    this.projectName,
+    this.isPricework,
+    this.workStartTime,
+    this.workEndTime,
+    this.totalWorkSeconds,
+    this.totalBreaklogSeconds,
+    this.payableWorkSeconds,
+    // this.isRequestPending,
+    this.breakLog,
+    this.startWorkLocation,
+    this.stopWorkLocation,
+    this.userChecklogs,
+    this.userCheckLogsCount,
+    this.isExpanded,
+    this.requestStatus,
+    this.oldStartTime,
+    this.oldEndTime,
+    this.oldPayableWorkSeconds,
+    this.allWorklogsAmount,
+    this.allWorklogsSeconds,
+    this.allExpenseAmount,
+    this.allExpenseCount,
+    this.allChecklogAmount,
+    this.allChecklogCount,
+    this.allPenaltySeconds,
+    this.totalDayEarnings,
+    this.penaltySeconds,
+    this.geofences,
+    this.currency
+  });
 
   WorkLogInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -88,6 +112,22 @@ class WorkLogInfo {
     oldStartTime = json['old_start_time'];
     oldEndTime = json['old_end_time'];
     oldPayableWorkSeconds = json['old_payable_work_seconds'];
+    allWorklogsAmount = json['all_worklogs_amount'];
+    allWorklogsSeconds = json['all_worklogs_seconds'];
+    allExpenseAmount = json['all_expense_amount'];
+    allExpenseCount = json['all_expense_count'];
+    allChecklogAmount = json['all_checklog_amount'];
+    allChecklogCount = json['all_checklog_count'];
+    allPenaltySeconds = json['all_penalty_seconds'];
+    totalDayEarnings = json['total_day_earnings'];
+    penaltySeconds = json['penalty_seconds'];
+    if (json['geofences'] != null) {
+      geofences = <GeofenceInfo>[];
+      json['geofences'].forEach((v) {
+        geofences!.add(new GeofenceInfo.fromJson(v));
+      });
+    }
+    currency= json['currency'];
   }
 
   Map<String, dynamic> toJson() {
@@ -123,6 +163,19 @@ class WorkLogInfo {
     data['old_start_time'] = this.oldStartTime;
     data['old_end_time'] = this.oldEndTime;
     data['old_payable_work_seconds'] = this.oldPayableWorkSeconds;
+    data['all_worklogs_amount'] = this.allWorklogsAmount;
+    data['all_worklogs_seconds'] = this.allWorklogsSeconds;
+    data['all_expense_amount'] = this.allExpenseAmount;
+    data['all_expense_count'] = this.allExpenseCount;
+    data['all_checklog_amount'] = this.allChecklogAmount;
+    data['all_checklog_count'] = this.allChecklogCount;
+    data['all_penalty_seconds'] = this.allPenaltySeconds;
+    data['total_day_earnings'] = this.totalDayEarnings;
+    data['penalty_seconds'] = this.penaltySeconds;
+    if (this.geofences != null) {
+      data['geofences'] = this.geofences!.map((v) => v.toJson()).toList();
+    }
+    data['currency'] = this.currency;
     return data;
   }
 }

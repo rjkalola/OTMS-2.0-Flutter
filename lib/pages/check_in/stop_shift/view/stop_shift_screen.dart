@@ -1,13 +1,12 @@
 import 'package:belcka/pages/check_in/stop_shift/controller/stop_shift_controller.dart';
 import 'package:belcka/pages/check_in/stop_shift/view/widgets/add_note_widget.dart';
 import 'package:belcka/pages/check_in/stop_shift/view/widgets/break_log_list.dart';
-import 'package:belcka/pages/check_in/stop_shift/view/widgets/check_in_hours_row.dart';
 import 'package:belcka/pages/check_in/stop_shift/view/widgets/current_log_summery.dart';
-import 'package:belcka/pages/check_in/stop_shift/view/widgets/penalty_hours_row.dart';
 import 'package:belcka/pages/check_in/stop_shift/view/widgets/pending_request_time_box.dart';
 import 'package:belcka/pages/check_in/stop_shift/view/widgets/start_stop_box_row.dart';
 import 'package:belcka/pages/check_in/stop_shift/view/widgets/stop_shift_button.dart';
 import 'package:belcka/pages/check_in/stop_shift/view/widgets/submit_for_approval_button.dart';
+import 'package:belcka/pages/check_in/stop_shift/view/widgets/total_all_day_hours_row.dart';
 import 'package:belcka/pages/check_in/stop_shift/view/widgets/total_hours_row.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/routes/app_routes.dart';
@@ -71,7 +70,9 @@ class _StopShiftScreenState extends State<StopShiftScreen> {
                           onMapCreated: controller.onMapCreated,
                           target: controller.center,
                           markers: controller.markers,
-                          polylines: controller.polylines,
+                          circles: controller.circles,
+                          polygons: controller.polygons,
+                          polylines: controller.polyLines,
                         ),
                         MapBackArrow(onBackPressed: () {
                           controller.onBackPress();
@@ -138,6 +139,7 @@ class _StopShiftScreenState extends State<StopShiftScreen> {
                               breakLogList:
                                   controller.workLogInfo.value.breakLog ?? []),
                           TotalHoursRow(),
+                          TotalAllDayHoursRow(),
                           Visibility(
                               visible: controller.isEdited.value,
                               child: AddNoteWidget(
@@ -153,9 +155,9 @@ class _StopShiftScreenState extends State<StopShiftScreen> {
                   controller.isWorking.value
                       ? StopShiftButton()
                       : Visibility(
-                    visible: controller.isEdited.value,
-                    child: SubmitForApprovalButton(),
-                  )
+                          visible: controller.isEdited.value,
+                          child: SubmitForApprovalButton(),
+                        )
                 ]),
               ),
             ),

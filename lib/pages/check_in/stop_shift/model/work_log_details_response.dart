@@ -5,13 +5,16 @@ class WorkLogDetailsResponse {
   bool? isSuccess;
   String? message;
   WorkLogInfo? info;
+  String? currency;
 
-  WorkLogDetailsResponse({this.isSuccess, this.message, this.info});
+  WorkLogDetailsResponse(
+      {this.isSuccess, this.message, this.info, this.currency});
 
   WorkLogDetailsResponse.fromJson(Map<String, dynamic> json) {
     isSuccess = json['IsSuccess'];
     message = json['message'];
     info = json['info'] != null ? WorkLogInfo.fromJson(json['info']) : null;
+    currency = json['currency'];
   }
 
   Map<String, dynamic> toJson() {
@@ -21,6 +24,8 @@ class WorkLogDetailsResponse {
     if (this.info != null) {
       data['info'] = this.info!.toJson();
     }
+    data['message'] = this.message;
+    data['currency'] = this.currency;
     return data;
   }
 }

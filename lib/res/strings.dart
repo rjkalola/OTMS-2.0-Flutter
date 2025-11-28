@@ -487,6 +487,8 @@ class Strings extends Translations {
           'digital_id_slogan': "Time is Money. Control It.",
           'penalty': "Penalty",
           'current_log_summery': "Current log summery",
+          'expense': "Expense",
+          'total_payable': "Total Payable",
 // '': "",
 // '': "",
           // '': "",

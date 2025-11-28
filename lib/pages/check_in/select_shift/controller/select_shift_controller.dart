@@ -101,7 +101,7 @@ class SelectShiftController extends GetxController {
           }
           shiftList.value = tempList;
           shiftList.refresh();
-         /* if (projectId != 0) {
+          /* if (projectId != 0) {
             getProjectDetailsApi();
           }else{
             isMainViewVisible.value = true;

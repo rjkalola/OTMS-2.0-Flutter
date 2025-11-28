@@ -30,8 +30,8 @@ class GeofenceInfo {
     radius = (json['radius'] is int)
         ? (json['radius'] as int).toDouble()
         : (json['radius'] is double)
-        ? json['radius'] as double
-        : 0.0;
+            ? json['radius'] as double
+            : 0.0;
     type = json['type'];
     color = json['color'];
     if (json['coordinates'] != null) {

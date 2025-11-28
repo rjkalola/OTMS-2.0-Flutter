@@ -20,7 +20,7 @@ class TotalHoursRow extends StatelessWidget {
     return Obx(
       () => CardViewDashboardItem(
           borderRadius: 14,
-          margin: EdgeInsets.fromLTRB(14, 4, 14, 18),
+          margin: EdgeInsets.fromLTRB(14, 4, 14, 14),
           child: Padding(
             padding: EdgeInsets.fromLTRB(12, 7, 12, 7),
             child: Row(
