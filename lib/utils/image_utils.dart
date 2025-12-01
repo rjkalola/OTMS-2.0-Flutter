@@ -20,7 +20,7 @@ import 'package:open_filex/open_filex.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:video_compress/video_compress.dart';
 import '../pages/common/widgets/image_preview_dialog.dart';
 
 class ImageUtils {
@@ -65,8 +65,8 @@ class ImageUtils {
 
   // 🌍 Combined list for FilePicker
   static const List<String> allAllowedExtensions = [
-    ...imageExtensions,
-    ...videoExtensions,
+    // ...imageExtensions,
+    // ...videoExtensions,
     ...audioExtensions,
     ...documentExtensions,
     "pdf"
@@ -222,6 +222,20 @@ class ImageUtils {
       print('Compression failed: $e');
       return null;
     }
+  }
+
+  static Future<File?> compressVideo(File file) async {
+    final mb = file.lengthSync() / (1024 * 1024);
+    if (mb < 6) return file; // no compression
+    AppUtils.showToastMessage('video_compress_message'.tr);
+    return (await VideoCompress.compressVideo(
+      file.path,
+      quality: VideoQuality.LowQuality, // Low / Medium / High
+      deleteOrigin: false, // Keep original
+      includeAudio: true,
+      frameRate: 24,
+    ))
+        ?.file;
   }
 
   static Widget setUserImage(

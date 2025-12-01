@@ -36,7 +36,8 @@ class StopShiftController extends GetxController implements SelectTimeListener {
       isLocationLoaded = true.obs,
       isDataUpdated = false.obs,
       isWorking = false.obs,
-      isEdited = false.obs;
+      isEdited = false.obs,
+      isShowTotalPayable = true.obs;
 
   final RxString startTime = "".obs, stopTime = "".obs, currency = "£".obs;
   String initiallyStartTime = "", initiallyStopTime = "";
@@ -215,6 +216,7 @@ class StopShiftController extends GetxController implements SelectTimeListener {
             locationRequest();
             appLifeCycle();
           }
+          setTotalPayableFlag();
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
@@ -309,6 +311,14 @@ class StopShiftController extends GetxController implements SelectTimeListener {
     DateTime? startDate = DateUtil.stringToDate(startTime, DateUtil.HH_MM_24);
     DateTime? endDate = DateUtil.stringToDate(endTime, DateUtil.HH_MM_24);
     return DateUtil.dateDifferenceInSeconds(date1: startDate, date2: endDate);
+  }
+
+  void setTotalPayableFlag() {
+    isShowTotalPayable.value =
+        (workLogInfo.value.allWorklogsSeconds ?? 0) != 0 ||
+            (workLogInfo.value.allPenaltySeconds ?? 0) != 0 ||
+            (workLogInfo.value.allChecklogCount ?? 0) != 0 ||
+            (workLogInfo.value.allExpenseCount ?? 0) != 0;
   }
 
   void showTimePickerDialog(String dialogIdentifier, DateTime? time) {

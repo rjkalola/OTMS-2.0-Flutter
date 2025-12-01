@@ -216,8 +216,23 @@ class CreateAnnouncementController extends GetxController
     ModuleInfo? info;
 
     info = ModuleInfo();
-    info.name = 'camera'.tr;
+    info.name = 'capture_photo'.tr;
     info.action = AppConstants.attachmentType.camera;
+    listOptions.add(info);
+
+    info = ModuleInfo();
+    info.name = 'capture_video'.tr;
+    info.action = AppConstants.attachmentType.recordVideo;
+    listOptions.add(info);
+
+    info = ModuleInfo();
+    info.name = 'photos'.tr;
+    info.action = AppConstants.attachmentType.multiImage;
+    listOptions.add(info);
+
+    info = ModuleInfo();
+    info.name = 'videos'.tr;
+    info.action = AppConstants.attachmentType.video;
     listOptions.add(info);
 
     info = ModuleInfo();
@@ -231,8 +246,17 @@ class CreateAnnouncementController extends GetxController
 
   @override
   void onSelectAttachment(List<String> paths, String action) {
-    if (action == AppConstants.attachmentType.camera) {
+    if (action == AppConstants.attachmentType.camera ||
+        action == AppConstants.attachmentType.recordVideo) {
       addPhotoToList(paths[0]);
+    } else if (action == AppConstants.attachmentType.multiImage) {
+      for (var path in paths) {
+        addPhotoToList(path);
+      }
+    } else if (action == AppConstants.attachmentType.video) {
+      for (var path in paths) {
+        addPhotoToList(path);
+      }
     } else if (action == AppConstants.attachmentType.documents) {
       for (var path in paths) {
         addPhotoToList(path);

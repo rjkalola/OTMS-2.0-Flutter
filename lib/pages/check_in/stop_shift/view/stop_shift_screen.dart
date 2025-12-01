@@ -78,31 +78,31 @@ class _StopShiftScreenState extends State<StopShiftScreen> {
                           controller.onBackPress();
                         }),
                         BottomCurveContainer(),
-                        Visibility(
-                          visible: (controller
-                                      .workLogInfo.value.userCheckLogsCount ??
-                                  0) !=
-                              0,
-                          child: Align(
-                            alignment: Alignment.bottomRight,
-                            child: Padding(
-                              padding: EdgeInsets.fromLTRB(0, 0, 12, 24),
-                              child: PrimaryButton(
-                                  width: 100,
-                                  height: 38,
-                                  buttonText:
-                                      "${'check_in_'.tr} (${controller.workLogInfo.value.userCheckLogsCount ?? 0})",
-                                  onPressed: () {
-                                    var arguments = {
-                                      AppConstants.intentKey.workLogId:
-                                          controller.workLogId
-                                    };
-                                    Get.toNamed(AppRoutes.checkLogDetailsScreen,
-                                        arguments: arguments);
-                                  }),
-                            ),
-                          ),
-                        )
+                        // Visibility(
+                        //   visible: (controller
+                        //               .workLogInfo.value.userCheckLogsCount ??
+                        //           0) !=
+                        //       0,
+                        //   child: Align(
+                        //     alignment: Alignment.bottomRight,
+                        //     child: Padding(
+                        //       padding: EdgeInsets.fromLTRB(0, 0, 12, 24),
+                        //       child: PrimaryButton(
+                        //           width: 100,
+                        //           height: 38,
+                        //           buttonText:
+                        //               "${'check_in_'.tr} (${controller.workLogInfo.value.userCheckLogsCount ?? 0})",
+                        //           onPressed: () {
+                        //             var arguments = {
+                        //               AppConstants.intentKey.workLogId:
+                        //                   controller.workLogId
+                        //             };
+                        //             Get.toNamed(AppRoutes.checkLogDetailsScreen,
+                        //                 arguments: arguments);
+                        //           }),
+                        //     ),
+                        //   ),
+                        // )
                       ],
                     ),
                   ),

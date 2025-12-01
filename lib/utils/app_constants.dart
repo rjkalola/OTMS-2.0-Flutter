@@ -280,6 +280,8 @@ class AttachmentType {
   const AttachmentType(); //
   final String image = "image";
   final String camera = "camera";
+  final String video = "video";
+  final String recordVideo = "recordVideo";
   final String multiImage = "multi_image";
   final String croppedImage = "croppedImage";
   final String documents = "documents";
