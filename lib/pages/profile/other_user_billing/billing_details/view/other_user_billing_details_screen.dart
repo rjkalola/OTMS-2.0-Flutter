@@ -23,98 +23,108 @@ class _OtherUserBillingDetailsScreenState extends State<OtherUserBillingDetailsS
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Container(
-      color: dashBoardBgColor_(context),
-      child: SafeArea(
-        child: Scaffold(
-          appBar: BaseAppBar(
-            appBar: AppBar(),
-            title: "billing_info".tr,
-            isCenterTitle: false,
-            bgColor: dashBoardBgColor_(context),
-            isBack: true,
-          ),
-          backgroundColor: dashBoardBgColor_(context),
-          body: ModalProgressHUD(
-            inAsyncCall: controller.isLoading.value,
-            opacity: 0,
-            progressIndicator: const CustomProgressbar(),
-            child: controller.isInternetNotAvailable.value
-                ?  Center(
-              child: Text('no_internet_text'.tr),
-            )
-                : Visibility(
-                visible: controller.isMainViewVisible.value,
-                child: (controller
-                    .billingInfo.value.id ?? 0) != 0 ? Column(
-                      children: [
-                        Expanded(
-                          child: SingleChildScrollView(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              //profile UI
-                              Container(
-                                padding: EdgeInsets.fromLTRB(16, 14, 16, 0),
-                                width: double.infinity,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    // Avatar
-                                    UserAvtarView(
-                                      imageSize: 60,
-                                      imageUrl: controller
-                                          .billingInfo.value.userThumbImage ??
-                                          "",
-                                    ),
-                                    SizedBox(height: 10),
-                                    // Name
-                                    Text(
-                                      controller.billingInfo.value.name ?? "",
-                                      style: TextStyle(
-                                          fontSize: 24, fontWeight: FontWeight.w600),
-                                    ),
-                                    SizedBox(height: 10),
-                                    GestureDetector(
-                                      onTap: (){
-                                        AppUtils.onClickPhoneNumber("${controller.billingInfo.value.extension ?? ""}${controller.billingInfo.value.phone ?? ""}");
-                                      },
-                                        child: InfoCard(label: 'phone_number'.tr, value:"${controller.billingInfo.value.extension ?? ""} ${controller.billingInfo.value.phone ?? ""}", isLink: true)),
+    return PopScope(
+      canPop: false,
+        onPopInvokedWithResult: (didPop, result) async {
+          if (didPop || result != null) return;
+          controller.onBackPress();
+        },
+      child: Obx(() => Container(
+        color: dashBoardBgColor_(context),
+        child: SafeArea(
+          child: Scaffold(
+            appBar: BaseAppBar(
+              appBar: AppBar(),
+              title: "billing_info".tr,
+              isCenterTitle: false,
+              bgColor: dashBoardBgColor_(context),
+              isBack: true,
+              onBackPressed: (){
+                controller.onBackPress();
+              },
+            ),
+            backgroundColor: dashBoardBgColor_(context),
+            body: ModalProgressHUD(
+              inAsyncCall: controller.isLoading.value,
+              opacity: 0,
+              progressIndicator: const CustomProgressbar(),
+              child: controller.isInternetNotAvailable.value
+                  ?  Center(
+                child: Text('no_internet_text'.tr),
+              )
+                  : Visibility(
+                  visible: controller.isMainViewVisible.value,
+                  child: (controller
+                      .billingInfo.value.id ?? 0) != 0 ? Column(
+                        children: [
+                          Expanded(
+                            child: SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                //profile UI
+                                Container(
+                                  padding: EdgeInsets.fromLTRB(16, 14, 16, 0),
+                                  width: double.infinity,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      // Avatar
+                                      UserAvtarView(
+                                        imageSize: 60,
+                                        imageUrl: controller
+                                            .billingInfo.value.userThumbImage ??
+                                            "",
+                                      ),
+                                      SizedBox(height: 10),
+                                      // Name
+                                      Text(
+                                        controller.billingInfo.value.name ?? "",
+                                        style: TextStyle(
+                                            fontSize: 24, fontWeight: FontWeight.w600),
+                                      ),
+                                      SizedBox(height: 10),
+                                      GestureDetector(
+                                        onTap: (){
+                                          AppUtils.onClickPhoneNumber("${controller.billingInfo.value.extension ?? ""}${controller.billingInfo.value.phone ?? ""}");
+                                        },
+                                          child: InfoCard(label: 'phone_number'.tr, value:"${controller.billingInfo.value.extension ?? ""} ${controller.billingInfo.value.phone ?? ""}", isLink: true)),
 
-                                    GestureDetector(
-                                      onTap: (){
-                                        if ((controller.billingInfo.value.email ?? "").isNotEmpty){
-                                          AppUtils.copyEmail(controller.billingInfo.value.email ?? "");
-                                        }
-                                      },
-                                        child: InfoCard(label: 'email'.tr, value: controller.billingInfo.value.email ?? "", isLink: true)),
-                                    NavigationCard(value: controller.address,isShowArrow: false,),
-                                    NavigationCard(label: 'tax_info'.tr, value: controller.taxInfo,isShowArrow: false,),
-                                    NavigationCard(label: 'bank_details'.tr, value: controller.bankDetails,isShowArrow: false,),
-                                    NavigationCard(
-                                      label: "rates".tr,
-                                      value: controller.billingInfo.value.net_rate_perDay != ""
-                                          ? "${controller.billingInfo.value.tradeName ?? ""} - ${controller.billingInfo.value.currency ?? ""}${controller.billingInfo.value.net_rate_perDay}"
-                                          : "${controller.billingInfo.value.tradeName ?? ""}",
-                                      isShowArrow: false,
-                                    ),
-                                    Divider(color: dividerColor_(context), height: 12),
-                                    SizedBox(height: 12),
-                                    NavigationCard(value: "payslips".tr,isShowArrow: false,),
-                                    NavigationCard(value: "payment".tr,isShowArrow: false,),
-                                    NavigationCard(value: "invoice".tr,isShowArrow: false,),
-                                  ],
+                                      GestureDetector(
+                                        onTap: (){
+                                          if ((controller.billingInfo.value.email ?? "").isNotEmpty){
+                                            AppUtils.copyEmail(controller.billingInfo.value.email ?? "");
+                                          }
+                                        },
+                                          child: InfoCard(label: 'email'.tr, value: controller.billingInfo.value.email ?? "", isLink: true)),
+                                      NavigationCard(value: controller.address,isShowArrow: false,),
+                                      NavigationCard(label: 'tax_info'.tr, value: controller.taxInfo,isShowArrow: false,),
+                                      NavigationCard(label: 'bank_details'.tr, value: controller.bankDetails,isShowArrow: false,),
+                                      NavigationCard(
+                                        label: "rates".tr,
+                                        value: controller.billingInfo.value.net_rate_perDay != ""
+                                            ? "${controller.billingInfo.value.tradeName ?? ""} - ${controller.billingInfo.value.currency ?? ""}${controller.billingInfo.value.net_rate_perDay}"
+                                            : "${controller.billingInfo.value.tradeName ?? ""}",
+                                        isShowArrow: false,
+                                      ),
+                                      Divider(color: dividerColor_(context), height: 12),
+                                      SizedBox(height: 12),
+                                      NavigationCard(value: "payslips".tr,isShowArrow: false,),
+                                      NavigationCard(value: "payment".tr,isShowArrow: false,),
+                                      NavigationCard(value: "invoice".tr,isShowArrow: false,),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
-                          )),
-                        ),
-                      ],
-                    ) : NoBillingDataView()),
+                              ],
+                            )),
+                          ),
+                        ],
+                      ) : NoBillingDataView()),
+            ),
           ),
         ),
-      ),
-    ),);
+      ),),
+    );
   }
 
   List<Widget>? actionButtons() {

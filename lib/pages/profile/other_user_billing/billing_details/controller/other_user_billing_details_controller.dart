@@ -51,6 +51,7 @@ class OtherUserBillingDetailsController extends GetxController {
   String address = "";
   String bankDetails = "";
   int user_id = 0;
+  bool fromNotification = false;
 
   @override
   void onInit() {
@@ -58,6 +59,8 @@ class OtherUserBillingDetailsController extends GetxController {
     var arguments = Get.arguments;
     if (arguments != null) {
       user_id = arguments["user_id"] ?? 0;
+      fromNotification =
+          arguments[AppConstants.intentKey.fromNotification] ?? false;
     }
     getBillingInfo();
   }
@@ -139,6 +142,13 @@ class OtherUserBillingDetailsController extends GetxController {
     var result = await Get.toNamed(rout, arguments: arguments);
     if (result != null && result) {
       getBillingInfo();
+    }
+  }
+  void onBackPress() {
+    if (fromNotification) {
+      Get.offAllNamed(AppRoutes.dashboardScreen);
+    } else {
+      Get.back();
     }
   }
 }

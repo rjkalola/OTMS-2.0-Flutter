@@ -273,7 +273,7 @@ class NotificationService {
         else{
           String rout = AppRoutes.otherUserBillingDetailsScreen;
           var arguments = {
-            "user_id": userIdInt,
+            "user_id": requestedByUserIdInt,
             AppConstants.intentKey.fromNotification: true
           };
           Get.offAllNamed(rout, arguments: arguments);
