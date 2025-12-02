@@ -28,12 +28,15 @@ class TaxInfoView extends StatelessWidget {
                 TitleText(
                   title: 'tax_info'.tr,
                 ),
+                SizedBox(height: 14,),
                 NameOnUtrTextFieldBilling(
                   controller: controller.nameOnUTRController,
                 ),
+                SizedBox(height: 14,),
                 UtrTextFieldBilling(
                   controller: controller.utrController,
                 ),
+                SizedBox(height: 14,),
                 NINTextFieldBilling(
                   controller: controller.ninController,
                 ),

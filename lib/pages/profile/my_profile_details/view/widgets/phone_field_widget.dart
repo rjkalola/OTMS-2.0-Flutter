@@ -1,16 +1,13 @@
 import 'package:belcka/pages/profile/my_profile_details/controller/my_profile_details_controller.dart';
+import 'package:belcka/widgets/textfield/text_field_underline.dart';
 import 'package:belcka/widgets/validator/custom_field_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
-import 'package:belcka/pages/profile/billing_info/controller/billing_info_controller.dart';
-import 'package:belcka/pages/profile/personal_info/controller/personal_info_controller.dart';
-import 'package:belcka/widgets/textfield/text_field_underline_.dart';
 
 class PhoneFieldWidget extends StatelessWidget {
   PhoneFieldWidget({super.key});
-
   final controller = Get.put(MyProfileDetailsController());
 
   @override
@@ -24,9 +21,6 @@ class PhoneFieldWidget extends StatelessWidget {
         textInputAction: TextInputAction.next,
         isReadOnly: !controller.isComingFromMyProfile,
         isEnabled: controller.isComingFromMyProfile,
-        onValueChange: (value) {
-          //controller.onValueChange();
-        },
         onPressed: () {},
         validator: MultiValidator([
           RequiredValidator(errorText: 'required_field'.tr),

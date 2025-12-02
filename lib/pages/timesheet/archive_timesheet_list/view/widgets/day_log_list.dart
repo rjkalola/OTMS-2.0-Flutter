@@ -15,7 +15,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class DayLogList extends StatelessWidget {
-  DayLogList({super.key, required this.parentPosition, required this.weekPosition});
+  DayLogList(
+      {super.key, required this.parentPosition, required this.weekPosition});
 
   final controller = Get.put(ArchiveTimesheetListController());
   final int parentPosition, weekPosition;

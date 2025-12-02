@@ -89,108 +89,37 @@ class _MyProfileDetailsScreenState extends State<MyProfileDetailsScreen> {
                                                 TitleText(
                                                   title: 'general'.tr,
                                                 ),
+                                                SizedBox(height: 14,),
                                                 Row(children: [
-                                                  Flexible(flex: 1, child: FirstNameFieldWidget()),
+                                                  Flexible(flex: 1, child: FirstNameFieldWidget(
+
+                                                  )),
                                                   SizedBox(
                                                     width: 14,
                                                   ),
-                                                  Flexible(flex: 1, child: LastNameFieldWidget())
+                                                  Flexible(flex: 1, child: LastNameFieldWidget(
+
+                                                  ))
                                                 ]),
                                                 SizedBox(height: 16,),
-                                                Visibility(
-                                                  visible: true,
-                                                    child: GestureDetector(
-                                                      onTap: (){
-                                                        AppUtils.onClickPhoneNumber(controller.phoneController.value.text ?? "");
-                                                      },
-                                                        child: PhoneFieldWidget())),
+                                                GestureDetector(
+                                                  onTap: (){
+                                                    AppUtils.onClickPhoneNumber(controller.phoneController.value.text ?? "");
+                                                  },
+                                                  child: PhoneFieldWidget(
 
+                                                  ),
+                                                ),
+                                                SizedBox(height: 16,),
                                                 GestureDetector(
                                                   onTap: (){
                                                     if ((controller.emailController.value.text ?? "").isNotEmpty){
                                                       AppUtils.copyEmail(controller.emailController.value.text ?? "");
                                                     }
                                                   },
-                                                    child: EmailFieldWidget()),
+                                                    child: EmailFieldWidget(
 
-                                                Visibility(
-                                                  visible: controller.isComingFromMyProfile,
-                                                    child: SizedBox(height: 24,)),
-
-                                                Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    Visibility(
-                                                      visible: controller.isOtpViewVisible.value,
-                                                      child: Padding(
-                                                        padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                                                        child: OtpView(
-                                                          mOtpCode: controller.mOtpCode,
-                                                          otpController: controller.otpController,
-                                                          timeRemaining:
-                                                          controller.otmResendTimeRemaining,
-                                                          onCodeChanged: (code) {
-                                                            controller.mOtpCode.value = code ?? "";
-                                                            print("onCodeChanged $code");
-                                                            if (controller.mOtpCode.value.length ==
-                                                                6) {
-                                                              //controller.onSubmitClick();
-                                                            }
-                                                          },
-                                                          onResendOtp: () {
-                                                            //controller.sendOtpApi();
-                                                          },
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Visibility(
-                                                      visible:false,
-                                                      child: Padding(
-                                                        padding: const EdgeInsets.all(16.0),
-                                                        child: SizedBox(
-                                                            width: double.infinity,
-                                                            child: PrimaryButton(
-                                                                buttonText: 'delete_account'.tr,
-                                                                onPressed: () {
-                                                                  if (controller.mOtpCode.value.length ==
-                                                                      6) {
-                                                                    //controller.onSubmitClick();
-                                                                  }
-                                                                }
-                                                            )
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    SizedBox(height: 24,),
-                                                  ],
-                                                ),
-                                                Visibility(
-                                                  visible: controller.isComingFromMyProfile,
-                                                  child: ElevatedButton(
-                                                    onPressed: () {
-                                                      if (controller.valid()) {
-                                                        //controller.isOtpViewVisible.value = true;
-                                                        controller.updateProfileAPI();
-
-                                                      }
-                                                      //controller.onSubmit();
-                                                      //check if mobile number edited,then show otp screen, else directly call api
-                                                      //controller.isOtpViewVisible.value = true;
-                                                    },
-                                                    style: ElevatedButton.styleFrom(
-                                                      backgroundColor: defaultAccentColor_(context),
-                                                      minimumSize: Size(double.infinity, 50),
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(30),
-                                                      ),
-                                                    ),
-                                                    child: Text('${controller.isOtpViewVisible.value ? 'submit'.tr:'save'.tr}',
-                                                        style: TextStyle(
-                                                            color:Colors.white,
-                                                            fontSize: 20,
-                                                            fontWeight: FontWeight.bold)),
-                                                  ),
-                                                )
+                                                    )),
                                               ],
                                             ),
                                           )),

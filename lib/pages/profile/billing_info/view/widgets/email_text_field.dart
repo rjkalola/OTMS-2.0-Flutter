@@ -1,33 +1,41 @@
+import 'package:belcka/widgets/textfield/text_field_underline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
-import 'package:belcka/widgets/textfield/text_field_underline_.dart';
-import '../../controller/billing_info_controller.dart';
 
 class EmailTextField extends StatelessWidget {
-  EmailTextField({super.key});
+  final Rx<TextEditingController> controller;
+  final bool isEnabled;
+  final bool isReadOnly;
+  final Function(String)? onChanged;
 
-  final controller = Get.put(BillingInfoController());
+  EmailTextField({
+    Key? key,
+    required this.controller,
+    this.isEnabled = true,
+    this.isReadOnly = false,
+    this.onChanged,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFieldUnderline(
         autovalidateMode: AutovalidateMode.onUserInteraction,
-        textEditingController: controller.emailController.value,
+        textEditingController: controller.value,
         hintText: 'email'.tr,
         labelText: 'email'.tr,
         keyboardType: TextInputType.emailAddress,
         textInputAction: TextInputAction.done,
-        onValueChange: (value) {
-          //controller.onValueChange();
-        },
+        isReadOnly: isReadOnly,
+        isEnabled: isEnabled,
         onPressed: () {},
         validator: MultiValidator([
 
         ]),
         inputFormatters: <TextInputFormatter>[
           // for below version 2 use this
+
         ]);
   }
 }

@@ -1,20 +1,15 @@
+import 'package:belcka/pages/profile/rates/view/widgets/rate_request_pending_for_approval.dart';
 import 'package:belcka/pages/profile/rates_request/view/widgets/add_note_field_widget.dart';
-import 'package:belcka/pages/profile/rates_request/view/widgets/rate_request_pending_for_approval.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/widgets/buttons/approve_reject_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:belcka/pages/profile/rates/controller/rates_controller.dart';
-import 'package:belcka/pages/profile/rates/view/widgets/netPer_text_field.dart';
-import 'package:belcka/pages/profile/rates/view/widgets/trade_select_view.dart';
 import 'package:belcka/pages/profile/rates_request/controller/rates_request_controller.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
-import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
-import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 
 class RatesRequestScreen extends StatefulWidget {
@@ -89,7 +84,8 @@ class _RatesRequestScreenState extends State<RatesRequestScreen> {
                               "${controller.tradeName}",
                               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                             ),
-                            Divider(height: 24),
+                            Divider(height: 8),
+                            SizedBox(height: 16),
                             // Join company date
                             Text(
                               "join_company_date".tr,
@@ -100,11 +96,19 @@ class _RatesRequestScreenState extends State<RatesRequestScreen> {
                               "${controller.joiningDate}",
                               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                             ),
-                            Divider(height: 24),
-                            NetPerDayTextField(
-                              controller: controller.netPerDayController,
-                              isEnabled: false,
+                            Divider(height: 8),
+                            SizedBox(height: 16),
+                            // Net rate per day
+                            Text(
+                                "(£)${'net_per_day'.tr}",
+                              style: TextStyle(fontSize: 14),
                             ),
+                            SizedBox(height: 4),
+                            Text(
+                              controller.netPerDayController.value.text ?? "",
+                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                            ),
+                            Divider(height: 8),
                             SizedBox(height: 16),
                             // Gross per day and CIS row
                             Row(

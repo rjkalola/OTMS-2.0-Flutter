@@ -1,46 +1,32 @@
+import 'package:belcka/pages/profile/rates/controller/rates_controller.dart';
+import 'package:belcka/widgets/textfield/text_field_underline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
-import 'package:belcka/pages/profile/billing_info/controller/billing_info_controller.dart';
-import 'package:belcka/pages/profile/personal_info/controller/personal_info_controller.dart';
-import 'package:belcka/widgets/textfield/text_field_underline_.dart';
 
 class NetPerDayTextField extends StatelessWidget {
-  NetPerDayTextField(
-      {super.key,
-        required this.controller,
-        this.onValueChange,
-        this.isReadOnly,
-        this.isEnabled});
-
-  final Rx<TextEditingController> controller;
-  final ValueChanged<String>? onValueChange;
-  final bool? isReadOnly;
-  final bool? isEnabled;
+  NetPerDayTextField({super.key});
+  final controller = Get.put(RatesController());
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-          () => TextFieldUnderline(
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          textEditingController: controller.value,
-          hintText: "",
-          labelText: "(£)${'net_per_day'.tr}",
-          keyboardType: TextInputType.numberWithOptions(decimal: true),
-          textInputAction: TextInputAction.done,
-          isReadOnly: isReadOnly,
-          onValueChange: onValueChange,
-          isEnabled: isEnabled,
-          onPressed: () {},
-          validator: MultiValidator([
+    return TextFieldUnderline(
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        textEditingController: controller.netPerDayController.value,
+        hintText: "",
+        labelText: "(£)${'net_per_day'.tr}",
+        keyboardType: TextInputType.numberWithOptions(decimal: true),
+        textInputAction: TextInputAction.done,
+        isEnabled: !(controller.isRateRequested),
+        onPressed: () {},
+        validator: MultiValidator([
 
-          ]),
-          inputFormatters: <TextInputFormatter>[
-            // for below version 2 use this
-            DecimalTextInputFormatter(decimalRange: 2),
-          ]),
-    );
+        ]),
+        inputFormatters: <TextInputFormatter>[
+          // for below version 2 use this
+          DecimalTextInputFormatter(decimalRange: 2),
+        ]);
   }
 }
 

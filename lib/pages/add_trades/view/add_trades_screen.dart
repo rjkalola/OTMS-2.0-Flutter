@@ -1,15 +1,13 @@
 import 'package:belcka/pages/add_trades/controller/add_trades_controller.dart';
 import 'package:belcka/pages/add_trades/view/widgets/category_select_view.dart';
 import 'package:belcka/pages/add_trades/view/widgets/trade_name_text_field.dart';
-import 'package:belcka/pages/profile/rates_request/view/widgets/rate_request_pending_for_approval.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/widgets/CustomProgressbar.dart';
+import 'package:belcka/widgets/appbar/base_appbar.dart';
+import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:belcka/res/colors.dart';
-import 'package:belcka/widgets/CustomProgressbar.dart';
-import 'package:belcka/widgets/PrimaryButton.dart';
-import 'package:belcka/widgets/appbar/base_appbar.dart';
-import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 
 class AddTradesScreen extends StatefulWidget {
   const AddTradesScreen({super.key});

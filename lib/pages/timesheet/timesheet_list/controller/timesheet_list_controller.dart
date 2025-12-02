@@ -28,7 +28,7 @@ class TimeSheetListController extends GetxController
       isEditStatusEnable = false.obs,
       isCheckAll = false.obs,
       isViewAmount = false.obs,
-      isExpanded = true.obs;
+      isExpanded = false.obs;
   final RxString title = "".obs;
   final RxInt selectedDateFilterIndex = (1).obs;
   final _api = TimesheetListRepository();
@@ -131,7 +131,7 @@ class TimeSheetListController extends GetxController
           isEditEnable.value = false;
           isEditStatusEnable.value = false;
           isViewAmount.value = false;
-          isExpanded.value = true;
+          isExpanded.value = false;
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
@@ -484,7 +484,7 @@ class TimeSheetListController extends GetxController
 
   void setExpandCollapse() {
     for (var info in timeSheetList) {
-      info.isExpanded = !isExpanded.value;
+      info.isExpanded = isExpanded.value;
     }
     timeSheetList.refresh();
   }

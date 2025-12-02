@@ -29,8 +29,8 @@ class TradeView extends StatelessWidget {
           controller.tradeController.value.text ?? "",
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
         ),
-        Divider(height: 24),
-        SizedBox(height: 16),
+        Divider(height: 12),
+        SizedBox(height: 14),
       ],
     );
   }

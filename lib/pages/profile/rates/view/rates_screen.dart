@@ -1,6 +1,5 @@
+import 'package:belcka/pages/profile/rates/view/widgets/rate_request_pending_for_approval.dart';
 import 'package:belcka/pages/profile/rates/view/widgets/trade_view.dart';
-import 'package:belcka/pages/profile/rates_request/view/widgets/rate_request_pending_for_approval.dart';
-import 'package:belcka/res/theme/app_colors.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/user_utils.dart';
@@ -12,9 +11,7 @@ import 'package:belcka/pages/profile/rates/view/widgets/netPer_text_field.dart';
 import 'package:belcka/pages/profile/rates/view/widgets/trade_select_view.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
-import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
-import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 
 class RatesScreen extends StatefulWidget {
@@ -67,15 +64,12 @@ class _RatesScreenState extends State<RatesScreen> {
                             ),
                             // Trade field
                             SizedBox(height: 16),
-
                             Visibility(
                                 visible: UserUtils.isAdmin(),
                                 child: TradeSelectView()),
-
                             Visibility(
                                 visible: !UserUtils.isAdmin(),
                                 child: TradeView()),
-
                             // Join company date
                             Text(
                               "join_company_date".tr,
@@ -87,10 +81,10 @@ class _RatesScreenState extends State<RatesScreen> {
                               style: TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.w500),
                             ),
-                            Divider(height: 24),
+                            Divider(height: 10),
+                            SizedBox(height: 16),
                             NetPerDayTextField(
-                              controller: controller.netPerDayController,
-                              isEnabled: !(controller.isRateRequested),
+
                             ),
                             SizedBox(height: 16),
                             // Gross per day and CIS row

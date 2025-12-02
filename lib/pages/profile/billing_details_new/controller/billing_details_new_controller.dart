@@ -29,7 +29,6 @@ class BillingDetailsNewController extends GetxController {
   final postcodeController = TextEditingController().obs;
   final myAddressController = TextEditingController().obs;
   final phoneController = TextEditingController().obs;
-
   final nameOnUTRController = TextEditingController().obs;
   final utrController = TextEditingController().obs;
   final ninController = TextEditingController().obs;

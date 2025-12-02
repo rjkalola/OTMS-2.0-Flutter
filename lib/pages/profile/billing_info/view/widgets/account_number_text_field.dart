@@ -1,21 +1,22 @@
+import 'package:belcka/widgets/textfield/text_field_underline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
-import 'package:belcka/widgets/textfield/text_field_underline_.dart';
 
 class AccountNumberTextFieldBilling extends StatelessWidget {
-  AccountNumberTextFieldBilling(
-      {super.key,
-        required this.controller,
-        this.onValueChange,
-        this.isReadOnly,
-      this.isEnabled});
-
   final Rx<TextEditingController> controller;
-  final ValueChanged<String>? onValueChange;
-  final bool? isReadOnly;
-  final bool? isEnabled;
+  final bool isEnabled;
+  final bool isReadOnly;
+  final Function(String)? onChanged;
+
+  AccountNumberTextFieldBilling({
+    Key? key,
+    required this.controller,
+    this.isEnabled = true,
+    this.isReadOnly = false,
+    this.onChanged,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,15 +27,15 @@ class AccountNumberTextFieldBilling extends StatelessWidget {
         labelText: 'account_number'.tr,
         keyboardType: TextInputType.name,
         textInputAction: TextInputAction.done,
-        isReadOnly: isReadOnly,
-        isEnabled: isEnabled,
-        onValueChange: onValueChange,
+        isReadOnly: false,
+        isEnabled: true,
         onPressed: () {},
         validator: MultiValidator([
 
         ]),
         inputFormatters: <TextInputFormatter>[
           // for below version 2 use this
+
         ]);
   }
 }

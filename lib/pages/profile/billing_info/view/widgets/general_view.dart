@@ -5,13 +5,11 @@ import 'package:belcka/pages/profile/billing_info/view/widgets/address_text_fiel
 import 'package:belcka/pages/profile/billing_info/view/widgets/email_text_field.dart';
 import 'package:belcka/pages/profile/billing_info/view/widgets/first_name_text_field.dart';
 import 'package:belcka/pages/profile/billing_info/view/widgets/last_name_text_field.dart';
-import 'package:belcka/pages/profile/billing_info/view/widgets/middle_name_text_field.dart';
 import 'package:belcka/pages/profile/billing_info/view/widgets/phone_extension_text_field.dart';
 import 'package:belcka/pages/profile/billing_info/view/widgets/phone_text_field.dart';
 import 'package:belcka/pages/profile/billing_info/view/widgets/postcode_text_field.dart';
 import 'package:belcka/pages/profile/billing_info/view/widgets/title_text.dart';
 import 'package:belcka/res/colors.dart';
-import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 
 
@@ -32,23 +30,29 @@ class GeneralView extends StatelessWidget {
               TitleText(
                 title: 'general'.tr,
               ),
+              SizedBox(height: 14,),
               Row(children: [
-                Flexible(flex: 1, child: FirstNameTextField()),
+                //First name
+                Flexible(flex: 1, child: FirstNameTextField(
+                  controller: controller.firstNameController
+                )),
                 SizedBox(
                   width: 14,
                 ),
-                Flexible(flex: 1, child: LastNameTextField())
+                //Last name
+                Flexible(flex: 1, child: LastNameTextField(
+                  controller: controller.lastNameController,
+                ))
               ]),
               SizedBox(
-                height: 10,
+                height: 14,
               ),
-              /*
-              Visibility(
-                visible: (controller.arguments == null) ,
-                  child: MiddleNameTextField()
+              //Email
+              EmailTextField(
+                controller: controller.emailController,
               ),
-              */
-              EmailTextField(),
+              SizedBox(height: 14,),
+              //Post code
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -69,7 +73,9 @@ class GeneralView extends StatelessWidget {
                         children: [
                           Expanded(
                             child:
-                            PostcodeTextField(),
+                            PostcodeTextField(
+                              controller: controller.postcodeController,
+                            ),
                           ),
                           Visibility(
                             visible: true,
@@ -98,8 +104,12 @@ class GeneralView extends StatelessWidget {
                   ),
                 ],
               ),
-              AddressTextField(),
-              const SizedBox(height: 16),
+              SizedBox(height: 14,),
+              //Address
+              AddressTextField(
+                controller: controller.myAddressController,
+              ),
+              SizedBox(height: 16),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,

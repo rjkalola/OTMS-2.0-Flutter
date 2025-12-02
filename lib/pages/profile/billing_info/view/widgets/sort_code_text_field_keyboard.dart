@@ -22,8 +22,6 @@ class SortCodeTextFieldKeyboard extends StatelessWidget {
     required this.focusNode
   }) : super(key: key);
 
-
-  @override
   @override
   Widget build(BuildContext context) {
     return TextFieldUnderline(

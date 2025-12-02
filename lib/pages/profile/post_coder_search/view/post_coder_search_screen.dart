@@ -1,3 +1,4 @@
+import 'package:belcka/pages/profile/post_coder_search/view/search_text_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -49,19 +50,7 @@ class _PostCoderSearchScreenState extends State<PostCoderSearchScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TextFieldUnderline(
-                      autovalidateMode:
-                      AutovalidateMode.onUserInteraction,
-                      textEditingController:controller.postCodeFieldController.value,
-                      hintText: "postcode_address".tr,
-                      labelText: "postcode_address".tr,
-                      keyboardType: TextInputType.name,
-                      textInputAction: TextInputAction.search,
-                      onValueChange: (value) {},
-                      onPressed: () {},
-                      validator: MultiValidator([]),
-                      inputFormatters: <TextInputFormatter>[],
-                    ),
+                    SearchTextFieldWidget(controller: controller.postCodeFieldController),
                     const SizedBox(height: 24),
                     ElevatedButton(
                       onPressed: _search,

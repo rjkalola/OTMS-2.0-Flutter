@@ -316,10 +316,10 @@ class CheckInController extends GetxController
               CheckOutsideBoundaryResponse.fromJson(
                   jsonDecode(responseModel.result!));
           if (response.outSideBoundary ?? false) {
-            AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+            AppUtils.showApiResponseMessage(response.message ?? "");
           } else {
             addressController.value.text = address;
-            addressId = addressId;
+            this.addressId = addressId;
             if (tradeId != 0) {
               typeOfWorkController.value.text = "";
               typeOfWorkId = 0;

@@ -32,16 +32,19 @@ class BankDetailsView extends StatelessWidget {
             TitleText(
               title: 'bank_details'.tr,
             ),
+            SizedBox(height: 14,),
             NameOnAccountTextFieldBilling(
               controller: controller.nameOnAccountController,
             ),
+            SizedBox(height: 14,),
             BankNameTextFieldBilling(
               controller: controller.bankNameController,
             ),
+            SizedBox(height: 14,),
             AccountNumberTextFieldBilling(
               controller: controller.accountNumberController,
             ),
-            SizedBox(height: 16,),
+            SizedBox(height: 14,),
             SortCodeTextFieldKeyboard(
                 controller: controller.sortCodeController,
                 focusNode: controller.focusNode,

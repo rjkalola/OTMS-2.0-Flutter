@@ -25,9 +25,8 @@ class WeekLogList extends StatelessWidget {
           int requestStatus = getStatus(info);
           return Obx(
             () => Visibility(
-                visible:
-                    !(controller.timeSheetList[parentPosition].isExpanded ??
-                        false),
+                visible: (controller.timeSheetList[parentPosition].isExpanded ??
+                    false),
                 child: Column(
                   children: [
                     SizedBox(
@@ -78,7 +77,7 @@ class WeekLogList extends StatelessWidget {
     }
 
     bool allStatusSame = allStatus.toSet().length == 1;
-    if(allStatus.isNotEmpty){
+    if (allStatus.isNotEmpty) {
       int checkedStatus = allStatus[0];
       if (allStatus.isNotEmpty &&
           allStatusSame &&

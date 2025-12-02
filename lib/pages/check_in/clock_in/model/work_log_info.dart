@@ -35,45 +35,46 @@ class WorkLogInfo {
   String? allChecklogAmount;
   int? allChecklogCount;
   int? allPenaltySeconds;
+  String? totalPenaltyAmount;
   String? totalDayEarnings;
   String? currency;
   List<GeofenceInfo>? geofences;
 
-  WorkLogInfo({
-    this.id,
-    this.shiftId,
-    this.shiftName,
-    this.projectId,
-    this.projectName,
-    this.isPricework,
-    this.workStartTime,
-    this.workEndTime,
-    this.totalWorkSeconds,
-    this.totalBreaklogSeconds,
-    this.payableWorkSeconds,
-    // this.isRequestPending,
-    this.breakLog,
-    this.startWorkLocation,
-    this.stopWorkLocation,
-    this.userChecklogs,
-    this.userCheckLogsCount,
-    this.isExpanded,
-    this.requestStatus,
-    this.oldStartTime,
-    this.oldEndTime,
-    this.oldPayableWorkSeconds,
-    this.allWorklogsAmount,
-    this.allWorklogsSeconds,
-    this.allExpenseAmount,
-    this.allExpenseCount,
-    this.allChecklogAmount,
-    this.allChecklogCount,
-    this.allPenaltySeconds,
-    this.totalDayEarnings,
-    this.penaltySeconds,
-    this.geofences,
-    this.currency
-  });
+  WorkLogInfo(
+      {this.id,
+      this.shiftId,
+      this.shiftName,
+      this.projectId,
+      this.projectName,
+      this.isPricework,
+      this.workStartTime,
+      this.workEndTime,
+      this.totalWorkSeconds,
+      this.totalBreaklogSeconds,
+      this.payableWorkSeconds,
+      // this.isRequestPending,
+      this.breakLog,
+      this.startWorkLocation,
+      this.stopWorkLocation,
+      this.userChecklogs,
+      this.userCheckLogsCount,
+      this.isExpanded,
+      this.requestStatus,
+      this.oldStartTime,
+      this.oldEndTime,
+      this.oldPayableWorkSeconds,
+      this.allWorklogsAmount,
+      this.allWorklogsSeconds,
+      this.allExpenseAmount,
+      this.allExpenseCount,
+      this.allChecklogAmount,
+      this.allChecklogCount,
+      this.allPenaltySeconds,
+      this.totalPenaltyAmount,
+      this.totalDayEarnings,
+      this.penaltySeconds,
+      this.geofences,
+      this.currency});
 
   WorkLogInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -119,6 +120,7 @@ class WorkLogInfo {
     allChecklogAmount = json['all_checklog_amount'];
     allChecklogCount = json['all_checklog_count'];
     allPenaltySeconds = json['all_penalty_seconds'];
+    totalPenaltyAmount = json['total_penalty_amount'];
     totalDayEarnings = json['total_day_earnings'];
     penaltySeconds = json['penalty_seconds'];
     if (json['geofences'] != null) {
@@ -127,7 +129,7 @@ class WorkLogInfo {
         geofences!.add(new GeofenceInfo.fromJson(v));
       });
     }
-    currency= json['currency'];
+    currency = json['currency'];
   }
 
   Map<String, dynamic> toJson() {
@@ -170,6 +172,7 @@ class WorkLogInfo {
     data['all_checklog_amount'] = this.allChecklogAmount;
     data['all_checklog_count'] = this.allChecklogCount;
     data['all_penalty_seconds'] = this.allPenaltySeconds;
+    data['total_penalty_amount'] = this.totalPenaltyAmount;
     data['total_day_earnings'] = this.totalDayEarnings;
     data['penalty_seconds'] = this.penaltySeconds;
     if (this.geofences != null) {

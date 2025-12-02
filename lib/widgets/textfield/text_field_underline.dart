@@ -28,7 +28,8 @@ class TextFieldUnderline extends StatelessWidget {
       this.autovalidateMode,
       this.focusNode,
       this.onFieldSubmitted,
-      this.errorMaxLines});
+      this.errorMaxLines,
+        this.isEnabled});
 
   final TextEditingController? textEditingController;
   final String? hintText, labelText;
@@ -49,6 +50,7 @@ class TextFieldUnderline extends StatelessWidget {
   final FocusNode? focusNode;
   final ValueChanged<String>? onFieldSubmitted;
   final int? errorMaxLines;
+  final bool? isEnabled;
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +72,7 @@ class TextFieldUnderline extends StatelessWidget {
       textAlignVertical: textAlignVertical,
       textAlign: textAlign ?? TextAlign.start,
       readOnly: isReadOnly ?? false,
+      enabled: isEnabled ?? false,
       inputFormatters: inputFormatters,
       autovalidateMode: autovalidateMode,
       decoration: InputDecoration(

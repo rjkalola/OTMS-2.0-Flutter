@@ -22,9 +22,8 @@ class WeekLogList extends StatelessWidget {
               controller.timeSheetList[parentPosition].weekLogs![position];
           return Obx(
             () => Visibility(
-                visible:
-                    !(controller.timeSheetList[parentPosition].isExpanded ??
-                        false),
+                visible: (controller.timeSheetList[parentPosition].isExpanded ??
+                    false),
                 child: Column(
                   children: [
                     SizedBox(
