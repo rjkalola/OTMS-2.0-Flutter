@@ -1,7 +1,10 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:belcka/pages/manageattachment/controller/compress_video_dialog_controller.dart';
 import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/widgets/CustomProgressbar.dart';
+import 'package:belcka/widgets/text/PrimaryTextView.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,6 +24,7 @@ class ManageAttachmentController extends GetxController
   final imageQuality = 0;
   final double maxWidth = 0, maxHeight = 0;
   SelectAttachmentListener? attachmentListener;
+  final RxBool isCompressingVideo = false.obs;
 
   @override
   void onInit() {
@@ -93,7 +97,9 @@ class ManageAttachmentController extends GetxController
 
         if (pickedFile != null) {
           File original = File(pickedFile.path);
+          showCompressVideoDialog();
           File? compressed = await ImageUtils.compressVideo(original);
+          hideCompressVideoDialog();
           List<String> files = [];
           files.add(compressed != null ? compressed.path : original.path ?? "");
           attachmentListener!.onSelectAttachment(files, action);
@@ -162,8 +168,10 @@ class ManageAttachmentController extends GetxController
         );
         if (pickedFile != null) {
           List<String> files = [];
+          showCompressVideoDialog();
           File? compressed =
               await ImageUtils.compressVideo(File(pickedFile.path));
+          hideCompressVideoDialog();
           files.add(
               compressed != null ? compressed.path : pickedFile.path ?? "");
           attachmentListener!.onSelectAttachment(files, action);
@@ -213,6 +221,23 @@ class ManageAttachmentController extends GetxController
     } catch (e) {
       print("error:" + e.toString());
     }
+  }
+
+  void showCompressVideoDialog() {
+    Get.put(CompressVideoDialogController()).show(
+      title: "Compressing Video",
+      content: Row(
+        children: [
+          SizedBox(height: 18, child: CustomProgressbar()),
+          SizedBox(width: 16),
+          Expanded(child: PrimaryTextView(text: 'uploading_video_message'.tr,)),
+        ],
+      ),
+    );
+  }
+
+  void hideCompressVideoDialog() {
+    Get.put(CompressVideoDialogController()).hide();
   }
 
   Future<void> cropImage(String path, SelectAttachmentListener listener) async {

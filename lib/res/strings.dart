@@ -494,6 +494,8 @@ class Strings extends Translations {
           'photos': "Photos",
           'videos': "Videos",
           'video_compress_message': "Wait… Video is compressing",
+          'video_player': "Video Player",
+          'uploading_video_message': "Uploading Video, Please Wait...",
           // '': "",
 // '': "",
 // '': "",

@@ -13,7 +13,6 @@ import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
-import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:belcka/widgets/map_view/bottom_curve_container.dart';
 import 'package:belcka/widgets/map_view/custom_map_view.dart';
 import 'package:belcka/widgets/map_view/map_back_arrow.dart';
@@ -56,111 +55,98 @@ class _StopShiftScreenState extends State<StopShiftScreen> {
           ),*/
           body: Obx(
             () => ModalProgressHUD(
-              inAsyncCall: controller.isLoading.value,
-              opacity: 0,
-              progressIndicator: const CustomProgressbar(),
-              child: Visibility(
-                visible: controller.isMainViewVisible.value,
-                child: Column(children: [
-                  Expanded(
-                    flex: 4,
-                    child: Stack(
+                inAsyncCall: controller.isLoading.value,
+                opacity: 0,
+                progressIndicator: const CustomProgressbar(),
+                child: Visibility(
+                    visible: controller.isMainViewVisible.value,
+                    child: Column(
                       children: [
-                        CustomMapView(
-                          onMapCreated: controller.onMapCreated,
-                          target: controller.center,
-                          markers: controller.markers,
-                          circles: controller.circles,
-                          polygons: controller.polygons,
-                          polylines: controller.polyLines,
-                        ),
-                        MapBackArrow(onBackPressed: () {
-                          controller.onBackPress();
-                        }),
-                        BottomCurveContainer(),
-                        // Visibility(
-                        //   visible: (controller
-                        //               .workLogInfo.value.userCheckLogsCount ??
-                        //           0) !=
-                        //       0,
-                        //   child: Align(
-                        //     alignment: Alignment.bottomRight,
-                        //     child: Padding(
-                        //       padding: EdgeInsets.fromLTRB(0, 0, 12, 24),
-                        //       child: PrimaryButton(
-                        //           width: 100,
-                        //           height: 38,
-                        //           buttonText:
-                        //               "${'check_in_'.tr} (${controller.workLogInfo.value.userCheckLogsCount ?? 0})",
-                        //           onPressed: () {
-                        //             var arguments = {
-                        //               AppConstants.intentKey.workLogId:
-                        //                   controller.workLogId
-                        //             };
-                        //             Get.toNamed(AppRoutes.checkLogDetailsScreen,
-                        //                 arguments: arguments);
-                        //           }),
-                        //     ),
-                        //   ),
-                        // )
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    flex: 5,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          SelectionScreenHeaderView(
-                            title: controller.isWorking.value
-                                ? 'my_shift'.tr
-                                : 'edit_my_shift'.tr,
-                            // userCheckLogCount:
-                            //     controller.workLogInfo.value.userCheckLogsCount ??
-                            //         0,
-                            userCheckLogCount: 0,
-                            onBackPressed: () {
-                              controller.onBackPress();
-                            },
-                            onCheckLogCountClick: () {
-                              var arguments = {
-                                AppConstants.intentKey.workLogId:
-                                    controller.workLogId
-                              };
-                              Get.toNamed(AppRoutes.checkLogDetailsScreen,
-                                  arguments: arguments);
-                            },
-                          ),
-                          (controller.workLogInfo.value.requestStatus ?? 0) ==
-                                  AppConstants.status.pending
-                              ? PendingRequestTimeBox()
-                              : StartStopBoxRow(),
-                          BreakLogList(
-                              breakLogList:
-                                  controller.workLogInfo.value.breakLog ?? []),
-                          TotalHoursRow(),
-                          TotalAllDayHoursRow(),
-                          Visibility(
-                              visible: controller.isEdited.value,
-                              child: AddNoteWidget(
-                                  controller: controller.noteController)),
+                        Expanded(
+                          child: CustomScrollView(
+                            slivers: [
+                              /// ✅ COLLAPSING MAP
+                              SliverAppBar(
+                                backgroundColor: dashBoardBgColor_(context),
+                                expandedHeight:
+                                    MediaQuery.of(context).size.height * 0.40,
+                                automaticallyImplyLeading: false,
+                                pinned: false,
+                                floating: false,
+                                flexibleSpace: FlexibleSpaceBar(
+                                  background: Stack(
+                                    children: [
+                                      CustomMapView(
+                                        onMapCreated: controller.onMapCreated,
+                                        target: controller.center,
+                                        markers: controller.markers,
+                                        circles: controller.circles,
+                                        polygons: controller.polygons,
+                                        polylines: controller.polyLines,
+                                      ),
+                                      MapBackArrow(
+                                        onBackPressed: controller.onBackPress,
+                                      ),
+                                      BottomCurveContainer(),
+                                    ],
+                                  ),
+                                ),
+                              ),
 
-                          // PenaltyHoursRow(),
-                          // CheckInHoursRow(),
-                          CurrentLogSummery(),
-                        ],
-                      ),
-                    ),
-                  ),
-                  controller.isWorking.value
-                      ? StopShiftButton()
-                      : Visibility(
-                          visible: controller.isEdited.value,
-                          child: SubmitForApprovalButton(),
-                        )
-                ]),
-              ),
-            ),
+                              /// ✅ ALL CONTENT SCROLLS (INCLUDING BUTTON)
+                              SliverToBoxAdapter(
+                                child: Column(
+                                  children: [
+                                    SelectionScreenHeaderView(
+                                      title: controller.isWorking.value
+                                          ? 'my_shift'.tr
+                                          : 'edit_my_shift'.tr,
+                                      userCheckLogCount: 0,
+                                      onBackPressed: controller.onBackPress,
+                                      onCheckLogCountClick: () {
+                                        Get.toNamed(
+                                          AppRoutes.checkLogDetailsScreen,
+                                          arguments: {
+                                            AppConstants.intentKey.workLogId:
+                                                controller.workLogId
+                                          },
+                                        );
+                                      },
+                                    ),
+                                    (controller.workLogInfo.value
+                                                    .requestStatus ??
+                                                0) ==
+                                            AppConstants.status.pending
+                                        ? PendingRequestTimeBox()
+                                        : StartStopBoxRow(),
+                                    BreakLogList(
+                                      breakLogList: controller
+                                              .workLogInfo.value.breakLog ??
+                                          [],
+                                    ),
+                                    TotalHoursRow(),
+                                    TotalAllDayHoursRow(),
+                                    CurrentLogSummery(),
+                                    Visibility(
+                                      visible: controller.isEdited.value,
+                                      child: AddNoteWidget(
+                                        controller: controller.noteController,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        controller.isWorking.value
+                            ? StopShiftButton()
+                            : Visibility(
+                                visible: controller.isEdited.value,
+                                child: SubmitForApprovalButton(),
+                              ),
+                      ],
+                    ))),
           ),
         )),
       ),

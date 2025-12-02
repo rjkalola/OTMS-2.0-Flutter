@@ -279,4 +279,5 @@ class CreateAnnouncementController extends GetxController
   bool valid() {
     return formKey.currentState!.validate();
   }
+
 }

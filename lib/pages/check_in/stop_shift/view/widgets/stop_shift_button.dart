@@ -12,7 +12,7 @@ class StopShiftButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(12, 20, 12, 16),
+      padding: const EdgeInsets.fromLTRB(12, 10, 12, 16),
       child: PrimaryButton(
         buttonText: 'stop_shift'.tr,
         onPressed: () {

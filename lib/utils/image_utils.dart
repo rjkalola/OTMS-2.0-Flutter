@@ -6,6 +6,7 @@ import 'package:belcka/pages/common/model/file_info.dart';
 import 'package:belcka/pages/common/model/user_info.dart';
 import 'package:belcka/pages/manageattachment/view/audio_player_screen.dart';
 import 'package:belcka/pages/manageattachment/view/pdf_viewer_page.dart';
+import 'package:belcka/pages/manageattachment/view/video_player_screen.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
@@ -93,29 +94,35 @@ class ImageUtils {
             source: path,
           ));
     } else if (type == 'video') {
-      if (path.startsWith("http")) {
-        final uri = Uri.parse(path);
-        if (Platform.isAndroid) {
-          try {
-            final intent = AndroidIntent(
-              action: 'action_view',
-              data: uri.toString(),
-              type: 'video/*',
-              flags: <int>[Flag.FLAG_ACTIVITY_NEW_TASK],
-            );
-            await intent.launch();
-          } catch (e) {
-            await launchUrl(
-              Uri.parse(path),
-              mode: LaunchMode.externalApplication,
-            );
-          }
-        } else if (Platform.isIOS) {
-          await launchUrl(uri, mode: LaunchMode.externalApplication);
-        }
-      } else {
-        await OpenFilex.open(path);
-      }
+      // if (path.startsWith("http")) {
+      //   final uri = Uri.parse(path);
+      //   if (Platform.isAndroid) {
+      //     try {
+      //       final intent = AndroidIntent(
+      //         action: 'action_view',
+      //         data: uri.toString(),
+      //         type: 'video/*',
+      //         flags: <int>[Flag.FLAG_ACTIVITY_NEW_TASK],
+      //       );
+      //       await intent.launch();
+      //     } catch (e) {
+      //       await launchUrl(
+      //         Uri.parse(path),
+      //         mode: LaunchMode.externalApplication,
+      //       );
+      //     }
+      //   } else if (Platform.isIOS) {
+      //     await launchUrl(uri, mode: LaunchMode.externalApplication);
+      //   }
+      // }
+      // else {
+      //   await OpenFilex.open(path);
+      // }
+
+      Get.to(() => VideoPlayerScreen(
+            isLocal: !path.startsWith("http"),
+            videoPath: path,
+          ));
     } else if (type == 'pdf') {
       Get.to(() => PdfViewerPage(
             url: path,
@@ -226,11 +233,11 @@ class ImageUtils {
 
   static Future<File?> compressVideo(File file) async {
     final mb = file.lengthSync() / (1024 * 1024);
-    if (mb < 6) return file; // no compression
-    AppUtils.showToastMessage('video_compress_message'.tr);
+    if (mb < 10) return file; // no compression
+    // AppUtils.showToastMessage('video_compress_message'.tr);
     return (await VideoCompress.compressVideo(
       file.path,
-      quality: VideoQuality.LowQuality, // Low / Medium / High
+      quality: VideoQuality.MediumQuality, // Low / Medium / High
       deleteOrigin: false, // Keep original
       includeAudio: true,
       frameRate: 24,

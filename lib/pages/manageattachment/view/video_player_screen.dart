@@ -1,111 +1,93 @@
+import 'dart:io';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:video_player/video_player.dart';
+import 'package:chewie/chewie.dart';
 
+import '../../../utils/app_utils.dart';
 
-// class VideoPlayerScreen extends StatefulWidget {
-//   final String source; // Can be a URL or a local file path
-//   const VideoPlayerScreen({super.key, required this.source});
-//
-//   @override
-//   State<VideoPlayerScreen> createState() => _VideoPlayerScreenState();
-// }
-//
-// class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
-//   late final Player _player;
-//   late final VideoController _controller;
-//
-//   bool _isPlaying = false;
-//   double _position = 0.0;
-//   double _duration = 1.0;
-//
-//   @override
-//   void initState() {
-//     super.initState();
-//
-//     _player = Player();
-//     _controller = VideoController(_player);
-//
-//     _player.open(Media(widget.source));
-//
-//     _player.streams.position.listen((pos) async {
-//       final total = await _player.state.duration;
-//       if (total.inMilliseconds > 0) {
-//         setState(() {
-//           _position = pos.inMilliseconds.toDouble();
-//           _duration = total.inMilliseconds.toDouble();
-//         });
-//       }
-//     });
-//
-//     _player.streams.playing.listen((playing) {
-//       setState(() => _isPlaying = playing);
-//     });
-//   }
-//
-//   @override
-//   void dispose() {
-//     _player.dispose();
-//     super.dispose();
-//   }
-//
-//   void _togglePlayPause() {
-//     if (_isPlaying) {
-//       _player.pause();
-//     } else {
-//       _player.play();
-//     }
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(title: const Text('Video Player')),
-//       backgroundColor: Colors.black,
-//       body: SafeArea(
-//         child: Column(
-//           children: [
-//             // Video Display
-//             Expanded(
-//               child: Center(
-//                 child: AspectRatio(
-//                   aspectRatio: 16 / 9,
-//                   child: Video(controller: _controller),
-//                 ),
-//               ),
-//             ),
-//
-//             // Progress Bar
-//             Slider(
-//               activeColor: Colors.blueAccent,
-//               inactiveColor: Colors.white24,
-//               min: 0,
-//               max: _duration,
-//               value: _position.clamp(0, _duration),
-//               onChanged: (value) {
-//                 _player.seek(Duration(milliseconds: value.toInt()));
-//               },
-//             ),
-//
-//             // Controls
-//             Row(
-//               mainAxisAlignment: MainAxisAlignment.center,
-//               children: [
-//                 IconButton(
-//                   icon: Icon(_isPlaying ? Icons.pause : Icons.play_arrow,
-//                       color: Colors.white,
-//                       size: 36),
-//                   onPressed: _togglePlayPause,
-//                 ),
-//                 const SizedBox(width: 16),
-//                 IconButton(
-//                   icon: const Icon(Icons.stop, color: Colors.white, size: 32),
-//                   onPressed: () => _player.stop(),
-//                 ),
-//               ],
-//             ),
-//             const SizedBox(height: 12),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
+class VideoPlayerScreen extends StatefulWidget {
+  final String videoPath;
+  final bool isLocal;
+
+  const VideoPlayerScreen({
+    super.key,
+    required this.videoPath,
+    required this.isLocal,
+  });
+
+  @override
+  State<VideoPlayerScreen> createState() => _VideoPlayerScreenState();
+}
+
+class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
+  late VideoPlayerController _videoController;
+  ChewieController? _chewieController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _videoController = widget.isLocal
+        ? VideoPlayerController.file(File(widget.videoPath))
+        : VideoPlayerController.networkUrl(Uri.parse(widget.videoPath));
+
+    _initializePlayer();
+  }
+
+  Future<void> _initializePlayer() async {
+    await _videoController.initialize();
+
+    _chewieController = ChewieController(
+      videoPlayerController: _videoController,
+      autoPlay: true,
+      looping: false,
+      allowFullScreen: true,
+      allowMuting: true,
+      showControls: true,
+      showOptions: false,
+      materialProgressColors: ChewieProgressColors(
+        playedColor: defaultAccentColor_(context),
+        bufferedColor: lightGreyColor(context),
+        backgroundColor: lightGreyColor(context),
+        handleColor: defaultAccentColor_(context),
+      ),
+    );
+
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    _chewieController?.dispose();
+    _videoController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    AppUtils.setStatusBarColor();
+    return Container(
+      color: dashBoardBgColor_(context),
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: dashBoardBgColor_(context),
+          appBar: BaseAppBar(
+            appBar: AppBar(),
+            title: 'video_player'.tr,
+            isCenterTitle: false,
+            isBack: true,
+            bgColor: dashBoardBgColor_(context),
+          ),
+          body: Center(
+            child: _chewieController != null
+                ? Chewie(controller: _chewieController!)
+                : const CircularProgressIndicator(),
+          ),
+        ),
+      ),
+    );
+  }
+}
