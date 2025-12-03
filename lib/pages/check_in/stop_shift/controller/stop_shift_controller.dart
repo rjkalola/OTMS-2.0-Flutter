@@ -49,7 +49,7 @@ class StopShiftController extends GetxController implements SelectTimeListener {
   final center =
       LatLng(AppConstants.defaultLatitude, AppConstants.defaultLongitude).obs;
   final RxSet<Marker> markers = <Marker>{}.obs;
-  final RxSet<Polyline> polylines = <Polyline>{}.obs;
+  // final RxSet<Polyline> polylines = <Polyline>{}.obs;
   final locationService = LocationServiceNew();
   final workLogInfo = WorkLogInfo().obs;
   int workLogId = 0, userId = 0;
@@ -405,7 +405,7 @@ class StopShiftController extends GetxController implements SelectTimeListener {
       start: start,
       end: stop,
     );
-    final updatedPolylines = Set<Polyline>.from(polylines.value);
+    final updatedPolylines = Set<Polyline>.from(polyLines.value);
     updatedPolylines.add(polyline);
   }
 

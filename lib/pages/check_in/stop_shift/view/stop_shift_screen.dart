@@ -64,6 +64,7 @@ class _StopShiftScreenState extends State<StopShiftScreen> {
                       children: [
                         Expanded(
                           child: CustomScrollView(
+                            physics: BouncingScrollPhysics(),
                             slivers: [
                               /// ✅ COLLAPSING MAP
                               SliverAppBar(

@@ -121,7 +121,7 @@ class DropDownListDialogState extends State<DropDownListDialog> {
               visualDensity: const VisualDensity(horizontal: 0, vertical: -2),
               minVerticalPadding: 0,
               title: Padding(
-                padding: const EdgeInsets.fromLTRB(18, 0, 18, 0),
+                padding: const EdgeInsets.fromLTRB(18, 4, 18, 4),
                 child: Text(
                   tempList[i].name ?? "",
                   textAlign: TextAlign.start,

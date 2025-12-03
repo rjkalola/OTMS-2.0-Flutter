@@ -13,6 +13,7 @@ import 'package:belcka/pages/common/drop_down_list_dialog.dart';
 import 'package:belcka/pages/common/listener/select_item_listener.dart';
 import 'package:belcka/pages/common/listener/select_type_of_work_listener.dart';
 import 'package:belcka/pages/common/model/file_info.dart';
+import 'package:belcka/pages/project/project_info/model/geofence_info.dart';
 import 'package:belcka/res/drawable.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_storage.dart';
@@ -52,7 +53,6 @@ class CheckInController extends GetxController
   final center =
       LatLng(AppConstants.defaultLatitude, AppConstants.defaultLongitude).obs;
   final locationService = LocationServiceNew();
-  final workLogInfo = WorkLogInfo().obs;
   int workLogId = 0,
       addressId = 0,
       tradeId = 0,
@@ -72,6 +72,10 @@ class CheckInController extends GetxController
   final RxString checkInTime = "".obs;
   CheckInResourcesResponse? checkInResourcesData;
   final RxSet<Marker> markers = <Marker>{}.obs;
+  final RxSet<Polyline> polyLines = <Polyline>{}.obs;
+  final RxSet<Polygon> polygons = <Polygon>{}.obs;
+  final RxSet<Circle> circles = <Circle>{}.obs;
+  final listZones = <GeofenceInfo>[].obs;
 
   void onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -320,6 +324,13 @@ class CheckInController extends GetxController
           } else {
             addressController.value.text = address;
             this.addressId = addressId;
+
+            listZones.clear();
+            if (response.geofences != null && response.geofences!.isNotEmpty) {
+              listZones.addAll(response.geofences!);
+            }
+            setZones();
+
             if (tradeId != 0) {
               typeOfWorkController.value.text = "";
               typeOfWorkId = 0;
@@ -653,6 +664,68 @@ class CheckInController extends GetxController
       markers.removeWhere((m) => m.markerId == newMarker.markerId);
       markers.add(newMarker);
       markers.refresh();
+    }
+  }
+
+  void setZones() {
+    circles.clear();
+    polygons.clear();
+    polyLines.clear();
+    if (listZones.isNotEmpty) {
+      for (GeofenceInfo info in listZones) {
+        if ((info.type ?? "") == AppConstants.zoneType.circle &&
+            info.radius != null) {
+          print("info.latitude:" + info.latitude!.toString());
+          print("info.longitude:" + info.longitude!.toString());
+          LatLng latLng = LatLng(double.parse(info.latitude ?? "0.0"),
+              double.parse(info.longitude ?? "0.0"));
+          Color color = !StringHelper.isEmptyString(info.color)
+              ? AppUtils.getColor(info.color ?? "")
+              : Colors.blue;
+          final circle = AppUtils.getCircle(
+              id: (info.id ?? 0).toString(),
+              latLng: latLng,
+              radius: info.radius ?? 0,
+              color: color);
+          final updatedCircles = Set<Circle>.from(circles);
+          updatedCircles.add(circle);
+          circles.value = updatedCircles;
+        } else if ((info.type ?? "") == AppConstants.zoneType.polygon &&
+            info.coordinates != null) {
+          List<LatLng> listLatLng = [];
+          for (GeofenceCoordinates coordinates in info.coordinates!) {
+            LatLng latLng = LatLng(coordinates.lat ?? 0, coordinates.lng ?? 0);
+            listLatLng.add(latLng);
+          }
+          Color color = !StringHelper.isEmptyString(info.color)
+              ? AppUtils.getColor(info.color ?? "")
+              : Colors.blue;
+          final polygon = AppUtils.getPolygon(
+              id: (info.id ?? 0).toString(),
+              listLatLng: listLatLng,
+              color: color);
+          final updatedPolygon = Set<Polygon>.from(polygons);
+          updatedPolygon.add(polygon);
+          polygons.value = updatedPolygon;
+        } else if ((info.type ?? "") == AppConstants.zoneType.polyline &&
+            info.coordinates != null) {
+          List<LatLng> listLatLng = [];
+          for (GeofenceCoordinates coordinates in info.coordinates!) {
+            LatLng latLng = LatLng(coordinates.lat ?? 0, coordinates.lng ?? 0);
+            listLatLng.add(latLng);
+          }
+          Color color = !StringHelper.isEmptyString(info.color ?? "")
+              ? AppUtils.getColor(info.color ?? "#000000")
+              : Colors.blue;
+          final polyline = AppUtils.getPolyline(
+              id: (info.id ?? 0).toString(),
+              listLatLng: listLatLng,
+              color: color);
+          final updatedPolyline = Set<Polyline>.from(polyLines);
+          updatedPolyline.add(polyline);
+          polyLines.value = updatedPolyline;
+        }
+      }
     }
   }
 }
