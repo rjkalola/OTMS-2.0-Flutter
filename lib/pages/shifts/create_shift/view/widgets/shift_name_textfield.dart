@@ -21,6 +21,7 @@ class ShiftNameTextField extends StatelessWidget {
         textEditingController: controller.shiftNameController.value,
         hintText: 'shift_name'.tr,
         labelText: 'shift_name'.tr,
+        isEnabled: true,
         maxLength: 50,
         keyboardType: TextInputType.name,
         textInputAction: TextInputAction.done,

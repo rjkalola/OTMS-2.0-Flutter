@@ -44,28 +44,29 @@ class _BillingInfoScreenState extends State<BillingInfoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: dashBoardBgColor_(context),
-      child: SafeArea(
-        child: Scaffold(
-          appBar: BaseAppBar(
-            appBar: AppBar(),
-            title: 'billing_info'.tr,
-            isCenterTitle: false,
-            bgColor: dashBoardBgColor_(context),
-            isBack: true,
-          ),
-          backgroundColor: dashBoardBgColor_(context),
-          body: GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
-            onPanDown: (_) => FocusScope.of(context).unfocus(), // dismiss on scroll drag
-            child: KeyboardActions(
-              config: _buildKeyboardConfig(),
-              child: Obx(() {
-                return ModalProgressHUD(
-                  inAsyncCall: controller.isLoading.value,
-                  opacity: 0,
-                  progressIndicator: const CustomProgressbar(),
+    return Obx(() {
+      return ModalProgressHUD(
+        inAsyncCall: controller.isLoading.value,
+        opacity: 0.3,
+        progressIndicator: const CustomProgressbar(),
+        child: Container(
+          color: dashBoardBgColor_(context),
+          child: SafeArea(
+            child: Scaffold(
+              appBar: BaseAppBar(
+                appBar: AppBar(),
+                title: 'billing_info'.tr,
+                isCenterTitle: false,
+                bgColor: dashBoardBgColor_(context),
+                isBack: true,
+              ),
+              backgroundColor: dashBoardBgColor_(context),
+
+              body: GestureDetector(
+                onTap: () => FocusScope.of(context).unfocus(),
+                onPanDown: (_) => FocusScope.of(context).unfocus(),
+                child: KeyboardActions(
+                  config: _buildKeyboardConfig(),
                   child: controller.isInternetNotAvailable.value
                       ? Center(child: Text("no_internet_text".tr))
                       : SingleChildScrollView(
@@ -84,45 +85,45 @@ class _BillingInfoScreenState extends State<BillingInfoScreen> {
                       ),
                     ),
                   ),
-                );
-              }),
-            ),
-          ),
-          // This is where bottomNavigationBar should go
-            bottomNavigationBar: Obx(() {
-              final enabled = controller.isSaveEnabled.value;
-              return SafeArea(
+                ),
+              ),
+
+              bottomNavigationBar: SafeArea(
                 child: Visibility(
                   visible: controller.isShowSaveButton.value,
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: Opacity(
-                      opacity: enabled ? 1.0 : 0.5,
-                      child: ElevatedButton(
-                        onPressed: enabled ? controller.onSubmit : null,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: defaultAccentColor_(context),
-                          minimumSize: const Size(double.infinity, 50),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
+                    child: Obx(() {
+                      final enabled = controller.isSaveEnabled.value;
+                      return Opacity(
+                        opacity: enabled ? 1.0 : 0.5,
+                        child: ElevatedButton(
+                          onPressed: enabled ? controller.onSubmit : null,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: defaultAccentColor_(context),
+                            minimumSize: const Size(double.infinity, 50),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                          ),
+                          child: Text(
+                            'save'.tr,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
-                        child: Text(
-                          'save'.tr,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
+                      );
+                    }),
                   ),
                 ),
-              );
-            }),
+              ),
+            ),
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

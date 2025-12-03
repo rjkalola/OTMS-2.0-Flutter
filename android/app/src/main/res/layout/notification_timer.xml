@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="12dp"
+    android:background="@android:color/transparent">
+
+    <!-- BIG LIVE COUNTER -->
+    <Chronometer
+        android:id="@+id/chrono"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        android:textColor="#FFC107"
+        android:singleLine="true" />
+
+    <!-- Optional small label -->
+    <TextView
+        android:id="@+id/label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Working Time"
+        android:textSize="12sp"
+        android:textColor="#FFFFFF"
+        android:alpha="0.8" />
+
+</LinearLayout>

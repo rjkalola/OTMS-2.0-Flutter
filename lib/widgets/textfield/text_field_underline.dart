@@ -72,7 +72,7 @@ class TextFieldUnderline extends StatelessWidget {
       textAlignVertical: textAlignVertical,
       textAlign: textAlign ?? TextAlign.start,
       readOnly: isReadOnly ?? false,
-      enabled: isEnabled ?? false,
+      enabled: isEnabled ?? true,
       inputFormatters: inputFormatters,
       autovalidateMode: autovalidateMode,
       decoration: InputDecoration(

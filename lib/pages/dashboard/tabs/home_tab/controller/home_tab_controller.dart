@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:belcka/app_badge_ios.dart';
+import 'package:belcka/live_timer.dart';
 import 'package:belcka/pages/check_in/clock_in/controller/clock_in_repository.dart';
 import 'package:belcka/pages/check_in/clock_in/controller/clock_in_utils_.dart';
 import 'package:belcka/pages/check_in/clock_in/model/counter_details.dart';
@@ -551,16 +552,21 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       moveToScreen(
           appRout: AppRoutes.userPermissionScreen, arguments: arguments);
     } else if (info.slug == 'team') {
-      var arguments = {
-        AppConstants.intentKey.teamId: info.teamId ?? 0,
-        AppConstants.intentKey.isAllUserTeams: false
-      };
-      moveToScreen2(appRout: AppRoutes.teamDetailsScreen,arguments: arguments);
+      if ((info.teamId ?? 0) != 0) {
+        var arguments = {
+          AppConstants.intentKey.teamId: info.teamId ?? 0,
+          AppConstants.intentKey.isAllUserTeams: false
+        };
+        moveToScreen2(
+            appRout: AppRoutes.teamDetailsScreen, arguments: arguments);
+      }
     } else if (info.slug == 'teams') {
       var arguments = {AppConstants.intentKey.isAllUserTeams: true};
       moveToScreen2(appRout: AppRoutes.teamListScreen, arguments: arguments);
+      // LiveTimer.stop();
     } else if (info.slug == 'users') {
       moveToScreen2(appRout: AppRoutes.userListScreen);
+      // LiveTimer.start(4 * 3600 + 22 * 60 + 53);
     } else if (info.slug == 'projects') {
       moveToScreen2(appRout: AppRoutes.projectListScreen);
     } else if (info.slug == 'shift') {
