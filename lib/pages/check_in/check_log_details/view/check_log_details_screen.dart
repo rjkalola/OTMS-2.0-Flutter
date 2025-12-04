@@ -50,5 +50,4 @@ class _CheckLogDetailsScreenState extends State<CheckLogDetailsScreen> {
       ),
     );
   }
-
 }

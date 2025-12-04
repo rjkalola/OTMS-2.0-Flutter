@@ -48,7 +48,7 @@ class TimeSheetListController extends GetxController
           arguments[AppConstants.intentKey.isAllUserTimeSheet] ?? false;
     }
     if (isAllUserTimeSheet) {
-      title.value = 'timesheets'.tr;
+      title.value = 'time_tracking'.tr;
     } else {
       title.value = 'timesheet'.tr;
     }
@@ -131,7 +131,8 @@ class TimeSheetListController extends GetxController
           isEditEnable.value = false;
           isEditStatusEnable.value = false;
           isViewAmount.value = false;
-          isExpanded.value = false;
+          // isExpanded.value = false;
+          setExpandCollapse();
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }

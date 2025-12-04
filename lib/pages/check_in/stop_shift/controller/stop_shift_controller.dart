@@ -468,6 +468,14 @@ class StopShiftController extends GetxController implements SelectTimeListener {
     }
   }
 
+  Future<void> moveToScreen(String rout, dynamic arguments) async {
+    var result = await Get.toNamed(rout, arguments: arguments);
+    if (result != null && result) {
+      isDataUpdated.value = true;
+      getWorkLogDetailsApi();
+    }
+  }
+
   void onBackPress() {
     if (fromNotification) {
       Get.offAllNamed(AppRoutes.dashboardScreen);

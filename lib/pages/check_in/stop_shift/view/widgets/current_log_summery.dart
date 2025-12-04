@@ -1,3 +1,4 @@
+import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/widgets/other_widgets/right_arrow_widget.dart';
 import 'package:belcka/widgets/shapes/badge_count_widget.dart';
@@ -167,33 +168,38 @@ class CurrentLogSummery extends StatelessWidget {
     if ((controller.workLogInfo.value.allChecklogCount ?? 0) > 0) {
       listItems.add(Padding(
         padding: EdgeInsets.fromLTRB(0, 6, 0, 6),
-        child: Row(
-          children: [
-            Expanded(
-              child: PrimaryTextView(
-                textAlign: TextAlign.start,
-                text: "${'check_in_'.tr}:",
-                color: primaryTextColor_(context),
-                fontSize: 17,
-                fontWeight: FontWeight.w500,
+        child: GestureDetector(
+          onTap: () {
+            controller.moveToScreen(AppRoutes.checkInDayLogsScreen, null);
+          },
+          child: Row(
+            children: [
+              Expanded(
+                child: PrimaryTextView(
+                  textAlign: TextAlign.start,
+                  text: "${'check_in_'.tr}:",
+                  color: primaryTextColor_(context),
+                  fontSize: 17,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
-            ),
-            SizedBox(
-              width: 75,
-              child: PrimaryTextView(
-                textAlign: TextAlign.start,
-                text:
-                    "${controller.currency.value}${controller.workLogInfo.value.allChecklogAmount ?? "0"}",
-                color: primaryTextColor_(context),
-                fontSize: 17,
-                fontWeight: FontWeight.w500,
+              SizedBox(
+                width: 75,
+                child: PrimaryTextView(
+                  textAlign: TextAlign.start,
+                  text:
+                      "${controller.currency.value}${controller.workLogInfo.value.allChecklogAmount ?? "0"}",
+                  color: primaryTextColor_(context),
+                  fontSize: 17,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
-            ),
-            CustomBadgeIcon(
-              count: controller.workLogInfo.value.allChecklogCount ?? 0,
-              color: defaultAccentColor_(context),
-            )
-          ],
+              CustomBadgeIcon(
+                count: controller.workLogInfo.value.allChecklogCount ?? 0,
+                color: defaultAccentColor_(context),
+              )
+            ],
+          ),
         ),
       ));
     }

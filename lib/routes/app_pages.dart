@@ -10,10 +10,12 @@ import 'package:belcka/pages/authentication/signup2/view/signup2_screen.dart';
 import 'package:belcka/pages/authentication/splash/splash_screen.dart';
 import 'package:belcka/pages/authentication/update_sign_up_details/view/update_sign_up_details_screen.dart';
 import 'package:belcka/pages/check_in/check_in/view/check_in_screen.dart';
+import 'package:belcka/pages/check_in/check_in_day_logs/view/check_in_day_logs_screen.dart';
 import 'package:belcka/pages/check_in/check_in_photos_preview/view/check_in_photos_preview_screen.dart';
 import 'package:belcka/pages/check_in/check_log_details/view/check_log_details_screen.dart';
 import 'package:belcka/pages/check_in/check_out/view/check_out_screen.dart';
 import 'package:belcka/pages/check_in/clock_in/view/clock_in_screen.dart';
+import 'package:belcka/pages/check_in/penalty/penalty_list/view/penalty_list_screen.dart';
 import 'package:belcka/pages/check_in/select_before_after_photos/view/select_before_after_photos_screen.dart';
 import 'package:belcka/pages/check_in/select_project/view/select_project_screen.dart';
 import 'package:belcka/pages/check_in/select_shift/view/select_shift_screen.dart';
@@ -371,5 +373,9 @@ class AppPages {
     GetPage(name: AppRoutes.addExpenseScreen, page: () => AddExpenseScreen()),
     GetPage(
         name: AppRoutes.digitalIdCardScreen, page: () => DigitalIdCardScreen()),
+    GetPage(name: AppRoutes.penaltyListScreen, page: () => PenaltyListScreen()),
+    GetPage(
+        name: AppRoutes.checkInDayLogsScreen,
+        page: () => CheckInDayLogsScreen()),
   ];
 }

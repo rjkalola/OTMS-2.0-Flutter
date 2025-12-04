@@ -80,7 +80,7 @@ class SplashServices {
       if (ApiConstants.accessToken.isNotEmpty) {
         if (ApiConstants.companyId != 0) {
           Get.offAllNamed(AppRoutes.dashboardScreen);
-          // Get.offAllNamed(AppRoutes.addExpenseScreen);
+          // Get.offAllNamed(AppRoutes.penaltyListScreen);
         } else {
           var arguments = {AppConstants.intentKey.fromSignUpScreen: true};
           Get.offAllNamed(AppRoutes.switchCompanyScreen, arguments: arguments);
