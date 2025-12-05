@@ -20,37 +20,45 @@ class LiveTimerService : Service() {
         startId: Int
     ): Int {
 
-        // ✅ READ elapsed time from Intent
         val elapsedSeconds =
             intent?.getLongExtra("elapsedSeconds", 0L) ?: 0L
 
-        // ✅ Chronometer base MUST use elapsedRealtime()
         val baseElapsed =
             SystemClock.elapsedRealtime() - (elapsedSeconds * 1000L)
 
         createChannel()
 
-        // ✅ Custom big-timer layout
         val views = RemoteViews(packageName, R.layout.notification_timer)
-
-        views.setChronometer(
-            R.id.chrono,
-            baseElapsed,
-            null,
-            true
-        )
+        views.setChronometer(R.id.chrono, baseElapsed, null, true)
 
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
+
+            // 🔒 PINNING REQUIREMENTS
+            .setOngoing(true)
+            .setAutoCancel(false)
+            .setOnlyAlertOnce(true)
+            .setCategory(NotificationCompat.CATEGORY_SERVICE)
+            .setForegroundServiceBehavior(
+                NotificationCompat.FOREGROUND_SERVICE_IMMEDIATE
+            )
+
+            // BIG TIMER
             .setCustomContentView(views)
             .setCustomBigContentView(views)
-            .setOngoing(true)
+
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-            .setCategory(NotificationCompat.CATEGORY_SERVICE)
             .build()
 
+        // 🔑 MUST be called immediately
         startForeground(1001, notification)
+
         return START_STICKY
+    }
+
+    override fun onDestroy() {
+        stopForeground(true)
+        super.onDestroy()
     }
 
     override fun onBind(intent: Intent?): IBinder? = null

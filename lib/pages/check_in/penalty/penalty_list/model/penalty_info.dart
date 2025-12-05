@@ -10,6 +10,7 @@ class PenaltyInfo {
   int? payableSeconds;
   String? penaltyType;
   int? penaltySeconds;
+  String? penaltyAmount;
   int? status;
 
   PenaltyInfo(
@@ -19,6 +20,7 @@ class PenaltyInfo {
       this.payableSeconds,
       this.penaltyType,
       this.penaltySeconds,
+      this.penaltyAmount,
       this.status});
 
   PenaltyInfo.fromJson(Map<String, dynamic> json) {
@@ -28,6 +30,7 @@ class PenaltyInfo {
     payableSeconds = json['payable_seconds'];
     penaltyType = json['penalty_type'];
     penaltySeconds = json['penalty_seconds'];
+    penaltyAmount = json['penalty_amount'];
     status = json['status'];
   }
 
@@ -39,6 +42,7 @@ class PenaltyInfo {
     data['payable_seconds'] = this.payableSeconds;
     data['penalty_type'] = this.penaltyType;
     data['penalty_seconds'] = this.penaltySeconds;
+    data['penalty_amount'] = this.penaltyAmount;
     data['status'] = this.status;
     return data;
   }

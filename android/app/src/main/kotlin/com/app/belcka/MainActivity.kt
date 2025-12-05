@@ -19,7 +19,6 @@ class MainActivity : FlutterActivity() {
         ).setMethodCallHandler { call, result ->
 
             when (call.method) {
-
                 "start" -> {
                     val seconds =
                         call.argument<Int>("elapsedSeconds") ?: 0

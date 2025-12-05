@@ -1,3 +1,4 @@
+import 'package:belcka/pages/check_in/penalty/penalty_list/model/penalty_info.dart';
 import 'package:belcka/pages/expense/add_expense/model/expense_info.dart';
 import 'package:belcka/pages/leaves/leave_list/model/leave_info.dart';
 import 'package:belcka/routes/app_routes.dart';
@@ -44,6 +45,8 @@ class DayLogList extends StatelessWidget {
             return leaveItem(info);
           } else if (type == "expense") {
             return expenseItem(info);
+          } else if (type == "penalty") {
+            return penaltyItem(info);
           } else {
             return timeSheetItem(info);
           }
@@ -89,10 +92,12 @@ class DayLogList extends StatelessWidget {
         ),
       );
 
-  Widget shiftName(String? title, Color color) => TextViewWithContainer(
+  Widget shiftName(String? title, Color color, {Color? fontColor}) =>
+      TextViewWithContainer(
         text: title ?? "",
         padding: EdgeInsets.fromLTRB(6, 1, 6, 1),
-        fontColor: ThemeConfig.isDarkMode ? Colors.white : Colors.black,
+        fontColor:
+            fontColor ?? (ThemeConfig.isDarkMode ? Colors.white : Colors.black),
         fontSize: 15,
         boxColor: color,
         borderRadius: 5,
@@ -363,6 +368,77 @@ class DayLogList extends StatelessWidget {
                       color: primaryTextColor_(Get.context!),
                     )
                   ],
+                ),
+              ),
+            ),
+          )
+        : Container();
+  }
+
+  Widget penaltyItem(DayLogInfo info) {
+    PenaltyInfo? penaltyInfo = info.penaltyInfo;
+    return penaltyInfo != null
+        ? Obx(
+            () => Padding(
+              padding: EdgeInsets.fromLTRB(10, 12, 13, 12),
+              child: GestureDetector(
+                onTap: () {
+                  // var arguments = {
+                  //   AppConstants.intentKey.expenseId: penaltyInfo.id ?? 0,
+                  // };
+                  // controller.moveToScreen(AppRoutes.addExpenseScreen, arguments);
+                },
+                child: Container(
+                  color: Colors.transparent,
+                  child: Row(
+                    children: [
+                      dayDate(info),
+                      SizedBox(
+                        width: 4,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TitleTextView(
+                            text: penaltyInfo.penaltyType ?? "",
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15,
+                          ),
+                          SizedBox(
+                            height: 4,
+                          ),
+                          shiftName('penalty'.tr, Colors.red,
+                              fontColor: Colors.white)
+                        ],
+                      ),
+                      Expanded(child: Container()),
+                      Column(
+                        children: [
+                          TitleTextView(
+                            text: controller.isViewAmount.value
+                                ? "£${penaltyInfo.penaltyAmount ?? "0"}"
+                                : "-${DateUtil.seconds_To_HH_MM(penaltyInfo.penaltySeconds ?? 0)}",
+                            color: Colors.red,
+                            fontSize: 17,
+                          ),
+                          SizedBox(
+                            height: 1,
+                            child: SubtitleTextView(
+                              text: "00:00 - 00:00",
+                              fontSize: 13,
+                              color: Colors.transparent,
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        width: 4,
+                      ),
+                      RightArrowWidget(
+                        color: primaryTextColor_(Get.context!),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
