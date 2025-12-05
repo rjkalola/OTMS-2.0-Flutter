@@ -4,12 +4,15 @@ import 'package:belcka/web_services/network/api_request.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 
 class PenaltyListRepository {
-  void getPenaltyList({
-    dynamic data,
+  void getPenaltyDayLogs({
+    Map<String, dynamic>? queryParameters,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
-    ApiRequest(url: ApiConstants.getLeaveList, data: data).getRequest(
+    ApiRequest(
+            url: ApiConstants.getPenaltyDayLogs,
+            queryParameters: queryParameters)
+        .getRequest(
       onSuccess: (data) {
         onSuccess!(data);
       },

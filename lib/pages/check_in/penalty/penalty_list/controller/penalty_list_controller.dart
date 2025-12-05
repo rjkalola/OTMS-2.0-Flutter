@@ -13,6 +13,8 @@ import 'package:belcka/web_services/response/response_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
+import '../../../../../utils/date_utils.dart';
+import '../../../../../utils/string_helper.dart';
 import '../../../../../web_services/api_constants.dart';
 
 class PenaltyListController extends GetxController implements MenuItemListener {
@@ -23,7 +25,7 @@ class PenaltyListController extends GetxController implements MenuItemListener {
   final _api = PenaltyListRepository();
   final listItems = <PenaltyInfo>[].obs;
   int selectedIndex = 0, userId = 0;
-  String startDate = "", endDate = "";
+  String startDate = "", endDate = "",date = "";
   RxString title = "".obs, displayStartDate = "".obs, displayEndDate = "".obs;
   List<PenaltyInfo> tempList = [];
 
@@ -33,20 +35,20 @@ class PenaltyListController extends GetxController implements MenuItemListener {
     var arguments = Get.arguments;
     if (arguments != null) {
       userId = arguments[AppConstants.intentKey.userId] ?? 0;
+      date = arguments[AppConstants.intentKey.date] ?? "";
       print("userId:$userId");
     }
-    // getPenaltyListApi(true);
+    getPenaltyListApi(true);
   }
 
   void getPenaltyListApi(bool isProgress) {
     isLoading.value = isProgress;
     Map<String, dynamic> map = {};
-    map["start_date"] = startDate;
-    map["end_date"] = endDate;
     map["user_id"] = userId;
+    map["date"] = date;
 
-    _api.getPenaltyList(
-      data: map,
+    _api.getPenaltyDayLogs(
+      queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           isMainViewVisible.value = true;
@@ -113,5 +115,12 @@ class PenaltyListController extends GetxController implements MenuItemListener {
       var arguments = {AppConstants.intentKey.userId: userId};
       moveToScreen(AppRoutes.createLeaveScreen, arguments);
     }
+  }
+
+  String changeFullDateToSortTime(String? date) {
+    return !StringHelper.isEmptyString(date)
+        ? DateUtil.changeDateFormat(
+        date!, DateUtil.DD_MM_YYYY_TIME_24_SLASH2, DateUtil.HH_MM_24)
+        : "";
   }
 }

@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 
 class NetPerDayTextField extends StatelessWidget {
   NetPerDayTextField({super.key});
+
   final controller = Get.put(RatesController());
 
   @override
@@ -20,9 +21,11 @@ class NetPerDayTextField extends StatelessWidget {
         textInputAction: TextInputAction.done,
         isEnabled: !(controller.isRateRequested),
         onPressed: () {},
-        validator: MultiValidator([
-
-        ]),
+        textStyle: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 19,
+        ),
+        validator: MultiValidator([]),
         inputFormatters: <TextInputFormatter>[
           // for below version 2 use this
           DecimalTextInputFormatter(decimalRange: 2),
@@ -38,9 +41,9 @@ class DecimalTextInputFormatter extends TextInputFormatter {
 
   @override
   TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue,
-      TextEditingValue newValue,
-      ) {
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
     if (newValue.text.isEmpty) {
       return newValue;
     }

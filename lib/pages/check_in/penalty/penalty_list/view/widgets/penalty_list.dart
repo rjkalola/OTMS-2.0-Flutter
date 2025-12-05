@@ -1,19 +1,15 @@
 import 'package:belcka/pages/check_in/penalty/penalty_list/controller/penalty_list_controller.dart';
 import 'package:belcka/pages/check_in/penalty/penalty_list/model/penalty_info.dart';
-import 'package:belcka/pages/leaves/leave_list/controller/leave_list_controller.dart';
-import 'package:belcka/pages/leaves/leave_list/model/leave_info.dart';
 import 'package:belcka/res/colors.dart';
-import 'package:belcka/routes/app_routes.dart';
-import 'package:belcka/utils/app_constants.dart';
-import 'package:belcka/utils/app_utils.dart';
-import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
-import 'package:belcka/widgets/other_widgets/user_avtar_view.dart';
-import 'package:belcka/widgets/text/SubTitleTextView.dart';
-import 'package:belcka/widgets/text/TextViewWithContainer.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../../../../../utils/app_utils.dart';
+import '../../../../../../utils/date_utils.dart';
+import '../../../../../../utils/string_helper.dart';
+import '../../../../../../widgets/text/TextViewWithContainer.dart';
 
 class PenaltyList extends StatelessWidget {
   PenaltyList({super.key});
@@ -28,8 +24,8 @@ class PenaltyList extends StatelessWidget {
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
           itemBuilder: (context, position) {
-            // PenaltyInfo info = controller.listItems[position];
-            // int status = info.requestStatus ?? 0;
+            PenaltyInfo info = controller.listItems[position];
+            int status = info.status ?? 0;
             return Stack(
               children: [
                 CardViewDashboardItem(
@@ -74,7 +70,7 @@ class PenaltyList extends StatelessWidget {
                                       fontSize: 17,
                                     ),
                                     TitleTextView(
-                                      text: "00:45",
+                                      text: info.startTime??"",
                                       fontSize: 17,
                                     )
                                   ],
@@ -91,7 +87,7 @@ class PenaltyList extends StatelessWidget {
                                       fontSize: 17,
                                     ),
                                     TitleTextView(
-                                      text: "00:45",
+                                      text: info.endTime??"",
                                       fontSize: 17,
                                     )
                                   ],
@@ -109,7 +105,8 @@ class PenaltyList extends StatelessWidget {
                                       fontWeight: FontWeight.w500,
                                     ),
                                     TitleTextView(
-                                      text: "00:45",
+                                      text: DateUtil.seconds_To_HH_MM(
+                                          info.payableSeconds ?? 0),
                                       fontSize: 17,
                                       fontWeight: FontWeight.w500,
                                     )
@@ -120,10 +117,11 @@ class PenaltyList extends StatelessWidget {
                           ),
                           Divider(
                             color: dividerColor_(context),
-                            thickness: 1 ,
+                            thickness: 1,
                           ),
                           TitleTextView(
-                            text: "Automatic stop work: -00:50",
+                            text:
+                                "${info.penaltyType}: -${DateUtil.seconds_To_HH_MM(info.penaltySeconds ?? 0)}",
                             fontWeight: FontWeight.w500,
                             fontSize: 18,
                           ),
@@ -132,27 +130,26 @@ class PenaltyList extends StatelessWidget {
                     ),
                   ),
                 ),
-                // Visibility(
-                //   visible: !StringHelper.isEmptyString(
-                //       AppUtils.getStatusText(info.requestStatus ?? 0)),
-                //   child: Align(
-                //     alignment: Alignment.topRight,
-                //     child: TextViewWithContainer(
-                //       margin: EdgeInsets.only(right: 32, top: 2),
-                //       text: AppUtils.getStatusText(info.requestStatus ?? 0),
-                //       padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                //       fontColor: Colors.white,
-                //       fontSize: 11,
-                //       boxColor:
-                //           AppUtils.getStatusColor(info.requestStatus ?? 0),
-                //       borderRadius: 5,
-                //     ),
-                //   ),
-                // )
+                Visibility(
+                  visible: !StringHelper.isEmptyString(
+                      AppUtils.getStatusText(status)),
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: TextViewWithContainer(
+                      margin: EdgeInsets.only(right: 34, top: 2),
+                      text: AppUtils.getStatusText(status),
+                      padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                      fontColor: Colors.white,
+                      fontSize: 11,
+                      boxColor: AppUtils.getStatusColor(status),
+                      borderRadius: 5,
+                    ),
+                  ),
+                )
               ],
             );
           },
-          itemCount: 5,
+          itemCount: controller.listItems.length,
           // separatorBuilder: (context, position) => const Padding(
           //   padding: EdgeInsets.only(left: 100),
           //   child: Divider(
@@ -165,19 +162,5 @@ class PenaltyList extends StatelessWidget {
                 height: 12,
               )),
     );
-  }
-
-  String getDate(LeaveInfo info) {
-    String date = "";
-    if (info.isAlldayLeave ?? false) {
-      date = "${info.startDate ?? ""} - ${info.endDate ?? ""}";
-    } else {
-      date = info.startDate ?? "";
-    }
-    return date;
-  }
-
-  String getTime(LeaveInfo info) {
-    return "${info.startTime ?? ""} to ${info.endTime ?? ""}";
   }
 }

@@ -12,6 +12,7 @@ class WorkLogInfo {
   bool? isPricework;
   String? workStartTime;
   String? workEndTime;
+
   int? totalWorkSeconds;
   int? totalBreaklogSeconds;
   int? payableWorkSeconds;
@@ -39,6 +40,10 @@ class WorkLogInfo {
   String? totalDayEarnings;
   String? currency;
   List<GeofenceInfo>? geofences;
+  int? userId;
+  String? userName;
+  String? userImage;
+  String? userImageThumb;
 
   WorkLogInfo(
       {this.id,
@@ -74,7 +79,11 @@ class WorkLogInfo {
       this.totalDayEarnings,
       this.penaltySeconds,
       this.geofences,
-      this.currency});
+      this.currency,
+      this.userId,
+      this.userName,
+      this.userImage,
+      this.userImageThumb});
 
   WorkLogInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -130,6 +139,10 @@ class WorkLogInfo {
       });
     }
     currency = json['currency'];
+    userId = json['user_id'];
+    userName = json['user_name'];
+    userImage = json['user_image'];
+    userImageThumb = json['user_image_thumb'];
   }
 
   Map<String, dynamic> toJson() {
@@ -179,6 +192,11 @@ class WorkLogInfo {
       data['geofences'] = this.geofences!.map((v) => v.toJson()).toList();
     }
     data['currency'] = this.currency;
+    data['user_id'] = this.userId;
+    data['user_name'] = this.userName;
+    data['user_image'] = this.userImage;
+    data['user_image_thumb'] = this.userImageThumb;
+
     return data;
   }
 }

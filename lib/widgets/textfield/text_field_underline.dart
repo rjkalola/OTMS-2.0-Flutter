@@ -29,7 +29,8 @@ class TextFieldUnderline extends StatelessWidget {
       this.focusNode,
       this.onFieldSubmitted,
       this.errorMaxLines,
-        this.isEnabled});
+        this.isEnabled,
+      this.textStyle});
 
   final TextEditingController? textEditingController;
   final String? hintText, labelText;
@@ -51,6 +52,7 @@ class TextFieldUnderline extends StatelessWidget {
   final ValueChanged<String>? onFieldSubmitted;
   final int? errorMaxLines;
   final bool? isEnabled;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -60,10 +62,12 @@ class TextFieldUnderline extends StatelessWidget {
       focusNode: focusNode,
       onFieldSubmitted: onFieldSubmitted,
       onChanged: onValueChange,
-      style: TextStyle(
-          fontWeight: FontWeight.w400,
-          fontSize: 15,
-          color: primaryTextColor_(context)),
+      style: textStyle ??
+          TextStyle(
+            fontWeight: FontWeight.w400,
+            fontSize: 15,
+            color: primaryTextColor_(context),
+          ),
       controller: textEditingController,
       keyboardType: keyboardType,
       textInputAction: textInputAction,

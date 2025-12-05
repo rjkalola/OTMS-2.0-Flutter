@@ -27,7 +27,7 @@ class CheckInDayLogsController extends GetxController
   final _api = CheckInDayLogsRepository();
   final listItems = <CheckLogInfo>[].obs;
   int selectedIndex = 0, userId = 0;
-  String startDate = "", endDate = "";
+  String startDate = "", endDate = "", date = "";
   RxString title = "".obs, displayStartDate = "".obs, displayEndDate = "".obs;
   List<CheckLogInfo> tempList = [];
 
@@ -37,6 +37,7 @@ class CheckInDayLogsController extends GetxController
     var arguments = Get.arguments;
     if (arguments != null) {
       userId = arguments[AppConstants.intentKey.userId] ?? 0;
+      date = arguments[AppConstants.intentKey.date] ?? "";
       print("userId:$userId");
     }
     getCheckLogListApi(true);
@@ -45,9 +46,10 @@ class CheckInDayLogsController extends GetxController
   void getCheckLogListApi(bool isProgress) {
     isLoading.value = isProgress;
     Map<String, dynamic> map = {};
-    map["worklog_id"] = "627";
+    map["user_id"] = userId;
+    map["date"] = date;
 
-    _api.getCheckLogList(
+    _api.getCheckInDayLogs(
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {

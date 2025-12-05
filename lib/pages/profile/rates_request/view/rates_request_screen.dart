@@ -106,7 +106,7 @@ class _RatesRequestScreenState extends State<RatesRequestScreen> {
                             SizedBox(height: 4),
                             Text(
                               controller.netPerDayController.value.text ?? "",
-                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                              style: TextStyle(fontSize: 19, fontWeight:FontWeight.bold),
                             ),
                             Divider(height: 8),
                             SizedBox(height: 16),
