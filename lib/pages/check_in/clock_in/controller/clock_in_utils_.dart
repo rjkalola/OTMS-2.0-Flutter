@@ -4,13 +4,13 @@ import 'package:belcka/pages/check_in/clock_in/model/work_log_list_response.dart
 import 'package:belcka/utils/date_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 
-class ClockInUtils {
+class ClockInUtils2 {
   static CounterDetails getTotalWorkHours(WorkLogListResponse? logs) {
     int totalWorkHourSeconds = 0,
         activeWorkSeconds = 0,
         totalBreakHourSeconds = 0,
         remainingBreakSeconds = 0;
-    bool isOnBreak = false;
+    bool isOnBreak = false, insideShiftTime = false;
 
     if (logs != null) {
       if (!(logs.userIsWorking ?? false)) {
@@ -21,14 +21,14 @@ class ClockInUtils {
             DateFormat(DateUtil.DD_MM_YYYY_TIME_24_SLASH2);
 
         String todayDate = "";
-        if (ClockInUtils.isCurrentDay(logs.workStartDate!)) {
+        if (isCurrentDay(logs.workStartDate!)) {
           todayDate =
               DateUtil.dateToString(DateTime.now(), DateUtil.DD_MM_YYYY_SLASH);
         } else {
           todayDate = logs.workStartDate ?? "";
         }
 
-        if (ClockInUtils.isCurrentDay(logs.workStartDate!)) {
+        if (isCurrentDay(logs.workStartDate!)) {
           currentDateTime = DateTime.now();
         } else {
           currentDateTime = fullFormat.parse(
@@ -69,6 +69,7 @@ class ClockInUtils {
                 workEndTime = shiftEndTime;
               } else {
                 workEndTime = currentDateTime;
+                insideShiftTime = true;
               }
               totalWorkHourSeconds = totalWorkHourSeconds +
                   DateUtil.dateDifferenceInSeconds(
@@ -185,7 +186,8 @@ class ClockInUtils {
         totalWorkTime: DateUtil.seconds_To_HH_MM_SS(totalWorkTime),
         remainingBreakTime: DateUtil.seconds_To_HH_MM_SS(remainingBreakSeconds),
         remainingBreakSeconds: remainingBreakSeconds,
-        isOnBreak: isOnBreak);
+        isOnBreak: isOnBreak,
+        insideShiftTime: insideShiftTime);
     return details;
   }
 

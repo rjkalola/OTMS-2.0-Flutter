@@ -37,7 +37,7 @@ class SelectShiftController extends GetxController {
       isClearVisible = false.obs;
   final _api = SelectShiftRepository();
   final noteController = TextEditingController().obs;
-  late GoogleMapController mapController;
+  GoogleMapController? mapController;
   final center =
       LatLng(AppConstants.defaultLatitude, AppConstants.defaultLongitude).obs;
   final locationService = LocationServiceNew();
@@ -266,16 +266,19 @@ class SelectShiftController extends GetxController {
       // mapController.animateCamera(CameraUpdate.newCameraPosition(
       //   CameraPosition(target: center.value, zoom: 15),
       // ));
-      final currentPosition = await mapController.getZoomLevel();
-      print("currentPosition:" + currentPosition.toString());
-      mapController.moveCamera(
-        CameraUpdate.newLatLngZoom(
-          center.value, // target
-          currentPosition, // zoom level
-        ),
-      );
-      print("Location:" + "Latitude: ${latitude}, Longitude: ${longitude}");
-      print("Address:${location ?? ""}");
+
+      if (mapController != null) {
+        final currentPosition = await mapController!.getZoomLevel();
+        print("currentPosition:" + currentPosition.toString());
+        mapController!.moveCamera(
+          CameraUpdate.newLatLngZoom(
+            center.value, // target
+            currentPosition, // zoom level
+          ),
+        );
+        print("Location:" + "Latitude: ${latitude}, Longitude: ${longitude}");
+        print("Address:${location ?? ""}");
+      }
     }
   }
 

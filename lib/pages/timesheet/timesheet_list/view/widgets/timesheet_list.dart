@@ -1,6 +1,7 @@
 import 'package:belcka/pages/timesheet/timesheet_list/controller/timesheet_list_controller.dart';
 import 'package:belcka/pages/timesheet/timesheet_list/model/time_sheet_info.dart';
 import 'package:belcka/pages/timesheet/timesheet_list/view/widgets/week_log_list.dart';
+import 'package:belcka/res/colors.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/date_utils.dart';
@@ -77,14 +78,26 @@ class TimeSheetList extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      AppUtils.onClickUserAvatar(info.userId ?? 0);
-                    },
-                    child: UserAvtarView(
-                      imageUrl: info.userThumbImage ?? "",
-                      imageSize: 46,
-                    ),
+                  Stack(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          AppUtils.onClickUserAvatar(info.userId ?? 0);
+                        },
+                        child: UserAvtarView(
+                          imageUrl: info.userThumbImage ?? "",
+                          imageSize: 46,
+                        ),
+                      ),
+                      // Container(
+                      //   width: 24,
+                      //   height: 24,
+                      //   decoration: AppUtils.circleDecoration(
+                      //       color: backgroundColor_(Get.context!),
+                      //       borderWidth: 1,
+                      //       borderColor: primaryTextColor_(Get.context!)),
+                      // )
+                    ],
                   ),
                   SizedBox(
                     width: 12,

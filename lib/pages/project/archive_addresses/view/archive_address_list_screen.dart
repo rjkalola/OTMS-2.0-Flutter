@@ -14,7 +14,8 @@ class ArchiveAddressListScreen extends StatefulWidget {
   const ArchiveAddressListScreen({super.key});
 
   @override
-  State<ArchiveAddressListScreen> createState() => _ArchiveAddressListScreenState();
+  State<ArchiveAddressListScreen> createState() =>
+      _ArchiveAddressListScreenState();
 }
 
 class _ArchiveAddressListScreenState extends State<ArchiveAddressListScreen> {
@@ -22,7 +23,7 @@ class _ArchiveAddressListScreenState extends State<ArchiveAddressListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle( SystemUiOverlayStyle(
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarColor: dashBoardBgColor_(context),
         statusBarIconBrightness: Brightness.dark));
     return PopScope(
@@ -53,21 +54,21 @@ class _ArchiveAddressListScreenState extends State<ArchiveAddressListScreen> {
                   progressIndicator: const CustomProgressbar(),
                   child: controller.isInternetNotAvailable.value
                       ? NoInternetWidget(
-                    onPressed: () {
-                      controller.isInternetNotAvailable.value = false;
-                      controller.getArchiveAddressListApi();
-                    },
-                  )
+                          onPressed: () {
+                            controller.isInternetNotAvailable.value = false;
+                            controller.getArchiveAddressListApi();
+                          },
+                        )
                       : Visibility(
-                    visible: controller.isMainViewVisible.value,
-                    child: Column(
-                      children: [
-                        Divider(),
-                        SearchProjectWidget(),
-                        AddressList()
-                      ],
-                    ),
-                  ));
+                          visible: controller.isMainViewVisible.value,
+                          child: Column(
+                            children: [
+                              Divider(),
+                              SearchProjectWidget(),
+                              AddressList()
+                            ],
+                          ),
+                        ));
             }),
           ),
         ),

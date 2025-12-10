@@ -210,6 +210,20 @@ class AppUtils {
     );
   }
 
+  static BoxDecoration circleDecoration(
+      {Color? color,
+      double? borderWidth,
+      Color? borderColor}) {
+    return BoxDecoration(
+      shape: BoxShape.circle,
+      color: color ?? defaultAccentColor_(Get.context!),
+      border: Border.all(
+        color: borderColor ?? Colors.black,
+        width: borderWidth ?? 0,
+      ),
+    );
+  }
+
   static BoxDecoration getDashboardItemDecoration(
       {Color? color,
       double? radius,
@@ -351,7 +365,7 @@ class AppUtils {
     }
   }
 
-  static void copyEmail(String? value) async{
+  static void copyEmail(String? value) async {
     if (!StringHelper.isEmptyString(value)) {
       /*
     Clipboard.setData(ClipboardData(text: value ?? ""));
@@ -360,24 +374,23 @@ class AppUtils {
       openEmailApp(value ?? "");
     }
   }
+
   static void openEmailApp(String email) async {
     final Uri uri = Uri(
       scheme: 'mailto',
       path: email,
     );
-    try{
+    try {
       await launchUrl(
         uri,
         mode: LaunchMode.externalApplication,
       );
-    }
-    catch (e){
+    } catch (e) {
       print("No email app found or error: $e");
       Clipboard.setData(ClipboardData(text: email));
       AppUtils.showToastMessage('email_copied'.tr);
     }
   }
-
 
   static Circle getCircle(
       {required String id,

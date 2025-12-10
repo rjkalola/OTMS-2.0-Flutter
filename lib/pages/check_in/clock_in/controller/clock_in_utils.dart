@@ -10,7 +10,7 @@ class ClockInUtils {
         activeWorkSeconds = 0,
         totalBreakHourSeconds = 0,
         remainingBreakSeconds = 0;
-    bool isOnBreak = false;
+    bool isOnBreak = false, insideShiftTime = false;
 
     if (logs != null) {
       if (!(logs.userIsWorking ?? false)) {
@@ -77,6 +77,7 @@ class ClockInUtils {
                 workEndTime = shiftEndTime;
               } else {
                 workEndTime = currentDateTime;
+                insideShiftTime = true;
               }
 
               // totalWorkHourSeconds = totalWorkHourSeconds +
@@ -148,7 +149,8 @@ class ClockInUtils {
         totalWorkTime: DateUtil.seconds_To_HH_MM_SS(totalWorkHourSeconds),
         remainingBreakTime: DateUtil.seconds_To_HH_MM_SS(remainingBreakSeconds),
         remainingBreakSeconds: remainingBreakSeconds,
-        isOnBreak: isOnBreak);
+        isOnBreak: isOnBreak,
+        insideShiftTime: insideShiftTime);
     return details;
   }
 

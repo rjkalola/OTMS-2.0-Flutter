@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:belcka/app_badge_ios.dart';
 import 'package:belcka/live_timer.dart';
 import 'package:belcka/pages/check_in/clock_in/controller/clock_in_repository.dart';
-import 'package:belcka/pages/check_in/clock_in/controller/clock_in_utils_.dart';
+import 'package:belcka/pages/check_in/clock_in/controller/clock_in_utils.dart';
 import 'package:belcka/pages/check_in/clock_in/model/counter_details.dart';
 import 'package:belcka/pages/check_in/clock_in/model/work_log_list_response.dart';
 import 'package:belcka/pages/common/listener/select_item_listener.dart';
@@ -40,7 +41,8 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       isMainViewVisible = false.obs,
       isOnBreak = false.obs,
       isOnWorking = false.obs,
-      isOnDrag = false.obs;
+      isOnDrag = false.obs,
+      isSetHomeCounter = false.obs;
 
   // RxString nextUpdateLocationTime = "".obs;
 
@@ -566,7 +568,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       // LiveTimer.stop();
     } else if (info.slug == 'users') {
       moveToScreen2(appRout: AppRoutes.userListScreen);
-      // LiveTimer.start(4 * 3600 + 22 * 60 + 53);
+      // LiveTimer.pause();
     } else if (info.slug == 'projects') {
       moveToScreen2(appRout: AppRoutes.projectListScreen);
     } else if (info.slug == 'shift') {
@@ -575,10 +577,12 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       moveToScreen(appRout: AppRoutes.settingsScreen);
     } else if (info.slug == 'timesheet') {
       moveToScreen(appRout: AppRoutes.timeSheetListScreen);
+      // LiveTimer.start(180);
     } else if (info.slug == 'timesheets') {
       var arguments = {AppConstants.intentKey.isAllUserTimeSheet: true};
       moveToScreen(
           appRout: AppRoutes.timeSheetListScreen, arguments: arguments);
+      // LiveTimer.stop();
     } else if (info.slug == 'bookkeeper') {
       moveToScreen(appRout: AppRoutes.billingDetailsNewScreen);
     } else if (info.slug == 'my_requests') {
@@ -669,6 +673,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
   }
 
   void startTimer() {
+    isSetHomeCounter.value = false;
     _onTick(null);
     _timer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
       _onTick(timer);
@@ -679,6 +684,10 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
     if (!isOnDrag.value) {
       CounterDetails details =
           ClockInUtils.getTotalWorkHours(workLogData.value);
+      if (!isSetHomeCounter.value) {
+        isSetHomeCounter.value = true;
+          LiveTimer.start(details.totalWorkSeconds);
+      }
       totalWorkHours.value = details.totalWorkTime;
       activeWorkHours.value =
           DateUtil.seconds_To_HH_MM_SS(details.activeWorkSeconds);
@@ -708,6 +717,8 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
   }
 
   void stopTimer() {
+    isSetHomeCounter.value = false;
     _timer?.cancel();
+    LiveTimer.stop();
   }
 }

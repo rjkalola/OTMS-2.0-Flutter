@@ -64,15 +64,17 @@ class RatesController extends GetxController implements SelectItemListener, Dial
     tradeId = billingInfo.value.tradeId;
     originalTradeId = tradeId;
     if (billingInfo.value.is_rate_requested ?? false){
-      netPerDayController.value.text = (billingInfo.value.oldNetRatePerDay ?? "").isEmpty ? billingInfo.value.net_rate_perDay ?? "" : billingInfo.value.oldNetRatePerDay ?? "";;
+      //newNetRatePerDay
+      netPerDayController.value.text = (billingInfo.value.newNetRatePerDay ?? "").isEmpty ?
+      billingInfo.value.net_rate_perDay ?? "" : billingInfo.value.newNetRatePerDay ?? "";;
     }
     else{
-      netPerDayController.value.text = (billingInfo.value.newNetRatePerDay ?? "").isEmpty ? billingInfo.value.net_rate_perDay ?? "" : billingInfo.value.newNetRatePerDay ?? "";
+      //oldNetRatePerDay
+      netPerDayController.value.text = (billingInfo.value.oldNetRatePerDay ?? "").isEmpty ?
+      billingInfo.value.net_rate_perDay ?? "" : billingInfo.value.oldNetRatePerDay ?? "";
     }
     originalNetPerDay = netPerDayController.value.text;
-
     tradeController.value.text = billingInfo.value.tradeName ?? "";
-
     String joiningDateStr = billingInfo.value.joiningDate ?? "";
     joiningDate = joiningDateStr.split(" ").sublist(0, 3).join(" ");
     //calculate gross per day and cis 20%

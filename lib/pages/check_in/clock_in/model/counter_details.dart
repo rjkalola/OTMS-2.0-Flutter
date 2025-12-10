@@ -5,7 +5,7 @@ class CounterDetails {
   String? totalBreakTime = "";
   int remainingBreakSeconds = 0;
   String remainingBreakTime = "";
-  bool isOnBreak = false;
+  bool isOnBreak = false, insideShiftTime = false;
 
   CounterDetails(
       {required this.totalWorkSeconds,
@@ -15,7 +15,8 @@ class CounterDetails {
       this.totalBreakTime,
       required this.remainingBreakSeconds,
       required this.remainingBreakTime,
-      required this.isOnBreak});
+      required this.isOnBreak,
+      required this.insideShiftTime});
 
   CounterDetails.fromJson(Map<String, dynamic> json) {
     totalWorkSeconds = json['totalWorkSeconds'];
@@ -26,6 +27,7 @@ class CounterDetails {
     remainingBreakSeconds = json['remainingBreakSeconds'];
     remainingBreakTime = json['remainingBreakTime'];
     isOnBreak = json['isOnBreak'];
+    insideShiftTime = json['insideShiftTime'];
   }
 
   Map<String, dynamic> toJson() {
@@ -39,6 +41,8 @@ class CounterDetails {
     data['remainingBreakTime'] = this.remainingBreakTime;
 
     data['isOnBreak'] = this.isOnBreak;
+    data['insideShiftTime'] = this.insideShiftTime;
+
     return data;
   }
 }

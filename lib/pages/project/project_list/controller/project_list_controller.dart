@@ -212,6 +212,9 @@ class ProjectListController extends GetxController
           name: 'archive_project'.tr, action: AppConstants.action.delete));
       listItems.add(ModuleInfo(
           name: 'add_address'.tr, action: AppConstants.action.addAddress));
+      listItems.add(ModuleInfo(
+          name: 'archived_address'.tr,
+          action: AppConstants.action.archivedAddress));
     }
     listItems.add(ModuleInfo(
         name: 'archived_projects'.tr,
@@ -264,6 +267,11 @@ class ProjectListController extends GetxController
           moveToScreen(AppRoutes.addAddressScreen, arguments);
         }
       }
+    } else if (info.action == AppConstants.action.archivedAddress) {
+      var arguments = {
+        AppConstants.intentKey.projectId: activeProjectId.value,
+      };
+      moveToScreen(AppRoutes.archiveAddressListScreen, arguments);
     }
   }
 
