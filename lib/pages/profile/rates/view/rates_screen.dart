@@ -36,6 +36,9 @@ class _RatesScreenState extends State<RatesScreen> {
                 isCenterTitle: false,
                 bgColor: dashBoardBgColor_(context),
                 isBack: true,
+                onBackPressed: (){
+                  Get.back(result: true);
+                },
               ),
               backgroundColor: dashBoardBgColor_(context),
               body: ModalProgressHUD(

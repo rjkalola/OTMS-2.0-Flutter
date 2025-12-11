@@ -103,13 +103,18 @@ class RatesController extends GetxController implements SelectItemListener, Dial
     super.onClose();
   }
   void onSubmit() {
-    changeCompanyRateAPI();
+    if (netPerDayController.value.text != originalNetPerDay) {
+      changeCompanyRateAPI();
+    }
+    if (tradeId != originalTradeId) {
+      //call trade api
+      changeTradeAPI();
+    }
   }
   void changeCompanyRateAPI() async {
     Map<String, dynamic> map = {};
     map["user_id"] = billingInfo.value.userId;
     map["company_id"] = ApiConstants.companyId;
-    map["trade_id"] = tradeId;
     double netPerDay = double.parse(netPerDayController.value.text ?? "");
     double new_rate_perHour = netPerDay / 8;
     map["new_rate_perDay"] = netPerDay;
@@ -123,7 +128,38 @@ class RatesController extends GetxController implements SelectItemListener, Dial
           BaseResponse response =
           BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.Message ?? "");
-          Get.back(result: true);
+          //Get.back(result: true);
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        isShowSaveButton.value = true;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showApiResponseMessage(error.statusMessage);
+        }
+      },
+    );
+  }
+  void changeTradeAPI() async {
+    Map<String, dynamic> map = {};
+    map["user_id"] = billingInfo.value.userId;
+    map["company_id"] = ApiConstants.companyId;
+    map["trade_id"] = tradeId;
+
+    isLoading.value = true;
+    _api.changeTrade(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          BaseResponse response =
+          BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showApiResponseMessage(response.Message ?? "");
+          //Get.back(result: true);
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }

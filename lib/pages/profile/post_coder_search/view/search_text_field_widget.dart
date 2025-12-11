@@ -25,7 +25,7 @@ class SearchTextFieldWidget extends StatelessWidget {
         textEditingController: controller.value,
         hintText: "postcode_address".tr,
         labelText: "postcode_address".tr,
-        keyboardType: TextInputType.name,
+        keyboardType: TextInputType.emailAddress,
         textInputAction: TextInputAction.search,
         isReadOnly: isReadOnly,
         isEnabled: isEnabled,
@@ -37,7 +37,7 @@ class SearchTextFieldWidget extends StatelessWidget {
         ]),
         inputFormatters: <TextInputFormatter>[
           // for below version 2 use this
-          FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+
         ]);
   }
 }

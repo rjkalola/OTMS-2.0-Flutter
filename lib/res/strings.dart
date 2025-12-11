@@ -360,7 +360,7 @@ class Strings extends Translations {
           'rent': "Rent",
           'history': "History",
           'search_post_code': "Search Post Code",
-          'postcode_address': "Postcode or address",
+          'postcode_address': "Postcode or Address",
           'addresses_found': "addresses found",
           'privacy_policy': "Privacy and Policy",
           'app_info': "App Info",

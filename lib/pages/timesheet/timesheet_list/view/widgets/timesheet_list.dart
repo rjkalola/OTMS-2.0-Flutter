@@ -14,6 +14,8 @@ import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../../utils/app_constants.dart';
+
 class TimeSheetList extends StatelessWidget {
   TimeSheetList({super.key});
 
@@ -62,82 +64,117 @@ class TimeSheetList extends StatelessWidget {
     ));
   }
 
-  Widget userDetailsView(TimeSheetInfo info, int position) => Container(
-        padding: const EdgeInsets.fromLTRB(10, 12, 10, 12),
-        color: Colors.transparent,
-        child: Obx(
-          () => GestureDetector(
-            onTap: () {
-              controller.timeSheetList[position].isExpanded =
-                  !(controller.timeSheetList[position].isExpanded ?? false);
-              controller.timeSheetList.refresh();
-            },
-            child: Container(
-              color: Colors.transparent,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Stack(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          AppUtils.onClickUserAvatar(info.userId ?? 0);
-                        },
-                        child: UserAvtarView(
-                          imageUrl: info.userThumbImage ?? "",
-                          imageSize: 46,
+  Widget userDetailsView(TimeSheetInfo info, int position) {
+    int status = info.status ?? 0;
+    return Container(
+      padding: const EdgeInsets.fromLTRB(10, 12, 10, 12),
+      color: Colors.transparent,
+      child: Obx(
+        () => GestureDetector(
+          onTap: () {
+            controller.timeSheetList[position].isExpanded =
+                !(controller.timeSheetList[position].isExpanded ?? false);
+            controller.timeSheetList.refresh();
+          },
+          child: Container(
+            color: Colors.transparent,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Stack(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        AppUtils.onClickUserAvatar(info.userId ?? 0);
+                      },
+                      child: UserAvtarView(
+                        imageUrl: info.userThumbImage ?? "",
+                        imageSize: 46,
+                      ),
+                    ),
+                    Visibility(
+                      visible: status == AppConstants.status.lock ||
+                          status == AppConstants.status.unlock ||
+                          status == AppConstants.status.markAsPaid,
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Container(
+                          width: 30,
+                          height: 22,
+                          decoration: AppUtils.circleDecoration(
+                              color: backgroundColor_(Get.context!),
+                              borderWidth: 1,
+                              borderColor: primaryTextColor_(Get.context!)),
+                          child: buildStatusIcon(6),
                         ),
                       ),
-                      // Container(
-                      //   width: 24,
-                      //   height: 24,
-                      //   decoration: AppUtils.circleDecoration(
-                      //       color: backgroundColor_(Get.context!),
-                      //       borderWidth: 1,
-                      //       borderColor: primaryTextColor_(Get.context!)),
-                      // )
+                    )
+                  ],
+                ),
+                SizedBox(
+                  width: 12,
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TitleTextView(
+                        text: info.userName ?? "",
+                      ),
+                      SubtitleTextView(
+                        text: info.tradeName ?? "",
+                      )
                     ],
                   ),
-                  SizedBox(
-                    width: 12,
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TitleTextView(
-                          text: info.userName ?? "",
-                        ),
-                        SubtitleTextView(
-                          text: info.tradeName ?? "",
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  TitleTextView(
-                    text: controller.isViewAmount.value
-                        ? "£${info.totalPayableAmount ?? "0"}"
-                        : DateUtil.seconds_To_HH_MM(
-                            info.payableWorkSeconds ?? 0),
-                    fontSize: 17,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  ExpandCollapseArrowWidget(
-                      isOpen: controller.timeSheetList[position].isExpanded ??
-                          false),
-                  SizedBox(
-                    width: 6,
-                  ),
-                ],
-              ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                TitleTextView(
+                  text: controller.isViewAmount.value
+                      ? "£${info.totalPayableAmount ?? "0"}"
+                      : DateUtil.seconds_To_HH_MM(info.payableWorkSeconds ?? 0),
+                  fontSize: 17,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                ExpandCollapseArrowWidget(
+                    isOpen:
+                        controller.timeSheetList[position].isExpanded ?? false),
+                SizedBox(
+                  width: 6,
+                ),
+              ],
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget buildStatusIcon(int requestStatus) {
+    if (requestStatus == AppConstants.status.lock) {
+      return Icon(
+        Icons.lock_outline,
+        size: 20,
+        color: Colors.green,
       );
+    } else if (requestStatus == AppConstants.status.unlock) {
+      return Icon(
+        Icons.lock_open_outlined,
+        size: 20,
+        color: Colors.red,
+      );
+    } else if (requestStatus == AppConstants.status.markAsPaid) {
+      return Icon(
+        Icons.currency_pound_outlined,
+        size: 20,
+        color: defaultAccentColor_(Get.context!),
+      );
+    } else {
+      return Container();
+    }
+  }
 }

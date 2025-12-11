@@ -139,6 +139,7 @@ class ApiConstants {
       '$appUrl/requests/get-request-detail';
   static String archiveAccount = '$appUrl/user/archive-account';
   static String changeCompanyRate = '$appUrl/user-billing/change-company-rate';
+  static String changeTrade = '$appUrl/user-billing/change-trade';
 
   //my requests
   static String getAllRequest = '$appUrl/requests/get-all-request';
