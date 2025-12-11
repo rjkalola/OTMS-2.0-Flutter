@@ -25,16 +25,17 @@ import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
-class FullScreenImageViewController extends GetxController implements SelectAttachmentListener{
-
+class FullScreenImageViewController extends GetxController
+    implements SelectAttachmentListener {
   final _api = FullScreenImageViewRepository();
-  RxBool isLoading = false.obs, isInternetNotAvailable = false.obs, isMainViewVisible = false.obs;
+  RxBool isLoading = false.obs,
+      isInternetNotAvailable = false.obs,
+      isMainViewVisible = false.obs;
   final imagePath = "".obs;
 
   @override
   void onInit() {
     super.onInit();
-
   }
 
   void updateProfileAPI() async {
@@ -57,22 +58,20 @@ class FullScreenImageViewController extends GetxController implements SelectAtta
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.statusCode == 200) {
           UserResponse response =
-          UserResponse.fromJson(jsonDecode(responseModel.result!));
+              UserResponse.fromJson(jsonDecode(responseModel.result!));
           if (response.isSuccess!) {
             Get.find<AppStorage>().setUserInfo(response.info!);
             print("Token:" + ApiConstants.accessToken);
             AppUtils.saveLoginUser(response.info!);
             Get.offAllNamed(AppRoutes.dashboardScreen);
             //Get.back(result: true);
-          }
-          else{
+          } else {
             AppUtils.showApiResponseMessage(response.message);
           }
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;
-
       },
       onError: (ResponseModel error) {
         isLoading.value = false;
@@ -82,6 +81,7 @@ class FullScreenImageViewController extends GetxController implements SelectAtta
       },
     );
   }
+
   showAttachmentOptionsDialog() async {
     print("pickImage");
     var listOptions = <ModuleInfo>[].obs;
@@ -100,6 +100,7 @@ class FullScreenImageViewController extends GetxController implements SelectAtta
     ManageAttachmentController().showAttachmentOptionsDialog(
         'select_photo_from_'.tr, listOptions, this);
   }
+
   @override
   void onSelectAttachment(List<String> path, String action) {
     if (action == AppConstants.attachmentType.camera ||

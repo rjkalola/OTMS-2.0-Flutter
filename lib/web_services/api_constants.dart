@@ -1,7 +1,8 @@
 class ApiConstants {
   // static String appUrl = "http://appdev.belcka.com:3000";
 
-  static String appUrl = "http://app.belcka.com:3003";
+  // static String appUrl = "http://app.belcka.com:3003";
+  static String appUrl = "https://app.belcka.com";
 
   static String accessToken = "";
   static int companyId = 0;

@@ -153,10 +153,14 @@ class BillingDetailsNewController extends GetxController {
           }
 
           if (billingInfo.value.is_rate_requested ?? false){
-            currentRatePerDay.value = (billingInfo.value.oldNetRatePerDay ?? "").isEmpty ? billingInfo.value.net_rate_perDay ?? "" : billingInfo.value.oldNetRatePerDay ?? "";;
+            //newNetRatePerDay
+            currentRatePerDay.value = (billingInfo.value.newNetRatePerDay ?? "").isEmpty ?
+            billingInfo.value.net_rate_perDay ?? "" : billingInfo.value.newNetRatePerDay ?? "";;
           }
           else{
-            currentRatePerDay.value = (billingInfo.value.newNetRatePerDay ?? "").isEmpty ? billingInfo.value.net_rate_perDay ?? "" : billingInfo.value.newNetRatePerDay ?? "";
+            //oldNetRatePerDay
+            currentRatePerDay.value = (billingInfo.value.oldNetRatePerDay ?? "").isEmpty ?
+            billingInfo.value.net_rate_perDay ?? "" : billingInfo.value.oldNetRatePerDay ?? "";
           }
 
           isMainViewVisible.value = true;

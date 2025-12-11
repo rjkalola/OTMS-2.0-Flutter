@@ -686,7 +686,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
           ClockInUtils.getTotalWorkHours(workLogData.value);
       if (!isSetHomeCounter.value) {
         isSetHomeCounter.value = true;
-          LiveTimer.start(details.totalWorkSeconds);
+        LiveTimer.start(details.totalWorkSeconds);
       }
       totalWorkHours.value = details.totalWorkTime;
       activeWorkHours.value =
