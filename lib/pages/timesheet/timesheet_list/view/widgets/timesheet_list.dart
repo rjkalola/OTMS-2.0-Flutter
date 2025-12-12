@@ -82,38 +82,46 @@ class TimeSheetList extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Stack(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        AppUtils.onClickUserAvatar(info.userId ?? 0);
-                      },
-                      child: UserAvtarView(
-                        imageUrl: info.userThumbImage ?? "",
-                        imageSize: 46,
-                      ),
-                    ),
-                    Visibility(
-                      visible: status == AppConstants.status.lock ||
-                          status == AppConstants.status.unlock ||
-                          status == AppConstants.status.markAsPaid,
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child: Container(
-                          width: 30,
-                          height: 22,
-                          decoration: AppUtils.circleDecoration(
-                              color: backgroundColor_(Get.context!),
-                              borderWidth: 1,
-                              borderColor: primaryTextColor_(Get.context!)),
-                          child: buildStatusIcon(6),
+                Container(
+                  width: 54,
+                  height: 54,
+                  child: Stack(
+                    children: [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: GestureDetector(
+                          onTap: () {
+                            AppUtils.onClickUserAvatar(info.userId ?? 0);
+                          },
+                          child: UserAvtarView(
+                            imageUrl: info.userThumbImage ?? "",
+                            imageSize: 46,
+                          ),
                         ),
                       ),
-                    )
-                  ],
+                      // Align(
+                      //   alignment: Alignment.bottomRight,
+                      //   child: Visibility(
+                      //     visible: status == AppConstants.status.lock ||
+                      //         status == AppConstants.status.unlock ||
+                      //         status == AppConstants.status.markAsPaid ||
+                      //         status == 0,
+                      //     child: Container(
+                      //       width: 24,
+                      //       height: 24,
+                      //       decoration: AppUtils.circleDecoration(
+                      //           color: dashBoardBgColor_(Get.context!),
+                      //           borderWidth: 0,
+                      //           borderColor: primaryTextColor_(Get.context!)),
+                      //       child: buildStatusIcon(6),
+                      //     ),
+                      //   ),
+                      // )
+                    ],
+                  ),
                 ),
                 SizedBox(
-                  width: 12,
+                  width: 6,
                 ),
                 Expanded(
                   child: Column(
@@ -158,19 +166,19 @@ class TimeSheetList extends StatelessWidget {
     if (requestStatus == AppConstants.status.lock) {
       return Icon(
         Icons.lock_outline,
-        size: 20,
+        size: 17,
         color: Colors.green,
       );
     } else if (requestStatus == AppConstants.status.unlock) {
       return Icon(
         Icons.lock_open_outlined,
-        size: 20,
+        size: 17,
         color: Colors.red,
       );
     } else if (requestStatus == AppConstants.status.markAsPaid) {
       return Icon(
         Icons.currency_pound_outlined,
-        size: 20,
+        size: 17,
         color: defaultAccentColor_(Get.context!),
       );
     } else {

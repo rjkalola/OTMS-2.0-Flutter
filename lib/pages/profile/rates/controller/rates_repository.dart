@@ -9,7 +9,8 @@ class RatesRepository {
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
-    ApiRequest(url: ApiConstants.changeCompanyRate, data: data, isFormData: false)
+    ApiRequest(
+            url: ApiConstants.changeCompanyRate, data: data, isFormData: false)
         .postRequest(
       onSuccess: (data) {
         onSuccess!(data);
@@ -17,6 +18,7 @@ class RatesRepository {
       onError: (error) => {if (onError != null) onError(error)},
     );
   }
+
   void changeTrade({
     dynamic data,
     Function(ResponseModel responseModel)? onSuccess,
@@ -30,14 +32,15 @@ class RatesRepository {
       onError: (error) => {if (onError != null) onError(error)},
     );
   }
+
   void getCompanyResourcesApi({
     Map<String, dynamic>? queryParameters,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
     ApiRequest(
-        url: ApiConstants.getCompanyResourcesUrl,
-        queryParameters: queryParameters)
+            url: ApiConstants.getCompanyResourcesUrl,
+            queryParameters: queryParameters)
         .getRequest(
       onSuccess: (data) {
         onSuccess!(data);
