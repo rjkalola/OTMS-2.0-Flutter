@@ -70,27 +70,82 @@ class DayLogList extends StatelessWidget {
             ));
   }
 
-  Widget dayDate(DayLogInfo info) => CardViewDashboardItem(
-        borderRadius: 15,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
-          child: SizedBox(
-            width: 50,
-            child: Column(
-              children: [
-                TitleTextView(
-                  text: info.dayDateInt,
-                  fontSize: 14,
+  // Widget dayDate(DayLogInfo info) => CardViewDashboardItem(
+  //       borderRadius: 15,
+  //       child: Padding(
+  //         padding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
+  //         child: SizedBox(
+  //           width: 50,
+  //           child: Column(
+  //             children: [
+  //               TitleTextView(
+  //                 text: info.dayDateInt,
+  //                 fontSize: 14,
+  //               ),
+  //               TitleTextView(
+  //                 text: info.day,
+  //                 fontSize: 14,
+  //               )
+  //             ],
+  //           ),
+  //         ),
+  //       ),
+  //     );
+
+  Widget dayDate(DayLogInfo info) {
+    int status = info.status ?? 0;
+    return SizedBox(
+      width: 64,
+      height: 64,
+      child: Stack(
+        children: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: CardViewDashboardItem(
+              borderRadius: 15,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
+                child: SizedBox(
+                  width: 50,
+                  height: 46,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TitleTextView(
+                        text: info.dayDateInt,
+                        fontSize: 14,
+                      ),
+                      TitleTextView(
+                        text: info.day,
+                        fontSize: 14,
+                      )
+                    ],
+                  ),
                 ),
-                TitleTextView(
-                  text: info.day,
-                  fontSize: 14,
-                )
-              ],
+              ),
             ),
           ),
-        ),
-      );
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Visibility(
+              visible: status == AppConstants.status.lock ||
+                  status == AppConstants.status.unlock ||
+                  status == AppConstants.status.markAsPaid,
+              child: Container(
+                width: 22,
+                height: 22,
+                decoration: AppUtils.circleDecoration(
+                    color: dashBoardBgColor_(Get.context!),
+                    borderWidth: 0,
+                    borderColor: primaryTextColor_(Get.context!)),
+                child: controller.buildStatusIcon(6),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
 
   Widget shiftName(String? title, Color color, {Color? fontColor}) =>
       TextViewWithContainer(
@@ -101,6 +156,8 @@ class DayLogList extends StatelessWidget {
         fontSize: 15,
         boxColor: color,
         borderRadius: 5,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
       );
 
   Widget totalWorkHour(DayLogInfo info) => Column(
@@ -182,11 +239,19 @@ class DayLogList extends StatelessWidget {
                       SizedBox(
                         width: 4,
                       ),
-                      shiftName(
-                          info.shiftName,
-                          ThemeConfig.isDarkMode
-                              ? Color(0xFF4BA0F3)
-                              : Color(0xffACDBFE)),
+                      SizedBox(
+                        width: 140,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            shiftName(
+                                info.shiftName,
+                                ThemeConfig.isDarkMode
+                                    ? Color(0xFF4BA0F3)
+                                    : Color(0xffACDBFE))
+                          ],
+                        ),
+                      ),
                       Expanded(child: Container()),
                       totalWorkHour(info),
                       SizedBox(
@@ -248,19 +313,23 @@ class DayLogList extends StatelessWidget {
                     SizedBox(
                       width: 4,
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TitleTextView(
-                          text: leaveInfo.leaveName ?? "",
-                          fontWeight: FontWeight.w500,
-                          fontSize: 15,
-                        ),
-                        SizedBox(
-                          height: 4,
-                        ),
-                        shiftName('leave'.tr, Colors.red.withValues(alpha: 0.4))
-                      ],
+                    SizedBox(
+                      width: 140,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TitleTextView(
+                            text: leaveInfo.leaveName ?? "",
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15,
+                          ),
+                          SizedBox(
+                            height: 4,
+                          ),
+                          shiftName(
+                              'leave'.tr, Colors.red.withValues(alpha: 0.4))
+                        ],
+                      ),
                     ),
                     Expanded(child: Container()),
                     Column(
@@ -324,20 +393,23 @@ class DayLogList extends StatelessWidget {
                     SizedBox(
                       width: 4,
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TitleTextView(
-                          text: expenseInfo.projectName ?? "",
-                          fontWeight: FontWeight.w500,
-                          fontSize: 15,
-                        ),
-                        SizedBox(
-                          height: 4,
-                        ),
-                        shiftName(
-                            'expenses'.tr, Colors.green.withValues(alpha: 0.4))
-                      ],
+                    SizedBox(
+                      width: 140,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TitleTextView(
+                            text: expenseInfo.projectName ?? "",
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15,
+                          ),
+                          SizedBox(
+                            height: 4,
+                          ),
+                          shiftName('expenses'.tr,
+                              Colors.green.withValues(alpha: 0.4))
+                        ],
+                      ),
                     ),
                     Expanded(child: Container()),
                     Column(
@@ -396,20 +468,23 @@ class DayLogList extends StatelessWidget {
                       SizedBox(
                         width: 4,
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TitleTextView(
-                            text: penaltyInfo.penaltyType ?? "",
-                            fontWeight: FontWeight.w500,
-                            fontSize: 15,
-                          ),
-                          SizedBox(
-                            height: 4,
-                          ),
-                          shiftName('penalty'.tr, Colors.red,
-                              fontColor: Colors.white)
-                        ],
+                      SizedBox(
+                        width: 140,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            TitleTextView(
+                              text: penaltyInfo.penaltyType ?? "",
+                              fontWeight: FontWeight.w500,
+                              fontSize: 15,
+                            ),
+                            SizedBox(
+                              height: 4,
+                            ),
+                            shiftName('penalty'.tr, Colors.red,
+                                fontColor: Colors.white)
+                          ],
+                        ),
                       ),
                       Expanded(child: Container()),
                       Column(

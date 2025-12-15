@@ -82,9 +82,9 @@ class TimeSheetList extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  width: 54,
-                  height: 54,
+                SizedBox(
+                  width: 50,
+                  height: 50,
                   child: Stack(
                     children: [
                       Align(
@@ -99,24 +99,23 @@ class TimeSheetList extends StatelessWidget {
                           ),
                         ),
                       ),
-                      // Align(
-                      //   alignment: Alignment.bottomRight,
-                      //   child: Visibility(
-                      //     visible: status == AppConstants.status.lock ||
-                      //         status == AppConstants.status.unlock ||
-                      //         status == AppConstants.status.markAsPaid ||
-                      //         status == 0,
-                      //     child: Container(
-                      //       width: 24,
-                      //       height: 24,
-                      //       decoration: AppUtils.circleDecoration(
-                      //           color: dashBoardBgColor_(Get.context!),
-                      //           borderWidth: 0,
-                      //           borderColor: primaryTextColor_(Get.context!)),
-                      //       child: buildStatusIcon(6),
-                      //     ),
-                      //   ),
-                      // )
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: Visibility(
+                          visible: status == AppConstants.status.lock ||
+                              status == AppConstants.status.unlock ||
+                              status == AppConstants.status.markAsPaid,
+                          child: Container(
+                            width: 22,
+                            height: 22,
+                            decoration: AppUtils.circleDecoration(
+                                color: dashBoardBgColor_(Get.context!),
+                                borderWidth: 0,
+                                borderColor: primaryTextColor_(Get.context!)),
+                            child: controller.buildStatusIcon(6),
+                          ),
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -160,29 +159,5 @@ class TimeSheetList extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Widget buildStatusIcon(int requestStatus) {
-    if (requestStatus == AppConstants.status.lock) {
-      return Icon(
-        Icons.lock_outline,
-        size: 17,
-        color: Colors.green,
-      );
-    } else if (requestStatus == AppConstants.status.unlock) {
-      return Icon(
-        Icons.lock_open_outlined,
-        size: 17,
-        color: Colors.red,
-      );
-    } else if (requestStatus == AppConstants.status.markAsPaid) {
-      return Icon(
-        Icons.currency_pound_outlined,
-        size: 17,
-        color: defaultAccentColor_(Get.context!),
-      );
-    } else {
-      return Container();
-    }
   }
 }

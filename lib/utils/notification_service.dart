@@ -280,7 +280,10 @@ class NotificationService {
         }
       }
       //Rate
-      else if (notificationType == AppConstants.notificationType.CHNAGE_RATE || notificationType == AppConstants.notificationType.APPROVE_RATE || notificationType == AppConstants.notificationType.REJECT_RATE) {
+      else if (notificationType == AppConstants.notificationType.CHNAGE_RATE
+          || notificationType == AppConstants.notificationType.APPROVE_RATE
+          || notificationType == AppConstants.notificationType.REJECT_RATE
+          || notificationType == AppConstants.notificationType.CHANGE_TRADE) {
         final requestLogId = data['request_log_id'] ?? "0";
         print("request_log_id is:" + requestLogId);
         String rout = AppRoutes.ratesRequestScreen;

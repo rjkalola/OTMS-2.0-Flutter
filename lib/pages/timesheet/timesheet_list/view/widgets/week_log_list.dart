@@ -38,21 +38,21 @@ class WeekLogList extends StatelessWidget {
                           parentPosition: parentPosition,
                           position: position,
                         ),
-                        Visibility(
-                          visible: requestStatus == AppConstants.status.lock ||
-                              requestStatus == AppConstants.status.unlock ||
-                              requestStatus == AppConstants.status.markAsPaid,
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: Container(
-                              color: backgroundColor_(context),
-                              alignment: Alignment.center,
-                              width: 40,
-                              height: 30,
-                              child: buildStatusIcon(requestStatus),
-                            ),
-                          ),
-                        )
+                        // Visibility(
+                        //   visible: requestStatus == AppConstants.status.lock ||
+                        //       requestStatus == AppConstants.status.unlock ||
+                        //       requestStatus == AppConstants.status.markAsPaid,
+                        //   child: Align(
+                        //     alignment: Alignment.centerRight,
+                        //     child: Container(
+                        //       color: backgroundColor_(context),
+                        //       alignment: Alignment.center,
+                        //       width: 40,
+                        //       height: 30,
+                        //       child: buildStatusIcon(requestStatus),
+                        //     ),
+                        //   ),
+                        // )
                       ],
                     ),
                     DayLogList(
@@ -90,27 +90,4 @@ class WeekLogList extends StatelessWidget {
     return status;
   }
 
-  Widget buildStatusIcon(int requestStatus) {
-    if (requestStatus == AppConstants.status.lock) {
-      return Icon(
-        Icons.lock_outline,
-        size: 20,
-        color: Colors.green,
-      );
-    } else if (requestStatus == AppConstants.status.unlock) {
-      return Icon(
-        Icons.lock_open_outlined,
-        size: 20,
-        color: Colors.red,
-      );
-    } else if (requestStatus == AppConstants.status.markAsPaid) {
-      return Icon(
-        Icons.currency_pound_outlined,
-        size: 20,
-        color: defaultAccentColor_(Get.context!),
-      );
-    } else {
-      return Container();
-    }
-  }
 }

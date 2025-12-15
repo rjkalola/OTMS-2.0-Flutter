@@ -84,7 +84,7 @@ class GeneralView extends StatelessWidget {
                                 controller.searchPostCode();
                               },
                               style: ElevatedButton.styleFrom(
-                                fixedSize: Size(100, 40),
+                                minimumSize: Size(100, 40),
                                 backgroundColor: defaultAccentColor_(context),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30),

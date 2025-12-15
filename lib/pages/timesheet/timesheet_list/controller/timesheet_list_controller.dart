@@ -5,6 +5,7 @@ import 'package:belcka/pages/common/menu_items_list_bottom_dialog.dart';
 import 'package:belcka/pages/timesheet/timesheet_list/controller/timesheet_list_repository.dart';
 import 'package:belcka/pages/timesheet/timesheet_list/model/time_sheet_info.dart';
 import 'package:belcka/pages/timesheet/timesheet_list/model/time_sheet_list_response.dart';
+import 'package:belcka/res/colors.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
@@ -13,6 +14,7 @@ import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/module_info.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../web_services/api_constants.dart';
@@ -528,5 +530,29 @@ class TimeSheetListController extends GetxController
     Future.delayed(Duration(milliseconds: 100), () {
       AppUtils.setStatusBarColor();
     });
+  }
+
+  Widget buildStatusIcon(int requestStatus) {
+    if (requestStatus == AppConstants.status.lock) {
+      return Icon(
+        Icons.lock_outline,
+        size: 16,
+        color: Colors.green,
+      );
+    } else if (requestStatus == AppConstants.status.unlock) {
+      return Icon(
+        Icons.lock_open_outlined,
+        size: 16,
+        color: Colors.red,
+      );
+    } else if (requestStatus == AppConstants.status.markAsPaid) {
+      return Icon(
+        Icons.currency_pound_outlined,
+        size: 16,
+        color: defaultAccentColor_(Get.context!),
+      );
+    } else {
+      return Container();
+    }
   }
 }

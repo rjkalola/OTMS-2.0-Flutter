@@ -186,7 +186,8 @@ class FeedTabController extends GetxController {
       //Rates
       else if (notificationType == AppConstants.notificationType.CHNAGE_RATE
           || notificationType == AppConstants.notificationType.APPROVE_RATE
-          || notificationType == AppConstants.notificationType.REJECT_RATE) {
+          || notificationType == AppConstants.notificationType.REJECT_RATE
+          || notificationType == AppConstants.notificationType.CHANGE_TRADE) {
         if ((info.requestLogId ?? 0) != 0) {
           String rout = AppRoutes.ratesRequestScreen;
           var arguments = {

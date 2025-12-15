@@ -19,7 +19,7 @@ class NetPerDayTextField extends StatelessWidget {
         labelText: "(£)${'net_per_day'.tr}",
         keyboardType: TextInputType.numberWithOptions(decimal: true),
         textInputAction: TextInputAction.done,
-        isEnabled: !(controller.isRateRequested),
+        isEnabled: !(controller.isRateRequested.value),
         onPressed: () {},
         textStyle: TextStyle(
           fontWeight: FontWeight.bold,

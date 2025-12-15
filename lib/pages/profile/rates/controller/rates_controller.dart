@@ -35,16 +35,14 @@ class RatesController extends GetxController implements SelectItemListener, Dial
   var grossPerDay = 0.0.obs;
   var cis = 0.0.obs;
   int? tradeId = 0;
-  bool isRateRequested = false;
+  RxBool isRateRequested = false.obs;
   var isShowSaveButton = true.obs;
   final List<ModuleInfo> listTrades = <ModuleInfo>[].obs;
 
-  ///Save button control
   RxBool isSaveEnabled = false.obs;
-
-  /// Store original values to detect change
   String originalNetPerDay = "";
   int? originalTradeId;
+  bool isDataChanged = false;
 
   @override
   void onInit() {
@@ -60,7 +58,7 @@ class RatesController extends GetxController implements SelectItemListener, Dial
     getTradeDataApi();
   }
   void setInitData() {
-    isRateRequested = billingInfo.value.is_rate_requested ?? false;
+    isRateRequested.value = billingInfo.value.is_rate_requested ?? false;
     tradeId = billingInfo.value.tradeId;
     originalTradeId = tradeId;
     if (billingInfo.value.is_rate_requested ?? false){
@@ -86,7 +84,6 @@ class RatesController extends GetxController implements SelectItemListener, Dial
     grossPerDay.value = net + cis.value;
     _checkForChanges();
   }
-  /// Detect if Save button should be enabled
   void _checkForChanges() {
     bool changed = false;
     if (netPerDayController.value.text != originalNetPerDay) {
@@ -128,7 +125,8 @@ class RatesController extends GetxController implements SelectItemListener, Dial
           BaseResponse response =
           BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.Message ?? "");
-          //Get.back(result: true);
+          isDataChanged = true;
+          isRateRequested.value = true;
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
@@ -159,7 +157,8 @@ class RatesController extends GetxController implements SelectItemListener, Dial
           BaseResponse response =
           BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.Message ?? "");
-          //Get.back(result: true);
+          isDataChanged = true;
+          isRateRequested.value = true;
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
@@ -238,7 +237,9 @@ class RatesController extends GetxController implements SelectItemListener, Dial
       _checkForChanges();
     }
   }
-
+  void onBackPress() {
+    Get.back(result: isDataChanged);
+  }
   @override
   void onNegativeButtonClicked(String dialogIdentifier) {
     // TODO: implement onNegativeButtonClicked
