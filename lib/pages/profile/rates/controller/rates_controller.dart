@@ -5,6 +5,7 @@ import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:belcka/pages/common/listener/select_item_listener.dart';
 import 'package:belcka/pages/profile/billing_info/model/billing_ifo.dart';
 import 'package:belcka/pages/profile/rates/controller/rates_repository.dart';
+import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
@@ -63,8 +64,22 @@ class RatesController extends GetxController implements SelectItemListener, Dial
     originalTradeId = tradeId;
     if (billingInfo.value.is_rate_requested ?? false){
       //newNetRatePerDay
+
+      double oldRate = parseToDouble(billingInfo.value.net_rate_perDay ?? "");
+      double newRate = parseToDouble(billingInfo.value.newNetRatePerDay ?? "");
+
+      String netPerDayText = "";
+      if (newRate > 0) {
+        netPerDayText = "$oldRate > $newRate";
+      }
+      else{
+        netPerDayText = "$oldRate";
+      }
+      /*
       netPerDayController.value.text = (billingInfo.value.newNetRatePerDay ?? "").isEmpty ?
-      billingInfo.value.net_rate_perDay ?? "" : billingInfo.value.newNetRatePerDay ?? "";;
+      billingInfo.value.net_rate_perDay ?? "" : billingInfo.value.newNetRatePerDay ?? "";
+      */
+      netPerDayController.value.text = netPerDayText;
     }
     else{
       //oldNetRatePerDay
@@ -78,10 +93,26 @@ class RatesController extends GetxController implements SelectItemListener, Dial
     //calculate gross per day and cis 20%
     calculateGrossAndCIS();
   }
+  double parseToDouble(dynamic value) {
+    if (value == null) return 0.0;
+    if (value is num) return value.toDouble();
+    if (value is String && value.isNotEmpty) {
+      return double.tryParse(value) ?? 0.0;
+    }
+    return 0.0;
+  }
   void calculateGrossAndCIS(){
-    final net = double.tryParse(netPerDayController.value.text ?? "") ?? 0.0;
-    cis.value = net * 0.20;
-    grossPerDay.value = net + cis.value;
+    if (billingInfo.value.is_rate_requested ?? false){
+      final net = double.tryParse((billingInfo.value.newNetRatePerDay ?? "").isEmpty ?
+      billingInfo.value.net_rate_perDay ?? "" : billingInfo.value.newNetRatePerDay ?? "") ?? 0.0;
+      cis.value = net * 0.20;
+      grossPerDay.value = net + cis.value;
+    }
+    else{
+      final net = double.tryParse(netPerDayController.value.text ?? "") ?? 0.0;
+      cis.value = net * 0.20;
+      grossPerDay.value = net + cis.value;
+    }
     _checkForChanges();
   }
   void _checkForChanges() {
@@ -228,6 +259,18 @@ class RatesController extends GetxController implements SelectItemListener, Dial
         backgroundColor: Colors.transparent,
         isScrollControlled: true);
   }
+  showActionDialog(String dialogType) async {
+    AlertDialogHelper.showAlertDialog(
+        "",
+        'would_you_like_to_change'.tr,
+        'yes'.tr,
+        'no'.tr,
+        "",
+        true,
+        false,
+        this,
+        dialogType);
+  }
 
   @override
   void onSelectItem(int position, int id, String name, String action) {
@@ -242,7 +285,7 @@ class RatesController extends GetxController implements SelectItemListener, Dial
   }
   @override
   void onNegativeButtonClicked(String dialogIdentifier) {
-    // TODO: implement onNegativeButtonClicked
+    Get.back();
   }
 
   @override
@@ -253,5 +296,8 @@ class RatesController extends GetxController implements SelectItemListener, Dial
   @override
   void onPositiveButtonClicked(String dialogIdentifier) {
     // TODO: implement onPositiveButtonClicked
+    Get.back();
+    isShowSaveButton.value = false;
+    onSubmit();
   }
 }

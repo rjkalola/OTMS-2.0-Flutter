@@ -146,7 +146,7 @@ class _AddressDetailsScreenState extends State<AddressDetailsScreen>
 
   @override
   void onSelectDateFilter(
-      String startDate, String endDate, String dialogIdentifier) {
+      int filterIndex, String filter,String startDate, String endDate, String dialogIdentifier) {
     // TODO: implement onSelectDateFilter
     controller.isResetEnable.value = true;
     controller.startDate = startDate;

@@ -131,8 +131,7 @@ class _BillingDetailsNewScreenState extends State<BillingDetailsNewScreen> {
                                                 children: [
                                                   TextSpan(text: "${controller.billingInfo.value.tradeName ?? ""} - "),
                                                   TextSpan(
-                                                    text:
-                                                    "${controller.billingInfo.value.currency ?? ""}${controller.currentRatePerDay.value}",
+                                                    text: controller.currentRatePerDay.value,
                                                     style: const TextStyle(fontWeight: FontWeight.bold),
                                                   ),
                                                 ],

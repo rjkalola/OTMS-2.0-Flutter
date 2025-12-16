@@ -170,19 +170,10 @@ class _RatesScreenState extends State<RatesScreen> {
                                     child: ElevatedButton(
                                       onPressed: enabled
                                           ? () {
-                                              double netPerDay =
-                                                  double.tryParse(controller
-                                                          .netPerDayController
-                                                          .value
-                                                          .text) ??
-                                                      0;
-                                              if (netPerDay > 0) {
-                                                FocusScope.of(context)
-                                                    .unfocus();
-                                                controller.isShowSaveButton
-                                                    .value = false;
-                                                controller.onSubmit();
-                                              }
+                                              FocusScope.of(context).unfocus();
+                                              controller.showActionDialog(
+                                                  AppConstants.dialogIdentifier
+                                                      .approve);
                                             }
                                           : null,
                                       style: ElevatedButton.styleFrom(

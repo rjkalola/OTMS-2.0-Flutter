@@ -112,7 +112,7 @@ class TimeSheetList extends StatelessWidget {
                                 color: dashBoardBgColor_(Get.context!),
                                 borderWidth: 0,
                                 borderColor: primaryTextColor_(Get.context!)),
-                            child: controller.buildStatusIcon(6),
+                            child: controller.buildStatusIcon(status),
                           ),
                         ),
                       )

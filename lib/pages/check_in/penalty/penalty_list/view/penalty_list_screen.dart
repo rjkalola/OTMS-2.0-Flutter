@@ -85,7 +85,7 @@ class _PenaltyListScreenState extends State<PenaltyListScreen>
 
   @override
   void onSelectDateFilter(
-      String startDate, String endDate, String dialogIdentifier) {
+      int filterIndex, String filter,String startDate, String endDate, String dialogIdentifier) {
     controller.startDate = startDate;
     controller.endDate = endDate;
     controller.getPenaltyListApi(true);

@@ -22,6 +22,7 @@ import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/date_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/module_info.dart';
@@ -311,13 +312,15 @@ class AddressDetailsController extends GetxController
 
   void showMenuItemsDialog(BuildContext context) {
     List<ModuleInfo> listItems = [];
-    listItems.add(ModuleInfo(
-        name: 'archive_address'.tr,
-        action: AppConstants.action.archiveProject));
-    listItems.add(ModuleInfo(
-        name: 'delete_address'.tr, action: AppConstants.action.delete));
-    listItems.add(
-        ModuleInfo(name: 'edit_address'.tr, action: AppConstants.action.edit));
+    if (UserUtils.isAdmin()) {
+      listItems.add(ModuleInfo(
+          name: 'archive_address'.tr,
+          action: AppConstants.action.archiveProject));
+      listItems.add(ModuleInfo(
+          name: 'delete_address'.tr, action: AppConstants.action.delete));
+      listItems.add(ModuleInfo(
+          name: 'edit_address'.tr, action: AppConstants.action.edit));
+    }
     listItems.add(ModuleInfo(
         name: 'change_progress'.tr, action: AppConstants.action.inProgress));
     showCupertinoModalPopup(

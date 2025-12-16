@@ -173,6 +173,8 @@ class SharedPreferenceKey {
   final String shiftId = "SHIFT_ID";
   final String themeMode = "THEME_MODE";
   final String lastLocation = "LAST_LOCATION";
+  final String timesheetDateFilterIndex = "TIMESHEET_DATE_FILTER_INDEX";
+  final String timesheetViewAmountVisible = "VIEW_AMOUNT_VISIBLE";
 }
 
 class Action {

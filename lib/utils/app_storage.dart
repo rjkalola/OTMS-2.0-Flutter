@@ -262,6 +262,30 @@ class AppStorage extends GetxController {
     return value;
   }
 
+  void setTimesheetDateFilterIndex(int value) {
+    storage.write(
+        AppConstants.sharedPreferenceKey.timesheetDateFilterIndex, value);
+  }
+
+  int getTimesheetDateFilterIndex() {
+    final value = storage
+            .read(AppConstants.sharedPreferenceKey.timesheetDateFilterIndex) ??
+        1;
+    return value;
+  }
+
+  void setTimeSheetViewAmountVisible(bool value) {
+    storage.write(
+        AppConstants.sharedPreferenceKey.timesheetViewAmountVisible, value);
+  }
+
+  bool getTimeSheetViewAmountVisible() {
+    final value = storage.read(
+            AppConstants.sharedPreferenceKey.timesheetViewAmountVisible) ??
+        false;
+    return value;
+  }
+
   void clearAllData() {
     AppConstants.isResourcesLoaded = false;
     ApiConstants.companyId = 0;
@@ -277,6 +301,8 @@ class AppStorage extends GetxController {
     removeData(AppConstants.sharedPreferenceKey.userPermissionData);
     removeData(AppConstants.sharedPreferenceKey.localSequenceChangeData);
     removeData(AppConstants.sharedPreferenceKey.isLocalSequenceChanged);
+    removeData(AppConstants.sharedPreferenceKey.timesheetDateFilterIndex);
+    removeData(AppConstants.sharedPreferenceKey.timesheetViewAmountVisible);
   }
 
   void removeData(String key) {

@@ -5,6 +5,7 @@ import 'package:belcka/res/colors.dart';
 import 'package:belcka/res/drawable.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/image_utils.dart';
+import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
@@ -110,11 +111,15 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
         ),
       ),
       Visibility(
-        visible: true,
+          visible: !UserUtils.isAdmin(), child: const SizedBox(width: 10)),
+      Visibility(
+        visible: UserUtils.isAdmin(),
         child: IconButton(
           icon: Icon(Icons.more_vert_outlined),
           onPressed: () {
-            controller.showMenuItemsDialog(Get.context!);
+            if (UserUtils.isAdmin()) {
+              controller.showMenuItemsDialog(Get.context!);
+            }
           },
         ),
       ),

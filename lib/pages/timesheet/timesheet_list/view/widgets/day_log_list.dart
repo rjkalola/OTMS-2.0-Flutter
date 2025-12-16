@@ -138,7 +138,7 @@ class DayLogList extends StatelessWidget {
                     color: dashBoardBgColor_(Get.context!),
                     borderWidth: 0,
                     borderColor: primaryTextColor_(Get.context!)),
-                child: controller.buildStatusIcon(6),
+                child: controller.buildStatusIcon(status),
               ),
             ),
           )
@@ -240,7 +240,7 @@ class DayLogList extends StatelessWidget {
                         width: 4,
                       ),
                       SizedBox(
-                        width: 140,
+                        width: 130,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -282,6 +282,104 @@ class DayLogList extends StatelessWidget {
         ),
       );
 
+  // Widget timeSheetItem(DayLogInfo info) => Obx(
+  //       () => Stack(
+  //         children: [
+  //           Padding(
+  //             padding: EdgeInsets.fromLTRB(
+  //                 controller.isEditEnable.value ? 0 : 10, 12, 13, 12),
+  //             child: GestureDetector(
+  //               onTap: () {
+  //                 if (!controller.isEditEnable.value &&
+  //                     !controller.isEditStatusEnable.value) {
+  //                   controller.onClickWorkLogItem(info.id ?? 0,
+  //                       controller.timeSheetList[parentPosition].userId ?? 0);
+  //                 } else {
+  //                   if (controller.isEditEnable.value) {
+  //                     info.isCheck = !(info.isCheck ?? false);
+  //                     controller.timeSheetList.refresh();
+  //                   }
+  //                 }
+  //                 controller.checkSelectAll();
+  //               },
+  //               child: Container(
+  //                 color: Colors.transparent,
+  //                 child: Row(
+  //                   children: [
+  //                     Visibility(
+  //                       visible: controller.isEditEnable.value,
+  //                       child: CustomCheckbox(
+  //                           onValueChange: (value) {
+  //                             info.isCheck = !(info.isCheck ?? false);
+  //                             controller.timeSheetList.refresh();
+  //                             controller.checkSelectAll();
+  //                           },
+  //                           mValue: info.isCheck ?? false),
+  //                     ),
+  //                     dayDate(info),
+  //                     SizedBox(
+  //                       width: 4,
+  //                     ),
+  //                     Expanded(
+  //                       child: Row(
+  //                         children: [
+  //                           Flexible(
+  //                               fit: FlexFit.tight,
+  //                               flex: 5,
+  //                               child: shiftName(
+  //                                   info.shiftName,
+  //                                   ThemeConfig.isDarkMode
+  //                                       ? Color(0xFF4BA0F3)
+  //                                       : Color(0xffACDBFE))),
+  //                           Flexible(
+  //                               fit: FlexFit.tight,
+  //                               flex: 6,
+  //                               child: Row(
+  //                                 mainAxisAlignment: MainAxisAlignment.end,
+  //                                 children: [
+  //                                   // Expanded(child: Container()),
+  //                                   totalWorkHour(info),
+  //                                   SizedBox(
+  //                                     width: 4,
+  //                                   ),
+  //                                   RightArrowWidget(
+  //                                     color: primaryTextColor_(Get.context!),
+  //                                   )
+  //                                 ],
+  //                               ))
+  //                         ],
+  //                       ),
+  //                     ),
+  //                     // Expanded(child: Container()),
+  //                     // totalWorkHour(info),
+  //                     // SizedBox(
+  //                     //   width: 4,
+  //                     // ),
+  //                     // RightArrowWidget(
+  //                     //   color: primaryTextColor_(Get.context!),
+  //                     // )
+  //                   ],
+  //                 ),
+  //               ),
+  //             ),
+  //           ),
+  //           Align(
+  //             alignment: Alignment.topRight,
+  //             child: Visibility(
+  //               visible: (info.userCheckLogsCount ?? 0) != 0,
+  //               child: Padding(
+  //                 padding: const EdgeInsets.only(right: 16, top: 6),
+  //                 child: CustomBadgeIcon(
+  //                   count: info.userCheckLogsCount ?? 0,
+  //                   color: defaultAccentColor_(Get.context!),
+  //                 ),
+  //               ),
+  //             ),
+  //           )
+  //         ],
+  //       ),
+  //     );
+
   Widget leaveItem(DayLogInfo info) {
     LeaveInfo? leaveInfo = info.leaveInfo;
     return leaveInfo != null
@@ -314,7 +412,7 @@ class DayLogList extends StatelessWidget {
                       width: 4,
                     ),
                     SizedBox(
-                      width: 140,
+                      width: 130,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -394,7 +492,7 @@ class DayLogList extends StatelessWidget {
                       width: 4,
                     ),
                     SizedBox(
-                      width: 140,
+                      width: 130,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -469,7 +567,7 @@ class DayLogList extends StatelessWidget {
                         width: 4,
                       ),
                       SizedBox(
-                        width: 140,
+                        width: 130,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [

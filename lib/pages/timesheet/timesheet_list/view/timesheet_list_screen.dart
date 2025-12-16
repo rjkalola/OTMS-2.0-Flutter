@@ -17,6 +17,8 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
+import '../../../../utils/app_storage.dart';
+
 class TimeSheetListScreen extends StatefulWidget {
   const TimeSheetListScreen({super.key});
 
@@ -210,14 +212,24 @@ class _TimeSheetListScreenState extends State<TimeSheetListScreen>
   }
 
   @override
-  void onSelectDateFilter(
-      String startDate, String endDate, String dialogIdentifier) {
+  void onSelectDateFilter(int filterIndex, String filter, String startDate,
+      String endDate, String dialogIdentifier) {
+    int index = 1;
+    if (filter != "Custom" && filter != "Reset") {
+      index = filterIndex;
+    }
+    Get.find<AppStorage>().setTimesheetDateFilterIndex(index);
+
+    print("filterIndex:" + filterIndex.toString());
+    print("filter:" + filter);
     // controller.isResetEnable.value = true;
     controller.startDate = startDate;
     controller.endDate = endDate;
     if (StringHelper.isEmptyString(startDate) &&
         StringHelper.isEmptyString(endDate)) {
       controller.appliedFilters = {};
+      Get.find<AppStorage>().setTimeSheetViewAmountVisible(false);
+      Get.find<AppStorage>().setTimesheetDateFilterIndex(1);
       controller.isViewAmount.value = false;
     }
     controller.loadTimesheetData(true);

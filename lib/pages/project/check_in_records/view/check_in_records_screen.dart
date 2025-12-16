@@ -117,7 +117,7 @@ class _CheckInRecordsScreenState extends State<CheckInRecordsScreen>
 
   @override
   void onSelectDateFilter(
-      String startDate, String endDate, String dialogIdentifier) {
+      int filterIndex, String filter,String startDate, String endDate, String dialogIdentifier) {
     controller.isResetEnable.value = true;
     controller.startDate = startDate;
     controller.endDate = endDate;

@@ -84,7 +84,7 @@ class _CheckInDayLogsScreenState extends State<CheckInDayLogsScreen>
 
   @override
   void onSelectDateFilter(
-      String startDate, String endDate, String dialogIdentifier) {
+      int filterIndex, String filter,String startDate, String endDate, String dialogIdentifier) {
     controller.startDate = startDate;
     controller.endDate = endDate;
     controller.getCheckLogListApi(true);

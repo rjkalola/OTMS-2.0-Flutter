@@ -17,6 +17,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../utils/app_storage.dart';
+import '../../../../utils/data_utils.dart';
+import '../../../../utils/date_utils.dart';
 import '../../../../web_services/api_constants.dart';
 import '../../../../web_services/response/response_model.dart';
 
@@ -49,6 +52,7 @@ class TimeSheetListController extends GetxController
       isAllUserTimeSheet =
           arguments[AppConstants.intentKey.isAllUserTimeSheet] ?? false;
     }
+    setInitialFilter();
     if (isAllUserTimeSheet) {
       title.value = 'time_tracking'.tr;
     } else {
@@ -88,7 +92,6 @@ class TimeSheetListController extends GetxController
           timeSheetList.refresh();
           isEditEnable.value = false;
           isEditStatusEnable.value = false;
-          isViewAmount.value = false;
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
@@ -132,7 +135,6 @@ class TimeSheetListController extends GetxController
           timeSheetList.refresh();
           isEditEnable.value = false;
           isEditStatusEnable.value = false;
-          isViewAmount.value = false;
           // isExpanded.value = false;
           setExpandCollapse();
         } else {
@@ -351,7 +353,8 @@ class TimeSheetListController extends GetxController
         };
         moveToScreen(AppRoutes.archiveTimeSheetListScreen, arguments);
       } else if (info.action == AppConstants.action.viewAmount) {
-        isViewAmount.value = !isViewAmount.value;
+        Get.find<AppStorage>().setTimeSheetViewAmountVisible(true);
+        isViewAmount.value = true;
       } else if (info.action == AppConstants.action.addExpense) {
         var arguments = {
           AppConstants.intentKey.userId: UserUtils.getLoginUserId(),
@@ -553,6 +556,20 @@ class TimeSheetListController extends GetxController
       );
     } else {
       return Container();
+    }
+  }
+
+  void setInitialFilter() {
+    if (isAllUserTimeSheet) {
+      isViewAmount.value =
+          Get.find<AppStorage>().getTimeSheetViewAmountVisible();
+      selectedDateFilterIndex.value =
+          Get.find<AppStorage>().getTimesheetDateFilterIndex();
+      List<DateTime> listDates = DateUtil.getDateWeekRange(
+          DataUtils.dateFilterList[selectedDateFilterIndex.value]);
+      startDate =
+          DateUtil.dateToString(listDates[0], DateUtil.DD_MM_YYYY_SLASH);
+      endDate = DateUtil.dateToString(listDates[1], DateUtil.DD_MM_YYYY_SLASH);
     }
   }
 }

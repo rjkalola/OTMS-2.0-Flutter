@@ -59,7 +59,8 @@ class DateFilterOptionsHorizontalList extends StatelessWidget
                       showDateRangePickerDialog("", startDateTime, endDateTime,
                           DateTime(1900), DateTime(2100));
                     } else if (DataUtils.dateFilterList[index] == "Reset") {
-                      listener?.onSelectDateFilter("", "", "");
+                      listener?.onSelectDateFilter(
+                          index, DataUtils.dateFilterList[index], "", "", "");
                     } else {
                       List<DateTime> listDates = DateUtil.getDateWeekRange(
                           DataUtils.dateFilterList[index]);
@@ -67,7 +68,12 @@ class DateFilterOptionsHorizontalList extends StatelessWidget
                           listDates[0], DateUtil.DD_MM_YYYY_SLASH);
                       String endDate = DateUtil.dateToString(
                           listDates[1], DateUtil.DD_MM_YYYY_SLASH);
-                      listener?.onSelectDateFilter(startDate, endDate, "");
+                      listener?.onSelectDateFilter(
+                          index,
+                          DataUtils.dateFilterList[index],
+                          startDate,
+                          endDate,
+                          "");
                     }
                   },
                   child: Container(
@@ -105,6 +111,11 @@ class DateFilterOptionsHorizontalList extends StatelessWidget
         DateUtil.dateToString(startDate, DateUtil.DD_MM_YYYY_SLASH);
     String endDateStr =
         DateUtil.dateToString(endDate, DateUtil.DD_MM_YYYY_SLASH);
-    listener?.onSelectDateFilter(startDateStr, endDateStr, "");
+    listener?.onSelectDateFilter(
+        selectedPosition.value,
+        DataUtils.dateFilterList[selectedPosition.value],
+        startDateStr,
+        endDateStr,
+        "");
   }
 }

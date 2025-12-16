@@ -1,4 +1,4 @@
 abstract class DateFilterListener {
-  void onSelectDateFilter(
-      String startDate, String endDate, String dialogIdentifier);
+  void onSelectDateFilter(int filterIndex, String filter, String startDate,
+      String endDate, String dialogIdentifier);
 }

@@ -22,14 +22,13 @@ class DateFilterMyRequestOptionsHorizontalList extends StatelessWidget {
           return CardViewDashboardItem(
               child: GestureDetector(
                 onTap: () {
-
                   List<DateTime> listDates =
                   DateUtil.getMyRequestsDateRange(DataUtils.dateFilterListMyRequest[index]);
                   String startDate = DateUtil.dateToString(
                       listDates[0], DateUtil.DD_MM_YYYY_SLASH);
                   String endDate = DateUtil.dateToString(
                       listDates[1], DateUtil.DD_MM_YYYY_SLASH);
-                  listener?.onSelectDateFilter(startDate, endDate,"");
+                  listener?.onSelectDateFilter(0,"",startDate, endDate,"");
 
                 },
                 child: Container(

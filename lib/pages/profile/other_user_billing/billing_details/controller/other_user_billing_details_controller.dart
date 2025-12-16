@@ -52,6 +52,7 @@ class OtherUserBillingDetailsController extends GetxController {
   String bankDetails = "";
   int user_id = 0;
   bool fromNotification = false;
+  RxString currentRatePerDay = "".obs;
 
   @override
   void onInit() {
@@ -63,6 +64,14 @@ class OtherUserBillingDetailsController extends GetxController {
           arguments[AppConstants.intentKey.fromNotification] ?? false;
     }
     getBillingInfo();
+  }
+  double parseToDouble(dynamic value) {
+    if (value == null) return 0.0;
+    if (value is num) return value.toDouble();
+    if (value is String && value.isNotEmpty) {
+      return double.tryParse(value) ?? 0.0;
+    }
+    return 0.0;
   }
   void getBillingInfo() async {
     Map<String, dynamic> map = {};
@@ -117,6 +126,27 @@ class OtherUserBillingDetailsController extends GetxController {
           }
           else{
             bankDetails = "";
+          }
+
+          if (billingInfo.value.is_rate_requested ?? false){
+            //newNetRatePerDay
+            double oldRate = parseToDouble(billingInfo.value.net_rate_perDay ?? "");
+            double newRate = parseToDouble(billingInfo.value.newNetRatePerDay ?? "");
+
+            String netPerDayText = "";
+            if (newRate > 0) {
+              netPerDayText = "${billingInfo.value.currency ?? ""}$oldRate > ${billingInfo.value.currency ?? ""}$newRate";
+            }
+            else {
+              netPerDayText = "${billingInfo.value.currency ?? ""}$oldRate";
+            }
+            currentRatePerDay.value = netPerDayText;
+          }
+          else{
+            //oldNetRatePerDay
+            String rates = (billingInfo.value.oldNetRatePerDay ?? "").isEmpty ?
+            billingInfo.value.net_rate_perDay ?? "" : billingInfo.value.oldNetRatePerDay ?? "";
+            currentRatePerDay.value = "${billingInfo.value.currency ?? ""}${rates}";
           }
 
           isMainViewVisible.value = true;
