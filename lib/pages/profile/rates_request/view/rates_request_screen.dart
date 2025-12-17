@@ -81,7 +81,7 @@ class _RatesRequestScreenState extends State<RatesRequestScreen> {
                             ),
                             SizedBox(height: 4),
                             Text(
-                              "${controller.tradeName}",
+                              controller.tradeName,
                               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             Divider(height: 8),
@@ -93,7 +93,7 @@ class _RatesRequestScreenState extends State<RatesRequestScreen> {
                             ),
                             SizedBox(height: 4),
                             Text(
-                              "${controller.joiningDate}",
+                              controller.joiningDate,
                               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                             ),
                             Divider(height: 8),
@@ -139,7 +139,7 @@ class _RatesRequestScreenState extends State<RatesRequestScreen> {
                               ],
                             ),
                             SizedBox(height: 32),
-                            (UserUtils.isAdmin() && (controller.rateRequestInfo.value.statusText == "pending" && controller.rateRequestInfo.value.is_show == true)) ?
+                            (UserUtils.isAdmin() && (controller.rateRequestInfo.value.statusText == "pending" && controller.rateRequestInfo.value.isShow == true)) ?
                             Visibility(
                               visible: controller.isShowSaveButton.value,
                               child: Column(
@@ -166,7 +166,7 @@ class _RatesRequestScreenState extends State<RatesRequestScreen> {
                                 ],
                               ),
                             ) : Visibility(
-                              visible: (controller.rateRequestInfo.value.statusText == "pending" && controller.rateRequestInfo.value.is_show == true) ? true : false,
+                              visible: (controller.rateRequestInfo.value.statusText == "pending" && controller.rateRequestInfo.value.isShow == true) ? true : false,
                                 child: RateRequestPendingForApproval())
                           ],
                         ),

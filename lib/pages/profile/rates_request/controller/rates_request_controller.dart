@@ -80,7 +80,30 @@ class RatesRequestController extends GetxController implements DialogButtonClick
 
           netPerDayController.value.text = netPerDayText;
           joiningDate = rateRequestInfo.value.joiningDate ?? "";
-          tradeName = rateRequestInfo.value.tradeName ?? "";
+
+          String newTrade = rateRequestInfo.value.newTrade ?? "";
+          String oldTrade = rateRequestInfo.value.oldTrade ?? "";
+          String initialTrade = rateRequestInfo.value.tradeName ?? "";
+
+          bool hasNewTrade = newTrade.trim().isNotEmpty;
+          bool hasOldTrade = oldTrade.trim().isNotEmpty;
+
+          String displayTrade;
+          if (hasNewTrade && hasOldTrade) {
+            // old > new
+            displayTrade = "$oldTrade > $newTrade";
+          } else if (hasNewTrade) {
+            // only new exists
+            displayTrade = newTrade;
+          } else if (hasOldTrade) {
+            // only old exists
+            displayTrade = oldTrade;
+          } else {
+            // fallback
+            displayTrade = initialTrade;
+          }
+          tradeName = displayTrade;
+
           cis = netPerDay * 0.20;
           grossPerDay = netPerDay + cis;
           isMainViewVisible.value = true;

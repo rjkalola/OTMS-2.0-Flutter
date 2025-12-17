@@ -53,6 +53,7 @@ class OtherUserBillingDetailsController extends GetxController {
   int user_id = 0;
   bool fromNotification = false;
   RxString currentRatePerDay = "".obs;
+  RxString currentTradeName = "".obs;
 
   @override
   void onInit() {
@@ -141,12 +142,36 @@ class OtherUserBillingDetailsController extends GetxController {
               netPerDayText = "${billingInfo.value.currency ?? ""}$oldRate";
             }
             currentRatePerDay.value = netPerDayText;
+
+            String newTrade = billingInfo.value.newTrade ?? "";
+            String oldTrade = billingInfo.value.oldTrade ?? "";
+            String initialTrade = billingInfo.value.tradeName ?? "";
+
+            bool hasNewTrade = newTrade.trim().isNotEmpty;
+            bool hasOldTrade = oldTrade.trim().isNotEmpty;
+
+            String displayTrade;
+            if (hasNewTrade && hasOldTrade) {
+              // old > new
+              displayTrade = "$oldTrade > $newTrade";
+            } else if (hasNewTrade) {
+              // only new exists
+              displayTrade = newTrade;
+            } else if (hasOldTrade) {
+              // only old exists
+              displayTrade = oldTrade;
+            } else {
+              // fallback
+              displayTrade = initialTrade;
+            }
+            currentTradeName.value = displayTrade;
           }
           else{
             //oldNetRatePerDay
             String rates = (billingInfo.value.oldNetRatePerDay ?? "").isEmpty ?
             billingInfo.value.net_rate_perDay ?? "" : billingInfo.value.oldNetRatePerDay ?? "";
             currentRatePerDay.value = "${billingInfo.value.currency ?? ""}${rates}";
+            currentTradeName.value = billingInfo.value.tradeName ?? "";
           }
 
           isMainViewVisible.value = true;

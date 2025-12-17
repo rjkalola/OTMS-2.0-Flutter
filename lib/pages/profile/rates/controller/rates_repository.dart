@@ -32,6 +32,19 @@ class RatesRepository {
       onError: (error) => {if (onError != null) onError(error)},
     );
   }
+  void changeRateAndTrade({
+    dynamic data,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(url: ApiConstants.changeRateAndTrade, data: data, isFormData: false)
+        .postRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
 
   void getCompanyResourcesApi({
     Map<String, dynamic>? queryParameters,

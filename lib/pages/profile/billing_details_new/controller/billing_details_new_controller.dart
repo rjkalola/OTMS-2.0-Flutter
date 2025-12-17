@@ -51,6 +51,7 @@ class BillingDetailsNewController extends GetxController {
   String bankDetails = "";
   bool showPayRate = true;
   RxString currentRatePerDay = "".obs;
+  RxString currentTradeName = "".obs;
   bool fromNotification = false;
   int? userId = 0;
 
@@ -179,12 +180,42 @@ class BillingDetailsNewController extends GetxController {
             */
 
             currentRatePerDay.value = netPerDayText;
+
+            String newTrade = billingInfo.value.newTrade ?? "";
+            String oldTrade = billingInfo.value.oldTrade ?? "";
+            String initialTrade = billingInfo.value.tradeName ?? "";
+
+            bool hasNewTrade = newTrade.trim().isNotEmpty;
+            bool hasOldTrade = oldTrade.trim().isNotEmpty;
+
+            String displayTrade;
+            if (hasNewTrade && hasOldTrade) {
+              // old > new
+              displayTrade = "$oldTrade > $newTrade";
+            } else if (hasNewTrade) {
+              // only new exists
+              displayTrade = newTrade;
+            } else if (hasOldTrade) {
+              // only old exists
+              displayTrade = oldTrade;
+            } else {
+              // fallback
+              displayTrade = initialTrade;
+            }
+            currentTradeName.value = displayTrade;
           }
           else{
             //oldNetRatePerDay
             String rates = (billingInfo.value.oldNetRatePerDay ?? "").isEmpty ?
             billingInfo.value.net_rate_perDay ?? "" : billingInfo.value.oldNetRatePerDay ?? "";
-            currentRatePerDay.value = "${billingInfo.value.currency ?? ""}${rates}";
+
+            if (rates.isEmpty){
+              currentRatePerDay.value = "";
+            }
+            else{
+              currentRatePerDay.value = "${billingInfo.value.currency ?? ""}${rates}";
+            }
+            currentTradeName.value = billingInfo.value.tradeName ?? "";
           }
 
           isMainViewVisible.value = true;

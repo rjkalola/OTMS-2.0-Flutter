@@ -252,6 +252,7 @@ class ApiConstants {
       '$appUrl/setting/user-payrate-permission';
   static String updateProfile = '$appUrl/user/update-profile';
   static String rateHistory = '$appUrl/requests/get-rate-history';
+  static String changeRateAndTrade = '$appUrl/user-billing/change-trade-and-rate';
 
   // static String archiveUser = '$appUrl/user/unarchive-account';
 

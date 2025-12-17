@@ -44,15 +44,22 @@ class ProfileAvatarWidget extends StatelessWidget {
               height: 120,
               decoration: BoxDecoration(
                 color: Colors.white,
-                border: Border.all(color: Colors.black, width: 1.5),
+                border: Border.all(color: Colors.grey.shade500, width: 0.5),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
-                child: !StringHelper.isEmptyString(controller.imagePath.value) ? Image.file(
-                  File(controller.imagePath.value ?? "")) : Image.network(
-                  "${controller.myProfileInfo.value.userThumbImage}",
+                child: !StringHelper.isEmptyString(controller.imagePath.value)
+                    ? Image.file(
+                  File(controller.imagePath.value!),
                   fit: BoxFit.cover,
+                )
+                    : Image.network(
+                  controller.myProfileInfo.value.userThumbImage ?? "",
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) => _placeholder(),
+                  loadingBuilder: (_, child, loading) =>
+                  loading == null ? child : _placeholder(),
                 ),
               ),
             ),
@@ -79,4 +86,16 @@ class ProfileAvatarWidget extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget _placeholder() {
+  return Container(
+    color: Colors.grey.shade200,
+    alignment: Alignment.center,
+    child: Icon(
+      Icons.account_circle,
+      size: 100,
+      color: Colors.grey.shade500,
+    ),
+  );
 }

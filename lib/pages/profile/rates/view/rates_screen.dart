@@ -75,7 +75,7 @@ class _RatesScreenState extends State<RatesScreen> {
                               SizedBox(height: 16),
                               Visibility(
                                   visible: UserUtils.isAdmin(),
-                                  child: TradeSelectView()),
+                                  child:  (controller.isRateRequested.value) ? TradeView() : TradeSelectView()),
                               Visibility(
                                   visible: !UserUtils.isAdmin(),
                                   child: TradeView()),
@@ -86,7 +86,7 @@ class _RatesScreenState extends State<RatesScreen> {
                               ),
                               SizedBox(height: 4),
                               Text(
-                                "${controller.joiningDate}",
+                                controller.joiningDate,
                                 style: TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.w500),
                               ),

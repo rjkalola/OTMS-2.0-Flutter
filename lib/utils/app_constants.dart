@@ -383,6 +383,7 @@ class NotificationType {
   //User companies
   final String CHNAGE_RATE = "6001";
   final String CHANGE_TRADE = "6002";
+  final String CHANGE_RATE_TRADE = "6003";
   final String APPROVE_RATE = "13001";
   final String REJECT_RATE = "13002";
 

@@ -110,7 +110,7 @@ class _OtherUserBillingDetailsScreenState extends State<OtherUserBillingDetailsS
                                               fontSize: 18,
                                             ),
                                             children: [
-                                              TextSpan(text: "${controller.billingInfo.value.tradeName ?? ""} - "),
+                                              TextSpan(text: "${controller.currentTradeName.value} - "),
                                               TextSpan(
                                                 text: controller.currentRatePerDay.value,
                                                 style: const TextStyle(fontWeight: FontWeight.bold),
@@ -119,7 +119,7 @@ class _OtherUserBillingDetailsScreenState extends State<OtherUserBillingDetailsS
                                           ),
                                         )
                                             : Text(
-                                          controller.billingInfo.value.tradeName ?? "",
+                                          controller.currentTradeName.value,
                                           style: TextStyle(
                                             color: primaryTextColor_(context),
                                             fontSize: 16,

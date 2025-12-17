@@ -174,7 +174,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                                                     .selectDate,
                                                 controller.selectDate,
                                                 DateTime(1900),
-                                                DateTime(2100));
+                                                DateTime.now());
                                           },
                                         ),
                                       ),

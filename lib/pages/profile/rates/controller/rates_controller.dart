@@ -80,14 +80,37 @@ class RatesController extends GetxController implements SelectItemListener, Dial
       billingInfo.value.net_rate_perDay ?? "" : billingInfo.value.newNetRatePerDay ?? "";
       */
       netPerDayController.value.text = netPerDayText;
+
+      String newTrade = billingInfo.value.newTrade ?? "";
+      String oldTrade = billingInfo.value.oldTrade ?? "";
+      String initialTrade = billingInfo.value.tradeName ?? "";
+
+      bool hasNewTrade = newTrade.trim().isNotEmpty;
+      bool hasOldTrade = oldTrade.trim().isNotEmpty;
+
+      String displayTrade;
+      if (hasNewTrade && hasOldTrade) {
+        // old > new
+        displayTrade = "$oldTrade > $newTrade";
+      } else if (hasNewTrade) {
+        // only new exists
+        displayTrade = newTrade;
+      } else if (hasOldTrade) {
+        // only old exists
+        displayTrade = oldTrade;
+      } else {
+        // fallback
+        displayTrade = initialTrade;
+      }
+      tradeController.value.text = displayTrade;
     }
     else{
       //oldNetRatePerDay
       netPerDayController.value.text = (billingInfo.value.oldNetRatePerDay ?? "").isEmpty ?
       billingInfo.value.net_rate_perDay ?? "" : billingInfo.value.oldNetRatePerDay ?? "";
+      tradeController.value.text = billingInfo.value.tradeName ?? "";
     }
     originalNetPerDay = netPerDayController.value.text;
-    tradeController.value.text = billingInfo.value.tradeName ?? "";
     String joiningDateStr = billingInfo.value.joiningDate ?? "";
     joiningDate = joiningDateStr.split(" ").sublist(0, 3).join(" ");
     //calculate gross per day and cis 20%
@@ -131,12 +154,24 @@ class RatesController extends GetxController implements SelectItemListener, Dial
     super.onClose();
   }
   void onSubmit() {
-    if (netPerDayController.value.text != originalNetPerDay) {
-      changeCompanyRateAPI();
+
+    bool isBothChanged = false;
+    if ((netPerDayController.value.text != originalNetPerDay) && (tradeId != originalTradeId)){
+      isBothChanged = true;
     }
-    if (tradeId != originalTradeId) {
-      //call trade api
-      changeTradeAPI();
+    if (isBothChanged){
+      //both changed
+      changeRateAndTradeAPI();
+    }
+    else{
+      if (netPerDayController.value.text != originalNetPerDay) {
+        //rate change api
+        changeCompanyRateAPI();
+      }
+      if (tradeId != originalTradeId) {
+        //call trade api
+        changeTradeAPI();
+      }
     }
   }
   void changeCompanyRateAPI() async {
@@ -206,6 +241,41 @@ class RatesController extends GetxController implements SelectItemListener, Dial
       },
     );
   }
+  void changeRateAndTradeAPI() async {
+    Map<String, dynamic> map = {};
+    map["user_id"] = billingInfo.value.userId;
+    map["company_id"] = ApiConstants.companyId;
+    map["trade_id"] = tradeId;
+    double netPerDay = double.parse(netPerDayController.value.text ?? "");
+    map["new_rate_perDay"] = netPerDay;
+
+    isLoading.value = true;
+    _api.changeRateAndTrade(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          BaseResponse response =
+          BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showApiResponseMessage(response.Message ?? "");
+          isDataChanged = true;
+          isRateRequested.value = true;
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        isShowSaveButton.value = true;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showApiResponseMessage(error.statusMessage);
+        }
+      },
+    );
+  }
+
   bool valid() {
     return formKey.currentState!.validate();
   }

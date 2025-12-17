@@ -156,6 +156,7 @@ class ClockInController extends GetxController {
   }
 
   Future<void> getUserWorkLogListApi({bool? isProgress}) async {
+    print("getUserWorkLogListApi clock in");
     isLoading.value = isProgress ?? true;
     Map<String, dynamic> map = {};
     map["date"] = "";

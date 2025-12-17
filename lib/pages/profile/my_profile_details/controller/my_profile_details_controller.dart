@@ -88,11 +88,14 @@ class MyProfileDetailsController extends GetxController
             phoneController.value.text =
                 myProfileInfo.value.phoneWithExtension ?? "";
           }
-
           emailController.value.text = myProfileInfo.value.email ?? "";
-
+          int userRoleId = myProfileInfo.value.userRoleId ?? 0;
+          if (userRoleId == AppConstants.userType.admin){
+            myProfileInfo.value.tradeName = "Admin";
+          }
           isMainViewVisible.value = true;
-        } else {
+        }
+        else{
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;
