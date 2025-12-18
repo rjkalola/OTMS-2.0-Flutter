@@ -20,7 +20,6 @@ class ClockInUtils {
     bool isOnBreak = false;
     bool insideShiftTime = false;
 
-    // 🔒 SAFE EMPTY RETURN
     if (logs == null ||
         logs.workLogInfo == null ||
         logs.shiftInfo == null ||
@@ -29,11 +28,10 @@ class ClockInUtils {
     }
 
     final DateFormat fullFormat =
-    DateFormat(DateUtil.DD_MM_YYYY_TIME_24_SLASH2);
+        DateFormat(DateUtil.DD_MM_YYYY_TIME_24_SLASH2);
 
     final String workDay = logs.workStartDate!;
 
-    // 🔒 Guard shift times
     if (StringHelper.isEmptyString(logs.shiftInfo!.startTime) ||
         StringHelper.isEmptyString(logs.shiftInfo!.endTime)) {
       return _emptyCounter();
@@ -48,12 +46,10 @@ class ClockInUtils {
     DateTime shiftStartTime = fullFormat.parse(shiftStart);
     DateTime shiftEndTime = fullFormat.parse(shiftEnd);
 
-    // 🌙 Night shift support
     if (shiftEndTime.isBefore(shiftStartTime)) {
       shiftEndTime = shiftEndTime.add(const Duration(days: 1));
     }
 
-    // 🔒 Freeze after shift end
     DateTime now = DateTime.now();
     DateTime effectiveCurrentTime;
 
@@ -79,7 +75,6 @@ class ClockInUtils {
         workStartTime = shiftStartTime;
       }
 
-      // ✅ COMPLETED LOG
       if (!StringHelper.isEmptyString(log.workEndTime)) {
         DateTime workEndTime = fullFormat.parse(log.workEndTime!);
 
@@ -92,7 +87,6 @@ class ClockInUtils {
         continue;
       }
 
-      // 🔄 RUNNING LOG (FROZEN AFTER SHIFT END)
       DateTime workEndTime = effectiveCurrentTime;
 
       int runningSeconds = DateUtil.dateDifferenceInSeconds(
@@ -100,7 +94,6 @@ class ClockInUtils {
         date2: workEndTime,
       );
 
-      // 🔹 Break calculation
       if (logs.shiftInfo!.breaks != null) {
         for (var breakInfo in logs.shiftInfo!.breaks!) {
           if (StringHelper.isEmptyString(breakInfo.breakStartTime) ||
@@ -115,7 +108,6 @@ class ClockInUtils {
           DateTime breakStartTime = fullFormat.parse(breakStart);
           DateTime breakEndTime = fullFormat.parse(breakEnd);
 
-          // 🌙 Break crosses midnight
           if (breakEndTime.isBefore(breakStartTime)) {
             breakEndTime = breakEndTime.add(const Duration(days: 1));
           }
@@ -123,17 +115,13 @@ class ClockInUtils {
           if (breakEndTime.isBefore(workStartTime) ||
               breakStartTime.isAfter(workEndTime)) continue;
 
-          final DateTime actualStart =
-          breakStartTime.isBefore(workStartTime)
+          final DateTime actualStart = breakStartTime.isBefore(workStartTime)
               ? workStartTime
               : breakStartTime;
           final DateTime actualEnd =
-          breakEndTime.isAfter(workEndTime)
-              ? workEndTime
-              : breakEndTime;
+              breakEndTime.isAfter(workEndTime) ? workEndTime : breakEndTime;
 
-          final int breakSeconds =
-              actualEnd.difference(actualStart).inSeconds;
+          final int breakSeconds = actualEnd.difference(actualStart).inSeconds;
 
           runningSeconds -= breakSeconds;
           totalBreakHourSeconds += breakSeconds;
@@ -154,10 +142,8 @@ class ClockInUtils {
     return CounterDetails(
       totalWorkSeconds: totalWorkHourSeconds,
       activeWorkSeconds: activeWorkSeconds,
-      totalWorkTime:
-      DateUtil.seconds_To_HH_MM_SS(totalWorkHourSeconds),
-      remainingBreakTime:
-      DateUtil.seconds_To_HH_MM_SS(remainingBreakSeconds),
+      totalWorkTime: DateUtil.seconds_To_HH_MM_SS(totalWorkHourSeconds),
+      remainingBreakTime: DateUtil.seconds_To_HH_MM_SS(remainingBreakSeconds),
       remainingBreakSeconds: remainingBreakSeconds,
       isOnBreak: isOnBreak,
       insideShiftTime: insideShiftTime,
@@ -178,15 +164,13 @@ class ClockInUtils {
 
   static bool isCurrentDay(String inputDate) {
     DateTime? inputDateTime =
-    DateUtil.stringToDate(inputDate, DateUtil.DD_MM_YYYY_SLASH);
+        DateUtil.stringToDate(inputDate, DateUtil.DD_MM_YYYY_SLASH);
     DateTime today = DateTime.now();
     return inputDateTime?.year == today.year &&
         inputDateTime?.month == today.month &&
         inputDateTime?.day == today.day;
   }
 }
-
-
 
 // class ClockInUtils {
 //   static CounterDetails getTotalWorkHours(WorkLogListResponse? logs) {
