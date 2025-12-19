@@ -431,4 +431,8 @@ class AppUtils {
     );
     return polygon;
   }
+
+  static String formatStringToDecimals(double value) {
+    return value.toStringAsFixed(2);
+  }
 }

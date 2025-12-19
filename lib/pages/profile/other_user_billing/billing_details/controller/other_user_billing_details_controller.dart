@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:belcka/pages/profile/billing_details_new/model/active_company_info_response.dart';
 import 'package:belcka/pages/profile/billing_details_new/model/user_pay_rate_response.dart';
 import 'package:belcka/pages/profile/other_user_billing/billing_details/controller/other_user_billing_details_repository.dart';
 import 'package:dio/dio.dart' as multi;
@@ -128,58 +129,13 @@ class OtherUserBillingDetailsController extends GetxController {
           else{
             bankDetails = "";
           }
-
-          if (billingInfo.value.is_rate_requested ?? false){
-            //newNetRatePerDay
-            double oldRate = parseToDouble(billingInfo.value.net_rate_perDay ?? "");
-            double newRate = parseToDouble(billingInfo.value.newNetRatePerDay ?? "");
-
-            String netPerDayText = "";
-            if (newRate > 0) {
-              netPerDayText = "${billingInfo.value.currency ?? ""}$oldRate > ${billingInfo.value.currency ?? ""}$newRate";
-            }
-            else {
-              netPerDayText = "${billingInfo.value.currency ?? ""}$oldRate";
-            }
-            currentRatePerDay.value = netPerDayText;
-
-            String newTrade = billingInfo.value.newTrade ?? "";
-            String oldTrade = billingInfo.value.oldTrade ?? "";
-            String initialTrade = billingInfo.value.tradeName ?? "";
-
-            bool hasNewTrade = newTrade.trim().isNotEmpty;
-            bool hasOldTrade = oldTrade.trim().isNotEmpty;
-
-            String displayTrade;
-            if (hasNewTrade && hasOldTrade) {
-              // old > new
-              displayTrade = "$oldTrade > $newTrade";
-            } else if (hasNewTrade) {
-              // only new exists
-              displayTrade = newTrade;
-            } else if (hasOldTrade) {
-              // only old exists
-              displayTrade = oldTrade;
-            } else {
-              // fallback
-              displayTrade = initialTrade;
-            }
-            currentTradeName.value = displayTrade;
-          }
-          else{
-            //oldNetRatePerDay
-            String rates = (billingInfo.value.oldNetRatePerDay ?? "").isEmpty ?
-            billingInfo.value.net_rate_perDay ?? "" : billingInfo.value.oldNetRatePerDay ?? "";
-            currentRatePerDay.value = "${billingInfo.value.currency ?? ""}${rates}";
-            currentTradeName.value = billingInfo.value.tradeName ?? "";
-          }
-
+          getActiveCompanyInfo();
           isMainViewVisible.value = true;
         }
         else{
+          isLoading.value = false;
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
-        isLoading.value = false;
 
       },
       onError: (ResponseModel error) {
@@ -192,7 +148,65 @@ class OtherUserBillingDetailsController extends GetxController {
       },
     );
   }
+  void getActiveCompanyInfo() async {
+    Map<String, dynamic> map = {};
+    map["user_id"] = user_id;
+    isLoading.value = true;
+    _api.getActiveCompanyInfo(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          final response = ActiveCompanyInfoResponse.fromJson(jsonDecode(responseModel.result!));
+          applyActiveCompanyDiff(response.info);
+        }
+        else{
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showApiResponseMessage(error.statusMessage);
+        }
+      },
+    );
+  }
+  void applyActiveCompanyDiff(ActiveCompanyInfo companyInfo) {
+    final info = companyInfo;
+    final bool isPending = info.isPendingRequest ?? false;
 
+    //Trade
+    String tradeText = info.tradeName ?? "";
+    if (isPending && info.diffData?.tradeName != null) {
+      final oldTrade = info.diffData!.tradeName!.oldValue?.toString() ?? "";
+      final newTrade = info.diffData!.tradeName!.newValue?.toString() ?? "";
+      if (oldTrade.isNotEmpty && newTrade.isNotEmpty){
+        tradeText = "$oldTrade > $newTrade";
+      }
+      else if (oldTrade.isNotEmpty){
+        tradeText = oldTrade;
+      }
+    }
+    currentTradeName.value = tradeText;
+
+    // Rate
+    String rateText = info.netRatePerDay != null ? "${info.currency}${info.netRatePerDay}" : "";
+    if (isPending && info.diffData?.netRatePerDay != null) {
+      final oldRate = info.diffData!.netRatePerDay!.oldValue ?? 0.00;
+      final newRate = info.diffData!.netRatePerDay!.newValue ?? 0.00;
+      if (newRate > 0) {
+        rateText = "${info.currency}${AppUtils.formatStringToDecimals(parseToDouble(oldRate))} > "
+            "${info.currency}${AppUtils.formatStringToDecimals(parseToDouble(newRate))}";
+      }
+      else if (oldRate > 0){
+        rateText = "${info.currency}${AppUtils.formatStringToDecimals(parseToDouble(oldRate))}";
+      }
+    }
+    currentRatePerDay.value = rateText;
+  }
   Future<void> moveToScreen(String rout, dynamic arguments) async {
     var result = await Get.toNamed(rout, arguments: arguments);
     if (result != null && result) {

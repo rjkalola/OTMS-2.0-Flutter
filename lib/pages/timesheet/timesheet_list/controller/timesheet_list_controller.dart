@@ -235,6 +235,8 @@ class TimeSheetListController extends GetxController
     if (!isAllUserTimeSheet) {
       listItems.add(ModuleInfo(
           name: 'add_expense'.tr, action: AppConstants.action.addExpense));
+      listItems.add(ModuleInfo(
+          name: 'view_amount'.tr, action: AppConstants.action.viewAmount));
     } else {
       listItems
           .add(ModuleInfo(name: 'add'.tr, action: AppConstants.action.add));

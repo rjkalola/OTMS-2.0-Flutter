@@ -320,9 +320,9 @@ class AddressDetailsController extends GetxController
           name: 'delete_address'.tr, action: AppConstants.action.delete));
       listItems.add(ModuleInfo(
           name: 'edit_address'.tr, action: AppConstants.action.edit));
+      listItems.add(ModuleInfo(
+          name: 'change_progress'.tr, action: AppConstants.action.inProgress));
     }
-    listItems.add(ModuleInfo(
-        name: 'change_progress'.tr, action: AppConstants.action.inProgress));
     showCupertinoModalPopup(
       context: context,
       builder: (_) =>

@@ -20,6 +20,22 @@ class OtherUserBillingDetailsRepository {
       onError: (error) => {if (onError != null) onError(error)},
     );
   }
+  void getActiveCompanyInfo({
+    Map<String, dynamic>? queryParameters,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+        url: ApiConstants.activeCompanyInfo,
+        queryParameters: queryParameters,
+        isFormData: false)
+        .getRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
   void getUserPayRatePermission({
     Map<String, dynamic>? queryParameters,
     Function(ResponseModel responseModel)? onSuccess,

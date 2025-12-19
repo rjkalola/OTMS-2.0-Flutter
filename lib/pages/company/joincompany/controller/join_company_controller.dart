@@ -64,7 +64,8 @@ class JoinCompanyController extends GetxController
         if (responseModel.isSuccess) {
           TradeListResponse response =
               TradeListResponse.fromJson(jsonDecode(responseModel.result!));
-          if (!StringHelper.isEmptyList(response.info)) {
+          // if (!StringHelper.isEmptyList(response.info)) {
+          if (response.info != null) {
             listTrades.addAll(response.info!);
             isOtpViewVisible.value = false;
             isSelectTradeVisible.value = true;

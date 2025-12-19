@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:belcka/pages/common/drop_down_list_dialog.dart';
 import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:belcka/pages/common/listener/select_item_listener.dart';
+import 'package:belcka/pages/profile/billing_details_new/model/active_company_info_response.dart';
 import 'package:belcka/pages/profile/billing_info/model/billing_ifo.dart';
 import 'package:belcka/pages/profile/rates/controller/rates_repository.dart';
 import 'package:belcka/utils/AlertDialogHelper.dart';
@@ -28,7 +29,7 @@ class RatesController extends GetxController implements SelectItemListener, Dial
 
   final formKey = GlobalKey<FormState>();
   final _api = RatesRepository();
-  RxBool isLoading = false.obs, isInternetNotAvailable = false.obs;
+  RxBool isLoading = false.obs, isInternetNotAvailable = false.obs, isMainViewVisible = false.obs;
   final billingInfo = BillingInfo().obs;
   final FocusNode focusNode = FocusNode();
   var arguments = Get.arguments;
@@ -51,70 +52,11 @@ class RatesController extends GetxController implements SelectItemListener, Dial
     if (arguments != null) {
       billingInfo.value = arguments[AppConstants.intentKey.billingInfo];
       billingInfo.value.userId = arguments[AppConstants.intentKey.userId];
-      setInitData();
     }
     billingInfo.value.companyId = ApiConstants.companyId;
     netPerDayController.value.addListener(calculateGrossAndCIS);
-
+    getActiveCompanyInfo();
     getTradeDataApi();
-  }
-  void setInitData() {
-    isRateRequested.value = billingInfo.value.is_rate_requested ?? false;
-    tradeId = billingInfo.value.tradeId;
-    originalTradeId = tradeId;
-    if (billingInfo.value.is_rate_requested ?? false){
-      //newNetRatePerDay
-
-      double oldRate = parseToDouble(billingInfo.value.net_rate_perDay ?? "");
-      double newRate = parseToDouble(billingInfo.value.newNetRatePerDay ?? "");
-
-      String netPerDayText = "";
-      if (newRate > 0) {
-        netPerDayText = "$oldRate > $newRate";
-      }
-      else{
-        netPerDayText = "$oldRate";
-      }
-      /*
-      netPerDayController.value.text = (billingInfo.value.newNetRatePerDay ?? "").isEmpty ?
-      billingInfo.value.net_rate_perDay ?? "" : billingInfo.value.newNetRatePerDay ?? "";
-      */
-      netPerDayController.value.text = netPerDayText;
-
-      String newTrade = billingInfo.value.newTrade ?? "";
-      String oldTrade = billingInfo.value.oldTrade ?? "";
-      String initialTrade = billingInfo.value.tradeName ?? "";
-
-      bool hasNewTrade = newTrade.trim().isNotEmpty;
-      bool hasOldTrade = oldTrade.trim().isNotEmpty;
-
-      String displayTrade;
-      if (hasNewTrade && hasOldTrade) {
-        // old > new
-        displayTrade = "$oldTrade > $newTrade";
-      } else if (hasNewTrade) {
-        // only new exists
-        displayTrade = newTrade;
-      } else if (hasOldTrade) {
-        // only old exists
-        displayTrade = oldTrade;
-      } else {
-        // fallback
-        displayTrade = initialTrade;
-      }
-      tradeController.value.text = displayTrade;
-    }
-    else{
-      //oldNetRatePerDay
-      netPerDayController.value.text = (billingInfo.value.oldNetRatePerDay ?? "").isEmpty ?
-      billingInfo.value.net_rate_perDay ?? "" : billingInfo.value.oldNetRatePerDay ?? "";
-      tradeController.value.text = billingInfo.value.tradeName ?? "";
-    }
-    originalNetPerDay = netPerDayController.value.text;
-    String joiningDateStr = billingInfo.value.joiningDate ?? "";
-    joiningDate = joiningDateStr.split(" ").sublist(0, 3).join(" ");
-    //calculate gross per day and cis 20%
-    calculateGrossAndCIS();
   }
   double parseToDouble(dynamic value) {
     if (value == null) return 0.0;
@@ -125,9 +67,8 @@ class RatesController extends GetxController implements SelectItemListener, Dial
     return 0.0;
   }
   void calculateGrossAndCIS(){
-    if (billingInfo.value.is_rate_requested ?? false){
-      final net = double.tryParse((billingInfo.value.newNetRatePerDay ?? "").isEmpty ?
-      billingInfo.value.net_rate_perDay ?? "" : billingInfo.value.newNetRatePerDay ?? "") ?? 0.0;
+    if (isRateRequested.value){
+      final net = double.tryParse(originalNetPerDay) ?? 0.00;
       cis.value = net * 0.20;
       grossPerDay.value = net + cis.value;
     }
@@ -138,11 +79,23 @@ class RatesController extends GetxController implements SelectItemListener, Dial
     }
     _checkForChanges();
   }
+  bool isSameRate(double? oldRate, String newRateInput) {
+    if (newRateInput.trim().isEmpty) return false;
+    if (oldRate == null) return false;
+    final newRate = double.tryParse(newRateInput);
+    if (newRate == null) return false;
+    // Prevent floating-point precision issues
+    return (oldRate - newRate).abs() < 0.0001;
+  }
   void _checkForChanges() {
     bool changed = false;
-    if (netPerDayController.value.text != originalNetPerDay) {
+    final oldRate = double.tryParse(originalNetPerDay);
+    final newRateInput = netPerDayController.value.text.trim();
+
+    if (!isSameRate(oldRate, newRateInput) && (newRateInput.isNotEmpty)) {
       changed = true;
     }
+
     if (tradeId != originalTradeId) {
       changed = true;
     }
@@ -153,18 +106,92 @@ class RatesController extends GetxController implements SelectItemListener, Dial
     netPerDayController.value.dispose();
     super.onClose();
   }
-  void onSubmit() {
+  void getActiveCompanyInfo() async {
+    Map<String, dynamic> map = {};
+    map["user_id"] = billingInfo.value.userId;
+    isLoading.value = true;
+    _api.getActiveCompanyInfo(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          final response = ActiveCompanyInfoResponse.fromJson(jsonDecode(responseModel.result!));
+          applyActiveCompanyData(response.info);
+          isMainViewVisible.value = true;
+        }
+        else{
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showApiResponseMessage(error.statusMessage);
+        }
+      },
+    );
+  }
+  void applyActiveCompanyData(ActiveCompanyInfo companyInfo) {
+    final info = companyInfo;
+    final bool isPending = info.isPendingRequest ?? false;
+    isRateRequested.value = isPending;
+    tradeId = info.tradeId;
+    originalTradeId = info.tradeId;
 
+    //Trade
+    String tradeText = info.tradeName ?? "";
+    if (isPending && info.diffData?.tradeName != null) {
+      final oldTrade = info.diffData!.tradeName!.oldValue?.toString() ?? "";
+      final newTrade = info.diffData!.tradeName!.newValue?.toString() ?? "";
+      if (oldTrade.isNotEmpty && newTrade.isNotEmpty){
+        tradeText = "$oldTrade > $newTrade";
+      }
+      else if (oldTrade.isNotEmpty){
+        tradeText = oldTrade;
+      }
+    }
+    tradeController.value.text = tradeText;
+
+    // Rate
+    String rateText = info.netRatePerDay != null ? "${info.netRatePerDay}" : "";
+    originalNetPerDay = rateText;
+    if (isPending && info.diffData?.netRatePerDay != null) {
+      final oldRate = info.diffData!.netRatePerDay!.oldValue ?? 0.00;
+      final newRate = info.diffData!.netRatePerDay!.newValue ?? 0.00;
+      if (newRate > 0) {
+        rateText = "${AppUtils.formatStringToDecimals(parseToDouble(oldRate))} > "
+            "${AppUtils.formatStringToDecimals(parseToDouble(newRate))}";
+        originalNetPerDay = "$newRate";
+      }
+      else if (oldRate > 0){
+        rateText = AppUtils.formatStringToDecimals(parseToDouble(oldRate));
+        originalNetPerDay = "$oldRate";
+      }
+    }
+
+    netPerDayController.value.text = rateText;
+    String joiningDateStr = companyInfo.joiningDate ?? "";
+    joiningDate = joiningDateStr.split(" ").sublist(0, 3).join(" ");
+    //calculate gross per day and cis 20%
+    calculateGrossAndCIS();
+  }
+  void onSubmit() {
     bool isBothChanged = false;
-    if ((netPerDayController.value.text != originalNetPerDay) && (tradeId != originalTradeId)){
+
+    final oldRate = double.tryParse(originalNetPerDay);
+    final newRateInput = netPerDayController.value.text.trim();
+    if (!isSameRate(oldRate, newRateInput) && (tradeId != originalTradeId)) {
       isBothChanged = true;
     }
+
     if (isBothChanged){
       //both changed
       changeRateAndTradeAPI();
     }
     else{
-      if (netPerDayController.value.text != originalNetPerDay) {
+      if (!isSameRate(oldRate, newRateInput)){
         //rate change api
         changeCompanyRateAPI();
       }
@@ -192,8 +219,9 @@ class RatesController extends GetxController implements SelectItemListener, Dial
           BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.Message ?? "");
           isDataChanged = true;
-          isRateRequested.value = true;
-        } else {
+          getActiveCompanyInfo();
+        }
+        else{
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;
@@ -224,8 +252,9 @@ class RatesController extends GetxController implements SelectItemListener, Dial
           BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.Message ?? "");
           isDataChanged = true;
-          isRateRequested.value = true;
-        } else {
+          getActiveCompanyInfo();
+        }
+        else{
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;
@@ -258,8 +287,9 @@ class RatesController extends GetxController implements SelectItemListener, Dial
           BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.Message ?? "");
           isDataChanged = true;
-          isRateRequested.value = true;
-        } else {
+          getActiveCompanyInfo();
+        }
+        else{
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;

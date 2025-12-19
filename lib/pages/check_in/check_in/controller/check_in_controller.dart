@@ -619,7 +619,7 @@ class CheckInController extends GetxController
     } else if (action == AppConstants.dialogIdentifier.selectTypeOfDayWork) {
       typeOfWorkList.clear();
       getTypeOfWorkResourcesApi(
-          addressId: 0, isPriceWork: false, isFromDialog: true);
+          addressId: addressId, isPriceWork: false, isFromDialog: true);
     }
   }
 

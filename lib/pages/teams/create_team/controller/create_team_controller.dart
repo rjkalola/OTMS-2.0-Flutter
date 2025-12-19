@@ -233,17 +233,39 @@ class CreateTeamController extends GetxController
         isScrollControlled: true);
   }*/
 
+  // void showSelectTeamMemberListDialog() {
+  //   List<UserInfo> teamMembersDialogList = UserUtils.getCheckedUserList(
+  //       getUserListCopied(teamUserList), teamMembersList);
+  //   Get.bottomSheet(
+  //       SelectMultipleUserDialog(
+  //           title: 'select_team_members'.tr,
+  //           dialogIdentifier: AppConstants.dialogIdentifier.selectTeamMembers,
+  //           list: teamMembersDialogList,
+  //           listener: this),
+  //       backgroundColor: Colors.transparent,
+  //       isScrollControlled: true);
+  // }
+
   void showSelectTeamMemberListDialog() {
+    List<UserInfo> filteredTeamUsers = teamUserList
+        .where((user) => user.id != supervisorId)
+        .toList();
+
     List<UserInfo> teamMembersDialogList = UserUtils.getCheckedUserList(
-        getUserListCopied(teamUserList), teamMembersList);
+      getUserListCopied(filteredTeamUsers),
+      teamMembersList,
+    );
+
     Get.bottomSheet(
-        SelectMultipleUserDialog(
-            title: 'select_team_members'.tr,
-            dialogIdentifier: AppConstants.dialogIdentifier.selectTeamMembers,
-            list: teamMembersDialogList,
-            listener: this),
-        backgroundColor: Colors.transparent,
-        isScrollControlled: true);
+      SelectMultipleUserDialog(
+        title: 'select_team_members'.tr,
+        dialogIdentifier: AppConstants.dialogIdentifier.selectTeamMembers,
+        list: teamMembersDialogList,
+        listener: this,
+      ),
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+    );
   }
 
   List<UserInfo> getUserListCopied(List<UserInfo> inputList) {
@@ -274,10 +296,19 @@ class CreateTeamController extends GetxController
 
   @override
   void onSelectItem(int position, int id, String name, String action) {
+    // if (action == AppConstants.action.selectSupervisorDialog) {
+    //   isSaveEnable.value = true;
+    //   supervisorController.value.text = name ?? "";
+    //   supervisorId = id ?? 0;
+    // }
     if (action == AppConstants.action.selectSupervisorDialog) {
       isSaveEnable.value = true;
-      supervisorController.value.text = name ?? "";
-      supervisorId = id ?? 0;
+
+      supervisorController.value.text = name;
+      supervisorId = id;
+
+      teamMembersList.removeWhere((user) => user.id == supervisorId);
+      teamMembersList.refresh();
     }
   }
 }

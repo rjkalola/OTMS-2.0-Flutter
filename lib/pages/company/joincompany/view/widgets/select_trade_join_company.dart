@@ -57,14 +57,12 @@ class SelectTradeJoinCompany extends StatelessWidget {
                     buttonText: 'confirm'.tr,
                     fontWeight: FontWeight.w400,
                     onPressed: () {
-                      if (controller.tradeId != 0) {
+                      // if (controller.tradeId != 0) {
                         // controller.storeTradeApi();
                         controller.joinCompanyApi();
-                      } else {
-                        AppUtils.showToastMessage('please_select_trade'.tr);
-                      }
-                      // Get.toNamed(AppRoutes.teamUsersCountInfoScreen);
-                      // controller.openQrCodeScanner();
+                      // } else {
+                      //   AppUtils.showToastMessage('please_select_trade'.tr);
+                      // }
                     }),
               ),
             ),

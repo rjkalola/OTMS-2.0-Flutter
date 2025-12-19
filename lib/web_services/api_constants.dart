@@ -40,6 +40,7 @@ class ApiConstants {
   static String getSwitchCompanyList = '$appUrl/user/switch-company-list';
   static String switchCompany = '$appUrl/company/switch-company';
   static String validateTeamOTP = '$appUrl/company/validate-team-otp';
+  static String activeCompanyInfo = '$appUrl/company/active-company';
 
   //dashboard
   static String changeDashboardUserPermissionSequenceUrl =
