@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
+import 'package:belcka/pages/common/listener/menu_item_listener.dart';
+import 'package:belcka/pages/common/menu_items_list_bottom_dialog.dart';
 import 'package:belcka/pages/dashboard/tabs/more_tab/view/more_tab.dart';
 import 'package:belcka/pages/profile/my_account/controller/my_account_repository.dart';
 import 'package:belcka/pages/profile/my_account/model/my_account_menu_item.dart';
@@ -13,11 +15,13 @@ import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/base_response.dart';
+import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:belcka/widgets/PrimaryBorderButton.dart';
 import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:belcka/widgets/text/PrimaryTextView.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -25,7 +29,7 @@ import '../../../dashboard/tabs/home_tab2/view/home_tab.dart';
 
 class MyAccountController extends GetxController
     with GetSingleTickerProviderStateMixin
-    implements DialogButtonClickListener {
+    implements DialogButtonClickListener,MenuItemListener {
   final _api = MyAccountRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
@@ -229,6 +233,34 @@ class MyAccountController extends GetxController
     );
   }
 
+  void changeAdminAPI() async {
+    Map<String, dynamic> map = {};
+    map["user_id"] = userId;
+    map["company_id"] = ApiConstants.companyId;
+    isLoading.value = true;
+    _api.changeAdmin(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          BaseResponse response =
+          BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showToastMessage(response.Message ?? "");
+          Get.back(result: true);
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showApiResponseMessage(error.statusMessage);
+        }
+      },
+    );
+  }
   void archiveUserAPI() async {
     Map<String, dynamic> map = {};
     map["user_ids"] = userId.toString();
@@ -348,7 +380,22 @@ class MyAccountController extends GetxController
         this,
         AppConstants.dialogIdentifier.delete);
   }
-
+  void showMenuItemsDialog(BuildContext context) {
+    List<ModuleInfo> listItems = [];
+    listItems.add(ModuleInfo(
+        name: 'make_an_admin'.tr, action: AppConstants.action.makeAdmin));
+    showCupertinoModalPopup(
+      context: context,
+      builder: (_) =>
+          MenuItemsListBottomDialog(list: listItems, listener: this),
+    );
+  }
+  @override
+  Future<void> onSelectMenuItem(ModuleInfo info, String dialogType) async {
+    if (info.action == AppConstants.action.makeAdmin) {
+      changeAdminAPI();
+    }
+  }
   @override
   void onNegativeButtonClicked(String dialogIdentifier) {
     Get.back();

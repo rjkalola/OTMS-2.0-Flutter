@@ -1,3 +1,4 @@
+import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -110,7 +111,30 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                         ),
-                        LoginButtonWidget()
+                        LoginButtonWidget(),
+                        Visibility(
+                          visible: loginController.isOtpViewVisible.value,
+                          child: GestureDetector(
+                            onTap: () {
+                              loginController.isOtpViewVisible.value = false;
+                              loginController.phoneController.value.text = "";
+                              loginController.stopOtpTimeCounter();
+                              loginController.mOtpCode.value = "";
+                              loginController.otpController.value.text = "";
+                            },
+                            child: Container(
+                              color: Colors.transparent,
+                              margin: EdgeInsets.only(top: 16),
+                              padding: EdgeInsets.all(3),
+                              width: double.infinity,
+                              child: TitleTextView(
+                                textAlign: TextAlign.center,
+                                text: 'change_login_number'.tr,
+                                color: defaultAccentColor_(context),
+                              ),
+                            ),
+                          ),
+                        )
                       ],
                     )),
             );

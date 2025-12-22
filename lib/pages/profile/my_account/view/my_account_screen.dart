@@ -28,6 +28,7 @@ class MyAccountScreen extends StatelessWidget {
               isCenterTitle: false,
               bgColor: dashBoardBgColor_(context),
               isBack: true,
+              widgets: actionButtons(),
             ),
             backgroundColor: dashBoardBgColor_(context),
             body: ModalProgressHUD(
@@ -70,5 +71,18 @@ class MyAccountScreen extends StatelessWidget {
             bottomNavigationBar: CommonBottomNavigationBarWidget(),
           ),
         )));
+  }
+  List<Widget>? actionButtons() {
+    return [
+      Visibility(
+        visible: !UserUtils.isLoginUser(controller.userId),
+        child: IconButton(
+          icon: Icon(Icons.more_vert_outlined),
+          onPressed: () {
+            controller.showMenuItemsDialog(Get.context!);
+          },
+        ),
+      ),
+    ];
   }
 }

@@ -8,6 +8,7 @@ import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:get/get.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class DigitalIdCardController extends GetxController {
   final _api = DigitalIdCardRepository();
@@ -16,6 +17,7 @@ class DigitalIdCardController extends GetxController {
       isMainViewVisible = false.obs;
   final digitalIdCardInfo = DigitalIdCardInfo().obs;
   int userId = 0;
+  WebViewController? webViewController;
 
   @override
   void onInit() {
@@ -40,10 +42,12 @@ class DigitalIdCardController extends GetxController {
               DigitalIdCardResponse.fromJson(jsonDecode(responseModel.result!));
           digitalIdCardInfo.value = response.info!;
           isMainViewVisible.value = true;
+          isLoading.value = false;
+          // loadWebData("https://belcka.com/privacy-policy");
         } else {
+          isLoading.value = false;
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
-        isLoading.value = false;
       },
       onError: (ResponseModel error) {
         isLoading.value = false;
@@ -56,5 +60,22 @@ class DigitalIdCardController extends GetxController {
         }
       },
     );
+  }
+
+  void loadWebData(String url) {
+    webViewController = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onPageStarted: (_) {
+            // isLoading.value = true;
+          },
+          onPageFinished: (_) {
+            isMainViewVisible.value = true;
+            isLoading.value = false;
+          },
+        ),
+      )
+      ..loadRequest(Uri.parse(url));
   }
 }

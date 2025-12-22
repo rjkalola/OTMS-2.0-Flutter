@@ -499,7 +499,8 @@ class Strings extends Translations {
           'uploading_video_message': "Uploading Video, Please Wait...",
           'would_you_like_to_change':
               "Are you sure you'd like to proceed with this change?",
-          // '': "",
+          'change_login_number': "Change Login Number",
+          'make_an_admin':"Make an Admin"
 // '': "",
 // '': "",
 // '': "",

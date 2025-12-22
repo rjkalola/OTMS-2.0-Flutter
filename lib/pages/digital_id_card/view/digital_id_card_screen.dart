@@ -11,6 +11,7 @@ import 'package:belcka/widgets/text/PrimaryTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class DigitalIdCardScreen extends StatefulWidget {
   const DigitalIdCardScreen({super.key});
@@ -51,7 +52,11 @@ class _DigitalIdCardScreenState extends State<DigitalIdCardScreen> {
                       )
                     : Visibility(
                         visible: controller.isMainViewVisible.value,
-                        child: Center(
+                      /*  child: controller.webViewController != null
+                            ? WebViewWidget(
+                                controller: controller.webViewController!)
+                            : Container(),*/
+                          child: Center(
                           child: Container(
                             margin: EdgeInsets.all(20),
                             decoration: AppUtils.getDashboardItemDecoration(

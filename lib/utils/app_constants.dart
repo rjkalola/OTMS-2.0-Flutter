@@ -267,6 +267,8 @@ class Action {
 
   final String checkIn = "CheckIn";
   final String trades = "Trades";
+
+  final String makeAdmin = 'MAKE_ADMIN';
 }
 
 class StockCountType {
