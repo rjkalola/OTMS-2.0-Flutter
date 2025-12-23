@@ -49,6 +49,7 @@ class StopShiftController extends GetxController implements SelectTimeListener {
   final center =
       LatLng(AppConstants.defaultLatitude, AppConstants.defaultLongitude).obs;
   final RxSet<Marker> markers = <Marker>{}.obs;
+
   // final RxSet<Polyline> polylines = <Polyline>{}.obs;
   final locationService = LocationServiceNew();
   final workLogInfo = WorkLogInfo().obs;
@@ -414,21 +415,23 @@ class StopShiftController extends GetxController implements SelectTimeListener {
       for (GeofenceInfo info in workLogInfo.value.geofences!) {
         if ((info.type ?? "") == AppConstants.zoneType.circle &&
             info.radius != null) {
-          print("info.latitude:" + info.latitude!.toString());
-          print("info.longitude:" + info.longitude!.toString());
-          LatLng latLng = LatLng(double.parse(info.latitude ?? "0.0"),
-              double.parse(info.longitude ?? "0.0"));
-          Color color = !StringHelper.isEmptyString(info.color)
-              ? AppUtils.getColor(info.color ?? "")
-              : Colors.blue;
-          final circle = AppUtils.getCircle(
-              id: (info.id ?? 0).toString(),
-              latLng: latLng,
-              radius: info.radius ?? 0,
-              color: color);
-          final updatedCircles = Set<Circle>.from(circles);
-          updatedCircles.add(circle);
-          circles.value = updatedCircles;
+          if (info.latitude != null && info.longitude != null) {
+            print("info.latitude:" + info.latitude!.toString());
+            print("info.longitude:" + info.longitude!.toString());
+            LatLng latLng = LatLng(double.parse(info.latitude ?? "0.0"),
+                double.parse(info.longitude ?? "0.0"));
+            Color color = !StringHelper.isEmptyString(info.color)
+                ? AppUtils.getColor(info.color ?? "")
+                : Colors.blue;
+            final circle = AppUtils.getCircle(
+                id: (info.id ?? 0).toString(),
+                latLng: latLng,
+                radius: info.radius ?? 0,
+                color: color);
+            final updatedCircles = Set<Circle>.from(circles);
+            updatedCircles.add(circle);
+            circles.value = updatedCircles;
+          }
         } else if ((info.type ?? "") == AppConstants.zoneType.polygon &&
             info.coordinates != null) {
           List<LatLng> listLatLng = [];
