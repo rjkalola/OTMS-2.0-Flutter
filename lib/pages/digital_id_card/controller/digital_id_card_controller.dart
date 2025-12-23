@@ -5,6 +5,7 @@ import 'package:belcka/pages/digital_id_card/model/digital_id_card_info.dart';
 import 'package:belcka/pages/digital_id_card/model/digital_id_card_response.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:get/get.dart';
@@ -41,9 +42,12 @@ class DigitalIdCardController extends GetxController {
           DigitalIdCardResponse response =
               DigitalIdCardResponse.fromJson(jsonDecode(responseModel.result!));
           digitalIdCardInfo.value = response.info!;
-          isMainViewVisible.value = true;
-          isLoading.value = false;
-          // loadWebData("https://belcka.com/privacy-policy");
+          // isMainViewVisible.value = true;
+          // isLoading.value = false;
+          if (!StringHelper.isEmptyString(
+              digitalIdCardInfo.value.webUrl ?? "")) {
+            loadWebData(digitalIdCardInfo.value.webUrl ?? "");
+          }
         } else {
           isLoading.value = false;
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
@@ -63,6 +67,7 @@ class DigitalIdCardController extends GetxController {
   }
 
   void loadWebData(String url) {
+    print("URL:"+url);
     webViewController = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setNavigationDelegate(

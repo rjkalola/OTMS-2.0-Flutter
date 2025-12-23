@@ -4,7 +4,7 @@ class PermissionInfo {
   int? userId;
   int? teamId;
   int? sequence;
-  bool? status;
+  int? status;
   String? name;
   String? value;
   String? slug;
@@ -13,6 +13,7 @@ class PermissionInfo {
   bool? isSequenceChanged;
   bool? isAdmin;
   bool? isApp;
+  bool? isWeb;
 
   PermissionInfo(
       {this.id,
@@ -28,7 +29,8 @@ class PermissionInfo {
       this.color,
       this.isSequenceChanged,
       this.isAdmin,
-      this.isApp});
+      this.isApp,
+      this.isWeb});
 
   PermissionInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -45,6 +47,7 @@ class PermissionInfo {
     isSequenceChanged = json['isSequenceChanged'];
     isAdmin = json['is_admin'];
     isApp = json['is_app'];
+    isWeb = json['is_web'];
   }
 
   Map<String, dynamic> toJson() {
@@ -63,6 +66,7 @@ class PermissionInfo {
     data['isSequenceChanged'] = this.isSequenceChanged;
     data['is_admin'] = this.isAdmin;
     data['is_app'] = this.isApp;
+    data['is_web'] = this.isWeb;
     return data;
   }
 }

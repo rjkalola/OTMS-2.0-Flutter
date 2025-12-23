@@ -24,6 +24,7 @@ class PermissionUsersList extends StatelessWidget {
               itemBuilder: (context, position) {
                 PermissionUserInfo info =
                     controller.permissionUsersList[position];
+                int status = info.status ?? 0;
                 return Padding(
                   padding: const EdgeInsets.fromLTRB(16, 9, 16, 9),
                   child: Container(
@@ -49,7 +50,7 @@ class PermissionUsersList extends StatelessWidget {
                                     ),
                                   ),
                                   child: ImageUtils.setUserImage(
-                                    url: info.userThumbImage??"",
+                                    url: info.userThumbImage ?? "",
                                     width: 40,
                                     height: 40,
                                   ),
@@ -72,17 +73,72 @@ class PermissionUsersList extends StatelessWidget {
                             ],
                           ),
                         ),
-                        CustomSwitch(
+                        /* CustomSwitch(
                             onValueChange: (value) {
                               print("value:" + value.toString());
-                              info.status = !info.status!;
+                              // info.status = !info.status!;
+                              info.status = (info.status ?? 0) == 0 ? 1 : 0;
                               controller.permissionUsersList.refresh();
                               controller.isDataUpdated.value = true;
                               controller.checkSelectAll();
                               // controller.changeCompanyPermissionStatusApi(
                               //     info.permissionId ?? 0, value);
                             },
-                            mValue: info.status)
+                            mValue: status == 1 ? true : false)*/
+                        CustomSwitch(
+                            onValueChange: (value) {
+                              print("value:" + value.toString());
+                              // info.status = !info.status!;
+                              // info.status = (info.status ?? 0) == 0 ? 1 : 0;
+                              // int status = info.status ?? 0;
+                              switch (status) {
+                                case 0:
+                                  info.status = 2;
+                                  break;
+                                case 1:
+                                  info.status = 3;
+                                  break;
+                                case 2:
+                                  info.status = 0;
+                                  break;
+                                case 3:
+                                  info.status = 1;
+                                  break;
+                              }
+                              controller.permissionUsersList.refresh();
+                              controller.isDataUpdated.value = true;
+                              controller.checkSelectAll();
+                            },
+                            mValue:
+                                (status == 2 || status == 1) ? true : false),
+                        SizedBox(
+                          width: 12,
+                        ),
+                        CustomSwitch(
+                            onValueChange: (value) {
+                              print("value:" + value.toString());
+                              // info.status = !info.status!;
+                              // info.status = (info.status ?? 0) == 0 ? 1 : 0;
+                              // int status = info.status ?? 0;
+                              switch (status) {
+                                case 0:
+                                  info.status = 3;
+                                  break;
+                                case 1:
+                                  info.status = 2;
+                                  break;
+                                case 2:
+                                  info.status = 1;
+                                  break;
+                                case 3:
+                                  info.status = 0;
+                                  break;
+                              }
+                              controller.permissionUsersList.refresh();
+                              controller.isDataUpdated.value = true;
+                              controller.checkSelectAll();
+                            },
+                            mValue: (status == 3 || status == 1) ? true : false)
                       ],
                     ),
                   ),

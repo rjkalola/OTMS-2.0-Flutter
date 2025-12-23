@@ -52,11 +52,11 @@ class _DigitalIdCardScreenState extends State<DigitalIdCardScreen> {
                       )
                     : Visibility(
                         visible: controller.isMainViewVisible.value,
-                      /*  child: controller.webViewController != null
+                        child: controller.webViewController != null
                             ? WebViewWidget(
                                 controller: controller.webViewController!)
-                            : Container(),*/
-                          child: Center(
+                            : Container(),
+                        /*  child: Center(
                           child: Container(
                             margin: EdgeInsets.all(20),
                             decoration: AppUtils.getDashboardItemDecoration(
@@ -240,7 +240,7 @@ class _DigitalIdCardScreenState extends State<DigitalIdCardScreen> {
                               ),
                             ),
                           ),
-                        ),
+                        ),*/
                       )),
           ),
         ),

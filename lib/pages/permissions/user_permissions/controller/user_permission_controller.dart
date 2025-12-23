@@ -65,11 +65,11 @@ class UserPermissionController extends GetxController {
           UserPermissionsResponse response = UserPermissionsResponse.fromJson(
               jsonDecode(responseModel.result!));
 
-         /* tempList.clear();
+          /* tempList.clear();
           tempList.addAll(response.permissions ?? []);
           userPermissionList.value = tempList;*/
 
-         /* if (UserUtils.isAdmin()) {
+          /* if (UserUtils.isAdmin()) {
             tempList.clear();
             tempList.addAll(response.permissions ?? []);
             userPermissionList.value = tempList;
@@ -83,7 +83,7 @@ class UserPermissionController extends GetxController {
 
           tempList.clear();
           tempList.addAll((response.permissions ?? [])
-              .where((e) => e.isApp ?? false)
+              .where((e) => (e.isApp ?? false) || (e.isWeb ?? false))
               .toList());
           userPermissionList.value = tempList;
 
@@ -165,7 +165,8 @@ class UserPermissionController extends GetxController {
       for (var info in userPermissionList) {
         list.add(SaveUserPermissionRequest(
             permissionId: info.permissionId,
-            status: (info.status ?? false) ? 1 : 0));
+            // status: (info.status ?? false) ? 1 : 0
+            status: info.status ?? 0));
       }
     }
     return list;
@@ -203,7 +204,11 @@ class UserPermissionController extends GetxController {
   void checkSelectAll() {
     bool isAllSelected = true;
     for (var info in userPermissionList) {
-      if ((info.status ?? false) == false) {
+      // if ((info.status ?? false) == false) {
+      //   isAllSelected = false;
+      //   break;
+      // }
+      if (info.status == 0 || info.status == 2 || info.status == 3) {
         isAllSelected = false;
         break;
       }
@@ -215,7 +220,8 @@ class UserPermissionController extends GetxController {
     isDataUpdated.value = true;
     isCheckAll.value = true;
     for (var info in userPermissionList) {
-      info.status = true;
+      // info.status = true;
+      info.status = 1;
     }
     userPermissionList.refresh();
   }
@@ -224,7 +230,8 @@ class UserPermissionController extends GetxController {
     isDataUpdated.value = true;
     isCheckAll.value = false;
     for (var info in userPermissionList) {
-      info.status = false;
+      // info.status = false;
+      info.status = 0;
     }
     userPermissionList.refresh();
   }

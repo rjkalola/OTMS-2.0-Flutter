@@ -88,7 +88,8 @@ class WidgetsController extends GetxController {
       for (var info in companyPermissionList) {
         list.add(SaveUserPermissionRequest(
             permissionId: info.permissionId,
-            status: (info.status ?? false) ? 1 : 0));
+            // status: (info.status ?? false) ? 1 : 0
+            status: info.status ?? 0));
       }
     }
     return list;

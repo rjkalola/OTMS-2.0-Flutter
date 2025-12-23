@@ -130,7 +130,9 @@ class PermissionUsersController extends GetxController {
     if (permissionUsersList.isNotEmpty) {
       for (var info in permissionUsersList) {
         list.add(SavePermissionUserRequest(
-            userId: info.userId, status: (info.status ?? false) ? 1 : 0));
+            // userId: info.userId, status: (info.status ?? false) ? 1 : 0
+            userId: info.userId,
+            status: info.status ?? 0));
       }
     }
     return list;
@@ -139,7 +141,11 @@ class PermissionUsersController extends GetxController {
   void checkSelectAll() {
     bool isAllSelected = true;
     for (var info in permissionUsersList) {
-      if ((info.status ?? false) == false) {
+      // if ((info.status ?? false) == false) {
+      //   isAllSelected = false;
+      //   break;
+      // }
+      if (info.status == 0 || info.status == 2 || info.status == 3) {
         isAllSelected = false;
         break;
       }
@@ -151,7 +157,7 @@ class PermissionUsersController extends GetxController {
     isDataUpdated.value = true;
     isCheckAll.value = true;
     for (var info in permissionUsersList) {
-      info.status = true;
+      info.status = 1;
     }
     permissionUsersList.refresh();
   }
@@ -160,7 +166,7 @@ class PermissionUsersController extends GetxController {
     isDataUpdated.value = true;
     isCheckAll.value = false;
     for (var info in permissionUsersList) {
-      info.status = false;
+      info.status = 0;
     }
     permissionUsersList.refresh();
   }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:belcka/pages/permissions/user_permissions/view/widgets/web_app_title_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -72,6 +73,11 @@ class _UserPermissionScreenState extends State<UserPermissionScreen> {
                                   ? SearchUserPermissionWidget()
                                   : Container(),
                               SelectAllText(),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(right: 16, top: 9),
+                                child: WebAppTitleView(),
+                              ),
                               UserPermissionsList()
                             ],
                           ),

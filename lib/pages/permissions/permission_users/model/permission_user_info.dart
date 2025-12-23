@@ -2,7 +2,7 @@ class PermissionUserInfo {
   int? id;
   int? permissionId;
   int? companyId;
-  bool? status;
+  int? status;
   int? userId;
   String? userName;
   String? userImageName;

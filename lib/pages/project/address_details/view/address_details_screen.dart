@@ -16,6 +16,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
+import '../../../../utils/user_utils.dart';
+
 class AddressDetailsScreen extends StatefulWidget {
   const AddressDetailsScreen({super.key});
 
@@ -133,7 +135,9 @@ class _AddressDetailsScreenState extends State<AddressDetailsScreen>
         ),
       ),
       Visibility(
-        visible: true,
+          visible: !UserUtils.isAdmin(), child: const SizedBox(width: 10)),
+      Visibility(
+        visible: UserUtils.isAdmin(),
         child: IconButton(
           icon: Icon(Icons.more_vert_outlined),
           onPressed: () {
@@ -145,8 +149,8 @@ class _AddressDetailsScreenState extends State<AddressDetailsScreen>
   }
 
   @override
-  void onSelectDateFilter(
-      int filterIndex, String filter,String startDate, String endDate, String dialogIdentifier) {
+  void onSelectDateFilter(int filterIndex, String filter, String startDate,
+      String endDate, String dialogIdentifier) {
     // TODO: implement onSelectDateFilter
     controller.isResetEnable.value = true;
     controller.startDate = startDate;
