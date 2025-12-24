@@ -39,20 +39,20 @@ class TotalAllDayHoursRow extends StatelessWidget {
                     text: DateUtil.seconds_To_HH_MM(
                         controller.workLogInfo.value.allWorklogsSeconds ?? 0),
                     color: primaryTextColor_(context),
-                    fontSize: 17,
+                    fontSize: 16,
                     fontWeight: FontWeight.w500,
                   ),
                   SizedBox(
-                    width: 20,
+                    width: 14,
                   ),
                   SizedBox(
-                    width: 75,
+                    width: 84,
                     child: PrimaryTextView(
                       textAlign: TextAlign.start,
                       text:
                           "${controller.currency.value}${controller.workLogInfo.value.totalDayEarnings ?? "0"}",
                       color: primaryTextColor_(context),
-                      fontSize: 17,
+                      fontSize: 16,
                       fontWeight: FontWeight.w500,
                     ),
                   ),

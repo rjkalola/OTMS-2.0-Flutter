@@ -83,7 +83,7 @@ class UserPermissionController extends GetxController {
 
           tempList.clear();
           tempList.addAll((response.permissions ?? [])
-              .where((e) => (e.isApp ?? false) || (e.isWeb ?? false))
+              .where((e) => (e.isApp ?? false))
               .toList());
           userPermissionList.value = tempList;
 

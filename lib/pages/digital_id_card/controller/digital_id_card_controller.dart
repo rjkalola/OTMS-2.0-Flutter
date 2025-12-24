@@ -67,7 +67,24 @@ class DigitalIdCardController extends GetxController {
   }
 
   void loadWebData(String url) {
-    print("URL:"+url);
+    String finalUrl = "$url&token=${ApiConstants.accessToken}";
+    print("URL:" + url);
+    print("finalUrl:" + finalUrl);
+    /* webViewController = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onPageStarted: (_) {
+            // isLoading.value = true;
+          },
+          onPageFinished: (_) {
+            isMainViewVisible.value = true;
+            isLoading.value = false;
+          },
+        ),
+      )
+      ..loadRequest(Uri.parse(url));*/
+
     webViewController = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setNavigationDelegate(
@@ -81,6 +98,14 @@ class DigitalIdCardController extends GetxController {
           },
         ),
       )
-      ..loadRequest(Uri.parse(url));
+      ..loadRequest(
+        Uri.parse(finalUrl),
+        // headers: {
+        //   "Authorization": "Bearer ${ApiConstants.accessToken}",
+        //   "Accept": "application/json",
+        //   "Content-Type": "application/json",
+        //   "X-Platform": "flutter",
+        // },
+      );
   }
 }

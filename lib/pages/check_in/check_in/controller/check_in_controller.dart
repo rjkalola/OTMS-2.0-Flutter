@@ -90,6 +90,7 @@ class CheckInController extends GetxController
       projectId = arguments[AppConstants.intentKey.projectId] ?? 0;
       isPriceWork = arguments[AppConstants.intentKey.isPriceWork] ?? false;
       print("Project ID:" + projectId.toString());
+      print("isPriceWork:" + isPriceWork.toString());
     }
     checkInTime.value = getCurrentTime();
     if (UserUtils.getLoginUserTradeId() != 0) {

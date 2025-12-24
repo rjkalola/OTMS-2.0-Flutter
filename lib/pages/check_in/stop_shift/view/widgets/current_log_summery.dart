@@ -96,20 +96,20 @@ class CurrentLogSummery extends StatelessWidget {
               text: DateUtil.seconds_To_HH_MM(
                   controller.workLogInfo.value.allWorklogsSeconds ?? 0),
               color: primaryTextColor_(context),
-              fontSize: 17,
+              fontSize: 16,
               fontWeight: FontWeight.w500,
             ),
             SizedBox(
-              width: 20,
+              width: 14,
             ),
             SizedBox(
-              width: 75,
+              width: 84,
               child: PrimaryTextView(
                 textAlign: TextAlign.start,
                 text:
                     "${controller.currency.value}${controller.workLogInfo.value.allWorklogsAmount ?? "0"}",
                 color: primaryTextColor_(context),
-                fontSize: 17,
+                fontSize: 16,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -128,7 +128,7 @@ class CurrentLogSummery extends StatelessWidget {
           onTap: () {
             var arguments = {
               AppConstants.intentKey.userId:
-              controller.workLogInfo.value.userId ?? 0,
+                  controller.workLogInfo.value.userId ?? 0,
               AppConstants.intentKey.date: DateUtil.changeDateFormat(
                   controller.workLogInfo.value.workStartTime ?? "",
                   DateUtil.DD_MM_YYYY_TIME_24_SLASH2,
@@ -152,20 +152,20 @@ class CurrentLogSummery extends StatelessWidget {
                 text: DateUtil.seconds_To_HH_MM(
                     controller.workLogInfo.value.allPenaltySeconds ?? 0),
                 color: primaryTextColor_(context),
-                fontSize: 17,
+                fontSize: 16,
                 fontWeight: FontWeight.w500,
               ),
               SizedBox(
-                width: 20,
+                width: 14,
               ),
               SizedBox(
-                width: 75,
+                width: 84,
                 child: PrimaryTextView(
                   textAlign: TextAlign.start,
                   text:
                       "${controller.currency.value}${controller.workLogInfo.value.totalPenaltyAmount ?? "0"}",
                   color: Colors.red,
-                  fontSize: 17,
+                  fontSize: 16,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -200,18 +200,18 @@ class CurrentLogSummery extends StatelessWidget {
                   textAlign: TextAlign.start,
                   text: "${'check_in_'.tr}:",
                   color: primaryTextColor_(context),
-                  fontSize: 17,
+                  fontSize: 16,
                   fontWeight: FontWeight.w500,
                 ),
               ),
               SizedBox(
-                width: 75,
+                width: 84,
                 child: PrimaryTextView(
                   textAlign: TextAlign.start,
                   text:
                       "${controller.currency.value}${controller.workLogInfo.value.allChecklogAmount ?? "0"}",
                   color: primaryTextColor_(context),
-                  fontSize: 17,
+                  fontSize: 16,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -235,18 +235,18 @@ class CurrentLogSummery extends StatelessWidget {
                 textAlign: TextAlign.start,
                 text: "${'expense'.tr}:",
                 color: primaryTextColor_(context),
-                fontSize: 17,
+                fontSize: 16,
                 fontWeight: FontWeight.w500,
               ),
             ),
             SizedBox(
-              width: 75,
+              width: 84,
               child: PrimaryTextView(
                 textAlign: TextAlign.start,
                 text:
                     "${controller.currency.value}${controller.workLogInfo.value.allExpenseAmount ?? "0"}",
                 color: primaryTextColor_(context),
-                fontSize: 17,
+                fontSize: 16,
                 fontWeight: FontWeight.w500,
               ),
             ),

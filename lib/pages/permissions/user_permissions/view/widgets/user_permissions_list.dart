@@ -47,37 +47,37 @@ class UserPermissionsList extends StatelessWidget {
                             ],
                           ),
                         ),
-                        (info.isWeb ?? false)
-                            ? CustomSwitch(
-                                onValueChange: (value) {
-                                  print("value:" + value.toString());
-                                  // info.status = !info.status!;
-                                  // info.status = (info.status ?? 0) == 0 ? 1 : 0;
-                                  // int status = info.status ?? 0;
-                                  switch (status) {
-                                    case 0:
-                                      info.status = 2;
-                                      break;
-                                    case 1:
-                                      info.status = 3;
-                                      break;
-                                    case 2:
-                                      info.status = 0;
-                                      break;
-                                    case 3:
-                                      info.status = 1;
-                                      break;
-                                  }
-                                  controller.userPermissionList.refresh();
-                                  controller.isDataUpdated.value = true;
-                                  controller.checkSelectAll();
-                                },
-                                mValue:
-                                    (status == 2 || status == 1) ? true : false)
-                            : EmptySwitchView(),
-                        SizedBox(
-                          width: 12,
-                        ),
+                        // (info.isWeb ?? false)
+                        //     ? CustomSwitch(
+                        //         onValueChange: (value) {
+                        //           print("value:" + value.toString());
+                        //           // info.status = !info.status!;
+                        //           // info.status = (info.status ?? 0) == 0 ? 1 : 0;
+                        //           // int status = info.status ?? 0;
+                        //           switch (status) {
+                        //             case 0:
+                        //               info.status = 2;
+                        //               break;
+                        //             case 1:
+                        //               info.status = 3;
+                        //               break;
+                        //             case 2:
+                        //               info.status = 0;
+                        //               break;
+                        //             case 3:
+                        //               info.status = 1;
+                        //               break;
+                        //           }
+                        //           controller.userPermissionList.refresh();
+                        //           controller.isDataUpdated.value = true;
+                        //           controller.checkSelectAll();
+                        //         },
+                        //         mValue:
+                        //             (status == 2 || status == 1) ? true : false)
+                        //     : EmptySwitchView(),
+                        // SizedBox(
+                        //   width: 12,
+                        // ),
                         (info.isApp ?? false)
                             ? CustomSwitch(
                                 onValueChange: (value) {
