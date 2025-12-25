@@ -21,9 +21,10 @@ class WorkTimeDetailsView extends StatelessWidget {
         decoration: BoxDecoration(
             border: Border.all(width: 1, color: dividerColor_(context)),
             borderRadius: BorderRadius.circular(16),
-            color: controller.isOnBreak.value
-                ? Color(0xffCE6700)
-                : Color(0xff007AFF)),
+            // color: controller.isOnBreak.value
+            //     ? Color(0xffCE6700)
+            //     : Color(0xff007AFF)),
+            color: getBoxColor()),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -32,17 +33,19 @@ class WorkTimeDetailsView extends StatelessWidget {
               height: 14,
             ),
             PrimaryTextView(
-              text: controller.isOnBreak.value
-                  ? 'break_time_on'.tr
-                  : 'work_time_on'.tr,
+              // text: controller.isOnBreak.value
+              //     ? 'break_time_on'.tr
+              //     : 'work_time_on'.tr,
+              text: getStatusText(),
               fontSize: 15,
               color: Colors.white,
               fontWeight: FontWeight.w400,
             ),
             PrimaryTextView(
-              text: controller.isOnBreak.value
-                  ? controller.remainingBreakTime.value
-                  : controller.totalWorkHours.value,
+              // text: controller.isOnBreak.value
+              //     ? controller.remainingBreakTime.value
+              //     : controller.totalWorkHours.value,
+              text: getCounterTime(),
               fontSize: 26,
               color: Colors.white,
               fontWeight: FontWeight.bold,
@@ -104,5 +107,35 @@ class WorkTimeDetailsView extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Color getBoxColor() {
+    if (controller.isOnLeave.value) {
+      return Color(0xffFF6464);
+    } else if (controller.isOnBreak.value) {
+      return Color(0xffCE6700);
+    } else {
+      return Color(0xff007AFF);
+    }
+  }
+
+  String getStatusText() {
+    if (controller.isOnLeave.value) {
+      return 'leave_time_on'.tr;
+    } else if (controller.isOnBreak.value) {
+      return 'break_time_on'.tr;
+    } else {
+      return 'work_time_on'.tr;
+    }
+  }
+
+  String getCounterTime() {
+    if (controller.isOnLeave.value) {
+      return controller.remainingLeaveTime.value;
+    } else if (controller.isOnBreak.value) {
+      return controller.remainingBreakTime.value;
+    } else {
+      return controller.totalWorkHours.value;
+    }
   }
 }

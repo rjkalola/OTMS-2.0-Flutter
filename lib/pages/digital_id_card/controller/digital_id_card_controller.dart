@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:belcka/pages/digital_id_card/controller/digital_id_card_repository.dart';
 import 'package:belcka/pages/digital_id_card/model/digital_id_card_info.dart';
@@ -66,11 +67,11 @@ class DigitalIdCardController extends GetxController {
     );
   }
 
-  void loadWebData(String url) {
-    String finalUrl = "$url&token=${ApiConstants.accessToken}";
+  Future<void> loadWebData(String url) async {
+    String finalUrl = url;
     print("URL:" + url);
     print("finalUrl:" + finalUrl);
-    /* webViewController = WebViewController()
+     webViewController = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setNavigationDelegate(
         NavigationDelegate(
@@ -83,29 +84,6 @@ class DigitalIdCardController extends GetxController {
           },
         ),
       )
-      ..loadRequest(Uri.parse(url));*/
-
-    webViewController = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setNavigationDelegate(
-        NavigationDelegate(
-          onPageStarted: (_) {
-            // isLoading.value = true;
-          },
-          onPageFinished: (_) {
-            isMainViewVisible.value = true;
-            isLoading.value = false;
-          },
-        ),
-      )
-      ..loadRequest(
-        Uri.parse(finalUrl),
-        // headers: {
-        //   "Authorization": "Bearer ${ApiConstants.accessToken}",
-        //   "Accept": "application/json",
-        //   "Content-Type": "application/json",
-        //   "X-Platform": "flutter",
-        // },
-      );
+      ..loadRequest(Uri.parse(url));
   }
 }

@@ -32,6 +32,7 @@ class PenaltyInfo {
     penaltySeconds = json['penalty_seconds'];
     penaltyAmount = json['penalty_amount'];
     status = json['status'];
+    // status = int.tryParse(json['status']?.toString() ?? '') ?? 0;
   }
 
   Map<String, dynamic> toJson() {

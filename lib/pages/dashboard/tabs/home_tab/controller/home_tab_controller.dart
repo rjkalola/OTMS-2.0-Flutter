@@ -40,6 +40,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
       isOnBreak = false.obs,
+      isOnLeave = false.obs,
       isOnWorking = false.obs,
       isOnDrag = false.obs,
       isSetHomeCounter = false.obs;
@@ -163,7 +164,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       Map<String, dynamic> map = {};
       map["user_id"] = UserUtils.getLoginUserId();
       map["company_id"] = ApiConstants.companyId;
-      map["status"] = 1;
+      map["status"] = "1,3";
 
       _api.getDashboardUserPermissionsApi(
         data: map,
@@ -348,6 +349,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
                 totalWorkHours.value = details.totalWorkTime;
                 activeWorkHours.value = DateUtil.seconds_To_HH_MM_SS(0);
                 isOnBreak.value = details.isOnBreak;
+                isOnLeave.value = details.isOnLeave;
                 remainingBreakTime.value = details.remainingBreakTime;
                 updateShiftValue(isClearValue: false);
               } else {
@@ -692,6 +694,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       activeWorkHours.value =
           DateUtil.seconds_To_HH_MM_SS(details.activeWorkSeconds);
       isOnBreak.value = details.isOnBreak;
+      isOnLeave.value = details.isOnLeave;
       remainingBreakTime.value = details.remainingBreakTime;
       updateShiftValue(isClearValue: false);
     }
@@ -702,7 +705,9 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
     if (index != -1) {
       if (!isClearValue) {
         String value = "";
-        if (isOnBreak.value) {
+        if (isOnLeave.value) {
+          value = 'on_leave'.tr;
+        } else if (isOnBreak.value) {
           value = 'on_break'.tr;
         } else {
           value = totalWorkHours.value;

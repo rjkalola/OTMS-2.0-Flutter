@@ -1,4 +1,5 @@
 import 'package:belcka/pages/check_in/clock_in/model/work_log_info.dart';
+import 'package:belcka/pages/leaves/leave_list/model/leave_info.dart';
 import 'package:belcka/pages/shifts/create_shift/model/shift_info.dart';
 
 class WorkLogListResponse {
@@ -11,6 +12,7 @@ class WorkLogListResponse {
   ShiftInfo? shiftInfo;
   String? workStartDate;
   List<WorkLogInfo>? workLogInfo;
+  List<LeaveInfo>? userLeaves;
   int? shiftId;
   String? shiftName;
   int? projectId;
@@ -26,6 +28,7 @@ class WorkLogListResponse {
       this.shiftInfo,
       this.workStartDate,
       this.workLogInfo,
+      this.userLeaves,
       this.shiftId,
       this.shiftName,
       this.projectId,
@@ -52,6 +55,12 @@ class WorkLogListResponse {
         workLogInfo!.add(new WorkLogInfo.fromJson(v));
       });
     }
+    if (json['user_leaves'] != null) {
+      userLeaves = <LeaveInfo>[];
+      json['user_leaves'].forEach((v) {
+        userLeaves!.add(new LeaveInfo.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -68,6 +77,9 @@ class WorkLogListResponse {
     data['work_start_date'] = this.workStartDate;
     if (this.workLogInfo != null) {
       data['my_worklogs'] = this.workLogInfo!.map((v) => v.toJson()).toList();
+    }
+    if (this.userLeaves != null) {
+      data['user_leaves'] = this.userLeaves!.map((v) => v.toJson()).toList();
     }
     data['shift_id'] = this.shiftId;
     data['shift_name'] = this.shiftName;

@@ -185,9 +185,12 @@ class ClockInUtils2 {
         activeWorkSeconds: activeWorkSeconds,
         totalWorkTime: DateUtil.seconds_To_HH_MM_SS(totalWorkTime),
         remainingBreakTime: DateUtil.seconds_To_HH_MM_SS(remainingBreakSeconds),
+        remainingLeaveTime: "",
         remainingBreakSeconds: remainingBreakSeconds,
         isOnBreak: isOnBreak,
-        insideShiftTime: insideShiftTime);
+        insideShiftTime: insideShiftTime,
+        isOnLeave: false,
+        remainingLeaveSeconds: 0);
     return details;
   }
 

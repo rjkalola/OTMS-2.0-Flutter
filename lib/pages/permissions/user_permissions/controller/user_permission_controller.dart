@@ -163,10 +163,12 @@ class UserPermissionController extends GetxController {
     List<SaveUserPermissionRequest> list = [];
     if (userPermissionList.isNotEmpty) {
       for (var info in userPermissionList) {
+        // print("info:Status:" + (info.status ?? 0).toString());
         list.add(SaveUserPermissionRequest(
             permissionId: info.permissionId,
             // status: (info.status ?? false) ? 1 : 0
-            status: info.status ?? 0));
+            status:
+                ((info.status ?? 0) == 1 || (info.status ?? 0) == 3) ? 1 : 0));
       }
     }
     return list;
@@ -210,7 +212,7 @@ class UserPermissionController extends GetxController {
       // }
       if (info.status == 0 || info.status == 2 || info.status == 3) {
         isAllSelected = false;
-        break;
+        // break;
       }
     }
     isCheckAll.value = isAllSelected;

@@ -34,9 +34,11 @@ class ClockInController extends GetxController {
       isMainViewVisible = false.obs,
       isLocationLoaded = false.obs,
       isOnBreak = false.obs,
+      isOnLeave = false.obs,
       isChecking = false.obs;
   final RxString totalWorkHours = "".obs,
       remainingBreakTime = "".obs,
+      remainingLeaveTime = "".obs,
       activeWorkHours = "".obs;
   final _api = ClockInRepository();
   late GoogleMapController mapController;
@@ -213,7 +215,9 @@ class ClockInController extends GetxController {
             totalWorkHours.value = details.totalWorkTime;
             activeWorkHours.value = DateUtil.seconds_To_HH_MM_SS(0);
             isOnBreak.value = details.isOnBreak;
+            isOnLeave.value = details.isOnLeave;
             remainingBreakTime.value = details.remainingBreakTime;
+            remainingLeaveTime.value = details.remainingLeaveTime;
           }
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
@@ -355,7 +359,9 @@ class ClockInController extends GetxController {
     activeWorkHours.value =
         DateUtil.seconds_To_HH_MM_SS(details.activeWorkSeconds);
     isOnBreak.value = details.isOnBreak;
+    isOnLeave.value = details.isOnLeave;
     remainingBreakTime.value = details.remainingBreakTime;
+    remainingLeaveTime.value = details.remainingLeaveTime;
   }
 
   void stopTimer() {
