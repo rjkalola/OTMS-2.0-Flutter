@@ -45,7 +45,11 @@ class _UpdateAddressProgressScreenState
   }
   @override
   Widget build(BuildContext context) {
-    return Container(
+    final status =
+    controller.determineStatusTextFromProgress(controller.progress);
+    final isTodo = status == "To Do";
+
+    return Obx(() => Container(
       decoration: BoxDecoration(
         color: backgroundColor_(context),
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -63,6 +67,7 @@ class _UpdateAddressProgressScreenState
             ),
           ),
           // Status Dropdown
+        /*
           Align(
             alignment: Alignment.centerLeft,
             child: Text("status".tr,
@@ -87,12 +92,12 @@ class _UpdateAddressProgressScreenState
               ),
             ),
           ),
-
-          SizedBox(height: 24),
+          */
+          //SizedBox(height: 24),
           // Progress Slider
           Align(
             alignment: Alignment.centerLeft,
-            child: Text("progress".tr,
+            child: Text("change_progress".tr,
                 style: TextStyle(fontWeight: FontWeight.bold)),
           ),
           Row(
@@ -108,25 +113,55 @@ class _UpdateAddressProgressScreenState
                       setState(() => controller.progress = value),
                 ),
               ),
-              Text("${controller.progress.toInt()}%"),
+              //Text("${controller.progress.toInt()}%"),
+            ],
+          ),
+          Row(
+            children: [
+              if (!isTodo) const Spacer(),
+              Text(
+                isTodo
+                    ? status
+                    : "$status (${controller.progress.toInt()}%)",
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: controller.getStatusColor(controller.progress),
+                ),
+              ),
             ],
           ),
           SizedBox(height: 20),
           // Save Button
-          SizedBox(
-            width: double.infinity,
-            child: PrimaryButton(
-                padding: EdgeInsets.fromLTRB(14, 16, 14, 16),
-                buttonText: 'save'.tr,
-                color: defaultAccentColor_(context),
-                onPressed: () {
-                  controller.selectedStatusValue =
-                      controller.status[controller.selectedStatus]!;
-                  controller.onSavePressed(context);
-                }),
+          Visibility(
+            visible: !controller.isUpdating.value,
+            child: SizedBox(
+              width: double.infinity,
+              child: PrimaryButton(
+                  padding: EdgeInsets.fromLTRB(14, 16, 14, 16),
+                  buttonText: 'save'.tr,
+                  color: defaultAccentColor_(context),
+                  onPressed: () {
+                    controller.selectedStatusValue =
+                        controller.status[controller.selectedStatus]!;
+                    controller.onSavePressed(context);
+                  }),
+            ),
+          ),
+          Visibility(
+            visible: controller.isUpdating.value,
+            child: SizedBox(
+              width: double.infinity,
+              child: PrimaryButton(
+                  padding: EdgeInsets.fromLTRB(14, 16, 14, 16),
+                  buttonText: 'updating'.tr,
+                  color: Colors.grey,
+                  onPressed: () {
+
+                  }),
+            ),
           ),
         ],
       ),
-    );
+    ));
   }
 }

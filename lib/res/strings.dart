@@ -505,6 +505,7 @@ class Strings extends Translations {
           'make_an_admin': "Make an Admin",
           'web': "Web",
           'app': "App",
+          'updating': "Updating...",
 // '': "",
 // '': "",
 // '': "",

@@ -25,7 +25,7 @@ class AddressDetailsInfoRow extends StatelessWidget {
                 context)),
           ),
           SizedBox(width: 8),
-          Expanded( // <-- allows wrapping
+          Expanded(
             child: Text(
               value,
               maxLines: null,

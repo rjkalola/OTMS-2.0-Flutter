@@ -90,6 +90,7 @@ class TimeSheetListController extends GetxController
           tempList.addAll(response.info ?? []);
           timeSheetList.value = tempList;
           timeSheetList.refresh();
+          isCheckAll.value = false;
           isEditEnable.value = false;
           isEditStatusEnable.value = false;
         } else {
@@ -133,6 +134,7 @@ class TimeSheetListController extends GetxController
           tempList.addAll(response.info ?? []);
           timeSheetList.value = tempList;
           timeSheetList.refresh();
+          isCheckAll.value = false;
           isEditEnable.value = false;
           isEditStatusEnable.value = false;
           // isExpanded.value = false;

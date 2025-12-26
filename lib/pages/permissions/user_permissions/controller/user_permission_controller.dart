@@ -166,9 +166,10 @@ class UserPermissionController extends GetxController {
         // print("info:Status:" + (info.status ?? 0).toString());
         list.add(SaveUserPermissionRequest(
             permissionId: info.permissionId,
-            // status: (info.status ?? false) ? 1 : 0
-            status:
-                ((info.status ?? 0) == 1 || (info.status ?? 0) == 3) ? 1 : 0));
+            status: (info.isShow ?? false) ? 1 : 0));
+        // status: (info.status ?? false) ? 1 : 0
+        // status:
+        //     ((info.status ?? 0) == 1 || (info.status ?? 0) == 3) ? 1 : 0));
       }
     }
     return list;
@@ -206,14 +207,14 @@ class UserPermissionController extends GetxController {
   void checkSelectAll() {
     bool isAllSelected = true;
     for (var info in userPermissionList) {
-      // if ((info.status ?? false) == false) {
-      //   isAllSelected = false;
-      //   break;
-      // }
-      if (info.status == 0 || info.status == 2 || info.status == 3) {
+      if ((info.isShow ?? false) == false) {
+        isAllSelected = false;
+        break;
+      }
+      /*if (info.status == 0 || info.status == 2 || info.status == 3) {
         isAllSelected = false;
         // break;
-      }
+      }*/
     }
     isCheckAll.value = isAllSelected;
   }
@@ -222,8 +223,8 @@ class UserPermissionController extends GetxController {
     isDataUpdated.value = true;
     isCheckAll.value = true;
     for (var info in userPermissionList) {
-      // info.status = true;
-      info.status = 1;
+      info.isShow = true;
+      // info.status = 1;
     }
     userPermissionList.refresh();
   }
@@ -232,8 +233,8 @@ class UserPermissionController extends GetxController {
     isDataUpdated.value = true;
     isCheckAll.value = false;
     for (var info in userPermissionList) {
-      // info.status = false;
-      info.status = 0;
+      info.isShow = false;
+      // info.status = 0;
     }
     userPermissionList.refresh();
   }

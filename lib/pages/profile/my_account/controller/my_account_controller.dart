@@ -245,7 +245,9 @@ class MyAccountController extends GetxController
           BaseResponse response =
           BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showToastMessage(response.Message ?? "");
-          Get.back(result: true);
+          //Get.back(result: true);
+          getProfileAPI();
+
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }

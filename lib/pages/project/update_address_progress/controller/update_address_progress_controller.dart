@@ -34,6 +34,7 @@ class UpdateAddressProgressController extends GetxController {
   String selectedStatus = "To Do";
   int? selectedStatusValue = 13;
   double progress = 0;
+  RxBool isUpdating = false.obs;
 
   @override
   void onInit() {
@@ -42,11 +43,11 @@ class UpdateAddressProgressController extends GetxController {
   }
 
   void updateAddressProgressApi() async {
-    Get.back(result: true);
+    //Get.back(result: false);
     Map<String, dynamic> map = {};
     map["id"] = addressDetailsInfo?.id ?? 0;
     map["progress"] = progress.toInt();
-    map["status"] = determineStatusFromProgress(progress);
+    //map["status"] = determineStatusFromProgress(progress);
 
     isLoading.value = true;
     _api.updateAddressProgress(
@@ -56,6 +57,7 @@ class UpdateAddressProgressController extends GetxController {
           BaseResponse response =
               BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.Message ?? "");
+          Get.back(result: true);
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
@@ -92,6 +94,7 @@ class UpdateAddressProgressController extends GetxController {
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
+                isUpdating.value = true;
                 updateAddressProgressApi();
               },
               child: Text("no".tr),
@@ -100,6 +103,7 @@ class UpdateAddressProgressController extends GetxController {
         ),
       );
     } else {
+      isUpdating.value = true;
       updateAddressProgressApi();
     }
   }
@@ -111,6 +115,24 @@ class UpdateAddressProgressController extends GetxController {
       return 4;
     } else {
       return 3;
+    }
+  }
+  String determineStatusTextFromProgress(double progress) {
+    if (progress == 0) {
+      return 'To Do';
+    } else if (progress == 100) {
+      return 'Completed';
+    } else {
+      return 'In Progress';
+    }
+  }
+  Color getStatusColor(double progress) {
+    if (progress == 0) {
+      return Colors.grey;
+    } else if (progress == 100) {
+      return Colors.green;
+    } else {
+      return Colors.orange;
     }
   }
 }
