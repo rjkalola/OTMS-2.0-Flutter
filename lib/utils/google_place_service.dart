@@ -35,4 +35,24 @@ class GooglePlacesService {
       throw Exception(data['error_message'] ?? 'Failed to get place details');
     }
   }
+
+  Future<Map<String, double>> getLatLngFromPostCode(String postCode) async {
+    final url = 'https://maps.googleapis.com/maps/api/geocode/json'
+        '?address=$postCode,UK&key=$apiKey';
+
+    final response = await http.get(Uri.parse(url));
+    final data = json.decode(response.body);
+
+    if (data['status'] == 'OK' && data['results'].isNotEmpty) {
+      final location = data['results'][0]['geometry']['location'];
+      return {
+        'lat': location['lat'],
+        'lng': location['lng'],
+      };
+    } else {
+      throw Exception(
+        data['error_message'] ?? 'Failed to get location from post code',
+      );
+    }
+  }
 }

@@ -178,7 +178,8 @@ class ClockInUtils {
         activeWorkSeconds = 0,
         totalBreakHourSeconds = 0,
         remainingBreakSeconds = 0,
-        remainingLeaveSeconds = 0;
+        remainingLeaveSeconds = 0,
+        totalLeaveSeconds = 0;
     bool isOnBreak = false, insideShiftTime = false, isOnLeave = false;
 
     if (logs != null) {
@@ -218,8 +219,6 @@ class ClockInUtils {
         // ============================================================
 // 🔹 LEAVE LOGIC (ALL DAY + PARTIAL DAY)
 // ============================================================
-//         bool isLeave = false;
-//         int remainingLeaveSeconds = 0;
 
         if (logs.userLeaves != null && logs.userLeaves!.isNotEmpty) {
           for (var leave in logs.userLeaves!) {
@@ -245,11 +244,25 @@ class ClockInUtils {
                   !today.isAfter(leaveEndDate)) {
                 isOnLeave = true;
                 remainingLeaveSeconds = 0;
-                // Remaining leave till end of day
-                /* final DateTime endOfDay =
-                    DateTime(today.year, today.month, today.day, 23, 59, 59);
-                remainingLeaveSeconds =
-                    endOfDay.difference(currentDateTime).inSeconds;*/
+
+                // ➕ ADD: total leave seconds (already passed)
+                DateTime leaveStartDateTime = DateTime(leaveStartDate.year,
+                    leaveStartDate.month, leaveStartDate.day);
+
+                DateTime leaveEndDateTime = DateTime(leaveEndDate.year,
+                    leaveEndDate.month, leaveEndDate.day, 23, 59, 59);
+
+                if (!currentDateTime.isBefore(leaveStartDateTime)) {
+                  DateTime actualLeaveEnd =
+                      currentDateTime.isAfter(leaveEndDateTime)
+                          ? leaveEndDateTime
+                          : currentDateTime;
+
+                  if (actualLeaveEnd.isAfter(leaveStartDateTime)) {
+                    totalLeaveSeconds +=
+                        actualLeaveEnd.difference(leaveStartDateTime).inSeconds;
+                  }
+                }
                 break;
               }
             }
@@ -258,7 +271,6 @@ class ClockInUtils {
             // PARTIAL DAY LEAVE
             // -------------------------------
             else {
-              // print("same day leave ");
               // Applies only on same day
               if (!ClockInUtils.isCurrentDay(leave.startDate ?? "")) continue;
 
@@ -279,7 +291,6 @@ class ClockInUtils {
               final DateTime leaveStartTime = fullFormat.parse(leaveStartStr);
               final DateTime leaveEndTime = fullFormat.parse(leaveEndStr);
 
-              // Clamp leave inside shift
               final DateTime actualLeaveStart =
                   leaveStartTime.isBefore(shiftStartTime)
                       ? shiftStartTime
@@ -289,16 +300,17 @@ class ClockInUtils {
                   ? shiftEndTime
                   : leaveEndTime;
 
-              // print("currentDateTime.isAfter(actualLeaveStart):" +
-              //     currentDateTime.isAfter(actualLeaveStart).toString());
-              // print("currentDateTime.isBefore(actualLeaveEnd):" +
-              //     currentDateTime.isBefore(actualLeaveEnd).toString());
-              //
-              // print("11:"+DateUtil.dateToString(currentDateTime, DateUtil.DD_MM_YYYY_TIME_24_DASH));
-              // print("22:"+DateUtil.dateToString(actualLeaveStart, DateUtil.DD_MM_YYYY_TIME_24_DASH));
-              // print("33:"+DateUtil.dateToString(actualLeaveEnd, DateUtil.DD_MM_YYYY_TIME_24_DASH));
+              // ➕ ADD: total leave seconds (already passed)
+              if (!currentDateTime.isBefore(actualLeaveStart)) {
+                DateTime actualEnd = currentDateTime.isAfter(actualLeaveEnd)
+                    ? actualLeaveEnd
+                    : currentDateTime;
 
-
+                if (actualEnd.isAfter(actualLeaveStart)) {
+                  totalLeaveSeconds +=
+                      actualEnd.difference(actualLeaveStart).inSeconds;
+                }
+              }
 
               if (currentDateTime.isAfter(actualLeaveStart) &&
                   currentDateTime.isBefore(actualLeaveEnd)) {
@@ -307,7 +319,6 @@ class ClockInUtils {
                     actualLeaveEnd.difference(currentDateTime).inSeconds;
                 break;
               }
-              // print("is On Leave:" + isOnLeave.toString());
             }
           }
         }
@@ -397,6 +408,7 @@ class ClockInUtils {
                 }
               }
 
+              // print("totalLeaveSeconds:" + totalLeaveSeconds.toString());
               totalWorkHourSeconds = totalWorkHourSeconds + activeWorkSeconds;
             }
           }

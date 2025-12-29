@@ -16,62 +16,74 @@ class MyAccountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Container(
-        color: dashBoardBgColor_(context),
-        child: SafeArea(
-          child: Scaffold(
-            appBar: BaseAppBar(
-              appBar: AppBar(),
-              title: UserUtils.isLoginUser(controller.userId)
-                  ? 'my_account'.tr
-                  : '',
-              isCenterTitle: false,
-              bgColor: dashBoardBgColor_(context),
-              isBack: true,
-              widgets: actionButtons(),
-            ),
-            backgroundColor: dashBoardBgColor_(context),
-            body: ModalProgressHUD(
-              inAsyncCall: controller.isLoading.value,
-              opacity: 0,
-              progressIndicator: const CustomProgressbar(),
-              child: controller.isInternetNotAvailable.value
-                  ? Center(
-                      child: Text("no_internet_text".tr),
-                    )
-                  : Visibility(
-                      visible: controller.isMainViewVisible.value,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Profile Card
-                          ProfileCardWidget(),
-                          SizedBox(
-                            height: 16,
-                          ),
-                          // Menu Buttons Grid
-                          MenuButtonsGridWidget(),
-                          Visibility(
-                            visible: !UserUtils.isLoginUser(controller.userId),
-                            child: PrimaryBorderButton(
-                              padding: EdgeInsets.fromLTRB(16, 16, 16, 30),
-                              buttonText: 'remove_user'.tr,
-                              fontColor: Colors.red,
-                              fontSize: 16,
-                              onPressed: () {
-                                controller.showRemoveUserOptionDialog();
-                              },
-                              borderColor: Colors.red,
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop || result != null) return;
+        controller.onBackPress();
+      },
+      child: Obx(() => Container(
+          color: dashBoardBgColor_(context),
+          child: SafeArea(
+            child: Scaffold(
+              appBar: BaseAppBar(
+                appBar: AppBar(),
+                title: UserUtils.isLoginUser(controller.userId)
+                    ? 'my_account'.tr
+                    : '',
+                isCenterTitle: false,
+                bgColor: dashBoardBgColor_(context),
+                isBack: true,
+                widgets: actionButtons(),
+                onBackPressed: () {
+                  controller.onBackPress();
+                },
+              ),
+              backgroundColor: dashBoardBgColor_(context),
+              body: ModalProgressHUD(
+                inAsyncCall: controller.isLoading.value,
+                opacity: 0,
+                progressIndicator: const CustomProgressbar(),
+                child: controller.isInternetNotAvailable.value
+                    ? Center(
+                        child: Text("no_internet_text".tr),
+                      )
+                    : Visibility(
+                        visible: controller.isMainViewVisible.value,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Profile Card
+                            ProfileCardWidget(),
+                            SizedBox(
+                              height: 16,
                             ),
-                          )
-                        ],
+                            // Menu Buttons Grid
+                            MenuButtonsGridWidget(),
+                            Visibility(
+                              visible:
+                                  !UserUtils.isLoginUser(controller.userId),
+                              child: PrimaryBorderButton(
+                                padding: EdgeInsets.fromLTRB(16, 16, 16, 30),
+                                buttonText: 'remove_user'.tr,
+                                fontColor: Colors.red,
+                                fontSize: 16,
+                                onPressed: () {
+                                  controller.showRemoveUserOptionDialog();
+                                },
+                                borderColor: Colors.red,
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
+              ),
+              bottomNavigationBar: CommonBottomNavigationBarWidget(),
             ),
-            bottomNavigationBar: CommonBottomNavigationBarWidget(),
-          ),
-        )));
+          ))),
+    );
   }
+
   List<Widget>? actionButtons() {
     return [
       Visibility(

@@ -29,7 +29,7 @@ class EditWidgetsButton extends StatelessWidget {
             AppConstants.intentKey.fromDashboardScreen: true,
           };
           controller.moveToScreen(
-              appRout: AppRoutes.userPermissionScreen, arguments: arguments);
+              appRout: AppRoutes.editWidgetScreen, arguments: arguments);
         },
         child: Container(
           width: 140,

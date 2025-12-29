@@ -19,15 +19,17 @@ class SearchAddressTextField extends StatelessWidget {
         controller: controller.searchAddressController,
         isClearVisible: controller.isClearVisible,
         onValueChange: (value) {
+          /*
           controller.searchPlaces(value.toString());
           controller.isClearVisible.value =
               !StringHelper.isEmptyString(value.toString());
+          */
         },
         onPressedClear: () {
           controller.clearSearch();
         },
-        label: "${'search'.tr} ${'address'.tr}",
-        hint: "${'search'.tr} ${'address'.tr}",
+        label:'search_post_code'.tr,
+        hint: 'search_post_code'.tr,
       ),
     );
   }

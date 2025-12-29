@@ -51,7 +51,7 @@ class UsersList extends StatelessWidget {
                               ),
                             ),
                             child: ImageUtils.setUserImage(
-                              url: info.userThumbImage??"",
+                              url: info.userThumbImage ?? "",
                               width: 40,
                               height: 40,
                             ),

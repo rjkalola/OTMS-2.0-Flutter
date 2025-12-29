@@ -12,20 +12,20 @@ class PlaceList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => Visibility(
-        visible: controller.searchResults.isNotEmpty,
+        visible: controller.addressList.isNotEmpty,
         child: CardViewDashboardItem(
-          margin: EdgeInsets.fromLTRB(12, 80, 12, 5),
+          margin: EdgeInsets.fromLTRB(12, 140, 12, 5),
           child: ListView.builder(
             shrinkWrap: true,
-            itemCount: controller.searchResults.length,
+            itemCount: controller.addressList.length,
             itemBuilder: (context, index) {
-              final place = controller.searchResults[index];
+              final place = controller.addressList[index];
               return ListTile(
-                title: Text(place['description']),
+                title: Text(place.summaryline ?? ""),
                 onTap: () {
-                  controller.selectPlace(place['place_id']);
+                  controller.selectPlace(place.postcode ?? "");
                   controller.siteAddressController.value.text =
-                      place['description'];
+                      place.summaryline ?? "";
                   controller.isSaveEnable.value =
                       controller.siteAddressController.value.text.trim().isNotEmpty;
                  controller.clearSearch();

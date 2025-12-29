@@ -33,8 +33,9 @@ class DashboardGridView extends StatelessWidget {
         child: Obx(
           () => RefreshIndicator(
             onRefresh: () async {
-              await controller.getDashboardUserPermissionsApi(
-                  false); // Add await to ensure proper async handling
+              await controller.getDashboardUserPermissionsApi(false,
+                  isProfileLoad:
+                      true); // Add await to ensure proper async handling
             },
             child: ReorderableBuilder(
               scrollController: _scrollController,
@@ -44,11 +45,11 @@ class DashboardGridView extends StatelessWidget {
                 final info = positions.first;
                 controller.onReorderPermission(info.oldIndex, info.newIndex);
               },
-              onDragStarted: (positions){
+              onDragStarted: (positions) {
                 controller.isOnDrag.value = true;
                 print("onDragStarted");
               },
-              onDragEnd: (positions){
+              onDragEnd: (positions) {
                 controller.isOnDrag.value = false;
                 print("onDragEnd");
               },

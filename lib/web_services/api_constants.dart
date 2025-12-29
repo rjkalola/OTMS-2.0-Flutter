@@ -73,8 +73,10 @@ class ApiConstants {
 
   // static String changeUserPermissionStatus =
   //     '$appUrl/dashboard/user/change-permission-status';
-  static String changeUserBulkPermissionStatus =
+  static String changeEditWidgetBulkPermissionStatus =
       '$appUrl/dashboard/user/change-bulk-permission-status';
+  static String changeUserBulkPermissionStatus =
+      '$appUrl/dashboard/company/change-user-permissions-status';
 
   //permission users
   static String getPermissionUsers =
@@ -253,7 +255,8 @@ class ApiConstants {
       '$appUrl/setting/user-payrate-permission';
   static String updateProfile = '$appUrl/user/update-profile';
   static String rateHistory = '$appUrl/requests/get-rate-history';
-  static String changeRateAndTrade = '$appUrl/user-billing/change-trade-and-rate';
+  static String changeRateAndTrade =
+      '$appUrl/user-billing/change-trade-and-rate';
   static String changeAdmin = '$appUrl/company/change-admin';
 
   // static String archiveUser = '$appUrl/user/unarchive-account';

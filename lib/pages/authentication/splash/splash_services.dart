@@ -98,15 +98,12 @@ class SplashServices {
       print("notificationType:::"+notificationType);
       if (notificationType ==
           AppConstants.notificationType.USER_WORK_STOP_AUTOMATICALLY) {
-        print("1111");
         if (Get.isRegistered<ClockInController>()) {
-          print("22222");
           final controller = Get.find<ClockInController>();
           controller.getUserWorkLogListApi(isProgress: false);
         }
 
         if (Get.isRegistered<HomeTabController>()) {
-          print("33333");
           final controller = Get.find<HomeTabController>();
           controller.getUserProfileAPI();
         }

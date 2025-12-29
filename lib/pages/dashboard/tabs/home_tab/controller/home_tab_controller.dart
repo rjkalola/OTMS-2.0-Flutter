@@ -129,7 +129,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
               isLoadPermissionList: true,
               isChangeSequence: false);
         } else {
-          getDashboardUserPermissionsApi(false);
+          getDashboardUserPermissionsApi(false, isProfileLoad: true);
         }
       }
     } else {
@@ -139,7 +139,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
             isLoadPermissionList: true,
             isChangeSequence: false);
       } else {
-        getDashboardUserPermissionsApi(true);
+        getDashboardUserPermissionsApi(true, isProfileLoad: true);
       }
     }
   }
@@ -158,7 +158,8 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
     }
   }*/
 
-  Future<void> getDashboardUserPermissionsApi(bool isProgress) async {
+  Future<void> getDashboardUserPermissionsApi(bool isProgress,
+      {required bool isProfileLoad}) async {
     if (ApiConstants.companyId != 0) {
       isLoading.value = isProgress;
       Map<String, dynamic> map = {};
@@ -182,7 +183,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
             updateShiftValue(isClearValue: false);
             // getUserWorkLogListApi(isShiftClick: false, isProgress: false);
             // getNotificationCountApi(isProgress: false);
-            getUserProfileAPI();
+            if (isProfileLoad) getUserProfileAPI();
           } else {
             // AppUtils.showSnackBarMessage(responseModel.statusMessage!);
           }
@@ -207,7 +208,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
                 isInternetNotAvailable.value.toString());
             // AppUtils.showApiResponseMessage('no_internet'.tr);
           } else {
-            getUserProfileAPI();
+            if (isProfileLoad) getUserProfileAPI();
           }
           // else if (error.statusMessage!.isNotEmpty) {
           //   AppUtils.showSnackBarMessage(error.statusMessage!);
@@ -215,7 +216,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
         },
       );
     } else {
-      getUserProfileAPI();
+      if (isProfileLoad) getUserProfileAPI();
     }
   }
 
@@ -282,7 +283,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
                 isProgress, permissionId ?? 0, newPosition ?? 0);
           } else */
           if (isLoadPermissionList ?? false) {
-            getDashboardUserPermissionsApi(isProgress);
+            getDashboardUserPermissionsApi(isProgress, isProfileLoad: true);
           }
           Get.find<AppStorage>().clearLocalSequenceChangeData();
         } else {
@@ -477,6 +478,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
           if ((response.info?.companyId ?? 0) != 0) {
             getUserWorkLogListApi(isShiftClick: false, isProgress: false);
             getNotificationCountApi(isProgress: false);
+            getDashboardUserPermissionsApi(false, isProfileLoad: false);
           } else {
             ApiConstants.companyId = 0;
             Get.find<AppStorage>().setCompanyId(ApiConstants.companyId);
@@ -554,7 +556,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
         AppConstants.intentKey.fromDashboardScreen: true,
       };
       moveToScreen(
-          appRout: AppRoutes.userPermissionScreen, arguments: arguments);
+          appRout: AppRoutes.editWidgetScreen, arguments: arguments);
     } else if (info.slug == 'team') {
       if ((info.teamId ?? 0) != 0) {
         var arguments = {
@@ -641,7 +643,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
             isLoadPermissionList: true,
             isChangeSequence: false);
       } else {
-        getDashboardUserPermissionsApi(false);
+        getDashboardUserPermissionsApi(false, isProfileLoad: true);
       }
       if (Get.isBottomSheetOpen ?? false) {
         Get.back();
@@ -670,7 +672,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
           isLoadPermissionList: true,
           isChangeSequence: false);
     } else {
-      getDashboardUserPermissionsApi(false);
+      getDashboardUserPermissionsApi(false, isProfileLoad: true);
     }
   }
 

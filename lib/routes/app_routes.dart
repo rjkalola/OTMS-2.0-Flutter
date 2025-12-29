@@ -129,4 +129,5 @@ class AppRoutes {
   static const String digitalIdCardScreen = '/digital_id_card_screen';
   static const String penaltyListScreen = '/penalty_list_screen';
   static const String checkInDayLogsScreen = '/check_in_day_logs_screen';
+  static const String editWidgetScreen = '/edit_widget_screen';
 }

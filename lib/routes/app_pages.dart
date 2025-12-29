@@ -43,6 +43,7 @@ import 'package:belcka/pages/notifications/create_announcement/view/create_annou
 import 'package:belcka/pages/notifications/notification_list/view/notification_list_screen.dart';
 import 'package:belcka/pages/notifications/notification_settings/view/notification_settings_screen.dart';
 import 'package:belcka/pages/permissions/company_permissions/view/company_permission_screen.dart';
+import 'package:belcka/pages/permissions/edit_widget/view/edit_widget_screen.dart';
 import 'package:belcka/pages/permissions/permission_users/view/permission_users_screen.dart';
 import 'package:belcka/pages/permissions/search_user/view/search_user_screen.dart';
 import 'package:belcka/pages/permissions/user_list/view/select_user_list_for_permission_screen.dart';
@@ -377,5 +378,6 @@ class AppPages {
     GetPage(
         name: AppRoutes.checkInDayLogsScreen,
         page: () => CheckInDayLogsScreen()),
+    GetPage(name: AppRoutes.editWidgetScreen, page: () => EditWidgetScreen()),
   ];
 }

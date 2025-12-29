@@ -11,6 +11,7 @@ import 'package:belcka/pages/profile/my_profile_details/model/my_profile_info_re
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/utils/app_storage.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
@@ -29,13 +30,14 @@ import '../../../dashboard/tabs/home_tab2/view/home_tab.dart';
 
 class MyAccountController extends GetxController
     with GetSingleTickerProviderStateMixin
-    implements DialogButtonClickListener,MenuItemListener {
+    implements DialogButtonClickListener, MenuItemListener {
   final _api = MyAccountRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs;
   final title = 'dashboard'.tr.obs;
   final selectedIndex = 0.obs;
+  RxBool isDataChanged = false.obs;
   late final PageController pageController;
   final tabs = <Widget>[
     // StockListScreen(),
@@ -132,7 +134,7 @@ class MyAccountController extends GetxController
           UserUtils.getLoginUserId();
     }
     if (!UserUtils.isLoginUser(userId)) {
-      getProfileAPI();
+      getProfileAPI(userId ?? 0, false);
     } else {
       isMainViewVisible.value = true;
     }
@@ -175,7 +177,7 @@ class MyAccountController extends GetxController
     if (result != null && result) {}
   }
 
-  void getProfileAPI() async {
+  void getProfileAPI(int userId, bool isRefreshLoginUserData) async {
     Map<String, dynamic> map = {};
     map["user_id"] = userId;
     map["company_id"] = ApiConstants.companyId;
@@ -188,6 +190,11 @@ class MyAccountController extends GetxController
               MyProfileInfoResponse.fromJson(jsonDecode(responseModel.result!));
           userInfo.value = response.info!;
           isMainViewVisible.value = true;
+          if (isRefreshLoginUserData) {
+            Get.find<AppStorage>().setUserInfo(response.info!);
+            AppUtils.saveLoginUser(response.info!);
+            Get.back(result: true);
+          }
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
@@ -243,11 +250,11 @@ class MyAccountController extends GetxController
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           BaseResponse response =
-          BaseResponse.fromJson(jsonDecode(responseModel.result!));
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showToastMessage(response.Message ?? "");
           //Get.back(result: true);
-          getProfileAPI();
-
+          isDataChanged.value = true;
+          getProfileAPI(UserUtils.getLoginUserId(), true);
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
@@ -263,6 +270,7 @@ class MyAccountController extends GetxController
       },
     );
   }
+
   void archiveUserAPI() async {
     Map<String, dynamic> map = {};
     map["user_ids"] = userId.toString();
@@ -290,6 +298,10 @@ class MyAccountController extends GetxController
         }
       },
     );
+  }
+
+  void onBackPress() {
+    Get.back(result: isDataChanged.value);
   }
 
   void showRemoveUserOptionDialog() {
@@ -382,6 +394,7 @@ class MyAccountController extends GetxController
         this,
         AppConstants.dialogIdentifier.delete);
   }
+
   void showMenuItemsDialog(BuildContext context) {
     List<ModuleInfo> listItems = [];
     listItems.add(ModuleInfo(
@@ -392,12 +405,14 @@ class MyAccountController extends GetxController
           MenuItemsListBottomDialog(list: listItems, listener: this),
     );
   }
+
   @override
   Future<void> onSelectMenuItem(ModuleInfo info, String dialogType) async {
     if (info.action == AppConstants.action.makeAdmin) {
       changeAdminAPI();
     }
   }
+
   @override
   void onNegativeButtonClicked(String dialogIdentifier) {
     Get.back();

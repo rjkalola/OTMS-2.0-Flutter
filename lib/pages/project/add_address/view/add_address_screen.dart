@@ -27,6 +27,14 @@ class AddAddressScreen extends StatefulWidget {
 class AddAddressScreenState extends State<AddAddressScreen> {
   final controller = Get.put(AddAddressController());
 
+  void searchAddress() {
+    FocusScope.of(context).unfocus();
+    final txt = controller.searchAddressController.value.text.trim();
+    if (txt.isNotEmpty) {
+      controller.lookupAddress(txt);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     AppUtils.setStatusBarColor();
@@ -71,6 +79,32 @@ class AddAddressScreenState extends State<AddAddressScreen> {
                                           height: 16,
                                         ),
                                         SearchAddressTextField(),
+                                        SizedBox(height: 16),
+                                        Padding(
+                                          padding:EdgeInsets.symmetric(horizontal: 16),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              ElevatedButton(
+                                                onPressed: (){
+                                                  searchAddress();
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                  minimumSize: Size(100, 40),
+                                                  backgroundColor: defaultAccentColor_(context),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(30),
+                                                  ),
+                                                  padding: EdgeInsets.symmetric(horizontal: 20),
+                                                ),
+                                                child: Text(
+                                                  'search'.tr,
+                                                  style: TextStyle(color: Colors.white, fontSize: 15,fontWeight: FontWeight.bold),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                         SizedBox(
                                           height: 22,
                                         ),

@@ -73,11 +73,11 @@ class _UserPermissionScreenState extends State<UserPermissionScreen> {
                                   ? SearchUserPermissionWidget()
                                   : Container(),
                               SelectAllText(),
-                              // Padding(
-                              //   padding:
-                              //       const EdgeInsets.only(right: 16, top: 9),
-                              //   child: WebAppTitleView(),
-                              // ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(right: 16, top: 9),
+                                child: WebAppTitleView(),
+                              ),
                               UserPermissionsList()
                             ],
                           ),

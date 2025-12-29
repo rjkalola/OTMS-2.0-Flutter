@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:belcka/pages/profile/post_coder_search/model/post_coder_model.dart';
 import 'package:belcka/pages/project/add_address/controller/add_address_repository.dart';
 import 'package:belcka/pages/project/address_list/model/address_info.dart';
 import 'package:belcka/pages/project/project_info/model/project_info.dart';
@@ -40,6 +41,7 @@ class AddAddressController extends GetxController {
   final placesService =
       GooglePlacesService("AIzaSyAdLpTcvwOWzhK4maBtriznqiw5MwBNcZw");
   var searchResults = <Map<String, dynamic>>[].obs;
+  var addressList = <PostCoderModel>[].obs;
 
   RxSet<Circle> get circles => {
         Circle(
@@ -207,8 +209,9 @@ class AddAddressController extends GetxController {
     searchResults.value = await placesService.getAutocomplete(input);
   }
 
-  Future<void> selectPlace(String placeId) async {
-    final loc = await placesService.getLatLngFromPlaceId(placeId);
+  Future<void> selectPlace(String postCode) async {
+    //final loc = await placesService.getLatLngFromPlaceId(placeId);
+    final loc = await placesService.getLatLngFromPostCode(postCode);
     final latLng = LatLng(loc['lat']!, loc['lng']!);
     latitude = latLng.latitude;
     longitude = latLng.longitude;
@@ -219,10 +222,28 @@ class AddAddressController extends GetxController {
     searchResults.clear();
   }
 
+  Future<void> lookupAddress(String postcode) async {
+    try {
+      isLoading.value = true;
+      addressList.clear();
+      final result = await _api.getAddresses(
+        postcode: postcode,
+        page: 0,
+        countryCode: "GB",
+      );
+      addressList.value = result;
+    } catch (e) {
+      addressList.clear();
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
   void clearSearch() {
     searchAddressController.value.text = "";
     isClearVisible.value = false;
     searchResults.clear();
+    addressList.clear();
     FocusScope.of(Get.context!).unfocus();
   }
 }
