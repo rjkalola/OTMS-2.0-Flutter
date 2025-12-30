@@ -75,6 +75,9 @@ class UpdateAddressProgressController extends GetxController {
   }
 
   void onSavePressed(BuildContext context) {
+    isUpdating.value = true;
+    updateAddressProgressApi();
+    /*
     if (selectedStatusValue == 4 && progress < 100) {
       // Show confirmation dialog
       showDialog(
@@ -106,6 +109,7 @@ class UpdateAddressProgressController extends GetxController {
       isUpdating.value = true;
       updateAddressProgressApi();
     }
+    */
   }
 
   int determineStatusFromProgress(double progress) {
@@ -117,6 +121,7 @@ class UpdateAddressProgressController extends GetxController {
       return 3;
     }
   }
+
   String determineStatusTextFromProgress(double progress) {
     if (progress == 0) {
       return 'To Do';
@@ -126,6 +131,7 @@ class UpdateAddressProgressController extends GetxController {
       return 'In Progress';
     }
   }
+
   Color getStatusColor(double progress) {
     if (progress == 0) {
       return Colors.grey;

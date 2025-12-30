@@ -99,13 +99,14 @@ class UserPermissionsList extends StatelessWidget {
                                       info.status = 0;
                                       break;
                                   }
+
                                   controller.userPermissionList.refresh();
                                   controller.isDataUpdated.value = true;
                                   controller.checkSelectAll();
                                 },
-                                // mValue:
-                                //     (status == 3 || status == 1) ? true : false)
-                                mValue: info.isShow ?? "")
+                                mValue:
+                                    (status == 3 || status == 1) ? true : false)
+                            // mValue: info.isShow ?? "")
                             : EmptySwitchView()
                       ],
                     ),
