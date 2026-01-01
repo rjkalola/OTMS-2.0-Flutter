@@ -19,6 +19,7 @@ class FeedInfo {
   int? unreadFeeds;
   bool? isRead;
   int? teamId;
+  int? leaveId;
   int? projectId;
   int? requestLogId;
   int? worklogId;
@@ -44,6 +45,7 @@ class FeedInfo {
       this.unreadFeeds,
       this.isRead,
       this.teamId,
+      this.leaveId,
       this.projectId,
       this.requestLogId,
       this.worklogId});
@@ -69,6 +71,7 @@ class FeedInfo {
     unreadFeeds = json['unread_feeds'];
     isRead = json['is_read'];
     teamId = json['team_id'];
+    leaveId = json['leave_id'];
     projectId = json['project_id'];
     requestLogId = json['request_log_id'];
     worklogId = json['worklog_id'];
@@ -96,6 +99,7 @@ class FeedInfo {
     data['unread_feeds'] = this.unreadFeeds;
     data['is_read'] = this.isRead;
     data['team_id'] = this.teamId;
+    data['leave_id'] = this.leaveId;
     data['project_id'] = this.projectId;
     data['request_log_id'] = this.requestLogId;
     data['worklog_id'] = this.worklogId;

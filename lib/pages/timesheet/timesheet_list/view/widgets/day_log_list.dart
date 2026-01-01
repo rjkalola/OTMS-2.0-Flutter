@@ -36,7 +36,7 @@ class DayLogList extends StatelessWidget {
         itemBuilder: (context, position) {
           DayLogInfo info = controller.timeSheetList[parentPosition]
               .weekLogs![weekPosition].dayLogs![position];
-          String type = (info.type ?? "");
+          String type = (info.type ?? "").toLowerCase();
           // return (info.type ?? "") == "leave"
           //     ? leaveItem(info)
           //     : timeSheetItem(info);

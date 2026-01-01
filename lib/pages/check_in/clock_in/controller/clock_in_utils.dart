@@ -1,14 +1,9 @@
-import 'package:intl/intl.dart';
 import 'package:belcka/pages/check_in/clock_in/model/counter_details.dart';
 import 'package:belcka/pages/check_in/clock_in/model/work_log_list_response.dart';
+import 'package:belcka/pages/leaves/leave_list/model/leave_info.dart';
 import 'package:belcka/utils/date_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
-
 import 'package:intl/intl.dart';
-import 'package:belcka/pages/check_in/clock_in/model/counter_details.dart';
-import 'package:belcka/pages/check_in/clock_in/model/work_log_list_response.dart';
-import 'package:belcka/utils/date_utils.dart';
-import 'package:belcka/utils/string_helper.dart';
 
 // class ClockInUtils {
 //   static CounterDetails getTotalWorkHours(WorkLogListResponse? logs) {
@@ -186,7 +181,7 @@ class ClockInUtils {
       if (!(logs.userIsWorking ?? false)) {
         totalWorkHourSeconds = logs.totalPayableWorkingSeconds!;
       } else {
-        DateTime currentDateTime = DateTime.now();
+        /* DateTime currentDateTime = DateTime.now();
         final DateFormat fullFormat =
             DateFormat(DateUtil.DD_MM_YYYY_TIME_24_SLASH2);
 
@@ -303,131 +298,192 @@ class ClockInUtils {
               totalWorkHourSeconds = totalWorkHourSeconds + activeWorkSeconds;
             }
           }
+        }*/
+
+        DateTime currentDateTime = DateTime.now();
+        final DateFormat fullFormat =
+            DateFormat(DateUtil.DD_MM_YYYY_TIME_24_SLASH2);
+
+        String todayDate = "";
+        if (ClockInUtils.isCurrentDay(logs.workStartDate!)) {
+          todayDate =
+              DateUtil.dateToString(DateTime.now(), DateUtil.DD_MM_YYYY_SLASH);
+        } else {
+          todayDate = logs.workStartDate ?? "";
         }
 
-        // ============================================================
-// 🔹 LEAVE LOGIC (ALL DAY + PARTIAL DAY)
-// ============================================================
+        if (ClockInUtils.isCurrentDay(logs.workStartDate!)) {
+          currentDateTime = DateTime.now();
+        } else {
+          currentDateTime = fullFormat.parse(
+              "$todayDate ${DateUtil.changeDateFormat(logs.shiftInfo?.endTime ?? "", DateUtil.HH_MM_24, DateUtil.HH_MM_SS_24_2)}");
+        }
 
-        if (logs.userLeaves != null && logs.userLeaves!.isNotEmpty) {
-          for (var leave in logs.userLeaves!) {
-            // -------------------------------
-            // ALL DAY LEAVE (NO SHIFT CHECK)
-            // -------------------------------
-            // if (leave.isAlldayLeave == true) {
-            //   DateTime? leaveStartDate = DateUtil.stringToDate(
-            //       leave.startDate ?? "", DateUtil.DD_MM_YYYY_SLASH);
-            //   DateTime? leaveEndDate = DateUtil.stringToDate(
-            //       leave.endDate ?? "", DateUtil.DD_MM_YYYY_SLASH);
-            //
-            //   if (leaveStartDate == null || leaveEndDate == null) continue;
-            //
-            //   final DateTime today = DateTime(
-            //     currentDateTime.year,
-            //     currentDateTime.month,
-            //     currentDateTime.day,
-            //   );
-            //
-            //   // Inclusive date range check
-            //   if (!today.isBefore(leaveStartDate) &&
-            //       !today.isAfter(leaveEndDate)) {
-            //     isOnLeave = true;
-            //     remainingLeaveSeconds = 0;
-            //
-            //     // ➕ ADD: total leave seconds (already passed)
-            //     DateTime leaveStartDateTime = DateTime(leaveStartDate.year,
-            //         leaveStartDate.month, leaveStartDate.day);
-            //
-            //     DateTime leaveEndDateTime = DateTime(leaveEndDate.year,
-            //         leaveEndDate.month, leaveEndDate.day, 23, 59, 59);
-            //
-            //     if (!currentDateTime.isBefore(leaveStartDateTime)) {
-            //       DateTime actualLeaveEnd =
-            //           currentDateTime.isAfter(leaveEndDateTime)
-            //               ? leaveEndDateTime
-            //               : currentDateTime;
-            //
-            //       if (actualLeaveEnd.isAfter(leaveStartDateTime)) {
-            //         totalLeaveSeconds +=
-            //             actualLeaveEnd.difference(leaveStartDateTime).inSeconds;
-            //       }
-            //     }
-            //     break;
-            //   }
-            // }
-            //
-            // // -------------------------------
-            // // PARTIAL DAY LEAVE
-            // // -------------------------------
-            // else {
-            // Applies only on same day
-            if (!(leave.isAlldayLeave ?? false)) {
-              if (!ClockInUtils.isCurrentDay(leave.startDate ?? "")) continue;
+        final DateTime shiftStartTime = fullFormat.parse(
+            "$todayDate ${DateUtil.changeDateFormat(logs.shiftInfo?.startTime ?? "", DateUtil.HH_MM_24, DateUtil.HH_MM_SS_24_2)}");
 
-              final String leaveStartStr =
-                  "$todayDate ${DateUtil.changeDateFormat(
-                leave.startTime ?? "",
-                DateUtil.HH_MM_24,
-                DateUtil.HH_MM_SS_24_2,
-              )}";
+        final DateTime shiftEndTime = fullFormat.parse(
+            "$todayDate ${DateUtil.changeDateFormat(logs.shiftInfo?.endTime ?? "", DateUtil.HH_MM_24, DateUtil.HH_MM_SS_24_2)}");
 
-              final String leaveEndStr =
-                  "$todayDate ${DateUtil.changeDateFormat(
-                leave.endTime ?? "",
-                DateUtil.HH_MM_24,
-                DateUtil.HH_MM_SS_24_2,
-              )}";
+        int overlapSeconds(
+            DateTime aStart, DateTime aEnd, DateTime bStart, DateTime bEnd) {
+          final start = aStart.isAfter(bStart) ? aStart : bStart;
+          final end = aEnd.isBefore(bEnd) ? aEnd : bEnd;
+          if (end.isBefore(start)) return 0;
+          return end.difference(start).inSeconds;
+        }
 
-              final DateTime leaveStartTime = fullFormat.parse(leaveStartStr);
-              final DateTime leaveEndTime = fullFormat.parse(leaveEndStr);
+        bool isFullDayLeaveAvailable = hasFullDayLeave(logs.userLeaves);
+        if (!isFullDayLeaveAvailable) {
+          for (var log in logs.workLogInfo!) {
+            if ((log.id ?? 0) == 0 || logs.shiftInfo?.id != log.shiftId)
+              continue;
 
-              final DateTime actualLeaveStart =
-                  leaveStartTime.isBefore(shiftStartTime)
-                      ? shiftStartTime
-                      : leaveStartTime;
+            DateTime workStartTime;
+            DateTime workEndTime;
 
-              final DateTime actualLeaveEnd = leaveEndTime.isAfter(shiftEndTime)
-                  ? shiftEndTime
-                  : leaveEndTime;
+            final String workStart = log.workStartTime ?? "";
+            final String workEnd = log.workEndTime ?? "";
 
-              // ➕ ADD: total leave seconds (already passed)
-              if (!currentDateTime.isBefore(actualLeaveStart)) {
-                DateTime actualEnd = currentDateTime.isAfter(actualLeaveEnd)
-                    ? actualLeaveEnd
-                    : currentDateTime;
-
-                if (actualEnd.isAfter(actualLeaveStart)) {
-                  totalLeaveSeconds +=
-                      actualEnd.difference(actualLeaveStart).inSeconds;
-                }
-              }
-
-              if (currentDateTime.isAfter(actualLeaveStart) &&
-                  currentDateTime.isBefore(actualLeaveEnd)) {
-                isOnLeave = true;
-                // remainingLeaveSeconds =
-                //     actualLeaveEnd.difference(currentDateTime).inSeconds;
-                remainingLeaveSeconds = 0;
-                // break;
-              }
+            // ✅ Completed log (backend-calculated)
+            if (!StringHelper.isEmptyString(workEnd)) {
+              totalWorkHourSeconds += (log.payableWorkSeconds ?? 0);
+              totalBreakHourSeconds += (log.totalBreaklogSeconds ?? 0);
+              continue;
             }
+
+            // Clamp work start inside shift
+            final DateTime parsedWorkStart = fullFormat.parse(workStart);
+            if (parsedWorkStart.isBefore(shiftStartTime)) {
+              workStartTime = shiftStartTime;
+            } else if (parsedWorkStart.isAfter(shiftEndTime)) {
+              workStartTime = shiftEndTime;
+            } else {
+              workStartTime = parsedWorkStart;
+            }
+
+            // Clamp work end (current time)
+            if (currentDateTime.isBefore(shiftStartTime)) {
+              workEndTime = shiftStartTime;
+            } else if (currentDateTime.isAfter(shiftEndTime)) {
+              workEndTime = shiftEndTime;
+            } else {
+              workEndTime = currentDateTime;
+              insideShiftTime = true;
+            }
+
+            activeWorkSeconds = DateUtil.dateDifferenceInSeconds(
+                date1: workStartTime, date2: workEndTime);
+
+            if (activeWorkSeconds <= 0) continue;
+
+            // ===============================
+            // 🔥 LEAVE CALCULATION (TOP PRIORITY)
+            // ===============================
+            int totalLeaveSeconds = 0;
+
+            for (var leave in logs.userLeaves ?? []) {
+              if (leave.isAlldayLeave == true) continue;
+
+              final DateTime leaveStart = fullFormat.parse(
+                  "$todayDate ${DateUtil.changeDateFormat(leave.startTime ?? "", DateUtil.HH_MM_24, DateUtil.HH_MM_SS_24_2)}");
+
+              final DateTime leaveEnd = fullFormat.parse(
+                  "$todayDate ${DateUtil.changeDateFormat(leave.endTime ?? "", DateUtil.HH_MM_24, DateUtil.HH_MM_SS_24_2)}");
+
+              // ✅ isOnLeave flag
+              if (currentDateTime.isAfter(leaveStart) &&
+                  currentDateTime.isBefore(leaveEnd)) {
+                isOnLeave = true;
+              }
+
+              totalLeaveSeconds += overlapSeconds(
+                  workStartTime, workEndTime, leaveStart, leaveEnd);
+            }
+
+            activeWorkSeconds -= totalLeaveSeconds;
+            if (activeWorkSeconds < 0) activeWorkSeconds = 0;
+
+            // Leave overrides break
+            if (isOnLeave) {
+              isOnBreak = false;
+              remainingBreakSeconds = 0;
+            }
+
+            // ===============================
+            // ⏸️ BREAK CALCULATION (AFTER LEAVE)
+            // ===============================
+            for (var breakInfo in logs.shiftInfo!.breaks!) {
+              if (StringHelper.isEmptyString(breakInfo.breakStartTime) ||
+                  StringHelper.isEmptyString(breakInfo.breakEndTime)) continue;
+
+              final DateTime breakStartTime = fullFormat.parse(
+                  "$todayDate ${DateUtil.changeDateFormat(breakInfo.breakStartTime ?? "", DateUtil.HH_MM_24, DateUtil.HH_MM_SS_24_2)}");
+
+              final DateTime breakEndTime = fullFormat.parse(
+                  "$todayDate ${DateUtil.changeDateFormat(breakInfo.breakEndTime ?? "", DateUtil.HH_MM_24, DateUtil.HH_MM_SS_24_2)}");
+
+              if (breakEndTime.isBefore(workStartTime) ||
+                  breakStartTime.isAfter(workEndTime)) continue;
+
+              // isOnBreak (only if not on leave)
+              if (!isOnLeave &&
+                  currentDateTime.isAfter(breakStartTime) &&
+                  currentDateTime.isBefore(breakEndTime)) {
+                isOnBreak = true;
+                remainingBreakSeconds =
+                    breakEndTime.difference(currentDateTime).inSeconds;
+              }
+
+              final DateTime actualStart =
+                  breakStartTime.isBefore(workStartTime)
+                      ? workStartTime
+                      : breakStartTime;
+
+              final DateTime actualEnd = breakEndTime.isAfter(workEndTime)
+                  ? workEndTime
+                  : breakEndTime;
+
+              int breakSeconds = actualEnd.difference(actualStart).inSeconds;
+
+              // Remove overlap with NON-ALLDAY leave
+              for (var leave in logs.userLeaves ?? []) {
+                if (leave.isAlldayLeave == true) continue;
+
+                final DateTime leaveStart = fullFormat.parse(
+                    "$todayDate ${DateUtil.changeDateFormat(leave.startTime ?? "", DateUtil.HH_MM_24, DateUtil.HH_MM_SS_24_2)}");
+
+                final DateTime leaveEnd = fullFormat.parse(
+                    "$todayDate ${DateUtil.changeDateFormat(leave.endTime ?? "", DateUtil.HH_MM_24, DateUtil.HH_MM_SS_24_2)}");
+
+                breakSeconds -= overlapSeconds(
+                    actualStart, actualEnd, leaveStart, leaveEnd);
+              }
+
+              if (breakSeconds < 0) breakSeconds = 0;
+
+              totalBreakHourSeconds += breakSeconds;
+              activeWorkSeconds -= breakSeconds;
+            }
+
+            if (activeWorkSeconds < 0) activeWorkSeconds = 0;
+
+            totalWorkHourSeconds += activeWorkSeconds;
           }
+        } else {
+          isOnLeave = true;
         }
-        // }
-// ============================================================
       }
     }
 
-    /* int totalWorkTime = 0;
-    if (totalWorkHourSeconds > totalBreakHourSeconds) {
-      totalWorkTime = totalWorkHourSeconds - totalBreakHourSeconds;
-    } else {
-      totalWorkTime = totalWorkHourSeconds;
-    }*/
-
-    // print("totalLeaveSeconds:" + totalLeaveSeconds.toString());
-    activeWorkSeconds = activeWorkSeconds - totalLeaveSeconds;
-    totalWorkHourSeconds = totalWorkHourSeconds - totalLeaveSeconds;
+    // print("tota/*lWorkHourSeconds:" +
+    //     DateUtil.seconds_To_HH_MM_SS(totalWorkHourSeconds));
+    // print(
+    //     "totalLeaveSeconds:" + DateUtil.seconds_To_HH_MM_SS(totalLeaveSeconds));
+    // // print("totalLeaveSeconds:" + totalLeaveSeconds.toString());
+    //
+    // activeWorkSeconds = activeWorkSeconds - totalLeaveSeconds;
+    // totalWorkHourSeconds = totalWorkHourSeconds - totalLeaveSeconds;
 
     var details = CounterDetails(
         totalWorkSeconds: totalWorkHourSeconds,
@@ -451,6 +507,12 @@ class ClockInUtils {
         inputDateTime?.month == today.month &&
         inputDateTime?.day == today.day;
     return isToday;
+  }
+
+  static bool hasFullDayLeave(List<LeaveInfo>? leaves) {
+    if (leaves == null || leaves.isEmpty) return false;
+
+    return leaves.any((leave) => leave.isAlldayLeave == true);
   }
 
 // static DateTime? getWorkCurrentDateTime(String inputDate) {

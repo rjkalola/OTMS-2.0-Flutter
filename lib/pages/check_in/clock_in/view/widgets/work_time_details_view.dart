@@ -111,7 +111,7 @@ class WorkTimeDetailsView extends StatelessWidget {
 
   Color getBoxColor() {
     if (controller.isOnLeave.value) {
-      return Color(0xffFF6464);
+      return Colors.grey;
     } else if (controller.isOnBreak.value) {
       return Color(0xffCE6700);
     } else {
@@ -121,7 +121,7 @@ class WorkTimeDetailsView extends StatelessWidget {
 
   String getStatusText() {
     if (controller.isOnLeave.value) {
-      return 'leave_time_on'.tr;
+      return "";
     } else if (controller.isOnBreak.value) {
       return 'break_time_on'.tr;
     } else {
@@ -131,7 +131,7 @@ class WorkTimeDetailsView extends StatelessWidget {
 
   String getCounterTime() {
     if (controller.isOnLeave.value) {
-      return controller.remainingLeaveTime.value;
+      return 'on_leave'.tr;
     } else if (controller.isOnBreak.value) {
       return controller.remainingBreakTime.value;
     } else {

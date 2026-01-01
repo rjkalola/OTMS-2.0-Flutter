@@ -164,14 +164,8 @@ class MyDayLogListView extends StatelessWidget {
                                                                         info.payableWorkSeconds ??
                                                                             0)
                                                                     : controller
-                                                                            .isOnLeave
-                                                                            .value
-                                                                        ? controller
-                                                                            .activeWorkHours
-                                                                            .value
-                                                                        : controller
-                                                                            .activeWorkHours
-                                                                            .value,
+                                                                        .activeWorkHours
+                                                                        .value,
                                                                 fontSize: 20,
                                                                 fontColor: isActiveWorkLog(
                                                                         info)

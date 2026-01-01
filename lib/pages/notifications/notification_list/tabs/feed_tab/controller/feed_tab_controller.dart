@@ -154,8 +154,10 @@ class FeedTabController extends GetxController {
         moveToScreen(AppRoutes.userListScreen, arguments: null, index: index);
       }
       //Billing
-      else if (notificationType == AppConstants.notificationType.CREATE_BILLING_INFO
-          || notificationType == AppConstants.notificationType.UPDATE_BILLING_INFO) {
+      else if (notificationType ==
+              AppConstants.notificationType.CREATE_BILLING_INFO ||
+          notificationType ==
+              AppConstants.notificationType.UPDATE_BILLING_INFO) {
         if ((info.requestLogId ?? 0) != 0) {
           String rout = AppRoutes.billingRequestScreen;
           var arguments = {
@@ -163,9 +165,9 @@ class FeedTabController extends GetxController {
           };
           moveToScreen(rout, arguments: arguments, index: index);
         }
-      }
-      else if (notificationType == AppConstants.notificationType.REJECT_REQUEST
-          || notificationType == AppConstants.notificationType.APPROVE_REQUEST) {
+      } else if (notificationType ==
+              AppConstants.notificationType.REJECT_REQUEST ||
+          notificationType == AppConstants.notificationType.APPROVE_REQUEST) {
         if (info.userId == UserUtils.getLoginUserId()) {
           String rout = AppRoutes.billingDetailsNewScreen;
           var arguments = {
@@ -173,8 +175,7 @@ class FeedTabController extends GetxController {
             AppConstants.intentKey.fromNotification: true
           };
           moveToScreen(rout, arguments: arguments, index: index);
-        }
-        else{
+        } else {
           String rout = AppRoutes.otherUserBillingDetailsScreen;
           var arguments = {
             "user_id": info.userId,
@@ -184,15 +185,30 @@ class FeedTabController extends GetxController {
         }
       }
       //Rates
-      else if (notificationType == AppConstants.notificationType.CHNAGE_RATE
-          || notificationType == AppConstants.notificationType.APPROVE_RATE
-          || notificationType == AppConstants.notificationType.REJECT_RATE
-          || notificationType == AppConstants.notificationType.CHANGE_TRADE
-          || notificationType == AppConstants.notificationType.CHANGE_RATE_TRADE) {
+      else if (notificationType == AppConstants.notificationType.CHNAGE_RATE ||
+          notificationType == AppConstants.notificationType.APPROVE_RATE ||
+          notificationType == AppConstants.notificationType.REJECT_RATE ||
+          notificationType == AppConstants.notificationType.CHANGE_TRADE ||
+          notificationType == AppConstants.notificationType.CHANGE_RATE_TRADE) {
         if ((info.requestLogId ?? 0) != 0) {
           String rout = AppRoutes.ratesRequestScreen;
           var arguments = {
             "request_log_id": info.requestLogId ?? 0,
+          };
+          moveToScreen(rout, arguments: arguments, index: index);
+        }
+      }
+      //Leaves
+      else if (notificationType == AppConstants.notificationType.leaveAdd ||
+          notificationType == AppConstants.notificationType.leaveUpdate ||
+          notificationType == AppConstants.notificationType.leaveDelete ||
+          notificationType == AppConstants.notificationType.leaveRequest ||
+          notificationType == AppConstants.notificationType.leaveApprove ||
+          notificationType == AppConstants.notificationType.leaveReject) {
+        if ((info.leaveId ?? 0) != 0) {
+          String rout = AppRoutes.leaveDetailsScreen;
+          var arguments = {
+            AppConstants.intentKey.leaveId: info.leaveId ?? 0,
           };
           moveToScreen(rout, arguments: arguments, index: index);
         }

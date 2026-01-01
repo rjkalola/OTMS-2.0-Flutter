@@ -211,9 +211,7 @@ class AppUtils {
   }
 
   static BoxDecoration circleDecoration(
-      {Color? color,
-      double? borderWidth,
-      Color? borderColor}) {
+      {Color? color, double? borderWidth, Color? borderColor}) {
     return BoxDecoration(
       shape: BoxShape.circle,
       color: color ?? defaultAccentColor_(Get.context!),
