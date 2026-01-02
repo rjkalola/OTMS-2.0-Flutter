@@ -369,14 +369,20 @@ class CreateLeaveController extends GetxController
     } else if (dialogIdentifier == AppConstants.dialogIdentifier.startDate) {
       final startDateOnly = getDateOnly(date);
       final endDateOnly = getDateOnly(endDate!);
-      if (!startDateOnly.isAfter(endDateOnly)) {
-        startDate = date;
-        startDateController.value.text =
-            DateUtil.dateToString(date, DateUtil.DD_MM_YYYY_SLASH);
-        isSaveEnable.value = true;
-      } else {
-        AppUtils.showToastMessage('error_wrong_start_date_selection'.tr);
-      }
+      // if (!startDateOnly.isAfter(endDateOnly)) {
+      startDate = date;
+      startDateController.value.text =
+          DateUtil.dateToString(date, DateUtil.DD_MM_YYYY_SLASH);
+      isSaveEnable.value = true;
+
+      //Reset End Date
+      DateTime plus1Day = startDate!.add(const Duration(days: 1));
+      endDate = plus1Day;
+      endDateController.value.text =
+          DateUtil.dateToString(plus1Day, DateUtil.DD_MM_YYYY_SLASH);
+      // } else {
+      //   AppUtils.showToastMessage('error_wrong_start_date_selection'.tr);
+      // }
     } else if (dialogIdentifier == AppConstants.dialogIdentifier.endDate) {
       final startDateOnly = getDateOnly(startDate!);
       final endDateOnly = getDateOnly(date);
@@ -455,8 +461,9 @@ class CreateLeaveController extends GetxController
     if (isAllDay.value) {
       final startDateOnly = getDateOnly(startDate!);
       final endDateOnly = getDateOnly(endDate!);
-      totalDays.value =
-          (endDateOnly.difference(startDateOnly).inDays+1).toDouble().toString();
+      totalDays.value = (endDateOnly.difference(startDateOnly).inDays + 1)
+          .toDouble()
+          .toString();
     } else {
       DateTime currentDate = DateTime.now();
       final start = DateTime(currentDate.year, currentDate.month,

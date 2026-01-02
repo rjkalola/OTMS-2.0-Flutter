@@ -28,11 +28,19 @@ class AllDayOffView extends StatelessWidget {
                     RequiredValidator(errorText: 'required_field'.tr),
                 ],
                 onPressed: () {
+                  final DateTime today = DateTime.now();
+
+                  final DateTime firstDate =
+                      DateTime(today.year - 1, today.month, today.day);
+
+                  final DateTime lastDate =
+                      DateTime(today.year + 1, today.month, today.day);
+
                   controller.showDatePickerDialog(
                       AppConstants.dialogIdentifier.selectDate,
                       controller.selectDate,
-                      DateTime.now(),
-                      DateTime(2100));
+                      firstDate,
+                      lastDate);
                 },
               ),
               SizedBox(

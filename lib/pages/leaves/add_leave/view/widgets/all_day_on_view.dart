@@ -30,11 +30,19 @@ class AllDayOnView extends StatelessWidget {
                       RequiredValidator(errorText: 'required_field'.tr),
                   ],
                   onPressed: () {
+                    final DateTime today = DateTime.now();
+
+                    final DateTime firstDate =
+                        DateTime(today.year - 1, today.month, today.day);
+
+                    final DateTime lastDate =
+                        DateTime(today.year + 1, today.month, today.day);
+
                     controller.showDatePickerDialog(
                         AppConstants.dialogIdentifier.startDate,
                         controller.startDate,
-                        DateTime.now(),
-                        DateTime(2100));
+                        firstDate,
+                        lastDate);
                   },
                 ),
               ),
@@ -51,11 +59,18 @@ class AllDayOnView extends StatelessWidget {
                       RequiredValidator(errorText: 'required_field'.tr),
                   ],
                   onPressed: () {
+                    final DateTime today = DateTime.now();
+
+                    final DateTime firstDate = controller.startDate ?? today;
+
+                    final DateTime lastDate =
+                        firstDate.add(const Duration(days: 30));
+
                     controller.showDatePickerDialog(
                         AppConstants.dialogIdentifier.endDate,
                         controller.endDate,
-                        DateTime.now(),
-                        DateTime(2100));
+                        firstDate,
+                        lastDate);
                   },
                 ),
               ),

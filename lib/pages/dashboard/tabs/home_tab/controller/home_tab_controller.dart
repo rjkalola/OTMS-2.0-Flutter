@@ -555,8 +555,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
         AppConstants.intentKey.userName: UserUtils.getLoginUserName(),
         AppConstants.intentKey.fromDashboardScreen: true,
       };
-      moveToScreen(
-          appRout: AppRoutes.editWidgetScreen, arguments: arguments);
+      moveToScreen(appRout: AppRoutes.editWidgetScreen, arguments: arguments);
     } else if (info.slug == 'team') {
       if ((info.teamId ?? 0) != 0) {
         var arguments = {

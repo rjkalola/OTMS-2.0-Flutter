@@ -205,10 +205,10 @@ class FeedTabController extends GetxController {
           notificationType == AppConstants.notificationType.leaveRequest ||
           notificationType == AppConstants.notificationType.leaveApprove ||
           notificationType == AppConstants.notificationType.leaveReject) {
-        if ((info.leaveId ?? 0) != 0) {
+        if ((info.recordId ?? 0) != 0) {
           String rout = AppRoutes.leaveDetailsScreen;
           var arguments = {
-            AppConstants.intentKey.leaveId: info.leaveId ?? 0,
+            AppConstants.intentKey.leaveId: info.recordId ?? 0,
           };
           moveToScreen(rout, arguments: arguments, index: index);
         }

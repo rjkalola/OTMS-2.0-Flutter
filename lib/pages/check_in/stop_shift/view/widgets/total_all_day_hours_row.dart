@@ -37,7 +37,7 @@ class TotalAllDayHoursRow extends StatelessWidget {
                   PrimaryTextView(
                     textAlign: TextAlign.start,
                     text: DateUtil.seconds_To_HH_MM(
-                        controller.workLogInfo.value.allWorklogsSeconds ?? 0),
+                        controller.workLogInfo.value.totalDaySeconds ?? 0),
                     color: primaryTextColor_(context),
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
