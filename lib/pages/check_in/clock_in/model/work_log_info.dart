@@ -133,7 +133,7 @@ class WorkLogInfo {
     allPenaltySeconds = json['all_penalty_seconds'];
     totalPenaltyAmount = json['total_penalty_amount'];
     totalDayEarnings = json['total_day_earnings'];
-    totalDaySeconds = json['total_day_minutes'];
+    totalDaySeconds = json['total_day_seconds'];
     penaltySeconds = json['penalty_seconds'];
     if (json['geofences'] != null) {
       geofences = <GeofenceInfo>[];
@@ -190,7 +190,7 @@ class WorkLogInfo {
     data['all_penalty_seconds'] = this.allPenaltySeconds;
     data['total_penalty_amount'] = this.totalPenaltyAmount;
     data['total_day_earnings'] = this.totalDayEarnings;
-    data['total_day_minutes'] = this.totalDaySeconds;
+    data['total_day_seconds'] = this.totalDaySeconds;
     data['penalty_seconds'] = this.penaltySeconds;
     if (this.geofences != null) {
       data['geofences'] = this.geofences!.map((v) => v.toJson()).toList();
