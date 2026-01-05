@@ -30,8 +30,8 @@ class TotalHoursRow extends StatelessWidget {
                     textAlign: TextAlign.start,
                     text: "${'total_hours'.tr}:",
                     color: primaryTextColor_(context),
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
                 Visibility(
@@ -44,8 +44,8 @@ class TotalHoursRow extends StatelessWidget {
                           controller.workLogInfo.value.oldPayableWorkSeconds ??
                               0),
                       color: primaryTextColor_(context),
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
                     )),
                 Visibility(
                     visible:
@@ -63,8 +63,8 @@ class TotalHoursRow extends StatelessWidget {
                       : DateUtil.seconds_To_HH_MM(
                           controller.updatedTotalWorkingTime.value),
                   color: getColor(context),
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
                 )
               ],
             ),

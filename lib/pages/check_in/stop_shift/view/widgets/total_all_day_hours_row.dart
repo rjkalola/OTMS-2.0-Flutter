@@ -29,36 +29,37 @@ class TotalAllDayHoursRow extends StatelessWidget {
                     child: PrimaryTextView(
                       textAlign: TextAlign.start,
                       text: "${'total_payable'.tr}:",
-                      color: primaryTextColor_(context),
-                      fontSize: 17,
-                      fontWeight: FontWeight.w500,
+                      color: primaryTextColorLight_(context),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
                     ),
+                  ),
+                  SizedBox(
+                    width: 84,
+                    child: PrimaryTextView(
+                      textAlign: TextAlign.center,
+                      text:
+                          "${controller.currency.value}${controller.workLogInfo.value.totalDayEarnings ?? "0"}",
+                      color: primaryTextColorLight_(context),
+                      fontSize: 15,
+                      fontWeight: FontWeight.w400,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 14,
                   ),
                   PrimaryTextView(
                     textAlign: TextAlign.start,
                     text: DateUtil.seconds_To_HH_MM(
                         controller.workLogInfo.value.totalDaySeconds ?? 0),
-                    color: primaryTextColor_(context),
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
+                    color: primaryTextColorLight_(context),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400,
                   ),
-                  SizedBox(
-                    width: 14,
-                  ),
-                  SizedBox(
-                    width: 84,
-                    child: PrimaryTextView(
-                      textAlign: TextAlign.start,
-                      text:
-                          "${controller.currency.value}${controller.workLogInfo.value.totalDayEarnings ?? "0"}",
-                      color: primaryTextColor_(context),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 21,
-                  )
+                  // SizedBox(
+                  //   width: 21,
+                  // )
                 ],
               ),
             )),

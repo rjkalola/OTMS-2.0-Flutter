@@ -60,7 +60,7 @@ class CurrentLogSummery extends StatelessWidget {
   }
 
   Color getColor(BuildContext context) {
-    Color color = primaryTextColor_(context);
+    Color color = primaryTextColorLight_(context);
     if (controller.isEdited.value) {
       color = Colors.red;
     } else {
@@ -86,36 +86,37 @@ class CurrentLogSummery extends StatelessWidget {
               child: PrimaryTextView(
                 textAlign: TextAlign.start,
                 text: "${'worklog_summary'.tr}:",
-                color: primaryTextColor_(context),
-                fontSize: 17,
-                fontWeight: FontWeight.w500,
+                color: primaryTextColorLight_(context),
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
               ),
+            ),
+            SizedBox(
+              width: 84,
+              child: PrimaryTextView(
+                textAlign: TextAlign.center,
+                text:
+                    "${controller.currency.value}${controller.workLogInfo.value.allWorklogsAmount ?? "0"}",
+                color: primaryTextColorLight_(context),
+                fontSize: 15,
+                fontWeight: FontWeight.w400,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            SizedBox(
+              width: 14,
             ),
             PrimaryTextView(
               textAlign: TextAlign.start,
               text: DateUtil.seconds_To_HH_MM(
                   controller.workLogInfo.value.allWorklogsSeconds ?? 0),
-              color: primaryTextColor_(context),
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
+              color: primaryTextColorLight_(context),
+              fontSize: 15,
+              fontWeight: FontWeight.w400,
             ),
-            SizedBox(
-              width: 14,
-            ),
-            SizedBox(
-              width: 84,
-              child: PrimaryTextView(
-                textAlign: TextAlign.start,
-                text:
-                    "${controller.currency.value}${controller.workLogInfo.value.allWorklogsAmount ?? "0"}",
-                color: primaryTextColor_(context),
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            SizedBox(
-              width: 21,
-            )
+            // SizedBox(
+            //   width: 21,
+            // )
           ],
         ),
       ));
@@ -142,36 +143,37 @@ class CurrentLogSummery extends StatelessWidget {
                 child: PrimaryTextView(
                   textAlign: TextAlign.start,
                   text: "${'penalty'.tr}:",
-                  color: primaryTextColor_(context),
-                  fontSize: 17,
-                  fontWeight: FontWeight.w500,
+                  color: primaryTextColorLight_(context),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
                 ),
+              ),
+              SizedBox(
+                width: 84,
+                child: PrimaryTextView(
+                  textAlign: TextAlign.center,
+                  text:
+                      "${controller.currency.value}${controller.workLogInfo.value.totalPenaltyAmount ?? "0"}",
+                  color: Colors.red,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w400,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              SizedBox(
+                width: 14,
               ),
               PrimaryTextView(
                 textAlign: TextAlign.start,
                 text: DateUtil.seconds_To_HH_MM(
                     controller.workLogInfo.value.allPenaltySeconds ?? 0),
-                color: primaryTextColor_(context),
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
+                color: primaryTextColorLight_(context),
+                fontSize: 15,
+                fontWeight: FontWeight.w400,
               ),
-              SizedBox(
-                width: 14,
-              ),
-              SizedBox(
-                width: 84,
-                child: PrimaryTextView(
-                  textAlign: TextAlign.start,
-                  text:
-                      "${controller.currency.value}${controller.workLogInfo.value.totalPenaltyAmount ?? "0"}",
-                  color: Colors.red,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              SizedBox(
-                width: 21,
-              )
+              // SizedBox(
+              //   width: 21,
+              // )
             ],
           ),
         ),
@@ -199,9 +201,9 @@ class CurrentLogSummery extends StatelessWidget {
                 child: PrimaryTextView(
                   textAlign: TextAlign.start,
                   text: "${'check_in_'.tr}:",
-                  color: primaryTextColor_(context),
+                  color: primaryTextColorLight_(context),
                   fontSize: 16,
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w400,
                 ),
               ),
               SizedBox(
@@ -210,14 +212,27 @@ class CurrentLogSummery extends StatelessWidget {
                   textAlign: TextAlign.start,
                   text:
                       "${controller.currency.value}${controller.workLogInfo.value.allChecklogAmount ?? "0"}",
-                  color: primaryTextColor_(context),
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
+                  color: primaryTextColorLight_(context),
+                  fontSize: 15,
+                  fontWeight: FontWeight.w400,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
-              CustomBadgeIcon(
-                count: controller.workLogInfo.value.allChecklogCount ?? 0,
-                color: defaultAccentColor_(context),
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  CustomBadgeIcon(
+                    count: controller.workLogInfo.value.allChecklogCount ?? 0,
+                    color: defaultAccentColor_(context),
+                  ),
+                  PrimaryTextView(
+                    textAlign: TextAlign.start,
+                    text: DateUtil.seconds_To_HH_MM(0),
+                    color: Colors.transparent,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400,
+                  )
+                ],
               )
             ],
           ),
@@ -234,9 +249,9 @@ class CurrentLogSummery extends StatelessWidget {
               child: PrimaryTextView(
                 textAlign: TextAlign.start,
                 text: "${'expense'.tr}:",
-                color: primaryTextColor_(context),
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
+                color: primaryTextColorLight_(context),
+                fontSize: 15,
+                fontWeight: FontWeight.w400,
               ),
             ),
             SizedBox(
@@ -245,14 +260,27 @@ class CurrentLogSummery extends StatelessWidget {
                 textAlign: TextAlign.start,
                 text:
                     "${controller.currency.value}${controller.workLogInfo.value.allExpenseAmount ?? "0"}",
-                color: primaryTextColor_(context),
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
+                color: primaryTextColorLight_(context),
+                fontSize: 15,
+                fontWeight: FontWeight.w400,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
-            CustomBadgeIcon(
-              count: controller.workLogInfo.value.allExpenseCount ?? 0,
-              color: defaultAccentColor_(context),
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                CustomBadgeIcon(
+                  count: controller.workLogInfo.value.allExpenseCount ?? 0,
+                  color: defaultAccentColor_(context),
+                ),
+                PrimaryTextView(
+                  textAlign: TextAlign.start,
+                  text: DateUtil.seconds_To_HH_MM(0),
+                  color: Colors.transparent,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w400,
+                )
+              ],
             )
           ],
         ),

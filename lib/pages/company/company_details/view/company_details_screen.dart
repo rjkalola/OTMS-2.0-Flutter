@@ -27,6 +27,7 @@ import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/buttons/ContinueButton.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
 import 'package:belcka/utils/app_utils.dart';
+
 class CompanyDetailsScreen extends StatefulWidget {
   const CompanyDetailsScreen({super.key});
 

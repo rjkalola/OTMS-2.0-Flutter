@@ -37,7 +37,7 @@ class UploadPhotoView extends StatelessWidget {
                         url: controller.mCompanyLogo.value,
                         width: 100,
                         height: 100,
-                        fit: BoxFit.fill)
+                        fit: BoxFit.contain)
                     : ImageUtils.setCircularFileImage(
                         controller.mCompanyLogo.value, 100, 100, BoxFit.fill))
                 : Center(

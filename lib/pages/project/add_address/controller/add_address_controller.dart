@@ -216,6 +216,10 @@ class AddAddressController extends GetxController {
     latitude = latLng.latitude;
     longitude = latLng.longitude;
 
+    /*  final latLng = LatLng(23.0023014, 72.5207204);
+    latitude = 23.0023014;
+    longitude = 72.5207204;*/
+
     selectedLatLng.value = latLng;
     // final controller = await mapController.future;
     mapController.animateCamera(CameraUpdate.newLatLng(latLng));

@@ -43,7 +43,9 @@ class BillingDetailsNewController extends GetxController {
   final mFlag = AppConstants.defaultFlagUrl.obs;
   final formKey = GlobalKey<FormState>();
   final _api = BillingDetailsNewRepository();
-  RxBool isLoading = false.obs, isInternetNotAvailable = false.obs, isMainViewVisible = false.obs;
+  RxBool isLoading = false.obs,
+      isInternetNotAvailable = false.obs,
+      isMainViewVisible = false.obs;
   final billingInfo = BillingInfo().obs;
   final userPayRateInfo = UserPayRateInfo().obs;
 
@@ -65,13 +67,13 @@ class BillingDetailsNewController extends GetxController {
       userId = arguments["user_id"] ?? 0;
       fromNotification =
           arguments[AppConstants.intentKey.fromNotification] ?? false;
-    }
-    else{
+    } else {
       userId = UserUtils.getLoginUserId();
     }
     getBillingInfo();
     //getPayRatePermissionAPI();
   }
+
   void getPayRatePermissionAPI() async {
     Map<String, dynamic> map = {};
     map["user_id"] = userId;
@@ -81,12 +83,10 @@ class BillingDetailsNewController extends GetxController {
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           UserPayRateResponse response =
-          UserPayRateResponse.fromJson(jsonDecode(responseModel.result!));
+              UserPayRateResponse.fromJson(jsonDecode(responseModel.result!));
           userPayRateInfo.value = response.info!;
           showPayRate = userPayRateInfo.value.showPayRate ?? false;
-
-        }
-        else{
+        } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
       },
@@ -99,6 +99,7 @@ class BillingDetailsNewController extends GetxController {
       },
     );
   }
+
   double parseToDouble(dynamic value) {
     if (value == null) return 0.0;
     if (value is num) return value.toDouble();
@@ -107,6 +108,7 @@ class BillingDetailsNewController extends GetxController {
     }
     return 0.0;
   }
+
   void getBillingInfo() async {
     Map<String, dynamic> map = {};
     map["user_id"] = userId;
@@ -122,49 +124,45 @@ class BillingDetailsNewController extends GetxController {
           nameOnUTRController.value.text = billingInfo.value.nameOnUtr ?? "";
           utrController.value.text = billingInfo.value.utrNumber ?? "";
           ninController.value.text = billingInfo.value.ninNumber ?? "";
-          nameOnAccountController.value.text = billingInfo.value.nameOnAccount ?? "";
+          nameOnAccountController.value.text =
+              billingInfo.value.nameOnAccount ?? "";
           bankNameController.value.text = billingInfo.value.bankName ?? "";
-          accountNumberController.value.text = "${billingInfo.value.accountNo ?? 0}";
+          accountNumberController.value.text =
+              "${billingInfo.value.accountNo ?? 0}";
           sortCodeController.value.text = billingInfo.value.shortCode ?? "";
 
           if ((billingInfo.value.utrNumber ?? "").isNotEmpty &&
               (billingInfo.value.ninNumber ?? "").isNotEmpty) {
-            taxInfo = "${billingInfo.value.utrNumber} / ${billingInfo.value.ninNumber}";
-          }
-          else if ((billingInfo.value.utrNumber ?? "").isNotEmpty) {
+            taxInfo =
+                "${billingInfo.value.utrNumber} / ${billingInfo.value.ninNumber}";
+          } else if ((billingInfo.value.utrNumber ?? "").isNotEmpty) {
             taxInfo = billingInfo.value.utrNumber ?? "";
-          }
-          else if ((billingInfo.value.ninNumber ?? "").isNotEmpty) {
+          } else if ((billingInfo.value.ninNumber ?? "").isNotEmpty) {
             taxInfo = billingInfo.value.ninNumber ?? "";
-          }
-          else{
+          } else {
             taxInfo = "";
           }
 
-          if ((billingInfo.value.address ?? "").isNotEmpty){
+          if ((billingInfo.value.address ?? "").isNotEmpty) {
             address = "${billingInfo.value.address}";
-          }
-          else{
+          } else {
             address = 'address_postcode'.tr;
           }
 
           if ((billingInfo.value.shortCode ?? "").isNotEmpty &&
               (billingInfo.value.accountNo ?? "").isNotEmpty) {
-            bankDetails = "${billingInfo.value.shortCode ?? ""} / ${billingInfo.value.accountNo ?? ""}";
-          }
-          else if ((billingInfo.value.shortCode ?? "").isNotEmpty) {
+            bankDetails =
+                "${billingInfo.value.shortCode ?? ""} / ${billingInfo.value.accountNo ?? ""}";
+          } else if ((billingInfo.value.shortCode ?? "").isNotEmpty) {
             bankDetails = billingInfo.value.shortCode ?? "";
-          }
-          else if ((billingInfo.value.accountNo ?? "").isNotEmpty) {
+          } else if ((billingInfo.value.accountNo ?? "").isNotEmpty) {
             bankDetails = billingInfo.value.accountNo ?? "";
-          }
-          else{
+          } else {
             bankDetails = "";
           }
           getActiveCompanyInfo();
           isMainViewVisible.value = true;
-        }
-        else{
+        } else {
           isLoading.value = false;
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
@@ -179,6 +177,7 @@ class BillingDetailsNewController extends GetxController {
       },
     );
   }
+
   void getActiveCompanyInfo() async {
     Map<String, dynamic> map = {};
     map["user_id"] = userId;
@@ -187,10 +186,10 @@ class BillingDetailsNewController extends GetxController {
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
-          final response = ActiveCompanyInfoResponse.fromJson(jsonDecode(responseModel.result!));
+          final response = ActiveCompanyInfoResponse.fromJson(
+              jsonDecode(responseModel.result!));
           applyActiveCompanyDiff(response.info);
-        }
-        else{
+        } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;
@@ -205,6 +204,7 @@ class BillingDetailsNewController extends GetxController {
       },
     );
   }
+
   void applyActiveCompanyDiff(ActiveCompanyInfo companyInfo) {
     final info = companyInfo;
     final bool isPending = info.isPendingRequest ?? false;
@@ -214,35 +214,39 @@ class BillingDetailsNewController extends GetxController {
     if (isPending && info.diffData?.tradeName != null) {
       final oldTrade = info.diffData!.tradeName!.oldValue?.toString() ?? "";
       final newTrade = info.diffData!.tradeName!.newValue?.toString() ?? "";
-      if (oldTrade.isNotEmpty && newTrade.isNotEmpty){
+      if (oldTrade.isNotEmpty && newTrade.isNotEmpty) {
         tradeText = "$oldTrade > $newTrade";
-      }
-      else if (oldTrade.isNotEmpty){
+      } else if (oldTrade.isNotEmpty) {
         tradeText = oldTrade;
       }
     }
     currentTradeName.value = tradeText;
     // Rate
-    String rateText = info.netRatePerDay != null ? "${info.currency}${info.netRatePerDay}" : "";
+    String rateText = info.netRatePerDay != null
+        ? "${info.currency}${info.netRatePerDay}"
+        : "";
     if (isPending && info.diffData?.netRatePerDay != null) {
       final oldRate = info.diffData!.netRatePerDay!.oldValue ?? 0.00;
       final newRate = info.diffData!.netRatePerDay!.newValue ?? 0.00;
       if (newRate > 0) {
-        rateText = "${info.currency}${AppUtils.formatStringToDecimals(parseToDouble(oldRate))} > "
+        rateText =
+            "${info.currency}${AppUtils.formatStringToDecimals(parseToDouble(oldRate))} > "
             "${info.currency}${AppUtils.formatStringToDecimals(parseToDouble(newRate))}";
-      }
-      else if (oldRate > 0){
-        rateText = "${info.currency}${AppUtils.formatStringToDecimals(parseToDouble(oldRate))}";
+      } else if (oldRate > 0) {
+        rateText =
+            "${info.currency}${AppUtils.formatStringToDecimals(parseToDouble(oldRate))}";
       }
     }
     currentRatePerDay.value = rateText;
   }
+
   Future<void> moveToScreen(String rout, dynamic arguments) async {
     var result = await Get.toNamed(rout, arguments: arguments);
     if (result != null && result) {
       getBillingInfo();
     }
   }
+
   void onBackPress() {
     if (fromNotification) {
       Get.offAllNamed(AppRoutes.dashboardScreen);
