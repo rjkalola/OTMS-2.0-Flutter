@@ -4,6 +4,7 @@ import 'package:belcka/pages/leaves/add_leave/view/widgets/all_day_on_view.dart'
 import 'package:belcka/pages/leaves/add_leave/view/widgets/all_day_widget.dart';
 import 'package:belcka/pages/leaves/add_leave/view/widgets/leave_note.dart';
 import 'package:belcka/pages/leaves/add_leave/view/widgets/total_time_requested.dart';
+import 'package:belcka/pages/leaves/leave_utils.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
@@ -69,18 +70,36 @@ class _CreateLeaveScreenState extends State<CreateLeaveScreen> {
                                       Padding(
                                         padding: const EdgeInsets.only(
                                             left: 20, right: 20, top: 14),
-                                        child: DropDownTextField(
-                                          title: 'leave_type'.tr,
-                                          controller:
-                                              controller.leaveTypeController,
-                                          validators: [
-                                            RequiredValidator(
-                                                errorText: 'required_field'.tr),
+                                        child: Stack(
+                                          alignment: Alignment.centerRight,
+                                          children: [
+                                            DropDownTextField(
+                                              title: 'leave_type'.tr,
+                                              controller: controller
+                                                  .leaveTypeController,
+                                              validators: [
+                                                RequiredValidator(
+                                                    errorText:
+                                                        'required_field'.tr),
+                                              ],
+                                              onPressed: () {
+                                                controller
+                                                    .showSelectLeaveTypeDialog();
+                                              },
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 40),
+                                              child: TitleTextView(
+                                                text:
+                                                    controller.leaveType.value,
+                                                color: LeaveUtils
+                                                    .getLeaveTypeColor(
+                                                        controller
+                                                            .leaveType.value),
+                                              ),
+                                            )
                                           ],
-                                          onPressed: () {
-                                            controller
-                                                .showSelectLeaveTypeDialog();
-                                          },
                                         ),
                                       ),
                                       SizedBox(

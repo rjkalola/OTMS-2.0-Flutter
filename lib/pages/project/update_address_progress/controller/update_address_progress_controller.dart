@@ -141,4 +141,10 @@ class UpdateAddressProgressController extends GetxController {
       return Colors.orange;
     }
   }
+  Color getProgressColor(double progress) {
+    if (progress < 25) return const Color(0xFFFF0000); // Red
+    if (progress < 50) return const Color(0xFFFF7A00); // Orange
+    if (progress < 75) return const Color(0xFFFFD700); // Yellow
+    return const Color(0xFF32A852); // Green
+  }
 }

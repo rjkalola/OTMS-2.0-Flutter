@@ -37,7 +37,8 @@ class StopShiftController extends GetxController implements SelectTimeListener {
       isDataUpdated = false.obs,
       isWorking = false.obs,
       isEdited = false.obs,
-      isShowTotalPayable = true.obs;
+      isShowTotalPayable = true.obs,
+      showRate = false.obs;
 
   final RxString startTime = "".obs, stopTime = "".obs, currency = "£".obs;
   String initiallyStartTime = "", initiallyStopTime = "";
@@ -202,6 +203,11 @@ class StopShiftController extends GetxController implements SelectTimeListener {
           isMainViewVisible.value = true;
           WorkLogDetailsResponse response = WorkLogDetailsResponse.fromJson(
               jsonDecode(responseModel.result!));
+          if (UserUtils.getLoginUserId() == response.info?.userId) {
+            showRate.value = true;
+          } else {
+            showRate.value = Get.find<AppStorage>().isShowRate();
+          }
           workLogInfo.value = response.info!;
           currency.value = response.currency ?? "";
           date = DateUtil.changeDateFormat(

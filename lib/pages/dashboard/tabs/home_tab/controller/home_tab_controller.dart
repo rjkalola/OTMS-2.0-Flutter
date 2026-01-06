@@ -8,6 +8,7 @@ import 'package:belcka/pages/check_in/clock_in/controller/clock_in_repository.da
 import 'package:belcka/pages/check_in/clock_in/controller/clock_in_utils.dart';
 import 'package:belcka/pages/check_in/clock_in/model/counter_details.dart';
 import 'package:belcka/pages/check_in/clock_in/model/work_log_list_response.dart';
+import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:belcka/pages/common/listener/select_item_listener.dart';
 import 'package:belcka/pages/common/model/user_info.dart';
 import 'package:belcka/pages/common/model/user_response.dart';
@@ -21,6 +22,7 @@ import 'package:belcka/pages/dashboard/tabs/home_tab/model/user_permissions_resp
 import 'package:belcka/pages/dashboard/view/dialogs/control_panel_menu_dialog.dart';
 import 'package:belcka/pages/profile/my_profile_details/controller/my_profile_details_repository.dart';
 import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_storage.dart';
 import 'package:belcka/utils/app_utils.dart';
@@ -34,7 +36,8 @@ import 'package:get/get.dart';
 
 class HomeTabController extends GetxController // with WidgetsBindingObserver
     implements
-        SelectItemListener {
+        SelectItemListener,
+        DialogButtonClickListener {
   final _api = HomeTabRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
@@ -473,12 +476,15 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
           Get.find<AppStorage>().setUserInfo(response.info!);
           AppUtils.saveLoginUser(response.info!);
           userInfo.value = Get.find<AppStorage>().getUserInfo();
-          print("(response.info?.companyId ?? 0):" +
-              (response.info?.companyId ?? 0).toString());
+          Get.find<AppStorage>().setShowRate(response.info?.showRate ?? false);
           if ((response.info?.companyId ?? 0) != 0) {
             getUserWorkLogListApi(isShiftClick: false, isProgress: false);
             getNotificationCountApi(isProgress: false);
             getDashboardUserPermissionsApi(false, isProfileLoad: false);
+            if (UserUtils.isAdmin() &&
+                !(response.info?.isTradeAvailable ?? false)) {
+              showTradeWarningDialog("");
+            }
           } else {
             ApiConstants.companyId = 0;
             Get.find<AppStorage>().setCompanyId(ApiConstants.companyId);
@@ -726,5 +732,34 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
     isSetHomeCounter.value = false;
     _timer?.cancel();
     LiveTimer.stop();
+  }
+
+  showTradeWarningDialog(String dialogType) async {
+    AlertDialogHelper.showAlertDialog(
+        "",
+        'empty_trade_warning_message'.tr,
+        'add_trade'.tr,
+        "",
+        "",
+        false,
+        false,
+        this,
+        AppConstants.dialogIdentifier.tradeWarningDialog);
+  }
+
+  @override
+  void onNegativeButtonClicked(String dialogIdentifier) {
+    Get.back();
+  }
+
+  @override
+  void onOtherButtonClicked(String dialogIdentifier) {}
+
+  @override
+  void onPositiveButtonClicked(String dialogIdentifier) {
+    if (dialogIdentifier == AppConstants.dialogIdentifier.tradeWarningDialog) {
+      Get.back();
+      moveToScreen2(appRout: AppRoutes.companyTradesScreen);
+    }
   }
 }

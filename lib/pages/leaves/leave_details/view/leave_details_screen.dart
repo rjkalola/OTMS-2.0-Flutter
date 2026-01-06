@@ -5,6 +5,7 @@ import 'package:belcka/pages/leaves/leave_details/view/widgets/all_day_on_view.d
 import 'package:belcka/pages/leaves/leave_details/view/widgets/all_day_widget.dart';
 import 'package:belcka/pages/leaves/leave_details/view/widgets/leave_note.dart';
 import 'package:belcka/pages/leaves/leave_details/view/widgets/total_time_requested.dart';
+import 'package:belcka/pages/leaves/leave_utils.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
@@ -55,7 +56,7 @@ class _LeaveDetailsScreenState extends State<LeaveDetailsScreen> {
                 isBack: false,
                 bgColor: dashBoardBgColor_(context),
                 widgets: actionButtons(),
-                onBackPressed: (){
+                onBackPressed: () {
                   controller.onBackPress();
                 },
               ),
@@ -81,16 +82,34 @@ class _LeaveDetailsScreenState extends State<LeaveDetailsScreen> {
                                       Padding(
                                         padding: const EdgeInsets.only(
                                             left: 20, right: 20, top: 14),
-                                        child: DropDownTextField(
-                                          title: 'leave_type'.tr,
-                                          controller:
-                                              controller.leaveTypeController,
-                                          isReadOnly: true,
-                                          // isEnabled: false,
-                                          isArrowHide: true,
-                                          validators: [
-                                            RequiredValidator(
-                                                errorText: 'required_field'.tr),
+                                        child: Stack(
+                                          alignment: Alignment.centerRight,
+                                          children: [
+                                            DropDownTextField(
+                                              title: 'leave_type'.tr,
+                                              controller: controller
+                                                  .leaveTypeController,
+                                              isReadOnly: true,
+                                              // isEnabled: false,
+                                              isArrowHide: true,
+                                              validators: [
+                                                RequiredValidator(
+                                                    errorText:
+                                                        'required_field'.tr),
+                                              ],
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 26),
+                                              child: TitleTextView(
+                                                text:
+                                                    controller.leaveType.value,
+                                                color: LeaveUtils
+                                                    .getLeaveTypeColor(
+                                                        controller
+                                                            .leaveType.value),
+                                              ),
+                                            )
                                           ],
                                         ),
                                       ),
@@ -120,7 +139,8 @@ class _LeaveDetailsScreenState extends State<LeaveDetailsScreen> {
                                         controller: controller.noteController,
                                         onValueChange: (value) {
                                           controller.isSaveEnable.value =
-                                              !StringHelper.isEmptyString(value);
+                                              !StringHelper.isEmptyString(
+                                                  value);
                                         },
                                       ),
                                       SizedBox(
@@ -148,8 +168,8 @@ class _LeaveDetailsScreenState extends State<LeaveDetailsScreen> {
                                           false,
                                   child: UserUtils.isAdmin()
                                       ? ApproveRejectButtons(
-                                          padding:
-                                              EdgeInsets.fromLTRB(14, 8, 14, 16),
+                                          padding: EdgeInsets.fromLTRB(
+                                              14, 8, 14, 16),
                                           onClickReject: () {
                                             if (!StringHelper.isEmptyString(
                                                 controller.requestNoteController

@@ -1,31 +1,22 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:belcka/pages/common/listener/menu_item_listener.dart';
-import 'package:belcka/pages/common/listener/select_item_listener.dart';
 import 'package:belcka/pages/common/menu_items_list_bottom_dialog.dart';
-import 'package:belcka/pages/common/model/user_info.dart';
 import 'package:belcka/pages/teams/team_details/controller/team_details_repository.dart';
 import 'package:belcka/pages/teams/team_details/model/team_details_response.dart';
-import 'package:belcka/pages/teams/team_list/controller/team_list_repository.dart';
 import 'package:belcka/pages/teams/team_list/model/team_info.dart';
-import 'package:belcka/pages/teams/team_list/model/team_list_response.dart';
-import 'package:belcka/pages/permissions/user_list/controller/user_list_repository.dart';
-import 'package:belcka/pages/permissions/user_list/model/user_list_response.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
-import 'package:belcka/utils/data_utils.dart';
 import 'package:belcka/utils/image_utils.dart';
-import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/web_services/response/response_model.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 
 class TeamDetailsController extends GetxController
     implements MenuItemListener, DialogButtonClickListener {

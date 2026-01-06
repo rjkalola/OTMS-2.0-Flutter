@@ -193,6 +193,8 @@ class MyAccountController extends GetxController
           if (isRefreshLoginUserData) {
             Get.find<AppStorage>().setUserInfo(response.info!);
             AppUtils.saveLoginUser(response.info!);
+            Get.find<AppStorage>()
+                .setShowRate(response.info?.showRate ?? false);
             Get.back(result: true);
           }
         } else {

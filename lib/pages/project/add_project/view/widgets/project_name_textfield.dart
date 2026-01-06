@@ -14,21 +14,23 @@ class ProjectNameTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => TextFieldBorderDark(
-      textEditingController: controller.projectNameController.value,
-      hintText: 'project_name'.tr,
-      labelText: 'project_name'.tr,
-      isReadOnly: false,
-      maxLength: 50,
-      keyboardType: TextInputType.name,
-      textInputAction: TextInputAction.next,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      onValueChange: (value) {
-        controller.isSaveEnable.value = true;
-      },
-      validator: MultiValidator([
-        RequiredValidator(errorText: 'required_field'.tr),
-      ]),
-    ),);
+    return Obx(
+      () => TextFieldBorderDark(
+        textEditingController: controller.projectNameController.value,
+        hintText: 'project_name'.tr,
+        labelText: 'project_name'.tr,
+        isReadOnly: false,
+        maxLength: 50,
+        keyboardType: TextInputType.name,
+        textInputAction: TextInputAction.next,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        onValueChange: (value) {
+          controller.isSaveEnable.value = true;
+        },
+        validator: MultiValidator([
+          RequiredValidator(errorText: 'required_field'.tr),
+        ]),
+      ),
+    );
   }
 }

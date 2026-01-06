@@ -506,6 +506,9 @@ class Strings extends Translations {
           'web': "Web",
           'app': "App",
           'updating': "Updating...",
+          'empty_trade_warning_message':
+              "Your company doesn’t have any trades yet. Please add a trade to continue.",
+          'empty_address_message': "Please select address",
 // '': "",
 // '': "",
 // '': "",

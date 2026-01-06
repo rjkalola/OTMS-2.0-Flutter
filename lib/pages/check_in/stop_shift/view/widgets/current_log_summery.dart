@@ -25,7 +25,8 @@ class CurrentLogSummery extends StatelessWidget {
       setWidgets(context);
 
       return Visibility(
-        visible: controller.isShowTotalPayable.value,
+        visible:
+            controller.isShowTotalPayable.value && controller.showRate.value,
         child: CardViewDashboardItem(
           borderRadius: 14,
           margin: const EdgeInsets.fromLTRB(14, 4, 14, 12),

@@ -98,19 +98,35 @@ class _UpdateAddressProgressScreenState
           Align(
             alignment: Alignment.centerLeft,
             child: Text("change_progress".tr,
-                style: TextStyle(fontWeight: FontWeight.bold)),
+                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20)),
           ),
           Row(
             children: [
               Expanded(
-                child: Slider(
-                  value: controller.progress,
-                  min: 0,
-                  max: 100,
-                  divisions: 100,
-                  label: '${controller.progress.toInt()}%',
-                  onChanged: (value) =>
-                      setState(() => controller.progress = value),
+                child: SliderTheme(
+                  data: SliderTheme.of(context).copyWith(
+                    trackHeight: 8,
+                    activeTrackColor: controller.getProgressColor(controller.progress),
+                    inactiveTrackColor:Colors.grey.shade300,
+                    thumbColor: defaultAccentColor_(context),
+                    thumbShape: const RoundSliderThumbShape(
+                      enabledThumbRadius: 12,
+                    ),
+                    overlayColor: defaultAccentColor_(context).withOpacity(0.2),
+                    valueIndicatorColor: controller.getProgressColor(controller.progress),
+                  ),
+                  child: Slider(
+                    value: controller.progress,
+                    min: 0,
+                    max: 100,
+                    divisions: 100,
+                    //label:'${controller.progress.toInt()}%',
+                    onChanged: (value) {
+                      setState(() {
+                        controller.progress = value;
+                      });
+                    },
+                  ),
                 ),
               ),
               //Text("${controller.progress.toInt()}%"),
@@ -125,7 +141,7 @@ class _UpdateAddressProgressScreenState
                     : "$status (${controller.progress.toInt()}%)",
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
-                  color: controller.getStatusColor(controller.progress),
+                  color: controller.getProgressColor(controller.progress)//controller.getStatusColor(controller.progress),
                 ),
               ),
             ],

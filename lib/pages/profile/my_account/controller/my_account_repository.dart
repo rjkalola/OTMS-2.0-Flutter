@@ -36,15 +36,13 @@ class MyAccountRepository {
       onError: (error) => {if (onError != null) onError(error)},
     );
   }
+
   void changeAdmin({
     dynamic data,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
-    ApiRequest(
-        url: ApiConstants.changeAdmin,
-        data: data,
-        isFormData: false)
+    ApiRequest(url: ApiConstants.changeAdmin, data: data, isFormData: false)
         .postRequest(
       onSuccess: (data) {
         onSuccess!(data);
@@ -58,7 +56,8 @@ class MyAccountRepository {
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
-    ApiRequest(url: ApiConstants.archiveUserAccount, data: data, isFormData: false)
+    ApiRequest(
+            url: ApiConstants.archiveUserAccount, data: data, isFormData: false)
         .postRequest(
       onSuccess: (data) {
         onSuccess!(data);

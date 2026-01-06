@@ -18,28 +18,31 @@ class UserInfo {
   bool? isCheck;
   int? userRoleId;
   bool? isWorking;
+  bool? showRate;
+  bool? isTradeAvailable;
 
-  UserInfo({
-    this.id,
-    this.firstName,
-    this.lastName,
-    this.name,
-    this.email,
-    this.phone,
-    this.extension,
-    this.image,
-    this.phoneWithExtension,
-    this.userImage,
-    this.userThumbImage,
-    this.companyId,
-    this.deviceType,
-    this.apiToken,
-    this.tradeId,
-    this.tradeName,
-    this.isCheck,
-    this.userRoleId,
-    this.isWorking,
-  });
+  UserInfo(
+      {this.id,
+      this.firstName,
+      this.lastName,
+      this.name,
+      this.email,
+      this.phone,
+      this.extension,
+      this.image,
+      this.phoneWithExtension,
+      this.userImage,
+      this.userThumbImage,
+      this.companyId,
+      this.deviceType,
+      this.apiToken,
+      this.tradeId,
+      this.tradeName,
+      this.isCheck,
+      this.userRoleId,
+      this.isWorking,
+      this.showRate,
+      this.isTradeAvailable});
 
   UserInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -61,6 +64,8 @@ class UserInfo {
     isCheck = json['isCheck'];
     userRoleId = json['user_role_id'];
     isWorking = json['is_working'];
+    showRate = json['show_rate'];
+    isTradeAvailable = json['is_trade_available'];
   }
 
   Map<String, dynamic> toJson() {
@@ -84,6 +89,8 @@ class UserInfo {
     data['isCheck'] = this.isCheck;
     data['user_role_id'] = this.userRoleId;
     data['is_working'] = this.isWorking;
+    data['show_rate'] = this.showRate;
+    data['is_trade_available'] = this.isTradeAvailable;
     return data;
   }
 
@@ -104,7 +111,9 @@ class UserInfo {
       String? deviceToken,
       bool? isCheck,
       int? userRoleId,
-      bool? isWorking}) {
+      bool? isWorking,
+      bool? showRate,
+      bool? isTradeAvailable}) {
     return UserInfo(
         id: id ?? this.id,
         firstName: firstName ?? this.firstName,
@@ -124,7 +133,9 @@ class UserInfo {
         tradeName: tradeName ?? this.tradeName,
         isCheck: isCheck ?? this.isCheck,
         userRoleId: userRoleId ?? this.userRoleId,
-        isWorking: isWorking ?? this.isWorking);
+        isWorking: isWorking ?? this.isWorking,
+        showRate: showRate ?? this.showRate,
+        isTradeAvailable: isTradeAvailable ?? this.isTradeAvailable);
   }
 
   UserInfo copyUserInfo({UserInfo? userInfo}) {
@@ -148,6 +159,8 @@ class UserInfo {
         tradeName: userInfo?.tradeName ?? this.tradeName,
         isCheck: userInfo?.isCheck ?? this.isCheck,
         userRoleId: userInfo?.userRoleId ?? this.userRoleId,
-        isWorking: userInfo?.isWorking ?? this.isWorking);
+        isWorking: userInfo?.isWorking ?? this.isWorking,
+        showRate: userInfo?.showRate ?? this.showRate,
+        isTradeAvailable: userInfo?.isTradeAvailable ?? this.isTradeAvailable);
   }
 }

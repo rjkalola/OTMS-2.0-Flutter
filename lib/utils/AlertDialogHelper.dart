@@ -154,7 +154,14 @@ class AlertDialogHelper {
         backgroundColor: Colors.transparent,
       );
     } else {
-      Get.dialog(barrierDismissible: isCancelable, alert);
+      // Get.dialog(barrierDismissible: isCancelable, alert);
+      Get.dialog(
+        PopScope(
+          canPop: isCancelable, // false = block back button
+          child: alert,
+        ),
+        barrierDismissible: isCancelable,
+      );
     }
   }
 

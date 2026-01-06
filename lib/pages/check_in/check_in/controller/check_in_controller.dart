@@ -475,7 +475,7 @@ class CheckInController extends GetxController
       showDropDownDialog(AppConstants.dialogIdentifier.selectAddress,
           'select_address'.tr, addressList, this);
     } else {
-      AppUtils.showToastMessage('empty_data_message'.tr);
+      AppUtils.showToastMessage('empty_address_message'.tr);
     }
   }
 

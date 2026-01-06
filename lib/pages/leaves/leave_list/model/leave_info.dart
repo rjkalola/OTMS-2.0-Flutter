@@ -75,6 +75,7 @@ class LeaveInfo {
     data['manager_note'] = this.managerNote;
     data['is_requested'] = this.isRequested;
     data['request_status'] = this.requestStatus;
+
     return data;
   }
 }

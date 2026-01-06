@@ -286,6 +286,16 @@ class AppStorage extends GetxController {
     return value;
   }
 
+  void setShowRate(bool value) {
+    storage.write(AppConstants.sharedPreferenceKey.showRate, value);
+  }
+
+  bool isShowRate() {
+    final value =
+        storage.read(AppConstants.sharedPreferenceKey.showRate) ?? false;
+    return value;
+  }
+
   void clearAllData() {
     AppConstants.isResourcesLoaded = false;
     ApiConstants.companyId = 0;

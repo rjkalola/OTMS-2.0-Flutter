@@ -3,7 +3,9 @@ import 'package:belcka/pages/expense/add_expense/model/expense_info.dart';
 import 'package:belcka/pages/leaves/leave_list/model/leave_info.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/utils/app_storage.dart';
 import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/widgets/checkbox/custom_checkbox.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -29,6 +31,14 @@ class DayLogList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int userId = controller.timeSheetList[parentPosition].userId ?? 0;
+    bool showRate = false;
+    if (UserUtils.getLoginUserId() == userId) {
+      showRate = true;
+    } else {
+      showRate = controller.showRate.value;
+    }
+
     return ListView.separated(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
@@ -44,11 +54,11 @@ class DayLogList extends StatelessWidget {
           if (type == "leave") {
             return leaveItem(info);
           } else if (type == "expense") {
-            return expenseItem(info);
+            return expenseItem(info, showRate);
           } else if (type == "penalty") {
             return penaltyItem(info);
           } else {
-            return timeSheetItem(info);
+            return timeSheetItem(info, showRate);
           }
         },
         itemCount: controller.timeSheetList[parentPosition]
@@ -160,21 +170,22 @@ class DayLogList extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
       );
 
-  Widget totalWorkHour(DayLogInfo info) => Column(
+  Widget totalWorkHour(DayLogInfo info, bool showRate) => Column(
         children: [
-          TitleTextView(
-            // text: ((info.isPricework ?? false) || controller.isViewAmount.value)
-            //     ? "£${info.priceWorkTotalAmount ?? "0"}"
-            //     : DateUtil.seconds_To_HH_MM(info.payableWorkSeconds ?? 0),
-            text: ((info.isPricework ?? false))
-                ? "£${info.priceWorkTotalAmount ?? "0"}"
-                : (controller.isViewAmount.value
-                    ? "£${info.payableAmount ?? "0"}"
-                    : DateUtil.seconds_To_HH_MM(info.payableWorkSeconds ?? 0)),
-            color: info.requestStatus != null
-                ? AppUtils.getStatusColor(info.requestStatus ?? 0)
-                : primaryTextColor_(Get.context!),
-            fontSize: 17,
+          Visibility(
+            visible: showRate,
+            child: TitleTextView(
+              text: ((info.isPricework ?? false))
+                  ? "£${info.priceWorkTotalAmount ?? "0"}"
+                  : (controller.isViewAmount.value
+                      ? "£${info.payableAmount ?? "0"}"
+                      : DateUtil.seconds_To_HH_MM(
+                          info.payableWorkSeconds ?? 0)),
+              color: info.requestStatus != null
+                  ? AppUtils.getStatusColor(info.requestStatus ?? 0)
+                  : primaryTextColor_(Get.context!),
+              fontSize: 17,
+            ),
           ),
           SubtitleTextView(
             text: "(${info.startTimeFormat} - ${info.endTimeFormat})",
@@ -201,7 +212,7 @@ class DayLogList extends StatelessWidget {
   //   return "";
   // }
 
-  Widget timeSheetItem(DayLogInfo info) => Obx(
+  Widget timeSheetItem(DayLogInfo info, bool showRate) => Obx(
         () => Stack(
           children: [
             Padding(
@@ -253,7 +264,7 @@ class DayLogList extends StatelessWidget {
                         ),
                       ),
                       Expanded(child: Container()),
-                      totalWorkHour(info),
+                      totalWorkHour(info, showRate),
                       SizedBox(
                         width: 4,
                       ),
@@ -471,17 +482,20 @@ class DayLogList extends StatelessWidget {
         : Container();
   }
 
-  Widget expenseItem(DayLogInfo info) {
+  Widget expenseItem(DayLogInfo info, bool showRate) {
     ExpenseInfo? expenseInfo = info.expenseInfo;
     return expenseInfo != null
         ? Padding(
             padding: EdgeInsets.fromLTRB(10, 12, 13, 12),
             child: GestureDetector(
               onTap: () {
-                var arguments = {
-                  AppConstants.intentKey.expenseId: expenseInfo.id ?? 0,
-                };
-                controller.moveToScreen(AppRoutes.addExpenseScreen, arguments);
+                if (showRate) {
+                  var arguments = {
+                    AppConstants.intentKey.expenseId: expenseInfo.id ?? 0,
+                  };
+                  controller.moveToScreen(
+                      AppRoutes.addExpenseScreen, arguments);
+                }
               },
               child: Container(
                 color: Colors.transparent,
@@ -512,14 +526,17 @@ class DayLogList extends StatelessWidget {
                     Expanded(child: Container()),
                     Column(
                       children: [
-                        TitleTextView(
-                          text:
-                              "${expenseInfo.currency ?? ""}${expenseInfo.totalAmount ?? 0}",
-                          color: expenseInfo.requestStatus != null
-                              ? AppUtils.getStatusColor(
-                                  expenseInfo.requestStatus ?? 0)
-                              : primaryTextColor_(Get.context!),
-                          fontSize: 17,
+                        Visibility(
+                          visible: showRate,
+                          child: TitleTextView(
+                            text:
+                                "${expenseInfo.currency ?? ""}${expenseInfo.totalAmount ?? 0}",
+                            color: expenseInfo.requestStatus != null
+                                ? AppUtils.getStatusColor(
+                                    expenseInfo.requestStatus ?? 0)
+                                : primaryTextColor_(Get.context!),
+                            fontSize: 17,
+                          ),
                         ),
                         SizedBox(
                           height: 1,

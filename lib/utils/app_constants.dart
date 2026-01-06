@@ -151,6 +151,7 @@ class DialogIdentifier {
   final String selectCategory = 'SELECT_CATEGORY';
   final String startDate = 'START_DATE';
   final String endDate = 'END_DATE';
+  final String tradeWarningDialog = 'TRADE_WARNING_DIALOG';
 }
 
 class SharedPreferenceKey {
@@ -175,6 +176,7 @@ class SharedPreferenceKey {
   final String lastLocation = "LAST_LOCATION";
   final String timesheetDateFilterIndex = "TIMESHEET_DATE_FILTER_INDEX";
   final String timesheetViewAmountVisible = "VIEW_AMOUNT_VISIBLE";
+  final String showRate = "SHOW_RATE";
 }
 
 class Action {

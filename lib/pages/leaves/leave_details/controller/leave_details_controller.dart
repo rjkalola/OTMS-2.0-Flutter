@@ -47,7 +47,7 @@ class LeaveDetailsController extends GetxController
       isAllDay = true.obs,
       isFromRequest = false.obs,
       isFromNotification = false.obs;
-  RxString totalDays = "0.0".obs;
+  RxString totalDays = "0.0".obs, leaveType = "".obs;
   RxInt requestStatus = 0.obs;
   int leaveId = 0;
   final leaveInfo = LeaveInfo().obs;
@@ -72,6 +72,7 @@ class LeaveDetailsController extends GetxController
     title.value = 'leave_details'.tr;
     // title.value = leaveInfo.value.userName ?? "";
     leaveTypeController.value.text = leaveInfo.value.leaveName ?? "";
+    leaveType.value = leaveInfo.value.leaveType ?? "";
     isAllDay.value = leaveInfo.value.isAlldayLeave ?? false;
     requestStatus.value = leaveInfo.value.requestStatus ?? 0;
 

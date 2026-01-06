@@ -1,5 +1,6 @@
 import 'package:belcka/pages/leaves/leave_list/controller/leave_list_controller.dart';
 import 'package:belcka/pages/leaves/leave_list/model/leave_info.dart';
+import 'package:belcka/pages/leaves/leave_utils.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_constants.dart';
@@ -97,14 +98,28 @@ class LeaveList extends StatelessWidget {
                     ),
                   ),
                 ),
-                TextViewWithContainer(
-                  margin: EdgeInsets.only(left: 32, top: 1),
-                  text: info.leaveName ?? "",
-                  padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                  fontColor: Colors.white,
-                  fontSize: 13,
-                  boxColor: defaultAccentColor_(context),
-                  borderRadius: 5,
+                Row(
+                  children: [
+                    TextViewWithContainer(
+                      margin: EdgeInsets.only(left: 32, top: 1),
+                      text: info.leaveName ?? "",
+                      padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                      fontColor: Colors.white,
+                      fontSize: 13,
+                      boxColor: defaultAccentColor_(context),
+                      borderRadius: 5,
+                    ),
+                    TextViewWithContainer(
+                      margin: EdgeInsets.only(left: 8, top: 1),
+                      text: info.leaveType ?? "",
+                      padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                      fontColor: Colors.white,
+                      fontSize: 13,
+                      boxColor:
+                          LeaveUtils.getLeaveTypeColor(info.leaveType ?? ""),
+                      borderRadius: 5,
+                    )
+                  ],
                 ),
                 Visibility(
                   visible: !StringHelper.isEmptyString(

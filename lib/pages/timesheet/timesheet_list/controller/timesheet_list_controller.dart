@@ -16,6 +16,7 @@ import 'package:belcka/web_services/response/module_info.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../../../../utils/app_storage.dart';
 import '../../../../utils/data_utils.dart';
@@ -33,7 +34,8 @@ class TimeSheetListController extends GetxController
       isEditStatusEnable = false.obs,
       isCheckAll = false.obs,
       isViewAmount = false.obs,
-      isExpanded = false.obs;
+      isExpanded = false.obs,
+      showRate = true.obs;
   final RxString title = "".obs;
   final RxInt selectedDateFilterIndex = (1).obs;
   final _api = TimesheetListRepository();
@@ -55,9 +57,16 @@ class TimeSheetListController extends GetxController
     setInitialFilter();
     if (isAllUserTimeSheet) {
       title.value = 'time_tracking'.tr;
+      if (UserUtils.isAdmin()) {
+        showRate.value = UserUtils.isAdmin();
+      } else {
+        showRate.value = Get.find<AppStorage>().isShowRate();
+      }
     } else {
+      showRate.value = true;
       title.value = 'timesheet'.tr;
     }
+
     loadTimesheetData(true);
   }
 
@@ -86,6 +95,15 @@ class TimeSheetListController extends GetxController
           isMainViewVisible.value = true;
           TimeSheetListResponse response =
               TimeSheetListResponse.fromJson(jsonDecode(responseModel.result!));
+          if (isAllUserTimeSheet) {
+            if (showRate.value) {
+              isViewAmount.value =
+                  Get.find<AppStorage>().getTimeSheetViewAmountVisible();
+            } else {
+              isViewAmount.value = false;
+            }
+          }
+
           tempList.clear();
           tempList.addAll(response.info ?? []);
           timeSheetList.value = tempList;
@@ -129,6 +147,14 @@ class TimeSheetListController extends GetxController
           isMainViewVisible.value = true;
           TimeSheetListResponse response =
               TimeSheetListResponse.fromJson(jsonDecode(responseModel.result!));
+          if (isAllUserTimeSheet) {
+            if (showRate.value) {
+              isViewAmount.value =
+                  Get.find<AppStorage>().getTimeSheetViewAmountVisible();
+            } else {
+              isViewAmount.value = false;
+            }
+          }
           print("List Size:" + response.info!.length.toString());
           tempList.clear();
           tempList.addAll(response.info ?? []);
@@ -237,8 +263,10 @@ class TimeSheetListController extends GetxController
     if (!isAllUserTimeSheet) {
       listItems.add(ModuleInfo(
           name: 'add_expense'.tr, action: AppConstants.action.addExpense));
-      listItems.add(ModuleInfo(
-          name: 'view_amount'.tr, action: AppConstants.action.viewAmount));
+      if (showRate.value) {
+        listItems.add(ModuleInfo(
+            name: 'view_amount'.tr, action: AppConstants.action.viewAmount));
+      }
     } else {
       listItems
           .add(ModuleInfo(name: 'add'.tr, action: AppConstants.action.add));
@@ -251,8 +279,10 @@ class TimeSheetListController extends GetxController
           action: AppConstants.action.archivedTimesheet));
       // listItems
       //     .add(ModuleInfo(name: 'share'.tr, action: AppConstants.action.share));
-      listItems.add(ModuleInfo(
-          name: 'view_amount'.tr, action: AppConstants.action.viewAmount));
+      if (showRate.value) {
+        listItems.add(ModuleInfo(
+            name: 'view_amount'.tr, action: AppConstants.action.viewAmount));
+      }
       // listItems.add(ModuleInfo(
       //     name: 'history_logs'.tr, action: AppConstants.action.historyLogs));
     }
@@ -565,8 +595,6 @@ class TimeSheetListController extends GetxController
 
   void setInitialFilter() {
     if (isAllUserTimeSheet) {
-      isViewAmount.value =
-          Get.find<AppStorage>().getTimeSheetViewAmountVisible();
       selectedDateFilterIndex.value =
           Get.find<AppStorage>().getTimesheetDateFilterIndex();
       List<DateTime> listDates = DateUtil.getDateWeekRange(

@@ -17,7 +17,8 @@ class TotalAllDayHoursRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => Visibility(
-        visible: controller.isShowTotalPayable.value,
+        visible: controller.isShowTotalPayable.value &&
+            controller.showRate.value,
         child: CardViewDashboardItem(
             borderRadius: 14,
             margin: EdgeInsets.fromLTRB(14, 4, 14, 14),

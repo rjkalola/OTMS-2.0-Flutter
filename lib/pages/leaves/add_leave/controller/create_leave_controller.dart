@@ -45,7 +45,7 @@ class CreateLeaveController extends GetxController
       isMainViewVisible = false.obs,
       isSaveEnable = false.obs,
       isAllDay = true.obs;
-  RxString totalDays = "0.0".obs;
+  RxString totalDays = "0.0".obs, leaveType = "".obs;
   final leaveTypeList = <ModuleInfo>[].obs;
   int leaveId = 0, userId = 0;
 
@@ -69,6 +69,7 @@ class CreateLeaveController extends GetxController
     if (leaveInfo != null) {
       userId = leaveInfo?.userId ?? 0;
       title.value = 'edit_leave'.tr;
+      leaveType.value = leaveInfo?.leaveType ?? "";
       leaveId = leaveInfo?.leaveId ?? 0;
       leaveTypeController.value.text = leaveInfo?.leaveName ?? "";
       isAllDay.value = leaveInfo?.isAlldayLeave ?? false;
@@ -163,7 +164,8 @@ class CreateLeaveController extends GetxController
               LeaveTypeListResponse.fromJson(jsonDecode(responseModel.result!));
           List<ModuleInfo> listItems = [];
           for (var info in response.info!) {
-            listItems.add(ModuleInfo(id: info.id, name: info.name));
+            listItems
+                .add(ModuleInfo(id: info.id, name: info.name, type: info.type));
           }
           leaveTypeList.value = listItems;
         } else {
@@ -317,9 +319,16 @@ class CreateLeaveController extends GetxController
   }
 
   void showSelectLeaveTypeDialog() {
-    if (leaveTypeList.isNotEmpty) {
+    List<ModuleInfo> list = [];
+    for (ModuleInfo info in leaveTypeList) {
+      ModuleInfo data =
+          ModuleInfo(id: info.id, name: "${info.name} (${info.type})");
+      list.add(data);
+    }
+
+    if (list.isNotEmpty) {
       showDropDownDialog(AppConstants.action.selectLeaveTypeDialog,
-          'leave_type'.tr, leaveTypeList, this);
+          'leave_type'.tr, list, this);
     } else {
       AppUtils.showToastMessage('empty_data_message'.tr);
     }
@@ -345,7 +354,8 @@ class CreateLeaveController extends GetxController
     if (action == AppConstants.action.selectLeaveTypeDialog) {
       isSaveEnable.value = true;
       leaveId = id;
-      leaveTypeController.value.text = name;
+      leaveTypeController.value.text = leaveTypeList[position].name ?? "";
+      leaveType.value = leaveTypeList[position].type ?? "";
     }
   }
 
