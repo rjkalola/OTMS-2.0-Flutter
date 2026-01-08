@@ -80,7 +80,7 @@ class SplashServices {
       if (ApiConstants.accessToken.isNotEmpty) {
         if (ApiConstants.companyId != 0) {
           Get.offAllNamed(AppRoutes.dashboardScreen);
-          // Get.offAllNamed(AppRoutes.penaltyListScreen);
+          // Get.offAllNamed(AppRoutes.buyerOrdersScreen);
         } else {
           var arguments = {AppConstants.intentKey.fromSignUpScreen: true};
           Get.offAllNamed(AppRoutes.switchCompanyScreen, arguments: arguments);
@@ -95,7 +95,7 @@ class SplashServices {
   Future<void> refreshData(Map<String, dynamic>? data) async {
     if (data != null) {
       final notificationType = data['notification_type'] ?? "";
-      print("notificationType:::"+notificationType);
+      print("notificationType:::" + notificationType);
       if (notificationType ==
           AppConstants.notificationType.USER_WORK_STOP_AUTOMATICALLY) {
         if (Get.isRegistered<ClockInController>()) {

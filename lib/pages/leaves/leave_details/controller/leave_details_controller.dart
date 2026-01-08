@@ -72,7 +72,7 @@ class LeaveDetailsController extends GetxController
     title.value = 'leave_details'.tr;
     // title.value = leaveInfo.value.userName ?? "";
     leaveTypeController.value.text = leaveInfo.value.leaveName ?? "";
-    leaveType.value = leaveInfo.value.leaveType ?? "";
+    leaveType.value =  StringHelper.capitalizeFirstLetter(leaveInfo.value.leaveType ?? "");
     isAllDay.value = leaveInfo.value.isAlldayLeave ?? false;
     requestStatus.value = leaveInfo.value.requestStatus ?? 0;
 

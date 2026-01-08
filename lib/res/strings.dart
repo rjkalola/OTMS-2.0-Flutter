@@ -509,9 +509,41 @@ class Strings extends Translations {
           'empty_trade_warning_message':
               "Your company doesn’t have any trades yet. Please add a trade to continue.",
           'empty_address_message': "Please select address",
+
+
+          'purchasing': "Purchasing",
+          'orders': "Orders",
+          'request': "Request",
+          'proceed': "Proceed",
+          'delivered': "Delivered",
+          'other': "Other",
+          'low_stock': "Low Stock",
+          'uncompleted': "Uncompleted",
+          'damaged': "Damaged",
+          'inventory': "Inventory",
+          'trulock': "Trulock",
+          'camden': "Camden",
+          'hire': "Hire",
+          'hired': "Hired",
+          'available': "Available",
+          'in_service': "In Service"
+          // , '': ""
+          // , '': ""
+          // , '': ""
+          // , '': ""
+          // , '': ""
+
+          // '': "",
 // '': "",
 // '': "",
 // '': "",
+// '': "",
+          // '': "",
+// '': "",
+// '': "",
+// '': "",
+// '': "",
+          // '': "",
 // '': "",
 // '': "",
 // '': "",

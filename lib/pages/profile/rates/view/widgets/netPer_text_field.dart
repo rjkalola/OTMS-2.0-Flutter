@@ -28,16 +28,19 @@ class NetPerDayTextField extends StatelessWidget {
         validator: MultiValidator([]),
         inputFormatters: <TextInputFormatter>[
           // for below version 2 use this
-          DecimalTextInputFormatter(decimalRange: 2),
+          DecimalTextInputFormatter(decimalRange: 2, maxValue: 100000),
         ]);
   }
 }
 
 class DecimalTextInputFormatter extends TextInputFormatter {
   final int decimalRange;
+  final double maxValue;
 
-  DecimalTextInputFormatter({this.decimalRange = 2})
-      : assert(decimalRange >= 0);
+  DecimalTextInputFormatter({
+    this.decimalRange = 2,
+    this.maxValue = 100000,
+  }) : assert(decimalRange >= 0);
 
   @override
   TextEditingValue formatEditUpdate(
@@ -47,20 +50,22 @@ class DecimalTextInputFormatter extends TextInputFormatter {
     if (newValue.text.isEmpty) {
       return newValue;
     }
-
-    // Allow only numbers and decimal point
+    // Allow only digits and decimal point
     final regex = RegExp(r'^\d*\.?\d*$');
-
     if (!regex.hasMatch(newValue.text)) {
       return oldValue;
     }
-
     // Check decimal places
     if (newValue.text.contains(".")) {
       final parts = newValue.text.split(".");
       if (parts.length > 1 && parts[1].length > decimalRange) {
         return oldValue;
       }
+    }
+    //Check max value (100000)
+    final value = double.tryParse(newValue.text);
+    if (value != null && value > maxValue) {
+      return oldValue;
     }
     return newValue;
   }

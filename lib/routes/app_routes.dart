@@ -130,4 +130,6 @@ class AppRoutes {
   static const String penaltyListScreen = '/penalty_list_screen';
   static const String checkInDayLogsScreen = '/check_in_day_logs_screen';
   static const String editWidgetScreen = '/edit_widget_screen';
+  static const String purchasingScreen = '/purchasing_screen';
+  static const String buyerOrdersScreen = '/buyer_orders_screen';
 }

@@ -111,7 +111,8 @@ class LeaveList extends StatelessWidget {
                     ),
                     TextViewWithContainer(
                       margin: EdgeInsets.only(left: 8, top: 1),
-                      text: info.leaveType ?? "",
+                      text: StringHelper.capitalizeFirstLetter(
+                          info.leaveType ?? ""),
                       padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
                       fontColor: Colors.white,
                       fontSize: 13,

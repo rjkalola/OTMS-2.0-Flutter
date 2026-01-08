@@ -19,6 +19,7 @@ import 'package:belcka/pages/dashboard/tabs/home_tab/model/local_permission_sequ
 import 'package:belcka/pages/dashboard/tabs/home_tab/model/notification_count_response.dart';
 import 'package:belcka/pages/dashboard/tabs/home_tab/model/permission_info.dart';
 import 'package:belcka/pages/dashboard/tabs/home_tab/model/user_permissions_response.dart';
+import 'package:belcka/pages/dashboard/tabs/more_tab/controller/more_tab_repository.dart';
 import 'package:belcka/pages/dashboard/view/dialogs/control_panel_menu_dialog.dart';
 import 'package:belcka/pages/profile/my_profile_details/controller/my_profile_details_repository.dart';
 import 'package:belcka/routes/app_routes.dart';
@@ -30,6 +31,7 @@ import 'package:belcka/utils/data_utils.dart';
 import 'package:belcka/utils/date_utils.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
+import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -69,7 +71,9 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
   void onInit() {
     super.onInit();
     userInfo.value = Get.find<AppStorage>().getUserInfo();
-    setInitialData();
+    if ((userInfo.value.id) != 0) {
+      setInitialData();
+    }
     // WidgetsBinding.instance.addObserver(this);
     // appLifeCycle();
   }
@@ -483,7 +487,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
             getDashboardUserPermissionsApi(false, isProfileLoad: false);
             if (UserUtils.isAdmin() &&
                 !(response.info?.isTradeAvailable ?? false)) {
-              showTradeWarningDialog("");
+              showTradeWarningDialog();
             }
           } else {
             ApiConstants.companyId = 0;
@@ -506,10 +510,32 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
     );
   }
 
-  bool isEditWidgetBefore() {
-    bool isBefore = false;
+  Future<void> logoutAPI() async {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["user_id"] = UserUtils.getLoginUserId();
 
-    return isBefore;
+    MoreTabRepository().logoutAPI(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          BaseResponse response =
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          Get.find<AppStorage>().clearAllData();
+          Get.offAllNamed(AppRoutes.introductionScreen);
+        } else {
+          // AppUtils.showSnackBarMessage(responseModel.statusMessage!);
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {}
+        // else if (error.statusMessage!.isNotEmpty) {
+        //   AppUtils.showSnackBarMessage(error.statusMessage!);
+        // }
+      },
+    );
   }
 
   void addLocalSequenceChangeData(int permissionId, int newPosition) {
@@ -734,13 +760,18 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
     LiveTimer.stop();
   }
 
-  showTradeWarningDialog(String dialogType) async {
+  void showLogoutDialog() {
+    AlertDialogHelper.showAlertDialog("", 'logout_msg'.tr, 'yes'.tr, 'no'.tr,
+        "", true, false, this, AppConstants.dialogIdentifier.logout);
+  }
+
+  showTradeWarningDialog() async {
     AlertDialogHelper.showAlertDialog(
         "",
         'empty_trade_warning_message'.tr,
         'add_trade'.tr,
         "",
-        "",
+        "Logout",
         false,
         false,
         this,
@@ -749,17 +780,28 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
 
   @override
   void onNegativeButtonClicked(String dialogIdentifier) {
-    Get.back();
+    if (dialogIdentifier == AppConstants.dialogIdentifier.logout) {
+      Get.back();
+      showTradeWarningDialog();
+    }
   }
 
   @override
-  void onOtherButtonClicked(String dialogIdentifier) {}
+  void onOtherButtonClicked(String dialogIdentifier) {
+    if (dialogIdentifier == AppConstants.dialogIdentifier.tradeWarningDialog) {
+      Get.back();
+      showLogoutDialog();
+    }
+  }
 
   @override
   void onPositiveButtonClicked(String dialogIdentifier) {
     if (dialogIdentifier == AppConstants.dialogIdentifier.tradeWarningDialog) {
       Get.back();
       moveToScreen2(appRout: AppRoutes.companyTradesScreen);
+    } else if (dialogIdentifier == AppConstants.dialogIdentifier.logout) {
+      Get.back();
+      logoutAPI();
     }
   }
 }

@@ -25,7 +25,8 @@ class AlertDialogHelper {
       Widget cancelButton = TextButton(
         child: Text(
           textNegativeButton,
-          style: const TextStyle(fontSize: 17),
+          style:
+              TextStyle(fontSize: 16, color: defaultAccentColor_(Get.context!)),
         ),
         onPressed: () {
           if (buttonClickListener == null) {
@@ -40,7 +41,9 @@ class AlertDialogHelper {
     }
     if (textPositiveButton.isNotEmpty) {
       Widget positiveButton = TextButton(
-        child: Text(textPositiveButton, style: const TextStyle(fontSize: 17)),
+        child: Text(textPositiveButton,
+            style: TextStyle(
+                fontSize: 16, color: defaultAccentColor_(Get.context!))),
         onPressed: () {
           if (buttonClickListener == null) {
             // Navigator.of(context).pop(); //
@@ -55,7 +58,9 @@ class AlertDialogHelper {
     }
     if (textOtherButton.isNotEmpty) {
       Widget otherButton = TextButton(
-        child: Text(textOtherButton, style: const TextStyle(fontSize: 18)),
+        child: Text(textOtherButton,
+            style: TextStyle(
+                fontSize: 16, color: defaultAccentColor_(Get.context!))),
         onPressed: () {
           if (buttonClickListener == null) {
             // Navigator.of(context).pop(); // dismiss dialog

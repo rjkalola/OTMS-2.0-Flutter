@@ -28,7 +28,18 @@ class AppStorage extends GetxController {
   }
 
   UserInfo getUserInfo() {
-    final map = storage.read(AppConstants.sharedPreferenceKey.userInfo) ?? {};
+    // final map = storage.read(AppConstants.sharedPreferenceKey.userInfo) ?? {};
+    // return UserInfo.fromJson(map);
+
+    final dynamic data =
+        storage.read(AppConstants.sharedPreferenceKey.userInfo);
+
+    if (data == null) {
+      return UserInfo();
+    }
+
+    final Map<String, dynamic> map = Map<String, dynamic>.from(data);
+
     return UserInfo.fromJson(map);
   }
 

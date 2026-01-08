@@ -51,7 +51,6 @@ class DashboardController extends GetxController
   Future<void> onInit() async {
     super.onInit();
     // checkInternetSpeed();
-    print("dashboard onInit");
 
     var arguments = Get.arguments;
     if (arguments != null) {

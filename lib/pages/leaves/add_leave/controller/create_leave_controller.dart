@@ -69,7 +69,8 @@ class CreateLeaveController extends GetxController
     if (leaveInfo != null) {
       userId = leaveInfo?.userId ?? 0;
       title.value = 'edit_leave'.tr;
-      leaveType.value = leaveInfo?.leaveType ?? "";
+      leaveType.value =
+          StringHelper.capitalizeFirstLetter(leaveInfo?.leaveType ?? "");
       leaveId = leaveInfo?.leaveId ?? 0;
       leaveTypeController.value.text = leaveInfo?.leaveName ?? "";
       isAllDay.value = leaveInfo?.isAlldayLeave ?? false;
@@ -321,8 +322,10 @@ class CreateLeaveController extends GetxController
   void showSelectLeaveTypeDialog() {
     List<ModuleInfo> list = [];
     for (ModuleInfo info in leaveTypeList) {
-      ModuleInfo data =
-          ModuleInfo(id: info.id, name: "${info.name} (${info.type})");
+      ModuleInfo data = ModuleInfo(
+          id: info.id,
+          name:
+              "${info.name} (${StringHelper.capitalizeFirstLetter(info.type)})");
       list.add(data);
     }
 
@@ -355,7 +358,8 @@ class CreateLeaveController extends GetxController
       isSaveEnable.value = true;
       leaveId = id;
       leaveTypeController.value.text = leaveTypeList[position].name ?? "";
-      leaveType.value = leaveTypeList[position].type ?? "";
+      leaveType.value = StringHelper.capitalizeFirstLetter(
+          leaveTypeList[position].type ?? "");
     }
   }
 
