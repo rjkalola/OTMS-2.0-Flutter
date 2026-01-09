@@ -1,9 +1,7 @@
 import 'package:belcka/buyer_app/buyer_order/controller/buyer_order_controller.dart';
 import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_order_tabs.dart';
-import 'package:belcka/pages/project/project_list/view/widgets/project_title.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/app_utils.dart';
-import 'package:belcka/utils/string_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

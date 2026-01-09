@@ -14,15 +14,14 @@ class SortCodeTextFieldKeyboard extends StatelessWidget {
   final FocusNode focusNode;
   final Function(String)? onChanged;
 
-  SortCodeTextFieldKeyboard({
-    Key? key,
-    required this.controller,
-    this.isEnabled = true,
-    this.isReadOnly = false,
-    this.onChanged,
-    required this.focusNode
-  }) : super(key: key);
-
+  SortCodeTextFieldKeyboard(
+      {Key? key,
+      required this.controller,
+      this.isEnabled = true,
+      this.isReadOnly = false,
+      this.onChanged,
+      required this.focusNode})
+      : super(key: key);
 
   @override
   @override
@@ -31,15 +30,13 @@ class SortCodeTextFieldKeyboard extends StatelessWidget {
         focusNode: focusNode,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         textEditingController: controller.value,
-        hintText:"12-34-56",
+        hintText: "12-34-56",
         labelText: 'sort_code'.tr,
         keyboardType: TextInputType.number,
         textInputAction: TextInputAction.done,
         isReadOnly: isReadOnly,
         onPressed: () {},
-        validator: MultiValidator([
-
-        ]),
+        validator: MultiValidator([]),
         inputFormatters: <TextInputFormatter>[
           // for below version 2 use this
           FilteringTextInputFormatter.digitsOnly,
@@ -51,9 +48,9 @@ class SortCodeTextFieldKeyboard extends StatelessWidget {
 class HyphenFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue,
-      TextEditingValue newValue,
-      ) {
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
     String digits = newValue.text.replaceAll(RegExp(r'\D'), '');
 
     StringBuffer buffer = StringBuffer();

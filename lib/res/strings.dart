@@ -510,7 +510,6 @@ class Strings extends Translations {
               "Your company doesn’t have any trades yet. Please add a trade to continue.",
           'empty_address_message': "Please select address",
 
-
           'purchasing': "Purchasing",
           'orders': "Orders",
           'request': "Request",
@@ -526,8 +525,8 @@ class Strings extends Translations {
           'hire': "Hire",
           'hired': "Hired",
           'available': "Available",
-          'in_service': "In Service"
-          // , '': ""
+          'in_service': "In Service",
+          'delivery_to': "Delivery to",
           // , '': ""
           // , '': ""
           // , '': ""

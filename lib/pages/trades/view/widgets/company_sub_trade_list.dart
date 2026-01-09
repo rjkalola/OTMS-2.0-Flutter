@@ -27,31 +27,42 @@ class CompanySubTradeList extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                PrimaryTextView(
-                  text: info.name,
-                  color: primaryTextColor_(context),
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
+                SizedBox(
+                  height: 35,
                 ),
-                controller.isDeleteOptionEnabled.value == true ? CustomCheckbox(onValueChange: (value){
-                  print("value:" + value.toString());
-                  info.status = !info.status!;
-                  controller.companyTradesList.refresh();
-                  controller.isDataUpdated.value = true;
-                  controller.checkSelectAll();
-                  controller.checkDeleteButton();
-
-                }, mValue: info.status) : CustomSwitch(
-                    onValueChange: (value) {
-                      print("value:" + value.toString());
-                      info.status = !info.status!;
-                      controller.companyTradesList.refresh();
-                      controller.isDataUpdated.value = true;
-                      controller.checkSelectAll();
-                      // controller.changeCompanyTradeStatusApi(
-                      //     info.id ?? 0, value);
-                    },
-                    mValue: info.status)
+                Expanded(
+                  child: PrimaryTextView(
+                    text: info.name,
+                    color: primaryTextColor_(context),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                SizedBox(
+                  width: 9,
+                ),
+                controller.isDeleteOptionEnabled.value == true
+                    ? CustomCheckbox(
+                        onValueChange: (value) {
+                          print("value:" + value.toString());
+                          info.status = !info.status!;
+                          controller.companyTradesList.refresh();
+                          controller.isDataUpdated.value = true;
+                          controller.checkSelectAll();
+                          controller.checkDeleteButton();
+                        },
+                        mValue: info.status)
+                    : CustomSwitch(
+                        onValueChange: (value) {
+                          print("value:" + value.toString());
+                          info.status = !info.status!;
+                          controller.companyTradesList.refresh();
+                          controller.isDataUpdated.value = true;
+                          controller.checkSelectAll();
+                          // controller.changeCompanyTradeStatusApi(
+                          //     info.id ?? 0, value);
+                        },
+                        mValue: info.status)
               ],
             ),
           );
@@ -60,7 +71,7 @@ class CompanySubTradeList extends StatelessWidget {
         separatorBuilder: (context, position) => Padding(
               padding: const EdgeInsets.fromLTRB(18, 0, 18, 0),
               child: Divider(
-                height: 0,
+                height: 5,
                 color: dividerColor_(context),
                 thickness: 1,
               ),

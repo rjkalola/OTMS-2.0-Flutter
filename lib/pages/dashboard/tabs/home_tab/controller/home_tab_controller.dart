@@ -622,7 +622,9 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       moveToScreen(appRout: AppRoutes.billingDetailsNewScreen);
     } else if (info.slug == 'my_requests') {
       moveToScreen(appRout: AppRoutes.myRequestsScreen);
-    } else if (info.slug == 'analytics') {}
+    } else if (info.slug == 'analytics') {
+      // moveToScreen(appRout: AppRoutes.buyerOrdersScreen);
+    }
   }
 
   Future<void> showControlPanelDialog() async {

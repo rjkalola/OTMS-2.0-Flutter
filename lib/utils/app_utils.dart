@@ -19,6 +19,7 @@ import 'package:belcka/utils/app_storage.dart';
 import 'package:belcka/utils/data_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AppUtils {
@@ -432,5 +433,35 @@ class AppUtils {
 
   static String formatStringToDecimals(double value) {
     return value.toStringAsFixed(2);
+  }
+
+  static KeyboardActionsConfig buildKeyboardConfig({
+    required List<FocusNode> focusNodes,
+    bool nextFocus = false,
+  }) {
+    return KeyboardActionsConfig(
+      keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
+      nextFocus: false,
+      actions: focusNodes
+          .map(
+            (focusNode) => KeyboardActionsItem(
+              focusNode: focusNode,
+              toolbarButtons: [
+                (node) => TextButton(
+                      onPressed: () => node.unfocus(),
+                      child: Text(
+                        'done'.tr,
+                        style:  TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: defaultAccentColor_(Get.context!),
+                        ),
+                      ),
+                    ),
+              ],
+            ),
+          )
+          .toList(),
+    );
   }
 }

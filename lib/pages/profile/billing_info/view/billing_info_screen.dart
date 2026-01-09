@@ -61,7 +61,6 @@ class _BillingInfoScreenState extends State<BillingInfoScreen> {
                 isBack: true,
               ),
               backgroundColor: dashBoardBgColor_(context),
-
               body: GestureDetector(
                 onTap: () => FocusScope.of(context).unfocus(),
                 onPanDown: (_) => FocusScope.of(context).unfocus(),
@@ -70,24 +69,23 @@ class _BillingInfoScreenState extends State<BillingInfoScreen> {
                   child: controller.isInternetNotAvailable.value
                       ? Center(child: Text("no_internet_text".tr))
                       : SingleChildScrollView(
-                    keyboardDismissBehavior:
-                    ScrollViewKeyboardDismissBehavior.onDrag,
-                    physics: const BouncingScrollPhysics(),
-                    child: Form(
-                      key: controller.formKey,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          GeneralView(),
-                          TaxInfoView(),
-                          BankDetailsView(),
-                        ],
-                      ),
-                    ),
-                  ),
+                          keyboardDismissBehavior:
+                              ScrollViewKeyboardDismissBehavior.onDrag,
+                          physics: const BouncingScrollPhysics(),
+                          child: Form(
+                            key: controller.formKey,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                GeneralView(),
+                                TaxInfoView(),
+                                BankDetailsView(),
+                              ],
+                            ),
+                          ),
+                        ),
                 ),
               ),
-
               bottomNavigationBar: SafeArea(
                 child: Visibility(
                   visible: controller.isShowSaveButton.value,

@@ -11,6 +11,9 @@ class HeaderFilterItem extends StatelessWidget {
   final int? count;
   final bool selected;
   final int? flex;
+  final Color? fontColor;
+  final FontWeight? fontWeight;
+  final double? fontSize;
   final GestureTapCallback? onTap;
 
   HeaderFilterItem({
@@ -19,6 +22,9 @@ class HeaderFilterItem extends StatelessWidget {
     required this.selected,
     this.count,
     this.flex,
+    this.fontColor,
+    this.fontWeight,
+    this.fontSize,
     required this.onTap,
   });
 
@@ -29,9 +35,8 @@ class HeaderFilterItem extends StatelessWidget {
       child: Stack(
         children: [
           CardViewDashboardItem(
-              borderColor: selected
-                  ? defaultAccentColor_(context)
-                  : Colors.transparent,
+              borderColor:
+                  selected ? defaultAccentColor_(context) : Colors.transparent,
               boxColor: lightGreyColor(context),
               borderWidth: 2,
               elevation: 2,
@@ -44,8 +49,9 @@ class HeaderFilterItem extends StatelessWidget {
                   child: TitleTextView(
                     text: title,
                     textAlign: TextAlign.center,
-                    fontWeight: FontWeight.w500,
-                    color: primaryTextColor_(context),
+                    fontWeight: fontWeight ?? FontWeight.w400,
+                    fontSize: fontSize ?? 16,
+                    color: fontColor ?? primaryTextColor_(context),
                   ),
                 ),
               )),

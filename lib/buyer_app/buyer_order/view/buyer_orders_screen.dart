@@ -1,5 +1,7 @@
 import 'package:belcka/buyer_app/buyer_order/controller/buyer_order_controller.dart';
 import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_order_header_view.dart';
+import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_order_list.dart';
+import 'package:belcka/buyer_app/buyer_order/view/widgets/delivery_to_text_widget.dart';
 import 'package:belcka/pages/project/project_list/view/widgets/address_list.dart';
 import 'package:belcka/pages/project/project_list/view/widgets/project_list_header_view.dart';
 import 'package:belcka/res/colors.dart';
@@ -12,6 +14,7 @@ import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class BuyerOrdersScreen extends StatefulWidget {
@@ -49,28 +52,33 @@ class _BuyerOrdersScreenState extends State<BuyerOrdersScreen> {
               isClearVisible: false.obs,
             ),
             body: ModalProgressHUD(
-                inAsyncCall: controller.isLoading.value,
-                opacity: 0,
-                progressIndicator: const CustomProgressbar(),
-                child: controller.isInternetNotAvailable.value
-                    ? NoInternetWidget(
-                        onPressed: () {
-                          controller.isInternetNotAvailable.value = false;
-                          // controller.getProjectListApi();
-                        },
-                      )
-                    : Visibility(
-                        visible: controller.isMainViewVisible.value,
-                        child: Column(
-                          children: [
-                            BuyerOrderHeaderView(),
-                            SizedBox(
-                              height: 14,
+              inAsyncCall: controller.isLoading.value,
+              opacity: 0,
+              progressIndicator: const CustomProgressbar(),
+              child: controller.isInternetNotAvailable.value
+                  ? NoInternetWidget(
+                      onPressed: () {
+                        controller.isInternetNotAvailable.value = false;
+                      },
+                    )
+                  : controller.isMainViewVisible.value
+                      ? GestureDetector(
+                          onTap: () => FocusScope.of(context).unfocus(),
+                          onPanDown: (_) => FocusScope.of(context).unfocus(),
+                          child: KeyboardActions(
+                            config: AppUtils.buildKeyboardConfig(
+                                focusNodes: controller.qtyFocusNodes),
+                            child: Column(
+                              children: [
+                                BuyerOrderHeaderView(),
+                                DeliveryToTextWidget(text: "(Haringey OT)"),
+                                BuyerOrderList()
+                              ],
                             ),
-                            // AddressList()
-                          ],
-                        ),
-                      )),
+                          ),
+                        )
+                      : const SizedBox.shrink(),
+            ),
           ),
         ),
       ),

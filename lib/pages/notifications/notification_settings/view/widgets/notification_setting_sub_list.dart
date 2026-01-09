@@ -26,6 +26,7 @@ class NotificationSettingSubList extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                SizedBox(height: 35,),
                 Expanded(
                   child: PrimaryTextView(
                     text: info.name,
@@ -50,6 +51,7 @@ class NotificationSettingSubList extends StatelessWidget {
                           //     info.id ?? 0, value);
                         },
                         mValue: info.isPush),
+                    SizedBox(width: 10,),
                     CustomSwitch(
                         onValueChange: (value) {
                           print("value:" + value.toString());
@@ -72,7 +74,7 @@ class NotificationSettingSubList extends StatelessWidget {
         separatorBuilder: (context, position) => Padding(
               padding: const EdgeInsets.fromLTRB(18, 0, 18, 0),
               child: Divider(
-                height: 0,
+                height: 5,
                 color: dividerColor_(context),
                 thickness: 1,
               ),

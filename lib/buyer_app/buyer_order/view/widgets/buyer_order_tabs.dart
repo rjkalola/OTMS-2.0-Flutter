@@ -11,14 +11,13 @@ class BuyerOrderTabs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() => Padding(
-          padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+          padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               HeaderFilterItem(
                 title: 'request'.tr,
-                selected:
-                    (controller.selectedStatusFilter.value == "request"),
+                selected: (controller.selectedStatusFilter.value == "request"),
                 count: controller.requestCount.value,
                 flex: 1,
                 onTap: () {
@@ -26,12 +25,11 @@ class BuyerOrderTabs extends StatelessWidget {
                 },
               ),
               SizedBox(
-                width: 6,
+                width: 4,
               ),
               HeaderFilterItem(
                 title: 'proceed'.tr,
-                selected:
-                    (controller.selectedStatusFilter.value == "proceed"),
+                selected: (controller.selectedStatusFilter.value == "proceed"),
                 count: controller.requestCount.value,
                 flex: 1,
                 onTap: () {
@@ -39,7 +37,7 @@ class BuyerOrderTabs extends StatelessWidget {
                 },
               ),
               SizedBox(
-                width: 6,
+                width: 4,
               ),
               HeaderFilterItem(
                 title: 'delivered'.tr,
