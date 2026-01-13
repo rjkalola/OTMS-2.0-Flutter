@@ -1,5 +1,6 @@
 import 'package:belcka/buyer_app/buyer_order/view/buyer_orders_screen.dart';
 import 'package:belcka/buyer_app/purchasing/view/purchasing_screen.dart';
+import 'package:belcka/pages/add_category/view/add_category_screen.dart';
 import 'package:belcka/pages/add_trades/view/add_trades_screen.dart';
 import 'package:belcka/pages/authentication/introduction/view/introduction_screen.dart';
 import 'package:belcka/pages/authentication/login/view/login_screen.dart';
@@ -383,5 +384,7 @@ class AppPages {
     GetPage(name: AppRoutes.editWidgetScreen, page: () => EditWidgetScreen()),
     GetPage(name: AppRoutes.purchasingScreen, page: () => PurchasingScreen()),
     GetPage(name: AppRoutes.buyerOrdersScreen, page: () => BuyerOrdersScreen()),
+    GetPage(name: AppRoutes.addCategoryScreen, page: () => AddCategoryScreen()),
+
   ];
 }

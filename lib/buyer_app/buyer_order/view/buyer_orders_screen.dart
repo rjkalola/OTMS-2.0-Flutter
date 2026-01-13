@@ -2,8 +2,6 @@ import 'package:belcka/buyer_app/buyer_order/controller/buyer_order_controller.d
 import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_order_header_view.dart';
 import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_order_list.dart';
 import 'package:belcka/buyer_app/buyer_order/view/widgets/delivery_to_text_widget.dart';
-import 'package:belcka/pages/project/project_list/view/widgets/address_list.dart';
-import 'package:belcka/pages/project/project_list/view/widgets/project_list_header_view.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/res/drawable.dart';
 import 'package:belcka/utils/app_utils.dart';
@@ -46,7 +44,7 @@ class _BuyerOrdersScreenState extends State<BuyerOrdersScreen> {
               isSearching: controller.isSearchEnable.value,
               searchController: controller.searchAddressController,
               onValueChange: (value) {
-                // controller.searchAddress(value);
+                controller.searchItem(value);
               },
               autoFocus: true,
               isClearVisible: false.obs,
@@ -100,7 +98,7 @@ class _BuyerOrdersScreenState extends State<BuyerOrdersScreen> {
       InkWell(
         onTap: () {
           if (controller.isSearchEnable.value) {
-            // controller.clearAddress();
+            controller.clearSearch();
           }
           controller.isSearchEnable.value = !controller.isSearchEnable.value;
         },

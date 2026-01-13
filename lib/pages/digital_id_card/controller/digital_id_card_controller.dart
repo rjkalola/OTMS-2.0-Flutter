@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:belcka/pages/digital_id_card/controller/digital_id_card_repository.dart';
 import 'package:belcka/pages/digital_id_card/model/digital_id_card_info.dart';
@@ -71,7 +70,7 @@ class DigitalIdCardController extends GetxController {
     String finalUrl = url;
     print("URL:" + url);
     print("finalUrl:" + finalUrl);
-     webViewController = WebViewController()
+    webViewController = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setNavigationDelegate(
         NavigationDelegate(

@@ -29,7 +29,7 @@ class AddNoteWidget extends StatelessWidget {
           validator: MultiValidator((!UserUtils.isAdmin()) ? [
             RequiredValidator(errorText: 'empty_note_error'.tr),
             MinLengthValidator(60, errorText: 'note_min_length_error'.tr),
-            MaxLengthValidator(500, errorText: 'note_max_length_error'.tr),
+            MaxLengthValidator(150, errorText: 'note_max_length_error'.tr),
           ] : []),
           isReadOnly: isReadOnly,
           textAlignVertical: TextAlignVertical.top,

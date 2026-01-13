@@ -8,16 +8,18 @@ import 'package:belcka/widgets/textfield/text_field_border_dark.dart';
 import 'package:belcka/widgets/textfield/text_field_underline_.dart';
 
 class DropDownTextField extends StatelessWidget {
-  DropDownTextField({super.key,
-    required this.title,
-    required this.controller,
-    this.onValueChange,
-    this.isReadOnly,
-    this.isEnabled,
-    this.validators,
-    this.onPressed,
-    this.borderRadius,
-    this.isArrowHide});
+  DropDownTextField(
+      {super.key,
+      required this.title,
+      required this.controller,
+      this.onValueChange,
+      this.isReadOnly,
+      this.isEnabled,
+      this.validators,
+      this.onPressed,
+      this.borderRadius,
+      this.isArrowHide,
+      this.contentPadding});
 
   final String title;
   final Rx<TextEditingController> controller;
@@ -26,27 +28,31 @@ class DropDownTextField extends StatelessWidget {
   final List<FieldValidator>? validators;
   final GestureTapCallback? onPressed;
   final double? borderRadius;
+  final EdgeInsetsGeometry? contentPadding;
 
   @override
   Widget build(BuildContext context) {
     return Obx(
-            () =>
-            TextFieldBorderDark(
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                textEditingController: controller.value,
-                hintText: title,
-                labelText: title,
-                keyboardType: TextInputType.name,
-                textInputAction: TextInputAction.next,
-                isReadOnly: isReadOnly ?? true,
-                suffixIcon: !(isArrowHide??false)?const Icon(Icons.arrow_drop_down):null,
-                isEnabled: isEnabled,
-                onValueChange: onValueChange,
-                onPressed: onPressed,
-            validator: MultiValidator(validators ?? []),
-        borderRadius: borderRadius,
-        inputFormatters: <TextInputFormatter>[
-          // for below version 2 use this
-        ]),);
+      () => TextFieldBorderDark(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          textEditingController: controller.value,
+          hintText: title,
+          labelText: title,
+          keyboardType: TextInputType.name,
+          textInputAction: TextInputAction.next,
+          isReadOnly: isReadOnly ?? true,
+          suffixIcon: !(isArrowHide ?? false)
+              ? const Icon(Icons.arrow_drop_down)
+              : null,
+          isEnabled: isEnabled,
+          onValueChange: onValueChange,
+          onPressed: onPressed,
+          validator: MultiValidator(validators ?? []),
+          borderRadius: borderRadius,
+          contentPadding:contentPadding,
+          inputFormatters: <TextInputFormatter>[
+            // for below version 2 use this
+          ]),
+    );
   }
 }

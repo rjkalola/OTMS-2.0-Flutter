@@ -18,7 +18,8 @@ import 'package:belcka/web_services/response/base_response.dart';
 
 import '../../../web_services/response/response_model.dart';
 
-class TradesController extends GetxController implements MenuItemListener, DialogButtonClickListener{
+class TradesController extends GetxController
+    implements MenuItemListener, DialogButtonClickListener {
   final _api = TradesRepository();
   final formKey = GlobalKey<FormState>();
   RxBool isLoading = false.obs,
@@ -96,6 +97,7 @@ class TradesController extends GetxController implements MenuItemListener, Dialo
       },
     );
   }
+
   void deleteCompanyBulkTradeStatusApi() async {
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
@@ -108,7 +110,7 @@ class TradesController extends GetxController implements MenuItemListener, Dialo
         if (responseModel.isSuccess) {
           Get.back(result: true);
           BaseResponse response =
-          BaseResponse.fromJson(jsonDecode(responseModel.result!));
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.Message ?? "");
         } else {
           // AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
@@ -123,6 +125,7 @@ class TradesController extends GetxController implements MenuItemListener, Dialo
       },
     );
   }
+
   List<SaveTradeRequest> getRequestData() {
     List<SaveTradeRequest> list = [];
     if (companyTradesList.isNotEmpty) {
@@ -136,6 +139,7 @@ class TradesController extends GetxController implements MenuItemListener, Dialo
     }
     return list;
   }
+
   String getSelectedTradeIds() {
     List<int> selectedIds = [];
     if (companyTradesList.isNotEmpty) {
@@ -163,6 +167,7 @@ class TradesController extends GetxController implements MenuItemListener, Dialo
     }
     isCheckAll.value = isAllSelected;
   }
+
   void checkDeleteButton() {
     bool isShowDelete = false;
     for (var info in companyTradesList) {
@@ -200,29 +205,34 @@ class TradesController extends GetxController implements MenuItemListener, Dialo
     }
     companyTradesList.refresh();
   }
+
   void onBackPress() {
-    if (isDeleteOptionEnabled.value == true){
+    if (isDeleteOptionEnabled.value == true) {
       Get.back();
-    }
-    else{
+    } else {
       if (isDataUpdated.value) {
         changeCompanyBulkTradeStatusApi();
-      }
-      else{
+      } else {
         Get.back();
       }
     }
   }
+
   void showMenuItemsDialog(BuildContext context) {
     List<ModuleInfo> listItems = [];
-    listItems.add(ModuleInfo(name: 'add'.tr, action: AppConstants.action.add));
-    listItems.add(ModuleInfo(name: 'delete'.tr, action: AppConstants.action.delete));
+    listItems.add(ModuleInfo(
+        name: 'add_category'.tr, action: AppConstants.action.categories));
+    listItems
+        .add(ModuleInfo(name: 'add_trade'.tr, action: AppConstants.action.add));
+    listItems
+        .add(ModuleInfo(name: 'delete'.tr, action: AppConstants.action.delete));
     showCupertinoModalPopup(
       context: context,
       builder: (_) =>
           MenuItemsListBottomDialog(list: listItems, listener: this),
     );
   }
+
   Future<void> moveToScreen(String rout, dynamic arguments) async {
     var result = await Get.toNamed(rout, arguments: arguments);
     if (result != null && result) {
@@ -230,6 +240,7 @@ class TradesController extends GetxController implements MenuItemListener, Dialo
       getCompanyTradesApi();
     }
   }
+
   @override
   void onNegativeButtonClicked(String dialogIdentifier) {
     // TODO: implement onNegativeButtonClicked
@@ -254,8 +265,10 @@ class TradesController extends GetxController implements MenuItemListener, Dialo
         //AppConstants.intentKey.projectInfo: projectInfo,
       };
       moveToScreen(AppRoutes.addTradesScreen, arguments);
-    }
-    else if (info.action == AppConstants.action.delete) {
+    } else if (info.action == AppConstants.action.categories) {
+      var arguments = {};
+      moveToScreen(AppRoutes.addCategoryScreen, arguments);
+    } else if (info.action == AppConstants.action.delete) {
       isDeleteOptionEnabled.value = true;
       unCheckAll();
       companyTradesList.refresh();

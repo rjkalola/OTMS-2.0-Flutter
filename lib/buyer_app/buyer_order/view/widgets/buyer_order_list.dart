@@ -1,8 +1,10 @@
 import 'package:belcka/buyer_app/buyer_order/controller/buyer_order_controller.dart';
+import 'package:belcka/buyer_app/buyer_order/view/widgets/delivered_buyer_order_list_item.dart';
+import 'package:belcka/buyer_app/buyer_order/view/widgets/proceed_buyer_order_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'buyer_order_list_item.dart';
+import 'request_buyer_order_list_item.dart';
 
 class BuyerOrderList extends StatelessWidget {
   BuyerOrderList({super.key});
@@ -19,13 +21,18 @@ class BuyerOrderList extends StatelessWidget {
         separatorBuilder: (_, __) => const SizedBox(height: 10),
         itemBuilder: (context, index) {
           final item = controller.ordersList[index];
-          return BuyerOrderListItem(
+          // return RequestBuyerOrderListItem(
+          //   item: item,
+          //   onListItem: () => controller.onItemClick(index),
+          //   focusNode: controller.getQtyFocusNode(index),
+          //   onAdd: () => controller.increaseQty(index),
+          //   onRemove: () => controller.decreaseQty(index),
+          //   onQtyTyped: (qty) => controller.setQty(index, qty),
+          //   onDelete: () => controller.removeItem(index),
+          // );
+          return DeliveredBuyerOrderListItem(
             item: item,
-            focusNode: controller.getQtyFocusNode(index),
-            onAdd: () => controller.increaseQty(index),
-            onRemove: () => controller.decreaseQty(index),
-            onQtyTyped: (qty) => controller.setQty(index, qty),
-            onDelete: () => controller.removeItem(index),
+            onListItem: () => controller.onItemClick(index),
           );
         },
       ),

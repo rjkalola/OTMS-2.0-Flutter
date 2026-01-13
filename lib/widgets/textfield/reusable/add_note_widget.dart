@@ -33,6 +33,7 @@ class AddNoteWidget extends StatelessWidget {
           textAlignVertical: TextAlignVertical.top,
           onValueChange: onValueChange,
           borderRadius: borderRadius,
+          maxLength: 150,
         ),
       ),
     );

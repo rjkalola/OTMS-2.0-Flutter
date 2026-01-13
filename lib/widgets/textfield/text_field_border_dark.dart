@@ -32,7 +32,8 @@ class TextFieldBorderDark extends StatelessWidget {
       this.focusNode,
       this.onFieldSubmitted,
       this.errorMaxLines,
-      this.borderRadius});
+      this.borderRadius,
+      this.contentPadding});
 
   final TextEditingController? textEditingController;
   final String? hintText, labelText;
@@ -54,6 +55,7 @@ class TextFieldBorderDark extends StatelessWidget {
   final ValueChanged<String>? onFieldSubmitted;
   final int? errorMaxLines;
   final double? borderRadius;
+  final EdgeInsetsGeometry? contentPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +86,7 @@ class TextFieldBorderDark extends StatelessWidget {
         isDense: isDense ?? false,
         suffixIcon: suffixIcon,
         counterText: "",
-        contentPadding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
+        contentPadding: contentPadding ?? EdgeInsets.fromLTRB(16, 14, 16, 14),
         floatingLabelBehavior: FloatingLabelBehavior.auto,
         border: OutlineInputBorder(
           borderSide: BorderSide(

@@ -1,21 +1,29 @@
+import 'package:belcka/buyer_app/buyer_order/controller/buyer_order_repository.dart';
 import 'package:belcka/buyer_app/buyer_order/model/order_info.dart';
 import 'package:belcka/buyer_app/purchasing/controller/purchasing_repository.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
+import 'package:belcka/utils/AlertDialogHelper.dart';
+import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/utils/enums/order_tab_type.dart';
+import 'package:belcka/utils/string_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-class BuyerOrderController extends GetxController {
-  final _api = PurchasingRepository();
+class BuyerOrderController extends GetxController
+    implements DialogButtonClickListener {
+  final _api = BuyerOrderRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
       isMainViewVisible = true.obs,
       isSearchEnable = false.obs,
       isClearSearch = false.obs;
   double cardRadius = 12;
-  RxString selectedStatusFilter = "request".obs;
+  int selectedIndex = 0;
   RxInt requestCount = 0.obs, proceedCount = 0.obs, deliveredCount = 0.obs;
   final searchAddressController = TextEditingController().obs;
   final ordersList = <OrderInfo>[].obs;
+  List<OrderInfo> tempList = [];
+  final selectedTab = OrderTabType.request.obs;
 
   final List<FocusNode> qtyFocusNodes = [];
 
@@ -33,7 +41,8 @@ class BuyerOrderController extends GetxController {
   }
 
   void loadOrders() {
-    ordersList.assignAll([
+    tempList.clear();
+    tempList.addAll([
       OrderInfo(
         id: 1,
         name: "ElectriQ 60cm 4 Zone Induction Hob",
@@ -57,9 +66,9 @@ class BuyerOrderController extends GetxController {
         qty: 1,
       ),
     ]);
+    ordersList.value = tempList;
   }
 
-  /// QUANTITY ACTIONS
   void increaseQty(int index) {
     if (ordersList[index].qty < ordersList[index].availableQty) {
       ordersList[index].qty++;
@@ -75,8 +84,11 @@ class BuyerOrderController extends GetxController {
   }
 
   void removeItem(int index) {
-    ordersList.removeAt(index);
+    selectedIndex = index;
+    showDeleteDialog();
   }
+
+  void onItemClick(int index) {}
 
   double get grandTotal =>
       ordersList.fold(0, (sum, item) => sum + item.totalPrice);
@@ -96,6 +108,56 @@ class BuyerOrderController extends GetxController {
 
     item.qty = finalQty;
     ordersList.refresh();
+  }
+
+  void showDeleteDialog() {
+    AlertDialogHelper.showAlertDialog(
+        "",
+        'are_you_sure_you_want_to_delete'.tr,
+        'yes'.tr,
+        'no'.tr,
+        "",
+        true,
+        false,
+        this,
+        AppConstants.dialogIdentifier.delete);
+  }
+
+  @override
+  void onNegativeButtonClicked(String dialogIdentifier) {
+    if (dialogIdentifier == AppConstants.dialogIdentifier.delete) {
+      Get.back();
+    }
+  }
+
+  @override
+  void onPositiveButtonClicked(String dialogIdentifier) {
+    if (dialogIdentifier == AppConstants.dialogIdentifier.delete) {
+      Get.back();
+      ordersList.removeAt(selectedIndex);
+    }
+  }
+
+  @override
+  void onOtherButtonClicked(String dialogIdentifier) {}
+
+  Future<void> searchItem(String value) async {
+    print(value);
+    List<OrderInfo> results = [];
+    if (value.isEmpty) {
+      results = tempList;
+    } else {
+      results = tempList
+          .where((element) => (!StringHelper.isEmptyString(element.name) &&
+              element.name!.toLowerCase().contains(value.toLowerCase())))
+          .toList();
+    }
+    ordersList.value = results;
+  }
+
+  void clearSearch() {
+    searchAddressController.value.clear();
+    searchItem("");
   }
 
   @override

@@ -53,6 +53,7 @@ class ApiConstants {
   static String createTrade = '$appUrl/trade/create-trade';
   static String deleteCompanyBulkTrades =
       '$appUrl/trade/company/delete-bulk-trade-status';
+  static String createCategory = '$appUrl/trade/create-trade-category';
 
   // static String changeCompanyTradeStatus =
   //     '$appUrl/trade/change-company-trade-status';

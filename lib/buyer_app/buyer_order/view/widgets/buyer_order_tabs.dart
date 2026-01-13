@@ -1,4 +1,5 @@
 import 'package:belcka/buyer_app/buyer_order/controller/buyer_order_controller.dart';
+import 'package:belcka/utils/enums/order_tab_type.dart';
 import 'package:belcka/widgets/other_widgets/header_filter_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,11 +18,13 @@ class BuyerOrderTabs extends StatelessWidget {
             children: [
               HeaderFilterItem(
                 title: 'request'.tr,
-                selected: (controller.selectedStatusFilter.value == "request"),
+                selected:
+                    (controller.selectedTab.value == OrderTabType.request),
                 count: controller.requestCount.value,
                 flex: 1,
                 onTap: () {
-                  controller.selectedStatusFilter.value = "request";
+                  controller.selectedTab.value == OrderTabType.request;
+                  // controller.selectedStatusFilter.value = "request";
                 },
               ),
               SizedBox(
@@ -29,11 +32,12 @@ class BuyerOrderTabs extends StatelessWidget {
               ),
               HeaderFilterItem(
                 title: 'proceed'.tr,
-                selected: (controller.selectedStatusFilter.value == "proceed"),
+                selected: controller.selectedTab.value == OrderTabType.proceed,
                 count: controller.requestCount.value,
                 flex: 1,
                 onTap: () {
-                  controller.selectedStatusFilter.value = "proceed";
+                  controller.selectedTab.value == OrderTabType.proceed;
+                  // controller.selectedStatusFilter.value = "proceed";
                 },
               ),
               SizedBox(
@@ -42,11 +46,12 @@ class BuyerOrderTabs extends StatelessWidget {
               HeaderFilterItem(
                 title: 'delivered'.tr,
                 selected:
-                    (controller.selectedStatusFilter.value == "delivered"),
+                    controller.selectedTab.value == OrderTabType.delivered,
                 count: controller.requestCount.value,
                 flex: 1,
                 onTap: () {
-                  controller.selectedStatusFilter.value = "delivered";
+                  controller.selectedTab.value == OrderTabType.delivered;
+                  // controller.selectedStatusFilter.value = "delivered";
                 },
               ),
             ],

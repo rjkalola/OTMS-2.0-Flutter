@@ -14,6 +14,7 @@ class DigitalIdCardInfo {
   String? qrCodeUrl;
   bool? isExpired;
   String? webUrl;
+  String? pdfDownloadUrl;
 
   DigitalIdCardInfo(
       {this.userId,
@@ -30,7 +31,8 @@ class DigitalIdCardInfo {
       this.joinedOn,
       this.qrCodeUrl,
       this.isExpired,
-      this.webUrl});
+      this.webUrl,
+      this.pdfDownloadUrl});
 
   DigitalIdCardInfo.fromJson(Map<String, dynamic> json) {
     userId = json['user_id'];
@@ -48,6 +50,7 @@ class DigitalIdCardInfo {
     qrCodeUrl = json['qr_code_url'];
     isExpired = json['is_expired'];
     webUrl = json['web_url'];
+    pdfDownloadUrl = json['pdf_download_url'];
   }
 
   Map<String, dynamic> toJson() {
@@ -67,6 +70,7 @@ class DigitalIdCardInfo {
     data['qr_code_url'] = this.qrCodeUrl;
     data['is_expired'] = this.isExpired;
     data['web_url'] = this.webUrl;
+    data['pdf_download_url'] = this.pdfDownloadUrl;
     return data;
   }
 }

@@ -2,17 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
-import 'package:belcka/pages/profile/billing_info/controller/billing_info_controller.dart';
-import 'package:belcka/pages/profile/personal_info/controller/personal_info_controller.dart';
 import 'package:belcka/widgets/textfield/text_field_underline_.dart';
 
 class TradeNameTextField extends StatelessWidget {
-  TradeNameTextField(
-      {super.key,
-        required this.controller,
-        this.onValueChange,
-        this.isReadOnly,
-        this.isEnabled});
+  TradeNameTextField({
+    super.key,
+    required this.controller,
+    this.onValueChange,
+    this.isReadOnly,
+    this.isEnabled,
+  });
 
   final Rx<TextEditingController> controller;
   final ValueChanged<String>? onValueChange;
@@ -23,55 +22,24 @@ class TradeNameTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
           () => TextFieldUnderline(
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          textEditingController: controller.value,
-          hintText: "",
-          labelText: 'trade_name'.tr,
-          keyboardType: TextInputType.name,
-          textInputAction: TextInputAction.done,
-          isReadOnly: isReadOnly,
-          onValueChange: onValueChange,
-          isEnabled: isEnabled,
-          onPressed: () {},
-          validator: MultiValidator([
-            RequiredValidator(errorText: 'required_field'.tr),
-          ]),
-          inputFormatters: <TextInputFormatter>[
-            // for below version 2 use this
-          ]),
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        textEditingController: controller.value,
+        hintText: "",
+        labelText: 'trade_name'.tr,
+        keyboardType: TextInputType.name,
+        textInputAction: TextInputAction.done,
+        isReadOnly: isReadOnly,
+        isEnabled: isEnabled, 
+        onValueChange: onValueChange,
+        onPressed: () {},
+        validator: MultiValidator([
+          RequiredValidator(errorText: 'required_field'.tr),
+        ]),
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
+          LengthLimitingTextInputFormatter(30), // max 30 chars
+        ],
+      ),
     );
-  }
-}
-
-class DecimalTextInputFormatter extends TextInputFormatter {
-  final int decimalRange;
-
-  DecimalTextInputFormatter({this.decimalRange = 2})
-      : assert(decimalRange >= 0);
-
-  @override
-  TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue,
-      TextEditingValue newValue,
-      ) {
-    if (newValue.text.isEmpty) {
-      return newValue;
-    }
-
-    // Allow only numbers and decimal point
-    final regex = RegExp(r'^\d*\.?\d*$');
-
-    if (!regex.hasMatch(newValue.text)) {
-      return oldValue;
-    }
-
-    // Check decimal places
-    if (newValue.text.contains(".")) {
-      final parts = newValue.text.split(".");
-      if (parts.length > 1 && parts[1].length > decimalRange) {
-        return oldValue;
-      }
-    }
-    return newValue;
   }
 }

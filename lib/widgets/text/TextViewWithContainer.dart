@@ -19,11 +19,12 @@ class TextViewWithContainer extends StatelessWidget {
       this.alignment,
       this.onTap,
       this.maxLines,
+      this.maxLength,
       this.overflow,
       this.softWrap});
 
   final String text;
-  final int? maxLines;
+  final int? maxLines, maxLength;
   final Color? fontColor, boxColor, borderColor;
   final double? fontSize, width, height, borderRadius, borderWidth;
   final FontWeight? fontWeight;
@@ -53,7 +54,13 @@ class TextViewWithContainer extends StatelessWidget {
           borderRadius: BorderRadius.circular(borderRadius ?? 12),
         ),
         child: Text(
-          text,
+          maxLength != null
+              ? (text.length > maxLength!
+                  ? overflow != null
+                      ? '${text.substring(0, maxLength)}...'
+                      : text.substring(0, maxLength)
+                  : text)
+              : text,
           maxLines: maxLines,
           overflow: overflow,
           softWrap: softWrap,

@@ -92,6 +92,9 @@ class _LeaveDetailsScreenState extends State<LeaveDetailsScreen> {
                                               isReadOnly: true,
                                               // isEnabled: false,
                                               isArrowHide: true,
+                                              contentPadding:
+                                                  EdgeInsets.fromLTRB(
+                                                      16, 14, 80, 14),
                                               validators: [
                                                 RequiredValidator(
                                                     errorText:
@@ -109,7 +112,7 @@ class _LeaveDetailsScreenState extends State<LeaveDetailsScreen> {
                                                         controller
                                                             .leaveType.value),
                                               ),
-                                            )
+                                            ),
                                           ],
                                         ),
                                       ),

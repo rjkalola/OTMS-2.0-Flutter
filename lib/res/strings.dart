@@ -527,13 +527,14 @@ class Strings extends Translations {
           'available': "Available",
           'in_service': "In Service",
           'delivery_to': "Delivery to",
-          // , '': ""
-          // , '': ""
-          // , '': ""
-          // , '': ""
+          'downloading': "Downloading",
+          'please_wait': "Please Wait…",
+          'download_failed': "Download Failed",
+          'file_downloaded': "File Downloaded",
+          'digital_id_card_downloaded': "Digital Id Card downloaded",
+          'expected_qty': "Expected Qty",
+          'add_category':"Add Category"
 
-          // '': "",
-// '': "",
 // '': "",
 // '': "",
 // '': "",

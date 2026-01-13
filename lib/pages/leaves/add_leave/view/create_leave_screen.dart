@@ -82,6 +82,9 @@ class _CreateLeaveScreenState extends State<CreateLeaveScreen> {
                                                     errorText:
                                                         'required_field'.tr),
                                               ],
+                                              contentPadding:
+                                                  EdgeInsets.fromLTRB(
+                                                      16, 14, 80, 14),
                                               onPressed: () {
                                                 controller
                                                     .showSelectLeaveTypeDialog();

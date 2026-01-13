@@ -140,4 +140,5 @@ class Drawable {
   static const String arrowRightCircle = 'assets/images/arrow_right_circle.svg';
   static const String viewSmall = 'assets/images/ic_outline_view_small.svg';
   static const String viewStream = 'assets/images/ic_outline_view_stream.svg';
+  static const String deliveredImage = 'assets/images/delivered_image.png';
 }

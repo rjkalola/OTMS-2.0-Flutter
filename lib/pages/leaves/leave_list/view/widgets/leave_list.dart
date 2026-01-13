@@ -103,6 +103,8 @@ class LeaveList extends StatelessWidget {
                     TextViewWithContainer(
                       margin: EdgeInsets.only(left: 32, top: 1),
                       text: info.leaveName ?? "",
+                      maxLength: 14,
+                      overflow: TextOverflow.ellipsis,
                       padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
                       fontColor: Colors.white,
                       fontSize: 13,

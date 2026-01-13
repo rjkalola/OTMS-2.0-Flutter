@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:belcka/pages/trades/controller/trades_controller.dart';
 import 'package:belcka/pages/trades/view/widgets/company_sub_trade_list.dart';
@@ -37,13 +38,17 @@ class CompanyTradeList extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              PrimaryTextView(
-                                text: controller
-                                        .companyTradesList[position].name ??
-                                    "",
-                                color: primaryTextColor_(context),
-                                fontSize: 17,
-                                fontWeight: FontWeight.w500,
+                              Expanded(
+                                child: PrimaryTextView(
+                                  text: controller.companyTradesList[position].name ??
+                                      "",
+                                  color: primaryTextColor_(context),
+                                  fontSize: 17,
+                                  maxLine: 3,
+                                  softWrap: false,
+                                  overflow:TextOverflow.ellipsis ,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                               !(controller.companyTradesList[position]
                                           .isExpanded ??
