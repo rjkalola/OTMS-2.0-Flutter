@@ -533,10 +533,10 @@ class Strings extends Translations {
           'file_downloaded': "File Downloaded",
           'digital_id_card_downloaded': "Digital Id Card downloaded",
           'expected_qty': "Expected Qty",
-          'add_category':"Add Category"
-
-// '': "",
-// '': "",
+          'add_category': "Add Category",
+          'check_in_note': "Check-In Note",
+          'check_out_note': "Check-Out Note",
+          // '': "",
 // '': "",
           // '': "",
 // '': "",

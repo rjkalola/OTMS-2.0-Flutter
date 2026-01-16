@@ -1,10 +1,9 @@
+import 'package:belcka/pages/company/company_details/controller/company_details_controller.dart';
+import 'package:belcka/widgets/textfield/text_field_border_dark.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
-import 'package:belcka/pages/company/company_details/controller/company_details_controller.dart';
-import 'package:belcka/widgets/textfield/text_field_border.dart';
-import 'package:belcka/widgets/validator/custom_field_validator.dart';
 
 class TextFieldCompanyWebsite extends StatelessWidget {
   TextFieldCompanyWebsite({super.key});
@@ -15,7 +14,7 @@ class TextFieldCompanyWebsite extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-      child: TextFieldBorder(
+      child: TextFieldBorderDark(
           textEditingController: controller.companyWebsiteController.value,
           hintText: 'company_website'.tr,
           labelText: 'company_website'.tr,

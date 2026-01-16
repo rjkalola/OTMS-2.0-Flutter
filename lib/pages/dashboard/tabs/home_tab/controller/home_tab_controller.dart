@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:belcka/app_badge_ios.dart';
 import 'package:belcka/live_timer.dart';
@@ -12,7 +11,6 @@ import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:belcka/pages/common/listener/select_item_listener.dart';
 import 'package:belcka/pages/common/model/user_info.dart';
 import 'package:belcka/pages/common/model/user_response.dart';
-import 'package:belcka/pages/dashboard/controller/dashboard_controller.dart';
 import 'package:belcka/pages/dashboard/models/dashboard_response.dart';
 import 'package:belcka/pages/dashboard/tabs/home_tab/controller/home_tab_repository.dart';
 import 'package:belcka/pages/dashboard/tabs/home_tab/model/local_permission_sequence_change_info.dart';
@@ -53,7 +51,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
   // RxString nextUpdateLocationTime = "".obs;
 
   // final listGridItems = DataUtils.getDashboardGridItemsList().obs;
-  final dashboardController = Get.put(DashboardController());
+  // final dashboardController = Get.find<DashboardController>();
   final dashboardResponse = DashboardResponse().obs;
   final listPermissions = <PermissionInfo>[].obs;
 
@@ -71,9 +69,10 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
   void onInit() {
     super.onInit();
     userInfo.value = Get.find<AppStorage>().getUserInfo();
-    if ((userInfo.value.id) != 0) {
+    if ((userInfo.value.id ?? 0) != 0) {
       setInitialData();
     }
+
     // WidgetsBinding.instance.addObserver(this);
     // appLifeCycle();
   }
@@ -521,8 +520,11 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
         if (responseModel.isSuccess) {
           BaseResponse response =
               BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          ApiConstants.companyId = 0;
           Get.find<AppStorage>().clearAllData();
-          Get.offAllNamed(AppRoutes.introductionScreen);
+          Get.offAllNamed(
+            AppRoutes.introductionScreen,
+          );
         } else {
           // AppUtils.showSnackBarMessage(responseModel.statusMessage!);
         }
@@ -613,14 +615,16 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
     } else if (info.slug == 'timesheet') {
       moveToScreen(appRout: AppRoutes.timeSheetListScreen);
       // LiveTimer.start(180);
-    } else if (info.slug == 'timesheets') {
+    } else if (info.slug == 'bookkeeper') {
       var arguments = {AppConstants.intentKey.isAllUserTimeSheet: true};
       moveToScreen(
           appRout: AppRoutes.timeSheetListScreen, arguments: arguments);
       // LiveTimer.stop();
-    } else if (info.slug == 'bookkeeper') {
-      moveToScreen(appRout: AppRoutes.billingDetailsNewScreen);
-    } else if (info.slug == 'my_requests') {
+    }
+    // else if (info.slug == 'bookkeeper') {
+    //   moveToScreen(appRout: AppRoutes.billingDetailsNewScreen);
+    // }
+    else if (info.slug == 'my_requests') {
       moveToScreen(appRout: AppRoutes.myRequestsScreen);
     } else if (info.slug == 'analytics') {
       // moveToScreen(appRout: AppRoutes.buyerOrdersScreen);

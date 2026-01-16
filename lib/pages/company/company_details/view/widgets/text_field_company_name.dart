@@ -1,3 +1,4 @@
+import 'package:belcka/widgets/textfield/text_field_border_dark.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
@@ -13,7 +14,7 @@ class TextFieldCompanyName extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 26, 16, 16),
-      child: TextFieldBorder(
+      child: TextFieldBorderDark(
         textEditingController: controller.companyNameController.value,
         hintText: 'company_name'.tr,
         labelText: 'company_name'.tr,

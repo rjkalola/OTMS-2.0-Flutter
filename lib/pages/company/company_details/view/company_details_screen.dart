@@ -42,15 +42,16 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen> {
   Widget build(BuildContext context) {
     AppUtils.setStatusBarColor();
     return Container(
-      color: backgroundColor_(context),
+      color: dashBoardBgColor_(context),
       child: SafeArea(
         child: Scaffold(
-          backgroundColor: backgroundColor_(context),
+          backgroundColor: dashBoardBgColor_(context),
           appBar: BaseAppBar(
             appBar: AppBar(),
             title: 'company_details'.tr,
             isCenterTitle: false,
             isBack: true,
+            bgColor: dashBoardBgColor_(context),
           ),
           body: Obx(() {
             return ModalProgressHUD(

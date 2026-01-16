@@ -54,6 +54,7 @@ class IntentKey {
   final String isAllUserTeams = 'IS_ALL_USER_TEAMS';
   final String fromDashboardScreen = 'FROM_DASHBOARD_SCREEN';
   final String dashboardTabIndex = 'DASHBOARD_TAB_INDEX';
+  final String notificationTabIndex = 'NOTIFICATION_TAB_INDEX';
   final String stockCountType = 'STOCK_COUNT_TYPE';
   final String allStockType = 'ALL_STOCK_TYPE';
   final String purchaseOrderInfo = 'PURCHASE_ORDER_INFO';
@@ -406,6 +407,9 @@ class NotificationType {
   final String leaveRequest = "11004";
   final String leaveApprove = "11005";
   final String leaveReject = "11006";
+
+  //Announcement
+  final String addAnnouncement = "16001";
 }
 
 class RequestType {

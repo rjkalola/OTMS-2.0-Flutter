@@ -90,7 +90,7 @@ class TextFieldBorderDark extends StatelessWidget {
         floatingLabelBehavior: FloatingLabelBehavior.auto,
         border: OutlineInputBorder(
           borderSide: BorderSide(
-              color: normalTextFieldBorderDarkColor_(context), width: 1),
+              color: normalTextFieldBorderDarkColor_(context), width: 0.8),
           borderRadius: BorderRadius.circular(borderRadius ?? 45.0),
         ),
         focusedBorder: OutlineInputBorder(
@@ -100,7 +100,7 @@ class TextFieldBorderDark extends StatelessWidget {
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
-              color: normalTextFieldBorderDarkColor_(context), width: 1),
+              color: normalTextFieldBorderDarkColor_(context), width: 0.8),
           borderRadius: BorderRadius.circular(borderRadius ?? 45.0),
         ),
         hintText: hintText,

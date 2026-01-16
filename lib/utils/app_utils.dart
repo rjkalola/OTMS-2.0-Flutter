@@ -451,7 +451,7 @@ class AppUtils {
                       onPressed: () => node.unfocus(),
                       child: Text(
                         'done'.tr,
-                        style:  TextStyle(
+                        style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: defaultAccentColor_(Get.context!),

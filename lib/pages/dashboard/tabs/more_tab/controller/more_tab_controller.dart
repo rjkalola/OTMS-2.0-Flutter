@@ -67,17 +67,9 @@ class MoreTabController extends GetxController
     );
   }
 
-  void showLogoutDialog(){
-    AlertDialogHelper.showAlertDialog(
-        "",
-        'logout_msg'.tr,
-        'yes'.tr,
-        'no'.tr,
-        "",
-        true,
-        false,
-        this,
-        AppConstants.dialogIdentifier.logout);
+  void showLogoutDialog() {
+    AlertDialogHelper.showAlertDialog("", 'logout_msg'.tr, 'yes'.tr, 'no'.tr,
+        "", true, false, this, AppConstants.dialogIdentifier.logout);
   }
 
   @override

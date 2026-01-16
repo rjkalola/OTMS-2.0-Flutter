@@ -24,39 +24,49 @@ class _NotificationListScreenState extends State<NotificationListScreen> {
   Widget build(BuildContext context) {
     AppUtils.setStatusBarColor();
     return Obx(
-      () => Container(
-        color: dashBoardBgColor_(context),
-        child: SafeArea(
-          child: Scaffold(
-              backgroundColor: dashBoardBgColor_(context),
-              appBar: BaseAppBar(
-                appBar: AppBar(),
-                title: 'notifications'.tr,
-                isCenterTitle: false,
-                isBack: true,
-                bgColor: dashBoardBgColor_(context),
-                widgets: actionButtons(),
-              ),
-              body: controller.isInternetNotAvailable.value
-                  ? NoInternetWidget(
-                      onPressed: () {
-                        controller.isInternetNotAvailable.value = false;
-                        // controller.getCompanyDetailsApi();
-                      },
-                    )
-                  : Column(
-                      children: [
-                        NotificationTabBar(),
-                        Expanded(
-                          child: PageView(
-                            controller: controller.pageController,
-                            onPageChanged: controller.onPageChanged,
-                            physics: const NeverScrollableScrollPhysics(),
-                            children: controller.tabs,
-                          ),
-                        )
-                      ],
-                    )),
+      () => PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (didPop, result) async {
+          if (didPop || result != null) return;
+          controller.onBackPress();
+        },
+        child: Container(
+          color: dashBoardBgColor_(context),
+          child: SafeArea(
+            child: Scaffold(
+                backgroundColor: dashBoardBgColor_(context),
+                appBar: BaseAppBar(
+                  appBar: AppBar(),
+                  title: 'notifications'.tr,
+                  isCenterTitle: false,
+                  isBack: true,
+                  bgColor: dashBoardBgColor_(context),
+                  widgets: actionButtons(),
+                  onBackPressed: () {
+                    controller.onBackPress();
+                  },
+                ),
+                body: controller.isInternetNotAvailable.value
+                    ? NoInternetWidget(
+                        onPressed: () {
+                          controller.isInternetNotAvailable.value = false;
+                          // controller.getCompanyDetailsApi();
+                        },
+                      )
+                    : Column(
+                        children: [
+                          NotificationTabBar(),
+                          Expanded(
+                            child: PageView(
+                              controller: controller.pageController,
+                              onPageChanged: controller.onPageChanged,
+                              physics: const NeverScrollableScrollPhysics(),
+                              children: controller.tabs,
+                            ),
+                          )
+                        ],
+                      )),
+          ),
         ),
       ),
     );

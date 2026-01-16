@@ -1,3 +1,4 @@
+import 'package:belcka/widgets/textfield/text_field_border_dark.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -14,7 +15,7 @@ class TextFieldNumberOfEmployee extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-      child: TextFieldBorder(
+      child: TextFieldBorderDark(
         textEditingController: controller.numberOfEmployeeController.value,
         focusNode: controller.focusNodeNumberOfEmployee.value,
         hintText: 'number_of_employee'.tr,

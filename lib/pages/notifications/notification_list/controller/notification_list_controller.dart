@@ -15,6 +15,7 @@ class NotificationListController extends GetxController
       isMainViewVisible = true.obs;
   final title = 'notifications'.tr.obs;
   final selectedIndex = 0.obs;
+  bool fromNotification = false;
   final _api = NotificationListRepository();
 
   // final pageController = PageController();
@@ -27,10 +28,12 @@ class NotificationListController extends GetxController
   @override
   Future<void> onInit() async {
     super.onInit();
-    /* var arguments = Get.arguments;
+    var arguments = Get.arguments;
     if (arguments != null) {
-      selectedIndex.value = arguments[AppConstants.intentKey.dashboardTabIndex];
-    }*/
+      selectedIndex.value =
+          arguments[AppConstants.intentKey.notificationTabIndex];
+      fromNotification = arguments[AppConstants.intentKey.fromNotification];
+    }
     pageController = PageController(initialPage: selectedIndex.value);
   }
 
@@ -74,6 +77,14 @@ class NotificationListController extends GetxController
       Get.offNamed(AppRoutes.supplierListScreen);
     } else if (action == AppConstants.action.categories) {
       Get.offNamed(AppRoutes.categoryListScreen);
+    }
+  }
+
+  void onBackPress() {
+    if (fromNotification) {
+      Get.offAllNamed(AppRoutes.dashboardScreen);
+    } else {
+      Get.back();
     }
   }
 }

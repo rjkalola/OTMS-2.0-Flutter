@@ -206,36 +206,6 @@ class DashboardController extends GetxController
     );
   }
 
-  void logoutAPI() async {
-    String deviceModelName = await AppUtils.getDeviceName();
-    Map<String, dynamic> map = {};
-    map["model_name"] = deviceModelName;
-    // map["is_inventory"] = "true";
-    multi.FormData formData = multi.FormData.fromMap(map);
-    print("request parameter:" + map.toString());
-    isLoading.value = true;
-    _api.logout(
-      formData: formData,
-      onSuccess: (ResponseModel responseModel) {
-        if (responseModel.statusCode == 200) {
-          Get.find<AppStorage>().clearAllData();
-          Get.offAllNamed(AppRoutes.loginScreen);
-        } else {
-          AppUtils.showSnackBarMessage(responseModel.statusMessage!);
-        }
-        isLoading.value = false;
-      },
-      onError: (ResponseModel error) {
-        isLoading.value = false;
-        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
-          AppUtils.showSnackBarMessage('no_internet'.tr);
-        } else if (error.statusMessage!.isNotEmpty) {
-          AppUtils.showSnackBarMessage(error.statusMessage!);
-        }
-      },
-    );
-  }
-
   void getSettingApi() {
     isLoading.value = true;
     _api.getSettingsAPI(

@@ -83,7 +83,7 @@ class _FullScreenImageViewScreenState extends State<FullScreenImageViewScreen> {
                           },
                           errorBuilder: (context, error, stackTrace) =>
                               const Center(
-                            child: Icon(Icons.error, color: Colors.red),
+                            child: Icon(Icons.image, color: Colors.grey,size: 100,),
                           ),
                         ),
                       ),

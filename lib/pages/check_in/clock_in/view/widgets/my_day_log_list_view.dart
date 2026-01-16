@@ -458,7 +458,7 @@ class MyDayLogListView extends StatelessWidget {
     if (isWorking) {
       return Color(0xff2DC75C);
     } else {
-      if (requestStatus == null) {
+      if (requestStatus == null || requestStatus == 0) {
         return ThemeConfig.isDarkMode
             ? Color(0xFF1F1F1F)
             : Colors.grey.shade300;

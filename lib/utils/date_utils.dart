@@ -131,7 +131,7 @@ class DateUtil {
   static String changeFullDateToSortTime(String? date) {
     return !StringHelper.isEmptyString(date)
         ? DateUtil.changeDateFormat(
-        date!, DateUtil.DD_MM_YYYY_TIME_24_SLASH2, DateUtil.HH_MM_24)
+            date!, DateUtil.DD_MM_YYYY_TIME_24_SLASH2, DateUtil.HH_MM_24)
         : "";
   }
 
@@ -216,7 +216,8 @@ class DateUtil {
               showNavigationArrow: true,
               backgroundColor: backgroundColor_(context),
               headerStyle: DateRangePickerHeaderStyle(
-                backgroundColor: backgroundColor_(context), // Header background
+                backgroundColor: backgroundColor_(context),
+                // Header background
                 textStyle: TextStyle(
                   color: primaryTextColor_(context), // Center date text
                   fontSize: 16,
@@ -267,7 +268,7 @@ class DateUtil {
         context: Get.context!,
         builder: (_) => Container(
           height: 300,
-          color: Colors.white,
+          color: dashBoardBgColor_(Get.context!),
           child: Column(
             children: [
               // Toolbar

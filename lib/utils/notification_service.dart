@@ -146,10 +146,13 @@ class NotificationService {
           !StringHelper.isEmptyString(requestType) ? int.parse(requestType) : 0;
       final userId = data['user_id'] ?? "0";
 
-      int userIdInt = !StringHelper.isEmptyString(userId) ? int.parse(userId) : 0;
+      int userIdInt =
+          !StringHelper.isEmptyString(userId) ? int.parse(userId) : 0;
 
       final requestedByUserId = data['requested_by'] ?? "0";
-      int requestedByUserIdInt = !StringHelper.isEmptyString(requestedByUserId) ? int.parse(requestedByUserId) : 0;
+      int requestedByUserIdInt = !StringHelper.isEmptyString(requestedByUserId)
+          ? int.parse(requestedByUserId)
+          : 0;
 
       final status = data['status'] ?? "";
 
@@ -248,8 +251,10 @@ class NotificationService {
         }
       }
       //Billing
-      else if (notificationType == AppConstants.notificationType.CREATE_BILLING_INFO
-          || notificationType == AppConstants.notificationType.UPDATE_BILLING_INFO) {
+      else if (notificationType ==
+              AppConstants.notificationType.CREATE_BILLING_INFO ||
+          notificationType ==
+              AppConstants.notificationType.UPDATE_BILLING_INFO) {
         String rout = AppRoutes.billingRequestScreen;
         final requestLogId = data['request_log_id'] ?? "0";
         var arguments = {
@@ -259,9 +264,9 @@ class NotificationService {
           AppConstants.intentKey.fromNotification: true
         };
         Get.offAllNamed(rout, arguments: arguments);
-      }
-      else if (notificationType == AppConstants.notificationType.REJECT_REQUEST
-          || notificationType == AppConstants.notificationType.APPROVE_REQUEST) {
+      } else if (notificationType ==
+              AppConstants.notificationType.REJECT_REQUEST ||
+          notificationType == AppConstants.notificationType.APPROVE_REQUEST) {
         if (requestedByUserIdInt == UserUtils.getLoginUserId()) {
           String rout = AppRoutes.billingDetailsNewScreen;
           var arguments = {
@@ -269,8 +274,7 @@ class NotificationService {
             AppConstants.intentKey.fromNotification: true
           };
           Get.offAllNamed(rout, arguments: arguments);
-        }
-        else{
+        } else {
           String rout = AppRoutes.otherUserBillingDetailsScreen;
           var arguments = {
             "user_id": requestedByUserIdInt,
@@ -280,11 +284,11 @@ class NotificationService {
         }
       }
       //Rate
-      else if (notificationType == AppConstants.notificationType.CHNAGE_RATE
-          || notificationType == AppConstants.notificationType.APPROVE_RATE
-          || notificationType == AppConstants.notificationType.REJECT_RATE
-          || notificationType == AppConstants.notificationType.CHANGE_TRADE
-          || notificationType == AppConstants.notificationType.CHANGE_RATE_TRADE) {
+      else if (notificationType == AppConstants.notificationType.CHNAGE_RATE ||
+          notificationType == AppConstants.notificationType.APPROVE_RATE ||
+          notificationType == AppConstants.notificationType.REJECT_RATE ||
+          notificationType == AppConstants.notificationType.CHANGE_TRADE ||
+          notificationType == AppConstants.notificationType.CHANGE_RATE_TRADE) {
         final requestLogId = data['request_log_id'] ?? "0";
         print("request_log_id is:" + requestLogId);
         String rout = AppRoutes.ratesRequestScreen;
@@ -296,11 +300,19 @@ class NotificationService {
         };
         Get.offAllNamed(rout, arguments: arguments);
       }
-      else{
+      //Announcement
+      else if (notificationType ==
+          AppConstants.notificationType.addAnnouncement) {
+        String rout = AppRoutes.notificationListScreen;
+        var arguments = {
+          AppConstants.intentKey.notificationTabIndex: 1,
+          AppConstants.intentKey.fromNotification: true
+        };
+        Get.offAllNamed(rout, arguments: arguments);
+      } else {
         Get.offAllNamed(AppRoutes.splashScreen);
       }
-    }
-    else{
+    } else {
       Get.offAllNamed(AppRoutes.splashScreen);
     }
   }

@@ -55,17 +55,17 @@ class TextFieldPhoneExtensionWidget extends StatelessWidget {
           floatingLabelBehavior: FloatingLabelBehavior.auto,
           border: OutlineInputBorder(
             borderSide: BorderSide(
-                color: focusedTextFieldBorderColor_(context), width: 1),
+                color: focusedTextFieldBorderDarkColor_(context), width: 1),
             borderRadius: BorderRadius.circular(45.0),
           ),
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(
-                color: focusedTextFieldBorderColor_(context), width: 1),
+                color: focusedTextFieldBorderDarkColor_(context), width: 1),
             borderRadius: BorderRadius.circular(45.0),
           ),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
-                color: normalTextFieldBorderColor_(context), width: 1),
+                color: normalTextFieldBorderDarkColor_(context), width: 1),
             borderRadius: BorderRadius.circular(45.0),
           ),
           hintText: 'country_code'.tr,
