@@ -536,7 +536,7 @@ class Strings extends Translations {
           'add_category': "Add Category",
           'check_in_note': "Check-In Note",
           'check_out_note': "Check-Out Note",
-          // '': "",
+          'bookkeeper': "Bookkeeper",
 // '': "",
           // '': "",
 // '': "",

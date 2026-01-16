@@ -56,7 +56,7 @@ class TimeSheetListController extends GetxController
     }
     setInitialFilter();
     if (isAllUserTimeSheet) {
-      title.value = 'time_tracking'.tr;
+      title.value = 'bookkeeper'.tr;
       if (UserUtils.isAdmin()) {
         showRate.value = UserUtils.isAdmin();
       } else {

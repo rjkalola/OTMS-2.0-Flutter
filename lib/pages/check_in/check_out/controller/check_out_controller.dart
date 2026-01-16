@@ -227,7 +227,7 @@ class CheckOutController extends GetxController
     map["trade_id"] = tradeId;
     // map["company_task_id"] = companyTaskId;
     // map["type_of_work_id"] = typeOfWorkId;
-    map["comment"] = StringHelper.getText(noteController.value);
+    map["note"] = StringHelper.getText(noteController.value);
     map["before_attachment_remove_ids"] =
         StringHelper.getCommaSeparatedStringIds(listBeforeRemoveIds);
     map["location"] = location;
