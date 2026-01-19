@@ -74,6 +74,7 @@ class DateUtil {
     final hours = duration.inHours.toString().padLeft(2, '0');
     final minutes = (duration.inMinutes % 60).toString().padLeft(2, '0');
     return '$hours:$minutes';*/
+    print("totalSeconds:" + totalSeconds.toString());
 
     final duration = Duration(seconds: totalSeconds);
 

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:belcka/utils/app_utils.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
@@ -18,7 +19,15 @@ class DownloadController extends GetxController {
 
       String savePath;
       if (Platform.isAndroid) {
-        await Permission.storage.request();
+        final androidInfo = await DeviceInfoPlugin().androidInfo;
+        final sdkInt = androidInfo.version.sdkInt;
+        if (sdkInt <= 29) {
+          final status = await Permission.storage.status;
+          if (!status.isGranted) {
+            await Permission.storage.request();
+          }
+        }
+        // await Permission.storage.request();
         savePath = "/storage/emulated/0/Download/$fileName";
       } else {
         final dir = await getApplicationDocumentsDirectory();

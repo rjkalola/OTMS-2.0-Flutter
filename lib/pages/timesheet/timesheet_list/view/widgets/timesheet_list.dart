@@ -141,7 +141,8 @@ class TimeSheetList extends StatelessWidget {
                 TitleTextView(
                   text: controller.isViewAmount.value
                       ? "£${info.totalPayableAmount ?? "0"}"
-                      : DateUtil.seconds_To_HH_MM(info.totalPayableSeconds ?? 0),
+                      : DateUtil.seconds_To_HH_MM(
+                          info.totalPayableSeconds ?? 0),
                   fontSize: 17,
                 ),
                 SizedBox(

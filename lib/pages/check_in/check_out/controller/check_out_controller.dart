@@ -44,8 +44,7 @@ class CheckOutController extends GetxController
       isMainViewVisible = false.obs,
       isInternetNotAvailable = false.obs,
       isLocationLoaded = true.obs,
-      isPriceWork = false.obs,
-      isCheckedOut = false.obs;
+      isPriceWork = false.obs;
   final RxInt progress = 0.obs;
   final _api = CheckOutRepository();
   final addressController = TextEditingController().obs;
@@ -115,8 +114,6 @@ class CheckOutController extends GetxController
             ? DateUtil.changeFullDateToSortTime(
                 checkLogInfo.value.checkoutDateTime ?? "")
             : getCurrentTime();
-    isCheckedOut.value =
-        !StringHelper.isEmptyString(checkLogInfo.value.checkoutDateTime);
     addressController.value.text = checkLogInfo.value.addressName ?? "-";
     locationController.value.text = checkLogInfo.value.locationName ?? "-";
     tradeController.value.text = checkLogInfo.value.tradeName ?? "-";
@@ -500,6 +497,9 @@ class CheckOutController extends GetxController
       AppConstants.intentKey.checkLogId: checkLogId,
       AppConstants.intentKey.afterPhotosList: info.afterAttachments ?? [],
       AppConstants.intentKey.beforePhotosList: info.beforeAttachments ?? [],
+      AppConstants.intentKey.checkInNote: checkLogInfo.value.checkInNote ?? "",
+      AppConstants.intentKey.checkOutNote:
+          checkLogInfo.value.checkOutNote ?? "",
       AppConstants.intentKey.isEditable:
           !StringHelper.isEmptyString(checkLogInfo.value.checkoutDateTime),
     };

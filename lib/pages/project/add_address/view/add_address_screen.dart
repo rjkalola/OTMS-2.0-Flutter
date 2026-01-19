@@ -7,6 +7,7 @@ import 'package:belcka/widgets/slider/custom_slider.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:belcka/pages/project/add_address/controller/add_address_controller.dart';
 import 'package:belcka/pages/project/add_address/view/widgets/site_address_textfield.dart';
@@ -81,25 +82,36 @@ class AddAddressScreenState extends State<AddAddressScreen> {
                                         SearchAddressTextField(),
                                         SizedBox(height: 16),
                                         Padding(
-                                          padding:EdgeInsets.symmetric(horizontal: 16),
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 16),
                                           child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               ElevatedButton(
-                                                onPressed: (){
+                                                onPressed: () {
                                                   searchAddress();
                                                 },
                                                 style: ElevatedButton.styleFrom(
                                                   minimumSize: Size(100, 40),
-                                                  backgroundColor: defaultAccentColor_(context),
+                                                  backgroundColor:
+                                                      defaultAccentColor_(
+                                                          context),
                                                   shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(30),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            30),
                                                   ),
-                                                  padding: EdgeInsets.symmetric(horizontal: 20),
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 20),
                                                 ),
                                                 child: Text(
                                                   'search'.tr,
-                                                  style: TextStyle(color: Colors.white, fontSize: 15,fontWeight: FontWeight.bold),
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.bold),
                                                 ),
                                               ),
                                             ],
@@ -146,8 +158,47 @@ class AddAddressScreenState extends State<AddAddressScreen> {
                                                           onMapCreated:
                                                               controller
                                                                   .onMapCreated,
-                                                          onCameraMove:
-                                                              (position) {},
+                                                        /*  onCameraMove:
+                                                              (position) {
+                                                                print("onCameraMove");
+                                                            controller
+                                                                    .lastCameraPosition =
+                                                                position;
+                                                          },
+                                                          onCameraIdle: () {
+                                                            print("onCameraIdle");
+                                                            if (controller
+                                                                    .lastCameraPosition !=
+                                                                null) {
+                                                              controller
+                                                                  .latitude = controller
+                                                                      .lastCameraPosition!
+                                                                      .target
+                                                                      .latitude ??
+                                                                  0;
+                                                              controller
+                                                                  .longitude = controller
+                                                                      .lastCameraPosition!
+                                                                      .target
+                                                                      .longitude ??
+                                                                  0;
+                                                              if (controller
+                                                                          .latitude !=
+                                                                      0 &&
+                                                                  controller
+                                                                          .longitude !=
+                                                                      0) {
+                                                                controller
+                                                                        .selectedLatLng
+                                                                        .value =
+                                                                    LatLng(
+                                                                        controller
+                                                                            .latitude,
+                                                                        controller
+                                                                            .longitude);
+                                                              }
+                                                            }
+                                                          },*/
                                                           circles: controller
                                                               .circles,
                                                           markers:
@@ -157,12 +208,14 @@ class AddAddressScreenState extends State<AddAddressScreen> {
                                                           initialZoom: 17,
                                                         ),
                                                         // Align(
-                                                        //   alignment: Alignment.center,
+                                                        //   alignment:
+                                                        //       Alignment.center,
                                                         //   child: Icon(
                                                         //     Icons.location_on,
                                                         //     size: 45,
-                                                        //     color: defaultAccentColor_(
-                                                        //         context),
+                                                        //     color:
+                                                        //         defaultAccentColor_(
+                                                        //             context),
                                                         //   ),
                                                         // )
                                                       ],

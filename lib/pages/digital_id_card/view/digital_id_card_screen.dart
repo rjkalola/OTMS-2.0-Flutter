@@ -51,7 +51,7 @@ class DigitalIdCardScreen extends StatelessWidget {
       Visibility(
         visible: controller.isMainViewVisible.value,
         child: TextViewWithContainer(
-            width: 100,
+            width: 120,
             height: 33,
             borderRadius: 15,
             fontWeight: FontWeight.w500,

@@ -30,6 +30,7 @@ class AddAddressController extends GetxController {
   final title = ''.obs;
   double latitude = AppConstants.defaultLatitude,
       longitude = AppConstants.defaultLongitude;
+  CameraPosition? lastCameraPosition;
 
   ProjectInfo? projectInfo;
   AddressInfo? addressDetailsInfo;

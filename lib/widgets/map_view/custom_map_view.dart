@@ -12,6 +12,7 @@ class CustomMapView extends StatelessWidget {
       this.polygons,
       this.circles,
       this.onCameraMove,
+      this.onCameraIdle,
       this.initialZoom});
 
   final MapCreatedCallback? onMapCreated;
@@ -21,6 +22,7 @@ class CustomMapView extends StatelessWidget {
   final RxSet<Polygon>? polygons;
   final RxSet<Circle>? circles;
   final CameraPositionCallback? onCameraMove;
+  final VoidCallback? onCameraIdle;
   final double? initialZoom;
 
   @override
@@ -28,7 +30,10 @@ class CustomMapView extends StatelessWidget {
     return Obx(
       () => GoogleMap(
         onMapCreated: onMapCreated,
+        scrollGesturesEnabled: true,//new
+        zoomGesturesEnabled: true,//new
         rotateGesturesEnabled: false,
+        tiltGesturesEnabled: true,//new
         mapToolbarEnabled: false,
         zoomControlsEnabled: false,
         myLocationEnabled: true,
@@ -38,6 +43,7 @@ class CustomMapView extends StatelessWidget {
           zoom: initialZoom ?? 15.0,
         ),
         onCameraMove: onCameraMove,
+        onCameraIdle: onCameraIdle,
         markers: markers ?? <Marker>{},
         polylines: polylines ?? <Polyline>{},
         polygons: polygons ?? <Polygon>{},

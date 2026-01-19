@@ -35,6 +35,8 @@ class CheckLogInfo {
   bool? isPricework, isAttachment;
   int? progress;
   List<TypeOfWorkResourcesInfo>? taskList;
+  String? checkInNote;
+  String? checkOutNote;
 
   CheckLogInfo(
       {this.id,
@@ -69,7 +71,9 @@ class CheckLogInfo {
       this.isPricework,
       this.isAttachment,
       this.progress,
-      this.taskList});
+      this.taskList,
+      this.checkInNote,
+      this.checkOutNote});
 
   CheckLogInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -125,6 +129,8 @@ class CheckLogInfo {
         taskList!.add(new TypeOfWorkResourcesInfo.fromJson(v));
       });
     }
+    checkInNote = json['checkin_note'];
+    checkOutNote = json['checkout_note'];
   }
 
   Map<String, dynamic> toJson() {
@@ -176,6 +182,8 @@ class CheckLogInfo {
     if (this.taskList != null) {
       data['task_list'] = this.taskList!.map((v) => v.toJson()).toList();
     }
+    data['checkin_note'] = this.checkInNote;
+    data['checkout_note'] = this.checkOutNote;
     return data;
   }
 }

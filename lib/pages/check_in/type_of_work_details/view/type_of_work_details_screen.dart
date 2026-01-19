@@ -1,3 +1,4 @@
+import 'package:belcka/pages/check_in/check_out/view/widgets/check_in_out_display_note_widget.dart';
 import 'package:belcka/pages/check_in/type_of_work_details/view/widgets/before_after_photos_list.dart';
 import 'package:belcka/pages/check_in/type_of_work_details/controller/type_of_work_details_controller.dart';
 import 'package:belcka/res/colors.dart';
@@ -217,6 +218,14 @@ class _TypeOfWorkDetailsScreenState extends State<TypeOfWorkDetailsScreen> {
                               isEditable: controller.isEditable.value,
                             ),
                           ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 12, right: 12, bottom: 6),
+                            child: CheckInOutDisplayNoteWidget(
+                              note: controller.checkInNote,
+                              labelText: 'check_in_note'.tr,
+                            ),
+                          ),
                           SizedBox(
                             height: 24,
                           ),
@@ -246,7 +255,7 @@ class _TypeOfWorkDetailsScreenState extends State<TypeOfWorkDetailsScreen> {
                                   child: GestureDetector(
                                     onTap: () {
                                       controller.onGridItemClick(-1, "",
-                                          AppConstants.type.beforePhotos);
+                                          AppConstants.type.afterPhotos);
                                     },
                                     child: Icon(
                                       Icons.add_circle_outline,
@@ -267,6 +276,14 @@ class _TypeOfWorkDetailsScreenState extends State<TypeOfWorkDetailsScreen> {
                                 photosType: AppConstants.type.afterPhotos,
                                 isEditable: controller.isEditable.value,
                               )),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 12, right: 12, bottom: 6),
+                            child: CheckInOutDisplayNoteWidget(
+                              note: controller.checkOutNote,
+                              labelText: 'check_out_note'.tr,
+                            ),
+                          ),
                         ],
                       ),
                     )

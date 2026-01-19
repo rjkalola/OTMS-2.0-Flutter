@@ -23,7 +23,7 @@ class SelectedTypeOfWork extends StatelessWidget {
       () => Visibility(
         visible: controller.selectedTypeOfWorkList.isNotEmpty,
         child: Container(
-          margin: const EdgeInsets.only(bottom: 6),
+          margin: const EdgeInsets.only(bottom: 0),
           child: ListView.builder(
             itemCount: controller.selectedTypeOfWorkList.length,
             scrollDirection: Axis.vertical,

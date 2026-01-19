@@ -29,6 +29,7 @@ class StartShiftBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int status = controller.workLogInfo.value.requestStatus ?? 0;
     return Flexible(
       flex: 1,
       fit: FlexFit.tight,
@@ -75,11 +76,8 @@ class StartShiftBox extends StatelessWidget {
                   ),
                   Visibility(
                       visible: !controller.isWorking.value &&
-                          ((controller.workLogInfo.value.requestStatus ?? 0) ==
-                                  0 ||
-                              (controller.workLogInfo.value.requestStatus ??
-                                      0) ==
-                                  AppConstants.status.rejected),
+                          (status == 0 ||
+                              status == AppConstants.status.rejected),
                       child: ImageUtils.setSvgAssetsImage(
                           path: Drawable.editPencilIcon,
                           width: 13,

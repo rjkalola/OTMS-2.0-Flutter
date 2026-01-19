@@ -17,6 +17,7 @@ class TypeOfWorkDetailsController extends GetxController
   var afterPhotosList = <FilesInfo>[].obs;
   var selectedImageIndex = 0, checkLogId = 0;
   var photosType = "";
+  String? checkInNote, checkOutNote;
 
   // final title = "".obs;
   final RxBool isEditable = false.obs,
@@ -29,7 +30,6 @@ class TypeOfWorkDetailsController extends GetxController
   @override
   void onInit() {
     super.onInit();
-    print("SelectBeforeAfterPhotosController::::");
     var arguments = Get.arguments;
 
     if (arguments != null) {
@@ -41,6 +41,8 @@ class TypeOfWorkDetailsController extends GetxController
       //     : 'photos_after'.tr;
       isEditable.value = arguments[AppConstants.intentKey.isEditable] ?? false;
       checkLogId = arguments[AppConstants.intentKey.checkLogId] ?? 0;
+      checkInNote = arguments[AppConstants.intentKey.checkInNote] ?? "";
+      checkOutNote = arguments[AppConstants.intentKey.checkOutNote] ?? "";
       // if (isEditable.value) {
       //   FilesInfo info = FilesInfo();
       //   beforePhotosList.add(info);
