@@ -1,3 +1,4 @@
+import 'package:belcka/pages/check_in/check_in/model/check_log_summery_info.dart';
 import 'package:belcka/pages/common/model/file_info.dart';
 
 class TypeOfWorkResourcesInfo {
@@ -16,6 +17,8 @@ class TypeOfWorkResourcesInfo {
   String? locationName;
   List<FilesInfo>? beforeAttachments;
   List<FilesInfo>? afterAttachments;
+  List<CheckLogSummeryInfo>? checkLogSummary;
+  int? totalPayableSeconds;
   int? progress;
   bool? isCheck;
   int? totalAttachments;
@@ -39,6 +42,8 @@ class TypeOfWorkResourcesInfo {
       this.locationName,
       this.beforeAttachments,
       this.afterAttachments,
+      this.checkLogSummary,
+      this.totalPayableSeconds,
       this.progress,
       this.isCheck,
       this.totalAttachments,
@@ -72,6 +77,13 @@ class TypeOfWorkResourcesInfo {
         afterAttachments!.add(new FilesInfo.fromJson(v));
       });
     }
+    if (json['checklog_summary'] != null) {
+      checkLogSummary = <CheckLogSummeryInfo>[];
+      json['checklog_summary'].forEach((v) {
+        checkLogSummary!.add(new CheckLogSummeryInfo.fromJson(v));
+      });
+    }
+    totalPayableSeconds = json['total_payable_seconds'];
     progress = json['progress'];
     isCheck = json['isCheck'];
     totalAttachments = json['total_attachments'];
@@ -103,6 +115,11 @@ class TypeOfWorkResourcesInfo {
       data['after_attachments'] =
           this.afterAttachments!.map((v) => v.toJson()).toList();
     }
+    if (this.checkLogSummary != null) {
+      data['checklog_summary'] =
+          this.checkLogSummary!.map((v) => v.toJson()).toList();
+    }
+    data['total_payable_seconds'] = this.totalPayableSeconds;
     data['progress'] = this.progress;
     data['isCheck'] = this.isCheck;
     data['total_attachments'] = this.totalAttachments;

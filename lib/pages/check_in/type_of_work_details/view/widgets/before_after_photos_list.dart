@@ -27,6 +27,7 @@ class BeforeAfterPhotosList extends StatelessWidget {
       child: ImageGridview(
           isEditable: false,
           filesList: filesList,
+          physics: NeverScrollableScrollPhysics(),
           onViewClick: (int index) {
             onGridItemClick(
                 index, AppConstants.action.viewPhoto, photosType ?? "");

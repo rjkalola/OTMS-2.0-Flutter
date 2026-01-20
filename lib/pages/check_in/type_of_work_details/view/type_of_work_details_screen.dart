@@ -1,6 +1,7 @@
 import 'package:belcka/pages/check_in/check_out/view/widgets/check_in_out_display_note_widget.dart';
-import 'package:belcka/pages/check_in/type_of_work_details/view/widgets/before_after_photos_list.dart';
 import 'package:belcka/pages/check_in/type_of_work_details/controller/type_of_work_details_controller.dart';
+import 'package:belcka/pages/check_in/type_of_work_details/view/widgets/before_after_photos_list.dart';
+import 'package:belcka/pages/check_in/type_of_work_details/view/widgets/check_log_summery.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
@@ -284,6 +285,7 @@ class _TypeOfWorkDetailsScreenState extends State<TypeOfWorkDetailsScreen> {
                               labelText: 'check_out_note'.tr,
                             ),
                           ),
+                          CheckLogSummery()
                         ],
                       ),
                     )
