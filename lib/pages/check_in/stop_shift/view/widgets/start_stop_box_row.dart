@@ -14,59 +14,56 @@ class StartStopBoxRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int status = controller.workLogInfo.value.status ?? 0;
     return Obx(
-          () =>
-          Padding(
-            padding: const EdgeInsets.fromLTRB(12, 0, 12, 10),
-            child: Row(
-              children: [
-                StartShiftBox(
-                  title: 'start_shift'.tr,
-                  time: controller.startTime.value,
-                  address: "650, High road, 650, High road,",
-                  timePickerType:
+      () => Padding(
+        padding: const EdgeInsets.fromLTRB(12, 0, 12, 10),
+        child: Row(
+          children: [
+            StartShiftBox(
+              title: 'start_shift'.tr,
+              time: controller.startTime.value,
+              address: "650, High road, 650, High road,",
+              timePickerType:
                   AppConstants.dialogIdentifier.selectShiftStartTime,
-                  onTap: () {
-                    if (!StringHelper.isEmptyString(
+              onTap: () {
+                if (!StringHelper.isEmptyString(
                         controller.workLogInfo.value.workEndTime) &&
-                        ((controller.workLogInfo.value.requestStatus ?? 0) ==
-                            0 || (controller.workLogInfo.value.requestStatus ??
-                            0) == AppConstants.status.rejected)) {
-                      controller.showTimePickerDialog(
-                          AppConstants.dialogIdentifier.selectShiftStartTime,
-                          DateUtil.getDateTimeFromHHMM(
-                              controller.startTime.value));
-                    }
-                  },
-                ),
-                SizedBox(
-                  width: 14,
-                ),
-                StartShiftBox(
-                  title: 'stop_shift'.tr,
-                  time: !StringHelper.isEmptyString(
-                      controller.workLogInfo.value.workEndTime)
-                      ? controller.stopTime.value
-                      : controller.getCurrentTime(),
-                  address: "650, High road, 650, High road,",
-                  timePickerType: AppConstants.dialogIdentifier
-                      .selectShiftEndTime,
-                  onTap: () {
-                    if (!StringHelper.isEmptyString(
-                        controller.workLogInfo.value.workEndTime) &&
-                        ((controller.workLogInfo.value.requestStatus ?? 0) ==
-                            0 || (controller.workLogInfo.value.requestStatus ??
-                            0) == AppConstants.status.rejected)) {
-                      controller.showTimePickerDialog(
-                          AppConstants.dialogIdentifier.selectShiftEndTime,
-                          DateUtil.getDateTimeFromHHMM(
-                              controller.stopTime.value));
-                    }
-                  },
-                ),
-              ],
+                    (status == 0 ||
+                        status == AppConstants.status.rejected ||
+                        status == AppConstants.status.unlock)) {
+                  controller.showTimePickerDialog(
+                      AppConstants.dialogIdentifier.selectShiftStartTime,
+                      DateUtil.getDateTimeFromHHMM(controller.startTime.value));
+                }
+              },
             ),
-          ),
+            SizedBox(
+              width: 14,
+            ),
+            StartShiftBox(
+              title: 'stop_shift'.tr,
+              time: !StringHelper.isEmptyString(
+                      controller.workLogInfo.value.workEndTime)
+                  ? controller.stopTime.value
+                  : controller.getCurrentTime(),
+              address: "650, High road, 650, High road,",
+              timePickerType: AppConstants.dialogIdentifier.selectShiftEndTime,
+              onTap: () {
+                if (!StringHelper.isEmptyString(
+                        controller.workLogInfo.value.workEndTime) &&
+                    (status == 0 ||
+                        status == AppConstants.status.rejected ||
+                        status == AppConstants.status.unlock)) {
+                  controller.showTimePickerDialog(
+                      AppConstants.dialogIdentifier.selectShiftEndTime,
+                      DateUtil.getDateTimeFromHHMM(controller.stopTime.value));
+                }
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

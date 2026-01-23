@@ -25,6 +25,7 @@ class WorkLogInfo {
   int? userCheckLogsCount;
   bool? isExpanded;
   int? requestStatus;
+  int? status;
   String? oldStartTime;
   String? oldEndTime;
   int? oldPayableWorkSeconds;
@@ -66,6 +67,7 @@ class WorkLogInfo {
       this.userCheckLogsCount,
       this.isExpanded,
       this.requestStatus,
+      this.status,
       this.oldStartTime,
       this.oldEndTime,
       this.oldPayableWorkSeconds,
@@ -121,6 +123,7 @@ class WorkLogInfo {
     userCheckLogsCount = json['user_checklogs_count'];
     isExpanded = json['isExpanded'];
     requestStatus = json['request_status'];
+    status = json['status'];
     oldStartTime = json['old_start_time'];
     oldEndTime = json['old_end_time'];
     oldPayableWorkSeconds = json['old_payable_work_seconds'];
@@ -178,6 +181,7 @@ class WorkLogInfo {
     data['user_checklogs_count'] = this.userCheckLogsCount;
     data['isExpanded'] = this.isExpanded;
     data['request_status'] = this.requestStatus;
+    data['status'] = this.status;
     data['old_start_time'] = this.oldStartTime;
     data['old_end_time'] = this.oldEndTime;
     data['old_payable_work_seconds'] = this.oldPayableWorkSeconds;
