@@ -1,20 +1,14 @@
-import 'package:belcka/pages/profile/billing_info/view/widgets/address_text_field.dart';
-import 'package:belcka/pages/profile/billing_info/view/widgets/email_text_field.dart';
-import 'package:belcka/pages/profile/billing_info/view/widgets/first_name_text_field.dart';
-import 'package:belcka/pages/profile/billing_info/view/widgets/last_name_text_field.dart';
-import 'package:belcka/pages/profile/billing_info/view/widgets/phone_text_field.dart';
+import 'package:belcka/pages/authentication/login/view/widgets/otp_view.dart';
 import 'package:belcka/pages/profile/personal_info/controller/personal_info_controller.dart';
 import 'package:belcka/pages/profile/personal_info/view/widgets/personal_info_screen_section_card.dart';
+import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:belcka/pages/profile/billing_info/controller/billing_info_controller.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
-
-import '../../../authentication/signup1/view/widgets/phone_extension_field_widget.dart';
 
 class PersonalInfoScreen extends StatefulWidget {
   const PersonalInfoScreen({super.key});
@@ -82,42 +76,65 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          PersonalInfoSectionCard(),
+                          PersonalInfoSectionCard(isEnabled: !controller.isOtpViewVisible.value,),
+                          Visibility(
+                            visible: controller.isOtpViewVisible.value,
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                              child: OtpView(
+                                mOtpCode: controller.mOtpCode,
+                                otpController: controller.otpController,
+                                timeRemaining:
+                                controller.otmResendTimeRemaining,
+                                onCodeChanged: (code) {
+                                  controller.mOtpCode.value = code ?? "";
+                                  print("onCodeChanged $code");
+                                  if (controller.mOtpCode.value.length ==
+                                      6) {
+                                    controller.onSubmitClick();
+                                  }
+                                },
+                                onResendOtp: () {
+                                  controller.sendOtpApi();
+                                },
+                              ),
+                            ),
+                          ),
+
+                          //Update button
+                          Visibility(
+                            visible: controller.isShowSaveButton.value,
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Obx(() {
+                                final enabled = controller.isSaveEnabled.value;
+                                return Opacity(
+                                  opacity: enabled ? 1.0 : 0.5,
+                                  child: ElevatedButton(
+                                    onPressed: enabled ? controller.verifyAction : null,
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: defaultAccentColor_(context),
+                                      minimumSize: const Size(double.infinity, 50),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(30),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      'update'.tr,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }),
+                            ),
+                          )
                         ],
                       ),
                     ),
-                  ),
-                ),
-              ),
-              bottomNavigationBar: SafeArea(
-                child: Visibility(
-                  visible: controller.isShowSaveButton.value,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Obx(() {
-                      final enabled = controller.isSaveEnabled.value;
-                      return Opacity(
-                        opacity: enabled ? 1.0 : 0.5,
-                        child: ElevatedButton(
-                          onPressed: enabled ? controller.onSubmit : null,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: defaultAccentColor_(context),
-                            minimumSize: const Size(double.infinity, 50),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                          ),
-                          child: Text(
-                            'update'.tr,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      );
-                    }),
                   ),
                 ),
               ),
