@@ -60,6 +60,7 @@ import 'package:belcka/pages/profile/delete_account/view/delete_account_screen.d
 import 'package:belcka/pages/profile/my_account/view/my_account_screen.dart';
 import 'package:belcka/pages/profile/my_profile_details/view/my_profile_details_screen.dart';
 import 'package:belcka/pages/profile/other_user_billing/billing_details/view/other_user_billing_details_screen.dart';
+import 'package:belcka/pages/profile/personal_info/view/personal_info_screen.dart';
 import 'package:belcka/pages/profile/post_coder_search/view/post_coder_search_screen.dart';
 import 'package:belcka/pages/profile/rates/view/rates_screen.dart';
 import 'package:belcka/pages/profile/rates_history/view/rates_history_screen.dart';
@@ -385,6 +386,6 @@ class AppPages {
     GetPage(name: AppRoutes.purchasingScreen, page: () => PurchasingScreen()),
     GetPage(name: AppRoutes.buyerOrdersScreen, page: () => BuyerOrdersScreen()),
     GetPage(name: AppRoutes.addCategoryScreen, page: () => AddCategoryScreen()),
-
+    GetPage(name: AppRoutes.personalInfoScreen, page: () => PersonalInfoScreen()),
   ];
 }
