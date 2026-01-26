@@ -14,7 +14,7 @@ class NotificationListController extends GetxController
       isInternetNotAvailable = false.obs,
       isMainViewVisible = true.obs;
   final title = 'notifications'.tr.obs;
-  final selectedIndex = 0.obs;
+  final selectedIndex = 0.obs, announcementCount = 0.obs;
   bool fromNotification = false;
   final _api = NotificationListRepository();
 

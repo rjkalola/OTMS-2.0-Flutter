@@ -53,7 +53,9 @@ class NotificationTabBar extends StatelessWidget {
                   boxColor: controller.selectedIndex.value == 1
                       ? backgroundColor_(context)
                       : Colors.transparent,
-                  text: 'announcement'.tr,
+                  text: controller.announcementCount.value > 0
+                      ? "${'announcement'.tr} (${controller.announcementCount.value})"
+                      : 'announcement'.tr,
                   fontColor: primaryTextColor_(context),
                   fontWeight: controller.selectedIndex.value == 1
                       ? FontWeight.w600

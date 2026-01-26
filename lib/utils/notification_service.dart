@@ -249,6 +249,20 @@ class NotificationService {
         } else {
           Get.offAllNamed(AppRoutes.splashScreen);
         }
+      } else if (notificationType == AppConstants.notificationType.expenseAdd ||
+          notificationType == AppConstants.notificationType.expenseUpdate ||
+          notificationType == AppConstants.notificationType.expenseDelete) {
+        final recordId = data['record_id'] ?? "";
+        if (!StringHelper.isEmptyString(recordId)) {
+          var arguments = {
+            AppConstants.intentKey.expenseId:
+                !StringHelper.isEmptyString(recordId) ? int.parse(recordId) : 0,
+            AppConstants.intentKey.fromNotification: true,
+          };
+          Get.offAllNamed(AppRoutes.addExpenseScreen, arguments: arguments);
+        } else {
+          Get.offAllNamed(AppRoutes.splashScreen);
+        }
       }
       //Billing
       else if (notificationType ==

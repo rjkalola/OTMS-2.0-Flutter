@@ -1,8 +1,9 @@
 import 'package:belcka/pages/check_in/check_in/model/check_log_summery_info.dart';
 import 'package:belcka/pages/check_in/type_of_work_details/controller/type_of_work_details_controller.dart';
 import 'package:belcka/res/colors.dart';
-import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/res/drawable.dart';
 import 'package:belcka/utils/date_utils.dart';
+import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/text/PrimaryTextView.dart';
@@ -59,10 +60,62 @@ class CheckLogSummery extends StatelessWidget {
                             controller.info.value.checkLogSummary![position];
                         return Row(
                           children: [
-                            PrimaryTextView(
-                              text:
-                                  "(${info.checkinDate ?? ""})  ${(info.startTime ?? "")} - ${(info.endTime ?? "")}",
+                            Row(
+                              children: [
+                                PrimaryTextView(
+                                  text: "(${info.checkinDate ?? ""})",
+                                ),
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                !StringHelper.isEmptyString(info.checkInNote)
+                                    ? InkWell(
+                                        child: ImageUtils.setSvgAssetsImage(
+                                            path: Drawable.todoPermissionIcon,
+                                            width: 18,
+                                            height: 18),
+                                        onTap: () {
+                                          controller.showNoteDialog(
+                                              'check_in_note'.tr,
+                                              info.checkInNote);
+                                        },
+                                      )
+                                    : SizedBox(
+                                        width: 18,
+                                        height: 18,
+                                      ),
+                                SizedBox(
+                                  width: 4,
+                                ),
+                                PrimaryTextView(
+                                  text:
+                                      "${(info.startTime ?? "")} - ${(info.endTime ?? "")}",
+                                ),
+                                SizedBox(
+                                  width: 4,
+                                ),
+                                !StringHelper.isEmptyString(info.checkOutNote)
+                                    ? InkWell(
+                                        child: ImageUtils.setSvgAssetsImage(
+                                            path: Drawable.todoPermissionIcon,
+                                            width: 18,
+                                            height: 18),
+                                        onTap: () {
+                                          controller.showNoteDialog(
+                                              'check_out_note'.tr,
+                                              info.checkOutNote);
+                                        },
+                                      )
+                                    : SizedBox(
+                                        width: 18,
+                                        height: 18,
+                                      ),
+                              ],
                             ),
+                            // PrimaryTextView(
+                            //   text:
+                            //       "(${info.checkinDate ?? ""})  ${(info.startTime ?? "")} - ${(info.endTime ?? "")}",
+                            // ),
                             Spacer(),
                             PrimaryTextView(
                               text: DateUtil.seconds_To_HH_MM(

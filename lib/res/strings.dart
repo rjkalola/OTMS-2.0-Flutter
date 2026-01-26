@@ -538,6 +538,7 @@ class Strings extends Translations {
           'check_out_note': "Check-Out Note",
           'bookkeeper': "Bookkeeper",
           'checklog_summery': "Checklog Summery",
+          'ok': "Ok",
           // '': "",
 // '': "",
 // '': "",

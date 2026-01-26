@@ -1,5 +1,7 @@
 import 'package:belcka/pages/check_in/check_in/model/type_of_work_resources_info.dart';
+import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:belcka/pages/common/model/file_info.dart';
@@ -11,7 +13,7 @@ import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/web_services/response/module_info.dart';
 
 class TypeOfWorkDetailsController extends GetxController
-    implements SelectAttachmentListener {
+    implements SelectAttachmentListener, DialogButtonClickListener {
   final RxBool isLoading = false.obs, isInternetNotAvailable = false.obs;
   var beforePhotosList = <FilesInfo>[].obs;
   var afterPhotosList = <FilesInfo>[].obs;
@@ -282,6 +284,28 @@ class TypeOfWorkDetailsController extends GetxController
       AppConstants.intentKey.removeIdsList: removeIds,
     };
     Get.back(result: arguments);
+  }
+
+  showNoteDialog(String title, String? note) async {
+    if (!StringHelper.isEmptyString(note)) {
+      AlertDialogHelper.showAlertDialog("$title:", note ?? "", 'ok'.tr.toUpperCase(), ''.tr, "",
+          true, false, this, AppConstants.dialogIdentifier.noteDialog);
+    }
+  }
+
+  @override
+  void onNegativeButtonClicked(String dialogIdentifier) {
+    Get.back();
+  }
+
+  @override
+  void onOtherButtonClicked(String dialogIdentifier) {}
+
+  @override
+  void onPositiveButtonClicked(String dialogIdentifier) {
+    if (dialogIdentifier == AppConstants.dialogIdentifier.noteDialog) {
+      Get.back();
+    }
   }
 
   void onBackPress() {

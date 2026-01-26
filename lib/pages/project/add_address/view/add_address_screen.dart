@@ -158,18 +158,19 @@ class AddAddressScreenState extends State<AddAddressScreen> {
                                                           onMapCreated:
                                                               controller
                                                                   .onMapCreated,
-                                                        /*  onCameraMove:
+                                                          onCameraMove:
                                                               (position) {
-                                                                print("onCameraMove");
                                                             controller
                                                                     .lastCameraPosition =
                                                                 position;
                                                           },
                                                           onCameraIdle: () {
-                                                            print("onCameraIdle");
                                                             if (controller
                                                                     .lastCameraPosition !=
                                                                 null) {
+                                                              controller
+                                                                  .isSaveEnable
+                                                                  .value = true;
                                                               controller
                                                                   .latitude = controller
                                                                       .lastCameraPosition!
@@ -198,26 +199,26 @@ class AddAddressScreenState extends State<AddAddressScreen> {
                                                                             .longitude);
                                                               }
                                                             }
-                                                          },*/
+                                                          },
                                                           circles: controller
                                                               .circles,
-                                                          markers:
-                                                              controller.marker,
+                                                          // markers:
+                                                          //     controller.marker,
                                                           target: controller
                                                               .selectedLatLng,
                                                           initialZoom: 17,
                                                         ),
-                                                        // Align(
-                                                        //   alignment:
-                                                        //       Alignment.center,
-                                                        //   child: Icon(
-                                                        //     Icons.location_on,
-                                                        //     size: 45,
-                                                        //     color:
-                                                        //         defaultAccentColor_(
-                                                        //             context),
-                                                        //   ),
-                                                        // )
+                                                        Align(
+                                                          alignment:
+                                                              Alignment.center,
+                                                          child: Icon(
+                                                            Icons.location_on,
+                                                            size: 45,
+                                                            color:
+                                                                defaultAccentColor_(
+                                                                    context),
+                                                          ),
+                                                        )
                                                       ],
                                                     ),
                                                   ),

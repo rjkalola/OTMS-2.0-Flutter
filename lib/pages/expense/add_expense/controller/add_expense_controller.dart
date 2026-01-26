@@ -11,6 +11,7 @@ import 'package:belcka/pages/expense/add_expense/model/expense_info.dart';
 import 'package:belcka/pages/expense/add_expense/model/expense_resources_response.dart';
 import 'package:belcka/pages/manageattachment/controller/manage_attachment_controller.dart';
 import 'package:belcka/pages/manageattachment/listener/select_attachment_listener.dart';
+import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
@@ -64,6 +65,7 @@ class AddExpenseController extends GetxController
   var attachmentList = <FilesInfo>[].obs;
 
   ExpenseResourcesResponse? expenseResourcesData;
+  bool fromNotification = false;
 
   @override
   void onInit() {
@@ -77,6 +79,8 @@ class AddExpenseController extends GetxController
       projectController.value.text =
           arguments[AppConstants.intentKey.projectName] ?? "";
       isProjectDropDownEnable.value = projectId == 0;
+      fromNotification =
+          arguments[AppConstants.intentKey.fromNotification] ?? false;
       // expenseInfo = arguments[AppConstants.intentKey.expenseInfo];
     }
     getExpenseResourcesApi();
@@ -579,6 +583,14 @@ class AddExpenseController extends GetxController
     if (dialogIdentifier == AppConstants.dialogIdentifier.delete) {
       Get.back();
       deleteExpenseApi();
+    }
+  }
+
+  void onBackPress() {
+    if (fromNotification) {
+      Get.offAllNamed(AppRoutes.dashboardScreen);
+    } else {
+      Get.back();
     }
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:belcka/pages/notifications/notification_list/controller/notification_list_controller.dart';
 import 'package:belcka/pages/notifications/notification_list/model/feed_info.dart';
 import 'package:belcka/pages/notifications/notification_list/tabs/feed_tab/controller/feed_tab_repository.dart';
 import 'package:belcka/routes/app_routes.dart';
@@ -52,6 +53,8 @@ class FeedTabController extends GetxController {
           feedList.value = tempList;
           feedList.refresh();
           isMainViewVisible.value = true;
+          Get.put(NotificationListController()).announcementCount.value =
+              response.announcementCount ?? 0;
           readAllFeeds();
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
@@ -211,6 +214,18 @@ class FeedTabController extends GetxController {
             AppConstants.intentKey.leaveId: info.recordId ?? 0,
           };
           moveToScreen(rout, arguments: arguments, index: index);
+        }
+      }
+      //Expense
+      else if (notificationType == AppConstants.notificationType.expenseAdd ||
+          notificationType == AppConstants.notificationType.expenseUpdate ||
+          notificationType == AppConstants.notificationType.expenseDelete) {
+        if ((info.recordId ?? 0) != 0) {
+          var arguments = {
+            AppConstants.intentKey.expenseId: info.recordId ?? 0,
+          };
+          moveToScreen(AppRoutes.addExpenseScreen,
+              arguments: arguments, index: index);
         }
       }
     }

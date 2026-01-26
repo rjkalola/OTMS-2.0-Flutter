@@ -32,239 +32,255 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
   Widget build(BuildContext context) {
     AppUtils.setStatusBarColor();
     return Obx(
-      () => Container(
-        color: dashBoardBgColor_(context),
-        child: SafeArea(
-          child: Scaffold(
-            backgroundColor: dashBoardBgColor_(context),
-            appBar: BaseAppBar(
-              appBar: AppBar(),
-              title: controller.title.value,
-              isCenterTitle: false,
-              isBack: true,
-              bgColor: dashBoardBgColor_(context),
-              widgets: actionButtons(),
-            ),
-            body: ModalProgressHUD(
-                inAsyncCall: controller.isLoading.value,
-                opacity: 0,
-                progressIndicator: const CustomProgressbar(),
-                child: controller.isInternetNotAvailable.value
-                    ? NoInternetWidget(
-                        onPressed: () {
-                          controller.isInternetNotAvailable.value = false;
-                          controller.getExpenseResourcesApi();
-                        },
-                      )
-                    : Visibility(
-                        visible: controller.isMainViewVisible.value,
-                        child: Column(
-                          children: [
-                            Expanded(
-                              child: Form(
-                                key: controller.formKey,
-                                child: SingleChildScrollView(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 20, right: 20, top: 14),
-                                        child: DropDownTextField(
-                                          title: 'project'.tr,
-                                          controller:
-                                              controller.projectController,
-                                          validators: [
-                                            RequiredValidator(
-                                                errorText: 'required_field'.tr),
-                                          ],
-                                          isArrowHide: !controller
-                                              .isProjectDropDownEnable.value,
-                                          onPressed: () {
-                                            if (controller
-                                                .isProjectDropDownEnable
-                                                .value) {
-                                              controller
-                                                  .showSelectProjectDialog();
-                                            }
-                                          },
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 20, right: 20, top: 24),
-                                        child: DropDownTextField(
-                                          title: 'address'.tr,
-                                          controller:
-                                              controller.addressController,
-                                          validators: [
-                                            RequiredValidator(
-                                                errorText: 'required_field'.tr),
-                                          ],
-                                          onPressed: () {
-                                            controller
-                                                .showSelectAddressDialog();
-                                          },
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 20, right: 20, top: 24),
-                                        child: DropDownTextField(
-                                          title: 'category'.tr,
-                                          controller:
-                                              controller.categoryController,
-                                          validators: [
-                                            RequiredValidator(
-                                                errorText: 'required_field'.tr),
-                                          ],
-                                          onPressed: () {
-                                            controller
-                                                .showSelectCategoryDialog();
-                                          },
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            20, 24, 20, 0),
-                                        child: TextFieldBorderDark(
-                                          textEditingController: controller
-                                              .sumOfTotalController.value,
-                                          hintText: 'sum_of_total'.tr,
-                                          labelText: 'sum_of_total'.tr,
-                                          isReadOnly: false,
-                                          keyboardType:
-                                              TextInputType.numberWithOptions(
-                                                  decimal: true),
-                                          textInputAction: TextInputAction.next,
-                                          autovalidateMode: AutovalidateMode
-                                              .onUserInteraction,
-                                          onValueChange: (value) {
-                                            controller.isSaveEnable.value =
-                                                true;
-                                          },
-                                          inputFormatters: <TextInputFormatter>[
-                                            FilteringTextInputFormatter.allow(
-                                                RegExp(r'[0-9.]')),
-                                          ],
-                                          validator: MultiValidator([
-                                            RequiredValidator(
-                                                errorText: 'required_field'.tr),
-                                            PatternValidator(r'^\d+(\.\d+)?$',
-                                                errorText:
-                                                    'enter_valid_amount'.tr),
-                                          ]),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 20, right: 20, top: 24),
-                                        child: DropDownTextField(
-                                          title: 'date_of_receipt'.tr,
-                                          controller: controller
-                                              .dateOfReceiptController,
-                                          validators: [
-                                            RequiredValidator(
-                                                errorText: 'required_field'.tr),
-                                          ],
-                                          onPressed: () {
-                                            controller.showDatePickerDialog(
-                                                AppConstants.dialogIdentifier
-                                                    .selectDate,
-                                                controller.selectDate,
-                                                DateTime(1900),
-                                                DateTime.now());
-                                          },
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding:
-                                            EdgeInsets.fromLTRB(20, 24, 20, 0),
-                                        child: TextFieldBorderDark(
-                                          textEditingController:
-                                              controller.noteController.value,
-                                          autovalidateMode: AutovalidateMode
-                                              .onUserInteraction,
-                                          hintText: 'note'.tr,
-                                          labelText: 'note'.tr,
-                                          textInputAction:
-                                              TextInputAction.newline,
-                                          validator: MultiValidator([]),
-                                          isReadOnly: false,
-                                          minLines: 3,
-                                          maxLength: 500,
-                                          textAlignVertical:
-                                              TextAlignVertical.top,
-                                          textAlign: TextAlign.start,
-                                          onValueChange: (value) {
-                                            controller.isSaveEnable.value =
-                                                true;
-                                          },
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding:
-                                            EdgeInsets.fromLTRB(20, 24, 20, 0),
-                                        child: PrimaryTextView(
-                                          text: 'attachment'.tr,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            11, 6, 11, 0),
-                                        child: DocumentGridview(
-                                            isEditable: true,
-                                            physics:
-                                                const NeverScrollableScrollPhysics(),
-                                            filesList:
-                                                controller.attachmentList,
-                                            onViewClick: (int index) {
-                                              controller.onGridItemClick(
-                                                  index,
-                                                  AppConstants
-                                                      .action.viewPhoto);
+      () => PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (didPop, result) async {
+          if (didPop || result != null) return;
+          controller.onBackPress();
+        },
+        child: Container(
+          color: dashBoardBgColor_(context),
+          child: SafeArea(
+            child: Scaffold(
+              backgroundColor: dashBoardBgColor_(context),
+              appBar: BaseAppBar(
+                appBar: AppBar(),
+                title: controller.title.value,
+                isCenterTitle: false,
+                isBack: true,
+                onBackPressed: () {
+                  controller.onBackPress();
+                },
+                bgColor: dashBoardBgColor_(context),
+                widgets: actionButtons(),
+              ),
+              body: ModalProgressHUD(
+                  inAsyncCall: controller.isLoading.value,
+                  opacity: 0,
+                  progressIndicator: const CustomProgressbar(),
+                  child: controller.isInternetNotAvailable.value
+                      ? NoInternetWidget(
+                          onPressed: () {
+                            controller.isInternetNotAvailable.value = false;
+                            controller.getExpenseResourcesApi();
+                          },
+                        )
+                      : Visibility(
+                          visible: controller.isMainViewVisible.value,
+                          child: Column(
+                            children: [
+                              Expanded(
+                                child: Form(
+                                  key: controller.formKey,
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 20, right: 20, top: 14),
+                                          child: DropDownTextField(
+                                            title: 'project'.tr,
+                                            controller:
+                                                controller.projectController,
+                                            validators: [
+                                              RequiredValidator(
+                                                  errorText:
+                                                      'required_field'.tr),
+                                            ],
+                                            isArrowHide: !controller
+                                                .isProjectDropDownEnable.value,
+                                            onPressed: () {
+                                              if (controller
+                                                  .isProjectDropDownEnable
+                                                  .value) {
+                                                controller
+                                                    .showSelectProjectDialog();
+                                              }
                                             },
-                                            onRemoveClick: (int index) {
-                                              controller.onGridItemClick(
-                                                  index,
-                                                  AppConstants
-                                                      .action.removePhoto);
-                                            }),
-                                      )
-                                    ],
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 20, right: 20, top: 24),
+                                          child: DropDownTextField(
+                                            title: 'address'.tr,
+                                            controller:
+                                                controller.addressController,
+                                            validators: [
+                                              RequiredValidator(
+                                                  errorText:
+                                                      'required_field'.tr),
+                                            ],
+                                            onPressed: () {
+                                              controller
+                                                  .showSelectAddressDialog();
+                                            },
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 20, right: 20, top: 24),
+                                          child: DropDownTextField(
+                                            title: 'category'.tr,
+                                            controller:
+                                                controller.categoryController,
+                                            validators: [
+                                              RequiredValidator(
+                                                  errorText:
+                                                      'required_field'.tr),
+                                            ],
+                                            onPressed: () {
+                                              controller
+                                                  .showSelectCategoryDialog();
+                                            },
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              20, 24, 20, 0),
+                                          child: TextFieldBorderDark(
+                                            textEditingController: controller
+                                                .sumOfTotalController.value,
+                                            hintText: 'sum_of_total'.tr,
+                                            labelText: 'sum_of_total'.tr,
+                                            isReadOnly: false,
+                                            keyboardType:
+                                                TextInputType.numberWithOptions(
+                                                    decimal: true),
+                                            textInputAction:
+                                                TextInputAction.next,
+                                            autovalidateMode: AutovalidateMode
+                                                .onUserInteraction,
+                                            onValueChange: (value) {
+                                              controller.isSaveEnable.value =
+                                                  true;
+                                            },
+                                            inputFormatters: <TextInputFormatter>[
+                                              FilteringTextInputFormatter.allow(
+                                                  RegExp(r'[0-9.]')),
+                                            ],
+                                            validator: MultiValidator([
+                                              RequiredValidator(
+                                                  errorText:
+                                                      'required_field'.tr),
+                                              PatternValidator(r'^\d+(\.\d+)?$',
+                                                  errorText:
+                                                      'enter_valid_amount'.tr),
+                                            ]),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 20, right: 20, top: 24),
+                                          child: DropDownTextField(
+                                            title: 'date_of_receipt'.tr,
+                                            controller: controller
+                                                .dateOfReceiptController,
+                                            validators: [
+                                              RequiredValidator(
+                                                  errorText:
+                                                      'required_field'.tr),
+                                            ],
+                                            onPressed: () {
+                                              controller.showDatePickerDialog(
+                                                  AppConstants.dialogIdentifier
+                                                      .selectDate,
+                                                  controller.selectDate,
+                                                  DateTime(1900),
+                                                  DateTime.now());
+                                            },
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.fromLTRB(
+                                              20, 24, 20, 0),
+                                          child: TextFieldBorderDark(
+                                            textEditingController:
+                                                controller.noteController.value,
+                                            autovalidateMode: AutovalidateMode
+                                                .onUserInteraction,
+                                            hintText: 'note'.tr,
+                                            labelText: 'note'.tr,
+                                            textInputAction:
+                                                TextInputAction.newline,
+                                            validator: MultiValidator([]),
+                                            isReadOnly: false,
+                                            minLines: 3,
+                                            maxLength: 500,
+                                            textAlignVertical:
+                                                TextAlignVertical.top,
+                                            textAlign: TextAlign.start,
+                                            onValueChange: (value) {
+                                              controller.isSaveEnable.value =
+                                                  true;
+                                            },
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.fromLTRB(
+                                              20, 24, 20, 0),
+                                          child: PrimaryTextView(
+                                            text: 'attachment'.tr,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              11, 6, 11, 0),
+                                          child: DocumentGridview(
+                                              isEditable: true,
+                                              physics:
+                                                  const NeverScrollableScrollPhysics(),
+                                              filesList:
+                                                  controller.attachmentList,
+                                              onViewClick: (int index) {
+                                                controller.onGridItemClick(
+                                                    index,
+                                                    AppConstants
+                                                        .action.viewPhoto);
+                                              },
+                                              onRemoveClick: (int index) {
+                                                controller.onGridItemClick(
+                                                    index,
+                                                    AppConstants
+                                                        .action.removePhoto);
+                                              }),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            PrimaryButton(
-                                padding: EdgeInsets.fromLTRB(14, 18, 14, 16),
-                                buttonText: 'save'.tr,
-                                color: controller.isSaveEnable.value
-                                    ? defaultAccentColor_(context)
-                                    : defaultAccentLightColor_(context),
-                                onPressed: () {
-                                  if (controller.isSaveEnable.value) {
-                                    if (controller.valid()) {
-                                      if (controller.attachmentList.length >
-                                          1) {
-                                        if (controller.expenseId != 0) {
-                                          controller.editExpenseApi();
+                              PrimaryButton(
+                                  padding: EdgeInsets.fromLTRB(14, 18, 14, 16),
+                                  buttonText: 'save'.tr,
+                                  color: controller.isSaveEnable.value
+                                      ? defaultAccentColor_(context)
+                                      : defaultAccentLightColor_(context),
+                                  onPressed: () {
+                                    if (controller.isSaveEnable.value) {
+                                      if (controller.valid()) {
+                                        if (controller.attachmentList.length >
+                                            1) {
+                                          if (controller.expenseId != 0) {
+                                            controller.editExpenseApi();
+                                          } else {
+                                            controller.addExpenseApi();
+                                          }
                                         } else {
-                                          controller.addExpenseApi();
+                                          AppUtils.showToastMessage(
+                                              'please_select_image'.tr);
                                         }
-                                      } else {
-                                        AppUtils.showToastMessage(
-                                            'please_select_image'.tr);
                                       }
                                     }
-                                  }
-                                })
-                          ],
-                        ),
-                      )),
+                                  })
+                            ],
+                          ),
+                        )),
+            ),
           ),
         ),
       ),
@@ -291,7 +307,9 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
               color: Colors.red,
             )),
       ),
-      SizedBox(width: 6,)
+      SizedBox(
+        width: 6,
+      )
     ];
   }
 }

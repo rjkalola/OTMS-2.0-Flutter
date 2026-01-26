@@ -137,6 +137,7 @@ class DialogIdentifier {
   final String selectMenuItemsDialog = 'selectMenuItemsDialog';
   final String selectTeamMembers = 'SELECT_TEAM_MEMBERS';
   final String deleteTeam = 'DELETE_TEAM';
+  final String noteDialog = 'NOTE_DIALOG';
   final String unArchiveUser = 'UN_ARCHIVE_USER';
   final String removeSubContractor = 'REMOVE_SUB_CONTRACTOR';
   final String selectShiftStartTime = 'SELECT_SHIFT_START_TIME';
@@ -409,6 +410,11 @@ class NotificationType {
   final String leaveRequest = "11004";
   final String leaveApprove = "11005";
   final String leaveReject = "11006";
+
+//Leaves
+  final String expenseAdd = "12001";
+  final String expenseUpdate = "12002";
+  final String expenseDelete = "12003";
 
   //Announcement
   final String addAnnouncement = "16001";

@@ -4,6 +4,7 @@ import 'package:belcka/pages/common/model/file_info.dart';
 import 'package:belcka/pages/notifications/announcement_details/controller/announcement_details_repository.dart';
 import 'package:belcka/pages/notifications/create_announcement/model/announcement_info.dart';
 import 'package:belcka/pages/notifications/create_announcement/model/announcement_list_response.dart';
+import 'package:belcka/pages/notifications/notification_list/controller/notification_list_controller.dart';
 import 'package:belcka/pages/notifications/notification_list/tabs/announcement_tab/controller/announcement_tab_repository.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
@@ -52,6 +53,10 @@ class AnnouncementTabController extends GetxController {
           announcementList.value = tempList;
           announcementList.refresh();
           isMainViewVisible.value = true;
+
+          Get.put(NotificationListController()).announcementCount.value =
+              response.unreadCount ?? 0;
+
           readAllAnnouncement();
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
