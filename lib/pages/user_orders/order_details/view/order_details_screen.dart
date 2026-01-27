@@ -22,7 +22,6 @@ class OrderDetailsScreen extends StatelessWidget {
     );
   }
 
-  /// ---------------- HEADER CARD ----------------
   Widget _orderHeader(BuildContext context) {
     return Card(
       elevation: 2,
@@ -32,7 +31,6 @@ class OrderDetailsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            /// Top Row
             Row(
               children: [
                 const Icon(Icons.arrow_back_ios, size: 18),
@@ -55,8 +53,6 @@ class OrderDetailsScreen extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 12),
-
-            /// Store Info
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
