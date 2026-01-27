@@ -20,6 +20,7 @@ class UserInfo {
   bool? isWorking;
   bool? showRate;
   bool? isTradeAvailable;
+  String? userCode;
 
   UserInfo(
       {this.id,
@@ -42,7 +43,8 @@ class UserInfo {
       this.userRoleId,
       this.isWorking,
       this.showRate,
-      this.isTradeAvailable});
+      this.isTradeAvailable,
+      this.userCode});
 
   UserInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -66,6 +68,7 @@ class UserInfo {
     isWorking = json['is_working'];
     showRate = json['show_rate'];
     isTradeAvailable = json['is_trade_available'];
+    userCode = json['user_code'];
   }
 
   Map<String, dynamic> toJson() {
@@ -91,6 +94,7 @@ class UserInfo {
     data['is_working'] = this.isWorking;
     data['show_rate'] = this.showRate;
     data['is_trade_available'] = this.isTradeAvailable;
+    data['user_code'] = this.userCode;
     return data;
   }
 
@@ -113,7 +117,8 @@ class UserInfo {
       int? userRoleId,
       bool? isWorking,
       bool? showRate,
-      bool? isTradeAvailable}) {
+      bool? isTradeAvailable,
+      String? userCode}) {
     return UserInfo(
         id: id ?? this.id,
         firstName: firstName ?? this.firstName,
@@ -135,7 +140,8 @@ class UserInfo {
         userRoleId: userRoleId ?? this.userRoleId,
         isWorking: isWorking ?? this.isWorking,
         showRate: showRate ?? this.showRate,
-        isTradeAvailable: isTradeAvailable ?? this.isTradeAvailable);
+        isTradeAvailable: isTradeAvailable ?? this.isTradeAvailable,
+        userCode: userCode ?? this.userCode);
   }
 
   UserInfo copyUserInfo({UserInfo? userInfo}) {
@@ -161,6 +167,7 @@ class UserInfo {
         userRoleId: userInfo?.userRoleId ?? this.userRoleId,
         isWorking: userInfo?.isWorking ?? this.isWorking,
         showRate: userInfo?.showRate ?? this.showRate,
-        isTradeAvailable: userInfo?.isTradeAvailable ?? this.isTradeAvailable);
+        isTradeAvailable: userInfo?.isTradeAvailable ?? this.isTradeAvailable,
+        userCode: userInfo?.userCode ?? this.userCode);
   }
 }

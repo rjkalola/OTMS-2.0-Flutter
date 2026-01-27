@@ -29,7 +29,8 @@ class PersonalInfoPhoneTextfield extends StatelessWidget {
               isEnabled: true,
               textInputAction: TextInputAction.done,
               onValueChange: (value) {
-                //controller.onValueChange();
+                controller.isPhoneNumberExist.value = false;
+                controller.checkPhoneNumberExist();
               },
               onPressed: () {
 
