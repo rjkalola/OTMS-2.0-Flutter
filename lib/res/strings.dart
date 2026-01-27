@@ -539,6 +539,7 @@ class Strings extends Translations {
           'bookkeeper': "Bookkeeper",
           'checklog_summery': "Checklog Summery",
           'ok': "Ok",
+          'user_code':"User Code",
           // '': "",
 // '': "",
 // '': "",

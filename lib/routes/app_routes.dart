@@ -132,4 +132,5 @@ class AppRoutes {
   static const String editWidgetScreen = '/edit_widget_screen';
   static const String purchasingScreen = '/purchasing_screen';
   static const String buyerOrdersScreen = '/buyer_orders_screen';
+  static const String personalInfoScreen = '/personal_info_screen';
 }

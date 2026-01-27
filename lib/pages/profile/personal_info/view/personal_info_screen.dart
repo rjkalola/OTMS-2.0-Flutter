@@ -1,26 +1,14 @@
+import 'package:belcka/pages/authentication/login/view/widgets/otp_view.dart';
+import 'package:belcka/pages/profile/personal_info/controller/personal_info_controller.dart';
+import 'package:belcka/pages/profile/personal_info/view/widgets/personal_info_screen_section_card.dart';
+import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:belcka/pages/authentication/login/controller/login_controller.dart';
-import 'package:belcka/pages/profile/personal_info/view/widgets/personal_info_bank_account_number_textfield.dart';
-import 'package:belcka/pages/profile/personal_info/view/widgets/personal_info_bank_name_textfield.dart';
-import 'package:belcka/pages/profile/personal_info/view/widgets/personal_info_bank_sortcode_textfield.dart';
-import 'package:belcka/pages/profile/personal_info/view/widgets/personal_info_dob_textfield.dart';
-import 'package:belcka/pages/profile/personal_info/view/widgets/personal_info_email_textfield.dart';
-import 'package:belcka/pages/profile/personal_info/view/widgets/personal_info_first_last_name_textfield_widget.dart';
-import 'package:belcka/pages/profile/personal_info/view/widgets/personal_info_middle_name_textfield_widget.dart';
-import 'package:belcka/pages/profile/personal_info/view/widgets/personal_info_my_address_textfield.dart';
-import 'package:belcka/pages/profile/personal_info/view/widgets/personal_info_name_on_bank_account_textfield.dart';
-import 'package:belcka/pages/profile/personal_info/view/widgets/personal_info_phone_extension_textfield.dart';
-import 'package:belcka/pages/profile/personal_info/view/widgets/personal_info_phone_textfield.dart';
-import 'package:belcka/pages/profile/personal_info/view/widgets/personal_info_postcode_textfield.dart';
-import 'package:belcka/pages/profile/personal_info/view/widgets/personal_info_screen_section_card.dart';
-import 'package:belcka/pages/profile/personal_info/view/widgets/personal_info_tax_name_textfield.dart';
-import 'package:belcka/pages/profile/personal_info/view/widgets/personal_info_tax_nin_textfield.dart';
-import 'package:belcka/pages/profile/personal_info/view/widgets/personal_info_tax_utr_textfield.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
-import 'package:belcka/widgets/PrimaryButton.dart';
+import 'package:belcka/widgets/appbar/base_appbar.dart';
+import 'package:keyboard_actions/keyboard_actions.dart';
 
 class PersonalInfoScreen extends StatefulWidget {
   const PersonalInfoScreen({super.key});
@@ -30,118 +18,130 @@ class PersonalInfoScreen extends StatefulWidget {
 }
 
 class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
-  final loginController = Get.put(LoginController());
+  final controller = Get.put(PersonalInfoController());
 
-  //final TextEditingController firstNameFieldController = TextEditingController();
+  KeyboardActionsConfig _buildKeyboardConfig() {
+    return KeyboardActionsConfig(
+      keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
+      nextFocus: false,
+      actions: [
+        KeyboardActionsItem(
+          focusNode: controller.focusNode,
+          toolbarButtons: [
+                (node) => TextButton(
+              onPressed: () => node.unfocus(),
+              child: Text(
+                'done'.tr,
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: backgroundColor_(context),
-      child: SafeArea(
-        child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.white,
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            title: Text('personal_info'.tr),
-            centerTitle: false,
-          ),
-          backgroundColor: backgroundColor_(context),
-          bottomNavigationBar: Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: SizedBox(
-              width: double.infinity,
-              child: PrimaryButton(
-                  buttonText: 'save'.tr,
-                  fontWeight: FontWeight.w400,
-                  onPressed: () {
-                    //save api
-                  }),
-            ),
-          ),
-          body: Obx(() {
-            return ModalProgressHUD(
-              inAsyncCall: loginController.isLoading.value,
-              opacity: 0,
-              progressIndicator: const CustomProgressbar(),
-              child: loginController.isInternetNotAvailable.value
-                  ?  Center(
-                      child: Text("no_internet_text".tr),
-                    )
-                  : SingleChildScrollView(
-                      padding: const EdgeInsets.all(11.25),
+    return Obx(() {
+      return ModalProgressHUD(
+        inAsyncCall: controller.isLoading.value,
+        opacity: 0.3,
+        progressIndicator: const CustomProgressbar(),
+        child: Container(
+          color: dashBoardBgColor_(context),
+          child: SafeArea(
+            child: Scaffold(
+              appBar: BaseAppBar(
+                appBar: AppBar(),
+                title: 'Personal Details'.tr,
+                isCenterTitle: false,
+                bgColor: dashBoardBgColor_(context),
+                isBack: true,
+              ),
+              backgroundColor: dashBoardBgColor_(context),
+              body: GestureDetector(
+                onTap: () => FocusScope.of(context).unfocus(),
+                onPanDown: (_) => FocusScope.of(context).unfocus(),
+                child: KeyboardActions(
+                  config: _buildKeyboardConfig(),
+                  child: controller.isInternetNotAvailable.value
+                      ? Center(child: Text("no_internet_text".tr))
+                      : SingleChildScrollView(
+                    keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
+                    physics: const BouncingScrollPhysics(),
+                    child: Form(
+                      key: controller.formKey,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          PersonalInfoSectionCard(
-                            backgroundColor: Colors.white,
-                            title: 'general'.tr,
-                            children: [
-                              PersonalInfoFirstLastNameTextfieldWidget(),
-                              PersonalInfoMiddleNameTextfieldWidget(),
-                              PersonalInfoEmailTextfieldWidget(),
-                              PersonalInfoDOBTextfieldWidget(),
-                              Row(
-                                children: [
-                                  Expanded(
-                                      child:
-                                          PersonalInfoPostcodeTextfieldWidget()),
-                                  const SizedBox(width: 8),
-                                  ElevatedButton(
-                                      onPressed: () {},
-                                      child: Text('search'.tr)),
-                                ],
+                          PersonalInfoSectionCard(isEnabled: !controller.isOtpViewVisible.value,),
+                          Visibility(
+                            visible: controller.isOtpViewVisible.value,
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                              child: OtpView(
+                                mOtpCode: controller.mOtpCode,
+                                otpController: controller.otpController,
+                                timeRemaining:
+                                controller.otmResendTimeRemaining,
+                                onCodeChanged: (code) {
+                                  controller.mOtpCode.value = code ?? "";
+                                  print("onCodeChanged $code");
+                                  if (controller.mOtpCode.value.length ==
+                                      6) {
+                                    controller.onSubmitClick();
+                                  }
+                                },
+                                onResendOtp: () {
+                                  controller.sendOtpApi();
+                                },
                               ),
-                              PersonalInfoMyAddressTextfieldWidget(),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Flexible(
-                                    flex: 2,
-                                    child:
-                                        PersonalInfoPhoneExtensionFieldWidget(),
+                            ),
+                          ),
+
+                          //Update button
+                          Visibility(
+                            visible: controller.isShowSaveButton.value,
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Obx(() {
+                                final enabled = controller.isSaveEnabled.value;
+                                return Opacity(
+                                  opacity: enabled ? 1.0 : 0.5,
+                                  child: ElevatedButton(
+                                    onPressed: enabled ? controller.verifyAction : null,
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: defaultAccentColor_(context),
+                                      minimumSize: const Size(double.infinity, 50),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(30),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      'update'.tr,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
                                   ),
-                                  Flexible(
-                                      flex: 3,
-                                      child:
-                                          PersonalInfoPhoneTextfieldWidget()),
-                                ],
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 16),
-                          PersonalInfoSectionCard(
-                            backgroundColor: Colors.white,
-                            title: 'tax_info'.tr,
-                            children: [
-                              PersonalInfoTaxNameTextfieldWidget(),
-                              PersonalInfoTaxUTRTextfieldWidget(),
-                              PersonalInfoTaxNINTextfieldWidget(),
-                            ],
-                          ),
-                          const SizedBox(height: 16),
-                          PersonalInfoSectionCard(
-                            backgroundColor: Colors.white,
-                            title: 'bank_details'.tr,
-                            children: [
-                              PersonalInfoNameOnBankAccountTextfieldWidget(),
-                              PersonalInfoBankNameTextFieldWidget(),
-                              PersonalInfoBankAccountNumberTextFieldWidget(),
-                              PersonalInfoBankSortcodeTextFieldWidget(),
-                            ],
-                          ),
+                                );
+                              }),
+                            ),
+                          )
                         ],
-                      )),
-            );
-          }),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

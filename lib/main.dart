@@ -1,4 +1,6 @@
 import 'package:belcka/pages/authentication/splash/splash_screen.dart';
+import 'package:belcka/pages/profile/personal_info/view/personal_info_screen.dart';
+import 'package:belcka/pages/user_orders/order_details/view/order_details_screen.dart';
 import 'package:belcka/res/strings.dart';
 import 'package:belcka/res/theme/theme_config.dart';
 import 'package:belcka/res/theme/theme_controller.dart';
