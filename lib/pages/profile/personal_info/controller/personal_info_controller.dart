@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:belcka/pages/common/listener/SelectPhoneExtensionListener.dart';
 import 'package:belcka/pages/common/model/user_info.dart';
 import 'package:belcka/pages/common/model/user_response.dart';
+import 'package:belcka/pages/profile/my_profile_details/model/my_profile_info_response.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/utils/user_utils.dart';
@@ -37,7 +38,8 @@ class PersonalInfoController extends GetxController implements SelectPhoneExtens
   final formKey = GlobalKey<FormState>();
   final _api = PersonalInfoRepository();
   RxBool isLoading = false.obs,
-      isInternetNotAvailable = false.obs;
+      isInternetNotAvailable = false.obs,
+      isMainViewVisible = false.obs;
   final FocusNode focusNode = FocusNode();
   var arguments = Get.arguments;
   var isShowSaveButton = true.obs;
@@ -57,10 +59,38 @@ class PersonalInfoController extends GetxController implements SelectPhoneExtens
   @override
   void onInit() {
     super.onInit();
-    setInitData();
-    setupListeners();
+    getProfileAPI();
   }
+  void getProfileAPI() async {
+    Map<String, dynamic> map = {};
+    map["user_id"] = UserUtils.getLoginUserId();
+    map["company_id"] = ApiConstants.companyId;
+    isLoading.value = true;
+    _api.getProfile(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          MyProfileInfoResponse response =
+          MyProfileInfoResponse.fromJson(jsonDecode(responseModel.result!));
+          userInfo.value = response.info!;
+          isMainViewVisible.value = true;
+          setInitData();
 
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showApiResponseMessage(error.statusMessage);
+        }
+      },
+    );
+  }
   void setupListeners() {
     List<TextEditingController> controllers = [
       firstNameController.value,
@@ -93,7 +123,7 @@ class PersonalInfoController extends GetxController implements SelectPhoneExtens
     lastNameController.value.text = userInfo.value.lastName ?? "";
     emailController.value.text = userInfo.value.email ?? "";
     phoneController.value.text = userInfo.value.phone ?? "";
-    //userCodeController.value.text = userInfo.value.co ?? "";
+    userCodeController.value.text = userInfo.value.userCode ?? "";
 
     if (userInfo.value.extension != null) {
       mExtension.value = userInfo.value.extension ?? "";
@@ -110,33 +140,37 @@ class PersonalInfoController extends GetxController implements SelectPhoneExtens
       "userCode": userCodeController.value.text,
       "extension": mExtension.value,
     };
+
+    setupListeners();
   }
 
   void verifyAction() {
-    if (isOtpViewVisible.value){
-      if (mOtpCode.value.length == 6) {
-        onSubmitClick();
+    if (valid()) {
+      if (isOtpViewVisible.value){
+        if (mOtpCode.value.length == 6) {
+          onSubmitClick();
+        }
       }
-    }
-    else{
+      else{
+        if (emailController.value.text.isNotEmpty){
+          if (AppUtils().isEmailValid(StringHelper.getText(emailController.value))){
+            sendOtpApi();
+          }
+          else{
 
-      if (emailController.value.text.isNotEmpty){
-        if (AppUtils().isEmailValid(StringHelper.getText(emailController.value))){
-
+          }
         }
         else{
 
         }
       }
-      else{
-
-      }
-
-      sendOtpApi();
-      isOtpViewVisible.value = true;
     }
   }
-
+  bool valid() {
+    bool valid = false;
+    valid = formKey.currentState!.validate();
+    return valid;
+  }
   listenSmsCode() async {
     print("regiestered");
     await SmsAutoFill().listenForCode();
@@ -235,7 +269,9 @@ class PersonalInfoController extends GetxController implements SelectPhoneExtens
     map["email"] = StringHelper.getText(emailController.value);
     map["phone"] = StringHelper.getText(phoneController.value);
     map["extension"] = mExtension.value;
+    map["user_code"] = StringHelper.getText(userCodeController.value);
     map["user_id"] = UserUtils.getLoginUserId();
+
     multi.FormData formData = multi.FormData.fromMap(map);
     print("reques value:" + map.toString());
 
@@ -267,6 +303,47 @@ class PersonalInfoController extends GetxController implements SelectPhoneExtens
         }
       },
     );
+  }
+  void checkPhoneNumberExist() async {
+    String phoneNumber = StringHelper.getText(phoneController.value);
+    if (!StringHelper.isEmptyString(phoneNumber)) {
+      if (phoneNumber.length == 10) {
+        Map<String, dynamic> map = {};
+        map["extension"] = mExtension.value;
+        map["phone"] = phoneNumber;
+        multi.FormData formData = multi.FormData.fromMap(map);
+
+        _api.checkPhoneNumberExist(
+          data: map,
+          onSuccess: (ResponseModel responseModel) {
+            if (responseModel.statusCode == 200) {
+              BaseResponse response =
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
+              if (responseModel.isSuccess) {
+                isPhoneNumberExist.value = true;
+                phoneNumberErrorMessage.value = AppUtils.getStringTr(response.Message ?? "");
+
+              } else {
+                isPhoneNumberExist.value = false;
+                phoneNumberErrorMessage.value = "";
+              }
+            } else {
+              isPhoneNumberExist.value = false;
+              phoneNumberErrorMessage.value = "";
+            }
+            isLoading.value = false;
+          },
+          onError: (ResponseModel error) {
+            isPhoneNumberExist.value = false;
+            phoneNumberErrorMessage.value = "";
+            isLoading.value = false;
+          },
+        );
+      } else {}
+    } else {
+      isPhoneNumberExist.value = false;
+      phoneNumberErrorMessage.value = 'required_field'.tr;
+    }
   }
   void onSubmitClick() {
     if (isOtpViewVisible.value) {

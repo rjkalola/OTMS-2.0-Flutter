@@ -1,7 +1,6 @@
 import 'package:belcka/pages/authentication/login/view/widgets/otp_view.dart';
 import 'package:belcka/pages/profile/personal_info/controller/personal_info_controller.dart';
 import 'package:belcka/pages/profile/personal_info/view/widgets/personal_info_screen_section_card.dart';
-import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -67,75 +66,78 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                   config: _buildKeyboardConfig(),
                   child: controller.isInternetNotAvailable.value
                       ? Center(child: Text("no_internet_text".tr))
-                      : SingleChildScrollView(
-                    keyboardDismissBehavior:
-                    ScrollViewKeyboardDismissBehavior.onDrag,
-                    physics: const BouncingScrollPhysics(),
-                    child: Form(
-                      key: controller.formKey,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          PersonalInfoSectionCard(isEnabled: !controller.isOtpViewVisible.value,),
-                          Visibility(
-                            visible: controller.isOtpViewVisible.value,
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                              child: OtpView(
-                                mOtpCode: controller.mOtpCode,
-                                otpController: controller.otpController,
-                                timeRemaining:
-                                controller.otmResendTimeRemaining,
-                                onCodeChanged: (code) {
-                                  controller.mOtpCode.value = code ?? "";
-                                  print("onCodeChanged $code");
-                                  if (controller.mOtpCode.value.length ==
-                                      6) {
-                                    controller.onSubmitClick();
-                                  }
-                                },
-                                onResendOtp: () {
-                                  controller.sendOtpApi();
-                                },
+                      : Visibility(
+                    visible: controller.isMainViewVisible.value,
+                        child: SingleChildScrollView(
+                                            keyboardDismissBehavior:
+                                            ScrollViewKeyboardDismissBehavior.onDrag,
+                                            physics: const BouncingScrollPhysics(),
+                                            child: Form(
+                        key: controller.formKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            PersonalInfoSectionCard(isEnabled: !controller.isOtpViewVisible.value,),
+                            Visibility(
+                              visible: controller.isOtpViewVisible.value,
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                                child: OtpView(
+                                  mOtpCode: controller.mOtpCode,
+                                  otpController: controller.otpController,
+                                  timeRemaining:
+                                  controller.otmResendTimeRemaining,
+                                  onCodeChanged: (code) {
+                                    controller.mOtpCode.value = code ?? "";
+                                    print("onCodeChanged $code");
+                                    if (controller.mOtpCode.value.length ==
+                                        6) {
+                                      controller.onSubmitClick();
+                                    }
+                                  },
+                                  onResendOtp: () {
+                                    controller.sendOtpApi();
+                                  },
+                                ),
                               ),
                             ),
-                          ),
 
-                          //Update button
-                          Visibility(
-                            visible: controller.isShowSaveButton.value,
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Obx(() {
-                                final enabled = controller.isSaveEnabled.value;
-                                return Opacity(
-                                  opacity: enabled ? 1.0 : 0.5,
-                                  child: ElevatedButton(
-                                    onPressed: enabled ? controller.verifyAction : null,
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: defaultAccentColor_(context),
-                                      minimumSize: const Size(double.infinity, 50),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(30),
+                            //Update button
+                            Visibility(
+                              visible: controller.isShowSaveButton.value,
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Obx(() {
+                                  final enabled = controller.isSaveEnabled.value;
+                                  return Opacity(
+                                    opacity: enabled ? 1.0 : 0.5,
+                                    child: ElevatedButton(
+                                      onPressed: enabled ? controller.verifyAction : null,
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: defaultAccentColor_(context),
+                                        minimumSize: const Size(double.infinity, 50),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(30),
+                                        ),
+                                      ),
+                                      child: Text(
+                                        'update'.tr,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                     ),
-                                    child: Text(
-                                      'update'.tr,
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              }),
-                            ),
-                          )
-                        ],
+                                  );
+                                }),
+                              ),
+                            )
+                          ],
+                        ),
+                                            ),
+                                          ),
                       ),
-                    ),
-                  ),
                 ),
               ),
             ),

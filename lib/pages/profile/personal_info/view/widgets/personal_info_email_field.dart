@@ -1,4 +1,7 @@
+import 'package:belcka/pages/profile/personal_info/controller/personal_info_controller.dart';
+import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/textfield/text_field_underline.dart';
+import 'package:belcka/widgets/validator/custom_field_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -18,6 +21,8 @@ class PersonalInfoEmailField extends StatelessWidget {
     this.onChanged,
   }) : super(key: key);
 
+  final controllerP = Get.put(PersonalInfoController());
+
   @override
   Widget build(BuildContext context) {
     String value = controller.value.text;
@@ -32,7 +37,10 @@ class PersonalInfoEmailField extends StatelessWidget {
         isEnabled: isEnabled,
         onPressed: () {},
         validator: MultiValidator([
-
+          RequiredValidator(errorText: 'required_field'.tr),
+          CustomFieldValidator((value) {
+            return value != null && (AppUtils().isEmailValid(value));
+          }, errorText: 'Please enter a valid email address'.tr),
         ]),
 
         inputFormatters: <TextInputFormatter>[
