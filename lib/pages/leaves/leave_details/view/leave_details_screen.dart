@@ -38,160 +38,179 @@ class _LeaveDetailsScreenState extends State<LeaveDetailsScreen> {
   Widget build(BuildContext context) {
     AppUtils.setStatusBarColor();
     return Obx(
-          () =>
-          PopScope(
-            canPop: false,
-            onPopInvokedWithResult: (didPop, result) async {
-              if (didPop || result != null) return;
-              controller.onBackPress();
-            },
-            child: Container(
-              color: dashBoardBgColor_(context),
-              child: SafeArea(
-                child: Scaffold(
-                  backgroundColor: dashBoardBgColor_(context),
-                  appBar: BaseAppBar(
-                    appBar: AppBar(),
-                    title: controller.title.value,
-                    isCenterTitle: false,
-                    isBack: false,
-                    bgColor: dashBoardBgColor_(context),
-                    widgets: actionButtons(),
-                    onBackPressed: () {
-                      controller.onBackPress();
-                    },
-                  ),
-                  body: ModalProgressHUD(
-                      inAsyncCall: controller.isLoading.value,
-                      opacity: 0,
-                      progressIndicator: const CustomProgressbar(),
-                      child: controller.isInternetNotAvailable.value
-                          ? NoInternetWidget(
-                        onPressed: () {
-                          // controller.isInternetNotAvailable.value = false;
-                          // controller.getTeamListApi();
-                        },
-                      )
-                          : Visibility(
-                        visible: controller.isMainViewVisible.value,
-                        child: Column(
-                          children: [
-                            Expanded(
-                              child: SingleChildScrollView(
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 20, right: 20, top: 14),
-                                      child: Stack(
-                                        alignment: Alignment.centerRight,
-                                        children: [
-                                          DropDownTextField(
-                                            title: 'leave_type'.tr,
-                                            controller: controller
-                                                .leaveTypeController,
-                                            isReadOnly: true,
-                                            // isEnabled: false,
-                                            isArrowHide: true,
-                                            contentPadding:
-                                            EdgeInsets.fromLTRB(
-                                                16, 14, 80, 14),
-                                            validators: [
-                                              RequiredValidator(
-                                                  errorText:
-                                                  'required_field'.tr),
-                                            ],
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 26),
-                                            child: TitleTextView(
-                                              text:
-                                              controller.leaveType.value,
-                                              color: LeaveUtils
-                                                  .getLeaveTypeColor(
-                                                  controller
-                                                      .leaveType.value),
+      () => PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (didPop, result) async {
+          if (didPop || result != null) return;
+          controller.onBackPress();
+        },
+        child: Container(
+          color: dashBoardBgColor_(context),
+          child: SafeArea(
+            child: Scaffold(
+              backgroundColor: dashBoardBgColor_(context),
+              appBar: BaseAppBar(
+                appBar: AppBar(),
+                title: controller.title.value,
+                isCenterTitle: false,
+                isBack: false,
+                bgColor: dashBoardBgColor_(context),
+                widgets: actionButtons(),
+                onBackPressed: () {
+                  controller.onBackPress();
+                },
+              ),
+              body: ModalProgressHUD(
+                  inAsyncCall: controller.isLoading.value,
+                  opacity: 0,
+                  progressIndicator: const CustomProgressbar(),
+                  child: controller.isInternetNotAvailable.value
+                      ? NoInternetWidget(
+                          onPressed: () {
+                            // controller.isInternetNotAvailable.value = false;
+                            // controller.getTeamListApi();
+                          },
+                        )
+                      : Visibility(
+                          visible: controller.isMainViewVisible.value,
+                          child: Column(
+                            children: [
+                              Expanded(
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 20, right: 20, top: 14),
+                                        child: Stack(
+                                          alignment: Alignment.centerRight,
+                                          children: [
+                                            DropDownTextField(
+                                              title: 'leave_type'.tr,
+                                              controller: controller
+                                                  .leaveTypeController,
+                                              isReadOnly: true,
+                                              // isEnabled: false,
+                                              isArrowHide: true,
+                                              contentPadding:
+                                                  EdgeInsets.fromLTRB(
+                                                      16, 14, 80, 14),
+                                              validators: [
+                                                RequiredValidator(
+                                                    errorText:
+                                                        'required_field'.tr),
+                                              ],
                                             ),
-                                          ),
-                                        ],
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 26),
+                                              child: TitleTextView(
+                                                text:
+                                                    controller.leaveType.value,
+                                                color: LeaveUtils
+                                                    .getLeaveTypeColor(
+                                                        controller
+                                                            .leaveType.value),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      height: 24,
-                                    ),
-                                    divider(),
-                                    SizedBox(
-                                      height: 16,
-                                    ),
-                                    AllDayWidget(),
-                                    AllDayOnView(),
-                                    AllDayOffView(),
-                                    divider(),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    TotalTimeRequested(),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    divider(),
-                                    SizedBox(
-                                      height: 24,
-                                    ),
-                                    LeaveNote(
-                                      controller: controller.noteController,
-                                      onValueChange: (value) {
-                                        controller.isSaveEnable.value =
-                                        !StringHelper.isEmptyString(
-                                            value);
-                                      },
-                                    ),
-                                    SizedBox(
-                                      height: 16,
-                                    ),
-                                  ],
+                                      SizedBox(
+                                        height: 24,
+                                      ),
+                                      divider(),
+                                      SizedBox(
+                                        height: 16,
+                                      ),
+                                      AllDayWidget(),
+                                      AllDayOnView(),
+                                      AllDayOffView(),
+                                      divider(),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      TotalTimeRequested(),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      divider(),
+                                      SizedBox(
+                                        height: 24,
+                                      ),
+                                      LeaveNote(
+                                        controller: controller.noteController,
+                                        onValueChange: (value) {
+                                          controller.isSaveEnable.value =
+                                              !StringHelper.isEmptyString(
+                                                  value);
+                                        },
+                                      ),
+                                      SizedBox(
+                                        height: 16,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Visibility(
-                              visible:
-                              (controller.leaveInfo.value.isRequested ??
-                                  false) &&
-                                  UserUtils.isAdmin(),
-                              child: AddNoteWidget(
-                                controller: controller.requestNoteController,
+                              SizedBox(
+                                height: 10,
                               ),
-                            ),
-                            Visibility(
+                              Visibility(
                                 visible:
-                                controller.leaveInfo.value.isRequested ??
-                                    false,
-                                child: UserUtils.isAdmin()
-                                    ? ApproveRejectButtons(
-                                    padding: EdgeInsets.fromLTRB(
-                                        14, 8, 14, 16),
-                                    onClickReject: () {
-                                      if (!StringHelper.isEmptyString(
-                                          controller.requestNoteController
-                                              .value.text)) {
-                                        controller.showActionDialog(
-                                            AppConstants
-                                                .dialogIdentifier.reject);
-                                      } else {
-                                        AppUtils.showToastMessage(
-                                            'empty_note_error'.tr);
-                                      }
-                                    },
-                                    onClickApprove: () {
-                                      controller.showActionDialog(
-                                          AppConstants
-                                              .dialogIdentifier.approve);
-                                    })
-                                    : TextViewWithContainer(
+                                    (controller.leaveInfo.value.isRequested ??
+                                            false) &&
+                                        UserUtils.isAdmin(),
+                                child: AddNoteWidget(
+                                  controller: controller.requestNoteController,
+                                ),
+                              ),
+                              Visibility(
+                                  visible:
+                                      controller.leaveInfo.value.isRequested ??
+                                          false,
+                                  child: UserUtils.isAdmin()
+                                      ? ApproveRejectButtons(
+                                          padding: EdgeInsets.fromLTRB(
+                                              14, 8, 14, 16),
+                                          onClickReject: () {
+                                            if (!StringHelper.isEmptyString(
+                                                controller.requestNoteController
+                                                    .value.text)) {
+                                              controller.showActionDialog(
+                                                  AppConstants
+                                                      .dialogIdentifier.reject);
+                                            } else {
+                                              AppUtils.showToastMessage(
+                                                  'empty_note_error'.tr);
+                                            }
+                                          },
+                                          onClickApprove: () {
+                                            controller.showActionDialog(
+                                                AppConstants
+                                                    .dialogIdentifier.approve);
+                                          })
+                                      : TextViewWithContainer(
+                                          margin: EdgeInsets.all(14),
+                                          width: double.infinity,
+                                          height: 44,
+                                          borderRadius: 45,
+                                          borderColor: AppUtils.getStatusColor(
+                                              controller.requestStatus.value),
+                                          boxColor: Colors.transparent,
+                                          text: AppUtils.getStatusText(
+                                              controller.requestStatus.value),
+                                          fontColor: AppUtils.getStatusColor(
+                                              controller.requestStatus.value),
+                                          fontWeight: FontWeight.w400,
+                                          alignment: Alignment.center,
+                                        )),
+                              Visibility(
+                                visible: controller.requestStatus.value ==
+                                        AppConstants.status.approved ||
+                                    controller.requestStatus.value ==
+                                        AppConstants.status.rejected,
+                                child: TextViewWithContainer(
                                   margin: EdgeInsets.all(14),
                                   width: double.infinity,
                                   height: 44,
@@ -205,40 +224,19 @@ class _LeaveDetailsScreenState extends State<LeaveDetailsScreen> {
                                       controller.requestStatus.value),
                                   fontWeight: FontWeight.w400,
                                   alignment: Alignment.center,
-                                )),
-                            Visibility(
-                              visible: controller.requestStatus.value ==
-                                  AppConstants.status.approved ||
-                                  controller.requestStatus.value ==
-                                      AppConstants.status.rejected,
-                              child: TextViewWithContainer(
-                                margin: EdgeInsets.all(14),
-                                width: double.infinity,
-                                height: 44,
-                                borderRadius: 45,
-                                borderColor: AppUtils.getStatusColor(
-                                    controller.requestStatus.value),
-                                boxColor: Colors.transparent,
-                                text: AppUtils.getStatusText(
-                                    controller.requestStatus.value),
-                                fontColor: AppUtils.getStatusColor(
-                                    controller.requestStatus.value),
-                                fontWeight: FontWeight.w400,
-                                alignment: Alignment.center,
-                              ),
-                            )
-                          ],
-                        ),
-                      )),
-                ),
-              ),
+                                ),
+                              )
+                            ],
+                          ),
+                        )),
             ),
           ),
+        ),
+      ),
     );
   }
 
-  Widget divider() =>
-      Padding(
+  Widget divider() => Padding(
         padding: const EdgeInsets.only(left: 20, right: 20),
         child: Divider(
           height: 0,
