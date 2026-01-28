@@ -46,6 +46,8 @@ class PersonalInfoController extends GetxController implements SelectPhoneExtens
 
   final isSaveEnabled = false.obs;
   Map<String, dynamic> initialData = {};
+
+  int? userId = UserUtils.getLoginUserId();
   final userInfo = UserUtils
       .getUserInfo()
       .obs;
@@ -59,11 +61,24 @@ class PersonalInfoController extends GetxController implements SelectPhoneExtens
   @override
   void onInit() {
     super.onInit();
+    var arguments = Get.arguments;
+    if (arguments != null) {
+      userId = arguments[AppConstants.intentKey.userId] ??
+          UserUtils.getLoginUserId();
+    }
+
+    if (!UserUtils.isLoginUser(userId)) {
+      isShowSaveButton.value = false;
+    }
+    else{
+      isShowSaveButton.value = true;
+    }
+
     getProfileAPI();
   }
   void getProfileAPI() async {
     Map<String, dynamic> map = {};
-    map["user_id"] = UserUtils.getLoginUserId();
+    map["user_id"] = userId;
     map["company_id"] = ApiConstants.companyId;
     isLoading.value = true;
     _api.getProfile(

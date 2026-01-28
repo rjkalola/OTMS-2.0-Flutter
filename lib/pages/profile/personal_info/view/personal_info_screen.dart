@@ -1,6 +1,7 @@
 import 'package:belcka/pages/authentication/login/view/widgets/otp_view.dart';
 import 'package:belcka/pages/profile/personal_info/controller/personal_info_controller.dart';
 import 'package:belcka/pages/profile/personal_info/view/widgets/personal_info_screen_section_card.dart';
+import 'package:belcka/utils/user_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -77,7 +78,8 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            PersonalInfoSectionCard(isEnabled: !controller.isOtpViewVisible.value,),
+                            PersonalInfoSectionCard(isEnabled: !controller.isOtpViewVisible.value
+                                && (UserUtils.isLoginUser(controller.userId)),),
                             Visibility(
                               visible: controller.isOtpViewVisible.value,
                               child: Padding(
