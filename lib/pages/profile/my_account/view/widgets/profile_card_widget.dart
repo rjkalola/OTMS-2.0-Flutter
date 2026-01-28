@@ -43,7 +43,10 @@ class ProfileCardWidget extends StatelessWidget {
           Expanded(
             child: GestureDetector(
               onTap: (){
-                Get.toNamed(AppRoutes.personalInfoScreen);
+                var arguments = {
+                  AppConstants.intentKey.userId : controller.userId
+                };
+                Get.toNamed(AppRoutes.personalInfoScreen,arguments: arguments);
               },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

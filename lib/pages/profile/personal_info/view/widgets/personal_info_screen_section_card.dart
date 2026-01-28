@@ -6,6 +6,7 @@ import 'package:belcka/pages/profile/personal_info/view/widgets/personal_info_em
 import 'package:belcka/pages/profile/personal_info/view/widgets/personal_info_phone_extension.dart';
 import 'package:belcka/pages/profile/personal_info/view/widgets/personal_info_phone_textfield.dart';
 import 'package:belcka/pages/profile/personal_info/view/widgets/user_code_text_field.dart';
+import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,9 +23,9 @@ class PersonalInfoSectionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IgnorePointer(
-      ignoring: !isEnabled,
+      ignoring:!isEnabled,
       child: Opacity(
-        opacity: isEnabled ? 1.0 : 0.5,
+        opacity: 1.0,
         child: CardViewDashboardItem(
           margin: EdgeInsets.fromLTRB(12, 6, 12, 6),
           child: Container(
