@@ -73,38 +73,7 @@ class PersonalInfoController extends GetxController implements SelectPhoneExtens
     else{
       isShowSaveButton.value = true;
     }
-
     getProfileAPI();
-  }
-  void getProfileAPI() async {
-    Map<String, dynamic> map = {};
-    map["user_id"] = userId;
-    map["company_id"] = ApiConstants.companyId;
-    isLoading.value = true;
-    _api.getProfile(
-      queryParameters: map,
-      onSuccess: (ResponseModel responseModel) {
-        if (responseModel.isSuccess) {
-          MyProfileInfoResponse response =
-          MyProfileInfoResponse.fromJson(jsonDecode(responseModel.result!));
-          userInfo.value = response.info!;
-          isMainViewVisible.value = true;
-          setInitData();
-
-        } else {
-          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
-        }
-        isLoading.value = false;
-      },
-      onError: (ResponseModel error) {
-        isLoading.value = false;
-        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
-          AppUtils.showApiResponseMessage('no_internet'.tr);
-        } else if (error.statusMessage!.isNotEmpty) {
-          AppUtils.showApiResponseMessage(error.statusMessage);
-        }
-      },
-    );
   }
   void setupListeners() {
     List<TextEditingController> controllers = [
@@ -158,29 +127,6 @@ class PersonalInfoController extends GetxController implements SelectPhoneExtens
 
     setupListeners();
   }
-
-  void verifyAction() {
-    if (valid()) {
-      if (isOtpViewVisible.value){
-        if (mOtpCode.value.length == 6) {
-          onSubmitClick();
-        }
-      }
-      else{
-        if (emailController.value.text.isNotEmpty){
-          if (AppUtils().isEmailValid(StringHelper.getText(emailController.value))){
-            sendOtpApi();
-          }
-          else{
-
-          }
-        }
-        else{
-
-        }
-      }
-    }
-  }
   bool valid() {
     bool valid = false;
     valid = formKey.currentState!.validate();
@@ -190,12 +136,147 @@ class PersonalInfoController extends GetxController implements SelectPhoneExtens
     print("regiestered");
     await SmsAutoFill().listenForCode();
   }
+  void startOtpTimeCounter() {
+    otmResendTimeRemaining.value = 30;
+    stopOtpTimeCounter(); // Cancel previous timer if exists
+    _timer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
+      if (otmResendTimeRemaining.value == 0) {
+        timer.cancel();
+      } else {
+        otmResendTimeRemaining.value--;
+      }
+    });
+  }
 
+  void stopOtpTimeCounter() {
+    _timer?.cancel();
+  }
+
+  void showPhoneExtensionDialog() {
+    Get.bottomSheet(
+        PhoneExtensionListDialog(
+            title: 'select_country_code'.tr,
+            list: DataUtils.getPhoneExtensionList(),
+            listener: this),
+        backgroundColor: Colors.transparent,
+        isScrollControlled: true);
+  }
+  void submitAction() {
+    if (valid()) {
+      if (isOtpViewVisible.value){
+        if (mOtpCode.value.length == 6) {
+          onClickVerifyOTP();
+        }
+      }
+      else{
+        //check for phone change, then only call otp api, otherwise call update profile
+        final oldPhoneNumber = "${userInfo.value.extension ?? ""}${userInfo.value.phone ?? ""}";
+        final newPhoneNumber = "${mExtension.value}${StringHelper.getText(phoneController.value)}";
+        print("oldPhoneNumber:${oldPhoneNumber}");
+        print("newPhoneNumber:${newPhoneNumber}");
+        print("isChanged? ${oldPhoneNumber != newPhoneNumber}");
+
+        final isPhoneNumberChanged = oldPhoneNumber != newPhoneNumber;
+        if (isPhoneNumberChanged){
+          sendOtpApi();
+        }
+        else{
+          updateProfileAPI();
+        }
+      }
+    }
+  }
+  void onClickVerifyOTP() {
+    if (isOtpViewVisible.value) {
+      if (!isOtpVerified.value) {
+        if (mOtpCode.value.length == 6) {
+          verifyOtpApi(mOtpCode.value);
+        }
+        else{
+          AppUtils.showSnackBarMessage('enter_otp'.tr);
+        }
+      }
+    }
+    else{
+      sendOtpApi();
+    }
+  }
+  //API Calls
+  void checkPhoneNumberExist() async {
+    String phoneNumber = StringHelper.getText(phoneController.value);
+    if (!StringHelper.isEmptyString(phoneNumber)) {
+      if (phoneNumber.length == 10) {
+        Map<String, dynamic> map = {};
+        map["extension"] = mExtension.value;
+        map["phone"] = phoneNumber;
+        multi.FormData formData = multi.FormData.fromMap(map);
+
+        _api.checkPhoneNumberExist(
+          data: map,
+          onSuccess: (ResponseModel responseModel) {
+            if (responseModel.statusCode == 200) {
+              BaseResponse response =
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
+              if (responseModel.isSuccess) {
+                isPhoneNumberExist.value = true;
+                phoneNumberErrorMessage.value = AppUtils.getStringTr(response.Message ?? "");
+
+              } else {
+                isPhoneNumberExist.value = false;
+                phoneNumberErrorMessage.value = "";
+              }
+            } else {
+              isPhoneNumberExist.value = false;
+              phoneNumberErrorMessage.value = "";
+            }
+            isLoading.value = false;
+          },
+          onError: (ResponseModel error) {
+            isPhoneNumberExist.value = false;
+            phoneNumberErrorMessage.value = "";
+            isLoading.value = false;
+          },
+        );
+      } else {}
+    } else {
+      isPhoneNumberExist.value = false;
+      phoneNumberErrorMessage.value = 'required_field'.tr;
+    }
+  }
+  void getProfileAPI() async {
+    Map<String, dynamic> map = {};
+    map["user_id"] = userId;
+    map["company_id"] = ApiConstants.companyId;
+    isLoading.value = true;
+    _api.getProfile(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          MyProfileInfoResponse response =
+          MyProfileInfoResponse.fromJson(jsonDecode(responseModel.result!));
+          userInfo.value = response.info!;
+          isMainViewVisible.value = true;
+          setInitData();
+
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showApiResponseMessage(error.statusMessage);
+        }
+      },
+    );
+  }
   void sendOtpApi() async {
     Map<String, dynamic> map = {};
-    UserInfo info = Get.find<AppStorage>().getUserInfo();
-    map["phone"] = info.phone ?? "";
-    map["extension"] = info.extension ?? "";
+    map["phone"] = StringHelper.getText(phoneController.value);
+    map["extension"] = mExtension.value;
     multi.FormData formData = multi.FormData.fromMap(map);
     isLoading.value = true;
     _api.sendLoginOtpAPI(
@@ -223,37 +304,10 @@ class PersonalInfoController extends GetxController implements SelectPhoneExtens
     );
   }
 
-  void startOtpTimeCounter() {
-    otmResendTimeRemaining.value = 30;
-    stopOtpTimeCounter(); // Cancel previous timer if exists
-    _timer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
-      if (otmResendTimeRemaining.value == 0) {
-        timer.cancel();
-      } else {
-        otmResendTimeRemaining.value--;
-      }
-    });
-  }
-
-  void stopOtpTimeCounter() {
-    _timer?.cancel();
-  }
-
-  void showPhoneExtensionDialog() {
-    Get.bottomSheet(
-        PhoneExtensionListDialog(
-            title: 'select_country_code'.tr,
-            list: DataUtils.getPhoneExtensionList(),
-            listener: this),
-        backgroundColor: Colors.transparent,
-        isScrollControlled: true);
-  }
-
   void verifyOtpApi(String otp) async {
     Map<String, dynamic> map = {};
-    UserInfo info = Get.find<AppStorage>().getUserInfo();
-    map["phone"] = info.phone ?? "";
-    map["extension"] = info.extension ?? "";
+    map["phone"] = StringHelper.getText(phoneController.value);
+    map["extension"] = mExtension.value;
     map["otp"] = otp;
 
     isLoading.value = true;
@@ -276,7 +330,6 @@ class PersonalInfoController extends GetxController implements SelectPhoneExtens
       },
     );
   }
-
   void updateProfileAPI() async {
     Map<String, dynamic> map = {};
     map["first_name"] = StringHelper.getText(firstNameController.value);
@@ -319,64 +372,6 @@ class PersonalInfoController extends GetxController implements SelectPhoneExtens
       },
     );
   }
-  void checkPhoneNumberExist() async {
-    String phoneNumber = StringHelper.getText(phoneController.value);
-    if (!StringHelper.isEmptyString(phoneNumber)) {
-      if (phoneNumber.length == 10) {
-        Map<String, dynamic> map = {};
-        map["extension"] = mExtension.value;
-        map["phone"] = phoneNumber;
-        multi.FormData formData = multi.FormData.fromMap(map);
-
-        _api.checkPhoneNumberExist(
-          data: map,
-          onSuccess: (ResponseModel responseModel) {
-            if (responseModel.statusCode == 200) {
-              BaseResponse response =
-              BaseResponse.fromJson(jsonDecode(responseModel.result!));
-              if (responseModel.isSuccess) {
-                isPhoneNumberExist.value = true;
-                phoneNumberErrorMessage.value = AppUtils.getStringTr(response.Message ?? "");
-
-              } else {
-                isPhoneNumberExist.value = false;
-                phoneNumberErrorMessage.value = "";
-              }
-            } else {
-              isPhoneNumberExist.value = false;
-              phoneNumberErrorMessage.value = "";
-            }
-            isLoading.value = false;
-          },
-          onError: (ResponseModel error) {
-            isPhoneNumberExist.value = false;
-            phoneNumberErrorMessage.value = "";
-            isLoading.value = false;
-          },
-        );
-      } else {}
-    } else {
-      isPhoneNumberExist.value = false;
-      phoneNumberErrorMessage.value = 'required_field'.tr;
-    }
-  }
-  void onSubmitClick() {
-    if (isOtpViewVisible.value) {
-      if (!isOtpVerified.value) {
-        if (mOtpCode.value.length == 6) {
-          verifyOtpApi(mOtpCode.value);
-        } else {
-          AppUtils.showSnackBarMessage('enter_otp'.tr);
-        }
-      }
-      else{
-
-      }
-    }
-    else{
-      sendOtpApi();
-    }
-  }
 
   @override
   void onSelectPhoneExtension(int id, String extension, String flag,
@@ -385,5 +380,7 @@ class PersonalInfoController extends GetxController implements SelectPhoneExtens
     mFlag.value = flag;
     mExtension.value = extension;
     mExtensionId.value = id;
+    isPhoneNumberExist.value = false;
+    phoneNumberErrorMessage.value = "";
   }
 }

@@ -94,7 +94,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                                     print("onCodeChanged $code");
                                     if (controller.mOtpCode.value.length ==
                                         6) {
-                                      controller.onSubmitClick();
+                                      controller.onClickVerifyOTP();
                                     }
                                   },
                                   onResendOtp: () {
@@ -114,7 +114,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                                   return Opacity(
                                     opacity: enabled ? 1.0 : 0.5,
                                     child: ElevatedButton(
-                                      onPressed: enabled ? controller.verifyAction : null,
+                                      onPressed: enabled ? controller.submitAction : null,
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: defaultAccentColor_(context),
                                         minimumSize: const Size(double.infinity, 50),
