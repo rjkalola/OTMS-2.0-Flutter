@@ -87,6 +87,7 @@ class IntentKey {
   final String workLogInfo = "WORK_LOG_INFO";
   final String ID = "ID";
   final String workLogId = "WORK_LOG_ID";
+  final String penaltyId = "PENALTY_ID";
   final String checkLogId = "CHECK_LOG_ID";
   final String checkInNote = "CHECK_IN_NOTE";
   final String checkOutNote = "CHECK_OUT_NOTE";

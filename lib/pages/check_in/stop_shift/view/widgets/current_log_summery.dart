@@ -131,6 +131,7 @@ class CurrentLogSummery extends StatelessWidget {
             var arguments = {
               AppConstants.intentKey.userId:
                   controller.workLogInfo.value.userId ?? 0,
+              AppConstants.intentKey.workLogId: controller.workLogId,
               AppConstants.intentKey.date: DateUtil.changeDateFormat(
                   controller.workLogInfo.value.workStartTime ?? "",
                   DateUtil.DD_MM_YYYY_TIME_24_SLASH2,

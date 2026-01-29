@@ -188,6 +188,7 @@ class ApiConstants {
   static String lockTimesheet = '$appUrl/timesheet/approve';
   static String unlockTimesheet = '$appUrl/timesheet/unapprove';
   static String paidTimesheet = '$appUrl/timesheet/paid';
+  static String getPenaltyDetails = '$appUrl/time-clock/penalty-details';
 
   //project
   static String addProject = '$appUrl/project/create';

@@ -24,7 +24,7 @@ class PenaltyListController extends GetxController implements MenuItemListener {
   final RxInt selectedDateFilterIndex = (1).obs;
   final _api = PenaltyListRepository();
   final listItems = <PenaltyInfo>[].obs;
-  int selectedIndex = 0, userId = 0;
+  int selectedIndex = 0, userId = 0,workLogId = 0;
   String startDate = "", endDate = "",date = "";
   RxString title = "".obs, displayStartDate = "".obs, displayEndDate = "".obs;
   List<PenaltyInfo> tempList = [];
@@ -35,6 +35,7 @@ class PenaltyListController extends GetxController implements MenuItemListener {
     var arguments = Get.arguments;
     if (arguments != null) {
       userId = arguments[AppConstants.intentKey.userId] ?? 0;
+      workLogId = arguments[AppConstants.intentKey.workLogId] ?? 0;
       date = arguments[AppConstants.intentKey.date] ?? "";
       print("userId:$userId");
     }
@@ -46,6 +47,8 @@ class PenaltyListController extends GetxController implements MenuItemListener {
     Map<String, dynamic> map = {};
     map["user_id"] = userId;
     map["date"] = date;
+    map["date"] = date;
+    map["worklog_id"] = workLogId;
 
     _api.getPenaltyDayLogs(
       queryParameters: map,

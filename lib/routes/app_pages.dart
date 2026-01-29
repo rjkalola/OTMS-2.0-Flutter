@@ -18,6 +18,7 @@ import 'package:belcka/pages/check_in/check_in_photos_preview/view/check_in_phot
 import 'package:belcka/pages/check_in/check_log_details/view/check_log_details_screen.dart';
 import 'package:belcka/pages/check_in/check_out/view/check_out_screen.dart';
 import 'package:belcka/pages/check_in/clock_in/view/clock_in_screen.dart';
+import 'package:belcka/pages/check_in/penalty/penalty_details/view/penalty_details_screen.dart';
 import 'package:belcka/pages/check_in/penalty/penalty_list/view/penalty_list_screen.dart';
 import 'package:belcka/pages/check_in/select_before_after_photos/view/select_before_after_photos_screen.dart';
 import 'package:belcka/pages/check_in/select_project/view/select_project_screen.dart';
@@ -386,6 +387,10 @@ class AppPages {
     GetPage(name: AppRoutes.purchasingScreen, page: () => PurchasingScreen()),
     GetPage(name: AppRoutes.buyerOrdersScreen, page: () => BuyerOrdersScreen()),
     GetPage(name: AppRoutes.addCategoryScreen, page: () => AddCategoryScreen()),
-    GetPage(name: AppRoutes.personalInfoScreen, page: () => PersonalInfoScreen()),
+    GetPage(
+        name: AppRoutes.personalInfoScreen, page: () => PersonalInfoScreen()),
+    GetPage(
+        name: AppRoutes.penaltyDetailsScreen,
+        page: () => PenaltyDetailsScreen()),
   ];
 }
