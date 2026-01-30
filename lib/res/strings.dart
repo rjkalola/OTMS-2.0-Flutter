@@ -541,6 +541,7 @@ class Strings extends Translations {
           'ok': "Ok",
           'user_code': "User Code",
           'appeal': "Appeal",
+          'my_analytics':"My Analytics",
 // '': "",
 // '': "",
 // '': "",
