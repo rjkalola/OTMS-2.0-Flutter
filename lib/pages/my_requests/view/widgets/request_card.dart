@@ -92,6 +92,12 @@ class RequestCard extends StatelessWidget {
                       controller.moveToScreen(
                           AppRoutes.leaveListScreen, arguments);
                     }
+                  } else if (requestType == AppConstants.requestType.penalty) {
+                    var arguments = {
+                      AppConstants.intentKey.penaltyId: request.penaltyId ?? 0,
+                    };
+                    controller.moveToScreen(
+                        AppRoutes.penaltyDetailsScreen, arguments);
                   }
                 },
                 child: Column(

@@ -18,6 +18,7 @@ class MyRequestInfo {
   int? leaveId;
   int? approvedBy;
   int? rejectedBy;
+  int? penaltyId;
 
   MyRequestInfo(
       {this.id,
@@ -38,7 +39,8 @@ class MyRequestInfo {
       this.typeName,
       this.leaveId,
       this.approvedBy,
-      this.rejectedBy});
+      this.rejectedBy,
+      this.penaltyId});
 
   MyRequestInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -60,6 +62,7 @@ class MyRequestInfo {
     leaveId = json['leave_id'];
     approvedBy = json['approved_by'];
     rejectedBy = json['rejected_by'];
+    penaltyId = json['penalty_id'];
   }
 
   Map<String, dynamic> toJson() {
@@ -83,6 +86,7 @@ class MyRequestInfo {
     data['leave_id'] = this.leaveId;
     data['approved_by'] = this.approvedBy;
     data['rejected_by'] = this.rejectedBy;
+    data['penalty_id'] = this.penaltyId;
     return data;
   }
 }

@@ -10,13 +10,15 @@ class AddNoteWidget extends StatelessWidget {
       this.onValueChange,
       this.isReadOnly,
       this.padding,
-      this.borderRadius});
+      this.borderRadius,
+      this.validator});
 
   final Rx<TextEditingController> controller;
   final ValueChanged<String>? onValueChange;
   final bool? isReadOnly;
   final EdgeInsetsGeometry? padding;
   final double? borderRadius;
+  final MultiValidator? validator;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,7 @@ class AddNoteWidget extends StatelessWidget {
           hintText: 'enter_your_note_here'.tr,
           labelText: 'add_a_note'.tr,
           textInputAction: TextInputAction.newline,
-          validator: MultiValidator([]),
+          validator: validator ?? MultiValidator([]),
           isReadOnly: isReadOnly,
           textAlignVertical: TextAlignVertical.top,
           onValueChange: onValueChange,

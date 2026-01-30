@@ -8,8 +8,11 @@ import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/web_services/api_constants.dart';
+import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/response_model.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class PenaltyDetailsController extends GetxController
@@ -18,9 +21,12 @@ class PenaltyDetailsController extends GetxController
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs;
+  RxInt status = 0.obs;
   final penaltyInfo = PenaltyInfo().obs;
   int penaltyId = 0;
   bool fromNotification = false;
+  final noteController = TextEditingController().obs;
+  final formKey = GlobalKey<FormState>();
 
   @override
   void onInit() {
@@ -45,6 +51,7 @@ class PenaltyDetailsController extends GetxController
           PenaltyInfoResponse response =
               PenaltyInfoResponse.fromJson(jsonDecode(responseModel.result!));
           penaltyInfo.value = response.info!;
+          status.value = penaltyInfo.value.status ?? 0;
           isMainViewVisible.value = true;
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
@@ -64,48 +71,116 @@ class PenaltyDetailsController extends GetxController
     );
   }
 
-  // void deleteTeamApi() {
-  //   isLoading.value = true;
-  //   Map<String, dynamic> map = {};
-  //   map["team_id"] = teamId;
-  //   _api.deleteTeam(
-  //     queryParameters: map,
-  //     onSuccess: (ResponseModel responseModel) {
-  //       if (responseModel.isSuccess) {
-  //         BaseResponse response =
-  //             BaseResponse.fromJson(jsonDecode(responseModel.result!));
-  //         Get.back(result: true);
-  //       } else {
-  //         AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
-  //       }
-  //       isLoading.value = false;
-  //     },
-  //     onError: (ResponseModel error) {
-  //       isLoading.value = false;
-  //       if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
-  //         isInternetNotAvailable.value = true;
-  //         // AppUtils.showApiResponseMessage('no_internet'.tr);
-  //         // Utils.showApiResponseMessage('no_internet'.tr);
-  //       } else if (error.statusMessage!.isNotEmpty) {
-  //         AppUtils.showApiResponseMessage(error.statusMessage ?? "");
-  //       }
-  //     },
-  //   );
-  // }
+  void deletePenaltyApi() {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["penalty_id"] = penaltyId;
+    _api.deletePenalty(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          BaseResponse response =
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showApiResponseMessage(response.Message ?? "");
+          Get.back(result: true);
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+          // AppUtils.showApiResponseMessage('no_internet'.tr);
+          // Utils.showApiResponseMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showApiResponseMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
 
-  showDeleteTeamDialog(String dialogType) async {
-    AlertDialogHelper.showAlertDialog(
-        "",
-        dialogType == AppConstants.dialogIdentifier.delete
-            ? 'are_you_sure_you_want_to_delete'.tr
-            : 'are_you_sure_you_want_to_remove'.tr,
-        'yes'.tr,
-        'no'.tr,
-        "",
-        true,
-        false,
-        this,
-        dialogType);
+  void appealPenaltyApi() {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["penalty_id"] = penaltyId;
+    map["appeal_note"] = StringHelper.getText(noteController.value);
+    _api.appealPenalty(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          BaseResponse response =
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showApiResponseMessage(response.Message ?? "");
+          Get.back(result: true);
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+          // AppUtils.showApiResponseMessage('no_internet'.tr);
+          // Utils.showApiResponseMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showApiResponseMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
+
+  void approveRejectPenaltyApi(int status) {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["appeal_id"] = penaltyId;
+    map["admin_note"] = StringHelper.getText(noteController.value);
+    map["status"] = status; //1 for approve, 2 for reject
+    _api.penaltyApproveReject(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          BaseResponse response =
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showApiResponseMessage(response.Message ?? "");
+          Get.back(result: true);
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+          // AppUtils.showApiResponseMessage('no_internet'.tr);
+          // Utils.showApiResponseMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showApiResponseMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
+
+  showActionDialog(String dialogType) async {
+    AlertDialogHelper.showAlertDialog("", getActionDialogMessage(dialogType),
+        'yes'.tr, 'no'.tr, "", true, false, this, dialogType);
+  }
+
+  String getActionDialogMessage(String dialogType) {
+    if (dialogType == AppConstants.dialogIdentifier.delete) {
+      return 'are_you_sure_you_want_to_delete'.tr;
+    } else if (dialogType == AppConstants.dialogIdentifier.appeal) {
+      return 'are_you_sure_you_want_to_appeal'.tr;
+    } else if (dialogType == AppConstants.dialogIdentifier.approve) {
+      return 'are_you_sure_you_want_to_approve'.tr;
+    } else if (dialogType == AppConstants.dialogIdentifier.reject) {
+      return 'are_you_sure_you_want_to_reject'.tr;
+    } else {
+      return "";
+    }
   }
 
   @override
@@ -118,14 +193,16 @@ class PenaltyDetailsController extends GetxController
 
   @override
   void onPositiveButtonClicked(String dialogIdentifier) {
-    if (dialogIdentifier == AppConstants.dialogIdentifier.deleteTeam) {
-      // deleteTeamApi();
-      Get.back();
+    if (dialogIdentifier == AppConstants.dialogIdentifier.delete) {
+      deletePenaltyApi();
+    } else if (dialogIdentifier == AppConstants.dialogIdentifier.appeal) {
+      appealPenaltyApi();
+    } else if (dialogIdentifier == AppConstants.dialogIdentifier.approve) {
+      approveRejectPenaltyApi(1);
+    } else if (dialogIdentifier == AppConstants.dialogIdentifier.reject) {
+      approveRejectPenaltyApi(2);
     }
-    if (dialogIdentifier == AppConstants.dialogIdentifier.removeSubContractor) {
-      // deleteSubContractorApi();
-      Get.back();
-    }
+    Get.back();
   }
 
   Future<void> moveToScreen(String rout, dynamic arguments) async {
@@ -134,6 +211,10 @@ class PenaltyDetailsController extends GetxController
       // isDataUpdated.value = true;
       // getTeamDetailsApi();
     }
+  }
+
+  bool valid() {
+    return formKey.currentState!.validate();
   }
 
   void onBackPress() {

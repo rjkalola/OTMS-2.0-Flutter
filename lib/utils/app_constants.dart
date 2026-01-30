@@ -150,6 +150,7 @@ class DialogIdentifier {
   final String approve = 'APPROVE';
   final String reject = 'REJECT';
   final String delete = 'DELETE';
+  final String appeal = 'APPEAL';
   final String selectAddress = 'SELECT_ADDRESS';
   final String deleteProject = 'DELETE_PROJECT';
   final String selectDate = 'SELECT_DATE';
@@ -429,6 +430,7 @@ class RequestType {
   final int billingInfo = 103;
   final int company = 105;
   final int leave = 110;
+  final int penalty = 118;
 
 //Work
   final String USER_WORK_STOP_AUTOMATICALLY = "2001";

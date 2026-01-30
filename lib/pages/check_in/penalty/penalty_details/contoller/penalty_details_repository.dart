@@ -10,9 +10,9 @@ class PenaltyDetailsRepository {
     Function(ResponseModel error)? onError,
   }) {
     ApiRequest(
-        url: ApiConstants.getPenaltyDetails,
-        queryParameters: queryParameters,
-        isFormData: false)
+            url: ApiConstants.getPenaltyDetails,
+            queryParameters: queryParameters,
+            isFormData: false)
         .getRequest(
       onSuccess: (data) {
         onSuccess!(data);
@@ -21,29 +21,12 @@ class PenaltyDetailsRepository {
     );
   }
 
-  void deleteTeam({
-    Map<String, dynamic>? queryParameters,
-    Function(ResponseModel responseModel)? onSuccess,
-    Function(ResponseModel error)? onError,
-  }) {
-    ApiRequest(
-        url: ApiConstants.teamDelete,
-        queryParameters: queryParameters,
-        isFormData: false)
-        .deleteRequest(
-      onSuccess: (data) {
-        onSuccess!(data);
-      },
-      onError: (error) => {if (onError != null) onError(error)},
-    );
-  }
-
-  void archiveTeam({
+  void deletePenalty({
     dynamic data,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
-    ApiRequest(url: ApiConstants.teamArchive, data: data, isFormData: false)
+    ApiRequest(url: ApiConstants.deletePenalty, data: data, isFormData: false)
         .postRequest(
       onSuccess: (data) {
         onSuccess!(data);
@@ -52,15 +35,29 @@ class PenaltyDetailsRepository {
     );
   }
 
-  void deleteSubContractor({
+  void appealPenalty({
+    dynamic data,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(url: ApiConstants.appealPenalty, data: data, isFormData: false)
+        .postRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
+
+  void penaltyApproveReject({
     dynamic data,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
     ApiRequest(
-        url: ApiConstants.deleteSubContractor,
-        data: data,
-        isFormData: false)
+            url: ApiConstants.penaltyApproveReject,
+            data: data,
+            isFormData: false)
         .postRequest(
       onSuccess: (data) {
         onSuccess!(data);

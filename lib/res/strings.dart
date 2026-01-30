@@ -251,6 +251,7 @@ class Strings extends Translations {
           'are_you_sure_you_want_to_unarchive':
               "Are you sure you want to unarchive?",
           'are_you_sure_you_want_to_reject': "Are you sure you want to reject?",
+          'are_you_sure_you_want_to_appeal': "Are you sure you want to appeal?",
           'sub_contractor_details': "Subcontractor Details",
           'copy_code': "Copy Code",
           'copied_to_clip_board': "Copied to clipboard",
@@ -348,7 +349,7 @@ class Strings extends Translations {
           'this_billing_data_is_awaiting_for_approval':
               "This billing data is awaiting for approval",
           'do_you_want_to_leave_a_note': "Do you want to leave a note?",
-          'enter_note': "Enter note",
+          'enter_note': "Enter Note",
           'billing_info_request': "Billing Info Request",
           'trade ': "Trade ",
           'net_per_day': "Net Per Day",
