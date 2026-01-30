@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:belcka/pages/analytics/user_analytics/controller/user_analytics_repository.dart';
 import 'package:belcka/pages/analytics/user_analytics/model/user_analytics_grid_item.dart';
 import 'package:belcka/pages/analytics/user_analytics/model/user_analytics_model.dart';
-import 'package:belcka/pages/common/listener/date_filter_listener.dart';
+import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
@@ -10,11 +10,11 @@ import 'package:belcka/web_services/response/response_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class UserAnalyticsController extends GetxController implements DateFilterListener{
+class UserAnalyticsController extends GetxController{
   final _api = UserAnalyticsRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
-      isMainViewVisible = true.obs;
+      isMainViewVisible = false.obs;
   int? userId = UserUtils.getLoginUserId();
 
   String startDate = "", endDate = "";
@@ -75,15 +75,20 @@ class UserAnalyticsController extends GetxController implements DateFilterListen
   @override
   void onInit() {
     super.onInit();
+    var arguments = Get.arguments;
+    if (arguments != null) {
+      userId = arguments[AppConstants.intentKey.userId] ??
+          UserUtils.getLoginUserId();
+    }
     getUserAnalyticsAPI();
   }
   //API Calls
   void getUserAnalyticsAPI() {
     isLoading.value = true;
     final Map<String, dynamic> map = {
-      "user_id": 30,
-      "start_date": "",
-      "end_date": "",
+      "user_id": userId,
+      "start_date": startDate,
+      "end_date": endDate,
     };
     _api.getUserAnalytics(
       queryParameters: map,
@@ -116,15 +121,5 @@ class UserAnalyticsController extends GetxController implements DateFilterListen
         }
       },
     );
-  }
-
-  @override
-  void onSelectDateFilter(
-      int filterIndex, String filter,String startDate, String endDate, String dialogIdentifier) {
-    //isResetEnable.value = true;
-    startDate = startDate;
-    endDate = endDate;
-    print("startDate:" + startDate);
-    print("endDate:" + endDate);
   }
 }

@@ -37,7 +37,7 @@ class UserAnalyticsHeaderView extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (_) => FullScreenImageViewScreen(
-                          imageUrl: "https://i.pravatar.cc/150?img=3",
+                          imageUrl: controller.userAnalytics.value?.userImage ?? "",
                           isLoginUser: UserUtils.isLoginUser(controller.userId),
                         ),
                       ),
@@ -46,7 +46,7 @@ class UserAnalyticsHeaderView extends StatelessWidget {
                   child: UserAvtarView(
                     isOnlineStatusVisible: true,
                     imageSize: 50,
-                    imageUrl: "https://i.pravatar.cc/150?img=3",
+                    imageUrl: controller.userAnalytics.value?.userImageThumb ?? "",
                   ),
                 ),
                 SizedBox(width: 12),
@@ -62,10 +62,10 @@ class UserAnalyticsHeaderView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                            'Alex Coper',
+                            controller.userAnalytics.value?.userName ?? "",
                             style:
                             TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
-                        Text('Painter',
+                        Text(controller.userAnalytics.value?.tradeName ?? "",
                             style: TextStyle(
                                 color: Colors.grey,
                                 fontWeight: FontWeight.bold,

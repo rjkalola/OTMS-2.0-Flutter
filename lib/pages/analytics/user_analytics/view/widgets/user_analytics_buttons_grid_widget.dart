@@ -16,14 +16,9 @@ class UserAnalyticsButtonsGridWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       final model = controller.userAnalytics.value;
-      if (controller.isLoading.value) {
-        return const Center(child: CircularProgressIndicator());
-      }
-
       if (model == null) {
         return const SizedBox();
       }
-
       final List<UserAnalyticsGridItem> items =
       controller.menuItems(model);
 
