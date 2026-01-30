@@ -5,6 +5,7 @@ import 'package:belcka/utils/date_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
+import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/buttons/approve_reject_buttons.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
@@ -231,5 +232,25 @@ class _PenaltyDetailsScreenState extends State<PenaltyDetailsScreen> {
         ),
       ),
     );
+  }
+
+  static Widget approveRejectButton() {
+    return ApproveRejectButtons(
+        padding: const EdgeInsets.fromLTRB(12, 10, 12, 18),
+        onClickApprove: () => {},
+        onClickReject: () {});
+  }
+
+  static Widget removePenaltyButton() {
+    return PrimaryButton(
+        buttonText: 'delete'.tr, color: Colors.red, onPressed: () {});
+  }
+
+  static Widget requestedView() {
+    return PrimaryButton(buttonText: 'requested'.tr, onPressed: () {});
+  }
+
+  static Widget appealButton() {
+    return PrimaryButton(buttonText: 'appeal'.tr, onPressed: () {});
   }
 }
