@@ -570,10 +570,11 @@ class DayLogList extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(10, 12, 13, 12),
               child: GestureDetector(
                 onTap: () {
-                  // var arguments = {
-                  //   AppConstants.intentKey.expenseId: penaltyInfo.id ?? 0,
-                  // };
-                  // controller.moveToScreen(AppRoutes.addExpenseScreen, arguments);
+                  var arguments = {
+                    AppConstants.intentKey.penaltyId: penaltyInfo.penaltyId ?? 0,
+                  };
+                  controller.moveToScreen(
+                      AppRoutes.penaltyDetailsScreen, arguments);
                 },
                 child: Container(
                   color: Colors.transparent,

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:belcka/pages/check_in/clock_in/model/check_log_info.dart';
 import 'package:belcka/pages/check_in/clock_in/model/location_info.dart';
 import 'package:belcka/pages/project/project_info/model/geofence_info.dart';
@@ -12,6 +14,7 @@ class PenaltyInfo {
   int? penaltySeconds;
   String? penaltyAmount;
   int? status;
+  int? penaltyId;
 
   PenaltyInfo(
       {this.id,
@@ -21,7 +24,8 @@ class PenaltyInfo {
       this.penaltyType,
       this.penaltySeconds,
       this.penaltyAmount,
-      this.status});
+      this.status,
+      this.penaltyId});
 
   PenaltyInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -32,6 +36,7 @@ class PenaltyInfo {
     penaltySeconds = json['penalty_seconds'];
     penaltyAmount = json['penalty_amount'];
     status = json['status'];
+    penaltyId = json['penalty_id'];
     // status = int.tryParse(json['status']?.toString() ?? '') ?? 0;
   }
 
@@ -45,6 +50,7 @@ class PenaltyInfo {
     data['penalty_seconds'] = this.penaltySeconds;
     data['penalty_amount'] = this.penaltyAmount;
     data['status'] = this.status;
+    data['penalty_id'] = this.penaltyId;
     return data;
   }
 }
