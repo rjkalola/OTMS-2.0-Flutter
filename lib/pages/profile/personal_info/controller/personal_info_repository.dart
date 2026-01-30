@@ -41,7 +41,7 @@ class PersonalInfoRepository {
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
-    ApiRequest(url: ApiConstants.sendLoginOtpUrl, data: data, isFormData: false)
+    ApiRequest(url: ApiConstants.sendRegisterOtpUrl, data: data, isFormData: false)
         .postRequest(
       onSuccess: (data) {
         onSuccess!(data);
