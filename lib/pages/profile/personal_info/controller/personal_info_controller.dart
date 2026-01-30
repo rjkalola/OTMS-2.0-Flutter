@@ -175,7 +175,6 @@ class PersonalInfoController extends GetxController implements SelectPhoneExtens
         print("oldPhoneNumber:${oldPhoneNumber}");
         print("newPhoneNumber:${newPhoneNumber}");
         print("isChanged? ${oldPhoneNumber != newPhoneNumber}");
-
         final isPhoneNumberChanged = oldPhoneNumber != newPhoneNumber;
         if (isPhoneNumberChanged){
           sendOtpApi();
