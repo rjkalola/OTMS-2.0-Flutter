@@ -1,92 +1,107 @@
 import 'package:belcka/pages/analytics/user_analytics/controller/user_analytics_controller.dart';
+import 'package:belcka/pages/analytics/user_analytics/view/widgets/animated_overall_progress.dart';
+import 'package:belcka/pages/analytics/user_analytics/view/widgets/animated_progress_view.dart';
+import 'package:belcka/pages/analytics/user_analytics/view/widgets/user_analytics_warnings_widget.dart';
+import 'package:belcka/res/theme/app_colors.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:percent_indicator/flutter_percent_indicator.dart';
 
-class UserAnalyticsScoreCard extends StatelessWidget {
-  UserAnalyticsScoreCard({super.key});
+class UserAnalyticsScoreCard extends StatefulWidget {
+  const UserAnalyticsScoreCard({super.key});
 
+  @override
+  State<UserAnalyticsScoreCard> createState() => _UserAnalyticsScoreCardState();
+}
+
+class _UserAnalyticsScoreCardState extends State<UserAnalyticsScoreCard>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
   final controller = Get.put(UserAnalyticsController());
 
   @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1200),
+    )..forward();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return CardViewDashboardItem(
-      padding: const EdgeInsets.all(16),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: const [
-                    Text(
-                      "Score",
-                      style:
-                      TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+    return Padding(
+      padding: EdgeInsets.fromLTRB(8, 0, 8, 8),
+      child: CardViewDashboardItem(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _header(),
+                    const SizedBox(height: 24),
+                    UserAnalyticsWarningsWidget(),
+                    const SizedBox(height: 8),
+                    AnimatedProgressRow(
+                      controller: _controller,
+                      title: "KPI",
+                      value: 0.9,
+                      color: Color(0xFFFF9466),
                     ),
-                    Spacer(),
-                    Text(
-                      "View Details",
-                      style: TextStyle(color: Colors.blue),
-                    )
+                    const SizedBox(height: 20),
+                    AnimatedProgressRow(
+                      controller: _controller,
+                      title: "App activity",
+                      value: 0.96,
+                      color: Color(0xFF3DB9FF),
+                    ),
                   ],
                 ),
-                const SizedBox(height: 16),
-                _progressRow("Warnings", 0.1, Colors.orange),
-                _progressRow("KPI", 0.9, Colors.deepOrange),
-                _progressRow("App activity", 0.96, Colors.lightBlue),
-              ],
-            ),
+              ),
+
+              const SizedBox(width:20),
+              //Overall
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () {},
+                    style: TextButton.styleFrom(
+                      backgroundColor: Color(0xFF007AFF).withOpacity(0.15),
+                      shape: const StadiumBorder(),
+                    ),
+                    child: const Text(
+                      "View Details",
+                      style: TextStyle(fontWeight: FontWeight.bold,
+                          color: AppColors.defaultAccentColor,
+                      fontSize: 16),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  AnimatedOverallProgress(percentage: 100),
+                ],
+              ),
+            ],
           ),
-          const SizedBox(width: 16),
-          CircularPercentIndicator(
-            radius: 60,
-            lineWidth: 10,
-            percent: 0.93,
-            center: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Text("Overall",
-                    style: TextStyle(color: Colors.grey, fontSize: 12)),
-                Text(
-                  "93%",
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.green),
-                ),
-              ],
-            ),
-            backgroundColor: Colors.grey.shade200,
-            progressColor: Colors.blue,
-            circularStrokeCap: CircularStrokeCap.round,
-          ),
-        ],
+        ),
       ),
     );
   }
 
-  Widget _progressRow(String title, double value, Color color) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("$title   ${(value * 100).toInt()}%"),
-          const SizedBox(height: 6),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: LinearProgressIndicator(
-              value: value,
-              minHeight: 8,
-              color: color,
-              backgroundColor: color.withOpacity(0.2),
-            ),
-          ),
-        ],
-      ),
+  Widget _header() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        const Text(
+          "Score",
+          style: TextStyle(fontSize: 24,
+              fontWeight: FontWeight.bold),
+        ),
+      ],
     );
   }
 }
