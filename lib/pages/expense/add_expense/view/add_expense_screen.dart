@@ -265,7 +265,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                                       if (controller.valid()) {
                                         if (controller.attachmentList.length >
                                             1) {
-                                          if (controller.expenseId != 0) {
+                                          if (controller.expenseId.value != 0) {
                                             controller.editExpenseApi();
                                           } else {
                                             controller.addExpenseApi();

@@ -37,8 +37,9 @@ class LeaveList extends StatelessWidget {
                   borderRadius: 15,
                   child: GestureDetector(
                     onTap: () {
-                      if (status == 0 ||
-                          status == AppConstants.status.approved) {
+                      // if (status == 0 ||
+                      //     status == AppConstants.status.approved) {
+                      if (status == 0) {
                         var arguments = {
                           AppConstants.intentKey.leaveInfo: info,
                           AppConstants.intentKey.userId: controller.userId,

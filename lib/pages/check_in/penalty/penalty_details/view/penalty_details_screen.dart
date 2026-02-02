@@ -1,3 +1,4 @@
+import 'package:belcka/pages/check_in/check_out/view/widgets/check_in_out_display_note_widget.dart';
 import 'package:belcka/pages/check_in/penalty/penalty_details/contoller/penalty_details_controller.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/app_constants.dart';
@@ -224,11 +225,48 @@ class _PenaltyDetailsScreenState extends State<PenaltyDetailsScreen> {
                                     )
                                   ],
                                 ),
+                                SizedBox(height: 9,),
+                                Visibility(
+                                  visible: controller.status.value != 0,
+                                  child: CheckInOutDisplayNoteWidget(
+                                    padding: EdgeInsets.fromLTRB(16, 9, 16, 9),
+                                    note: controller
+                                            .penaltyInfo.value.appealNote ??
+                                        "",
+                                    labelText: 'appeal_note'.tr,
+                                  ),
+                                ),
+                                Visibility(
+                                  visible: controller.status.value ==
+                                          AppConstants.status.approved ||
+                                      controller.status.value ==
+                                          AppConstants.status.rejected,
+                                  child: CheckInOutDisplayNoteWidget(
+                                    padding: EdgeInsets.fromLTRB(16, 9, 16, 9),
+                                    note: controller
+                                            .penaltyInfo.value.adminNote ??
+                                        "",
+                                    labelText: controller.status.value ==
+                                            AppConstants.status.approved
+                                        ? 'approved_note'.tr
+                                        : 'rejected_note'.tr,
+                                  ),
+                                ),
                                 Spacer(),
-                                AddNoteWidget(
-                                  controller: controller.noteController,
-                                  borderRadius: 15,
-                                  padding: EdgeInsets.all(16),
+                                Visibility(
+                                  visible: (!UserUtils.isAdmin() &&
+                                          controller.status.value == 0) ||
+                                      (UserUtils.isAdmin() &&
+                                          controller.status.value ==
+                                              AppConstants.status.pending) ||
+                                      (!UserUtils.isAdmin() &&
+                                          controller.status.value ==
+                                              AppConstants.status.rejected),
+                                  child: AddNoteWidget(
+                                    controller: controller.noteController,
+                                    borderRadius: 15,
+                                    padding: EdgeInsets.all(16),
+                                  ),
                                 ),
                                 Padding(
                                   padding: EdgeInsets.all(14),
@@ -246,7 +284,8 @@ class _PenaltyDetailsScreenState extends State<PenaltyDetailsScreen> {
   }
 
   Widget footerButtonsView() {
-    if (controller.status.value == 0) {
+    if (controller.status.value == 0 ||
+        controller.status.value == AppConstants.status.rejected) {
       if (UserUtils.isAdmin()) {
         return removePenaltyButton();
       } else {

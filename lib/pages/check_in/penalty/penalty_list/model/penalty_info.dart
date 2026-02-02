@@ -1,10 +1,3 @@
-import 'dart:convert';
-
-import 'package:belcka/pages/check_in/clock_in/model/check_log_info.dart';
-import 'package:belcka/pages/check_in/clock_in/model/location_info.dart';
-import 'package:belcka/pages/project/project_info/model/geofence_info.dart';
-import 'package:belcka/pages/shifts/create_shift/model/break_info.dart';
-
 class PenaltyInfo {
   int? id;
   String? startTime;
@@ -15,17 +8,24 @@ class PenaltyInfo {
   String? penaltyAmount;
   int? status;
   int? penaltyId;
+  int? appealId;
+  String? appealNote;
+  String? adminNote;
 
-  PenaltyInfo(
-      {this.id,
-      this.startTime,
-      this.endTime,
-      this.payableSeconds,
-      this.penaltyType,
-      this.penaltySeconds,
-      this.penaltyAmount,
-      this.status,
-      this.penaltyId});
+  PenaltyInfo({
+    this.id,
+    this.startTime,
+    this.endTime,
+    this.payableSeconds,
+    this.penaltyType,
+    this.penaltySeconds,
+    this.penaltyAmount,
+    this.status,
+    this.penaltyId,
+    this.appealId,
+    this.appealNote,
+    this.adminNote,
+  });
 
   PenaltyInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -37,20 +37,26 @@ class PenaltyInfo {
     penaltyAmount = json['penalty_amount'];
     status = json['status'];
     penaltyId = json['penalty_id'];
-    // status = int.tryParse(json['status']?.toString() ?? '') ?? 0;
+    appealId = json['appeal_id'];
+    appealNote = json['appeal_note'];
+    adminNote = json['admin_note'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['start_time'] = this.startTime;
-    data['end_time'] = this.endTime;
-    data['payable_seconds'] = this.payableSeconds;
-    data['penalty_type'] = this.penaltyType;
-    data['penalty_seconds'] = this.penaltySeconds;
-    data['penalty_amount'] = this.penaltyAmount;
-    data['status'] = this.status;
-    data['penalty_id'] = this.penaltyId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['start_time'] = startTime;
+    data['end_time'] = endTime;
+    data['payable_seconds'] = payableSeconds;
+    data['penalty_type'] = penaltyType;
+    data['penalty_seconds'] = penaltySeconds;
+    data['penalty_amount'] = penaltyAmount;
+    data['status'] = status;
+    data['penalty_id'] = penaltyId;
+    data['appeal_id'] = appealId;
+    data['appeal_note'] = appealNote;
+    data['admin_note'] = adminNote;
+
     return data;
   }
 }

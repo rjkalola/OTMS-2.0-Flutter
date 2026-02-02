@@ -135,7 +135,7 @@ class PenaltyDetailsController extends GetxController
   void approveRejectPenaltyApi(int status) {
     isLoading.value = true;
     Map<String, dynamic> map = {};
-    map["appeal_id"] = penaltyId;
+    map["appeal_id"] = penaltyInfo.value.appealId ?? 0;
     map["admin_note"] = StringHelper.getText(noteController.value);
     map["status"] = status; //1 for approve, 2 for reject
     _api.penaltyApproveReject(
@@ -198,9 +198,9 @@ class PenaltyDetailsController extends GetxController
     } else if (dialogIdentifier == AppConstants.dialogIdentifier.appeal) {
       appealPenaltyApi();
     } else if (dialogIdentifier == AppConstants.dialogIdentifier.approve) {
-      approveRejectPenaltyApi(1);
+      approveRejectPenaltyApi(AppConstants.status.approved);
     } else if (dialogIdentifier == AppConstants.dialogIdentifier.reject) {
-      approveRejectPenaltyApi(2);
+      approveRejectPenaltyApi(AppConstants.status.rejected);
     }
     Get.back();
   }

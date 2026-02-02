@@ -449,7 +449,8 @@ class CreateLeaveController extends GetxController
     DateTime currentDay = DateTime.now();
     selectDate = currentDay;
     startDate = currentDay;
-    endDate = currentDay.add(Duration(days: 1));
+    // endDate = currentDay.add(Duration(days: 1));
+    endDate = currentDay;
     dateController.value.text =
         DateUtil.dateToString(selectDate, DateUtil.DD_MM_YYYY_SLASH);
     startDateController.value.text =

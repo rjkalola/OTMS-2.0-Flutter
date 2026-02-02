@@ -3,16 +3,18 @@ import 'package:belcka/utils/string_helper.dart';
 import 'package:flutter/material.dart';
 
 class CheckInOutDisplayNoteWidget extends StatelessWidget {
-  CheckInOutDisplayNoteWidget({super.key, this.note, this.labelText});
+  CheckInOutDisplayNoteWidget(
+      {super.key, this.note, this.labelText, this.padding});
 
   final String? note, labelText;
+  final EdgeInsetsGeometry? padding;
 
   @override
   Widget build(BuildContext context) {
     return Visibility(
       visible: !StringHelper.isEmptyString(note),
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(6, 16, 6, 0),
+        padding: padding ?? EdgeInsets.fromLTRB(6, 16, 6, 0),
         // child: TextFieldBorder(
         //   textEditingController: TextEditingController(text: note),
         //   hintText: labelText ?? "",

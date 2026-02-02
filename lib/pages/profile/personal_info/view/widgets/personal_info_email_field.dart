@@ -37,12 +37,15 @@ class PersonalInfoEmailField extends StatelessWidget {
         isEnabled: isEnabled,
         onPressed: () {},
         validator: MultiValidator([
-          RequiredValidator(errorText: 'required_field'.tr),
           CustomFieldValidator((value) {
-            return value != null && (AppUtils().isEmailValid(value));
+            if (value == null || value.isEmpty){
+              return true;
+            }
+            else{
+              return (AppUtils().isEmailValid(value ?? ""));
+            }
           }, errorText: 'Please enter a valid email address'.tr),
         ]),
-
         inputFormatters: <TextInputFormatter>[
           // for below version 2 use this
 

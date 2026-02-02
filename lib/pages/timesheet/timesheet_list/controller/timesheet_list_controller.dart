@@ -269,7 +269,7 @@ class TimeSheetListController extends GetxController
       }
     } else {
       listItems
-          .add(ModuleInfo(name: 'add'.tr, action: AppConstants.action.add));
+          .add(ModuleInfo(name: 'add_worklog'.tr, action: AppConstants.action.add));
       listItems
           .add(ModuleInfo(name: 'edit'.tr, action: AppConstants.action.edit));
       listItems.add(
