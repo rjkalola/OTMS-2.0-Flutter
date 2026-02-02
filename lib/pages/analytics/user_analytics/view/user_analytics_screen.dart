@@ -1,5 +1,5 @@
 import 'package:belcka/pages/analytics/user_analytics/controller/user_analytics_controller.dart';
-import 'package:belcka/pages/analytics/user_analytics/view/widgets/user_analytics_buttons_grid_widget.dart';
+import 'package:belcka/pages/analytics/user_analytics/view/widgets/user_analytics_content_view.dart';
 import 'package:belcka/pages/analytics/user_analytics/view/widgets/user_analytics_header_view.dart';
 import 'package:belcka/pages/common/listener/date_filter_listener.dart';
 import 'package:belcka/pages/common/widgets/date_filter_options_horizontal_list.dart';
@@ -20,7 +20,7 @@ class UserAnalyticsScreen extends StatefulWidget {
   State<UserAnalyticsScreen> createState() => _UserAnalyticsScreenState();
 }
 
-class _UserAnalyticsScreenState extends State<UserAnalyticsScreen> implements DateFilterListener{
+class _UserAnalyticsScreenState extends State<UserAnalyticsScreen> implements DateFilterListener {
 
   final controller = Get.put(UserAnalyticsController());
 
@@ -31,45 +31,46 @@ class _UserAnalyticsScreenState extends State<UserAnalyticsScreen> implements Da
       color: backgroundColor_(context),
       child: SafeArea(
         child: Obx(
-              () => Scaffold(
-            backgroundColor: dashBoardBgColor_(context),
-            appBar: BaseAppBar(
-              appBar: AppBar(),
-              title: 'my_analytics'.tr,
-              isCenterTitle: false,
-              isBack: true,
-              bgColor: backgroundColor_(context),
-            ),
-            body: ModalProgressHUD(
-              inAsyncCall: controller.isLoading.value,
-              opacity: 0,
-              progressIndicator: const CustomProgressbar(),
-              child: controller.isInternetNotAvailable.value
-                  ? NoInternetWidget(
-                onPressed: () {
-                  controller.isInternetNotAvailable.value = false;
-                },
-              )
-                  : controller.isMainViewVisible.value
-                  ? Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  UserAnalyticsHeaderView(),
-                  SizedBox(height: 16),
-                  DateFilterOptionsHorizontalList(
-                    padding: EdgeInsets.fromLTRB(14, 0, 14, 6),
-                    startDate: controller.startDate,
-                    endDate: controller.endDate,
-                    listener: this,
-                    selectedPosition: controller.selectedDateFilterIndex,
-                  ),
-                  SizedBox(height: 16),
-                  UserAnalyticsButtonsGridWidget()
-                ],
-              )
-                  : SizedBox.shrink(),
-            ),
-          ),
+              () =>
+              Scaffold(
+                backgroundColor: dashBoardBgColor_(context),
+                appBar: BaseAppBar(
+                  appBar: AppBar(),
+                  title: 'my_analytics'.tr,
+                  isCenterTitle: false,
+                  isBack: true,
+                  bgColor: backgroundColor_(context),
+                ),
+                body: ModalProgressHUD(
+                  inAsyncCall: controller.isLoading.value,
+                  opacity: 0,
+                  progressIndicator: const CustomProgressbar(),
+                  child: controller.isInternetNotAvailable.value
+                      ? NoInternetWidget(
+                    onPressed: () {
+                      controller.isInternetNotAvailable.value = false;
+                    },
+                  )
+                      : controller.isMainViewVisible.value
+                      ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      UserAnalyticsHeaderView(),
+                      SizedBox(height: 16),
+                      DateFilterOptionsHorizontalList(
+                        padding: EdgeInsets.fromLTRB(14, 0, 14, 6),
+                        startDate: controller.startDate,
+                        endDate: controller.endDate,
+                        listener: this,
+                        selectedPosition: controller.selectedDateFilterIndex,
+                      ),
+                      SizedBox(height: 16),
+                      Expanded(child: UserAnalyticsContentView())
+                    ],
+                  )
+                      : SizedBox.shrink(),
+                ),
+              ),
         ),
       ),
     );
@@ -96,3 +97,4 @@ class _UserAnalyticsScreenState extends State<UserAnalyticsScreen> implements Da
     print("endDate:" + endDate);
   }
 }
+
