@@ -22,7 +22,7 @@ class UserAnalyticsHeaderView extends StatelessWidget {
         boxShadow: [AppUtils.boxShadow(shadowColor_(context), 10)],
         border: Border.all(width: 0.6, color: Colors.transparent),
         borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(28), bottomRight:  Radius.circular(28)),
+            bottomLeft: Radius.circular(28), bottomRight: Radius.circular(28)),
       ),
       child: Column(
         children: [
@@ -32,12 +32,13 @@ class UserAnalyticsHeaderView extends StatelessWidget {
             child: Row(
               children: [
                 GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (_) => FullScreenImageViewScreen(
-                          imageUrl: controller.userAnalytics.value?.userImage ?? "",
+                          imageUrl:
+                              controller.userAnalytics.value?.userImage ?? "",
                           isLoginUser: UserUtils.isLoginUser(controller.userId),
                         ),
                       ),
@@ -46,25 +47,26 @@ class UserAnalyticsHeaderView extends StatelessWidget {
                   child: UserAvtarView(
                     isOnlineStatusVisible: true,
                     imageSize: 50,
-                    imageUrl: controller.userAnalytics.value?.userImageThumb ?? "",
+                    imageUrl:
+                        controller.userAnalytics.value?.userImageThumb ?? "",
                   ),
                 ),
                 SizedBox(width: 12),
                 Expanded(
                   child: GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       var arguments = {
-                        AppConstants.intentKey.userId : controller.userId
+                        AppConstants.intentKey.userId: controller.userId
                       };
-                      Get.toNamed(AppRoutes.personalInfoScreen,arguments: arguments);
+                      Get.toNamed(AppRoutes.personalInfoScreen,
+                          arguments: arguments);
                     },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                            controller.userAnalytics.value?.userName ?? "",
-                            style:
-                            TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
+                        Text(controller.userAnalytics.value?.userName ?? "",
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.w500)),
                         Text(controller.userAnalytics.value?.tradeName ?? "",
                             style: TextStyle(
                                 color: Colors.grey,
@@ -77,7 +79,9 @@ class UserAnalyticsHeaderView extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: 8,),
+          SizedBox(
+            height: 8,
+          ),
         ],
       ),
     );

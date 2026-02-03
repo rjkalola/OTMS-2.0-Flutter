@@ -20,12 +20,13 @@ import '../../../../../web_services/api_constants.dart';
 class PenaltyListController extends GetxController implements MenuItemListener {
   final RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
-      isMainViewVisible = true.obs;
+      isMainViewVisible = true.obs,
+      isDataUpdated = false.obs;
   final RxInt selectedDateFilterIndex = (1).obs;
   final _api = PenaltyListRepository();
   final listItems = <PenaltyInfo>[].obs;
-  int selectedIndex = 0, userId = 0,workLogId = 0;
-  String startDate = "", endDate = "",date = "";
+  int selectedIndex = 0, userId = 0, workLogId = 0;
+  String startDate = "", endDate = "", date = "";
   RxString title = "".obs, displayStartDate = "".obs, displayEndDate = "".obs;
   List<PenaltyInfo> tempList = [];
 
@@ -91,8 +92,13 @@ class PenaltyListController extends GetxController implements MenuItemListener {
   moveToScreen(String path, dynamic arguments) async {
     var result = await Get.toNamed(path, arguments: arguments);
     if (result != null && result) {
+      isDataUpdated.value = true;
       getPenaltyListApi(true);
     }
+  }
+
+  void onBackPress() {
+    Get.back(result: isDataUpdated.value);
   }
 
   void clearFilter() {
@@ -123,7 +129,7 @@ class PenaltyListController extends GetxController implements MenuItemListener {
   String changeFullDateToSortTime(String? date) {
     return !StringHelper.isEmptyString(date)
         ? DateUtil.changeDateFormat(
-        date!, DateUtil.DD_MM_YYYY_TIME_24_SLASH2, DateUtil.HH_MM_24)
+            date!, DateUtil.DD_MM_YYYY_TIME_24_SLASH2, DateUtil.HH_MM_24)
         : "";
   }
 }

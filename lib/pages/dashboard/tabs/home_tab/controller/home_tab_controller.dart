@@ -483,7 +483,16 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
           if ((response.info?.companyId ?? 0) != 0) {
             getUserWorkLogListApi(isShiftClick: false, isProgress: false);
             getNotificationCountApi(isProgress: false);
-            getDashboardUserPermissionsApi(false, isProfileLoad: false);
+
+            if (Get.find<AppStorage>().isLocalSequenceChanges()) {
+              changeDashboardUserPermissionMultipleSequenceApi(
+                  isProgress: false,
+                  isLoadPermissionList: true,
+                  isChangeSequence: false);
+            } else {
+              getDashboardUserPermissionsApi(false, isProfileLoad: false);
+            }
+
             if (UserUtils.isAdmin() &&
                 !(response.info?.isTradeAvailable ?? false)) {
               showTradeWarningDialog();
@@ -627,7 +636,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
     else if (info.slug == 'my_requests') {
       moveToScreen(appRout: AppRoutes.myRequestsScreen);
     } else if (info.slug == 'analytics') {
-       moveToScreen(appRout: AppRoutes.userAnalyticsScreen);
+      moveToScreen(appRout: AppRoutes.userAnalyticsScreen);
     }
   }
 

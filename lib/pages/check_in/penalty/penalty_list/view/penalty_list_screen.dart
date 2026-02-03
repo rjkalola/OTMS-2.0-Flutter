@@ -23,49 +23,59 @@ class _PenaltyListScreenState extends State<PenaltyListScreen>
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => Container(
-        color: dashBoardBgColor_(context),
-        child: SafeArea(
-          child: Scaffold(
-            backgroundColor: dashBoardBgColor_(context),
-            appBar: BaseAppBar(
-              appBar: AppBar(),
-              title: 'penalty'.tr,
-              isCenterTitle: false,
-              bgColor: dashBoardBgColor_(context),
-              isBack: true,
-              // widgets: actionButtons(),
+      () => PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (didPop, result) async {
+          if (didPop || result != null) return;
+          controller.onBackPress();
+        },
+        child: Container(
+          color: dashBoardBgColor_(context),
+          child: SafeArea(
+            child: Scaffold(
+              backgroundColor: dashBoardBgColor_(context),
+              appBar: BaseAppBar(
+                appBar: AppBar(),
+                title: 'penalty'.tr,
+                isCenterTitle: false,
+                bgColor: dashBoardBgColor_(context),
+                isBack: true,
+                onBackPressed: (){
+                  controller.onBackPress();
+                },
+                // widgets: actionButtons(),
+              ),
+              body: ModalProgressHUD(
+                  inAsyncCall: controller.isLoading.value,
+                  opacity: 0,
+                  progressIndicator: const CustomProgressbar(),
+                  child: controller.isInternetNotAvailable.value
+                      ? NoInternetWidget(
+                          onPressed: () {
+                            controller.isInternetNotAvailable.value = false;
+                            controller.getPenaltyListApi(true);
+                          },
+                        )
+                      : Visibility(
+                          visible: controller.isMainViewVisible.value,
+                          child: Column(
+                            children: [
+                              // DateFilterOptionsHorizontalList(
+                              //   padding: EdgeInsets.fromLTRB(14, 0, 14, 6),
+                              //   startDate: controller.startDate,
+                              //   endDate: controller.endDate,
+                              //   listener: this,
+                              //   selectedPosition:
+                              //       controller.selectedDateFilterIndex,
+                              // ),
+                              // SizedBox(
+                              //   height: 15,
+                              // ),
+                              PenaltyList(),
+                            ],
+                          ),
+                        )),
             ),
-            body: ModalProgressHUD(
-                inAsyncCall: controller.isLoading.value,
-                opacity: 0,
-                progressIndicator: const CustomProgressbar(),
-                child: controller.isInternetNotAvailable.value
-                    ? NoInternetWidget(
-                        onPressed: () {
-                          controller.isInternetNotAvailable.value = false;
-                          controller.getPenaltyListApi(true);
-                        },
-                      )
-                    : Visibility(
-                        visible: controller.isMainViewVisible.value,
-                        child: Column(
-                          children: [
-                            // DateFilterOptionsHorizontalList(
-                            //   padding: EdgeInsets.fromLTRB(14, 0, 14, 6),
-                            //   startDate: controller.startDate,
-                            //   endDate: controller.endDate,
-                            //   listener: this,
-                            //   selectedPosition:
-                            //       controller.selectedDateFilterIndex,
-                            // ),
-                            // SizedBox(
-                            //   height: 15,
-                            // ),
-                            PenaltyList(),
-                          ],
-                        ),
-                      )),
           ),
         ),
       ),

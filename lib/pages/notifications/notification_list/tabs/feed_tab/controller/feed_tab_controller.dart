@@ -203,7 +203,7 @@ class FeedTabController extends GetxController {
       }
       //Personal info change
       else if (notificationType ==
-          AppConstants.notificationType.personalInfoChange){
+          AppConstants.notificationType.personalInfoChange) {
         String rout = AppRoutes.personalInfoScreen;
         var arguments = {
           AppConstants.intentKey.userId: info.userId,
@@ -234,6 +234,19 @@ class FeedTabController extends GetxController {
             AppConstants.intentKey.expenseId: info.recordId ?? 0,
           };
           moveToScreen(AppRoutes.addExpenseScreen,
+              arguments: arguments, index: index);
+        }
+      }
+      //Penalty
+      else if (notificationType ==
+              AppConstants.notificationType.penaltyAppeal ||
+          notificationType == AppConstants.notificationType.penaltyApprove ||
+          notificationType == AppConstants.notificationType.penaltyReject) {
+        if ((info.recordId ?? 0) != 0) {
+          var arguments = {
+            AppConstants.intentKey.penaltyId: info.recordId ?? 0,
+          };
+          moveToScreen(AppRoutes.penaltyDetailsScreen,
               arguments: arguments, index: index);
         }
       }

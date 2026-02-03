@@ -281,6 +281,11 @@ class AddExpenseController extends GetxController
               jsonDecode(responseModel.result!));
           expenseResourcesData = response;
 
+          if(expenseId.value == 0 && (response.id??0) != 0){
+            projectId = response.id??0;
+            projectController.value.text = response.name??"";
+          }
+
           if (projectId != 0) {
             for (var info in expenseResourcesData!.addresses!) {
               if (info.projectId == projectId) {

@@ -72,7 +72,8 @@ class LeaveDetailsController extends GetxController
     title.value = 'leave_details'.tr;
     // title.value = leaveInfo.value.userName ?? "";
     leaveTypeController.value.text = leaveInfo.value.leaveName ?? "";
-    leaveType.value =  StringHelper.capitalizeFirstLetter(leaveInfo.value.leaveType ?? "");
+    leaveType.value =
+        StringHelper.capitalizeFirstLetter(leaveInfo.value.leaveType ?? "");
     isAllDay.value = leaveInfo.value.isAlldayLeave ?? false;
     requestStatus.value = leaveInfo.value.requestStatus ?? 0;
 
@@ -224,7 +225,7 @@ class LeaveDetailsController extends GetxController
           BaseResponse response =
               BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.Message);
-          Get.back(result: true);
+          onBackPress();
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
@@ -252,7 +253,7 @@ class LeaveDetailsController extends GetxController
           BaseResponse response =
               BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.Message);
-          Get.back(result: true);
+          onBackPress();
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }

@@ -150,12 +150,13 @@ Color getStatusColor(String status) {
 }
 
 Color getRequestTypeColor(int requestType) {
-  const requestTypeColors = {
+   var requestTypeColors = {
     101: Color(0xFFFF7F00), // Timesheet
     102: Color(0xFFFF7F00), // Work log
     103: Color(0xFF4CBC6D), // Billing Info
     104: Color(0xFF3F51B5), // User Account
     105: Color(0xFFFFC107), // Company
+    AppConstants.requestType.penalty: Colors.red, // Company
   };
   return requestTypeColors[requestType] ?? Colors.grey; // Default color
 }

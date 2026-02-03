@@ -145,7 +145,7 @@ class PenaltyDetailsController extends GetxController
           BaseResponse response =
               BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.Message ?? "");
-          Get.back(result: true);
+          onBackPress();
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }

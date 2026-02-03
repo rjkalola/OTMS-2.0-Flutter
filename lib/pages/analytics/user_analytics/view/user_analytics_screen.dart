@@ -16,12 +16,13 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class UserAnalyticsScreen extends StatefulWidget {
   const UserAnalyticsScreen({super.key});
+
   @override
   State<UserAnalyticsScreen> createState() => _UserAnalyticsScreenState();
 }
 
-class _UserAnalyticsScreenState extends State<UserAnalyticsScreen> implements DateFilterListener {
-
+class _UserAnalyticsScreenState extends State<UserAnalyticsScreen>
+    implements DateFilterListener {
   final controller = Get.put(UserAnalyticsController());
 
   @override
@@ -31,46 +32,46 @@ class _UserAnalyticsScreenState extends State<UserAnalyticsScreen> implements Da
       color: backgroundColor_(context),
       child: SafeArea(
         child: Obx(
-              () =>
-              Scaffold(
-                backgroundColor: dashBoardBgColor_(context),
-                appBar: BaseAppBar(
-                  appBar: AppBar(),
-                  title: 'my_analytics'.tr,
-                  isCenterTitle: false,
-                  isBack: true,
-                  bgColor: backgroundColor_(context),
-                ),
-                body: ModalProgressHUD(
-                  inAsyncCall: controller.isLoading.value,
-                  opacity: 0,
-                  progressIndicator: const CustomProgressbar(),
-                  child: controller.isInternetNotAvailable.value
-                      ? NoInternetWidget(
-                    onPressed: () {
-                      controller.isInternetNotAvailable.value = false;
-                    },
-                  )
-                      : controller.isMainViewVisible.value
+          () => Scaffold(
+            backgroundColor: dashBoardBgColor_(context),
+            appBar: BaseAppBar(
+              appBar: AppBar(),
+              title: 'my_analytics'.tr,
+              isCenterTitle: false,
+              isBack: true,
+              bgColor: backgroundColor_(context),
+            ),
+            body: ModalProgressHUD(
+              inAsyncCall: controller.isLoading.value,
+              opacity: 0,
+              progressIndicator: const CustomProgressbar(),
+              child: controller.isInternetNotAvailable.value
+                  ? NoInternetWidget(
+                      onPressed: () {
+                        controller.isInternetNotAvailable.value = false;
+                      },
+                    )
+                  : controller.isMainViewVisible.value
                       ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      UserAnalyticsHeaderView(),
-                      SizedBox(height: 16),
-                      DateFilterOptionsHorizontalList(
-                        padding: EdgeInsets.fromLTRB(14, 0, 14, 6),
-                        startDate: controller.startDate,
-                        endDate: controller.endDate,
-                        listener: this,
-                        selectedPosition: controller.selectedDateFilterIndex,
-                      ),
-                      SizedBox(height: 16),
-                      Expanded(child: UserAnalyticsContentView())
-                    ],
-                  )
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            UserAnalyticsHeaderView(),
+                            SizedBox(height: 16),
+                            DateFilterOptionsHorizontalList(
+                              padding: EdgeInsets.fromLTRB(14, 0, 14, 6),
+                              startDate: controller.startDate,
+                              endDate: controller.endDate,
+                              listener: this,
+                              selectedPosition:
+                                  controller.selectedDateFilterIndex,
+                            ),
+                            SizedBox(height: 16),
+                            Expanded(child: UserAnalyticsContentView())
+                          ],
+                        )
                       : SizedBox.shrink(),
-                ),
-              ),
+            ),
+          ),
         ),
       ),
     );
@@ -97,4 +98,3 @@ class _UserAnalyticsScreenState extends State<UserAnalyticsScreen> implements Da
     print("endDate:" + endDate);
   }
 }
-

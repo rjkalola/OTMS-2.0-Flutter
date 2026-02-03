@@ -6,6 +6,8 @@ import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../../../routes/app_routes.dart';
+import '../../../../../../utils/app_constants.dart';
 import '../../../../../../utils/app_utils.dart';
 import '../../../../../../utils/date_utils.dart';
 import '../../../../../../utils/string_helper.dart';
@@ -34,21 +36,11 @@ class PenaltyList extends StatelessWidget {
                   borderRadius: 15,
                   child: GestureDetector(
                     onTap: () {
-                      /*if (status == 0 ||
-                          status == AppConstants.status.approved) {
-                        var arguments = {
-                          AppConstants.intentKey.leaveInfo: info,
-                          AppConstants.intentKey.userId: controller.userId,
-                        };
-                        controller.moveToScreen(
-                            AppRoutes.createLeaveScreen, arguments);
-                      } else {
-                        var arguments = {
-                          AppConstants.intentKey.leaveId: info.id ?? 0,
-                        };
-                        controller.moveToScreen(
-                            AppRoutes.leaveDetailsScreen, arguments);
-                      }*/
+                      var arguments = {
+                        AppConstants.intentKey.penaltyId: info.penaltyId ?? 0,
+                      };
+                      controller.moveToScreen(
+                          AppRoutes.penaltyDetailsScreen, arguments);
                     },
                     child: Container(
                       color: Colors.transparent,
@@ -70,7 +62,7 @@ class PenaltyList extends StatelessWidget {
                                       fontSize: 17,
                                     ),
                                     TitleTextView(
-                                      text: info.startTime??"",
+                                      text: info.startTime ?? "",
                                       fontSize: 17,
                                     )
                                   ],
@@ -87,7 +79,7 @@ class PenaltyList extends StatelessWidget {
                                       fontSize: 17,
                                     ),
                                     TitleTextView(
-                                      text: info.endTime??"",
+                                      text: info.endTime ?? "",
                                       fontSize: 17,
                                     )
                                   ],

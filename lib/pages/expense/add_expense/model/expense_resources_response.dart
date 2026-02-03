@@ -6,13 +6,17 @@ class ExpenseResourcesResponse {
   List<ModuleInfo>? addresses;
   List<ModuleInfo>? projects;
   List<ModuleInfo>? categories;
+  int? id;
+  String? name;
 
   ExpenseResourcesResponse(
       {this.isSuccess,
       this.message,
       this.addresses,
       this.projects,
-      this.categories});
+      this.categories,
+      this.id,
+      this.name});
 
   ExpenseResourcesResponse.fromJson(Map<String, dynamic> json) {
     isSuccess = json['IsSuccess'];
@@ -35,6 +39,8 @@ class ExpenseResourcesResponse {
         categories!.add(new ModuleInfo.fromJson(v));
       });
     }
+    id = json['id'];
+    name = json['name'];
   }
 
   Map<String, dynamic> toJson() {
@@ -50,6 +56,8 @@ class ExpenseResourcesResponse {
     if (this.categories != null) {
       data['categories'] = this.categories!.map((v) => v.toJson()).toList();
     }
+    data['id'] = this.id;
+    data['name'] = this.name;
     return data;
   }
 }
