@@ -1,3 +1,4 @@
+import 'package:belcka/pages/company/joincompany/view/widgets/company_details_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -33,6 +34,8 @@ class SelectTradeJoinCompany extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            CompanyDetailsWidget(),
+            SizedBox(height: 24,),
             TextFieldBorder(
                 textEditingController:
                     controller.selectYourRoleController.value,

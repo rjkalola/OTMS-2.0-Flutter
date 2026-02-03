@@ -27,12 +27,16 @@ class Info {
   String? name;
   int? companyId;
   String? otp;
+  String? companyName,companyLogoUrl,companyLogoThumbUrl;
 
   Info({
     this.id,
     this.name,
     this.companyId,
     this.otp,
+    this.companyName,
+    this.companyLogoUrl,
+    this.companyLogoThumbUrl
   });
 
   Info.fromJson(Map<String, dynamic> json) {
@@ -40,6 +44,9 @@ class Info {
     name = json['name'];
     companyId = json['company_id'];
     otp = json['otp'];
+    companyName = json['company_name'];
+    companyLogoUrl = json['company_logo_url'];
+    companyLogoThumbUrl = json['company_logo_thumb_url'];
   }
 
   Map<String, dynamic> toJson() {
@@ -48,6 +55,10 @@ class Info {
     data['name'] = this.name;
     data['company_id'] = this.companyId;
     data['otp'] = this.otp;
+    data['company_name'] = this.companyName;
+    data['company_logo_url'] = this.companyLogoUrl;
+    data['company_logo_thumb_url'] = this.companyLogoThumbUrl;
+
     return data;
   }
 }
