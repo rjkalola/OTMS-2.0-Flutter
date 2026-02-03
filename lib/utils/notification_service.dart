@@ -323,6 +323,24 @@ class NotificationService {
           AppConstants.intentKey.fromNotification: true
         };
         Get.offAllNamed(rout, arguments: arguments);
+      } //Penalty
+      else if (notificationType ==
+              AppConstants.notificationType.penaltyAppeal ||
+          notificationType == AppConstants.notificationType.penaltyApprove ||
+          notificationType == AppConstants.notificationType.penaltyReject) {
+        String rout = AppRoutes.penaltyDetailsScreen;
+        final recordId = data['record_id'] ?? "0";
+        int id = !StringHelper.isEmptyString(recordId)
+            ? int.parse(recordId)
+            : 0;
+        print("recordId is:" + id.toString());
+        if (id != 0) {
+          var arguments = {
+            AppConstants.intentKey.fromNotification: true,
+            AppConstants.intentKey.penaltyId: id
+          };
+          Get.offAllNamed(rout, arguments: arguments);
+        }
       } else {
         Get.offAllNamed(AppRoutes.splashScreen);
       }

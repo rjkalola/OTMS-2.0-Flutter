@@ -225,7 +225,9 @@ class _PenaltyDetailsScreenState extends State<PenaltyDetailsScreen> {
                                     )
                                   ],
                                 ),
-                                SizedBox(height: 9,),
+                                SizedBox(
+                                  height: 9,
+                                ),
                                 Visibility(
                                   visible: controller.status.value != 0,
                                   child: CheckInOutDisplayNoteWidget(
@@ -344,7 +346,12 @@ class _PenaltyDetailsScreenState extends State<PenaltyDetailsScreen> {
     return PrimaryButton(
         buttonText: 'appeal'.tr,
         onPressed: () {
-          controller.showActionDialog(AppConstants.dialogIdentifier.appeal);
+          if (!StringHelper.isEmptyEdittext(
+              controller.noteController.value.text)) {
+            controller.showActionDialog(AppConstants.dialogIdentifier.appeal);
+          } else {
+            AppUtils.showToastMessage('enter_note'.tr);
+          }
         });
   }
 }

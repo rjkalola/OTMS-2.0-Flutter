@@ -420,6 +420,11 @@ class NotificationType {
 
   //Announcement
   final String addAnnouncement = "16001";
+
+  //Penalty
+  final String penaltyAppeal = "17001";
+  final String penaltyApprove = "17002";
+  final String penaltyReject = "17003";
 }
 
 class RequestType {
