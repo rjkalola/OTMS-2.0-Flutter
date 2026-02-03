@@ -201,6 +201,15 @@ class FeedTabController extends GetxController {
           moveToScreen(rout, arguments: arguments, index: index);
         }
       }
+      //Personal info change
+      else if (notificationType ==
+          AppConstants.notificationType.personalInfoChange){
+        String rout = AppRoutes.personalInfoScreen;
+        var arguments = {
+          AppConstants.intentKey.userId: info.userId,
+        };
+        moveToScreen(rout, arguments: arguments, index: index);
+      }
       //Leaves
       else if (notificationType == AppConstants.notificationType.leaveAdd ||
           notificationType == AppConstants.notificationType.leaveUpdate ||

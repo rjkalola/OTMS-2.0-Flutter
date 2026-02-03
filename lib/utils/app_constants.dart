@@ -13,7 +13,7 @@ class AppConstants {
   static const Results results = Results();
   static const Status status = Status();
   static const CompanyResourcesFlag companyResourcesFlag =
-      CompanyResourcesFlag();
+  CompanyResourcesFlag();
   static const NotificationType notificationType = NotificationType();
   static const RequestType requestType = RequestType();
   static const FilterType filterType = FilterType();
@@ -425,6 +425,10 @@ class NotificationType {
   final String penaltyAppeal = "17001";
   final String penaltyApprove = "17002";
   final String penaltyReject = "17003";
+
+  //Personal Info change
+  final String personalInfoChange = "19001";
+
 }
 
 class RequestType {

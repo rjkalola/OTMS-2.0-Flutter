@@ -48,9 +48,8 @@ class PersonalInfoController extends GetxController implements SelectPhoneExtens
   Map<String, dynamic> initialData = {};
 
   int? userId = UserUtils.getLoginUserId();
-  final userInfo = UserUtils
-      .getUserInfo()
-      .obs;
+  final userInfo = UserUtils.getUserInfo().obs;
+  bool fromNotification = false;
 
   final phoneNumberErrorMessage = "".obs;
   final otpController = TextEditingController().obs;
@@ -65,6 +64,8 @@ class PersonalInfoController extends GetxController implements SelectPhoneExtens
     if (arguments != null) {
       userId = arguments[AppConstants.intentKey.userId] ??
           UserUtils.getLoginUserId();
+      fromNotification =
+          arguments[AppConstants.intentKey.fromNotification] ?? false;
     }
 
     if (!UserUtils.isLoginUser(userId)) {
@@ -371,7 +372,13 @@ class PersonalInfoController extends GetxController implements SelectPhoneExtens
       },
     );
   }
-
+  void onBackPress() {
+    if (fromNotification) {
+      Get.offAllNamed(AppRoutes.dashboardScreen);
+    } else {
+      Get.back();
+    }
+  }
   @override
   void onSelectPhoneExtension(int id, String extension, String flag,
       String country) {
