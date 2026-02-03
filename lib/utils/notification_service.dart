@@ -297,6 +297,16 @@ class NotificationService {
           Get.offAllNamed(rout, arguments: arguments);
         }
       }
+      //Personal info change
+      else if (notificationType ==
+          AppConstants.notificationType.personalInfoChange){
+        String rout = AppRoutes.personalInfoScreen;
+        var arguments = {
+          AppConstants.intentKey.userId: requestedByUserIdInt,
+          AppConstants.intentKey.fromNotification: true
+        };
+        Get.offAllNamed(rout, arguments: arguments);
+      }
       //Rate
       else if (notificationType == AppConstants.notificationType.CHNAGE_RATE ||
           notificationType == AppConstants.notificationType.APPROVE_RATE ||

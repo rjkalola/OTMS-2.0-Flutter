@@ -420,6 +420,9 @@ class NotificationType {
 
   //Announcement
   final String addAnnouncement = "16001";
+
+  //Personal Info change
+  final String personalInfoChange = "19001";
 }
 
 class RequestType {
