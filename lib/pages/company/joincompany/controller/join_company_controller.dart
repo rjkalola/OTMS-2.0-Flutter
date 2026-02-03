@@ -37,6 +37,8 @@ class JoinCompanyController extends GetxController
   final List<ModuleInfo> listCompanies = <ModuleInfo>[].obs;
   final List<ModuleInfo> listTrades = <ModuleInfo>[].obs;
   final companyId = 0.obs;
+  final companyName = "".obs;
+  final companyLogoUrl = "".obs;
   final requestedCode = "".obs;
   final otpController = TextEditingController().obs;
   final mOtpCode = "".obs;
@@ -102,6 +104,9 @@ class JoinCompanyController extends GetxController
           ValidateTeamOtpResponse response = ValidateTeamOtpResponse.fromJson(
               jsonDecode(responseModel.result!));
           int companyId = response.info?.companyId ?? 0;
+          companyName.value = response.info?.companyName ?? "";
+          companyLogoUrl.value = response.info?.companyLogoUrl ?? "";
+
           print("companyId:" + companyId.toString());
           getTradeDataApi(companyId);
         } else {
