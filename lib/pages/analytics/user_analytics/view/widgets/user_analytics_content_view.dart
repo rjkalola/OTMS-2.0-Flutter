@@ -24,7 +24,7 @@ class UserAnalyticsContentView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          //UserAnalyticsScoreCard(),
+          UserAnalyticsScoreCard(),
           SizedBox(height: 8,),
           UserAnalyticsButtonsGridWidget(),
         ],
