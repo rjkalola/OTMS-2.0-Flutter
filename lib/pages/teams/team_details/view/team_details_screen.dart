@@ -62,7 +62,7 @@ class _TeamDetailsScreenState extends State<TeamDetailsScreen> {
                           visible: controller.isMainViewVisible.value,
                           child: Column(
                             children: [
-                              Divider(),
+                              // Divider(),
                               TeamTitleCardView(),
                               TeamMembersList()
                             ],

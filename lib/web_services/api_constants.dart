@@ -99,6 +99,7 @@ class ApiConstants {
   static String removeUserPermanently = '$appUrl/user/delete-account';
   static String getDigitalCardDetails = '$appUrl/user/get-user-digital-card';
   static String userAnalytics = '$appUrl/analytics/user';
+  static String stopUserWork = '$appUrl/stop-work';
 
   //teams
   static String teamList = '$appUrl/team/list';

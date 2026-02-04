@@ -117,6 +117,7 @@ class DialogIdentifier {
   final String storeList = 'STORE_LIST';
   final String selectCompany = 'SELECT_COMPANY';
   final String joinCompany = 'JOIN_COMPANY';
+  final String stopWork = 'STOP_WORK';
   final String selectTrade = 'SELECT_TRADE';
   final String selectLocation = 'SELECT_LOCATION';
   final String selectTypeOfWork = 'SELECT_TYPE_OF_WORK';
@@ -277,6 +278,7 @@ class Action {
   final String trades = "Trades";
 
   final String makeAdmin = 'MAKE_ADMIN';
+  final String stopWork = 'STOP_WORK';
 }
 
 class StockCountType {

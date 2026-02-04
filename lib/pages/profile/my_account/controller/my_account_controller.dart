@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:belcka/pages/check_in/clock_in/model/location_info.dart';
 import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:belcka/pages/common/listener/menu_item_listener.dart';
 import 'package:belcka/pages/common/menu_items_list_bottom_dialog.dart';
@@ -13,6 +14,8 @@ import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_storage.dart';
 import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/location_service_new.dart';
+import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/base_response.dart';
@@ -302,6 +305,53 @@ class MyAccountController extends GetxController
     );
   }
 
+  void stopWorkAPI() async {
+    String deviceModelName = await AppUtils.getDeviceName();
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["user_id"] = userId;
+    map["company_id"] = ApiConstants.companyId;
+    LocationInfo? locationInfo = Get.find<AppStorage>().getLastLocation();
+    if (locationInfo != null) {
+      String latitude = locationInfo.latitude ?? "0";
+      String longitude = locationInfo.longitude ?? "0";
+      String location = "";
+      if (!StringHelper.isEmptyString(latitude) &&
+          !StringHelper.isEmptyString(longitude)) {
+        location = await LocationServiceNew.getAddressFromCoordinates(
+            double.parse(latitude), double.parse(longitude));
+      }
+      map["latitude"] = latitude;
+      map["longitude"] = longitude;
+      map["location"] = location;
+    }
+    map["device_type"] = AppConstants.deviceType;
+    map["device_model_type"] = deviceModelName;
+    _api.stopUserWork(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          BaseResponse response =
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showToastMessage(response.Message ?? "");
+          isDataChanged.value = true;
+          getProfileAPI(userId ?? 0, false);
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showApiResponseMessage(error.statusMessage);
+        }
+      },
+    );
+  }
+
   void onBackPress() {
     Get.back(result: isDataChanged.value);
   }
@@ -401,6 +451,10 @@ class MyAccountController extends GetxController
     List<ModuleInfo> listItems = [];
     listItems.add(ModuleInfo(
         name: 'make_an_admin'.tr, action: AppConstants.action.makeAdmin));
+    if (userInfo.value.isWorking ?? false) {
+      listItems.add(ModuleInfo(
+          name: 'stop_work'.tr, action: AppConstants.action.stopWork));
+    }
     showCupertinoModalPopup(
       context: context,
       builder: (_) =>
@@ -412,7 +466,22 @@ class MyAccountController extends GetxController
   Future<void> onSelectMenuItem(ModuleInfo info, String dialogType) async {
     if (info.action == AppConstants.action.makeAdmin) {
       changeAdminAPI();
+    } else if (info.action == AppConstants.action.stopWork) {
+      showStopWorkDialog();
     }
+  }
+
+  showStopWorkDialog() async {
+    AlertDialogHelper.showAlertDialog(
+        "",
+        'are_you_sure_you_want_to_stop_work'.tr,
+        'yes'.tr,
+        'no'.tr,
+        "",
+        true,
+        false,
+        this,
+        AppConstants.dialogIdentifier.stopWork);
   }
 
   @override
@@ -427,6 +496,9 @@ class MyAccountController extends GetxController
   void onPositiveButtonClicked(String dialogIdentifier) {
     if (dialogIdentifier == AppConstants.dialogIdentifier.delete) {
       removeUserPermanentlyAPI();
+      Get.back();
+    } else if (dialogIdentifier == AppConstants.dialogIdentifier.stopWork) {
+      stopWorkAPI();
       Get.back();
     }
   }

@@ -36,7 +36,7 @@ class AnnouncementList extends StatelessWidget {
                       ? ThemeConfig.isDarkMode
                           ? AppUtils.getColor("#22242f")
                           : AppUtils.getColor("#edf2fb")
-                      : backgroundColor_(context),
+                      : null,
                   child: GestureDetector(
                     onTap: () {
                       var arguments = {
