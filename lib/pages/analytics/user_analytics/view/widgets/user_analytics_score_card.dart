@@ -1,5 +1,5 @@
 import 'package:belcka/pages/analytics/user_analytics/controller/user_analytics_controller.dart';
-import 'package:belcka/pages/analytics/user_analytics/view/widgets/animated_overall_progress.dart';
+import 'package:belcka/pages/analytics/widgets/animated_overall_progress.dart';
 import 'package:belcka/pages/analytics/user_analytics/view/widgets/animated_progress_view.dart';
 import 'package:belcka/pages/analytics/user_analytics/view/widgets/user_analytics_warnings_widget.dart';
 import 'package:belcka/res/theme/app_colors.dart';

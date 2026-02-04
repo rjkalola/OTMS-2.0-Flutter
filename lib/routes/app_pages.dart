@@ -3,6 +3,7 @@ import 'package:belcka/buyer_app/purchasing/view/purchasing_screen.dart';
 import 'package:belcka/pages/add_category/view/add_category_screen.dart';
 import 'package:belcka/pages/add_trades/view/add_trades_screen.dart';
 import 'package:belcka/pages/analytics/user_analytics/view/user_analytics_screen.dart';
+import 'package:belcka/pages/analytics/user_score/view/user_analytics_score_screen.dart';
 import 'package:belcka/pages/authentication/introduction/view/introduction_screen.dart';
 import 'package:belcka/pages/authentication/login/view/login_screen.dart';
 import 'package:belcka/pages/authentication/other_info_steps/step1_team_users_count_info/view/team_users_count_info_screen.dart';
@@ -394,5 +395,6 @@ class AppPages {
         name: AppRoutes.penaltyDetailsScreen,
         page: () => PenaltyDetailsScreen()),
     GetPage(name: AppRoutes.userAnalyticsScreen, page: () => UserAnalyticsScreen()),
+    GetPage(name: AppRoutes.userAnalyticsScoreScreen, page: () => UserAnalyticsScoreScreen()),
   ];
 }
