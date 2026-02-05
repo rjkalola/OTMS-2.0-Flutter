@@ -66,6 +66,8 @@ class TimeSheetList extends StatelessWidget {
 
   Widget userDetailsView(TimeSheetInfo info, int position) {
     int status = info.status ?? 0;
+    int time = info.totalPayableSeconds ?? 0;
+    print("time"+time.toString());
     return Container(
       padding: const EdgeInsets.fromLTRB(10, 12, 10, 12),
       color: Colors.transparent,

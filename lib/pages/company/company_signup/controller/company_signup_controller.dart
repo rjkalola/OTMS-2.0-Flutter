@@ -93,7 +93,7 @@ class CompanySignUpController extends GetxController
     map["created_by"] = Get.find<AppStorage>().getUserInfo().id;
     map["name"] = StringHelper.getText(companyNameController.value);
     map["email"] = StringHelper.getText(companyEmailController.value);
-    map["phone"] = StringHelper.getText(phoneController.value);
+    map["phone"] = StringHelper.getPhoneNumberText(phoneController.value);
     map["extension"] = mExtension.value;
     map["device_type"] = AppConstants.deviceType;
     // map["device_name"] = AppUtils.getDeviceName();

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:belcka/utils/string_helper.dart';
 import 'package:dio/dio.dart' as multi;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -52,7 +53,7 @@ class LoginController extends GetxController
   void login() async {
     if (valid(false)) {
       Map<String, dynamic> map = {};
-      map["phone"] = phoneController.value.text;
+      map["phone"] = StringHelper.getPhoneNumberText(phoneController.value);
       map["extension"] = mExtension.value;
       map["otp"] = mOtpCode.value;
       map["device_type"] = AppConstants.deviceType;
@@ -70,7 +71,7 @@ class LoginController extends GetxController
             Get.find<AppStorage>()
                 .setAccessToken(response.info!.apiToken ?? "");
             ApiConstants.accessToken = response.info!.apiToken ?? "";
-            Get.find<AppStorage>().setCompanyId(companyId); 
+            Get.find<AppStorage>().setCompanyId(companyId);
             ApiConstants.companyId = companyId;
             print("Token:" + ApiConstants.accessToken);
             AppUtils.saveLoginUser(response.info!);
@@ -100,7 +101,7 @@ class LoginController extends GetxController
 
   void sendOtpApi() async {
     Map<String, dynamic> map = {};
-    map["phone"] = phoneController.value.text;
+    map["phone"] = StringHelper.getPhoneNumberText(phoneController.value);
     map["extension"] = mExtension.value;
     multi.FormData formData = multi.FormData.fromMap(map);
     isLoading.value = true;

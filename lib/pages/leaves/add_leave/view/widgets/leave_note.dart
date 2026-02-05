@@ -28,6 +28,7 @@ class LeaveNote extends StatelessWidget {
           validator: MultiValidator([]),
           isReadOnly: isReadOnly,
           minLines: 3,
+          maxLength: 150,
           textAlignVertical: TextAlignVertical.top,
           borderRadius: 15,
           textAlign: TextAlign.start,

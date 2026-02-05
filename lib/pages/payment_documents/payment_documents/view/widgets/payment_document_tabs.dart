@@ -1,13 +1,13 @@
-import 'package:belcka/pages/project/address_details/controller/address_details_controller.dart';
+import 'package:belcka/pages/payment_documents/payment_documents/controller/payment_documents_controller.dart';
 import 'package:belcka/pages/project/address_details/view/widgets/address_details_filter_item.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class AddressDetailsFilterList extends StatelessWidget {
-  AddressDetailsFilterList({super.key});
+class PaymentDocumentTabs extends StatelessWidget {
+  PaymentDocumentTabs({super.key});
 
-  final controller = Get.put(AddressDetailsController());
+  final controller = Get.put(PaymentDocumentsController());
 
   @override
   Widget build(BuildContext context) {
@@ -17,26 +17,39 @@ class AddressDetailsFilterList extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               AddressDetailsFilterItem(
-                title: 'check_in_'.tr,
-                action: AppConstants.action.checkIn,
+                title: 'invoices'.tr,
+                action: AppConstants.action.invoices,
                 selectedAction: controller.selectedFilter,
-                count: controller.checkInsCount.value,
+                count: controller.invoicesCount.value,
                 onItemClick: (String action) {
                   controller.selectedFilter.value = action;
-                  controller.getAddressDetailsApi();
+                  // controller.getAddressDetailsApi();
                 },
               ),
               SizedBox(
                 width: 6,
               ),
               AddressDetailsFilterItem(
-                title: 'trades'.tr,
-                action: AppConstants.action.trades,
+                title: 'payments'.tr,
+                action: AppConstants.action.payments,
                 selectedAction: controller.selectedFilter,
-                count: controller.tradesCount.value,
+                count: controller.paymentsCount.value,
                 onItemClick: (String action) {
                   controller.selectedFilter.value = action;
-                  controller.getAddressDetailsApi();
+                  // controller.getAddressDetailsApi();
+                },
+              ),
+              SizedBox(
+                width: 6,
+              ),
+              AddressDetailsFilterItem(
+                title: 'payslips'.tr,
+                action: AppConstants.action.payslips,
+                selectedAction: controller.selectedFilter,
+                count: controller.payslipsCount.value,
+                onItemClick: (String action) {
+                  controller.selectedFilter.value = action;
+                  // controller.getAddressDetailsApi();
                 },
               ),
             ],

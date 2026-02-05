@@ -48,6 +48,7 @@ import 'package:belcka/pages/notifications/announcement_details/view/announcemen
 import 'package:belcka/pages/notifications/create_announcement/view/create_announcement_screen.dart';
 import 'package:belcka/pages/notifications/notification_list/view/notification_list_screen.dart';
 import 'package:belcka/pages/notifications/notification_settings/view/notification_settings_screen.dart';
+import 'package:belcka/pages/payment_documents/payment_documents/view/payment_documents_screen.dart';
 import 'package:belcka/pages/permissions/company_permissions/view/company_permission_screen.dart';
 import 'package:belcka/pages/permissions/edit_widget/view/edit_widget_screen.dart';
 import 'package:belcka/pages/permissions/permission_users/view/permission_users_screen.dart';
@@ -394,7 +395,13 @@ class AppPages {
     GetPage(
         name: AppRoutes.penaltyDetailsScreen,
         page: () => PenaltyDetailsScreen()),
-    GetPage(name: AppRoutes.userAnalyticsScreen, page: () => UserAnalyticsScreen()),
-    GetPage(name: AppRoutes.userAnalyticsScoreScreen, page: () => UserAnalyticsScoreScreen()),
+    GetPage(
+        name: AppRoutes.userAnalyticsScreen, page: () => UserAnalyticsScreen()),
+    GetPage(
+        name: AppRoutes.userAnalyticsScoreScreen,
+        page: () => UserAnalyticsScoreScreen()),
+    GetPage(
+        name: AppRoutes.paymentDocumentsScreen,
+        page: () => PaymentDocumentsScreen()),
   ];
 }

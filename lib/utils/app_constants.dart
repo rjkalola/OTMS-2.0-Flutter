@@ -279,6 +279,10 @@ class Action {
 
   final String makeAdmin = 'MAKE_ADMIN';
   final String stopWork = 'STOP_WORK';
+
+  final String invoices = "Invoices";
+  final String payments = "Payments";
+  final String payslips = "Payslips";
 }
 
 class StockCountType {

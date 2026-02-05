@@ -76,7 +76,7 @@ class DateUtil {
     return '$hours:$minutes';*/
     print("totalSeconds:" + totalSeconds.toString());
 
-    final duration = Duration(seconds: totalSeconds);
+    final duration = Duration(seconds: totalSeconds < 0 ? 0 : totalSeconds);
 
     double totalMinutes = duration.inSeconds / 60;
     int roundedMinutes = totalMinutes.round();
@@ -88,7 +88,7 @@ class DateUtil {
   }
 
   static String seconds_To_HH_MM_SS(int totalSeconds) {
-    final duration = Duration(seconds: totalSeconds);
+    final duration = Duration(seconds: totalSeconds < 0 ? 0 : totalSeconds);
     final hours = duration.inHours.toString().padLeft(2, '0');
     final minutes = (duration.inMinutes % 60).toString().padLeft(2, '0');
     final seconds = (duration.inSeconds % 60).toString().padLeft(2, '0');

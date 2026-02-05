@@ -83,11 +83,11 @@ class InviteUserController extends GetxController
 
   void inviteUserApi() async {
     Map<String, dynamic> map = {};
-
+ 
     map["first_name"] = StringHelper.getText(firstNameController.value);
     map["last_name"] = StringHelper.getText(lastNameController.value);
     map["extension"] = mExtension.value;
-    map["phone"] = StringHelper.getText(phoneController.value);
+    map["phone"] = StringHelper.getPhoneNumberText(phoneController.value);
     map["device_type"] = AppConstants.deviceType;
     map["team_id"] = teamId;
     map["trade_id"] = tradeId;

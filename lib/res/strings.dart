@@ -345,9 +345,6 @@ class Strings extends Translations {
           'billing_information_submission_is_pending_for_approval':
               "Billing information submission is pending for approval",
           'rates': "Rates",
-          'payslips': "Payslips",
-          'Payment': "Payment",
-          'invoice': "Invoice",
           'done': "Done",
           'this_billing_data_is_awaiting_for_approval':
               "This billing data is awaiting for approval",
@@ -548,6 +545,9 @@ class Strings extends Translations {
           'my_analytics': "My Analytics",
           'appeal_note': "Appeal Note",
           'score': "Score",
+          'invoices': "Invoices",
+          'payments': "Payments",
+          'payslips': "Payslips",
 // '': "",
 // '': "",
 // '': "",

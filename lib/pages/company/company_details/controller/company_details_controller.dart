@@ -192,7 +192,7 @@ class CompanyDetailsController extends GetxController
     map["name"] = StringHelper.getText(companyNameController.value);
     map["code"] = StringHelper.getText(companyCodeController.value);
     map["address"] = StringHelper.getText(companyAddressController.value);
-    map["phone"] = StringHelper.getText(phoneController.value);
+    map["phone"] = StringHelper.getPhoneNumberText(phoneController.value);
     map["extension"] = mExtension.value;
     map["email"] = StringHelper.getText(companyEmailController.value);
     map["website"] = StringHelper.getText(companyWebsiteController.value);

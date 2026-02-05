@@ -62,7 +62,7 @@ class UpdateSignUpDetailsController extends GetxController
     map["first_name"] = StringHelper.getText(firstNameController.value);
     map["last_name"] = StringHelper.getText(lastNameController.value);
     map["extension"] = mExtension.value;
-    map["phone"] = StringHelper.getText(phoneController.value);
+    map["phone"] = StringHelper.getPhoneNumberText(phoneController.value);
     map["device_type"] = AppConstants.deviceType;
     map["user_id"] = UserUtils.getLoginUserId();
 

@@ -42,6 +42,7 @@ class DateFilterOptionsHorizontalList extends StatelessWidget
                         selectedPosition.value != 0)
                     ? defaultAccentColor_(context)
                     : Colors.transparent,
+                boxColor: backgroundColor_(context),
                 child: GestureDetector(
                   onTap: () {
                     selectedPosition.value = index;

@@ -1,3 +1,5 @@
+import 'package:belcka/utils/phone_length_formatter.dart';
+import 'package:belcka/utils/string_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -15,7 +17,7 @@ class PhoneNumberTextFieldCompanySignup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFieldBorder(
+    return Obx(() => TextFieldBorder(
         textEditingController: controller.phoneController.value,
         hintText: 'phone'.tr,
         labelText: 'phone'.tr,
@@ -27,17 +29,23 @@ class PhoneNumberTextFieldCompanySignup extends StatelessWidget {
         textInputAction: TextInputAction.done,
         validator: MultiValidator([
           RequiredValidator(errorText: 'required_field'.tr),
+          // CustomFieldValidator((value) {
+          //   return value != null && !value.startsWith("0");
+          // }, errorText: 'error_phone_number_start_with_zero'.tr),
           CustomFieldValidator((value) {
-            return value != null && !value.startsWith("0");
-          }, errorText: 'error_phone_number_start_with_zero'.tr),
-          CustomFieldValidator((value) {
-            return value != null && value.length == 10;
+            return value != null &&
+                value.length ==
+                    (StringHelper.getText(controller.phoneController.value)
+                        .startsWith("0")
+                        ? 11
+                        : 10);
           }, errorText: 'error_phone_number_contain_10_digits'.tr),
         ]),
         inputFormatters: <TextInputFormatter>[
           // for below version 2 use this
           FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-          LengthLimitingTextInputFormatter(10),
-        ]);
+          // LengthLimitingTextInputFormatter(10),
+          PhoneLengthFormatter()
+        ]),);
   }
 }

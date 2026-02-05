@@ -63,7 +63,7 @@ class SignUp1Controller extends GetxController
       if (!isOtpVerified.value) {
         if (mOtpCode.value.length == 6) {
           verifyOtpApi(mOtpCode.value, mExtension.value,
-              phoneController.value.text.toString().trim());
+              StringHelper.getPhoneNumberText(phoneController.value));
         } else {
           AppUtils.showSnackBarMessage('enter_otp'.tr);
         }
@@ -72,8 +72,8 @@ class SignUp1Controller extends GetxController
       }
     } else {
       if (valid()) {
-        sendOtpApi(
-            mExtension.value, phoneController.value.text.toString().trim());
+        sendOtpApi(mExtension.value,
+            StringHelper.getPhoneNumberText(phoneController.value));
       }
     }
 
@@ -92,7 +92,7 @@ class SignUp1Controller extends GetxController
   }
 
   void checkPhoneNumberExist() async {
-    String phoneNumber = StringHelper.getText(phoneController.value);
+    String phoneNumber = StringHelper.getPhoneNumberText(phoneController.value);
     if (!StringHelper.isEmptyString(phoneNumber)) {
       if (phoneNumber.length == 10) {
         Map<String, dynamic> map = {};
@@ -214,7 +214,7 @@ class SignUp1Controller extends GetxController
     map["first_name"] = StringHelper.getText(firstNameController.value);
     map["last_name"] = StringHelper.getText(lastNameController.value);
     map["extension"] = mExtension.value;
-    map["phone"] = StringHelper.getText(phoneController.value);
+    map["phone"] = StringHelper.getPhoneNumberText(phoneController.value);
     map["device_type"] = AppConstants.deviceType;
     // map["device_name"] = AppUtils.getDeviceName();
     // map["latitude"] = "";

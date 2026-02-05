@@ -7,13 +7,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AddressDetailsFilterItem extends StatelessWidget {
-  final controller = Get.put(AddressDetailsController());
-
   final String title, action;
   final int? count;
+  final ValueChanged<String> onItemClick;
+  final RxString selectedAction;
 
   AddressDetailsFilterItem(
-      {super.key, required this.title, required this.action, this.count});
+      {super.key,
+      required this.title,
+      required this.action,
+      required this.selectedAction,
+      this.count,
+      required this.onItemClick});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +29,7 @@ class AddressDetailsFilterItem extends StatelessWidget {
         child: Stack(
           children: [
             CardViewDashboardItem(
-                borderColor: (controller.selectedFilter.value == action)
+                borderColor: (selectedAction.value == action)
                     ? defaultAccentColor_(context)
                     : Colors.transparent,
                 boxColor: lightGreyColor(context),
@@ -32,9 +37,9 @@ class AddressDetailsFilterItem extends StatelessWidget {
                 elevation: 2,
                 child: GestureDetector(
                   onTap: () {
-                    controller.selectedFilter.value = action;
-                    controller.getAddressDetailsApi();
-                    // controller.onSelectAddressFilter(action, true);
+                    onItemClick(action);
+                    // controller.selectedFilter.value = action;
+                    // controller.getAddressDetailsApi();
                   },
                   child: Container(
                     color: Colors.transparent,

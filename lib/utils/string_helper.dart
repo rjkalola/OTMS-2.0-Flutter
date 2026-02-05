@@ -103,4 +103,12 @@ class StringHelper {
       return "";
     }
   }
+
+  static String getPhoneNumberText(TextEditingController controller) {
+    if (getText(controller).startsWith("0")) {
+      return getText(controller).substring(1);
+    } else {
+      return getText(controller);
+    }
+  }
 }
