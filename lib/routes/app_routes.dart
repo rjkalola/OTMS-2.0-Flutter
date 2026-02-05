@@ -136,4 +136,5 @@ class AppRoutes {
   static const String personalInfoScreen = '/personal_info_screen';
   static const String userAnalyticsScreen = '/user_analytics_screen';
   static const String userAnalyticsScoreScreen = '/user_analytics_score_screen';
+  static const String userScoreTypesScreen = '/user_score_types_screen';
 }

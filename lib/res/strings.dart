@@ -546,6 +546,10 @@ class Strings extends Translations {
           'my_analytics': "My Analytics",
           'appeal_note': "Appeal Note",
           'score': "Score",
+          'warnings':"Warnings",
+          'kpi':"KPI",
+          'app_activity':"App activity",
+
 // '': "",
 // '': "",
 // '': "",

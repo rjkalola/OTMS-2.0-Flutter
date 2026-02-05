@@ -1,6 +1,7 @@
 import 'package:belcka/pages/analytics/user_score/controller/user_analytics_score_controller.dart';
 import 'package:belcka/pages/analytics/widgets/animated_progress_bar.dart';
 import 'package:belcka/res/theme/app_colors.dart';
+import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:flutter/material.dart';
@@ -77,8 +78,7 @@ class UserScoreTypesWidget extends StatelessWidget {
         var arguments = {
           AppConstants.intentKey.userId: controller.userId,
         };
-        //controller.moveToScreen(AppRoutes.createTeamScreen, arguments, scoreType);
-        print("scoreType:${scoreType}");
+        controller.moveToScreen(AppRoutes.userScoreTypesScreen, arguments, scoreType);
       },
       style: TextButton.styleFrom(
         backgroundColor: Color(0xFF007AFF).withOpacity(0.15),
