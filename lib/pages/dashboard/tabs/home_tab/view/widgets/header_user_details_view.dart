@@ -1,3 +1,4 @@
+import 'package:belcka/utils/app_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:belcka/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart';
 import 'package:belcka/res/colors.dart';
@@ -28,64 +29,72 @@ class HeaderUserDetailsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => CardViewDashboardItem(
-      margin: EdgeInsets.fromLTRB(14, 20, 14, 6),
-      padding: EdgeInsets.fromLTRB(16, 14, 16, 14),
-      child: GestureDetector(
-        onTap: () {
-          controller.moveToScreen(appRout: AppRoutes.myAccountScreen);
-        },
-        child: Row(
-          children: [
-            UserAvtarView(
-              imageUrl: controller.userInfo.value.userThumbImage ?? "",
-              isOnlineStatusVisible: true,
-            ),
-            SizedBox(
-              width: 14,
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  PrimaryTextView(
-                    text:
-                    "Hi, ${controller.userInfo.value.firstName} ${controller.userInfo.value.lastName}",
-                    fontWeight: FontWeight.w500,
-                    fontSize: 17,
-                    color: primaryTextColorLight_(context),
-                    softWrap: true,
-                  ),
-                  PrimaryTextView(
-                    text: getFormattedDate(),
-                    color: secondaryExtraLightTextColor_(context),
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14,
-                    softWrap: true,
-                  )
-                ],
+    return Obx(
+      () => CardViewDashboardItem(
+        margin: EdgeInsets.fromLTRB(14, 20, 14, 6),
+        padding: EdgeInsets.fromLTRB(16, 14, 16, 14),
+        child: GestureDetector(
+          onTap: () {
+            if (Get.find<AppStorage>().isLocalSequenceChanges()) {
+              controller.changeDashboardUserPermissionMultipleSequenceApi(
+                  isProgress: false,
+                  isLoadPermissionList: false,
+                  isChangeSequence: false);
+            }
+            controller.moveToScreen(appRout: AppRoutes.myAccountScreen);
+          },
+          child: Row(
+            children: [
+              UserAvtarView(
+                imageUrl: controller.userInfo.value.userThumbImage ?? "",
+                isOnlineStatusVisible: true,
               ),
-            ),
-            GestureDetector(
-              onTap: () {
-                controller.moveToScreen2(
-                    appRout: AppRoutes.notificationListScreen);
-              },
-              child: Obx(
-                    () => BudgeCountWithChild(
-                    count: controller.notificationCount.value,
-                    child: ImageUtils.setSvgAssetsImage(
-                        path: Drawable.bellIcon,
-                        width: 28,
-                        height: 28,
-                        color: ThemeConfig.isDarkMode
-                            ? AppUtils.getColor("#B7B3AD")
-                            : AppUtils.getColor("#484C52"))),
+              SizedBox(
+                width: 14,
               ),
-            )
-          ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    PrimaryTextView(
+                      text:
+                          "Hi, ${controller.userInfo.value.firstName} ${controller.userInfo.value.lastName}",
+                      fontWeight: FontWeight.w500,
+                      fontSize: 17,
+                      color: primaryTextColorLight_(context),
+                      softWrap: true,
+                    ),
+                    PrimaryTextView(
+                      text: getFormattedDate(),
+                      color: secondaryExtraLightTextColor_(context),
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                      softWrap: true,
+                    )
+                  ],
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  controller.moveToScreen2(
+                      appRout: AppRoutes.notificationListScreen);
+                },
+                child: Obx(
+                  () => BudgeCountWithChild(
+                      count: controller.notificationCount.value,
+                      child: ImageUtils.setSvgAssetsImage(
+                          path: Drawable.bellIcon,
+                          width: 28,
+                          height: 28,
+                          color: ThemeConfig.isDarkMode
+                              ? AppUtils.getColor("#B7B3AD")
+                              : AppUtils.getColor("#484C52"))),
+                ),
+              )
+            ],
+          ),
         ),
       ),
-    ),);
+    );
   }
 }

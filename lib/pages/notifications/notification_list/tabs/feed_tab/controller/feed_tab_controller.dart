@@ -134,7 +134,9 @@ class FeedTabController extends GetxController {
           notificationType ==
               AppConstants.notificationType.TIME_CLOCK_EDIT_WORKLOG ||
           notificationType ==
-              AppConstants.notificationType.USER_WORK_STOP_AUTOMATICALLY) {
+              AppConstants.notificationType.USER_WORK_STOP_AUTOMATICALLY ||
+          notificationType ==
+              AppConstants.notificationType.USER_WORK_STOP_BY_ADMIN) {
         if ((info.worklogId ?? 0) != 0) {
           String rout = AppRoutes.stopShiftScreen;
           var arguments = {

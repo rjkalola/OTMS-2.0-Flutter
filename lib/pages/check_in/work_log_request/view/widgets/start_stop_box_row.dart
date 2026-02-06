@@ -13,6 +13,10 @@ class StartStopBoxRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("Old time:"+(controller.workLogInfo.value.oldEndTime != null
+        ? controller.changeFullDateToSortTime(
+        controller.workLogInfo.value.oldEndTime)
+        : "00:00"));
     return Obx(
       () => Padding(
         padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
@@ -24,7 +28,7 @@ class StartStopBoxRow extends StatelessWidget {
               oldTime: controller.workLogInfo.value.oldStartTime != null
                   ? controller.changeFullDateToSortTime(
                       controller.workLogInfo.value.oldStartTime)
-                  : "",
+                  : "00:00",
               address: "650, High road, 650, High road,",
               timePickerType:
                   AppConstants.dialogIdentifier.selectShiftStartTime,
@@ -43,7 +47,7 @@ class StartStopBoxRow extends StatelessWidget {
               oldTime: controller.workLogInfo.value.oldEndTime != null
                   ? controller.changeFullDateToSortTime(
                       controller.workLogInfo.value.oldEndTime)
-                  : "",
+                  : "00:00",
               address: "650, High road, 650, High road,",
               timePickerType: AppConstants.dialogIdentifier.selectShiftEndTime,
               status: controller.workLogInfo.value.status,

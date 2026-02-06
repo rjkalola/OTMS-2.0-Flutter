@@ -97,7 +97,9 @@ class SplashServices {
       final notificationType = data['notification_type'] ?? "";
       print("notificationType:::" + notificationType);
       if (notificationType ==
-          AppConstants.notificationType.USER_WORK_STOP_AUTOMATICALLY) {
+              AppConstants.notificationType.USER_WORK_STOP_AUTOMATICALLY ||
+          notificationType ==
+              AppConstants.notificationType.USER_WORK_STOP_BY_ADMIN) {
         if (Get.isRegistered<ClockInController>()) {
           final controller = Get.find<ClockInController>();
           controller.getUserWorkLogListApi(isProgress: false);

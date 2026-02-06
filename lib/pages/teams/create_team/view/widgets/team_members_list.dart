@@ -1,20 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:belcka/pages/common/model/user_info.dart';
-import 'package:belcka/pages/permissions/user_list/controller/user_list_controller.dart';
 import 'package:belcka/pages/teams/create_team/controller/create_team_controller.dart';
-import 'package:belcka/res/colors.dart';
 import 'package:belcka/res/drawable.dart';
-import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/other_widgets/user_avtar_view.dart';
-import 'package:belcka/widgets/switch/custom_switch.dart';
-import 'package:belcka/widgets/text/PrimaryTextView.dart';
 import 'package:belcka/widgets/text/SubTitleTextView.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
-
-import '../../../../../../utils/app_constants.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class TeamMembersList extends StatelessWidget {
   TeamMembersList({super.key});
@@ -34,7 +28,9 @@ class TeamMembersList extends StatelessWidget {
               return Padding(
                 padding: const EdgeInsets.fromLTRB(12, 3, 12, 3),
                 child: GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    AppUtils.onClickUserAvatar(info.id ?? 0);
+                  },
                   child: CardViewDashboardItem(
                       borderRadius: 20,
                       child: Padding(
@@ -54,8 +50,7 @@ class TeamMembersList extends StatelessWidget {
                                   TitleTextView(
                                     text: info.name ?? "",
                                   ),
-                                  SubtitleTextView(
-                                      text: info.tradeName ?? ""),
+                                  SubtitleTextView(text: info.tradeName ?? ""),
                                 ],
                               ),
                             ),

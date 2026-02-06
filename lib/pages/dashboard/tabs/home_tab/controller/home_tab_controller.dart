@@ -605,10 +605,10 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
           AppConstants.intentKey.teamId: info.teamId ?? 0,
           AppConstants.intentKey.isAllUserTeams: false
         };
-        // moveToScreen2(
-        //     appRout: AppRoutes.teamDetailsScreen, arguments: arguments);
         moveToScreen2(
-            appRout: AppRoutes.paymentDocumentsScreen);
+            appRout: AppRoutes.teamDetailsScreen, arguments: arguments);
+        // moveToScreen2(
+        //     appRout: AppRoutes.paymentDocumentsScreen);
       }
     } else if (info.slug == 'teams') {
       var arguments = {AppConstants.intentKey.isAllUserTeams: true};

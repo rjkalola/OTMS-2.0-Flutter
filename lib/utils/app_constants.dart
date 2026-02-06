@@ -117,6 +117,7 @@ class DialogIdentifier {
   final String storeList = 'STORE_LIST';
   final String selectCompany = 'SELECT_COMPANY';
   final String joinCompany = 'JOIN_COMPANY';
+  final String checkoutWarningDialog = 'CheckOutWarningDialog';
   final String stopWork = 'STOP_WORK';
   final String selectTrade = 'SELECT_TRADE';
   final String selectLocation = 'SELECT_LOCATION';
@@ -372,6 +373,8 @@ class NotificationType {
 
 //Work
   final String USER_WORK_STOP_AUTOMATICALLY = "2001";
+  final String USER_WORK_STOP_BY_ADMIN = "2003";
+
 
 //Team
   final String USER_ADDED_TO_TEAM = "3001";

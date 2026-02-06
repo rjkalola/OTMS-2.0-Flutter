@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
+import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -28,7 +30,8 @@ import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 
-class ClockInController extends GetxController {
+class ClockInController extends GetxController
+    implements DialogButtonClickListener {
   final RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
@@ -366,6 +369,36 @@ class ClockInController extends GetxController {
 
   void stopTimer() {
     _timer?.cancel();
+  }
+
+  showCheckOutWarningDialog() async {
+    AlertDialogHelper.showAlertDialog(
+        "",
+        'checkout_before_stop_work_message'.tr,
+        'check_out_'.tr,
+        'cancel'.tr,
+        "",
+        true,
+        false,
+        this,
+        AppConstants.dialogIdentifier.checkoutWarningDialog);
+  }
+
+  @override
+  void onNegativeButtonClicked(String dialogIdentifier) {
+    Get.back();
+  }
+
+  @override
+  void onOtherButtonClicked(String dialogIdentifier) {}
+
+  @override
+  void onPositiveButtonClicked(String dialogIdentifier) {
+    if (dialogIdentifier ==
+        AppConstants.dialogIdentifier.checkoutWarningDialog) {
+      Get.back();
+      onCLickCheckOutButton();
+    }
   }
 
   @override

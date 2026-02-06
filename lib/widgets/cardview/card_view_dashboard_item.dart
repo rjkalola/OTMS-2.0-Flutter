@@ -21,13 +21,15 @@ class CardViewDashboardItem extends StatelessWidget {
       this.blur,
       this.elevation,
       this.boxColor,
-      this.shadowColor});
+      this.shadowColor,
+      this.boxShadow});
 
   final Widget child;
   final double? borderRadius, borderWidth, blur, elevation;
   final Color? borderColor, boxColor, shadowColor;
   final EdgeInsetsGeometry? margin, padding;
   final AlignmentGeometry? alignment;
+  final List<BoxShadow>? boxShadow;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,7 @@ class CardViewDashboardItem extends StatelessWidget {
 
     final double effectiveBlur =
         blur ?? (Theme.of(context).platform == TargetPlatform.iOS ? 22 : 14);
-    
+
     return Padding(
       padding: margin ?? EdgeInsets.all(4),
       child: ClipRRect(
@@ -58,7 +60,8 @@ class CardViewDashboardItem extends StatelessWidget {
                 color: borderColor ??
                     LiquidGlassStyle.glassBorder(context, isDark),
               ),
-              boxShadow: LiquidGlassStyle.glassShadow(context, isDark),
+              boxShadow:
+                  boxShadow ?? LiquidGlassStyle.glassShadow(context, isDark),
             ),
             child: child,
           ),

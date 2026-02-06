@@ -399,8 +399,13 @@ class AppPages {
     GetPage(
         name: AppRoutes.paymentDocumentsScreen,
         page: () => PaymentDocumentsScreen()),
-    GetPage(name: AppRoutes.userAnalyticsScreen, page: () => UserAnalyticsScreen()),
-    GetPage(name: AppRoutes.userAnalyticsScoreScreen, page: () => UserAnalyticsScoreScreen()),
-    GetPage(name: AppRoutes.userScoreTypesScreen, page: () => UserScoreTypesScreen()),
+    GetPage(
+        name: AppRoutes.userAnalyticsScreen, page: () => UserAnalyticsScreen()),
+    GetPage(
+        name: AppRoutes.userAnalyticsScoreScreen,
+        page: () => UserAnalyticsScoreScreen()),
+    GetPage(
+        name: AppRoutes.userScoreTypesScreen,
+        page: () => UserScoreTypesScreen()),
   ];
 }

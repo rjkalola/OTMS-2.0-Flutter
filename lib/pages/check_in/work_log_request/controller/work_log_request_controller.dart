@@ -94,8 +94,8 @@ class WorkLogRequestController extends GetxController
           displayNoteController.value.text = workLogInfo.value.note ?? "";
           status.value = workLogInfo.value.status ?? 0;
 
-          print("Olds start:" + workLogInfo.value.oldStartTime!);
-          print("Olds end:" + workLogInfo.value.oldEndTime!);
+          print("Olds start:" + (workLogInfo.value.oldStartTime??""));
+          print("Olds end:" +  (workLogInfo.value.oldEndTime??""));
           print("oldPayableWorkSeconds:" +
               workLogInfo.value.oldPayableWorkSeconds!.toString());
 

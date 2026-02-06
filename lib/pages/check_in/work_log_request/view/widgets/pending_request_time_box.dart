@@ -56,7 +56,7 @@ class PendingRequestTimeBox extends StatelessWidget {
                     text: controller.workLogInfo.value.oldStartTime != null
                         ? controller.changeFullDateToSortTime(
                             controller.workLogInfo.value.oldStartTime)
-                        : "",
+                        : "00:00",
                     color: primaryTextColor_(context),
                     fontSize: 20,
                     fontWeight: FontWeight.w600,
@@ -68,7 +68,7 @@ class PendingRequestTimeBox extends StatelessWidget {
                     text: controller.workLogInfo.value.oldEndTime != null
                         ? controller.changeFullDateToSortTime(
                             controller.workLogInfo.value.oldEndTime)
-                        : "",
+                        : "00:00",
                     color: primaryTextColor_(context),
                     fontSize: 20,
                     fontWeight: FontWeight.w600,

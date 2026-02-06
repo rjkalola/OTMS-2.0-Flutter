@@ -65,27 +65,30 @@ class TeamMembersList extends StatelessWidget {
                         },
                         child: Padding(
                           padding: EdgeInsets.fromLTRB(12, 10, 12, 10),
-                          child: Row(
-                            children: [
-                              UserAvtarView(
-                                imageUrl: info.userThumbImage ?? "",
-                              ),
-                              SizedBox(
-                                width: 12,
-                              ),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    TitleTextView(
-                                      text: info.name ?? "",
-                                    ),
-                                    SubtitleTextView(
-                                        text: info.tradeName ?? ""),
-                                  ],
+                          child: Container(
+                            color: Colors.transparent,
+                            child: Row(
+                              children: [
+                                UserAvtarView(
+                                  imageUrl: info.userThumbImage ?? "",
                                 ),
-                              ),
-                            ],
+                                SizedBox(
+                                  width: 12,
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      TitleTextView(
+                                        text: info.name ?? "",
+                                      ),
+                                      SubtitleTextView(
+                                          text: info.tradeName ?? ""),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       );
