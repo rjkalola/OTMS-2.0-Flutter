@@ -1,34 +1,56 @@
 import 'package:belcka/pages/profile/my_profile_details/controller/my_profile_details_controller.dart';
-import 'package:belcka/widgets/textfield/text_field_underline.dart';
+import 'package:belcka/res/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 
 class EmailFieldWidget extends StatelessWidget {
   EmailFieldWidget({super.key});
-  final controller = Get.put(MyProfileDetailsController());
 
+  final controller = Get.put(MyProfileDetailsController());
 
   @override
   Widget build(BuildContext context) {
-    return TextFieldUnderline(
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        textEditingController: controller.emailController.value,
-        hintText: 'email'.tr,
-        labelText: 'email'.tr,
-        keyboardType: TextInputType.emailAddress,
-        textInputAction: TextInputAction.done,
-        isReadOnly: !controller.isComingFromMyProfile,
-        isEnabled: controller.isComingFromMyProfile,
-
-        onPressed: () {},
-        validator: MultiValidator([
-          RequiredValidator(errorText: 'required_field'.tr),
-        ]),
-        inputFormatters: <TextInputFormatter>[
-          // for below version 2 use this
-          FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
-        ]);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 4),
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: normalTextFieldBorderColor_(context),
+            width: 0.5,
+          ),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'email'.tr,
+            style: TextStyle(
+                fontSize: 12,
+                color: Colors.grey.shade500
+            ),
+          ),
+          const SizedBox(height: 6),
+          Row(
+            children: [
+              const Icon(
+                Icons.email_outlined,
+                size: 20,
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  controller.emailController.value.text,
+                  style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight:FontWeight.w400
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }

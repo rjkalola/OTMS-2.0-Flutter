@@ -2,6 +2,7 @@ import 'package:belcka/buyer_app/buyer_order/view/buyer_orders_screen.dart';
 import 'package:belcka/buyer_app/purchasing/view/purchasing_screen.dart';
 import 'package:belcka/pages/add_category/view/add_category_screen.dart';
 import 'package:belcka/pages/add_trades/view/add_trades_screen.dart';
+import 'package:belcka/pages/analytics/score_more_details/view/score_more_details_screen.dart';
 import 'package:belcka/pages/analytics/user_analytics/view/user_analytics_screen.dart';
 import 'package:belcka/pages/analytics/user_score/view/user_analytics_score_screen.dart';
 import 'package:belcka/pages/analytics/user_score_types/view/user_score_types_screen.dart';
@@ -399,13 +400,9 @@ class AppPages {
     GetPage(
         name: AppRoutes.paymentDocumentsScreen,
         page: () => PaymentDocumentsScreen()),
-    GetPage(
-        name: AppRoutes.userAnalyticsScreen, page: () => UserAnalyticsScreen()),
-    GetPage(
-        name: AppRoutes.userAnalyticsScoreScreen,
-        page: () => UserAnalyticsScoreScreen()),
-    GetPage(
-        name: AppRoutes.userScoreTypesScreen,
-        page: () => UserScoreTypesScreen()),
+    GetPage(name: AppRoutes.userAnalyticsScreen, page: () => UserAnalyticsScreen()),
+    GetPage(name: AppRoutes.userAnalyticsScoreScreen, page: () => UserAnalyticsScoreScreen()),
+    GetPage(name: AppRoutes.userScoreTypesScreen, page: () => UserScoreTypesScreen()),
+    GetPage(name: AppRoutes.scoreMoreDetailsScreen, page: () => ScoreMoreDetailsScreen()),
   ];
 }

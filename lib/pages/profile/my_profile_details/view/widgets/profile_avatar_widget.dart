@@ -17,22 +17,6 @@ class ProfileAvatarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        /*
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => FullScreenImageView(
-              imageUrl: controller.myProfileInfo.value.userImage ?? "",
-            ),
-          ),
-        );
-        */
-
-        if (controller.isComingFromMyProfile){
-          if (!controller.isOtpViewVisible.value) {
-            controller.showAttachmentOptionsDialog();
-          }
-        }
       },
       child: Center(
         child: Stack(

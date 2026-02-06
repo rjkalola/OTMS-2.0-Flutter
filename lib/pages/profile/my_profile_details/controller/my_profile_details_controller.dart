@@ -52,7 +52,6 @@ class MyProfileDetailsController extends GetxController
       isOtpViewVisible = false.obs,
       isOtpVerified = false.obs;
   final imagePath = "".obs;
-  var isComingFromMyProfile = false;
   int? userId = 0;
 
   @override
@@ -81,13 +80,7 @@ class MyProfileDetailsController extends GetxController
           myProfileInfo.value = response.info!;
           firstNameController.value.text = myProfileInfo.value.firstName ?? "";
           lastNameController.value.text = myProfileInfo.value.lastName ?? "";
-
-          if (isComingFromMyProfile) {
-            phoneController.value.text = myProfileInfo.value.phone ?? "";
-          } else {
-            phoneController.value.text =
-                myProfileInfo.value.phoneWithExtension ?? "";
-          }
+          phoneController.value.text = myProfileInfo.value.phoneWithExtension ?? "";
           emailController.value.text = myProfileInfo.value.email ?? "";
           int userRoleId = myProfileInfo.value.userRoleId ?? 0;
           if (userRoleId == AppConstants.userType.admin){

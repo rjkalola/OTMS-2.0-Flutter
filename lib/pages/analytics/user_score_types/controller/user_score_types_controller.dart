@@ -1,14 +1,17 @@
 import 'dart:convert';
 import 'dart:ui';
+import 'package:belcka/pages/analytics/user_analytics/model/user_analytics_grid_item.dart';
 import 'package:belcka/pages/analytics/user_analytics/model/user_analytics_model.dart';
 import 'package:belcka/pages/analytics/user_score/controller/user_analytics_score_repository.dart';
 import 'package:belcka/pages/analytics/user_score_types/controller/user_score_types_repository.dart';
 import 'package:belcka/pages/analytics/user_score_types/model/user_score_warnings_model.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/enums/order_tab_type.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/response_model.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class UserScoreTypesController extends GetxController{
@@ -47,6 +50,72 @@ class UserScoreTypesController extends GetxController{
     ),
   ];
 
+  final userScoreType = UserScoreType.warnings.obs;
+  String headerTitle = "warnings".tr;
+  final kpiPercentage = 0;
+  List<UserAnalyticsGridItem> kpiMenuItems(UserAnalyticsModel model) {
+    return [
+      UserAnalyticsGridItem(
+        title: "Check-Ins",
+        value: model.checkIns.toString(),
+        action: "",
+        iconData: Icons.login,
+        color: Colors.purple,
+      ),
+    ];
+  }
+
+  final appActivityPercentage = 0;
+  List<UserAnalyticsGridItem> appActivityMenuItems(UserAnalyticsModel model) {
+    return [
+      UserAnalyticsGridItem(
+        title: "Stopped work automatically",
+        value:
+        "${model.stoppedWorkAutomaticallyCount} Out of ${model.stoppedWorkAutomaticallyTotal}",
+        action: "",
+        iconData: Icons.warning_amber_rounded,
+        color: Colors.red,
+      ),
+      UserAnalyticsGridItem(
+        title: "Worth material used",
+        value: "${model.currency}${model.worthMaterialUsed}",
+        action: "",
+        iconData: Icons.attach_money,
+        color: Colors.teal,
+      ),
+      UserAnalyticsGridItem(
+        title: "Late work started",
+        value:
+        "${model.lateWorkStartedCount} Out of ${model.lateWorkStartedTotal}",
+        action: "",
+        iconData: Icons.access_time,
+        color: Colors.purple,
+      ),
+      UserAnalyticsGridItem(
+        title: "Check-Ins",
+        value: model.checkIns.toString(),
+        action: "",
+        iconData: Icons.login,
+        color: Colors.purple,
+      ),
+      UserAnalyticsGridItem(
+        title: "Leaves un-authorize",
+        value: model.leaves.toString(),
+        action: "",
+        iconData: Icons.event_busy,
+        color: Colors.purple,
+      ),
+      UserAnalyticsGridItem(
+        title: "Outside working area",
+        value:
+        "${model.outsideWorkingArea} Out of ${model.outsideWorkingAreaTotal}",
+        action: "",
+        iconData: Icons.location_off,
+        color: Colors.purple,
+      ),
+    ];
+  }
+
   @override
   void onInit() {
     super.onInit();
@@ -54,7 +123,19 @@ class UserScoreTypesController extends GetxController{
     if (arguments != null) {
       userId = arguments[AppConstants.intentKey.userId] ??
           UserUtils.getLoginUserId();
+      userScoreType.value = arguments["score_type"] ?? UserScoreType.warnings.obs;
     }
+    if (userScoreType.value.value == 1){
+      headerTitle = "warnings".tr;
+    }
+    else if (userScoreType.value.value == 2){
+      headerTitle = "kpi".tr;
+    }
+    else if (userScoreType.value.value == 3) {
+      headerTitle = "app_activity".tr;
+    }
+
+    //isMainViewVisible.value = true;
     getUserAnalyticsAPI();
   }
 

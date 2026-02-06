@@ -1,6 +1,7 @@
 import 'package:belcka/pages/analytics/user_score/controller/user_analytics_score_controller.dart';
 import 'package:belcka/pages/analytics/widgets/animated_progress_bar.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

@@ -13,7 +13,7 @@ class UserScoreTypesHeaderView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int userScore = controller.userAnalytics.value?.score ?? 0;
+    final type = controller.userScoreType.value.value;
     return Container(
       decoration: BoxDecoration(
         color: backgroundColor_(context),
@@ -24,28 +24,28 @@ class UserScoreTypesHeaderView extends StatelessWidget {
       ),
       child: Column(
         children: [
-
-          UserScoreTypesHeader(valueText: "1",
-            customIndicator: UserScoreWarningIndicatorWidget(activeCount: 1),
+          if (type == 1)
+          UserScoreTypesHeader(valueText: "${controller.warningItems.length ?? 0}",
+            customIndicator: UserScoreWarningIndicatorWidget(activeCount: controller.warningItems.length ?? 0),
             dateRange: controller.dateRange.value ?? "",),
 
-        /*
+          if (type == 2)
           UserScoreTypesHeader(
-            valueText: '90%',
-            progress: 0.9,
+            valueText: '${controller.kpiPercentage}%',
+            progress: controller.kpiPercentage / 100,
             progressColor: const Color(0xFF3B82F6),
             scoreType:"kpi",
+            dateRange: controller.dateRange.value ?? "",
           ),
-          */
 
-        /*
+          if (type == 3)
           UserScoreTypesHeader(
-            valueText: '96%',
-            progress: 0.96,
+            valueText: '${controller.appActivityPercentage}%',
+            progress: controller.appActivityPercentage / 100,
             progressColor: const Color(0xFF7C3AED),
             scoreType: "app_activity",
+            dateRange: controller.dateRange.value ?? "",
           ),
-          */
 
         ],
       ),

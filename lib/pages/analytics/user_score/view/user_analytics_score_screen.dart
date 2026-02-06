@@ -4,6 +4,7 @@ import 'package:belcka/pages/analytics/user_score/view/widgets/user_score_types_
 import 'package:belcka/pages/common/listener/date_filter_listener.dart';
 import 'package:belcka/pages/common/widgets/date_filter_options_horizontal_list.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_storage.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
@@ -125,7 +126,10 @@ class _UserAnalyticsScoreScreenState extends State<UserAnalyticsScoreScreen> wit
       IconButton(
         icon: Icon(Icons.more_vert_outlined),
         onPressed: () {
-
+          var arguments = {
+            "score": controller.userAnalytics.value?.score ?? 0,
+          };
+          controller.moveToScreen(AppRoutes.scoreMoreDetailsScreen, arguments);
         },
       ),
     ];

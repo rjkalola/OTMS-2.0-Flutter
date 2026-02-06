@@ -1,30 +1,31 @@
-import 'package:belcka/pages/analytics/user_analytics/controller/user_analytics_controller.dart';
 import 'package:belcka/pages/analytics/user_analytics/model/user_analytics_grid_item.dart';
+import 'package:belcka/pages/analytics/user_score_types/controller/user_score_types_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/text/PrimaryTextView.dart';
 
-class UserAnalyticsButtonsGridWidget extends StatelessWidget {
-  UserAnalyticsButtonsGridWidget({super.key});
+class KpiAppActivityGridView extends StatelessWidget {
+  KpiAppActivityGridView({super.key});
 
-  final UserAnalyticsController controller = Get.find<UserAnalyticsController>();
+  final controller = Get.find<UserScoreTypesController>();
 
   @override
   Widget build(BuildContext context) {
     final model = controller.userAnalytics.value;
+    final type = controller.userScoreType.value.value;
+
     if (model == null) {
       return const SizedBox();
     }
-    final List<UserAnalyticsGridItem> items =
-    controller.menuItems(model);
+
+    final List<UserAnalyticsGridItem> items = type == 2 ? controller.kpiMenuItems(model) : controller.appActivityMenuItems(model);
 
     return GridView.builder(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       itemCount: items.length,
       shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         mainAxisSpacing: 10,

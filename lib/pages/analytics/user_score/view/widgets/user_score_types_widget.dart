@@ -3,6 +3,7 @@ import 'package:belcka/pages/analytics/widgets/animated_progress_bar.dart';
 import 'package:belcka/res/theme/app_colors.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/utils/enums/order_tab_type.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,7 +12,7 @@ import 'package:get/get_core/src/get_main.dart';
 class UserScoreTypesWidget extends StatelessWidget {
   final String title;
   final String valueText;
-  final String? scoreType;
+  final UserScoreType? scoreType;
 
   /// For KPI & App Activity
   final double? progress;
@@ -43,7 +44,7 @@ class UserScoreTypesWidget extends StatelessWidget {
                   style: const TextStyle(
                       fontSize: 24, fontWeight: FontWeight.bold)),
               Spacer(),
-              _viewDetails(scoreType ?? ""),
+              _viewDetails(scoreType)
             ],
           ),
           SizedBox(height: 12),
@@ -70,15 +71,16 @@ class UserScoreTypesWidget extends StatelessWidget {
     );
   }
 
-  Widget _viewDetails(String scoreType) {
+  Widget _viewDetails(UserScoreType? scoreType) {
     final controller = Get.put(UserAnalyticsScoreController());
 
     return TextButton(
       onPressed: () {
         var arguments = {
           AppConstants.intentKey.userId: controller.userId,
+          "score_type": scoreType,
         };
-        controller.moveToScreen(AppRoutes.userScoreTypesScreen, arguments, scoreType);
+        controller.moveToScreen(AppRoutes.userScoreTypesScreen, arguments);
       },
       style: TextButton.styleFrom(
         backgroundColor: Color(0xFF007AFF).withOpacity(0.15),

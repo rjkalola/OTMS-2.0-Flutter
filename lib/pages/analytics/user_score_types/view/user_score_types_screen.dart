@@ -26,11 +26,11 @@ class _UserScoreTypesScreenState extends State<UserScoreTypesScreen> with Single
   final controller = Get.put(UserScoreTypesController());
   late AnimationController animatedController;
   int selectedTab = 0;
-  String title = "warnings";
 
   @override
   void initState() {
     super.initState();
+
     animatedController =
     AnimationController(vsync: this, duration: const Duration(milliseconds: 900))
       ..forward();
@@ -53,7 +53,7 @@ class _UserScoreTypesScreenState extends State<UserScoreTypesScreen> with Single
             backgroundColor: dashBoardBgColor_(context),
             appBar: BaseAppBar(
               appBar: AppBar(),
-              title: '${title}'.tr,
+              title: controller.headerTitle,
               isCenterTitle: false,
               isBack: true,
               bgColor: backgroundColor_(context),
