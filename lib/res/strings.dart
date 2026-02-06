@@ -551,6 +551,7 @@ class Strings extends Translations {
       'warnings':"Warnings",
       'kpi':"KPI",
       'app_activity':"App activity",
+      'more_details': "More Details",
 
 // '': "",
 // '': "",

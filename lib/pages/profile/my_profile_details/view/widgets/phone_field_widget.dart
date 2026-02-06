@@ -1,43 +1,56 @@
 import 'package:belcka/pages/profile/my_profile_details/controller/my_profile_details_controller.dart';
-import 'package:belcka/widgets/textfield/text_field_underline.dart';
-import 'package:belcka/widgets/validator/custom_field_validator.dart';
+import 'package:belcka/res/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 
 class PhoneFieldWidget extends StatelessWidget {
   PhoneFieldWidget({super.key});
+
   final controller = Get.put(MyProfileDetailsController());
 
   @override
   Widget build(BuildContext context) {
-    return TextFieldUnderline(
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        textEditingController: controller.phoneController.value,
-        hintText: 'phone_number'.tr,
-        labelText: 'phone_number'.tr,
-        keyboardType: TextInputType.phone,
-        textInputAction: TextInputAction.next,
-        isReadOnly: !controller.isComingFromMyProfile,
-        isEnabled: controller.isComingFromMyProfile,
-        onPressed: () {},
-        validator: MultiValidator([
-          RequiredValidator(errorText: 'required_field'.tr),
-          CustomFieldValidator((value) {
-            return value != null && !value.startsWith("0");
-          }, errorText: 'error_phone_number_start_with_zero'.tr),
-          CustomFieldValidator((value) {
-            return value != null && value.length == 10;
-          }, errorText: 'error_phone_number_contain_10_digits'.tr),
-          CustomFieldValidator((value) {
-            return value != null && !controller.isPhoneNumberExist.value;
-          }, errorText: 'error_phone_number_already_exist'.tr),
-        ]),
-        inputFormatters: <TextInputFormatter>[
-          // for below version 2 use this
-          FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-          LengthLimitingTextInputFormatter(10),
-        ]);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 4),
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: normalTextFieldBorderColor_(context),
+            width: 0.5,
+          ),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'phone_number'.tr,
+            style: TextStyle(
+              fontSize: 12,
+              color: Colors.grey.shade500
+            ),
+          ),
+          const SizedBox(height: 6),
+          Row(
+            children: [
+              const Icon(
+                Icons.phone_outlined,
+                size: 20,
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  controller.phoneController.value.text,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight:FontWeight.w400
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }

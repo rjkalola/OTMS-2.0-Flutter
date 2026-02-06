@@ -36,7 +36,7 @@ class _MyProfileDetailsScreenState extends State<MyProfileDetailsScreen> {
         child: Scaffold(
           appBar: BaseAppBar(
             appBar: AppBar(),
-            title: controller.isComingFromMyProfile ? 'my_account'.tr : "",
+            title: "",
             isCenterTitle: false,
             bgColor: dashBoardBgColor_(context),
             isBack: true,

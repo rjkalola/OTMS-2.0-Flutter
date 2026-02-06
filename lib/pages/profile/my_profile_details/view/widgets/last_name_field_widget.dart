@@ -18,8 +18,8 @@ class LastNameFieldWidget extends StatelessWidget {
         labelText: 'last_name'.tr,
         keyboardType: TextInputType.name,
         textInputAction: TextInputAction.done,
-        isReadOnly: !controller.isComingFromMyProfile,
-        isEnabled: controller.isComingFromMyProfile,
+        isReadOnly: true,
+        isEnabled: false,
         onPressed: () {},
         validator: MultiValidator([
 

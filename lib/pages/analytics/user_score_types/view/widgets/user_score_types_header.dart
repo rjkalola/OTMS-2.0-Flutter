@@ -8,7 +8,6 @@ class UserScoreTypesHeader extends StatelessWidget {
   /// For KPI & App Activity
   final double? progress;
   final Color? progressColor;
-
   /// For Warnings
   final Widget? customIndicator;
 
@@ -81,7 +80,7 @@ class DateRangeView extends StatelessWidget {
           Text(
             dateRange,
             style: const TextStyle(
-              fontSize: 20,
+              fontSize: 18,
               fontWeight: FontWeight.w400,
             ),
           ),

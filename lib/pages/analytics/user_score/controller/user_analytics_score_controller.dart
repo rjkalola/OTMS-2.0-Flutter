@@ -31,7 +31,7 @@ class UserAnalyticsScoreController extends GetxController{
     getUserAnalyticsAPI();
   }
 
-  Future<void> moveToScreen(String rout, dynamic arguments, String scoreType) async {
+  Future<void> moveToScreen(String rout, dynamic arguments) async {
     var result = await Get.toNamed(rout, arguments: arguments);
     if (result != null && result) {
       getUserAnalyticsAPI();
@@ -77,11 +77,10 @@ class UserAnalyticsScoreController extends GetxController{
       },
     );
   }
-
   Color scoreTextColor(int value) {
     if (value < 25) return Color(0xFFF26B4D);
     if (value < 50) return Color(0xFF576F8F);
     if (value < 75) return Color(0xFF0956CA);
-    return Color(0xFF65BB64);
+    return Color(0xFF20BE6B);
   }
 }

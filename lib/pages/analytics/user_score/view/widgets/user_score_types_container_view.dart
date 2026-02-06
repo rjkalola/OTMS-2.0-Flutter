@@ -1,6 +1,7 @@
 import 'package:belcka/pages/analytics/user_score/controller/user_analytics_score_controller.dart';
 import 'package:belcka/pages/analytics/user_score/view/widgets/user_score_types_widget.dart';
 import 'package:belcka/pages/analytics/user_score/view/widgets/user_score_warning_indicator_widget.dart';
+import 'package:belcka/utils/enums/order_tab_type.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -17,27 +18,27 @@ class UserScoreTypesContainerView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           UserScoreTypesWidget(
-            title: 'Warnings',
-            valueText: '1',
-            customIndicator: const UserScoreWarningIndicatorWidget(activeCount: 1),
-            scoreType: "warnings",
+            title: 'warnings'.tr,
+            valueText: '0',
+            customIndicator: const UserScoreWarningIndicatorWidget(activeCount: 0),
+            scoreType:UserScoreType.warnings,
           ),
           SizedBox(height: 16),
 
           UserScoreTypesWidget(
-            title: 'KPI',
-            valueText: '90%',
-            progress: 0.9,
+            title: 'kpi'.tr,
+            valueText: '0%',
+            progress: 0,
             progressColor: const Color(0xFF3B82F6),
-            scoreType:"kpi",
+            scoreType:UserScoreType.kpi,
           ),
           SizedBox(height: 16),
           UserScoreTypesWidget(
-            title: 'App activity',
-            valueText: '96%',
-            progress: 0.96,
+            title: 'app_activity'.tr,
+            valueText:'0%',
+            progress: 0,
             progressColor: const Color(0xFF7C3AED),
-            scoreType: "app_activity",
+            scoreType:UserScoreType.appActivity
           ),
         ],
       ),
