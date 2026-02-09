@@ -109,6 +109,7 @@ class Strings extends Translations {
           'please_enter_company_code': "Please enter company code",
           'please_select_trade': "Please select trade",
           'please_select_image': "Please select image",
+          'please_select_attachment': "Please select attachment",
           'select_trade': "Select Trade",
           'empty_trade_list': "No trade found",
           'scan_barcode_note':
@@ -555,10 +556,14 @@ class Strings extends Translations {
           'more_details': "More Details",
           'checkout_before_stop_work_message':
               "You need to check out before finishing work",
-
-// '': "",
-// '': "",
-// '': "",
+          'add_invoice': "Add Invoice",
+          'invoice_number': "Invoice Number",
+          'invoice_date': "Invoice Date",
+          'from_date': "From Date",
+          'to_date': "To Date",
+          'from_date_select_note': "Please select from date first",
+          'error_wrong_to_date_selection': "To date cannot be before from date",
+          'exceeding_time_note': "Add note for exceeding recommended time",
           // '': "",
 // '': "",
 // '': "",

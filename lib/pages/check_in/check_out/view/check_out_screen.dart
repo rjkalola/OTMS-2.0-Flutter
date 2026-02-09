@@ -14,6 +14,7 @@ import 'package:belcka/widgets/map_view/custom_map_view.dart';
 import 'package:belcka/widgets/textfield/reusable/add_note_widget.dart';
 import 'package:belcka/widgets/textfield/reusable/drop_down_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
@@ -192,10 +193,32 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                             ),*/
                             Visibility(
                               visible: StringHelper.isEmptyString(controller
-                                  .checkLogInfo.value.checkoutDateTime),
+                                      .checkLogInfo.value.checkoutDateTime) &&
+                                  (controller.checkLogInfo.value.taskList ?? [])
+                                          .length ==
+                                      1,
                               child: AddNoteWidget(
+                                padding: EdgeInsets.only(top: 6),
                                 controller: controller.noteController,
                                 borderRadius: 15,
+                                hintText:
+                                    (controller.checkLogInfo.value.isOvertime ??
+                                            false)
+                                        ? 'exceeding_time_note'.tr
+                                        : "",
+                                labelText:
+                                    (controller.checkLogInfo.value.isOvertime ??
+                                            false)
+                                        ? 'exceeding_time_note'.tr
+                                        : "",
+                                validator:
+                                    (controller.checkLogInfo.value.isOvertime ??
+                                            false)
+                                        ? MultiValidator([
+                                            RequiredValidator(
+                                                errorText: 'required_field'.tr),
+                                          ])
+                                        : null,
                               ),
                             ),
                             CheckInOutDisplayNoteWidget(
@@ -237,7 +260,18 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                           //   AppUtils.showToastMessage(
                           //       'msg_empty_after_attachment'.tr);
                           // }
-                          controller.checkOutApi();
+                          if ((controller.checkLogInfo.value.isOvertime ??
+                              false)) {
+                            if (!StringHelper.isEmptyString(
+                                StringHelper.getText(
+                                    controller.noteController.value))) {
+                              controller.checkOutApi();
+                            } else {
+                              AppUtils.showToastMessage('empty_note_error'.tr);
+                            }
+                          } else {
+                            controller.checkOutApi();
+                          }
                         },
                         color: Colors.red,
                       ),

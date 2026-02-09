@@ -279,4 +279,10 @@ class ApiConstants {
   static String expenseDetails = '$appUrl/expense/detail';
   static String getExpenseResources = '$appUrl/expense/get-resources';
   static String deleteExpense = '$appUrl/expense/delete';
+
+  //payments
+  static String invoiceAdd = '$appUrl/bookkeeper-invoices/store';
+  static String invoiceGet = '$appUrl/bookkeeper-invoices/get';
+  static String invoiceZip = '$appUrl/bookkeeper-invoices/zip';
+  static String invoiceDelete = '$appUrl/bookkeeper-invoices/delete';
 }

@@ -3,10 +3,12 @@ import 'package:belcka/pages/common/listener/date_filter_listener.dart';
 import 'package:belcka/pages/common/widgets/date_filter_options_horizontal_list.dart';
 import 'package:belcka/pages/payment_documents/payment_documents/controller/payment_documents_controller.dart';
 import 'package:belcka/pages/payment_documents/payment_documents/view/widgets/header_tab_view.dart';
+import 'package:belcka/pages/payment_documents/payment_documents/view/widgets/invoice_date_list.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
+import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -58,8 +60,11 @@ class _PaymentDocumentsScreenState extends State<PaymentDocumentsScreen>
                   opacity: 0,
                   progressIndicator: const CustomProgressbar(),
                   child: controller.isInternetNotAvailable.value
-                      ? Center(
-                          child: Text('no_internet_text'.tr),
+                      ? NoInternetWidget(
+                          onPressed: () {
+                            controller.isInternetNotAvailable.value = false;
+                            // controller.getTeamListApi();
+                          },
                         )
                       : Visibility(
                           visible: controller.isMainViewVisible.value,
@@ -78,6 +83,10 @@ class _PaymentDocumentsScreenState extends State<PaymentDocumentsScreen>
                                   selectedPosition:
                                       controller.selectedDateFilterIndex,
                                 ),
+                                SizedBox(height: 10,),
+                                InvoiceDateList(
+                                    searchText:
+                                        controller.searchController.value.text),
                                 const SizedBox(height: 16),
                               ],
                             ),
@@ -113,7 +122,7 @@ class _PaymentDocumentsScreenState extends State<PaymentDocumentsScreen>
         StringHelper.isEmptyString(endDate)) {
       controller.clearFilter();
     }
-    controller.loadAddressDetailsData(true);
+    controller.loadData(true);
     print("startDate:" + startDate);
     print("endDate:" + endDate);
   }

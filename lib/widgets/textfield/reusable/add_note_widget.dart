@@ -11,7 +11,9 @@ class AddNoteWidget extends StatelessWidget {
       this.isReadOnly,
       this.padding,
       this.borderRadius,
-      this.validator});
+      this.validator,
+      this.hintText,
+      this.labelText});
 
   final Rx<TextEditingController> controller;
   final ValueChanged<String>? onValueChange;
@@ -19,6 +21,7 @@ class AddNoteWidget extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final double? borderRadius;
   final MultiValidator? validator;
+  final String? hintText, labelText;
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +30,8 @@ class AddNoteWidget extends StatelessWidget {
         padding: padding ?? EdgeInsets.all(0),
         child: TextFieldBorderDark(
           textEditingController: controller.value,
-          hintText: 'enter_your_note_here'.tr,
-          labelText: 'add_a_note'.tr,
+          hintText: hintText ?? 'enter_your_note_here'.tr,
+          labelText: labelText ?? 'add_a_note'.tr,
           textInputAction: TextInputAction.newline,
           validator: validator ?? MultiValidator([]),
           isReadOnly: isReadOnly,

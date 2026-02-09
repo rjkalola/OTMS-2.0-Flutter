@@ -1,25 +1,32 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:belcka/pages/common/listener/menu_item_listener.dart';
 import 'package:belcka/pages/common/menu_items_list_bottom_dialog.dart';
+import 'package:belcka/pages/payment_documents/add_invoice/model/invoice_date_info.dart';
+import 'package:belcka/pages/payment_documents/payment_documents/controller/payment_documents_repository.dart';
+import 'package:belcka/pages/payment_documents/payment_documents/model/invoices_list_response.dart';
 import 'package:belcka/pages/project/project_details/model/project_detals_item.dart';
 import 'package:belcka/res/drawable.dart';
 import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/user_utils.dart';
+import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/module_info.dart';
+import 'package:belcka/web_services/response/response_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class PaymentDocumentsController extends GetxController
     implements MenuItemListener, DialogButtonClickListener {
-  // final _api = AddressDetailsRepository();
+  final _api = PaymentDocumentsRepository();
   final searchController = TextEditingController().obs;
 
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
-      isMainViewVisible = true.obs,
+      isMainViewVisible = false.obs,
       isDataUpdated = false.obs,
       isResetEnable = false.obs,
       isSearchEnable = false.obs,
@@ -35,13 +42,19 @@ class PaymentDocumentsController extends GetxController
   late final PageController pageController;
 
   String filterPerDay = "", startDate = "", endDate = "";
-  int addressId = 0, projectId = 0;
+  int userId = UserUtils.getLoginUserId();
 
   //Home Tab
   final selectedActionButtonPagerPosition = 0.obs;
   final dashboardActionButtonsController = PageController(
     initialPage: 0,
   );
+
+  final listInvoices = <InvoiceDateInfo>[].obs;
+  final tempInvoices = <InvoiceDateInfo>[].obs;
+
+  // final listTrades = <CheckLogInfo>[].obs;
+  // final tempTrades = <CheckLogInfo>[].obs;
 
   @override
   void onInit() {
@@ -53,54 +66,58 @@ class PaymentDocumentsController extends GetxController
       // addressId = addressInfo?.id ?? 0;
       // projectId = addressInfo?.projectId ?? 0;
     }
-    // getAddressDetailsApi();
+    loadData(true);
   }
 
-  // void getAddressDetailsApi() {
-  //   isLoading.value = true;
-  //   Map<String, dynamic> map = {};
-  //   map["address_id"] = addressInfo?.id ?? 0;
-  //   map["start_date"] = !StringHelper.isEmptyString(startDate)
-  //       ? DateUtil.changeDateFormat(
-  //           startDate, DateUtil.DD_MM_YYYY_SLASH, DateUtil.YYYY_MM_DD_DASH)
-  //       : "";
-  //   map["end_date"] = !StringHelper.isEmptyString(endDate)
-  //       ? DateUtil.changeDateFormat(
-  //           endDate, DateUtil.DD_MM_YYYY_SLASH, DateUtil.YYYY_MM_DD_DASH)
-  //       : "";
-  //
-  //   _api.getAddressDetails(
-  //     queryParameters: map,
-  //     onSuccess: (ResponseModel responseModel) {
-  //       if (responseModel.isSuccess) {
-  //         AddressDetailsResponse response = AddressDetailsResponse.fromJson(
-  //             jsonDecode(responseModel.result!));
-  //         addressDetailsInfo = response.info;
-  //         if (addressDetailsInfo != null) {
-  //           tradesCount.value = addressDetailsInfo?.trades ?? 0;
-  //           checkInsCount.value = addressDetailsInfo?.checkIns ?? 0;
-  //           documentsCount.value = addressDetailsInfo?.documents ?? 0;
-  //           materialCount.value = addressDetailsInfo?.materials ?? 0;
-  //           updateItemsWithApi(addressDetailsInfo!);
-  //           onSelectAddressFilter(selectedFilter.value, false);
-  //         }
-  //       } else {
-  //         AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
-  //       }
-  //       isLoading.value = false;
-  //     },
-  //     onError: (ResponseModel error) {
-  //       isLoading.value = false;
-  //       if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
-  //         isInternetNotAvailable.value = true;
-  //         // AppUtils.showSnackBarMessage('no_internet'.tr);
-  //         // Utils.showSnackBarMessage('no_internet'.tr);
-  //       } else if (error.statusMessage!.isNotEmpty) {
-  //         AppUtils.showSnackBarMessage(error.statusMessage ?? "");
-  //       }
-  //     },
-  //   );
-  // }
+  void loadData(bool isProgress) async {
+    getInvoicesApi(isProgress);
+  }
+
+  void getInvoicesApi(bool isProgress) {
+    isLoading.value = isProgress;
+    // isMainViewVisible.value = false;
+    Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
+    // map["user_id"] = userId;
+    // map["start_date"] = !StringHelper.isEmptyString(startDate)
+    //     ? DateUtil.changeDateFormat(
+    //         startDate, DateUtil.DD_MM_YYYY_SLASH, DateUtil.YYYY_MM_DD_DASH)
+    //     : "";
+    // map["end_date"] = !StringHelper.isEmptyString(endDate)
+    //     ? DateUtil.changeDateFormat(
+    //         endDate, DateUtil.DD_MM_YYYY_SLASH, DateUtil.YYYY_MM_DD_DASH)
+    //     : "";
+    map["start_date"] = startDate;
+    map["end_date"] = endDate;
+
+    _api.getInvoices(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          isMainViewVisible.value = true;
+          InvoicesListResponse response =
+              InvoicesListResponse.fromJson(jsonDecode(responseModel.result!));
+          tempInvoices.clear();
+          tempInvoices.addAll(response.info ?? []);
+          listInvoices.value = tempInvoices;
+          listInvoices.refresh();
+        } else {
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+          // AppUtils.showSnackBarMessage('no_internet'.tr);
+          // Utils.showSnackBarMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
 
   @override
   void dispose() {
@@ -158,10 +175,6 @@ class PaymentDocumentsController extends GetxController
       builder: (_) =>
           MenuItemsListBottomDialog(list: listItems, listener: this),
     );
-  }
-
-  Future<void> loadAddressDetailsData(bool isProgress) async {
-    // getAddressDetailsApi();
   }
 
   @override

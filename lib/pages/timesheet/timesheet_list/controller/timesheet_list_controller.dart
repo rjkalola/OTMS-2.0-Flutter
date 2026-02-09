@@ -261,8 +261,8 @@ class TimeSheetListController extends GetxController
   void showMenuItemsDialog(BuildContext context) {
     List<ModuleInfo> listItems = [];
     if (!isAllUserTimeSheet) {
-      // listItems.add(
-      //     ModuleInfo(name: 'add_worklog'.tr, action: AppConstants.action.add));
+      listItems.add(
+          ModuleInfo(name: 'add_worklog'.tr, action: AppConstants.action.add));
       listItems.add(ModuleInfo(
           name: 'add_expense'.tr, action: AppConstants.action.addExpense));
       if (showRate.value) {

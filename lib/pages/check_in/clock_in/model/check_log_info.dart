@@ -37,6 +37,7 @@ class CheckLogInfo {
   List<TypeOfWorkResourcesInfo>? taskList;
   String? checkInNote;
   String? checkOutNote;
+  bool? isOvertime;
 
   CheckLogInfo(
       {this.id,
@@ -73,7 +74,8 @@ class CheckLogInfo {
       this.progress,
       this.taskList,
       this.checkInNote,
-      this.checkOutNote});
+      this.checkOutNote,
+      this.isOvertime});
 
   CheckLogInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -131,8 +133,9 @@ class CheckLogInfo {
     }
     checkInNote = json['checkin_note'];
     checkOutNote = json['checkout_note'];
+    isOvertime = json['is_overtime'];
   }
-  
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
@@ -184,6 +187,7 @@ class CheckLogInfo {
     }
     data['checkin_note'] = this.checkInNote;
     data['checkout_note'] = this.checkOutNote;
+    data['is_overtime'] = this.isOvertime;
     return data;
   }
 }
