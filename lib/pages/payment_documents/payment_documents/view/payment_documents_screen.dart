@@ -95,7 +95,7 @@ class _PaymentDocumentsScreenState extends State<PaymentDocumentsScreen>
         child: IconButton(
           icon: Icon(Icons.add),
           onPressed: () {
-            controller.showMenuItemsDialog(Get.context!);
+            // controller.showMenuItemsDialog(Get.context!);
           },
         ),
       ),
