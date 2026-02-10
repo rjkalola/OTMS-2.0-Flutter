@@ -22,8 +22,7 @@ class PaymentDocumentTabs extends StatelessWidget {
                 selectedAction: controller.selectedFilter,
                 count: controller.invoicesCount.value,
                 onItemClick: (String action) {
-                  controller.selectedFilter.value = action;
-                  // controller.getAddressDetailsApi();
+                  controller.onTabChange(action);
                 },
               ),
               SizedBox(
@@ -35,8 +34,7 @@ class PaymentDocumentTabs extends StatelessWidget {
                 selectedAction: controller.selectedFilter,
                 count: controller.paymentsCount.value,
                 onItemClick: (String action) {
-                  controller.selectedFilter.value = action;
-                  // controller.getAddressDetailsApi();
+                  controller.onTabChange(action);
                 },
               ),
               SizedBox(
@@ -48,14 +46,16 @@ class PaymentDocumentTabs extends StatelessWidget {
                 selectedAction: controller.selectedFilter,
                 count: controller.payslipsCount.value,
                 onItemClick: (String action) {
-                  controller.selectedFilter.value = action;
-                  // controller.getAddressDetailsApi();
+                  controller.onTabChange(action);
                 },
               ),
             ],
           ),
         ));
   }
+
+
+
 }
 
 // class _AddressFilterListState extends State<AddressFilterList> {

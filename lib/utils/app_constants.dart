@@ -257,6 +257,7 @@ class Action {
   final String companies = "COMPANIES";
   final String notificationSettings = "NOTIFICATION_SETTINGS";
   final String archiveProject = 'ARCHIVE_PROJECT';
+  final String download = 'DOWNLOAD';
   final String archivedProjects = 'ARCHIVED_PROJECTS';
   final String archivedUsers = 'ARCHIVED_USERS';
   final String archivedAddress = 'ARCHIVED_ADDRESS';

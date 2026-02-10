@@ -5,8 +5,10 @@ import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:belcka/pages/common/listener/menu_item_listener.dart';
 import 'package:belcka/pages/common/menu_items_list_bottom_dialog.dart';
 import 'package:belcka/pages/payment_documents/add_invoice/model/invoice_date_info.dart';
+import 'package:belcka/pages/payment_documents/add_payslip/model/payslip_date_info.dart';
 import 'package:belcka/pages/payment_documents/payment_documents/controller/payment_documents_repository.dart';
 import 'package:belcka/pages/payment_documents/payment_documents/model/invoices_list_response.dart';
+import 'package:belcka/pages/payment_documents/payment_documents/model/payslips_list_response.dart';
 import 'package:belcka/pages/project/project_details/model/project_detals_item.dart';
 import 'package:belcka/res/drawable.dart';
 import 'package:belcka/utils/AlertDialogHelper.dart';
@@ -30,7 +32,10 @@ class PaymentDocumentsController extends GetxController
       isDataUpdated = false.obs,
       isResetEnable = false.obs,
       isSearchEnable = false.obs,
-      isClearSearch = false.obs;
+      isClearSearch = false.obs,
+      isDownloadEnable = false.obs,
+      isDeleteEnable = false.obs,
+      isCheckAll = false.obs;
 
   RxInt invoicesCount = 0.obs,
       paymentsCount = 0.obs,
@@ -38,8 +43,6 @@ class PaymentDocumentsController extends GetxController
       selectedDateFilterIndex = (1).obs;
 
   RxString selectedFilter = AppConstants.action.invoices.obs;
-  final selectedIndex = 0.obs;
-  late final PageController pageController;
 
   String filterPerDay = "", startDate = "", endDate = "";
   int userId = UserUtils.getLoginUserId();
@@ -53,13 +56,12 @@ class PaymentDocumentsController extends GetxController
   final listInvoices = <InvoiceDateInfo>[].obs;
   final tempInvoices = <InvoiceDateInfo>[].obs;
 
-  // final listTrades = <CheckLogInfo>[].obs;
-  // final tempTrades = <CheckLogInfo>[].obs;
+  final listPayslips = <PayslipDateInfo>[].obs;
+  final tempPayslips = <PayslipDateInfo>[].obs;
 
   @override
   void onInit() {
     super.onInit();
-    pageController = PageController(initialPage: selectedIndex.value);
     var arguments = Get.arguments;
     if (arguments != null) {
       // addressInfo = arguments[AppConstants.intentKey.addressInfo];
@@ -70,7 +72,67 @@ class PaymentDocumentsController extends GetxController
   }
 
   void loadData(bool isProgress) async {
-    getInvoicesApi(isProgress);
+    if (selectedFilter.value == AppConstants.action.invoices) {
+      getInvoicesApi(isProgress);
+    } else if (selectedFilter.value == AppConstants.action.payslips) {
+      getPayslipsApi(isProgress);
+    }
+  }
+
+  void onTabChange(String action) {
+    isDownloadEnable.value = false;
+    isDeleteEnable.value = false;
+    unCheckAll();
+    selectedFilter.value = action;
+    if (action != AppConstants.action.payments) {
+      loadData(true);
+    }
+  }
+
+  void getPayslipsApi(bool isProgress) {
+    isLoading.value = isProgress;
+    // isMainViewVisible.value = false;
+    Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
+    // map["user_id"] = userId;
+    // map["start_date"] = !StringHelper.isEmptyString(startDate)
+    //     ? DateUtil.changeDateFormat(
+    //         startDate, DateUtil.DD_MM_YYYY_SLASH, DateUtil.YYYY_MM_DD_DASH)
+    //     : "";
+    // map["end_date"] = !StringHelper.isEmptyString(endDate)
+    //     ? DateUtil.changeDateFormat(
+    //         endDate, DateUtil.DD_MM_YYYY_SLASH, DateUtil.YYYY_MM_DD_DASH)
+    //     : "";
+    map["start_date"] = startDate;
+    map["end_date"] = endDate;
+
+    _api.getPayslips(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          isMainViewVisible.value = true;
+          PayslipsListResponse response =
+              PayslipsListResponse.fromJson(jsonDecode(responseModel.result!));
+          tempPayslips.clear();
+          tempPayslips.addAll(response.info ?? []);
+          listPayslips.value = tempPayslips;
+          listPayslips.refresh();
+        } else {
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+          // AppUtils.showSnackBarMessage('no_internet'.tr);
+          // Utils.showSnackBarMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+        }
+      },
+    );
   }
 
   void getInvoicesApi(bool isProgress) {
@@ -119,21 +181,6 @@ class PaymentDocumentsController extends GetxController
     );
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    pageController.dispose();
-  }
-
-  void onPageChanged(int index) {
-    selectedIndex.value = index;
-    print("selectedIndex.value:${selectedIndex.value}");
-  }
-
-  void onItemTapped(int index) {
-    pageController.jumpToPage(index);
-  }
-
   void onBackPress() {
     Get.back(result: isDataUpdated.value);
   }
@@ -142,7 +189,7 @@ class PaymentDocumentsController extends GetxController
     var result = await Get.toNamed(rout, arguments: arguments);
     if (result != null && result) {
       isDataUpdated.value = true;
-      // getAddressDetailsApi();
+      loadData(true);
     }
   }
 
@@ -159,17 +206,10 @@ class PaymentDocumentsController extends GetxController
 
   void showMenuItemsDialog(BuildContext context) {
     List<ModuleInfo> listItems = [];
-    if (UserUtils.isAdmin()) {
-      listItems.add(ModuleInfo(
-          name: 'archive_address'.tr,
-          action: AppConstants.action.archiveProject));
-      listItems.add(ModuleInfo(
-          name: 'delete_address'.tr, action: AppConstants.action.delete));
-      listItems.add(ModuleInfo(
-          name: 'edit_address'.tr, action: AppConstants.action.edit));
-      listItems.add(ModuleInfo(
-          name: 'change_progress'.tr, action: AppConstants.action.inProgress));
-    }
+    listItems.add(
+        ModuleInfo(name: 'download'.tr, action: AppConstants.action.download));
+    listItems
+        .add(ModuleInfo(name: 'delete'.tr, action: AppConstants.action.delete));
     showCupertinoModalPopup(
       context: context,
       builder: (_) =>
@@ -179,30 +219,14 @@ class PaymentDocumentsController extends GetxController
 
   @override
   void onSelectMenuItem(ModuleInfo info, String dialogType) {
-    if (info.action == AppConstants.action.archiveProject) {
-      // archiveAddressApi();
+    if (info.action == AppConstants.action.download) {
+      isDownloadEnable.value = true;
     } else if (info.action == AppConstants.action.delete) {
-      showDeleteTeamDialog();
-    } else if (info.action == AppConstants.action.edit) {
-      // var arguments = {
-      //   AppConstants.intentKey.addressDetailsInfo: addressDetailsInfo
-      // };
-      // moveToScreen(AppRoutes.addAddressScreen, arguments);
-    } else if (info.action == AppConstants.action.inProgress) {
-      // openBottomSheet(Get.context!);
+      isDeleteEnable.value = true;
     }
   }
 
-  void onSelectAddressFilter(String action, bool isProgress) {
-    // clearFilter();
-    if (action == AppConstants.action.checkIn) {
-      // getProjectCheckLogsApi(isProgress);
-    } else if (action == AppConstants.action.trades) {
-      // getProjectTradeRecordsApi(isProgress);
-    }
-  }
-
-  showDeleteTeamDialog() async {
+  showDeleteDialog() async {
     AlertDialogHelper.showAlertDialog(
         "",
         'are_you_sure_you_want_to_delete'.tr,
@@ -312,6 +336,89 @@ class PaymentDocumentsController extends GetxController
   //       .toList();
   //
   //   listCheckInRecords.value = results;
+  // }
+
+  void checkSelectAll() {
+    bool isAllSelected = true;
+
+    if (selectedFilter.value == AppConstants.action.invoices) {
+      for (var info in listInvoices) {
+        for (var data in info.data!) {
+          if (!(data.isCheck ?? false)) {
+            isAllSelected = false;
+            break;
+          }
+        }
+        if (!isAllSelected) break;
+      }
+    } else if (selectedFilter.value == AppConstants.action.payslips) {
+      for (var info in listPayslips) {
+        for (var data in info.data!) {
+          if (!(data.isCheck ?? false)) {
+            isAllSelected = false;
+            break;
+          }
+        }
+        if (!isAllSelected) break;
+      }
+    }
+
+    isCheckAll.value = isAllSelected;
+  }
+
+  void checkAll() {
+    isCheckAll.value = true;
+
+    if (selectedFilter.value == AppConstants.action.invoices) {
+      for (var info in listInvoices) {
+        for (var data in info.data!) {
+          data.isCheck = true;
+        }
+      }
+      listInvoices.refresh();
+    } else if (selectedFilter.value == AppConstants.action.payslips) {
+      for (var info in listPayslips) {
+        for (var data in info.data!) {
+          data.isCheck = true;
+        }
+      }
+      listPayslips.refresh();
+    }
+  }
+
+  void unCheckAll() {
+    isCheckAll.value = false;
+    if (selectedFilter.value == AppConstants.action.invoices) {
+      for (var info in listInvoices) {
+        for (var data in info.data!) {
+          data.isCheck = false;
+        }
+      }
+      listInvoices.refresh();
+    } else if (selectedFilter.value == AppConstants.action.payslips) {
+      for (var info in listPayslips) {
+        for (var data in info.data!) {
+          data.isCheck = false;
+        }
+      }
+      listPayslips.refresh();
+    }
+  }
+
+  // String getCheckedIds() {
+  //   List<String> listIds = [];
+  //   for (var info in timeSheetList) {
+  //     for (var weekData in info.weekLogs!) {
+  //       for (var data in weekData.dayLogs!) {
+  //         if (data.isCheck ?? false) {
+  //           if ((data.type ?? "") == "Timesheet") {
+  //             listIds.add(data.id.toString());
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  //   return StringHelper.getCommaSeparatedStringIds(listIds);
   // }
 
   void clearSearch() {

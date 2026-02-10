@@ -55,6 +55,12 @@ class MenuButtonsGridWidget extends StatelessWidget {
                   // "isOtherUserProfile": controller.isOtherUserProfile.value
                 };
                 Get.toNamed(AppRoutes.myRequestsScreen, arguments: arguments);
+              } else if (info.action == AppConstants.action.documents) {
+                var arguments = {
+                  "user_id": controller.userId ?? 0,
+                };
+                Get.toNamed(AppRoutes.paymentDocumentsScreen,
+                    arguments: arguments);
               } else if (info.action == AppConstants.action.myLeaves) {
                 var arguments = {
                   AppConstants.intentKey.userId: controller.userId ?? 0,
