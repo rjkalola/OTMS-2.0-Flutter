@@ -2,8 +2,10 @@ import 'package:belcka/pages/payment_documents/add_invoice/model/invoice_info.da
 import 'package:belcka/pages/payment_documents/add_payslip/model/payslip_info.dart';
 import 'package:belcka/pages/payment_documents/payment_documents/controller/payment_documents_controller.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/widgets/checkbox/custom_checkbox.dart';
 import 'package:belcka/widgets/other_widgets/right_arrow_widget.dart';
 import 'package:belcka/widgets/other_widgets/user_avtar_view.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
@@ -33,14 +35,19 @@ class PayslipList extends StatelessWidget {
                     controller.listPayslips[parentPosition].data![position];
                 return CardViewDashboardItem(
                     margin: const EdgeInsets.fromLTRB(12, 9, 12, 10),
-                    padding: const EdgeInsets.fromLTRB(14, 14, 14, 14),
+                    padding: const EdgeInsets.fromLTRB(0, 14, 0, 14),
                     child: GestureDetector(
-                      onTap: () {
-                        // var arguments = {
-                        //   AppConstants.intentKey.checkLogId: info.id ?? 0,
-                        // };
-                        // controller.moveToScreen(
-                        //     AppRoutes.checkOutScreen, arguments);
+                      onTap: () async {
+                        if (controller.isDeleteEnable.value ||
+                            controller.isDownloadEnable.value) {
+                          info.isCheck = !(info.isCheck ?? false);
+                          controller.listPayslips.refresh();
+                          controller.checkSelectAll();
+                        } else {
+                          String fileUrl = info.pdf ?? "";
+                          await ImageUtils.openAttachment(Get.context!, fileUrl,
+                              ImageUtils.getFileType(fileUrl));
+                        }
                       },
                       child: Container(
                         color: Colors.transparent,
@@ -48,6 +55,24 @@ class PayslipList extends StatelessWidget {
                           children: [
                             Row(
                               children: [
+                                Visibility(
+                                  visible: controller.isDeleteEnable.value ||
+                                      controller.isDownloadEnable.value,
+                                  child: CustomCheckbox(
+                                      color: defaultAccentColor_(context),
+                                      onValueChange: (value) {
+                                        info.isCheck = !(info.isCheck ?? false);
+                                        controller.listPayslips.refresh();
+                                        controller.checkSelectAll();
+                                      },
+                                      mValue: info.isCheck ?? false),
+                                ),
+                                Visibility(
+                                    visible: !controller.isDeleteEnable.value &&
+                                        !controller.isDownloadEnable.value,
+                                    child: SizedBox(
+                                      width: 14,
+                                    )),
                                 UserAvtarView(
                                   imageUrl: info.userThumbImage ?? "",
                                   imageSize: 40,
@@ -71,16 +96,27 @@ class PayslipList extends StatelessWidget {
                                   width: 10,
                                 ),
                                 // totalWorkHour(info),
-                                RightArrowWidget(
-                                  color: primaryTextColor_(context),
+                                Visibility(
+                                  visible: !controller.isDeleteEnable.value &&
+                                      !controller.isDownloadEnable.value,
+                                  child: RightArrowWidget(
+                                    color: primaryTextColor_(context),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 14,
                                 )
                               ],
                             ),
                             SizedBox(
                               height: 4,
                             ),
-                            Divider(
-                              color: dividerColor_(context),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 14, right: 14),
+                              child: Divider(
+                                color: dividerColor_(context),
+                              ),
                             ),
                             SizedBox(
                               height: 4,
@@ -111,7 +147,8 @@ class PayslipList extends StatelessWidget {
   Widget getDetailRow(String? title, String? value) {
     return !StringHelper.isEmptyString(value)
         ? Padding(
-            padding: const EdgeInsets.only(top: 3, bottom: 3),
+            padding:
+                const EdgeInsets.only(top: 3, bottom: 3, left: 14, right: 14),
             child: Row(
               children: [
                 Flexible(

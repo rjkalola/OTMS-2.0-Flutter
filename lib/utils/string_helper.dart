@@ -47,6 +47,18 @@ class StringHelper {
     return commaSeparateIds;
   }
 
+  static String getCommaSeparatedIntListIds(List<int>? list) {
+    String commaSeparateIds = "";
+    if (list != null && list.isNotEmpty) {
+      List<String> itemIds = [];
+      for (int i = 0; i < list.length; i++) {
+        itemIds.add(list[i].toString());
+      }
+      commaSeparateIds = itemIds.join(',');
+    }
+    return commaSeparateIds;
+  }
+
   static String getCommaSeparatedNames(List<ModuleInfo>? list) {
     String commaSeparateNames = "";
     if (list != null && list.isNotEmpty) {

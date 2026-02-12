@@ -141,4 +141,5 @@ class AppRoutes {
   static const String scoreMoreDetailsScreen = '/score_more_details_screen';
   static const String addInvoiceScreen = '/add_invoice_screen';
   static const String addPayslipScreen = '/add_payslip_screen';
+  static const String paymentDetailsScreen = '/payment_details_screen';
 }

@@ -574,4 +574,8 @@ class ImageUtils {
     };
     Get.toNamed(AppRoutes.imagePreviewScreen, arguments: arguments);
   }
+
+  static String getFileNameFromUrl(String url) {
+    return Uri.parse(url).pathSegments.last;
+  }
 }

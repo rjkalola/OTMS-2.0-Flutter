@@ -69,6 +69,7 @@ class IntentKey {
   final String permissionStep2Info = "PERMISSION_STEP2_INFO";
   final String permissionId = "PERMISSION_ID";
   final String teamId = "TEAM_ID";
+  final String paymentsInfo = "PAYMENTS_INFO";
   final String companyId = "COMPANY_ID";
   final String teamInfo = "TEAM_INFO";
   final String announcementId = "ANNOUNCEMENT_ID";

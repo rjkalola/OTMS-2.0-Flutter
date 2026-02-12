@@ -291,4 +291,7 @@ class ApiConstants {
   static String payslipsGet = '$appUrl/payslips/get';
   static String payslipsZip = '$appUrl/payslips/zip';
   static String payslipsDelete = '$appUrl/payslips/delete';
+
+  static String paymentsGet = '$appUrl/payslips/get-bookkeeper-payments';
+
 }

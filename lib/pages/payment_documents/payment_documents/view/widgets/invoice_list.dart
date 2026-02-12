@@ -12,6 +12,7 @@ import 'package:get/get.dart';
 
 import '../../../../../routes/app_routes.dart';
 import '../../../../../utils/app_constants.dart';
+import '../../../../../utils/image_utils.dart';
 
 class InvoiceList extends StatelessWidget {
   InvoiceList({super.key, required this.parentPosition});
@@ -35,12 +36,17 @@ class InvoiceList extends StatelessWidget {
                     margin: const EdgeInsets.fromLTRB(12, 9, 12, 10),
                     padding: const EdgeInsets.fromLTRB(0, 14, 0, 14),
                     child: GestureDetector(
-                      onTap: () {
-                        var arguments = {
-                          AppConstants.intentKey.checkLogId: info.id ?? 0,
-                        };
-                        controller.moveToScreen(
-                            AppRoutes.checkOutScreen, arguments);
+                      onTap: () async {
+                        if (controller.isDeleteEnable.value ||
+                            controller.isDownloadEnable.value) {
+                          info.isCheck = !(info.isCheck ?? false);
+                          controller.listInvoices.refresh();
+                          controller.checkSelectAll();
+                        } else {
+                          String fileUrl = info.pdf ?? "";
+                          await ImageUtils.openAttachment(Get.context!, fileUrl,
+                              ImageUtils.getFileType(fileUrl));
+                        }
                       },
                       child: Container(
                         color: Colors.transparent,
@@ -89,8 +95,12 @@ class InvoiceList extends StatelessWidget {
                                   width: 10,
                                 ),
                                 // totalWorkHour(info),
-                                RightArrowWidget(
-                                  color: primaryTextColor_(context),
+                                Visibility(
+                                  visible: !controller.isDeleteEnable.value &&
+                                      !controller.isDownloadEnable.value,
+                                  child: RightArrowWidget(
+                                    color: primaryTextColor_(context),
+                                  ),
                                 ),
                                 SizedBox(
                                   width: 14,

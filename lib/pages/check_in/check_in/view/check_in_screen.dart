@@ -141,9 +141,12 @@ class _CheckInScreenState extends State<CheckInScreen> {
                               SizedBox(
                                 height: 16,
                               ),*/
-                              AddNoteWidget(
-                                controller: controller.noteController,
-                                borderRadius: 15,
+                              Visibility(
+                                visible: controller.selectedTypeOfWorkList.length <= 1,
+                                child: AddNoteWidget(
+                                  controller: controller.noteController,
+                                  borderRadius: 15,
+                                ),
                               ),
                               SizedBox(
                                 height: 20,

@@ -22,7 +22,7 @@ class FooterButtons extends StatelessWidget {
         child: Align(
           alignment: Alignment.bottomCenter,
           child: Padding(
-            padding: EdgeInsets.fromLTRB(14, 0, 14, 0),
+            padding: EdgeInsets.fromLTRB(14, 14, 14, 14),
             child: Row(
               children: [
                 Flexible(

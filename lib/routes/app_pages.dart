@@ -52,6 +52,7 @@ import 'package:belcka/pages/notifications/notification_list/view/notification_l
 import 'package:belcka/pages/notifications/notification_settings/view/notification_settings_screen.dart';
 import 'package:belcka/pages/payment_documents/add_invoice/view/add_invoice_screen.dart';
 import 'package:belcka/pages/payment_documents/add_payslip/view/add_payslip_screen.dart';
+import 'package:belcka/pages/payment_documents/payment_details/view/payment_details_screen.dart';
 import 'package:belcka/pages/payment_documents/payment_documents/view/payment_documents_screen.dart';
 import 'package:belcka/pages/permissions/company_permissions/view/company_permission_screen.dart';
 import 'package:belcka/pages/permissions/edit_widget/view/edit_widget_screen.dart';
@@ -415,5 +416,8 @@ class AppPages {
         page: () => ScoreMoreDetailsScreen()),
     GetPage(name: AppRoutes.addInvoiceScreen, page: () => AddInvoiceScreen()),
     GetPage(name: AppRoutes.addPayslipScreen, page: () => AddPayslipScreen()),
+    GetPage(
+        name: AppRoutes.paymentDetailsScreen,
+        page: () => PaymentDetailsScreen()),
   ];
 }

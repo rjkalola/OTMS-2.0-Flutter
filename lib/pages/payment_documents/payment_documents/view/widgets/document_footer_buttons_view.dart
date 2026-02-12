@@ -1,5 +1,6 @@
 import 'package:belcka/pages/payment_documents/payment_documents/controller/payment_documents_controller.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/PrimaryBorderButton.dart';
 import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,9 @@ class DocumentFooterButtonsView extends StatelessWidget {
                   flex: 1,
                   fit: FlexFit.tight,
                   child: PrimaryButton(
-                      buttonText: 'download'.tr, onPressed: () {}),
+                      buttonText: 'download'.tr, onPressed: () {
+                    controller.onClickDownload();
+                  }),
                 ),
                 SizedBox(
                   width: 12,
@@ -57,7 +60,9 @@ class DocumentFooterButtonsView extends StatelessWidget {
                   child: PrimaryButton(
                       buttonText: 'delete'.tr,
                       color: Colors.red,
-                      onPressed: () {}),
+                      onPressed: () {
+                        controller.onClickDelete();
+                      }),
                 ),
                 SizedBox(
                   width: 12,

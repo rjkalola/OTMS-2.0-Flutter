@@ -64,7 +64,7 @@ class DigitalIdCardScreen extends StatelessWidget {
                   controller.digitalIdCardInfo.value.pdfDownloadUrl)) {
                 downloadController.isDownloading.value
                     ? null
-                    : downloadController.downloadPdf(
+                    : downloadController.downloadFile(
                         controller.digitalIdCardInfo.value.pdfDownloadUrl ?? "",
                         "${controller.digitalIdCardInfo.value.name ?? ""}'s ID Card.pdf",
                         downloadSuccessMessage:
