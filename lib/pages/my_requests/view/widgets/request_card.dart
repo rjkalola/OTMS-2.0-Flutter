@@ -78,7 +78,9 @@ class RequestCard extends StatelessWidget {
                     controller.moveToScreen(
                         AppRoutes.ratesRequestScreen, arguments);
                   } else if (requestType == AppConstants.requestType.leave) {
-                    if ((request.status ?? 0) == AppConstants.status.pending) {
+                    if ((request.status ?? 0) == AppConstants.status.pending ||
+                        (request.status ?? 0) == AppConstants.status.approved||
+                        (request.status ?? 0) == AppConstants.status.rejected) {
                       var arguments = {
                         AppConstants.intentKey.leaveId: request.leaveId ?? 0,
                         AppConstants.intentKey.fromRequest: true,

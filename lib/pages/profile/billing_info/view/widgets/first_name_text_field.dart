@@ -21,21 +21,22 @@ class FirstNameTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFieldUnderline(
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        textEditingController: controller.value,
-        hintText: 'first_name'.tr,
-        labelText: 'first_name'.tr,
-        keyboardType: TextInputType.name,
-        textInputAction: TextInputAction.done,
-        isReadOnly: isReadOnly,
-        isEnabled: isEnabled,
-        onPressed: () {},
-        validator: MultiValidator([
-          RequiredValidator(errorText: 'required_field'.tr),
-        ]),
-        inputFormatters: <TextInputFormatter>[
-          // for below version 2 use this
-          FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
-        ]);
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      textEditingController: controller.value,
+      hintText: 'first_name'.tr,
+      labelText: 'first_name'.tr,
+      keyboardType: TextInputType.name,
+      textInputAction: TextInputAction.done,
+      isReadOnly: isReadOnly,
+      isEnabled: isEnabled,
+      onPressed: () {},
+      validator: MultiValidator([
+        RequiredValidator(errorText: 'required_field'.tr),
+      ]),
+      inputFormatters: <TextInputFormatter>[
+        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+        LengthLimitingTextInputFormatter(50),
+      ],
+    );
   }
 }

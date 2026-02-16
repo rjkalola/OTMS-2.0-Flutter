@@ -35,7 +35,7 @@ class PostcodeTextField extends StatelessWidget {
         ]),
         inputFormatters: <TextInputFormatter>[
           // for below version 2 use this
-
+          LengthLimitingTextInputFormatter(50),
         ]);
   }
 }

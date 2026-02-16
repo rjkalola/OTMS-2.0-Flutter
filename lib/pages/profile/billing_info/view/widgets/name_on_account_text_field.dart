@@ -35,7 +35,8 @@ class NameOnAccountTextFieldBilling extends StatelessWidget {
         ]),
         inputFormatters: <TextInputFormatter>[
           // for below version 2 use this
-
+          FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+          LengthLimitingTextInputFormatter(50),
         ]);
   }
 }

@@ -1,8 +1,10 @@
+import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/widgets/PrimaryButton.dart';
 
+import '../../../../../utils/app_utils.dart';
 import '../../../clock_in/controller/clock_in_controller.dart';
 
 class StartShiftButtonRow extends StatelessWidget {
@@ -23,6 +25,17 @@ class StartShiftButtonRow extends StatelessWidget {
               buttonText: 'start_shift'.tr,
               onPressed: () {
                 controller.onClickStartShiftButton();
+                // AlertDialogHelper.showEmptyBillingInfoWarningDialog(
+                //   onContactTap: () {
+                //     // AppUtils.onClickPhoneNumber(controller.phoneController.value.text ?? "");
+                //     print("Contact HR clicked");
+                //     // Example:
+                //     // Get.toNamed(Routes.hrScreen);
+                //
+                //     // OR open email
+                //     // launchUrl(...)
+                //   },
+                // );
               },
               color: Colors.green,
               fontWeight: FontWeight.w500,

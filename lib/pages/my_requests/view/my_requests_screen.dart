@@ -85,8 +85,8 @@ class MyRequestsScreen extends StatelessWidget implements DateFilterListener {
   void setState(Null Function() param0) {}
 
   @override
-  void onSelectDateFilter(
-      int filterIndex, String filter,String startDate, String endDate, String dialogIdentifier) {
+  void onSelectDateFilter(int filterIndex, String filter, String startDate,
+      String endDate, String dialogIdentifier) {
     controller.isResetEnable.value = true;
     controller.startDate = startDate;
     controller.endDate = endDate;
@@ -150,7 +150,7 @@ Color getStatusColor(String status) {
 }
 
 Color getRequestTypeColor(int requestType) {
-   var requestTypeColors = {
+  var requestTypeColors = {
     101: Color(0xFFFF7F00), // Timesheet
     102: Color(0xFFFF7F00), // Work log
     103: Color(0xFF4CBC6D), // Billing Info

@@ -1,5 +1,9 @@
 import 'dart:io';
 
+import 'package:belcka/widgets/PrimaryBorderButton.dart';
+import 'package:belcka/widgets/PrimaryButton.dart';
+import 'package:belcka/widgets/buttons/approve_reject_buttons.dart';
+import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -218,5 +222,62 @@ class AlertDialogHelper {
     );
     // show the dialog
     Get.dialog(barrierDismissible: isCancelable, alert);
+  }
+
+  static void showEmptyBillingInfoWarningDialog({
+    required VoidCallback onContactTap,
+  }) {
+    Get.dialog(
+      Dialog(
+        child: Container(
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: dashBoardBgColor_(Get.context!),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TitleTextView(
+                  text: 'msg_empty_billing_info_warning'.tr,
+                  color: primaryTextColor_(Get.context!),
+                  fontSize: 20),
+              const SizedBox(height: 20),
+              Row(
+                children: [
+                  Flexible(
+                    fit: FlexFit.tight,
+                    flex: 2,
+                    child: PrimaryBorderButton(
+                      buttonText: 'cancel'.tr,
+                      borderColor: secondaryLightTextColor_(Get.context!),
+                      fontColor: secondaryLightTextColor_(Get.context!),
+                      onPressed: (){
+                        Get.back();
+                      },
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Flexible(
+                      fit: FlexFit.tight,
+                      flex: 3,
+                      child: PrimaryButton(
+                        buttonText:'contact_hr'.tr,
+                        onPressed: (){
+                          Get.back();
+                          onContactTap();
+                        },
+                      )),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+      barrierDismissible: true,
+    );
   }
 }

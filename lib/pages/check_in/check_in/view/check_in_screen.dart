@@ -142,7 +142,9 @@ class _CheckInScreenState extends State<CheckInScreen> {
                                 height: 16,
                               ),*/
                               Visibility(
-                                visible: controller.selectedTypeOfWorkList.length <= 1,
+                                visible:
+                                    controller.selectedTypeOfWorkList.length <=
+                                        1,
                                 child: AddNoteWidget(
                                   controller: controller.noteController,
                                   borderRadius: 15,

@@ -17,8 +17,7 @@ import 'package:belcka/web_services/response/response_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class AddCategoryController extends GetxController{
-
+class AddCategoryController extends GetxController {
   final categoryController = TextEditingController().obs;
   RxBool isSaveEnabled = false.obs;
   RxBool isShowSaveButton = true.obs;
@@ -35,6 +34,7 @@ class AddCategoryController extends GetxController{
     super.onInit();
     categoryController.value.addListener(checkForChanges);
   }
+
   void checkForChanges() {
     bool changed = false;
     final categoryName = categoryController.value.text.trim();
@@ -43,10 +43,12 @@ class AddCategoryController extends GetxController{
     }
     isSaveEnabled.value = changed;
   }
+
   void onSubmit() {
     isShowSaveButton.value = false;
     createCategoryAPI();
   }
+
   void createCategoryAPI() async {
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
@@ -58,7 +60,7 @@ class AddCategoryController extends GetxController{
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           BaseResponse response =
-          BaseResponse.fromJson(jsonDecode(responseModel.result!));
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.Message ?? "");
           Get.back(result: true);
         } else {
@@ -76,6 +78,7 @@ class AddCategoryController extends GetxController{
       },
     );
   }
+
   bool valid() {
     return formKey.currentState!.validate();
   }
