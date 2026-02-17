@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:belcka/pages/check_in/clock_in/controller/clock_in_repository.dart';
+import 'package:belcka/pages/check_in/clock_in/model/user_billing_info_validation_response.dart';
+import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -120,6 +123,45 @@ class StartShiftMapController extends GetxController {
     );
   }
 
+  Future<void> userBillingInfoValidationAPI() async {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
+    ClockInRepository().userBillingInfoValidation(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          UserBillingInfoValidationResponse response =
+              UserBillingInfoValidationResponse.fromJson(
+                  jsonDecode(responseModel.result!));
+          if (response.isBillingInfoCompleted ?? false) {
+            var arguments = {
+              AppConstants.intentKey.fromStartShiftScreen: true,
+            };
+            Get.offNamed(AppRoutes.selectProjectScreen, arguments: arguments);
+          } else {
+            AlertDialogHelper.showEmptyBillingInfoWarningDialog(
+              phoneWithExtension: response.phoneWithExtension ?? "",
+              onContactTap: () {
+                AppUtils.onClickPhoneNumber(response.phoneWithExtension ?? "");
+              },
+            );
+          }
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          // isInternetNotAvailable.value = true;
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        }
+      },
+    );
+  }
+
   void appLifeCycle() {
     AppLifecycleListener(
       onResume: () async {
@@ -151,7 +193,7 @@ class StartShiftMapController extends GetxController {
       center.value = LatLng(lat, lon);
       location = await LocationServiceNew.getAddressFromCoordinates(lat, lon);
       final currentPosition = await mapController.getZoomLevel();
-      print("currentPosition:"+currentPosition.toString());
+      print("currentPosition:" + currentPosition.toString());
       mapController.moveCamera(
         CameraUpdate.newLatLngZoom(
           center.value, // target

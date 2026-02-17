@@ -256,14 +256,20 @@ class _PenaltyDetailsScreenState extends State<PenaltyDetailsScreen> {
                                 ),
                                 Spacer(),
                                 Visibility(
-                                  visible: (!UserUtils.isAdmin() &&
-                                          controller.status.value == 0) ||
-                                      (UserUtils.isAdmin() &&
-                                          controller.status.value ==
-                                              AppConstants.status.pending) ||
-                                      (!UserUtils.isAdmin() &&
-                                          controller.status.value ==
-                                              AppConstants.status.rejected),
+                                  visible: (controller.penaltyStatus.value !=
+                                              AppConstants.status.lock &&
+                                          controller.penaltyStatus.value !=
+                                              AppConstants.status.markAsPaid) &&
+                                      ((!UserUtils.isAdmin() &&
+                                              controller.status.value == 0) ||
+                                          (UserUtils.isAdmin() &&
+                                              controller.status.value ==
+                                                  AppConstants
+                                                      .status.pending) ||
+                                          (!UserUtils.isAdmin() &&
+                                              controller.status.value ==
+                                                  AppConstants
+                                                      .status.rejected)),
                                   child: AddNoteWidget(
                                     controller: controller.noteController,
                                     borderRadius: 15,
@@ -286,20 +292,25 @@ class _PenaltyDetailsScreenState extends State<PenaltyDetailsScreen> {
   }
 
   Widget footerButtonsView() {
-    if (controller.status.value == 0 ||
-        controller.status.value == AppConstants.status.rejected) {
-      if (UserUtils.isAdmin()) {
+    if (controller.penaltyStatus.value != AppConstants.status.lock &&
+        controller.penaltyStatus.value != AppConstants.status.markAsPaid) {
+      if (controller.status.value == 0 ||
+          controller.status.value == AppConstants.status.rejected) {
+        if (UserUtils.isAdmin()) {
+          return removePenaltyButton();
+        } else {
+          return appealButton();
+        }
+      } else if (controller.status.value == AppConstants.status.pending) {
+        if (UserUtils.isAdmin()) {
+          return approveRejectButton();
+        } else {
+          return requestedView();
+        }
         return removePenaltyButton();
       } else {
-        return appealButton();
+        return Container();
       }
-    } else if (controller.status.value == AppConstants.status.pending) {
-      if (UserUtils.isAdmin()) {
-        return approveRejectButton();
-      } else {
-        return requestedView();
-      }
-      return removePenaltyButton();
     } else {
       return Container();
     }

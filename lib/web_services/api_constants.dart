@@ -161,6 +161,7 @@ class ApiConstants {
   static String workLogRequestDetails = '$appUrl/requests/get-request-detail';
   static String workLogRequestApproveReject = '$appUrl/worklog-request/action';
   static String getLastWorkLog = '$appUrl/get-last-worklog';
+  static String userBillingInfoValidation = '$appUrl/user-billing/validate';
 
   //check In
   static String checkIn = '$appUrl/check-in';

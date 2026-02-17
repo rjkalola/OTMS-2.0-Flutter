@@ -27,7 +27,7 @@ class PenaltyList extends StatelessWidget {
           scrollDirection: Axis.vertical,
           itemBuilder: (context, position) {
             PenaltyInfo info = controller.listItems[position];
-            int status = info.status ?? 0;
+            int status = info.appealStatus ?? 0;
             return Stack(
               children: [
                 CardViewDashboardItem(

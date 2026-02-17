@@ -37,12 +37,12 @@ class FooterButtons extends StatelessWidget {
                       color: Colors.green,
                       borderRadius: 20,
                       onPressed: () {
-                        var arguments = {
-                          AppConstants.intentKey.fromStartShiftScreen: true,
-                        };
-                        Get.offNamed(AppRoutes.selectProjectScreen,
-                            arguments: arguments);
-                        // controller.showSelectShiftDialog();
+                        controller.userBillingInfoValidationAPI();
+                        // var arguments = {
+                        //   AppConstants.intentKey.fromStartShiftScreen: true,
+                        // };
+                        // Get.offNamed(AppRoutes.selectProjectScreen,
+                        //     arguments: arguments);
                       }),
                 ),
                 Visibility(

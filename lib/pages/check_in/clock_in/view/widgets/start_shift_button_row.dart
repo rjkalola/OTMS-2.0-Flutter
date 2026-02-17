@@ -24,18 +24,7 @@ class StartShiftButtonRow extends StatelessWidget {
             child: PrimaryButton(
               buttonText: 'start_shift'.tr,
               onPressed: () {
-                controller.onClickStartShiftButton();
-                // AlertDialogHelper.showEmptyBillingInfoWarningDialog(
-                //   onContactTap: () {
-                //     // AppUtils.onClickPhoneNumber(controller.phoneController.value.text ?? "");
-                //     print("Contact HR clicked");
-                //     // Example:
-                //     // Get.toNamed(Routes.hrScreen);
-                //
-                //     // OR open email
-                //     // launchUrl(...)
-                //   },
-                // );
+                controller.userBillingInfoValidationAPI(isStartWorkClick: true);
               },
               color: Colors.green,
               fontWeight: FontWeight.w500,
@@ -57,7 +46,7 @@ class StartShiftButtonRow extends StatelessWidget {
               child: PrimaryButton(
                 buttonText: controller.workLogData.value.projectName ?? "",
                 onPressed: () {
-                  controller.userStartWorkApi();
+                  controller.userBillingInfoValidationAPI(isStartWorkClick: false);
                 },
                 color: defaultAccentColor_(context),
                 fontWeight: FontWeight.w500,

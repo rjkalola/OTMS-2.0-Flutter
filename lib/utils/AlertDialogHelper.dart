@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/widgets/PrimaryBorderButton.dart';
 import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:belcka/widgets/buttons/approve_reject_buttons.dart';
@@ -224,9 +225,8 @@ class AlertDialogHelper {
     Get.dialog(barrierDismissible: isCancelable, alert);
   }
 
-  static void showEmptyBillingInfoWarningDialog({
-    required VoidCallback onContactTap,
-  }) {
+  static void showEmptyBillingInfoWarningDialog(
+      {required VoidCallback onContactTap, String? phoneWithExtension}) {
     Get.dialog(
       Dialog(
         child: Container(
@@ -244,35 +244,42 @@ class AlertDialogHelper {
                   color: primaryTextColor_(Get.context!),
                   fontSize: 20),
               const SizedBox(height: 20),
-              Row(
-                children: [
-                  Flexible(
-                    fit: FlexFit.tight,
-                    flex: 2,
-                    child: PrimaryBorderButton(
-                      buttonText: 'cancel'.tr,
-                      borderColor: secondaryLightTextColor_(Get.context!),
-                      fontColor: secondaryLightTextColor_(Get.context!),
-                      onPressed: (){
+              !StringHelper.isEmptyString(phoneWithExtension)
+                  ? Row(
+                      children: [
+                        Flexible(
+                          fit: FlexFit.tight,
+                          flex: 2,
+                          child: PrimaryBorderButton(
+                            buttonText: 'cancel'.tr,
+                            borderColor: secondaryLightTextColor_(Get.context!),
+                            fontColor: secondaryLightTextColor_(Get.context!),
+                            onPressed: () {
+                              Get.back();
+                            },
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Flexible(
+                            fit: FlexFit.tight,
+                            flex: 3,
+                            child: PrimaryButton(
+                              buttonText: 'contact_hr'.tr,
+                              onPressed: () {
+                                Get.back();
+                                onContactTap();
+                              },
+                            )),
+                      ],
+                    )
+                  : PrimaryButton(
+                      buttonText: 'ok'.tr,
+                      onPressed: () {
                         Get.back();
                       },
                     ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Flexible(
-                      fit: FlexFit.tight,
-                      flex: 3,
-                      child: PrimaryButton(
-                        buttonText:'contact_hr'.tr,
-                        onPressed: (){
-                          Get.back();
-                          onContactTap();
-                        },
-                      )),
-                ],
-              ),
             ],
           ),
         ),

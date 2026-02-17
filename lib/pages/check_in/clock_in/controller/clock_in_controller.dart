@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:belcka/pages/check_in/clock_in/model/user_billing_info_validation_response.dart';
 import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:belcka/utils/user_utils.dart';
@@ -234,6 +235,47 @@ class ClockInController extends GetxController
           AppUtils.showApiResponseMessage('no_internet'.tr);
         } else if (error.statusMessage!.isNotEmpty) {
           AppUtils.showApiResponseMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
+
+  Future<void> userBillingInfoValidationAPI(
+      {required bool isStartWorkClick}) async {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
+    _api.userBillingInfoValidation(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          UserBillingInfoValidationResponse response =
+              UserBillingInfoValidationResponse.fromJson(
+                  jsonDecode(responseModel.result!));
+          if (response.isBillingInfoCompleted ?? false) {
+            if (isStartWorkClick) {
+              onClickStartShiftButton();
+            } else {
+              userStartWorkApi();
+            }
+          } else {
+            AlertDialogHelper.showEmptyBillingInfoWarningDialog(
+              phoneWithExtension: response.phoneWithExtension ?? "",
+              onContactTap: () {
+                AppUtils.onClickPhoneNumber(response.phoneWithExtension ?? "");
+              },
+            );
+          }
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          // isInternetNotAvailable.value = true;
+          AppUtils.showApiResponseMessage('no_internet'.tr);
         }
       },
     );

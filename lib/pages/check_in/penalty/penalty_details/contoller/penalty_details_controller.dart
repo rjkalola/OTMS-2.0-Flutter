@@ -21,7 +21,7 @@ class PenaltyDetailsController extends GetxController
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs;
-  RxInt status = 0.obs;
+  RxInt status = 0.obs, penaltyStatus = 0.obs;
   final penaltyInfo = PenaltyInfo().obs;
   int penaltyId = 0;
   bool fromNotification = false;
@@ -51,7 +51,8 @@ class PenaltyDetailsController extends GetxController
           PenaltyInfoResponse response =
               PenaltyInfoResponse.fromJson(jsonDecode(responseModel.result!));
           penaltyInfo.value = response.info!;
-          status.value = penaltyInfo.value.status ?? 0;
+          status.value = penaltyInfo.value.appealStatus ?? 0;
+          penaltyStatus.value = penaltyInfo.value.status ?? 0;
           isMainViewVisible.value = true;
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
