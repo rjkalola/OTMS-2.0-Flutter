@@ -8,11 +8,11 @@ import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ProceedBuyerOrderListItem extends StatelessWidget {
+class BuyerProceedOrderListItem extends StatelessWidget {
   final OrderInfo item;
   final VoidCallback onListItem;
 
-  const ProceedBuyerOrderListItem(
+  const BuyerProceedOrderListItem(
       {super.key,
       required this.item,
       required this.onListItem});

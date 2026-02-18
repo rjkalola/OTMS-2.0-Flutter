@@ -78,11 +78,13 @@ class _OrderQuantityTextFieldState extends State<OrderQuantityTextField> {
     // Min check
     if (widget.min != null && finalQty < widget.min!) {
       finalQty = widget.min!;
+      print("min:"+finalQty.toString());
     }
 
     // Max check
     if (widget.max != null && finalQty > widget.max!) {
       finalQty = widget.max!;
+      print("max:"+finalQty.toString());
     }
 
     // Force corrected value back to TextField
@@ -92,6 +94,7 @@ class _OrderQuantityTextFieldState extends State<OrderQuantityTextField> {
       _controller.selection =
           TextSelection.collapsed(offset: _controller.text.length);
       _isUpdatingText = false;
+      print("Force corrected:"+finalQty.toString());
     }
 
     widget.onChanged(finalQty);

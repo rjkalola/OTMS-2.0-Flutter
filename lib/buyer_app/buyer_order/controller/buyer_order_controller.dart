@@ -1,6 +1,5 @@
 import 'package:belcka/buyer_app/buyer_order/controller/buyer_order_repository.dart';
 import 'package:belcka/buyer_app/buyer_order/model/order_info.dart';
-import 'package:belcka/buyer_app/purchasing/controller/purchasing_repository.dart';
 import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:belcka/utils/app_constants.dart';
@@ -21,9 +20,17 @@ class BuyerOrderController extends GetxController
   int selectedIndex = 0;
   RxInt requestCount = 0.obs, proceedCount = 0.obs, deliveredCount = 0.obs;
   final searchAddressController = TextEditingController().obs;
-  final ordersList = <OrderInfo>[].obs;
-  List<OrderInfo> tempList = [];
+  final requestOrdersList = <OrderInfo>[].obs;
+  final proceedOrdersList = <OrderInfo>[].obs;
+  final deliveredOrdersList = <OrderInfo>[].obs;
+  List<OrderInfo> tempRequestOrderList = [];
+  List<OrderInfo> tempProceedOrderList = [];
+  List<OrderInfo> tempDeliveredOrderList = [];
   final selectedTab = OrderTabType.request.obs;
+
+  final ScrollController requestScrollController = ScrollController();
+  final ScrollController proceedScrollController = ScrollController();
+  final ScrollController deliveredScrollController = ScrollController();
 
   final List<FocusNode> qtyFocusNodes = [];
 
@@ -41,8 +48,8 @@ class BuyerOrderController extends GetxController
   }
 
   void loadOrders() {
-    tempList.clear();
-    tempList.addAll([
+    tempRequestOrderList.clear();
+    tempRequestOrderList.addAll([
       OrderInfo(
         id: 1,
         name: "ElectriQ 60cm 4 Zone Induction Hob",
@@ -65,21 +72,152 @@ class BuyerOrderController extends GetxController
         price: 43.21,
         qty: 1,
       ),
+      OrderInfo(
+        id: 2,
+        name: "Twfydord Alcona Close Coupled Toilet Pan",
+        sku: "DCK1234",
+        image: "https://samplelib.com/lib/preview/png/sample-boat-400x300.png",
+        availableQty: 5,
+        projectName: "DCK Northumberland",
+        userName: "Alex Novok +2",
+        price: 43.21,
+        qty: 1,
+      ),
+      OrderInfo(
+        id: 2,
+        name: "Twfydord Alcona Close Coupled Toilet Pan",
+        sku: "DCK1234",
+        image: "https://samplelib.com/lib/preview/png/sample-boat-400x300.png",
+        availableQty: 5,
+        projectName: "DCK Northumberland",
+        userName: "Alex Novok +2",
+        price: 43.21,
+        qty: 1,
+      ),
+      OrderInfo(
+        id: 2,
+        name: "Twfydord Alcona Close Coupled Toilet Pan",
+        sku: "DCK1234",
+        image: "https://samplelib.com/lib/preview/png/sample-boat-400x300.png",
+        availableQty: 5,
+        projectName: "DCK Northumberland",
+        userName: "Alex Novok +2",
+        price: 43.21,
+        qty: 1,
+      ),
     ]);
-    ordersList.value = tempList;
+    requestOrdersList.value = tempRequestOrderList;
+
+    tempProceedOrderList.clear();
+    tempProceedOrderList.addAll([
+      OrderInfo(
+        id: 1,
+        name: "ElectriQ 60cm 4 Zone Induction Hob",
+        sku: "DCK1234",
+        image: "https://via.placeholder.com/150",
+        availableQty: 1000,
+        projectName: "DCK Northumberland",
+        userName: "Alex Novok +2",
+        price: 2500.00,
+        qty: 5,
+      ),
+      OrderInfo(
+        id: 2,
+        name: "Twfydord Alcona Close Coupled Toilet Pan",
+        sku: "DCK1234",
+        image: "https://samplelib.com/lib/preview/png/sample-boat-400x300.png",
+        availableQty: 5,
+        projectName: "DCK Northumberland",
+        userName: "Alex Novok +2",
+        price: 43.21,
+        qty: 1,
+      ),
+      OrderInfo(
+        id: 2,
+        name: "Twfydord Alcona Close Coupled Toilet Pan",
+        sku: "DCK1234",
+        image: "https://samplelib.com/lib/preview/png/sample-boat-400x300.png",
+        availableQty: 5,
+        projectName: "DCK Northumberland",
+        userName: "Alex Novok +2",
+        price: 43.21,
+        qty: 1,
+      ),
+    ]);
+    proceedOrdersList.value = tempProceedOrderList;
+
+    tempDeliveredOrderList.clear();
+    tempDeliveredOrderList.addAll([
+      OrderInfo(
+        id: 1,
+        name: "ElectriQ 60cm 4 Zone Induction Hob 1",
+        sku: "DCK1234",
+        image: "https://via.placeholder.com/150",
+        availableQty: 1000,
+        projectName: "DCK Northumberland",
+        userName: "Alex Novok +2",
+        price: 2500.00,
+        qty: 5,
+      ),
+      OrderInfo(
+        id: 1,
+        name: "ElectriQ 60cm 4 Zone Induction Hob 2",
+        sku: "DCK1234",
+        image: "https://via.placeholder.com/150",
+        availableQty: 1000,
+        projectName: "DCK Northumberland",
+        userName: "Alex Novok +2",
+        price: 2500.00,
+        qty: 5,
+      ),
+      OrderInfo(
+        id: 2,
+        name: "Twfydord Alcona Close Coupled Toilet Pan 1",
+        sku: "DCK1234",
+        image: "https://samplelib.com/lib/preview/png/sample-boat-400x300.png",
+        availableQty: 5,
+        projectName: "DCK Northumberland",
+        userName: "Alex Novok +2",
+        price: 43.21,
+        qty: 1,
+      ),
+      OrderInfo(
+        id: 2,
+        name: "Twfydord Alcona Close Coupled Toilet Pan 2",
+        sku: "DCK1234",
+        image: "https://samplelib.com/lib/preview/png/sample-boat-400x300.png",
+        availableQty: 5,
+        projectName: "DCK Northumberland",
+        userName: "Alex Novok +2",
+        price: 43.21,
+        qty: 1,
+      ),
+      OrderInfo(
+        id: 2,
+        name: "Twfydord Alcona Close Coupled Toilet Pan 3",
+        sku: "DCK1234",
+        image: "https://samplelib.com/lib/preview/png/sample-boat-400x300.png",
+        availableQty: 5,
+        projectName: "DCK Northumberland",
+        userName: "Alex Novok +2",
+        price: 43.21,
+        qty: 1,
+      ),
+    ]);
+    deliveredOrdersList.value = tempDeliveredOrderList;
   }
 
   void increaseQty(int index) {
-    if (ordersList[index].qty < ordersList[index].availableQty) {
-      ordersList[index].qty++;
-      ordersList.refresh();
+    if (requestOrdersList[index].qty < requestOrdersList[index].availableQty) {
+      requestOrdersList[index].qty++;
+      requestOrdersList.refresh();
     }
   }
 
   void decreaseQty(int index) {
-    if (ordersList[index].qty > 1) {
-      ordersList[index].qty--;
-      ordersList.refresh();
+    if (requestOrdersList[index].qty > 1) {
+      requestOrdersList[index].qty--;
+      requestOrdersList.refresh();
     }
   }
 
@@ -91,15 +229,15 @@ class BuyerOrderController extends GetxController
   void onItemClick(int index) {}
 
   double get grandTotal =>
-      ordersList.fold(0, (sum, item) => sum + item.totalPrice);
+      requestOrdersList.fold(0, (sum, item) => sum + item.totalPrice);
 
   void setQty(int index, int qty) {
-    final item = ordersList[index];
+    final item = requestOrdersList[index];
 
     int finalQty;
 
     if (qty < 1) {
-      finalQty = 1;
+      finalQty = 0;
     } else if (qty > item.availableQty) {
       finalQty = item.availableQty;
     } else {
@@ -107,7 +245,7 @@ class BuyerOrderController extends GetxController
     }
 
     item.qty = finalQty;
-    ordersList.refresh();
+    requestOrdersList.refresh();
   }
 
   void showDeleteDialog() {
@@ -134,7 +272,7 @@ class BuyerOrderController extends GetxController
   void onPositiveButtonClicked(String dialogIdentifier) {
     if (dialogIdentifier == AppConstants.dialogIdentifier.delete) {
       Get.back();
-      ordersList.removeAt(selectedIndex);
+      requestOrdersList.removeAt(selectedIndex);
     }
   }
 
@@ -145,14 +283,14 @@ class BuyerOrderController extends GetxController
     print(value);
     List<OrderInfo> results = [];
     if (value.isEmpty) {
-      results = tempList;
+      results = tempRequestOrderList;
     } else {
-      results = tempList
+      results = tempRequestOrderList
           .where((element) => (!StringHelper.isEmptyString(element.name) &&
               element.name!.toLowerCase().contains(value.toLowerCase())))
           .toList();
     }
-    ordersList.value = results;
+    requestOrdersList.value = results;
   }
 
   void clearSearch() {

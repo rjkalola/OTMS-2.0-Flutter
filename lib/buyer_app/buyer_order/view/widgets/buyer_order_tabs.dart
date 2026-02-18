@@ -23,7 +23,7 @@ class BuyerOrderTabs extends StatelessWidget {
                 count: controller.requestCount.value,
                 flex: 1,
                 onTap: () {
-                  controller.selectedTab.value == OrderTabType.request;
+                  controller.selectedTab.value = OrderTabType.request;
                   // controller.selectedStatusFilter.value = "request";
                 },
               ),
@@ -32,11 +32,12 @@ class BuyerOrderTabs extends StatelessWidget {
               ),
               HeaderFilterItem(
                 title: 'proceed'.tr,
-                selected: controller.selectedTab.value == OrderTabType.proceed,
+                selected:
+                    (controller.selectedTab.value == OrderTabType.proceed),
                 count: controller.requestCount.value,
                 flex: 1,
                 onTap: () {
-                  controller.selectedTab.value == OrderTabType.proceed;
+                  controller.selectedTab.value = OrderTabType.proceed;
                   // controller.selectedStatusFilter.value = "proceed";
                 },
               ),
@@ -46,11 +47,11 @@ class BuyerOrderTabs extends StatelessWidget {
               HeaderFilterItem(
                 title: 'delivered'.tr,
                 selected:
-                    controller.selectedTab.value == OrderTabType.delivered,
+                    (controller.selectedTab.value == OrderTabType.delivered),
                 count: controller.requestCount.value,
                 flex: 1,
                 onTap: () {
-                  controller.selectedTab.value == OrderTabType.delivered;
+                  controller.selectedTab.value = OrderTabType.delivered;
                   // controller.selectedStatusFilter.value = "delivered";
                 },
               ),

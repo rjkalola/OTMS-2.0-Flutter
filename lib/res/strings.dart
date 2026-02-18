@@ -581,7 +581,7 @@ class Strings extends Translations {
           'msg_empty_billing_info_warning':
               "Please complete your billing details to start work.",
           'contact_hr': "Contact HR",
-
+          'create_order': "Create Order",
 // '': "",
 // '': "",
 // '': "",

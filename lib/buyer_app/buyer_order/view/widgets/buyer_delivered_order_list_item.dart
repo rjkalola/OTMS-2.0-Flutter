@@ -1,19 +1,17 @@
 import 'package:belcka/buyer_app/buyer_order/model/order_info.dart';
 import 'package:belcka/buyer_app/buyer_order/view/widgets/order_quantity_display_text_view.dart';
 import 'package:belcka/res/colors.dart';
-import 'package:belcka/res/drawable.dart';
 import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/text/SubTitleTextView.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
-class DeliveredBuyerOrderListItem extends StatelessWidget {
+class BuyerDeliveredOrderListItem extends StatelessWidget {
   final OrderInfo item;
   final VoidCallback onListItem;
 
-  const DeliveredBuyerOrderListItem(
+  const BuyerDeliveredOrderListItem(
       {super.key, required this.item, required this.onListItem});
 
   @override

@@ -9,7 +9,7 @@ import 'package:belcka/res/colors.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
 
-class RequestBuyerOrderListItem extends StatelessWidget {
+class BuyerRequestOrderListItem extends StatelessWidget {
   final OrderInfo item;
   final VoidCallback onAdd;
   final VoidCallback onRemove;
@@ -18,7 +18,7 @@ class RequestBuyerOrderListItem extends StatelessWidget {
   final VoidCallback onListItem;
   final FocusNode focusNode;
 
-  const RequestBuyerOrderListItem(
+  const BuyerRequestOrderListItem(
       {super.key,
       required this.item,
       required this.focusNode,
