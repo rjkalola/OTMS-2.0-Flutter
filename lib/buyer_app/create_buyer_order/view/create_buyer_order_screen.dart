@@ -17,14 +17,14 @@ import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class BuyerOrdersScreen extends StatefulWidget {
-  const BuyerOrdersScreen({super.key});
+class CreateBuyerOrderScreen extends StatefulWidget {
+  const CreateBuyerOrderScreen({super.key});
 
   @override
-  State<BuyerOrdersScreen> createState() => _BuyerOrdersScreenState();
+  State<CreateBuyerOrderScreen> createState() => _CreateBuyerOrderScreenState();
 }
 
-class _BuyerOrdersScreenState extends State<BuyerOrdersScreen> {
+class _CreateBuyerOrderScreenState extends State<CreateBuyerOrderScreen> {
   late final BuyerOrderController controller;
 
   @override

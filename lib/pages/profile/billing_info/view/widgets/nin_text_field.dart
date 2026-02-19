@@ -31,11 +31,11 @@ class NINTextFieldBilling extends StatelessWidget {
         isEnabled: true,
         onPressed: () {},
         validator: MultiValidator([
-
+          RequiredValidator(errorText: 'required_field'.tr),
         ]),
         inputFormatters: <TextInputFormatter>[
           // for below version 2 use this
-          LengthLimitingTextInputFormatter(50),
+          LengthLimitingTextInputFormatter(9),
         ]);
   }
 }

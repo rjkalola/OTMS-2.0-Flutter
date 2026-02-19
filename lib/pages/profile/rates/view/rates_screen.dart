@@ -119,7 +119,7 @@ class _RatesScreenState extends State<RatesScreen> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      "${'cis'.tr} 20%",
+                                      "${'cis'.tr} ${controller.billingInfo.value.cis ?? 0}%",
                                       style: TextStyle(fontSize: 15),
                                     ),
                                     Text(

@@ -2,6 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:ffi';
 
+import 'package:belcka/pages/common/drop_down_list_dialog.dart';
+import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
+import 'package:belcka/pages/common/listener/select_item_listener.dart';
+import 'package:belcka/web_services/response/module_info.dart';
 import 'package:dio/dio.dart' as multi;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,7 +28,7 @@ import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 
 class BillingInfoController extends GetxController
-    implements SelectPhoneExtensionListener {
+    implements SelectPhoneExtensionListener,SelectItemListener, DialogButtonClickListener{
   final firstNameController = TextEditingController().obs;
   final lastNameController = TextEditingController().obs;
   final middleNameController = TextEditingController().obs;
@@ -55,6 +59,10 @@ class BillingInfoController extends GetxController
   final isSaveEnabled = false.obs;
   Map<String, dynamic> initialData = {};
 
+  final cisController = TextEditingController().obs;
+  var cisValue = "20";
+  final List<ModuleInfo> listCis = <ModuleInfo>[].obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -63,8 +71,17 @@ class BillingInfoController extends GetxController
       billingInfo.value.userId = arguments[AppConstants.intentKey.userId];
       setInitData();
     }
+    else{
+      cisValue = "20";
+      cisController.value.text = "$cisValue%";
+    }
+    setupCISData();
     billingInfo.value.companyId = ApiConstants.companyId;
     setupListeners();
+  }
+  void setupCISData(){
+    listCis.insert(0, ModuleInfo(id: 20,name: "20%"));
+    listCis.insert(1, ModuleInfo(id: 30,name: "30%"));
   }
   void setupListeners() {
     List<TextEditingController> controllers = [
@@ -106,6 +123,7 @@ class BillingInfoController extends GetxController
       "accountNumber": accountNumberController.value.text.trim(),
       "shortCode": sortCodeController.value.text.trim(),
       "extension": mExtension.value,
+      'cis':cisValue,
     };
     isSaveEnabled.value = jsonEncode(initialData) != jsonEncode(currentData);
   }
@@ -124,7 +142,10 @@ class BillingInfoController extends GetxController
     bankNameController.value.text = billingInfo.value.bankName ?? "";
     accountNumberController.value.text = billingInfo.value.accountNo ?? "";
     sortCodeController.value.text = billingInfo.value.shortCode ?? "";
-    
+
+    cisValue = billingInfo.value.cis ?? "";
+    cisController.value.text = "$cisValue%";
+
     if (billingInfo.value.extension != null){
       mExtension.value = billingInfo.value.extension ?? "";
     }
@@ -147,6 +168,7 @@ class BillingInfoController extends GetxController
       "accountNumber": accountNumberController.value.text,
       "shortCode": sortCodeController.value.text,
       "extension": mExtension.value,
+      'cis':cisValue,
     };
   }
   void addBillingInfoAPI() async {
@@ -239,6 +261,7 @@ class BillingInfoController extends GetxController
       billingInfo.value.accountNo = StringHelper.getText(accountNumberController.value);
       billingInfo.value.shortCode =
           StringHelper.getText(sortCodeController.value);
+      billingInfo.value.cis = cisValue;
 
       isShowSaveButton.value = false;
 
@@ -277,6 +300,24 @@ class BillingInfoController extends GetxController
       checkForChanges();
     }
   }
+  void showDropDownDialog(String dialogType, String title,
+      List<ModuleInfo> list, SelectItemListener listener) {
+    Get.bottomSheet(
+        DropDownListDialog(
+          title: title,
+          dialogType: dialogType,
+          list: list,
+          listener: listener,
+          isCloseEnable: true,
+          isSearchEnable: false,
+        ),
+        backgroundColor: Colors.transparent,
+        isScrollControlled: true);
+  }
+  void showCISList() {
+    showDropDownDialog(AppConstants.dialogIdentifier.selectCategory,
+        'select_cis'.tr, listCis, this);
+  }
   @override
   void onSelectPhoneExtension(
       int id, String extension, String flag, String country) {
@@ -284,5 +325,29 @@ class BillingInfoController extends GetxController
     mExtension.value = extension;
     billingInfo.value.extension = extension;
     checkForChanges();
+  }
+
+  @override
+  void onSelectItem(int position, int id, String name, String action) {
+    if (action == AppConstants.dialogIdentifier.selectCategory) {
+       cisValue = "$id";
+       cisController.value.text = name;
+       checkForChanges();
+    }
+  }
+
+  @override
+  void onNegativeButtonClicked(String dialogIdentifier) {
+    // TODO: implement onNegativeButtonClicked
+  }
+
+  @override
+  void onOtherButtonClicked(String dialogIdentifier) {
+    // TODO: implement onOtherButtonClicked
+  }
+
+  @override
+  void onPositiveButtonClicked(String dialogIdentifier) {
+    // TODO: implement onPositiveButtonClicked
   }
 }

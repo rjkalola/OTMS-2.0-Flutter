@@ -25,17 +25,17 @@ class AccountNumberTextFieldBilling extends StatelessWidget {
         textEditingController: controller.value,
         hintText: 'account_number'.tr,
         labelText: 'account_number'.tr,
-        keyboardType: TextInputType.name,
+        keyboardType: TextInputType.number,
         textInputAction: TextInputAction.done,
         isReadOnly: false,
         isEnabled: true,
         onPressed: () {},
         validator: MultiValidator([
-
+          RequiredValidator(errorText: 'required_field'.tr),
         ]),
         inputFormatters: <TextInputFormatter>[
           // for below version 2 use this
-          LengthLimitingTextInputFormatter(50),
+          LengthLimitingTextInputFormatter(12),
         ]);
   }
 }

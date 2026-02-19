@@ -1,3 +1,4 @@
+import 'package:belcka/pages/profile/billing_info/view/widgets/cis_field_select_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:belcka/pages/profile/billing_info/controller/billing_info_controller.dart';
@@ -127,6 +128,7 @@ class GeneralView extends StatelessWidget {
                       )),
                 ],
               ),
+              CisFieldSelectView()
             ],
           ),
         ));

@@ -370,6 +370,17 @@ class DataUtils {
     "Custom"
   ];
 
+  static List<String> dateFilterListWithAll = [
+    "Reset",
+    "All",
+    "Week",
+    "Month",
+    "3 Month",
+    "6 Month",
+    "Year",
+    "Custom"
+  ];
+
   static List<String> dateFilterListMyRequest = [
     "Week",
     "Month",

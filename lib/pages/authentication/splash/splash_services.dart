@@ -79,8 +79,8 @@ class SplashServices {
     Timer(const Duration(seconds: 1), () async {
       if (ApiConstants.accessToken.isNotEmpty) {
         if (ApiConstants.companyId != 0) {
-          // Get.offAllNamed(AppRoutes.dashboardScreen);
-          Get.offAllNamed(AppRoutes.buyerOrdersScreen);
+          Get.offAllNamed(AppRoutes.dashboardScreen);
+          // Get.offAllNamed(AppRoutes.buyerOrdersScreen);
         } else {
           var arguments = {AppConstants.intentKey.fromSignUpScreen: true};
           Get.offAllNamed(AppRoutes.switchCompanyScreen, arguments: arguments);

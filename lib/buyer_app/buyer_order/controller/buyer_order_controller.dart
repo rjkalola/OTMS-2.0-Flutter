@@ -19,7 +19,7 @@ class BuyerOrderController extends GetxController
   double cardRadius = 12;
   int selectedIndex = 0;
   RxInt requestCount = 0.obs, proceedCount = 0.obs, deliveredCount = 0.obs;
-  final searchAddressController = TextEditingController().obs;
+  final searchController = TextEditingController().obs;
   final requestOrdersList = <OrderInfo>[].obs;
   final proceedOrdersList = <OrderInfo>[].obs;
   final deliveredOrdersList = <OrderInfo>[].obs;
@@ -281,20 +281,44 @@ class BuyerOrderController extends GetxController
 
   Future<void> searchItem(String value) async {
     print(value);
-    List<OrderInfo> results = [];
-    if (value.isEmpty) {
-      results = tempRequestOrderList;
-    } else {
-      results = tempRequestOrderList
-          .where((element) => (!StringHelper.isEmptyString(element.name) &&
-              element.name!.toLowerCase().contains(value.toLowerCase())))
-          .toList();
+    if (selectedTab.value == OrderTabType.request) {
+      List<OrderInfo> results = [];
+      if (value.isEmpty) {
+        results = tempRequestOrderList;
+      } else {
+        results = tempRequestOrderList
+            .where((element) => (!StringHelper.isEmptyString(element.name) &&
+                element.name!.toLowerCase().contains(value.toLowerCase())))
+            .toList();
+      }
+      requestOrdersList.value = results;
+    } else if (selectedTab.value == OrderTabType.proceed) {
+      List<OrderInfo> results = [];
+      if (value.isEmpty) {
+        results = tempProceedOrderList;
+      } else {
+        results = tempProceedOrderList
+            .where((element) => (!StringHelper.isEmptyString(element.name) &&
+                element.name!.toLowerCase().contains(value.toLowerCase())))
+            .toList();
+      }
+      proceedOrdersList.value = results;
+    } else if (selectedTab.value == OrderTabType.delivered) {
+      List<OrderInfo> results = [];
+      if (value.isEmpty) {
+        results = tempDeliveredOrderList;
+      } else {
+        results = tempDeliveredOrderList
+            .where((element) => (!StringHelper.isEmptyString(element.name) &&
+                element.name!.toLowerCase().contains(value.toLowerCase())))
+            .toList();
+      }
+      deliveredOrdersList.value = results;
     }
-    requestOrdersList.value = results;
   }
 
   void clearSearch() {
-    searchAddressController.value.clear();
+    searchController.value.clear();
     searchItem("");
   }
 

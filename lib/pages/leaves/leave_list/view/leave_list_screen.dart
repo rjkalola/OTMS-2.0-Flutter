@@ -1,5 +1,6 @@
 import 'package:belcka/pages/common/listener/date_filter_listener.dart';
 import 'package:belcka/pages/common/widgets/date_filter_options_horizontal_list.dart';
+import 'package:belcka/pages/common/widgets/date_filter_options_with_all_horizontal_list.dart';
 import 'package:belcka/pages/leaves/leave_list/controller/leave_list_controller.dart';
 import 'package:belcka/pages/leaves/leave_list/view/widgets/leave_list.dart';
 import 'package:belcka/res/colors.dart';
@@ -52,7 +53,7 @@ class _LeaveListScreenState extends State<LeaveListScreen>
                         visible: controller.isMainViewVisible.value,
                         child: Column(
                           children: [
-                            DateFilterOptionsHorizontalList(
+                            DateFilterOptionsWithAllHorizontalList(
                               padding: EdgeInsets.fromLTRB(14, 0, 14, 6),
                               startDate: controller.startDate,
                               endDate: controller.endDate,
@@ -85,8 +86,18 @@ class _LeaveListScreenState extends State<LeaveListScreen>
   }
 
   @override
-  void onSelectDateFilter(
-      int filterIndex, String filter, String startDate, String endDate, String dialogIdentifier) {
+  void onSelectDateFilter(int filterIndex, String filter, String startDate,
+      String endDate, String dialogIdentifier) {
+    if (filter == "All") {
+      controller.isAllLeaves.value = true;
+    } else {
+      controller.isAllLeaves.value = false;
+    }
+
+    print("Filter:" + filter);
+    print("controller.isAllLeaves.value:" +
+        controller.isAllLeaves.value.toString());
+
     controller.startDate = startDate;
     controller.endDate = endDate;
     controller.getLeaveListApi(true);

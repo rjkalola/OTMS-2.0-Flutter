@@ -67,14 +67,22 @@ class RatesController extends GetxController implements SelectItemListener, Dial
     return 0.0;
   }
   void calculateGrossAndCIS(){
+    var cisPercentage = (int.tryParse(billingInfo.value.cis ?? "") ?? 0) / 100;
+    print("cisPercentage:$cisPercentage");
+
+    var cisFinalValue = 0.20;
+    if (cisPercentage > 0){
+      cisFinalValue = cisPercentage;
+    }
+
     if (isRateRequested.value){
       final net = double.tryParse(originalNetPerDay) ?? 0.00;
-      cis.value = net * 0.20;
+      cis.value = net * cisFinalValue;
       grossPerDay.value = net + cis.value;
     }
     else{
       final net = double.tryParse(netPerDayController.value.text ?? "") ?? 0.0;
-      cis.value = net * 0.20;
+      cis.value = net * cisFinalValue;
       grossPerDay.value = net + cis.value;
     }
     _checkForChanges();
@@ -174,7 +182,7 @@ class RatesController extends GetxController implements SelectItemListener, Dial
     netPerDayController.value.text = rateText;
     String joiningDateStr = companyInfo.joiningDate ?? "";
     joiningDate = joiningDateStr.split(" ").sublist(0, 3).join(" ");
-    //calculate gross per day and cis 20%
+    //calculate gross per day and cis %
     calculateGrossAndCIS();
   }
   void onSubmit() {

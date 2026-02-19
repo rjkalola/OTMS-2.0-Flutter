@@ -1,6 +1,3 @@
-
-import 'dart:ffi';
-
 class BillingInfo {
   int? id;
   int? userId;
@@ -36,42 +33,54 @@ class BillingInfo {
   String? newNetRatePerDay;
   String? oldTrade;
   String? newTrade;
+  String? cis;
 
   BillingInfo(
       {this.id,
-      this.userId,
-      this.name,
-      this.firstName,
-      this.middleName,
-      this.lastName,
-      this.email,
-      this.postCode,
-      this.address,
-      this.extension,
-      this.phone,
-      this.nameOnUtr,
-      this.utrNumber,
-      this.ninNumber,
-      this.nameOnAccount,
-      this.bankName,
-      this.accountNo,
-      this.shortCode,
-      this.userImage,
-      this.userThumbImage,
-      this.companyId,
-      this.status,
-      this.statusText,
-      this.currency,
-      this.joiningDate,
-      this.net_rate_perDay,
-      this.tradeName,
-      this.tradeId,
-      this.companyName,
-      this.is_rate_requested,
-      this.newNetRatePerDay,
-      this.oldNetRatePerDay,
-      this.oldTrade,
-      this.newTrade});
+        this.userId,
+        this.name,
+        this.firstName,
+        this.middleName,
+        this.lastName,
+        this.email,
+        this.postCode,
+        this.address,
+        this.extension,
+        this.phone,
+        this.nameOnUtr,
+        this.utrNumber,
+        this.ninNumber,
+        this.nameOnAccount,
+        this.bankName,
+        this.accountNo,
+        this.shortCode,
+        this.userImage,
+        this.userThumbImage,
+        this.companyId,
+        this.status,
+        this.statusText,
+        this.currency,
+        this.joiningDate,
+        this.net_rate_perDay,
+        this.tradeName,
+        this.tradeId,
+        this.companyName,
+        this.is_rate_requested,
+        this.newNetRatePerDay,
+        this.oldNetRatePerDay,
+        this.oldTrade,
+        this.newTrade,
+        this.cis = "20"});
+
+
+  static String safeString(dynamic value, {String defaultValue = ""}) {
+    if (value == null) return defaultValue;
+
+    final str = value.toString().trim();
+    if (str.isEmpty || str.toLowerCase() == "null") return defaultValue;
+
+    return str;
+  }
 
   BillingInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -108,6 +117,7 @@ class BillingInfo {
     oldNetRatePerDay = json['old_net_rate_perday'].toString();
     oldTrade = json['old_trade'];
     newTrade = json['new_trade'];
+    cis = safeString(json['cis'], defaultValue: "20");
   }
 
   Map<String, dynamic> toJson() {
@@ -146,6 +156,7 @@ class BillingInfo {
     data['old_net_rate_perday'] = this.oldNetRatePerDay;
     data['old_trade'] = this.oldTrade;
     data['new_trade'] = this.newTrade;
+    data['cis'] = this.cis;
     return data;
   }
 }

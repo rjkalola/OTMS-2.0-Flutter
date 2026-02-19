@@ -69,17 +69,18 @@ class UtrTextFieldBilling extends StatelessWidget {
         textEditingController: controller.value,
         hintText: 'utr'.tr,
         labelText: 'utr'.tr,
-        keyboardType: TextInputType.name,
+        keyboardType: TextInputType.number,
         textInputAction: TextInputAction.done,
         isReadOnly: false,
         isEnabled: true,
         onPressed: () {},
         validator: MultiValidator([
-
+          RequiredValidator(errorText: 'required_field'.tr),
         ]),
         inputFormatters: <TextInputFormatter>[
           // for below version 2 use this
-          LengthLimitingTextInputFormatter(50),
+          FilteringTextInputFormatter.digitsOnly,
+          LengthLimitingTextInputFormatter(11),
         ]);
   }
 }

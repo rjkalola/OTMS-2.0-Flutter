@@ -582,6 +582,7 @@ class Strings extends Translations {
               "Please complete your billing details to start work.",
           'contact_hr': "Contact HR",
           'create_order': "Create Order",
+          'select_cis': "Select CIS",
 // '': "",
 // '': "",
 // '': "",

@@ -18,8 +18,9 @@ import '../../../../web_services/api_constants.dart';
 class LeaveListController extends GetxController implements MenuItemListener {
   final RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
-      isMainViewVisible = false.obs;
-  final RxInt selectedDateFilterIndex = (1).obs;
+      isMainViewVisible = false.obs,
+      isAllLeaves = false.obs;
+  final RxInt selectedDateFilterIndex = (2).obs;
   final _api = LeaveListRepository();
   final listItems = <LeaveInfo>[].obs;
   int selectedIndex = 0, userId = 0;
@@ -44,6 +45,7 @@ class LeaveListController extends GetxController implements MenuItemListener {
     map["start_date"] = startDate;
     map["end_date"] = endDate;
     map["user_id"] = userId;
+    map["all_leaves"] = isAllLeaves.value;
 
     _api.getLeaveList(
       data: map,
