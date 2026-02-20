@@ -12,6 +12,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class BasketScreen extends StatefulWidget {
   const BasketScreen({super.key});
+
   @override
   State<BasketScreen> createState() => _BasketScreenState();
 }
@@ -26,7 +27,7 @@ class _BasketScreenState extends State<BasketScreen> {
       color: backgroundColor_(context),
       child: SafeArea(
         child: Obx(
-              () => Scaffold(
+          () => Scaffold(
             backgroundColor: dashBoardBgColor_(context),
             appBar: BaseAppBar(
               appBar: AppBar(),
@@ -44,49 +45,51 @@ class _BasketScreenState extends State<BasketScreen> {
               progressIndicator: const CustomProgressbar(),
               child: controller.isInternetNotAvailable.value
                   ? NoInternetWidget(
-                onPressed: () {
-                  controller.isInternetNotAvailable.value = false;
-                },
-              )
+                      onPressed: () {
+                        controller.isInternetNotAvailable.value = false;
+                      },
+                    )
                   : controller.isMainViewVisible.value
-                  ? Column(
-                children: [
-                  BasketHeaderView(),
-                  SizedBox(height: 12,),
-                  Expanded(child: BasketItemsList()),
-                ],
-              )
-                  : const SizedBox.shrink(),
+                      ? Column(
+                          children: [
+                            BasketHeaderView(),
+                            SizedBox(
+                              height: 12,
+                            ),
+                            Expanded(child: BasketItemsList()),
+                          ],
+                        )
+                      : const SizedBox.shrink(),
             ),
-                bottomNavigationBar: SafeArea(
-                  child: Visibility(
-                    visible: true,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Opacity(
-                        opacity: 1.0,
-                        child: ElevatedButton(
-                          onPressed:(){},
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: defaultAccentColor_(context),
-                            minimumSize: const Size(double.infinity, 50),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                          ),
-                          child: Text(
-                            'Order Now'.tr,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+            bottomNavigationBar: SafeArea(
+              child: Visibility(
+                visible: true,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Opacity(
+                    opacity: 1.0,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: defaultAccentColor_(context),
+                        minimumSize: const Size(double.infinity, 50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                      child: Text(
+                        'Order Now'.tr,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                   ),
                 ),
+              ),
+            ),
           ),
         ),
       ),
@@ -99,8 +102,11 @@ class _BasketScreenState extends State<BasketScreen> {
         padding: EdgeInsets.only(right: 16),
         child: Row(children: [
           Icon(Icons.history_outlined),
-          SizedBox(width: 4,),
-          Text('History', style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold))
+          SizedBox(
+            width: 4,
+          ),
+          Text('History',
+              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold))
         ]),
       )
     ];

@@ -104,6 +104,7 @@ import 'package:belcka/pages/timesheet/add_time_sheet/view/add_time_sheet_screen
 import 'package:belcka/pages/timesheet/archive_timesheet_list/view/archive_timesheet_list_screen.dart';
 import 'package:belcka/pages/timesheet/timesheet_list/view/timesheet_list_screen.dart';
 import 'package:belcka/pages/trades/view/company_trades_screen.dart';
+import 'package:belcka/pages/user_orders/categories/view/user_orders_categories_screen.dart';
 import 'package:belcka/pages/users/archive_user_list/view/archive_user_list_screen.dart';
 import 'package:belcka/pages/users/invite_user/view/invite_user_screen.dart';
 import 'package:belcka/pages/users/user_list/view/user_list_screen.dart';
@@ -419,5 +420,8 @@ class AppPages {
     GetPage(
         name: AppRoutes.paymentDetailsScreen,
         page: () => PaymentDetailsScreen()),
+    GetPage(
+        name: AppRoutes.userOrdersCategoriesScreen,
+        page: () => UserOrdersCategoriesScreen()),
   ];
 }
