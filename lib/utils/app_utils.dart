@@ -20,6 +20,7 @@ import 'package:belcka/utils/data_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
+import 'package:path/path.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AppUtils {
@@ -463,5 +464,14 @@ class AppUtils {
           )
           .toList(),
     );
+  }
+  
+  bool isDeviceSupportsLiquidGlass(){
+    if (Platform.isIOS){
+      return true;
+    }
+    else{
+      return false;
+    }
   }
 }
