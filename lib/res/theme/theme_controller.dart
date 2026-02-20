@@ -25,5 +25,6 @@ class ThemeController extends GetxController {
   void _loadTheme() async {
     _isDarkMode.value = Get.find<AppStorage>().getThemeMode();
     Get.changeThemeMode(_isDarkMode.value ? ThemeMode.dark : ThemeMode.light);
+
   }
 }

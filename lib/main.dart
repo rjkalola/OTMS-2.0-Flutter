@@ -11,6 +11,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import 'app_badge_ios.dart';
@@ -24,6 +25,20 @@ void main() async {
   );
   await NotificationService.init();
   Get.put(ThemeController());
+
+  // SystemChrome.setEnabledSystemUIMode(
+  //   SystemUiMode.edgeToEdge,
+  // );
+  //
+  // SystemChrome.setSystemUIOverlayStyle(
+  //   const SystemUiOverlayStyle(
+  //     statusBarColor: Colors.transparent,
+  //     systemNavigationBarColor: Colors.white,
+  //     statusBarIconBrightness: Brightness.dark,
+  //     systemNavigationBarIconBrightness: Brightness.dark,
+  //   ),
+  // );
+
   runApp(MyApp());
 }
 

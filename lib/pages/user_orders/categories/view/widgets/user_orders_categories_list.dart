@@ -11,7 +11,7 @@ class UserOrdersCategoriesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      itemCount: controller.categories.length,
+      itemCount: controller.categoriesList.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
         crossAxisSpacing: 12,
@@ -19,7 +19,7 @@ class UserOrdersCategoriesList extends StatelessWidget {
         childAspectRatio: 0.9,
       ),
       itemBuilder: (context, index) {
-        return UserOrdersCategoryCard(item: controller.categories[index]);
+        return UserOrdersCategoryCard(item: controller.categoriesList[index]);
       },
     );
   }

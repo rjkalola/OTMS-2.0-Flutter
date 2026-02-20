@@ -31,6 +31,9 @@ class BillingRequestController extends GetxController {
   final nameOnUTRController = TextEditingController().obs;
   final utrController = TextEditingController().obs;
   final ninController = TextEditingController().obs;
+
+  final cisController = TextEditingController().obs;
+
   final nameOnAccountController = TextEditingController().obs;
   final bankNameController = TextEditingController().obs;
   final accountNumberController = TextEditingController().obs;
@@ -74,6 +77,7 @@ class BillingRequestController extends GetxController {
           nameOnUTRController.value.text = billingRequestInfo.value.nameOnUtr ?? "";
           utrController.value.text = billingRequestInfo.value.utrNumber ?? "";
           ninController.value.text = billingRequestInfo.value.ninNumber ?? "";
+          cisController.value.text = "${billingRequestInfo.value.cis ?? 0}%";
           nameOnAccountController.value.text = billingRequestInfo.value.nameOnAccount ?? "";
           bankNameController.value.text = billingRequestInfo.value.bankName ?? "";
           accountNumberController.value.text = "${billingRequestInfo.value.accountNo ?? 0}";

@@ -1,5 +1,10 @@
+import 'dart:convert';
 import 'package:belcka/pages/user_orders/categories/controller/user_orders_categories_repository.dart';
-import 'package:belcka/pages/user_orders/categories/model/category_item_model.dart';
+import 'package:belcka/pages/user_orders/categories/model/user_orders_categories_info.dart';
+import 'package:belcka/pages/user_orders/categories/model/user_orders_categories_response.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/web_services/api_constants.dart';
+import 'package:belcka/web_services/response/response_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,22 +17,44 @@ class UserOrdersCategoriesController extends GetxController{
       isSearchEnable = false.obs,
       isClearSearch = false.obs;
 
-  final List<CategoryItem> categories = [
-    CategoryItem("Appliances", Icons.kitchen),
-    CategoryItem("Bathrooms", Icons.bathtub_outlined),
-    CategoryItem("Cleaning", Icons.cleaning_services_outlined),
-    CategoryItem("Doors & Windows", Icons.door_front_door_outlined),
-    CategoryItem("External", Icons.house_outlined),
-    CategoryItem("Flooring", Icons.grid_view_outlined),
-    CategoryItem("General materials", Icons.construction_outlined),
-    CategoryItem("Heating & Plumbing", Icons.water_damage_outlined),
-    CategoryItem("Painting & Decoration", Icons.format_paint_outlined),
-    CategoryItem("Radiators", Icons.heat_pump_outlined),
-    CategoryItem("Screws, Nails & Fixing", Icons.hardware_outlined),
-    CategoryItem("Sealants & Adhesives", Icons.build_outlined),
-    CategoryItem("Security & Ironmongery", Icons.lock_outline),
-    CategoryItem("Timber", Icons.forest_outlined),
-    CategoryItem("Tools & Accessories", Icons.handyman_outlined),
-  ];
+  final searchController = TextEditingController().obs;
+  final categoriesList = <UserOrdersCategoriesInfo>[].obs;
+  List<UserOrdersCategoriesInfo> tempList = [];
+
+  @override
+  void onInit() {
+    super.onInit();
+    getCategoriesListApi();
+  }
+  void getCategoriesListApi() {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
+    _api.getCategoriesList(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          UserOrdersCategoriesResponse response =
+          UserOrdersCategoriesResponse.fromJson(jsonDecode(responseModel.result!));
+          tempList.clear();
+          tempList.addAll(response.info ?? []);
+          categoriesList.value = tempList;
+          categoriesList.refresh();
+        }
+        else{
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
 
 }

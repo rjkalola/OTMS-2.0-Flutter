@@ -29,7 +29,7 @@ class NotificationService {
       );
 
       await _localNotifications.initialize(
-        initSettings,
+        settings: initSettings,
         onDidReceiveNotificationResponse: (NotificationResponse response) {
           if (response.payload != null) {
             final Map<String, dynamic> data = jsonDecode(response.payload!);
@@ -91,10 +91,10 @@ class NotificationService {
 
     if (notification != null) {
       _localNotifications.show(
-          notification.hashCode,
-          notification.title,
-          notification.body,
-          NotificationDetails(
+          id: notification.hashCode,
+          title: notification.title,
+          body: notification.body,
+          notificationDetails: NotificationDetails(
             android: AndroidNotificationDetails(
               'high_importance_channel',
               'High Importance Notifications',
@@ -188,7 +188,7 @@ class NotificationService {
           notificationType ==
               AppConstants.notificationType.TIME_CLOCK_EDIT_WORKLOG ||
           notificationType ==
-              AppConstants.notificationType.USER_WORK_STOP_AUTOMATICALLY||
+              AppConstants.notificationType.USER_WORK_STOP_AUTOMATICALLY ||
           notificationType ==
               AppConstants.notificationType.USER_WORK_STOP_BY_ADMIN) {
         final workLogId = data['worklog_id'] ?? "0";
@@ -301,7 +301,7 @@ class NotificationService {
       }
       //Personal info change
       else if (notificationType ==
-          AppConstants.notificationType.personalInfoChange){
+          AppConstants.notificationType.personalInfoChange) {
         String rout = AppRoutes.personalInfoScreen;
         var arguments = {
           AppConstants.intentKey.userId: requestedByUserIdInt,
@@ -342,9 +342,8 @@ class NotificationService {
           notificationType == AppConstants.notificationType.penaltyReject) {
         String rout = AppRoutes.penaltyDetailsScreen;
         final recordId = data['record_id'] ?? "0";
-        int id = !StringHelper.isEmptyString(recordId)
-            ? int.parse(recordId)
-            : 0;
+        int id =
+            !StringHelper.isEmptyString(recordId) ? int.parse(recordId) : 0;
         print("recordId is:" + id.toString());
         if (id != 0) {
           var arguments = {

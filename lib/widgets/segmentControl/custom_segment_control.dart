@@ -1,4 +1,4 @@
-import 'package:cupertino_native/cupertino_native.dart';
+// import 'package:cupertino_native/cupertino_native.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -8,12 +8,13 @@ class CustomSegmentControl extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+   /* return Padding(
       padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
       child: CNSegmentedControl(
         labels: ['Feed', 'Announcement'],
         selectedIndex: _index,
         onValueChanged: (i) => _index = i),
-    );
+    );*/
+    return Container();
   }
 }

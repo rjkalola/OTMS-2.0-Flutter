@@ -420,8 +420,7 @@ class AppPages {
     GetPage(
         name: AppRoutes.paymentDetailsScreen,
         page: () => PaymentDetailsScreen()),
-    GetPage(
-        name: AppRoutes.userOrdersCategoriesScreen,
-        page: () => UserOrdersCategoriesScreen()),
+    GetPage(name: AppRoutes.userOrdersCategoriesScreen, page: () => UserOrdersCategoriesScreen()),
+
   ];
 }

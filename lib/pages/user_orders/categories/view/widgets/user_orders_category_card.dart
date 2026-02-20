@@ -1,10 +1,11 @@
-import 'package:belcka/pages/user_orders/categories/model/category_item_model.dart';
+import 'package:belcka/pages/user_orders/categories/model/user_orders_categories_info.dart';
 import 'package:belcka/pages/user_orders/widgets/orders_title_text_view.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/widgets/other_widgets/user_avtar_view.dart';
 import 'package:flutter/material.dart';
 
 class UserOrdersCategoryCard extends StatelessWidget {
-  final CategoryItem item;
+  final UserOrdersCategoriesInfo item;
   const UserOrdersCategoryCard({super.key, required this.item});
 
   @override
@@ -13,15 +14,34 @@ class UserOrdersCategoryCard extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            item.icon,
-            size: 50,
+          Image.network(item.thumbUrl ?? "",
+            width: 40,
+            height: 40,
+            loadingBuilder: (context, child, loadingProgress) {
+              if (loadingProgress == null) return child;
+              return Container(
+                alignment: Alignment.center,
+                child: Icon(
+                  Icons.image_outlined,
+                  size: 40,
+                ),
+              );
+            },
+            errorBuilder: (context, error, stackTrace) {
+              return Container(
+                alignment: Alignment.center,
+                child: Icon(
+                  Icons.broken_image_outlined,
+                  size: 40,
+                ),
+              );
+            },
           ),
           const SizedBox(height: 8),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 6),
             child: OrdersTitleTextView(
-              text: item.title,
+              text: item.name,
               textAlign: TextAlign.center,
               fontSize: 15,
               fontWeight: FontWeight.w600,

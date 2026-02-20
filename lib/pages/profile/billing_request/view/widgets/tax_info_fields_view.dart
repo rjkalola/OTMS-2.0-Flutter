@@ -1,3 +1,5 @@
+import 'package:belcka/pages/profile/billing_details_new/view/widgets/phone_with_extension_field.dart';
+import 'package:belcka/pages/profile/billing_request/view/widgets/cis_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:belcka/pages/profile/billing_request/controller/billing_request_controller.dart';
@@ -50,6 +52,14 @@ class TaxInfoFieldsView extends StatelessWidget {
                     isReadOnly: true,
                     isEnabled: false,
                   ),
+                ),
+
+                // CIS
+                Visibility(
+                  visible:(int.parse(controller.billingRequestInfo.value.cis ?? "")) > 0,
+                  child: CisTextField(
+                    controller:controller.cisController,
+                      ),
                 ),
               ],
             ),

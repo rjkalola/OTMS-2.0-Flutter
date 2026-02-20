@@ -134,15 +134,6 @@ class _BillingRequestScreenState extends State<BillingRequestScreen> {
                                             controller.billingRequestInfo.value.postCode ?? "",
                                             "post_code".tr),
                                       ),
-
-                                      const SizedBox(height: 10),
-                                      // CIS
-                                      Visibility(
-                                        visible:(int.parse(controller.billingRequestInfo.value.cis ?? "")) > 0,
-                                        child: PhoneWithExtensionField(
-                                            "${controller.billingRequestInfo.value.cis ?? 0}%",
-                                            "cis".tr),
-                                      ),
                                     ],
                                   ),
                                 ),

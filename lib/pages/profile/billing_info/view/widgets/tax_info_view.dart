@@ -41,6 +41,8 @@ class TaxInfoView extends StatelessWidget {
                 NINTextFieldBilling(
                   controller: controller.ninController,
                 ),
+                SizedBox(height: 10,),
+                CisFieldSelectView()
               ],
             ),
           )),

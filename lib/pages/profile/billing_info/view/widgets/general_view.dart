@@ -128,7 +128,6 @@ class GeneralView extends StatelessWidget {
                       )),
                 ],
               ),
-              CisFieldSelectView()
             ],
           ),
         ));
