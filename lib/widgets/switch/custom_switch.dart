@@ -1,5 +1,6 @@
-import 'dart:ffi';
+import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/liquid_glass_effect/switch/precise_toggle_widget.dart';
+import 'package:cupertino_native/cupertino_native.dart';
 import 'package:flutter/material.dart';
 
 class CustomSwitch extends StatelessWidget {
@@ -12,7 +13,7 @@ class CustomSwitch extends StatelessWidget {
       {super.key,
       required this.onValueChange,
       required this.mValue,
-      this.activeColor,
+      this.activeColor = Colors.blueAccent,
       this.activeCircleColor,
       this.isDisable});
 
@@ -31,19 +32,35 @@ class CustomSwitch extends StatelessWidget {
     );
   }
   */
+
   @override
   Widget build(BuildContext context) {
-    return PreciseToggle(
-      value: mValue,
-      onChanged: (value) {
-        if (isDisable == true) {
-          null;
-        } else {
-          onValueChange!(value);
-        }
-      },
-      activeColor: activeColor,
-      activeCircleColor: activeCircleColor,
-    );
+    if (AppUtils().isDeviceSupportsLiquidGlass()){
+      return CNSwitch(
+        value: mValue,
+        color: activeColor,
+        onChanged:(value) {
+          if (isDisable == true) {
+            null;
+          } else {
+            onValueChange!(value);
+          }
+        },
+      );
+    }
+    else{
+      return PreciseToggle(
+        value: mValue,
+        onChanged: (value) {
+          if (isDisable == true) {
+            null;
+          } else {
+            onValueChange!(value);
+          }
+        },
+        activeColor: activeColor,
+        activeCircleColor: activeCircleColor,
+      );
+    }
   }
 }
