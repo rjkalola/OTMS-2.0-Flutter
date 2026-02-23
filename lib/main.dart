@@ -26,6 +26,8 @@ void main() async {
   await NotificationService.init();
   Get.put(ThemeController());
 
+  // WidgetsFlutterBinding.ensureInitialized();
+  //
   // SystemChrome.setEnabledSystemUIMode(
   //   SystemUiMode.edgeToEdge,
   // );
@@ -33,11 +35,11 @@ void main() async {
   // SystemChrome.setSystemUIOverlayStyle(
   //   const SystemUiOverlayStyle(
   //     statusBarColor: Colors.transparent,
-  //     systemNavigationBarColor: Colors.white,
-  //     statusBarIconBrightness: Brightness.dark,
-  //     systemNavigationBarIconBrightness: Brightness.dark,
+  //     systemNavigationBarColor: Colors.transparent,
+  //     systemNavigationBarDividerColor: Colors.transparent,
   //   ),
   // );
+
 
   runApp(MyApp());
 }

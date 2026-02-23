@@ -31,49 +31,59 @@ class _ClockInScreenState extends State<ClockInScreen> {
   @override
   Widget build(BuildContext context) {
     AppUtils.setStatusBarColor();
-    return Container(
-      color: dashBoardBgColor_(context),
-      child: SafeArea(
-        child: Scaffold(
-          backgroundColor: dashBoardBgColor_(context),
-          appBar: BaseAppBar(
-            appBar: AppBar(),
-            title: 'work_log'.tr,
-            isCenterTitle: false,
-            isBack: true,
-            bgColor: dashBoardBgColor_(context),
-            // widgets: actionButtons()
-          ),
-          body: Obx(() {
-            return ModalProgressHUD(
-                inAsyncCall: controller.isLoading.value,
-                opacity: 0,
-                progressIndicator: const CustomProgressbar(),
-                child: controller.isInternetNotAvailable.value
-                    ? const NoInternetWidget()
-                    : Visibility(
-                        visible: controller.isMainViewVisible.value,
-                        child: Column(
-                          children: [
-                            Expanded(
-                              child: Column(
-                                children: [
-                                  WorkTimeDetailsView(),
-                                  (controller.workLogData.value.userIsWorking ??
-                                          false)
-                                      ? StopShiftButton()
-                                      : StartShiftButtonRow(),
-                                  MyDayLogsTitle(),
-                                  MyDayLogListView(),
-                                  FooterButtonCheckInSwitchProject()
-                                  // CheckInAddressesListView()
-                                ],
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop || result != null) return;
+        controller.onBackPress();
+      },
+      child: Container(
+        color: dashBoardBgColor_(context),
+        child: SafeArea(
+          child: Scaffold(
+            backgroundColor: dashBoardBgColor_(context),
+            appBar: BaseAppBar(
+              appBar: AppBar(),
+              title: 'work_log'.tr,
+              isCenterTitle: false,
+              isBack: true,
+              onBackPressed: (){
+                controller.onBackPress();
+              },
+              bgColor: dashBoardBgColor_(context),
+              // widgets: actionButtons()
+            ),
+            body: Obx(() {
+              return ModalProgressHUD(
+                  inAsyncCall: controller.isLoading.value,
+                  opacity: 0,
+                  progressIndicator: const CustomProgressbar(),
+                  child: controller.isInternetNotAvailable.value
+                      ? const NoInternetWidget()
+                      : Visibility(
+                          visible: controller.isMainViewVisible.value,
+                          child: Column(
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    WorkTimeDetailsView(),
+                                    (controller.workLogData.value.userIsWorking ??
+                                            false)
+                                        ? StopShiftButton()
+                                        : StartShiftButtonRow(),
+                                    MyDayLogsTitle(),
+                                    MyDayLogListView(),
+                                    FooterButtonCheckInSwitchProject()
+                                    // CheckInAddressesListView()
+                                  ],
+                                ),
                               ),
-                            ),
-                            // FooterButtonCheckInSwitchProject()
-                          ],
-                        )));
-          }),
+                              // FooterButtonCheckInSwitchProject()
+                            ],
+                          )));
+            }),
+          ),
         ),
       ),
     );

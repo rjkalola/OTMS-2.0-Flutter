@@ -1,4 +1,6 @@
+import 'package:belcka/res/theme/theme_config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapUtils {
@@ -30,4 +32,15 @@ class MapUtils {
       geodesic: geodesic, // optional: makes curve match Earth's shape
     );
   }
+
+  static void loadMapTheme() async { 
+    if (ThemeConfig.isDarkMode) {
+      googleMapStyle = await rootBundle.loadString('assets/map_style.json');
+    } else {
+      googleMapStyle = null;
+    }
+  }
+
+  static String? googleMapStyle;
+  static bool _isLoaded = false;
 }

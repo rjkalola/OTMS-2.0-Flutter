@@ -46,7 +46,8 @@ class LeaveDetailsController extends GetxController
       isSaveEnable = false.obs,
       isAllDay = true.obs,
       isFromRequest = false.obs,
-      isFromNotification = false.obs;
+      isFromNotification = false.obs,
+      isDeleted = false.obs;
   RxString totalDays = "0.0".obs, leaveType = "".obs;
   RxInt requestStatus = 0.obs;
   int leaveId = 0;
@@ -163,6 +164,7 @@ class LeaveDetailsController extends GetxController
           LeaveDetailsResponse response =
               LeaveDetailsResponse.fromJson(jsonDecode(responseModel.result!));
           leaveInfo.value = response.data!;
+          isDeleted.value = response.data?.isDeleted ?? false;
           setInitData();
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");

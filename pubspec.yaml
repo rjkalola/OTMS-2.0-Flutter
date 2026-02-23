@@ -83,3 +83,4 @@ flutter:
     - assets/icon/
     - assets/country_flag/
     - assets/user_permission_icons/
+    - assets/map_style.json

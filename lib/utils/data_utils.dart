@@ -48,6 +48,10 @@ class DataUtils {
         name: 'trades'.tr,
         action: AppConstants.action.companyTrades,
         icon: Drawable.tradesPermissionIcon));
+    arrayItems.add(ModuleInfo(
+        name: 'leaves'.tr,
+        action: AppConstants.action.myLeaves,
+        icon: Drawable.bookkeeperIcon));
     // arrayItems
     //     .add(ModuleInfo(name: 'blank'.tr, icon: Drawable.chartPermissionIcon));
     arrayItems.add(ModuleInfo(

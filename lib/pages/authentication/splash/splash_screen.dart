@@ -4,6 +4,8 @@ import 'package:belcka/res/colors.dart';
 import 'package:belcka/res/drawable.dart';
 import 'package:belcka/utils/image_utils.dart';
 
+import '../../../utils/app_utils.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -23,6 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    AppUtils.setStatusBarColor();
     return Scaffold(
         backgroundColor: dashBoardBgColor_(context),
         body: SizedBox(

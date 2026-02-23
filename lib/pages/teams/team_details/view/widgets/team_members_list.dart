@@ -19,101 +19,110 @@ import 'package:belcka/widgets/text/TitleTextView.dart';
 
 import '../../../../../../utils/app_constants.dart';
 
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import 'package:belcka/pages/common/model/user_info.dart';
+import 'package:belcka/pages/teams/team_details/controller/team_details_controller.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/widgets/other_widgets/user_avtar_view.dart';
+import 'package:belcka/widgets/text/PrimaryTextView.dart';
+import 'package:belcka/widgets/text/TitleTextView.dart';
+import 'package:belcka/widgets/text/SubTitleTextView.dart';
+
 class TeamMembersList extends StatelessWidget {
   TeamMembersList({super.key});
 
-  final controller = Get.put(TeamDetailsController());
+  final controller = Get.find<TeamDetailsController>();
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => Visibility(
-        visible: controller.teamInfo.value.teamMembers!.isNotEmpty,
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(12, 20, 12, 20),
-          child: CardViewDashboardItem(
-            child: Column(
-              children: [
-                Container(
-                  padding: EdgeInsets.fromLTRB(0, 14, 18, 14),
-                  width: double.infinity,
-                  child: PrimaryTextView(
-                    textAlign: TextAlign.right,
-                    color: primaryTextColor_(context),
-                    fontSize: 14,
-                    text:
-                        "${controller.teamInfo.value.teamMembers!.length} Members",
-                  ),
+    return Obx(() {
+      final members = controller.teamInfo.value.teamMembers ?? [];
+
+      if (members.isEmpty) {
+        return const SizedBox();
+      }
+
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(12, 20, 12, 20),
+        child: CardViewDashboardItem(
+          child: Column(
+            children: [
+              /// 🔹 Member Count Header (Fixed inside card)
+              Container(
+                padding: const EdgeInsets.fromLTRB(0, 14, 18, 14),
+                width: double.infinity,
+                child: PrimaryTextView(
+                  textAlign: TextAlign.right,
+                  color: primaryTextColor_(context),
+                  fontSize: 14,
+                  text: "${members.length} Members",
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10),
-                  child: Divider(
-                    height: 0,
-                    color: dividerColor_(context),
-                  ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Divider(
+                  height: 0,
+                  color: dividerColor_(context),
                 ),
-                ListView.separated(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    scrollDirection: Axis.vertical,
-                    itemBuilder: (context, position) {
-                      UserInfo info =
-                          controller.teamInfo.value.teamMembers![position];
-                      return GestureDetector(
-                        onTap: () {
-                          AppUtils.onClickUserAvatar(info.id ?? 0);
-                        },
+              ),
+
+              Expanded(
+                child: ListView.separated(
+                  itemCount: members.length,
+                  itemBuilder: (context, index) {
+                    UserInfo info = members[index];
+
+                    return GestureDetector(
+                      onTap: () {
+                        AppUtils.onClickUserAvatar(info.id ?? 0);
+                      },
+                      child: Container(
+                        color: Colors.transparent,
                         child: Padding(
-                          padding: EdgeInsets.fromLTRB(12, 10, 12, 10),
-                          child: Container(
-                            color: Colors.transparent,
-                            child: Row(
-                              children: [
-                                UserAvtarView(
-                                  imageUrl: info.userThumbImage ?? "",
+                          padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
+                          child: Row(
+                            children: [
+                              UserAvtarView(
+                                imageUrl: info.userThumbImage ?? "",
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    TitleTextView(
+                                      text: info.name ?? "",
+                                    ),
+                                    SubtitleTextView(
+                                      text: info.tradeName ?? "",
+                                    ),
+                                  ],
                                 ),
-                                SizedBox(
-                                  width: 12,
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      TitleTextView(
-                                        text: info.name ?? "",
-                                      ),
-                                      SubtitleTextView(
-                                          text: info.tradeName ?? ""),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
-                      );
-                    },
-                    itemCount: controller.teamInfo.value.teamMembers!.length,
-                    // separatorBuilder: (context, position) => const Padding(
-                    //   padding: EdgeInsets.only(left: 100),
-                    //   child: Divider(
-                    //     height: 0,
-                    //     color: dividerColor,
-                    //     thickness: 0.8,
-                    //   ),
-                    // ),
-                    separatorBuilder: (context, position) => Padding(
-                          padding: const EdgeInsets.only(left: 10, right: 10),
-                          child: Divider(
-                            height: 0,
-                            color: dividerColor_(context),
-                          ),
-                        ))
-              ],
-            ),
+                      ),
+                    );
+                  },
+                  separatorBuilder: (context, index) => Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Divider(
+                      height: 0,
+                      color: dividerColor_(context),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

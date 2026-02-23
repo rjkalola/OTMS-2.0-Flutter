@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/utils/user_utils.dart';
 import 'package:dio/dio.dart' as multi;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -78,9 +79,11 @@ class LoginController extends GetxController
             if ((response.info!.companyId ?? 0) != 0) {
               Get.offAllNamed(AppRoutes.dashboardScreen);
             } else {
-              var arguments = {AppConstants.intentKey.fromSignUpScreen: true};
-              Get.offAllNamed(AppRoutes.switchCompanyScreen,
-                  arguments: arguments);
+              if (UserUtils.getLoginUserId() != 0) {
+                var arguments = {AppConstants.intentKey.fromSignUpScreen: true};
+                Get.offAllNamed(AppRoutes.switchCompanyScreen,
+                    arguments: arguments);
+              }
             }
           } else {
             AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");

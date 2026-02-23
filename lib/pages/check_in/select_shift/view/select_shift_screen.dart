@@ -27,68 +27,75 @@ class _SelectShiftScreenState extends State<SelectShiftScreen> {
   @override
   Widget build(BuildContext context) {
     AppUtils.setStatusBarColor();
-    return Container(
-      color: dashBoardBgColor_(context),
-      child: SafeArea(
-          child: Scaffold(
-        backgroundColor: dashBoardBgColor_(context),
-        body: Obx(
-          () => ModalProgressHUD(
-            inAsyncCall: controller.isLoading.value,
-            opacity: 0,
-            progressIndicator: const CustomProgressbar(),
-            child: Visibility(
-              visible: controller.isMainViewVisible.value,
-              child: Column(children: [
-                Flexible(
-                  flex: 2,
-                  child: Stack(
-                    children: [
-                      CustomMapView(
-                        onMapCreated: controller.onMapCreated,
-                        target: controller.center,
-                        circles: controller.circles,
-                        polygons: controller.polygons,
-                        polylines: controller.polyLines,
-                      ),
-                      MapBackArrow(onBackPressed: () {
-                        Get.back();
-                      }),
-                      BottomCurveContainer()
-                    ],
-                  ),
-                ),
-                Flexible(
-                    flex: 3,
-                    child: Column(
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop || result != null) return;
+        controller.onBackPress();
+      },
+      child: Container(
+        color: dashBoardBgColor_(context),
+        child: SafeArea(
+            child: Scaffold(
+          backgroundColor: dashBoardBgColor_(context),
+          body: Obx(
+            () => ModalProgressHUD(
+              inAsyncCall: controller.isLoading.value,
+              opacity: 0,
+              progressIndicator: const CustomProgressbar(),
+              child: Visibility(
+                visible: controller.isMainViewVisible.value,
+                child: Column(children: [
+                  Flexible(
+                    flex: 2,
+                    child: Stack(
                       children: [
-                        SelectionScreenHeaderView(
-                          title: 'select_shift'.tr,
-                          onBackPressed: () {
-                            Get.back();
-                          },
+                        CustomMapView(
+                          onMapCreated: controller.onMapCreated,
+                          target: controller.center,
+                          circles: controller.circles,
+                          polygons: controller.polygons,
+                          polylines: controller.polyLines,
                         ),
-                        // SearchShift(),
-                        ShiftsList(),
-                        TextViewWithContainer(
-                          onTap: () {
-                            Get.back();
-                          },
-                          margin: EdgeInsetsDirectional.all(16),
-                          padding: EdgeInsetsDirectional.all(9),
-                          width: double.infinity,
-                          text: 'cancel'.tr,
-                          borderColor: Colors.grey,
-                          alignment: Alignment.center,
-                          borderRadius: 45,
-                        )
+                        MapBackArrow(onBackPressed: () {
+                          controller.onBackPress();
+                        }),
+                        BottomCurveContainer()
                       ],
-                    ))
-              ]),
+                    ),
+                  ),
+                  Flexible(
+                      flex: 3,
+                      child: Column(
+                        children: [
+                          SelectionScreenHeaderView(
+                            title: 'select_shift'.tr,
+                            onBackPressed: () {
+                              Get.back();
+                            },
+                          ),
+                          // SearchShift(),
+                          ShiftsList(),
+                          TextViewWithContainer(
+                            onTap: () {
+                              Get.back();
+                            },
+                            margin: EdgeInsetsDirectional.all(16),
+                            padding: EdgeInsetsDirectional.all(9),
+                            width: double.infinity,
+                            text: 'cancel'.tr,
+                            borderColor: Colors.grey,
+                            alignment: Alignment.center,
+                            borderRadius: 45,
+                          )
+                        ],
+                      ))
+                ]),
+              ),
             ),
           ),
-        ),
-      )),
+        )),
+      ),
     );
   }
 }

@@ -354,4 +354,8 @@ class SelectShiftController extends GetxController {
     super.onClose();
     Get.delete<SelectShiftController>();
   }
+
+  void onBackPress() {
+    Get.back(result: true);
+  }
 }

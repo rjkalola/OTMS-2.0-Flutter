@@ -259,13 +259,13 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
     );
   }*/
 
-  void changeDashboardUserPermissionMultipleSequenceApi(
+  Future<void> changeDashboardUserPermissionMultipleSequenceApi(
       {required bool isProgress,
       bool? isLoadPermissionList,
       bool? isChangeSequence,
       int? permissionId,
       int? newPosition,
-      List<LocalPermissionSequenceChangeInfo>? data}) {
+      List<LocalPermissionSequenceChangeInfo>? data}) async {
     isLoading.value = isProgress;
     Map<String, dynamic> map = {};
     map["user_id"] = UserUtils.getLoginUserId();
@@ -339,11 +339,6 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
             WorkLogListResponse response =
                 WorkLogListResponse.fromJson(jsonDecode(responseModel.result!));
             workLogData.value = response;
-
-            // if (ClockInUtils.isCurrentDay(
-            //     workLogData.value.workStartDate ?? "")) {
-            //   workLogData.value.workLogInfo!.add(WorkLogInfo(id: 0));
-            // }
             isOnWorking.value = response.userIsWorking ?? false;
             if (response.userIsWorking ?? false) {
               stopTimer();
@@ -498,11 +493,13 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
               showTradeWarningDialog();
             }
           } else {
-            ApiConstants.companyId = 0;
-            Get.find<AppStorage>().setCompanyId(ApiConstants.companyId);
-            var arguments = {AppConstants.intentKey.fromSignUpScreen: true};
-            Get.offAllNamed(AppRoutes.switchCompanyScreen,
-                arguments: arguments);
+            if (UserUtils.getLoginUserId() != 0) {
+              ApiConstants.companyId = 0;
+              Get.find<AppStorage>().setCompanyId(ApiConstants.companyId);
+              var arguments = {AppConstants.intentKey.fromSignUpScreen: true};
+              Get.offAllNamed(AppRoutes.switchCompanyScreen,
+                  arguments: arguments);
+            }
           }
         } else {
           // AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
@@ -659,6 +656,8 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       moveToScreen(appRout: AppRoutes.companyListScreen);
     } else if (action == AppConstants.action.companyTrades) {
       moveToScreen(appRout: AppRoutes.companyTradesScreen);
+    } else if (action == AppConstants.action.myLeaves) {
+      moveToScreen(appRout: AppRoutes.leaveListScreen);
     } else if (action == AppConstants.action.widgets) {
       moveToScreen(appRout: AppRoutes.widgetsScreen);
     } else if (action == AppConstants.action.settings) {
@@ -682,6 +681,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
 
     });*/
     var result = await Get.toNamed(appRout, arguments: arguments);
+    print("Method Call-------------------");
     if (ApiConstants.companyId != 0) {
       if (Get.find<AppStorage>().isLocalSequenceChanges()) {
         changeDashboardUserPermissionMultipleSequenceApi(
@@ -699,8 +699,10 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
         showControlPanelDialog();
       }
     } else {
-      var arguments = {AppConstants.intentKey.fromSignUpScreen: true};
-      Get.offAllNamed(AppRoutes.switchCompanyScreen, arguments: arguments);
+      if (UserUtils.getLoginUserId() != 0) {
+        var arguments = {AppConstants.intentKey.fromSignUpScreen: true};
+        Get.offAllNamed(AppRoutes.switchCompanyScreen, arguments: arguments);
+      }
     }
   }
 

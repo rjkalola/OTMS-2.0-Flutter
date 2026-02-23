@@ -245,7 +245,8 @@ class _LeaveDetailsScreenState extends State<LeaveDetailsScreen> {
   List<Widget>? actionButtons() {
     return [
       Visibility(
-        visible: !controller.isFromNotification.value &&
+        visible: !controller.isDeleted.value &&
+            !controller.isFromNotification.value &&
             !controller.isFromRequest.value &&
             controller.isMainViewVisible.value,
         child: TextButton(

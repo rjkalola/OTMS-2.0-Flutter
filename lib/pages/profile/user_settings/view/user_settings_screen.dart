@@ -1,3 +1,4 @@
+import 'package:belcka/utils/user_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -10,6 +11,9 @@ import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
+
+import '../../../../utils/app_storage.dart';
+import '../../../common/model/user_info.dart';
 
 class UserSettingsScreen extends StatelessWidget {
   UserSettingsScreen({Key? key}) : super(key: key);
@@ -80,7 +84,9 @@ class UserSettingsScreen extends StatelessWidget {
                             icon: Icons.swap_horiz,
                             title: 'switch_company'.tr,
                             onTap: () {
-                              Get.toNamed(AppRoutes.switchCompanyScreen);
+                              if (UserUtils.getLoginUserId() != 0) {
+                                Get.toNamed(AppRoutes.switchCompanyScreen);
+                              }
                             },
                           ),
                           // _buildSettingItem(

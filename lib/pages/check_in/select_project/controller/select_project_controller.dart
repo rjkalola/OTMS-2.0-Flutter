@@ -2,7 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:belcka/res/theme/theme_config.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -53,6 +55,7 @@ class SelectProjectController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+
     var arguments = Get.arguments;
     if (arguments != null) {
       fromStartShiftScreen =

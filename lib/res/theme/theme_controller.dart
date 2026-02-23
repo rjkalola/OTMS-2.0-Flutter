@@ -1,3 +1,5 @@
+import 'package:belcka/utils/map_utils.dart';
+import 'package:belcka/widgets/map_view/custom_map_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:belcka/res/theme/theme_config.dart';
@@ -20,11 +22,11 @@ class ThemeController extends GetxController {
     Get.changeThemeMode(value ? ThemeMode.dark : ThemeMode.light);
     final controller = Get.put(ThemeController());
     ThemeConfig.isDarkMode = controller.isDarkMode;
+    MapUtils.loadMapTheme();
   }
 
   void _loadTheme() async {
     _isDarkMode.value = Get.find<AppStorage>().getThemeMode();
     Get.changeThemeMode(_isDarkMode.value ? ThemeMode.dark : ThemeMode.light);
-
   }
 }

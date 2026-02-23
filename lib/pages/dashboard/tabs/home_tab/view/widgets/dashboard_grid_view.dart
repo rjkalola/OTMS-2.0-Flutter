@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:belcka/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart';
 import 'package:belcka/pages/dashboard/tabs/home_tab/view/widgets/dashboard_grid_item.dart';
 
+import '../../../../../../utils/app_storage.dart';
+
 class DashboardGridView extends StatelessWidget {
   DashboardGridView({super.key});
 
@@ -33,9 +35,16 @@ class DashboardGridView extends StatelessWidget {
         child: Obx(
           () => RefreshIndicator(
             onRefresh: () async {
-              await controller.getDashboardUserPermissionsApi(false,
-                  isProfileLoad:
-                      true); // Add await to ensure proper async handling
+              if (Get.find<AppStorage>().isLocalSequenceChanges()) {
+                await controller
+                    .changeDashboardUserPermissionMultipleSequenceApi(
+                        isProgress: false,
+                        isLoadPermissionList: true,
+                        isChangeSequence: false);
+              } else {
+                await controller.getDashboardUserPermissionsApi(false,
+                    isProfileLoad: true);
+              }
             },
             child: ReorderableBuilder(
               scrollController: _scrollController,

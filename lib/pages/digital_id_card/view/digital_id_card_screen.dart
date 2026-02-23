@@ -7,43 +7,69 @@ import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/custom_views/downloading_widget.dart';
 import 'package:belcka/widgets/text/TextViewWithContainer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class DigitalIdCardScreen extends StatelessWidget {
-  DigitalIdCardScreen({super.key});
+class DigitalIdCardScreen extends StatefulWidget {
+  const DigitalIdCardScreen({super.key});
 
+  @override
+  State<DigitalIdCardScreen> createState() => _DigitalIdCardScreenState();
+}
+
+class _DigitalIdCardScreenState extends State<DigitalIdCardScreen> {
   final controller = Get.put(DigitalIdCardController());
   final downloadController = Get.put(DownloadController());
 
   @override
+  void initState() {
+    super.initState();
+
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
+  }
+
+  @override
+  void dispose() {
+    // 👇 Restore Portrait
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Obx(() => Scaffold(
-          appBar: BaseAppBar(
-            appBar: AppBar(),
-            title: 'Digital Id Card',
-            isBack: true,
-            widgets: actionButtons(),
-          ),
-          body: ModalProgressHUD(
-            inAsyncCall: controller.isLoading.value,
-            progressIndicator: const CustomProgressbar(),
-            child: controller.webViewController == null
-                ? const SizedBox()
-                : Stack(
-                    children: [
-                      WebViewWidget(
-                        controller: controller.webViewController!,
-                      ),
-                      downloadController.isDownloading.value
-                          ? DownloadLoader(
-                              progress: downloadController.progress.value)
-                          : Container()
-                    ],
-                  ),
-          ),
-        ));
+      appBar: BaseAppBar(
+        appBar: AppBar(),
+        title: 'Digital Id Card',
+        isBack: true,
+        widgets: actionButtons(),
+      ),
+      body: ModalProgressHUD(
+        inAsyncCall: controller.isLoading.value,
+        progressIndicator: const CustomProgressbar(),
+        child: controller.webViewController == null
+            ? const SizedBox()
+            : Stack(
+          children: [
+            WebViewWidget(
+              controller: controller.webViewController!,
+            ),
+            downloadController.isDownloading.value
+                ? DownloadLoader(
+                progress: downloadController.progress.value)
+                : Container()
+          ],
+        ),
+      ),
+    ));
   }
 
   List<Widget>? actionButtons() {
@@ -57,7 +83,7 @@ class DigitalIdCardScreen extends StatelessWidget {
             fontWeight: FontWeight.w500,
             text: "Save PDF",
             fontColor: Colors.white,
-            boxColor: defaultAccentColor_(Get.context!),
+            boxColor: defaultAccentColor_(context),
             alignment: Alignment.center,
             onTap: () {
               if (!StringHelper.isEmptyString(
@@ -65,16 +91,14 @@ class DigitalIdCardScreen extends StatelessWidget {
                 downloadController.isDownloading.value
                     ? null
                     : downloadController.downloadFile(
-                        controller.digitalIdCardInfo.value.pdfDownloadUrl ?? "",
-                        "${controller.digitalIdCardInfo.value.name ?? ""}'s ID Card.pdf",
-                        downloadSuccessMessage:
-                            'digital_id_card_downloaded'.tr);
+                    controller.digitalIdCardInfo.value.pdfDownloadUrl ?? "",
+                    "${controller.digitalIdCardInfo.value.name ?? ""}'s ID Card.pdf",
+                    downloadSuccessMessage:
+                    'digital_id_card_downloaded'.tr);
               }
             }),
       ),
-      SizedBox(
-        width: 12,
-      )
+      const SizedBox(width: 12),
     ];
   }
 }

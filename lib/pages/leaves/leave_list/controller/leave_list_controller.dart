@@ -36,6 +36,9 @@ class LeaveListController extends GetxController implements MenuItemListener {
       userId = arguments[AppConstants.intentKey.userId] ?? 0;
       print("userId:$userId");
     }
+    userId != 0
+        ? selectedDateFilterIndex.value = 2
+        : selectedDateFilterIndex.value = 1;
     getLeaveListApi(true);
   }
 

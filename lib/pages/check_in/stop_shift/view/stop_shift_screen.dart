@@ -7,16 +7,16 @@ import 'package:belcka/pages/check_in/stop_shift/view/widgets/start_stop_box_row
 import 'package:belcka/pages/check_in/stop_shift/view/widgets/stop_shift_button.dart';
 import 'package:belcka/pages/check_in/stop_shift/view/widgets/submit_for_approval_button.dart';
 import 'package:belcka/pages/check_in/stop_shift/view/widgets/total_all_day_hours_row.dart';
-import 'package:belcka/pages/check_in/stop_shift/view/widgets/total_hours_row.dart';
 import 'package:belcka/res/colors.dart';
-import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/date_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/map_view/bottom_curve_container.dart';
 import 'package:belcka/widgets/map_view/custom_map_view.dart';
 import 'package:belcka/widgets/map_view/map_back_arrow.dart';
-import 'package:belcka/widgets/other_widgets/selection_screen_header_view.dart';
+import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -66,7 +66,6 @@ class _StopShiftScreenState extends State<StopShiftScreen> {
                           child: CustomScrollView(
                             physics: BouncingScrollPhysics(),
                             slivers: [
-                              /// ✅ COLLAPSING MAP
                               SliverAppBar(
                                 backgroundColor: dashBoardBgColor_(context),
                                 expandedHeight:
@@ -93,27 +92,54 @@ class _StopShiftScreenState extends State<StopShiftScreen> {
                                   ),
                                 ),
                               ),
-
-                              /// ✅ ALL CONTENT SCROLLS (INCLUDING BUTTON)
                               SliverToBoxAdapter(
                                 child: Column(
                                   children: [
-                                    SelectionScreenHeaderView(
-                                      title: controller.isWorking.value
-                                          ? 'my_shift'.tr
-                                          : 'edit_my_shift'.tr,
-                                      userCheckLogCount: 0,
-                                      onBackPressed: controller.onBackPress,
-                                      onCheckLogCountClick: () {
-                                        Get.toNamed(
-                                          AppRoutes.checkLogDetailsScreen,
-                                          arguments: {
-                                            AppConstants.intentKey.workLogId:
-                                                controller.workLogId
-                                          },
-                                        );
-                                      },
+                                    // SelectionScreenHeaderView(
+                                    //   title: controller.isWorking.value
+                                    //       ? 'my_shift'.tr
+                                    //       : 'edit_my_shift'.tr,
+                                    //   userCheckLogCount: 0,
+                                    //   onBackPressed: controller.onBackPress,
+                                    //   onCheckLogCountClick: () {
+                                    //     Get.toNamed(
+                                    //       AppRoutes.checkLogDetailsScreen,
+                                    //       arguments: {
+                                    //         AppConstants.intentKey.workLogId:
+                                    //             controller.workLogId
+                                    //       },
+                                    //     );
+                                    //   },
+                                    // ),
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          20, 0, 20, 8),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          TitleTextView(
+                                            text: controller.isWorking.value
+                                                ? 'my_shift'.tr
+                                                : 'edit_my_shift'.tr,
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                          TitleTextView(
+                                            text: getWorkStartDate(),
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w500,
+                                          )
+                                        ],
+                                      ),
                                     ),
+                                    // Padding(
+                                    //   padding: const EdgeInsets.only(
+                                    //       left: 20, right: 20),
+                                    //   child: Divider(
+                                    //     color: dividerColor_(context),
+                                    //   ),
+                                    // ),
                                     (controller.workLogInfo.value
                                                     .requestStatus ??
                                                 0) ==
@@ -125,7 +151,7 @@ class _StopShiftScreenState extends State<StopShiftScreen> {
                                               .workLogInfo.value.breakLog ??
                                           [],
                                     ),
-                                    TotalHoursRow(),
+                                    // TotalHoursRow(),
                                     TotalAllDayHoursRow(),
                                     CurrentLogSummery(),
                                     Visibility(
@@ -152,5 +178,17 @@ class _StopShiftScreenState extends State<StopShiftScreen> {
         )),
       ),
     );
+  }
+
+  String getWorkStartDate() {
+    String date = "";
+    if (!StringHelper.isEmptyString(
+        controller.workLogInfo.value.workStartTime)) {
+      date = DateUtil.changeDateFormat(
+          controller.workLogInfo.value.workStartTime ?? "",
+          DateUtil.DD_MM_YYYY_TIME_24_SLASH2,
+          DateUtil.DD_MM_YYYY_SLASH);
+    }
+    return date;
   }
 }

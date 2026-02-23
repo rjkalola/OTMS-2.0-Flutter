@@ -26,7 +26,7 @@ class IntroductionController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    loginUsers.value = Get.find<AppStorage>().getLoginUsers();
+    // loginUsers.value = Get.find<AppStorage>().getLoginUsers();
   }
 
   void login(String extension, String phoneNumber, bool isAutoLogin) async {

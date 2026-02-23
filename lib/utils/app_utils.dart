@@ -291,11 +291,14 @@ class AppUtils {
 
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        statusBarIconBrightness:
-            isDarkMode ? Brightness.light : Brightness.dark,
-        statusBarBrightness: isDarkMode ? Brightness.dark : Brightness.light,
-      ),
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness:
+              isDarkMode ? Brightness.light : Brightness.dark,
+          statusBarBrightness: isDarkMode ? Brightness.dark : Brightness.light,
+          systemNavigationBarColor: dashBoardBgColor_(Get.context!),
+          // systemNavigationBarDividerColor:Colors.black,
+          systemNavigationBarIconBrightness:
+              isDarkMode ? Brightness.light : Brightness.dark),
     );
   }
 
@@ -465,12 +468,11 @@ class AppUtils {
           .toList(),
     );
   }
-  
-  bool isDeviceSupportsLiquidGlass(){
-    if (Platform.isIOS){
+
+  bool isDeviceSupportsLiquidGlass() {
+    if (Platform.isIOS) {
       return true;
-    }
-    else{
+    } else {
       return false;
     }
   }

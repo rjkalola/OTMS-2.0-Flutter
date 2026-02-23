@@ -450,4 +450,8 @@ class ClockInController extends GetxController
     scrollController.dispose();
     super.onClose();
   }
+
+  void onBackPress() {
+    Get.back();
+  }
 }

@@ -25,22 +25,19 @@ class TeamTitleCardView extends StatelessWidget {
         child: CardViewDashboardItem(
           borderRadius: 20,
           child: GestureDetector(
-            onTap: () {},
+            onTap: () {
+              AppUtils.onClickUserAvatar(controller.teamInfo.value.supervisorId ?? 0);
+            },
             child: Container(
               padding: EdgeInsets.fromLTRB(14, 12, 10, 12),
               color: Colors.transparent,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  GestureDetector(
-                    onTap: (){
-                      AppUtils.onClickUserAvatar(controller.teamInfo.value.supervisorId ?? 0);
-                    },
-                    child: UserAvtarView(
-                      imageUrl:
-                          controller.teamInfo.value.supervisorThumbImage ?? "",
-                      imageSize: 50,
-                    ),
+                  UserAvtarView(
+                    imageUrl:
+                        controller.teamInfo.value.supervisorThumbImage ?? "",
+                    imageSize: 50,
                   ),
                   SizedBox(
                     width: 12,

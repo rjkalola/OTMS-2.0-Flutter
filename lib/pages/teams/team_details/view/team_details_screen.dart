@@ -64,7 +64,7 @@ class _TeamDetailsScreenState extends State<TeamDetailsScreen> {
                             children: [
                               // Divider(),
                               TeamTitleCardView(),
-                              TeamMembersList()
+                              Expanded(child: TeamMembersList())
                             ],
                           ),
                         )),

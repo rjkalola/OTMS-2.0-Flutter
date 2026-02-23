@@ -53,14 +53,23 @@ class _LeaveListScreenState extends State<LeaveListScreen>
                         visible: controller.isMainViewVisible.value,
                         child: Column(
                           children: [
-                            DateFilterOptionsWithAllHorizontalList(
-                              padding: EdgeInsets.fromLTRB(14, 0, 14, 6),
-                              startDate: controller.startDate,
-                              endDate: controller.endDate,
-                              listener: this,
-                              selectedPosition:
-                                  controller.selectedDateFilterIndex,
-                            ),
+                            controller.userId != 0
+                                ? DateFilterOptionsWithAllHorizontalList(
+                                    padding: EdgeInsets.fromLTRB(14, 0, 14, 6),
+                                    startDate: controller.startDate,
+                                    endDate: controller.endDate,
+                                    listener: this,
+                                    selectedPosition:
+                                        controller.selectedDateFilterIndex,
+                                  )
+                                : DateFilterOptionsHorizontalList(
+                                    padding: EdgeInsets.fromLTRB(14, 0, 14, 6),
+                                    startDate: controller.startDate,
+                                    endDate: controller.endDate,
+                                    listener: this,
+                                    selectedPosition:
+                                        controller.selectedDateFilterIndex,
+                                  ),
                             SizedBox(
                               height: 15,
                             ),

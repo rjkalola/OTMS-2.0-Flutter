@@ -13,6 +13,7 @@ import 'package:get/get.dart';
 import '../../../utils/app_constants.dart';
 import '../../../utils/notification_service.dart';
 import '../../../utils/string_helper.dart';
+import '../../../utils/user_utils.dart';
 
 class SplashServices {
   /* Future<void> isLogin() async {
@@ -82,8 +83,10 @@ class SplashServices {
           Get.offAllNamed(AppRoutes.dashboardScreen);
           // Get.offAllNamed(AppRoutes.buyerOrdersScreen);
         } else {
-          var arguments = {AppConstants.intentKey.fromSignUpScreen: true};
-          Get.offAllNamed(AppRoutes.switchCompanyScreen, arguments: arguments);
+          if (UserUtils.getLoginUserId() != 0) {
+            var arguments = {AppConstants.intentKey.fromSignUpScreen: true};
+            Get.offAllNamed(AppRoutes.switchCompanyScreen, arguments: arguments);
+          }
         }
         // Get.offAllNamed(AppRoutes.dashboardScreen);
       } else {

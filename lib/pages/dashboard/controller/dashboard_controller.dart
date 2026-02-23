@@ -7,6 +7,7 @@ import 'package:belcka/pages/dashboard/models/permission_settings.dart';
 import 'package:belcka/pages/dashboard/tabs/home_tab/view/home_tab.dart';
 import 'package:belcka/pages/dashboard/tabs/more_tab/view/more_tab.dart';
 import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/map_utils.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:dio/dio.dart' as multi;
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -51,6 +52,8 @@ class DashboardController extends GetxController
   Future<void> onInit() async {
     super.onInit();
     // checkInternetSpeed();
+
+    MapUtils.loadMapTheme();
 
     var arguments = Get.arguments;
     if (arguments != null) {
