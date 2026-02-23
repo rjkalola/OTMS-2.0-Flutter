@@ -2,6 +2,7 @@ import 'package:belcka/buyer_app/buyer_order/view/widgets/order_quantity_change_
 import 'package:belcka/buyer_app/buyer_order/view/widgets/order_quantity_text_field.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/controller/storeman_catalog_controller.dart';
 import 'package:belcka/pages/user_orders/widgets/orders_title_text_view.dart';
+import 'package:belcka/res/colors.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -20,14 +21,14 @@ class _StoremanProductsListWidgetState extends State<StoremanProductsListWidget>
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return Obx(
+            () => Expanded(
       child: ListView.builder(
         padding: const EdgeInsets.symmetric(horizontal: 8),
         itemCount: controller.products.length,
         itemBuilder: (context, index) {
           final product = controller.products[index];
           final pageController = PageController();
-
           return CardViewDashboardItem(
             margin: const EdgeInsets.symmetric(vertical: 6),
             child: Padding(
@@ -49,7 +50,7 @@ class _StoremanProductsListWidgetState extends State<StoremanProductsListWidget>
                         Expanded(
                           child: PageView.builder(
                             controller: pageController,
-                            itemCount: product.images.length,
+                            itemCount: product.productImages?.length ?? 0,
                             onPageChanged: (page) {
                               setState(() {
                                 controller.currentImageIndex[index] = page;
@@ -57,7 +58,7 @@ class _StoremanProductsListWidgetState extends State<StoremanProductsListWidget>
                             },
                             itemBuilder: (context, imgIndex) {
                               return Image.network(
-                                product.images[imgIndex],
+                                product.productImages?[imgIndex].thumbUrl ?? "",
                                 fit: BoxFit.cover,
                                 errorBuilder:
                                     (context, error, stack) {
@@ -80,7 +81,7 @@ class _StoremanProductsListWidgetState extends State<StoremanProductsListWidget>
                           mainAxisAlignment:
                           MainAxisAlignment.center,
                           children: List.generate(
-                            product.images.length,
+                            product.productImages?.length ?? 0,
                                 (dotIndex) {
                               final isActive =
                                   (controller.currentImageIndex[index] ??
@@ -123,23 +124,26 @@ class _StoremanProductsListWidgetState extends State<StoremanProductsListWidget>
                           children: [
                             Expanded(
                               child: Text(
-                                product.name,
+                                product.shortName ?? "",
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
                                 ),
                               ),
                             ),
-                            const Icon(
-                              Icons.favorite,
-                              color: Colors.red,
-                              size: 20,
-                            ),
+
+                            IconButton(icon:
+                            product.isBookMark ?? true ? Icon(Icons.bookmark) :
+                            Icon(Icons.bookmark_outline),
+                                color: product.isBookMark ?? true ? Colors.deepOrangeAccent : primaryTextColor_(context),
+                                onPressed: () {
+                              controller.toggleBookmark(index);
+                            }),
                           ],
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          product.code,
+                          product.uuid ?? "",
                           style: const TextStyle(
                             color: Colors.grey,
                             fontSize: 13,
@@ -147,7 +151,7 @@ class _StoremanProductsListWidgetState extends State<StoremanProductsListWidget>
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          "£${product.price.toStringAsFixed(2)}",
+                          "${product.currency ?? ""}${product.price ?? ""}",
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
@@ -165,22 +169,25 @@ class _StoremanProductsListWidgetState extends State<StoremanProductsListWidget>
                         Row(
                           children: [
                             OrderQuantityChangeButton(
-                                text: "-", onTap: (){}),
+                                text: "-", onTap: (){
+                              setState(() {
+                                controller.decreaseQty(index);
+                              });
+
+                            }),
                             SizedBox(width: 8),
 
-                            /*
-                            OrderQuantityTextField(value:10,
-                              onChanged: widget.onQtyTyped,
-                              max: widget.item.availableQty,
-                              maxLength: 3,
-                            ),
-                            */
-
-                            OrdersTitleTextView(text:"2",),
+                            OrdersTitleTextView(text:
+                            product.addedQty.toString()
+                              ,),
 
                             SizedBox(width: 8),
                             OrderQuantityChangeButton(
-                                text: "+", onTap: (){}),
+                                text: "+", onTap: (){
+                              setState(() {
+                                controller.increaseQty(index);
+                              });
+                            }),
                             SizedBox(width: 8),
                           ],
                         ),
@@ -205,7 +212,7 @@ class _StoremanProductsListWidgetState extends State<StoremanProductsListWidget>
                               Icons.add_shopping_cart_outlined,
                               color: Colors.white,
                             ),
-                            label: const Text(
+                            label: Text(
                               "Add to cart",
                               style: TextStyle(
                                 color: Colors.white,
@@ -224,6 +231,6 @@ class _StoremanProductsListWidgetState extends State<StoremanProductsListWidget>
           );
         },
       ),
-    );
+    ));
   }
 }

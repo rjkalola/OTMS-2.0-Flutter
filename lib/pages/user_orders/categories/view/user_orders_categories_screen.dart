@@ -3,6 +3,7 @@ import 'package:belcka/pages/user_orders/categories/view/widgets/user_orders_cat
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
+import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,11 +23,13 @@ class UserOrdersCategoriesScreen extends StatelessWidget {
         child: Obx(
               () => Scaffold(
             backgroundColor: dashBoardBgColor_(context),
-            appBar: AppBar(
-              backgroundColor:backgroundColor_(context),
-              elevation: 0,
-              actions: actionButtons(),
-            ),
+                  appBar: AppBar(
+                    backgroundColor: backgroundColor_(context),
+                    elevation: 0,
+                    scrolledUnderElevation: 0,
+                    surfaceTintColor: Colors.transparent,
+                    actions: actionButtons(),
+                  ),
             body: ModalProgressHUD(
               inAsyncCall: controller.isLoading.value,
               opacity: 0,
@@ -44,7 +47,6 @@ class UserOrdersCategoriesScreen extends StatelessWidget {
                   )
                   : SizedBox.shrink(),
             ),
-
           ),
         ),
       ),
@@ -53,8 +55,8 @@ class UserOrdersCategoriesScreen extends StatelessWidget {
 
   List<Widget>? actionButtons() {
     return [
-      IconButton(icon: Icon(Icons.shopping_cart_outlined), onPressed: () {}),
       IconButton(icon: Icon(Icons.search), onPressed: () {}),
+      IconButton(icon: Icon(Icons.shopping_cart_outlined), onPressed: () {}),
       IconButton(icon: Icon(Icons.filter_alt_outlined), onPressed: () {}),
       IconButton(icon: Icon(Icons.more_vert_outlined), onPressed: () {}),
     ];

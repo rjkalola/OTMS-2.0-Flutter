@@ -1,5 +1,6 @@
 import 'package:belcka/pages/user_orders/storeman_catalog/controller/storeman_catalog_controller.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/view/widgets/right_side_icons_list_widget.dart';
+import 'package:belcka/pages/user_orders/storeman_catalog/view/widgets/storeman_catalog_header_view.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/view/widgets/storeman_products_list_widget.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/view/widgets/storeman_searchbar_widget.dart';
 import 'package:belcka/res/colors.dart';
@@ -29,6 +30,13 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
       child: SafeArea(
         child: Obx(
               () => Scaffold(
+                appBar: BaseAppBar(
+                  appBar: AppBar(),
+                  title: '',
+                  isCenterTitle: false,
+                  isBack: true,
+                  bgColor: backgroundColor_(context),
+                ),
             backgroundColor: dashBoardBgColor_(context),
             body: ModalProgressHUD(
               inAsyncCall: controller.isLoading.value,
@@ -42,11 +50,13 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
               )
                   : controller.isMainViewVisible.value
                   ? Padding(
-                padding: const EdgeInsets.all(12),
+                padding: const EdgeInsets.all(0),
                 child: Column(
                   children: [
                     //Top Search Bar
-                    StoremanSearchbarWidget(),
+                    //StoremanSearchbarWidget(),
+                    StoremanCatalogHeaderView(),
+                    SizedBox(height: 10,),
                     // Catalog List + Side Icons
                     Expanded(
                       child: Row(
@@ -55,7 +65,7 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
                           // Product list
                           StoremanProductsListWidget(),
                           // Right-side icon bar
-                          RightSideIconsListWidget(),
+                          //RightSideIconsListWidget(),
                         ],
                       ),
                     ),
@@ -68,5 +78,13 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
         ),
       ),
     );
+  }
+
+  List<Widget>? actionButtons() {
+    return [
+      IconButton(icon: Icon(Icons.search), onPressed: () {}),
+      IconButton(icon: Icon(Icons.bookmark), onPressed: () {}),
+      IconButton(icon: Icon(Icons.shopping_cart_outlined), onPressed: () {}),
+    ];
   }
 }

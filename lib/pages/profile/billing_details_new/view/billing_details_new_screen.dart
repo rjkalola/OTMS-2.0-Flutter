@@ -24,7 +24,6 @@ class BillingDetailsNewScreen extends StatefulWidget {
 
 class _BillingDetailsNewScreenState extends State<BillingDetailsNewScreen> {
   final controller = Get.put(BillingDetailsNewController());
-  //NavigationCard(label: "TAX info", value: taxInfo),
 
   @override
   Widget build(BuildContext context) {

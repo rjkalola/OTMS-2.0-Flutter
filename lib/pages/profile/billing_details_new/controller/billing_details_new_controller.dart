@@ -152,7 +152,7 @@ class BillingDetailsNewController extends GetxController {
           if ((billingInfo.value.shortCode ?? "").isNotEmpty &&
               (billingInfo.value.accountNo ?? "").isNotEmpty) {
             bankDetails =
-                "${billingInfo.value.shortCode ?? ""} / ${billingInfo.value.accountNo ?? ""}";
+                "${billingInfo.value.accountNo ?? ""} / ${billingInfo.value.shortCode ?? ""}";
           } else if ((billingInfo.value.shortCode ?? "").isNotEmpty) {
             bankDetails = billingInfo.value.shortCode ?? "";
           } else if ((billingInfo.value.accountNo ?? "").isNotEmpty) {

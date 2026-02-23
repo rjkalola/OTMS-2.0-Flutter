@@ -6,6 +6,7 @@ import 'package:belcka/pages/dashboard/models/dashboard_stock_count_response.dar
 import 'package:belcka/pages/dashboard/models/permission_settings.dart';
 import 'package:belcka/pages/dashboard/tabs/home_tab/view/home_tab.dart';
 import 'package:belcka/pages/dashboard/tabs/more_tab/view/more_tab.dart';
+import 'package:belcka/pages/user_orders/categories/view/user_orders_categories_screen.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:dio/dio.dart' as multi;
@@ -42,7 +43,7 @@ class DashboardController extends GetxController
     // StockListScreen(),
     HomeTab(),
     // ProfileTab(),
-    MoreTab(),
+    UserOrdersCategoriesScreen(),
     MoreTab(),
     MoreTab(),
   ];
@@ -147,6 +148,8 @@ class DashboardController extends GetxController
   }
 
   void onItemTapped(int index) {
+    //old code
+    /*
     // if (index == 1) {
     //   Navigator.push(
     //     context,
@@ -156,6 +159,20 @@ class DashboardController extends GetxController
     pageController.jumpToPage(index);
 
     // }
+
+    */
+
+    //New code
+    /*
+    if (index == 1){
+      Get.offNamed(AppRoutes.userOrdersCategoriesScreen);
+      pageController.jumpToPage(index);
+    }
+    else{
+      pageController.jumpToPage(index);
+     }
+    */
+    pageController.jumpToPage(index);
   }
 
   //Home Tab
