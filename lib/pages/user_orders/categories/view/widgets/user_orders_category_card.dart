@@ -15,15 +15,15 @@ class UserOrdersCategoryCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.network(item.thumbUrl ?? "",
-            width: 40,
-            height: 40,
+            width: 42,
+            height: 42,
             loadingBuilder: (context, child, loadingProgress) {
               if (loadingProgress == null) return child;
               return Container(
                 alignment: Alignment.center,
                 child: Icon(
                   Icons.image_outlined,
-                  size: 40,
+                  size: 42,
                 ),
               );
             },
@@ -32,7 +32,7 @@ class UserOrdersCategoryCard extends StatelessWidget {
                 alignment: Alignment.center,
                 child: Icon(
                   Icons.broken_image_outlined,
-                  size: 40,
+                  size: 42,
                 ),
               );
             },
