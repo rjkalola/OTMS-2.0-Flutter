@@ -144,4 +144,5 @@ class AppRoutes {
   static const String paymentDetailsScreen = '/payment_details_screen';
   static const String userOrdersCategoriesScreen = '/user_orders_categories_screen';
   static const String storemanCatalogScreen = '/storeman_catalog_screen';
+  static const String basketScreen = '/basket_screen';
 }

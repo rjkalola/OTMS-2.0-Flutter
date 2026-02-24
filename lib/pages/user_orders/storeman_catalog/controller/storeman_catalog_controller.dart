@@ -35,12 +35,14 @@ class StoremanCatalogController extends GetxController{
   List<GetProductsInfoModel> tempList = [];
 
   int categoryIds = 0;
-
   final Map<int, int> currentImageIndex = {};
+
+  RxInt cartCount = 0.obs;
+  bool isDataUpdated = false;
+
   @override
   void onInit() {
     super.onInit();
-
     var arguments = Get.arguments;
     if (arguments != null) {
       categoryIds = arguments["category_ids"] ?? 0;
@@ -52,7 +54,9 @@ class StoremanCatalogController extends GetxController{
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
-    map["category_ids"] = categoryIds;
+    if (categoryIds > 0){
+      map["category_ids"] = categoryIds;
+    }
 
     _api.getProductsAPI(
       queryParameters: map,
@@ -66,6 +70,8 @@ class StoremanCatalogController extends GetxController{
 
           products.value = tempList;
           products.refresh();
+
+          updateCartCount(response.cartProduct ?? 0);
         }
         else{
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
@@ -111,12 +117,54 @@ class StoremanCatalogController extends GetxController{
     );
   }
 
-
-  void increaseQty(int index) {
-
+  void toggleAddToCart(int index) {
+    final product = products[index];
+    Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
+    map["product_id"] = product.id;
+    map["qty"] = product.qty;
+    map["sub_qty"] = product.cartQty;
+    _api.addToCartAPI(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          isDataUpdated = true;
+          fetchProducts();
+        }
+        else{
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+        }
+      },
+    );
   }
 
+  void increaseQty(int index) {
+    final product = products[index];
+    int qty = product.qty ?? 0;
+    int userQty = (product.cartQty ?? 0) + 1;
+    product.cartQty = userQty;
+  }
   void decreaseQty(int index) {
+    final product = products[index];
+    int qty = product.qty ?? 0;
+    int userQty = product.cartQty ?? 0;
+    if (userQty == 0) return;
+    product.cartQty = userQty - 1;
+  }
 
+  void updateCartCount(int count) {
+    cartCount.value = count;
+  }
+  void onBackPress() {
+    Get.back(result: isDataUpdated);
   }
 }

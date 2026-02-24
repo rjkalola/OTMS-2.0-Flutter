@@ -20,6 +20,7 @@ class UserOrdersCategoriesController extends GetxController{
   final searchController = TextEditingController().obs;
   final categoriesList = <UserOrdersCategoriesInfo>[].obs;
   List<UserOrdersCategoriesInfo> tempList = [];
+  RxInt cartCount = 0.obs;
 
   @override
   void onInit() {
@@ -40,6 +41,7 @@ class UserOrdersCategoriesController extends GetxController{
           tempList.addAll(response.info ?? []);
           categoriesList.value = tempList;
           categoriesList.refresh();
+          updateCartCount(response.cartProductCount ?? 0);
         }
         else{
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
@@ -56,7 +58,9 @@ class UserOrdersCategoriesController extends GetxController{
       },
     );
   }
-
+  void updateCartCount(int count) {
+    cartCount.value = count;
+  }
   Future<void> moveToScreen(String rout, dynamic arguments) async {
     var result = await Get.toNamed(rout, arguments: arguments);
     if (result != null && result) {

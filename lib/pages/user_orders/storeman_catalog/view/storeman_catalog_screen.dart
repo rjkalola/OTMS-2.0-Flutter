@@ -36,6 +36,11 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
                   isCenterTitle: false,
                   isBack: true,
                   bgColor: backgroundColor_(context),
+                  widgets: actionButtons(),
+                  onBackPressed: (){
+                    controller.onBackPress();
+                  }
+                  ,
                 ),
             backgroundColor: dashBoardBgColor_(context),
             body: ModalProgressHUD(
@@ -82,9 +87,44 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
 
   List<Widget>? actionButtons() {
     return [
-      IconButton(icon: Icon(Icons.search), onPressed: () {}),
-      IconButton(icon: Icon(Icons.bookmark), onPressed: () {}),
-      IconButton(icon: Icon(Icons.shopping_cart_outlined), onPressed: () {}),
+      // IconButton(icon: Icon(Icons.search), onPressed: () {}),
+      // IconButton(icon: Icon(Icons.bookmark), onPressed: () {}),
+      Stack(
+        children: [
+          IconButton(
+            icon: const Icon(Icons.shopping_cart_outlined, size: 25),
+            onPressed: () {
+              // open cart page
+            },
+          ),
+
+          if (controller.cartCount.value > 0)
+            Positioned(
+              right: 6,
+              top: 3,
+              child: Container(
+                padding: const EdgeInsets.all(2),
+                decoration: BoxDecoration(
+                  color: Colors.red,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                constraints: const BoxConstraints(
+                  minWidth: 18,
+                  minHeight: 18,
+                ),
+                child: Text(
+                  controller.cartCount.value.toString(),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+        ],
+      )
     ];
   }
 }

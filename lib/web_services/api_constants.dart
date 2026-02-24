@@ -299,4 +299,6 @@ class ApiConstants {
   static String categoriesGet = '$appUrl/categories/get';
   static String productsGet = '$appUrl/products/get';
   static String productsBookmark = '$appUrl/products/bookmark';
+  static String productsAddToCart = '$appUrl/products/add-to-cart';
+  static String productsCartList = '$appUrl/products/cart-list';
 }

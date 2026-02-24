@@ -15,6 +15,7 @@ class GetProductsInfoModel {
   String? price;
   String? marketPrice;
   int? qty;
+  int? cartQty;
   String? subQty;
   String? totalAmount;
   String? stockStatus;
@@ -55,7 +56,6 @@ class GetProductsInfoModel {
   String? categoryIds;
   String? storeIds;
   List<GetProductImagesDataModel>? productImages;
-  int addedQty = 1;
 
   GetProductsInfoModel(
       {this.id,
@@ -72,6 +72,7 @@ class GetProductsInfoModel {
         this.price,
         this.marketPrice,
         this.qty,
+        this.cartQty,
         this.subQty,
         this.totalAmount,
         this.stockStatus,
@@ -112,7 +113,6 @@ class GetProductsInfoModel {
         this.categoryIds,
         this.storeIds,
         this.productImages,
-        this.addedQty = 1
         });
 
   GetProductsInfoModel.fromJson(Map<String, dynamic> json) {
@@ -130,6 +130,7 @@ class GetProductsInfoModel {
     price = json['price'];
     marketPrice = json['market_price'];
     qty = json['qty'];
+    cartQty = json['cart_qty'];
     subQty = json['sub_qty'];
     totalAmount = json['total_amount'];
     stockStatus = json['stock_status'];
@@ -193,6 +194,7 @@ class GetProductsInfoModel {
     data['price'] = this.price;
     data['market_price'] = this.marketPrice;
     data['qty'] = this.qty;
+    data['cart_qty'] = this.cartQty;
     data['sub_qty'] = this.subQty;
     data['total_amount'] = this.totalAmount;
     data['stock_status'] = this.stockStatus;

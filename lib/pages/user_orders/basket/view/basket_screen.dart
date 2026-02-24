@@ -1,5 +1,4 @@
 import 'package:belcka/pages/user_orders/basket/controller/basket_controller.dart';
-import 'package:belcka/pages/user_orders/basket/view/widgets/basket_header_view.dart';
 import 'package:belcka/pages/user_orders/basket/view/widgets/basket_items_list.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/app_utils.dart';
@@ -35,7 +34,7 @@ class _BasketScreenState extends State<BasketScreen> {
               isCenterTitle: false,
               isBack: true,
               bgColor: backgroundColor_(context),
-              widgets: actionButtons(),
+
               autoFocus: true,
               isClearVisible: false.obs,
             ),
@@ -52,7 +51,7 @@ class _BasketScreenState extends State<BasketScreen> {
                   : controller.isMainViewVisible.value
                       ? Column(
                           children: [
-                            BasketHeaderView(),
+                            //BasketHeaderView(),
                             SizedBox(
                               height: 12,
                             ),
