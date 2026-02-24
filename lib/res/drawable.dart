@@ -143,4 +143,6 @@ class Drawable {
   static const String viewSmall = 'assets/images/ic_outline_view_small.svg';
   static const String viewStream = 'assets/images/ic_outline_view_stream.svg';
   static const String deliveredImage = 'assets/images/delivered_image.png';
+  static const String emptyDataIcon = 'assets/images/img_empty_data.png';
+
 }

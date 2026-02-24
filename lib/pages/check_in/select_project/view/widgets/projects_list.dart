@@ -31,7 +31,8 @@ class ProjectsList extends StatelessWidget {
                       padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
                       child: InkWell(
                         onTap: () {
-                          controller.moveToScreen(info.id ?? 0);
+                          controller.moveToScreen(
+                              info.id ?? 0, info.companyId ?? 0);
                         },
                         child: Row(
                           children: [

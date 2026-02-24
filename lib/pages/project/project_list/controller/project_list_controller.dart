@@ -137,10 +137,10 @@ class ProjectListController extends GetxController
     );
   }
 
-  void activeProjectAPI(int id, String title) {
+  void activeProjectAPI(int id, String title,int companyId) {
     isLoading.value = true;
     Map<String, dynamic> map = {};
-    map["company_id"] = ApiConstants.companyId;
+    map["company_id"] = companyId;
     map["id"] = id;
 
     _api.activeProject(
@@ -302,7 +302,7 @@ class ProjectListController extends GetxController
   @override
   void onSelectItem(int position, int id, String name, String action) {
     if (action == AppConstants.dialogIdentifier.selectProject) {
-      activeProjectAPI(id, name);
+      activeProjectAPI(id, name,projectsList[position].companyId??0);
     }
   }
 

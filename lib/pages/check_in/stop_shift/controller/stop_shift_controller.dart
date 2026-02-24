@@ -124,39 +124,6 @@ class StopShiftController extends GetxController implements SelectTimeListener {
     );
   }
 
-  Future<void> getUserWorkLogListApi() async {
-    isLoading.value = true;
-    Map<String, dynamic> map = {};
-    map["date"] = "";
-    map["shift_id"] = 0;
-    ClockInRepository().getUserWorkLogList(
-      data: map,
-      onSuccess: (ResponseModel responseModel) {
-        if (responseModel.isSuccess) {
-          WorkLogListResponse response =
-              WorkLogListResponse.fromJson(jsonDecode(responseModel.result!));
-          for (var info in response.workLogInfo!) {
-            if (info.id == workLogInfo.value.id) {
-              workLogInfo.value = info;
-              break;
-            }
-          }
-          setInitialTime();
-        } else {
-          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
-        }
-        isLoading.value = false;
-      },
-      onError: (ResponseModel error) {
-        isLoading.value = false;
-        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
-          // isInternetNotAvailable.value = true;
-          AppUtils.showApiResponseMessage('no_internet'.tr);
-        }
-      },
-    );
-  }
-
   Future<void> requestWorkLogChangeApi() async {
     isLoading.value = true;
     Map<String, dynamic> map = {};

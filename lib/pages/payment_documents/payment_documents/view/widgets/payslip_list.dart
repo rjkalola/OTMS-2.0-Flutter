@@ -44,7 +44,7 @@ class PayslipList extends StatelessWidget {
                           controller.listPayslips.refresh();
                           controller.checkSelectAll();
                         } else {
-                          String fileUrl = info.pdf ?? "";
+                          String fileUrl = info.image ?? "";
                           await ImageUtils.openAttachment(Get.context!, fileUrl,
                               ImageUtils.getFileType(fileUrl));
                         }

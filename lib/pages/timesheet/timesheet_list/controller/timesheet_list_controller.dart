@@ -346,7 +346,10 @@ class TimeSheetListController extends GetxController
     } else {
       selectedAction = info.action ?? "";
       if (info.action == AppConstants.action.add) {
-        moveToScreen(AppRoutes.addTimeSheetScreen, null);
+        var arguments = {
+          AppConstants.intentKey.isAllUserTimeSheet: isAllUserTimeSheet,
+        };
+        moveToScreen(AppRoutes.addTimeSheetScreen, arguments);
       } else if (info.action == AppConstants.action.edit) {
         // showActionMenuItemsDialog(Get.context!);
         isEditStatusEnable.value = true;

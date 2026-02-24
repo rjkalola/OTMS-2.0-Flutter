@@ -46,7 +46,7 @@ class SelectShiftController extends GetxController {
   final shiftList = <ModuleInfo>[].obs;
   List<ModuleInfo> tempList = [];
   bool fromStartShiftScreen = false, switchProject = false;
-  int projectId = 0, workLogId = 0;
+  int projectId = 0, workLogId = 0, companyId = ApiConstants.companyId;
   final projectInfo = ProjectInfo().obs;
   final RxSet<Polyline> polyLines = <Polyline>{}.obs;
   final RxSet<Polygon> polygons = <Polygon>{}.obs;
@@ -59,7 +59,6 @@ class SelectShiftController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    print("Screen Open");
     var arguments = Get.arguments;
     if (arguments != null) {
       fromStartShiftScreen =
@@ -67,6 +66,7 @@ class SelectShiftController extends GetxController {
       switchProject = arguments[AppConstants.intentKey.switchProject] ?? false;
       projectId = arguments[AppConstants.intentKey.ID] ?? 0;
       workLogId = arguments[AppConstants.intentKey.workLogId] ?? 0;
+      companyId = arguments[AppConstants.intentKey.companyId] ?? 0;
       print("Project ID" + projectId.toString());
     }
     LocationInfo? locationInfo = Get.find<AppStorage>().getLastLocation();
@@ -82,7 +82,7 @@ class SelectShiftController extends GetxController {
   void getShiftListApi() {
     isLoading.value = true;
     Map<String, dynamic> map = {};
-    map["company_id"] = ApiConstants.companyId;
+    map["company_id"] = companyId;
     map["project_id"] = projectId;
     ShiftListRepository().getShiftList(
       data: map,
@@ -166,8 +166,11 @@ class SelectShiftController extends GetxController {
         if (responseModel.isSuccess) {
           StartWorkResponse response =
               StartWorkResponse.fromJson(jsonDecode(responseModel.result!));
+          var arguments = {
+            AppConstants.intentKey.fromStartShiftScreen: fromStartShiftScreen,
+          };
           if (fromStartShiftScreen) {
-            Get.offNamed(AppRoutes.clockInScreen);
+            Get.offNamed(AppRoutes.clockInScreen, arguments: arguments);
           } else {
             Get.back(result: true);
           }

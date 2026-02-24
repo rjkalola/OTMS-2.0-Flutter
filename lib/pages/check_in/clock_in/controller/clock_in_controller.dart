@@ -50,6 +50,7 @@ class ClockInController extends GetxController
       LatLng(AppConstants.defaultLatitude, AppConstants.defaultLongitude).obs;
   final dashboardResponse = DashboardResponse().obs;
   String? latitude, longitude, location, shiftId;
+  bool fromStartShiftScreen = false;
   final locationService = LocationServiceNew();
   final workLogData = WorkLogListResponse().obs;
   WorkLogInfo? selectedWorkLogInfo = null;
@@ -78,8 +79,8 @@ class ClockInController extends GetxController
     super.onInit();
     var arguments = Get.arguments;
     if (arguments != null) {
-      // fromSignUp.value =
-      //     arguments[AppConstants.intentKey.fromSignUpScreen] ?? "";
+      fromStartShiftScreen =
+          arguments[AppConstants.intentKey.fromStartShiftScreen] ?? false;
     }
     shiftId = Get.find<AppStorage>().getShiftId();
 
@@ -174,6 +175,7 @@ class ClockInController extends GetxController
           isMainViewVisible.value = true;
           WorkLogListResponse response =
               WorkLogListResponse.fromJson(jsonDecode(responseModel.result!));
+          Get.find<AppStorage>().setWorklogData(response);
 
           // WorkLogListResponse response =
           //     WorkLogListResponse.fromJson(jsonDecode(DataUtils.workResponse));
@@ -445,13 +447,16 @@ class ClockInController extends GetxController
 
   @override
   void onClose() {
-    print("onClose");
     stopTimer();
     scrollController.dispose();
     super.onClose();
   }
 
   void onBackPress() {
-    Get.back();
+    if (fromStartShiftScreen) {
+      Get.offAllNamed(AppRoutes.dashboardScreen);
+    } else {
+      Get.back();
+    }
   }
 }

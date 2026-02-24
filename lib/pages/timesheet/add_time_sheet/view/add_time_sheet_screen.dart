@@ -30,7 +30,7 @@ class _AddTimeSheetScreenState extends State<AddTimeSheetScreen> {
         controller.onBackPress();
       },
       child: Obx(
-            () => Container(
+        () => Container(
           color: dashBoardBgColor_(context),
           child: SafeArea(
             child: Scaffold(
@@ -49,130 +49,160 @@ class _AddTimeSheetScreenState extends State<AddTimeSheetScreen> {
                 progressIndicator: const CustomProgressbar(),
                 child: controller.isInternetNotAvailable.value
                     ? NoInternetWidget(
-                  onPressed: () {
-                    controller.isInternetNotAvailable.value = false;
-                  },
-                )
+                        onPressed: () {
+                          controller.isInternetNotAvailable.value = false;
+                        },
+                      )
                     : Visibility(
-                  visible: controller.isMainViewVisible.value,
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: SingleChildScrollView(
-                          child: Form(
-                            key: controller.formKey,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16),
-                              child: Column(
-                                children: [
-                                  const SizedBox(height: 16),
-
-                                  DropDownTextField(
-                                    title: 'select_date'.tr,
-                                    controller: controller.selectDateController,
-                                    isArrowHide: false,
-                                    validators: [
-                                      RequiredValidator(
-                                          errorText: 'required_field'.tr),
-                                    ],
-                                    onPressed: () {
-                                      controller.showDatePickerDialog(
-                                        AppConstants.dialogIdentifier.selectDate,
-                                        controller.selectDate,
-                                        DateTime(1900),
-                                        DateTime.now(),
-                                      );
-                                    },
-                                  ),
-
-                                  const SizedBox(height: 20),
-
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Expanded(
-                                        child: DropDownTextField(
-                                          title: 'start_shift'.tr,
-                                          controller: controller.startTimeController,
+                        visible: controller.isMainViewVisible.value,
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: SingleChildScrollView(
+                                child: Form(
+                                  key: controller.formKey,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
+                                    child: Column(
+                                      children: [
+                                        Visibility(
+                                          visible:
+                                              controller.isAllUserTimeSheet,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 12, bottom: 8),
+                                            child: DropDownTextField(
+                                              title: 'select_user'.tr,
+                                              controller:
+                                                  controller.userController,
+                                              isArrowHide: false,
+                                              validators: [
+                                                // RequiredValidator(
+                                                //     errorText:
+                                                //         'required_field'.tr),
+                                              ],
+                                              onPressed: () {
+                                                controller
+                                                    .showSelectUserDialog();
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(height: 12),
+                                        DropDownTextField(
+                                          title: 'select_date'.tr,
+                                          controller:
+                                              controller.selectDateController,
                                           isArrowHide: false,
                                           validators: [
                                             RequiredValidator(
                                                 errorText: 'required_field'.tr),
                                           ],
                                           onPressed: () {
-                                            controller.showTimePickerDialog(
-                                              AppConstants.dialogIdentifier
-                                                  .selectShiftStartTime,
-                                              controller.startShiftTime,
+                                            controller.showDatePickerDialog(
+                                              AppConstants
+                                                  .dialogIdentifier.selectDate,
+                                              controller.selectDate,
+                                              DateTime(1900),
+                                              DateTime.now(),
                                             );
                                           },
                                         ),
-                                      ),
-                                      const SizedBox(width: 10),
-                                      Expanded(
-                                        child: DropDownTextField(
-                                          title: 'end_shift'.tr,
-                                          controller: controller.endTimeController,
+                                        const SizedBox(height: 20),
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Expanded(
+                                              child: DropDownTextField(
+                                                title: 'start_shift'.tr,
+                                                controller: controller
+                                                    .startTimeController,
+                                                isArrowHide: false,
+                                                validators: [
+                                                  RequiredValidator(
+                                                      errorText:
+                                                          'required_field'.tr),
+                                                ],
+                                                onPressed: () {
+                                                  controller
+                                                      .showTimePickerDialog(
+                                                    AppConstants
+                                                        .dialogIdentifier
+                                                        .selectShiftStartTime,
+                                                    controller.startShiftTime,
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                            const SizedBox(width: 10),
+                                            Expanded(
+                                              child: DropDownTextField(
+                                                title: 'end_shift'.tr,
+                                                controller: controller
+                                                    .endTimeController,
+                                                isArrowHide: false,
+                                                validators: [
+                                                  RequiredValidator(
+                                                      errorText:
+                                                          'required_field'.tr),
+                                                ],
+                                                onPressed: () {
+                                                  controller
+                                                      .showTimePickerDialog(
+                                                    AppConstants
+                                                        .dialogIdentifier
+                                                        .selectShiftEndTime,
+                                                    controller.endShiftTime,
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 20),
+                                        DropDownTextField(
+                                          title: 'select_project'.tr,
+                                          controller:
+                                              controller.projectController,
                                           isArrowHide: false,
+                                          onPressed: () {
+                                            controller
+                                                .showSelectProjectDialog();
+                                          },
+                                        ),
+                                        const SizedBox(height: 20),
+                                        DropDownTextField(
+                                          title: 'select_shift'.tr,
+                                          controller:
+                                              controller.shiftController,
                                           validators: [
                                             RequiredValidator(
                                                 errorText: 'required_field'.tr),
                                           ],
+                                          isArrowHide: false,
                                           onPressed: () {
-                                            controller.showTimePickerDialog(
-                                              AppConstants.dialogIdentifier
-                                                  .selectShiftEndTime,
-                                              controller.endShiftTime,
-                                            );
+                                            controller.showSelectShiftDialog();
                                           },
                                         ),
-                                      ),
-                                    ],
+                                        const SizedBox(height: 30),
+                                      ],
+                                    ),
                                   ),
-
-                                  const SizedBox(height: 20),
-
-                                  DropDownTextField(
-                                    title: 'select_project'.tr,
-                                    controller: controller.projectController,
-                                    isArrowHide: false,
-                                    onPressed: () {
-                                      controller.showSelectProjectDialog();
-                                    },
-                                  ),
-
-                                  const SizedBox(height: 20),
-
-                                  DropDownTextField(
-                                    title: 'select_shift'.tr,
-                                    controller: controller.shiftController,
-                                    validators: [
-                                      RequiredValidator(
-                                          errorText: 'required_field'.tr),
-                                    ],
-                                    isArrowHide: false,
-                                    onPressed: () {
-                                      controller.showSelectShiftDialog();
-                                    },
-                                  ),
-
-                                  const SizedBox(height: 30),
-                                ],
+                                ),
                               ),
                             ),
-                          ),
+                            PrimaryButton(
+                              padding:
+                                  const EdgeInsets.fromLTRB(14, 18, 14, 16),
+                              buttonText: 'save'.tr,
+                              color: defaultAccentColor_(context),
+                              onPressed: controller.onClickSave,
+                            ),
+                          ],
                         ),
                       ),
-
-                      PrimaryButton(
-                        padding: const EdgeInsets.fromLTRB(14, 18, 14, 16),
-                        buttonText: 'save'.tr,
-                        color: defaultAccentColor_(context),
-                        onPressed: controller.onClickSave,
-                      ),
-                    ],
-                  ),
-                ),
               ),
             ),
           ),

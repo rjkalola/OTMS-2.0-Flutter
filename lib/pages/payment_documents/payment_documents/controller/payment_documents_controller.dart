@@ -78,9 +78,8 @@ class PaymentDocumentsController extends GetxController
     var arguments = Get.arguments;
     if (arguments != null) {
       userId = arguments[AppConstants.intentKey.userId] ?? 0;
-      // addressInfo = arguments[AppConstants.intentKey.addressInfo];
-      // addressId = addressInfo?.id ?? 0;
-      // projectId = addressInfo?.projectId ?? 0;
+      selectedFilter.value = arguments[AppConstants.intentKey.documentType] ??
+          AppConstants.action.invoices;
     }
     loadData(true);
   }
@@ -349,11 +348,25 @@ class PaymentDocumentsController extends GetxController
 
   @override
   void onSelectMenuItem(ModuleInfo info, String dialogType) {
-    if (info.action == AppConstants.action.download) {
-      isDownloadEnable.value = true;
-    } else if (info.action == AppConstants.action.delete) {
-      isDeleteEnable.value = true;
+    bool isDataAvailable = false;
+    if (selectedFilter.value == AppConstants.action.invoices &&
+        listInvoices.isNotEmpty) {
+      isDataAvailable = true;
+    } else if (selectedFilter.value == AppConstants.action.payslips &&
+        listPayslips.isNotEmpty) {
+      isDataAvailable = true;
     }
+
+    if(isDataAvailable){
+      if (info.action == AppConstants.action.download) {
+        isDownloadEnable.value = true;
+      } else if (info.action == AppConstants.action.delete) {
+        isDeleteEnable.value = true;
+      }
+    }else{
+      AppUtils.showToastMessage('empty_data_message'.tr);
+    }
+
   }
 
   showDeleteDialog() async {

@@ -247,6 +247,14 @@ class BillingDetailsNewController extends GetxController {
     }
   }
 
+  void onClickDocuments(String documentType) {
+    var arguments = {
+      AppConstants.intentKey.documentType: documentType,
+      AppConstants.intentKey.userId: userId
+    };
+    moveToScreen(AppRoutes.paymentDocumentsScreen, arguments);
+  }
+
   void onBackPress() {
     if (fromNotification) {
       Get.offAllNamed(AppRoutes.dashboardScreen);

@@ -7,6 +7,7 @@ import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/date_utils.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/widgets/other_widgets/empty_data_found_widget.dart';
 import 'package:belcka/widgets/other_widgets/expand_collapse_arrow_widget.dart';
 import 'package:belcka/widgets/other_widgets/user_avtar_view.dart';
 import 'package:belcka/widgets/text/SubTitleTextView.dart';
@@ -29,45 +30,49 @@ class TimeSheetList extends StatelessWidget {
         await controller.loadTimesheetData(
             true); // Add await to ensure proper async handling
       },
-      child: ListView.separated(
-          physics: const AlwaysScrollableScrollPhysics(),
-          shrinkWrap: true,
-          scrollDirection: Axis.vertical,
-          itemBuilder: (context, position) {
-            TimeSheetInfo info = controller.timeSheetList[position];
-            return CardViewDashboardItem(
-                margin: EdgeInsets.fromLTRB(14, 7, 14, 7),
-                child: Column(
-                  children: [
-                    userDetailsView(info, position),
-                    // WeekNumberTitle(
-                    //   position: position,
-                    //   info: info,
-                    // ),
-                    // DayLogList(
-                    //   parentPosition: position,
-                    // ),
-                    WeekLogList(parentPosition: position),
-                  ],
-                ));
-          },
-          itemCount: controller.timeSheetList.length,
-          // separatorBuilder: (context, position) => const Padding(
-          //   padding: EdgeInsets.only(left: 100),
-          //   child: Divider(
-          //     height: 0,
-          //     color: dividerColor,
-          //     thickness: 0.8,
-          //   ),
-          // ),
-          separatorBuilder: (context, position) => Container()),
+      child: controller.timeSheetList.isNotEmpty
+          ? ListView.separated(
+              physics: const AlwaysScrollableScrollPhysics(),
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              itemBuilder: (context, position) {
+                TimeSheetInfo info = controller.timeSheetList[position];
+                return CardViewDashboardItem(
+                    margin: EdgeInsets.fromLTRB(14, 7, 14, 7),
+                    child: Column(
+                      children: [
+                        userDetailsView(info, position),
+                        // WeekNumberTitle(
+                        //   position: position,
+                        //   info: info,
+                        // ),
+                        // DayLogList(
+                        //   parentPosition: position,
+                        // ),
+                        WeekLogList(parentPosition: position),
+                      ],
+                    ));
+              },
+              itemCount: controller.timeSheetList.length,
+              // separatorBuilder: (context, position) => const Padding(
+              //   padding: EdgeInsets.only(left: 100),
+              //   child: Divider(
+              //     height: 0,
+              //     color: dividerColor,
+              //     thickness: 0.8,
+              //   ),
+              // ),
+              separatorBuilder: (context, position) => Container())
+          : Center(
+              child: EmptyDataFoundWidget(),
+            ),
     ));
   }
 
   Widget userDetailsView(TimeSheetInfo info, int position) {
     int status = info.status ?? 0;
     int time = info.totalPayableSeconds ?? 0;
-    print("time"+time.toString());
+    print("time" + time.toString());
     return Container(
       padding: const EdgeInsets.fromLTRB(10, 12, 10, 12),
       color: Colors.transparent,

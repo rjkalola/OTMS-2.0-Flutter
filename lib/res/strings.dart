@@ -424,6 +424,7 @@ class Strings extends Translations {
           'write_announcement': "Write Announcement",
           'all_company_users': "All company users",
           'select_users': "Select Users",
+          'select_user': "Select User",
           'send_notification_as': "Send notification as",
           'enter_address': "Enter Address",
           'area_size': "Area Size",

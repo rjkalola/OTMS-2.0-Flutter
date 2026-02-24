@@ -8,6 +8,8 @@ import 'package:belcka/pages/common/listener/select_time_listener.dart';
 import 'package:belcka/pages/leaves/add_leave/controller/create_leave_repository.dart';
 import 'package:belcka/pages/leaves/add_leave/model/leave_type_list_response.dart';
 import 'package:belcka/pages/leaves/leave_list/model/leave_info.dart';
+import 'package:belcka/pages/permissions/user_list/controller/user_list_repository.dart';
+import 'package:belcka/pages/permissions/user_list/model/user_list_response.dart';
 import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
@@ -34,6 +36,7 @@ class CreateLeaveController extends GetxController
   final startTimeController = TextEditingController().obs;
   final endTimeController = TextEditingController().obs;
   final noteController = TextEditingController().obs;
+  final userController = TextEditingController().obs;
 
   DateTime? selectDate, startDate, endDate;
   DateTime? startTime, endTime;
@@ -47,7 +50,9 @@ class CreateLeaveController extends GetxController
       isAllDay = true.obs;
   RxString totalDays = "0.0".obs, leaveType = "".obs;
   final leaveTypeList = <ModuleInfo>[].obs;
+  final userList = <ModuleInfo>[].obs;
   int leaveId = 0, userId = 0;
+  bool isUserDropdownVisible = false;
 
   LeaveInfo? leaveInfo;
   final title = ''.obs;
@@ -58,9 +63,15 @@ class CreateLeaveController extends GetxController
     var arguments = Get.arguments;
     if (arguments != null) {
       userId = arguments[AppConstants.intentKey.userId] ?? 0;
+      isUserDropdownVisible = userId == 0;
       print("userId:$userId");
       leaveInfo = arguments[AppConstants.intentKey.leaveInfo];
     }
+    if(userId == 0){
+      userId = UserUtils.getLoginUserId();
+      userController.value.text = UserUtils.getLoginUserName();
+    }
+
     setInitData();
     getLeaveTypesListApi();
   }
@@ -160,7 +171,6 @@ class CreateLeaveController extends GetxController
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
-          isMainViewVisible.value = true;
           LeaveTypeListResponse response =
               LeaveTypeListResponse.fromJson(jsonDecode(responseModel.result!));
           List<ModuleInfo> listItems = [];
@@ -169,10 +179,16 @@ class CreateLeaveController extends GetxController
                 .add(ModuleInfo(id: info.id, name: info.name, type: info.type));
           }
           leaveTypeList.value = listItems;
+          if (!isUserDropdownVisible) {
+            isLoading.value = false;
+            isMainViewVisible.value = true;
+          } else {
+            getUserListApi();
+          }
         } else {
+          isLoading.value = false;
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
-        isLoading.value = false;
       },
       onError: (ResponseModel error) {
         isLoading.value = false;
@@ -233,6 +249,39 @@ class CreateLeaveController extends GetxController
         },
       );
     }
+  }
+
+  void getUserListApi() {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
+    UserListRepository().getUserList(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          isMainViewVisible.value = true;
+          UserListResponse response =
+              UserListResponse.fromJson(jsonDecode(responseModel.result!));
+          userList.clear();
+          for (var data in response.info!) {
+            userList.add(ModuleInfo(id: data.id ?? 0, name: data.name ?? ""));
+          }
+        } else {
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+          // AppUtils.showSnackBarMessage('no_internet'.tr);
+          // Utils.showSnackBarMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+        }
+      },
+    );
   }
 
   void updateLeaveApi() async {
@@ -337,6 +386,15 @@ class CreateLeaveController extends GetxController
     }
   }
 
+  void showSelectUserDialog() {
+    if (userList.isNotEmpty) {
+      showDropDownDialog(AppConstants.action.selectUserDialog, 'select_user'.tr,
+          userList, this);
+    } else {
+      AppUtils.showToastMessage('empty_data_message'.tr);
+    }
+  }
+
   void showDropDownDialog(String dialogType, String title,
       List<ModuleInfo> list, SelectItemListener listener) {
     Get.bottomSheet(
@@ -360,6 +418,9 @@ class CreateLeaveController extends GetxController
       leaveTypeController.value.text = leaveTypeList[position].name ?? "";
       leaveType.value = StringHelper.capitalizeFirstLetter(
           leaveTypeList[position].type ?? "");
+    } else if (action == AppConstants.action.selectUserDialog) {
+      userId = id;
+      userController.value.text = name;
     }
   }
 

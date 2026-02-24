@@ -35,15 +35,18 @@ class DashboardGridView extends StatelessWidget {
         child: Obx(
           () => RefreshIndicator(
             onRefresh: () async {
-              if (Get.find<AppStorage>().isLocalSequenceChanges()) {
-                await controller
-                    .changeDashboardUserPermissionMultipleSequenceApi(
-                        isProgress: false,
-                        isLoadPermissionList: true,
-                        isChangeSequence: false);
-              } else {
-                await controller.getDashboardUserPermissionsApi(false,
-                    isProfileLoad: true);
+              print("controller.isApiLoading:"+controller.isApiLoading.toString());
+              if(!controller.isApiLoading){
+                if (Get.find<AppStorage>().isLocalSequenceChanges()) {
+                  await controller
+                      .changeDashboardUserPermissionMultipleSequenceApi(
+                      isProgress: false,
+                      isLoadPermissionList: true,
+                      isChangeSequence: false);
+                } else {
+                  await controller.getDashboardUserPermissionsApi(false,
+                      isProfileLoad: true);
+                }
               }
             },
             child: ReorderableBuilder(

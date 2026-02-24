@@ -4,6 +4,8 @@ import 'package:belcka/pages/common/drop_down_list_dialog.dart';
 import 'package:belcka/pages/common/listener/select_date_listener.dart';
 import 'package:belcka/pages/common/listener/select_item_listener.dart';
 import 'package:belcka/pages/common/listener/select_time_listener.dart';
+import 'package:belcka/pages/permissions/user_list/controller/user_list_repository.dart';
+import 'package:belcka/pages/permissions/user_list/model/user_list_response.dart';
 import 'package:belcka/pages/project/project_info/model/project_list_response.dart';
 import 'package:belcka/pages/project/project_list/controller/project_list_repository.dart';
 import 'package:belcka/pages/shifts/shift_list/controller/shift_list_repository.dart';
@@ -12,6 +14,7 @@ import 'package:belcka/pages/timesheet/add_time_sheet/controler/add_time_sheet_r
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/date_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/module_info.dart';
@@ -33,22 +36,25 @@ class AddTimeSheetController extends GetxController
   final startTimeController = TextEditingController().obs;
   final endTimeController = TextEditingController().obs;
   final shiftController = TextEditingController().obs;
+  final userController = TextEditingController().obs;
   final projectController = TextEditingController().obs;
   DateTime? selectDate;
   DateTime? startShiftTime, endShiftTime;
-  int projectId = 0,
-      shiftId = 0;
+  int projectId = 0, shiftId = 0, userId = UserUtils.getLoginUserId();
+  bool isAllUserTimeSheet = false;
   final shiftList = <ModuleInfo>[].obs;
   final projectsList = <ModuleInfo>[].obs;
+  final userList = <ModuleInfo>[].obs;
 
   @override
   void onInit() {
     super.onInit();
     var arguments = Get.arguments;
     if (arguments != null) {
-      // isAllUserTimeSheet =
-      //     arguments[AppConstants.intentKey.isAllUserTimeSheet] ?? false;
+      isAllUserTimeSheet =
+          arguments[AppConstants.intentKey.isAllUserTimeSheet] ?? false;
     }
+    userController.value.text = UserUtils.getLoginUserName();
     getProjectListApi();
   }
 
@@ -67,7 +73,7 @@ class AddTimeSheetController extends GetxController
         if (responseModel.isSuccess) {
           isMainViewVisible.value = true;
           BaseResponse response =
-          BaseResponse.fromJson(jsonDecode(responseModel.result!));
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.Message ?? "");
           Get.back(result: true);
         } else {
@@ -98,7 +104,7 @@ class AddTimeSheetController extends GetxController
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           ProjectListResponse response =
-          ProjectListResponse.fromJson(jsonDecode(responseModel.result!));
+              ProjectListResponse.fromJson(jsonDecode(responseModel.result!));
           projectsList.clear();
           for (var data in response.info!) {
             projectsList
@@ -130,20 +136,25 @@ class AddTimeSheetController extends GetxController
       data: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
-          isMainViewVisible.value = true;
           ShiftListResponse response =
-          ShiftListResponse.fromJson(jsonDecode(responseModel.result!));
+              ShiftListResponse.fromJson(jsonDecode(responseModel.result!));
           shiftList.clear();
           for (var data in response.info!) {
-            if (data.status ?? false) {
+            if ((data.status ?? false) && !(data.isPricework ?? false)) {
               shiftList
                   .add(ModuleInfo(id: data.id ?? 0, name: data.name ?? ""));
             }
+          } 
+          if (!isAllUserTimeSheet) {
+            isLoading.value = false;
+            isMainViewVisible.value = true;
+          } else {
+            getUserListApi();
           }
         } else {
+          isLoading.value = false;
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
-        isLoading.value = false;
       },
       onError: (ResponseModel error) {
         isLoading.value = false;
@@ -152,6 +163,39 @@ class AddTimeSheetController extends GetxController
           AppUtils.showApiResponseMessage('no_internet'.tr);
         } else if (error.statusMessage!.isNotEmpty) {
           AppUtils.showApiResponseMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
+
+  void getUserListApi() {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
+    UserListRepository().getUserList(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          isMainViewVisible.value = true;
+          UserListResponse response =
+              UserListResponse.fromJson(jsonDecode(responseModel.result!));
+          userList.clear();
+          for (var data in response.info!) {
+            userList.add(ModuleInfo(id: data.id ?? 0, name: data.name ?? ""));
+          }
+        } else {
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+          // AppUtils.showSnackBarMessage('no_internet'.tr);
+          // Utils.showSnackBarMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
         }
       },
     );
@@ -170,6 +214,15 @@ class AddTimeSheetController extends GetxController
     if (shiftList.isNotEmpty) {
       showDropDownDialog(AppConstants.action.selectShiftDialog,
           'select_shift'.tr, shiftList, this);
+    } else {
+      AppUtils.showToastMessage('empty_data_message'.tr);
+    }
+  }
+
+  void showSelectUserDialog() {
+    if (userList.isNotEmpty) {
+      showDropDownDialog(AppConstants.action.selectUserDialog, 'select_user'.tr,
+          userList, this);
     } else {
       AppUtils.showToastMessage('empty_data_message'.tr);
     }
@@ -201,6 +254,9 @@ class AddTimeSheetController extends GetxController
     } else if (action == AppConstants.action.selectShiftDialog) {
       shiftId = id;
       shiftController.value.text = name;
+    } else if (action == AppConstants.action.selectUserDialog) {
+      userId = id;
+      userController.value.text = name;
     }
   }
 

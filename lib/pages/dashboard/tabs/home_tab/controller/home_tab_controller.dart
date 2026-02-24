@@ -47,7 +47,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       isOnWorking = false.obs,
       isOnDrag = false.obs,
       isSetHomeCounter = false.obs;
-
+    bool isApiLoading = false;
   // RxString nextUpdateLocationTime = "".obs;
 
   // final listGridItems = DataUtils.getDashboardGridItemsList().obs;
@@ -148,6 +148,8 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
         getDashboardUserPermissionsApi(true, isProfileLoad: true);
       }
     }
+    WorkLogListResponse workLogData = Get.find<AppStorage>().getWorklogData();
+    setShiftTimerData(workLogData);
   }
 
   /* void onActionButtonClick(String action) {
@@ -167,6 +169,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
   Future<void> getDashboardUserPermissionsApi(bool isProgress,
       {required bool isProfileLoad}) async {
     if (ApiConstants.companyId != 0) {
+      isApiLoading = true;
       isLoading.value = isProgress;
       Map<String, dynamic> map = {};
       map["user_id"] = UserUtils.getLoginUserId();
@@ -176,6 +179,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       _api.getDashboardUserPermissionsApi(
         data: map,
         onSuccess: (ResponseModel responseModel) {
+          isApiLoading = false;
           if (responseModel.isSuccess) {
             isMainViewVisible.value = true;
             UserPermissionsResponse response = UserPermissionsResponse.fromJson(
@@ -191,11 +195,13 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
             // getNotificationCountApi(isProgress: false);
             if (isProfileLoad) getUserProfileAPI();
           } else {
+            isApiLoading = false;
             // AppUtils.showSnackBarMessage(responseModel.statusMessage!);
           }
           isLoading.value = false;
         },
         onError: (ResponseModel error) {
+          isApiLoading = false;
           isLoading.value = false;
           if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
             UserPermissionsResponse? response =
@@ -267,6 +273,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       int? newPosition,
       List<LocalPermissionSequenceChangeInfo>? data}) async {
     isLoading.value = isProgress;
+    isApiLoading = true;
     Map<String, dynamic> map = {};
     map["user_id"] = UserUtils.getLoginUserId();
     map["company_id"] = ApiConstants.companyId;
@@ -290,14 +297,18 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
           } else */
           if (isLoadPermissionList ?? false) {
             getDashboardUserPermissionsApi(isProgress, isProfileLoad: true);
+          }else{
+            isApiLoading = false;
           }
           Get.find<AppStorage>().clearLocalSequenceChangeData();
         } else {
+          isApiLoading = false;
           // AppUtils.showSnackBarMessage(responseModel.statusMessage!);
         }
         isLoading.value = false;
       },
       onError: (ResponseModel error) {
+        isApiLoading = false;
         isLoading.value = false;
         if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
           /*  isInternetNotAvailable.value = true;
@@ -325,6 +336,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
           if (responseModel.isSuccess) {
             WorkLogListResponse response =
                 WorkLogListResponse.fromJson(jsonDecode(responseModel.result!));
+            Get.find<AppStorage>().setWorklogData(response);
             if (response.workLogInfo!.isNotEmpty ||
                 (response.userIsWorking ?? false)) {
               moveToScreen(appRout: AppRoutes.clockInScreen);
@@ -338,26 +350,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
           if (responseModel.isSuccess) {
             WorkLogListResponse response =
                 WorkLogListResponse.fromJson(jsonDecode(responseModel.result!));
-            workLogData.value = response;
-            isOnWorking.value = response.userIsWorking ?? false;
-            if (response.userIsWorking ?? false) {
-              stopTimer();
-              startTimer();
-            } else {
-              if (response.workLogInfo!.isNotEmpty) {
-                stopTimer();
-                CounterDetails details =
-                    ClockInUtils.getTotalWorkHours(workLogData.value);
-                totalWorkHours.value = details.totalWorkTime;
-                activeWorkHours.value = DateUtil.seconds_To_HH_MM_SS(0);
-                isOnBreak.value = details.isOnBreak;
-                isOnLeave.value = details.isOnLeave;
-                remainingBreakTime.value = details.remainingBreakTime;
-                updateShiftValue(isClearValue: false);
-              } else {
-                updateShiftValue(isClearValue: true);
-              }
-            }
+            setShiftTimerData(response);
           } else {
             stopTimer();
             updateShiftValue(isClearValue: true);
@@ -373,6 +366,31 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
         }
       },
     );
+  }
+
+  void setShiftTimerData(WorkLogListResponse? response) {
+    if (response != null && (response.isSuccess??false)) {
+      workLogData.value = response;
+      isOnWorking.value = response.userIsWorking ?? false;
+      if (response.userIsWorking ?? false) {
+        stopTimer();
+        startTimer();
+      } else {
+        if (response.workLogInfo!.isNotEmpty) {
+          stopTimer();
+          CounterDetails details =
+              ClockInUtils.getTotalWorkHours(workLogData.value);
+          totalWorkHours.value = details.totalWorkTime;
+          activeWorkHours.value = DateUtil.seconds_To_HH_MM_SS(0);
+          isOnBreak.value = details.isOnBreak;
+          isOnLeave.value = details.isOnLeave;
+          remainingBreakTime.value = details.remainingBreakTime;
+          updateShiftValue(isClearValue: false);
+        } else {
+          updateShiftValue(isClearValue: true);
+        }
+      }
+    }
   }
 
   Future<void> onReorderPermission(int oldIndex, int newIndex) async {
@@ -681,8 +699,9 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
 
     });*/
     var result = await Get.toNamed(appRout, arguments: arguments);
-    print("Method Call-------------------");
     if (ApiConstants.companyId != 0) {
+      WorkLogListResponse response = Get.find<AppStorage>().getWorklogData();
+      setShiftTimerData(response);
       if (Get.find<AppStorage>().isLocalSequenceChanges()) {
         changeDashboardUserPermissionMultipleSequenceApi(
             isProgress: false,

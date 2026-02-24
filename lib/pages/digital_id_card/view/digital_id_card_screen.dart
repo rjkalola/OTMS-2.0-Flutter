@@ -27,10 +27,10 @@ class _DigitalIdCardScreenState extends State<DigitalIdCardScreen> {
   void initState() {
     super.initState();
 
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
-    ]);
+    // SystemChrome.setPreferredOrientations([
+    //   DeviceOrientation.landscapeLeft,
+    //   DeviceOrientation.landscapeRight,
+    // ]);
   }
 
   @override

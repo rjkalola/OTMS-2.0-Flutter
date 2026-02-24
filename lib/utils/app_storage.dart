@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:belcka/pages/check_in/clock_in/model/work_log_list_response.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -41,6 +42,23 @@ class AppStorage extends GetxController {
     final Map<String, dynamic> map = Map<String, dynamic>.from(data);
 
     return UserInfo.fromJson(map);
+  }
+
+  void setWorklogData(WorkLogListResponse info) {
+    storage.write(AppConstants.sharedPreferenceKey.worklogData, info.toJson());
+  }
+
+  WorkLogListResponse getWorklogData() {
+    final dynamic data =
+        storage.read(AppConstants.sharedPreferenceKey.worklogData);
+
+    if (data == null) {
+      return WorkLogListResponse();
+    }
+
+    final Map<String, dynamic> map = Map<String, dynamic>.from(data);
+
+    return WorkLogListResponse.fromJson(map);
   }
 
   void setLoginUsers(List<UserInfo> list) {

@@ -67,6 +67,30 @@ class _CreateLeaveScreenState extends State<CreateLeaveScreen> {
                                 child: SingleChildScrollView(
                                   child: Column(
                                     children: [
+                                      Visibility(
+                                        visible: controller.isUserDropdownVisible,
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 20,
+                                              right: 20,
+                                              top: 14,
+                                              bottom: 6),
+                                          child: DropDownTextField(
+                                            title: 'select_user'.tr,
+                                            controller:
+                                                controller.userController,
+                                            isArrowHide: false,
+                                            validators: [
+                                              // RequiredValidator(
+                                              //     errorText:
+                                              //         'required_field'.tr),
+                                            ],
+                                            onPressed: () {
+                                              controller.showSelectUserDialog();
+                                            },
+                                          ),
+                                        ),
+                                      ),
                                       Padding(
                                         padding: const EdgeInsets.only(
                                             left: 20, right: 20, top: 14),

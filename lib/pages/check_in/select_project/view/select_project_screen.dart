@@ -77,7 +77,7 @@ class _SelectProjectScreenState extends State<SelectProjectScreen> {
                                   flex: 1,
                                   child: TextViewWithContainer(
                                     onTap: () {
-                                      controller.moveToScreen(0);
+                                      controller.moveToScreen(0,0);
                                     },
                                     padding: EdgeInsetsDirectional.all(9),
                                     width: double.infinity,

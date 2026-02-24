@@ -83,6 +83,7 @@ class IntentKey {
   final String userList = "USER_LIST";
   final String shiftInfo = "SHIFT_INFO";
   final String billingInfo = "BILLING_INFO";
+  final String documentType = "DOCUMENT_TYPE";
   final String fromStartShiftScreen = 'FROM_START_SHIFT_SCREEN';
   final String switchProject = 'SWITCH_PROJECT';
   final String workLogInfo = "WORK_LOG_INFO";
@@ -186,6 +187,7 @@ class SharedPreferenceKey {
   final String timesheetDateFilterIndex = "TIMESHEET_DATE_FILTER_INDEX";
   final String timesheetViewAmountVisible = "VIEW_AMOUNT_VISIBLE";
   final String showRate = "SHOW_RATE";
+  final String worklogData = "WORK_LOG_DATA";
 }
 
 class Action {
@@ -226,6 +228,7 @@ class Action {
   final String selectAddressDialog = 'SelectAddressDialog';
   final String selectCategoryDialog = 'SelectCategoryDialog';
   final String selectShiftDialog = 'selectShiftDialog';
+  final String selectUserDialog = 'selectUserDialog';
   final String selectLeaveTypeDialog = 'selectLeaveTypeDialog';
   final String add = 'ADD';
   final String addAddress = 'ADD_ADDRESS';

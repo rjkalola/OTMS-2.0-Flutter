@@ -91,6 +91,7 @@ class SelectProjectController extends GetxController {
             tempList.add(ModuleInfo(
                 id: data.id ?? 0,
                 name: data.name ?? "",
+                companyId: data.companyId ?? 0,
                 randomColor: getRandomColor()));
           }
           projectsList.value = tempList;
@@ -180,13 +181,15 @@ class SelectProjectController extends GetxController {
     return color;
   }
 
-  Future<void> moveToScreen(int? projectId) async {
+  Future<void> moveToScreen(int? projectId, int? companyId) async {
     print("projectId:" + projectId.toString());
+    print("companyId:" + companyId.toString());
     var arguments = {
       AppConstants.intentKey.fromStartShiftScreen: fromStartShiftScreen,
       AppConstants.intentKey.switchProject: switchProject,
       AppConstants.intentKey.workLogId: workLogId,
       AppConstants.intentKey.ID: projectId ?? 0,
+      AppConstants.intentKey.companyId: companyId ?? 0,
     };
     if (fromStartShiftScreen) {
       Get.offNamed(AppRoutes.selectShiftScreen, arguments: arguments);
