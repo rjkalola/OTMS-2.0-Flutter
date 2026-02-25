@@ -208,10 +208,10 @@ class BuyerOrderController extends GetxController
   }
 
   void increaseQty(int index) {
-    if (requestOrdersList[index].qty < requestOrdersList[index].availableQty) {
-      requestOrdersList[index].qty++;
-      requestOrdersList.refresh();
-    }
+    // if (requestOrdersList[index].qty < requestOrdersList[index].availableQty) {
+    requestOrdersList[index].qty++;
+    requestOrdersList.refresh();
+    // }
   }
 
   void decreaseQty(int index) {

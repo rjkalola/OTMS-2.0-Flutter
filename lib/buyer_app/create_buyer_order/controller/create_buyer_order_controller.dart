@@ -1,10 +1,8 @@
-import 'package:belcka/buyer_app/buyer_order/controller/buyer_order_repository.dart';
 import 'package:belcka/buyer_app/buyer_order/model/order_info.dart';
 import 'package:belcka/buyer_app/create_buyer_order/controller/create_buyer_order_repository.dart';
 import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:belcka/utils/app_constants.dart';
-import 'package:belcka/utils/enums/order_tab_type.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -14,20 +12,14 @@ class CreateBuyerOrderController extends GetxController
   final _api = CreateBuyerOrderRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
-      isMainViewVisible = true.obs;
+      isMainViewVisible = true.obs,
+      isSearchEnable = false.obs,
+      isClearSearch = false.obs;
   double cardRadius = 12;
   int selectedIndex = 0;
   final buyerOrdersList = <OrderInfo>[].obs;
   List<OrderInfo> tempBuyerOrderList = [];
-
-  final List<FocusNode> qtyFocusNodes = [];
-
-  FocusNode getQtyFocusNode(int index) {
-    if (qtyFocusNodes.length <= index) {
-      qtyFocusNodes.add(FocusNode());
-    }
-    return qtyFocusNodes[index];
-  }
+  final searchController = TextEditingController().obs;
 
   @override
   void onInit() {
@@ -138,6 +130,24 @@ class CreateBuyerOrderController extends GetxController
     buyerOrdersList.refresh();
   }
 
+  Future<void> searchItem(String value) async {
+    List<OrderInfo> results = [];
+    if (value.isEmpty) {
+      results = tempBuyerOrderList;
+    } else {
+      results = tempBuyerOrderList
+          .where((element) => (!StringHelper.isEmptyString(element.name) &&
+              element.name!.toLowerCase().contains(value.toLowerCase())))
+          .toList();
+    }
+    buyerOrdersList.value = results;
+  }
+
+  void clearSearch() {
+    searchController.value.clear();
+    searchItem("");
+  }
+
   void showDeleteDialog() {
     AlertDialogHelper.showAlertDialog(
         "",
@@ -168,12 +178,4 @@ class CreateBuyerOrderController extends GetxController
 
   @override
   void onOtherButtonClicked(String dialogIdentifier) {}
-
-  @override
-  void onClose() {
-    for (final node in qtyFocusNodes) {
-      node.dispose();
-    }
-    super.onClose();
-  }
 }

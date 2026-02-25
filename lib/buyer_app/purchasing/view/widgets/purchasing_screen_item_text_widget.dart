@@ -5,14 +5,17 @@ class PurchasingScreenItemTextWidget extends StatelessWidget {
   final String text;
   final double? fontSize;
 
-  const PurchasingScreenItemTextWidget({super.key, required this.text,this.fontSize});
+  const PurchasingScreenItemTextWidget(
+      {super.key, required this.text, this.fontSize});
 
   @override
   Widget build(BuildContext context) {
-    return TitleTextView(
-      text: text,
-      fontSize: fontSize??16,
-      fontWeight: FontWeight.w400,
+    return GestureDetector(
+      child: TitleTextView(
+        text: text,
+        fontSize: fontSize ?? 16,
+        fontWeight: FontWeight.w400,
+      ),
     );
   }
 }

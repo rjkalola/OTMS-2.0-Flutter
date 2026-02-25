@@ -74,7 +74,7 @@ class _PurchasingScreenState extends State<PurchasingScreen> {
                                 OrdersCardView(),
                                 OtherCardView(),
                                 InventoryCardView(),
-                                HireCardView()
+                                // HireCardView()
                               ],
                             )),
                           )

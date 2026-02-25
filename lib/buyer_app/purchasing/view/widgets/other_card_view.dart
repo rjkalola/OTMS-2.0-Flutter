@@ -40,7 +40,11 @@ class OtherCardView extends StatelessWidget {
                             SizedBox(
                               height: 2,
                             ),
-                            PurchasingScreenItemValueWidget(value: "8"),
+                            PurchasingScreenItemValueWidget(
+                                value:
+                                    (controller.inventoryData.value.lowStock ??
+                                            0)
+                                        .toString()),
                           ],
                         ),
                       )),
@@ -54,7 +58,11 @@ class OtherCardView extends StatelessWidget {
                           SizedBox(
                             height: 2,
                           ),
-                          PurchasingScreenItemValueWidget(value: "8"),
+                          PurchasingScreenItemValueWidget(
+                              value: (controller.inventoryData.value
+                                          .uncompletedStock ??
+                                      0)
+                                  .toString()),
                         ],
                       )),
                   Flexible(
@@ -68,7 +76,11 @@ class OtherCardView extends StatelessWidget {
                             SizedBox(
                               height: 2,
                             ),
-                            PurchasingScreenItemValueWidget(value: "8"),
+                            PurchasingScreenItemValueWidget(
+                                value: (controller
+                                            .inventoryData.value.damagedStock ??
+                                        0)
+                                    .toString()),
                           ],
                         ),
                       ))

@@ -6,6 +6,7 @@ import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_request_order_li
 import 'package:belcka/buyer_app/buyer_order/view/widgets/delivery_to_text_widget.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/res/drawable.dart';
+import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/enums/order_tab_type.dart';
 import 'package:belcka/utils/image_utils.dart';
@@ -45,7 +46,7 @@ class _BuyerOrdersScreenState extends State<BuyerOrdersScreen> {
             backgroundColor: dashBoardBgColor_(context),
             appBar: BaseAppBar(
               appBar: AppBar(),
-              title: 'orders'.tr,
+              title: 'create_order'.tr,
               isCenterTitle: false,
               isBack: true,
               bgColor: backgroundColor_(context),
@@ -86,14 +87,19 @@ class _BuyerOrdersScreenState extends State<BuyerOrdersScreen> {
                 child: Column(
                   children: [
                     BuyerOrderHeaderView(),
-                    DeliveryToTextWidget(text: "(Haringey OT)"),
+                    SizedBox(
+                      height: 12,
+                    ),
+                    // DeliveryToTextWidget(text: "(Haringey OT)"),
                     Expanded(
                       child: selectedOrderList(),
                     ),
                     PrimaryButton(
                       padding: EdgeInsets.all(14),
                       buttonText: 'create_order'.tr,
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.toNamed(AppRoutes.createBuyerOrderScreen);
+                      },
                       color: Colors.green,
                     )
                   ],

@@ -1,13 +1,12 @@
 import 'package:belcka/buyer_app/buyer_order/controller/buyer_order_controller.dart';
-import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_delivered_order_list.dart';
 import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_order_header_view.dart';
-import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_proceed_order_list.dart';
-import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_request_order_list.dart';
 import 'package:belcka/buyer_app/buyer_order/view/widgets/delivery_to_text_widget.dart';
+import 'package:belcka/buyer_app/create_buyer_order/controller/create_buyer_order_controller.dart';
+import 'package:belcka/buyer_app/create_buyer_order/view/widgets/buyer_create_order_header_view.dart';
+import 'package:belcka/buyer_app/create_buyer_order/view/widgets/buyer_create_order_item_list.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/res/drawable.dart';
 import 'package:belcka/utils/app_utils.dart';
-import 'package:belcka/utils/enums/order_tab_type.dart';
 import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
@@ -18,19 +17,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CreateBuyerOrderScreen extends StatefulWidget {
-  const CreateBuyerOrderScreen({super.key});
+  CreateBuyerOrderScreen({super.key});
 
   @override
   State<CreateBuyerOrderScreen> createState() => _CreateBuyerOrderScreenState();
 }
 
 class _CreateBuyerOrderScreenState extends State<CreateBuyerOrderScreen> {
-  late final BuyerOrderController controller;
+  final controller = Get.put(CreateBuyerOrderController());
 
   @override
   void initState() {
     super.initState();
-    controller = Get.put(BuyerOrderController());
   }
 
   @override
@@ -45,11 +43,11 @@ class _CreateBuyerOrderScreenState extends State<CreateBuyerOrderScreen> {
             backgroundColor: dashBoardBgColor_(context),
             appBar: BaseAppBar(
               appBar: AppBar(),
-              title: 'orders'.tr,
+              title: 'create_order'.tr,
               isCenterTitle: false,
               isBack: true,
               bgColor: backgroundColor_(context),
-              widgets: actionButtons(),
+              widgets: [],
               isSearching: controller.isSearchEnable.value,
               searchController: controller.searchController,
               onValueChange: (value) {
@@ -75,90 +73,44 @@ class _CreateBuyerOrderScreenState extends State<CreateBuyerOrderScreen> {
                 return const SizedBox.shrink();
               }
 
-              return GestureDetector(
-                onTap: () => FocusScope.of(context).unfocus(),
-                onPanDown: (_) => FocusScope.of(context).unfocus(),
-
-                // child: KeyboardActions(
-                //   config: AppUtils.buildKeyboardConfig(
-                //     focusNodes: controller.qtyFocusNodes,
-                //   ),
-                child: Column(
-                  children: [
-                    BuyerOrderHeaderView(),
-                    DeliveryToTextWidget(text: "(Haringey OT)"),
-                    Expanded(
-                      child: selectedOrderList(),
+              return Column(
+                children: [
+                  BuyerCreateOrderHeaderView(),
+                  Expanded(
+                    child: BuyerCreateOrderItemList(),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(14),
+                    child: Row(
+                      children: [
+                        Flexible(
+                            flex: 1,
+                            fit: FlexFit.tight,
+                            child: PrimaryButton(
+                              buttonText: 'draft'.tr,
+                              onPressed: () {},
+                              color: Colors.redAccent,
+                            )),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Flexible(
+                            flex: 1,
+                            fit: FlexFit.tight,
+                            child: PrimaryButton(
+                              buttonText: 'create_order'.tr,
+                              onPressed: () {},
+                              color: Colors.green,
+                            ))
+                      ],
                     ),
-                    PrimaryButton(
-                      padding: EdgeInsets.all(14),
-                      buttonText: 'create_order'.tr,
-                      onPressed: () {},
-                      color: Colors.green,
-                    )
-                  ],
-                ),
-                // ),
+                  )
+                ],
               );
             }),
           ),
         ),
       ),
     );
-  }
-
-  List<Widget>? actionButtons() {
-    return [
-      const SizedBox(width: 6),
-      InkWell(
-        onTap: () {
-          controller.isSearchEnable.toggle();
-          if (!controller.isSearchEnable.value) {
-            controller.clearSearch();
-          }
-        },
-        customBorder: const CircleBorder(),
-        child: Padding(
-          padding: const EdgeInsets.all(6),
-          child: Obx(() => controller.isSearchEnable.value
-              ? Icon(
-                  Icons.close,
-                  color: primaryTextColor_(context),
-                )
-              : ImageUtils.setSvgAssetsImage(
-                  path: Drawable.searchIcon,
-                  width: 24,
-                  height: 24,
-                  color: primaryTextColor_(context),
-                )),
-        ),
-      ),
-      if (!UserUtils.isAdmin()) const SizedBox(width: 10),
-      if (UserUtils.isAdmin())
-        IconButton(
-          icon: const Icon(Icons.more_vert_outlined),
-          onPressed: () {},
-        ),
-    ];
-  }
-
-  // ------------------------------------------------
-  // Selected Tab Content
-  // ------------------------------------------------
-
-  Widget selectedOrderList() {
-    switch (controller.selectedTab.value) {
-      case OrderTabType.request:
-        return BuyerRequestOrderList();
-
-      case OrderTabType.proceed:
-        return BuyerProceedOrderList();
-
-      case OrderTabType.delivered:
-        return BuyerDeliveredOrderList();
-
-      default:
-        return const SizedBox.shrink();
-    }
   }
 }

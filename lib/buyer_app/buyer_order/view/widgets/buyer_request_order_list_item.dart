@@ -1,5 +1,6 @@
 import 'package:belcka/buyer_app/buyer_order/model/order_info.dart';
 import 'package:belcka/buyer_app/buyer_order/view/widgets/order_quantity_change_button.dart';
+import 'package:belcka/buyer_app/buyer_order/view/widgets/order_quantity_display_text_view.dart';
 import 'package:belcka/buyer_app/buyer_order/view/widgets/order_quantity_text_field.dart';
 import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/widgets/text/SubTitleTextView.dart';
@@ -16,12 +17,12 @@ class BuyerRequestOrderListItem extends StatelessWidget {
   final Function(int qty) onQtyTyped;
   final VoidCallback onDelete;
   final VoidCallback onListItem;
-  final FocusNode focusNode;
+  // final FocusNode focusNode;
 
   const BuyerRequestOrderListItem(
       {super.key,
       required this.item,
-      required this.focusNode,
+      // required this.focusNode,
       required this.onAdd,
       required this.onRemove,
       required this.onQtyTyped,
@@ -76,15 +77,20 @@ class BuyerRequestOrderListItem extends StatelessWidget {
                             OrderQuantityChangeButton(
                                 text: "-", onTap: onRemove),
                             const SizedBox(width: 8),
-                            OrderQuantityTextField(
+                            OrderQuantityDisplayTextView(
                               value: item.qty,
-                              max: item.availableQty,
-                              onChanged: onQtyTyped,
-                              maxLength: 3,
                               width: 52,
-                              height: 32,
-                              focusNode: focusNode,
+                              height: 30,
                             ),
+                            // OrderQuantityTextField(
+                            //   value: item.qty,
+                            //   max: item.availableQty,
+                            //   onChanged: onQtyTyped,
+                            //   maxLength: 3,
+                            //   width: 52,
+                            //   height: 32,
+                            //   focusNode: focusNode,
+                            // ),
                             const SizedBox(width: 8),
                             OrderQuantityChangeButton(text: "+", onTap: onAdd),
                             const Spacer(),

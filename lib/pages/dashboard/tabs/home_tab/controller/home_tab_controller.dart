@@ -47,7 +47,8 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       isOnWorking = false.obs,
       isOnDrag = false.obs,
       isSetHomeCounter = false.obs;
-    bool isApiLoading = false;
+  bool isApiLoading = false;
+
   // RxString nextUpdateLocationTime = "".obs;
 
   // final listGridItems = DataUtils.getDashboardGridItemsList().obs;
@@ -297,7 +298,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
           } else */
           if (isLoadPermissionList ?? false) {
             getDashboardUserPermissionsApi(isProgress, isProfileLoad: true);
-          }else{
+          } else {
             isApiLoading = false;
           }
           Get.find<AppStorage>().clearLocalSequenceChangeData();
@@ -369,7 +370,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
   }
 
   void setShiftTimerData(WorkLogListResponse? response) {
-    if (response != null && (response.isSuccess??false)) {
+    if (response != null && (response.isSuccess ?? false)) {
       workLogData.value = response;
       isOnWorking.value = response.userIsWorking ?? false;
       if (response.userIsWorking ?? false) {
@@ -623,6 +624,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
         moveToScreen2(
             appRout: AppRoutes.teamDetailsScreen, arguments: arguments);
       }
+      // moveToScreen2(appRout: AppRoutes.purchasingScreen);
     } else if (info.slug == 'teams') {
       var arguments = {AppConstants.intentKey.isAllUserTeams: true};
       moveToScreen2(appRout: AppRoutes.teamListScreen, arguments: arguments);

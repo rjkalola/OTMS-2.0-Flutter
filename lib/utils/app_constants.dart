@@ -111,6 +111,7 @@ class IntentKey {
   final String filterType = "FILTER_TYPE";
   final String filterData = "FILTER_DATA";
   final String typeOfWorkInfo = "TYPE_OF_WORK_INFO";
+  final String selectedTabType = "SELECTED_TAB_TYPE";
 }
 
 class DialogIdentifier {
@@ -337,6 +338,10 @@ class Type {
   final int OUTER_OVERTIME = 6;
   final String beforePhotos = "BEFORE_PHOTOS";
   final String afterPhotos = "AFTER_PHOTOS";
+
+  final String request = "REQUEST";
+  final String proceed = "PROCEED";
+  final String delivered = "DELIVERED";
 }
 
 class Status {
@@ -379,7 +384,6 @@ class NotificationType {
 //Work
   final String USER_WORK_STOP_AUTOMATICALLY = "2001";
   final String USER_WORK_STOP_BY_ADMIN = "2003";
-
 
 //Team
   final String USER_ADDED_TO_TEAM = "3001";

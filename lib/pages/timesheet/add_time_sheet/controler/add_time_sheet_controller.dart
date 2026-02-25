@@ -65,6 +65,7 @@ class AddTimeSheetController extends GetxController
     map["start_time"] = StringHelper.getText(startTimeController.value);
     map["end_time"] = StringHelper.getText(endTimeController.value);
     map["shift_id"] = shiftId;
+    map["user_id"] = userId;
     map["project_id"] = projectId;
 
     _api.addTimesheetWorkLog(
@@ -144,7 +145,7 @@ class AddTimeSheetController extends GetxController
               shiftList
                   .add(ModuleInfo(id: data.id ?? 0, name: data.name ?? ""));
             }
-          } 
+          }
           if (!isAllUserTimeSheet) {
             isLoading.value = false;
             isMainViewVisible.value = true;
