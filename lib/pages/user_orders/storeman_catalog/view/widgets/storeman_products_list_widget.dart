@@ -156,7 +156,7 @@ class _StoremanProductsListWidgetState extends State<StoremanProductsListWidget>
                             ),
                             const SizedBox(height: 2),
                             Text(
-                              "Qty: ${product.qty}",
+                              "Available Qty: ${product.qty}",
                               style: TextStyle(color: Colors.grey[600]),
                             ),
                             const SizedBox(height: 8),
@@ -209,7 +209,14 @@ class _StoremanProductsListWidgetState extends State<StoremanProductsListWidget>
                                         padding: const EdgeInsets.symmetric(vertical: 10),
                                       ),
                                       onPressed: () {
-                                        controller.toggleAddToCart(index);
+                                        if (isAdded){
+                                          controller.toggleRemoveCart(index);
+                                        }
+                                        else{
+                                          if ((product.cartQty ?? 0) > 0){
+                                            controller.toggleAddToCart(index);
+                                          }
+                                        }
                                       },
                                       icon: Icon(
                                         (isAdded)

@@ -1,3 +1,4 @@
+import 'package:belcka/res/colors.dart';
 import 'package:flutter/material.dart';
 
 class OutOfStockBanner extends StatelessWidget {
@@ -12,7 +13,7 @@ class OutOfStockBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (itemCount <= 0) return const SizedBox(); // hide if no issue
+    if (itemCount <= 0) return const SizedBox();
 
     return Container(
       margin: const EdgeInsets.only(top: 10),
@@ -30,7 +31,7 @@ class OutOfStockBanner extends StatelessWidget {
             child: RichText(
               text: TextSpan(
                 style: TextStyle(
-                  color: Colors.black87,
+                  color: primaryTextColor_(context),
                   fontSize: 14,
                   height: 1.4,
                 ),
@@ -39,7 +40,9 @@ class OutOfStockBanner extends StatelessWidget {
                     text: "$itemCount items ",
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  const TextSpan(text: "are out of stock; they will be delivered within "),
+                  //const TextSpan(text: "are out of stock; they will be delivered within "),
+                  const TextSpan(text: "are out of stock; they will be delivered soon. "),
+                  /*
                   TextSpan(
                     text: "$deliveryDays working days",
                     style: const TextStyle(
@@ -47,6 +50,7 @@ class OutOfStockBanner extends StatelessWidget {
                         fontWeight: FontWeight.bold),
                   ),
                   const TextSpan(text: "."),
+                  */
                 ],
               ),
             ),

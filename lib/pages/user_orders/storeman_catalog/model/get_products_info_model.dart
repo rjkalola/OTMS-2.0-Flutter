@@ -55,6 +55,7 @@ class GetProductsInfoModel {
   String? productCategories;
   String? categoryIds;
   String? storeIds;
+  int? cartId;
   List<GetProductImagesDataModel>? productImages;
 
   GetProductsInfoModel(
@@ -113,6 +114,7 @@ class GetProductsInfoModel {
         this.categoryIds,
         this.storeIds,
         this.productImages,
+        this.cartId
         });
 
   GetProductsInfoModel.fromJson(Map<String, dynamic> json) {
@@ -170,6 +172,7 @@ class GetProductsInfoModel {
     productCategories = json['product_categories'];
     categoryIds = json['category_ids'];
     storeIds = json['store_ids'];
+    cartId = json['cart_id'];
     if (json['product_images'] != null) {
       productImages = <GetProductImagesDataModel>[];
       json['product_images'].forEach((v) {
@@ -234,6 +237,7 @@ class GetProductsInfoModel {
     data['product_categories'] = this.productCategories;
     data['category_ids'] = this.categoryIds;
     data['store_ids'] = this.storeIds;
+    data['cart_id'] = this.cartId;
     if (this.productImages != null) {
       data['product_images'] =
           this.productImages!.map((v) => v.toJson()).toList();

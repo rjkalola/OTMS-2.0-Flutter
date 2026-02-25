@@ -3,7 +3,9 @@ import 'package:belcka/pages/user_orders/storeman_catalog/view/widgets/right_sid
 import 'package:belcka/pages/user_orders/storeman_catalog/view/widgets/storeman_catalog_header_view.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/view/widgets/storeman_products_list_widget.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/view/widgets/storeman_searchbar_widget.dart';
+import 'package:belcka/pages/user_orders/widgets/empty_state_view.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
@@ -56,7 +58,7 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
                   : controller.isMainViewVisible.value
                   ? Padding(
                 padding: const EdgeInsets.all(0),
-                child: Column(
+                child: controller.products.isNotEmpty ? Column(
                   children: [
                     //Top Search Bar
                     //StoremanSearchbarWidget(),
@@ -75,7 +77,8 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
                       ),
                     ),
                   ],
-                ),
+                ) :
+                EmptyStateView(title: "No products found", message: "Your search did not match any products.",),
               )
                   : const SizedBox.shrink(),
             ),
@@ -89,42 +92,48 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
     return [
       // IconButton(icon: Icon(Icons.search), onPressed: () {}),
       // IconButton(icon: Icon(Icons.bookmark), onPressed: () {}),
-      Stack(
-        children: [
-          IconButton(
-            icon: const Icon(Icons.shopping_cart_outlined, size: 25),
-            onPressed: () {
-              // open cart page
-            },
-          ),
+      InkWell(
+        onTap: (){
+          // open cart page
+          controller.moveToScreen(AppRoutes.basketScreen,null);
+        },
+        child: Stack(
+          children: [
+            IconButton(
+              icon: Icon(Icons.shopping_cart_outlined, size: 25),
+              onPressed: () {
+                controller.moveToScreen(AppRoutes.basketScreen,null);
+              },
+            ),
 
-          if (controller.cartCount.value > 0)
-            Positioned(
-              right: 6,
-              top: 3,
-              child: Container(
-                padding: const EdgeInsets.all(2),
-                decoration: BoxDecoration(
-                  color: Colors.red,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                constraints: const BoxConstraints(
-                  minWidth: 18,
-                  minHeight: 18,
-                ),
-                child: Text(
-                  controller.cartCount.value.toString(),
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
+            if (controller.cartCount.value > 0)
+              Positioned(
+                right: 6,
+                top: 3,
+                child: Container(
+                  padding: const EdgeInsets.all(2),
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  textAlign: TextAlign.center,
+                  constraints: const BoxConstraints(
+                    minWidth: 18,
+                    minHeight: 18,
+                  ),
+                  child: Text(
+                    controller.cartCount.value.toString(),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
-            ),
-        ],
-      )
+          ],
+        ),
+      ),
     ];
   }
 }

@@ -14,7 +14,7 @@ class StoremanCatalogController extends GetxController{
   final _api = StoremanCatalogRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
-      isMainViewVisible = true.obs,
+      isMainViewVisible = false.obs,
       isSearchEnable = false.obs,
       isClearSearch = false.obs;
 
@@ -72,6 +72,7 @@ class StoremanCatalogController extends GetxController{
           products.refresh();
 
           updateCartCount(response.cartProduct ?? 0);
+          isMainViewVisible.value = true;
         }
         else{
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
@@ -116,14 +117,19 @@ class StoremanCatalogController extends GetxController{
       },
     );
   }
-
+  Future<void> moveToScreen(String rout, dynamic arguments) async {
+    var result = await Get.toNamed(rout, arguments: arguments);
+    if (result != null && result) {
+      fetchProducts();
+    }
+  }
   void toggleAddToCart(int index) {
     final product = products[index];
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
     map["product_id"] = product.id;
     map["qty"] = product.qty;
-    map["sub_qty"] = product.cartQty;
+    map["cart_qty"] = product.cartQty;
     _api.addToCartAPI(
       data: map,
       onSuccess: (ResponseModel responseModel) {
@@ -146,7 +152,32 @@ class StoremanCatalogController extends GetxController{
       },
     );
   }
-
+  void toggleRemoveCart(int index) {
+    final product = products[index];
+    Map<String, dynamic> map = {};
+    map["id"] = product.cartId;
+    _api.removeFromCartAPI(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          isDataUpdated = true;
+          fetchProducts();
+        }
+        else{
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
   void increaseQty(int index) {
     final product = products[index];
     int qty = product.qty ?? 0;
@@ -157,7 +188,7 @@ class StoremanCatalogController extends GetxController{
     final product = products[index];
     int qty = product.qty ?? 0;
     int userQty = product.cartQty ?? 0;
-    if (userQty == 0) return;
+    if (userQty == 1) return;
     product.cartQty = userQty - 1;
   }
 

@@ -52,4 +52,20 @@ class StoremanCatalogRepository {
       onError: (error) => {if (onError != null) onError(error)},
     );
   }
+  void removeFromCartAPI({
+    Map<String, dynamic>? queryParameters,
+    dynamic data,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+        url: ApiConstants.productsRemoveFromCart,
+        data: data)
+        .postRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
 }

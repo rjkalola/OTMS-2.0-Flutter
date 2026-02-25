@@ -56,42 +56,48 @@ class UserOrdersCategoriesScreen extends StatelessWidget {
   List<Widget>? actionButtons() {
     return [
       //IconButton(icon: Icon(Icons.search), onPressed: () {}),
-      Stack(
-        children: [
-          IconButton(
-            icon: const Icon(Icons.shopping_cart_outlined, size: 25),
-            onPressed: () {
-              // open cart page
-              controller.moveToScreen(AppRoutes.basketScreen,null);
-            },
-          ),
 
-          if (controller.cartCount.value > 0)
-            Positioned(
-              right: 6,
-              top: 3,
-              child: Container(
-                padding: const EdgeInsets.all(2),
-                decoration: BoxDecoration(
-                  color: Colors.red,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                constraints: const BoxConstraints(
-                  minWidth: 18,
-                  minHeight: 18,
-                ),
-                child: Text(
-                  controller.cartCount.value.toString(),
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
+      InkWell(
+        onTap: (){
+          // open cart page
+          controller.moveToScreen(AppRoutes.basketScreen,null);
+        },
+        child: Stack(
+          children: [
+            IconButton(
+              icon: Icon(Icons.shopping_cart_outlined, size: 25),
+              onPressed: () {
+                controller.moveToScreen(AppRoutes.basketScreen,null);
+              },
+            ),
+
+            if (controller.cartCount.value > 0)
+              Positioned(
+                right: 6,
+                top: 3,
+                child: Container(
+                  padding: const EdgeInsets.all(2),
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  textAlign: TextAlign.center,
+                  constraints: const BoxConstraints(
+                    minWidth: 18,
+                    minHeight: 18,
+                  ),
+                  child: Text(
+                    controller.cartCount.value.toString(),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
       // IconButton(icon: Icon(Icons.filter_alt_outlined), onPressed: () {}),
       // IconButton(icon: Icon(Icons.more_vert_outlined), onPressed: () {}),
