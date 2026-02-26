@@ -1,6 +1,6 @@
-import 'package:belcka/pages/user_orders/storeman_catalog/model/get_product_images_data_model.dart';
+import 'package:belcka/pages/common/model/file_info.dart';
 
-class GetProductsInfoModel {
+class ProductInfo {
   int? id;
   int? companyId;
   String? companyName;
@@ -56,68 +56,67 @@ class GetProductsInfoModel {
   String? categoryIds;
   String? storeIds;
   int? cartId;
-  List<GetProductImagesDataModel>? productImages;
+  List<FilesInfo>? productImages;
 
-  GetProductsInfoModel(
+  ProductInfo(
       {this.id,
-        this.companyId,
-        this.companyName,
-        this.uuid,
-        this.sortId,
-        this.shortName,
-        this.supplierId,
-        this.supplierName,
-        this.supplierCode,
-        this.name,
-        this.description,
-        this.price,
-        this.marketPrice,
-        this.qty,
-        this.cartQty,
-        this.subQty,
-        this.totalAmount,
-        this.stockStatus,
-        this.currency,
-        this.stockStatusId,
-        this.isSubQty,
-        this.packOffQty,
-        this.packOffUnitId,
-        this.imageUrl,
-        this.thumbUrl,
-        this.qrCode,
-        this.cutoff,
-        this.dateAvailable,
-        this.status,
-        this.isArchived,
-        this.addedBy,
-        this.userName,
-        this.userImage,
-        this.qrCodeUrl,
-        this.isBookMark,
-        this.isCartProduct,
-        this.modelId,
-        this.modelName,
-        this.manufacturerId,
-        this.manufacturerName,
-        this.weightUnitId,
-        this.weightUnit,
-        this.lengthUnitId,
-        this.lengthUnit,
-        this.weight,
-        this.length,
-        this.width,
-        this.height,
-        this.tax,
-        this.tags,
-        this.barcodeText,
-        this.productCategories,
-        this.categoryIds,
-        this.storeIds,
-        this.productImages,
-        this.cartId
-        });
+      this.companyId,
+      this.companyName,
+      this.uuid,
+      this.sortId,
+      this.shortName,
+      this.supplierId,
+      this.supplierName,
+      this.supplierCode,
+      this.name,
+      this.description,
+      this.price,
+      this.marketPrice,
+      this.qty,
+      this.cartQty,
+      this.subQty,
+      this.totalAmount,
+      this.stockStatus,
+      this.currency,
+      this.stockStatusId,
+      this.isSubQty,
+      this.packOffQty,
+      this.packOffUnitId,
+      this.imageUrl,
+      this.thumbUrl,
+      this.qrCode,
+      this.cutoff,
+      this.dateAvailable,
+      this.status,
+      this.isArchived,
+      this.addedBy,
+      this.userName,
+      this.userImage,
+      this.qrCodeUrl,
+      this.isBookMark,
+      this.isCartProduct,
+      this.modelId,
+      this.modelName,
+      this.manufacturerId,
+      this.manufacturerName,
+      this.weightUnitId,
+      this.weightUnit,
+      this.lengthUnitId,
+      this.lengthUnit,
+      this.weight,
+      this.length,
+      this.width,
+      this.height,
+      this.tax,
+      this.tags,
+      this.barcodeText,
+      this.productCategories,
+      this.categoryIds,
+      this.storeIds,
+      this.productImages,
+      this.cartId});
 
-  GetProductsInfoModel.fromJson(Map<String, dynamic> json) {
+  ProductInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     companyId = json['company_id'];
     companyName = json['company_name'];
@@ -174,9 +173,9 @@ class GetProductsInfoModel {
     storeIds = json['store_ids'];
     cartId = json['cart_id'];
     if (json['product_images'] != null) {
-      productImages = <GetProductImagesDataModel>[];
+      productImages = <FilesInfo>[];
       json['product_images'].forEach((v) {
-        productImages!.add(new GetProductImagesDataModel.fromJson(v));
+        productImages!.add(new FilesInfo.fromJson(v));
       });
     }
   }

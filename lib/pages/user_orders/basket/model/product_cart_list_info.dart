@@ -1,4 +1,4 @@
-import 'package:belcka/pages/user_orders/storeman_catalog/model/get_product_images_data_model.dart';
+import 'package:belcka/pages/common/model/file_info.dart';
 
 class ProductCartListInfo {
   int? id;
@@ -15,7 +15,7 @@ class ProductCartListInfo {
   String? subTotal;
   String? productImage;
   String? productThumbImage;
-  List<GetProductImagesDataModel>? productImages;
+  List<FilesInfo>? productImages;
 
   ProductCartListInfo(
       {this.id,
@@ -50,9 +50,9 @@ class ProductCartListInfo {
     productImage = json['product_image'];
     productThumbImage = json['product_thumb_image'];
     if (json['product_images'] != null) {
-      productImages = <GetProductImagesDataModel>[];
+      productImages = <FilesInfo>[];
       json['product_images'].forEach((v) {
-        productImages!.add(new GetProductImagesDataModel.fromJson(v));
+        productImages!.add(new FilesInfo.fromJson(v));
       });
     }
   }

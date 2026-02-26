@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:belcka/pages/user_orders/storeman_catalog/controller/storeman_catalog_repository.dart';
-import 'package:belcka/pages/user_orders/storeman_catalog/model/get_products_info_model.dart';
+import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/get_products_response.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
@@ -31,8 +31,8 @@ class StoremanCatalogController extends GetxController{
     Icons.settings,
   ];
 
-  final products = <GetProductsInfoModel>[].obs;
-  List<GetProductsInfoModel> tempList = [];
+  final products = <ProductInfo>[].obs;
+  List<ProductInfo> tempList = [];
 
   int categoryIds = 0;
   final Map<int, int> currentImageIndex = {};

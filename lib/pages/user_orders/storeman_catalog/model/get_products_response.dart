@@ -1,10 +1,10 @@
-import 'package:belcka/pages/user_orders/storeman_catalog/model/get_products_info_model.dart';
+import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
 
 class GetProductsResponse {
   bool? isSuccess;
   String? message;
   int? cartProduct;
-  List<GetProductsInfoModel>? info;
+  List<ProductInfo>? info;
 
   GetProductsResponse(
       {this.isSuccess, this.message, this.cartProduct, this.info});
@@ -14,9 +14,9 @@ class GetProductsResponse {
     message = json['message'];
     cartProduct = json['cart_product'];
     if (json['info'] != null) {
-      info = <GetProductsInfoModel>[];
+      info = <ProductInfo>[];
       json['info'].forEach((v) {
-        info!.add(new GetProductsInfoModel.fromJson(v));
+        info!.add(new ProductInfo.fromJson(v));
       });
     }
   }

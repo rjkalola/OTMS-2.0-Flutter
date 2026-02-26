@@ -306,4 +306,6 @@ class ApiConstants {
 
   //buyer orders
   static String inventoryOverview = '$appUrl/products/inventory-overview';
+  // static String inventoryOverview = '$appUrl/purchase-orders/orders';
+
 }
