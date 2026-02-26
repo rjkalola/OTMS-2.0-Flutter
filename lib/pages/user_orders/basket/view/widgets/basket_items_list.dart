@@ -124,7 +124,7 @@ class _BasketItemsListState extends State<BasketItemsList> {
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        product.sortName ?? "",
+                                        product.shortName ?? "",
                                         style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 16,

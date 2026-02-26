@@ -20,8 +20,8 @@ class EmptyStateView extends StatelessWidget {
         children: [
           //Icon(icon, size: 80, color: Colors.grey),
           Image.asset(
-            "assets/images/img_empty_data",
-            height: 180,
+            "assets/images/img_empty_data.png",
+            height: 80,
           ),
           SizedBox(height: 16),
           Text(title, style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold)),

@@ -9,8 +9,9 @@ import 'package:get/get_core/src/get_main.dart';
 class BasketSummarySection extends StatelessWidget {
   final controller = Get.put(BasketController());
 
-Widget build(BuildContext context){
-  return Padding(
+@override
+  Widget build(BuildContext context){
+  return Obx(() => Padding(
     padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
     child: Container(
       padding: const EdgeInsets.fromLTRB(24, 18, 18, 20),
@@ -18,7 +19,7 @@ Widget build(BuildContext context){
         // Project
         InkWell(
           onTap: (){
-            controller.showActiveProjectDialogDialog();
+            controller.showActiveProjectDialog();
           },
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,68 +82,76 @@ Widget build(BuildContext context){
         */
 
         // Address
-        /*
-        const SizedBox(height: 22),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            OrdersTitleTextView(
-              text: 'Address',
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-            const SizedBox(width: 12),
+        const SizedBox(height: 16),
+        InkWell(
+          onTap: (){
+            controller.showAddressList();
+          },
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              OrdersTitleTextView(
+                text: 'Address',
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: OrdersTitleTextView(
+                  text: controller.selectedAddressTitle.value,
+                  maxLine: 1,
+                  softWrap: true,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.right,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SizedBox(width: 6),
+              const Icon(
+                Icons.chevron_right,
+                size: 30,
+              ),
+            ],
+          ),
+        ),
+
+        SizedBox(height: 16),
+        // Delivery Time
+        InkWell(
+          onTap: (){
+            controller.showDeliveryTimeList();
+          },
+          child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            OrdersTitleTextView(text: 'Delivery Time',
+                fontWeight: FontWeight.bold,
+                fontSize: 18),
+            SizedBox(width: 12,),
             Expanded(
-              child: OrdersTitleTextView(
-                text: '600 High Road, Tottenham, London, United Kingdom',
-                maxLine: 1,
-                softWrap: true,
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.right,
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
+              child: OrdersTitleTextView(text:controller.selectedDeliveryTime.value,
+                  maxLine: 1,
+                  softWrap: true,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.right,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500
               ),
             ),
-            const SizedBox(width: 6),
-            const Icon(
+            Icon(
               Icons.chevron_right,
               size: 30,
             ),
-          ],
+          ]),
         ),
-        SizedBox(height: 14),
-        // Delivery Time
-        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          OrdersTitleTextView(text: 'Delivery Time',
-              fontWeight: FontWeight.bold,
-              fontSize: 18),
-          SizedBox(width: 12,),
-          Expanded(
-            child: OrdersTitleTextView(text: 'Any Time',
-              maxLine: 1,
-              softWrap: true,
-              overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.right,
-                fontSize: 16,
-                fontWeight: FontWeight.w500
-            ),
-          ),
-          Icon(
-            Icons.chevron_right,
-            size: 30,
-          ),
-        ]),
-        */
         // Total
-        /*
-        const SizedBox(height: 18),
+        const SizedBox(height: 16),
         Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           OrdersTitleTextView(text: 'Total:',
               fontSize: 18,
               fontWeight:FontWeight.bold),
           SizedBox(width: 12,),
           Expanded(
-            child: OrdersTitleTextView(text: '£3243324332433243.21',
+            child: OrdersTitleTextView(text:'£${controller.calculateTotal()}',
                 maxLine: 1,
                 softWrap: true,
                 overflow: TextOverflow.ellipsis,
@@ -151,9 +160,9 @@ Widget build(BuildContext context){
                 fontWeight:FontWeight.bold),
           ),
         ]),
-        */
+
       ]),
     ),
-  );
+  ));
 }
 }

@@ -152,7 +152,7 @@ class DashboardController extends GetxController
 
   void onItemTapped(int index) {
     if (index == 1) {
-      Get.toNamed(AppRoutes.userOrdersCategoriesScreen);
+      //Get.toNamed(AppRoutes.userOrdersCategoriesScreen);
       pageController.jumpToPage(index);
     } else {
       pageController.jumpToPage(index);

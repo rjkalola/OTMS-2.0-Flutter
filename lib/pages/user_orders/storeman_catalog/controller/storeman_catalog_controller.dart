@@ -188,7 +188,7 @@ class StoremanCatalogController extends GetxController{
     final product = products[index];
     int qty = product.qty ?? 0;
     int userQty = product.cartQty ?? 0;
-    if (userQty == 1) return;
+    if (userQty == 0 || userQty == 1) return;
     product.cartQty = userQty - 1;
   }
 

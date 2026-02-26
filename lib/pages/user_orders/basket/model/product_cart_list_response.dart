@@ -1,9 +1,9 @@
-import 'package:belcka/pages/user_orders/basket/model/product_cart_list_info.dart';
+import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
 
 class ProductCartListResponse {
   bool? isSuccess;
   String? message;
-  List<ProductCartListInfo>? info;
+  List<ProductInfo>? info;
 
   ProductCartListResponse.fromJson(Map<String, dynamic> json) {
     isSuccess = json['IsSuccess'];
@@ -11,7 +11,7 @@ class ProductCartListResponse {
 
     if (json['info'] is List) {
       info = (json['info'] as List)
-          .map((v) => ProductCartListInfo.fromJson(v))
+          .map((v) => ProductInfo.fromJson(v))
           .toList();
     } else {
       info = [];
