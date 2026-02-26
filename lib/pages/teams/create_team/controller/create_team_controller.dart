@@ -247,9 +247,8 @@ class CreateTeamController extends GetxController
   // }
 
   void showSelectTeamMemberListDialog() {
-    List<UserInfo> filteredTeamUsers = teamUserList
-        .where((user) => user.id != supervisorId)
-        .toList();
+    List<UserInfo> filteredTeamUsers =
+        teamUserList.where((user) => user.id != supervisorId).toList();
 
     List<UserInfo> teamMembersDialogList = UserUtils.getCheckedUserList(
       getUserListCopied(filteredTeamUsers),

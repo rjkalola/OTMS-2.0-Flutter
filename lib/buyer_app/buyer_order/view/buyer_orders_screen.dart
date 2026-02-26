@@ -18,6 +18,8 @@ import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../utils/app_constants.dart';
+
 class BuyerOrdersScreen extends StatefulWidget {
   const BuyerOrdersScreen({super.key});
 
@@ -98,6 +100,13 @@ class _BuyerOrdersScreenState extends State<BuyerOrdersScreen> {
                       padding: EdgeInsets.all(14),
                       buttonText: 'create_order'.tr,
                       onPressed: () {
+                        var arguments = {
+                          AppConstants.intentKey.productsData:
+                              controller.requestOrdersList,
+                        };
+                        controller.moveToScreen(
+                            appRout: AppRoutes.createBuyerOrderScreen,
+                            arguments: arguments);
                         Get.toNamed(AppRoutes.createBuyerOrderScreen);
                       },
                       color: Colors.green,

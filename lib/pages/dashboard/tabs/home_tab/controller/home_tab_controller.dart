@@ -617,7 +617,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       moveToScreen(appRout: AppRoutes.editWidgetScreen, arguments: arguments);
     } else if (info.slug == 'team') {
       if ((info.teamId ?? 0) != 0) {
-        var arguments = {
+        var arguments = { 
           AppConstants.intentKey.teamId: info.teamId ?? 0,
           AppConstants.intentKey.isAllUserTeams: false
         };

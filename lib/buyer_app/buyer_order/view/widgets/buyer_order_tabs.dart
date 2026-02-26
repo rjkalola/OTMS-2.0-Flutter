@@ -24,6 +24,7 @@ class BuyerOrderTabs extends StatelessWidget {
                 flex: 1,
                 onTap: () {
                   controller.selectedTab.value = OrderTabType.request;
+                  controller.loadData();
                   // controller.selectedStatusFilter.value = "request";
                 },
               ),
@@ -38,6 +39,7 @@ class BuyerOrderTabs extends StatelessWidget {
                 flex: 1,
                 onTap: () {
                   controller.selectedTab.value = OrderTabType.proceed;
+                  controller.loadData();
                   // controller.selectedStatusFilter.value = "proceed";
                 },
               ),
@@ -52,6 +54,7 @@ class BuyerOrderTabs extends StatelessWidget {
                 flex: 1,
                 onTap: () {
                   controller.selectedTab.value = OrderTabType.delivered;
+                  controller.loadData();
                   // controller.selectedStatusFilter.value = "delivered";
                 },
               ),

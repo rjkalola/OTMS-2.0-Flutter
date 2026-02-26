@@ -75,9 +75,18 @@ class _CreateBuyerOrderScreenState extends State<CreateBuyerOrderScreen> {
 
               return Column(
                 children: [
-                  BuyerCreateOrderHeaderView(),
                   Expanded(
-                    child: BuyerCreateOrderItemList(),
+                    child: SingleChildScrollView(
+                      child: Form(
+                        key: controller.formKey,
+                        child: Column(
+                          children: [
+                            BuyerCreateOrderHeaderView(),
+                            BuyerCreateOrderItemList(),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(14),

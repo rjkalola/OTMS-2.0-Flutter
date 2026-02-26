@@ -13,8 +13,8 @@ class BuyerCreateOrderItemList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => ListView.separated(
-        physics: const AlwaysScrollableScrollPhysics(),
-        // shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
         itemCount: controller.buyerOrdersList.length,
         separatorBuilder: (_, __) => const SizedBox(height: 10),
         itemBuilder: (context, index) {

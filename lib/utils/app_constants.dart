@@ -78,6 +78,7 @@ class IntentKey {
   final String expenseInfo = "EXPENSE_INFO";
   final String leaveId = "Leave_ID";
   final String userId = "USER_ID";
+  final String productsData = "PRODUCTS_DATA";
   final String expenseId = "EXPENSE_ID";
   final String userName = "USER_NAME";
   final String userList = "USER_LIST";
@@ -231,6 +232,8 @@ class Action {
   final String selectShiftDialog = 'selectShiftDialog';
   final String selectUserDialog = 'selectUserDialog';
   final String selectLeaveTypeDialog = 'selectLeaveTypeDialog';
+  final String selectStoreDialog = 'selectStoreDialog';
+  final String selectSupplierDialog = 'selectSupplierDialog';
   final String add = 'ADD';
   final String addAddress = 'ADD_ADDRESS';
   final String edit = 'EDIT';

@@ -2,6 +2,7 @@ import 'package:belcka/pages/common/model/file_info.dart';
 
 class ProductInfo {
   int? id;
+  int? productId;
   int? companyId;
   String? companyName;
   String? uuid;
@@ -57,67 +58,83 @@ class ProductInfo {
   String? storeIds;
   int? cartId;
   List<FilesInfo>? productImages;
+  int? receiveQty;
+  int? totalQty;
+  String? manufactureName;
+  int? availableQty;
+  String? storeName;
+  String? orderUsersDisplay;
+  int? orderUserCount;
 
   ProductInfo(
       {this.id,
-      this.companyId,
-      this.companyName,
-      this.uuid,
-      this.sortId,
-      this.shortName,
-      this.supplierId,
-      this.supplierName,
-      this.supplierCode,
-      this.name,
-      this.description,
-      this.price,
-      this.marketPrice,
-      this.qty,
-      this.cartQty,
-      this.subQty,
-      this.totalAmount,
-      this.stockStatus,
-      this.currency,
-      this.stockStatusId,
-      this.isSubQty,
-      this.packOffQty,
-      this.packOffUnitId,
-      this.imageUrl,
-      this.thumbUrl,
-      this.qrCode,
-      this.cutoff,
-      this.dateAvailable,
-      this.status,
-      this.isArchived,
-      this.addedBy,
-      this.userName,
-      this.userImage,
-      this.qrCodeUrl,
-      this.isBookMark,
-      this.isCartProduct,
-      this.modelId,
-      this.modelName,
-      this.manufacturerId,
-      this.manufacturerName,
-      this.weightUnitId,
-      this.weightUnit,
-      this.lengthUnitId,
-      this.lengthUnit,
-      this.weight,
-      this.length,
-      this.width,
-      this.height,
-      this.tax,
-      this.tags,
-      this.barcodeText,
-      this.productCategories,
-      this.categoryIds,
-      this.storeIds,
-      this.productImages,
-      this.cartId});
+        this.productId,
+        this.companyId,
+        this.companyName,
+        this.uuid,
+        this.sortId,
+        this.shortName,
+        this.supplierId,
+        this.supplierName,
+        this.supplierCode,
+        this.name,
+        this.description,
+        this.price,
+        this.marketPrice,
+        this.qty,
+        this.cartQty,
+        this.subQty,
+        this.receiveQty,
+        this.totalQty,
+        this.manufactureName,
+        this.totalAmount,
+        this.stockStatus,
+        this.currency,
+        this.stockStatusId,
+        this.isSubQty,
+        this.packOffQty,
+        this.packOffUnitId,
+        this.imageUrl,
+        this.thumbUrl,
+        this.qrCode,
+        this.cutoff,
+        this.dateAvailable,
+        this.status,
+        this.isArchived,
+        this.addedBy,
+        this.userName,
+        this.userImage,
+        this.qrCodeUrl,
+        this.isBookMark,
+        this.isCartProduct,
+        this.modelId,
+        this.modelName,
+        this.manufacturerId,
+        this.manufacturerName,
+        this.weightUnitId,
+        this.weightUnit,
+        this.lengthUnitId,
+        this.lengthUnit,
+        this.weight,
+        this.length,
+        this.width,
+        this.height,
+        this.tax,
+        this.tags,
+        this.barcodeText,
+        this.productCategories,
+        this.categoryIds,
+        this.storeIds,
+        this.productImages,
+        this.cartId,
+        this.availableQty,
+        this.storeName,
+        this.orderUsersDisplay,
+        this.orderUserCount});
 
   ProductInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    productId = json['product_id'];
     companyId = json['company_id'];
     companyName = json['company_name'];
     uuid = json['uuid'];
@@ -178,11 +195,19 @@ class ProductInfo {
         productImages!.add(new FilesInfo.fromJson(v));
       });
     }
+    receiveQty = json['receive_qty'];
+    totalQty = json['total_qty'];
+    manufactureName = json['manufacturer_name'];
+    availableQty = json['available_qty'];
+    storeName = json['store_name'];
+    orderUsersDisplay = json['order_users_display'];
+    orderUserCount = json['order_user_count'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
+    data['product_id'] = this.productId;
     data['company_id'] = this.companyId;
     data['company_name'] = this.companyName;
     data['uuid'] = this.uuid;
@@ -198,7 +223,6 @@ class ProductInfo {
     data['qty'] = this.qty;
     data['cart_qty'] = this.cartQty;
     data['sub_qty'] = this.subQty;
-    data['total_amount'] = this.totalAmount;
     data['stock_status'] = this.stockStatus;
     data['currency'] = this.currency;
     data['stock_status_id'] = this.stockStatusId;
@@ -241,6 +265,17 @@ class ProductInfo {
       data['product_images'] =
           this.productImages!.map((v) => v.toJson()).toList();
     }
+
+    data['receive_qty'] = this.receiveQty;
+    data['total_qty'] = this.totalQty;
+    data['manufacturer_name'] = this.manufactureName;
+    data['total_amount'] = this.totalAmount;
+
+    data['available_qty'] = this.availableQty;
+    data['store_name'] = this.storeName;
+    data['order_users_display'] = this.orderUsersDisplay;
+    data['order_user_count'] = this.orderUserCount;
+
     return data;
   }
 }

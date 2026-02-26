@@ -2,6 +2,7 @@ import 'package:belcka/buyer_app/buyer_order/model/order_info.dart';
 import 'package:belcka/buyer_app/buyer_order/view/widgets/order_quantity_change_button.dart';
 import 'package:belcka/buyer_app/buyer_order/view/widgets/order_quantity_display_text_view.dart';
 import 'package:belcka/buyer_app/buyer_order/view/widgets/order_quantity_text_field.dart';
+import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
 import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/widgets/text/SubTitleTextView.dart';
 import 'package:flutter/material.dart';
@@ -11,12 +12,13 @@ import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
 
 class BuyerRequestOrderListItem extends StatelessWidget {
-  final OrderInfo item;
+  final ProductInfo item;
   final VoidCallback onAdd;
   final VoidCallback onRemove;
   final Function(int qty) onQtyTyped;
   final VoidCallback onDelete;
   final VoidCallback onListItem;
+
   // final FocusNode focusNode;
 
   const BuyerRequestOrderListItem(
@@ -48,7 +50,7 @@ class BuyerRequestOrderListItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ImageUtils.setRectangleCornerCachedNetworkImage(
-                    url: item.image,
+                    url: item.thumbUrl ?? "",
                     width: 90,
                     height: 90,
                     borderRadius: 4,
@@ -60,14 +62,14 @@ class BuyerRequestOrderListItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TitleTextView(
-                          text: item.name,
+                          text: item.shortName ?? "",
                           fontSize: 15,
                           maxLine: 2,
                           fontWeight: FontWeight.w500,
                         ),
                         const SizedBox(height: 4),
                         SubtitleTextView(
-                          text: item.sku,
+                          text: item.uuid ?? "",
                           fontSize: 13,
                           color: secondaryExtraLightTextColor_(context),
                         ),
@@ -78,7 +80,7 @@ class BuyerRequestOrderListItem extends StatelessWidget {
                                 text: "-", onTap: onRemove),
                             const SizedBox(width: 8),
                             OrderQuantityDisplayTextView(
-                              value: item.qty,
+                              value: item.cartQty ?? 0,
                               width: 52,
                               height: 30,
                             ),
@@ -95,7 +97,7 @@ class BuyerRequestOrderListItem extends StatelessWidget {
                             OrderQuantityChangeButton(text: "+", onTap: onAdd),
                             const Spacer(),
                             TitleTextView(
-                              text: "£${item.price.toStringAsFixed(2)}",
+                              text: "${item.currency}${item.price}",
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
@@ -103,7 +105,7 @@ class BuyerRequestOrderListItem extends StatelessWidget {
                         ),
                         const SizedBox(height: 6),
                         TitleTextView(
-                          text: "Available Qty: ${item.availableQty}",
+                          text: "Available Qty: ${item.qty}",
                           fontSize: 13,
                           color: secondaryExtraLightTextColor_(context),
                         ),
@@ -120,7 +122,7 @@ class BuyerRequestOrderListItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TitleTextView(
-                          text: item.projectName,
+                          text: item.manufactureName ?? "",
                           fontSize: 15,
                           fontWeight: FontWeight.w400,
                         ),
