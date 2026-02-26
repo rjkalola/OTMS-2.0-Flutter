@@ -32,6 +32,7 @@ class _PurchasingScreenState extends State<PurchasingScreen> {
                 title: "purchasing".tr,
                 isCenterTitle: false,
                 bgColor: backgroundColor_(context),
+                widgets: actionButtons(),
                 isBack: true,
               ),
               backgroundColor: dashBoardBgColor_(context),
@@ -63,20 +64,23 @@ class _PurchasingScreenState extends State<PurchasingScreen> {
                               children: [],
                             ),
                           ),
-                          Expanded(
-                            child: SingleChildScrollView(
-                                child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  height: 8,
-                                ),
-                                OrdersCardView(),
-                                OtherCardView(),
-                                InventoryCardView(),
-                                // HireCardView()
-                              ],
-                            )),
+                          Visibility(
+                            visible: controller.isMainViewVisible.value,
+                            child: Expanded(
+                              child: SingleChildScrollView(
+                                  child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    height: 8,
+                                  ),
+                                  OrdersCardView(),
+                                  OtherCardView(),
+                                  InventoryCardView(),
+                                  // HireCardView()
+                                ],
+                              )),
+                            ),
                           )
                         ],
                       ),
@@ -85,5 +89,14 @@ class _PurchasingScreenState extends State<PurchasingScreen> {
             ),
           ),
         ));
+  }
+
+  List<Widget>? actionButtons() {
+    return [
+      IconButton(
+        icon: Icon(Icons.settings),
+        onPressed: () {},
+      ),
+    ];
   }
 }

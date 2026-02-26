@@ -42,9 +42,9 @@ class OtherCardView extends StatelessWidget {
                             ),
                             PurchasingScreenItemValueWidget(
                                 value:
-                                    (controller.inventoryData.value.lowStock ??
-                                            0)
-                                        .toString()),
+                                (controller.inventoryData.value.lowStock ??
+                                    0)
+                                    .toString()),
                           ],
                         ),
                       )),
@@ -60,8 +60,8 @@ class OtherCardView extends StatelessWidget {
                           ),
                           PurchasingScreenItemValueWidget(
                               value: (controller.inventoryData.value
-                                          .uncompletedStock ??
-                                      0)
+                                  .uncompletedStock ??
+                                  0)
                                   .toString()),
                         ],
                       )),
@@ -78,8 +78,8 @@ class OtherCardView extends StatelessWidget {
                             ),
                             PurchasingScreenItemValueWidget(
                                 value: (controller
-                                            .inventoryData.value.damagedStock ??
-                                        0)
+                                    .inventoryData.value.damagedStock ??
+                                    0)
                                     .toString()),
                           ],
                         ),

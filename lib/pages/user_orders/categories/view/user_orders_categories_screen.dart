@@ -1,6 +1,7 @@
 import 'package:belcka/pages/user_orders/categories/controller/user_orders_categories_controller.dart';
 import 'package:belcka/pages/user_orders/categories/view/widgets/user_orders_categories_list.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
@@ -22,11 +23,13 @@ class UserOrdersCategoriesScreen extends StatelessWidget {
         child: Obx(
               () => Scaffold(
             backgroundColor: dashBoardBgColor_(context),
-            appBar: AppBar(
-              backgroundColor:backgroundColor_(context),
-              elevation: 0,
-              actions: actionButtons(),
-            ),
+                  appBar: AppBar(
+                    backgroundColor: backgroundColor_(context),
+                    elevation: 0,
+                    scrolledUnderElevation: 0,
+                    surfaceTintColor: Colors.transparent,
+                    actions: actionButtons(),
+                  ),
             body: ModalProgressHUD(
               inAsyncCall: controller.isLoading.value,
               opacity: 0,
@@ -44,7 +47,6 @@ class UserOrdersCategoriesScreen extends StatelessWidget {
                   )
                   : SizedBox.shrink(),
             ),
-
           ),
         ),
       ),
@@ -53,10 +55,52 @@ class UserOrdersCategoriesScreen extends StatelessWidget {
 
   List<Widget>? actionButtons() {
     return [
-      IconButton(icon: Icon(Icons.shopping_cart_outlined), onPressed: () {}),
-      IconButton(icon: Icon(Icons.search), onPressed: () {}),
-      IconButton(icon: Icon(Icons.filter_alt_outlined), onPressed: () {}),
-      IconButton(icon: Icon(Icons.more_vert_outlined), onPressed: () {}),
+      //IconButton(icon: Icon(Icons.search), onPressed: () {}),
+
+      InkWell(
+        onTap: (){
+          // open cart page
+          controller.moveToScreen(AppRoutes.basketScreen,null);
+        },
+        child: Stack(
+          children: [
+            IconButton(
+              icon: Icon(Icons.shopping_cart_outlined, size: 25),
+              onPressed: () {
+                controller.moveToScreen(AppRoutes.basketScreen,null);
+              },
+            ),
+
+            if (controller.cartCount.value > 0)
+              Positioned(
+                right: 6,
+                top: 3,
+                child: Container(
+                  padding: const EdgeInsets.all(2),
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  constraints: const BoxConstraints(
+                    minWidth: 18,
+                    minHeight: 18,
+                  ),
+                  child: Text(
+                    controller.cartCount.value.toString(),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
+      // IconButton(icon: Icon(Icons.filter_alt_outlined), onPressed: () {}),
+      // IconButton(icon: Icon(Icons.more_vert_outlined), onPressed: () {}),
     ];
   }
 }

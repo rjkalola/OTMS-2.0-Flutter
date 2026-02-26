@@ -1,6 +1,7 @@
 import 'package:belcka/pages/user_orders/basket/controller/basket_controller.dart';
 import 'package:belcka/pages/user_orders/basket/view/widgets/basket_header_view.dart';
 import 'package:belcka/pages/user_orders/basket/view/widgets/basket_items_list.dart';
+import 'package:belcka/pages/user_orders/widgets/empty_cart_view.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
@@ -35,9 +36,11 @@ class _BasketScreenState extends State<BasketScreen> {
               isCenterTitle: false,
               isBack: true,
               bgColor: backgroundColor_(context),
-              widgets: actionButtons(),
               autoFocus: true,
               isClearVisible: false.obs,
+              onBackPressed: (){
+                controller.onBackPress();
+              },
             ),
             body: ModalProgressHUD(
               inAsyncCall: controller.isLoading.value,
@@ -50,26 +53,28 @@ class _BasketScreenState extends State<BasketScreen> {
                       },
                     )
                   : controller.isMainViewVisible.value
-                      ? Column(
+                      ? (controller.cartList.isNotEmpty) ? Column(
                           children: [
                             BasketHeaderView(),
                             SizedBox(
                               height: 12,
                             ),
-                            Expanded(child: BasketItemsList()),
+                            BasketItemsList(),
                           ],
-                        )
+                        ) : EmptyCartView()
                       : const SizedBox.shrink(),
             ),
             bottomNavigationBar: SafeArea(
               child: Visibility(
-                visible: true,
+                visible: controller.isMainViewVisible.value && controller.cartList.isNotEmpty,
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Opacity(
                     opacity: 1.0,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        controller.toggleCreateOrder();
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: defaultAccentColor_(context),
                         minimumSize: const Size(double.infinity, 50),

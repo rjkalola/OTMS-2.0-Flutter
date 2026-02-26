@@ -98,16 +98,16 @@ class DataUtils {
     Drawable.tab1Icon,
     Drawable.tab2Icon,
     // Drawable.tab3Icon,
-    Drawable.tab4Icon,
-    Drawable.tab5Icon,
+    // Drawable.tab4Icon,
+    // Drawable.tab5Icon,
   ];
 
   static List<String> tabLabels = [
     'Home',
     'Cart',
     // 'Stats',
-    'Chat',
-    'Profile',
+    // 'Chat',
+    // 'Profile',
   ];
 
   static List<String> listColors = [
