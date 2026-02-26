@@ -104,7 +104,7 @@ class DataUtils {
 
   static List<String> tabLabels = [
     'Home',
-    'Cart',
+    'Store',
     // 'Stats',
     // 'Chat',
     // 'Profile',
