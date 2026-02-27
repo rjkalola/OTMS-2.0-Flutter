@@ -595,6 +595,7 @@ class Strings extends Translations {
           'select_delivery_time': "Select Delivery Time",
           'empty_address_list': "No address found",
           'invoice':"Invoice",
+          'product_details':"Product Details",
 // '': "",
 // '': "",
           // '': "",

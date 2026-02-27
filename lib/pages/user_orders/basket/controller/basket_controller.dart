@@ -318,7 +318,12 @@ class BasketController extends GetxController implements SelectItemListener{
   void onBackPress() {
     Get.back(result: isDataUpdated);
   }
-
+  Future<void> moveToScreen(String rout, dynamic arguments) async {
+    var result = await Get.toNamed(rout, arguments: arguments);
+    if (result != null && result) {
+      fetchCartList();
+    }
+  }
   void showActiveProjectDialog() {
     if (projectsList.isNotEmpty) {
       Get.bottomSheet(

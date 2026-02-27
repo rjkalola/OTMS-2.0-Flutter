@@ -27,7 +27,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       canPop: false,
       onPopInvokedWithResult: (didPop, result) async {
         if (didPop || result != null) return;
-        //controller.onBackPress();
+        controller.onBackPress();
       },
       child: Obx(
             () => Container(
@@ -37,12 +37,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               backgroundColor: dashBoardBgColor_(context),
               appBar: BaseAppBar(
                 appBar: AppBar(),
-                title: 'Details'.tr,
+                title: 'product_details'.tr,
                 isCenterTitle: false,
                 isBack: true,
                 bgColor: backgroundColor_(context),
                 autoFocus: true,
                 isClearVisible: false.obs,
+                onBackPressed: (){
+                  controller.onBackPress();
+                },
               ),
               body: ModalProgressHUD(
                   inAsyncCall: controller.isLoading.value,
@@ -54,14 +57,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       controller.isInternetNotAvailable.value = false;
                     },
                   )
-                      : Visibility(
+                      : Padding(padding: EdgeInsets.zero,
+                  child: Visibility(
                     visible: controller.isMainViewVisible.value,
                     child: ProductDetailsContainer(),
-                  )),
+                  ),),
             ),
           ),
         ),
       ),
-    );
+    ));
   }
 }

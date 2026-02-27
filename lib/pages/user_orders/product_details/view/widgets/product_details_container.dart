@@ -7,13 +7,12 @@ import 'package:get/get.dart';
 class ProductDetailsContainer extends StatelessWidget {
   ProductDetailsContainer({super.key});
 
-  final controller = Get.put(ProductDetailsController());
-
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         ProductDetailsHeaderView(),
+        SizedBox(height: 4,),
         ProductDetailsWidget()
       ],
     );
