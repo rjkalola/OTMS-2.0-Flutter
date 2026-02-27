@@ -55,6 +55,7 @@ class BuyerOrderController extends GetxController
   }
 
   void loadData() {
+    clearSearch();
     if (selectedTab.value == OrderTabType.request) {
       buyerOrdersListApi();
     } else {
@@ -96,7 +97,7 @@ class BuyerOrderController extends GetxController
   }
 
   void loadOrders() {
-    tempProceedOrderList.clear();
+    /*tempProceedOrderList.clear();
     tempProceedOrderList.addAll([
       OrderInfo(
         id: 1,
@@ -192,7 +193,7 @@ class BuyerOrderController extends GetxController
         qty: 1,
       ),
     ]);
-    deliveredOrdersList.value = tempDeliveredOrderList;
+    deliveredOrdersList.value = tempDeliveredOrderList;*/
   }
 
   void increaseQty(int index) {
@@ -204,7 +205,6 @@ class BuyerOrderController extends GetxController
   }
 
   void decreaseQty(int index) {
-    print("decreaseQty");
     if ((requestOrdersList[index].cartQty ?? 0) > 0) {
       print("requestOrdersList[index].cartQty:" +
           (requestOrdersList[index].cartQty).toString());
@@ -319,13 +319,15 @@ class BuyerOrderController extends GetxController
   void clearSearch() {
     searchController.value.clear();
     searchItem("");
+    isSearchEnable.value = false;
   }
 
   Future<void> moveToScreen(
       {required String appRout, dynamic arguments}) async {
     var result = await Get.toNamed(appRout, arguments: arguments);
-    // getNotificationCountApi(isProgress: false);
-    loadData();
+    if (result != null && result) {
+      loadData();
+    }
   }
 
   @override

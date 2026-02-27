@@ -139,6 +139,7 @@ class DialogIdentifier {
   final String controlPanelMenuDialog = 'CONTROL_PANEL_MENU_DIALOG';
   final String selectCompanyAdmin = 'SELECT_COMPANY_ADMIN';
   final String establishedDate = 'ESTABLISHED_DATE';
+  final String selectDate = 'SELECT_DATE';
   final String insuranceExpiryDate = 'INSURANCE_EXPIRY_DATE';
   final String selectWorkingHourTime = 'SELECT_WORKING_HOUR_TIME';
   final String selectMenuItemsDialog = 'selectMenuItemsDialog';
@@ -159,7 +160,6 @@ class DialogIdentifier {
   final String appeal = 'APPEAL';
   final String selectAddress = 'SELECT_ADDRESS';
   final String deleteProject = 'DELETE_PROJECT';
-  final String selectDate = 'SELECT_DATE';
   final String selectCategory = 'SELECT_CATEGORY';
   final String startDate = 'START_DATE';
   final String endDate = 'END_DATE';

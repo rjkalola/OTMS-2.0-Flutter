@@ -2,7 +2,7 @@ import 'package:belcka/pages/payment_documents/add_payslip/model/payslip_date_in
 import 'package:belcka/pages/payment_documents/payment_documents/controller/payment_documents_controller.dart';
 import 'package:belcka/pages/payment_documents/payment_documents/view/widgets/payslip_list.dart';
 import 'package:belcka/utils/string_helper.dart';
-import 'package:belcka/widgets/other_widgets/empty_data_found_widget.dart';
+import 'package:belcka/widgets/other_widgets/no_data_found_widget.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -61,7 +61,7 @@ class PayslipDateList extends StatelessWidget {
                 itemCount: filteredRecords.length,
               )
             : Center(
-                child: EmptyDataFoundWidget(),
+                child: NoDataFoundWidget(),
               ),
       );
     });

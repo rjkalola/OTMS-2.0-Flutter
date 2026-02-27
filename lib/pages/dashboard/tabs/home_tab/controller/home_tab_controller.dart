@@ -617,7 +617,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       moveToScreen(appRout: AppRoutes.editWidgetScreen, arguments: arguments);
     } else if (info.slug == 'team') {
       if ((info.teamId ?? 0) != 0) {
-        var arguments = { 
+        var arguments = {
           AppConstants.intentKey.teamId: info.teamId ?? 0,
           AppConstants.intentKey.isAllUserTeams: false
         };
@@ -629,6 +629,8 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       var arguments = {AppConstants.intentKey.isAllUserTeams: true};
       moveToScreen2(appRout: AppRoutes.teamListScreen, arguments: arguments);
       // LiveTimer.stop();
+    } else if (info.slug == 'purchasing') {
+      moveToScreen2(appRout: AppRoutes.purchasingScreen);
     } else if (info.slug == 'users') {
       moveToScreen2(appRout: AppRoutes.userListScreen);
       // LiveTimer.pause();

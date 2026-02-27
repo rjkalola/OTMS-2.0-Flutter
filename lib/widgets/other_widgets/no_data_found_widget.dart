@@ -6,8 +6,8 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import '../../res/drawable.dart';
 import '../../utils/image_utils.dart';
 
-class EmptyDataFoundWidget extends StatelessWidget {
-  const EmptyDataFoundWidget({super.key});
+class NoDataFoundWidget extends StatelessWidget {
+  const NoDataFoundWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

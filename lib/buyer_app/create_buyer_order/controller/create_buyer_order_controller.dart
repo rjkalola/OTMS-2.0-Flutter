@@ -1,26 +1,31 @@
 import 'dart:convert';
 
 import 'package:belcka/buyer_app/create_buyer_order/controller/create_buyer_order_repository.dart';
+import 'package:belcka/buyer_app/create_buyer_order/model/product_request_info.dart';
 import 'package:belcka/pages/common/drop_down_list_dialog.dart';
 import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
+import 'package:belcka/pages/common/listener/select_date_listener.dart';
 import 'package:belcka/pages/common/listener/select_item_listener.dart';
 import 'package:belcka/pages/common/model/Dropdown_list_response.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
 import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
-import 'package:belcka/utils/data_utils.dart';
+import 'package:belcka/utils/date_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/web_services/response/response_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:belcka/web_services/response/base_response.dart';
 
 import '../../../web_services/api_constants.dart';
 
 class CreateBuyerOrderController extends GetxController
-    implements DialogButtonClickListener, SelectItemListener {
+    implements
+        DialogButtonClickListener,
+        SelectItemListener,
+        SelectDateListener {
   final _api = CreateBuyerOrderRepository();
   final orderIdController = TextEditingController().obs;
   final expectedDeliveryController = TextEditingController().obs;
@@ -28,15 +33,18 @@ class CreateBuyerOrderController extends GetxController
   final supplierController = TextEditingController().obs;
   final refController = TextEditingController().obs;
   final noteController = TextEditingController().obs;
-
+  DateTime? expectedDeliveryDate;
   List<ModuleInfo> listSuppliers = [];
   List<ModuleInfo> listStores = [];
 
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
-      isMainViewVisible = true.obs,
+      isMainViewVisible = false.obs,
       isSearchEnable = false.obs,
-      isClearSearch = false.obs;
+      isClearSearch = false.obs,
+      isCheckedProduct = false.obs;
+  RxString currency = "".obs;
+  RxDouble uniteTotal = 0.0.obs;
   final formKey = GlobalKey<FormState>();
   double cardRadius = 12;
   int selectedIndex = 0, storeId = 0, supplierId = 0;
@@ -51,6 +59,10 @@ class CreateBuyerOrderController extends GetxController
     if (arguments != null) {
       buyerOrdersList.value =
           arguments[AppConstants.intentKey.productsData] ?? [];
+      if (buyerOrdersList.isNotEmpty) {
+        currency.value = buyerOrdersList[0].currency ?? "";
+      }
+      calculateTotalAmount();
     }
     getSuppliersApi();
   }
@@ -177,6 +189,77 @@ class CreateBuyerOrderController extends GetxController
     );
   }
 
+  bool valid() {
+    return formKey.currentState!.validate();
+  }
+
+  onClickCreateOrder(bool isDraft) {
+    if (valid()) {
+      var productList = <ProductRequestInfo>[];
+      for (var item in buyerOrdersList) {
+        if ((item.cartQty ?? 0) > 0) {
+          ProductRequestInfo info = ProductRequestInfo();
+          info.productId = item.id ?? 0;
+          info.qty = item.cartQty ?? 0;
+          info.price = item.price ?? "";
+          productList.add(info);
+        }
+      }
+      if (productList.isNotEmpty) {
+        createBuyerOrderApi(isDraft, productList);
+      } else {
+        AppUtils.showToastMessage('msg_add_at_least_one_qty'.tr);
+      }
+    }
+  }
+
+  void createBuyerOrderApi(bool isDraft, List<ProductRequestInfo> productList) {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["order_id"] = StringHelper.getText(orderIdController.value);
+    map["company_id"] = ApiConstants.companyId;
+    map["store_id"] = storeId;
+    map["supplier_id"] = supplierId;
+
+    // map["received_by"] =;
+    // map["date"] =;
+    map["ref"] = StringHelper.getText(refController.value);
+    map["note"] = StringHelper.getText(noteController.value);
+    map["tax"] = (uniteTotal.value * 0.2).toString();
+    map["total_amount"] = (uniteTotal.value * 1.2).toString();
+    map["expected_delivery_date"] =
+        StringHelper.getText(expectedDeliveryController.value);
+    map["checked_product"] = isCheckedProduct.value;
+    map["product_data"] = productList;
+    print(jsonEncode(productList));
+    map["is_draft"] = isDraft;
+
+    _api.createBuyerOrder(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          BaseResponse response =
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showToastMessage(response.Message ?? "");
+          Get.back(result: true);
+        } else {
+          isLoading.value = false;
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+        }
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+          // AppUtils.showSnackBarMessage('no_internet'.tr);
+          // Utils.showSnackBarMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
+
   void showSelectStoreDialog() {
     if (listStores.isNotEmpty) {
       showDropDownDialog(
@@ -226,15 +309,17 @@ class CreateBuyerOrderController extends GetxController
     buyerOrdersList[index].cartQty = (buyerOrdersList[index].cartQty ?? 0) + 1;
     buyerOrdersList.refresh();
     // }
+    calculateTotalAmount();
   }
 
   void decreaseQty(int index) {
-    if ((buyerOrdersList[index].cartQty ?? 0) > 1) {
+    if ((buyerOrdersList[index].cartQty ?? 0) > 0) {
       buyerOrdersList[index].cartQty =
           (buyerOrdersList[index].cartQty ?? 0) - 1;
       // buyerOrdersList[index].cartQty--;
       buyerOrdersList.refresh();
     }
+    calculateTotalAmount();
   }
 
   void removeItem(int index) {
@@ -309,4 +394,31 @@ class CreateBuyerOrderController extends GetxController
 
   @override
   void onOtherButtonClicked(String dialogIdentifier) {}
+
+  void showDatePickerDialog(String dialogIdentifier, DateTime? date,
+      DateTime firstDate, DateTime lastDate) {
+    DateUtil.showDatePickerDialog(
+        initialDate: date,
+        firstDate: firstDate,
+        lastDate: lastDate,
+        dialogIdentifier: dialogIdentifier,
+        selectDateListener: this);
+  }
+
+  @override
+  void onSelectDate(DateTime date, String dialogIdentifier) {
+    if (dialogIdentifier == AppConstants.dialogIdentifier.selectDate) {
+      expectedDeliveryDate = date;
+      expectedDeliveryController.value.text =
+          DateUtil.dateToString(date, DateUtil.DD_MM_YYYY_DASH);
+    }
+  }
+
+  void calculateTotalAmount() {
+    uniteTotal.value = 0;
+    for (var item in buyerOrdersList) {
+      uniteTotal.value = uniteTotal.value +
+          ((double.parse(item.price ?? "0")) * (item.cartQty ?? 0));
+    }
+  }
 }

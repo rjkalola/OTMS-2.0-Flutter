@@ -3,7 +3,7 @@ import 'package:belcka/pages/payment_documents/payment_documents/model/payments_
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
-import 'package:belcka/widgets/other_widgets/empty_data_found_widget.dart';
+import 'package:belcka/widgets/other_widgets/no_data_found_widget.dart';
 import 'package:belcka/widgets/other_widgets/right_arrow_widget.dart';
 import 'package:belcka/widgets/other_widgets/user_avtar_view.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
@@ -112,7 +112,7 @@ class PaymentsList extends StatelessWidget {
                 //   ),
                 // ),
                 separatorBuilder: (context, position) => Container())
-            : Center(child: EmptyDataFoundWidget()),
+            : Center(child: NoDataFoundWidget()),
       ),
     );
   }

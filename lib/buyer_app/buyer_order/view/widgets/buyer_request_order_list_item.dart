@@ -11,6 +11,8 @@ import 'package:belcka/res/colors.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
 
+import '../../../../utils/string_helper.dart';
+
 class BuyerRequestOrderListItem extends StatelessWidget {
   final ProductInfo item;
   final VoidCallback onAdd;
@@ -114,34 +116,53 @@ class BuyerRequestOrderListItem extends StatelessWidget {
                   ),
                 ],
               ),
-              Divider(color: dividerColor_(context)),
-              Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TitleTextView(
-                          text: item.manufactureName ?? "",
-                          fontSize: 15,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        const SizedBox(height: 2),
-                        TitleTextView(
-                          text: item.userName,
-                          fontSize: 15,
-                          color: Colors.blue,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ],
+              !StringHelper.isEmptyString(item.storeName) ||
+                      !StringHelper.isEmptyString(item.orderUsersDisplay)
+                  ? Divider(color: dividerColor_(context))
+                  : SizedBox(
+                      height: 6,
                     ),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.delete, color: Colors.red),
-                    onPressed: onDelete,
-                  )
-                ],
-              )
+              !StringHelper.isEmptyString(item.storeName) ||
+                      !StringHelper.isEmptyString(item.orderUsersDisplay)
+                  ? Row(
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 6, bottom: 6),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Visibility(
+                                  visible: !StringHelper.isEmptyString(
+                                      item.storeName),
+                                  child: TitleTextView(
+                                    text: item.storeName ?? "",
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                                const SizedBox(height: 2),
+                                Visibility(
+                                  visible: !StringHelper.isEmptyString(
+                                      item.orderUsersDisplay),
+                                  child: TitleTextView(
+                                    text: item.orderUsersDisplay ?? "",
+                                    fontSize: 15,
+                                    color: defaultAccentColor_(context),
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        // IconButton(
+                        //   icon: const Icon(Icons.delete, color: Colors.red),
+                        //   onPressed: onDelete,
+                        // )
+                      ],
+                    )
+                  : Container()
             ],
           ),
         ),

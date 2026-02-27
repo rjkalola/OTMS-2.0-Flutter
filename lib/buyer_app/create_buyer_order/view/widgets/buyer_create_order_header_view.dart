@@ -6,8 +6,11 @@ import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/textfield/reusable/drop_down_text_field.dart';
 import 'package:belcka/widgets/textfield/text_field_border_dark.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
+
+import '../../../../utils/app_constants.dart';
 
 class BuyerCreateOrderHeaderView extends StatelessWidget {
   BuyerCreateOrderHeaderView({super.key});
@@ -26,22 +29,30 @@ class BuyerCreateOrderHeaderView extends StatelessWidget {
       ),
       child: Column(
         children: [
+          SizedBox(
+            height: 10,
+          ),
           Padding(
             padding: const EdgeInsets.only(left: 20, right: 20),
             child: TextFieldBorderDark(
-              textEditingController: controller.orderIdController.value,
-              hintText: 'order_id'.tr,
-              labelText: 'order_id'.tr,
-              isReadOnly: false,
-              maxLength: 50,
-              keyboardType: TextInputType.number,
-              textInputAction: TextInputAction.next,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              onValueChange: (value) {},
-              validator: MultiValidator([
-                RequiredValidator(errorText: 'required_field'.tr),
-              ]),
-            ),
+                textEditingController: controller.orderIdController.value,
+                hintText: 'order_id'.tr,
+                labelText: 'order_id'.tr,
+                isReadOnly: false,
+                maxLength: 6,
+                keyboardType: TextInputType.number,
+                textInputAction: TextInputAction.next,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                onValueChange: (value) {},
+                validator: MultiValidator([
+                  RequiredValidator(errorText: 'required_field'.tr),
+                  MinLengthValidator(6,
+                      errorText: 'order_length_validation_message'.tr),
+                ]),
+                inputFormatters: <TextInputFormatter>[
+                  // for below version 2 use this
+                  FilteringTextInputFormatter.digitsOnly,
+                ]),
           ),
           SizedBox(
             height: 16,
@@ -54,7 +65,13 @@ class BuyerCreateOrderHeaderView extends StatelessWidget {
               validators: [
                 RequiredValidator(errorText: 'required_field'.tr),
               ],
-              onPressed: () {},
+              onPressed: () {
+                controller.showDatePickerDialog(
+                    AppConstants.dialogIdentifier.selectDate,
+                    controller.expectedDeliveryDate,
+                    DateTime.now(),
+                    DateTime(2060));
+              },
             ),
           ),
           SizedBox(

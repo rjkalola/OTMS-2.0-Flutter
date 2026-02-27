@@ -7,7 +7,7 @@ import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/date_utils.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
-import 'package:belcka/widgets/other_widgets/empty_data_found_widget.dart';
+import 'package:belcka/widgets/other_widgets/no_data_found_widget.dart';
 import 'package:belcka/widgets/other_widgets/expand_collapse_arrow_widget.dart';
 import 'package:belcka/widgets/other_widgets/user_avtar_view.dart';
 import 'package:belcka/widgets/text/SubTitleTextView.dart';
@@ -64,7 +64,7 @@ class TimeSheetList extends StatelessWidget {
               // ),
               separatorBuilder: (context, position) => Container())
           : Center(
-              child: EmptyDataFoundWidget(),
+              child: NoDataFoundWidget(),
             ),
     ));
   }

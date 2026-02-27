@@ -4,6 +4,7 @@ import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_order_header_vie
 import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_proceed_order_list.dart';
 import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_request_order_list.dart';
 import 'package:belcka/buyer_app/buyer_order/view/widgets/delivery_to_text_widget.dart';
+import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/res/drawable.dart';
 import 'package:belcka/routes/app_routes.dart';
@@ -17,6 +18,7 @@ import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 import '../../../utils/app_constants.dart';
 
@@ -48,7 +50,7 @@ class _BuyerOrdersScreenState extends State<BuyerOrdersScreen> {
             backgroundColor: dashBoardBgColor_(context),
             appBar: BaseAppBar(
               appBar: AppBar(),
-              title: 'create_order'.tr,
+              title: 'orders'.tr,
               isCenterTitle: false,
               isBack: true,
               bgColor: backgroundColor_(context),
@@ -61,61 +63,65 @@ class _BuyerOrdersScreenState extends State<BuyerOrdersScreen> {
               autoFocus: true,
               isClearVisible: false.obs,
             ),
-            body: Obx(() {
-              if (controller.isLoading.value) {
-                return const Center(child: CustomProgressbar());
-              }
-
-              if (controller.isInternetNotAvailable.value) {
-                return NoInternetWidget(
-                  onPressed: () {
-                    controller.isInternetNotAvailable.value = false;
-                  },
-                );
-              }
-
-              if (!controller.isMainViewVisible.value) {
-                return const SizedBox.shrink();
-              }
-
-              return GestureDetector(
-                onTap: () => FocusScope.of(context).unfocus(),
-                onPanDown: (_) => FocusScope.of(context).unfocus(),
-
-                // child: KeyboardActions(
-                //   config: AppUtils.buildKeyboardConfig(
-                //     focusNodes: controller.qtyFocusNodes,
-                //   ),
-                child: Column(
-                  children: [
-                    BuyerOrderHeaderView(),
-                    SizedBox(
-                      height: 12,
-                    ),
-                    // DeliveryToTextWidget(text: "(Haringey OT)"),
-                    Expanded(
-                      child: selectedOrderList(),
-                    ),
-                    PrimaryButton(
-                      padding: EdgeInsets.all(14),
-                      buttonText: 'create_order'.tr,
-                      onPressed: () {
-                        var arguments = {
-                          AppConstants.intentKey.productsData:
-                              controller.requestOrdersList,
-                        };
-                        controller.moveToScreen(
-                            appRout: AppRoutes.createBuyerOrderScreen,
-                            arguments: arguments);
-                        Get.toNamed(AppRoutes.createBuyerOrderScreen);
-                      },
-                      color: Colors.green,
-                    )
-                  ],
-                ),
-                // ),
-              );
-            }),
+            body: ModalProgressHUD(
+                inAsyncCall: controller.isLoading.value,
+                opacity: 0,
+                progressIndicator: const CustomProgressbar(),
+                child: controller.isInternetNotAvailable.value
+                    ? NoInternetWidget(
+                        onPressed: () {
+                          controller.isInternetNotAvailable.value = false;
+                          // controller.getCompanyDetailsApi();
+                        },
+                      )
+                    : Visibility(
+                        visible: controller.isMainViewVisible.value,
+                        child: Column(
+                          children: [
+                            BuyerOrderHeaderView(),
+                            SizedBox(
+                              height: 12,
+                            ),
+                            // DeliveryToTextWidget(text: "(Haringey OT)"),
+                            Expanded(
+                              child: Visibility(
+                                  visible: !controller.isLoading.value,
+                                  child: selectedOrderList()),
+                            ),
+                            controller.selectedTab.value == OrderTabType.request
+                                ? PrimaryButton(
+                                    padding: EdgeInsets.all(14),
+                                    buttonText: 'create_order'.tr,
+                                    onPressed: () {
+                                      var list = <ProductInfo>[];
+                                      for (var item
+                                          in controller.requestOrdersList) {
+                                        if ((item.cartQty ?? 0) > 0) {
+                                          list.add(item);
+                                        }
+                                      }
+                                      if (list.isNotEmpty) {
+                                        var arguments = {
+                                          AppConstants.intentKey.productsData:
+                                              list,
+                                        };
+                                        controller.moveToScreen(
+                                            appRout: AppRoutes
+                                                .createBuyerOrderScreen,
+                                            arguments: arguments);
+                                        Get.toNamed(
+                                            AppRoutes.createBuyerOrderScreen);
+                                      } else {
+                                        AppUtils.showToastMessage(
+                                            'msg_add_at_least_one_qty'.tr);
+                                      }
+                                    },
+                                    color: Colors.green,
+                                  )
+                                : Container()
+                          ],
+                        ),
+                      )),
           ),
         ),
       ),
@@ -148,12 +154,14 @@ class _BuyerOrdersScreenState extends State<BuyerOrdersScreen> {
                 )),
         ),
       ),
-      if (!UserUtils.isAdmin()) const SizedBox(width: 10),
-      if (UserUtils.isAdmin())
-        IconButton(
-          icon: const Icon(Icons.more_vert_outlined),
-          onPressed: () {},
-        ),
+      SizedBox(
+        width: 10,
+      ),
+      // if (UserUtils.isAdmin())
+      //   IconButton(
+      //     icon: const Icon(Icons.more_vert_outlined),
+      //     onPressed: () {},
+      //   ),
     ];
   }
 

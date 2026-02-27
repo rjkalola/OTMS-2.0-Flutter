@@ -309,4 +309,6 @@ class ApiConstants {
   static String buyerOrdersList = '$appUrl/purchase-orders/orders';
   static String getSuppliers = '$appUrl/suppliers/get';
   static String getStores = '$appUrl/stores/get';
+  static String createBuyerOrder = '$appUrl/purchase-orders/create';
+
 }

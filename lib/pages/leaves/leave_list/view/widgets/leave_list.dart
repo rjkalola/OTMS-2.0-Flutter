@@ -7,7 +7,7 @@ import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
-import 'package:belcka/widgets/other_widgets/empty_data_found_widget.dart';
+import 'package:belcka/widgets/other_widgets/no_data_found_widget.dart';
 import 'package:belcka/widgets/other_widgets/user_avtar_view.dart';
 import 'package:belcka/widgets/text/SubTitleTextView.dart';
 import 'package:belcka/widgets/text/TextViewWithContainer.dart';
@@ -161,7 +161,7 @@ class LeaveList extends StatelessWidget {
                     height: 12,
                   ))
           : Center(
-              child: EmptyDataFoundWidget(),
+              child: NoDataFoundWidget(),
             ),
     );
   }
