@@ -23,7 +23,9 @@ class ProductDetailsHeaderView extends StatelessWidget {
       ),
       child: Column(
         children: [
-          SizedBox(height: 4,)
+          Container(
+            height: 16,
+          )
         ],
       ),
     );

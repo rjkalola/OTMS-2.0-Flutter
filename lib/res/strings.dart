@@ -601,6 +601,11 @@ class Strings extends Translations {
           'crete_buyer_order_checkbox_note':
               "Implement the rate adjustments for products in the catalogue",
           'order_length_validation_message': "Order id must be 6 digit",
+          'product_details':"Product Details",
+// '': "",
+// '': "",
+          // '': "",
+// '': "",
 // '': "",
 // '': "",
           // '': "",
