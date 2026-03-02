@@ -55,9 +55,9 @@ class TeamDetailsRepository {
     Function(ResponseModel error)? onError,
   }) {
     ApiRequest(
-        url: ApiConstants.deleteSubContractor,
-        data: data,
-        isFormData: false)
+            url: ApiConstants.deleteSubContractor,
+            data: data,
+            isFormData: false)
         .postRequest(
       onSuccess: (data) {
         onSuccess!(data);

@@ -69,6 +69,7 @@ class IntentKey {
   final String permissionStep2Info = "PERMISSION_STEP2_INFO";
   final String permissionId = "PERMISSION_ID";
   final String teamId = "TEAM_ID";
+  final String orderId = "ORDER_ID";
   final String paymentsInfo = "PAYMENTS_INFO";
   final String companyId = "COMPANY_ID";
   final String teamInfo = "TEAM_INFO";
@@ -79,6 +80,7 @@ class IntentKey {
   final String leaveId = "Leave_ID";
   final String userId = "USER_ID";
   final String productsData = "PRODUCTS_DATA";
+  final String itemDetails = "ITEM_DETAILS";
   final String expenseId = "EXPENSE_ID";
   final String userName = "USER_NAME";
   final String userList = "USER_LIST";

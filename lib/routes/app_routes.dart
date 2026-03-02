@@ -148,4 +148,6 @@ class AppRoutes {
   static const String storemanCatalogScreen = '/storeman_catalog_screen';
   static const String basketScreen = '/basket_screen';
   static const String productDetailsScreen = '/product_details_screen';
+  static const String buyerSettingsScreen = '/buyer_settings_screen';
+  static const String buyerOrderDetailsScreen = '/buyer_order_details_screen';
 }

@@ -62,6 +62,7 @@ class ProductInfo {
   int? totalQty;
   String? manufactureName;
   int? availableQty;
+  int? remainingQty;
   String? storeName;
   String? orderUsersDisplay;
   int? orderUserCount;
@@ -128,6 +129,7 @@ class ProductInfo {
         this.productImages,
         this.cartId,
         this.availableQty,
+        this.remainingQty,
         this.storeName,
         this.orderUsersDisplay,
         this.orderUserCount});
@@ -146,16 +148,16 @@ class ProductInfo {
     name = json['name'];
     description = json['description'];
     price = json['price'];
-    marketPrice = json['market_price'];
+    marketPrice = json['market_price'].toString();
     qty = json['qty'];
     cartQty = json['cart_qty'];
-    subQty = json['sub_qty'];
+    subQty = json['sub_qty'].toString();
     totalAmount = json['total_amount'];
     stockStatus = json['stock_status'];
     currency = json['currency'];
     stockStatusId = json['stock_status_id'];
     isSubQty = json['is_sub_qty'];
-    packOffQty = json['pack_off_qty'];
+    packOffQty = json['pack_off_qty'].toString();
     packOffUnitId = json['pack_off_unit_id'];
     imageUrl = json['image_url'];
     thumbUrl = json['thumb_url'];
@@ -199,6 +201,7 @@ class ProductInfo {
     totalQty = json['total_qty'];
     manufactureName = json['manufacturer_name'];
     availableQty = json['available_qty'];
+    remainingQty = json['remaining_qty'];
     storeName = json['store_name'];
     orderUsersDisplay = json['order_users_display'];
     orderUserCount = json['order_user_count'];
@@ -272,6 +275,7 @@ class ProductInfo {
     data['total_amount'] = this.totalAmount;
 
     data['available_qty'] = this.availableQty;
+    data['remaining_qty'] = this.remainingQty;
     data['store_name'] = this.storeName;
     data['order_users_display'] = this.orderUsersDisplay;
     data['order_user_count'] = this.orderUserCount;

@@ -306,9 +306,13 @@ class ApiConstants {
 
   //buyer orders
   static String inventoryOverview = '$appUrl/products/inventory-overview';
-  static String buyerOrdersList = '$appUrl/purchase-orders/orders';
+  static String buyerProductsList = '$appUrl/purchase-orders/orders';
   static String getSuppliers = '$appUrl/suppliers/get';
   static String getStores = '$appUrl/stores/get';
   static String createBuyerOrder = '$appUrl/purchase-orders/create';
+  static String buyerOrdersList = '$appUrl/purchase-orders/get';
+  static String buyerOrderDetails = '$appUrl/purchase-orders/detail';
+  static String buyerOrderInvoice = '$appUrl/purchase-orders/invoice';
+  static String receiveBuyerOrder = '$appUrl/purchase-orders/purchase-receive';
 
 }

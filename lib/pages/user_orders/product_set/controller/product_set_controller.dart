@@ -1,3 +1,4 @@
+import 'package:belcka/buyer_app/buyer_order/model/local_order_info.dart';
 import 'package:belcka/buyer_app/buyer_order/model/order_info.dart';
 import 'package:belcka/pages/user_orders/product_set/controller/product_set_repository.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ class ProductSetController extends GetxController{
       isSearchEnable = false.obs,
       isClearSearch = false.obs;
 
-  final ordersList = <OrderInfo>[].obs;
+  final ordersList = <LocalOrderInfo>[].obs;
   final List<FocusNode> qtyFocusNodes = [];
 
   FocusNode getQtyFocusNode(int index) {
@@ -30,7 +31,7 @@ class ProductSetController extends GetxController{
 
   void loadOrders() {
     ordersList.assignAll([
-      OrderInfo(
+      LocalOrderInfo(
         id: 1,
         name: "ElectriQ 60cm 4 Zone Induction Hob",
         sku: "DCK1234",
@@ -41,7 +42,7 @@ class ProductSetController extends GetxController{
         price: 2500.00,
         qty: 5,
       ),
-      OrderInfo(
+      LocalOrderInfo(
         id: 2,
         name: "Twfydord Alcona Close Coupled Toilet Pan",
         sku: "DCK1234",

@@ -1,39 +1,35 @@
-import 'package:belcka/buyer_app/buyer_order/controller/buyer_order_controller.dart';
-import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_delivered_order_list.dart';
-import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_order_header_view.dart';
-import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_proceed_order_list.dart';
-import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_request_order_list.dart';
-import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
+import 'package:belcka/buyer_app/buyer_order_details/controller/buyer_order_details_controller.dart';
+import 'package:belcka/buyer_app/buyer_order_details/view/widgets/buyer_order_details_header.dart';
+import 'package:belcka/buyer_app/buyer_order_details/view/widgets/buyer_order_products_list.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/res/drawable.dart';
-import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_utils.dart';
-import 'package:belcka/utils/enums/order_tab_type.dart';
 import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
+import 'package:belcka/widgets/textfield/reusable/add_note_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
-import '../../../utils/app_constants.dart';
+import '../../../utils/string_helper.dart';
 
-class BuyerOrdersScreen extends StatefulWidget {
-  const BuyerOrdersScreen({super.key});
+class BuyerOrderDetailsScreen extends StatefulWidget {
+  const BuyerOrderDetailsScreen({super.key});
 
   @override
-  State<BuyerOrdersScreen> createState() => _BuyerOrdersScreenState();
+  State<BuyerOrderDetailsScreen> createState() =>
+      _BuyerOrderDetailsScreenState();
 }
 
-class _BuyerOrdersScreenState extends State<BuyerOrdersScreen> {
-  late final BuyerOrderController controller;
+class _BuyerOrderDetailsScreenState extends State<BuyerOrderDetailsScreen> {
+  final controller = Get.put(BuyerOrderDetailsController());
 
   @override
   void initState() {
     super.initState();
-    controller = Get.put(BuyerOrderController());
   }
 
   @override
@@ -48,7 +44,10 @@ class _BuyerOrdersScreenState extends State<BuyerOrdersScreen> {
             backgroundColor: dashBoardBgColor_(context),
             appBar: BaseAppBar(
               appBar: AppBar(),
-              title: 'orders'.tr,
+              title: !StringHelper.isEmptyString(
+                      controller.orderInfo.value.orderId)
+                  ? "${'order'.tr} ${controller.orderInfo.value.orderId ?? ""}"
+                  : "",
               isCenterTitle: false,
               isBack: true,
               bgColor: backgroundColor_(context),
@@ -76,43 +75,30 @@ class _BuyerOrdersScreenState extends State<BuyerOrdersScreen> {
                         visible: controller.isMainViewVisible.value,
                         child: Column(
                           children: [
-                            BuyerOrderHeaderView(),
+                            BuyerOrderDetailsHeader(
+                                item: controller.orderInfo.value,
+                                onListItem: () {}),
                             SizedBox(
-                              height: 12,
+                              height: 15,
                             ),
-                            // DeliveryToTextWidget(text: "(Haringey OT)"),
                             Expanded(
-                              child: selectedOrderList(),
+                              child: BuyerOrderProductsList(),
                             ),
-                            controller.selectedTab.value == OrderTabType.request
+                            Visibility(
+                              visible:
+                                  (controller.orderInfo.value.status ?? 0) == 0,
+                              child: AddNoteWidget(
+                                padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
+                                controller: controller.noteController,
+                                borderRadius: 15,
+                              ),
+                            ),
+                            (controller.orderInfo.value.status ?? 0) == 0
                                 ? PrimaryButton(
                                     padding: EdgeInsets.all(14),
-                                    buttonText: 'create_order'.tr,
-                                    onPressed: () {
-                                      var list = <ProductInfo>[];
-                                      for (var item
-                                          in controller.requestOrdersList) {
-                                        if ((item.cartQty ?? 0) > 0) {
-                                          list.add(item);
-                                        }
-                                      }
-                                      if (list.isNotEmpty) {
-                                        var arguments = {
-                                          AppConstants.intentKey.productsData:
-                                              list,
-                                        };
-                                        controller.moveToScreen(
-                                            appRout: AppRoutes
-                                                .createBuyerOrderScreen,
-                                            arguments: arguments);
-                                        Get.toNamed(
-                                            AppRoutes.createBuyerOrderScreen);
-                                      } else {
-                                        AppUtils.showToastMessage(
-                                            'msg_add_at_least_one_qty'.tr);
-                                      }
-                                    },
-                                    color: Colors.green,
+                                    buttonText: 'receive'.tr,
+                                    onPressed: () {},
+                                    color: defaultAccentColor_(context),
                                   )
                                 : Container()
                           ],
@@ -159,21 +145,5 @@ class _BuyerOrdersScreenState extends State<BuyerOrdersScreen> {
       //     onPressed: () {},
       //   ),
     ];
-  }
-
-  // ------------------------------------------------
-  // Selected Tab Content
-  // ------------------------------------------------
-
-  Widget selectedOrderList() {
-    if (controller.selectedTab.value == OrderTabType.request) {
-      return BuyerRequestOrderList();
-    } else if (controller.selectedTab.value == OrderTabType.proceed) {
-      return BuyerProceedOrderList();
-    } else if (controller.selectedTab.value == OrderTabType.delivered) {
-      return BuyerDeliveredOrderList();
-    } else {
-      return Container();
-    }
   }
 }

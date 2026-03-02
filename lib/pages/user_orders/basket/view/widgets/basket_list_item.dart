@@ -1,3 +1,4 @@
+import 'package:belcka/buyer_app/buyer_order/model/local_order_info.dart';
 import 'package:belcka/buyer_app/buyer_order/model/order_info.dart';
 import 'package:belcka/buyer_app/buyer_order/view/widgets/order_quantity_change_button.dart';
 import 'package:belcka/buyer_app/buyer_order/view/widgets/order_quantity_text_field.dart';
@@ -8,7 +9,7 @@ import 'package:belcka/res/colors.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 
 class BasketListItem extends StatefulWidget {
-  final OrderInfo item;
+  final LocalOrderInfo item;
   final VoidCallback onAdd;
   final VoidCallback onRemove;
   final Function(int qty) onQtyTyped;

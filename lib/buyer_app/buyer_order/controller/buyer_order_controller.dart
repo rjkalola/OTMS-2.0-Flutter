@@ -1,14 +1,18 @@
 import 'dart:convert';
 
 import 'package:belcka/buyer_app/buyer_order/controller/buyer_order_repository.dart';
-import 'package:belcka/buyer_app/buyer_order/model/buyer_order_list_response.dart';
+import 'package:belcka/buyer_app/buyer_order/model/buyer_order_invoice_response.dart';
+import 'package:belcka/buyer_app/buyer_order/model/buyer_orders_list_response.dart';
+import 'package:belcka/buyer_app/buyer_order/model/buyer_product_list_response.dart';
 import 'package:belcka/buyer_app/buyer_order/model/order_info.dart';
 import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
+import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/enums/order_tab_type.dart';
+import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/response_model.dart';
@@ -51,28 +55,42 @@ class BuyerOrderController extends GetxController
   @override
   void onInit() {
     super.onInit();
+    var arguments = Get.arguments;
+    if (arguments != null) {
+      String selectedTabType =
+          arguments[AppConstants.intentKey.selectedTabType] ?? "";
+      if (selectedTabType == AppConstants.type.request) {
+        selectedTab.value = OrderTabType.request;
+      } else if (selectedTabType == AppConstants.type.proceed) {
+        selectedTab.value = OrderTabType.proceed;
+      } else if (selectedTabType == AppConstants.type.delivered) {
+        selectedTab.value = OrderTabType.delivered;
+      }
+    }
     loadData();
   }
 
   void loadData() {
     clearSearch();
     if (selectedTab.value == OrderTabType.request) {
-      buyerOrdersListApi();
-    } else {
-      loadOrders();
+      buyerProductsListApi();
+    } else if (selectedTab.value == OrderTabType.proceed) {
+      buyerOrdersListApi(0);
+    } else if (selectedTab.value == OrderTabType.delivered) {
+      buyerOrdersListApi(2);
     }
   }
 
-  void buyerOrdersListApi() {
+  void buyerProductsListApi() {
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
-    _api.buyerOrdersList(
+    _api.buyerProductsList(
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           isMainViewVisible.value = true;
-          BuyerOrderListResponse response = BuyerOrderListResponse.fromJson(
+          BuyerProductListResponse response = BuyerProductListResponse.fromJson(
               jsonDecode(responseModel.result!));
 
           tempRequestOrderList.clear();
@@ -96,104 +114,79 @@ class BuyerOrderController extends GetxController
     );
   }
 
-  void loadOrders() {
-    /*tempProceedOrderList.clear();
-    tempProceedOrderList.addAll([
-      OrderInfo(
-        id: 1,
-        name: "ElectriQ 60cm 4 Zone Induction Hob",
-        sku: "DCK1234",
-        image: "https://via.placeholder.com/150",
-        availableQty: 1000,
-        projectName: "DCK Northumberland",
-        userName: "Alex Novok +2",
-        price: 2500.00,
-        qty: 5,
-      ),
-      OrderInfo(
-        id: 2,
-        name: "Twfydord Alcona Close Coupled Toilet Pan",
-        sku: "DCK1234",
-        image: "https://samplelib.com/lib/preview/png/sample-boat-400x300.png",
-        availableQty: 5,
-        projectName: "DCK Northumberland",
-        userName: "Alex Novok +2",
-        price: 43.21,
-        qty: 1,
-      ),
-      OrderInfo(
-        id: 2,
-        name: "Twfydord Alcona Close Coupled Toilet Pan",
-        sku: "DCK1234",
-        image: "https://samplelib.com/lib/preview/png/sample-boat-400x300.png",
-        availableQty: 5,
-        projectName: "DCK Northumberland",
-        userName: "Alex Novok +2",
-        price: 43.21,
-        qty: 1,
-      ),
-    ]);
-    proceedOrdersList.value = tempProceedOrderList;
+  void buyerOrdersListApi(int status) {
+    print("buyerOrdersListApi");
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
+    map["status"] = status;
+    _api.buyerOrdersList(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          isMainViewVisible.value = true;
+          BuyerOrdersListResponse response = BuyerOrdersListResponse.fromJson(
+              jsonDecode(responseModel.result!));
 
-    tempDeliveredOrderList.clear();
-    tempDeliveredOrderList.addAll([
-      OrderInfo(
-        id: 1,
-        name: "ElectriQ 60cm 4 Zone Induction Hob 1",
-        sku: "DCK1234",
-        image: "https://via.placeholder.com/150",
-        availableQty: 1000,
-        projectName: "DCK Northumberland",
-        userName: "Alex Novok +2",
-        price: 2500.00,
-        qty: 5,
-      ),
-      OrderInfo(
-        id: 1,
-        name: "ElectriQ 60cm 4 Zone Induction Hob 2",
-        sku: "DCK1234",
-        image: "https://via.placeholder.com/150",
-        availableQty: 1000,
-        projectName: "DCK Northumberland",
-        userName: "Alex Novok +2",
-        price: 2500.00,
-        qty: 5,
-      ),
-      OrderInfo(
-        id: 2,
-        name: "Twfydord Alcona Close Coupled Toilet Pan 1",
-        sku: "DCK1234",
-        image: "https://samplelib.com/lib/preview/png/sample-boat-400x300.png",
-        availableQty: 5,
-        projectName: "DCK Northumberland",
-        userName: "Alex Novok +2",
-        price: 43.21,
-        qty: 1,
-      ),
-      OrderInfo(
-        id: 2,
-        name: "Twfydord Alcona Close Coupled Toilet Pan 2",
-        sku: "DCK1234",
-        image: "https://samplelib.com/lib/preview/png/sample-boat-400x300.png",
-        availableQty: 5,
-        projectName: "DCK Northumberland",
-        userName: "Alex Novok +2",
-        price: 43.21,
-        qty: 1,
-      ),
-      OrderInfo(
-        id: 2,
-        name: "Twfydord Alcona Close Coupled Toilet Pan 3",
-        sku: "DCK1234",
-        image: "https://samplelib.com/lib/preview/png/sample-boat-400x300.png",
-        availableQty: 5,
-        projectName: "DCK Northumberland",
-        userName: "Alex Novok +2",
-        price: 43.21,
-        qty: 1,
-      ),
-    ]);
-    deliveredOrdersList.value = tempDeliveredOrderList;*/
+          if (status == 0) {
+            tempProceedOrderList.clear();
+            tempProceedOrderList.addAll(response.info ?? []);
+            proceedOrdersList.value = tempProceedOrderList;
+          } else if (status == 2) {
+            tempDeliveredOrderList.clear();
+            tempDeliveredOrderList.addAll(response.info ?? []);
+            deliveredOrdersList.value = tempDeliveredOrderList;
+          }
+        } else {
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+          // AppUtils.showSnackBarMessage('no_internet'.tr);
+          // Utils.showSnackBarMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
+
+  void buyerOrderInvoiceApi(int id) {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
+    map["id"] = id;
+    _api.buyerOrderInvoice(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) async {
+        if (responseModel.isSuccess) {
+          isMainViewVisible.value = true;
+          BuyerOrderInvoiceResponse response =
+              BuyerOrderInvoiceResponse.fromJson(
+                  jsonDecode(responseModel.result!));
+          String fileUrl = response.invoice ?? "";
+          await ImageUtils.openAttachment(
+              Get.context!, fileUrl, ImageUtils.getFileType(fileUrl));
+        } else {
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+          // AppUtils.showSnackBarMessage('no_internet'.tr);
+          // Utils.showSnackBarMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+        }
+      },
+    );
   }
 
   void increaseQty(int index) {
@@ -225,7 +218,16 @@ class BuyerOrderController extends GetxController
     showDeleteDialog();
   }
 
-  void onItemClick(int index) {}
+  void onItemClick(int index) {
+    if (selectedTab.value == OrderTabType.request) {}
+    if (selectedTab.value == OrderTabType.proceed) {
+      var arguments = {
+        AppConstants.intentKey.orderId: proceedOrdersList[index].id ?? 0,
+      };
+      moveToScreen(
+          appRout: AppRoutes.buyerOrderDetailsScreen, arguments: arguments);
+    }
+  }
 
   // double get grandTotal =>
   //     requestOrdersList.fold(0, (sum, item) => sum + item.totalPrice);
@@ -297,8 +299,11 @@ class BuyerOrderController extends GetxController
         results = tempProceedOrderList;
       } else {
         results = tempProceedOrderList
-            .where((element) => (!StringHelper.isEmptyString(element.name) &&
-                element.name!.toLowerCase().contains(value.toLowerCase())))
+            .where((element) =>
+                (!StringHelper.isEmptyString(element.supplierName) &&
+                    element.supplierName!
+                        .toLowerCase()
+                        .contains(value.toLowerCase())))
             .toList();
       }
       proceedOrdersList.value = results;
@@ -308,8 +313,11 @@ class BuyerOrderController extends GetxController
         results = tempDeliveredOrderList;
       } else {
         results = tempDeliveredOrderList
-            .where((element) => (!StringHelper.isEmptyString(element.name) &&
-                element.name!.toLowerCase().contains(value.toLowerCase())))
+            .where((element) =>
+                (!StringHelper.isEmptyString(element.supplierName) &&
+                    element.supplierName!
+                        .toLowerCase()
+                        .contains(value.toLowerCase())))
             .toList();
       }
       deliveredOrdersList.value = results;

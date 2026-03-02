@@ -1,13 +1,13 @@
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
 
-class BuyerOrderListResponse {
+class BuyerProductListResponse {
   bool? isSuccess;
   String? message;
   List<ProductInfo>? info;
 
-  BuyerOrderListResponse({this.isSuccess, this.message, this.info});
+  BuyerProductListResponse({this.isSuccess, this.message, this.info});
 
-  BuyerOrderListResponse.fromJson(Map<String, dynamic> json) {
+  BuyerProductListResponse.fromJson(Map<String, dynamic> json) {
     isSuccess = json['IsSuccess'];
     message = json['message'];
     if (json['info'] != null) {
