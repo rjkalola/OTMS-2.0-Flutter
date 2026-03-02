@@ -9,7 +9,7 @@ class ProductDetailsRepository{
     Function(ResponseModel error)? onError,
   }) {
     ApiRequest(
-        url: ApiConstants.productsGet,
+        url: ApiConstants.productDetail,
         queryParameters: queryParameters)
         .getRequest(
       onSuccess: (data) {

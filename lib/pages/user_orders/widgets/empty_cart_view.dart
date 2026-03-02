@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class EmptyCartView extends StatelessWidget {
   final VoidCallback? onOrderNow;
@@ -21,8 +22,7 @@ class EmptyCartView extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             // Title
-            const Text(
-              "Your Basket is Empty",
+            Text('empty_basket_msg'.tr,
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -31,7 +31,7 @@ class EmptyCartView extends StatelessWidget {
             const SizedBox(height: 10),
             // Subtitle
             Text(
-              "Looks like you haven't added anything yet.",
+              "${'empty_basket_sub_msg'.tr}.",
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16,

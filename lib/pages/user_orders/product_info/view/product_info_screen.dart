@@ -1,4 +1,5 @@
 import 'package:belcka/pages/user_orders/basket/controller/basket_controller.dart';
+import 'package:belcka/pages/user_orders/product_info/controller/product_info_controller.dart';
 import 'package:belcka/pages/user_orders/product_info/view/widgets/product_info_container.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/app_utils.dart';
@@ -16,7 +17,7 @@ class ProductInfoScreen extends StatefulWidget {
 }
 
 class _ProductInfoScreenState extends State<ProductInfoScreen> {
-  final controller = Get.put(BasketController());
+  final controller = Get.put(ProductInfoController());
 
   @override
   Widget build(BuildContext context) {
@@ -29,13 +30,15 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
             backgroundColor: dashBoardBgColor_(context),
             appBar: BaseAppBar(
               appBar: AppBar(),
-              title: 'Product information'.tr,
+              title: 'product_info'.tr,
               isCenterTitle: false,
               isBack: true,
               bgColor: backgroundColor_(context),
-              widgets: actionButtons(),
               autoFocus: true,
               isClearVisible: false.obs,
+              onBackPressed: (){
+                controller.onBackPress();
+              },
             ),
             body: ModalProgressHUD(
               inAsyncCall: controller.isLoading.value,

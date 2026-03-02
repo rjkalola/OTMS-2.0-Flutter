@@ -1,5 +1,5 @@
 import 'package:belcka/pages/user_orders/product_info/controller/product_info_controller.dart';
-import 'package:belcka/pages/user_orders/widgets/orders_title_text_view.dart';
+import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -10,12 +10,9 @@ class ProductInfoDescriptionContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OrdersTitleTextView(
-      text: 'A replacement pan for the Twyford Alcona close coupled toilet. '
-          'manufactured from vitreous China with a horizontal waste outlet.'
-          'A replacement pan for the Twyford Alcona close coupled toilet. '
-          'manufactured from vitreous China with a horizontal waste outlet.',
-      fontSize: 15,
+    return TitleTextView(
+      text: controller.product.value.description ?? "",
+      fontSize: 14,
       fontWeight: FontWeight.w500,
     );
   }

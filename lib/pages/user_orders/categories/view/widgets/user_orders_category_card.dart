@@ -1,6 +1,7 @@
 import 'package:belcka/pages/user_orders/categories/controller/user_orders_categories_controller.dart';
 import 'package:belcka/pages/user_orders/categories/model/user_orders_categories_info.dart';
 import 'package:belcka/pages/user_orders/widgets/orders_title_text_view.dart';
+import 'package:belcka/res/colors.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
@@ -44,8 +45,9 @@ class UserOrdersCategoryCard extends StatelessWidget {
                 return Container(
                   alignment: Alignment.center,
                   child: Icon(
-                    Icons.broken_image_outlined,
+                    Icons.photo_outlined,
                     size: 42,
+                    color: Colors.grey.shade300,
                   ),
                 );
               },
@@ -57,10 +59,11 @@ class UserOrdersCategoryCard extends StatelessWidget {
                 text: item.name,
                 textAlign: TextAlign.center,
                 fontSize: 15,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w500,
                 maxLine: 2,
                 softWrap: true,
                 overflow: TextOverflow.ellipsis,
+                color: primaryTextColor_(context),
               ),
             ),
           ],

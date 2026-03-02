@@ -24,8 +24,10 @@ class ProductInfoContainer extends StatelessWidget {
             ProductInfoHeaderSection(),
             SizedBox(height: 16),
             ProductInfoDescriptionContainer(),
+            /*
             SizedBox(height: 16),
             ProductInfoBulletPointsContainer(),
+            */
           ],
         ),
       ),

@@ -78,8 +78,8 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
                     ),
                   ],
                 ) :
-                EmptyStateView(title: "No products found",
-                  message: "Your search did not match any products.",),
+                EmptyStateView(title: 'no_products_msg'.tr,
+                  message: "${'no_products_sub_msg'.tr}.",),
               )
                   : const SizedBox.shrink(),
             ),
