@@ -1,10 +1,12 @@
 import 'package:belcka/buyer_app/buyer_order/view/widgets/order_quantity_change_button.dart';
+import 'package:belcka/buyer_app/buyer_order/view/widgets/order_quantity_display_text_view.dart';
 import 'package:belcka/pages/user_orders/basket/controller/basket_controller.dart';
-import 'package:belcka/pages/user_orders/widgets/orders_title_text_view.dart';
 import 'package:belcka/pages/user_orders/widgets/out_of_stock_banner.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/widgets/text/SubTitleTextView.dart';
+import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -72,12 +74,11 @@ class _BasketItemsListState extends State<BasketItemsList> {
                                           fit: BoxFit.cover,
                                           errorBuilder:
                                               (context, error, stack) {
-                                            return const Center(
-                                              child: Icon(
-                                                Icons
-                                                    .image_not_supported_rounded,
-                                                color: Colors.grey,
+                                            return  Center(
+                                              child:  Icon(
+                                                Icons.photo_outlined,
                                                 size: 50,
+                                                color: Colors.grey.shade300,
                                               ),
                                             );
                                           },
@@ -131,40 +132,35 @@ class _BasketItemsListState extends State<BasketItemsList> {
                                     CrossAxisAlignment.start,
                                     children: [
                                       Expanded(
-                                        child: Text(
-                                          product.shortName ?? "",
-                                          style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                          ),
+                                        child: TitleTextView(
+                                          text: product.shortName ?? "",
+                                          fontSize: 15,
+                                          maxLine: 2,
+                                          fontWeight: FontWeight.w500,
                                         ),
                                       ),
 
                                     ],
                                   ),
                                   const SizedBox(height: 4),
-                                  Text(
-                                    product.uuid ?? "",
-                                    style: TextStyle(
-                                      color: Colors.grey[600],
-                                      fontSize: 14,
-                                    ),
+                                  SubtitleTextView(
+                                    text: product.uuid ?? "",
+                                    fontSize: 13,
+                                    color: secondaryExtraLightTextColor_(context),
                                   ),
                                   const SizedBox(height: 4),
-                                  Text(
-                                    "${product.currency ?? ""}${product.price ?? ""}",
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                    ),
+                                  TitleTextView(
+                                    text: "${product.currency}${product.price ?? ""}",
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                   const SizedBox(height: 2),
-                                  Text(
-                                    "Available Qty: ${product.qty}",
-                                    style: TextStyle(color: Colors.grey[600]),
+                                  TitleTextView(
+                                    text: "${'available_qty'.tr}: ${product.qty}",
+                                    fontSize: 13,
+                                    color: secondaryExtraLightTextColor_(context),
                                   ),
                                   const SizedBox(height: 8),
-
                                   // Quantity Selector
                                   Row(
                                     children: [
@@ -176,7 +172,11 @@ class _BasketItemsListState extends State<BasketItemsList> {
 
                                       }),
                                       SizedBox(width: 8),
-                                      OrdersTitleTextView(text: "${product.cartQty ?? 0}",),
+                                      OrderQuantityDisplayTextView(
+                                        value: product.cartQty ?? 0,
+                                        width: 52,
+                                        height: 30,
+                                      ),
                                       SizedBox(width: 8),
                                       OrderQuantityChangeButton(
                                           text: "+", onTap: (){

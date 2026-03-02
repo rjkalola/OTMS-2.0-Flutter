@@ -24,9 +24,9 @@ class EmptyStateView extends StatelessWidget {
             height: 80,
           ),
           SizedBox(height: 16),
-          Text(title, style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold)),
+          Text(title, style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold)),
           SizedBox(height: 8),
-          Text(message, style: TextStyle(fontSize:16,color: Colors.grey.shade600,)),
+          Text(message, style: TextStyle(fontSize:14,color: Colors.grey.shade600,)),
         ],
       ),
     );

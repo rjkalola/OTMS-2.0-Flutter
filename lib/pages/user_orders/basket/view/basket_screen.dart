@@ -5,6 +5,7 @@ import 'package:belcka/pages/user_orders/widgets/empty_cart_view.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
+import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,7 @@ class _BasketScreenState extends State<BasketScreen> {
             backgroundColor: dashBoardBgColor_(context),
             appBar: BaseAppBar(
               appBar: AppBar(),
-              title: 'Basket'.tr,
+              title: 'basket'.tr,
               isCenterTitle: false,
               isBack: true,
               bgColor: backgroundColor_(context),
@@ -71,24 +72,11 @@ class _BasketScreenState extends State<BasketScreen> {
                   padding: const EdgeInsets.all(16.0),
                   child: Opacity(
                     opacity: 1.0,
-                    child: ElevatedButton(
+                    child: PrimaryButton(
+                      buttonText: "order_now".tr,
                       onPressed: () {
                         controller.toggleCreateOrder();
                       },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: defaultAccentColor_(context),
-                        minimumSize: const Size(double.infinity, 50),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                      ),
-                      child: Text(
-                        'Order Now'.tr,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
                       ),
                     ),
                   ),
@@ -97,7 +85,6 @@ class _BasketScreenState extends State<BasketScreen> {
             ),
           ),
         ),
-      ),
     );
   }
 
@@ -110,7 +97,7 @@ class _BasketScreenState extends State<BasketScreen> {
           SizedBox(
             width: 4,
           ),
-          Text('History',
+          Text('history'.tr,
               style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold))
         ]),
       )

@@ -5,8 +5,11 @@ import 'package:belcka/pages/user_orders/product_details/controller/product_deta
 import 'package:belcka/pages/user_orders/widgets/orders_title_text_view.dart';
 import 'package:belcka/pages/user_orders/widgets/out_of_stock_banner.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/widgets/text/SubTitleTextView.dart';
+import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -55,11 +58,11 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                           fit: BoxFit.cover,
                           errorBuilder:
                               (context, error, stack) {
-                            return const Center(
+                            return  Center(
                               child: Icon(
                                 Icons
-                                    .image_not_supported_rounded,
-                                color: Colors.grey,
+                                    .photo_outlined,
+                                color: Colors.grey.shade300,
                                 size: 50,
                               ),
                             );
@@ -121,36 +124,35 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
             ),
             const SizedBox(height: 16),
             // Product Details
-            OrdersTitleTextView(
-              text:controller.product.value.shortName ?? "",
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
+            TitleTextView(
+              text: controller.product.value.shortName ?? "",
+              fontSize: 15,
+              maxLine: 2,
+              fontWeight: FontWeight.w500,
             ),
             SizedBox(height: 8),
 
             Row(
               children: [
-                OrdersTitleTextView(text: "${controller.product.value.supplierName ?? ""}: ",
+                TitleTextView(text: "${controller.product.value.supplierName ?? ""}: ",
                   color: primaryTextColor_(context),
-                fontSize: 16,
-                fontWeight: FontWeight.w600,),
-                OrdersTitleTextView(text: controller.product.value.supplierCode ?? "",
-                  color: Colors.grey[700],
-                  fontWeight: FontWeight.w500,
-                  fontSize: 15,
+                fontSize: 15,
+                fontWeight: FontWeight.w500,),
+                SubtitleTextView(text: controller.product.value.supplierCode ?? "",
+                  color: secondaryExtraLightTextColor_(context),
+                  fontSize: 13,
                   ),
               ],
             ),
             Row(
               children: [
-                OrdersTitleTextView(text:"Product code: ",
+                TitleTextView(text:"${'product_code'.tr}: ",
                   color: primaryTextColor_(context),
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,),
-                OrdersTitleTextView(text: controller.product.value.uuid ?? "",
-                  color: Colors.grey[700],
-                  fontWeight: FontWeight.w500,
-                  fontSize: 15,),
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,),
+                SubtitleTextView(text: controller.product.value.uuid ?? "",
+                  color: secondaryExtraLightTextColor_(context),
+                  fontSize: 13,),
               ],
             ),
 
@@ -160,13 +162,18 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    OrdersTitleTextView(
+                    TitleTextView(
                       text: "${controller.product.value.currency ?? ""}${controller.product.value.price ?? ""}",
-                      fontWeight:FontWeight.bold ,
-                      fontSize: 20,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
                     ),
+
                     SizedBox(height: 4),
-                    OrdersTitleTextView(text: "Available Qty: ${controller.product.value.qty}",),
+                    TitleTextView(
+                      text: "${'available_qty'.tr}: ${controller.product.value.qty}",
+                      fontSize: 13,
+                      color: secondaryExtraLightTextColor_(context),
+                    ),
                   ],
                 ),
 
@@ -203,7 +210,11 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                             });
                           }),
                           SizedBox(width: 8),
-                          OrdersTitleTextView(text: "${controller.product.value.cartQty ?? 0}",),
+                          OrderQuantityDisplayTextView(
+                            value: controller.product.value.cartQty ?? 0,
+                            width: 52,
+                            height: 30,
+                          ),
                           SizedBox(width: 8),
                           OrderQuantityChangeButton(
                               text: "+", onTap: (){
@@ -236,9 +247,23 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
               ),
 
             SizedBox(height: 20),
-            NavigationCard(value: "Product Set".tr,isShowArrow: true,),
-            NavigationCard(value: "Product Information".tr,isShowArrow: true,),
-            NavigationCard(value: "Technical Specification".tr,isShowArrow: true,),
+
+            InkWell(
+              onTap: (){
+
+              },
+                child: NavigationCard(value: "product_set".tr,isShowArrow: true,)),
+
+            InkWell(
+              onTap: (){
+                var arguments = {
+                  "product_id":controller.product.value.productId
+                };
+                controller.moveToScreen(AppRoutes.productInfoScreen, arguments);
+              },
+                child: NavigationCard(value: "product_info".tr,isShowArrow: true,)),
+
+            NavigationCard(value: "technical_specification".tr,isShowArrow: true,),
           ],
         ),
       ),

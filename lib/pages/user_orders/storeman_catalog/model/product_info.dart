@@ -149,13 +149,13 @@ class ProductInfo {
     marketPrice = json['market_price'];
     qty = json['qty'];
     cartQty = json['cart_qty'];
-    subQty = json['sub_qty'];
+    subQty = json['sub_qty'].toString();
     totalAmount = json['total_amount'];
     stockStatus = json['stock_status'];
     currency = json['currency'];
     stockStatusId = json['stock_status_id'];
     isSubQty = json['is_sub_qty'];
-    packOffQty = json['pack_off_qty'];
+    packOffQty = json['pack_off_qty'].toString();
     packOffUnitId = json['pack_off_unit_id'];
     imageUrl = json['image_url'];
     thumbUrl = json['thumb_url'];

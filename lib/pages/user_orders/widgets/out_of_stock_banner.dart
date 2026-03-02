@@ -1,5 +1,6 @@
 import 'package:belcka/res/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class OutOfStockBanner extends StatelessWidget {
   final int itemCount;
@@ -37,11 +38,11 @@ class OutOfStockBanner extends StatelessWidget {
                 ),
                 children: [
                   TextSpan(
-                    text: "$itemCount items ",
+                    text: "$itemCount ${'items'.tr} ",
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   //const TextSpan(text: "are out of stock; they will be delivered within "),
-                  const TextSpan(text: "are out of stock; they will be delivered soon. "),
+                  TextSpan(text: "${'out_of_stock_msg'.tr}."),
                   /*
                   TextSpan(
                     text: "$deliveryDays working days",

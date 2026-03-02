@@ -1,4 +1,5 @@
 import 'package:belcka/buyer_app/buyer_order/view/widgets/order_quantity_change_button.dart';
+import 'package:belcka/buyer_app/buyer_order/view/widgets/order_quantity_display_text_view.dart';
 import 'package:belcka/buyer_app/buyer_order/view/widgets/order_quantity_text_field.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/controller/storeman_catalog_controller.dart';
 import 'package:belcka/pages/user_orders/widgets/orders_title_text_view.dart';
@@ -6,6 +7,8 @@ import 'package:belcka/pages/user_orders/widgets/out_of_stock_banner.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/widgets/text/SubTitleTextView.dart';
+import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -75,12 +78,11 @@ class _StoremanProductsListWidgetState extends State<StoremanProductsListWidget>
                                       fit: BoxFit.cover,
                                       errorBuilder:
                                           (context, error, stack) {
-                                        return const Center(
+                                        return  Center(
                                           child: Icon(
-                                            Icons
-                                                .image_not_supported_rounded,
-                                            color: Colors.grey,
+                                            Icons.photo_outlined,
                                             size: 50,
+                                            color: Colors.grey.shade300,
                                           ),
                                         );
                                       },
@@ -134,37 +136,36 @@ class _StoremanProductsListWidgetState extends State<StoremanProductsListWidget>
                                 CrossAxisAlignment.start,
                                 children: [
                                   Expanded(
-                                    child: Text(
-                                      product.shortName ?? "",
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                      ),
+                                    child: TitleTextView(
+                                      text: product.shortName ?? "",
+                                      fontSize: 15,
+                                      maxLine: 2,
+                                      fontWeight: FontWeight.w500,
                                     ),
                                   ),
                                 ],
                               ),
                               const SizedBox(height: 4),
-                              Text(
-                                product.uuid ?? "",
-                                style: TextStyle(
-                                  color: Colors.grey[600],
-                                  fontSize: 14,
-                                ),
+                              SubtitleTextView(
+                                text: product.uuid ?? "",
+                                fontSize: 13,
+                                color: secondaryExtraLightTextColor_(context),
                               ),
                               const SizedBox(height: 4),
-                              Text(
-                                "${product.currency ?? ""}${product.price ?? ""}",
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                ),
+
+                              TitleTextView(
+                                text: "${product.currency}${product.price ?? ""}",
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
                               ),
+
                               const SizedBox(height: 2),
-                              Text(
-                                "Available Qty: ${product.qty}",
-                                style: TextStyle(color: Colors.grey[600]),
+                              TitleTextView(
+                                text: "${'available_qty'.tr}: ${product.qty}",
+                                fontSize: 13,
+                                color: secondaryExtraLightTextColor_(context),
                               ),
+
                               const SizedBox(height: 8),
 
                               // Quantity Selector
@@ -178,7 +179,11 @@ class _StoremanProductsListWidgetState extends State<StoremanProductsListWidget>
 
                                   }),
                                   SizedBox(width: 8),
-                                  OrdersTitleTextView(text: "${product.cartQty ?? 0}",),
+                                  OrderQuantityDisplayTextView(
+                                    value: product.cartQty ?? 0,
+                                    width: 52,
+                                    height: 30,
+                                  ),
                                   SizedBox(width: 8),
                                   OrderQuantityChangeButton(
                                       text: "+", onTap: (){
@@ -230,13 +235,11 @@ class _StoremanProductsListWidgetState extends State<StoremanProductsListWidget>
                                               : Icons.add_shopping_cart_outlined,
                                           color: Colors.white,
                                         ),
-                                        label: Text(
-                                          (isAdded) ? "Added" : "Add to cart",
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                          ),
+                                        label: TitleTextView(
+                                          text: (isAdded) ? "added".tr : "add_to_cart".tr,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15,
                                         ),
                                       ),
                                     ),
