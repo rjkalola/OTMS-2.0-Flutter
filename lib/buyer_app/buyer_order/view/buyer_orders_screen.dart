@@ -101,12 +101,10 @@ class _BuyerOrdersScreenState extends State<BuyerOrdersScreen> {
                                           AppConstants.intentKey.productsData:
                                               list,
                                         };
-                                        controller.moveToScreen(
+                                        controller.moveToCreateOrderScreen(
                                             appRout: AppRoutes
                                                 .createBuyerOrderScreen,
                                             arguments: arguments);
-                                        Get.toNamed(
-                                            AppRoutes.createBuyerOrderScreen);
                                       } else {
                                         AppUtils.showToastMessage(
                                             'msg_add_at_least_one_qty'.tr);

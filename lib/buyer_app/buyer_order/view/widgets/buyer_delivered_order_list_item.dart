@@ -46,7 +46,6 @@ class BuyerDeliveredOrderListItem extends StatelessWidget {
                         ),
                         PrimaryTextView(
                           text: item.supplierName ?? "",
-                          fontWeight: FontWeight.w600,
                           fontSize: 16,
                         ),
                         SizedBox(
@@ -63,7 +62,6 @@ class BuyerDeliveredOrderListItem extends StatelessWidget {
                         PrimaryTextView(
                           text:
                               "${'delivery_date'.tr}: ${item.expectedDeliveryDate ?? ""}",
-                          fontWeight: FontWeight.w600,
                           fontSize: 16,
                         )
                       ],

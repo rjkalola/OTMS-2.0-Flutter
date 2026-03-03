@@ -335,6 +335,15 @@ class BuyerOrderController extends GetxController
     isSearchEnable.value = false;
   }
 
+  Future<void> moveToCreateOrderScreen(
+      {required String appRout, dynamic arguments}) async {
+    var result = await Get.toNamed(appRout, arguments: arguments);
+    if (result != null && result) {
+      selectedTab.value = OrderTabType.proceed;
+      loadData();
+    }
+  }
+
   Future<void> moveToScreen(
       {required String appRout, dynamic arguments}) async {
     var result = await Get.toNamed(appRout, arguments: arguments);
