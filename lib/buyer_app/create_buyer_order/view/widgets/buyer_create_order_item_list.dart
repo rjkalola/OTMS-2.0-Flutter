@@ -1,12 +1,11 @@
-import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_request_order_list_item.dart';
+import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_product_list_item.dart';
 import 'package:belcka/buyer_app/create_buyer_order/controller/create_buyer_order_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
 class BuyerCreateOrderItemList extends StatelessWidget {
   BuyerCreateOrderItemList({super.key});
-  
+
   final controller = Get.find<CreateBuyerOrderController>();
 
   @override
@@ -19,7 +18,7 @@ class BuyerCreateOrderItemList extends StatelessWidget {
         separatorBuilder: (_, __) => const SizedBox(height: 10),
         itemBuilder: (context, index) {
           final item = controller.buyerOrdersList[index];
-          return BuyerRequestOrderListItem(
+          return BuyerProductListItem(
             item: item,
             onListItem: () => controller.onItemClick(index),
             // focusNode: controller.getQtyFocusNode(index),

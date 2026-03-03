@@ -82,15 +82,15 @@ class BuyerOrderProductsListItem extends StatelessWidget {
                         TitleTextView(
                           text: "${'ordered_qty'.tr}: ${item.qty ?? 0}",
                           fontSize: 13,
-                          color: secondaryExtraLightTextColor_(context),
+                          color: primaryTextColor_(context),
                         ),
                         Row(
                           children: [
                             TitleTextView(
                               text:
-                                  "${'received_qty'.tr}: ${item.receiveQty ?? 0}",
+                                  "${'received_qty'.tr}: ${item.receivedQty ?? 0}",
                               fontSize: 13,
-                              color: secondaryExtraLightTextColor_(context),
+                              color: primaryTextColor_(context),
                             ),
                             const Spacer(),
                             TitleTextView(
@@ -123,29 +123,36 @@ class BuyerOrderProductsListItem extends StatelessWidget {
               SizedBox(
                 height: 6,
               ),
-              Divider(
-                color: dividerColor_(context),
-              ),
-              SizedBox(
-                height: 6,
-              ),
-              Row(
-                children: [
-                  TitleTextView(
-                    text: 'qty_to_receive'.tr,
-                    fontSize: 16,
-                  ),
-                  const Spacer(),
-                  OrderQuantityChangeButton(text: "-", onTap: onRemove),
-                  const SizedBox(width: 8),
-                  OrderQuantityDisplayTextView(
-                    value: item.cartQty ?? 0,
-                    width: 52,
-                    height: 30,
-                  ),
-                  const SizedBox(width: 8),
-                  OrderQuantityChangeButton(text: "+", onTap: onAdd),
-                ],
+              Visibility(
+                visible: ((item.qty ?? 0) - (item.receivedQty ?? 0)) > 0,
+                child: Column(
+                  children: [
+                    Divider(
+                      color: dividerColor_(context),
+                    ),
+                    SizedBox(
+                      height: 6,
+                    ),
+                    Row(
+                      children: [
+                        TitleTextView(
+                          text: 'qty_to_receive'.tr,
+                          fontSize: 16,
+                        ),
+                        const Spacer(),
+                        OrderQuantityChangeButton(text: "-", onTap: onRemove),
+                        const SizedBox(width: 8),
+                        OrderQuantityDisplayTextView(
+                          value: item.cartQty ?? 0,
+                          width: 52,
+                          height: 30,
+                        ),
+                        const SizedBox(width: 8),
+                        OrderQuantityChangeButton(text: "+", onTap: onAdd),
+                      ],
+                    )
+                  ],
+                ),
               )
             ],
           ),

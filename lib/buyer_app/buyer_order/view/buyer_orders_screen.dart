@@ -2,7 +2,7 @@ import 'package:belcka/buyer_app/buyer_order/controller/buyer_order_controller.d
 import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_delivered_order_list.dart';
 import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_order_header_view.dart';
 import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_proceed_order_list.dart';
-import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_request_order_list.dart';
+import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_products_list.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/res/drawable.dart';
@@ -167,7 +167,7 @@ class _BuyerOrdersScreenState extends State<BuyerOrdersScreen> {
 
   Widget selectedOrderList() {
     if (controller.selectedTab.value == OrderTabType.request) {
-      return BuyerRequestOrderList();
+      return BuyerProductsList();
     } else if (controller.selectedTab.value == OrderTabType.proceed) {
       return BuyerProceedOrderList();
     } else if (controller.selectedTab.value == OrderTabType.delivered) {

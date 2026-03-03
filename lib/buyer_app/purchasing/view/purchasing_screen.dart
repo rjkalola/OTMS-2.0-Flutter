@@ -1,5 +1,4 @@
 import 'package:belcka/buyer_app/purchasing/controller/purchasing_controller.dart';
-import 'package:belcka/buyer_app/purchasing/view/widgets/hire_card_view.dart';
 import 'package:belcka/buyer_app/purchasing/view/widgets/inventory_card_view.dart';
 import 'package:belcka/buyer_app/purchasing/view/widgets/orders_card_view.dart';
 import 'package:belcka/buyer_app/purchasing/view/widgets/other_card_view.dart';

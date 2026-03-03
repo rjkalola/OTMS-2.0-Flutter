@@ -13,7 +13,7 @@ import 'package:belcka/widgets/text/TitleTextView.dart';
 
 import '../../../../utils/string_helper.dart';
 
-class BuyerRequestOrderListItem extends StatelessWidget {
+class BuyerProductListItem extends StatelessWidget {
   final ProductInfo item;
   final VoidCallback onAdd;
   final VoidCallback onRemove;
@@ -23,7 +23,7 @@ class BuyerRequestOrderListItem extends StatelessWidget {
 
   // final FocusNode focusNode;
 
-  const BuyerRequestOrderListItem(
+  const BuyerProductListItem(
       {super.key,
       required this.item,
       // required this.focusNode,

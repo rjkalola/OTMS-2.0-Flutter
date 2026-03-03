@@ -2,8 +2,12 @@ import 'package:belcka/buyer_app/buyer_order/model/order_info.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/text/PrimaryTextView.dart';
+import 'package:belcka/widgets/text/TextViewWithContainer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../../../utils/app_utils.dart';
+import '../../../../utils/string_helper.dart';
 
 class BuyerProceedOrderListItem extends StatelessWidget {
   final OrderInfo item;
@@ -23,74 +27,92 @@ class BuyerProceedOrderListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onListItem,
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
-        child: CardViewDashboardItem(
-          borderRadius: 14,
-          padding: const EdgeInsets.fromLTRB(14, 14, 14, 10),
-          child: IntrinsicHeight(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+      child: Stack(
+        children: [
+          CardViewDashboardItem(
+            borderRadius: 14,
+            margin: const EdgeInsets.fromLTRB(12, 7, 12, 7),
+            padding: const EdgeInsets.fromLTRB(14, 14, 14, 10),
+            child: IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        PrimaryTextView(
+                          text: item.date ?? "",
+                          fontSize: 14,
+                        ),
+                        SizedBox(
+                          height: 2,
+                        ),
+                        PrimaryTextView(
+                          text: item.supplierName ?? "",
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
+                        SizedBox(
+                          height: 2,
+                        ),
+                        PrimaryTextView(
+                          text:
+                              "${'total_amount'.tr}: ${item.currency ?? ""}${item.totalAmount ?? ""}",
+                          fontSize: 15,
+                        ),
+                        SizedBox(
+                          height: 2,
+                        ),
+                        PrimaryTextView(
+                          text:
+                              "${'delivery_date'.tr}: ${item.expectedDeliveryDate ?? ""}",
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        )
+                      ],
+                    ),
+                  ),
+                  Stack(
+                    alignment: Alignment.topRight,
                     children: [
                       PrimaryTextView(
-                        text: item.date ?? "",
-                        fontSize: 14,
+                        text: "${'order'.tr}: ${item.orderId ?? ""}",
+                        color: secondaryLightTextColor_(context),
+                        fontSize: 13,
                       ),
-                      SizedBox(
-                        height: 2,
-                      ),
-                      PrimaryTextView(
-                        text: item.supplierName ?? "",
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16,
-                      ),
-                      SizedBox(
-                        height: 2,
-                      ),
-                      PrimaryTextView(
-                        text:
-                            "${'total_amount'.tr}: ${item.currency ?? ""}${item.totalAmount ?? ""}",
-                        fontSize: 15,
-                      ),
-                      SizedBox(
-                        height: 2,
-                      ),
-                      PrimaryTextView(
-                        text:
-                            "${'delivery_date'.tr}: ${item.expectedDeliveryDate ?? ""}",
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16,
+                      GestureDetector(
+                        onTap: onInvoiceClick,
+                        child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Icon(
+                              Icons.insert_drive_file_outlined,
+                              size: 30,
+                            )),
                       )
                     ],
-                  ),
-                ),
-                Stack(
-                  alignment: Alignment.topRight,
-                  children: [
-                    PrimaryTextView(
-                      text: "${'order'.tr}: ${item.orderId ?? ""}",
-                      color: secondaryLightTextColor_(context),
-                      fontSize: 13,
-                    ),
-                    GestureDetector(
-                      onTap: onInvoiceClick,
-                      child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Icon(
-                            Icons.insert_drive_file_outlined,
-                            size: 30,
-                          )),
-                    )
-                  ],
-                )
-              ],
+                  )
+                ],
+              ),
             ),
           ),
-        ),
+          Visibility(
+            visible: !StringHelper.isEmptyString(item.statusText),
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: TextViewWithContainer(
+                margin: EdgeInsets.only(left: 34, top: 0),
+                text: item.statusText ?? "",
+                padding: EdgeInsets.fromLTRB(5, 1, 5, 1),
+                fontColor: Colors.white,
+                fontWeight: FontWeight.w500,
+                fontSize: 12,
+                boxColor: AppUtils.getOrderStatusColor(item.status ?? 0),
+                borderRadius: 5,
+              ),
+            ),
+          )
+        ],
       ),
     );
     // return GestureDetector(

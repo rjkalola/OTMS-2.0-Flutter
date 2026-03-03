@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:belcka/buyer_app/buyer_order/controller/buyer_order_repository.dart';
 import 'package:belcka/buyer_app/buyer_order/model/buyer_order_invoice_response.dart';
-import 'package:belcka/buyer_app/buyer_order/model/buyer_orders_list_response.dart';
 import 'package:belcka/buyer_app/buyer_order/model/order_info.dart';
 import 'package:belcka/buyer_app/buyer_order_details/controller/buyer_order_details_repository.dart';
 import 'package:belcka/buyer_app/buyer_order_details/model/buyer_order_details_response.dart';
@@ -17,17 +16,23 @@ import 'package:belcka/web_services/response/response_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
+import '../../../pages/common/listener/select_date_listener.dart';
 import '../../../utils/app_constants.dart';
+import '../../../utils/date_utils.dart';
 
-class BuyerOrderDetailsController extends GetxController {
+class BuyerOrderDetailsController extends GetxController
+    implements SelectDateListener {
   final _api = BuyerOrderDetailsRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
       isSearchEnable = false.obs,
       isClearSearch = false.obs;
+  RxInt status = 0.obs;
   final searchController = TextEditingController().obs;
   final noteController = TextEditingController().obs;
+  final receiveDateController = TextEditingController().obs;
+  DateTime? receiveDate;
   final orderInfo = OrderInfo().obs;
   final orderProductsList = <ProductInfo>[].obs;
   List<ProductInfo> tempOrderProductsList = [];
@@ -40,6 +45,8 @@ class BuyerOrderDetailsController extends GetxController {
     if (arguments != null) {
       orderId = arguments[AppConstants.intentKey.orderId] ?? 0;
     }
+    receiveDateController.value.text =
+        DateUtil.dateToString(DateTime.now(), DateUtil.DD_MM_YYYY_SLASH);
     orderDetailsApi();
   }
 
@@ -58,10 +65,11 @@ class BuyerOrderDetailsController extends GetxController {
               BuyerOrderDetailsResponse.fromJson(
                   jsonDecode(responseModel.result!));
           orderInfo.value = response.info!;
+          status.value = orderInfo.value.status??0;
           tempOrderProductsList.clear();
 
           for (var info in orderInfo.value.purchaseOrders!) {
-            info.cartQty = info.qty;
+            info.cartQty = (info.qty ?? 0) - (info.receivedQty ?? 0);
             tempOrderProductsList.add(info);
           }
 
@@ -123,7 +131,7 @@ class BuyerOrderDetailsController extends GetxController {
     for (var item in orderProductsList) {
       if ((item.cartQty ?? 0) > 0) {
         ProductRequestInfo info = ProductRequestInfo();
-        info.productId = item.id ?? 0;
+        info.productId = item.productId ?? 0;
         info.qty = item.cartQty ?? 0;
         info.price = item.price ?? "";
         productList.add(info);
@@ -139,11 +147,13 @@ class BuyerOrderDetailsController extends GetxController {
   void receiveOrderApi(List<ProductRequestInfo> productList) {
     isLoading.value = true;
     Map<String, dynamic> map = {};
-    map["order_id"] = orderId.toString();
+    map["order_id"] = orderId;
     map["company_id"] = ApiConstants.companyId;
     map["store_id"] = orderInfo.value.storeId ?? 0;
-    map["receive_date"] = "";
+    map["receive_date"] = StringHelper.getText(receiveDateController.value);
     map["note"] = StringHelper.getText(noteController.value);
+    map["product_data"] = productList;
+    print(jsonEncode(productList));
 
     _api.receiveBuyerOrder(
       data: map,
@@ -175,7 +185,8 @@ class BuyerOrderDetailsController extends GetxController {
 
   void increaseQty(int index) {
     if ((orderProductsList[index].cartQty ?? 0) <
-        (orderProductsList[index].qty ?? 0)) {
+        ((orderProductsList[index].qty ?? 0) -
+            (orderProductsList[index].receivedQty ?? 0))) {
       orderProductsList[index].cartQty =
           (orderProductsList[index].cartQty ?? 0) + 1;
       orderProductsList.refresh();
@@ -216,6 +227,25 @@ class BuyerOrderDetailsController extends GetxController {
     searchController.value.clear();
     searchItem("");
     isSearchEnable.value = false;
+  }
+
+  void showDatePickerDialog(String dialogIdentifier, DateTime? date,
+      DateTime firstDate, DateTime lastDate) {
+    DateUtil.showDatePickerDialog(
+        initialDate: date,
+        firstDate: firstDate,
+        lastDate: lastDate,
+        dialogIdentifier: dialogIdentifier,
+        selectDateListener: this);
+  }
+
+  @override
+  void onSelectDate(DateTime date, String dialogIdentifier) {
+    if (dialogIdentifier == AppConstants.dialogIdentifier.selectDate) {
+      receiveDate = date;
+      receiveDateController.value.text =
+          DateUtil.dateToString(date, DateUtil.DD_MM_YYYY_DASH);
+    }
   }
 
   Future<void> moveToScreen(

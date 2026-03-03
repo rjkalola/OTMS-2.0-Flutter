@@ -21,11 +21,11 @@ class PurchasingController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    inventoryOverviewApi();
+    inventoryOverviewApi(true);
   }
 
-  void inventoryOverviewApi() {
-    isLoading.value = true;
+  void inventoryOverviewApi(bool isProgress) {
+    isLoading.value = isProgress;
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
     _api.inventoryOverviewApi(
@@ -65,5 +65,6 @@ class PurchasingController extends GetxController {
   Future<void> moveToScreen(
       {required String appRout, dynamic arguments}) async {
     var result = await Get.toNamed(appRout, arguments: arguments);
+    inventoryOverviewApi(false);
   }
 }

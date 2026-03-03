@@ -12,6 +12,7 @@ class AppConstants {
   static const ShiftType shiftType = ShiftType();
   static const Results results = Results();
   static const Status status = Status();
+  static const OrderStatus orderStatus = OrderStatus();
   static const CompanyResourcesFlag companyResourcesFlag =
       CompanyResourcesFlag();
   static const NotificationType notificationType = NotificationType();
@@ -362,6 +363,15 @@ class Status {
 // 6 lock
 // 7 unlock
 // 9 paid
+}
+
+class OrderStatus {
+  const OrderStatus();
+  final int issued = 0;
+  final int partialReceived = 1;
+  final int received = 2;
+  final int unlocked = 3;
+  final int cancelled = 4;
 }
 
 class CompanyResourcesFlag {

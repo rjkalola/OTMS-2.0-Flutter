@@ -13,7 +13,7 @@ class OtherCardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Obx(() => SizedBox(
       width: double.infinity,
       child: CardViewDashboardItem(
           padding: EdgeInsets.fromLTRB(16, 12, 16, 12),
@@ -88,6 +88,6 @@ class OtherCardView extends StatelessWidget {
               )
             ],
           )),
-    );
+    ),);
   }
 }

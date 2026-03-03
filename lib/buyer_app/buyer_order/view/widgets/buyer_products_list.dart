@@ -3,10 +3,10 @@ import 'package:belcka/widgets/other_widgets/no_data_found_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'buyer_request_order_list_item.dart';
+import 'buyer_product_list_item.dart';
 
-class BuyerRequestOrderList extends StatelessWidget {
-  BuyerRequestOrderList({super.key});
+class BuyerProductsList extends StatelessWidget {
+  BuyerProductsList({super.key});
 
   final controller = Get.find<BuyerOrderController>();
 
@@ -23,7 +23,7 @@ class BuyerRequestOrderList extends StatelessWidget {
               separatorBuilder: (_, __) => const SizedBox(height: 10),
               itemBuilder: (context, index) {
                 final item = controller.requestOrdersList[index];
-                return BuyerRequestOrderListItem(
+                return BuyerProductListItem(
                   item: item,
                   onListItem: () => controller.onItemClick(index),
                   // focusNode: controller.getQtyFocusNode(index),

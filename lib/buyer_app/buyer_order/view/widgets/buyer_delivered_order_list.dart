@@ -26,6 +26,8 @@ class BuyerDeliveredOrderList extends StatelessWidget {
                 return BuyerDeliveredOrderListItem(
                   item: item,
                   onListItem: () => controller.onItemClick(index),
+                  onInvoiceClick: () => controller.buyerOrderInvoiceApi(
+                      controller.proceedOrdersList[index].id ?? 0),
                 );
                 // return DeliveredBuyerOrderListItem(
                 //   item: item,

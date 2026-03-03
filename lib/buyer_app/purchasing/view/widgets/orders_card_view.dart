@@ -14,7 +14,7 @@ class OrdersCardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Obx(() => SizedBox(
       width: double.infinity,
       child: CardViewDashboardItem(
           padding: EdgeInsets.fromLTRB(16, 12, 16, 12),
@@ -48,8 +48,8 @@ class OrdersCardView extends StatelessWidget {
                               ),
                               PurchasingScreenItemValueWidget(
                                   value: (controller.inventoryData.value
-                                              .requestedOrders ??
-                                          0)
+                                      .requestedOrders ??
+                                      0)
                                       .toString()),
                             ],
                           ),
@@ -70,8 +70,8 @@ class OrdersCardView extends StatelessWidget {
                             ),
                             PurchasingScreenItemValueWidget(
                                 value: (controller.inventoryData.value
-                                            .proceedOrders ??
-                                        0)
+                                    .proceedOrders ??
+                                    0)
                                     .toString()),
                           ],
                         ),
@@ -94,8 +94,8 @@ class OrdersCardView extends StatelessWidget {
                               ),
                               PurchasingScreenItemValueWidget(
                                   value: (controller.inventoryData.value
-                                              .receivedOrders ??
-                                          0)
+                                      .receivedOrders ??
+                                      0)
                                       .toString()),
                             ],
                           ),
@@ -105,6 +105,6 @@ class OrdersCardView extends StatelessWidget {
               )
             ],
           )),
-    );
+    ),);
   }
 }

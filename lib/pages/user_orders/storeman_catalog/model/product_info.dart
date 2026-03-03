@@ -58,7 +58,7 @@ class ProductInfo {
   String? storeIds;
   int? cartId;
   List<FilesInfo>? productImages;
-  int? receiveQty;
+  int? receivedQty;
   int? totalQty;
   String? manufactureName;
   int? availableQty;
@@ -85,7 +85,7 @@ class ProductInfo {
         this.qty,
         this.cartQty,
         this.subQty,
-        this.receiveQty,
+        this.receivedQty,
         this.totalQty,
         this.manufactureName,
         this.totalAmount,
@@ -197,7 +197,7 @@ class ProductInfo {
         productImages!.add(new FilesInfo.fromJson(v));
       });
     }
-    receiveQty = json['receive_qty'];
+    receivedQty = json['received_qty'];
     totalQty = json['total_qty'];
     manufactureName = json['manufacturer_name'];
     availableQty = json['available_qty'];
@@ -269,7 +269,7 @@ class ProductInfo {
           this.productImages!.map((v) => v.toJson()).toList();
     }
 
-    data['receive_qty'] = this.receiveQty;
+    data['received_qty'] = this.receivedQty;
     data['total_qty'] = this.totalQty;
     data['manufacturer_name'] = this.manufactureName;
     data['total_amount'] = this.totalAmount;

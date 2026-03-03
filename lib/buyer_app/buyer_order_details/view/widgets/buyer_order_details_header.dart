@@ -39,34 +39,64 @@ class BuyerOrderDetailsHeader extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      // getDetailRow('order_date'.tr, item.date ?? ""),
+                      // SizedBox(
+                      //   height: 2,
+                      // ),
+                      // getDetailRow('store'.tr, item.storeName ?? ""),
                       PrimaryTextView(
-                        text: item.date ?? "",
-                        fontSize: 14,
-                      ),
-                      SizedBox(
-                        height: 2,
-                      ),
-                      PrimaryTextView(
-                        text: item.supplierName ?? "",
-                        fontWeight: FontWeight.w600,
+                        text: "${'order_date'.tr}: ${item.date ?? ""}",
                         fontSize: 16,
                       ),
                       SizedBox(
-                        height: 2,
+                        height: 3,
+                      ),
+                      PrimaryTextView(
+                        text: "${'store'.tr}: ${item.storeName ?? ""}",
+                        fontSize: 16,
+                      ),
+                      SizedBox(
+                        height: 3,
+                      ),
+                      PrimaryTextView(
+                        text: "${'supplier'.tr}: ${item.supplierName ?? ""}",
+                        fontSize: 16,
+                      ),
+
+                      SizedBox(
+                        height: 3,
                       ),
                       PrimaryTextView(
                         text:
                             "${'total_amount'.tr}: ${item.currency ?? ""}${item.totalAmount ?? ""}",
-                        fontSize: 15,
+                        fontSize: 16,
                       ),
                       SizedBox(
-                        height: 2,
+                        height: 3,
                       ),
                       PrimaryTextView(
                         text:
                             "${'delivery_date'.tr}: ${item.expectedDeliveryDate ?? ""}",
-                        fontWeight: FontWeight.w600,
                         fontSize: 16,
+                      ),
+                      SizedBox(
+                        height: 3,
+                      ),
+                      Row(
+                        children: [
+                          PrimaryTextView(
+                            text: "${'status'.tr}: ",
+                            fontSize: 16,
+                            color: primaryTextColor_(context),
+                          ),
+                          PrimaryTextView(
+                            text: item.statusText ?? "",
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color:
+                                AppUtils.getOrderStatusColor(item.status ?? 0),
+                          )
+                        ],
                       )
                     ],
                   ),
@@ -96,6 +126,29 @@ class BuyerOrderDetailsHeader extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget getDetailRow(String title, String value) {
+    return RichText(
+      text: TextSpan(
+        style: TextStyle(fontSize: 15, color: primaryTextColor_(Get.context!)),
+        children: [
+          TextSpan(
+              text: "$title: ",
+              style: TextStyle(
+                  color: primaryTextColor_(Get.context!),
+                  fontWeight: FontWeight.w500,
+                  fontSize: 15)),
+          TextSpan(
+            text: value,
+            style: TextStyle(
+                color: primaryTextColor_(Get.context!),
+                fontWeight: FontWeight.normal,
+                fontSize: 15),
+          ),
+        ],
       ),
     );
   }

@@ -19,7 +19,7 @@ class BuyerProceedOrderList extends StatelessWidget {
               physics: const AlwaysScrollableScrollPhysics(),
               // shrinkWrap: true,
               itemCount: controller.proceedOrdersList.length,
-              separatorBuilder: (_, __) => const SizedBox(height: 10),
+              separatorBuilder: (_, __) => const SizedBox(height: 14),
               itemBuilder: (context, index) {
                 final item = controller.proceedOrdersList[index];
                 return BuyerProceedOrderListItem(

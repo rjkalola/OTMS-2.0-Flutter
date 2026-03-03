@@ -1,88 +1,114 @@
-import 'package:belcka/buyer_app/buyer_order/model/local_order_info.dart';
 import 'package:belcka/buyer_app/buyer_order/model/order_info.dart';
-import 'package:belcka/buyer_app/buyer_order/view/widgets/order_quantity_display_text_view.dart';
 import 'package:belcka/res/colors.dart';
-import 'package:belcka/utils/image_utils.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/text/PrimaryTextView.dart';
-import 'package:belcka/widgets/text/SubTitleTextView.dart';
-import 'package:belcka/widgets/text/TitleTextView.dart';
+import 'package:belcka/widgets/text/TextViewWithContainer.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class BuyerDeliveredOrderListItem extends StatelessWidget {
   final OrderInfo item;
   final VoidCallback onListItem;
+  final GestureTapCallback? onInvoiceClick;
 
   const BuyerDeliveredOrderListItem(
-      {super.key, required this.item, required this.onListItem});
+      {super.key,
+      required this.item,
+      required this.onListItem,
+      this.onInvoiceClick});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onListItem,
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
-        child: CardViewDashboardItem(
-          borderRadius: 14,
-          padding: const EdgeInsets.fromLTRB(14, 14, 14, 10),
-          child: IntrinsicHeight(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+      child: Stack(
+        children: [
+          CardViewDashboardItem(
+            borderRadius: 14,
+            margin: const EdgeInsets.fromLTRB(12, 7, 12, 7),
+            padding: const EdgeInsets.fromLTRB(14, 14, 14, 10),
+            child: IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        PrimaryTextView(
+                          text: item.date ?? "",
+                          fontSize: 14,
+                        ),
+                        SizedBox(
+                          height: 2,
+                        ),
+                        PrimaryTextView(
+                          text: item.supplierName ?? "",
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
+                        SizedBox(
+                          height: 2,
+                        ),
+                        PrimaryTextView(
+                          text:
+                              "${'total_amount'.tr}: ${item.currency ?? ""}${item.totalAmount ?? ""}",
+                          fontSize: 15,
+                        ),
+                        SizedBox(
+                          height: 2,
+                        ),
+                        PrimaryTextView(
+                          text:
+                              "${'delivery_date'.tr}: ${item.expectedDeliveryDate ?? ""}",
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        )
+                      ],
+                    ),
+                  ),
+                  Stack(
+                    alignment: Alignment.topRight,
                     children: [
                       PrimaryTextView(
-                        text: "10 Sep 2025",
+                        text: "${'order'.tr}: ${item.orderId ?? ""}",
+                        color: secondaryLightTextColor_(context),
                         fontSize: 13,
                       ),
-                      SizedBox(
-                        height: 2,
-                      ),
-                      PrimaryTextView(
-                        text: "City Plumbing",
-                        fontWeight: FontWeight.w600,
-                        fontSize: 15,
-                      ),
-                      SizedBox(
-                        height: 2,
-                      ),
-                      PrimaryTextView(
-                        text: "Total Amount: £3200.00 ",
-                        fontSize: 14,
-                      ),
-                      SizedBox(
-                        height: 2,
-                      ),
-                      PrimaryTextView(
-                        text: "Delivery date 08/12/25",
-                        fontWeight: FontWeight.w600,
-                        fontSize: 15,
+                      GestureDetector(
+                        onTap: onInvoiceClick,
+                        child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Icon(
+                              Icons.insert_drive_file_outlined,
+                              size: 30,
+                            )),
                       )
                     ],
-                  ),
-                ),
-                Stack(
-                  alignment: Alignment.topCenter,
-                  children: [
-                    PrimaryTextView(
-                      text: "Order: 122225 ",
-                      color: secondaryLightTextColor_(context),
-                      fontSize: 12,
-                    ),
-                    Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Icon(
-                          Icons.insert_drive_file_outlined,
-                          size: 30,
-                        ))
-                  ],
-                )
-              ],
+                  )
+                ],
+              ),
             ),
           ),
-        ),
+          Visibility(
+            visible: !StringHelper.isEmptyString(item.statusText),
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: TextViewWithContainer(
+                margin: EdgeInsets.only(left: 34, top: 0),
+                text: item.statusText ?? "",
+                padding: EdgeInsets.fromLTRB(5, 1, 5, 1),
+                fontColor: Colors.white,
+                fontWeight: FontWeight.w500,
+                fontSize: 12,
+                boxColor: AppUtils.getOrderStatusColor(item.status ?? 0),
+                borderRadius: 5,
+              ),
+            ),
+          )
+        ],
       ),
     );
     // return GestureDetector(

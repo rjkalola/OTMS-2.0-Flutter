@@ -24,7 +24,7 @@ class BuyerOrderController extends GetxController
   final _api = BuyerOrderRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
-      isMainViewVisible = true.obs,
+      isMainViewVisible = false.obs,
       isSearchEnable = false.obs,
       isClearSearch = false.obs;
   double cardRadius = 12;
@@ -75,9 +75,9 @@ class BuyerOrderController extends GetxController
     if (selectedTab.value == OrderTabType.request) {
       buyerProductsListApi();
     } else if (selectedTab.value == OrderTabType.proceed) {
-      buyerOrdersListApi(0);
+      buyerOrdersListApi("0,1");
     } else if (selectedTab.value == OrderTabType.delivered) {
-      buyerOrdersListApi(2);
+      buyerOrdersListApi("2");
     }
   }
 
@@ -114,8 +114,7 @@ class BuyerOrderController extends GetxController
     );
   }
 
-  void buyerOrdersListApi(int status) {
-    print("buyerOrdersListApi");
+  void buyerOrdersListApi(String status) {
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
@@ -128,11 +127,11 @@ class BuyerOrderController extends GetxController
           BuyerOrdersListResponse response = BuyerOrdersListResponse.fromJson(
               jsonDecode(responseModel.result!));
 
-          if (status == 0) {
+          if (status == "0,1") {
             tempProceedOrderList.clear();
             tempProceedOrderList.addAll(response.info ?? []);
             proceedOrdersList.value = tempProceedOrderList;
-          } else if (status == 2) {
+          } else if (status == "2") {
             tempDeliveredOrderList.clear();
             tempDeliveredOrderList.addAll(response.info ?? []);
             deliveredOrdersList.value = tempDeliveredOrderList;
@@ -219,10 +218,16 @@ class BuyerOrderController extends GetxController
   }
 
   void onItemClick(int index) {
-    if (selectedTab.value == OrderTabType.request) {}
-    if (selectedTab.value == OrderTabType.proceed) {
+    if (selectedTab.value == OrderTabType.request) {
+    } else if (selectedTab.value == OrderTabType.proceed) {
       var arguments = {
         AppConstants.intentKey.orderId: proceedOrdersList[index].id ?? 0,
+      };
+      moveToScreen(
+          appRout: AppRoutes.buyerOrderDetailsScreen, arguments: arguments);
+    } else if (selectedTab.value == OrderTabType.delivered) {
+      var arguments = {
+        AppConstants.intentKey.orderId: deliveredOrdersList[index].id ?? 0,
       };
       moveToScreen(
           appRout: AppRoutes.buyerOrderDetailsScreen, arguments: arguments);

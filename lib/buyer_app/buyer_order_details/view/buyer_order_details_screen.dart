@@ -14,7 +14,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
+import '../../../utils/app_constants.dart';
 import '../../../utils/string_helper.dart';
+import '../../../widgets/textfield/reusable/drop_down_text_field.dart';
 
 class BuyerOrderDetailsScreen extends StatefulWidget {
   const BuyerOrderDetailsScreen({super.key});
@@ -51,7 +53,7 @@ class _BuyerOrderDetailsScreenState extends State<BuyerOrderDetailsScreen> {
               isCenterTitle: false,
               isBack: true,
               bgColor: backgroundColor_(context),
-              widgets: actionButtons(),
+              // widgets: actionButtons(),
               isSearching: controller.isSearchEnable.value,
               searchController: controller.searchController,
               onValueChange: (value) {
@@ -82,22 +84,62 @@ class _BuyerOrderDetailsScreenState extends State<BuyerOrderDetailsScreen> {
                               height: 15,
                             ),
                             Expanded(
-                              child: BuyerOrderProductsList(),
+                              child: SingleChildScrollView(
+                                  child: Column(
+                                children: [
+                                  BuyerOrderProductsList(),
+                                  Visibility(
+                                    visible: controller.status.value ==
+                                            AppConstants.orderStatus.issued ||
+                                        controller.status.value ==
+                                            AppConstants
+                                                .orderStatus.partialReceived,
+                                    child: Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 20, right: 20, top: 20),
+                                          child: DropDownTextField(
+                                            title: 'receive_date'.tr,
+                                            controller: controller
+                                                .receiveDateController,
+                                            borderRadius: 16,
+                                            validators: [],
+                                            onPressed: () {
+                                              controller.showDatePickerDialog(
+                                                  AppConstants.dialogIdentifier
+                                                      .selectDate,
+                                                  controller.receiveDate,
+                                                  DateTime.now(),
+                                                  DateTime(2060));
+                                            },
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 12,
+                                        ),
+                                        AddNoteWidget(
+                                          padding: EdgeInsets.fromLTRB(
+                                              16, 10, 16, 10),
+                                          controller: controller.noteController,
+                                          borderRadius: 16,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              )),
                             ),
-                            Visibility(
-                              visible:
-                                  (controller.orderInfo.value.status ?? 0) == 0,
-                              child: AddNoteWidget(
-                                padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
-                                controller: controller.noteController,
-                                borderRadius: 15,
-                              ),
-                            ),
-                            (controller.orderInfo.value.status ?? 0) == 0
+                            controller.status.value ==
+                                        AppConstants.orderStatus.issued ||
+                                    controller.status.value ==
+                                        AppConstants.orderStatus.partialReceived
                                 ? PrimaryButton(
                                     padding: EdgeInsets.all(14),
                                     buttonText: 'receive'.tr,
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      controller.onClickReceiveOrder();
+                                    },
                                     color: defaultAccentColor_(context),
                                   )
                                 : Container()

@@ -628,7 +628,8 @@ class Strings extends Translations {
           'no_products_sub_msg':"Your search did not match any products",
           'added':"Added",
           'add_to_cart':"Add to cart",
-
+          'receive_date':"Receive Date",
+          'order_date':"Order Date",
 // '': "",
 // '': "",
           // '': "",

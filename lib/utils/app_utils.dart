@@ -285,6 +285,22 @@ class AppUtils {
     return statusText;
   }
 
+  static Color getOrderStatusColor(int status) {
+    Color color = primaryTextColor_(Get.context!);
+    if (status == AppConstants.orderStatus.issued) {
+      color = Colors.blueAccent;
+    } else if (status == AppConstants.orderStatus.partialReceived) {
+      color = Colors.orangeAccent;
+    } else if (status == AppConstants.orderStatus.received) {
+      color = Colors.green;
+    } else if (status == AppConstants.orderStatus.unlocked) {
+      color = Colors.blueAccent;
+    } else if (status == AppConstants.orderStatus.cancelled) {
+      color = Colors.redAccent;
+    }
+    return color;
+  }
+
   static void setStatusBarColor() {
     ThemeController themeController = Get.find();
     bool isDarkMode = themeController.isDarkMode;
