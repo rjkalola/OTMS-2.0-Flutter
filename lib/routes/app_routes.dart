@@ -151,4 +151,8 @@ class AppRoutes {
   static const String buyerSettingsScreen = '/buyer_settings_screen';
   static const String buyerOrderDetailsScreen = '/buyer_order_details_screen';
   static const String productInfoScreen = '/product_info_screen';
+  static const String buyerProjectsScreen = '/buyer_projects_screen';
+  static const String buyerStoresScreen = '/buyer_stores_screen';
+  static const String buyerSupplierScreen = '/buyer_supplier_screen';
+  static const String buyerCatalogueScreen = '/buyer_catalogue_screen';
 }

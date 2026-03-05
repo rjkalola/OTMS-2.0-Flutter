@@ -1,4 +1,5 @@
 import 'package:belcka/buyer_app/buyer_settings/controller/buyer_settings_controller.dart';
+import 'package:belcka/buyer_app/project_list/controller/buyer_projects_controller.dart';
 import 'package:belcka/pages/leaves/leave_list/model/leave_info.dart';
 import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
@@ -6,10 +7,10 @@ import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class BuyerSettingsItemsList extends StatelessWidget {
-  BuyerSettingsItemsList({super.key});
+class BuyerProjectsList extends StatelessWidget {
+  BuyerProjectsList({super.key});
 
-  final controller = Get.put(BuyerSettingsController());
+  final controller = Get.put(BuyerProjectsController());
 
   @override
   Widget build(BuildContext context) {
@@ -20,14 +21,18 @@ class BuyerSettingsItemsList extends StatelessWidget {
           scrollDirection: Axis.vertical,
           itemBuilder: (context, position) {
             ModuleInfo info = controller.listItems[position];
-            return GestureDetector(
-              onTap: () {
-                controller.onItemClick(info.action ?? "");
-              },
-              child: CardViewDashboardItem(
-                margin: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-                padding: const EdgeInsets.fromLTRB(14, 16, 14, 16),
-                borderRadius: 15,
+            return CardViewDashboardItem(
+              margin: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+              padding: const EdgeInsets.fromLTRB(14, 16, 14, 16),
+              borderRadius: 15,
+              child: GestureDetector(
+                onTap: () {
+                  // var arguments = {
+                  //   AppConstants.intentKey.leaveId: info.id ?? 0,
+                  // };
+                  // controller.moveToScreen(
+                  //     AppRoutes.leaveDetailsScreen, arguments);
+                },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -35,7 +40,7 @@ class BuyerSettingsItemsList extends StatelessWidget {
                       text: info.name ?? "",
                     ),
                     TitleTextView(
-                      text: info.value ?? "",
+                      text: (info.productsCount ?? 0).toString(),
                     )
                   ],
                 ),
@@ -43,14 +48,6 @@ class BuyerSettingsItemsList extends StatelessWidget {
             );
           },
           itemCount: controller.listItems.length,
-          // separatorBuilder: (context, position) => const Padding(
-          //   padding: EdgeInsets.only(left: 100),
-          //   child: Divider(
-          //     height: 0,
-          //     color: dividerColor,
-          //     thickness: 0.8,
-          //   ),
-          // ),
           separatorBuilder: (context, position) => SizedBox(
                 height: 12,
               )),

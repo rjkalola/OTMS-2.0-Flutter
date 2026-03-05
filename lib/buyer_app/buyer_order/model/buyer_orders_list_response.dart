@@ -5,8 +5,10 @@ class BuyerOrdersListResponse {
   bool? isSuccess;
   String? message;
   List<OrderInfo>? info;
+  String? startDate, endDate;
 
-  BuyerOrdersListResponse({this.isSuccess, this.message, this.info});
+  BuyerOrdersListResponse(
+      {this.isSuccess, this.message, this.info, this.startDate, this.endDate});
 
   BuyerOrdersListResponse.fromJson(Map<String, dynamic> json) {
     isSuccess = json['IsSuccess'];
@@ -17,6 +19,8 @@ class BuyerOrdersListResponse {
         info!.add(new OrderInfo.fromJson(v));
       });
     }
+    startDate = json['start_date'];
+    endDate = json['end_date'];
   }
 
   Map<String, dynamic> toJson() {
@@ -26,6 +30,8 @@ class BuyerOrdersListResponse {
     if (this.info != null) {
       data['info'] = this.info!.map((v) => v.toJson()).toList();
     }
+    data['start_date'] = this.startDate;
+    data['end_date'] = this.endDate;
     return data;
   }
 }

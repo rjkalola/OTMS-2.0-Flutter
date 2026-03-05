@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 class BuyerOrderDashboardResponse {
   bool? isSuccess;
   String? message;
@@ -6,6 +8,7 @@ class BuyerOrderDashboardResponse {
   int? damagedStock;
   int? uncompletedStock;
   int? products;
+  int? projects;
   int? stores;
   int? categories;
   int? suppliers;
@@ -13,6 +16,7 @@ class BuyerOrderDashboardResponse {
   int? proceedOrders;
   int? receivedOrders;
   List<Inventory>? inventory;
+  String? startDate, endDate;
 
   BuyerOrderDashboardResponse(
       {this.isSuccess,
@@ -22,13 +26,16 @@ class BuyerOrderDashboardResponse {
       this.damagedStock,
       this.uncompletedStock,
       this.products,
+      this.projects,
       this.stores,
       this.categories,
       this.suppliers,
       this.requestedOrders,
       this.proceedOrders,
       this.receivedOrders,
-      this.inventory});
+      this.inventory,
+      this.startDate,
+      this.endDate});
 
   BuyerOrderDashboardResponse.fromJson(Map<String, dynamic> json) {
     isSuccess = json['IsSuccess'];
@@ -38,6 +45,7 @@ class BuyerOrderDashboardResponse {
     damagedStock = json['damaged_stock'];
     uncompletedStock = json['uncompleted_stock'];
     products = json['products'];
+    projects = json['projects'];
     stores = json['stores'];
     categories = json['categories'];
     suppliers = json['suppliers'];
@@ -50,6 +58,8 @@ class BuyerOrderDashboardResponse {
         inventory!.add(new Inventory.fromJson(v));
       });
     }
+    startDate = json['start_date'];
+    endDate = json['end_date'];
   }
 
   Map<String, dynamic> toJson() {
@@ -61,6 +71,7 @@ class BuyerOrderDashboardResponse {
     data['damaged_stock'] = this.damagedStock;
     data['uncompleted_stock'] = this.uncompletedStock;
     data['products'] = this.products;
+    data['projects'] = this.projects;
     data['stores'] = this.stores;
     data['categories'] = this.categories;
     data['suppliers'] = this.suppliers;
@@ -70,6 +81,8 @@ class BuyerOrderDashboardResponse {
     if (this.inventory != null) {
       data['inventory'] = this.inventory!.map((v) => v.toJson()).toList();
     }
+    data['start_date'] = this.startDate;
+    data['end_date'] = this.endDate;
     return data;
   }
 }

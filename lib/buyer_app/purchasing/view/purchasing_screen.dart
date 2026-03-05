@@ -2,15 +2,20 @@ import 'package:belcka/buyer_app/purchasing/controller/purchasing_controller.dar
 import 'package:belcka/buyer_app/purchasing/view/widgets/inventory_card_view.dart';
 import 'package:belcka/buyer_app/purchasing/view/widgets/orders_card_view.dart';
 import 'package:belcka/buyer_app/purchasing/view/widgets/other_card_view.dart';
+import 'package:belcka/pages/common/listener/date_filter_listener.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
+import 'package:belcka/widgets/card_view.dart';
+import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
+import '../../../pages/common/widgets/date_filter_options_horizontal_list.dart';
 import '../../../utils/app_constants.dart';
 
 class PurchasingScreen extends StatefulWidget {
@@ -20,7 +25,8 @@ class PurchasingScreen extends StatefulWidget {
   State<PurchasingScreen> createState() => _PurchasingScreenState();
 }
 
-class _PurchasingScreenState extends State<PurchasingScreen> {
+class _PurchasingScreenState extends State<PurchasingScreen>
+    implements DateFilterListener {
   final controller = Get.put(PurchasingController());
 
   @override
@@ -74,7 +80,31 @@ class _PurchasingScreenState extends State<PurchasingScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   SizedBox(
-                                    height: 8,
+                                    height: 12,
+                                  ),
+                                  DateFilterOptionsHorizontalList(
+                                    padding: EdgeInsets.fromLTRB(14, 0, 14, 6),
+                                    startDate: controller.startDate.value,
+                                    endDate: controller.endDate.value,
+                                    listener: this,
+                                    selectedPosition:
+                                        controller.selectedDateFilterIndex,
+                                  ),
+                                  SizedBox(
+                                    width: double.infinity,
+                                    child: CardViewDashboardItem(
+                                        padding: EdgeInsets.all(6),
+                                        margin: EdgeInsetsGeometry.only(
+                                            left: 14,
+                                            right: 14,
+                                            top: 6,
+                                            bottom: 6),
+                                        borderRadius: 8,
+                                        child: TitleTextView(
+                                          textAlign: TextAlign.center,
+                                          text:
+                                              "${controller.displayStartDate.value} - ${controller.displayEndDate.value}",
+                                        )),
                                   ),
                                   OrdersCardView(),
                                   OtherCardView(),
@@ -105,5 +135,18 @@ class _PurchasingScreenState extends State<PurchasingScreen> {
         },
       ),
     ];
+  }
+
+  @override
+  void onSelectDateFilter(int filterIndex, String filter, String startDate,
+      String endDate, String dialogIdentifier) {
+    print("filterIndex:" + filterIndex.toString());
+    print("filter:" + filter);
+    // controller.isResetEnable.value = true;
+    controller.startDate.value = startDate;
+    controller.endDate.value = endDate;
+    controller.inventoryOverviewApi(true);
+    print("startDate:" + startDate);
+    print("endDate:" + endDate);
   }
 }

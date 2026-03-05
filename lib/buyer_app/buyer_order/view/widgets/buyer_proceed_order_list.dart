@@ -13,27 +13,30 @@ class BuyerProceedOrderList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => controller.proceedOrdersList.isNotEmpty
-          ? ListView.separated(
-              controller: controller.proceedScrollController,
-              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-              physics: const AlwaysScrollableScrollPhysics(),
-              // shrinkWrap: true,
-              itemCount: controller.proceedOrdersList.length,
-              separatorBuilder: (_, __) => const SizedBox(height: 14),
-              itemBuilder: (context, index) {
-                final item = controller.proceedOrdersList[index];
-                return BuyerProceedOrderListItem(
-                  item: item,
-                  onListItem: () => controller.onItemClick(index),
-                  onInvoiceClick: () => controller.buyerOrderInvoiceApi(
-                      controller.proceedOrdersList[index].id ?? 0),
-                );
-                // return DeliveredBuyerOrderListItem(
-                //   item: item,
-                //   onListItem: () => controller.onItemClick(index),
-                // );
-              },
-            )
+          ? Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: ListView.separated(
+                controller: controller.proceedScrollController,
+                keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                physics: const AlwaysScrollableScrollPhysics(),
+                // shrinkWrap: true,
+                itemCount: controller.proceedOrdersList.length,
+                separatorBuilder: (_, __) => const SizedBox(height: 14),
+                itemBuilder: (context, index) {
+                  final item = controller.proceedOrdersList[index];
+                  return BuyerProceedOrderListItem(
+                    item: item,
+                    onListItem: () => controller.onItemClick(index),
+                    onInvoiceClick: () => controller.buyerOrderInvoiceApi(
+                        controller.proceedOrdersList[index].id ?? 0),
+                  );
+                  // return DeliveredBuyerOrderListItem(
+                  //   item: item,
+                  //   onListItem: () => controller.onItemClick(index),
+                  // );
+                },
+              ),
+          )
           : Center(
               child: NoDataFoundWidget(),
             ),

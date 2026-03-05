@@ -14,29 +14,33 @@ class BuyerProductsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => controller.requestOrdersList.isNotEmpty
-          ? ListView.separated(
-              controller: controller.requestScrollController,
-              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-              physics: const AlwaysScrollableScrollPhysics(),
-              // shrinkWrap: true,
-              itemCount: controller.requestOrdersList.length,
-              separatorBuilder: (_, __) => const SizedBox(height: 10),
-              itemBuilder: (context, index) {
-                final item = controller.requestOrdersList[index];
-                return BuyerProductListItem(
-                  item: item,
-                  onListItem: () => controller.onItemClick(index),
-                  // focusNode: controller.getQtyFocusNode(index),
-                  onAdd: () => controller.increaseQty(index),
-                  onRemove: () => controller.decreaseQty(index),
-                  onQtyTyped: (qty) => controller.setQty(index, qty),
-                  onDelete: () => controller.removeItem(index),
-                );
-                // return DeliveredBuyerOrderListItem(
-                //   item: item,
-                //   onListItem: () => controller.onItemClick(index),
-                // );
-              },
+          ? Padding(
+              padding: const EdgeInsets.only(top: 6),
+              child: ListView.separated(
+                controller: controller.requestScrollController,
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
+                physics: const AlwaysScrollableScrollPhysics(),
+                // shrinkWrap: true,
+                itemCount: controller.requestOrdersList.length,
+                separatorBuilder: (_, __) => const SizedBox(height: 10),
+                itemBuilder: (context, index) {
+                  final item = controller.requestOrdersList[index];
+                  return BuyerProductListItem(
+                    item: item,
+                    onListItem: () => controller.onItemClick(index),
+                    // focusNode: controller.getQtyFocusNode(index),
+                    onAdd: () => controller.increaseQty(index),
+                    onRemove: () => controller.decreaseQty(index),
+                    onQtyTyped: (qty) => controller.setQty(index, qty),
+                    onDelete: () => controller.removeItem(index),
+                  );
+                  // return DeliveredBuyerOrderListItem(
+                  //   item: item,
+                  //   onListItem: () => controller.onItemClick(index),
+                  // );
+                },
+              ),
             )
           : Center(
               child: NoDataFoundWidget(),

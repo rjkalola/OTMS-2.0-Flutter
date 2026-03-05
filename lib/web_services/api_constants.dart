@@ -272,6 +272,7 @@ class ApiConstants {
   //filters
   static String getRequestFilters = '$appUrl/requests/get-filters';
   static String getTimesheetFilters = '$appUrl/timesheet/get-resources';
+  static String buyerOrderProductsFilters = '$appUrl/purchase-orders/get-filters';
 
   //expense
   static String addExpense = '$appUrl/expense/add-expense';
@@ -315,5 +316,6 @@ class ApiConstants {
   static String buyerOrderDetails = '$appUrl/purchase-orders/detail';
   static String buyerOrderInvoice = '$appUrl/purchase-orders/invoice';
   static String receiveBuyerOrder = '$appUrl/purchase-orders/purchase-receive';
-
+  static String buyerProjectsList = '$appUrl/project/get-favorite';
+  static String buyerCatalogueList = '$appUrl/categories/get';
 }

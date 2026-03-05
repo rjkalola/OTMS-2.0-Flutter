@@ -14,97 +14,100 @@ class OrdersCardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => SizedBox(
-      width: double.infinity,
-      child: CardViewDashboardItem(
-          padding: EdgeInsets.fromLTRB(16, 12, 16, 12),
-          margin: EdgeInsets.fromLTRB(14, 8, 14, 8),
-          borderRadius: controller.cardRadius,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              PurchasingScreenTitleWidget(title: 'orders'.tr),
-              SizedBox(
-                height: 6,
-              ),
-              Row(
-                children: [
-                  Flexible(
-                      flex: 1,
-                      fit: FlexFit.tight,
-                      child: GestureDetector(
-                        onTap: () {
-                          controller.onItemClick(AppConstants.type.request);
-                        },
-                        child: Container(
-                          alignment: Alignment.topLeft,
-                          child: Column(
-                            children: [
-                              PurchasingScreenItemTextWidget(
-                                text: 'request'.tr,
-                              ),
-                              SizedBox(
-                                height: 2,
-                              ),
-                              PurchasingScreenItemValueWidget(
-                                  value: (controller.inventoryData.value
-                                      .requestedOrders ??
-                                      0)
-                                      .toString()),
-                            ],
-                          ),
-                        ),
-                      )),
-                  Flexible(
-                      flex: 1,
-                      fit: FlexFit.tight,
-                      child: GestureDetector(
-                        onTap: () {
-                          controller.onItemClick(AppConstants.type.proceed);
-                        },
-                        child: Column(
-                          children: [
-                            PurchasingScreenItemTextWidget(text: 'proceed'.tr),
-                            SizedBox(
-                              height: 2,
+    return Obx(
+      () => SizedBox(
+        width: double.infinity,
+        child: CardViewDashboardItem(
+            padding: EdgeInsets.fromLTRB(16, 12, 16, 12),
+            margin: EdgeInsets.fromLTRB(14, 8, 14, 8),
+            borderRadius: controller.cardRadius,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                PurchasingScreenTitleWidget(title: 'orders'.tr),
+                SizedBox(
+                  height: 6,
+                ),
+                Row(
+                  children: [
+                    Flexible(
+                        flex: 1,
+                        fit: FlexFit.tight,
+                        child: GestureDetector(
+                          onTap: () {
+                            controller.onItemClick(AppConstants.type.request);
+                          },
+                          child: Container(
+                            alignment: Alignment.topLeft,
+                            child: Column(
+                              children: [
+                                PurchasingScreenItemTextWidget(
+                                  text: 'request'.tr,
+                                ),
+                                SizedBox(
+                                  height: 2,
+                                ),
+                                PurchasingScreenItemValueWidget(
+                                    value: (controller.inventoryData.value
+                                                .requestedOrders ??
+                                            0)
+                                        .toString()),
+                              ],
                             ),
-                            PurchasingScreenItemValueWidget(
-                                value: (controller.inventoryData.value
-                                    .proceedOrders ??
-                                    0)
-                                    .toString()),
-                          ],
-                        ),
-                      )),
-                  Flexible(
-                      flex: 1,
-                      fit: FlexFit.tight,
-                      child: GestureDetector(
-                        onTap: () {
-                          controller.onItemClick(AppConstants.type.delivered);
-                        },
-                        child: Container(
-                          alignment: Alignment.topRight,
+                          ),
+                        )),
+                    Flexible(
+                        flex: 1,
+                        fit: FlexFit.tight,
+                        child: GestureDetector(
+                          onTap: () {
+                            controller.onItemClick(AppConstants.type.proceed);
+                          },
                           child: Column(
                             children: [
                               PurchasingScreenItemTextWidget(
-                                  text: 'delivered'.tr),
+                                  text: 'proceed'.tr),
                               SizedBox(
                                 height: 2,
                               ),
                               PurchasingScreenItemValueWidget(
                                   value: (controller.inventoryData.value
-                                      .receivedOrders ??
-                                      0)
+                                              .proceedOrders ??
+                                          0)
                                       .toString()),
                             ],
                           ),
-                        ),
-                      ))
-                ],
-              )
-            ],
-          )),
-    ),);
+                        )),
+                    Flexible(
+                        flex: 1,
+                        fit: FlexFit.tight,
+                        child: GestureDetector(
+                          onTap: () {
+                            controller.onItemClick(AppConstants.type.delivered);
+                          },
+                          child: Container(
+                            alignment: Alignment.topRight,
+                            child: Column(
+                              children: [
+                                PurchasingScreenItemTextWidget(
+                                    text: 'delivered'.tr),
+                                SizedBox(
+                                  height: 2,
+                                ),
+                                PurchasingScreenItemValueWidget(
+                                    value: (controller.inventoryData.value
+                                                .receivedOrders ??
+                                            0)
+                                        .toString()),
+                              ],
+                            ),
+                          ),
+                        ))
+                  ],
+                )
+              ],
+            )),
+      ),
+    );
   }
 }

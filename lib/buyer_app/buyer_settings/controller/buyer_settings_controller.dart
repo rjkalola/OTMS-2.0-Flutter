@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:belcka/buyer_app/purchasing/model/buyer_order_dashboard_response.dart';
 import 'package:belcka/pages/project/project_details/controller/project_details_repository.dart';
+import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/web_services/response/module_info.dart';
 import 'package:get/get.dart';
@@ -29,16 +30,20 @@ class BuyerSettingsController extends GetxController {
   void setListItems() {
     listItems.add(ModuleInfo(
         name: 'store_Settings'.tr,
-        value: (settingDetails.value.stores ?? 0).toString()));
+        value: (settingDetails.value.stores ?? 0).toString(),
+        action: AppConstants.action.store));
     listItems.add(ModuleInfo(
         name: 'suppliers'.tr,
-        value: (settingDetails.value.suppliers ?? 0).toString()));
+        value: (settingDetails.value.suppliers ?? 0).toString(),
+        action: AppConstants.action.suppliers));
     listItems.add(ModuleInfo(
         name: 'catalogue'.tr,
-        value: (settingDetails.value.categories ?? 0).toString()));
+        value: (settingDetails.value.categories ?? 0).toString(),
+        action: AppConstants.action.categories));
     listItems.add(ModuleInfo(
         name: 'project'.tr,
-        value: (settingDetails.value.products ?? 0).toString()));
+        value: (settingDetails.value.projects ?? 0).toString(),
+        action: AppConstants.action.projects));
   }
 
   // void getProjectDetailsApi() {
@@ -77,7 +82,20 @@ class BuyerSettingsController extends GetxController {
   //   );
   // }
 
-  Future<void> moveToScreen(String rout, dynamic arguments) async {
+  void onItemClick(String action) {
+    print("action:" + action);
+    if (action == AppConstants.action.projects) {
+      moveToScreen(rout: AppRoutes.buyerProjectsScreen);
+    } else if (action == AppConstants.action.store) {
+      moveToScreen(rout: AppRoutes.buyerStoresScreen);
+    } else if (action == AppConstants.action.suppliers) {
+      moveToScreen(rout: AppRoutes.buyerSupplierScreen);
+    }else if (action == AppConstants.action.categories) {
+      moveToScreen(rout: AppRoutes.buyerCatalogueScreen);
+    }
+  }
+
+  Future<void> moveToScreen({required String rout, dynamic arguments}) async {
     var result = await Get.toNamed(rout, arguments: arguments);
     if (result != null && result) {
       isDataUpdated.value = true;

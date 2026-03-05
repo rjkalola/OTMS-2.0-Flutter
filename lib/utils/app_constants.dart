@@ -116,6 +116,8 @@ class IntentKey {
   final String filterData = "FILTER_DATA";
   final String typeOfWorkInfo = "TYPE_OF_WORK_INFO";
   final String selectedTabType = "SELECTED_TAB_TYPE";
+  final String startDate = "START_DATE";
+  final String endDate = "END_DATE";
 }
 
 class DialogIdentifier {
@@ -200,6 +202,7 @@ class Action {
   final String items = "ITEMS";
   final String store = "STORE";
   final String suppliers = "SUPPLIERS";
+  final String projects = "PROJECTS";
   final String categories = "CATEGORIES";
   final String stocks = "STOCKS";
   final String vendors = "VENDORS";
@@ -388,6 +391,7 @@ class FilterType {
 
   final String myRequestFilter = "MY_REQUEST_FILTER";
   final String timesheetFilter = "TIMESHEET_FILTER";
+  final String buyerOrderProductsFilter = "BUYER_ORDER_PRODUCTS";
 }
 
 class NotificationType {

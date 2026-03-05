@@ -1,8 +1,12 @@
 import 'package:belcka/buyer_app/buyer_order/view/buyer_orders_screen.dart';
 import 'package:belcka/buyer_app/buyer_order_details/view/buyer_order_details_screen.dart';
 import 'package:belcka/buyer_app/buyer_settings/view/buyer_settings_screen.dart';
+import 'package:belcka/buyer_app/catalogue_list/view/buyer_catalogue_screen.dart';
 import 'package:belcka/buyer_app/create_buyer_order/view/create_buyer_order_screen.dart';
+import 'package:belcka/buyer_app/project_list/view/buyer_projects_screen.dart';
 import 'package:belcka/buyer_app/purchasing/view/purchasing_screen.dart';
+import 'package:belcka/buyer_app/store_list/view/buyer_stores_screen.dart';
+import 'package:belcka/buyer_app/supplier_list/view/buyer_supplier_screen.dart';
 import 'package:belcka/pages/add_category/view/add_category_screen.dart';
 import 'package:belcka/pages/add_trades/view/add_trades_screen.dart';
 import 'package:belcka/pages/analytics/score_more_details/view/score_more_details_screen.dart';
@@ -445,7 +449,17 @@ class AppPages {
     GetPage(
         name: AppRoutes.buyerOrderDetailsScreen,
         page: () => BuyerOrderDetailsScreen()),
-    GetPage(name: AppRoutes.productDetailsScreen, page: () => ProductDetailsScreen()),
+    GetPage(
+        name: AppRoutes.productDetailsScreen,
+        page: () => ProductDetailsScreen()),
     GetPage(name: AppRoutes.productInfoScreen, page: () => ProductInfoScreen()),
+    GetPage(
+        name: AppRoutes.buyerProjectsScreen, page: () => BuyerProjectsScreen()),
+    GetPage(name: AppRoutes.buyerStoresScreen, page: () => BuyerStoresScreen()),
+    GetPage(
+        name: AppRoutes.buyerSupplierScreen, page: () => BuyerSupplierScreen()),
+    GetPage(
+        name: AppRoutes.buyerCatalogueScreen,
+        page: () => BuyerCatalogueScreen()),
   ];
 }

@@ -1,6 +1,4 @@
 import 'package:belcka/pages/authentication/splash/splash_screen.dart';
-import 'package:belcka/pages/profile/personal_info/view/personal_info_screen.dart';
-import 'package:belcka/pages/user_orders/order_details/view/order_details_screen.dart';
 import 'package:belcka/res/strings.dart';
 import 'package:belcka/res/theme/theme_config.dart';
 import 'package:belcka/res/theme/theme_controller.dart';
@@ -11,7 +9,6 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import 'app_badge_ios.dart';

@@ -1,0 +1,64 @@
+import 'dart:convert';
+
+import 'package:belcka/buyer_app/supplier_list/controller/buyer_supplier_repository.dart';
+import 'package:belcka/pages/common/model/Dropdown_list_response.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/web_services/api_constants.dart';
+import 'package:belcka/web_services/response/module_info.dart';
+import 'package:belcka/web_services/response/response_model.dart';
+import 'package:get/get.dart';
+
+class BuyerSupplierController extends GetxController {
+  final _api = BuyerSupplierRepository();
+  RxBool isLoading = false.obs,
+      isInternetNotAvailable = false.obs,
+      isMainViewVisible = false.obs;
+  double cardRadius = 12;
+  final listItems = <ModuleInfo>[].obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    buyerStoresListApi(true);
+  }
+
+  void buyerStoresListApi(bool isProgress) {
+    isLoading.value = isProgress;
+    Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
+    _api.buyerSupplierList(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          isMainViewVisible.value = true;
+          DropdownListResponse response =
+              DropdownListResponse.fromJson(jsonDecode(responseModel.result!));
+          listItems.value = response.info!;
+        } else {
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+          // AppUtils.showSnackBarMessage('no_internet'.tr);
+          // Utils.showSnackBarMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
+
+  Future<void> moveToScreen(
+      {required String appRout, dynamic arguments}) async {
+    var result = await Get.toNamed(appRout, arguments: arguments);
+    buyerStoresListApi(false);
+  }
+
+  void onBackPress() {
+    Get.back(result: true);
+  }
+}

@@ -1,54 +1,44 @@
 import 'dart:convert';
 
+import 'package:belcka/buyer_app/project_list/controller/buyer_projects_repository.dart';
 import 'package:belcka/buyer_app/purchasing/controller/purchasing_repository.dart';
 import 'package:belcka/buyer_app/purchasing/model/buyer_order_dashboard_response.dart';
+import 'package:belcka/pages/common/model/Dropdown_list_response.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
+import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:get/get.dart';
 
 import '../../../routes/app_routes.dart';
 import '../../../utils/app_constants.dart';
 
-class PurchasingController extends GetxController {
-  final _api = PurchasingRepository();
+class BuyerProjectsController extends GetxController {
+  final _api = BuyerProjectsRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs;
-  RxString startDate = "".obs,
-      endDate = "".obs,
-      displayStartDate = "".obs,
-      displayEndDate = "".obs;
-  final RxInt selectedDateFilterIndex = (-1).obs;
   double cardRadius = 12;
-  final inventoryData = BuyerOrderDashboardResponse().obs;
+  final listItems = <ModuleInfo>[].obs;
 
   @override
   void onInit() {
     super.onInit();
-    inventoryOverviewApi(true);
+    buyerProjectsListApi(true);
   }
 
-  void inventoryOverviewApi(bool isProgress) {
+  void buyerProjectsListApi(bool isProgress) {
     isLoading.value = isProgress;
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
-    map["start_date"] = startDate.value;
-    map["end_date"] = endDate.value;
-
-    _api.inventoryOverviewApi(
+    _api.buyerProjectsList(
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           isMainViewVisible.value = true;
-          BuyerOrderDashboardResponse response =
-              BuyerOrderDashboardResponse.fromJson(
-                  jsonDecode(responseModel.result!));
-          inventoryData.value = response;
-          displayStartDate.value = response.startDate ?? "";
-          displayEndDate.value = response.endDate ?? "";
-          startDate.value = response.startDate ?? "";
-          endDate.value = response.endDate ?? "";
+          DropdownListResponse response =
+              DropdownListResponse.fromJson(jsonDecode(responseModel.result!));
+          listItems.value = response.info!;
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
@@ -67,19 +57,13 @@ class PurchasingController extends GetxController {
     );
   }
 
-  void onItemClick(String type) {
-    var arguments = {
-      AppConstants.intentKey.selectedTabType: type,
-      AppConstants.intentKey.index: selectedDateFilterIndex.value,
-      AppConstants.intentKey.startDate: startDate.value,
-      AppConstants.intentKey.endDate: endDate.value,
-    };
-    moveToScreen(appRout: AppRoutes.buyerOrdersScreen, arguments: arguments);
-  }
-
   Future<void> moveToScreen(
       {required String appRout, dynamic arguments}) async {
     var result = await Get.toNamed(appRout, arguments: arguments);
-    inventoryOverviewApi(false);
+    buyerProjectsListApi(false);
+  }
+
+  void onBackPress() {
+    Get.back(result: true);
   }
 }

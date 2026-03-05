@@ -27,9 +27,16 @@ class BuyerOrderController extends GetxController
       isMainViewVisible = false.obs,
       isSearchEnable = false.obs,
       isClearSearch = false.obs;
+  RxString startDate = "".obs,
+      endDate = "".obs,
+      displayStartDate = "".obs,
+      displayEndDate = "".obs;
+  RxInt requestCount = 0.obs,
+      proceedCount = 0.obs,
+      deliveredCount = 0.obs,
+      selectedDateFilterIndex = (-1).obs;
   double cardRadius = 12;
   int selectedIndex = 0;
-  RxInt requestCount = 0.obs, proceedCount = 0.obs, deliveredCount = 0.obs;
   final searchController = TextEditingController().obs;
   final requestOrdersList = <ProductInfo>[].obs;
   final proceedOrdersList = <OrderInfo>[].obs;
@@ -38,6 +45,8 @@ class BuyerOrderController extends GetxController
   List<OrderInfo> tempProceedOrderList = [];
   List<OrderInfo> tempDeliveredOrderList = [];
   final selectedTab = OrderTabType.request.obs;
+
+  Map<String, String> appliedFilters = {};
 
   final ScrollController requestScrollController = ScrollController();
   final ScrollController proceedScrollController = ScrollController();
@@ -66,6 +75,10 @@ class BuyerOrderController extends GetxController
       } else if (selectedTabType == AppConstants.type.delivered) {
         selectedTab.value = OrderTabType.delivered;
       }
+      selectedDateFilterIndex.value =
+          arguments[AppConstants.intentKey.index] ?? -1;
+      startDate.value = arguments[AppConstants.intentKey.startDate] ?? "";
+      endDate.value = arguments[AppConstants.intentKey.endDate] ?? "";
     }
     loadData();
   }
@@ -85,6 +98,8 @@ class BuyerOrderController extends GetxController
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
+    // map["start_date"] = startDate.value;
+    // map["end_date"] = endDate.value;
     _api.buyerProductsList(
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
@@ -118,6 +133,8 @@ class BuyerOrderController extends GetxController
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
+    map["start_date"] = startDate.value;
+    map["end_date"] = endDate.value;
     map["status"] = status;
     _api.buyerOrdersList(
       queryParameters: map,
@@ -136,6 +153,12 @@ class BuyerOrderController extends GetxController
             tempDeliveredOrderList.addAll(response.info ?? []);
             deliveredOrdersList.value = tempDeliveredOrderList;
           }
+
+          startDate.value = response.startDate ?? "";
+          endDate.value = response.endDate ?? "";
+
+          displayStartDate.value = response.startDate ?? "";
+          displayEndDate.value = response.endDate ?? "";
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
@@ -293,8 +316,11 @@ class BuyerOrderController extends GetxController
         results = tempRequestOrderList;
       } else {
         results = tempRequestOrderList
-            .where((element) => (!StringHelper.isEmptyString(element.name) &&
-                element.name!.toLowerCase().contains(value.toLowerCase())))
+            .where((element) =>
+                (!StringHelper.isEmptyString(element.shortName) &&
+                    element.shortName!
+                        .toLowerCase()
+                        .contains(value.toLowerCase())))
             .toList();
       }
       requestOrdersList.value = results;
@@ -349,6 +375,23 @@ class BuyerOrderController extends GetxController
     var result = await Get.toNamed(appRout, arguments: arguments);
     if (result != null && result) {
       loadData();
+    }
+  }
+
+  Future<void> moveToFilterScreen() async {
+    var arguments = {
+      AppConstants.intentKey.filterType:
+          AppConstants.filterType.buyerOrderProductsFilter,
+      AppConstants.intentKey.filterData: appliedFilters,
+    };
+    var result =
+        await Get.toNamed(AppRoutes.filterScreen, arguments: arguments);
+    if (result != null) {
+      appliedFilters = result;
+      for (var entry in appliedFilters.entries) {
+        print("--------------");
+        print("${entry.key}: ${entry.value}");
+      }
     }
   }
 

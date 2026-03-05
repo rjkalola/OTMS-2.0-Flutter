@@ -1,5 +1,5 @@
 class ModuleInfo {
-  int? id, companyId, projectId, tradeId;
+  int? id, companyId, projectId, tradeId, productsCount;
   String? name,
       symbol,
       value,
@@ -11,7 +11,9 @@ class ModuleInfo {
       icon,
       textColor,
       randomColor,
-      type;
+      type,
+      imageUrl,
+      thumbUrl;
   bool? check;
 
   ModuleInfo(
@@ -31,7 +33,10 @@ class ModuleInfo {
       this.icon,
       this.textColor,
       this.randomColor,
-      this.type});
+      this.type,
+      this.imageUrl,
+      this.thumbUrl,
+      this.productsCount});
 
   ModuleInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -49,6 +54,9 @@ class ModuleInfo {
     textColor = json['textColor'];
     randomColor = json['randomColor'];
     type = json['type'];
+    imageUrl = json['image_url'];
+    thumbUrl = json['thumb_url'];
+    productsCount = json['products_count'];
   }
 
   Map<String, dynamic> toJson() {
@@ -68,6 +76,9 @@ class ModuleInfo {
     data['textColor'] = this.textColor;
     data['randomColor'] = this.randomColor;
     data['type'] = this.type;
+    data['image_url'] = this.imageUrl;
+    data['thumb_url'] = this.thumbUrl;
+    data['products_count'] = this.productsCount;
 
     return data;
   }

@@ -31,6 +31,7 @@ class FilterController extends GetxController {
     if (arguments != null) {
       filterType = arguments[AppConstants.intentKey.filterType] ?? "";
     }
+    print("filterType:" + filterType);
     getFilters();
   }
 
@@ -122,6 +123,8 @@ class FilterController extends GetxController {
       url = ApiConstants.getRequestFilters;
     } else if (filterType == AppConstants.filterType.timesheetFilter) {
       url = ApiConstants.getTimesheetFilters;
+    } else if (filterType == AppConstants.filterType.buyerOrderProductsFilter) {
+      url = ApiConstants.buyerOrderProductsFilters;
     }
     Map<String, dynamic> map = {};
     isLoading.value = true;
