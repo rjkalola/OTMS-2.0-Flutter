@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:belcka/pages/common/model/file_info.dart';
 import 'package:belcka/pages/user_orders/product_details/model/product_details_response.dart';
 import 'package:belcka/pages/user_orders/product_info/controller/product_info_repository.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
@@ -42,6 +43,7 @@ class ProductInfoController extends GetxController{
           ProductDetailsResponse.fromJson(jsonDecode(responseModel.result!));
           if (response.info != null){
             product.value = response.info!;
+            prepareProductImages();
           }
           isMainViewVisible.value = true;
         }
@@ -59,6 +61,23 @@ class ProductInfoController extends GetxController{
         }
       },
     );
+  }
+  void prepareProductImages() {
+    if (product.value.productImages == null) {
+      product.value.productImages = [];
+    }
+
+    final exists = product.value.productImages!.any((img) => img.imageUrl == product.value.imageUrl);
+    if (!exists) {
+      product.value.productImages!.insert(
+        0,
+        FilesInfo(
+          id: 0,
+          imageUrl: product.value.imageUrl,
+          thumbUrl: product.value.thumbUrl,
+        ),
+      );
+    }
   }
   void toggleBookmark() {
     Map<String, dynamic> map = {};

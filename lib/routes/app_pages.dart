@@ -113,6 +113,8 @@ import 'package:belcka/pages/timesheet/timesheet_list/view/timesheet_list_screen
 import 'package:belcka/pages/trades/view/company_trades_screen.dart';
 import 'package:belcka/pages/user_orders/basket/view/basket_screen.dart';
 import 'package:belcka/pages/user_orders/categories/view/user_orders_categories_screen.dart';
+import 'package:belcka/pages/user_orders/order_details/view/order_details_screen.dart';
+import 'package:belcka/pages/user_orders/order_history/view/order_history_screen.dart';
 import 'package:belcka/pages/user_orders/product_details/view/product_details_screen.dart';
 import 'package:belcka/pages/user_orders/product_info/view/product_info_screen.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/view/storeman_catalog_screen.dart';
@@ -461,5 +463,7 @@ class AppPages {
     GetPage(
         name: AppRoutes.buyerCatalogueScreen,
         page: () => BuyerCatalogueScreen()),
+    GetPage(name: AppRoutes.orderHistoryScreen, page: () => OrderHistoryScreen()),
+    GetPage(name: AppRoutes.orderDetailsScreen, page: () => OrderDetailsScreen()),
   ];
 }

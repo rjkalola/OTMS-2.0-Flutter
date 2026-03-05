@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:belcka/pages/common/drop_down_list_dialog.dart';
 import 'package:belcka/pages/common/listener/select_item_listener.dart';
+import 'package:belcka/pages/common/model/file_info.dart';
 import 'package:belcka/pages/project/address_list/controller/address_list_repository.dart';
 import 'package:belcka/pages/project/address_list/model/address_info.dart';
 import 'package:belcka/pages/project/address_list/model/address_list_response.dart';
@@ -19,7 +20,6 @@ import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 
 class BasketController extends GetxController implements SelectItemListener{
   RxBool isDeliverySelected = true.obs;
@@ -191,6 +191,7 @@ class BasketController extends GetxController implements SelectItemListener{
           tempList.clear();
           tempList.addAll(response.info ?? []);
           cartList.value = tempList;
+          prepareProductImages();
           cartList.refresh();
           isMainViewVisible.value = true;
           isLoading.value = false;
@@ -210,6 +211,25 @@ class BasketController extends GetxController implements SelectItemListener{
         }
       },
     );
+  }
+  void prepareProductImages() {
+    for (var product in cartList) {
+      if (product.productImages == null) {
+        product.productImages = [];
+      }
+
+      final exists = product.productImages!.any((img) => img.imageUrl == product.productImage);
+      if (!exists) {
+        product.productImages!.insert(
+          0,
+          FilesInfo(
+            id: 0,
+            imageUrl: product.productImage,
+            thumbUrl: product.productThumbImage,
+          ),
+        );
+      }
+    }
   }
   void toggleRemoveCart(int index) {
     final product = cartList[index];

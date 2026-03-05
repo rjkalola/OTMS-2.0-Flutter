@@ -305,6 +305,8 @@ class ApiConstants {
   static String productsRemoveFromCart = '$appUrl/products/remove-from-cart';
   static String employeeOrdersCreate = '$appUrl/employee-orders/create';
   static String productDetail = '$appUrl/products/detail';
+  static String employeeOrdersHistory = '$appUrl/employee-orders/history';
+  static String employeeOrdersGet = '$appUrl/employee-orders/get';
 
   //buyer orders
   static String inventoryOverview = '$appUrl/products/inventory-overview';

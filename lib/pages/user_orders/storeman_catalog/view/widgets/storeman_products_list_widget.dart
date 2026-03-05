@@ -1,6 +1,7 @@
 import 'package:belcka/buyer_app/buyer_order/view/widgets/order_quantity_change_button.dart';
 import 'package:belcka/buyer_app/buyer_order/view/widgets/order_quantity_display_text_view.dart';
 import 'package:belcka/buyer_app/buyer_order/view/widgets/order_quantity_text_field.dart';
+import 'package:belcka/pages/common/model/file_info.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/controller/storeman_catalog_controller.dart';
 import 'package:belcka/pages/user_orders/widgets/orders_title_text_view.dart';
 import 'package:belcka/pages/user_orders/widgets/out_of_stock_banner.dart';

@@ -247,12 +247,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
               ),
 
             SizedBox(height: 20),
-
-            InkWell(
-              onTap: (){
-
-              },
-                child: NavigationCard(value: "product_set".tr,isShowArrow: true,)),
+            NavigationCard(value: "product_set".tr,isShowArrow: true,),
 
             InkWell(
               onTap: (){
