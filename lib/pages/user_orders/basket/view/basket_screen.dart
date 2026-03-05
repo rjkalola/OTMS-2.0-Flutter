@@ -3,11 +3,13 @@ import 'package:belcka/pages/user_orders/basket/view/widgets/basket_header_view.
 import 'package:belcka/pages/user_orders/basket/view/widgets/basket_items_list.dart';
 import 'package:belcka/pages/user_orders/widgets/empty_cart_view.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
+import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -39,6 +41,7 @@ class _BasketScreenState extends State<BasketScreen> {
               bgColor: backgroundColor_(context),
               autoFocus: true,
               isClearVisible: false.obs,
+              widgets: actionButtons(),
               onBackPressed: (){
                 controller.onBackPress();
               },
@@ -90,16 +93,22 @@ class _BasketScreenState extends State<BasketScreen> {
 
   List<Widget>? actionButtons() {
     return [
-      Padding(
-        padding: EdgeInsets.only(right: 16),
-        child: Row(children: [
-          Icon(Icons.history_outlined),
-          SizedBox(
-            width: 4,
-          ),
-          Text('history'.tr,
-              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold))
-        ]),
+      InkWell(
+        onTap: (){
+          controller.moveToScreen(AppRoutes.orderHistoryScreen, {});
+        },
+        child: Padding(
+          padding: EdgeInsets.only(right: 16),
+          child: Row(children: [
+            Icon(Icons.history_outlined),
+            SizedBox(
+              width: 4,
+            ),
+            TitleTextView(text:'history'.tr,
+                fontSize: 15,
+                fontWeight: FontWeight.w500)
+          ]),
+        ),
       )
     ];
   }

@@ -28,6 +28,8 @@ class OrderInfo {
   String? userImage;
   List<ProductInfo>? purchaseOrders;
 
+  String? orderNumber;
+
   OrderInfo(
       {this.id,
       this.companyId,
@@ -54,7 +56,8 @@ class OrderInfo {
       this.receivedBy,
       this.userName,
       this.userImage,
-      this.purchaseOrders});
+      this.purchaseOrders,
+      this.orderNumber});
 
   OrderInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -62,7 +65,7 @@ class OrderInfo {
     companyName = json['company_name'];
     companyImage = json['company_image'];
     currency = json['currency'];
-    orderId = json['order_id'];
+    orderId = json['order_id'].toString();
     invoice = json['invoice'];
     ref = json['ref'];
     storeId = json['store_id'];
@@ -82,6 +85,7 @@ class OrderInfo {
     receivedBy = json['received_by'];
     userName = json['user_name'];
     userImage = json['user_image'];
+    orderNumber = json['order_number'];
     if (json['purchase_orders'] != null) {
       purchaseOrders = <ProductInfo>[];
       json['purchase_orders'].forEach((v) {
@@ -117,6 +121,7 @@ class OrderInfo {
     data['received_by'] = this.receivedBy;
     data['user_name'] = this.userName;
     data['user_image'] = this.userImage;
+    data['order_number'] = this.orderNumber;
     if (this.purchaseOrders != null) {
       data['purchase_orders'] =
           this.purchaseOrders!.map((v) => v.toJson()).toList();

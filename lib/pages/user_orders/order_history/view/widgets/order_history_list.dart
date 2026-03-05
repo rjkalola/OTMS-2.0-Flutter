@@ -2,41 +2,46 @@ import 'package:belcka/pages/user_orders/categories/controller/user_orders_categ
 import 'package:belcka/pages/user_orders/categories/view/widgets/user_orders_category_card.dart';
 import 'package:belcka/pages/user_orders/order_history/controller/order_history_controller.dart';
 import 'package:belcka/pages/user_orders/order_history/view/widgets/order_history_card.dart';
+import 'package:belcka/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class OrderHistoryList extends StatelessWidget {
   OrderHistoryList({super.key});
 
-  final controller = Get.put(OrderHistoryController());
+  final controller = Get.find<OrderHistoryController>();
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: ListView(
-        children: [
-          OrderCard(
-            orderId: "R1053aaasadssdfskdfl;sfk;sldkf;",
-            statusIndex: 2,
-            lastLabel: "Delivered",
-          ),
-          OrderCard(
-            orderId: "R1053",
-            statusIndex: 0,
-            lastLabel: "Collect",
-          ),
-          OrderCard(
-            orderId: "869514",
-            statusIndex: 1,
-            lastLabel: "Collect",
-          ),
-          OrderCard(
-            orderId: "45689",
-            statusIndex: 2,
-            lastLabel: "Delivered",
-          ),
-        ],
-      ),
+      child: Obx(() {
+
+        if (controller.orderList.isEmpty) {
+          return Center(child: Text('no_orders_found'.tr));
+        }
+
+        return ListView.builder(
+          padding: const EdgeInsets.all(0),
+          itemCount: controller.orderList.length,
+          itemBuilder: (context, index) {
+            final order = controller.orderList[index];
+            return InkWell(
+              onTap: (){
+                var arguments = {
+                  "order_id":order.orderId
+                };
+                controller.moveToScreen(AppRoutes.orderDetailsScreen, arguments);
+              },
+              child: OrderHistoryCard(
+                orderNumber: order.orderNumber ?? "",
+                amount: "${order.currency ?? ""}${order.totalAmount ?? 0}",
+                date: order.date ?? "",
+                status: order.status ?? 0,
+              ),
+            );
+          },
+        );
+      }),
     );
   }
 }

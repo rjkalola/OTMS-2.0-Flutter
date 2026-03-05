@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:belcka/pages/common/model/file_info.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/controller/storeman_catalog_repository.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/get_products_response.dart';
@@ -69,8 +70,8 @@ class StoremanCatalogController extends GetxController{
           tempList.addAll(response.info ?? []);
 
           products.value = tempList;
+          prepareProductImages();
           products.refresh();
-
           updateCartCount(response.cartProduct ?? 0);
           isMainViewVisible.value = true;
         }
@@ -89,7 +90,25 @@ class StoremanCatalogController extends GetxController{
       },
     );
   }
+  void prepareProductImages() {
+    for (var product in products) {
+      if (product.productImages == null) {
+        product.productImages = [];
+      }
 
+      final exists = product.productImages!.any((img) => img.imageUrl == product.imageUrl);
+      if (!exists) {
+        product.productImages!.insert(
+          0,
+          FilesInfo(
+            id: 0,
+            imageUrl: product.imageUrl,
+            thumbUrl: product.thumbUrl,
+          ),
+        );
+      }
+    }
+  }
   void toggleBookmark(int index) {
     final product = products[index];
     Map<String, dynamic> map = {};

@@ -1,6 +1,5 @@
 import 'package:belcka/pages/user_orders/order_history/controller/order_history_controller.dart';
-import 'package:belcka/pages/user_orders/order_history/view/widgets/order_history_card.dart';
-import 'package:belcka/pages/user_orders/order_history/view/widgets/order_history_filter_list.dart';
+import 'package:belcka/pages/user_orders/order_history/view/widgets/order_history_filter_tabs.dart';
 import 'package:belcka/pages/user_orders/order_history/view/widgets/order_history_list.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/app_utils.dart';
@@ -9,7 +8,6 @@ import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class OrderHistoryScreen extends StatelessWidget {
@@ -27,11 +25,10 @@ class OrderHistoryScreen extends StatelessWidget {
             backgroundColor: dashBoardBgColor_(context),
             appBar: BaseAppBar(
               appBar: AppBar(),
-              title: 'History'.tr,
+              title: 'history'.tr,
               isCenterTitle: false,
               isBack: true,
               bgColor: backgroundColor_(context),
-              widgets: actionButtons(),
               autoFocus: true,
               isClearVisible: false.obs,
             ),
@@ -51,7 +48,7 @@ class OrderHistoryScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    OrderHistoryFilterList(),
+                    OrderHistoryFilterTabs(),
                     SizedBox(height: 12),
                     OrderHistoryList()
                   ],

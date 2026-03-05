@@ -67,6 +67,9 @@ class ProductInfo {
   String? orderUsersDisplay;
   int? orderUserCount;
 
+  String? productImage;
+  String? productThumbImage;
+
   ProductInfo(
       {this.id,
         this.productId,
@@ -132,7 +135,9 @@ class ProductInfo {
         this.remainingQty,
         this.storeName,
         this.orderUsersDisplay,
-        this.orderUserCount});
+        this.orderUserCount,
+      this.productImage,
+      this.productThumbImage});
 
   ProductInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -205,6 +210,8 @@ class ProductInfo {
     storeName = json['store_name'];
     orderUsersDisplay = json['order_users_display'];
     orderUserCount = json['order_user_count'];
+    productImage = json['product_image'];
+    productThumbImage = json['product_thumb_image'];
   }
 
   Map<String, dynamic> toJson() {
@@ -279,6 +286,8 @@ class ProductInfo {
     data['store_name'] = this.storeName;
     data['order_users_display'] = this.orderUsersDisplay;
     data['order_user_count'] = this.orderUserCount;
+    data['product_image'] = this.productImage;
+    data['product_thumb_image'] = this.productThumbImage;
 
     return data;
   }
