@@ -17,6 +17,19 @@ class CreateBuyerOrderRepository {
     );
   }
 
+  void updateBuyerOrder({
+    dynamic data,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(url: ApiConstants.updateBuyerOrder, data: data).postRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
+
   void getSuppliers({
     Map<String, dynamic>? queryParameters,
     Function(ResponseModel responseModel)? onSuccess,

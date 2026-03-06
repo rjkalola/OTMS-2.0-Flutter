@@ -7,6 +7,7 @@ import 'package:belcka/pages/common/model/user_info.dart';
 import 'package:belcka/pages/manageattachment/view/audio_player_screen.dart';
 import 'package:belcka/pages/manageattachment/view/pdf_viewer_page.dart';
 import 'package:belcka/pages/manageattachment/view/video_player_screen.dart';
+import 'package:belcka/res/theme/theme_config.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
@@ -455,11 +456,16 @@ class ImageUtils {
       width: width,
       height: height,
       decoration: AppUtils.getGrayBorderDecoration(
-          color: Colors.grey.shade50, radius: borderRadius ?? 0),
+          color: ThemeConfig.isDarkMode
+              ? Colors.grey.shade900
+              : Colors.grey.shade50,
+          radius: borderRadius ?? 0),
       child: Icon(
         Icons.photo_outlined,
-        size: getEmptyIconSize(width, height) / 2,
-        color: Colors.grey.shade300,
+        size: getEmptyIconSize(width, height) / 1.8,
+        color: ThemeConfig.isDarkMode
+            ? Colors.grey.shade700
+            : Colors.grey.shade300,
       ),
     );
   }

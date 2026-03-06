@@ -2,12 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:belcka/res/theme/theme_config.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:belcka/pages/check_in/clock_in/model/location_info.dart';
 import 'package:belcka/pages/check_in/select_project/controller/select_project_repository.dart';
 import 'package:belcka/pages/project/project_info/model/project_list_response.dart';
@@ -21,6 +15,10 @@ import 'package:belcka/utils/location_service_new.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/module_info.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../../web_services/response/response_model.dart';
 

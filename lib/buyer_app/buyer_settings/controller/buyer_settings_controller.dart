@@ -44,6 +44,10 @@ class BuyerSettingsController extends GetxController {
         name: 'project'.tr,
         value: (settingDetails.value.projects ?? 0).toString(),
         action: AppConstants.action.projects));
+    listItems.add(ModuleInfo(
+        name: 'draft_orders'.tr,
+        value: "",
+        action: AppConstants.action.draftOrders));
   }
 
   // void getProjectDetailsApi() {
@@ -90,8 +94,10 @@ class BuyerSettingsController extends GetxController {
       moveToScreen(rout: AppRoutes.buyerStoresScreen);
     } else if (action == AppConstants.action.suppliers) {
       moveToScreen(rout: AppRoutes.buyerSupplierScreen);
-    }else if (action == AppConstants.action.categories) {
+    } else if (action == AppConstants.action.categories) {
       moveToScreen(rout: AppRoutes.buyerCatalogueScreen);
+    } else if (action == AppConstants.action.draftOrders) {
+      moveToScreen(rout: AppRoutes.buyerDraftOrdersScreen);
     }
   }
 

@@ -27,8 +27,8 @@ class OrderInfo {
   String? userName;
   String? userImage;
   List<ProductInfo>? purchaseOrders;
-
   String? orderNumber;
+  bool? isDraft;
 
   OrderInfo(
       {this.id,
@@ -57,7 +57,8 @@ class OrderInfo {
       this.userName,
       this.userImage,
       this.purchaseOrders,
-      this.orderNumber});
+      this.orderNumber,
+      this.isDraft});
 
   OrderInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -86,6 +87,7 @@ class OrderInfo {
     userName = json['user_name'];
     userImage = json['user_image'];
     orderNumber = json['order_number'];
+    isDraft = json['is_draft'];
     if (json['purchase_orders'] != null) {
       purchaseOrders = <ProductInfo>[];
       json['purchase_orders'].forEach((v) {
@@ -122,6 +124,7 @@ class OrderInfo {
     data['user_name'] = this.userName;
     data['user_image'] = this.userImage;
     data['order_number'] = this.orderNumber;
+    data['is_draft'] = this.isDraft;
     if (this.purchaseOrders != null) {
       data['purchase_orders'] =
           this.purchaseOrders!.map((v) => v.toJson()).toList();

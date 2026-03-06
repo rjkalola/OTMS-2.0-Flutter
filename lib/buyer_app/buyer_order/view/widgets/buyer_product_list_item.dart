@@ -12,8 +12,12 @@ import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
 
 import '../../../../utils/string_helper.dart';
+import '../../controller/buyer_order_controller.dart';
+import 'package:get/get.dart';
 
 class BuyerProductListItem extends StatelessWidget {
+  final controller = Get.put(BuyerOrderController());
+
   final ProductInfo item;
   final VoidCallback onAdd;
   final VoidCallback onRemove;
@@ -23,7 +27,7 @@ class BuyerProductListItem extends StatelessWidget {
 
   // final FocusNode focusNode;
 
-  const BuyerProductListItem(
+  BuyerProductListItem(
       {super.key,
       required this.item,
       // required this.focusNode,
@@ -38,248 +42,189 @@ class BuyerProductListItem extends StatelessWidget {
   //     _RequestBuyerOrderListItemState();
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onListItem,
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
-        child: CardViewDashboardItem(
-          borderRadius: 10,
-          padding: const EdgeInsets.fromLTRB(14, 14, 14, 6),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ImageUtils.setRectangleCornerCachedNetworkImage(
-                    url: item.thumbUrl ?? "",
-                    width: 90,
-                    height: 90,
-                    borderRadius: 4,
-                    fit: BoxFit.cover,
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TitleTextView(
-                          text: item.shortName ?? "",
-                          fontSize: 15,
-                          maxLine: 2,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        const SizedBox(height: 4),
-                        SubtitleTextView(
-                          text: item.uuid ?? "",
-                          fontSize: 13,
-                          color: secondaryExtraLightTextColor_(context),
-                        ),
-                        const SizedBox(height: 10),
-                        Row(
-                          children: [
-                            OrderQuantityChangeButton(
-                                text: "-", onTap: onRemove),
-                            const SizedBox(width: 8),
-                            OrderQuantityDisplayTextView(
-                              value: item.cartQty ?? 0,
-                              width: 52,
-                              height: 30,
-                            ),
-                            // OrderQuantityTextField(
-                            //   value: item.qty,
-                            //   max: item.availableQty,
-                            //   onChanged: onQtyTyped,
-                            //   maxLength: 3,
-                            //   width: 52,
-                            //   height: 32,
-                            //   focusNode: focusNode,
-                            // ),
-                            const SizedBox(width: 8),
-                            OrderQuantityChangeButton(text: "+", onTap: onAdd),
-                            const Spacer(),
-                            TitleTextView(
-                              text: "${item.currency}${item.price}",
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 6),
-                        TitleTextView(
-                          text: "Available Qty: ${item.qty}",
-                          fontSize: 13,
-                          color: secondaryExtraLightTextColor_(context),
-                        ),
-                      ],
+    return Obx(
+      () => GestureDetector(
+        onTap: onListItem,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+          child: CardViewDashboardItem(
+            borderRadius: 10,
+            padding: const EdgeInsets.fromLTRB(14, 14, 14, 6),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ImageUtils.setRectangleCornerCachedNetworkImage(
+                      url: item.thumbUrl ?? "",
+                      width: 90,
+                      height: 90,
+                      borderRadius: 4,
+                      fit: BoxFit.cover,
                     ),
-                  ),
-                ],
-              ),
-              !StringHelper.isEmptyString(item.storeName) ||
-                      !StringHelper.isEmptyString(item.orderUsersDisplay)
-                  ? Divider(color: dividerColor_(context))
-                  : SizedBox(
-                      height: 6,
-                    ),
-              !StringHelper.isEmptyString(item.storeName) ||
-                      !StringHelper.isEmptyString(item.orderUsersDisplay)
-                  ? Row(
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 6, bottom: 6),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Visibility(
-                                  visible: !StringHelper.isEmptyString(
-                                      item.storeName),
-                                  child: TitleTextView(
-                                    text: item.storeName ?? "",
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                                const SizedBox(height: 2),
-                                Visibility(
-                                  visible: !StringHelper.isEmptyString(
-                                      item.orderUsersDisplay),
-                                  child: TitleTextView(
-                                    text: item.orderUsersDisplay ?? "",
-                                    fontSize: 15,
-                                    color: defaultAccentColor_(context),
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                              ],
-                            ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TitleTextView(
+                            text: item.shortName ?? "",
+                            fontSize: 15,
+                            maxLine: 2,
+                            fontWeight: FontWeight.w500,
                           ),
-                        ),
-                        // IconButton(
-                        //   icon: const Icon(Icons.delete, color: Colors.red),
-                        //   onPressed: onDelete,
-                        // )
-                      ],
-                    )
-                  : Container()
-            ],
+                          const SizedBox(height: 4),
+                          SubtitleTextView(
+                            text: item.uuid ?? "",
+                            fontSize: 13,
+                            color: secondaryExtraLightTextColor_(context),
+                          ),
+                          const SizedBox(height: 10),
+                          Row(
+                            children: [
+                              OrderQuantityChangeButton(
+                                  text: "-", onTap: onRemove),
+                              const SizedBox(width: 8),
+                              OrderQuantityDisplayTextView(
+                                value: item.cartQty ?? 0,
+                                width: 52,
+                                height: 30,
+                              ),
+                              // OrderQuantityTextField(
+                              //   value: item.qty,
+                              //   max: item.availableQty,
+                              //   onChanged: onQtyTyped,
+                              //   maxLength: 3,
+                              //   width: 52,
+                              //   height: 32,
+                              //   focusNode: focusNode,
+                              // ),
+                              const SizedBox(width: 8),
+                              OrderQuantityChangeButton(
+                                  text: "+", onTap: onAdd),
+                              const Spacer(),
+                              TitleTextView(
+                                text: "${item.currency}${item.price}",
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 6),
+                          TitleTextView(
+                            text: "Available Qty: ${item.qty}",
+                            fontSize: 13,
+                            color: secondaryExtraLightTextColor_(context),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                !controller.isSingleFilter.value &&
+                        (!StringHelper.isEmptyString(item.storeName) ||
+                            !StringHelper.isEmptyString(item.orderUsersDisplay))
+                    ? Column(
+                        children: [
+                          Divider(color: dividerColor_(context)),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.only(top: 6, bottom: 6),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Visibility(
+                                        visible: !StringHelper.isEmptyString(
+                                            item.storeName),
+                                        child: TitleTextView(
+                                          text: item.storeName ?? "",
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 2),
+                                      Visibility(
+                                        visible: !StringHelper.isEmptyString(
+                                            item.orderUsersDisplay),
+                                        child: TitleTextView(
+                                          text: item.orderUsersDisplay ?? "",
+                                          fontSize: 15,
+                                          color: defaultAccentColor_(context),
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              // IconButton(
+                              //   icon: const Icon(Icons.delete, color: Colors.red),
+                              //   onPressed: onDelete,
+                              // )
+                            ],
+                          )
+                        ],
+                      )
+                    : SizedBox(
+                        height: 6,
+                      ),
+                // !StringHelper.isEmptyString(item.storeName) ||
+                //         !StringHelper.isEmptyString(item.orderUsersDisplay)
+                //     ? Divider(color: dividerColor_(context))
+                //     : SizedBox(
+                //         height: 6,
+                //       ),
+                // !StringHelper.isEmptyString(item.storeName) ||
+                //         !StringHelper.isEmptyString(item.orderUsersDisplay)
+                //     ? Row(
+                //         children: [
+                //           Expanded(
+                //             child: Padding(
+                //               padding: const EdgeInsets.only(top: 6, bottom: 6),
+                //               child: Column(
+                //                 crossAxisAlignment: CrossAxisAlignment.start,
+                //                 children: [
+                //                   Visibility(
+                //                     visible: !StringHelper.isEmptyString(
+                //                         item.storeName),
+                //                     child: TitleTextView(
+                //                       text: item.storeName ?? "",
+                //                       fontSize: 15,
+                //                       fontWeight: FontWeight.w400,
+                //                     ),
+                //                   ),
+                //                   const SizedBox(height: 2),
+                //                   Visibility(
+                //                     visible: !StringHelper.isEmptyString(
+                //                         item.orderUsersDisplay),
+                //                     child: TitleTextView(
+                //                       text: item.orderUsersDisplay ?? "",
+                //                       fontSize: 15,
+                //                       color: defaultAccentColor_(context),
+                //                       fontWeight: FontWeight.w400,
+                //                     ),
+                //                   ),
+                //                 ],
+                //               ),
+                //             ),
+                //           ),
+                //           // IconButton(
+                //           //   icon: const Icon(Icons.delete, color: Colors.red),
+                //           //   onPressed: onDelete,
+                //           // )
+                //         ],
+                //       )
+                //     : Container()
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 }
-
-// class _RequestBuyerOrderListItemState extends State<RequestBuyerOrderListItem> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return GestureDetector(
-//       onTap: () {},
-//       child: Padding(
-//         padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
-//         child: CardViewDashboardItem(
-//           borderRadius: 10,
-//           padding: const EdgeInsets.fromLTRB(14, 14, 14, 6),
-//           child: Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: [
-//               Row(
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: [
-//                   ImageUtils.setRectangleCornerCachedNetworkImage(
-//                     url: item.image,
-//                     width: 90,
-//                     height: 90,
-//                     borderRadius: 4,
-//                     fit: BoxFit.cover,
-//                   ),
-//                   const SizedBox(width: 12),
-//                   Expanded(
-//                     child: Column(
-//                       crossAxisAlignment: CrossAxisAlignment.start,
-//                       children: [
-//                         TitleTextView(
-//                           text: item.name,
-//                           fontSize: 15,
-//                           maxLine: 2,
-//                           fontWeight: FontWeight.w500,
-//                         ),
-//                         const SizedBox(height: 4),
-//                         SubtitleTextView(
-//                           text: item.sku,
-//                           fontSize: 13,
-//                           color: secondaryExtraLightTextColor_(context),
-//                         ),
-//                         const SizedBox(height: 10),
-//                         Row(
-//                           children: [
-//                             OrderQuantityChangeButton(
-//                                 text: "-", onTap: onRemove),
-//                             const SizedBox(width: 8),
-//                             QtyTextField(
-//                               value: item.qty,
-//                               max: item.availableQty,
-//                               onChanged: onQtyTyped,
-//                               maxLength: 3,
-//                               width: 52,
-//                               height: 32,
-//                               focusNode: focusNode,
-//                             ),
-//                             const SizedBox(width: 8),
-//                             OrderQuantityChangeButton(
-//                                 text: "+", onTap: onAdd),
-//                             const Spacer(),
-//                             TitleTextView(
-//                               text: "£${item.price.toStringAsFixed(2)}",
-//                               fontSize: 16,
-//                               fontWeight: FontWeight.bold,
-//                             ),
-//                           ],
-//                         ),
-//                         const SizedBox(height: 6),
-//                         TitleTextView(
-//                           text: "Available Qty: ${item.availableQty}",
-//                           fontSize: 13,
-//                           color: secondaryExtraLightTextColor_(context),
-//                         ),
-//                       ],
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//               Divider(color: dividerColor_(context)),
-//               Row(
-//                 children: [
-//                   Expanded(
-//                     child: Column(
-//                       crossAxisAlignment: CrossAxisAlignment.start,
-//                       children: [
-//                         TitleTextView(
-//                           text: item.projectName,
-//                           fontSize: 15,
-//                           fontWeight: FontWeight.w400,
-//                         ),
-//                         const SizedBox(height: 2),
-//                         TitleTextView(
-//                           text: item.userName,
-//                           fontSize: 15,
-//                           color: Colors.blue,
-//                           fontWeight: FontWeight.w400,
-//                         ),
-//                       ],
-//                     ),
-//                   ),
-//                   IconButton(
-//                     icon: const Icon(Icons.delete, color: Colors.red),
-//                     onPressed: onDelete,
-//                   )
-//                 ],
-//               )
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }

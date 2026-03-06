@@ -15,6 +15,7 @@ import 'package:belcka/utils/enums/order_tab_type.dart';
 import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/web_services/api_constants.dart';
+import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -26,7 +27,8 @@ class BuyerOrderController extends GetxController
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
       isSearchEnable = false.obs,
-      isClearSearch = false.obs;
+      isClearSearch = false.obs,
+      isSingleFilter = false.obs;
   RxString startDate = "".obs,
       endDate = "".obs,
       displayStartDate = "".obs,
@@ -37,6 +39,7 @@ class BuyerOrderController extends GetxController
       selectedDateFilterIndex = (-1).obs;
   double cardRadius = 12;
   int selectedIndex = 0;
+  String title = "";
   final searchController = TextEditingController().obs;
   final requestOrdersList = <ProductInfo>[].obs;
   final proceedOrdersList = <OrderInfo>[].obs;
@@ -45,7 +48,7 @@ class BuyerOrderController extends GetxController
   List<OrderInfo> tempProceedOrderList = [];
   List<OrderInfo> tempDeliveredOrderList = [];
   final selectedTab = OrderTabType.request.obs;
-
+  final filterItemsList = <ModuleInfo>[].obs;
   Map<String, String> appliedFilters = {};
 
   final ScrollController requestScrollController = ScrollController();
@@ -79,6 +82,16 @@ class BuyerOrderController extends GetxController
           arguments[AppConstants.intentKey.index] ?? -1;
       startDate.value = arguments[AppConstants.intentKey.startDate] ?? "";
       endDate.value = arguments[AppConstants.intentKey.endDate] ?? "";
+      displayStartDate.value = startDate.value;
+      displayEndDate.value = endDate.value;
+
+      String filterType = arguments[AppConstants.intentKey.filterType] ?? "";
+      int recordId = arguments[AppConstants.intentKey.recordId] ?? 0;
+      title = arguments[AppConstants.intentKey.title] ?? "";
+      if (!StringHelper.isEmptyString(filterType)) {
+        isSingleFilter.value = true;
+        setSingleFilter(filterType, recordId.toString());
+      }
     }
     loadData();
   }
@@ -98,8 +111,11 @@ class BuyerOrderController extends GetxController
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
-    // map["start_date"] = startDate.value;
-    // map["end_date"] = endDate.value;
+    for (var entry in appliedFilters.entries) {
+      String key = entry.key ?? "";
+      String value = entry.value ?? "";
+      map[key] = value;
+    }
     _api.buyerProductsList(
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
@@ -388,11 +404,47 @@ class BuyerOrderController extends GetxController
         await Get.toNamed(AppRoutes.filterScreen, arguments: arguments);
     if (result != null) {
       appliedFilters = result;
-      for (var entry in appliedFilters.entries) {
-        print("--------------");
-        print("${entry.key}: ${entry.value}");
-      }
+      setFilterItems();
+      loadData();
     }
+  }
+
+  void setSingleFilter(String key, String value) {
+    appliedFilters = {};
+    appliedFilters[key] = value;
+    setFilterItems();
+  }
+
+  void setFilterItems() {
+    filterItemsList.clear();
+    for (var entry in appliedFilters.entries) {
+      String key = entry.key ?? "";
+      String value = entry.value ?? "";
+      ModuleInfo info = ModuleInfo();
+      if (isSingleFilter.value && !StringHelper.isEmptyString(title)) {
+        info.name = "${StringHelper.capitalizeFirstLetter(key)}: $title";
+      } else {
+        info.name = StringHelper.capitalizeFirstLetter(key);
+      }
+
+      info.value = value;
+      List<String> list = value.split(",");
+      info.count = !isSingleFilter.value ? list.length : 0;
+      filterItemsList.add(info);
+      print("--------------");
+      print("${entry.key}: ${entry.value}");
+    }
+    if (filterItemsList.isNotEmpty && !isSingleFilter.value) {
+      filterItemsList.insert(
+          0, ModuleInfo(name: 'reset'.tr, action: AppConstants.action.reset));
+    }
+    filterItemsList.refresh();
+  }
+
+  void clearFilter() {
+    appliedFilters = {};
+    setFilterItems();
+    loadData();
   }
 
   @override

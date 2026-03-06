@@ -79,6 +79,7 @@ class IntentKey {
   final String leaveInfo = "Leave_INFO";
   final String expenseInfo = "EXPENSE_INFO";
   final String leaveId = "Leave_ID";
+  final String recordId = "RECORD_ID";
   final String userId = "USER_ID";
   final String productsData = "PRODUCTS_DATA";
   final String itemDetails = "ITEM_DETAILS";
@@ -201,9 +202,11 @@ class Action {
   const Action(); //
   final String items = "ITEMS";
   final String store = "STORE";
-  final String suppliers = "SUPPLIERS";
-  final String projects = "PROJECTS";
-  final String categories = "CATEGORIES";
+  final String stores = "stores";
+  final String suppliers = "suppliers";
+  final String projects = "projects";
+  final String draftOrders = "draftOrders";
+  final String categories = "categories";
   final String stocks = "STOCKS";
   final String vendors = "VENDORS";
   final String manufacturer = "MANUFACTURER";
@@ -222,12 +225,13 @@ class Action {
   final String completed = "COMPLETED";
   final String viewPhoto = "VIEW_PHOTO";
   final String removePhoto = "REMOVE_PHOTO";
+  final String reset = "RESET";
 
   final String clockIn = "ClockIn";
   final String quickTask = "QuickTask";
   final String map = "Map";
   final String teams = "Teams";
-  final String users = "Users";
+  final String users = "users";
   final String timeSheet = "TimeSheet";
   final String selectCompanyListDialog = "selectCompanyListDialog";
   final String selectTradeListDialog = "selectTradeListDialog";

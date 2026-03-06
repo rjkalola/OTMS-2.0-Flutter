@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:belcka/buyer_app/buyer_order/model/order_info.dart';
+import 'package:belcka/buyer_app/buyer_order_details/controller/buyer_order_details_repository.dart';
+import 'package:belcka/buyer_app/buyer_order_details/model/buyer_order_details_response.dart';
 import 'package:belcka/buyer_app/create_buyer_order/controller/create_buyer_order_repository.dart';
 import 'package:belcka/buyer_app/create_buyer_order/model/product_request_info.dart';
 import 'package:belcka/pages/common/drop_down_list_dialog.dart';
@@ -18,6 +21,7 @@ import 'package:belcka/web_services/response/response_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:belcka/web_services/response/base_response.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../../../web_services/api_constants.dart';
 
@@ -42,12 +46,13 @@ class CreateBuyerOrderController extends GetxController
       isMainViewVisible = false.obs,
       isSearchEnable = false.obs,
       isClearSearch = false.obs,
-      isCheckedProduct = false.obs;
+      isCheckedProduct = false.obs,
+      isDraftOrder = false.obs;
   RxString currency = "".obs;
   RxDouble uniteTotal = 0.0.obs;
   final formKey = GlobalKey<FormState>();
   double cardRadius = 12;
-  int selectedIndex = 0, storeId = 0, supplierId = 0;
+  int selectedIndex = 0, storeId = 0, supplierId = 0, orderId = 0;
   final buyerOrdersList = <ProductInfo>[].obs;
   List<ProductInfo> tempBuyerOrderList = [];
   final searchController = TextEditingController().obs;
@@ -57,76 +62,76 @@ class CreateBuyerOrderController extends GetxController
     super.onInit();
     var arguments = Get.arguments;
     if (arguments != null) {
-      buyerOrdersList.value =
-          arguments[AppConstants.intentKey.productsData] ?? [];
-      if (buyerOrdersList.isNotEmpty) {
-        currency.value = buyerOrdersList[0].currency ?? "";
+      orderId = arguments[AppConstants.intentKey.orderId] ?? 0;
+      print("orderId:" + orderId.toString());
+      if (orderId == 0) {
+        buyerOrdersList.value =
+            arguments[AppConstants.intentKey.productsData] ?? [];
+        if (buyerOrdersList.isNotEmpty) {
+          currency.value = buyerOrdersList[0].currency ?? "";
+        }
+        calculateTotalAmount();
+        getSuppliersApi();
+      } else {
+        orderDetailsApi();
       }
-      calculateTotalAmount();
     }
-    getSuppliersApi();
   }
 
-  void loadOrders() {
-    // tempBuyerOrderList.clear();
-    // tempBuyerOrderList.addAll([
-    //   OrderInfo(
-    //     id: 1,
-    //     name: "ElectriQ 60cm 4 Zone Induction Hob",
-    //     sku: "DCK1234",
-    //     image: "https://via.placeholder.com/150",
-    //     availableQty: 1000,
-    //     projectName: "DCK Northumberland",
-    //     userName: "Alex Novok +2",
-    //     price: 2500.00,
-    //     qty: 5,
-    //   ),
-    //   OrderInfo(
-    //     id: 2,
-    //     name: "Twfydord Alcona Close Coupled Toilet Pan",
-    //     sku: "DCK1234",
-    //     image: "https://samplelib.com/lib/preview/png/sample-boat-400x300.png",
-    //     availableQty: 5,
-    //     projectName: "DCK Northumberland",
-    //     userName: "Alex Novok +2",
-    //     price: 43.21,
-    //     qty: 1,
-    //   ),
-    //   OrderInfo(
-    //     id: 2,
-    //     name: "Twfydord Alcona Close Coupled Toilet Pan",
-    //     sku: "DCK1234",
-    //     image: "https://samplelib.com/lib/preview/png/sample-boat-400x300.png",
-    //     availableQty: 5,
-    //     projectName: "DCK Northumberland",
-    //     userName: "Alex Novok +2",
-    //     price: 43.21,
-    //     qty: 1,
-    //   ),
-    //   OrderInfo(
-    //     id: 2,
-    //     name: "Twfydord Alcona Close Coupled Toilet Pan",
-    //     sku: "DCK1234",
-    //     image: "https://samplelib.com/lib/preview/png/sample-boat-400x300.png",
-    //     availableQty: 5,
-    //     projectName: "DCK Northumberland",
-    //     userName: "Alex Novok +2",
-    //     price: 43.21,
-    //     qty: 1,
-    //   ),
-    //   OrderInfo(
-    //     id: 2,
-    //     name: "Twfydord Alcona Close Coupled Toilet Pan",
-    //     sku: "DCK1234",
-    //     image: "https://samplelib.com/lib/preview/png/sample-boat-400x300.png",
-    //     availableQty: 5,
-    //     projectName: "DCK Northumberland",
-    //     userName: "Alex Novok +2",
-    //     price: 43.21,
-    //     qty: 1,
-    //   ),
-    // ]);
-    // buyerOrdersList.value = tempBuyerOrderList;
+  void setInitialData(OrderInfo orderInfo) {
+    buyerOrdersList.value = orderInfo.purchaseOrders ?? [];
+    calculateTotalAmount();
+    currency.value = orderInfo.currency ?? "";
+    orderIdController.value.text = orderInfo.orderId ?? "";
+    expectedDeliveryController.value.text =
+        orderInfo.expectedDeliveryDate ?? "";
+    storeController.value.text = orderInfo.storeName ?? "";
+    supplierController.value.text = orderInfo.supplierName ?? "";
+    refController.value.text = orderInfo.ref ?? "";
+    noteController.value.text = orderInfo.note ?? "";
+
+    storeId = orderInfo.storeId ?? 0;
+    supplierId = orderInfo.supplierId ?? 0;
+  }
+
+  void orderDetailsApi() {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
+    map["id"] = orderId;
+
+    BuyerOrderDetailsRepository().orderDetails(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          // isMainViewVisible.value = true;
+          BuyerOrderDetailsResponse response =
+              BuyerOrderDetailsResponse.fromJson(
+                  jsonDecode(responseModel.result!));
+          OrderInfo orderInfo = response.info ?? OrderInfo();
+          isDraftOrder.value = orderInfo.isDraft ?? false;
+          for (ProductInfo productInfo in orderInfo.purchaseOrders!) {
+            productInfo.cartQty = productInfo.qty ?? 0;
+            productInfo.currency = orderInfo.currency ?? "";
+          }
+          setInitialData(orderInfo);
+          getSuppliersApi();
+        } else {
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+        }
+        // isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+          // AppUtils.showSnackBarMessage('no_internet'.tr);
+          // Utils.showSnackBarMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+        }
+      },
+    );
   }
 
   void getSuppliersApi() {
@@ -199,14 +204,18 @@ class CreateBuyerOrderController extends GetxController
       for (var item in buyerOrdersList) {
         if ((item.cartQty ?? 0) > 0) {
           ProductRequestInfo info = ProductRequestInfo();
-          info.productId = item.id ?? 0;
+          info.productId = item.productId ?? 0;
           info.qty = item.cartQty ?? 0;
           info.price = item.price ?? "";
           productList.add(info);
         }
       }
       if (productList.isNotEmpty) {
-        createBuyerOrderApi(isDraft, productList);
+        if (isDraftOrder.value) {
+          updateBuyerOrderApi(productList);
+        } else {
+          createBuyerOrderApi(isDraft, productList);
+        }
       } else {
         AppUtils.showToastMessage('msg_add_at_least_one_qty'.tr);
       }
@@ -220,13 +229,11 @@ class CreateBuyerOrderController extends GetxController
     map["company_id"] = ApiConstants.companyId;
     map["store_id"] = storeId;
     map["supplier_id"] = supplierId;
-
-    // map["received_by"] =;
-    // map["date"] =;
     map["ref"] = StringHelper.getText(refController.value);
     map["note"] = StringHelper.getText(noteController.value);
-    map["tax"] = (uniteTotal.value * 0.2).toString();
-    map["total_amount"] = (uniteTotal.value * 1.2).toString();
+    map["tax"] = AppUtils.formatStringToDecimals(uniteTotal.value * 0.2);
+    map["total_amount"] =
+        AppUtils.formatStringToDecimals(uniteTotal.value * 1.2);
     map["expected_delivery_date"] =
         StringHelper.getText(expectedDeliveryController.value);
     map["checked_product"] = isCheckedProduct.value;
@@ -235,6 +242,52 @@ class CreateBuyerOrderController extends GetxController
     map["is_draft"] = isDraft;
 
     _api.createBuyerOrder(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          BaseResponse response =
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showToastMessage(response.Message ?? "");
+          Get.back(result: true);
+        } else {
+          isLoading.value = false;
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+        }
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+          // AppUtils.showSnackBarMessage('no_internet'.tr);
+          // Utils.showSnackBarMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
+
+  void updateBuyerOrderApi(List<ProductRequestInfo> productList) {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["id"] = orderId;
+    map["order_id"] = StringHelper.getText(orderIdController.value);
+    map["company_id"] = ApiConstants.companyId;
+    map["store_id"] = storeId;
+    map["supplier_id"] = supplierId;
+    map["ref"] = StringHelper.getText(refController.value);
+    map["note"] = StringHelper.getText(noteController.value);
+    map["tax"] = AppUtils.formatStringToDecimals(uniteTotal.value * 0.2);
+    map["total_amount"] =
+        AppUtils.formatStringToDecimals(uniteTotal.value * 1.2);
+    map["expected_delivery_date"] =
+        StringHelper.getText(expectedDeliveryController.value);
+    map["checked_product"] = isCheckedProduct.value;
+    map["product_data"] = productList;
+    map["is_draft"] = false;
+    print(jsonEncode(productList));
+
+    _api.updateBuyerOrder(
       data: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
@@ -417,8 +470,9 @@ class CreateBuyerOrderController extends GetxController
   void calculateTotalAmount() {
     uniteTotal.value = 0;
     for (var item in buyerOrdersList) {
-      uniteTotal.value = uniteTotal.value +
-          ((double.parse(item.price ?? "0")) * (item.cartQty ?? 0));
+      double value = double.parse(AppUtils.formatStringToDecimals(
+          ((double.parse(item.price ?? "0")) * (item.cartQty ?? 0))));
+      uniteTotal.value = uniteTotal.value + value;
     }
   }
 }

@@ -1,7 +1,9 @@
 import 'package:belcka/buyer_app/buyer_settings/controller/buyer_settings_controller.dart';
 import 'package:belcka/pages/leaves/leave_list/model/leave_info.dart';
+import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/widgets/other_widgets/right_arrow_widget.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -29,14 +31,18 @@ class BuyerSettingsItemsList extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(14, 16, 14, 16),
                 borderRadius: 15,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    TitleTextView(
-                      text: info.name ?? "",
+                    Expanded(
+                      child: TitleTextView(
+                        text: info.name ?? "",
+                      ),
                     ),
                     TitleTextView(
                       text: info.value ?? "",
-                    )
+                    ),
+                    (info.action ?? "") == AppConstants.action.draftOrders
+                        ? RightArrowWidget()
+                        : Container()
                   ],
                 ),
               ),
