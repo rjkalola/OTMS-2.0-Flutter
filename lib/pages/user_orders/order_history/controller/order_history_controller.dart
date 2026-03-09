@@ -3,8 +3,10 @@ import 'package:belcka/buyer_app/buyer_order/model/order_info.dart';
 import 'package:belcka/pages/user_orders/order_history/controller/order_history_repository.dart';
 import 'package:belcka/pages/user_orders/order_history/model/order_history_response.dart';
 import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/response_model.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 enum OrderFilter {
@@ -51,6 +53,8 @@ class OrderHistoryController extends GetxController{
     }
   }
 
+  final searchController = TextEditingController().obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -74,6 +78,7 @@ class OrderHistoryController extends GetxController{
   void changeFilter(OrderFilter filter) {
     if (selectedFilter.value == filter) return;
     selectedFilter.value = filter;
+    clearSearch();
     fetchOrderHistory();
   }
   void fetchOrderHistory() {
@@ -119,7 +124,32 @@ class OrderHistoryController extends GetxController{
   Future<void> moveToScreen(String rout, dynamic arguments) async {
     var result = await Get.toNamed(rout, arguments: arguments);
     if (result != null && result) {
+      clearSearch();
       fetchOrderHistory();
     }
+  }
+
+  Future<void> searchItem(String value) async {
+    List<OrderInfo> results = [];
+    if (value.isEmpty) {
+      results = tempList;
+    } else {
+      results = tempList
+          .where((element) =>
+      (!StringHelper.isEmptyString(element.orderNumber) &&
+          element.orderNumber!
+              .toLowerCase()
+              .contains(value.toLowerCase())))
+          .toList();
+    }
+    orderList.value = results;
+  }
+  void clearSearch() {
+    searchController.value.clear();
+    searchItem("");
+    isSearchEnable.value = false;
+  }
+  void onBackPress() {
+    Get.back(result: isDataUpdated);
   }
 }

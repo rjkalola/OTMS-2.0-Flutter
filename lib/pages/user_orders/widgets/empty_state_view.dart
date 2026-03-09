@@ -1,3 +1,5 @@
+import 'package:belcka/widgets/text/SubTitleTextView.dart';
+import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 
 class EmptyStateView extends StatelessWidget {
@@ -21,12 +23,19 @@ class EmptyStateView extends StatelessWidget {
           //Icon(icon, size: 80, color: Colors.grey),
           Image.asset(
             "assets/images/img_empty_data.png",
-            height: 80,
+            height: 50,
           ),
           SizedBox(height: 16),
-          Text(title, style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold)),
+          TitleTextView(
+            text: title,
+              fontSize: 16,
+              fontWeight: FontWeight.w700
+          ),
           SizedBox(height: 8),
-          Text(message, style: TextStyle(fontSize:14,color: Colors.grey.shade600,)),
+          SubtitleTextView(
+            text: message,
+              fontSize:14
+          )
         ],
       ),
     );

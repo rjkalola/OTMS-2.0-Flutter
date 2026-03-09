@@ -1,16 +1,25 @@
 import 'package:belcka/pages/user_orders/categories/controller/user_orders_categories_controller.dart';
 import 'package:belcka/pages/user_orders/categories/view/widgets/user_orders_categories_list.dart';
+import 'package:belcka/pages/user_orders/widgets/orders_base_app_bar.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/drawable.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
-class UserOrdersCategoriesScreen extends StatelessWidget {
-  UserOrdersCategoriesScreen({super.key});
+class UserOrdersCategoriesScreen extends StatefulWidget {
+  const UserOrdersCategoriesScreen({super.key});
+
+  @override
+  State<UserOrdersCategoriesScreen> createState() => _UserOrdersCategoriesScreenState();
+}
+
+class _UserOrdersCategoriesScreenState extends State<UserOrdersCategoriesScreen> {
 
   final controller = Get.put(UserOrdersCategoriesController());
 
@@ -23,12 +32,20 @@ class UserOrdersCategoriesScreen extends StatelessWidget {
         child: Obx(
               () => Scaffold(
             backgroundColor: dashBoardBgColor_(context),
-                  appBar: AppBar(
-                    backgroundColor: backgroundColor_(context),
-                    elevation: 0,
-                    scrolledUnderElevation: 0,
-                    surfaceTintColor: Colors.transparent,
-                    actions: actionButtons(),
+                  appBar: OrdersBaseAppBar(
+                    appBar: AppBar(),
+                    title: ''.tr,
+                    isCenterTitle: false,
+                    isBack: false,
+                    bgColor: backgroundColor_(context),
+                    widgets: actionButtons(),
+                    isSearching: controller.isSearchEnable.value,
+                    searchController: controller.searchController,
+                    onValueChange: (value) {
+                      controller.searchItem(value);
+                    },
+                    autoFocus: true,
+                    isClearVisible: false.obs,
                   ),
             body: ModalProgressHUD(
               inAsyncCall: controller.isLoading.value,
@@ -55,8 +72,30 @@ class UserOrdersCategoriesScreen extends StatelessWidget {
 
   List<Widget>? actionButtons() {
     return [
-      //IconButton(icon: Icon(Icons.search), onPressed: () {}),
-
+      InkWell(
+        onTap: () {
+          controller.isSearchEnable.toggle();
+          if (!controller.isSearchEnable.value) {
+            controller.clearSearch();
+          }
+        },
+        customBorder: const CircleBorder(),
+        child: Padding(
+          padding: const EdgeInsets.all(6),
+          child: Obx(() => controller.isSearchEnable.value
+              ? Icon(
+            Icons.close,
+          )
+              : ImageUtils.setSvgAssetsImage(
+            path: Drawable.searchIcon,
+            width: 24,
+            height: 24,
+          )),
+        ),
+      ),
+      SizedBox(
+        width: 4,
+      ),
       InkWell(
         onTap: (){
           // open cart page

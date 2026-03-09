@@ -127,19 +127,117 @@ class OrderDetailsHeaderView extends StatelessWidget {
           ),
 
           const SizedBox(height: 16),
-
           /*
-          /// Buttons
-          Row(
-            children: [
-              _outlineButton("Cancel / Return", Colors.red),
-              const SizedBox(width: 12),
-              _outlineButton("Reorder All", Colors.green),
-            ],
+          Padding(
+            padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+            child: buildActionButtons(orderInfo.status ?? 0),
           )
           */
         ],
       ),
     );
   }
+}
+
+
+Widget buildActionButtons(int status) {
+  if (status == 1 || status == 2 || status == 4) {
+    //return _singleButton("Cancel", Colors.red);
+    return Row(
+      children: [
+        Expanded(
+          child: _actionButton(
+            title: "Cancel",
+            textColor: Colors.red,
+            onTap: () {},
+          ),
+        ),
+        Spacer(),
+        Expanded(
+          child: _actionButton(
+            title: "Reorder All",
+            textColor: Colors.green,
+            onTap: () {},
+          ),
+        ),
+      ],
+    );
+  }
+
+  if (status == 6 || status == 7) {
+    return Row(
+      children: [
+        Expanded(
+          child: _actionButton(
+            title: "Return",
+            textColor: Colors.red,
+            onTap: () {},
+          ),
+        ),
+        Spacer(),
+        Expanded(
+          child: _actionButton(
+            title: "Reorder All",
+            textColor: Colors.green,
+            onTap: () {},
+          ),
+        ),
+      ],
+    );
+  }
+
+  if (status == 3 || status == 8 || status == 9) {
+    return _singleButton("Reorder All", Colors.green);
+  }
+
+  return _singleButton("Reorder All", Colors.green);//const SizedBox();
+}
+
+Widget _actionButton({
+  required String title,
+  required Color textColor,
+  required VoidCallback onTap,
+}) {
+  return InkWell(
+    onTap: onTap,
+    borderRadius: BorderRadius.circular(30),
+    child: Container(
+      padding: const EdgeInsets.symmetric(vertical: 14),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(30),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.15),
+            blurRadius: 8,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Text(
+        title,
+        style: TextStyle(
+          color: textColor,
+          fontSize: 15,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    ),
+  );
+}
+
+Widget _singleButton(String title, Color color) {
+  return Row(
+    children: [
+      Expanded(
+        child: _actionButton(
+          title: title,
+          textColor: color,
+          onTap: () {},
+        ),
+      ),
+      Spacer()
+    ],
+  );
 }

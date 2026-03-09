@@ -1,12 +1,16 @@
 import 'package:belcka/pages/user_orders/storeman_catalog/controller/storeman_catalog_controller.dart';
+import 'package:belcka/pages/user_orders/storeman_catalog/view/category_expand_grid.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/view/widgets/right_side_icons_list_widget.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/view/widgets/storeman_catalog_header_view.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/view/widgets/storeman_products_list_widget.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/view/widgets/storeman_searchbar_widget.dart';
 import 'package:belcka/pages/user_orders/widgets/empty_state_view.dart';
+import 'package:belcka/pages/user_orders/widgets/orders_base_app_bar.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/drawable.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
@@ -32,17 +36,23 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
       child: SafeArea(
         child: Obx(
               () => Scaffold(
-                appBar: BaseAppBar(
+                appBar: OrdersBaseAppBar(
                   appBar: AppBar(),
                   title: '',
                   isCenterTitle: false,
-                  isBack: true,
+                  isBack: false,
                   bgColor: backgroundColor_(context),
                   widgets: actionButtons(),
                   onBackPressed: (){
                     controller.onBackPress();
-                  }
-                  ,
+                  },
+                  isSearching: controller.isSearchEnable.value,
+                  searchController: controller.searchController,
+                  onValueChange: (value) {
+                    controller.searchItem(value);
+                  },
+                  autoFocus: true,
+                  isClearVisible: false.obs,
                 ),
             backgroundColor: dashBoardBgColor_(context),
             body: ModalProgressHUD(
@@ -58,28 +68,43 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
                   : controller.isMainViewVisible.value
                   ? Padding(
                 padding: const EdgeInsets.all(0),
-                child: controller.products.isNotEmpty ? Column(
+                child:Stack(
                   children: [
-                    //Top Search Bar
-                    //StoremanSearchbarWidget(),
-                    StoremanCatalogHeaderView(),
-                    SizedBox(height: 10,),
-                    // Catalog List + Side Icons
-                    Expanded(
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Product list
-                          StoremanProductsListWidget(),
-                          // Right-side icon bar
-                          //RightSideIconsListWidget(),
-                        ],
-                      ),
+                    Column(
+                      children: [
+                        StoremanCatalogHeaderView(),
+                        const SizedBox(height: 10),
+                        Expanded(
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: controller.products.isNotEmpty
+                                    ? StoremanProductsListWidget()
+                                    : EmptyStateView(
+                                  title: 'no_products_msg'.tr,
+                                  message: "${'no_products_sub_msg'.tr}.",
+                                ),
+                              ),
+                              RightSideIconsListWidget(),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
+                    Obx(() => AnimatedPositioned(
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInOut,
+                      right: controller.isCategoryExpanded.value ? 0 : -MediaQuery.of(context).size.width,
+                      top: 20,
+                      bottom: 0,
+                      width: MediaQuery.of(context).size.width,
+                      child: Container(
+                        color: dashBoardBgColor_(context),
+                        child: CategoryExpandGrid(),
+                      ),
+                    )),
                   ],
-                ) :
-                EmptyStateView(title: 'no_products_msg'.tr,
-                  message: "${'no_products_sub_msg'.tr}.",),
+                ),
               )
                   : const SizedBox.shrink(),
             ),
@@ -91,7 +116,32 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
 
   List<Widget>? actionButtons() {
     return [
-      // IconButton(icon: Icon(Icons.search), onPressed: () {}),
+      /*
+      InkWell(
+        onTap: () {
+          controller.isSearchEnable.toggle();
+          if (!controller.isSearchEnable.value) {
+            controller.clearSearch();
+          }
+        },
+        customBorder: const CircleBorder(),
+        child: Padding(
+          padding: const EdgeInsets.all(6),
+          child: Obx(() => controller.isSearchEnable.value
+              ? Icon(
+            Icons.close,
+          )
+              : ImageUtils.setSvgAssetsImage(
+            path: Drawable.searchIcon,
+            width: 24,
+            height: 24,
+          )),
+        ),
+      ),
+      */
+      SizedBox(
+        width: 2,
+      ),
       // IconButton(icon: Icon(Icons.bookmark), onPressed: () {}),
       InkWell(
         onTap: (){
@@ -134,6 +184,9 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
               ),
           ],
         ),
+      ),
+      SizedBox(
+        width: 10,
       ),
     ];
   }

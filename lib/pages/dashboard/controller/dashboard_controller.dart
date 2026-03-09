@@ -7,6 +7,7 @@ import 'package:belcka/pages/dashboard/models/permission_settings.dart';
 import 'package:belcka/pages/dashboard/tabs/home_tab/view/home_tab.dart';
 import 'package:belcka/pages/dashboard/tabs/more_tab/view/more_tab.dart';
 import 'package:belcka/pages/user_orders/categories/view/user_orders_categories_screen.dart';
+import 'package:belcka/pages/user_orders/storeman_catalog/view/storeman_catalog_screen.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/map_utils.dart';
 import 'package:belcka/utils/user_utils.dart';
@@ -44,7 +45,7 @@ class DashboardController extends GetxController
     // StockListScreen(),
     HomeTab(),
     // ProfileTab(),
-    UserOrdersCategoriesScreen(),
+    StoremanCatalogScreen(),
     MoreTab(),
     MoreTab(),
   ];

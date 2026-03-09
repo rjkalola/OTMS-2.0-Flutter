@@ -3,6 +3,7 @@ import 'package:belcka/pages/user_orders/categories/controller/user_orders_categ
 import 'package:belcka/pages/user_orders/categories/model/user_orders_categories_info.dart';
 import 'package:belcka/pages/user_orders/categories/model/user_orders_categories_response.dart';
 import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:flutter/material.dart';
@@ -17,9 +18,10 @@ class UserOrdersCategoriesController extends GetxController{
       isSearchEnable = false.obs,
       isClearSearch = false.obs;
 
-  final searchController = TextEditingController().obs;
-  final categoriesList = <UserOrdersCategoriesInfo>[].obs;
+  RxList<UserOrdersCategoriesInfo> categoriesList = <UserOrdersCategoriesInfo>[].obs;
   List<UserOrdersCategoriesInfo> tempList = [];
+
+  final searchController = TextEditingController().obs;
   RxInt cartCount = 0.obs;
 
   @override
@@ -62,9 +64,32 @@ class UserOrdersCategoriesController extends GetxController{
     cartCount.value = count;
   }
   Future<void> moveToScreen(String rout, dynamic arguments) async {
+    clearSearch();
     var result = await Get.toNamed(rout, arguments: arguments);
     if (result != null && result) {
       getCategoriesListApi();
     }
+  }
+
+  Future<void> searchItem(String value) async {
+    print(value);
+    List<UserOrdersCategoriesInfo> results = [];
+    if (value.isEmpty) {
+      results = tempList;
+    } else {
+      results = tempList
+          .where((element) =>
+      (!StringHelper.isEmptyString(element.name) &&
+          element.name!
+              .toLowerCase()
+              .contains(value.toLowerCase())))
+          .toList();
+    }
+    categoriesList.value = results;
+  }
+  void clearSearch() {
+    searchController.value.clear();
+    searchItem("");
+    isSearchEnable.value = false;
   }
 }
