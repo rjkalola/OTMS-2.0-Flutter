@@ -1,5 +1,5 @@
 class ModuleInfo {
-  int? id, companyId, projectId, tradeId, productsCount;
+  int? id, companyId, projectId, tradeId, productsCount, count;
   String? name,
       symbol,
       value,
@@ -36,7 +36,8 @@ class ModuleInfo {
       this.type,
       this.imageUrl,
       this.thumbUrl,
-      this.productsCount});
+      this.productsCount,
+      this.count});
 
   ModuleInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -57,6 +58,7 @@ class ModuleInfo {
     imageUrl = json['image_url'];
     thumbUrl = json['thumb_url'];
     productsCount = json['products_count'];
+    count = json['count'];
   }
 
   Map<String, dynamic> toJson() {
@@ -79,6 +81,7 @@ class ModuleInfo {
     data['image_url'] = this.imageUrl;
     data['thumb_url'] = this.thumbUrl;
     data['products_count'] = this.productsCount;
+    data['count'] = this.count;
 
     return data;
   }

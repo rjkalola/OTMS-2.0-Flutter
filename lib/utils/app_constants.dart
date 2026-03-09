@@ -13,6 +13,8 @@ class AppConstants {
   static const Results results = Results();
   static const Status status = Status();
   static const OrderStatus orderStatus = OrderStatus();
+  static const ProductStockStatus productStockStatus = ProductStockStatus();
+
   static const CompanyResourcesFlag companyResourcesFlag =
       CompanyResourcesFlag();
   static const NotificationType notificationType = NotificationType();
@@ -79,6 +81,7 @@ class IntentKey {
   final String leaveInfo = "Leave_INFO";
   final String expenseInfo = "EXPENSE_INFO";
   final String leaveId = "Leave_ID";
+  final String recordId = "RECORD_ID";
   final String userId = "USER_ID";
   final String productsData = "PRODUCTS_DATA";
   final String itemDetails = "ITEM_DETAILS";
@@ -201,9 +204,11 @@ class Action {
   const Action(); //
   final String items = "ITEMS";
   final String store = "STORE";
-  final String suppliers = "SUPPLIERS";
-  final String projects = "PROJECTS";
-  final String categories = "CATEGORIES";
+  final String stores = "stores";
+  final String suppliers = "suppliers";
+  final String projects = "projects";
+  final String draftOrders = "draftOrders";
+  final String categories = "categories";
   final String stocks = "STOCKS";
   final String vendors = "VENDORS";
   final String manufacturer = "MANUFACTURER";
@@ -222,12 +227,13 @@ class Action {
   final String completed = "COMPLETED";
   final String viewPhoto = "VIEW_PHOTO";
   final String removePhoto = "REMOVE_PHOTO";
+  final String reset = "RESET";
 
   final String clockIn = "ClockIn";
   final String quickTask = "QuickTask";
   final String map = "Map";
   final String teams = "Teams";
-  final String users = "Users";
+  final String users = "users";
   final String timeSheet = "TimeSheet";
   final String selectCompanyListDialog = "selectCompanyListDialog";
   final String selectTradeListDialog = "selectTradeListDialog";
@@ -351,6 +357,16 @@ class Type {
   final String request = "REQUEST";
   final String proceed = "PROCEED";
   final String delivered = "DELIVERED";
+  final String ready = "READY";
+  final String collect = "COLLECT";
+  final String newType = "NEW";
+  final String preparing = "PREPARING";
+  final String hired = "HIRED";
+  final String servicing = "SERVICING";
+  final String upComing = "UPCOMING";
+  final String processing = "PROCESSING";
+  final String onStock = "ON_STOCK";
+  final String available = "AVAILABLE";
 }
 
 class Status {
@@ -370,11 +386,22 @@ class Status {
 
 class OrderStatus {
   const OrderStatus();
+
   final int issued = 0;
   final int partialReceived = 1;
   final int received = 2;
   final int unlocked = 3;
   final int cancelled = 4;
+}
+
+class ProductStockStatus {
+  const ProductStockStatus();
+
+  final int lowStock = 1;
+  final int inStock = 2;
+
+  // final int unlocked = 3;
+  final int outOfStock = 4;
 }
 
 class CompanyResourcesFlag {

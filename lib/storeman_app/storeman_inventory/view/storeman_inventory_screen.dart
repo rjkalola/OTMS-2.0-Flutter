@@ -1,0 +1,149 @@
+import 'package:belcka/storeman_app/storeman_inventory/controller/storeman_inventory_controller.dart';
+import 'package:belcka/storeman_app/storeman_inventory/view/widgets/suppliers_card_view.dart';
+import 'package:belcka/storeman_app/storeman_inventory/view/widgets/internal_orders_card_view.dart';
+import 'package:belcka/storeman_app/storeman_inventory/view/widgets/hire_card_view.dart';
+import 'package:belcka/pages/common/listener/date_filter_listener.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/widgets/CustomProgressbar.dart';
+import 'package:belcka/widgets/appbar/base_appbar.dart';
+import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/widgets/text/TitleTextView.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+
+import '../../../pages/common/widgets/date_filter_options_horizontal_list.dart';
+import '../../../utils/app_constants.dart';
+
+class StoremanInventoryScreen extends StatefulWidget {
+  const StoremanInventoryScreen({super.key});
+
+  @override
+  State<StoremanInventoryScreen> createState() => _StoremanInventoryScreenState();
+}
+
+class _StoremanInventoryScreenState extends State<StoremanInventoryScreen>
+    implements DateFilterListener {
+  final controller = Get.put(StoremanInventoryController());
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() => Container(
+          color: backgroundColor_(context),
+          child: SafeArea(
+            child: Scaffold(
+              appBar: BaseAppBar(
+                appBar: AppBar(),
+                title: "inventory".tr,
+                isCenterTitle: false,
+                bgColor: backgroundColor_(context),
+                widgets: actionButtons(),
+                isBack: true,
+              ),
+              backgroundColor: dashBoardBgColor_(context),
+              body: ModalProgressHUD(
+                inAsyncCall: controller.isLoading.value,
+                opacity: 0,
+                progressIndicator: const CustomProgressbar(),
+                child: controller.isInternetNotAvailable.value
+                    ? Center(
+                        child: Text("no_internet_text".tr),
+                      )
+                    : Column(
+                        children: [
+                          Container(
+                            width: double.infinity,
+                            height: 14,
+                            decoration: BoxDecoration(
+                              color: backgroundColor_(context),
+                              boxShadow: [
+                                AppUtils.boxShadow(shadowColor_(context), 6)
+                              ],
+                              border: Border.all(
+                                  width: 0.6, color: Colors.transparent),
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(45),
+                                  bottomRight: Radius.circular(45)),
+                            ),
+                            child: Column(
+                              children: [],
+                            ),
+                          ),
+                          Visibility(
+                            visible: controller.isMainViewVisible.value,
+                            child: Expanded(
+                              child: SingleChildScrollView(
+                                  child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    height: 12,
+                                  ),
+                                  DateFilterOptionsHorizontalList(
+                                    padding: EdgeInsets.fromLTRB(14, 0, 14, 6),
+                                    startDate: controller.startDate.value,
+                                    endDate: controller.endDate.value,
+                                    listener: this,
+                                    selectedPosition:
+                                        controller.selectedDateFilterIndex,
+                                  ),
+                                  SizedBox(
+                                    width: double.infinity,
+                                    child: CardViewDashboardItem(
+                                        padding: EdgeInsets.all(6),
+                                        margin: EdgeInsetsGeometry.only(
+                                            left: 14,
+                                            right: 14,
+                                            top: 6,
+                                            bottom: 6),
+                                        borderRadius: 8,
+                                        child: TitleTextView(
+                                          textAlign: TextAlign.center,
+                                          text:
+                                              "${controller.displayStartDate.value} - ${controller.displayEndDate.value}",
+                                        )),
+                                  ),
+                                  SuppliersCardView(),
+                                  InternalOrdersCardView(),
+                                  HireCardView()
+                                ],
+                              )),
+                            ),
+                          )
+                        ],
+                      ),
+              ),
+            ),
+          ),
+        ));
+  }
+
+  List<Widget>? actionButtons() {
+    return [
+      IconButton(
+        icon: Icon(Icons.settings),
+        onPressed: () {
+          var arguments = {
+            AppConstants.intentKey.itemDetails: controller.inventoryData.value,
+          };
+          Get.toNamed(AppRoutes.buyerSettingsScreen, arguments: arguments);
+        },
+      ),
+    ];
+  }
+
+  @override
+  void onSelectDateFilter(int filterIndex, String filter, String startDate,
+      String endDate, String dialogIdentifier) {
+    print("filterIndex:" + filterIndex.toString());
+    print("filter:" + filter);
+    controller.startDate.value = startDate;
+    controller.endDate.value = endDate;
+    controller.inventoryOverviewApi(true);
+    print("startDate:" + startDate);
+    print("endDate:" + endDate);
+  }
+}
+

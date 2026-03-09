@@ -66,8 +66,10 @@ class SelectShiftController extends GetxController {
       switchProject = arguments[AppConstants.intentKey.switchProject] ?? false;
       projectId = arguments[AppConstants.intentKey.ID] ?? 0;
       workLogId = arguments[AppConstants.intentKey.workLogId] ?? 0;
-      companyId = arguments[AppConstants.intentKey.companyId] ?? 0;
+      companyId =
+          arguments[AppConstants.intentKey.companyId] ?? ApiConstants.companyId;
       print("Project ID" + projectId.toString());
+      print("companyId:" + companyId.toString());
     }
     LocationInfo? locationInfo = Get.find<AppStorage>().getLastLocation();
     if (locationInfo != null) {
@@ -120,31 +122,6 @@ class SelectShiftController extends GetxController {
         } else if (error.statusMessage!.isNotEmpty) {
           AppUtils.showApiResponseMessage(error.statusMessage ?? "");
         }
-      },
-    );
-  }
-
-  void getProjectDetailsApi() {
-    isLoading.value = true;
-    Map<String, dynamic> map = {};
-    map["company_id"] = ApiConstants.companyId;
-    map["project_id"] = projectId;
-
-    ProjectDetailsRepository().getProjectDetails(
-      queryParameters: map,
-      onSuccess: (ResponseModel responseModel) {
-        if (responseModel.isSuccess) {
-          isMainViewVisible.value = true;
-          ProjectDetailsApiResponse response =
-              ProjectDetailsApiResponse.fromJson(
-                  jsonDecode(responseModel.result!));
-          projectInfo.value = response.info!;
-          setZones();
-        }
-        isLoading.value = false;
-      },
-      onError: (ResponseModel error) {
-        isLoading.value = false;
       },
     );
   }

@@ -1,6 +1,5 @@
 import 'package:belcka/buyer_app/buyer_order/controller/buyer_order_controller.dart';
 import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_delivered_order_list_item.dart';
-import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_proceed_order_list_item.dart';
 import 'package:belcka/widgets/other_widgets/no_data_found_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

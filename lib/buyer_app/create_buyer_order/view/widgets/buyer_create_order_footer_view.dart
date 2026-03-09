@@ -1,4 +1,5 @@
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:belcka/widgets/checkbox/custom_checkbox.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
@@ -48,7 +49,7 @@ class BuyerCreateOrderFooterView extends StatelessWidget {
                     ),
                     TitleTextView(
                       text:
-                          "${controller.currency}${controller.uniteTotal.value * 0.2}",
+                          "${controller.currency}${double.parse(AppUtils.formatStringToDecimals(controller.uniteTotal.value * 0.2))}",
                     ),
                   ],
                 ),
@@ -64,7 +65,7 @@ class BuyerCreateOrderFooterView extends StatelessWidget {
                     ),
                     TitleTextView(
                       text:
-                          "${controller.currency}${controller.uniteTotal.value * 1.2}",
+                          "${controller.currency}${double.parse(AppUtils.formatStringToDecimals(controller.uniteTotal.value * 1.2))}",
                       fontWeight: FontWeight.w500,
                     ),
                   ],
@@ -101,18 +102,24 @@ class BuyerCreateOrderFooterView extends StatelessWidget {
             padding: const EdgeInsets.all(14),
             child: Row(
               children: [
-                Flexible(
-                    flex: 1,
-                    fit: FlexFit.tight,
-                    child: PrimaryButton(
-                      buttonText: 'draft'.tr,
-                      onPressed: () {
-                        controller.onClickCreateOrder(true);
-                      },
-                      color: Colors.redAccent,
-                    )),
-                SizedBox(
-                  width: 10,
+                Visibility(
+                  visible: !controller.isDraftOrder.value,
+                  child: Flexible(
+                      flex: 1,
+                      fit: FlexFit.tight,
+                      child: PrimaryButton(
+                        buttonText: 'draft'.tr,
+                        onPressed: () {
+                          controller.onClickCreateOrder(true);
+                        },
+                        color: Colors.redAccent,
+                      )),
+                ),
+                Visibility(
+                  visible: !controller.isDraftOrder.value,
+                  child: SizedBox(
+                    width: 10,
+                  ),
                 ),
                 Flexible(
                     flex: 1,

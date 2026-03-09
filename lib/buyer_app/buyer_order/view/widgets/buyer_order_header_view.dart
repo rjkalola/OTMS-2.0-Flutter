@@ -12,13 +12,15 @@ class BuyerOrderHeaderView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Obx(() => !controller.isSingleFilter.value
+        ? Container(
       decoration: BoxDecoration(
         color: backgroundColor_(context),
         boxShadow: [AppUtils.boxShadow(shadowColor_(context), 10)],
         border: Border.all(width: 0.6, color: Colors.transparent),
         borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(28), bottomRight:  Radius.circular(28)),
+            bottomLeft: Radius.circular(28),
+            bottomRight: Radius.circular(28)),
       ),
       child: Column(
         children: [
@@ -28,6 +30,7 @@ class BuyerOrderHeaderView extends StatelessWidget {
           ),
         ],
       ),
-    );
+    )
+        : Container(),);
   }
 }

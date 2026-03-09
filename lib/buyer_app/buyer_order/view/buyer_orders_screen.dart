@@ -1,5 +1,6 @@
 import 'package:belcka/buyer_app/buyer_order/controller/buyer_order_controller.dart';
 import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_delivered_order_list.dart';
+import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_filter_selected_items_list.dart';
 import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_order_header_view.dart';
 import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_proceed_order_list.dart';
 import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_products_list.dart';
@@ -84,6 +85,11 @@ class _BuyerOrdersScreenState extends State<BuyerOrdersScreen>
                             BuyerOrderHeaderView(),
                             SizedBox(
                               height: 12,
+                            ),
+                            Visibility(
+                              visible: controller.selectedTab.value ==
+                                  OrderTabType.request,
+                              child: BuyerFilterSelectedItemsList(),
                             ),
                             Visibility(
                               visible: controller.selectedTab.value !=
@@ -186,7 +192,8 @@ class _BuyerOrdersScreenState extends State<BuyerOrdersScreen>
         width: 10,
       ),
       Visibility(
-        visible: controller.selectedTab.value == OrderTabType.request,
+        visible: !controller.isSingleFilter.value &&
+            controller.selectedTab.value == OrderTabType.request,
         child: InkWell(
           borderRadius: BorderRadius.circular(45),
           onTap: () async {
