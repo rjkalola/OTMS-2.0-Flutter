@@ -8,6 +8,7 @@ import 'package:belcka/buyer_app/project_list/view/buyer_projects_screen.dart';
 import 'package:belcka/buyer_app/purchasing/view/purchasing_screen.dart';
 import 'package:belcka/buyer_app/store_list/view/buyer_stores_screen.dart';
 import 'package:belcka/buyer_app/supplier_list/view/buyer_supplier_screen.dart';
+import 'package:belcka/storeman_app/storeman_inventory/view/storeman_inventory_screen.dart';
 import 'package:belcka/pages/add_category/view/add_category_screen.dart';
 import 'package:belcka/pages/add_trades/view/add_trades_screen.dart';
 import 'package:belcka/pages/analytics/score_more_details/view/score_more_details_screen.dart';
@@ -471,5 +472,8 @@ class AppPages {
     GetPage(
         name: AppRoutes.buyerDraftOrdersScreen,
         page: () => BuyerDraftOrdersScreen()),
+    GetPage(
+        name: AppRoutes.storemanInventoryScreen,
+        page: () => StoremanInventoryScreen()),
   ];
 }

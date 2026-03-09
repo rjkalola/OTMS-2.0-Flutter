@@ -1,9 +1,12 @@
 import 'dart:convert';
 import 'package:belcka/pages/common/model/file_info.dart';
+import 'package:belcka/pages/user_orders/categories/model/user_orders_categories_info.dart';
+import 'package:belcka/pages/user_orders/categories/model/user_orders_categories_response.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/controller/storeman_catalog_repository.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/get_products_response.dart';
 import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:get/get.dart';
@@ -20,7 +23,7 @@ class StoremanCatalogController extends GetxController{
       isClearSearch = false.obs;
 
   final List<IconData> sideIcons = const [
-    Icons.grid_view,
+    Icons.expand,
     Icons.kitchen,
     Icons.chair,
     Icons.light,
@@ -41,6 +44,14 @@ class StoremanCatalogController extends GetxController{
   RxInt cartCount = 0.obs;
   bool isDataUpdated = false;
 
+  final searchController = TextEditingController().obs;
+
+  RxList<UserOrdersCategoriesInfo> categoriesList = <UserOrdersCategoriesInfo>[].obs;
+  List<UserOrdersCategoriesInfo> tempCategoryList = [];
+
+  RxInt activeCategoryId = 0.obs;
+  RxBool isCategoryExpanded = false.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -48,15 +59,60 @@ class StoremanCatalogController extends GetxController{
     if (arguments != null) {
       categoryIds = arguments["category_ids"] ?? 0;
     }
+    getCategoriesListApi();
+  }
+  void selectCategory(int selectedID) {
+    activeCategoryId.value = selectedID;
     fetchProducts();
   }
+  void toggleCategoryGrid() {
+    isCategoryExpanded.toggle();
+  }
+  void selectCategoryFromGrid(int selectedID) {
+    isCategoryExpanded.value = false;
+    selectCategory(selectedID);
+  }
+  void getCategoriesListApi() {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
+    _api.getCategoriesList(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          UserOrdersCategoriesResponse response =
+          UserOrdersCategoriesResponse.fromJson(jsonDecode(responseModel.result!));
+          tempCategoryList.clear();
+          tempCategoryList.addAll(response.info ?? []);
 
+          categoriesList.value = tempCategoryList;
+          categoriesList.refresh();
+
+          fetchProducts();
+
+          updateCartCount(response.cartProductCount ?? 0);
+        }
+        else{
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
   void fetchProducts() {
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
-    if (categoryIds > 0){
-      map["category_ids"] = categoryIds;
+    if (activeCategoryId.value > 0){
+      map["category_ids"] = activeCategoryId.value;
     }
 
     _api.getProductsAPI(
@@ -136,12 +192,6 @@ class StoremanCatalogController extends GetxController{
       },
     );
   }
-  Future<void> moveToScreen(String rout, dynamic arguments) async {
-    var result = await Get.toNamed(rout, arguments: arguments);
-    if (result != null && result) {
-      fetchProducts();
-    }
-  }
   void toggleAddToCart(int index) {
     final product = products[index];
     Map<String, dynamic> map = {};
@@ -210,11 +260,37 @@ class StoremanCatalogController extends GetxController{
     if (userQty == 0 || userQty == 1) return;
     product.cartQty = userQty - 1;
   }
-
   void updateCartCount(int count) {
     cartCount.value = count;
   }
   void onBackPress() {
     Get.back(result: isDataUpdated);
+  }
+  Future<void> moveToScreen(String rout, dynamic arguments) async {
+    clearSearch();
+    var result = await Get.toNamed(rout, arguments: arguments);
+    if (result != null && result) {
+      fetchProducts();
+    }
+  }
+  Future<void> searchItem(String value) async {
+    List<ProductInfo> results = [];
+    if (value.isEmpty) {
+      results = tempList;
+    } else {
+      results = tempList
+          .where((element) =>
+      (!StringHelper.isEmptyString(element.shortName) &&
+          element.shortName!
+              .toLowerCase()
+              .contains(value.toLowerCase())))
+          .toList();
+    }
+    products.value = results;
+  }
+  void clearSearch() {
+    searchController.value.clear();
+    searchItem("");
+    isSearchEnable.value = false;
   }
 }

@@ -158,4 +158,5 @@ class AppRoutes {
   static const String orderHistoryScreen = '/order_history_screen';
   static const String orderDetailsScreen = '/order_details_screen';
   static const String buyerDraftOrdersScreen = '/buyer_draft_orders_screen';
+  static const String storemanInventoryScreen = '/storeman_inventory_screen';
 }

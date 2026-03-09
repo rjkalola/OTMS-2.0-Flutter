@@ -68,7 +68,17 @@ class OrderDetailsController extends GetxController{
       },
     );
   }
+
   void onBackPress() {
     Get.back(result: isDataUpdated);
   }
+
+  void cancelOrder(){
+
+  }
+
+  void reorderAction(){
+
+  }
+
 }

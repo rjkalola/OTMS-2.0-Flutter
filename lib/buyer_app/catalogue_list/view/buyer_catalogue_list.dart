@@ -74,14 +74,14 @@ class BuyerCatalogueList extends StatelessWidget {
                               height: 40,
                               child: TitleTextView(
                                 text: info.name ?? "",
-                                fontSize: 15,
+                                fontSize: 13,
                                 textAlign: TextAlign.center,
                                 maxLine: 2,
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
                             SizedBox(
-                              height: 6,
+                              height: 8,
                             ),
                           ],
                         )),

@@ -13,6 +13,8 @@ class AppConstants {
   static const Results results = Results();
   static const Status status = Status();
   static const OrderStatus orderStatus = OrderStatus();
+  static const ProductStockStatus productStockStatus = ProductStockStatus();
+
   static const CompanyResourcesFlag companyResourcesFlag =
       CompanyResourcesFlag();
   static const NotificationType notificationType = NotificationType();
@@ -355,6 +357,16 @@ class Type {
   final String request = "REQUEST";
   final String proceed = "PROCEED";
   final String delivered = "DELIVERED";
+  final String ready = "READY";
+  final String collect = "COLLECT";
+  final String newType = "NEW";
+  final String preparing = "PREPARING";
+  final String hired = "HIRED";
+  final String servicing = "SERVICING";
+  final String upComing = "UPCOMING";
+  final String processing = "PROCESSING";
+  final String onStock = "ON_STOCK";
+  final String available = "AVAILABLE";
 }
 
 class Status {
@@ -374,11 +386,22 @@ class Status {
 
 class OrderStatus {
   const OrderStatus();
+
   final int issued = 0;
   final int partialReceived = 1;
   final int received = 2;
   final int unlocked = 3;
   final int cancelled = 4;
+}
+
+class ProductStockStatus {
+  const ProductStockStatus();
+
+  final int lowStock = 1;
+  final int inStock = 2;
+
+  // final int unlocked = 3;
+  final int outOfStock = 4;
 }
 
 class CompanyResourcesFlag {

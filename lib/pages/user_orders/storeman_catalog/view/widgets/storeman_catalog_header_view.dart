@@ -1,5 +1,3 @@
-import 'package:belcka/pages/user_orders/basket/controller/basket_controller.dart';
-import 'package:belcka/pages/user_orders/basket/view/widgets/basket_summary_section.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/controller/storeman_catalog_controller.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/app_utils.dart';
@@ -9,7 +7,7 @@ import 'package:get/get.dart';
 class StoremanCatalogHeaderView extends StatelessWidget {
   StoremanCatalogHeaderView({super.key});
 
-  final controller = Get.put(StoremanCatalogController());
+  final controller = Get.find<StoremanCatalogController>();
 
   @override
   Widget build(BuildContext context) {
