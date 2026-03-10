@@ -35,7 +35,7 @@ class SuppliersCardView extends StatelessWidget {
                         fit: FlexFit.tight,
                         child: GestureDetector(
                           onTap: () {
-                            controller.onItemClick(AppConstants.type.upComing);
+                            controller.onSupplierOrdersItemClick(AppConstants.type.upComing);
                           },
                           child: Container(
                             alignment: Alignment.topLeft,
@@ -61,7 +61,7 @@ class SuppliersCardView extends StatelessWidget {
                         fit: FlexFit.tight,
                         child: GestureDetector(
                           onTap: () {
-                            controller.onItemClick(AppConstants.type.processing);
+                            controller.onSupplierOrdersItemClick(AppConstants.type.processing);
                           },
                           child: Container(
                             alignment: Alignment.topCenter,
@@ -87,7 +87,7 @@ class SuppliersCardView extends StatelessWidget {
                         fit: FlexFit.tight,
                         child: GestureDetector(
                           onTap: () {
-                            controller.onItemClick(AppConstants.type.onStock);
+                            controller.onSupplierOrdersItemClick(AppConstants.type.onStock);
                           },
                           child: Container(
                             alignment: Alignment.topRight,

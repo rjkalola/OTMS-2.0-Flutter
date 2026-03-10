@@ -277,20 +277,20 @@ class BuyerOrderController extends GetxController
   //     requestOrdersList.fold(0, (sum, item) => sum + item.totalPrice);
 
   void setQty(int index, int qty) {
-    final item = requestOrdersList[index];
-
-    int finalQty;
-
-    if (qty < 1) {
-      finalQty = 0;
-    } else if (qty > (item.qty ?? 0)) {
-      finalQty = item.qty ?? 0;
-    } else {
-      finalQty = qty;
-    }
-
-    item.cartQty = finalQty;
-    requestOrdersList.refresh();
+    // final item = requestOrdersList[index];
+    //
+    // int finalQty;
+    //
+    // if (qty < 1) {
+    //   finalQty = 0;
+    // } else if (qty > (item.qty ?? 0)) {
+    //   finalQty = item.qty ?? 0;
+    // } else {
+    //   finalQty = qty;
+    // }
+    //
+    // item.cartQty = finalQty;
+    // requestOrdersList.refresh();
   }
 
   void showDeleteDialog() {

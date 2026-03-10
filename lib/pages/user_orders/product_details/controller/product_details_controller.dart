@@ -135,13 +135,13 @@ class ProductDetailsController extends GetxController{
     );
   }
   void increaseQty() {
-    int qty = product.value.qty ?? 0;
-    int userQty = (product.value.cartQty ?? 0) + 1;
+    // int qty = product.value.qty ?? 0;
+    double userQty = (product.value.cartQty ?? 0) + 1;
     product.value.cartQty = userQty;
   }
   void decreaseQty() {
-    int qty = product.value.qty ?? 0;
-    int userQty = product.value.cartQty ?? 0;
+    // int qty = product.value.qty ?? 0;
+    double userQty = product.value.cartQty ?? 0;
     if (userQty == 0 || userQty == 1) return;
     product.value.cartQty = userQty - 1;
   }

@@ -180,7 +180,7 @@ class _StoremanProductsListWidgetState extends State<StoremanProductsListWidget>
                                         }),
                                         SizedBox(width: 8),
                                         OrderQuantityDisplayTextView(
-                                          value: product.cartQty ?? 0,
+                                          value: (product.cartQty ?? 0).toInt(),
                                           width: 52,
                                           height: 30,
                                         ),
@@ -254,7 +254,7 @@ class _StoremanProductsListWidgetState extends State<StoremanProductsListWidget>
                           // OUT OF STOCK MESSAGE
                           if ((product.qty ?? 0) >= 0 && isAdded)
                             OutOfStockBanner(
-                              itemCount: outOfStockCount,
+                              itemCount: outOfStockCount.toInt(),
                               deliveryDays: 5,
                             ),
                         ],

@@ -34,14 +34,14 @@ class HireCardView extends StatelessWidget {
                       fit: FlexFit.tight,
                       child: GestureDetector(
                         onTap: () {
-                          controller.onItemClick(AppConstants.type.newType);
+                          controller.onHireItemClick(AppConstants.type.request);
                         },
                         child: Container(
                           alignment: Alignment.topLeft,
                           child: Column(
                             children: [
                               PurchasingScreenItemTextWidget(
-                                  text: 'new'.tr),
+                                  text: 'request'.tr),
                               SizedBox(
                                 height: 2,
                               ),
@@ -59,7 +59,7 @@ class HireCardView extends StatelessWidget {
                       fit: FlexFit.tight,
                       child: GestureDetector(
                         onTap: () {
-                          controller.onItemClick(AppConstants.type.hired);
+                          controller.onHireItemClick(AppConstants.type.hired);
                         },
                         child: Container(
                           alignment: Alignment.topCenter,
@@ -82,7 +82,7 @@ class HireCardView extends StatelessWidget {
                       fit: FlexFit.tight,
                       child: GestureDetector(
                         onTap: () {
-                          controller.onItemClick(AppConstants.type.proceed);
+                          controller.onHireItemClick(AppConstants.type.proceed);
                         },
                         child: Container(
                           alignment: Alignment.topCenter,
@@ -105,7 +105,7 @@ class HireCardView extends StatelessWidget {
                       fit: FlexFit.tight,
                       child: GestureDetector(
                         onTap: () {
-                          controller.onItemClick(AppConstants.type.servicing);
+                          controller.onHireItemClick(AppConstants.type.servicing);
                         },
                         child: Container(
                           alignment: Alignment.topRight,

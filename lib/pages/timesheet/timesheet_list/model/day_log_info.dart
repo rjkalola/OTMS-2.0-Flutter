@@ -1,6 +1,7 @@
 import 'package:belcka/pages/check_in/penalty/penalty_list/model/penalty_info.dart';
 import 'package:belcka/pages/expense/add_expense/model/expense_info.dart';
 import 'package:belcka/pages/leaves/leave_list/model/leave_info.dart';
+import 'package:belcka/pages/timesheet/timesheet_list/model/adjustment_info.dart';
 
 class DayLogInfo {
   int? id;
@@ -40,6 +41,7 @@ class DayLogInfo {
   LeaveInfo? leaveInfo;
   ExpenseInfo? expenseInfo;
   PenaltyInfo? penaltyInfo;
+  AdjustmentInfo? adjustmentInfo;
   bool? isCheck;
 
   DayLogInfo({
@@ -80,6 +82,7 @@ class DayLogInfo {
     this.leaveInfo,
     this.expenseInfo,
     this.penaltyInfo,
+    this.adjustmentInfo,
     this.isCheck,
   });
 
@@ -126,6 +129,9 @@ class DayLogInfo {
         : null;
     penaltyInfo = json['penalty_info'] != null
         ? PenaltyInfo.fromJson(json['penalty_info'])
+        : null;
+    adjustmentInfo = json['adjustment_info'] != null
+        ? AdjustmentInfo.fromJson(json['adjustment_info'])
         : null;
     isCheck = json['isCheck'];
   }
@@ -175,7 +181,9 @@ class DayLogInfo {
     if (this.penaltyInfo != null) {
       data['penalty_info'] = this.penaltyInfo!.toJson();
     }
-
+    if (this.adjustmentInfo != null) {
+      data['adjustment_info'] = this.adjustmentInfo!.toJson();
+    }
     data['isCheck'] = this.isCheck;
     return data;
   }

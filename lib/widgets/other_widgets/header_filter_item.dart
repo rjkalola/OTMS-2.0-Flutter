@@ -50,7 +50,7 @@ class HeaderFilterItem extends StatelessWidget {
                     text: title,
                     textAlign: TextAlign.center,
                     fontWeight: fontWeight ?? FontWeight.w400,
-                    fontSize: fontSize ?? 16,
+                    fontSize: fontSize ?? 15,
                     color: fontColor ?? primaryTextColor_(context),
                   ),
                 ),
@@ -61,7 +61,8 @@ class HeaderFilterItem extends StatelessWidget {
               alignment: Alignment.topRight,
               child: CustomBadgeIcon(
                 count: count ?? 0,
-                color: defaultAccentColor_(context),
+                // color: defaultAccentColor_(context),
+                color: Colors.red,
               ),
             ),
           )

@@ -1,6 +1,7 @@
 import 'package:belcka/pages/check_in/penalty/penalty_list/model/penalty_info.dart';
 import 'package:belcka/pages/expense/add_expense/model/expense_info.dart';
 import 'package:belcka/pages/leaves/leave_list/model/leave_info.dart';
+import 'package:belcka/pages/timesheet/timesheet_list/model/adjustment_info.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_storage.dart';
@@ -57,6 +58,8 @@ class DayLogList extends StatelessWidget {
             return expenseItem(info, showRate);
           } else if (type == "penalty") {
             return penaltyItem(info);
+          } else if (type == "Adjustment") {
+            return adjustmentItem(info, showRate);
           } else {
             return timeSheetItem(info, showRate);
           }
@@ -562,6 +565,75 @@ class DayLogList extends StatelessWidget {
         : Container();
   }
 
+  Widget adjustmentItem(DayLogInfo info, bool showRate) {
+    AdjustmentInfo? adjustmentInfo = info.adjustmentInfo;
+    return adjustmentInfo != null
+        ? Padding(
+            padding: EdgeInsets.fromLTRB(10, 12, 13, 12),
+            child: GestureDetector(
+              onTap: () {
+                // if (showRate) {
+                //   var arguments = {
+                //     AppConstants.intentKey.expenseId: expenseInfo.id ?? 0,
+                //   };
+                //   controller.moveToScreen(
+                //       AppRoutes.addExpenseScreen, arguments);
+                // }
+              },
+              child: Container(
+                color: Colors.transparent,
+                child: Row(
+                  children: [
+                    dayDate(info),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    SizedBox(
+                      width: 130,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          shiftName('adjustment'.tr,
+                              Colors.red.withValues(alpha: 0.4))
+                        ],
+                      ),
+                    ),
+                    Expanded(child: Container()),
+                    Column(
+                      children: [
+                        Visibility(
+                          visible: showRate,
+                          child: TitleTextView(
+                            text:
+                                "${adjustmentInfo.currency ?? ""}${adjustmentInfo.adjustedAmount ?? 0}",
+                            color: Colors.red,
+                            fontSize: 17,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 1,
+                          child: SubtitleTextView(
+                            text: "00:00 - 00:00",
+                            fontSize: 13,
+                            color: Colors.transparent,
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    RightArrowWidget(
+                      color: primaryTextColor_(Get.context!),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          )
+        : Container();
+  }
+
   Widget penaltyItem(DayLogInfo info) {
     PenaltyInfo? penaltyInfo = info.penaltyInfo;
     return penaltyInfo != null
@@ -571,7 +643,8 @@ class DayLogList extends StatelessWidget {
               child: GestureDetector(
                 onTap: () {
                   var arguments = {
-                    AppConstants.intentKey.penaltyId: penaltyInfo.penaltyId ?? 0,
+                    AppConstants.intentKey.penaltyId:
+                        penaltyInfo.penaltyId ?? 0,
                   };
                   controller.moveToScreen(
                       AppRoutes.penaltyDetailsScreen, arguments);

@@ -35,7 +35,7 @@ class InternalOrdersCardView extends StatelessWidget {
                         fit: FlexFit.tight,
                         child: GestureDetector(
                           onTap: () {
-                            controller.onItemClick(AppConstants.type.newType);
+                            controller.onInternalOrdersItemClick(AppConstants.type.newType);
                           },
                           child: Container(
                             alignment: Alignment.topLeft,
@@ -61,7 +61,7 @@ class InternalOrdersCardView extends StatelessWidget {
                         fit: FlexFit.tight,
                         child: GestureDetector(
                           onTap: () {
-                            controller.onItemClick(AppConstants.type.proceed);
+                            controller.onInternalOrdersItemClick(AppConstants.type.preparing);
                           },
                           child: Container(
                             alignment: Alignment.topCenter,
@@ -87,7 +87,7 @@ class InternalOrdersCardView extends StatelessWidget {
                         fit: FlexFit.tight,
                         child: GestureDetector(
                           onTap: () {
-                            controller.onItemClick(AppConstants.type.ready);
+                            controller.onInternalOrdersItemClick(AppConstants.type.ready);
                           },
                           child: Container(
                             alignment: Alignment.topCenter,
@@ -113,7 +113,7 @@ class InternalOrdersCardView extends StatelessWidget {
                         fit: FlexFit.tight,
                         child: GestureDetector(
                           onTap: () {
-                            controller.onItemClick(AppConstants.type.collect);
+                            controller.onInternalOrdersItemClick(AppConstants.type.collect);
                           },
                           child: Container(
                             alignment: Alignment.topRight,

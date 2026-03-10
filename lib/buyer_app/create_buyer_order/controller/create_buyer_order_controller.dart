@@ -205,7 +205,7 @@ class CreateBuyerOrderController extends GetxController
         if ((item.cartQty ?? 0) > 0) {
           ProductRequestInfo info = ProductRequestInfo();
           info.productId = item.productId ?? 0;
-          info.qty = item.cartQty ?? 0;
+          info.qty = (item.cartQty ?? 0).toInt();
           info.price = item.price ?? "";
           productList.add(info);
         }
@@ -383,20 +383,20 @@ class CreateBuyerOrderController extends GetxController
   void onItemClick(int index) {}
 
   void setQty(int index, int qty) {
-    final item = buyerOrdersList[index];
-
-    int finalQty;
-
-    if (qty < 1) {
-      finalQty = 0;
-    } else if (qty > (item.qty ?? 0)) {
-      finalQty = item.qty ?? 0;
-    } else {
-      finalQty = qty;
-    }
-
-    item.cartQty = finalQty;
-    buyerOrdersList.refresh();
+    // final item = buyerOrdersList[index];
+    //
+    // int finalQty;
+    //
+    // if (qty < 1) {
+    //   finalQty = 0;
+    // } else if (qty > (item.qty ?? 0)) {
+    //   finalQty = item.qty ?? 0;
+    // } else {
+    //   finalQty = qty;
+    // }
+    //
+    // item.cartQty = finalQty;
+    // buyerOrdersList.refresh();
   }
 
   Future<void> searchItem(String value) async {

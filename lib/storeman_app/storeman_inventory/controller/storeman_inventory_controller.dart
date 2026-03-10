@@ -97,6 +97,39 @@ class StoremanInventoryController extends GetxController {
     );
   }
 
+  void onInternalOrdersItemClick(String type) {
+    var arguments = {
+      AppConstants.intentKey.selectedTabType: type,
+      AppConstants.intentKey.index: selectedDateFilterIndex.value,
+      AppConstants.intentKey.startDate: startDate.value,
+      AppConstants.intentKey.endDate: endDate.value,
+    };
+    moveToScreen(
+        appRout: AppRoutes.storemanInternalOrdersScreen, arguments: arguments);
+  }
+
+  void onSupplierOrdersItemClick(String type) {
+    var arguments = {
+      AppConstants.intentKey.selectedTabType: type,
+      AppConstants.intentKey.index: selectedDateFilterIndex.value,
+      AppConstants.intentKey.startDate: startDate.value,
+      AppConstants.intentKey.endDate: endDate.value,
+    };
+    moveToScreen(
+        appRout: AppRoutes.storemanSupplierOrdersScreen, arguments: arguments);
+  }
+
+  void onHireItemClick(String type) {
+    var arguments = {
+      AppConstants.intentKey.selectedTabType: type,
+      AppConstants.intentKey.index: selectedDateFilterIndex.value,
+      AppConstants.intentKey.startDate: startDate.value,
+      AppConstants.intentKey.endDate: endDate.value,
+    };
+    moveToScreen(
+        appRout: AppRoutes.storemanHireProductsScreen, arguments: arguments);
+  }
+
   void onItemClick(String type) {
     var arguments = {
       AppConstants.intentKey.selectedTabType: type,
@@ -113,5 +146,3 @@ class StoremanInventoryController extends GetxController {
     inventoryOverviewApi(false);
   }
 }
-
-

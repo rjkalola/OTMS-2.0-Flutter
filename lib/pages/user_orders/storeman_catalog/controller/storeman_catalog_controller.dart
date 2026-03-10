@@ -249,14 +249,14 @@ class StoremanCatalogController extends GetxController{
   }
   void increaseQty(int index) {
     final product = products[index];
-    int qty = product.qty ?? 0;
-    int userQty = (product.cartQty ?? 0) + 1;
+    // int qty = product.qty ?? 0;
+    double userQty = (product.cartQty ?? 0) + 1;
     product.cartQty = userQty;
   }
   void decreaseQty(int index) {
     final product = products[index];
-    int qty = product.qty ?? 0;
-    int userQty = product.cartQty ?? 0;
+    // int qty = product.qty ?? 0;
+    double userQty = product.cartQty ?? 0;
     if (userQty == 0 || userQty == 1) return;
     product.cartQty = userQty - 1;
   }

@@ -648,6 +648,8 @@ class Strings extends Translations {
           'issued': "Issued",
           'servicing': "Servicing",
           'internal_orders': "Internal orders",
+          'items_in_order': "Items in order",
+          'adjustment': "Adjustment",
 // '': "",
 // '': "",
           // '': "",

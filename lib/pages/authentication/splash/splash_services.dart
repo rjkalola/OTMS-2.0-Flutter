@@ -81,7 +81,7 @@ class SplashServices {
       if (ApiConstants.accessToken.isNotEmpty) {
         if (ApiConstants.companyId != 0) {
           Get.offAllNamed(AppRoutes.dashboardScreen);
-          // Get.offAllNamed(AppRoutes.buyerOrdersScreen);
+          // Get.offAllNamed(AppRoutes.storemanInternalOrdersScreen);
         } else {
           if (UserUtils.getLoginUserId() != 0) {
             var arguments = {AppConstants.intentKey.fromSignUpScreen: true};

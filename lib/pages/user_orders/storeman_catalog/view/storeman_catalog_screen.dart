@@ -3,16 +3,12 @@ import 'package:belcka/pages/user_orders/storeman_catalog/view/category_expand_g
 import 'package:belcka/pages/user_orders/storeman_catalog/view/widgets/right_side_icons_list_widget.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/view/widgets/storeman_catalog_header_view.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/view/widgets/storeman_products_list_widget.dart';
-import 'package:belcka/pages/user_orders/storeman_catalog/view/widgets/storeman_searchbar_widget.dart';
 import 'package:belcka/pages/user_orders/widgets/empty_state_view.dart';
 import 'package:belcka/pages/user_orders/widgets/orders_base_app_bar.dart';
 import 'package:belcka/res/colors.dart';
-import 'package:belcka/res/drawable.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_utils.dart';
-import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
-import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

@@ -313,15 +313,15 @@ class BasketController extends GetxController implements SelectItemListener{
 
   void increaseQty(int index) {
     final product = cartList[index];
-    int qty = product.qty ?? 0;
-    int userQty = (product.cartQty ?? 0) + 1;
+    // int qty = product.qty ?? 0;
+    double userQty = (product.cartQty ?? 0) + 1;
     product.cartQty = userQty;
     calculateTotal();
   }
   void decreaseQty(int index) {
     final product = cartList[index];
-    int qty = product.qty ?? 0;
-    int userQty = product.cartQty ?? 0;
+    // int qty = product.qty ?? 0;
+    double userQty = product.cartQty ?? 0;
     if (userQty == 1) return;
     product.cartQty = userQty - 1;
     calculateTotal();
@@ -330,7 +330,7 @@ class BasketController extends GetxController implements SelectItemListener{
     totalAmount.value = 0.0;
     for (var item in cartList) {
       double price = double.tryParse(item.price ?? "") ?? 0.00;
-      int qty = item.cartQty ?? 0;
+      double qty = item.cartQty ?? 0;
       totalAmount.value += price * qty;
     }
     return totalAmount.value.toStringAsFixed(2);

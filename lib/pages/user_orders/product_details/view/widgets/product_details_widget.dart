@@ -211,7 +211,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                           }),
                           SizedBox(width: 8),
                           OrderQuantityDisplayTextView(
-                            value: controller.product.value.cartQty ?? 0,
+                            value: (controller.product.value.cartQty ?? 0).toInt(),
                             width: 52,
                             height: 30,
                           ),
@@ -242,7 +242,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
             // OUT OF STOCK MESSAGE
             if ((controller.product.value.qty ?? 0) >= 0 && (controller.product.value.isCartProduct ?? false))
               OutOfStockBanner(
-                itemCount: outOfStockCount,
+                itemCount: outOfStockCount.toInt(),
                 deliveryDays: 5,
               ),
 

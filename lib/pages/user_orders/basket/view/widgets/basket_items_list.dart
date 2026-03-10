@@ -173,7 +173,7 @@ class _BasketItemsListState extends State<BasketItemsList> {
                                       }),
                                       SizedBox(width: 8),
                                       OrderQuantityDisplayTextView(
-                                        value: product.cartQty ?? 0,
+                                        value: (product.cartQty ?? 0).toInt(),
                                         width: 52,
                                         height: 30,
                                       ),
@@ -203,7 +203,7 @@ class _BasketItemsListState extends State<BasketItemsList> {
                         // OUT OF STOCK MESSAGE
                         if ((product.qty ?? 0) >= 0)
                           OutOfStockBanner(
-                            itemCount: outOfStockCount,
+                            itemCount: outOfStockCount.toInt(),
                             deliveryDays: 5,
                           ),
                       ],
