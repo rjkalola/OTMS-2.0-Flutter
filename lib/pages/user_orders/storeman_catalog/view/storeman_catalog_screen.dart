@@ -3,6 +3,7 @@ import 'package:belcka/pages/user_orders/storeman_catalog/view/category_expand_g
 import 'package:belcka/pages/user_orders/storeman_catalog/view/widgets/right_side_icons_list_widget.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/view/widgets/storeman_catalog_header_view.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/view/widgets/storeman_products_list_widget.dart';
+import 'package:belcka/pages/user_orders/widgets/icons/cart_icon_widget.dart';
 import 'package:belcka/pages/user_orders/widgets/empty_state_view.dart';
 import 'package:belcka/pages/user_orders/widgets/orders_base_app_bar.dart';
 import 'package:belcka/res/colors.dart';
@@ -147,7 +148,7 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
         child: Stack(
           children: [
             IconButton(
-              icon: Icon(Icons.shopping_cart_outlined, size: 25),
+              icon: CartIconWidget(),
               onPressed: () {
                 controller.moveToScreen(AppRoutes.basketScreen,null);
               },

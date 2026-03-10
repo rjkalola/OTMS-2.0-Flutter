@@ -31,7 +31,8 @@ class _BasketItemsListState extends State<BasketItemsList> {
               final product = controller.cartList[index];
               final pageController = PageController();
 
-              final outOfStockCount = product.cartQty ?? 0 - (product.qty ?? 0);
+              final outOfStockCount = (product.cartQty ?? 0.0) - (product.qty ?? 0.0);
+
               return InkWell(
                 onTap: (){
                   var arguments = {
@@ -203,7 +204,7 @@ class _BasketItemsListState extends State<BasketItemsList> {
                         // OUT OF STOCK MESSAGE
                         if ((product.qty ?? 0) >= 0)
                           OutOfStockBanner(
-                            itemCount: outOfStockCount.toInt(),
+                            itemCount: (outOfStockCount).toInt(),
                             deliveryDays: 5,
                           ),
                       ],

@@ -68,80 +68,83 @@ class ProductInfo {
   int? orderUserCount;
   int? pendingQty;
   String? projectName;
-
   String? productImage;
   String? productThumbImage;
+  String? packOfUnit;
+  String? packOfUnitName;
 
   ProductInfo(
       {this.id,
-      this.productId,
-      this.companyId,
-      this.companyName,
-      this.uuid,
-      this.sortId,
-      this.shortName,
-      this.supplierId,
-      this.supplierName,
-      this.supplierCode,
-      this.name,
-      this.description,
-      this.price,
-      this.marketPrice,
-      this.qty,
-      this.cartQty,
-      this.subQty,
-      this.receivedQty,
-      this.totalQty,
-      this.manufactureName,
-      this.totalAmount,
-      this.stockStatus,
-      this.currency,
-      this.stockStatusId,
-      this.isSubQty,
-      this.packOffQty,
-      this.packOffUnitId,
-      this.imageUrl,
-      this.thumbUrl,
-      this.qrCode,
-      this.cutoff,
-      this.dateAvailable,
-      this.status,
-      this.isArchived,
-      this.addedBy,
-      this.userName,
-      this.userImage,
-      this.qrCodeUrl,
-      this.isBookMark,
-      this.isCartProduct,
-      this.modelId,
-      this.modelName,
-      this.manufacturerId,
-      this.manufacturerName,
-      this.weightUnitId,
-      this.weightUnit,
-      this.lengthUnitId,
-      this.lengthUnit,
-      this.weight,
-      this.length,
-      this.width,
-      this.height,
-      this.tax,
-      this.tags,
-      this.barcodeText,
-      this.productCategories,
-      this.categoryIds,
-      this.storeIds,
-      this.productImages,
-      this.cartId,
-      this.availableQty,
-      this.remainingQty,
-      this.storeName,
-      this.orderUsersDisplay,
-      this.orderUserCount,
-      this.pendingQty,
-      this.projectName,
+        this.productId,
+        this.companyId,
+        this.companyName,
+        this.uuid,
+        this.sortId,
+        this.shortName,
+        this.supplierId,
+        this.supplierName,
+        this.supplierCode,
+        this.name,
+        this.description,
+        this.price,
+        this.marketPrice,
+        this.qty,
+        this.cartQty,
+        this.subQty,
+        this.receivedQty,
+        this.totalQty,
+        this.manufactureName,
+        this.totalAmount,
+        this.stockStatus,
+        this.currency,
+        this.stockStatusId,
+        this.isSubQty,
+        this.packOffQty,
+        this.packOffUnitId,
+        this.imageUrl,
+        this.thumbUrl,
+        this.qrCode,
+        this.cutoff,
+        this.dateAvailable,
+        this.status,
+        this.isArchived,
+        this.addedBy,
+        this.userName,
+        this.userImage,
+        this.qrCodeUrl,
+        this.isBookMark,
+        this.isCartProduct,
+        this.modelId,
+        this.modelName,
+        this.manufacturerId,
+        this.manufacturerName,
+        this.weightUnitId,
+        this.weightUnit,
+        this.lengthUnitId,
+        this.lengthUnit,
+        this.weight,
+        this.length,
+        this.width,
+        this.height,
+        this.tax,
+        this.tags,
+        this.barcodeText,
+        this.productCategories,
+        this.categoryIds,
+        this.storeIds,
+        this.productImages,
+        this.cartId,
+        this.availableQty,
+        this.remainingQty,
+        this.storeName,
+        this.orderUsersDisplay,
+        this.orderUserCount,
+        this.pendingQty,
+        this.projectName,
       this.productImage,
-      this.productThumbImage});
+      this.productThumbImage,
+      this.packOfUnit,
+      this.packOfUnitName});
 
   ProductInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -160,8 +163,6 @@ class ProductInfo {
     marketPrice = json['market_price'].toString();
     qty = (json['qty'] as num?)?.toDouble();
     cartQty = (json['cart_qty'] as num?)?.toDouble();
-    // qty = (json['qty'] as num?)?.toInt();
-    // cartQty = (json['cart_qty'] as num?)?.toInt();
     subQty = json['sub_qty'].toString();
     totalAmount = json['total_amount'];
     stockStatus = json['stock_status'];
@@ -220,6 +221,8 @@ class ProductInfo {
     projectName = json['project_name'];
     productImage = json['product_image'];
     productThumbImage = json['product_thumb_image'];
+    packOfUnit = json['pack_off_unit'];
+    packOfUnitName = json['pack_off_unit_name'];
   }
 
   Map<String, dynamic> toJson() {
@@ -298,7 +301,9 @@ class ProductInfo {
     data['project_name'] = this.projectName;
     data['product_image'] = this.productImage;
     data['product_thumb_image'] = this.productThumbImage;
-
+    data['pack_off_unit'] = this.packOfUnit;
+    data['pack_off_unit_name'] = this.packOfUnitName;
     return data;
   }
 }
+

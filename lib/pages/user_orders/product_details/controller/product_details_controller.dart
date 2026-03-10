@@ -81,12 +81,14 @@ class ProductDetailsController extends GetxController{
       );
     }
   }
-  void toggleAddToCart() {
+  void toggleAddToCart(int cartQuantity) {
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
     map["product_id"] = product.value.id;
     map["qty"] = product.value.qty;
-    map["cart_qty"] = product.value.cartQty;
+    map["cart_qty"] = cartQuantity;
+    map["is_sub_qty"] = (product.value.isSubQty ?? false) ? 1 : 0;
+
     _api.addToCartAPI(
       data: map,
       onSuccess: (ResponseModel responseModel) {
