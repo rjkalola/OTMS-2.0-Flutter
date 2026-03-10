@@ -65,7 +65,7 @@ class BuyerOrderDetailsController extends GetxController
               BuyerOrderDetailsResponse.fromJson(
                   jsonDecode(responseModel.result!));
           orderInfo.value = response.info!;
-          status.value = orderInfo.value.status??0;
+          status.value = orderInfo.value.status ?? 0;
           tempOrderProductsList.clear();
 
           for (var info in orderInfo.value.purchaseOrders!) {
@@ -132,7 +132,7 @@ class BuyerOrderDetailsController extends GetxController
       if ((item.cartQty ?? 0) > 0) {
         ProductRequestInfo info = ProductRequestInfo();
         info.productId = item.productId ?? 0;
-        info.qty = item.cartQty ?? 0;
+        info.qty = (item.cartQty ?? 0).toInt();
         info.price = item.price ?? "";
         productList.add(info);
       }

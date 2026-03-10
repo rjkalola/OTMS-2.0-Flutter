@@ -3,6 +3,8 @@ import 'package:belcka/buyer_app/buyer_order/view/widgets/order_quantity_display
 import 'package:belcka/buyer_app/buyer_order/view/widgets/order_quantity_text_field.dart';
 import 'package:belcka/pages/common/model/file_info.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/controller/storeman_catalog_controller.dart';
+import 'package:belcka/pages/user_orders/widgets/icons/bookmark_icon_widget.dart';
+import 'package:belcka/pages/user_orders/widgets/icons/cart_icon_widget.dart';
 import 'package:belcka/pages/user_orders/widgets/orders_title_text_view.dart';
 import 'package:belcka/pages/user_orders/widgets/out_of_stock_banner.dart';
 import 'package:belcka/res/colors.dart';
@@ -14,7 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class StoremanProductsListWidget extends StatefulWidget {
-  const StoremanProductsListWidget({super.key});
+  const StoremanProductsListWidget({super.key,});
 
   @override
   State<StoremanProductsListWidget> createState() =>
@@ -36,6 +38,13 @@ class _StoremanProductsListWidgetState extends State<StoremanProductsListWidget>
                 final pageController = PageController();
                 final isAdded = product.isCartProduct ?? false;
                 final outOfStockCount = product.cartQty ?? 0 - (product.qty ?? 0);
+
+                final subQty = product.subQty ?? "";
+                final isSubQuantity = product.isSubQty ?? false;
+                final packOfUnitName = product.packOfUnitName ?? "";
+                final packOfUnit = product.packOfUnit ?? "";
+                String availableQtyText = isSubQuantity ? "$subQty $packOfUnit" : "${(product.qty ?? 0)}";
+
                 return InkWell(
                   onTap: (){
                     var arguments = {
@@ -161,14 +170,14 @@ class _StoremanProductsListWidgetState extends State<StoremanProductsListWidget>
 
                                     const SizedBox(height: 2),
                                     TitleTextView(
-                                      text: "${'available_qty'.tr}: ${product.qty}",
+                                      text: "${'qty'.tr}: $availableQtyText",
                                       fontSize: 13,
                                       color: secondaryExtraLightTextColor_(context),
                                     ),
 
                                     const SizedBox(height: 8),
-
                                     // Quantity Selector
+                                    isSubQuantity == false ?
                                     Row(
                                       children: [
                                         OrderQuantityChangeButton(
@@ -176,11 +185,10 @@ class _StoremanProductsListWidgetState extends State<StoremanProductsListWidget>
                                           setState(() {
                                             controller.decreaseQty(index);
                                           });
-
                                         }),
                                         SizedBox(width: 8),
                                         OrderQuantityDisplayTextView(
-                                          value: product.cartQty ?? 0,
+                                          value: (product.cartQty ?? 0).toInt(),
                                           width: 52,
                                           height: 30,
                                         ),
@@ -193,8 +201,41 @@ class _StoremanProductsListWidgetState extends State<StoremanProductsListWidget>
                                         }),
                                         SizedBox(width: 8),
                                       ],
+                                    ) :
+                                    Row(
+                                      children: [
+                                        /*
+                                        OrderQuantityDisplayTextView(
+                                          value:int.parse(product.subQty ?? ""),
+                                        ),
+                                        */
+                                        OrderQuantityChangeButton(
+                                            text: "-", onTap: (){
+                                          setState(() {
+                                            controller.decreaseQty(index);
+                                          });
+                                        }),
+                                        SizedBox(width: 8),
+                                        OrderQuantityDisplayTextView(
+                                          value: (product.cartQty ?? 0).toInt(),
+                                          width: 50,
+                                          height: 30,
+                                        ),
+                                        SizedBox(width: 8),
+                                        OrderQuantityChangeButton(
+                                            text: "+", onTap: (){
+                                          setState(() {
+                                            controller.increaseQty(index);
+                                          });
+                                        }),
+                                        SizedBox(width: 8),
+                                        /*
+                                        TitleTextView(
+                                          text:packOfUnit,
+                                        )
+                                        */
+                                      ],
                                     ),
-
                                   ],
                                 ),
                               ),
@@ -203,9 +244,10 @@ class _StoremanProductsListWidgetState extends State<StoremanProductsListWidget>
                           const SizedBox(height: 12),
                           Row(
                             children: [
+                              Spacer(),
                               IconButton(icon:
                               product.isBookMark ?? true ? Icon(Icons.bookmark) :
-                              Icon(Icons.bookmark_outline,size: 30,),
+                              BookmarkIconWidget(),
                                   color: product.isBookMark ?? true ?
                                   Colors.deepOrangeAccent : primaryTextColor_(context),
                                   onPressed: () {
@@ -229,17 +271,24 @@ class _StoremanProductsListWidgetState extends State<StoremanProductsListWidget>
                                         controller.toggleRemoveCart(index);
                                       }
                                       else{
+                                        /*
+                                        if (isSubQuantity){
+                                          if (int.parse(product.subQty ?? "") > 0){
+                                            controller.toggleAddToCart(index, int.parse(product.subQty ?? ""));
+                                          }
+                                        }
+                                        else{
+                                          if ((product.cartQty ?? 0) > 0){
+                                            controller.toggleAddToCart(index, product.cartQty ?? 0);
+                                          }
+                                        }
+                                        */
                                         if ((product.cartQty ?? 0) > 0){
-                                          controller.toggleAddToCart(index);
+                                          controller.toggleAddToCart(index, (product.cartQty ?? 0).toInt());
                                         }
                                       }
                                     },
-                                    icon: Icon(
-                                      (isAdded)
-                                          ? Icons.check_circle_outline
-                                          : Icons.add_shopping_cart_outlined,
-                                      color: Colors.white,
-                                    ),
+                                    icon: CartIconWidget(color: Colors.white,size: 22,),
                                     label: TitleTextView(
                                       text: (isAdded) ? "added".tr : "add_to_cart".tr,
                                       color: Colors.white,
@@ -249,12 +298,13 @@ class _StoremanProductsListWidgetState extends State<StoremanProductsListWidget>
                                   ),
                                 ),
                               ),
+
                             ],
                           ),
                           // OUT OF STOCK MESSAGE
-                          if ((product.qty ?? 0) >= 0 && isAdded)
+                          if (isAdded)
                             OutOfStockBanner(
-                              itemCount: outOfStockCount,
+                              itemCount: (outOfStockCount).toInt(),
                               deliveryDays: 5,
                             ),
                         ],

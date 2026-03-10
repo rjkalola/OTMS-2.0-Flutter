@@ -89,7 +89,7 @@ class BuyerProductListItem extends StatelessWidget {
                                       text: "-", onTap: onRemove),
                                   const SizedBox(width: 8),
                                   OrderQuantityDisplayTextView(
-                                    value: item.cartQty ?? 0,
+                                    value: (item.cartQty ?? 0).toInt(),
                                     width: 52,
                                     height: 30,
                                   ),

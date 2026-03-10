@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ProductDetailsWidget extends StatefulWidget {
+
   const ProductDetailsWidget({super.key});
 
   @override
@@ -28,240 +29,299 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
   Widget build(BuildContext context) {
 
     final pageController = PageController();
-    final outOfStockCount = controller.product.value.cartQty ?? 0 - (controller.product.value.qty ?? 0);
 
-    return Obx(() => Expanded(
-      child: SingleChildScrollView(
-        physics: ScrollPhysics(),
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Product Image Card
-            SizedBox(
-              width: double.infinity,
-              height: 260,
-              child: Stack(
-                children: [
-                  CardViewDashboardItem(
-                    child: PageView.builder(
-                      controller: pageController,
-                      itemCount: controller.product.value.productImages?.length ?? 0,
-                      onPageChanged: (page) {
-                        setState(() {
-                          controller.currentImageIndex[0] = page;
-                        });
-                      },
-                      itemBuilder: (context, imgIndex) {
-                        return Image.network(
-                          controller.product.value.productImages?[imgIndex].thumbUrl ?? "",
-                          fit: BoxFit.cover,
-                          errorBuilder:
-                              (context, error, stack) {
-                            return  Center(
-                              child: Icon(
-                                Icons
-                                    .photo_outlined,
-                                color: Colors.grey.shade300,
-                                size: 50,
-                              ),
-                            );
-                          },
-                        );
-                      },
-                    ),
-                  ),
-                  ///Book mark
-                  Positioned(
-                    top: 10,
-                    right: 10,
-                    child: IconButton(icon:
-                    controller.product.value.isBookMark ?? true ? Icon(Icons.bookmark) :
-                    Icon(Icons.bookmark_outline),
-                        color: controller.product.value.isBookMark ?? true ?
-                        Colors.deepOrangeAccent : primaryTextColor_(context),
-                        iconSize: 30,
-                        onPressed: () {
-                          controller.toggleBookmark();
-                        })
-                  ),
-                  /// Dots Indicator
-                  Positioned(
-                    bottom: 10,
-                    left: 0,
-                    right: 0,
-                    child: Row(
-                      mainAxisAlignment:
-                      MainAxisAlignment.center,
-                      children: List.generate(
-                        controller.product.value.productImages?.length ?? 0,
-                            (dotIndex) {
-                          final isActive =
-                              (controller.currentImageIndex[0] ??
-                                  0) ==
-                                  dotIndex;
-                          return AnimatedContainer(
-                            duration: const Duration(
-                                milliseconds: 200),
-                            width: isActive ? 8 : 6,
-                            height: isActive ? 8 : 6,
-                            margin:
-                            const EdgeInsets.symmetric(
-                                horizontal: 2),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: isActive
-                                  ? defaultAccentColor_(context)
-                                  : Colors.grey[500],
-                            ),
+    return Obx(() {
+
+      final product = controller.product.value;
+
+      final outOfStockCount =
+          (product.cartQty ?? 0) - (product.qty ?? 0);
+
+      final subQty = product.subQty ?? "";
+      final isSubQuantity = product.isSubQty ?? false;
+      final packOfUnitName = product.packOfUnitName ?? "";
+      final packOfUnit = product.packOfUnit ?? "";
+
+      String availableQtyText =
+      isSubQuantity ? "$subQty $packOfUnit" : "${product.qty ?? 0}";
+
+      return Expanded(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              // Product Image Card
+              SizedBox(
+                width: double.infinity,
+                height: 260,
+                child: Stack(
+                  children: [
+                    CardViewDashboardItem(
+                      child: PageView.builder(
+                        controller: pageController,
+                        itemCount: product.productImages?.length ?? 0,
+                        onPageChanged: (page) {
+                          setState(() {
+                            controller.currentImageIndex[0] = page;
+                          });
+                        },
+                        itemBuilder: (context, imgIndex) {
+                          return Image.network(
+                            product.productImages?[imgIndex].thumbUrl ?? "",
+                            fit: BoxFit.cover,
+                            errorBuilder:
+                                (context, error, stack) {
+                              return  Center(
+                                child: Icon(
+                                  Icons
+                                      .photo_outlined,
+                                  color: Colors.grey.shade300,
+                                  size: 50,
+                                ),
+                              );
+                            },
                           );
                         },
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 16),
-            // Product Details
-            TitleTextView(
-              text: controller.product.value.shortName ?? "",
-              fontSize: 15,
-              maxLine: 2,
-              fontWeight: FontWeight.w500,
-            ),
-            SizedBox(height: 8),
 
-            Row(
-              children: [
-                TitleTextView(text: "${controller.product.value.supplierName ?? ""}: ",
-                  color: primaryTextColor_(context),
-                fontSize: 15,
-                fontWeight: FontWeight.w500,),
-                SubtitleTextView(text: controller.product.value.supplierCode ?? "",
-                  color: secondaryExtraLightTextColor_(context),
-                  fontSize: 13,
-                  ),
-              ],
-            ),
-            Row(
-              children: [
-                TitleTextView(text:"${'product_code'.tr}: ",
-                  color: primaryTextColor_(context),
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,),
-                SubtitleTextView(text: controller.product.value.uuid ?? "",
-                  color: secondaryExtraLightTextColor_(context),
-                  fontSize: 13,),
-              ],
-            ),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TitleTextView(
-                      text: "${controller.product.value.currency ?? ""}${controller.product.value.price ?? ""}",
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                    Positioned(
+                        top: 10,
+                        right: 10,
+                        child: IconButton(icon:
+                        product.isBookMark ?? true ? Icon(Icons.bookmark) :
+                        Icon(Icons.bookmark_outline),
+                            color: product.isBookMark ?? true ?
+                            Colors.deepOrangeAccent : primaryTextColor_(context),
+                            iconSize: 30,
+                            onPressed: () {
+                              controller.toggleBookmark();
+                            })
                     ),
 
-                    SizedBox(height: 4),
-                    TitleTextView(
-                      text: "${'available_qty'.tr}: ${controller.product.value.qty}",
-                      fontSize: 13,
-                      color: secondaryExtraLightTextColor_(context),
+                    Positioned(
+                      bottom: 10,
+                      left: 0,
+                      right: 0,
+                      child: Row(
+                        mainAxisAlignment:
+                        MainAxisAlignment.center,
+                        children: List.generate(
+                          product.productImages?.length ?? 0,
+                              (dotIndex) {
+                            final isActive =
+                                (controller.currentImageIndex[0] ??
+                                    0) ==
+                                    dotIndex;
+                            return AnimatedContainer(
+                              duration: const Duration(
+                                  milliseconds: 200),
+                              width: isActive ? 8 : 6,
+                              height: isActive ? 8 : 6,
+                              margin:
+                              const EdgeInsets.symmetric(
+                                  horizontal: 2),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: isActive
+                                    ? defaultAccentColor_(context)
+                                    : Colors.grey[500],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
                     ),
                   ],
                 ),
+              ),
+              const SizedBox(height: 16),
+              // Product Details
+              TitleTextView(
+                text: product.shortName ?? "",
+                fontSize: 15,
+                maxLine: 2,
+                fontWeight: FontWeight.w500,
+              ),
+              SizedBox(height: 8),
 
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      IconButton(onPressed: (){
-                        bool isAdded = controller.product.value.isCartProduct ?? false;
-                        if (isAdded){
-                          controller.toggleRemoveCart();
-                        }
-                        else{
-                          if ((controller.product.value.cartQty ?? 0) > 0){
-                            controller.toggleAddToCart();
-                          }
-                        }
-                      },
-                        icon: Icon(
-                          (controller.product.value.isCartProduct ?? false)
-                              ? Icons.shopping_bag_outlined
-                              : Icons.shopping_cart_outlined,
-                          color: (controller.product.value.isCartProduct ?? false) ? defaultAccentColor_(context) : Colors.green,
-                        ),iconSize: 30,),
-                      SizedBox(height: 8,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          OrderQuantityChangeButton(
-                              text: "-", onTap: (){
-                            setState(() {
-                              controller.decreaseQty();
-                            });
-                          }),
-                          SizedBox(width: 8),
-                          OrderQuantityDisplayTextView(
-                            value: controller.product.value.cartQty ?? 0,
-                            width: 52,
-                            height: 30,
-                          ),
-                          SizedBox(width: 8),
-                          OrderQuantityChangeButton(
-                              text: "+", onTap: (){
-                            setState(() {
-                              controller.increaseQty();
-                            });
-                          }),
-                          SizedBox(width: 8),
-                        ],
-                      ),
-                      SizedBox(height: 8,),
-                      /*
-                      OrdersTitleTextView(
-                       text:'Qty: 1',
-                          fontSize: 15
-                      ),
-                      */
-                    ],
+              Row(
+                children: [
+                  TitleTextView(text: "${product.supplierName ?? ""}: ",
+                    color: primaryTextColor_(context),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,),
+                  SubtitleTextView(text: product.supplierCode ?? "",
+                    color: secondaryExtraLightTextColor_(context),
+                    fontSize: 13,
                   ),
-                )
-
-              ],
-            ),
-
-            // OUT OF STOCK MESSAGE
-            if ((controller.product.value.qty ?? 0) >= 0 && (controller.product.value.isCartProduct ?? false))
-              OutOfStockBanner(
-                itemCount: outOfStockCount,
-                deliveryDays: 5,
+                ],
+              ),
+              Row(
+                children: [
+                  TitleTextView(text:"${'product_code'.tr}: ",
+                    color: primaryTextColor_(context),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,),
+                  SubtitleTextView(text: product.uuid ?? "",
+                    color: secondaryExtraLightTextColor_(context),
+                    fontSize: 13,),
+                ],
               ),
 
-            SizedBox(height: 20),
-            NavigationCard(value: "product_set".tr,isShowArrow: true,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TitleTextView(
+                        text: "${product.currency ?? ""}${product.price ?? ""}",
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
 
-            InkWell(
-              onTap: (){
-                var arguments = {
-                  "product_id":controller.product.value.productId
-                };
-                controller.moveToScreen(AppRoutes.productInfoScreen, arguments);
-              },
-                child: NavigationCard(value: "product_info".tr,isShowArrow: true,)),
+                      SizedBox(height: 4),
+                      TitleTextView(
+                        text: "${'available_qty'.tr}: $availableQtyText",
+                        fontSize: 13,
+                        color: secondaryExtraLightTextColor_(context),
+                      ),
+                    ],
+                  ),
 
-            NavigationCard(value: "technical_specification".tr,isShowArrow: true,),
-          ],
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        IconButton(onPressed: (){
+                          bool isAdded = product.isCartProduct ?? false;
+                          if (isAdded){
+                            controller.toggleRemoveCart();
+                          }
+                          else{
+                            /*
+                            if (isSubQuantity){
+                              if (int.parse(product.subQty ?? "") > 0){
+                                controller.toggleAddToCart(int.parse(product.subQty ?? ""));
+                              }
+                            }
+                            else{
+                              if ((product.cartQty ?? 0) > 0){
+                                controller.toggleAddToCart(product.cartQty ?? 0);
+                              }
+                            }
+                            */
+
+                            if ((product.cartQty ?? 0) > 0){
+                              controller.toggleAddToCart((product.cartQty ?? 0).toInt());
+                            }
+                          }
+                        },
+                          icon: Icon(
+                            (product.isCartProduct ?? false)
+                                ? Icons.shopping_bag_outlined
+                                : Icons.shopping_cart_outlined,
+                            color: (product.isCartProduct ?? false) ? defaultAccentColor_(context) : Colors.green,
+                          ),iconSize: 30,),
+                        SizedBox(height: 8,),
+
+                        isSubQuantity == false ?
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            OrderQuantityChangeButton(
+                                text: "-", onTap: (){
+                              setState(() {
+                                controller.decreaseQty();
+                              });
+                            }),
+                            SizedBox(width: 8),
+                            OrderQuantityDisplayTextView(
+                              value: (product.cartQty ?? 0).toInt(),
+                              width: 52,
+                              height: 30,
+                            ),
+                            SizedBox(width: 8),
+                            OrderQuantityChangeButton(
+                                text: "+", onTap: (){
+                              setState(() {
+                                controller.increaseQty();
+                              });
+                            }),
+                            SizedBox(width: 8),
+                          ],
+                        ) :
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            /*
+                            OrderQuantityDisplayTextView(
+                              value:int.parse(product.subQty ?? ""),
+                            ),
+                            SizedBox(width: 8,),
+                            TitleTextView(
+                              text:packOfUnit,
+                            )
+                            */
+
+                            OrderQuantityChangeButton(
+                                text: "-", onTap: (){
+                              setState(() {
+                                controller.decreaseQty();
+                              });
+                            }),
+                            SizedBox(width: 8),
+                            OrderQuantityDisplayTextView(
+                              value: (product.cartQty ?? 0).toInt(),
+                              width: 52,
+                              height: 30,
+                            ),
+                            SizedBox(width: 8),
+                            OrderQuantityChangeButton(
+                                text: "+", onTap: (){
+                              setState(() {
+                                controller.increaseQty();
+                              });
+                            }),
+                            SizedBox(width: 8),
+                          ],
+                        ),
+
+                        SizedBox(height: 8,),
+
+                      ],
+                    ),
+                  )
+
+                ],
+              ),
+
+              // OUT OF STOCK MESSAGE
+              if (product.isCartProduct ?? false)
+                OutOfStockBanner(
+                  itemCount: (outOfStockCount).toInt(),
+                  deliveryDays: 5,
+                ),
+
+              SizedBox(height: 20),
+              NavigationCard(value: "product_set".tr,isShowArrow: true,),
+
+              InkWell(
+                  onTap: (){
+                    var arguments = {
+                      "product_id":product.productId
+                    };
+                    controller.moveToScreen(AppRoutes.productInfoScreen, arguments);
+                  },
+                  child: NavigationCard(value: "product_info".tr,isShowArrow: true,)),
+
+              NavigationCard(value: "technical_specification".tr,isShowArrow: true,),
+            ],
+          ),
         ),
-      ),
-    ));
+      );
+    });
   }
 }

@@ -94,8 +94,8 @@ class StoremanCatalogController extends GetxController{
         }
         else{
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+          isLoading.value = false;
         }
-        isLoading.value = false;
       },
       onError: (ResponseModel error) {
         isLoading.value = false;
@@ -192,13 +192,15 @@ class StoremanCatalogController extends GetxController{
       },
     );
   }
-  void toggleAddToCart(int index) {
+  void toggleAddToCart(int index, int cartQuantity) {
     final product = products[index];
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
     map["product_id"] = product.id;
     map["qty"] = product.qty;
-    map["cart_qty"] = product.cartQty;
+    map["cart_qty"] = cartQuantity;
+    map["is_sub_qty"] = (product.isSubQty ?? false) ? 1 : 0;
+
     _api.addToCartAPI(
       data: map,
       onSuccess: (ResponseModel responseModel) {
@@ -249,14 +251,12 @@ class StoremanCatalogController extends GetxController{
   }
   void increaseQty(int index) {
     final product = products[index];
-    int qty = product.qty ?? 0;
-    int userQty = (product.cartQty ?? 0) + 1;
+    double userQty = (product.cartQty ?? 0.0) + 1;
     product.cartQty = userQty;
   }
   void decreaseQty(int index) {
     final product = products[index];
-    int qty = product.qty ?? 0;
-    int userQty = product.cartQty ?? 0;
+    double userQty = product.cartQty ?? 0.0;
     if (userQty == 0 || userQty == 1) return;
     product.cartQty = userQty - 1;
   }

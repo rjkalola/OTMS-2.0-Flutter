@@ -15,8 +15,8 @@ class ProductInfo {
   String? description;
   String? price;
   String? marketPrice;
-  int? qty;
-  int? cartQty;
+  double? qty;
+  double? cartQty;
   String? subQty;
   String? totalAmount;
   String? stockStatus;
@@ -68,9 +68,10 @@ class ProductInfo {
   int? orderUserCount;
   int? pendingQty;
   String? projectName;
-
   String? productImage;
   String? productThumbImage;
+  String? packOfUnit;
+  String? packOfUnitName;
 
   ProductInfo(
       {this.id,
@@ -141,7 +142,9 @@ class ProductInfo {
         this.pendingQty,
         this.projectName,
       this.productImage,
-      this.productThumbImage});
+      this.productThumbImage,
+      this.packOfUnit,
+      this.packOfUnitName});
 
   ProductInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -158,8 +161,8 @@ class ProductInfo {
     description = json['description'];
     price = json['price'];
     marketPrice = json['market_price'].toString();
-    qty = json['qty'];
-    cartQty = json['cart_qty'];
+    qty = (json['qty'] as num?)?.toDouble();
+    cartQty = (json['cart_qty'] as num?)?.toDouble();
     subQty = json['sub_qty'].toString();
     totalAmount = json['total_amount'];
     stockStatus = json['stock_status'];
@@ -218,6 +221,8 @@ class ProductInfo {
     projectName = json['project_name'];
     productImage = json['product_image'];
     productThumbImage = json['product_thumb_image'];
+    packOfUnit = json['pack_off_unit'];
+    packOfUnitName = json['pack_off_unit_name'];
   }
 
   Map<String, dynamic> toJson() {
@@ -296,7 +301,9 @@ class ProductInfo {
     data['project_name'] = this.projectName;
     data['product_image'] = this.productImage;
     data['product_thumb_image'] = this.productThumbImage;
-
+    data['pack_off_unit'] = this.packOfUnit;
+    data['pack_off_unit_name'] = this.packOfUnitName;
     return data;
   }
 }
+
