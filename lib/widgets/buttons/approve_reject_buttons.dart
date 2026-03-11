@@ -7,10 +7,15 @@ class ApproveRejectButtons extends StatelessWidget {
       {super.key,
       this.padding,
       required this.onClickReject,
-      required this.onClickApprove});
+      required this.onClickApprove,
+      this.approveTitle,
+      this.rejectTitle,
+      this.fontSize});
 
   final EdgeInsetsGeometry? padding;
   final VoidCallback onClickReject, onClickApprove;
+  final String? approveTitle, rejectTitle;
+  final double? fontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +27,10 @@ class ApproveRejectButtons extends StatelessWidget {
             fit: FlexFit.tight,
             flex: 1,
             child: PrimaryButton(
-              buttonText: 'reject'.tr,
+              buttonText: rejectTitle ?? 'reject'.tr,
               color: Colors.red,
               onPressed: onClickReject,
+              fontSize: fontSize,
             ),
           ),
           const SizedBox(
@@ -34,8 +40,9 @@ class ApproveRejectButtons extends StatelessWidget {
               fit: FlexFit.tight,
               flex: 1,
               child: PrimaryButton(
-                buttonText: 'approve'.tr,
+                buttonText: approveTitle ?? 'approve'.tr,
                 onPressed: onClickApprove,
+                fontSize: fontSize,
               )),
         ],
       ),

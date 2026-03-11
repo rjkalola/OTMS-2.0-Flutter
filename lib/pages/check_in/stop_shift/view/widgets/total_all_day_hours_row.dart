@@ -17,50 +17,132 @@ class TotalAllDayHoursRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => Visibility(
-        visible: controller.isShowTotalPayable.value &&
-            controller.showRate.value,
+        visible:
+            controller.isShowTotalPayable.value && controller.showRate.value,
         child: CardViewDashboardItem(
             borderRadius: 14,
             margin: EdgeInsets.fromLTRB(14, 4, 14, 14),
             child: Padding(
               padding: EdgeInsets.fromLTRB(12, 7, 12, 7),
-              child: Row(
+              child: Column(
                 children: [
-                  Expanded(
-                    child: PrimaryTextView(
-                      textAlign: TextAlign.start,
-                      text: "${'total_payable'.tr}:",
-                      color: primaryTextColorLight_(context),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 84,
-                    child: PrimaryTextView(
-                      textAlign: TextAlign.center,
-                      text:
-                          "${controller.currency.value}${controller.workLogInfo.value.totalDayEarnings ?? "0"}",
-                      color: primaryTextColorLight_(context),
-                      fontSize: 15,
-                      fontWeight: FontWeight.w400,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 14,
-                  ),
-                  PrimaryTextView(
-                    textAlign: TextAlign.start,
-                    text: DateUtil.seconds_To_HH_MM(
-                        controller.workLogInfo.value.totalDaySeconds ?? 0),
-                    color: primaryTextColorLight_(context),
-                    fontSize: 15,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  // SizedBox(
-                  //   width: 21,
-                  // )
+                  // Row(
+                  //   children: [
+                  //     Expanded(
+                  //       child: PrimaryTextView(
+                  //         textAlign: TextAlign.start,
+                  //         text: "${'net_payable'.tr}:",
+                  //         color: primaryTextColorLight_(context),
+                  //         fontSize: 16,
+                  //         fontWeight: FontWeight.w400,
+                  //       ),
+                  //     ),
+                  //     SizedBox(
+                  //       width: 84,
+                  //       child: PrimaryTextView(
+                  //         textAlign: TextAlign.center,
+                  //         text:
+                  //         "${controller.currency.value}${controller.workLogInfo.value.totalDayEarnings ?? "0"}",
+                  //         color: primaryTextColorLight_(context),
+                  //         fontSize: 15,
+                  //         fontWeight: FontWeight.w400,
+                  //         overflow: TextOverflow.ellipsis,
+                  //       ),
+                  //     ),
+                  //     SizedBox(
+                  //       width: 14,
+                  //     ),
+                  //     PrimaryTextView(
+                  //       textAlign: TextAlign.start,
+                  //       text: DateUtil.seconds_To_HH_MM(
+                  //           controller.workLogInfo.value.totalDaySeconds ?? 0),
+                  //       color: primaryTextColorLight_(context),
+                  //       fontSize: 15,
+                  //       fontWeight: FontWeight.w400,
+                  //     ),
+                  //     // SizedBox(
+                  //     //   width: 21,
+                  //     // )
+                  //   ],
+                  // ),
+                  // Row(
+                  //   children: [
+                  //     Expanded(
+                  //       child: PrimaryTextView(
+                  //         textAlign: TextAlign.start,
+                  //         text: "${'adjustment'.tr}:",
+                  //         color: primaryTextColorLight_(context),
+                  //         fontSize: 16,
+                  //         fontWeight: FontWeight.w400,
+                  //       ),
+                  //     ),
+                  //     SizedBox(
+                  //       width: 84,
+                  //       child: PrimaryTextView(
+                  //         textAlign: TextAlign.center,
+                  //         text:
+                  //         "${controller.currency.value}${controller.workLogInfo.value.totalDayEarnings ?? "0"}",
+                  //         color: primaryTextColorLight_(context),
+                  //         fontSize: 15,
+                  //         fontWeight: FontWeight.w400,
+                  //         overflow: TextOverflow.ellipsis,
+                  //       ),
+                  //     ),
+                  //     SizedBox(
+                  //       width: 14,
+                  //     ),
+                  //     PrimaryTextView(
+                  //       textAlign: TextAlign.start,
+                  //       text: DateUtil.seconds_To_HH_MM(
+                  //           controller.workLogInfo.value.totalDaySeconds ?? 0),
+                  //       color: primaryTextColorLight_(context),
+                  //       fontSize: 15,
+                  //       fontWeight: FontWeight.w400,
+                  //     ),
+                  //     // SizedBox(
+                  //     //   width: 21,
+                  //     // )
+                  //   ],
+                  // ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: PrimaryTextView(
+                          textAlign: TextAlign.start,
+                          text: "${'total_payable'.tr}:",
+                          color: primaryTextColorLight_(context),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 84,
+                        child: PrimaryTextView(
+                          textAlign: TextAlign.center,
+                          text:
+                              "${controller.currency.value}${controller.workLogInfo.value.totalDayEarnings ?? "0"}",
+                          color: primaryTextColorLight_(context),
+                          fontSize: 15,
+                          fontWeight: FontWeight.w400,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 14,
+                      ),
+                      PrimaryTextView(
+                        textAlign: TextAlign.start,
+                        text: DateUtil.seconds_To_HH_MM(
+                            controller.workLogInfo.value.totalDaySeconds ?? 0),
+                        color: primaryTextColorLight_(context),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      // SizedBox(
+                      //   width: 21,
+                      // )
+                    ],
+                  )
                 ],
               ),
             )),

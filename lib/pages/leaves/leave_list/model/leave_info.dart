@@ -16,7 +16,7 @@ class LeaveInfo {
   String? managerNote;
   bool? isRequested;
   int? requestStatus;
-  bool? isDeleted;
+  bool? isDeleted, isDeleteRequest;
 
   LeaveInfo(
       {this.id,
@@ -36,7 +36,8 @@ class LeaveInfo {
       this.managerNote,
       this.isRequested,
       this.requestStatus,
-      this.isDeleted});
+      this.isDeleted,
+      this.isDeleteRequest});
 
   LeaveInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -57,6 +58,7 @@ class LeaveInfo {
     isRequested = json['is_requested'];
     requestStatus = json['request_status'];
     isDeleted = json['is_deleted'];
+    isDeleteRequest = json['is_delete_request'];
   }
 
   Map<String, dynamic> toJson() {
@@ -79,6 +81,7 @@ class LeaveInfo {
     data['is_requested'] = this.isRequested;
     data['request_status'] = this.requestStatus;
     data['is_deleted'] = this.isDeleted;
+    data['is_delete_request'] = this.isDeleteRequest;
 
     return data;
   }

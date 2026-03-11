@@ -46,6 +46,7 @@ class WorkLogInfo {
   String? userName;
   String? userImage;
   String? userImageThumb;
+  double? totalDayAdjustmentAmount;
 
   WorkLogInfo(
       {this.id,
@@ -87,7 +88,8 @@ class WorkLogInfo {
       this.userId,
       this.userName,
       this.userImage,
-      this.userImageThumb});
+      this.userImageThumb,
+      this.totalDayAdjustmentAmount});
 
   WorkLogInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -149,6 +151,8 @@ class WorkLogInfo {
     userName = json['user_name'];
     userImage = json['user_image'];
     userImageThumb = json['user_image_thumb'];
+    totalDayAdjustmentAmount =
+        (json['total_day_adjustment_amount'] as num?)?.toDouble();
   }
 
   Map<String, dynamic> toJson() {
@@ -204,6 +208,7 @@ class WorkLogInfo {
     data['user_name'] = this.userName;
     data['user_image'] = this.userImage;
     data['user_image_thumb'] = this.userImageThumb;
+    data['total_day_adjustment_amount'] = this.totalDayAdjustmentAmount;
 
     return data;
   }

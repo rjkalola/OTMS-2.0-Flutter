@@ -58,7 +58,7 @@ class DayLogList extends StatelessWidget {
             return expenseItem(info, showRate);
           } else if (type == "penalty") {
             return penaltyItem(info);
-          } else if (type == "Adjustment") {
+          } else if (type == "adjustment") {
             return adjustmentItem(info, showRate);
           } else {
             return timeSheetItem(info, showRate);
@@ -594,7 +594,7 @@ class DayLogList extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           shiftName('adjustment'.tr,
-                              Colors.red.withValues(alpha: 0.4))
+                              Colors.amberAccent.withValues(alpha: 0.4))
                         ],
                       ),
                     ),
@@ -606,7 +606,9 @@ class DayLogList extends StatelessWidget {
                           child: TitleTextView(
                             text:
                                 "${adjustmentInfo.currency ?? ""}${adjustmentInfo.adjustedAmount ?? 0}",
-                            color: Colors.red,
+                            color: (adjustmentInfo.adjustedAmount ?? 0) < 0
+                                ? Colors.red
+                                : Colors.green,
                             fontSize: 17,
                           ),
                         ),
