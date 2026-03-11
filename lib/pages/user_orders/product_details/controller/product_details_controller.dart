@@ -85,7 +85,7 @@ class ProductDetailsController extends GetxController{
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
     map["product_id"] = product.value.id;
-    map["qty"] = product.value.qty;
+    map["qty"] = (product.value.isSubQty ?? false) ? product.value.subQty : product.value.qty;
     map["cart_qty"] = cartQuantity;
     map["is_sub_qty"] = (product.value.isSubQty ?? false) ? 1 : 0;
 
@@ -137,15 +137,16 @@ class ProductDetailsController extends GetxController{
     );
   }
   void increaseQty() {
-    // int qty = product.value.qty ?? 0;
     double userQty = (product.value.cartQty ?? 0) + 1;
     product.value.cartQty = userQty;
   }
   void decreaseQty() {
-    // int qty = product.value.qty ?? 0;
     double userQty = product.value.cartQty ?? 0;
     if (userQty == 0 || userQty == 1) return;
     product.value.cartQty = userQty - 1;
+  }
+  void updateSubQty(double count) {
+    product.value.cartQty = count;
   }
   void toggleBookmark() {
     Map<String, dynamic> map = {};

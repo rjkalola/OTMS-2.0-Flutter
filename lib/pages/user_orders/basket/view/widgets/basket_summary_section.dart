@@ -19,8 +19,9 @@ class BasketSummarySection extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(24, 18, 18, 20),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         // Project
-        InkWell(
+        GestureDetector(
           onTap: (){
+            FocusManager.instance.primaryFocus?.unfocus();
             controller.showActiveProjectDialog();
           },
           child: Row(
@@ -39,6 +40,44 @@ class BasketSummarySection extends StatelessWidget {
                       controller.activeProjectTitle.value)
                       ? controller.activeProjectTitle.value
                       : 'select_project'.tr,
+                  maxLine: 1,
+                  softWrap: true,
+                  textAlign: TextAlign.right,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SizedBox(width: 6),
+              const Icon(
+                Icons.chevron_right,
+                size: 25,
+              ),
+            ],
+          ),
+        ),
+        // Store Section
+        const SizedBox(height: 16),
+        GestureDetector(
+          onTap: (){
+            FocusManager.instance.primaryFocus?.unfocus();
+            controller.showStoresList();
+          },
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TitleTextView(
+                text: 'store'.tr,
+                fontSize: 16,
+                maxLine: 1,
+                fontWeight: FontWeight.w700,
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: TitleTextView(
+                  text:!StringHelper.isEmptyString(
+                      controller.selectedStoreTitle.value)
+                      ? controller.selectedStoreTitle.value
+                      : 'select_store'.tr,
                   maxLine: 1,
                   softWrap: true,
                   textAlign: TextAlign.right,
@@ -84,8 +123,9 @@ class BasketSummarySection extends StatelessWidget {
 
         // Address
         const SizedBox(height: 16),
-        InkWell(
+        GestureDetector(
           onTap: (){
+            FocusManager.instance.primaryFocus?.unfocus();
             controller.showAddressList();
           },
           child: Row(
@@ -120,8 +160,9 @@ class BasketSummarySection extends StatelessWidget {
 
         SizedBox(height: 16),
         // Delivery Time
-        InkWell(
+        GestureDetector(
           onTap: (){
+            FocusManager.instance.primaryFocus?.unfocus();
             controller.showDeliveryTimeList();
           },
           child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [

@@ -2,6 +2,7 @@ import 'package:belcka/buyer_app/buyer_order/view/widgets/order_quantity_change_
 import 'package:belcka/buyer_app/buyer_order/view/widgets/order_quantity_display_text_view.dart';
 import 'package:belcka/pages/user_orders/basket/controller/basket_controller.dart';
 import 'package:belcka/pages/user_orders/widgets/out_of_stock_banner.dart';
+import 'package:belcka/pages/user_orders/widgets/product_quantity_widget.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
@@ -31,14 +32,26 @@ class _BasketItemsListState extends State<BasketItemsList> {
               final product = controller.cartList[index];
               final pageController = PageController();
 
-              final outOfStockCount = (product.cartQty ?? 0.0) - (product.qty ?? 0.0);
+              final isSubQuantity = product.isSubQty ?? false;
 
-              return InkWell(
+              final outOfStockCount = (product.cartQty ?? 0) - (product.qty ?? 0.0);
+
+              final packOfUnitName = product.packOfUnitName ?? "";
+              final packOfUnit = product.packOfUnit ?? "";
+              String availableQtyText = "${((product.qty ?? 0.0).toInt())}";
+
+              return GestureDetector(
                 onTap: (){
-                  var arguments = {
-                    "product_id":product.productId
-                  };
-                  controller.moveToScreen(AppRoutes.productDetailsScreen, arguments);
+                  FocusManager.instance.primaryFocus?.unfocus();
+                  if (FocusScope.of(context).hasFocus){
+                    FocusManager.instance.primaryFocus?.unfocus();
+                  }
+                  else{
+                    var arguments = {
+                      "product_id": product.productId
+                    };
+                    controller.moveToScreen(AppRoutes.productDetailsScreen, arguments);
+                  }
                 },
                 child: CardViewDashboardItem(
                   margin: const EdgeInsets.symmetric(vertical: 6),
@@ -157,12 +170,13 @@ class _BasketItemsListState extends State<BasketItemsList> {
                                   ),
                                   const SizedBox(height: 2),
                                   TitleTextView(
-                                    text: "${'available_qty'.tr}: ${product.qty}",
+                                    text: "${'available_qty'.tr}: $availableQtyText",
                                     fontSize: 13,
                                     color: secondaryExtraLightTextColor_(context),
                                   ),
                                   const SizedBox(height: 8),
                                   // Quantity Selector
+                                /*
                                   Row(
                                     children: [
                                       OrderQuantityChangeButton(
@@ -185,6 +199,38 @@ class _BasketItemsListState extends State<BasketItemsList> {
                                           controller.increaseQty(index);
                                         });
                                       }),
+                                      SizedBox(width: 8),
+                                      Spacer(),
+                                      IconButton(icon:
+                                      Icon(Icons.delete),
+                                          color: Colors.red,
+                                          onPressed: () {
+                                            controller.toggleRemoveCart(index);
+                                          }),
+                                    ],
+                                  ),
+                                  */
+                                  Row(
+                                    children: [
+                                      ProductQuantityWidget(
+                                        focusNode: controller.qtyFocusNodes[index],
+                                        isSubQuantity: isSubQuantity,
+                                        quantity: product.cartQty ?? 0,
+                                        unit: packOfUnit,
+                                        onChanged: (value) {
+                                          controller.updateSubQty(index, value);
+                                        },
+                                        onIncrease: () {
+                                          setState(() {
+                                            controller.increaseQty(index);
+                                          });
+                                        },
+                                        onDecrease: () {
+                                          setState(() {
+                                            controller.decreaseQty(index);
+                                          });
+                                        },
+                                      ),
                                       SizedBox(width: 8),
                                       Spacer(),
                                       IconButton(icon:

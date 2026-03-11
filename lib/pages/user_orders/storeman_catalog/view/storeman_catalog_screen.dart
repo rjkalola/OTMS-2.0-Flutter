@@ -25,87 +25,91 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
   final controller = Get.put(StoremanCatalogController());
 
   @override
-
   Widget build(BuildContext context) {
     AppUtils.setStatusBarColor();
     return Container(
       color: backgroundColor_(context),
       child: SafeArea(
         child: Obx(
-              () => Scaffold(
-                appBar: OrdersBaseAppBar(
-                  appBar: AppBar(),
-                  title: '',
-                  isCenterTitle: false,
-                  isBack: false,
-                  bgColor: backgroundColor_(context),
-                  widgets: actionButtons(),
-                  onBackPressed: (){
-                    controller.onBackPress();
-                  },
-                  isSearching: controller.isSearchEnable.value,
-                  searchController: controller.searchController,
-                  onValueChange: (value) {
-                    controller.searchItem(value);
-                  },
-                  autoFocus: true,
-                  isClearVisible: false.obs,
-                ),
-            backgroundColor: dashBoardBgColor_(context),
-            body: ModalProgressHUD(
-              inAsyncCall: controller.isLoading.value,
-              opacity: 0,
-              progressIndicator: const CustomProgressbar(),
-              child: controller.isInternetNotAvailable.value
-                  ? NoInternetWidget(
-                onPressed: () {
-                  controller.isInternetNotAvailable.value = false;
+              () => GestureDetector(
+                onTap: (){
+                  FocusManager.instance.primaryFocus?.unfocus();
                 },
-              )
-                  : controller.isMainViewVisible.value
-                  ? Padding(
-                padding: const EdgeInsets.all(0),
-                child:Stack(
-                  children: [
-                    Column(
-                      children: [
-                        StoremanCatalogHeaderView(),
-                        const SizedBox(height: 10),
-                        Expanded(
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: controller.products.isNotEmpty
-                                    ? StoremanProductsListWidget()
-                                    : EmptyStateView(
-                                  title: 'no_products_msg'.tr,
-                                  message: "${'no_products_sub_msg'.tr}.",
+                child: Scaffold(
+                  appBar: OrdersBaseAppBar(
+                    appBar: AppBar(),
+                    title: '',
+                    isCenterTitle: false,
+                    isBack: false,
+                    bgColor: backgroundColor_(context),
+                    widgets: actionButtons(),
+                    onBackPressed: (){
+                      controller.onBackPress();
+                    },
+                    isSearching: controller.isSearchEnable.value,
+                    searchController: controller.searchController,
+                    onValueChange: (value) {
+                      controller.searchItem(value);
+                    },
+                    autoFocus: true,
+                    isClearVisible: false.obs,
+                  ),
+                            backgroundColor: dashBoardBgColor_(context),
+                            body: ModalProgressHUD(
+                inAsyncCall: controller.isLoading.value,
+                opacity: 0,
+                progressIndicator: const CustomProgressbar(),
+                child: controller.isInternetNotAvailable.value
+                    ? NoInternetWidget(
+                  onPressed: () {
+                    controller.isInternetNotAvailable.value = false;
+                  },
+                )
+                    : controller.isMainViewVisible.value
+                    ? Padding(
+                  padding: const EdgeInsets.all(0),
+                  child:Stack(
+                    children: [
+                      Column(
+                        children: [
+                          StoremanCatalogHeaderView(),
+                          const SizedBox(height: 10),
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: controller.products.isNotEmpty
+                                      ? StoremanProductsListWidget()
+                                      : EmptyStateView(
+                                    title: 'no_products_msg'.tr,
+                                    message: "${'no_products_sub_msg'.tr}.",
+                                  ),
                                 ),
-                              ),
-                              RightSideIconsListWidget(),
-                            ],
+                                RightSideIconsListWidget(),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    Obx(() => AnimatedPositioned(
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeInOut,
-                      right: controller.isCategoryExpanded.value ? 0 : -MediaQuery.of(context).size.width,
-                      top: 20,
-                      bottom: 0,
-                      width: MediaQuery.of(context).size.width,
-                      child: Container(
-                        color: dashBoardBgColor_(context),
-                        child: CategoryExpandGrid(),
+                        ],
                       ),
-                    )),
-                  ],
-                ),
-              )
-                  : const SizedBox.shrink(),
-            ),
-          ),
+                      Obx(() => AnimatedPositioned(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                        right: controller.isCategoryExpanded.value ? 0 : -MediaQuery.of(context).size.width,
+                        top: 20,
+                        bottom: 0,
+                        width: MediaQuery.of(context).size.width,
+                        child: Container(
+                          color: dashBoardBgColor_(context),
+                          child: CategoryExpandGrid(),
+                        ),
+                      )),
+                    ],
+                  ),
+                )
+                    : const SizedBox.shrink(),
+                            ),
+                          ),
+              ),
         ),
       ),
     );
@@ -140,9 +144,10 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
         width: 2,
       ),
       // IconButton(icon: Icon(Icons.bookmark), onPressed: () {}),
-      InkWell(
+      GestureDetector(
         onTap: (){
           // open cart page
+          FocusManager.instance.primaryFocus?.unfocus();
           controller.moveToScreen(AppRoutes.basketScreen,null);
         },
         child: Stack(

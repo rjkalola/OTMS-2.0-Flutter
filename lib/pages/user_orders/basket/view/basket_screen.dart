@@ -31,61 +31,67 @@ class _BasketScreenState extends State<BasketScreen> {
       color: backgroundColor_(context),
       child: SafeArea(
         child: Obx(
-          () => Scaffold(
-            backgroundColor: dashBoardBgColor_(context),
-            appBar: BaseAppBar(
-              appBar: AppBar(),
-              title: 'basket'.tr,
-              isCenterTitle: false,
-              isBack: true,
-              bgColor: backgroundColor_(context),
-              autoFocus: true,
-              isClearVisible: false.obs,
-              widgets: actionButtons(),
-              onBackPressed: (){
-                controller.onBackPress();
-              },
-            ),
-            body: ModalProgressHUD(
-              inAsyncCall: controller.isLoading.value,
-              opacity: 0,
-              progressIndicator: const CustomProgressbar(),
-              child: controller.isInternetNotAvailable.value
-                  ? NoInternetWidget(
-                      onPressed: () {
-                        controller.isInternetNotAvailable.value = false;
-                      },
-                    )
-                  : controller.isMainViewVisible.value
-                      ? (controller.cartList.isNotEmpty) ? Column(
-                          children: [
-                            BasketHeaderView(),
-                            SizedBox(
-                              height: 12,
-                            ),
-                            BasketItemsList(),
-                          ],
-                        ) : EmptyCartView()
-                      : const SizedBox.shrink(),
-            ),
-            bottomNavigationBar: SafeArea(
-              child: Visibility(
-                visible: controller.isMainViewVisible.value && controller.cartList.isNotEmpty,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Opacity(
-                    opacity: 1.0,
-                    child: PrimaryButton(
-                      buttonText: "order_now".tr,
-                      onPressed: () {
-                        controller.toggleCreateOrder();
-                      },
+          () => GestureDetector(
+            onTap: (){
+              FocusManager.instance.primaryFocus?.unfocus();
+            },
+            child: Scaffold(
+              backgroundColor: dashBoardBgColor_(context),
+              appBar: BaseAppBar(
+                appBar: AppBar(),
+                title: 'basket'.tr,
+                isCenterTitle: false,
+                isBack: true,
+                bgColor: backgroundColor_(context),
+                autoFocus: true,
+                isClearVisible: false.obs,
+                widgets: actionButtons(),
+                onBackPressed: (){
+                  controller.onBackPress();
+                },
+              ),
+              body: ModalProgressHUD(
+                inAsyncCall: controller.isLoading.value,
+                opacity: 0,
+                progressIndicator: const CustomProgressbar(),
+                child: controller.isInternetNotAvailable.value
+                    ? NoInternetWidget(
+                        onPressed: () {
+                          controller.isInternetNotAvailable.value = false;
+                        },
+                      )
+                    : controller.isMainViewVisible.value
+                        ? (controller.cartList.isNotEmpty) ? Column(
+                            children: [
+                              BasketHeaderView(),
+                              SizedBox(
+                                height: 12,
+                              ),
+                              BasketItemsList(),
+                            ],
+                          ) : EmptyCartView()
+                        : const SizedBox.shrink(),
+              ),
+              bottomNavigationBar: SafeArea(
+                child: Visibility(
+                  visible: controller.isMainViewVisible.value && controller.cartList.isNotEmpty,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Opacity(
+                      opacity: 1.0,
+                      child: PrimaryButton(
+                        buttonText: "order_now".tr,
+                        onPressed: () {
+                          FocusManager.instance.primaryFocus?.unfocus();
+                          controller.toggleCreateOrder();
+                        },
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
+          ),
           ),
         ),
     );
@@ -93,8 +99,9 @@ class _BasketScreenState extends State<BasketScreen> {
 
   List<Widget>? actionButtons() {
     return [
-      InkWell(
+      GestureDetector(
         onTap: (){
+          FocusManager.instance.primaryFocus?.unfocus();
           controller.moveToScreen(AppRoutes.orderHistoryScreen, {});
         },
         child: Padding(

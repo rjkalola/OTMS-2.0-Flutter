@@ -1,12 +1,8 @@
-import 'package:belcka/buyer_app/buyer_order/view/widgets/order_quantity_change_button.dart';
-import 'package:belcka/buyer_app/buyer_order/view/widgets/order_quantity_display_text_view.dart';
-import 'package:belcka/buyer_app/buyer_order/view/widgets/order_quantity_text_field.dart';
-import 'package:belcka/pages/common/model/file_info.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/controller/storeman_catalog_controller.dart';
 import 'package:belcka/pages/user_orders/widgets/icons/bookmark_icon_widget.dart';
 import 'package:belcka/pages/user_orders/widgets/icons/cart_icon_widget.dart';
-import 'package:belcka/pages/user_orders/widgets/orders_title_text_view.dart';
 import 'package:belcka/pages/user_orders/widgets/out_of_stock_banner.dart';
+import 'package:belcka/pages/user_orders/widgets/product_quantity_widget.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
@@ -33,24 +29,36 @@ class _StoremanProductsListWidgetState extends State<StoremanProductsListWidget>
             () => ListView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 8),
               itemCount: controller.products.length,
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               itemBuilder: (context, index) {
                 final product = controller.products[index];
                 final pageController = PageController();
                 final isAdded = product.isCartProduct ?? false;
-                final outOfStockCount = product.cartQty ?? 0 - (product.qty ?? 0);
 
                 final subQty = product.subQty ?? "";
                 final isSubQuantity = product.isSubQty ?? false;
+
+                final outOfStockCount = isSubQuantity
+                    ? ((product.cartQty ?? 0) - double.parse(subQty))
+                    : ((product.cartQty ?? 0) - (product.qty ?? 0.0));
+
                 final packOfUnitName = product.packOfUnitName ?? "";
                 final packOfUnit = product.packOfUnit ?? "";
-                String availableQtyText = isSubQuantity ? "$subQty $packOfUnit" : "${(product.qty ?? 0)}";
 
-                return InkWell(
+                String availableQtyText = isSubQuantity ? subQty : "${((product.qty ?? 0.0).toInt())}";
+
+                return GestureDetector(
                   onTap: (){
-                    var arguments = {
-                      "product_id":product.productId
-                    };
-                    controller.moveToScreen(AppRoutes.productDetailsScreen, arguments);
+                    FocusManager.instance.primaryFocus?.unfocus();
+                    if (FocusScope.of(context).hasFocus){
+                      FocusManager.instance.primaryFocus?.unfocus();
+                    }
+                    else{
+                      var arguments = {
+                        "product_id": product.productId
+                      };
+                      controller.moveToScreen(AppRoutes.productDetailsScreen, arguments);
+                    }
                   },
                   child: CardViewDashboardItem(
                     margin: const EdgeInsets.symmetric(vertical: 6),
@@ -177,65 +185,26 @@ class _StoremanProductsListWidgetState extends State<StoremanProductsListWidget>
 
                                     const SizedBox(height: 8),
                                     // Quantity Selector
-                                    isSubQuantity == false ?
-                                    Row(
-                                      children: [
-                                        OrderQuantityChangeButton(
-                                            text: "-", onTap: (){
-                                          setState(() {
-                                            controller.decreaseQty(index);
-                                          });
-                                        }),
-                                        SizedBox(width: 8),
-                                        OrderQuantityDisplayTextView(
-                                          value: (product.cartQty ?? 0).toInt(),
-                                          width: 52,
-                                          height: 30,
-                                        ),
-                                        SizedBox(width: 8),
-                                        OrderQuantityChangeButton(
-                                            text: "+", onTap: (){
-                                          setState(() {
-                                            controller.increaseQty(index);
-                                          });
-                                        }),
-                                        SizedBox(width: 8),
-                                      ],
-                                    ) :
-                                    Row(
-                                      children: [
-                                        /*
-                                        OrderQuantityDisplayTextView(
-                                          value:int.parse(product.subQty ?? ""),
-                                        ),
-                                        */
-                                        OrderQuantityChangeButton(
-                                            text: "-", onTap: (){
-                                          setState(() {
-                                            controller.decreaseQty(index);
-                                          });
-                                        }),
-                                        SizedBox(width: 8),
-                                        OrderQuantityDisplayTextView(
-                                          value: (product.cartQty ?? 0).toInt(),
-                                          width: 50,
-                                          height: 30,
-                                        ),
-                                        SizedBox(width: 8),
-                                        OrderQuantityChangeButton(
-                                            text: "+", onTap: (){
-                                          setState(() {
-                                            controller.increaseQty(index);
-                                          });
-                                        }),
-                                        SizedBox(width: 8),
-                                        /*
-                                        TitleTextView(
-                                          text:packOfUnit,
-                                        )
-                                        */
-                                      ],
-                                    ),
+                                    ProductQuantityWidget(
+                                      focusNode: controller.qtyFocusNodes[index],
+                                      isSubQuantity: isSubQuantity,
+                                      quantity: product.cartQty ?? 0,
+                                      unit: packOfUnit,
+                                      onChanged: (value) {
+                                        controller.updateSubQty(index, value);
+                                      },
+                                      onIncrease: () {
+                                        setState(() {
+                                          controller.increaseQty(index);
+                                        });
+                                      },
+                                      onDecrease: () {
+                                        setState(() {
+                                          controller.decreaseQty(index);
+                                        });
+                                      },
+                                    )
+
                                   ],
                                 ),
                               ),
@@ -251,6 +220,7 @@ class _StoremanProductsListWidgetState extends State<StoremanProductsListWidget>
                                   color: product.isBookMark ?? true ?
                                   Colors.deepOrangeAccent : primaryTextColor_(context),
                                   onPressed: () {
+                                    FocusManager.instance.primaryFocus?.unfocus();
                                     controller.toggleBookmark(index);
                                   }),
                               // Add to Cart Button
@@ -267,22 +237,11 @@ class _StoremanProductsListWidgetState extends State<StoremanProductsListWidget>
                                       padding: const EdgeInsets.symmetric(vertical: 10),
                                     ),
                                     onPressed: () {
+                                      FocusManager.instance.primaryFocus?.unfocus();
                                       if (isAdded){
                                         controller.toggleRemoveCart(index);
                                       }
                                       else{
-                                        /*
-                                        if (isSubQuantity){
-                                          if (int.parse(product.subQty ?? "") > 0){
-                                            controller.toggleAddToCart(index, int.parse(product.subQty ?? ""));
-                                          }
-                                        }
-                                        else{
-                                          if ((product.cartQty ?? 0) > 0){
-                                            controller.toggleAddToCart(index, product.cartQty ?? 0);
-                                          }
-                                        }
-                                        */
                                         if ((product.cartQty ?? 0) > 0){
                                           controller.toggleAddToCart(index, (product.cartQty ?? 0).toInt());
                                         }
