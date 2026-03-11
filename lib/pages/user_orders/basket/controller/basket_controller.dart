@@ -391,9 +391,9 @@ class BasketController extends GetxController implements SelectItemListener {
     calculateTotal();
   }
 
-  void updateSubQty(int index, double count) {
+  void updateSubQty(int index, int count) {
     final product = cartList[index];
-    product.cartQty = count;
+    product.packOffQty = "$count";
     calculateTotal();
   }
   String calculateTotal() {

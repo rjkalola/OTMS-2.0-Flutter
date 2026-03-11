@@ -3,9 +3,9 @@ import 'package:flutter/services.dart';
 
 class ProductQuantityWidget extends StatefulWidget {
   final bool isSubQuantity;
-  final double quantity;
+  final int quantity;
   final String unit;
-  final Function(double value)? onChanged;
+  final Function(int value)? onChanged;
   final VoidCallback? onIncrease;
   final VoidCallback? onDecrease;
   final FocusNode? focusNode;
@@ -60,7 +60,7 @@ class _ProductQuantityWidgetState extends State<ProductQuantityWidget> {
               textAlign: TextAlign.center,
               focusNode: widget.focusNode,
               keyboardType:
-              const TextInputType.numberWithOptions(decimal: true),
+              const TextInputType.numberWithOptions(decimal: false),
               inputFormatters: [
                 FilteringTextInputFormatter.allow(
                     RegExp(r'^\d*\.?\d{0,2}')),
@@ -70,7 +70,7 @@ class _ProductQuantityWidgetState extends State<ProductQuantityWidget> {
                 contentPadding: EdgeInsets.zero,
               ),
               onChanged: (value) {
-                widget.onChanged?.call(double.tryParse(value) ?? 0);
+                widget.onChanged?.call(int.tryParse(value) ?? 0);
               },
             ),
           ),

@@ -30,18 +30,13 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
     return Obx(() {
 
       final product = controller.product.value;
-
-      final subQty = product.subQty ?? "";
       final isSubQuantity = product.isSubQty ?? false;
-
-      final outOfStockCount = isSubQuantity
-          ? ((product.cartQty ?? 0) - double.parse(subQty))
+      final isAdded = product.isCartProduct ?? false;
+      final outOfStockCount = isSubQuantity ? ((product.cartQty ?? 0) - (int.parse(product.packOffQty ?? "")))
           : ((product.cartQty ?? 0) - (product.qty ?? 0.0));
-
       final packOfUnitName = product.packOfUnitName ?? "";
       final packOfUnit = product.packOfUnit ?? "";
-
-      String availableQtyText = isSubQuantity ? subQty : "${((product.qty ?? 0.0).toInt())}";
+      String availableQtyText = "${((product.qty ?? 0.0).toInt())}";
 
       return Expanded(
         child: SingleChildScrollView(
@@ -201,8 +196,15 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                             controller.toggleRemoveCart();
                           }
                           else{
-                            if ((product.cartQty ?? 0) > 0){
-                              controller.toggleAddToCart((product.cartQty ?? 0).toInt());
+                            if (isSubQuantity){
+                              if ((int.parse(product.packOffQty ?? "")) > 0){
+                                controller.toggleAddToCart((int.parse(product.packOffQty ?? "") ?? 0));
+                              }
+                            }
+                            else{
+                              if ((product.cartQty ?? 0) > 0){
+                                controller.toggleAddToCart((product.cartQty ?? 0).toInt());
+                              }
                             }
                           }
                         },
@@ -218,7 +220,11 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                           children: [
                             ProductQuantityWidget(
                               isSubQuantity: isSubQuantity,
-                              quantity: product.cartQty ?? 0,
+                              quantity: isSubQuantity
+                                  ? (isAdded
+                                  ? (product.cartQty ?? 0).toInt()
+                                  : int.tryParse(product.packOffQty ?? "") ?? 0)
+                                  : (product.cartQty ?? 0).toInt(),
                               unit: packOfUnit,
                               onChanged: (value) {
                                 controller.updateSubQty(value);

@@ -33,8 +33,8 @@ class _BasketItemsListState extends State<BasketItemsList> {
               final pageController = PageController();
 
               final isSubQuantity = product.isSubQty ?? false;
-
-              final outOfStockCount = (product.cartQty ?? 0) - (product.qty ?? 0.0);
+              final outOfStockCount = isSubQuantity ? ((product.cartQty ?? 0) - (int.parse(product.packOffQty ?? "")))
+                  : ((product.cartQty ?? 0) - (product.qty ?? 0.0));
 
               final packOfUnitName = product.packOfUnitName ?? "";
               final packOfUnit = product.packOfUnit ?? "";
@@ -215,7 +215,7 @@ class _BasketItemsListState extends State<BasketItemsList> {
                                       ProductQuantityWidget(
                                         focusNode: controller.qtyFocusNodes[index],
                                         isSubQuantity: isSubQuantity,
-                                        quantity: product.cartQty ?? 0,
+                                        quantity: (product.cartQty ?? 0).toInt(),
                                         unit: packOfUnit,
                                         onChanged: (value) {
                                           controller.updateSubQty(index, value);

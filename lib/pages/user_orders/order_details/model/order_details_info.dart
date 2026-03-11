@@ -8,7 +8,7 @@ class OrderDetailsInfo {
   String? currency;
   String? totalAmount;
   String? orderId;
-  int? orderQty;
+  double? orderQty;
   int? receiveQty;
   String? note;
   int? projectId;
@@ -59,7 +59,7 @@ class OrderDetailsInfo {
     currency = json['currency'];
     totalAmount = json['total_amount'];
     orderId = json['order_id'];
-    orderQty = json['order_qty'];
+    orderQty = (json['order_qty'] as num?)?.toDouble();
     receiveQty = json['receive_qty'];
     note = json['note'];
     projectId = json['project_id'];

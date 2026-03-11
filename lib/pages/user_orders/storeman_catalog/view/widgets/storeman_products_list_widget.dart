@@ -35,17 +35,16 @@ class _StoremanProductsListWidgetState extends State<StoremanProductsListWidget>
                 final pageController = PageController();
                 final isAdded = product.isCartProduct ?? false;
 
-                final subQty = product.subQty ?? "";
                 final isSubQuantity = product.isSubQty ?? false;
+                //final outOfStockCount = ((product.cartQty ?? 0) - (product.qty ?? 0.0));
 
-                final outOfStockCount = isSubQuantity
-                    ? ((product.cartQty ?? 0) - double.parse(subQty))
+                final outOfStockCount = isSubQuantity ? ((product.cartQty ?? 0) - (int.parse(product.packOffQty ?? "")))
                     : ((product.cartQty ?? 0) - (product.qty ?? 0.0));
 
                 final packOfUnitName = product.packOfUnitName ?? "";
                 final packOfUnit = product.packOfUnit ?? "";
 
-                String availableQtyText = isSubQuantity ? subQty : "${((product.qty ?? 0.0).toInt())}";
+                String availableQtyText = "${((product.qty ?? 0.0).toInt())}";
 
                 return GestureDetector(
                   onTap: (){
@@ -188,7 +187,11 @@ class _StoremanProductsListWidgetState extends State<StoremanProductsListWidget>
                                     ProductQuantityWidget(
                                       focusNode: controller.qtyFocusNodes[index],
                                       isSubQuantity: isSubQuantity,
-                                      quantity: product.cartQty ?? 0,
+                                      quantity: isSubQuantity
+                                          ? (isAdded
+                                          ? (product.cartQty ?? 0).toInt()
+                                          : int.tryParse(product.packOffQty ?? "") ?? 0)
+                                          : (product.cartQty ?? 0).toInt(),
                                       unit: packOfUnit,
                                       onChanged: (value) {
                                         controller.updateSubQty(index, value);
@@ -242,8 +245,15 @@ class _StoremanProductsListWidgetState extends State<StoremanProductsListWidget>
                                         controller.toggleRemoveCart(index);
                                       }
                                       else{
-                                        if ((product.cartQty ?? 0) > 0){
-                                          controller.toggleAddToCart(index, (product.cartQty ?? 0).toInt());
+                                        if (isSubQuantity){
+                                          if ((int.parse(product.packOffQty ?? "")) > 0){
+                                            controller.toggleAddToCart(index, (int.parse(product.packOffQty ?? "") ?? 0));
+                                          }
+                                        }
+                                        else{
+                                          if ((product.cartQty ?? 0) > 0){
+                                            controller.toggleAddToCart(index, (product.cartQty ?? 0).toInt());
+                                          }
                                         }
                                       }
                                     },

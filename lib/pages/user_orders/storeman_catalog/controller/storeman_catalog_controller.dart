@@ -214,7 +214,7 @@ class StoremanCatalogController extends GetxController{
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
     map["product_id"] = product.id;
-    map["qty"] = (product.isSubQty ?? false) ? product.subQty : product.qty;
+    map["qty"] = product.qty;
     map["cart_qty"] = cartQuantity;
     map["is_sub_qty"] = (product.isSubQty ?? false) ? 1 : 0;
 
@@ -280,9 +280,9 @@ class StoremanCatalogController extends GetxController{
   void updateCartCount(int count) {
     cartCount.value = count;
   }
-  void updateSubQty(int index, double count) {
+  void updateSubQty(int index, int count) {
     final product = products[index];
-    product.cartQty = count;
+    product.packOffQty = "$count";
   }
   void onBackPress() {
     Get.back(result: isDataUpdated);
