@@ -54,6 +54,43 @@ class BasketSummarySection extends StatelessWidget {
             ],
           ),
         ),
+        // Store Section
+        const SizedBox(height: 16),
+        InkWell(
+          onTap: (){
+            controller.showStoresList();
+          },
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TitleTextView(
+                text: 'store'.tr,
+                fontSize: 16,
+                maxLine: 1,
+                fontWeight: FontWeight.w700,
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: TitleTextView(
+                  text:!StringHelper.isEmptyString(
+                      controller.selectedStoreTitle.value)
+                      ? controller.selectedStoreTitle.value
+                      : 'select_store'.tr,
+                  maxLine: 1,
+                  softWrap: true,
+                  textAlign: TextAlign.right,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SizedBox(width: 6),
+              const Icon(
+                Icons.chevron_right,
+                size: 25,
+              ),
+            ],
+          ),
+        ),
         // Delivery / Collection
         /*
         SizedBox(height: 18),

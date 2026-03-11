@@ -227,7 +227,7 @@ class LeaveDetailsController extends GetxController
           BaseResponse response =
               BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.Message);
-          onBackPress();
+          onBackPress(isDataUpdated: true);
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
@@ -255,7 +255,7 @@ class LeaveDetailsController extends GetxController
           BaseResponse response =
               BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.Message);
-          onBackPress();
+          onBackPress(isDataUpdated: true);
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
@@ -374,11 +374,11 @@ class LeaveDetailsController extends GetxController
     }
   }
 
-  void onBackPress() {
+  void onBackPress({bool? isDataUpdated}) {
     if (isFromNotification.value) {
       Get.offAllNamed(AppRoutes.dashboardScreen);
     } else {
-      Get.back();
+      Get.back(result: (isDataUpdated ?? false));
     }
   }
 }

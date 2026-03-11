@@ -650,6 +650,7 @@ class Strings extends Translations {
           'internal_orders': "Internal orders",
           'items_in_order': "Items in order",
           'adjustment': "Adjustment",
+          'delete_request': "Delete Request",
 // '': "",
 // '': "",
           // '': "",

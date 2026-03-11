@@ -130,17 +130,23 @@ class LeaveList extends StatelessWidget {
                     ),
                     Visibility(
                       visible: !StringHelper.isEmptyString(
-                          AppUtils.getStatusText(info.requestStatus ?? 0)),
+                              AppUtils.getStatusText(
+                                  info.requestStatus ?? 0)) ||
+                          (info.isDeleteRequest ?? false),
                       child: Align(
                         alignment: Alignment.topRight,
                         child: TextViewWithContainer(
                           margin: EdgeInsets.only(right: 32, top: 2),
-                          text: AppUtils.getStatusText(info.requestStatus ?? 0),
+                          text: (info.isDeleteRequest ?? false)
+                              ? 'delete_request'.tr
+                              : AppUtils.getStatusText(info.requestStatus ?? 0),
                           padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
                           fontColor: Colors.white,
                           fontSize: 11,
-                          boxColor:
-                              AppUtils.getStatusColor(info.requestStatus ?? 0),
+                          boxColor: (info.isDeleteRequest ?? false)
+                              ? Colors.orange
+                              : AppUtils.getStatusColor(
+                                  info.requestStatus ?? 0),
                           borderRadius: 5,
                         ),
                       ),

@@ -165,11 +165,28 @@ class _LeaveDetailsScreenState extends State<LeaveDetailsScreen> {
                                 ),
                               ),
                               Visibility(
-                                  visible:
-                                      controller.leaveInfo.value.isRequested ??
-                                          false,
+                                  visible: (controller.leaveInfo.value.isRequested ??
+                                          false) ||
+                                      (controller.leaveInfo.value
+                                              .isDeleteRequest ??
+                                          false),
                                   child: UserUtils.isAdmin()
                                       ? ApproveRejectButtons(
+                                          approveTitle: (controller.leaveInfo
+                                                      .value.isDeleteRequest ??
+                                                  false)
+                                              ? "${'approve'.tr} ${'delete'.tr}"
+                                              : null,
+                                          rejectTitle: (controller.leaveInfo.value
+                                                      .isDeleteRequest ??
+                                                  false)
+                                              ? "${'reject'.tr} ${'delete'.tr}"
+                                              : null,
+                                          fontSize: (controller.leaveInfo.value
+                                                      .isDeleteRequest ??
+                                                  false)
+                                              ? 16
+                                              : null,
                                           padding: EdgeInsets.fromLTRB(
                                               14, 8, 14, 16),
                                           onClickReject: () {
@@ -197,10 +214,20 @@ class _LeaveDetailsScreenState extends State<LeaveDetailsScreen> {
                                           borderColor: AppUtils.getStatusColor(
                                               controller.requestStatus.value),
                                           boxColor: Colors.transparent,
-                                          text: AppUtils.getStatusText(
-                                              controller.requestStatus.value),
-                                          fontColor: AppUtils.getStatusColor(
-                                              controller.requestStatus.value),
+                                          text: (controller.leaveInfo.value
+                                                      .isDeleteRequest ??
+                                                  false)
+                                              ? 'delete_request'.tr
+                                              : AppUtils.getStatusText(
+                                                  controller
+                                                      .requestStatus.value),
+                                          fontColor: (controller.leaveInfo.value
+                                                      .isDeleteRequest ??
+                                                  false)
+                                              ? Colors.orange
+                                              : AppUtils.getStatusColor(
+                                                  controller
+                                                      .requestStatus.value),
                                           fontWeight: FontWeight.w400,
                                           alignment: Alignment.center,
                                         )),
@@ -248,7 +275,8 @@ class _LeaveDetailsScreenState extends State<LeaveDetailsScreen> {
         visible: !controller.isDeleted.value &&
             !controller.isFromNotification.value &&
             !controller.isFromRequest.value &&
-            controller.isMainViewVisible.value,
+            controller.isMainViewVisible.value &&
+            !(controller.leaveInfo.value.isDeleteRequest ?? false),
         child: TextButton(
             onPressed: () {
               controller.showRemoveLeaveDialog();
