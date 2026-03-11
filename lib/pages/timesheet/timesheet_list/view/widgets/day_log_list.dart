@@ -22,6 +22,7 @@ import 'package:belcka/widgets/shapes/badge_count_widget.dart';
 import 'package:belcka/widgets/text/SubTitleTextView.dart';
 import 'package:belcka/widgets/text/TextViewWithContainer.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
+import 'package:path/path.dart';
 
 class DayLogList extends StatelessWidget {
   DayLogList(
@@ -606,9 +607,8 @@ class DayLogList extends StatelessWidget {
                           child: TitleTextView(
                             text:
                                 "${adjustmentInfo.currency ?? ""}${adjustmentInfo.adjustedAmount ?? 0}",
-                            color: (adjustmentInfo.adjustedAmount ?? 0) < 0
-                                ? Colors.red
-                                : Colors.green,
+                            color: getAdjustmentColor(Get.context!,
+                                adjustmentInfo.adjustedAmount ?? 0.0),
                             fontSize: 17,
                           ),
                         ),
@@ -710,5 +710,15 @@ class DayLogList extends StatelessWidget {
             ),
           )
         : Container();
+  }
+
+  Color getAdjustmentColor(BuildContext context, double adjustment) {
+    if (adjustment < 0) {
+      return Colors.red;
+    } else if (adjustment > 0) {
+      return Colors.green;
+    } else {
+      return primaryTextColorLight_(context);
+    }
   }
 }

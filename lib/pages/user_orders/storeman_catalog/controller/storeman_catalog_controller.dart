@@ -12,15 +12,15 @@ import 'package:belcka/web_services/response/response_model.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
-class StoremanCatalogController extends GetxController{
-
+class StoremanCatalogController extends GetxController {
   RxBool isDeliverySelected = true.obs;
   final _api = StoremanCatalogRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
       isSearchEnable = false.obs,
-      isClearSearch = false.obs;
+      isClearSearch = false.obs,
+      isRightSideListEnable = true.obs;
 
   final List<IconData> sideIcons = const [
     Icons.expand,
@@ -46,7 +46,8 @@ class StoremanCatalogController extends GetxController{
 
   final searchController = TextEditingController().obs;
 
-  RxList<UserOrdersCategoriesInfo> categoriesList = <UserOrdersCategoriesInfo>[].obs;
+  RxList<UserOrdersCategoriesInfo> categoriesList =
+      <UserOrdersCategoriesInfo>[].obs;
   List<UserOrdersCategoriesInfo> tempCategoryList = [];
 
   RxInt activeCategoryId = 0.obs;
@@ -65,6 +66,7 @@ class StoremanCatalogController extends GetxController{
     }
     super.dispose();
   }
+
   @override
   void onInit() {
     super.onInit();
@@ -74,20 +76,24 @@ class StoremanCatalogController extends GetxController{
     }
     getCategoriesListApi();
   }
+
   void selectCategory(int selectedID) {
     FocusManager.instance.primaryFocus?.unfocus();
     activeCategoryId.value = selectedID;
     fetchProducts();
   }
+
   void toggleCategoryGrid() {
     FocusManager.instance.primaryFocus?.unfocus();
     isCategoryExpanded.toggle();
   }
+
   void selectCategoryFromGrid(int selectedID) {
     FocusManager.instance.primaryFocus?.unfocus();
     isCategoryExpanded.value = false;
     selectCategory(selectedID);
   }
+
   void getCategoriesListApi() {
     isLoading.value = true;
     Map<String, dynamic> map = {};
@@ -97,7 +103,8 @@ class StoremanCatalogController extends GetxController{
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           UserOrdersCategoriesResponse response =
-          UserOrdersCategoriesResponse.fromJson(jsonDecode(responseModel.result!));
+              UserOrdersCategoriesResponse.fromJson(
+                  jsonDecode(responseModel.result!));
           tempCategoryList.clear();
           tempCategoryList.addAll(response.info ?? []);
 
@@ -107,8 +114,7 @@ class StoremanCatalogController extends GetxController{
           fetchProducts();
 
           updateCartCount(response.cartProductCount ?? 0);
-        }
-        else{
+        } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
           isLoading.value = false;
         }
@@ -123,11 +129,12 @@ class StoremanCatalogController extends GetxController{
       },
     );
   }
+
   void fetchProducts() {
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
-    if (activeCategoryId.value > 0){
+    if (activeCategoryId.value > 0) {
       map["category_ids"] = activeCategoryId.value;
     }
 
@@ -136,7 +143,7 @@ class StoremanCatalogController extends GetxController{
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           GetProductsResponse response =
-          GetProductsResponse.fromJson(jsonDecode(responseModel.result!));
+              GetProductsResponse.fromJson(jsonDecode(responseModel.result!));
 
           tempList.clear();
           tempList.addAll(response.info ?? []);
@@ -147,8 +154,7 @@ class StoremanCatalogController extends GetxController{
           updateCartCount(response.cartProduct ?? 0);
           isMainViewVisible.value = true;
           initFocusNodes(products.length);
-        }
-        else{
+        } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;
@@ -163,13 +169,15 @@ class StoremanCatalogController extends GetxController{
       },
     );
   }
+
   void prepareProductImages() {
     for (var product in products) {
       if (product.productImages == null) {
         product.productImages = [];
       }
 
-      final exists = product.productImages!.any((img) => img.imageUrl == product.imageUrl);
+      final exists =
+          product.productImages!.any((img) => img.imageUrl == product.imageUrl);
       if (!exists) {
         product.productImages!.insert(
           0,
@@ -182,6 +190,7 @@ class StoremanCatalogController extends GetxController{
       }
     }
   }
+
   void toggleBookmark(int index) {
     final product = products[index];
     Map<String, dynamic> map = {};
@@ -193,8 +202,7 @@ class StoremanCatalogController extends GetxController{
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           fetchProducts();
-        }
-        else{
+        } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;
@@ -209,6 +217,7 @@ class StoremanCatalogController extends GetxController{
       },
     );
   }
+
   void toggleAddToCart(int index, int cartQuantity) {
     final product = products[index];
     Map<String, dynamic> map = {};
@@ -224,8 +233,7 @@ class StoremanCatalogController extends GetxController{
         if (responseModel.isSuccess) {
           isDataUpdated = true;
           fetchProducts();
-        }
-        else{
+        } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;
@@ -240,6 +248,7 @@ class StoremanCatalogController extends GetxController{
       },
     );
   }
+
   void toggleRemoveCart(int index) {
     final product = products[index];
     Map<String, dynamic> map = {};
@@ -250,8 +259,7 @@ class StoremanCatalogController extends GetxController{
         if (responseModel.isSuccess) {
           isDataUpdated = true;
           fetchProducts();
-        }
-        else{
+        } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;
@@ -266,27 +274,33 @@ class StoremanCatalogController extends GetxController{
       },
     );
   }
+
   void increaseQty(int index) {
     final product = products[index];
     double userQty = (product.cartQty ?? 0.0) + 1;
     product.cartQty = userQty;
   }
+
   void decreaseQty(int index) {
     final product = products[index];
     double userQty = product.cartQty ?? 0.0;
     if (userQty == 0 || userQty == 1) return;
     product.cartQty = userQty - 1;
   }
+
   void updateCartCount(int count) {
     cartCount.value = count;
   }
+
   void updateSubQty(int index, int count) {
     final product = products[index];
     product.packOffQty = "$count";
   }
+
   void onBackPress() {
     Get.back(result: isDataUpdated);
   }
+
   Future<void> moveToScreen(String rout, dynamic arguments) async {
     clearSearch();
     var result = await Get.toNamed(rout, arguments: arguments);
@@ -294,21 +308,20 @@ class StoremanCatalogController extends GetxController{
       fetchProducts();
     }
   }
+
   Future<void> searchItem(String value) async {
     List<ProductInfo> results = [];
     if (value.isEmpty) {
       results = tempList;
     } else {
       results = tempList
-          .where((element) =>
-      (!StringHelper.isEmptyString(element.shortName) &&
-          element.shortName!
-              .toLowerCase()
-              .contains(value.toLowerCase())))
+          .where((element) => (!StringHelper.isEmptyString(element.shortName) &&
+              element.shortName!.toLowerCase().contains(value.toLowerCase())))
           .toList();
     }
     products.value = results;
   }
+
   void clearSearch() {
     searchController.value.clear();
     searchItem("");

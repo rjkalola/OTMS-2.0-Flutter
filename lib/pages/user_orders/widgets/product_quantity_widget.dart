@@ -92,8 +92,8 @@ class _ProductQuantityWidgetState extends State<ProductQuantityWidget> {
         InkWell(
           onTap: widget.onDecrease,
           child: Container(
-            width: 32,
-            height: 30,
+            width: 34,
+            height: 32,
             alignment: Alignment.center,
             decoration: BoxDecoration(
               border: Border.all(color: Colors.grey.shade300),
@@ -108,7 +108,7 @@ class _ProductQuantityWidgetState extends State<ProductQuantityWidget> {
         // qty
         Container(
           width: 50,
-          height: 30,
+          height: 32,
           alignment: Alignment.center,
           decoration: BoxDecoration(
             border: Border.all(color: Colors.grey.shade300),
@@ -126,8 +126,8 @@ class _ProductQuantityWidgetState extends State<ProductQuantityWidget> {
         InkWell(
           onTap: widget.onIncrease,
           child: Container(
-            width: 32,
-            height: 30,
+            width: 34,
+            height: 32,
             alignment: Alignment.center,
             decoration: BoxDecoration(
               border: Border.all(color: Colors.grey.shade300),

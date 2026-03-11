@@ -40,6 +40,8 @@ class WorkLogInfo {
   String? totalPenaltyAmount;
   String? totalDayEarnings;
   int? totalDaySeconds;
+  String? netDayEarnings;
+  int? netDaySeconds;
   String? currency;
   List<GeofenceInfo>? geofences;
   int? userId;
@@ -82,6 +84,8 @@ class WorkLogInfo {
       this.totalPenaltyAmount,
       this.totalDayEarnings,
       this.totalDaySeconds,
+      this.netDayEarnings,
+      this.netDaySeconds,
       this.penaltySeconds,
       this.geofences,
       this.currency,
@@ -139,6 +143,8 @@ class WorkLogInfo {
     totalPenaltyAmount = json['total_penalty_amount'];
     totalDayEarnings = json['total_day_earnings'];
     totalDaySeconds = json['total_day_seconds'];
+    netDayEarnings = json['net_day_earnings'];
+    netDaySeconds = json['net_day_seconds'];
     penaltySeconds = json['penalty_seconds'];
     if (json['geofences'] != null) {
       geofences = <GeofenceInfo>[];
@@ -199,6 +205,8 @@ class WorkLogInfo {
     data['total_penalty_amount'] = this.totalPenaltyAmount;
     data['total_day_earnings'] = this.totalDayEarnings;
     data['total_day_seconds'] = this.totalDaySeconds;
+    data['net_day_earnings'] = this.netDayEarnings;
+    data['net_day_seconds'] = this.netDaySeconds;
     data['penalty_seconds'] = this.penaltySeconds;
     if (this.geofences != null) {
       data['geofences'] = this.geofences!.map((v) => v.toJson()).toList();
