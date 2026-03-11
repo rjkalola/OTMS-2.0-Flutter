@@ -5,7 +5,7 @@ class OrderDetailsOrdersInfo {
   String? qty;
   String? price;
   int? receivedQty;
-  int? remainingQty;
+  double? remainingQty;
   String? productImage;
   String? productThumbImage;
   String? shortName;
@@ -38,13 +38,12 @@ class OrderDetailsOrdersInfo {
     qty = json['qty'];
     price = json['price'];
     receivedQty = json['received_qty'];
-    remainingQty = json['remaining_qty'];
     productImage = json['product_image'];
     productThumbImage = json['product_thumb_image'];
     shortName = json['short_name'];
     uuid = json['uuid'];
     note = json['note'];
-    receiveId = json['receiveId'];
+    //receiveId = json['receiveId'];
     description = json['description'];
   }
 

@@ -33,37 +33,42 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             () => Container(
           color: backgroundColor_(context),
           child: SafeArea(
-            child: Scaffold(
-              backgroundColor: dashBoardBgColor_(context),
-              appBar: BaseAppBar(
-                appBar: AppBar(),
-                title: 'product_details'.tr,
-                isCenterTitle: false,
-                isBack: true,
-                bgColor: backgroundColor_(context),
-                autoFocus: true,
-                isClearVisible: false.obs,
-                onBackPressed: (){
-                  controller.onBackPress();
-                },
+            child: GestureDetector(
+              onTap: (){
+                FocusManager.instance.primaryFocus?.unfocus();
+              },
+              child: Scaffold(
+                backgroundColor: dashBoardBgColor_(context),
+                appBar: BaseAppBar(
+                  appBar: AppBar(),
+                  title: 'product_details'.tr,
+                  isCenterTitle: false,
+                  isBack: true,
+                  bgColor: backgroundColor_(context),
+                  autoFocus: true,
+                  isClearVisible: false.obs,
+                  onBackPressed: (){
+                    controller.onBackPress();
+                  },
+                ),
+                body: ModalProgressHUD(
+                    inAsyncCall: controller.isLoading.value,
+                    opacity: 0,
+                    progressIndicator: const CustomProgressbar(),
+                    child: controller.isInternetNotAvailable.value
+                        ? NoInternetWidget(
+                      onPressed: () {
+                        controller.isInternetNotAvailable.value = false;
+                      },
+                    )
+                        : Padding(padding: EdgeInsets.zero,
+                    child: Visibility(
+                      visible: controller.isMainViewVisible.value,
+                      child: ProductDetailsContainer(),
+                    ),),
               ),
-              body: ModalProgressHUD(
-                  inAsyncCall: controller.isLoading.value,
-                  opacity: 0,
-                  progressIndicator: const CustomProgressbar(),
-                  child: controller.isInternetNotAvailable.value
-                      ? NoInternetWidget(
-                    onPressed: () {
-                      controller.isInternetNotAvailable.value = false;
-                    },
-                  )
-                      : Padding(padding: EdgeInsets.zero,
-                  child: Visibility(
-                    visible: controller.isMainViewVisible.value,
-                    child: ProductDetailsContainer(),
-                  ),),
+                        ),
             ),
-          ),
         ),
       ),
     ));

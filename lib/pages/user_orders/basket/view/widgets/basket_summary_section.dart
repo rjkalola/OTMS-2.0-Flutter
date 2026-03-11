@@ -19,8 +19,9 @@ class BasketSummarySection extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(24, 18, 18, 20),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         // Project
-        InkWell(
+        GestureDetector(
           onTap: (){
+            FocusManager.instance.primaryFocus?.unfocus();
             controller.showActiveProjectDialog();
           },
           child: Row(
@@ -56,8 +57,9 @@ class BasketSummarySection extends StatelessWidget {
         ),
         // Store Section
         const SizedBox(height: 16),
-        InkWell(
+        GestureDetector(
           onTap: (){
+            FocusManager.instance.primaryFocus?.unfocus();
             controller.showStoresList();
           },
           child: Row(
@@ -121,8 +123,9 @@ class BasketSummarySection extends StatelessWidget {
 
         // Address
         const SizedBox(height: 16),
-        InkWell(
+        GestureDetector(
           onTap: (){
+            FocusManager.instance.primaryFocus?.unfocus();
             controller.showAddressList();
           },
           child: Row(
@@ -157,8 +160,9 @@ class BasketSummarySection extends StatelessWidget {
 
         SizedBox(height: 16),
         // Delivery Time
-        InkWell(
+        GestureDetector(
           onTap: (){
+            FocusManager.instance.primaryFocus?.unfocus();
             controller.showDeliveryTimeList();
           },
           child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [

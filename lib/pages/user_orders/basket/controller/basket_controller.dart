@@ -14,6 +14,7 @@ import 'package:belcka/pages/user_orders/basket/controller/basket_repository.dar
 import 'package:belcka/pages/user_orders/basket/model/product_cart_list_response.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
 import 'package:belcka/pages/user_orders/widgets/select_address_dialog.dart';
+import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
@@ -54,6 +55,19 @@ class BasketController extends GetxController implements SelectItemListener {
   RxDouble totalAmount = 0.0.obs;
 
   final List<ModuleInfo> listDeliveryTime = <ModuleInfo>[].obs;
+  List<FocusNode> qtyFocusNodes = [];
+
+  void initFocusNodes(int length) {
+    qtyFocusNodes = List.generate(length, (index) => FocusNode());
+  }
+
+  @override
+  void dispose() {
+    for (var node in qtyFocusNodes) {
+      node.dispose();
+    }
+    super.dispose();
+  }
 
   @override
   void onInit() {
@@ -242,6 +256,7 @@ class BasketController extends GetxController implements SelectItemListener {
           isMainViewVisible.value = true;
           isLoading.value = false;
           calculateTotal();
+          initFocusNodes(cartList.length);
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
           isLoading.value = false;
@@ -320,6 +335,7 @@ class BasketController extends GetxController implements SelectItemListener {
         if (responseModel.isSuccess) {
           isDataUpdated = true;
           fetchCartList();
+          moveToScreen(AppRoutes.orderHistoryScreen, {});
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
@@ -354,6 +370,7 @@ class BasketController extends GetxController implements SelectItemListener {
           "product_id": item.productId,
           "qty": item.cartQty ?? 0,
           "price": item.price,
+          "is_sub_qty":item.isSubQty
         };
       }).toList(),
     };
@@ -368,20 +385,49 @@ class BasketController extends GetxController implements SelectItemListener {
 
   void decreaseQty(int index) {
     final product = cartList[index];
-    double userQty = (product.cartQty ?? 0) + 1;
-    if (userQty == 1) return;
+    double userQty = product.cartQty ?? 0.0;
+    if (userQty == 0 || userQty == 1) return;
     product.cartQty = userQty - 1;
     calculateTotal();
   }
 
+  void updateSubQty(int index, int count) {
+    final product = cartList[index];
+    product.packOffQty = "$count";
+    calculateTotal();
+  }
   String calculateTotal() {
     totalAmount.value = 0.0;
+
     for (var item in cartList) {
-      double price = double.tryParse(item.price ?? "") ?? 0.00;
-      double qty = item.cartQty ?? 0.0;
-      totalAmount.value += price * qty;
+      bool isSubQty = item.isSubQty ?? false;
+      double packOffQty = double.tryParse(item.packOffQty ?? "") ?? 0.0;
+
+      if (isSubQty) {
+        double qty = item.cartQty ?? 0.0;
+        double basePrice = double.tryParse(item.price ?? "") ?? 0.0;
+        double price = calculatePrice(
+          packOffQty: packOffQty,
+          pricePerPack: basePrice,
+        );
+
+        double subTotal = price * qty;
+        totalAmount.value += subTotal;
+      }
+      else{
+        double price = double.tryParse(item.price ?? "") ?? 0.00;
+        double qty = item.cartQty ?? 0.0;
+        totalAmount.value += price * qty;
+      }
     }
     return totalAmount.value.toStringAsFixed(2);
+  }
+  double calculatePrice({
+    required double packOffQty,
+    required double pricePerPack,
+  }) {
+    if (packOffQty == 0) return pricePerPack;
+    return pricePerPack / packOffQty;
   }
 
   void onBackPress() {

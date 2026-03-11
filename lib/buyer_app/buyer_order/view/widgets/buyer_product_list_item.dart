@@ -194,7 +194,7 @@ class BuyerProductListItem extends StatelessWidget {
                     text: item.stockStatus ?? "",
                     padding: EdgeInsets.fromLTRB(5, 1, 5, 1),
                     fontColor: Colors.white,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w400,
                     fontSize: 11,
                     boxColor: AppUtils.getProductStockStatusColor(
                         item.stockStatusId ?? 0),

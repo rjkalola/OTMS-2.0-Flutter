@@ -52,6 +52,19 @@ class StoremanCatalogController extends GetxController{
   RxInt activeCategoryId = 0.obs;
   RxBool isCategoryExpanded = false.obs;
 
+  List<FocusNode> qtyFocusNodes = [];
+
+  void initFocusNodes(int length) {
+    qtyFocusNodes = List.generate(length, (index) => FocusNode());
+  }
+
+  @override
+  void dispose() {
+    for (var node in qtyFocusNodes) {
+      node.dispose();
+    }
+    super.dispose();
+  }
   @override
   void onInit() {
     super.onInit();
@@ -62,13 +75,16 @@ class StoremanCatalogController extends GetxController{
     getCategoriesListApi();
   }
   void selectCategory(int selectedID) {
+    FocusManager.instance.primaryFocus?.unfocus();
     activeCategoryId.value = selectedID;
     fetchProducts();
   }
   void toggleCategoryGrid() {
+    FocusManager.instance.primaryFocus?.unfocus();
     isCategoryExpanded.toggle();
   }
   void selectCategoryFromGrid(int selectedID) {
+    FocusManager.instance.primaryFocus?.unfocus();
     isCategoryExpanded.value = false;
     selectCategory(selectedID);
   }
@@ -130,6 +146,7 @@ class StoremanCatalogController extends GetxController{
           products.refresh();
           updateCartCount(response.cartProduct ?? 0);
           isMainViewVisible.value = true;
+          initFocusNodes(products.length);
         }
         else{
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
@@ -262,6 +279,10 @@ class StoremanCatalogController extends GetxController{
   }
   void updateCartCount(int count) {
     cartCount.value = count;
+  }
+  void updateSubQty(int index, int count) {
+    final product = products[index];
+    product.packOffQty = "$count";
   }
   void onBackPress() {
     Get.back(result: isDataUpdated);

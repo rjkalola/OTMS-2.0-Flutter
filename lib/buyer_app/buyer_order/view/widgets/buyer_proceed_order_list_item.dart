@@ -103,7 +103,7 @@ class BuyerProceedOrderListItem extends StatelessWidget {
                 text: item.statusText ?? "",
                 padding: EdgeInsets.fromLTRB(5, 1, 5, 1),
                 fontColor: Colors.white,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w400,
                 fontSize: 11,
                 boxColor: AppUtils.getOrderStatusColor(item.status ?? 0),
                 borderRadius: 5,
