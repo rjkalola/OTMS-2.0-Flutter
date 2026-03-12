@@ -35,13 +35,13 @@ class StoremanInventoryResponse {
   StoremanInventoryResponse.fromJson(Map<String, dynamic> json) {
     isSuccess = json['IsSuccess'];
     message = json['message'];
-    upcoming = json['upcoming'];
-    processing = json['processing'];
-    onStock = json['on_stock'];
-    internalNew = json['internal_new'];
-    internalPreparing = json['internal_preparing'];
-    internalReady = json['internal_ready'];
-    internalCollect = json['internal_collect'];
+    upcoming = json['supplier_upcoming'];
+    processing = json['supplier_processing'];
+    onStock = json['supplier_delivered'];
+    internalNew = json['new'];
+    internalPreparing = json['preparing'];
+    internalReady = json['ready'];
+    internalCollect = json['collected'];
     hireNew = json['hire_new'];
     hireHired = json['hire_hired'];
     hireAvailable = json['hire_available'];

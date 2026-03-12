@@ -38,7 +38,9 @@ class StoremanInternalOrderListItem extends StatelessWidget {
                       fontSize: 15,
                       fontWeight: FontWeight.w400,
                     ),
-                    SizedBox(width: 9,),
+                    SizedBox(
+                      width: 9,
+                    ),
                     Expanded(
                       child: PrimaryTextView(
                         text: item.supplierName ?? item.userName ?? "",
@@ -46,14 +48,15 @@ class StoremanInternalOrderListItem extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                         textAlign: TextAlign.end,
                         maxLine: 1,
-                        overflow:TextOverflow.ellipsis ,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 2),
                 PrimaryTextView(
-                  text: "${'items_in_order'.tr}:  ${item.orderQty ?? 0}",
+                  text:
+                      "${'items_in_order'.tr}:  ${AppUtils.formatDecimalNumber(item.orderQty ?? 0)}",
                   fontSize: 15,
                   fontWeight: FontWeight.w400,
                 ),

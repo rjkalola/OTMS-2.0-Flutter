@@ -107,7 +107,8 @@ class BuyerProductListItem extends StatelessWidget {
                               ),
                               const SizedBox(height: 6),
                               TitleTextView(
-                                text: "Available Qty: ${item.qty}",
+                                text:
+                                    "Available Qty: ${AppUtils.formatDecimalNumber(item.qty ?? 0)}",
                                 fontSize: 13,
                                 color: secondaryExtraLightTextColor_(context),
                               ),
@@ -135,7 +136,13 @@ class BuyerProductListItem extends StatelessWidget {
                                     children: [
                                       Visibility(
                                         visible: !StringHelper.isEmptyString(
-                                            item.storeName),
+                                                item.storeName) ||
+                                            !StringHelper.isEmptyString(
+                                                item.supplierName) ||
+                                            !StringHelper.isEmptyString(
+                                                item.projectName) ||
+                                            !StringHelper.isEmptyString(
+                                                item.productCategories),
                                         child: TitleTextView(
                                           text: [
                                             if (!StringHelper.isEmptyString(
@@ -198,7 +205,6 @@ class BuyerProductListItem extends StatelessWidget {
                     fontSize: 11,
                     boxColor: AppUtils.getProductStockStatusColor(
                         item.stockStatusId ?? 0),
-                    borderRadius: 5,
                   ),
                 ),
               )

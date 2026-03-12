@@ -10,7 +10,7 @@ class StoremanInventoryRepository {
     Function(ResponseModel error)? onError,
   }) {
     ApiRequest(
-            url: ApiConstants.inventoryOverview,
+            url: ApiConstants.storemanInventoryOverview,
             queryParameters: queryParameters)
         .getRequest(
       onSuccess: (data) {

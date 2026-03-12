@@ -45,7 +45,12 @@ class BuyerDeliveredOrderListItem extends StatelessWidget {
                           height: 2,
                         ),
                         PrimaryTextView(
-                          text: item.supplierName ?? "",
+                          text: [
+                            if (!StringHelper.isEmptyString(item.storeName))
+                              item.storeName,
+                            if (!StringHelper.isEmptyString(item.supplierName))
+                              item.supplierName,
+                          ].join(" | "),
                           fontSize: 16,
                         ),
                         SizedBox(
@@ -62,7 +67,7 @@ class BuyerDeliveredOrderListItem extends StatelessWidget {
                         PrimaryTextView(
                           text:
                               "${'delivery_date'.tr}: ${item.expectedDeliveryDate ?? ""}",
-                          fontSize: 16,
+                          fontSize: 15,
                         )
                       ],
                     ),
@@ -102,7 +107,6 @@ class BuyerDeliveredOrderListItem extends StatelessWidget {
                 fontWeight: FontWeight.w400,
                 fontSize: 11,
                 boxColor: AppUtils.getOrderStatusColor(item.status ?? 0),
-                borderRadius: 5,
               ),
             ),
           )

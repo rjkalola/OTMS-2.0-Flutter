@@ -68,7 +68,8 @@ class _CreateLeaveScreenState extends State<CreateLeaveScreen> {
                                   child: Column(
                                     children: [
                                       Visibility(
-                                        visible: controller.isUserDropdownVisible,
+                                        visible:
+                                            controller.isUserDropdownVisible,
                                         child: Padding(
                                           padding: const EdgeInsets.only(
                                               left: 20,

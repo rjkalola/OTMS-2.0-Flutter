@@ -1,6 +1,9 @@
 import 'dart:convert';
+import 'package:belcka/buyer_app/buyer_order/controller/buyer_order_repository.dart';
 import 'package:belcka/buyer_app/buyer_order/model/buyer_orders_list_response.dart';
 import 'package:belcka/buyer_app/buyer_order/model/order_info.dart';
+import 'package:belcka/buyer_app/draft_orders/controller/buyer_draft_orders_repository.dart';
+import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/storeman_app/storeman_supplier_orders/controller/storeman_supplier_order_repository.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
@@ -39,17 +42,17 @@ class StoremanSupplierOrderController extends GetxController {
     if (arguments != null) {
       String selectedTabType =
           arguments[AppConstants.intentKey.selectedTabType] ?? "";
-      
-     if (selectedTabType == AppConstants.type.upComing) {
+
+      if (selectedTabType == AppConstants.type.upComing) {
         selectedTab.value = SupplierOrderStatus.upcoming;
       } else if (selectedTabType == AppConstants.type.processing) {
         selectedTab.value = SupplierOrderStatus.processing;
       } else if (selectedTabType == AppConstants.type.onStock) {
         selectedTab.value = SupplierOrderStatus.onStock;
-      }else {
+      } else {
         selectedTab.value = SupplierOrderStatus.all;
       }
-      
+
       selectedDateFilterIndex.value =
           arguments[AppConstants.intentKey.index] ?? -1;
       startDate.value = arguments[AppConstants.intentKey.startDate] ?? "";
@@ -60,30 +63,29 @@ class StoremanSupplierOrderController extends GetxController {
 
   void loadData() {
     clearSearch();
-    getSupplierOrdersApi(selectedTab.value.value.toString());
+    getSupplierOrdersApi();
   }
 
-  void getSupplierOrdersApi(String status) {
+  void getSupplierOrdersApi() {
     isLoading.value = true;
     Map<String, dynamic> map = {
       "company_id": ApiConstants.companyId,
-      "status": status,
+      "status": getStatusParameterValue(),
       "start_date": startDate.value,
       "end_date": endDate.value,
     };
 
-    _api.getSupplierOrders(
+    BuyerOrderRepository().buyerOrdersList(
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           isMainViewVisible.value = true;
           BuyerOrdersListResponse response = BuyerOrdersListResponse.fromJson(
               jsonDecode(responseModel.result!));
-
           tempOrdersList = response.info ?? [];
           ordersList.assignAll(tempOrdersList);
-          updateCurrentTabCount(response.info?.length ?? 0);
-          
+          updateTabCount(response.upcoming ?? 0, response.processing ?? 0,
+              response.delivered ?? 0);
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
@@ -100,21 +102,25 @@ class StoremanSupplierOrderController extends GetxController {
     );
   }
 
-  void updateCurrentTabCount(int count) {
-    switch (selectedTab.value) {
-      case SupplierOrderStatus.all:
-        allCount.value = count;
-        break;
-      case SupplierOrderStatus.upcoming:
-        upcomingCount.value = count;
-        break;
-      case SupplierOrderStatus.processing:
-        processingCount.value = count;
-        break;
-      case SupplierOrderStatus.onStock:
-        onStockCount.value = count;
-        break;
+  String getStatusParameterValue() {
+    String status = "";
+    if (selectedTab.value == SupplierOrderStatus.all) {
+      status = "2,3,5";
+    } else if (selectedTab.value == SupplierOrderStatus.upcoming) {
+      status = "2";
+    } else if (selectedTab.value == SupplierOrderStatus.processing) {
+      status = "3";
+    } else if (selectedTab.value == SupplierOrderStatus.onStock) {
+      status = "5";
     }
+    return status;
+  }
+
+  void updateTabCount(int upcoming, int processing, int onStock) {
+    allCount.value = 0;
+    upcomingCount.value = upcoming;
+    processingCount.value = processing;
+    onStockCount.value = onStock;
   }
 
   void searchItem(String value) {
@@ -135,6 +141,19 @@ class StoremanSupplierOrderController extends GetxController {
           .toList());
     }
     ordersList.refresh();
+  }
+
+  void onItemClick(int index) {
+    var arguments = {
+      AppConstants.intentKey.orderId: ordersList[index].id ?? 0,
+    };
+    moveToScreen(
+        appRout: AppRoutes.buyerOrderDetailsScreen, arguments: arguments);
+  }
+
+  Future<void> moveToScreen(
+      {required String appRout, dynamic arguments}) async {
+    await Get.toNamed(appRout, arguments: arguments);
   }
 
   void clearSearch() {

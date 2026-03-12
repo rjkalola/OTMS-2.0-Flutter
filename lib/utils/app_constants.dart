@@ -453,6 +453,7 @@ class NotificationType {
 //User worklog
   final String WORKLOG_APPROVE = "8001";
   final String WORKLOG_REJECT = "8002";
+  final String WORKLOG_ADD = "8003";
 
   //User companies
   final String CHNAGE_RATE = "6001";
@@ -504,42 +505,42 @@ class RequestType {
   final int leave = 110;
   final int penalty = 118;
 
-//Work
-  final String USER_WORK_STOP_AUTOMATICALLY = "2001";
-
-//Team
-  final String USER_ADDED_TO_TEAM = "3001";
-  final String USER_REMOVED_FROM_TEAM = "3002";
-
-//Timesheet
-  final String TIMESHEET_APPROVE = "4001";
-  final String TIMESHEET_UNAPPROVE = "4002";
-  final String TIMESHEET_CHANGE_HOURS = "4003";
-  final String TIMESHEET_REQUEST_REJECT = "4004";
-  final String TIMESHEET_REQUEST_DELETE = "4005";
-  final String TIMESHEET_TO_BE_PAID = "4006";
-  final String TIMESHEET_EDIT = "4007";
-
-//Project
-  final String ASSIGN_USER_TO_PROJECT = "5001";
-
-// Time clock
-  final String TIME_CLOCK_EDIT_WORKLOG = "7001";
-
-//User worklog
-  final String WORKLOG_APPROVE = "8001";
-  final String WORKLOG_REJECT = "8002";
-
-  //User companies
-  final String CHNAGE_RATE = "6001";
-
-//Billing Info
-  final String CREATE_BILLING_INFO = "9001";
-  final String UPDATE_BILLING_INFO = "9002";
-  final String REJECT_REQUEST = "9003";
-  final String APPROVE_REQUEST = "9004";
-  final String ADD_REQUEST = "9005";
-  final String UPDATE_REQUEST = "9006";
+// //Work
+//   final String USER_WORK_STOP_AUTOMATICALLY = "2001";
+//
+// //Team
+//   final String USER_ADDED_TO_TEAM = "3001";
+//   final String USER_REMOVED_FROM_TEAM = "3002";
+//
+// //Timesheet
+//   final String TIMESHEET_APPROVE = "4001";
+//   final String TIMESHEET_UNAPPROVE = "4002";
+//   final String TIMESHEET_CHANGE_HOURS = "4003";
+//   final String TIMESHEET_REQUEST_REJECT = "4004";
+//   final String TIMESHEET_REQUEST_DELETE = "4005";
+//   final String TIMESHEET_TO_BE_PAID = "4006";
+//   final String TIMESHEET_EDIT = "4007";
+//
+// //Project
+//   final String ASSIGN_USER_TO_PROJECT = "5001";
+//
+// // Time clock
+//   final String TIME_CLOCK_EDIT_WORKLOG = "7001";
+//
+// //User worklog
+//   final String WORKLOG_APPROVE = "8001";
+//   final String WORKLOG_REJECT = "8002";
+//
+//   //User companies
+//   final String CHNAGE_RATE = "6001";
+//
+// //Billing Info
+//   final String CREATE_BILLING_INFO = "9001";
+//   final String UPDATE_BILLING_INFO = "9002";
+//   final String REJECT_REQUEST = "9003";
+//   final String APPROVE_REQUEST = "9004";
+//   final String ADD_REQUEST = "9005";
+//   final String UPDATE_REQUEST = "9006";
 }
 
 class ZoneType {

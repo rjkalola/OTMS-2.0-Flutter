@@ -6,9 +6,22 @@ class BuyerOrdersListResponse {
   String? message;
   List<OrderInfo>? info;
   String? startDate, endDate;
+  int? upcoming, processing, delivered;
+  int? newOrders, preparing, ready, collected;
 
   BuyerOrdersListResponse(
-      {this.isSuccess, this.message, this.info, this.startDate, this.endDate});
+      {this.isSuccess,
+      this.message,
+      this.info,
+      this.startDate,
+      this.endDate,
+      this.upcoming,
+      this.processing,
+      this.delivered,
+      this.newOrders,
+      this.preparing,
+      this.ready,
+      this.collected});
 
   BuyerOrdersListResponse.fromJson(Map<String, dynamic> json) {
     isSuccess = json['IsSuccess'];
@@ -21,6 +34,13 @@ class BuyerOrdersListResponse {
     }
     startDate = json['start_date'];
     endDate = json['end_date'];
+    upcoming = json['upcoming'];
+    processing = json['processing'];
+    delivered = json['delivered'];
+    newOrders = json['new'];
+    preparing = json['preparing'];
+    ready = json['ready'];
+    collected = json['collected'];
   }
 
   Map<String, dynamic> toJson() {
@@ -32,6 +52,13 @@ class BuyerOrdersListResponse {
     }
     data['start_date'] = this.startDate;
     data['end_date'] = this.endDate;
+    data['upcoming'] = this.upcoming;
+    data['processing'] = this.processing;
+    data['delivered'] = this.delivered;
+    data['new'] = this.newOrders;
+    data['preparing'] = this.preparing;
+    data['ready'] = this.ready;
+    data['collected'] = this.collected;
     return data;
   }
 }

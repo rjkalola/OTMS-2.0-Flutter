@@ -16,7 +16,7 @@ class OrderInfo {
   String? date;
   String? expectedDeliveryDate;
   String? totalAmount;
-  int? orderQty;
+  double? orderQty;
   int? receiveQty;
   String? note;
   String? tax;
@@ -76,7 +76,7 @@ class OrderInfo {
     date = json['date'];
     expectedDeliveryDate = json['expected_delivery_date'];
     totalAmount = json['total_amount'];
-    orderQty = json['order_qty'];
+    orderQty = (json['order_qty'] as num?)?.toDouble();
     receiveQty = json['receive_qty'];
     note = json['note'];
     tax = json['tax'];

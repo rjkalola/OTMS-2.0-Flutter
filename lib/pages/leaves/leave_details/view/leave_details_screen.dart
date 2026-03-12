@@ -276,7 +276,8 @@ class _LeaveDetailsScreenState extends State<LeaveDetailsScreen> {
             !controller.isFromNotification.value &&
             !controller.isFromRequest.value &&
             controller.isMainViewVisible.value &&
-            !(controller.leaveInfo.value.isDeleteRequest ?? false),
+            !(controller.leaveInfo.value.isDeleteRequest ?? false) &&
+            controller.requestStatus.value != AppConstants.status.pending,
         child: TextButton(
             onPressed: () {
               controller.showRemoveLeaveDialog();

@@ -124,6 +124,11 @@ class BuyerOrderController extends GetxController
           BuyerProductListResponse response = BuyerProductListResponse.fromJson(
               jsonDecode(responseModel.result!));
 
+          for (ProductInfo info in response.info ?? []) {
+            info.cartQty =
+                (info.totalQty ?? 0) < 0 ? 0 : (info.totalQty ?? 0).toDouble();
+          }
+
           tempRequestOrderList.clear();
           tempRequestOrderList.addAll(response.info!);
           requestOrdersList.value = tempRequestOrderList;
@@ -331,13 +336,21 @@ class BuyerOrderController extends GetxController
       if (value.isEmpty) {
         results = tempRequestOrderList;
       } else {
-        results = tempRequestOrderList
-            .where((element) =>
-                (!StringHelper.isEmptyString(element.shortName) &&
-                    element.shortName!
-                        .toLowerCase()
-                        .contains(value.toLowerCase())))
-            .toList();
+        String query = value.toLowerCase();
+        results = tempRequestOrderList.where((element) {
+          return (!StringHelper.isEmptyString(element.shortName) &&
+                  element.shortName!.toLowerCase().contains(query)) ||
+              (!StringHelper.isEmptyString(element.uuid) &&
+                  element.uuid!.toLowerCase().contains(query)) ||
+              (!StringHelper.isEmptyString(element.storeName) &&
+                  element.storeName!.toLowerCase().contains(query)) ||
+              (!StringHelper.isEmptyString(element.supplierName) &&
+                  element.supplierName!.toLowerCase().contains(query)) ||
+              (!StringHelper.isEmptyString(element.productCategories) &&
+                  element.productCategories!.toLowerCase().contains(query)) ||
+              (!StringHelper.isEmptyString(element.projectName) &&
+                  element.projectName!.toLowerCase().contains(query));
+        }).toList();
       }
       requestOrdersList.value = results;
     } else if (selectedTab.value == OrderTabType.proceed) {

@@ -27,7 +27,6 @@ class StoremanInternalOrderController extends GetxController {
   final ordersList = <OrderInfo>[].obs;
   List<OrderInfo> tempOrdersList = [];
 
-  // Count observables for each status
   RxInt newCount = 0.obs,
       preparingCount = 0.obs,
       readyCount = 0.obs,
@@ -40,7 +39,7 @@ class StoremanInternalOrderController extends GetxController {
     if (arguments != null) {
       String selectedTabType =
           arguments[AppConstants.intentKey.selectedTabType] ?? "";
-      
+
       if (selectedTabType == AppConstants.type.newType) {
         selectedTab.value = InternalOrderStatus.newOrders;
       } else if (selectedTabType == AppConstants.type.preparing) {
@@ -50,7 +49,7 @@ class StoremanInternalOrderController extends GetxController {
       } else if (selectedTabType == AppConstants.type.collect) {
         selectedTab.value = InternalOrderStatus.collected;
       }
-      
+
       selectedDateFilterIndex.value =
           arguments[AppConstants.intentKey.index] ?? -1;
       startDate.value = arguments[AppConstants.intentKey.startDate] ?? "";
@@ -61,19 +60,19 @@ class StoremanInternalOrderController extends GetxController {
 
   void loadData() {
     clearSearch();
-    getInternalOrdersApi(selectedTab.value.value.toString());
+    getInternalOrdersApi();
   }
 
-  void getInternalOrdersApi(String status) {
+  void getInternalOrdersApi() {
     isLoading.value = true;
     Map<String, dynamic> map = {
       "company_id": ApiConstants.companyId,
-      "status": status,
+      "status": getStatusParameterValue(),
       "start_date": startDate.value,
       "end_date": endDate.value,
     };
 
-    _api.getInternalOrders(
+    _api.getStoremanInternalOrders(
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
@@ -84,9 +83,8 @@ class StoremanInternalOrderController extends GetxController {
           tempOrdersList = response.info ?? [];
           ordersList.assignAll(tempOrdersList);
 
-          // Update counts based on the current response
-          updateCurrentTabCount(response.info?.length ?? 0);
-          
+          updateTabCount(response.newOrders ?? 0, response.preparing ?? 0,
+              response.ready ?? 0, response.collected ?? 0);
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
@@ -103,21 +101,25 @@ class StoremanInternalOrderController extends GetxController {
     );
   }
 
-  void updateCurrentTabCount(int count) {
-    switch (selectedTab.value) {
-      case InternalOrderStatus.newOrders:
-        newCount.value = count;
-        break;
-      case InternalOrderStatus.preparing:
-        preparingCount.value = count;
-        break;
-      case InternalOrderStatus.ready:
-        readyCount.value = count;
-        break;
-      case InternalOrderStatus.collected:
-        collectedCount.value = count;
-        break;
+  String getStatusParameterValue() {
+    String status = "";
+    if (selectedTab.value == InternalOrderStatus.newOrders) {
+      status = "1";
+    } else if (selectedTab.value == InternalOrderStatus.preparing) {
+      status = "4";
+    } else if (selectedTab.value == InternalOrderStatus.ready) {
+      status = "3";
+    } else if (selectedTab.value == InternalOrderStatus.collected) {
+      status = "2";
     }
+    return status;
+  }
+
+  void updateTabCount(int new_, int preparing, int ready, int collected) {
+    newCount.value = new_;
+    preparingCount.value = preparing;
+    readyCount.value = ready;
+    collectedCount.value = collected;
   }
 
   void searchItem(String value) {

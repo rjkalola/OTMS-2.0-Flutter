@@ -27,7 +27,7 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
 
   @override
   Widget build(BuildContext context) {
-    AppUtils.setStatusBarColor(); 
+    AppUtils.setStatusBarColor();
     return Obx(() => Container(
       color: backgroundColor_(context),
       child: SafeArea(

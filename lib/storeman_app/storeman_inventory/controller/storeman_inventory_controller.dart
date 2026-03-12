@@ -26,37 +26,7 @@ class StoremanInventoryController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    // TODO: Remove this fake data and use actual API call
-    setFakeData();
-    // inventoryOverviewApi(true);
-  }
-
-  void setFakeData() {
-    isMainViewVisible.value = true;
-    inventoryData.value = StoremanInventoryResponse(
-      isSuccess: true,
-      message: "Success",
-      // Suppliers Section
-      upcoming: 3,
-      processing: 12,
-      onStock: 34,
-      // Internal Orders Section
-      internalNew: 3,
-      internalPreparing: 4,
-      internalReady: 14,
-      internalCollect: 14,
-      // Hire Section
-      hireNew: 3,
-      hireHired: 14,
-      hireAvailable: 2,
-      hireServicing: 2,
-      startDate: "2024-01-01",
-      endDate: "2024-01-31",
-    );
-    displayStartDate.value = "2024-01-01";
-    displayEndDate.value = "2024-01-31";
-    startDate.value = "2024-01-01";
-    endDate.value = "2024-01-31";
+    inventoryOverviewApi(true);
   }
 
   void inventoryOverviewApi(bool isProgress) {

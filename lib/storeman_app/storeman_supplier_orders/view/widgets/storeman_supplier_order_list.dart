@@ -7,31 +7,34 @@ import 'package:get/get.dart';
 
 class StoremanSupplierOrderList extends StatelessWidget {
   final controller = Get.put(StoremanSupplierOrderController());
-  
-   StoremanSupplierOrderList({super.key});
+
+  StoremanSupplierOrderList({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => controller.ordersList.isNotEmpty
-        ? Padding(
-      padding: const EdgeInsets.only(top: 10),
-      child: ListView.separated(
-        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-        physics: const AlwaysScrollableScrollPhysics(),
-        itemCount: controller.ordersList.length,
-        separatorBuilder: (_, __) => const SizedBox(height: 14),
-        itemBuilder: (context, index) {
-          return StoremanSupplierOrderListItem(
-            item: controller.ordersList[index],
-            onTap: () {
-              // Handle tap
-            },
-          );
-        },
-      ),
-    )
-        : Center(
-      child: NoDataFoundWidget(),
-    ),);
+    return Obx(
+      () => controller.ordersList.isNotEmpty
+          ? Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: ListView.separated(
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
+                physics: const AlwaysScrollableScrollPhysics(),
+                itemCount: controller.ordersList.length,
+                separatorBuilder: (_, __) => const SizedBox(height: 14),
+                itemBuilder: (context, index) {
+                  return StoremanSupplierOrderListItem(
+                    item: controller.ordersList[index],
+                    onTap: () {
+                      controller.onItemClick(index);
+                    },
+                  );
+                },
+              ),
+            )
+          : Center(
+              child: NoDataFoundWidget(),
+            ),
+    );
   }
 }

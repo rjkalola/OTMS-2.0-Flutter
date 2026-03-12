@@ -1,11 +1,10 @@
-import 'package:belcka/buyer_app/buyer_order/model/order_info.dart';
 import 'package:belcka/buyer_app/buyer_order/view/widgets/order_quantity_change_button.dart';
 import 'package:belcka/buyer_app/buyer_order/view/widgets/order_quantity_display_text_view.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
-import 'package:belcka/widgets/text/PrimaryTextView.dart';
 import 'package:belcka/widgets/text/SubTitleTextView.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
@@ -80,7 +79,7 @@ class BuyerOrderProductsListItem extends StatelessWidget {
                         // ),
                         const SizedBox(height: 12),
                         TitleTextView(
-                          text: "${'ordered_qty'.tr}: ${item.qty ?? 0}",
+                          text: "${'ordered_qty'.tr}: ${AppUtils.formatDecimalNumber(item.qty ?? 0)}",
                           fontSize: 13,
                           color: primaryTextColor_(context),
                         ),

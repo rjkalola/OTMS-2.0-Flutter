@@ -506,4 +506,13 @@ class AppUtils {
       return false;
     }
   }
+
+
+  static String formatDecimalNumber(num value) {
+    if (value % 1 == 0) {
+      return value.toInt().toString();
+    } else {
+      return value.toString();
+    }
+  }
 }

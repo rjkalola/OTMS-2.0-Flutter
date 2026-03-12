@@ -107,7 +107,7 @@ class _StoremanInventoryScreenState extends State<StoremanInventoryScreen>
                                   ),
                                   SuppliersCardView(),
                                   InternalOrdersCardView(),
-                                  HireCardView()
+                                  // HireCardView()
                                 ],
                               )),
                             ),

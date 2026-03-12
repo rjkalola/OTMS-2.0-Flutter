@@ -325,4 +325,8 @@ class ApiConstants {
   static String buyerProjectsList = '$appUrl/project/get-favorite';
   static String buyerCatalogueList = '$appUrl/categories/get';
   static String buyerOrderDelete = '$appUrl/purchase-orders/delete';
+
+  //storeman order
+  static String storemanInventoryOverview = '$appUrl/storeman-overview';
+  static String storemanInternalOrders = '$appUrl/employee-orders/get';
 }

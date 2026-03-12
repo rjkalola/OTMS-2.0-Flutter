@@ -24,8 +24,8 @@ class StoremanInternalOrdersScreen extends StatefulWidget {
       _StoremanInternalOrdersScreenState();
 }
 
-class _StoremanInternalOrdersScreenState extends State<StoremanInternalOrdersScreen>
-    implements DateFilterListener {
+class _StoremanInternalOrdersScreenState
+    extends State<StoremanInternalOrdersScreen> implements DateFilterListener {
   late final StoremanInternalOrderController controller;
 
   @override
@@ -153,20 +153,20 @@ class _StoremanInternalOrdersScreenState extends State<StoremanInternalOrdersScr
         ),
       ),
       const SizedBox(width: 10),
-      InkWell(
-        borderRadius: BorderRadius.circular(45),
-        onTap: () {
-          // Implement filter logic if needed
-        },
-        child: Padding(
-          padding: const EdgeInsets.only(right: 9),
-          child: ImageUtils.setSvgAssetsImage(
-              path: Drawable.filterIcon,
-              width: 26,
-              height: 26,
-              color: primaryTextColor_(Get.context!)),
-        ),
-      ),
+      // InkWell(
+      //   borderRadius: BorderRadius.circular(45),
+      //   onTap: () {
+      //     // Implement filter logic if needed
+      //   },
+      //   child: Padding(
+      //     padding: const EdgeInsets.only(right: 9),
+      //     child: ImageUtils.setSvgAssetsImage(
+      //         path: Drawable.filterIcon,
+      //         width: 26,
+      //         height: 26,
+      //         color: primaryTextColor_(Get.context!)),
+      //   ),
+      // ),
     ];
   }
 

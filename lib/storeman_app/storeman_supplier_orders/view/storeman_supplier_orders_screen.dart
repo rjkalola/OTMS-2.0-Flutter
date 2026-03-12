@@ -153,20 +153,20 @@ class _StoremanSupplierOrdersScreenState extends State<StoremanSupplierOrdersScr
         ),
       ),
       const SizedBox(width: 10),
-      InkWell(
-        borderRadius: BorderRadius.circular(45),
-        onTap: () {
-          // Implement filter logic if needed
-        },
-        child: Padding(
-          padding: const EdgeInsets.only(right: 9),
-          child: ImageUtils.setSvgAssetsImage(
-              path: Drawable.filterIcon,
-              width: 26,
-              height: 26,
-              color: primaryTextColor_(Get.context!)),
-        ),
-      ),
+      // InkWell(
+      //   borderRadius: BorderRadius.circular(45),
+      //   onTap: () {
+      //     // Implement filter logic if needed
+      //   },
+      //   child: Padding(
+      //     padding: const EdgeInsets.only(right: 9),
+      //     child: ImageUtils.setSvgAssetsImage(
+      //         path: Drawable.filterIcon,
+      //         width: 26,
+      //         height: 26,
+      //         color: primaryTextColor_(Get.context!)),
+      //   ),
+      // ),
     ];
   }
 

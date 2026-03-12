@@ -131,6 +131,7 @@ class FeedTabController extends GetxController {
           notificationType == AppConstants.notificationType.TIMESHEET_EDIT ||
           notificationType == AppConstants.notificationType.WORKLOG_APPROVE ||
           notificationType == AppConstants.notificationType.WORKLOG_REJECT ||
+          notificationType == AppConstants.notificationType.WORKLOG_ADD ||
           notificationType ==
               AppConstants.notificationType.TIME_CLOCK_EDIT_WORKLOG ||
           notificationType ==

@@ -35,7 +35,8 @@ class InternalOrdersCardView extends StatelessWidget {
                         fit: FlexFit.tight,
                         child: GestureDetector(
                           onTap: () {
-                            controller.onInternalOrdersItemClick(AppConstants.type.newType);
+                            controller.onInternalOrdersItemClick(
+                                AppConstants.type.newType);
                           },
                           child: Container(
                             alignment: Alignment.topLeft,
@@ -49,8 +50,8 @@ class InternalOrdersCardView extends StatelessWidget {
                                 ),
                                 PurchasingScreenItemValueWidget(
                                     value: (controller.inventoryData.value
-                                            .internalNew ??
-                                        0)
+                                                .internalNew ??
+                                            0)
                                         .toString()),
                               ],
                             ),
@@ -61,7 +62,8 @@ class InternalOrdersCardView extends StatelessWidget {
                         fit: FlexFit.tight,
                         child: GestureDetector(
                           onTap: () {
-                            controller.onInternalOrdersItemClick(AppConstants.type.preparing);
+                            controller.onInternalOrdersItemClick(
+                                AppConstants.type.preparing);
                           },
                           child: Container(
                             alignment: Alignment.topCenter,
@@ -75,8 +77,8 @@ class InternalOrdersCardView extends StatelessWidget {
                                 ),
                                 PurchasingScreenItemValueWidget(
                                     value: (controller.inventoryData.value
-                                            .internalPreparing ??
-                                        0)
+                                                .internalPreparing ??
+                                            0)
                                         .toString()),
                               ],
                             ),
@@ -87,7 +89,8 @@ class InternalOrdersCardView extends StatelessWidget {
                         fit: FlexFit.tight,
                         child: GestureDetector(
                           onTap: () {
-                            controller.onInternalOrdersItemClick(AppConstants.type.ready);
+                            controller.onInternalOrdersItemClick(
+                                AppConstants.type.ready);
                           },
                           child: Container(
                             alignment: Alignment.topCenter,
@@ -101,8 +104,8 @@ class InternalOrdersCardView extends StatelessWidget {
                                 ),
                                 PurchasingScreenItemValueWidget(
                                     value: (controller.inventoryData.value
-                                            .internalReady ??
-                                        0)
+                                                .internalReady ??
+                                            0)
                                         .toString()),
                               ],
                             ),
@@ -113,7 +116,8 @@ class InternalOrdersCardView extends StatelessWidget {
                         fit: FlexFit.tight,
                         child: GestureDetector(
                           onTap: () {
-                            controller.onInternalOrdersItemClick(AppConstants.type.collect);
+                            controller.onInternalOrdersItemClick(
+                                AppConstants.type.collect);
                           },
                           child: Container(
                             alignment: Alignment.topRight,
@@ -127,8 +131,8 @@ class InternalOrdersCardView extends StatelessWidget {
                                 ),
                                 PurchasingScreenItemValueWidget(
                                     value: (controller.inventoryData.value
-                                            .internalCollect ??
-                                        0)
+                                                .internalCollect ??
+                                            0)
                                         .toString()),
                               ],
                             ),
@@ -142,7 +146,3 @@ class InternalOrdersCardView extends StatelessWidget {
     );
   }
 }
-
-
-
-

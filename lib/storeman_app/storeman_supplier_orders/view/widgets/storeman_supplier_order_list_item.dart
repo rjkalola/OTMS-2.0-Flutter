@@ -38,13 +38,18 @@ class StoremanSupplierOrderListItem extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 PrimaryTextView(
-                  text: item.supplierName ?? item.userName ?? "",
+                  text: [
+                    if (!StringHelper.isEmptyString(item.storeName))
+                      item.storeName,
+                    if (!StringHelper.isEmptyString(item.supplierName))
+                      item.supplierName,
+                  ].join(" | "),
                   fontSize: 16,
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w400,
                 ),
                 const SizedBox(height: 2),
                 PrimaryTextView(
-                  text: "${'items_in_order'.tr}:  ${item.orderQty ?? 0}",
+                  text: "${'items_in_order'.tr}:  ${AppUtils.formatDecimalNumber(item.orderQty ?? 0)}",
                   fontSize: 15,
                   fontWeight: FontWeight.w400,
                 ),
