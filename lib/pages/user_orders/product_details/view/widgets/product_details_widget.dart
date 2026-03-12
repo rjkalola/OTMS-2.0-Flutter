@@ -1,5 +1,7 @@
 import 'package:belcka/pages/profile/billing_details_new/view/widgets/navigation_card.dart';
 import 'package:belcka/pages/user_orders/product_details/controller/product_details_controller.dart';
+import 'package:belcka/pages/user_orders/widgets/icons/bookmark_icon_widget.dart';
+import 'package:belcka/pages/user_orders/widgets/icons/cart_icon_widget.dart';
 import 'package:belcka/pages/user_orders/widgets/out_of_stock_banner.dart';
 import 'package:belcka/pages/user_orders/widgets/product_quantity_widget.dart';
 import 'package:belcka/res/colors.dart';
@@ -77,22 +79,6 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                         },
                       ),
                     ),
-
-                    Positioned(
-                        top: 10,
-                        right: 10,
-                        child: IconButton(icon:
-                        product.isBookMark ?? true ? Icon(Icons.bookmark) :
-                        Icon(Icons.bookmark_outline),
-                            color: product.isBookMark ?? true ?
-                            Colors.deepOrangeAccent : primaryTextColor_(context),
-                            iconSize: 30,
-                            onPressed: () {
-                              FocusManager.instance.primaryFocus?.unfocus();
-                              controller.toggleBookmark();
-                            })
-                    ),
-
                     Positioned(
                       bottom: 10,
                       left: 0,
@@ -166,57 +152,41 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TitleTextView(
-                        text: "${product.currency ?? ""}${product.price ?? ""}",
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-
-                      SizedBox(height: 4),
-                      TitleTextView(
-                        text: "${'available_qty'.tr}: $availableQtyText",
-                        fontSize: 13,
-                        color: secondaryExtraLightTextColor_(context),
-                      ),
-                    ],
-                  ),
-
                   Expanded(
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        IconButton(onPressed: (){
-                          FocusManager.instance.primaryFocus?.unfocus();
-                          bool isAdded = product.isCartProduct ?? false;
-                          if (isAdded){
-                            controller.toggleRemoveCart();
-                          }
-                          else{
-                            if (isSubQuantity){
-                              if ((int.parse(product.packOffQty ?? "")) > 0){
-                                controller.toggleAddToCart((int.parse(product.packOffQty ?? "") ?? 0));
-                              }
-                            }
-                            else{
-                              if ((product.cartQty ?? 0) > 0){
-                                controller.toggleAddToCart((product.cartQty ?? 0).toInt());
-                              }
-                            }
-                          }
-                        },
-                          icon: Icon(
-                            (product.isCartProduct ?? false)
-                                ? Icons.shopping_bag_outlined
-                                : Icons.shopping_cart_outlined,
-                            color: (product.isCartProduct ?? false) ? defaultAccentColor_(context) : Colors.green,
-                          ),iconSize: 30,),
-                        SizedBox(height: 8,),
+                        TitleTextView(
+                          text: "${product.currency ?? ""}${product.price ?? ""}",
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            TitleTextView(
+                              text: "${'available_qty'.tr}: $availableQtyText",
+                              fontSize: 14,
+                              color: secondaryExtraLightTextColor_(context),
+                            ),
+                            Spacer(),
+                            IconButton(
+                                icon: product.isBookMark ?? true
+                                    ? Icon(Icons.bookmark)
+                                    : BookmarkIconWidget(),
+                                color: product.isBookMark ?? true
+                                    ? Colors.deepOrangeAccent
+                                    : primaryTextColor_(context),
+                                onPressed: () {
+                                  FocusManager.instance.primaryFocus
+                                      ?.unfocus();
+                                  controller.toggleBookmark();
+                                }),
+                          ],
+                        ),
+                        Divider(
+                          color: dividerColor_(context),
+                        ),
+                        Row(
                           children: [
                             ProductQuantityWidget(
                               isSubQuantity: isSubQuantity,
@@ -240,14 +210,55 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                 });
                               },
                             ),
+                            Spacer(),
+                            ElevatedButton.icon(
+                              style: ElevatedButton.styleFrom(
+                                minimumSize: const Size(0, 34),
+                                backgroundColor: (isAdded)
+                                    ? defaultAccentColor_(context)
+                                    : Colors.green,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 0, horizontal: 12),
+                              ),
+                              onPressed: () {
+                                FocusManager.instance.primaryFocus?.unfocus();
+                                bool isAdded = product.isCartProduct ?? false;
+                                if (isAdded){
+                                  controller.toggleRemoveCart();
+                                }
+                                else{
+                                  if (isSubQuantity){
+                                    if ((int.parse(product.packOffQty ?? "")) > 0){
+                                      controller.toggleAddToCart((int.parse(product.packOffQty ?? "") ?? 0));
+                                    }
+                                  }
+                                  else{
+                                    if ((product.cartQty ?? 0) > 0){
+                                      controller.toggleAddToCart((product.cartQty ?? 0).toInt());
+                                    }
+                                  }
+                                }
+                              },
+                              icon: CartIconWidget(
+                                color: Colors.white,
+                                size: 16,
+                              ),
+                              label: TitleTextView(
+                                text: (isAdded) ? "added".tr : "add_to_cart".tr,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                              ),
+                            ),
                           ],
                         ),
                         SizedBox(height: 8,),
-
                       ],
                     ),
-                  )
-
+                  ),
                 ],
               ),
 

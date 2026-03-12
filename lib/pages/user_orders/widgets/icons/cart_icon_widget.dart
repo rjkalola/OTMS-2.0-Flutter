@@ -15,12 +15,6 @@ class CartIconWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return Icon(
-    //   Icons.shopping_cart_outlined,
-    //   size: size,
-    //   color: color,
-    // );
-
     return SizedBox(
       width: size,
       height: size,

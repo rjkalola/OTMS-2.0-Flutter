@@ -51,14 +51,18 @@ class _StoremanProductsListWidgetState
 
             return GestureDetector(
               onTap: () {
-                FocusManager.instance.primaryFocus?.unfocus();
-                if (FocusScope.of(context).hasFocus) {
+                final currentFocus = FocusScope.of(context);
+                if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
+                  // Keyboard is open → close it
                   FocusManager.instance.primaryFocus?.unfocus();
-                } else {
-                  var arguments = {"product_id": product.productId};
-                  controller.moveToScreen(
-                      AppRoutes.productDetailsScreen, arguments);
+                  return;
                 }
+                // Keyboard already closed → navigate
+                var arguments = {"product_id": product.productId};
+                controller.moveToScreen(
+                  AppRoutes.productDetailsScreen,
+                  arguments,
+                );
               },
               child: CardViewDashboardItem(
                 margin: const EdgeInsets.symmetric(vertical: 6),

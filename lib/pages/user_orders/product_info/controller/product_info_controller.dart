@@ -80,6 +80,7 @@ class ProductInfoController extends GetxController{
     }
   }
   void toggleBookmark() {
+    isLoading.value = true;
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
     map["product_id"] = product.value.id;
@@ -92,9 +93,9 @@ class ProductInfoController extends GetxController{
           fetchProductDetails();
         }
         else{
+          isLoading.value = false;
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
-        isLoading.value = false;
       },
       onError: (ResponseModel error) {
         isLoading.value = false;

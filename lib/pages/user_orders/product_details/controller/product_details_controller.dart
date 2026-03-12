@@ -82,6 +82,7 @@ class ProductDetailsController extends GetxController{
     }
   }
   void toggleAddToCart(int cartQuantity) {
+    isLoading.value = true;
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
     map["product_id"] = product.value.id;
@@ -97,9 +98,9 @@ class ProductDetailsController extends GetxController{
           fetchProductDetails();
         }
         else{
+          isLoading.value = false;
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
-        isLoading.value = false;
       },
       onError: (ResponseModel error) {
         isLoading.value = false;
@@ -112,6 +113,7 @@ class ProductDetailsController extends GetxController{
     );
   }
   void toggleRemoveCart() {
+    isLoading.value = true;
     Map<String, dynamic> map = {};
     map["id"] = product.value.cartId;
     _api.removeFromCartAPI(
@@ -122,9 +124,37 @@ class ProductDetailsController extends GetxController{
           fetchProductDetails();
         }
         else{
+          isLoading.value = false;
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
+      },
+      onError: (ResponseModel error) {
         isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
+  void toggleBookmark() {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
+    map["product_id"] = product.value.id;
+
+    _api.bookmarkAPI(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          isDataUpdated = true;
+          fetchProductDetails();
+        }
+        else{
+          isLoading.value = false;
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+        }
       },
       onError: (ResponseModel error) {
         isLoading.value = false;
@@ -147,37 +177,6 @@ class ProductDetailsController extends GetxController{
   }
   void updateSubQty(int count) {
     product.value.packOffQty = "$count";
-  }
-  void toggleBookmark() {
-    Map<String, dynamic> map = {};
-    map["company_id"] = ApiConstants.companyId;
-    map["product_id"] = product.value.id;
-
-    _api.bookmarkAPI(
-      data: map,
-      onSuccess: (ResponseModel responseModel) {
-        if (responseModel.isSuccess) {
-          isDataUpdated = true;
-          fetchProductDetails();
-        }
-        else{
-          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
-        }
-        isLoading.value = false;
-      },
-      onError: (ResponseModel error) {
-        isLoading.value = false;
-        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
-          isInternetNotAvailable.value = true;
-        } else if (error.statusMessage!.isNotEmpty) {
-          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
-        }
-      },
-    );
-  }
-
-  void updateCartCount(int count) {
-    //cartCount.value = count;
   }
   void onBackPress() {
     Get.back(result: isDataUpdated);

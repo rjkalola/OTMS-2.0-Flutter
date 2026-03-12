@@ -192,6 +192,7 @@ class StoremanCatalogController extends GetxController {
   }
 
   void toggleBookmark(int index) {
+    isLoading.value = true;
     final product = products[index];
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
@@ -202,10 +203,11 @@ class StoremanCatalogController extends GetxController {
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           fetchProducts();
-        } else {
+        }
+        else{
+          isLoading.value = false;
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
-        isLoading.value = false;
       },
       onError: (ResponseModel error) {
         isLoading.value = false;
@@ -219,6 +221,7 @@ class StoremanCatalogController extends GetxController {
   }
 
   void toggleAddToCart(int index, int cartQuantity) {
+    isLoading.value = true;
     final product = products[index];
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
@@ -233,10 +236,12 @@ class StoremanCatalogController extends GetxController {
         if (responseModel.isSuccess) {
           isDataUpdated = true;
           fetchProducts();
-        } else {
+        }
+        else{
+          isLoading.value = false;
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
-        isLoading.value = false;
+
       },
       onError: (ResponseModel error) {
         isLoading.value = false;
@@ -250,6 +255,7 @@ class StoremanCatalogController extends GetxController {
   }
 
   void toggleRemoveCart(int index) {
+    isLoading.value = true;
     final product = products[index];
     Map<String, dynamic> map = {};
     map["id"] = product.cartId;
@@ -259,10 +265,11 @@ class StoremanCatalogController extends GetxController {
         if (responseModel.isSuccess) {
           isDataUpdated = true;
           fetchProducts();
-        } else {
+        }
+        else{
+          isLoading.value = false;
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
-        isLoading.value = false;
       },
       onError: (ResponseModel error) {
         isLoading.value = false;

@@ -7,8 +7,10 @@ import 'package:belcka/pages/user_orders/widgets/icons/cart_icon_widget.dart';
 import 'package:belcka/pages/user_orders/widgets/empty_state_view.dart';
 import 'package:belcka/pages/user_orders/widgets/orders_base_app_bar.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/drawable.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
 import 'package:flutter/material.dart';
@@ -121,29 +123,30 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
 
   List<Widget>? actionButtons() {
     return [
-      /*
-      InkWell(
-        onTap: () {
-          controller.isSearchEnable.toggle();
-          if (!controller.isSearchEnable.value) {
-            controller.clearSearch();
-          }
-        },
-        customBorder: const CircleBorder(),
-        child: Padding(
-          padding: const EdgeInsets.all(6),
-          child: Obx(() => controller.isSearchEnable.value
-              ? Icon(
-            Icons.close,
-          )
-              : ImageUtils.setSvgAssetsImage(
-            path: Drawable.searchIcon,
-            width: 24,
-            height: 24,
-          )),
+      Visibility(
+        visible: !controller.isCategoryExpanded.value,
+        child: GestureDetector(
+          onTap: () {
+            controller.isSearchEnable.toggle();
+            if (!controller.isSearchEnable.value) {
+              controller.clearSearch();
+            }
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(6),
+            child: Obx(() => controller.isSearchEnable.value
+                ? Icon(
+              Icons.close,
+            )
+                : ImageUtils.setSvgAssetsImage(
+              path: Drawable.searchIcon,
+              width: 24,
+              height: 24,
+            )),
+          ),
         ),
       ),
-      */
+
       SizedBox(
         width: 2,
       ),
