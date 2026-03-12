@@ -8,9 +8,10 @@ import 'package:belcka/buyer_app/project_list/view/buyer_projects_screen.dart';
 import 'package:belcka/buyer_app/purchasing/view/purchasing_screen.dart';
 import 'package:belcka/buyer_app/store_list/view/buyer_stores_screen.dart';
 import 'package:belcka/buyer_app/supplier_list/view/buyer_supplier_screen.dart';
-import 'package:belcka/storeman_app/storeman_hire_products/view/storeman_hire_products_screen.dart';
 import 'package:belcka/storeman_app/storeman_internal_orders/view/storeman_internal_orders_screen.dart';
 import 'package:belcka/storeman_app/storeman_supplier_orders/view/storeman_supplier_orders_screen.dart';
+import 'package:belcka/storeman_app/storeman_hire_products/view/storeman_hire_products_screen.dart';
+import 'package:belcka/storeman_app/storeman_order_details/view/storeman_order_details_screen.dart';
 import 'package:belcka/storeman_app/storeman_inventory/view/storeman_inventory_screen.dart';
 import 'package:belcka/pages/add_category/view/add_category_screen.dart';
 import 'package:belcka/pages/add_trades/view/add_trades_screen.dart';
@@ -487,5 +488,8 @@ class AppPages {
     GetPage(
         name: AppRoutes.storemanHireProductsScreen,
         page: () => StoremanHireProductsScreen()),
+    GetPage(
+        name: AppRoutes.storemanOrderDetailsScreen,
+        page: () => StoremanOrderDetailsScreen()),
   ];
 }

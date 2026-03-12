@@ -153,7 +153,7 @@ class _UpdateAddressProgressScreenState
             child: SizedBox(
               width: double.infinity,
               child: PrimaryButton(
-                  padding: EdgeInsets.fromLTRB(14, 16, 14, 16),
+                  margin: EdgeInsets.fromLTRB(14, 16, 14, 16),
                   buttonText: 'save'.tr,
                   color: defaultAccentColor_(context),
                   onPressed: () {
@@ -168,7 +168,7 @@ class _UpdateAddressProgressScreenState
             child: SizedBox(
               width: double.infinity,
               child: PrimaryButton(
-                  padding: EdgeInsets.fromLTRB(14, 16, 14, 16),
+                  margin: EdgeInsets.fromLTRB(14, 16, 14, 16),
                   buttonText: 'updating'.tr,
                   color: Colors.grey,
                   onPressed: () {

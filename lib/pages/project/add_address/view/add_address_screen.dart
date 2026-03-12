@@ -238,7 +238,7 @@ class AddAddressScreenState extends State<AddAddressScreen> {
                               visible: !StringHelper.isEmptyString(
                                   controller.siteAddressController.value.text),
                               child: PrimaryButton(
-                                  padding: EdgeInsets.fromLTRB(14, 16, 14, 16),
+                                  margin: EdgeInsets.fromLTRB(14, 16, 14, 16),
                                   buttonText: 'save'.tr,
                                   color: controller.isSaveEnable.value
                                       ? defaultAccentColor_(context)

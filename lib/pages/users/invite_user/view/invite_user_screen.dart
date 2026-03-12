@@ -116,7 +116,7 @@ class _InviteUserScreenState extends State<InviteUserScreen> {
                             ),
                           ),
                           PrimaryButton(
-                              padding: EdgeInsets.fromLTRB(14, 18, 14, 20),
+                              margin: EdgeInsets.fromLTRB(14, 18, 14, 20),
                               buttonText: 'invite'.tr,
                               color: defaultAccentColor_(context),
                               onPressed: () {

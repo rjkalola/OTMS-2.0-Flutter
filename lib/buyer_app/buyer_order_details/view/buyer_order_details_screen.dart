@@ -135,7 +135,7 @@ class _BuyerOrderDetailsScreenState extends State<BuyerOrderDetailsScreen> {
                                     controller.status.value ==
                                         AppConstants.orderStatus.partialReceived
                                 ? PrimaryButton(
-                                    padding: EdgeInsets.all(14),
+                                    margin: EdgeInsets.all(14),
                                     buttonText: 'receive'.tr,
                                     onPressed: () {
                                       controller.onClickReceiveOrder();

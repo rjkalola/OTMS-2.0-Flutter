@@ -109,7 +109,7 @@ class _ArchiveTimesheetListScreenState extends State<ArchiveTimesheetListScreen>
                               Visibility(
                                 visible: controller.isChecked.value,
                                 child: PrimaryButton(
-                                    padding: EdgeInsets.all(16),
+                                    margin: EdgeInsets.all(16),
                                     buttonText: 'un_archive'.tr,
                                     onPressed: () {
                                       controller.unArchiveTimesheetApi(

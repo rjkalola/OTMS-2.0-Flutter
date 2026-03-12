@@ -101,7 +101,8 @@ class BuyerDeliveredOrderListItem extends StatelessWidget {
               alignment: Alignment.topLeft,
               child: TextViewWithContainer(
                 margin: EdgeInsets.only(left: 34, top: 0),
-                text: item.statusText ?? "",
+                // text: item.statusText ?? "",
+                text: "Received",
                 padding: EdgeInsets.fromLTRB(5, 1, 5, 1),
                 fontColor: Colors.white,
                 fontWeight: FontWeight.w400,

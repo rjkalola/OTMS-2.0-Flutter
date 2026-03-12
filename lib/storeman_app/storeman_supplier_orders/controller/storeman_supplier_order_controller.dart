@@ -84,6 +84,7 @@ class StoremanSupplierOrderController extends GetxController {
               jsonDecode(responseModel.result!));
           tempOrdersList = response.info ?? [];
           ordersList.assignAll(tempOrdersList);
+          ordersList.refresh();
           updateTabCount(response.upcoming ?? 0, response.processing ?? 0,
               response.delivered ?? 0);
         } else {
@@ -134,6 +135,8 @@ class StoremanSupplierOrderController extends GetxController {
                   element.orderNumber!.toLowerCase().contains(query)) ||
               (element.orderId != null &&
                   element.orderId!.toLowerCase().contains(query)) ||
+              (element.storeName != null &&
+                  element.storeName!.toLowerCase().contains(query)) ||
               (element.supplierName != null &&
                   element.supplierName!.toLowerCase().contains(query)) ||
               (element.userName != null &&
@@ -143,17 +146,22 @@ class StoremanSupplierOrderController extends GetxController {
     ordersList.refresh();
   }
 
-  void onItemClick(int index) {
+  void onItemClick(int id, int status) {
+    print("status:" + status.toString());
     var arguments = {
-      AppConstants.intentKey.orderId: ordersList[index].id ?? 0,
+      AppConstants.intentKey.orderId: id,
+      AppConstants.intentKey.status: status,
     };
     moveToScreen(
-        appRout: AppRoutes.buyerOrderDetailsScreen, arguments: arguments);
+        appRout: AppRoutes.storemanOrderDetailsScreen, arguments: arguments);
   }
 
   Future<void> moveToScreen(
       {required String appRout, dynamic arguments}) async {
-    await Get.toNamed(appRout, arguments: arguments);
+    var result = await Get.toNamed(appRout, arguments: arguments);
+    if (result != null && true) {
+      loadData();
+    }
   }
 
   void clearSearch() {

@@ -13,6 +13,8 @@ class AppConstants {
   static const Results results = Results();
   static const Status status = Status();
   static const OrderStatus orderStatus = OrderStatus();
+  static const InternalOrdersStatusType internalOrderStatus =
+      InternalOrdersStatusType();
   static const ProductStockStatus productStockStatus = ProductStockStatus();
 
   static const CompanyResourcesFlag companyResourcesFlag =
@@ -73,6 +75,7 @@ class IntentKey {
   final String permissionId = "PERMISSION_ID";
   final String teamId = "TEAM_ID";
   final String orderId = "ORDER_ID";
+  final String status = "STATUS";
   final String paymentsInfo = "PAYMENTS_INFO";
   final String companyId = "COMPANY_ID";
   final String teamInfo = "TEAM_INFO";
@@ -172,6 +175,8 @@ class DialogIdentifier {
   final String startDate = 'START_DATE';
   final String endDate = 'END_DATE';
   final String tradeWarningDialog = 'TRADE_WARNING_DIALOG';
+  final String orderProceed = 'ORDER_PROCEED';
+  final String orderDelivered = 'ORDER_DELIVERED';
 }
 
 class SharedPreferenceKey {
@@ -390,8 +395,23 @@ class OrderStatus {
   final int issued = 0;
   final int partialReceived = 1;
   final int received = 2;
-  final int unlocked = 3;
+  final int processing = 3;
   final int cancelled = 4;
+  final int onStock = 5;
+}
+
+class InternalOrdersStatusType {
+  const InternalOrdersStatusType();
+
+  final int newOrder = 1;
+  final int collected = 2;
+  final int ready = 3;
+  final int preparing = 4;
+  final int readyToDeliver = 5;
+  final int delivered = 6;
+  final int cancelled = 7;
+  final int returned = 8;
+  final int confirmed = 9;
 }
 
 class ProductStockStatus {

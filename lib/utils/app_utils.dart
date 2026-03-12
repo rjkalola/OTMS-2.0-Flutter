@@ -285,18 +285,36 @@ class AppUtils {
     return statusText;
   }
 
-  static Color getOrderStatusColor(int status) {
+  static Color getOrderStatusColor(int status, {bool? isStoreman}) {
     Color color = primaryTextColor_(Get.context!);
     if (status == AppConstants.orderStatus.issued) {
       color = Colors.blueAccent;
     } else if (status == AppConstants.orderStatus.partialReceived) {
       color = Colors.orangeAccent;
     } else if (status == AppConstants.orderStatus.received) {
+      color = (isStoreman ?? false) ? Colors.blueAccent : Colors.green;
+    } else if (status == AppConstants.orderStatus.processing) {
+      color = Colors.orangeAccent;
+    } else if (status == AppConstants.orderStatus.onStock) {
       color = Colors.green;
-    } else if (status == AppConstants.orderStatus.unlocked) {
-      color = Colors.blueAccent;
     } else if (status == AppConstants.orderStatus.cancelled) {
       color = Colors.redAccent;
+    }
+    return color;
+  }
+
+  static Color getInternalOrderStatusColor(int status) {
+    Color color = primaryTextColor_(Get.context!);
+    if (status == AppConstants.internalOrderStatus.newOrder) {
+      color = Colors.deepPurple;
+    } else if (status == AppConstants.internalOrderStatus.collected) {
+      color = Colors.green;
+    } else if (status == AppConstants.internalOrderStatus.ready) {
+      color = Colors.orange;
+    } else if (status == AppConstants.internalOrderStatus.preparing) {
+      color = Colors.orange;
+    } else if (status == AppConstants.internalOrderStatus.preparing) {
+      color = Colors.orange;
     }
     return color;
   }
@@ -506,7 +524,6 @@ class AppUtils {
       return false;
     }
   }
-
 
   static String formatDecimalNumber(num value) {
     if (value % 1 == 0) {

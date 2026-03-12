@@ -329,4 +329,5 @@ class ApiConstants {
   //storeman order
   static String storemanInventoryOverview = '$appUrl/storeman-overview';
   static String storemanInternalOrders = '$appUrl/employee-orders/get';
+  static String proceedStoremanOrder = '$appUrl/purchase-orders/update-status';
 }

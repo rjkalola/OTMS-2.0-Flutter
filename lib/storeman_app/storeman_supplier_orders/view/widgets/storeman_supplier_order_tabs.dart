@@ -17,8 +17,9 @@ class StoremanSupplierOrderTabs extends StatelessWidget {
             children: [
               HeaderFilterItem(
                 title: 'all'.tr,
-                selected: (controller.selectedTab.value == SupplierOrderStatus.all),
-                count: controller.allCount.value,
+                selected:
+                    (controller.selectedTab.value == SupplierOrderStatus.all),
+                count: controller.allCount,
                 flex: 3,
                 onTap: () {
                   controller.selectedTab.value = SupplierOrderStatus.all;
@@ -28,8 +29,9 @@ class StoremanSupplierOrderTabs extends StatelessWidget {
               const SizedBox(width: 5),
               HeaderFilterItem(
                 title: 'upcoming'.tr,
-                selected: (controller.selectedTab.value == SupplierOrderStatus.upcoming),
-                count: controller.upcomingCount.value,
+                selected: (controller.selectedTab.value ==
+                    SupplierOrderStatus.upcoming),
+                count: controller.upcomingCount,
                 flex: 6,
                 onTap: () {
                   controller.selectedTab.value = SupplierOrderStatus.upcoming;
@@ -39,8 +41,9 @@ class StoremanSupplierOrderTabs extends StatelessWidget {
               const SizedBox(width: 4),
               HeaderFilterItem(
                 title: 'processing'.tr,
-                selected: (controller.selectedTab.value == SupplierOrderStatus.processing),
-                count: controller.processingCount.value,
+                selected: (controller.selectedTab.value ==
+                    SupplierOrderStatus.processing),
+                count: controller.processingCount,
                 flex: 6,
                 onTap: () {
                   controller.selectedTab.value = SupplierOrderStatus.processing;
@@ -50,8 +53,9 @@ class StoremanSupplierOrderTabs extends StatelessWidget {
               const SizedBox(width: 4),
               HeaderFilterItem(
                 title: 'on_stock'.tr,
-                selected: (controller.selectedTab.value == SupplierOrderStatus.onStock),
-                count: controller.onStockCount.value,
+                selected: (controller.selectedTab.value ==
+                    SupplierOrderStatus.onStock),
+                count: controller.onStockCount,
                 flex: 5,
                 onTap: () {
                   controller.selectedTab.value = SupplierOrderStatus.onStock;

@@ -100,7 +100,7 @@ class StoremanInternalOrderListItem extends StatelessWidget {
                 fontColor: Colors.white,
                 fontWeight: FontWeight.w400,
                 fontSize: 12,
-                boxColor: AppUtils.getOrderStatusColor(item.status ?? 0),
+                boxColor: AppUtils.getInternalOrderStatusColor(item.status ?? 0),
                 borderRadius: 11,
               ),
             ),

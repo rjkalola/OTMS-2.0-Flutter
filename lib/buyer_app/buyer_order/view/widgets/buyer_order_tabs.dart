@@ -20,7 +20,7 @@ class BuyerOrderTabs extends StatelessWidget {
                 title: 'request'.tr,
                 selected:
                     (controller.selectedTab.value == OrderTabType.request),
-                count: controller.requestCount.value,
+                count: controller.requestCount,
                 flex: 1,
                 onTap: () {
                   controller.selectedTab.value = OrderTabType.request;
@@ -35,7 +35,7 @@ class BuyerOrderTabs extends StatelessWidget {
                 title: 'proceed'.tr,
                 selected:
                     (controller.selectedTab.value == OrderTabType.proceed),
-                count: controller.requestCount.value,
+                count: controller.requestCount,
                 flex: 1,
                 onTap: () {
                   controller.selectedTab.value = OrderTabType.proceed;
@@ -50,7 +50,7 @@ class BuyerOrderTabs extends StatelessWidget {
                 title: 'delivered'.tr,
                 selected:
                     (controller.selectedTab.value == OrderTabType.delivered),
-                count: controller.requestCount.value,
+                count: controller.requestCount,
                 flex: 1,
                 onTap: () {
                   controller.selectedTab.value = OrderTabType.delivered;

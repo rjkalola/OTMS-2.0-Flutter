@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 
 class HeaderFilterItem extends StatelessWidget {
   final String title;
-  final int? count;
+  final RxInt? count;
   final bool selected;
   final int? flex;
   final Color? fontColor;
@@ -30,13 +30,13 @@ class HeaderFilterItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Flexible(
+    return Obx(() => Flexible(
       flex: flex ?? 1,
       child: Stack(
         children: [
           CardViewDashboardItem(
               borderColor:
-                  selected ? defaultAccentColor_(context) : Colors.transparent,
+              selected ? defaultAccentColor_(context) : Colors.transparent,
               boxColor: lightGreyColor(context),
               borderWidth: 2,
               elevation: 2,
@@ -60,7 +60,7 @@ class HeaderFilterItem extends StatelessWidget {
             child: Align(
               alignment: Alignment.topRight,
               child: CustomBadgeIcon(
-                count: count ?? 0,
+                count: count != null ? count!.value : 0,
                 // color: defaultAccentColor_(context),
                 color: Colors.red,
               ),
@@ -68,6 +68,6 @@ class HeaderFilterItem extends StatelessWidget {
           )
         ],
       ),
-    );
+    ),);
   }
 }

@@ -18,7 +18,7 @@ class StoremanHireProductTabs extends StatelessWidget {
               HeaderFilterItem(
                 title: 'request'.tr,
                 selected: (controller.selectedTab.value == HireProductStatus.request),
-                count: controller.requestCount.value,
+                count: controller.requestCount,
                 flex: 1,
                 onTap: () {
                   controller.selectedTab.value = HireProductStatus.request;
@@ -29,7 +29,7 @@ class StoremanHireProductTabs extends StatelessWidget {
               HeaderFilterItem(
                 title: 'hired'.tr,
                 selected: (controller.selectedTab.value == HireProductStatus.hired),
-                count: controller.hiredCount.value,
+                count: controller.hiredCount,
                 flex: 1,
                 onTap: () {
                   controller.selectedTab.value = HireProductStatus.hired;
@@ -40,7 +40,7 @@ class StoremanHireProductTabs extends StatelessWidget {
               HeaderFilterItem(
                 title: 'available'.tr,
                 selected: (controller.selectedTab.value == HireProductStatus.available),
-                count: controller.availableCount.value,
+                count: controller.availableCount,
                 flex: 1,
                 onTap: () {
                   controller.selectedTab.value = HireProductStatus.available;
@@ -51,7 +51,7 @@ class StoremanHireProductTabs extends StatelessWidget {
               HeaderFilterItem(
                 title: 'service'.tr,
                 selected: (controller.selectedTab.value == HireProductStatus.service),
-                count: controller.serviceCount.value,
+                count: controller.serviceCount,
                 flex: 1,
                 onTap: () {
                   controller.selectedTab.value = HireProductStatus.service;

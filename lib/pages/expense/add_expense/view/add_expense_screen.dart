@@ -255,7 +255,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                                 ),
                               ),
                               PrimaryButton(
-                                  padding: EdgeInsets.fromLTRB(14, 18, 14, 16),
+                                  margin: EdgeInsets.fromLTRB(14, 18, 14, 16),
                                   buttonText: 'save'.tr,
                                   color: controller.isSaveEnable.value
                                       ? defaultAccentColor_(context)

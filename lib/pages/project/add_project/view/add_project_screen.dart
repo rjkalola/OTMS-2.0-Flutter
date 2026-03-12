@@ -143,7 +143,7 @@ class AddProjectScreenState extends State<AddProjectScreen> {
                               ),
                             ),
                             PrimaryButton(
-                                padding: EdgeInsets.fromLTRB(14, 16, 14, 16),
+                                margin: EdgeInsets.fromLTRB(14, 16, 14, 16),
                                 buttonText: 'save'.tr,
                                 color: controller.isSaveEnable.value
                                     ? defaultAccentColor_(context)

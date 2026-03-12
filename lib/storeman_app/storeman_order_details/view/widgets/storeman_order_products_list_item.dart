@@ -1,0 +1,167 @@
+import 'package:belcka/buyer_app/buyer_order/view/widgets/order_quantity_change_button.dart';
+import 'package:belcka/buyer_app/buyer_order/view/widgets/order_quantity_display_text_view.dart';
+import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/storeman_app/storeman_order_details/controller/storeman_order_details_controller.dart';
+import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/image_utils.dart';
+import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/widgets/text/SubTitleTextView.dart';
+import 'package:belcka/widgets/text/TitleTextView.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+class StoremanOrderProductsListItem extends StatelessWidget {
+  final ProductInfo item;
+  final VoidCallback onListItem;
+  final VoidCallback onAdd;
+  final VoidCallback onRemove;
+
+  final controller = Get.find<StoremanOrderDetailsController>();
+
+  StoremanOrderProductsListItem({
+    super.key,
+    required this.item,
+    required this.onListItem,
+    required this.onAdd,
+    required this.onRemove,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onListItem,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+        child: CardViewDashboardItem(
+          borderRadius: 10,
+          padding: const EdgeInsets.fromLTRB(14, 14, 14, 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ImageUtils.setRectangleCornerCachedNetworkImage(
+                    url: item.thumbUrl ?? "",
+                    width: 90,
+                    height: 90,
+                    borderRadius: 4,
+                    fit: BoxFit.cover,
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TitleTextView(
+                          text: item.shortName,
+                          fontSize: 15,
+                          maxLine: 2,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        const SizedBox(height: 4),
+                        SubtitleTextView(
+                          text: item.uuid ?? "",
+                          fontSize: 13,
+                          color: secondaryExtraLightTextColor_(context),
+                        ),
+                        const SizedBox(height: 12),
+                        controller.status == AppConstants.orderStatus.processing
+                            ? Row(
+                                children: [
+                                  OrderQuantityChangeButton(
+                                      text: "-", onTap: onRemove),
+                                  const SizedBox(width: 8),
+                                  OrderQuantityDisplayTextView(
+                                    value: (item.cartQty ?? 0).toInt(),
+                                    width: 52,
+                                    height: 30,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  OrderQuantityChangeButton(
+                                      text: "+", onTap: onAdd),
+                                ],
+                              )
+                            : Row(
+                                children: [
+                                  TitleTextView(
+                                    text: "Qty: ",
+                                  ),
+                                  OrderQuantityDisplayTextView(
+                                    value: (item.qty ?? 0).toInt(),
+                                    height: 28,
+                                  )
+                                ],
+                              )
+
+                        // TitleTextView(
+                        //   text:
+                        //       "${'ordered_qty'.tr}: ${AppUtils.formatDecimalNumber(item.qty ?? 0)}",
+                        //   fontSize: 13,
+                        //   color: primaryTextColor_(context),
+                        // ),
+                        // Row(
+                        //   children: [
+                        //     TitleTextView(
+                        //       text:
+                        //           "${'received_qty'.tr}: ${item.receivedQty ?? 0}",
+                        //       fontSize: 13,
+                        //       color: primaryTextColor_(context),
+                        //     ),
+                        //     const Spacer(),
+                        //     TitleTextView(
+                        //       text:
+                        //           "${controller.orderInfo.value.currency ?? ""}${item.price ?? "0"}",
+                        //       fontSize: 16,
+                        //       fontWeight: FontWeight.bold,
+                        //     )
+                        //   ],
+                        // ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 6,
+              ),
+              Visibility(
+                visible: ((item.qty ?? 0) - (item.receivedQty ?? 0)) > 0,
+                child: Column(
+                  children: [
+                    Divider(
+                      color: dividerColor_(context),
+                    ),
+                    SizedBox(
+                      height: 6,
+                    ),
+                    Row(
+                      children: [
+                        TitleTextView(
+                          text: 'qty_to_receive'.tr,
+                          fontSize: 16,
+                        ),
+                        const Spacer(),
+                        OrderQuantityChangeButton(text: "-", onTap: onRemove),
+                        const SizedBox(width: 8),
+                        OrderQuantityDisplayTextView(
+                          value: (item.cartQty ?? 0).toInt(),
+                          width: 52,
+                          height: 30,
+                        ),
+                        const SizedBox(width: 8),
+                        OrderQuantityChangeButton(text: "+", onTap: onAdd),
+                      ],
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

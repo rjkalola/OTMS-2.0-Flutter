@@ -26,7 +26,7 @@ class StoremanSupplierOrderList extends StatelessWidget {
                   return StoremanSupplierOrderListItem(
                     item: controller.ordersList[index],
                     onTap: () {
-                      controller.onItemClick(index);
+                      controller.onItemClick(controller.ordersList[index].id??0, 0);
                     },
                   );
                 },

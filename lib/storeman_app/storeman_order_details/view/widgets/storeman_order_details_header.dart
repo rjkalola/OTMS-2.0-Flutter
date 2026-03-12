@@ -1,21 +1,19 @@
 import 'package:belcka/buyer_app/buyer_order/model/order_info.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/storeman_app/storeman_order_details/controller/storeman_order_details_controller.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
-import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/text/PrimaryTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../controller/buyer_order_details_controller.dart';
-
-class BuyerOrderDetailsHeader extends StatelessWidget {
-  final controller = Get.find<BuyerOrderDetailsController>();
+class StoremanOrderDetailsHeader extends StatelessWidget {
+  final controller = Get.find<StoremanOrderDetailsController>();
 
   final OrderInfo item;
   final VoidCallback onListItem;
 
-  BuyerOrderDetailsHeader(
+  StoremanOrderDetailsHeader(
       {super.key, required this.item, required this.onListItem});
 
   @override
@@ -40,18 +38,6 @@ class BuyerOrderDetailsHeader extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // getDetailRow('order_date'.tr, item.date ?? ""),
-                      // SizedBox(
-                      //   height: 2,
-                      // ),
-                      // getDetailRow('store'.tr, item.storeName ?? ""),
-                      PrimaryTextView(
-                        text: "${'order_date'.tr}: ${item.date ?? ""}",
-                        fontSize: 16,
-                      ),
-                      SizedBox(
-                        height: 3,
-                      ),
                       PrimaryTextView(
                         text: "${'store'.tr}: ${item.storeName ?? ""}",
                         fontSize: 16,
@@ -63,21 +49,27 @@ class BuyerOrderDetailsHeader extends StatelessWidget {
                         text: "${'supplier'.tr}: ${item.supplierName ?? ""}",
                         fontSize: 16,
                       ),
-
+                      // SizedBox(
+                      //   height: 3,
+                      // ),
+                      // PrimaryTextView(
+                      //   text:
+                      //       "${'total_amount'.tr}: ${item.currency ?? ""}${item.totalAmount ?? ""}",
+                      //   fontSize: 16,
+                      // ),
                       SizedBox(
                         height: 3,
                       ),
                       PrimaryTextView(
                         text:
-                            "${'total_amount'.tr}: ${item.currency ?? ""}${item.totalAmount ?? ""}",
+                            "${'items_qty'.tr}: ${AppUtils.formatDecimalNumber(item.orderQty ?? 0)}",
                         fontSize: 16,
                       ),
                       SizedBox(
                         height: 3,
                       ),
                       PrimaryTextView(
-                        text:
-                            "${'delivery_date'.tr}: ${item.expectedDeliveryDate ?? ""}",
+                        text: "${'received_on'.tr}: ${item.date ?? ""}",
                         fontSize: 16,
                       ),
                       SizedBox(
@@ -91,10 +83,7 @@ class BuyerOrderDetailsHeader extends StatelessWidget {
                             color: primaryTextColor_(context),
                           ),
                           PrimaryTextView(
-                            text: (item.status) ==
-                                    AppConstants.orderStatus.received
-                                ? "Received"
-                                : item.statusText ?? "",
+                            text: item.statusText ?? "",
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
                             color:

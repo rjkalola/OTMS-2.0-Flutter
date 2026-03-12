@@ -1,22 +1,17 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:get/get.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:belcka/pages/teams/create_team/controller/create_team_controller.dart';
 import 'package:belcka/pages/teams/create_team/view/widgets/add_team_member.dart';
 import 'package:belcka/pages/teams/create_team/view/widgets/supervisor_textfield.dart';
 import 'package:belcka/pages/teams/create_team/view/widgets/team_members_list.dart';
 import 'package:belcka/pages/teams/create_team/view/widgets/team_name_textfield.dart';
-import 'package:belcka/pages/teams/team_list/controller/team_list_controller.dart';
-import 'package:belcka/pages/teams/team_list/view/widgets/search_team.dart';
-import 'package:belcka/pages/teams/team_list/view/widgets/teams_list.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
-import 'package:belcka/widgets/text/PrimaryTextView.dart';
-import 'package:belcka/utils/app_utils.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class CreateTeamScreen extends StatefulWidget {
   const CreateTeamScreen({super.key});
@@ -77,7 +72,7 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
                               ),
                             ),
                             PrimaryButton(
-                                padding: EdgeInsets.fromLTRB(14, 18, 14, 16),
+                                margin: EdgeInsets.fromLTRB(14, 18, 14, 16),
                                 buttonText: 'save'.tr,
                                 color: controller.isSaveEnable.value
                                     ? defaultAccentColor_(context)

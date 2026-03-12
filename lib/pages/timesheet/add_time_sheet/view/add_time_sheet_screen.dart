@@ -194,7 +194,7 @@ class _AddTimeSheetScreenState extends State<AddTimeSheetScreen> {
                               ),
                             ),
                             PrimaryButton(
-                              padding:
+                              margin:
                                   const EdgeInsets.fromLTRB(14, 18, 14, 16),
                               buttonText: 'save'.tr,
                               color: defaultAccentColor_(context),

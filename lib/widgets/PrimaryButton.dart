@@ -10,9 +10,10 @@ class PrimaryButton extends StatelessWidget {
   final double? fontSize;
   final Color? fontColor;
   final double? elevation, width, height;
-  final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry? margin;
   final int? maxLines;
   final TextOverflow? overflow;
+  final bool? isFixSize;
 
   const PrimaryButton(
       {super.key,
@@ -26,35 +27,62 @@ class PrimaryButton extends StatelessWidget {
       this.elevation,
       this.width,
       this.height,
-      this.padding,
+      this.margin,
       this.maxLines,
-      this.overflow});
+      this.overflow,
+      this.isFixSize});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: padding ?? EdgeInsets.all(0),
-      child: ElevatedButton(
-        onPressed: () {
-          onPressed();
-        },
-        style: ElevatedButton.styleFrom(
-          minimumSize: Size(width ?? double.infinity, height ?? 48),
-          elevation: elevation ?? 0,
-          backgroundColor: color ?? defaultAccentColor_(context),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(borderRadius ?? 45),
-          ),
-        ),
-        child: Text(buttonText,
-            maxLines: maxLines,
-            overflow: overflow,
-            style: TextStyle(
-              color: fontColor ?? Colors.white,
-              fontWeight: fontWeight ?? FontWeight.w500,
-              fontSize: fontSize ?? 17,
-            )),
-      ),
+      padding: margin ?? EdgeInsets.all(0),
+      child: (isFixSize ?? false)
+          ? SizedBox(
+              width: width ?? double.infinity,
+              height: height ?? 48,
+              child: ElevatedButton(
+                onPressed: () {
+                  onPressed();
+                },
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.all(0),
+                  elevation: elevation ?? 0,
+                  backgroundColor: color ?? defaultAccentColor_(context),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(borderRadius ?? 45),
+                  ),
+                ),
+                child: Text(buttonText,
+                    maxLines: maxLines ?? 1,
+                    overflow: overflow,
+                    style: TextStyle(
+                      color: fontColor ?? Colors.white,
+                      fontWeight: fontWeight ?? FontWeight.w500,
+                      fontSize: fontSize ?? 17,
+                    )),
+              ),
+            )
+          : ElevatedButton(
+              onPressed: () {
+                onPressed();
+              },
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(width ?? double.infinity, height ?? 48),
+                elevation: elevation ?? 0,
+                backgroundColor: color ?? defaultAccentColor_(context),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(borderRadius ?? 45),
+                ),
+              ),
+              child: Text(buttonText,
+                  maxLines: maxLines ?? 1,
+                  overflow: overflow,
+                  style: TextStyle(
+                    color: fontColor ?? Colors.white,
+                    fontWeight: fontWeight ?? FontWeight.w500,
+                    fontSize: fontSize ?? 17,
+                  )),
+            ),
     );
   }
 }

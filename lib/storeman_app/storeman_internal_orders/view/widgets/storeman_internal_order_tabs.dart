@@ -18,7 +18,7 @@ class StoremanInternalOrderTabs extends StatelessWidget {
               HeaderFilterItem(
                 title: 'new'.tr,
                 selected: (controller.selectedTab.value == InternalOrderStatus.newOrders),
-                count: controller.newCount.value,
+                count: controller.newCount,
                 flex: 1,
                 onTap: () {
                   controller.selectedTab.value = InternalOrderStatus.newOrders;
@@ -29,7 +29,7 @@ class StoremanInternalOrderTabs extends StatelessWidget {
               HeaderFilterItem(
                 title: 'preparing'.tr,
                 selected: (controller.selectedTab.value == InternalOrderStatus.preparing),
-                count: controller.preparingCount.value,
+                count: controller.preparingCount,
                 flex: 1,
                 onTap: () {
                   controller.selectedTab.value = InternalOrderStatus.preparing;
@@ -40,7 +40,7 @@ class StoremanInternalOrderTabs extends StatelessWidget {
               HeaderFilterItem(
                 title: 'ready'.tr,
                 selected: (controller.selectedTab.value == InternalOrderStatus.ready),
-                count: controller.readyCount.value,
+                count: controller.readyCount,
                 flex: 1,
                 onTap: () {
                   controller.selectedTab.value = InternalOrderStatus.ready;
@@ -51,7 +51,7 @@ class StoremanInternalOrderTabs extends StatelessWidget {
               HeaderFilterItem(
                 title: 'collected'.tr,
                 selected: (controller.selectedTab.value == InternalOrderStatus.collected),
-                count: controller.collectedCount.value,
+                count: controller.collectedCount,
                 flex: 1,
                 onTap: () {
                   controller.selectedTab.value = InternalOrderStatus.collected;

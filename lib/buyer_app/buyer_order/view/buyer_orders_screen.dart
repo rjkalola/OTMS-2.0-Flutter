@@ -126,7 +126,7 @@ class _BuyerOrdersScreenState extends State<BuyerOrdersScreen>
                             ),
                             controller.selectedTab.value == OrderTabType.request
                                 ? PrimaryButton(
-                                    padding: EdgeInsets.all(14),
+                                    margin: EdgeInsets.all(14),
                                     buttonText: 'create_order'.tr,
                                     onPressed: () {
                                       var list = <ProductInfo>[];

@@ -358,13 +358,17 @@ class BuyerOrderController extends GetxController
       if (value.isEmpty) {
         results = tempProceedOrderList;
       } else {
-        results = tempProceedOrderList
-            .where((element) =>
-                (!StringHelper.isEmptyString(element.supplierName) &&
-                    element.supplierName!
-                        .toLowerCase()
-                        .contains(value.toLowerCase())))
-            .toList();
+        String query = value.toLowerCase();
+        results = tempProceedOrderList.where((element) {
+          return (!StringHelper.isEmptyString(element.storeName) &&
+                  element.storeName!.toLowerCase().contains(query)) ||
+              (!StringHelper.isEmptyString(element.supplierName) &&
+                  element.supplierName!.toLowerCase().contains(query)) ||
+              (!StringHelper.isEmptyString(element.orderId) &&
+                  element.orderId!.toLowerCase().contains(query)) ||
+              (!StringHelper.isEmptyString(element.orderNumber) &&
+                  element.orderNumber!.toLowerCase().contains(query));
+        }).toList();
       }
       proceedOrdersList.value = results;
     } else if (selectedTab.value == OrderTabType.delivered) {
@@ -372,13 +376,17 @@ class BuyerOrderController extends GetxController
       if (value.isEmpty) {
         results = tempDeliveredOrderList;
       } else {
-        results = tempDeliveredOrderList
-            .where((element) =>
-                (!StringHelper.isEmptyString(element.supplierName) &&
-                    element.supplierName!
-                        .toLowerCase()
-                        .contains(value.toLowerCase())))
-            .toList();
+        String query = value.toLowerCase();
+        results = tempDeliveredOrderList.where((element) {
+          return (!StringHelper.isEmptyString(element.storeName) &&
+              element.storeName!.toLowerCase().contains(query)) ||
+              (!StringHelper.isEmptyString(element.supplierName) &&
+                  element.supplierName!.toLowerCase().contains(query)) ||
+              (!StringHelper.isEmptyString(element.orderId) &&
+                  element.orderId!.toLowerCase().contains(query)) ||
+              (!StringHelper.isEmptyString(element.orderNumber) &&
+                  element.orderNumber!.toLowerCase().contains(query));
+        }).toList();
       }
       deliveredOrdersList.value = results;
     }
