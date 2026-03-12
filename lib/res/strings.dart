@@ -652,6 +652,8 @@ class Strings extends Translations {
           'adjustment': "Adjustment",
           'delete_request': "Delete Request",
           'net_payable': "Net Payable",
+          'reorder_all' : "Reorder All",
+          'return':"Return",
 // '': "",
 // '': "",
           // '': "",

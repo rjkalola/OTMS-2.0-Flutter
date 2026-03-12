@@ -73,11 +73,10 @@ class OrderDetailsController extends GetxController{
     Get.back(result: isDataUpdated);
   }
 
-  void cancelOrder(){
+  void changeOrderStatus(int status){
 
   }
-
-  void reorderAction(){
+  void reorderAction(bool isAllOrders){
 
   }
 

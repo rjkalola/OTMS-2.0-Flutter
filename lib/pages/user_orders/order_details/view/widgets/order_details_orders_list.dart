@@ -1,4 +1,5 @@
 import 'package:belcka/pages/user_orders/order_details/controller/order_details_controller.dart';
+import 'package:belcka/pages/user_orders/order_details/view/widgets/order_action_buttons.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
@@ -28,6 +29,7 @@ class OrderDetailsOrdersList extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(12),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
                   width: 100,
@@ -40,9 +42,8 @@ class OrderDetailsOrdersList extends StatelessWidget {
                   child: Image.network(
                     orders[index].productThumbImage ?? "",
                     fit: BoxFit.cover,
-                    errorBuilder:
-                        (context, error, stack) {
-                      return  Center(
+                    errorBuilder: (context, error, stack) {
+                      return Center(
                         child: Icon(
                           Icons.photo_outlined,
                           size: 70,
@@ -52,51 +53,63 @@ class OrderDetailsOrdersList extends StatelessWidget {
                     },
                   ),
                 ),
+
                 const SizedBox(width: 12),
+
+                /// Product details takes remaining space
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       TitleTextView(
-                          text: orders[index].shortName ?? "",
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500,
+                        text: orders[index].shortName ?? "",
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
                       ),
 
                       const SizedBox(height: 4),
 
                       SubtitleTextView(
                         text: orders[index].uuid ?? "",
-                      )
-                      ,
-                      const SizedBox(height: 4),
-
-                      TitleTextView(
-                          text:"${'qty'.tr}: ${orders[index].qty ?? ""}",
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600
-
                       ),
 
                       const SizedBox(height: 4),
 
                       TitleTextView(
-                          text:"${orderInfo.currency ?? ""}${orders[index].price ?? ""}",
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600
+                        text: "${'qty'.tr}: ${orders[index].qty ?? ""}",
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
                       ),
 
+                      const SizedBox(height: 4),
+
+                      TitleTextView(
+                        text: "${orderInfo.currency ?? ""}${orders[index].price ?? ""}",
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ],
                   ),
                 ),
+
+                const SizedBox(width: 12),
                 /*
-                OutlinedButton(
-                  onPressed: () {},
-                  style: OutlinedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
+                /// Buttons fixed on right side
+                SizedBox(
+                  width: 120,
+                  child: OrderActionButtons(
+                    status: 0,
+                    mainTitle: 'reorder',
+                    onCancel: () {
+                      print("Cancel order");
+                    },
+                    onReturn: () {
+                      print("Return order");
+                    },
+                    onReorder: () {
+                      print("Reorder items");
+                    },
                   ),
-                  child: Text("Reorder"),
                 ),
                 */
               ],

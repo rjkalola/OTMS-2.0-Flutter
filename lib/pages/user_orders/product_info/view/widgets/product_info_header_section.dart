@@ -1,4 +1,5 @@
 import 'package:belcka/pages/user_orders/product_info/controller/product_info_controller.dart';
+import 'package:belcka/pages/user_orders/widgets/icons/bookmark_icon_widget.dart';
 import 'package:belcka/pages/user_orders/widgets/orders_title_text_view.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/image_utils.dart';
@@ -108,13 +109,16 @@ class _ProductInfoHeaderSectiontState extends State<ProductInfoHeaderSection> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              IconButton(icon:
-              controller.product.value.isBookMark ?? true ? Icon(Icons.bookmark) :
-              Icon(Icons.bookmark_outline),
-                  color: controller.product.value.isBookMark ?? true ?
-                  Colors.deepOrangeAccent : primaryTextColor_(context),
-                  iconSize: 30,
+              IconButton(
+                  icon: controller.product.value.isBookMark ?? true
+                      ? Icon(Icons.bookmark)
+                      : BookmarkIconWidget(),
+                  color: controller.product.value.isBookMark ?? true
+                      ? Colors.deepOrangeAccent
+                      : primaryTextColor_(context),
                   onPressed: () {
+                    FocusManager.instance.primaryFocus
+                        ?.unfocus();
                     controller.toggleBookmark();
                   })
             ],
