@@ -149,11 +149,11 @@ class _OrderDetailsHeaderViewState extends State<OrderDetailsHeaderView> {
           ),
 
           const SizedBox(height: 16),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
-            child: _buildOrderActions(orderInfo.status ?? 0),
-          )
-
+          if (controller.canShowActionButtons)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+              child: _buildOrderActions(orderInfo.status ?? 0),
+            ),
         ],
       ),
     );

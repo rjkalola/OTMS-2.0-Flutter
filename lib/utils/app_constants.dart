@@ -76,6 +76,7 @@ class IntentKey {
   final String teamId = "TEAM_ID";
   final String orderId = "ORDER_ID";
   final String status = "STATUS";
+  final String result = "RESULT";
   final String paymentsInfo = "PAYMENTS_INFO";
   final String companyId = "COMPANY_ID";
   final String teamInfo = "TEAM_INFO";

@@ -72,8 +72,8 @@ class _PaymentDetailsScreenState extends State<PaymentDetailsScreen> {
                                     getDetailRow(
                                         'penalty'.tr,
                                         !StringHelper.isEmptyString(getValue(
-                                            controller.paymentsInfo.value
-                                                .netPenaltyAmount))
+                                                controller.paymentsInfo.value
+                                                    .netPenaltyAmount))
                                             ? "-${getValue(controller.paymentsInfo.value.netPenaltyAmount)}"
                                             : "",
                                         fontColor: Colors.red),
@@ -85,22 +85,47 @@ class _PaymentDetailsScreenState extends State<PaymentDetailsScreen> {
                                         'expense'.tr,
                                         getValue(controller.paymentsInfo.value
                                             .netExpenseAmount)),
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          20, 6, 20, 6),
+                                      child: Divider(
+                                        thickness: 1,
+                                        color: dividerColor_(context),
+                                      ),
+                                    ),
                                     getDetailRow(
-                                        'gross_amount'.tr,
+                                        'gross_total'.tr,
+                                        fontColor: primaryTextColor_(context),
                                         getValue(controller
                                             .paymentsInfo.value.grossAmount)),
                                     getDetailRow(
-                                        'cis_amount'.tr,
+                                        'cis'.tr,
                                         !StringHelper.isEmptyString(getValue(
                                                 controller.paymentsInfo.value
                                                     .cisAmount))
                                             ? "-${getValue(controller.paymentsInfo.value.cisAmount)}"
                                             : "",
-                                        fontColor: Colors.red),
+                                        fontColor: primaryTextColor_(context)),
                                     getDetailRow(
-                                        'paid_leave'.tr,
-                                        getValue(controller.paymentsInfo.value
-                                            .netPaidLeaveAmount)),
+                                      'net_payable'.tr,
+                                      !StringHelper.isEmptyString(getValue(
+                                              controller.paymentsInfo.value
+                                                  .netPayableAmount))
+                                          ? "${getValue(controller.paymentsInfo.value.netPayableAmount)}"
+                                          : "",
+                                    ),
+                                    getDetailRow('adjustment'.tr,
+                                        "${getAdjustmentValue(controller.paymentsInfo.value.netAdjustmentAmount) < 0 ? "-" : ""}${getValue(getAdjustmentDisplayText(controller.paymentsInfo.value.netAdjustmentAmount))}",
+                                        fontColor: getAdjustmentColor(
+                                            context,
+                                            getAdjustmentValue(controller
+                                                .paymentsInfo
+                                                .value
+                                                .netAdjustmentAmount))),
+                                    // getDetailRow(
+                                    //     'paid_leave'.tr,
+                                    //     getValue(controller.paymentsInfo.value
+                                    //         .netPaidLeaveAmount)),
                                     Padding(
                                       padding: const EdgeInsets.fromLTRB(
                                           20, 6, 20, 6),
@@ -140,6 +165,23 @@ class _PaymentDetailsScreenState extends State<PaymentDetailsScreen> {
         : "";
   }
 
+  int getAdjustmentValue(String? value) {
+    if (!StringHelper.isEmptyString(value)) {
+      return int.parse(value!);
+    } else {
+      return 0;
+    }
+  }
+
+  String getAdjustmentDisplayText(String? value) {
+    int adjustmentValue = getAdjustmentValue(value);
+    if (adjustmentValue < 0) {
+      return adjustmentValue.toString().replaceAll("-", "");
+    } else {
+      return adjustmentValue.toString();
+    }
+  }
+
   Widget getDetailRow(String? title, String? value,
       {double? fontSize, Color? fontColor, FontWeight? fontWeight}) {
     return !StringHelper.isEmptyString(value)
@@ -170,5 +212,15 @@ class _PaymentDetailsScreenState extends State<PaymentDetailsScreen> {
             ),
           )
         : Container();
+  }
+
+  Color getAdjustmentColor(BuildContext context, int adjustment) {
+    if (adjustment < 0) {
+      return Colors.red;
+    } else if (adjustment > 0) {
+      return Colors.green;
+    } else {
+      return primaryTextColorLight_(context);
+    }
   }
 }

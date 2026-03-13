@@ -21,6 +21,7 @@ class OrderDetailsController extends GetxController{
   RxList<OrderDetailsInfo> orderDetails = <OrderDetailsInfo>[].obs;
   List<OrderDetailsInfo> tempList = [];
   String orderId = "";
+  bool canShowActionButtons = false;
 
   @override
   void onInit() {
@@ -28,6 +29,7 @@ class OrderDetailsController extends GetxController{
     var arguments = Get.arguments;
     if (arguments != null) {
       orderId = arguments["order_id"] ?? "";
+      canShowActionButtons = arguments["canShowActionButtons"] ?? false;
     }
     fetchOrderDetails();
   }

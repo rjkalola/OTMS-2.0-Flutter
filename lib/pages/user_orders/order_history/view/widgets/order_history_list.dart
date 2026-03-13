@@ -28,7 +28,8 @@ class OrderHistoryList extends StatelessWidget {
             return InkWell(
               onTap: (){
                 var arguments = {
-                  "order_id":order.orderId
+                  "order_id":order.orderId,
+                  "canShowActionButtons": true
                 };
                 controller.moveToScreen(AppRoutes.orderDetailsScreen, arguments);
               },

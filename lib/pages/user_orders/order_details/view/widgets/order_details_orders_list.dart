@@ -97,9 +97,11 @@ class OrderDetailsOrdersList extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 8,),
+                if (controller.canShowActionButtons)
                 Divider(
                   color: dividerColor_(context),
                 ),
+                if (controller.canShowActionButtons)
                 Row(
                   children: [
                     Spacer(),

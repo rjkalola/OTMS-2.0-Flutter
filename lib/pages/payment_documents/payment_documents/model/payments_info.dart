@@ -1,4 +1,4 @@
-class PaymentsInfo{
+class PaymentsInfo {
   int? id;
   int? companyId;
   String? companyName;
@@ -19,6 +19,7 @@ class PaymentsInfo{
   String? netPenaltyAmount;
   String? cisAmount;
   String? grossAmount;
+  String? netPayableAmount;
 
   PaymentsInfo(
       {this.id,
@@ -40,7 +41,8 @@ class PaymentsInfo{
       this.netAdjustmentAmount,
       this.netPenaltyAmount,
       this.cisAmount,
-      this.grossAmount});
+      this.grossAmount,
+      this.netPayableAmount});
 
   PaymentsInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -63,6 +65,7 @@ class PaymentsInfo{
     netPenaltyAmount = json['net_penalty_amount'];
     cisAmount = json['cis_amount'];
     grossAmount = json['gross_amount'];
+    netPayableAmount = json['net_payable_amount'];
   }
 
   Map<String, dynamic> toJson() {
@@ -87,6 +90,7 @@ class PaymentsInfo{
     data['net_penalty_amount'] = this.netPenaltyAmount;
     data['cis_amount'] = this.cisAmount;
     data['gross_amount'] = this.grossAmount;
+    data['net_payable_amount'] = this.netPayableAmount;
     return data;
   }
 }

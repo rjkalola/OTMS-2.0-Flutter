@@ -579,8 +579,7 @@ class Strings extends Translations {
           'total_paid': "Total Paid",
           'gross': "Gross",
           'paid_leave': "Paid Leave",
-          'gross_amount': "Gross Amount",
-          'cis_amount': "CIS Amount",
+          'gross_total': "Gross Total",
           'msg_empty_billing_info_warning':
               "Please complete your billing details to start work.",
           'contact_hr': "Contact HR",

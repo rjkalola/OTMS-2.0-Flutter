@@ -225,7 +225,14 @@ class StoremanOrderDetailsController extends GetxController
           BaseResponse response =
               BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.Message ?? "");
-          Get.back(result: true);
+          String statusString = status.value == AppConstants.orderStatus.received
+              ? AppConstants.type.processing
+              : AppConstants.type.onStock;
+          var arguments = {
+            AppConstants.intentKey.status: statusString,
+            AppConstants.intentKey.result: true,
+          };
+          Get.back(result: arguments);
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }

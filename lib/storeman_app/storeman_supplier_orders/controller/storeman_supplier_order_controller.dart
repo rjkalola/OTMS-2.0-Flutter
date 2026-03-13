@@ -1,8 +1,8 @@
 import 'dart:convert';
+
 import 'package:belcka/buyer_app/buyer_order/controller/buyer_order_repository.dart';
 import 'package:belcka/buyer_app/buyer_order/model/buyer_orders_list_response.dart';
 import 'package:belcka/buyer_app/buyer_order/model/order_info.dart';
-import 'package:belcka/buyer_app/draft_orders/controller/buyer_draft_orders_repository.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/storeman_app/storeman_supplier_orders/controller/storeman_supplier_order_repository.dart';
 import 'package:belcka/utils/app_constants.dart';
@@ -159,7 +159,21 @@ class StoremanSupplierOrderController extends GetxController {
   Future<void> moveToScreen(
       {required String appRout, dynamic arguments}) async {
     var result = await Get.toNamed(appRout, arguments: arguments);
-    if (result != null && true) {
+    if (result != null) {
+      var arguments = result;
+      if (arguments != null) {
+        String status = arguments[AppConstants.intentKey.status] ?? "";
+        bool result = arguments[AppConstants.intentKey.result] ?? false;
+        if (result) {
+          if (status == AppConstants.type.processing) {
+            selectedTab.value = SupplierOrderStatus.processing;
+          } else if (status == AppConstants.type.onStock) {
+            selectedTab.value = SupplierOrderStatus.onStock;
+          } else {
+            selectedTab.value = SupplierOrderStatus.all;
+          }
+        }
+      }
       loadData();
     }
   }
