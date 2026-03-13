@@ -222,12 +222,7 @@ class _StoremanProductsListWidgetState
                           ProductQuantityWidget(
                             focusNode: controller.qtyFocusNodes[index],
                             isSubQuantity: isSubQuantity,
-                            quantity: isSubQuantity
-                                ? (isAdded
-                                    ? (product.cartQty ?? 0).toInt()
-                                    : int.tryParse(product.packOffQty ?? "") ??
-                                        0)
-                                : (product.cartQty ?? 0).toInt(),
+                            quantity:(product.cartQty ?? 0).toInt(),
                             unit: packOfUnit,
                             onChanged: (value) {
                               controller.updateSubQty(index, value);
@@ -262,19 +257,9 @@ class _StoremanProductsListWidgetState
                               if (isAdded) {
                                 controller.toggleRemoveCart(index);
                               } else {
-                                if (isSubQuantity) {
-                                  if ((int.parse(product.packOffQty ?? "")) >
-                                      0) {
-                                    controller.toggleAddToCart(
-                                        index,
-                                        (int.parse(product.packOffQty ?? "") ??
-                                            0));
-                                  }
-                                } else {
-                                  if ((product.cartQty ?? 0) > 0) {
-                                    controller.toggleAddToCart(
-                                        index, (product.cartQty ?? 0).toInt());
-                                  }
+                                if ((product.cartQty ?? 0) > 0) {
+                                  controller.toggleAddToCart(
+                                      index, (product.cartQty ?? 0).toInt());
                                 }
                               }
                             },

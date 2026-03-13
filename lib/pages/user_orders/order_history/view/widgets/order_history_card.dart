@@ -18,26 +18,94 @@ class OrderHistoryCard extends StatelessWidget {
     required this.status,
   });
 
-  bool get isCancelled =>
-      status == 3 || status == 8 || status == 9;
+  bool get isCancelled => status == 7;
+  bool get isReturned => status == 8;
 
   int get currentStep {
-    if (status == 1 || status == 2 || status == 4) return 0;
-    if (status == 5) return 1;
-    if (status == 6 || status == 7) return 2;
-    return 1; // Cancelled center
+    // Preparing stage
+    if (status == 1 || status == 4 || status == 9) {
+      return 0;
+    }
+    // Middle stage
+    if (status == 3 || status == 5 || status == 7) {
+      return 1;
+    }
+    // Final stage
+    if (status == 2 || status == 6) {
+      return 2;
+    }
+    return 0;
+  }
+
+  String get middleLabel {
+    if (status == 7) return 'cancelled'.tr;
+    if (status == 8) return 'returned'.tr;
+    return 'ready'.tr;
   }
 
   String get lastStepLabel {
-    if (status == 7) return 'delivered'.tr;
-    if (status == 6) return 'collect'.tr;
-    if (status == 5 ||
-        status == 1 ||
-        status == 2 ||
-        status == 4) {
-      return 'collect'.tr;
+    if (status == 6 || status == 1) {
+      return 'delivered'.tr;
     }
-    return "";
+    return 'collect'.tr;
+  }
+
+  Color getStepColor(int step) {
+    // Status 1 → all grey
+    if (status == 1) {
+      return Colors.grey.shade400;
+    }
+
+    // Status 4 → first blue
+    if (status == 4) {
+      if (step == 0) return Colors.blueAccent;
+      return Colors.grey.shade400;
+    }
+
+    // Status 3,5,9 → first two blue
+    if (status == 3 || status == 5 || status == 9) {
+      if (step <= 1) return Colors.blueAccent;
+      return Colors.grey.shade400;
+    }
+
+    // Status 6,2 → all blue
+    if (status == 6 || status == 2) {
+      return Colors.blueAccent;
+    }
+
+    // Cancelled
+    if (status == 7) {
+      if (step == 0) return Colors.blueAccent;
+      if (step == 1) return Colors.red;
+      return Colors.grey.shade400;
+    }
+
+    // Returned
+    if (status == 8) {
+      if (step == 0) return Colors.blueAccent;
+      if (step == 1) return Colors.orange;
+      return Colors.grey.shade400;
+    }
+
+    return Colors.grey.shade400;
+  }
+
+  Color getLineColor(int step) {
+    if (status == 4 && step == 0) return Colors.blueAccent;
+
+    if ((status == 3 || status == 5 || status == 9) && step == 0) {
+      return Colors.blueAccent;
+    }
+
+    if (status == 6 || status == 2) {
+      return Colors.blueAccent;
+    }
+
+    if (status == 7 && step == 0 || status == 8 && step == 0) {
+      return Colors.blueAccent;
+    }
+
+    return Colors.grey.shade400;
   }
 
   @override
@@ -82,64 +150,84 @@ class OrderHistoryCard extends StatelessWidget {
       children: [
         Row(
           children: [
-            showCircle(0,status),
+            showCircle(0, status),
             Expanded(
               child: showDottedLine(0),
             ),
-            showCircle(1,status),
+            showCircle(1, status),
             Expanded(
               child: showDottedLine(1),
             ),
-            showCircle(2,status),
+            showCircle(2, status),
           ],
         ),
 
         const SizedBox(height: 8),
 
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            showLabel(0, 'preparing'.tr),
-            showLabel(1, isCancelled ? 'cancelled'.tr : 'ready'.tr),
-            showLabel(2, isCancelled ? "" : lastStepLabel),
+
+            Expanded(
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: showLabel(
+                  0,
+                  'preparing'.tr,
+                ),
+              ),
+            ),
+
+            Expanded(
+              child: Align(
+                alignment: Alignment.center,
+                child: showLabel(
+                  1,
+                  status == 7
+                      ? 'cancelled'.tr
+                      : status == 8
+                      ? 'returned'.tr
+                      : 'ready'.tr,
+                ),
+              ),
+            ),
+
+            Expanded(
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: showLabel(
+                  2,
+                  (status == 7 || status == 8) ? '' : lastStepLabel,
+                ),
+              ),
+            ),
           ],
-        ),
+        )
       ],
     );
   }
 
-  Widget showCircle(int step,int status) {
-    Color color;
-
-    if (status == 1){
-      color = Colors.grey.shade400;
-    }
-    else if (isCancelled && step == 1) {
-      color = Colors.red;
-    } else if (step <= currentStep) {
-      color = Colors.blueAccent;
-    } else {
-      color = Colors.grey.shade400;
-    }
-
+  Widget showCircle(int step, int status) {
     return Container(
       width: 18,
       height: 18,
       decoration: BoxDecoration(
-        color: color,
+        color: getStepColor(step),
         shape: BoxShape.circle,
       ),
     );
   }
 
-  Widget showDottedLine(int step) {
-    Color color;
+  Widget showLabel(int step, String text) {
+    return TitleTextView(
+      text: text,
+      textAlign: TextAlign.center,
+      fontSize: 13,
+    );
+  }
 
-    if (step < currentStep) {
-      color = Colors.blueAccent;
-    } else {
-      color = Colors.grey.shade400;
-    }
+  Widget showDottedLine(int step) {
+
+    Color color = getLineColor(step);
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -157,26 +245,6 @@ class OrderHistoryCard extends StatelessWidget {
           }),
         );
       },
-    );
-  }
-
-  Widget showLabel(int step, String text) {
-    Color color;
-
-    if (isCancelled && step == 1) {
-      color = Colors.red;
-    } else if (step <= currentStep) {
-      color = Colors.blue;
-    } else {
-      color = Colors.grey;
-    }
-
-    return SizedBox(
-      width: 80,
-      child: TitleTextView(text: text,
-        textAlign: TextAlign.center,
-        fontSize: 13,
-      ),
     );
   }
 }

@@ -6,7 +6,9 @@ import 'package:belcka/buyer_app/buyer_order/model/order_info.dart';
 import 'package:belcka/buyer_app/buyer_order_details/controller/buyer_order_details_repository.dart';
 import 'package:belcka/buyer_app/buyer_order_details/model/buyer_order_details_response.dart';
 import 'package:belcka/buyer_app/create_buyer_order/model/product_request_info.dart';
+import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
+import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
@@ -21,7 +23,7 @@ import '../../../utils/app_constants.dart';
 import '../../../utils/date_utils.dart';
 
 class BuyerOrderDetailsController extends GetxController
-    implements SelectDateListener {
+    implements SelectDateListener ,DialogButtonClickListener{
   final _api = BuyerOrderDetailsRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
@@ -251,5 +253,36 @@ class BuyerOrderDetailsController extends GetxController
   Future<void> moveToScreen(
       {required String appRout, dynamic arguments}) async {
     var result = await Get.toNamed(appRout, arguments: arguments);
+  }
+
+  void showReceiveOrderDialog() {
+    AlertDialogHelper.showAlertDialog(
+        "",
+        'order_received_msg'.tr,
+        'yes'.tr,
+        'no'.tr,
+        "",
+        true,
+        false,
+        this,
+        AppConstants.dialogIdentifier.orderReceived);
+  }
+
+  @override
+  void onNegativeButtonClicked(String dialogIdentifier) {
+    Get.back();
+  }
+
+  @override
+  void onOtherButtonClicked(String dialogIdentifier) {
+    Get.back();
+  }
+
+  @override
+  void onPositiveButtonClicked(String dialogIdentifier) {
+    if (dialogIdentifier == AppConstants.dialogIdentifier.orderReceived) {
+      Get.back();
+      onClickReceiveOrder();
+    }
   }
 }

@@ -6,14 +6,19 @@ import 'package:belcka/buyer_app/buyer_order/model/order_info.dart';
 import 'package:belcka/buyer_app/buyer_order_details/model/buyer_order_details_response.dart';
 import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:belcka/pages/common/listener/select_date_listener.dart';
+import 'package:belcka/pages/common/model/file_info.dart';
+import 'package:belcka/pages/manageattachment/controller/manage_attachment_controller.dart';
+import 'package:belcka/pages/manageattachment/listener/select_attachment_listener.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
 import 'package:belcka/storeman_app/storeman_order_details/controller/storeman_order_details_repository.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/date_utils.dart';
 import 'package:belcka/utils/image_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/base_response.dart';
+import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:dio/dio.dart' as multi;
 import 'package:flutter/cupertino.dart';
@@ -22,7 +27,10 @@ import 'package:get/get.dart';
 import '../../../utils/AlertDialogHelper.dart';
 
 class StoremanOrderDetailsController extends GetxController
-    implements SelectDateListener, DialogButtonClickListener {
+    implements
+        SelectDateListener,
+        DialogButtonClickListener,
+        SelectAttachmentListener {
   final _api = StoremanOrderDetailsRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
@@ -36,7 +44,7 @@ class StoremanOrderDetailsController extends GetxController
   final orderInfo = OrderInfo().obs;
   final orderProductsList = <ProductInfo>[].obs;
   List<ProductInfo> tempOrderProductsList = [];
-  int orderId = 0, initialStatus = 0;
+  int orderId = 0, initialStatus = 0, selectedIndex = 0;
 
   @override
   void onInit() {
@@ -146,6 +154,25 @@ class StoremanOrderDetailsController extends GetxController
   //   }
   // }
 
+  bool isValidOrder() {
+    bool valid = true;
+    for (int i = 0; i < orderProductsList.length; i++) {
+      ProductInfo productInfo = orderProductsList[i];
+      if ((productInfo.qty ?? 0).toInt() !=
+          (productInfo.cartQty ?? 0).toInt()) {
+        if (StringHelper.isEmptyString(productInfo.note)) {
+          valid = false;
+          break;
+        }
+        if (StringHelper.isEmptyList(productInfo.attachments)) {
+          valid = false;
+          break;
+        }
+      }
+    }
+    return valid;
+  }
+
   void proceedOrder() async {
     Map<String, dynamic> map = {};
     map["id"] = orderId;
@@ -153,21 +180,42 @@ class StoremanOrderDetailsController extends GetxController
     map["status"] = status.value == AppConstants.orderStatus.received
         ? AppConstants.orderStatus.processing
         : AppConstants.orderStatus.onStock;
+
+    if (status.value == AppConstants.orderStatus.processing) {
+      for (int i = 0; i < orderProductsList.length; i++) {
+        ProductInfo productInfo = orderProductsList[i];
+        if ((productInfo.qty ?? 0).toInt() !=
+            (productInfo.cartQty ?? 0).toInt()) {
+          map["product_data[$i][id]"] = productInfo.productId ?? 0;
+          map["product_data[$i][qty]"] = productInfo.cartQty ?? 0;
+          map["product_data[$i][note]"] = productInfo.note ?? "";
+        }
+      }
+    }
+
     print("map:" + map.toString());
     multi.FormData formData = multi.FormData.fromMap(map);
 
-    /*  multi.FormData formData = multi.FormData.fromMap(map);
-    print("reques value:" + map.toString());
-    print("mCompanyLogo.value:" + mCompanyLogo.value.toString());
-
-    if (!StringHelper.isEmptyString(mCompanyLogo.value) &&
-        !mCompanyLogo.startsWith("http")) {
-      // final mimeType = lookupMimeType(file. path);
-      formData.files.add(
-        MapEntry("company_image",
-            await multi.MultipartFile.fromFile(mCompanyLogo.value)),
-      );
-    }*/
+    if (status.value == AppConstants.orderStatus.processing) {
+      for (int i = 0; i < orderProductsList.length; i++) {
+        ProductInfo productInfo = orderProductsList[i];
+        if ((productInfo.qty ?? 0).toInt() !=
+            (productInfo.cartQty ?? 0).toInt()) {
+          for (FilesInfo filesInfo in productInfo.attachments ?? []) {
+            if (!StringHelper.isEmptyString(filesInfo.imageUrl) &&
+                !filesInfo.imageUrl!.startsWith("http")) {
+              print("product_data[$i][images][]" + (filesInfo.imageUrl ?? ""));
+              formData.files.add(
+                MapEntry(
+                    "product_data[$i][images][]",
+                    await multi.MultipartFile.fromFile(
+                        filesInfo.imageUrl ?? "")),
+              );
+            }
+          }
+        }
+      }
+    }
 
     isLoading.value = true;
     _api.proceedStoremanOrder(
@@ -323,10 +371,57 @@ class StoremanOrderDetailsController extends GetxController
   void onPositiveButtonClicked(String dialogIdentifier) {
     if (dialogIdentifier == AppConstants.dialogIdentifier.orderDelivered) {
       Get.back();
-      proceedOrder();
+      if (isValidOrder()) {
+        proceedOrder();
+      } else {
+        AppUtils.showToastMessage('msg_storeman_order_note_and_photo'.tr);
+      }
     } else if (dialogIdentifier == AppConstants.dialogIdentifier.orderProceed) {
       Get.back();
       proceedOrder();
+    }
+  }
+
+  showAttachmentOptionsDialog(int index) async {
+    selectedIndex = index;
+    var listOptions = <ModuleInfo>[].obs;
+    ModuleInfo? info;
+
+    info = ModuleInfo();
+    info.name = 'camera'.tr;
+    info.action = AppConstants.attachmentType.camera;
+    listOptions.add(info);
+
+    info = ModuleInfo();
+    info.name = 'gallery'.tr;
+    info.action = AppConstants.attachmentType.multiImage;
+    listOptions.add(info);
+
+    ManageAttachmentController().showAttachmentOptionsDialog(
+        'select_photo_from_'.tr, listOptions, this);
+  }
+
+  @override
+  void onSelectAttachment(List<String> paths, String action) {
+    if (action == AppConstants.attachmentType.camera) {
+      addPhotoToList(paths[0]);
+    } else if (action == AppConstants.attachmentType.multiImage) {
+      for (var path in paths) {
+        addPhotoToList(path);
+      }
+    }
+  }
+
+  addPhotoToList(String? path) {
+    if (!StringHelper.isEmptyString(path)) {
+      List<FilesInfo> listPhotos =
+          orderProductsList[selectedIndex].attachments ?? [];
+      FilesInfo info = FilesInfo();
+      info.imageUrl = path;
+      listPhotos.add(info);
+      orderProductsList[selectedIndex].attachments = listPhotos;
+      orderProductsList.refresh();
+      // attachmentList.add(info);
     }
   }
 }

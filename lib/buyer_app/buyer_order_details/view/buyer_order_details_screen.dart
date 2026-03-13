@@ -138,7 +138,7 @@ class _BuyerOrderDetailsScreenState extends State<BuyerOrderDetailsScreen> {
                                     margin: EdgeInsets.all(14),
                                     buttonText: 'receive'.tr,
                                     onPressed: () {
-                                      controller.onClickReceiveOrder();
+                                      controller.showReceiveOrderDialog();
                                     },
                                     color: defaultAccentColor_(context),
                                   )

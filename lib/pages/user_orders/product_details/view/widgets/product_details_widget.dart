@@ -190,11 +190,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                           children: [
                             ProductQuantityWidget(
                               isSubQuantity: isSubQuantity,
-                              quantity: isSubQuantity
-                                  ? (isAdded
-                                  ? (product.cartQty ?? 0).toInt()
-                                  : int.tryParse(product.packOffQty ?? "") ?? 0)
-                                  : (product.cartQty ?? 0).toInt(),
+                              quantity:(product.cartQty ?? 0).toInt(),
                               unit: packOfUnit,
                               onChanged: (value) {
                                 controller.updateSubQty(value);
@@ -230,15 +226,8 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                   controller.toggleRemoveCart();
                                 }
                                 else{
-                                  if (isSubQuantity){
-                                    if ((int.parse(product.packOffQty ?? "")) > 0){
-                                      controller.toggleAddToCart((int.parse(product.packOffQty ?? "") ?? 0));
-                                    }
-                                  }
-                                  else{
-                                    if ((product.cartQty ?? 0) > 0){
-                                      controller.toggleAddToCart((product.cartQty ?? 0).toInt());
-                                    }
+                                  if ((product.cartQty ?? 0) > 0){
+                                    controller.toggleAddToCart((product.cartQty ?? 0).toInt());
                                   }
                                 }
                               },

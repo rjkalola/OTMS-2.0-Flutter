@@ -616,21 +616,23 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       };
       moveToScreen(appRout: AppRoutes.editWidgetScreen, arguments: arguments);
     } else if (info.slug == 'team') {
-      // if ((info.teamId ?? 0) != 0) {
-      //   var arguments = {
-      //     AppConstants.intentKey.teamId: info.teamId ?? 0,
-      //     AppConstants.intentKey.isAllUserTeams: false
-      //   };
-      //   moveToScreen2(
-      //       appRout: AppRoutes.teamDetailsScreen, arguments: arguments);
-      // }
-      moveToScreen2(appRout: AppRoutes.storemanInventoryScreen);
+      if ((info.teamId ?? 0) != 0) {
+        var arguments = {
+          AppConstants.intentKey.teamId: info.teamId ?? 0,
+          AppConstants.intentKey.isAllUserTeams: false
+        };
+        moveToScreen2(
+            appRout: AppRoutes.teamDetailsScreen, arguments: arguments);
+      }
+      // moveToScreen2(appRout: AppRoutes.storemanInventoryScreen);
     } else if (info.slug == 'teams') {
       var arguments = {AppConstants.intentKey.isAllUserTeams: true};
       moveToScreen2(appRout: AppRoutes.teamListScreen, arguments: arguments);
       // LiveTimer.stop();
     } else if (info.slug == 'purchasing') {
       moveToScreen2(appRout: AppRoutes.purchasingScreen);
+    }else if (info.slug == 'inventory') {
+      moveToScreen2(appRout: AppRoutes.storemanInventoryScreen);
     } else if (info.slug == 'users') {
       moveToScreen2(appRout: AppRoutes.userListScreen);
       // LiveTimer.pause();

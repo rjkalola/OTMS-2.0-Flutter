@@ -25,7 +25,7 @@ class OrderDetailsRepository {
     Function(ResponseModel error)? onError,
   }) {
     ApiRequest(
-        url: ApiConstants.productsRemoveFromCart,
+        url: ApiConstants.employeeOrdersUpdateStatus,
         data: data)
         .postRequest(
       onSuccess: (data) {

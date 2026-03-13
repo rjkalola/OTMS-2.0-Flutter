@@ -1,3 +1,4 @@
+import 'package:belcka/pages/user_orders/widgets/icons/cart_icon_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,17 +16,13 @@ class EmptyCartView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Cart Icon
-            Icon(
-              Icons.shopping_cart_outlined,
-              size: 80,
-              color: Colors.grey.shade400,
-            ),
+            CartIconWidget(size: 40,),
             const SizedBox(height: 20),
             // Title
             Text('empty_basket_msg'.tr,
               style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
               ),
             ),
             const SizedBox(height: 10),
@@ -34,7 +31,7 @@ class EmptyCartView extends StatelessWidget {
               "${'empty_basket_sub_msg'.tr}.",
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 16,
+                fontSize: 15,
                 color: Colors.grey.shade600,
               ),
             ),

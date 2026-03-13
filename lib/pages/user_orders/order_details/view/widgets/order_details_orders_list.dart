@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:belcka/pages/user_orders/order_details/controller/order_details_controller.dart';
 import 'package:belcka/pages/user_orders/order_details/view/widgets/order_action_buttons.dart';
 import 'package:belcka/res/colors.dart';
@@ -28,90 +30,100 @@ class OrderDetailsOrdersList extends StatelessWidget {
         return CardViewDashboardItem(
           child: Padding(
             padding: const EdgeInsets.all(12),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
+            child: Column(
               children: [
-                Container(
-                  width: 100,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[100],
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  clipBehavior: Clip.hardEdge,
-                  child: Image.network(
-                    orders[index].productThumbImage ?? "",
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stack) {
-                      return Center(
-                        child: Icon(
-                          Icons.photo_outlined,
-                          size: 70,
-                          color: Colors.grey.shade300,
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 100,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[100],
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      clipBehavior: Clip.hardEdge,
+                      child: Image.network(
+                        orders[index].productThumbImage ?? "",
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stack) {
+                          return Center(
+                            child: Icon(
+                              Icons.photo_outlined,
+                              size: 70,
+                              color: Colors.grey.shade300,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+
+                    const SizedBox(width: 12),
+
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TitleTextView(
+                            text: orders[index].shortName ?? "",
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                          ),
+
+                          const SizedBox(height: 4),
+
+                          SubtitleTextView(
+                            text: orders[index].uuid ?? "",
+                          ),
+
+                          const SizedBox(height: 4),
+
+                          TitleTextView(
+                            text: "${'qty'.tr}: ${orders[index].qty ?? ""}",
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                          ),
+
+                          const SizedBox(height: 4),
+
+                          TitleTextView(
+                            text: "${orderInfo.currency ?? ""}${orders[index].price ?? ""}",
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 8,),
+                Divider(
+                  color: dividerColor_(context),
+                ),
+                Row(
+                  children: [
+                    Spacer(),
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        print('Re-order button pressed');
+                        controller.orderAgainAction(false, index);
+                      },
+                      icon: Icon(Icons.refresh),
+                      label: TitleTextView(text: "reorder".tr,
+                        fontSize: 15,
+                        color: Colors.white,
+                      fontWeight: FontWeight.w500,),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blueAccent,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0),
                         ),
-                      );
-                    },
-                  ),
-                ),
-
-                const SizedBox(width: 12),
-
-                /// Product details takes remaining space
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TitleTextView(
-                        text: orders[index].shortName ?? "",
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                       ),
-
-                      const SizedBox(height: 4),
-
-                      SubtitleTextView(
-                        text: orders[index].uuid ?? "",
-                      ),
-
-                      const SizedBox(height: 4),
-
-                      TitleTextView(
-                        text: "${'qty'.tr}: ${orders[index].qty ?? ""}",
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                      ),
-
-                      const SizedBox(height: 4),
-
-                      TitleTextView(
-                        text: "${orderInfo.currency ?? ""}${orders[index].price ?? ""}",
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ],
-                  ),
-                ),
-
-                const SizedBox(width: 12),
-                /*
-                /// Buttons fixed on right side
-                SizedBox(
-                  width: 120,
-                  child: OrderActionButtons(
-                    status: 0,
-                    mainTitle: 'reorder',
-                    onCancel: () {
-                      print("Cancel order");
-                    },
-                    onReturn: () {
-                      print("Return order");
-                    },
-                    onReorder: () {
-                      print("Reorder items");
-                    },
-                  ),
-                ),
-                */
+                    ),
+                  ],
+                )
               ],
             ),
           ),

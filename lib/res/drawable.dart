@@ -43,6 +43,8 @@ class Drawable {
       'assets/user_permission_icons/bookkeeper.svg';
   static const String purchasingIcon =
       'assets/user_permission_icons/purchasing.svg';
+  static const String inventoryIcon =
+      'assets/user_permission_icons/inventory.svg';
 
   static const String splashScreenLogo = 'assets/images/splash_screen_logo.jpg';
   static const String activeHomeTabIcon =
@@ -147,4 +149,5 @@ class Drawable {
   static const String deliveredImage = 'assets/images/delivered_image.png';
   static const String emptyDataIcon = 'assets/images/img_empty_data.png';
   static const String galleryImage = 'assets/images/gallery_image.svg';
+  static const String addImageIcon = 'assets/images/ic_add_image.svg';
 }

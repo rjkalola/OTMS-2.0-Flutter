@@ -2,14 +2,18 @@ import 'package:belcka/buyer_app/buyer_order/view/widgets/order_quantity_change_
 import 'package:belcka/buyer_app/buyer_order/view/widgets/order_quantity_display_text_view.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/drawable.dart';
 import 'package:belcka/storeman_app/storeman_order_details/controller/storeman_order_details_controller.dart';
 import 'package:belcka/utils/app_constants.dart';
-import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/image_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/widgets/gridview/document_gridview.dart';
 import 'package:belcka/widgets/text/SubTitleTextView.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
+import 'package:belcka/widgets/textfield/text_field_border_dark.dart';
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 
 class StoremanOrderProductsListItem extends StatelessWidget {
@@ -17,19 +21,23 @@ class StoremanOrderProductsListItem extends StatelessWidget {
   final VoidCallback onListItem;
   final VoidCallback onAdd;
   final VoidCallback onRemove;
+  final int index;
+  final int status;
 
   final controller = Get.find<StoremanOrderDetailsController>();
 
-  StoremanOrderProductsListItem({
-    super.key,
-    required this.item,
-    required this.onListItem,
-    required this.onAdd,
-    required this.onRemove,
-  });
+  StoremanOrderProductsListItem(
+      {super.key,
+      required this.item,
+      required this.onListItem,
+      required this.onAdd,
+      required this.onRemove,
+      required this.index,
+      required this.status});
 
   @override
   Widget build(BuildContext context) {
+    bool isEnableEdit = status != AppConstants.orderStatus.onStock;
     return GestureDetector(
       onTap: onListItem,
       child: Padding(
@@ -95,30 +103,6 @@ class StoremanOrderProductsListItem extends StatelessWidget {
                                   )
                                 ],
                               )
-
-                        // TitleTextView(
-                        //   text:
-                        //       "${'ordered_qty'.tr}: ${AppUtils.formatDecimalNumber(item.qty ?? 0)}",
-                        //   fontSize: 13,
-                        //   color: primaryTextColor_(context),
-                        // ),
-                        // Row(
-                        //   children: [
-                        //     TitleTextView(
-                        //       text:
-                        //           "${'received_qty'.tr}: ${item.receivedQty ?? 0}",
-                        //       fontSize: 13,
-                        //       color: primaryTextColor_(context),
-                        //     ),
-                        //     const Spacer(),
-                        //     TitleTextView(
-                        //       text:
-                        //           "${controller.orderInfo.value.currency ?? ""}${item.price ?? "0"}",
-                        //       fontSize: 16,
-                        //       fontWeight: FontWeight.bold,
-                        //     )
-                        //   ],
-                        // ),
                       ],
                     ),
                   ),
@@ -128,9 +112,14 @@ class StoremanOrderProductsListItem extends StatelessWidget {
                 height: 6,
               ),
               Visibility(
-                visible: ((item.qty ?? 0) - (item.receivedQty ?? 0)) > 0,
+                visible: (item.qty ?? 0).toInt() != (item.cartQty ?? 0) ||
+                    (status == AppConstants.orderStatus.onStock &&
+                        !StringHelper.isEmptyList(item.attachments)),
                 child: Column(
                   children: [
+                    SizedBox(
+                      height: 6,
+                    ),
                     Divider(
                       color: dividerColor_(context),
                     ),
@@ -139,21 +128,70 @@ class StoremanOrderProductsListItem extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        TitleTextView(
-                          text: 'qty_to_receive'.tr,
-                          fontSize: 16,
+                        Visibility(
+                          visible: isEnableEdit,
+                          child: GestureDetector(
+                            onTap: () {
+                              controller.showAttachmentOptionsDialog(index);
+                            },
+                            child: ImageUtils.setSvgAssetsImage(
+                                path: Drawable.addImageIcon,
+                                width: 40,
+                                height: 40),
+                          ),
                         ),
-                        const Spacer(),
-                        OrderQuantityChangeButton(text: "-", onTap: onRemove),
-                        const SizedBox(width: 8),
-                        OrderQuantityDisplayTextView(
-                          value: (item.cartQty ?? 0).toInt(),
-                          width: 52,
-                          height: 30,
+                        Visibility(
+                          visible: isEnableEdit,
+                          child: SizedBox(
+                            width: 6,
+                          ),
                         ),
-                        const SizedBox(width: 8),
-                        OrderQuantityChangeButton(text: "+", onTap: onAdd),
+                        Expanded(
+                            child: TextFieldBorderDark(
+                          isDense: true,
+                          contentPadding: EdgeInsets.only(
+                              left: 12, right: 12, top: 9, bottom: 9),
+                          textEditingController:
+                              TextEditingController(text: item.note ?? ""),
+                          hintText: 'note'.tr,
+                          labelText: 'note'.tr,
+                          textInputAction: TextInputAction.newline,
+                          validator: MultiValidator([]),
+                          isEnabled: isEnableEdit,
+                          isReadOnly: !isEnableEdit,
+                          textAlignVertical: TextAlignVertical.top,
+                          onValueChange: (value) {
+                            item.note = value;
+                          },
+                          maxLength: 150,
+                          fontSize: 14,
+                          borderRadius: 10,
+                        ))
                       ],
+                    ),
+                    Visibility(
+                      visible: (item.attachments ?? []).isNotEmpty,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 6),
+                        child: DocumentGridview(
+                            isEditable: isEnableEdit,
+                            crossAxisCount: 5,
+                            physics: const NeverScrollableScrollPhysics(),
+                            filesList: (item.attachments ?? []).obs,
+                            onViewClick: (int index) async {
+                              // String fileUrl = item.attachments![index].imageUrl??"";
+                              // await ImageUtils.openAttachment(
+                              //     Get.context!, fileUrl, ImageUtils.getFileType(fileUrl));
+                              ImageUtils.moveToImagePreview(
+                                  item.attachments!,
+                              index);
+                            },
+                            onRemoveClick: (int index) {
+                              item.attachments!.removeAt(index);
+                              controller.orderProductsList.refresh();
+                              // onGridItemClick(index, AppConstants.action.removePhoto);
+                            }),
+                      ),
                     )
                   ],
                 ),

@@ -16,31 +16,33 @@ class StoremanOrderProductsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(
-          () => controller.orderProductsList.isNotEmpty
+      () => controller.orderProductsList.isNotEmpty
           ? ListView.separated(
-        // controller: controller.orderProductsList,
-        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: controller.orderProductsList.length,
-        separatorBuilder: (_, __) => const SizedBox(height: 10),
-        itemBuilder: (context, index) {
-          final item = controller.orderProductsList[index];
-          return StoremanOrderProductsListItem(
-            item: item,
-            onListItem: () => controller.onItemClick(index),
-            onAdd: () => controller.increaseQty(index),
-            onRemove: () => controller.decreaseQty(index),
-          );
-          // return DeliveredBuyerOrderListItem(
-          //   item: item,
-          //   onListItem: () => controller.onItemClick(index),
-          // );
-        },
-      )
+              // controller: controller.orderProductsList,
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: controller.orderProductsList.length,
+              separatorBuilder: (_, __) => const SizedBox(height: 10),
+              itemBuilder: (context, index) {
+                final item = controller.orderProductsList[index];
+                return StoremanOrderProductsListItem(
+                  item: item,
+                  onListItem: () => controller.onItemClick(index),
+                  onAdd: () => controller.increaseQty(index),
+                  onRemove: () => controller.decreaseQty(index),
+                  index: index,
+                  status: controller.status.value,
+                );
+                // return DeliveredBuyerOrderListItem(
+                //   item: item,
+                //   onListItem: () => controller.onItemClick(index),
+                // );
+              },
+            )
           : Center(
-        child: NoDataFoundWidget(),
-      ),
+              child: NoDataFoundWidget(),
+            ),
     );
   }
 }

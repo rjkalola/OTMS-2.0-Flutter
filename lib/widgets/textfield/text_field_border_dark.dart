@@ -33,7 +33,8 @@ class TextFieldBorderDark extends StatelessWidget {
       this.onFieldSubmitted,
       this.errorMaxLines,
       this.borderRadius,
-      this.contentPadding});
+      this.contentPadding,
+      this.fontSize});
 
   final TextEditingController? textEditingController;
   final String? hintText, labelText;
@@ -56,6 +57,7 @@ class TextFieldBorderDark extends StatelessWidget {
   final int? errorMaxLines;
   final double? borderRadius;
   final EdgeInsetsGeometry? contentPadding;
+  final double? fontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +70,7 @@ class TextFieldBorderDark extends StatelessWidget {
       enabled: isEnabled,
       style: TextStyle(
           fontWeight: FontWeight.w400,
-          fontSize: 15,
+          fontSize: fontSize ?? 15,
           color: primaryTextColor_(context)),
       controller: textEditingController,
       keyboardType: keyboardType,
@@ -107,11 +109,11 @@ class TextFieldBorderDark extends StatelessWidget {
         labelText: labelText,
         labelStyle: TextStyle(
             fontWeight: FontWeight.w400,
-            fontSize: 16,
+            fontSize: fontSize ?? 15,
             color: hintColor_(context)),
         hintStyle: TextStyle(
             fontWeight: FontWeight.w400,
-            fontSize: 16,
+            fontSize: fontSize ?? 15,
             color: hintColor_(context)),
       ),
       validator: validator!,

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:belcka/buyer_app/buyer_order/model/buyer_orders_list_response.dart';
 import 'package:belcka/buyer_app/buyer_order/model/order_info.dart';
+import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/storeman_app/storeman_internal_orders/controller/storeman_internal_order_repository.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
@@ -146,5 +147,18 @@ class StoremanInternalOrderController extends GetxController {
     searchController.value.clear();
     isSearchEnable.value = false;
     searchItem("");
+  }
+
+  void onItemClick(int index) {
+    var arguments = {"order_id": (ordersList[index].id??0).toString()};
+    moveToScreen(appRout: AppRoutes.orderDetailsScreen, arguments: arguments);
+  }
+
+  Future<void> moveToScreen(
+      {required String appRout, dynamic arguments}) async {
+    var result = await Get.toNamed(appRout, arguments: arguments);
+    if (result != null && true) {
+      loadData();
+    }
   }
 }

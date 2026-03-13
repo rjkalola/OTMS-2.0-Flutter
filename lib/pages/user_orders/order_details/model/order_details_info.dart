@@ -24,6 +24,8 @@ class OrderDetailsInfo {
   String? updatedBy;
   String? date;
   List<OrderDetailsOrdersInfo>? orders;
+  int? storeId;
+  String? deliverOn;
 
   OrderDetailsInfo({
     this.id,
@@ -49,6 +51,8 @@ class OrderDetailsInfo {
     this.updatedBy,
     this.date,
     this.orders,
+    this.deliverOn,
+    this.storeId
   });
 
   OrderDetailsInfo.fromJson(Map<String, dynamic> json) {
@@ -74,6 +78,8 @@ class OrderDetailsInfo {
     statusUpdatedBy = json['status_updated_by'];
     updatedBy = json['updated_by'];
     date = json['date'];
+    deliverOn = json['deliver_on'];
+    storeId = json['store_id'];
 
     if (json['orders'] != null) {
       orders = <OrderDetailsOrdersInfo>[];
@@ -107,6 +113,9 @@ class OrderDetailsInfo {
     data['status_updated_by'] = statusUpdatedBy;
     data['updated_by'] = updatedBy;
     data['date'] = date;
+
+    data['deliver_on'] = deliverOn;
+    data['store_id'] = storeId;
 
     if (orders != null) {
       data['orders'] = orders!.map((v) => v.toJson()).toList();

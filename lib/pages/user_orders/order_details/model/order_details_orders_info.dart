@@ -1,3 +1,5 @@
+import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
+
 class OrderDetailsOrdersInfo {
   int? id;
   int? orderId;
@@ -13,6 +15,9 @@ class OrderDetailsOrdersInfo {
   String? note;
   int? receiveId;
   String? description;
+  ProductInfo? product;
+  String? subQty;
+  bool? isSubQty;
 
   OrderDetailsOrdersInfo({
     this.id,
@@ -29,6 +34,9 @@ class OrderDetailsOrdersInfo {
     this.note,
     this.receiveId,
     this.description,
+    this.product,
+    this.isSubQty,
+    this.subQty
   });
 
   OrderDetailsOrdersInfo.fromJson(Map<String, dynamic> json) {
@@ -45,6 +53,11 @@ class OrderDetailsOrdersInfo {
     note = json['note'];
     //receiveId = json['receiveId'];
     description = json['description'];
+    subQty = json['sub_qty'].toString();
+    isSubQty = json['is_sub_qty'];
+    product = json['product'] != null
+        ? ProductInfo.fromJson(json['product'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -63,6 +76,9 @@ class OrderDetailsOrdersInfo {
     data['note'] = note;
     data['receiveId'] = receiveId;
     data['description'] = description;
+    data['product'] = product;
+    data['is_sub_qty'] = isSubQty;
+    data['sub_qty'] = subQty;
     return data;
   }
 }

@@ -1,17 +1,15 @@
-import 'package:belcka/routes/app_routes.dart';
-import 'package:belcka/utils/app_constants.dart';
-import 'package:belcka/widgets/other_widgets/right_arrow_widget.dart';
-import 'package:belcka/widgets/shapes/badge_count_widget.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
-import 'package:get/get.dart';
 import 'package:belcka/pages/check_in/stop_shift/controller/stop_shift_controller.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/date_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/widgets/shapes/badge_count_widget.dart';
 import 'package:belcka/widgets/text/PrimaryTextView.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CurrentLogSummery extends StatelessWidget {
   CurrentLogSummery({super.key});

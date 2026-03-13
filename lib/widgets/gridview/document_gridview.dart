@@ -11,7 +11,8 @@ class DocumentGridview extends StatelessWidget {
       required this.onRemoveClick,
       this.physics,
       this.fileRadius,
-      this.isEditable});
+      this.isEditable,
+      this.crossAxisCount});
 
   final List<FilesInfo> filesList;
   final ValueChanged<int> onViewClick;
@@ -19,6 +20,7 @@ class DocumentGridview extends StatelessWidget {
   final ScrollPhysics? physics;
   final double? fileRadius;
   final bool? isEditable;
+  final int? crossAxisCount;
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +28,12 @@ class DocumentGridview extends StatelessWidget {
           scrollDirection: Axis.vertical,
           shrinkWrap: true,
           physics: physics,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             childAspectRatio: (1 / 1),
-            crossAxisCount: 4, // number of items in each row
-            mainAxisSpacing: 7.0, // spacing between rows
+            crossAxisCount: crossAxisCount != null ? crossAxisCount! : 4,
+            // number of items in each row
+            mainAxisSpacing: 7.0,
+            // spacing between rows
             crossAxisSpacing: 7.0, // spacing between columns
           ),
           padding: const EdgeInsets.all(8.0),

@@ -176,7 +176,7 @@ class ProductDetailsController extends GetxController{
     product.value.cartQty = userQty - 1;
   }
   void updateSubQty(int count) {
-    product.value.packOffQty = "$count";
+    product.value.cartQty = count.toDouble();
   }
   void onBackPress() {
     Get.back(result: isDataUpdated);

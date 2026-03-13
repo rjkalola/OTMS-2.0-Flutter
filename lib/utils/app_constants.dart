@@ -177,6 +177,7 @@ class DialogIdentifier {
   final String tradeWarningDialog = 'TRADE_WARNING_DIALOG';
   final String orderProceed = 'ORDER_PROCEED';
   final String orderDelivered = 'ORDER_DELIVERED';
+  final String orderReceived = 'ORDER_RECEIVED';
 }
 
 class SharedPreferenceKey {

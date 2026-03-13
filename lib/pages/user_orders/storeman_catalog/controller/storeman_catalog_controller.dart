@@ -301,7 +301,7 @@ class StoremanCatalogController extends GetxController {
 
   void updateSubQty(int index, int count) {
     final product = products[index];
-    product.packOffQty = "$count";
+    product.cartQty = count.toDouble();
   }
 
   void onBackPress() {
@@ -322,8 +322,11 @@ class StoremanCatalogController extends GetxController {
       results = tempList;
     } else {
       results = tempList
-          .where((element) => (!StringHelper.isEmptyString(element.shortName) &&
-              element.shortName!.toLowerCase().contains(value.toLowerCase())))
+          .where((element) =>
+      (!StringHelper.isEmptyString(element.shortName) &&
+          element.shortName!.toLowerCase().contains(value.toLowerCase())) ||
+          (!StringHelper.isEmptyString(element.uuid) &&
+              element.uuid!.toLowerCase().contains(value.toLowerCase())))
           .toList();
     }
     products.value = results;

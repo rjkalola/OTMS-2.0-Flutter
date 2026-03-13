@@ -76,9 +76,14 @@ class _StoremanOrderDetailsScreenState
                         visible: controller.isMainViewVisible.value,
                         child: Column(
                           children: [
-                            StoremanOrderDetailsHeader(
-                                item: controller.orderInfo.value,
-                                onListItem: () {}),
+                            GestureDetector(
+                              onTap: () => FocusScope.of(context).unfocus(),
+                              onPanDown: (_) =>
+                                  FocusScope.of(context).unfocus(),
+                              child: StoremanOrderDetailsHeader(
+                                  item: controller.orderInfo.value,
+                                  onListItem: () {}),
+                            ),
                             const SizedBox(height: 15),
                             Expanded(
                               child: SingleChildScrollView(

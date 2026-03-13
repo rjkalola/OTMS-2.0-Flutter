@@ -357,16 +357,15 @@ class PaymentDocumentsController extends GetxController
       isDataAvailable = true;
     }
 
-    if(isDataAvailable){
+    if (isDataAvailable) {
       if (info.action == AppConstants.action.download) {
         isDownloadEnable.value = true;
       } else if (info.action == AppConstants.action.delete) {
         isDeleteEnable.value = true;
       }
-    }else{
+    } else {
       AppUtils.showToastMessage('empty_data_message'.tr);
     }
-
   }
 
   showDeleteDialog() async {

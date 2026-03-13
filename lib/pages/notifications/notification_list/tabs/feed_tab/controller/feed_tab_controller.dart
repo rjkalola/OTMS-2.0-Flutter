@@ -128,10 +128,8 @@ class FeedTabController extends GetxController {
               AppConstants.notificationType.TIMESHEET_REQUEST_DELETE ||
           notificationType ==
               AppConstants.notificationType.TIMESHEET_TO_BE_PAID ||
-          notificationType == AppConstants.notificationType.TIMESHEET_EDIT ||
           notificationType == AppConstants.notificationType.WORKLOG_APPROVE ||
           notificationType == AppConstants.notificationType.WORKLOG_REJECT ||
-          notificationType == AppConstants.notificationType.WORKLOG_ADD ||
           notificationType ==
               AppConstants.notificationType.TIME_CLOCK_EDIT_WORKLOG ||
           notificationType ==
@@ -142,6 +140,17 @@ class FeedTabController extends GetxController {
           String rout = AppRoutes.stopShiftScreen;
           var arguments = {
             AppConstants.intentKey.workLogId: info.worklogId ?? 0,
+            AppConstants.intentKey.userId: info.userId ?? 0,
+          };
+          moveToScreen(rout, arguments: arguments, index: index);
+        }
+      } else if (notificationType ==
+              AppConstants.notificationType.TIMESHEET_EDIT ||
+          notificationType == AppConstants.notificationType.WORKLOG_ADD) {
+        if ((info.requestLogId ?? 0) != 0) {
+          String rout = AppRoutes.workLogRequestScreen;
+          var arguments = {
+            AppConstants.intentKey.ID: info.requestLogId ?? 0,
             AppConstants.intentKey.userId: info.userId ?? 0,
           };
           moveToScreen(rout, arguments: arguments, index: index);

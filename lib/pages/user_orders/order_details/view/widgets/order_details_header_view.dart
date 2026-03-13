@@ -1,5 +1,6 @@
 import 'package:belcka/pages/user_orders/order_details/controller/order_details_controller.dart';
 import 'package:belcka/pages/user_orders/order_details/view/widgets/order_action_buttons.dart';
+import 'package:belcka/pages/user_orders/order_details/view/widgets/order_status_alert_dialog.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/text/SubTitleTextView.dart';
@@ -7,10 +8,30 @@ import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class OrderDetailsHeaderView extends StatelessWidget {
-  OrderDetailsHeaderView({super.key});
+
+class OrderDetailsHeaderView extends StatefulWidget {
+  const OrderDetailsHeaderView({super.key});
+
+  @override
+  State<OrderDetailsHeaderView> createState() => _OrderDetailsHeaderViewState();
+}
+
+class _OrderDetailsHeaderViewState extends State<OrderDetailsHeaderView> {
 
   final controller = Get.put(OrderDetailsController());
+  late TextEditingController _reasonController;
+
+  @override
+  void initState() {
+    super.initState();
+    _reasonController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _reasonController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -128,27 +149,115 @@ class OrderDetailsHeaderView extends StatelessWidget {
           ),
 
           const SizedBox(height: 16),
-          /*
           Padding(
             padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
-            child: OrderActionButtons(
-              status: orderInfo.status ?? 0,
-              mainTitle: 'reorder_all',
-              onCancel: () {
-                print("Cancel order");
-                controller.changeOrderStatus(2);
-              },
-              onReturn: () {
-                print("Return order");
-              },
-              onReorder: () {
-                print("Reorder items");
-              },
-            ),
+            child: _buildOrderActions(orderInfo.status ?? 0),
           )
-          */
+
         ],
       ),
     );
   }
+
+  Widget _buildOrderActions(int status) {
+    // Logic to determine which UI to show
+    if (status == 1 || status == 3 || status == 4 || status == 5) {
+      return _twoButtons();
+    }
+    return _singleButton();
+  }
+
+  Widget _twoButtons() {
+    return Padding(
+      padding: const EdgeInsets.all(0),
+      child: Row(
+        children: [
+          // Cancel Button
+          OutlinedButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) => OrderStatusAlertDialog(
+                  title: 'Cancel Order ${controller.orderDetails[0].orderId ?? ""}',
+                  description: 'Please provide a reason for cancelling this order.'
+                      'This information is required for project tracking and order history',
+                  showTextField: true,
+                  controller: _reasonController,
+                  onConfirm: () {
+                    controller.updateOrderStatus(7, _reasonController.text.trim());
+                    _reasonController.text = "";
+                    Navigator.pop(context);
+                  },
+                  onCancel: () => Navigator.pop(context),
+                ),
+              );
+
+            },
+            style: OutlinedButton.styleFrom(
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.red,
+              side: const BorderSide(color: Colors.red),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+            ),
+            child: TitleTextView(
+              text: "cancel".tr,
+              fontSize: 15,
+              color: Colors.red,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+
+          Spacer(),
+          ElevatedButton.icon(
+            onPressed: () {
+              print('Re-order button pressed');
+              controller.orderAgainAction(true, 0);
+            },
+            icon: Icon(Icons.refresh),
+            label: TitleTextView(text: "reorder_all".tr,
+              fontSize: 15,
+              color: Colors.white,
+              fontWeight: FontWeight.w500,),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blueAccent,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+            ),
+          ),
+
+        ],
+      ),
+    );
+  }
+
+  Widget _singleButton() {
+    return Row(
+      children: [
+        Spacer(),
+        ElevatedButton.icon(
+          onPressed: () {
+            print('Re-order button pressed');
+            controller.orderAgainAction(true, 0);
+          },
+          icon: Icon(Icons.refresh),
+          label: TitleTextView(text: "reorder_all".tr,
+            fontSize: 15,
+            color: Colors.white,
+            fontWeight: FontWeight.w500,),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.blueAccent,
+            foregroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          ),
+        ),
+      ],
+    );
+  }
 }
+

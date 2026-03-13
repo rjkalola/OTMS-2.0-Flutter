@@ -313,8 +313,16 @@ class AppUtils {
       color = Colors.orange;
     } else if (status == AppConstants.internalOrderStatus.preparing) {
       color = Colors.orange;
-    } else if (status == AppConstants.internalOrderStatus.preparing) {
+    } else if (status == AppConstants.internalOrderStatus.readyToDeliver) {
       color = Colors.orange;
+    }else if (status == AppConstants.internalOrderStatus.delivered) {
+      color = Colors.green;
+    }else if (status == AppConstants.internalOrderStatus.cancelled) {
+      color = Colors.red;
+    }else if (status == AppConstants.internalOrderStatus.returned) {
+      color = Colors.orange;
+    }else if (status == AppConstants.internalOrderStatus.confirmed) {
+      color = Colors.green;
     }
     return color;
   }

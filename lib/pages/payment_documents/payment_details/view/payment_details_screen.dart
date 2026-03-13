@@ -54,7 +54,37 @@ class _PaymentDetailsScreenState extends State<PaymentDetailsScreen> {
                             Expanded(
                               child: SingleChildScrollView(
                                 child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    getDetailRow(
+                                        'net_timesheet'.tr,
+                                        getValue(controller.paymentsInfo.value
+                                            .netTimeclockAmount)),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 20),
+                                      child: TitleTextView(
+                                          text: "(${'leave_including'.tr})",
+                                          fontSize: 13,
+                                          color: secondaryExtraLightTextColor_(
+                                              context),
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                    getDetailRow(
+                                        'penalty'.tr,
+                                        !StringHelper.isEmptyString(getValue(
+                                            controller.paymentsInfo.value
+                                                .netPenaltyAmount))
+                                            ? "-${getValue(controller.paymentsInfo.value.netPenaltyAmount)}"
+                                            : "",
+                                        fontColor: Colors.red),
+                                    getDetailRow(
+                                        'price_work'.tr,
+                                        getValue(controller.paymentsInfo.value
+                                            .netPriceworkAmount)),
+                                    getDetailRow(
+                                        'expense'.tr,
+                                        getValue(controller.paymentsInfo.value
+                                            .netExpenseAmount)),
                                     getDetailRow(
                                         'gross_amount'.tr,
                                         getValue(controller
@@ -67,26 +97,6 @@ class _PaymentDetailsScreenState extends State<PaymentDetailsScreen> {
                                             ? "-${getValue(controller.paymentsInfo.value.cisAmount)}"
                                             : "",
                                         fontColor: Colors.red),
-                                    getDetailRow(
-                                        'net_timesheet'.tr,
-                                        getValue(controller.paymentsInfo.value
-                                            .netTimeclockAmount)),
-                                    getDetailRow(
-                                        'net_price_work'.tr,
-                                        getValue(controller.paymentsInfo.value
-                                            .netPriceworkAmount)),
-                                    getDetailRow(
-                                        'penalty_amount'.tr,
-                                        !StringHelper.isEmptyString(getValue(
-                                                controller.paymentsInfo.value
-                                                    .netPenaltyAmount))
-                                            ? "-${getValue(controller.paymentsInfo.value.netPenaltyAmount)}"
-                                            : "",
-                                        fontColor: Colors.red),
-                                    getDetailRow(
-                                        'expense_amount'.tr,
-                                        getValue(controller.paymentsInfo.value
-                                            .netExpenseAmount)),
                                     getDetailRow(
                                         'paid_leave'.tr,
                                         getValue(controller.paymentsInfo.value
@@ -103,6 +113,7 @@ class _PaymentDetailsScreenState extends State<PaymentDetailsScreen> {
                                         'total_paid'.tr,
                                         getValue(controller.paymentsInfo.value
                                             .totalPayableAmount),
+                                        fontSize: 17,
                                         fontWeight: FontWeight.w600),
                                   ],
                                 ),
@@ -142,7 +153,7 @@ class _PaymentDetailsScreenState extends State<PaymentDetailsScreen> {
                   fit: FlexFit.tight,
                   child: TitleTextView(
                       text: title ?? "",
-                      fontSize: fontSize ?? 18,
+                      fontSize: fontSize ?? 16,
                       fontWeight: fontWeight ?? FontWeight.w400),
                 ),
                 Flexible(
@@ -151,7 +162,7 @@ class _PaymentDetailsScreenState extends State<PaymentDetailsScreen> {
                     child: TitleTextView(
                       text: value ?? "",
                       textAlign: TextAlign.end,
-                      fontSize: fontSize ?? 18,
+                      fontSize: fontSize ?? 16,
                       fontWeight: fontWeight ?? FontWeight.w400,
                       color: fontColor ?? Colors.green,
                     ))

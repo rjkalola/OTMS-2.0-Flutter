@@ -58,6 +58,7 @@ class ProductInfo {
   String? storeIds;
   int? cartId;
   List<FilesInfo>? productImages;
+  List<FilesInfo>? attachments;
   int? receivedQty;
   int? totalQty;
   String? manufactureName;
@@ -72,79 +73,82 @@ class ProductInfo {
   String? productThumbImage;
   String? packOfUnit;
   String? packOfUnitName;
+  String? note;
 
   ProductInfo(
       {this.id,
-        this.productId,
-        this.companyId,
-        this.companyName,
-        this.uuid,
-        this.sortId,
-        this.shortName,
-        this.supplierId,
-        this.supplierName,
-        this.supplierCode,
-        this.name,
-        this.description,
-        this.price,
-        this.marketPrice,
-        this.qty,
-        this.cartQty,
-        this.subQty,
-        this.receivedQty,
-        this.totalQty,
-        this.manufactureName,
-        this.totalAmount,
-        this.stockStatus,
-        this.currency,
-        this.stockStatusId,
-        this.isSubQty,
-        this.packOffQty,
-        this.packOffUnitId,
-        this.imageUrl,
-        this.thumbUrl,
-        this.qrCode,
-        this.cutoff,
-        this.dateAvailable,
-        this.status,
-        this.isArchived,
-        this.addedBy,
-        this.userName,
-        this.userImage,
-        this.qrCodeUrl,
-        this.isBookMark,
-        this.isCartProduct,
-        this.modelId,
-        this.modelName,
-        this.manufacturerId,
-        this.manufacturerName,
-        this.weightUnitId,
-        this.weightUnit,
-        this.lengthUnitId,
-        this.lengthUnit,
-        this.weight,
-        this.length,
-        this.width,
-        this.height,
-        this.tax,
-        this.tags,
-        this.barcodeText,
-        this.productCategories,
-        this.categoryIds,
-        this.storeIds,
-        this.productImages,
-        this.cartId,
-        this.availableQty,
-        this.remainingQty,
-        this.storeName,
-        this.orderUsersDisplay,
-        this.orderUserCount,
-        this.pendingQty,
-        this.projectName,
+      this.productId,
+      this.companyId,
+      this.companyName,
+      this.uuid,
+      this.sortId,
+      this.shortName,
+      this.supplierId,
+      this.supplierName,
+      this.supplierCode,
+      this.name,
+      this.description,
+      this.price,
+      this.marketPrice,
+      this.qty,
+      this.cartQty,
+      this.subQty,
+      this.receivedQty,
+      this.totalQty,
+      this.manufactureName,
+      this.totalAmount,
+      this.stockStatus,
+      this.currency,
+      this.stockStatusId,
+      this.isSubQty,
+      this.packOffQty,
+      this.packOffUnitId,
+      this.imageUrl,
+      this.thumbUrl,
+      this.qrCode,
+      this.cutoff,
+      this.dateAvailable,
+      this.status,
+      this.isArchived,
+      this.addedBy,
+      this.userName,
+      this.userImage,
+      this.qrCodeUrl,
+      this.isBookMark,
+      this.isCartProduct,
+      this.modelId,
+      this.modelName,
+      this.manufacturerId,
+      this.manufacturerName,
+      this.weightUnitId,
+      this.weightUnit,
+      this.lengthUnitId,
+      this.lengthUnit,
+      this.weight,
+      this.length,
+      this.width,
+      this.height,
+      this.tax,
+      this.tags,
+      this.barcodeText,
+      this.productCategories,
+      this.categoryIds,
+      this.storeIds,
+      this.productImages,
+      this.attachments,
+      this.cartId,
+      this.availableQty,
+      this.remainingQty,
+      this.storeName,
+      this.orderUsersDisplay,
+      this.orderUserCount,
+      this.pendingQty,
+      this.projectName,
       this.productImage,
       this.productThumbImage,
       this.packOfUnit,
-      this.packOfUnitName});
+      this.packOfUnitName,
+      this.note});
 
   ProductInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -209,6 +213,12 @@ class ProductInfo {
         productImages!.add(new FilesInfo.fromJson(v));
       });
     }
+    if (json['attachments'] != null) {
+      attachments = <FilesInfo>[];
+      json['attachments'].forEach((v) {
+        attachments!.add(new FilesInfo.fromJson(v));
+      });
+    }
     receivedQty = json['received_qty'];
     totalQty = json['total_qty'];
     manufactureName = json['manufacturer_name'];
@@ -223,6 +233,7 @@ class ProductInfo {
     productThumbImage = json['product_thumb_image'];
     packOfUnit = json['pack_off_unit'];
     packOfUnitName = json['pack_off_unit_name'];
+    note =  json['note'];
   }
 
   Map<String, dynamic> toJson() {
@@ -286,6 +297,9 @@ class ProductInfo {
       data['product_images'] =
           this.productImages!.map((v) => v.toJson()).toList();
     }
+    if (this.attachments != null) {
+      data['attachments'] = this.attachments!.map((v) => v.toJson()).toList();
+    }
 
     data['received_qty'] = this.receivedQty;
     data['total_qty'] = this.totalQty;
@@ -303,7 +317,8 @@ class ProductInfo {
     data['product_thumb_image'] = this.productThumbImage;
     data['pack_off_unit'] = this.packOfUnit;
     data['pack_off_unit_name'] = this.packOfUnitName;
+    data['note'] = this.note; 
+
     return data;
   }
 }
-

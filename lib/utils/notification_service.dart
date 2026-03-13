@@ -207,10 +207,7 @@ class NotificationService {
       } else if (notificationType ==
               AppConstants.notificationType.TIMESHEET_EDIT ||
           notificationType == AppConstants.notificationType.WORKLOG_ADD) {
-        final requestLogId =
-            notificationType == AppConstants.notificationType.TIMESHEET_EDIT
-                ? data['request_log_id'] ?? "0"
-                : data['record_id'] ?? "0";
+        final requestLogId = data['request_log_id'] ?? "0";
         final userId = data['user_id'] ?? "0";
         print("requestLogId is:" + requestLogId);
         print("userId is:" + userId);
