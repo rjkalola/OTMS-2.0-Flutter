@@ -324,10 +324,13 @@ class ApiConstants {
   static String receiveBuyerOrder = '$appUrl/purchase-orders/purchase-receive';
   static String buyerProjectsList = '$appUrl/project/get-favorite';
   static String buyerCatalogueList = '$appUrl/categories/get';
+  static String addCategory = '$appUrl/categories/create';
+  static String updateCategory = '$appUrl/categories/update';
   static String buyerOrderDelete = '$appUrl/purchase-orders/delete';
 
   //storeman order
   static String storemanInventoryOverview = '$appUrl/storeman-overview';
   static String storemanInternalOrders = '$appUrl/employee-orders/get';
   static String proceedStoremanOrder = '$appUrl/purchase-orders/update-status';
+
 }

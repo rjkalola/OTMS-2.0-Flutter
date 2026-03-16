@@ -6,6 +6,7 @@ import 'package:belcka/pages/leaves/add_leave/view/widgets/leave_note.dart';
 import 'package:belcka/pages/leaves/add_leave/view/widgets/total_time_requested.dart';
 import 'package:belcka/pages/leaves/leave_utils.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
@@ -201,7 +202,9 @@ class _CreateLeaveScreenState extends State<CreateLeaveScreen> {
   List<Widget>? actionButtons() {
     return [
       Visibility(
-        visible: controller.leaveInfo != null,
+        visible: controller.leaveInfo != null &&
+            (controller.leaveInfo?.requestStatus ?? 0) !=
+                AppConstants.status.rejected,
         child: TextButton(
             onPressed: () {
               controller.showRemoveLeaveDialog();

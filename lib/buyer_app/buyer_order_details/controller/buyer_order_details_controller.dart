@@ -142,7 +142,7 @@ class BuyerOrderDetailsController extends GetxController
     if (productList.isNotEmpty) {
       receiveOrderApi(productList);
     } else {
-      AppUtils.showToastMessage('msg_receive_at_least_one_qty'.tr);
+      AppUtils.showToastMessage('msg_select_at_least_one_qty'.tr);
     }
   }
 

@@ -90,7 +90,7 @@ class _StoremanOrderDetailsScreenState
                                 child: Column(
                                   children: [
                                     StoremanOrderProductsList(),
-                                    Visibility(
+                                    /*Visibility(
                                       visible: controller.status.value ==
                                               AppConstants.orderStatus.issued ||
                                           controller.status.value ==
@@ -128,7 +128,7 @@ class _StoremanOrderDetailsScreenState
                                           )
                                         ],
                                       ),
-                                    ),
+                                    ),*/
                                   ],
                                 ),
                               ),
@@ -144,12 +144,25 @@ class _StoremanOrderDetailsScreenState
                                 color: Colors.orange,
                               ),
                             if (controller.status.value ==
-                                AppConstants.orderStatus.processing)
+                                    AppConstants.orderStatus.processing ||
+                                controller.status ==
+                                    AppConstants.orderStatus.partialReceived)
                               PrimaryButton(
                                 margin: const EdgeInsets.all(14),
                                 buttonText: 'delivered'.tr,
                                 onPressed: () {
-                                  controller.showOrderDeliveredDialog();
+                                  if (controller.isProductQuantityValid()) {
+                                    if (controller.isValidOrder()) {
+                                      controller.showOrderDeliveredDialog();
+                                    } else {
+                                      AppUtils.showToastMessage(
+                                          'msg_storeman_order_note_and_photo'
+                                              .tr);
+                                    }
+                                  } else {
+                                    AppUtils.showToastMessage(
+                                        'msg_select_at_least_one_qty'.tr);
+                                  }
                                 },
                                 color: Colors.green,
                               ),

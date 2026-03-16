@@ -106,11 +106,11 @@ class StoremanSupplierOrderController extends GetxController {
   String getStatusParameterValue() {
     String status = "";
     if (selectedTab.value == SupplierOrderStatus.all) {
-      status = "2,3,5";
+      status = "1,2,3,5";
     } else if (selectedTab.value == SupplierOrderStatus.upcoming) {
       status = "2";
     } else if (selectedTab.value == SupplierOrderStatus.processing) {
-      status = "3";
+      status = "1,3";
     } else if (selectedTab.value == SupplierOrderStatus.onStock) {
       status = "5";
     }

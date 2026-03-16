@@ -295,7 +295,7 @@ class AppUtils {
       color = (isStoreman ?? false) ? Colors.blueAccent : Colors.green;
     } else if (status == AppConstants.orderStatus.processing) {
       color = Colors.orangeAccent;
-    } else if (status == AppConstants.orderStatus.onStock) {
+    } else if (status == AppConstants.orderStatus.inStock) {
       color = Colors.green;
     } else if (status == AppConstants.orderStatus.cancelled) {
       color = Colors.redAccent;
@@ -309,19 +309,19 @@ class AppUtils {
       color = Colors.deepPurple;
     } else if (status == AppConstants.internalOrderStatus.collected) {
       color = Colors.green;
-    } else if (status == AppConstants.internalOrderStatus.ready) {
-      color = Colors.orange;
+    } else if (status == AppConstants.internalOrderStatus.rejected) {
+      color = Colors.red;
     } else if (status == AppConstants.internalOrderStatus.preparing) {
       color = Colors.orange;
-    } else if (status == AppConstants.internalOrderStatus.readyToDeliver) {
+    } else if (status == AppConstants.internalOrderStatus.ready) {
       color = Colors.orange;
-    }else if (status == AppConstants.internalOrderStatus.delivered) {
+    } else if (status == AppConstants.internalOrderStatus.delivered) {
       color = Colors.green;
-    }else if (status == AppConstants.internalOrderStatus.cancelled) {
+    } else if (status == AppConstants.internalOrderStatus.cancelled) {
       color = Colors.red;
-    }else if (status == AppConstants.internalOrderStatus.returned) {
+    } else if (status == AppConstants.internalOrderStatus.returned) {
       color = Colors.orange;
-    }else if (status == AppConstants.internalOrderStatus.confirmed) {
+    } else if (status == AppConstants.internalOrderStatus.confirmed) {
       color = Colors.green;
     }
     return color;

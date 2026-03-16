@@ -105,13 +105,13 @@ class StoremanInternalOrderController extends GetxController {
   String getStatusParameterValue() {
     String status = "";
     if (selectedTab.value == InternalOrderStatus.newOrders) {
-      status = "1";
+      status = AppConstants.internalOrderStatus.newOrder.toString();
     } else if (selectedTab.value == InternalOrderStatus.preparing) {
-      status = "4";
+      status = AppConstants.internalOrderStatus.preparing.toString();
     } else if (selectedTab.value == InternalOrderStatus.ready) {
-      status = "3";
+      status = AppConstants.internalOrderStatus.ready.toString();
     } else if (selectedTab.value == InternalOrderStatus.collected) {
-      status = "2";
+      status = AppConstants.internalOrderStatus.collected.toString();
     }
     return status;
   }

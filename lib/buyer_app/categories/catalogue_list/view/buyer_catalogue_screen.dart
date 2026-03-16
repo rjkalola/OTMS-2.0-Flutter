@@ -1,7 +1,8 @@
-import 'package:belcka/buyer_app/catalogue_list/controller/buyer_catalogue_controller.dart';
-import 'package:belcka/buyer_app/catalogue_list/view/buyer_catalogue_list.dart';
+import 'package:belcka/buyer_app/categories/catalogue_list/controller/buyer_catalogue_controller.dart';
+import 'package:belcka/buyer_app/categories/catalogue_list/view/buyer_catalogue_list.dart';
 import 'package:belcka/pages/common/common_bottom_navigation_bar_widget.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
@@ -30,6 +31,7 @@ class BuyerCatalogueScreen extends StatelessWidget {
                 isCenterTitle: false,
                 bgColor: dashBoardBgColor_(context),
                 isBack: true,
+                widgets: actionButtons(),
                 onBackPressed: () {
                   controller.onBackPress();
                 },
@@ -62,5 +64,19 @@ class BuyerCatalogueScreen extends StatelessWidget {
             ),
           ))),
     );
+  }
+
+  List<Widget>? actionButtons() {
+    return [
+      Visibility(
+        visible: true,
+        child: IconButton(
+          icon: Icon(Icons.add),
+          onPressed: () {
+            controller.moveToScreen(appRout: AppRoutes.buyerAddCatalogueScreen);
+          },
+        ),
+      ),
+    ];
   }
 }

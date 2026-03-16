@@ -1,4 +1,5 @@
-import 'package:belcka/buyer_app/catalogue_list/controller/buyer_catalogue_controller.dart';
+import 'package:belcka/buyer_app/categories/catalogue_list/controller/buyer_catalogue_controller.dart';
+import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/web_services/response/module_info.dart';
@@ -8,8 +9,7 @@ import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../routes/app_routes.dart';
-import '../../../utils/app_constants.dart';
+import '../../../../routes/app_routes.dart';
 
 class BuyerCatalogueList extends StatelessWidget {
   BuyerCatalogueList({super.key});

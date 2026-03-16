@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:belcka/buyer_app/catalogue_list/controller/buyer_catalogue_repository.dart';
+import 'package:belcka/buyer_app/categories/catalogue_list/controller/buyer_catalogue_repository.dart';
 import 'package:belcka/buyer_app/supplier_list/controller/buyer_supplier_repository.dart';
 import 'package:belcka/pages/common/model/Dropdown_list_response.dart';
 import 'package:belcka/utils/app_utils.dart';

@@ -157,8 +157,11 @@ class _LeaveDetailsScreenState extends State<LeaveDetailsScreen> {
                               ),
                               Visibility(
                                 visible:
-                                    (controller.leaveInfo.value.isRequested ??
-                                            false) &&
+                                    ((controller.leaveInfo.value.isRequested ??
+                                                false) ||
+                                            (controller.leaveInfo.value
+                                                    .isDeleteRequest ??
+                                                false)) &&
                                         UserUtils.isAdmin(),
                                 child: AddNoteWidget(
                                   controller: controller.requestNoteController,
@@ -277,7 +280,8 @@ class _LeaveDetailsScreenState extends State<LeaveDetailsScreen> {
             !controller.isFromRequest.value &&
             controller.isMainViewVisible.value &&
             !(controller.leaveInfo.value.isDeleteRequest ?? false) &&
-            controller.requestStatus.value != AppConstants.status.pending,
+            controller.requestStatus.value != AppConstants.status.pending &&
+            controller.requestStatus.value != AppConstants.status.rejected,
         child: TextButton(
             onPressed: () {
               controller.showRemoveLeaveDialog();

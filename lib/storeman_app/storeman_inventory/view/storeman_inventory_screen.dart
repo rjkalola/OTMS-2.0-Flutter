@@ -122,15 +122,15 @@ class _StoremanInventoryScreenState extends State<StoremanInventoryScreen>
 
   List<Widget>? actionButtons() {
     return [
-      IconButton(
-        icon: Icon(Icons.settings),
-        onPressed: () {
-          var arguments = {
-            AppConstants.intentKey.itemDetails: controller.inventoryData.value,
-          };
-          Get.toNamed(AppRoutes.buyerSettingsScreen, arguments: arguments);
-        },
-      ),
+      // IconButton(
+      //   icon: Icon(Icons.settings),
+      //   onPressed: () {
+      //     var arguments = {
+      //       AppConstants.intentKey.itemDetails: controller.inventoryData.value,
+      //     };
+      //     Get.toNamed(AppRoutes.buyerSettingsScreen, arguments: arguments);
+      //   },
+      // ),
     ];
   }
 

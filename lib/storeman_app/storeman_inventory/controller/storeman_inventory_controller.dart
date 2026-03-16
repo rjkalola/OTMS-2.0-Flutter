@@ -19,7 +19,7 @@ class StoremanInventoryController extends GetxController {
       endDate = "".obs,
       displayStartDate = "".obs,
       displayEndDate = "".obs;
-  final RxInt selectedDateFilterIndex = (-1).obs;
+  final RxInt selectedDateFilterIndex = (2).obs;
   double cardRadius = 12;
   final inventoryData = StoremanInventoryResponse().obs;
 

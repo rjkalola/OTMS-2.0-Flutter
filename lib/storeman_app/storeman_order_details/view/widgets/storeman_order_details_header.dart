@@ -1,8 +1,10 @@
 import 'package:belcka/buyer_app/buyer_order/model/order_info.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/drawable.dart';
 import 'package:belcka/storeman_app/storeman_order_details/controller/storeman_order_details_controller.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/widgets/text/PrimaryTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -108,10 +110,15 @@ class StoremanOrderDetailsHeader extends StatelessWidget {
                       },
                       child: Align(
                           alignment: Alignment.bottomCenter,
-                          child: Icon(
-                            Icons.insert_drive_file_outlined,
-                            size: 30,
-                          )),
+                          // child: Icon(
+                          //   Icons.insert_drive_file_outlined,
+                          //   size: 30,
+                          // )),
+                          child: ImageUtils.setSvgAssetsImage(
+                              path: Drawable.pdfIcon,
+                              width: 36,
+                              height: 36,
+                              color: Colors.red)),
                     )
                   ],
                 )

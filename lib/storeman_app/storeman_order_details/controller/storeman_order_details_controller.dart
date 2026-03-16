@@ -11,6 +11,7 @@ import 'package:belcka/pages/manageattachment/controller/manage_attachment_contr
 import 'package:belcka/pages/manageattachment/listener/select_attachment_listener.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
 import 'package:belcka/storeman_app/storeman_order_details/controller/storeman_order_details_repository.dart';
+import 'package:belcka/storeman_app/storeman_order_details/model/order_deliver_response.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/date_utils.dart';
@@ -150,9 +151,21 @@ class StoremanOrderDetailsController extends GetxController
   //   if (productList.isNotEmpty) {
   //     receiveOrderApi(productList);
   //   } else {
-  //     AppUtils.showToastMessage('msg_receive_at_least_one_qty'.tr);
+  //     AppUtils.showToastMessage('msg_select_at_least_one_qty'.tr);
   //   }
   // }
+
+  bool isProductQuantityValid() {
+    bool valid = true;
+    int count = 0;
+    for (var item in orderProductsList) {
+      if ((item.cartQty ?? 0) > 0) {
+        count = count + 1;
+      }
+    }
+    valid = count != 0;
+    return valid;
+  }
 
   bool isValidOrder() {
     bool valid = true;
@@ -179,9 +192,10 @@ class StoremanOrderDetailsController extends GetxController
     map["company_id"] = ApiConstants.companyId;
     map["status"] = status.value == AppConstants.orderStatus.received
         ? AppConstants.orderStatus.processing
-        : AppConstants.orderStatus.onStock;
+        : AppConstants.orderStatus.inStock;
 
-    if (status.value == AppConstants.orderStatus.processing) {
+    if (status.value == AppConstants.orderStatus.processing ||
+        status.value == AppConstants.orderStatus.partialReceived) {
       for (int i = 0; i < orderProductsList.length; i++) {
         ProductInfo productInfo = orderProductsList[i];
         if ((productInfo.qty ?? 0).toInt() !=
@@ -196,7 +210,8 @@ class StoremanOrderDetailsController extends GetxController
     print("map:" + map.toString());
     multi.FormData formData = multi.FormData.fromMap(map);
 
-    if (status.value == AppConstants.orderStatus.processing) {
+    if (status.value == AppConstants.orderStatus.processing ||
+        status.value == AppConstants.orderStatus.partialReceived) {
       for (int i = 0; i < orderProductsList.length; i++) {
         ProductInfo productInfo = orderProductsList[i];
         if ((productInfo.qty ?? 0).toInt() !=
@@ -222,12 +237,13 @@ class StoremanOrderDetailsController extends GetxController
       formData: formData,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
-          BaseResponse response =
-              BaseResponse.fromJson(jsonDecode(responseModel.result!));
-          AppUtils.showApiResponseMessage(response.Message ?? "");
-          String statusString = status.value == AppConstants.orderStatus.received
-              ? AppConstants.type.processing
-              : AppConstants.type.onStock;
+          OrderDeliverResponse response =
+              OrderDeliverResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showApiResponseMessage(response.message ?? "");
+          String statusString =
+              status.value == AppConstants.orderStatus.received
+                  ? AppConstants.type.processing
+                  : AppConstants.type.onStock;
           var arguments = {
             AppConstants.intentKey.status: statusString,
             AppConstants.intentKey.result: true,
@@ -378,10 +394,14 @@ class StoremanOrderDetailsController extends GetxController
   void onPositiveButtonClicked(String dialogIdentifier) {
     if (dialogIdentifier == AppConstants.dialogIdentifier.orderDelivered) {
       Get.back();
-      if (isValidOrder()) {
-        proceedOrder();
+      if (isProductQuantityValid()) {
+        if (isValidOrder()) {
+          proceedOrder();
+        } else {
+          AppUtils.showToastMessage('msg_storeman_order_note_and_photo'.tr);
+        }
       } else {
-        AppUtils.showToastMessage('msg_storeman_order_note_and_photo'.tr);
+        AppUtils.showToastMessage('msg_select_at_least_one_qty'.tr);
       }
     } else if (dialogIdentifier == AppConstants.dialogIdentifier.orderProceed) {
       Get.back();

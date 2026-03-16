@@ -37,7 +37,7 @@ class StoremanOrderProductsListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isEnableEdit = status != AppConstants.orderStatus.onStock;
+    bool isEnableEdit = status != AppConstants.orderStatus.inStock;
     return GestureDetector(
       onTap: onListItem,
       child: Padding(
@@ -53,8 +53,8 @@ class StoremanOrderProductsListItem extends StatelessWidget {
                 children: [
                   ImageUtils.setRectangleCornerCachedNetworkImage(
                     url: item.thumbUrl ?? "",
-                    width: 90,
-                    height: 90,
+                    width: 100,
+                    height: 100,
                     borderRadius: 4,
                     fit: BoxFit.cover,
                   ),
@@ -69,14 +69,17 @@ class StoremanOrderProductsListItem extends StatelessWidget {
                           maxLine: 2,
                           fontWeight: FontWeight.w500,
                         ),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: 1),
                         SubtitleTextView(
                           text: item.uuid ?? "",
                           fontSize: 13,
                           color: secondaryExtraLightTextColor_(context),
                         ),
-                        const SizedBox(height: 12),
-                        controller.status == AppConstants.orderStatus.processing
+                        const SizedBox(height: 9),
+                        controller.status ==
+                                    AppConstants.orderStatus.processing ||
+                                controller.status ==
+                                    AppConstants.orderStatus.partialReceived
                             ? Row(
                                 children: [
                                   OrderQuantityChangeButton(
@@ -102,23 +105,36 @@ class StoremanOrderProductsListItem extends StatelessWidget {
                                     height: 28,
                                   )
                                 ],
-                              )
+                              ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Visibility(
+                          visible: controller.status !=
+                              AppConstants.orderStatus.received,
+                          child: TitleTextView(
+                            text:
+                                "${'received_qty'.tr}: ${item.receivedQty ?? 0}",
+                            fontSize: 13,
+                            color: primaryTextColor_(context),
+                          ),
+                        )
                       ],
                     ),
                   ),
                 ],
               ),
               SizedBox(
-                height: 6,
+                height: 4,
               ),
               Visibility(
                 visible: (item.qty ?? 0).toInt() != (item.cartQty ?? 0) ||
-                    (status == AppConstants.orderStatus.onStock &&
+                    (status == AppConstants.orderStatus.inStock &&
                         !StringHelper.isEmptyList(item.attachments)),
                 child: Column(
                   children: [
                     SizedBox(
-                      height: 6,
+                      height: 2,
                     ),
                     Divider(
                       color: dividerColor_(context),
@@ -183,8 +199,7 @@ class StoremanOrderProductsListItem extends StatelessWidget {
                               // await ImageUtils.openAttachment(
                               //     Get.context!, fileUrl, ImageUtils.getFileType(fileUrl));
                               ImageUtils.moveToImagePreview(
-                                  item.attachments!,
-                              index);
+                                  item.attachments!, index);
                             },
                             onRemoveClick: (int index) {
                               item.attachments!.removeAt(index);
@@ -192,7 +207,7 @@ class StoremanOrderProductsListItem extends StatelessWidget {
                               // onGridItemClick(index, AppConstants.action.removePhoto);
                             }),
                       ),
-                    )
+                    ),
                   ],
                 ),
               )

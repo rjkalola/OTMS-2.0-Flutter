@@ -399,7 +399,7 @@ class OrderStatus {
   final int received = 2;
   final int processing = 3;
   final int cancelled = 4;
-  final int onStock = 5;
+  final int inStock = 5;
 }
 
 class InternalOrdersStatusType {
@@ -407,9 +407,9 @@ class InternalOrdersStatusType {
 
   final int newOrder = 1;
   final int collected = 2;
-  final int ready = 3;
+  final int rejected = 3;
   final int preparing = 4;
-  final int readyToDeliver = 5;
+  final int ready = 5;
   final int delivered = 6;
   final int cancelled = 7;
   final int returned = 8;

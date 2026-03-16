@@ -36,7 +36,7 @@ class BuyerOrderController extends GetxController
   RxInt requestCount = 0.obs,
       proceedCount = 0.obs,
       deliveredCount = 0.obs,
-      selectedDateFilterIndex = (-1).obs;
+      selectedDateFilterIndex = (2).obs;
   double cardRadius = 12;
   int selectedIndex = 0;
   String title = "";
@@ -79,7 +79,7 @@ class BuyerOrderController extends GetxController
         selectedTab.value = OrderTabType.delivered;
       }
       selectedDateFilterIndex.value =
-          arguments[AppConstants.intentKey.index] ?? -1;
+          arguments[AppConstants.intentKey.index] ?? 2;
       startDate.value = arguments[AppConstants.intentKey.startDate] ?? "";
       endDate.value = arguments[AppConstants.intentKey.endDate] ?? "";
       displayStartDate.value = startDate.value;
@@ -379,7 +379,7 @@ class BuyerOrderController extends GetxController
         String query = value.toLowerCase();
         results = tempDeliveredOrderList.where((element) {
           return (!StringHelper.isEmptyString(element.storeName) &&
-              element.storeName!.toLowerCase().contains(query)) ||
+                  element.storeName!.toLowerCase().contains(query)) ||
               (!StringHelper.isEmptyString(element.supplierName) &&
                   element.supplierName!.toLowerCase().contains(query)) ||
               (!StringHelper.isEmptyString(element.orderId) &&
@@ -411,8 +411,10 @@ class BuyerOrderController extends GetxController
       {required String appRout, dynamic arguments}) async {
     var result = await Get.toNamed(appRout, arguments: arguments);
     if (result != null && result) {
+      selectedTab.value = OrderTabType.delivered;
       loadData();
     }
+
   }
 
   Future<void> moveToFilterScreen() async {

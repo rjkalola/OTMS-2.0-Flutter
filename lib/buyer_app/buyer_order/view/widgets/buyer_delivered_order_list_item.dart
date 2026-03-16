@@ -1,6 +1,8 @@
 import 'package:belcka/buyer_app/buyer_order/model/order_info.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/drawable.dart';
 import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/text/PrimaryTextView.dart';
@@ -84,10 +86,11 @@ class BuyerDeliveredOrderListItem extends StatelessWidget {
                         onTap: onInvoiceClick,
                         child: Align(
                             alignment: Alignment.bottomCenter,
-                            child: Icon(
-                              Icons.insert_drive_file_outlined,
-                              size: 30,
-                            )),
+                            child: ImageUtils.setSvgAssetsImage(
+                                path: Drawable.pdfIcon,
+                                width: 28,
+                                height: 28,
+                                color: Colors.red)),
                       )
                     ],
                   )
