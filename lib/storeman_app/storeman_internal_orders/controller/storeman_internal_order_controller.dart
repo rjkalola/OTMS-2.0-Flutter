@@ -151,7 +151,7 @@ class StoremanInternalOrderController extends GetxController {
 
   void onItemClick(int index) {
     var arguments = {"order_id": (ordersList[index].id??0).toString()};
-    moveToScreen(appRout: AppRoutes.orderDetailsScreen, arguments: arguments);
+    moveToScreen(appRout: AppRoutes.storemanInternalOrderDetailsScreen, arguments: arguments);
   }
 
   Future<void> moveToScreen(
