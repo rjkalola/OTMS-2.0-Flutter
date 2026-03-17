@@ -4,6 +4,7 @@ import 'package:belcka/pages/user_orders/order_details/controller/order_details_
 import 'package:belcka/pages/user_orders/order_details/view/widgets/order_action_buttons.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/text/SubTitleTextView.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
@@ -33,29 +34,14 @@ class OrderDetailsOrdersList extends StatelessWidget {
             child: Column(
               children: [
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      width: 100,
-                      height: 100,
-                      decoration: BoxDecoration(
-                        color: Colors.grey[100],
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      clipBehavior: Clip.hardEdge,
-                      child: Image.network(
-                        orders[index].productThumbImage ?? "",
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stack) {
-                          return Center(
-                            child: Icon(
-                              Icons.photo_outlined,
-                              size: 70,
-                              color: Colors.grey.shade300,
-                            ),
-                          );
-                        },
-                      ),
+                    ImageUtils.setRectangleCornerCachedNetworkImage(
+                      url: orders[index].productThumbImage ?? "",
+                      width: 90,
+                      height: 90,
+                      borderRadius: 4,
+                      fit: BoxFit.cover,
                     ),
 
                     const SizedBox(width: 12),
@@ -87,7 +73,7 @@ class OrderDetailsOrdersList extends StatelessWidget {
                           const SizedBox(height: 4),
 
                           TitleTextView(
-                            text: "${orderInfo.currency ?? ""}${orders[index].price ?? ""}",
+                            text: "${orderInfo.currency ?? ""}${orders[index].marketPrice ?? "0.00"}",
                             fontSize: 15,
                             fontWeight: FontWeight.w600,
                           ),

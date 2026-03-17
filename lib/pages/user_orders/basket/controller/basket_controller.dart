@@ -369,7 +369,7 @@ class BasketController extends GetxController implements SelectItemListener {
         return {
           "product_id": item.productId,
           "qty": item.cartQty ?? 0,
-          "price": item.price,
+          "price": item.marketPrice,
           "is_sub_qty":item.isSubQty
         };
       }).toList(),
@@ -401,32 +401,30 @@ class BasketController extends GetxController implements SelectItemListener {
 
     for (var item in cartList) {
       bool isSubQty = item.isSubQty ?? false;
-      double packOffQty = double.tryParse(item.packOffQty ?? "") ?? 0.0;
+      double subQty = double.tryParse(item.subQty ?? "") ?? 0.0;
 
       if (isSubQty) {
         double qty = item.cartQty ?? 0.0;
-        double basePrice = double.tryParse(item.price ?? "") ?? 0.0;
-        double price = calculatePrice(
-          packOffQty: packOffQty,
-          pricePerPack: basePrice,
-        );
+        double basePrice = double.tryParse(item.marketPrice ?? "") ?? 0.0;
+        double price = basePrice / subQty;
 
         double subTotal = price * qty;
         totalAmount.value += subTotal;
       }
       else{
-        double price = double.tryParse(item.price ?? "") ?? 0.00;
+        double price = double.tryParse(item.marketPrice ?? "") ?? 0.00;
         double qty = item.cartQty ?? 0.0;
         totalAmount.value += price * qty;
       }
     }
     return totalAmount.value.toStringAsFixed(2);
   }
+
   double calculatePrice({
     required double packOffQty,
     required double pricePerPack,
   }) {
-    if (packOffQty == 0) return pricePerPack;
+    if (packOffQty == 0) return 0.00;
     return pricePerPack / packOffQty;
   }
 

@@ -26,53 +26,60 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
   @override
   Widget build(BuildContext context) {
     AppUtils.setStatusBarColor();
-    return Container(
-      color: backgroundColor_(context),
-      child: SafeArea(
-        child: Obx(
-              () => Scaffold(
-            backgroundColor: dashBoardBgColor_(context),
-            appBar: BaseAppBar(
-              appBar: AppBar(),
-              title: 'history'.tr,
-              isCenterTitle: false,
-              isBack: true,
-              bgColor: backgroundColor_(context),
-              widgets: actionButtons(),
-              isSearching: controller.isSearchEnable.value,
-              searchController: controller.searchController,
-              onValueChange: (value) {
-                controller.searchItem(value);
-              },
-              autoFocus: true,
-              isClearVisible: false.obs,
-              onBackPressed: (){
-                controller.onBackPress();
-              },
-            ),
-            body: ModalProgressHUD(
-              inAsyncCall: controller.isLoading.value,
-              opacity: 0,
-              progressIndicator: const CustomProgressbar(),
-              child: controller.isInternetNotAvailable.value
-                  ? NoInternetWidget(
-                onPressed: () {
-                  controller.isInternetNotAvailable.value = false;
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop || result != null) return;
+        controller.onBackPress();
+      },
+      child: Container(
+        color: backgroundColor_(context),
+        child: SafeArea(
+          child: Obx(
+                () => Scaffold(
+              backgroundColor: dashBoardBgColor_(context),
+              appBar: BaseAppBar(
+                appBar: AppBar(),
+                title: 'history'.tr,
+                isCenterTitle: false,
+                isBack: true,
+                bgColor: backgroundColor_(context),
+                widgets: actionButtons(),
+                isSearching: controller.isSearchEnable.value,
+                searchController: controller.searchController,
+                onValueChange: (value) {
+                  controller.searchItem(value);
                 },
-              )
-                  : controller.isMainViewVisible.value
-                  ? Padding(
-                padding: const EdgeInsets.all(12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    OrderHistoryFilterTabs(),
-                    SizedBox(height: 12),
-                    OrderHistoryList()
-                  ],
-                ),
-              )
-                  : const SizedBox.shrink(),
+                autoFocus: true,
+                isClearVisible: false.obs,
+                onBackPressed: (){
+                  controller.onBackPress();
+                },
+              ),
+              body: ModalProgressHUD(
+                inAsyncCall: controller.isLoading.value,
+                opacity: 0,
+                progressIndicator: const CustomProgressbar(),
+                child: controller.isInternetNotAvailable.value
+                    ? NoInternetWidget(
+                  onPressed: () {
+                    controller.isInternetNotAvailable.value = false;
+                  },
+                )
+                    : controller.isMainViewVisible.value
+                    ? Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      OrderHistoryFilterTabs(),
+                      SizedBox(height: 12),
+                      OrderHistoryList()
+                    ],
+                  ),
+                )
+                    : const SizedBox.shrink(),
+              ),
             ),
           ),
         ),

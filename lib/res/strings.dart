@@ -662,6 +662,12 @@ class Strings extends Translations {
           'leave_including': "Leave Including",
           'select_store': "Select Store",
           'reorder':"Reorder",
+          'ready_to_collect':"Ready to collect",
+          'cancel_order': "Cancel Order",
+          'return_order': "Return Order",
+          'ready_to_deliver': "Ready to deliver",
+          'price':"Price",
+
           // '': "",
 // '': "",
 // '': "",

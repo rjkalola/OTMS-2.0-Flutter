@@ -20,7 +20,8 @@ class StoremanCatalogController extends GetxController {
       isMainViewVisible = false.obs,
       isSearchEnable = false.obs,
       isClearSearch = false.obs,
-      isRightSideListEnable = true.obs;
+      isRightSideListEnable = true.obs,
+      isResetEnable = false.obs;
 
   final List<IconData> sideIcons = const [
     Icons.expand,
@@ -136,6 +137,7 @@ class StoremanCatalogController extends GetxController {
     map["company_id"] = ApiConstants.companyId;
     if (activeCategoryId.value > 0) {
       map["category_ids"] = activeCategoryId.value;
+      isResetEnable.value = true;
     }
 
     _api.getProductsAPI(
@@ -336,5 +338,9 @@ class StoremanCatalogController extends GetxController {
     searchController.value.clear();
     searchItem("");
     isSearchEnable.value = false;
+  }
+  void clearFilter() {
+    isResetEnable.value = false;
+    selectCategory(0);
   }
 }

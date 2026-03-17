@@ -18,6 +18,8 @@ class OrderDetailsOrdersInfo {
   ProductInfo? product;
   String? subQty;
   bool? isSubQty;
+  String? marketPrice;
+  String? currency;
 
   OrderDetailsOrdersInfo({
     this.id,
@@ -36,7 +38,9 @@ class OrderDetailsOrdersInfo {
     this.description,
     this.product,
     this.isSubQty,
-    this.subQty
+    this.subQty,
+    this.marketPrice,
+    this.currency
   });
 
   OrderDetailsOrdersInfo.fromJson(Map<String, dynamic> json) {
@@ -55,6 +59,8 @@ class OrderDetailsOrdersInfo {
     description = json['description'];
     subQty = json['sub_qty'].toString();
     isSubQty = json['is_sub_qty'];
+    marketPrice = json['market_price'].toString();
+    currency = json['currency'];
     product = json['product'] != null
         ? ProductInfo.fromJson(json['product'])
         : null;
@@ -79,6 +85,8 @@ class OrderDetailsOrdersInfo {
     data['product'] = product;
     data['is_sub_qty'] = isSubQty;
     data['sub_qty'] = subQty;
+    data['market_price'] = marketPrice;
+    data['currency'] = currency;
     return data;
   }
 }

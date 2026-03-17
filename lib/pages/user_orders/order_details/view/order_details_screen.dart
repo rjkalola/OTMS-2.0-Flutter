@@ -25,49 +25,56 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
 
   Widget build(BuildContext context) {
     AppUtils.setStatusBarColor();
-    return Container(
-      color: backgroundColor_(context),
-      child: SafeArea(
-        child: Obx(
-              () => Scaffold(
-            backgroundColor: dashBoardBgColor_(context),
-            appBar: BaseAppBar(
-              appBar: AppBar(),
-              title: 'details'.tr,
-              isCenterTitle: false,
-              isBack: true,
-              bgColor: backgroundColor_(context),
-              autoFocus: true,
-              isClearVisible: false.obs,
-              onBackPressed: (){
-                controller.onBackPress();
-              },
-            ),
-            body: ModalProgressHUD(
-              inAsyncCall: controller.isLoading.value,
-              opacity: 0,
-              progressIndicator: const CustomProgressbar(),
-              child: controller.isInternetNotAvailable.value
-                  ? NoInternetWidget(
-                onPressed: () {
-                  controller.isInternetNotAvailable.value = false;
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop || result != null) return;
+        controller.onBackPress();
+      },
+      child: Container(
+        color: backgroundColor_(context),
+        child: SafeArea(
+          child: Obx(
+                () => Scaffold(
+              backgroundColor: dashBoardBgColor_(context),
+              appBar: BaseAppBar(
+                appBar: AppBar(),
+                title: 'details'.tr,
+                isCenterTitle: false,
+                isBack: true,
+                bgColor: backgroundColor_(context),
+                autoFocus: true,
+                isClearVisible: false.obs,
+                onBackPressed: (){
+                  controller.onBackPress();
                 },
-              )
-                  : controller.isMainViewVisible.value
-                  ? Column(
-                children: [
-                  OrderDetailsHeaderView(),
-                  SizedBox(height: 12),
-                  Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                        child: OrderDetailsOrdersList(),
-                      )),
-                ],
-              )
-                  : const SizedBox.shrink(),
-            ),
+              ),
+              body: ModalProgressHUD(
+                inAsyncCall: controller.isLoading.value,
+                opacity: 0,
+                progressIndicator: const CustomProgressbar(),
+                child: controller.isInternetNotAvailable.value
+                    ? NoInternetWidget(
+                  onPressed: () {
+                    controller.isInternetNotAvailable.value = false;
+                  },
+                )
+                    : controller.isMainViewVisible.value
+                    ? Column(
+                  children: [
+                    OrderDetailsHeaderView(),
+                    SizedBox(height: 12),
+                    Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                          child: OrderDetailsOrdersList(),
+                        )),
+                  ],
+                )
+                    : const SizedBox.shrink(),
+              ),
 
+            ),
           ),
         ),
       ),

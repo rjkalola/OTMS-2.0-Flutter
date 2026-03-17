@@ -38,11 +38,14 @@ class OrdersBaseAppBar extends StatelessWidget implements PreferredSizeWidget {
         title: AnimatedSwitcher(
           duration: const Duration(milliseconds: 300),
           child: (isSearching ?? false)
-              ? SearchTextFieldAppBar(
-              controller: searchController!,
-              isClearVisible: isClearVisible!,
-              autofocus: autoFocus,
-              onValueChange: onValueChange)
+              ? Padding(
+                padding: const EdgeInsets.fromLTRB(16, 8, 0, 0),
+                child: SearchTextFieldAppBar(
+                controller: searchController!,
+                isClearVisible: isClearVisible!,
+                autofocus: autoFocus,
+                onValueChange: onValueChange),
+              )
               : Text(
             title,
             style: TextStyle(
