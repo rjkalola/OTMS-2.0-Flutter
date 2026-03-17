@@ -169,7 +169,7 @@ class OrderDetailsController extends GetxController{
         return {
           "product_id": item.productId,
           "qty": (item.isSubQty ?? false) ? item.subQty : item.qty,
-          "price": item.price,
+          "price": item.marketPrice,
           "is_sub_qty":item.isSubQty
         };
       }).toList(),
@@ -197,7 +197,7 @@ class OrderDetailsController extends GetxController{
         {
           "product_id": item.productId,
           "qty":(item.isSubQty ?? false) ? item.subQty : item.qty,
-          "price": item.price,
+          "price": item.marketPrice,
           "is_sub_qty":item.isSubQty
         }
       ],

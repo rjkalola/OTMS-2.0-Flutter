@@ -13,6 +13,7 @@ import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
+import 'package:belcka/widgets/text/toolbar_menu_item_text_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -123,6 +124,18 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
 
   List<Widget>? actionButtons() {
     return [
+
+      Visibility(
+        visible: controller.isResetEnable.value,
+        child: ToolbarMenuItemTextView(
+          text: 'reset'.tr,
+          padding: EdgeInsets.only(left: 6, right: 14),
+          onTap: () {
+            controller.clearFilter();
+          },
+        ),
+      ),
+
       Visibility(
         visible: !controller.isCategoryExpanded.value,
         child: GestureDetector(

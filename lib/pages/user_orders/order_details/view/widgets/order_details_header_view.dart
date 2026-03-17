@@ -101,7 +101,7 @@ class _OrderDetailsHeaderViewState extends State<OrderDetailsHeaderView> {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Icon(Icons.store, size: 25,color: Colors.grey,),
+                          Icon(Icons.home, size: 25,color: Colors.grey,),
                           SizedBox(width: 8),
                           Expanded(
                             child: TitleTextView(
@@ -116,10 +116,25 @@ class _OrderDetailsHeaderViewState extends State<OrderDetailsHeaderView> {
                       ,
                       SizedBox(height: 8),
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Icon(Icons.home, size: 30,color: Colors.grey,),
+                          Icon(Icons.store, size: 25,color: Colors.grey,),
                           SizedBox(width: 8),
-
+                          Expanded(
+                            child: TitleTextView(
+                              text:orderInfo.storeName ?? "",
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              softWrap: true,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 8),
+                      Row(
+                        children: [
+                          Icon(Icons.place_outlined, size: 30,color: Colors.grey,),
+                          SizedBox(width: 8),
                           Expanded(
                             child: TitleTextView(
                                 text: orderInfo.addressName ?? "",

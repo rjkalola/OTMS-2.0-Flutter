@@ -670,6 +670,12 @@ class Strings extends Translations {
           'contact_person_name': "Contact Person Name",
           'contact_person_email': "Contact Person Email",
           'contact_person_phone': "Contact Person Phone",
+          'ready_to_collect':"Ready to collect",
+          'cancel_order': "Cancel Order",
+          'return_order': "Return Order",
+          'ready_to_deliver': "Ready to deliver",
+          'price':"Price",
+
           // '': "",
 // '': "",
 // '': "",

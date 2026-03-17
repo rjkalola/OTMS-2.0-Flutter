@@ -5,6 +5,7 @@ import 'package:belcka/pages/user_orders/widgets/out_of_stock_banner.dart';
 import 'package:belcka/pages/user_orders/widgets/product_quantity_widget.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/text/SubTitleTextView.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
@@ -180,7 +181,7 @@ class _StoremanProductsListWidgetState
                                       children: [
                                         TitleTextView(
                                           text:
-                                              "${product.currency}${product.price ?? ""}",
+                                              "${product.currency}${product.marketPrice ?? ""}",
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
                                         ),
@@ -260,6 +261,10 @@ class _StoremanProductsListWidgetState
                                 if ((product.cartQty ?? 0) > 0) {
                                   controller.toggleAddToCart(
                                       index, (product.cartQty ?? 0).toInt());
+                                }
+                                else{
+                                  AppUtils.showToastMessage(
+                                      'msg_add_at_least_one_qty'.tr);
                                 }
                               }
                             },
