@@ -314,7 +314,6 @@ class ApiConstants {
   //buyer orders
   static String inventoryOverview = '$appUrl/products/inventory-overview';
   static String buyerProductsList = '$appUrl/purchase-orders/orders';
-  static String getSuppliers = '$appUrl/suppliers/get';
   static String getStores = '$appUrl/stores/get';
   static String createBuyerOrder = '$appUrl/purchase-orders/create';
   static String updateBuyerOrder = '$appUrl/purchase-orders/update';
@@ -323,14 +322,22 @@ class ApiConstants {
   static String buyerOrderInvoice = '$appUrl/purchase-orders/invoice';
   static String receiveBuyerOrder = '$appUrl/purchase-orders/purchase-receive';
   static String buyerProjectsList = '$appUrl/project/get-favorite';
+  static String buyerOrderDelete = '$appUrl/purchase-orders/delete';
+
+  //categories
   static String buyerCatalogueList = '$appUrl/categories/get';
   static String addCategory = '$appUrl/categories/create';
   static String updateCategory = '$appUrl/categories/update';
-  static String buyerOrderDelete = '$appUrl/purchase-orders/delete';
+  static String deleteCategory = '$appUrl/categories/delete';
+
+  //suppliers
+  static String getSuppliers = '$appUrl/suppliers/get';
+  static String createSupplier = '$appUrl/suppliers/create';
+  static String updateSupplier = '$appUrl/suppliers/update';
+  static String deleteSupplier = '$appUrl/suppliers/delete';
 
   //storeman order
   static String storemanInventoryOverview = '$appUrl/storeman-overview';
   static String storemanInternalOrders = '$appUrl/employee-orders/get';
   static String proceedStoremanOrder = '$appUrl/purchase-orders/update-status';
-
 }

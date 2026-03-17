@@ -27,7 +27,7 @@ class BuyerCatalogueScreen extends StatelessWidget {
             child: Scaffold(
               appBar: BaseAppBar(
                 appBar: AppBar(),
-                title: 'catalogue'.tr,
+                title: 'categories'.tr,
                 isCenterTitle: false,
                 bgColor: dashBoardBgColor_(context),
                 isBack: true,

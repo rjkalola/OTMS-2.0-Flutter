@@ -1,11 +1,14 @@
-import 'package:belcka/buyer_app/categories/add_category/controller/add_category_controller.dart';
+import 'package:belcka/buyer_app/categories/add_category/controller/buyer_add_category_controller.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/drawable.dart';
 import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
 import 'package:belcka/widgets/image/document_view.dart';
+import 'package:belcka/widgets/switch/custom_switch.dart';
 import 'package:belcka/widgets/text/PrimaryTextView.dart';
 import 'package:belcka/widgets/textfield/reusable/drop_down_text_field.dart';
 import 'package:belcka/widgets/textfield/text_field_border_dark.dart';
@@ -22,7 +25,7 @@ class BuyerAddCategoryScreen extends StatefulWidget {
 }
 
 class _BuyerAddCategoryScreenState extends State<BuyerAddCategoryScreen> {
-  final controller = Get.put(AddCategoryController());
+  final controller = Get.put(BuyerAddCategoryController());
 
   @override
   Widget build(BuildContext context) {
@@ -35,20 +38,28 @@ class _BuyerAddCategoryScreenState extends State<BuyerAddCategoryScreen> {
             backgroundColor: backgroundColor_(context),
             appBar: BaseAppBar(
               appBar: AppBar(),
-              title: 'add_category'.tr,
+              title: controller.itemDetails != null
+                  ? 'update_category'.tr
+                  : 'add_category'.tr,
               isCenterTitle: false,
               isBack: true,
               bgColor: backgroundColor_(context),
               widgets: [
-                Switch(
-                  value: controller.isEnabled.value,
-                  onChanged: (value) {
-                    controller.isEnabled.value = value;
-                  },
-                  activeColor: Colors.white,
-                  activeTrackColor: defaultAccentColor_(context),
-                ),
-                const SizedBox(width: 10),
+                controller.itemDetails != null
+                    ? GestureDetector(
+                        onTap: () {
+                          controller.showDeleteDialog();
+                        },
+                        child: ImageUtils.setSvgAssetsImage(
+                            path: Drawable.deleteIcon,
+                            color: Colors.red,
+                            width: 24,
+                            height: 24),
+                      )
+                    : Container(),
+                SizedBox(
+                  width: 10,
+                )
               ],
             ),
             body: ModalProgressHUD(
@@ -85,7 +96,7 @@ class _BuyerAddCategoryScreenState extends State<BuyerAddCategoryScreen> {
                                         isReadOnly: false,
                                         maxLength: 50,
                                         keyboardType: TextInputType.name,
-                                        textInputAction: TextInputAction.next,
+                                        textInputAction: TextInputAction.done,
                                         autovalidateMode:
                                             AutovalidateMode.onUserInteraction,
                                         onValueChange: (value) {
@@ -114,88 +125,78 @@ class _BuyerAddCategoryScreenState extends State<BuyerAddCategoryScreen> {
                                       ),
                                     ),
                                     const SizedBox(height: 24),
-                                    PrimaryTextView(
-                                      text: 'upload_image'.tr,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                      color: secondaryTextColor_(context),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 20),
+                                      child: PrimaryTextView(
+                                        text: 'upload_photo'.tr,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                      ),
                                     ),
-                                    const SizedBox(height: 12),
-                                    Center(
-                                      child: GestureDetector(
-                                          onTap: () {
-                                            controller
-                                                .showAttachmentOptionsDialog();
-                                          },
-                                          child: controller
-                                                  .imageUrl.value.isNotEmpty
-                                              ? DocumentView(
-                                                  file:
-                                                      controller.imageUrl.value,
-                                                  width: 160,
-                                                  height: 160,
-                                                  isEditable: true,
-                                                  onRemoveClick: () {
-                                                    controller.imageUrl.value =
-                                                        "";
-                                                  },
-                                                )
-                                              : Container()
-                                          // DottedBorder(
-                                          //         color: defaultAccentColor_(context),
-                                          //         strokeWidth: 2,
-                                          //         dashPattern: const [6, 3],
-                                          //         borderType: BorderType.RRect,
-                                          //         radius: const Radius.circular(24),
-                                          //         child: Container(
-                                          //           width: 160,
-                                          //           height: 160,
-                                          //           alignment: Alignment.center,
-                                          //           child: PrimaryTextView(
-                                          //             text: 'click_or_drag_image'.tr,
-                                          //             fontSize: 14,
-                                          //             color: defaultAccentColor_(context),
-                                          //           ),
-                                          //         ),
-                                          //       ),
-                                          ),
+                                    const SizedBox(height: 10),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 20, right: 20, bottom: 14),
+                                      child: InkWell(
+                                        onTap: () {
+                                          controller
+                                              .showAttachmentOptionsDialog();
+                                        },
+                                        child: DocumentView(
+                                          onRemoveClick: () {},
+                                          isEditable: false,
+                                          fileRadius: 0,
+                                          width: 100,
+                                          height: 100,
+                                          file: controller.imageUrl.value,
+                                        ),
+                                      ),
                                     ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 20, right: 20),
+                                      child: Divider(
+                                        color: dividerColor_(context),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          20, 9, 12, 0),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                              child: PrimaryTextView(
+                                            fontSize: 16,
+                                            text: 'status'.tr,
+                                          )),
+                                          CustomSwitch(
+                                              onValueChange: (value) {
+                                                controller.isSaveEnable.value =
+                                                    true;
+                                                controller.status.value =
+                                                    !(controller.status.value);
+                                              },
+                                              mValue: controller.status.value),
+                                        ],
+                                      ),
+                                    )
                                   ],
                                 ),
                               ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: PrimaryButton(
-                                    buttonText: 'save'.tr,
-                                    onPressed: () {
-                                      if (controller.valid()) {
-                                        controller.addCategoryApi();
-                                      }
-                                    },
-                                    color: defaultAccentColor_(context),
-                                  ),
-                                ),
-                                const SizedBox(width: 20),
-                                Expanded(
-                                  child: TextButton(
-                                    onPressed: () {
-                                      controller.onBackPress();
-                                    },
-                                    child: PrimaryTextView(
-                                      text: 'close'.tr,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                      color: secondaryTextColor_(context),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                          PrimaryButton(
+                            margin: EdgeInsets.all(14),
+                            buttonText: 'save'.tr,
+                            onPressed: () {
+                              if (controller.valid() &&
+                                  controller.isSaveEnable.value) {
+                                controller.addCategoryApi();
+                              }
+                            },
+                            color: controller.isSaveEnable.value
+                                ? defaultAccentColor_(context)
+                                : defaultAccentLightColor_(context),
                           ),
                         ],
                       ),

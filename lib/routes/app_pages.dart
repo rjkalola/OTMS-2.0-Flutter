@@ -1,6 +1,7 @@
 import 'package:belcka/buyer_app/buyer_order/view/buyer_orders_screen.dart';
 import 'package:belcka/buyer_app/buyer_order_details/view/buyer_order_details_screen.dart';
 import 'package:belcka/buyer_app/buyer_settings/view/buyer_settings_screen.dart';
+import 'package:belcka/buyer_app/suppliers/add_supplier/view/buyer_add_supplier_screen.dart';
 import 'package:belcka/buyer_app/categories/add_category/view/buyer_add_category_screen.dart';
 import 'package:belcka/buyer_app/categories/catalogue_list/view/buyer_catalogue_screen.dart';
 import 'package:belcka/buyer_app/create_buyer_order/view/create_buyer_order_screen.dart';
@@ -8,7 +9,7 @@ import 'package:belcka/buyer_app/draft_orders/view/buyer_draft_orders_screen.dar
 import 'package:belcka/buyer_app/project_list/view/buyer_projects_screen.dart';
 import 'package:belcka/buyer_app/purchasing/view/purchasing_screen.dart';
 import 'package:belcka/buyer_app/store_list/view/buyer_stores_screen.dart';
-import 'package:belcka/buyer_app/supplier_list/view/buyer_supplier_screen.dart';
+import 'package:belcka/buyer_app/suppliers/supplier_list/view/buyer_supplier_screen.dart';
 import 'package:belcka/pages/add_category/view/add_category_screen.dart';
 import 'package:belcka/pages/add_trades/view/add_trades_screen.dart';
 import 'package:belcka/pages/analytics/score_more_details/view/score_more_details_screen.dart';
@@ -495,6 +496,9 @@ class AppPages {
     GetPage(
         name: AppRoutes.buyerAddCatalogueScreen,
         page: () => BuyerAddCategoryScreen()),
+    GetPage(
+        name: AppRoutes.buyerAddSupplierScreen,
+        page: () => BuyerAddSupplierScreen()),
 
   ];
 }

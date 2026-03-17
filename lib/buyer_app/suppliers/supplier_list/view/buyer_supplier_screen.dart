@@ -1,13 +1,15 @@
-import 'package:belcka/buyer_app/supplier_list/controller/buyer_supplier_controller.dart';
-import 'package:belcka/buyer_app/supplier_list/view/buyer_supplier_list.dart';
+import 'package:belcka/buyer_app/suppliers/supplier_list/view/buyer_supplier_list.dart';
 import 'package:belcka/pages/common/common_bottom_navigation_bar_widget.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+
+import '../controller/buyer_supplier_controller.dart';
 
 class BuyerSupplierScreen extends StatelessWidget {
   final controller = Get.put(BuyerSupplierController());
@@ -33,6 +35,7 @@ class BuyerSupplierScreen extends StatelessWidget {
                 onBackPressed: () {
                   controller.onBackPress();
                 },
+                widgets: actionButtons(),
               ),
               backgroundColor: dashBoardBgColor_(context),
               body: ModalProgressHUD(
@@ -62,5 +65,19 @@ class BuyerSupplierScreen extends StatelessWidget {
             ),
           ))),
     );
+  }
+
+  List<Widget>? actionButtons() {
+    return [
+      Visibility(
+        visible: true,
+        child: IconButton(
+          icon: Icon(Icons.add),
+          onPressed: () {
+            controller.moveToScreen(appRout: AppRoutes.buyerAddSupplierScreen);
+          },
+        ),
+      ),
+    ];
   }
 }

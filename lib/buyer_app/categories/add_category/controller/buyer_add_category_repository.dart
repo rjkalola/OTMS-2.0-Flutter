@@ -3,14 +3,15 @@ import 'package:belcka/web_services/network/api_request.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:dio/dio.dart' as multi;
 
-class AddCategoryRepository {
-  void addCategory({
+class BuyerAddCategoryRepository {
+  void addCategoryUpdate({
     multi.FormData? formData,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
+    required String url
   }) {
     ApiRequest(
-            url: ApiConstants.addCategory,
+            url: url,
             formData: formData,
             isFormData: true)
         .postRequest(
@@ -30,6 +31,22 @@ class AddCategoryRepository {
             url: ApiConstants.updateCategory,
             formData: formData,
             isFormData: true)
+        .postRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
+
+  void deleteCategory({
+    dynamic data,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+        url: ApiConstants.deleteCategory,
+        data: data)
         .postRequest(
       onSuccess: (data) {
         onSuccess!(data);

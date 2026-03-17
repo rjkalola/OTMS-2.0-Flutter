@@ -1,16 +1,15 @@
-import 'package:belcka/buyer_app/store_list/controller/buyer_stores_controller.dart';
-import 'package:belcka/buyer_app/supplier_list/controller/buyer_supplier_controller.dart';
+import 'package:belcka/buyer_app/suppliers/supplier_list/controller/buyer_supplier_controller.dart';
+import 'package:belcka/buyer_app/suppliers/supplier_list/models/supplier_info.dart';
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
-import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/other_widgets/no_data_found_widget.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../routes/app_routes.dart';
-import '../../../utils/app_constants.dart';
 
 class BuyerSupplierList extends StatelessWidget {
   BuyerSupplierList({super.key});
@@ -31,17 +30,23 @@ class BuyerSupplierList extends StatelessWidget {
                   childAspectRatio: 1, // square item
                 ),
                 itemBuilder: (context, index) {
-                  ModuleInfo info = controller.listItems[index];
+                  SupplierInfo info = controller.listItems[index];
                   return GestureDetector(
                     onTap: () {
                       var arguments = {
+                        AppConstants.intentKey.itemDetails: info,
+                      };
+                      controller.moveToScreen(
+                          appRout: AppRoutes.buyerAddSupplierScreen,
+                          arguments: arguments);
+                     /* var arguments = {
                         AppConstants.intentKey.recordId: info.id ?? 0,
                         AppConstants.intentKey.title: info.name ?? "",
                         AppConstants.intentKey.filterType:
                             AppConstants.action.suppliers,
                       };
                       Get.toNamed(AppRoutes.buyerOrdersScreen,
-                          arguments: arguments);
+                          arguments: arguments);*/
                     },
                     child: CardViewDashboardItem(
                         borderRadius: 16,

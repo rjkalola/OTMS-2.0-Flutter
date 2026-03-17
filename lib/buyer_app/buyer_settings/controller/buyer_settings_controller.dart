@@ -37,7 +37,7 @@ class BuyerSettingsController extends GetxController {
         value: (settingDetails.value.suppliers ?? 0).toString(),
         action: AppConstants.action.suppliers));
     listItems.add(ModuleInfo(
-        name: 'catalogue'.tr,
+        name: 'categories'.tr,
         value: (settingDetails.value.categories ?? 0).toString(),
         action: AppConstants.action.categories));
     listItems.add(ModuleInfo(

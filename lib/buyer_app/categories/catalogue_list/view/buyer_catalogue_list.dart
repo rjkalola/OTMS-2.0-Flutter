@@ -1,8 +1,8 @@
 import 'package:belcka/buyer_app/categories/catalogue_list/controller/buyer_catalogue_controller.dart';
+import 'package:belcka/buyer_app/categories/catalogue_list/model/category_info.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
-import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/other_widgets/no_data_found_widget.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
@@ -30,17 +30,23 @@ class BuyerCatalogueList extends StatelessWidget {
                   childAspectRatio: 1, // square item
                 ),
                 itemBuilder: (context, index) {
-                  ModuleInfo info = controller.listItems[index];
+                  CategoryInfo info = controller.listItems[index];
                   return GestureDetector(
                     onTap: () {
                       var arguments = {
+                        AppConstants.intentKey.itemDetails: info,
+                      };
+                      controller.moveToScreen(
+                          appRout: AppRoutes.buyerAddCatalogueScreen,
+                          arguments: arguments);
+                      /* var arguments = {
                         AppConstants.intentKey.recordId: info.id ?? 0,
                         AppConstants.intentKey.title: info.name ?? "",
                         AppConstants.intentKey.filterType:
                             AppConstants.action.categories,
                       };
                       Get.toNamed(AppRoutes.buyerOrdersScreen,
-                          arguments: arguments);
+                          arguments: arguments);*/
                     },
                     child: CardViewDashboardItem(
                         borderRadius: 16,

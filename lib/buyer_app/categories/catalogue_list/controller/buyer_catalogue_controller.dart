@@ -1,11 +1,10 @@
 import 'dart:convert';
 
 import 'package:belcka/buyer_app/categories/catalogue_list/controller/buyer_catalogue_repository.dart';
-import 'package:belcka/buyer_app/supplier_list/controller/buyer_supplier_repository.dart';
-import 'package:belcka/pages/common/model/Dropdown_list_response.dart';
+import 'package:belcka/buyer_app/categories/catalogue_list/model/category_info.dart';
+import 'package:belcka/buyer_app/categories/catalogue_list/model/category_list_response.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
-import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:get/get.dart';
 
@@ -15,7 +14,7 @@ class BuyerCatalogueController extends GetxController {
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs;
   double cardRadius = 12;
-  final listItems = <ModuleInfo>[].obs;
+  final listItems = <CategoryInfo>[].obs;
 
   @override
   void onInit() {
@@ -32,8 +31,8 @@ class BuyerCatalogueController extends GetxController {
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           isMainViewVisible.value = true;
-          DropdownListResponse response =
-              DropdownListResponse.fromJson(jsonDecode(responseModel.result!));
+          CategoryListResponse response =
+              CategoryListResponse.fromJson(jsonDecode(responseModel.result!));
           listItems.value = response.info!;
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
@@ -56,7 +55,10 @@ class BuyerCatalogueController extends GetxController {
   Future<void> moveToScreen(
       {required String appRout, dynamic arguments}) async {
     var result = await Get.toNamed(appRout, arguments: arguments);
-    buyerCatalogueListApi(false);
+    if(result != null && result){
+      buyerCatalogueListApi(true);
+    }
+
   }
 
   void onBackPress() {
