@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:belcka/pages/user_orders/order_details/controller/order_details_controller.dart';
 import 'package:belcka/pages/user_orders/order_details/view/widgets/order_action_buttons.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
@@ -28,6 +29,13 @@ class OrderDetailsOrdersList extends StatelessWidget {
       separatorBuilder: (_, __) => const SizedBox(height: 12),
       itemBuilder: (context, index) {
         final item = orders[index];
+        final isSubQuantity = item.isSubQty ?? false;
+        final deliveredQty = (double.tryParse(item.deliveredQty ?? "") ?? 0.00);
+        final subQty = (double.tryParse(item.subQty ?? "") ?? 0.00);
+        final qty = (double.tryParse(item.qty ?? "") ?? 0.00);
+        final isItemDelivered = (item.status  == AppConstants.internalOrderStatus.delivered) ? true : false;
+        final packOfUnit = item.packOfUnit ?? "";
+
         return CardViewDashboardItem(
           child: Padding(
             padding: const EdgeInsets.all(12),
@@ -65,7 +73,7 @@ class OrderDetailsOrdersList extends StatelessWidget {
                           const SizedBox(height: 4),
 
                           TitleTextView(
-                            text: "${'qty'.tr}: ${orders[index].qty ?? ""}",
+                            text: "${'qty'.tr}: ${isSubQuantity ? "${subQty.toInt()} $packOfUnit" : qty.toInt()}",
                             fontSize: 15,
                             fontWeight: FontWeight.w600,
                           ),

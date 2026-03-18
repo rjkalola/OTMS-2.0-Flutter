@@ -203,5 +203,4 @@ class OrderDetailsController extends GetxController{
       ],
     };
   }
-
 }

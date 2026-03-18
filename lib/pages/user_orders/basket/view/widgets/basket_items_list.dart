@@ -176,40 +176,6 @@ class _BasketItemsListState extends State<BasketItemsList> {
                                   ),
                                   const SizedBox(height: 8),
                                   // Quantity Selector
-                                /*
-                                  Row(
-                                    children: [
-                                      OrderQuantityChangeButton(
-                                          text: "-", onTap: (){
-                                        setState(() {
-                                          controller.decreaseQty(index);
-                                        });
-
-                                      }),
-                                      SizedBox(width: 8),
-                                      OrderQuantityDisplayTextView(
-                                        value: (product.cartQty ?? 0).toInt(),
-                                        width: 52,
-                                        height: 30,
-                                      ),
-                                      SizedBox(width: 8),
-                                      OrderQuantityChangeButton(
-                                          text: "+", onTap: (){
-                                        setState(() {
-                                          controller.increaseQty(index);
-                                        });
-                                      }),
-                                      SizedBox(width: 8),
-                                      Spacer(),
-                                      IconButton(icon:
-                                      Icon(Icons.delete),
-                                          color: Colors.red,
-                                          onPressed: () {
-                                            controller.toggleRemoveCart(index);
-                                          }),
-                                    ],
-                                  ),
-                                  */
                                   Row(
                                     children: [
                                       ProductQuantityWidget(
