@@ -1,13 +1,12 @@
-import 'package:belcka/buyer_app/store_list/controller/buyer_stores_controller.dart';
+import 'package:belcka/buyer_app/stores/store_list/controller/buyer_stores_controller.dart';
+import 'package:belcka/buyer_app/stores/store_list/models/store_info.dart';
 import 'package:belcka/routes/app_routes.dart';
-import 'package:belcka/web_services/response/module_info.dart';
+import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/other_widgets/no_data_found_widget.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../utils/app_constants.dart';
 
 class BuyerStoresList extends StatelessWidget {
   BuyerStoresList({super.key});
@@ -23,16 +22,14 @@ class BuyerStoresList extends StatelessWidget {
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
               itemBuilder: (context, position) {
-                ModuleInfo info = controller.listItems[position];
+                StoreInfo info = controller.listItems[position];
                 return GestureDetector(
                   onTap: () {
                     var arguments = {
-                      AppConstants.intentKey.recordId: info.id ?? 0,
-                      AppConstants.intentKey.title: info.name ?? "",
-                      AppConstants.intentKey.filterType:
-                          AppConstants.action.stores,
-                    };
-                    Get.toNamed(AppRoutes.buyerOrdersScreen,
+                      AppConstants.intentKey.itemDetails: info,
+                    }; 
+                    controller.moveToScreen(
+                        appRout: AppRoutes.buyerAddStoreScreen,
                         arguments: arguments);
                   },
                   child: CardViewDashboardItem(

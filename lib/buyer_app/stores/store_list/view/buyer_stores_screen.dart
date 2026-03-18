@@ -1,7 +1,8 @@
-import 'package:belcka/buyer_app/store_list/controller/buyer_stores_controller.dart';
-import 'package:belcka/buyer_app/store_list/view/buyer_stores_list.dart';
+import 'package:belcka/buyer_app/stores/store_list/controller/buyer_stores_controller.dart';
+import 'package:belcka/buyer_app/stores/store_list/view/buyer_stores_list.dart';
 import 'package:belcka/pages/common/common_bottom_navigation_bar_widget.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
@@ -33,6 +34,7 @@ class BuyerStoresScreen extends StatelessWidget {
                 onBackPressed: () {
                   controller.onBackPress();
                 },
+                widgets: actionButtons(),
               ),
               backgroundColor: dashBoardBgColor_(context),
               body: ModalProgressHUD(
@@ -62,5 +64,19 @@ class BuyerStoresScreen extends StatelessWidget {
             ),
           ))),
     );
+  }
+
+  List<Widget>? actionButtons() {
+    return [
+      Visibility(
+        visible: true,
+        child: IconButton(
+          icon: Icon(Icons.add),
+          onPressed: () {
+            controller.moveToScreen(appRout: AppRoutes.buyerAddStoreScreen);
+          },
+        ),
+      ),
+    ];
   }
 }

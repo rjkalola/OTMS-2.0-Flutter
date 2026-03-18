@@ -410,8 +410,24 @@ class BuyerOrderController extends GetxController
   Future<void> moveToScreen(
       {required String appRout, dynamic arguments}) async {
     var result = await Get.toNamed(appRout, arguments: arguments);
-    if (result != null && result) {
-      selectedTab.value = OrderTabType.delivered;
+    // if (result != null && result) {
+    //   selectedTab.value = OrderTabType.delivered;
+    //   loadData();
+    // }
+
+    if (result != null) {
+      var arguments = result;
+      if (arguments != null) {
+        int status = arguments[AppConstants.intentKey.status] ?? 0;
+        bool result = arguments[AppConstants.intentKey.result] ?? false;
+        if (result) {
+          if (status == AppConstants.orderStatus.partialReceived) {
+            selectedTab.value = OrderTabType.proceed;
+          } else {
+            selectedTab.value = OrderTabType.delivered;
+          }
+        }
+      }
       loadData();
     }
 

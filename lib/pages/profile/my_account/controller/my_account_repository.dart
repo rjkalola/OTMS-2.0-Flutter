@@ -79,4 +79,21 @@ class MyAccountRepository {
       onError: (error) => {if (onError != null) onError(error)},
     );
   }
+
+  void changeBulkCheckin({
+    dynamic data,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+            url: ApiConstants.userChangeBulkCheckin,
+            data: data,
+            isFormData: false)
+        .postRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
 }

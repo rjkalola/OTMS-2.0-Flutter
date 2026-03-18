@@ -4,6 +4,7 @@ import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:belcka/pages/common/listener/menu_item_listener.dart';
 import 'package:belcka/pages/common/menu_items_list_bottom_dialog.dart';
 import 'package:belcka/pages/teams/team_details/controller/team_details_repository.dart';
+import 'package:belcka/pages/common/check_in_settings_bottom_sheet.dart';
 import 'package:belcka/pages/teams/team_details/model/team_details_response.dart';
 import 'package:belcka/pages/teams/team_list/model/team_info.dart';
 import 'package:belcka/routes/app_routes.dart';
@@ -16,6 +17,7 @@ import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class TeamDetailsController extends GetxController
@@ -26,7 +28,8 @@ class TeamDetailsController extends GetxController
       isMainViewVisible = false.obs,
       isClearVisible = false.obs,
       isDataUpdated = false.obs,
-      isAllUserTeams = false.obs;
+      isAllUserTeams = false.obs,
+      checkInEnabled = false.obs;
   final teamInfo = TeamInfo().obs;
   int teamId = 0;
   bool fromNotification = false;
@@ -58,6 +61,7 @@ class TeamDetailsController extends GetxController
               TeamDetailsResponse.fromJson(jsonDecode(responseModel.result!));
           ImageUtils.preloadUserImages(response.info?.teamMembers ?? []);
           teamInfo.value = response.info!;
+          checkInEnabled.value = teamInfo.value.isCheckIn ?? false;
           isMainViewVisible.value = true;
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
@@ -224,8 +228,9 @@ class TeamDetailsController extends GetxController
           name: 'join_a_company'.tr, action: AppConstants.action.joinCompany));
       listItems.add(ModuleInfo(
           name: 'archive'.tr, action: AppConstants.action.archiveTeam));
+      listItems.add(ModuleInfo(
+          name: 'check_in_'.tr, action: AppConstants.action.checkInSettings));
     }
-
     showCupertinoModalPopup(
       context: context,
       builder: (_) =>
@@ -263,7 +268,58 @@ class TeamDetailsController extends GetxController
       moveToScreen(AppRoutes.joinTeamToCompanyScreen, arguments);
     } else if (info.action == AppConstants.action.archiveTeam) {
       archiveTeamApi();
+    } else if (info.action == AppConstants.action.checkInSettings) {
+      showCheckInSettingsBottomSheet();
     }
+  }
+
+  void showCheckInSettingsBottomSheet() {
+    Get.bottomSheet(
+      CheckInSettingsBottomSheet(
+        initialValue: teamInfo.value.isCheckIn ?? false,
+        onSave: (value) {
+          Get.back();
+          _saveCheckInSettings(value);
+        } ,
+        onCancel: () => Get.back(),
+      ),
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+    );
+  }
+
+  void _saveCheckInSettings(bool isCheckIn) {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
+    map["teams"] = [
+      {"id": teamId, "is_check_in": isCheckIn}
+    ];
+    _api.changeBulkCheckin(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          BaseResponse response =
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showApiResponseMessage(response.Message ?? "");
+          teamInfo.value.isCheckIn = isCheckIn;
+          checkInEnabled.value = isCheckIn;
+          // isDataUpdated.value = true;
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        } else if (error.statusMessage != null &&
+            error.statusMessage!.isNotEmpty) {
+          AppUtils.showApiResponseMessage(error.statusMessage ?? "");
+        }
+      },
+    );
   }
 
   Future<void> moveToScreen(String rout, dynamic arguments) async {

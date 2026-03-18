@@ -162,12 +162,13 @@ class StoremanSupplierOrderController extends GetxController {
     if (result != null) {
       var arguments = result;
       if (arguments != null) {
-        String status = arguments[AppConstants.intentKey.status] ?? "";
+        int status = arguments[AppConstants.intentKey.status] ?? 0;
         bool result = arguments[AppConstants.intentKey.result] ?? false;
         if (result) {
-          if (status == AppConstants.type.processing) {
+          if (status == AppConstants.orderStatus.processing ||
+              status == AppConstants.orderStatus.partialReceived) {
             selectedTab.value = SupplierOrderStatus.processing;
-          } else if (status == AppConstants.type.onStock) {
+          } else if (status == AppConstants.orderStatus.inStock) {
             selectedTab.value = SupplierOrderStatus.onStock;
           } else {
             selectedTab.value = SupplierOrderStatus.all;

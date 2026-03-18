@@ -1,4 +1,4 @@
-import 'package:belcka/buyer_app/suppliers/add_supplier/controller/buyer_add_supplier_controller.dart';
+import 'package:belcka/buyer_app/stores/add_store/controller/buyer_add_store_controller.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/res/drawable.dart';
 import 'package:belcka/utils/app_utils.dart';
@@ -7,7 +7,6 @@ import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
-import 'package:belcka/widgets/image/document_view.dart';
 import 'package:belcka/widgets/switch/custom_switch.dart';
 import 'package:belcka/widgets/text/PrimaryTextView.dart';
 import 'package:belcka/widgets/textfield/text_field_border_dark.dart';
@@ -17,15 +16,15 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
-class BuyerAddSupplierScreen extends StatefulWidget {
-  const BuyerAddSupplierScreen({super.key});
+class BuyerAddStoreScreen extends StatefulWidget {
+  const BuyerAddStoreScreen({super.key});
 
   @override
-  State<BuyerAddSupplierScreen> createState() => _BuyerAddSupplierScreenState();
+  State<BuyerAddStoreScreen> createState() => _BuyerAddStoreScreenState();
 }
 
-class _BuyerAddSupplierScreenState extends State<BuyerAddSupplierScreen> {
-  final controller = Get.put(BuyerAddSupplierController());
+class _BuyerAddStoreScreenState extends State<BuyerAddStoreScreen> {
+  final controller = Get.put(BuyerAddStoreController());
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +38,8 @@ class _BuyerAddSupplierScreenState extends State<BuyerAddSupplierScreen> {
             appBar: BaseAppBar(
               appBar: AppBar(),
               title: controller.itemDetails != null
-                  ? 'update_supplier'.tr
-                  : 'add_supplier'.tr,
+                  ? 'update_store'.tr
+                  : 'add_store'.tr,
               isCenterTitle: false,
               isBack: true,
               bgColor: backgroundColor_(context),
@@ -83,7 +82,7 @@ class _BuyerAddSupplierScreenState extends State<BuyerAddSupplierScreen> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const SizedBox(height: 24),
+                                    const SizedBox(height: 20),
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 20),
@@ -107,74 +106,6 @@ class _BuyerAddSupplierScreenState extends State<BuyerAddSupplierScreen> {
                                         ]),
                                       ),
                                     ),
-                                    const SizedBox(height: 16),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20),
-                                      child: TextFieldBorderDark(
-                                        textEditingController:
-                                            controller.emailController.value,
-                                        hintText: 'email'.tr,
-                                        labelText: 'email'.tr,
-                                        isReadOnly: false,
-                                        maxLength: 100,
-                                        keyboardType:
-                                            TextInputType.emailAddress,
-                                        textInputAction: TextInputAction.next,
-                                        autovalidateMode:
-                                            AutovalidateMode.onUserInteraction,
-                                        onValueChange: (value) {
-                                          controller.isSaveEnable.value = true;
-                                        },
-                                        validator: MultiValidator([
-                                          EmailValidator(
-                                              errorText:
-                                                  'enter_valid_email_address'.tr),
-                                        ]),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 16),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20),
-                                      child: TextFieldBorderDark(
-                                        textEditingController: controller
-                                            .companyNameController.value,
-                                        hintText: 'company_name'.tr,
-                                        labelText: 'company_name'.tr,
-                                        isReadOnly: false,
-                                        maxLength: 100,
-                                        keyboardType: TextInputType.name,
-                                        textInputAction: TextInputAction.next,
-                                        autovalidateMode:
-                                            AutovalidateMode.onUserInteraction,
-                                        onValueChange: (value) {
-                                          controller.isSaveEnable.value = true;
-                                        },
-                                        validator: MultiValidator([]),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 16),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20),
-                                      child: TextFieldBorderDark(
-                                        textEditingController: controller
-                                            .accountNumberController.value,
-                                        hintText: 'account_number'.tr,
-                                        labelText: 'account_number'.tr,
-                                        isReadOnly: false,
-                                        maxLength: 50,
-                                        keyboardType: TextInputType.text,
-                                        textInputAction: TextInputAction.next,
-                                        autovalidateMode:
-                                            AutovalidateMode.onUserInteraction,
-                                        onValueChange: (value) {
-                                          controller.isSaveEnable.value = true;
-                                        },
-                                        validator: MultiValidator([]),
-                                      ),
-                                    ),
                                     const SizedBox(height: 20),
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
@@ -192,9 +123,7 @@ class _BuyerAddSupplierScreenState extends State<BuyerAddSupplierScreen> {
                                                     controller.phoneFlag.value,
                                                 onPressed: () {
                                                   controller
-                                                      .showPhoneExtensionDialog(
-                                                          isContactPerson:
-                                                              false);
+                                                      .showPhoneExtensionDialog();
                                                 },
                                               ),
                                             ),
@@ -224,45 +153,15 @@ class _BuyerAddSupplierScreenState extends State<BuyerAddSupplierScreen> {
                                         ],
                                       ),
                                     ),
-                                    // const SizedBox(height: 24),
-                                    // Padding(
-                                    //   padding: const EdgeInsets.only(left: 20),
-                                    //   child: PrimaryTextView(
-                                    //     text: 'contact_person_details'.tr,
-                                    //     fontSize: 16,
-                                    //     fontWeight: FontWeight.w500,
-                                    //   ),
-                                    // ),
                                     const SizedBox(height: 16),
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 20),
                                       child: TextFieldBorderDark(
-                                        textEditingController: controller
-                                            .contactPersonNameController.value,
-                                        hintText: 'contact_person_name'.tr,
-                                        labelText: 'contact_person_name'.tr,
-                                        isReadOnly: false,
-                                        maxLength: 50,
-                                        keyboardType: TextInputType.name,
-                                        textInputAction: TextInputAction.next,
-                                        autovalidateMode:
-                                            AutovalidateMode.onUserInteraction,
-                                        onValueChange: (value) {
-                                          controller.isSaveEnable.value = true;
-                                        },
-                                        validator: MultiValidator([]),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 16),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20),
-                                      child: TextFieldBorderDark(
-                                        textEditingController: controller
-                                            .contactPersonEmailController.value,
-                                        hintText: 'contact_person_email'.tr,
-                                        labelText: 'contact_person_email'.tr,
+                                        textEditingController:
+                                            controller.emailController.value,
+                                        hintText: 'email'.tr,
+                                        labelText: 'email'.tr,
                                         isReadOnly: false,
                                         maxLength: 100,
                                         keyboardType:
@@ -276,74 +175,22 @@ class _BuyerAddSupplierScreenState extends State<BuyerAddSupplierScreen> {
                                         validator: MultiValidator([
                                           EmailValidator(
                                               errorText:
-                                                  'enter_valid_email_address'.tr),
+                                                  'enter_valid_email_address'
+                                                      .tr),
                                         ]),
                                       ),
                                     ),
-                                    const SizedBox(height: 20),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20),
-                                      child: Row(
-                                        children: [
-                                          Flexible(
-                                            flex: 2,
-                                            child: Obx(
-                                              () =>
-                                                  TextFieldPhoneExtensionWidget(
-                                                mExtension: controller
-                                                    .contactPersonExtension
-                                                    .value,
-                                                mFlag: controller
-                                                    .contactPersonFlag.value,
-                                                onPressed: () {
-                                                  controller
-                                                      .showPhoneExtensionDialog(
-                                                          isContactPerson:
-                                                              true);
-                                                },
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(width: 8),
-                                          Flexible(
-                                            flex: 3,
-                                            child: TextFieldBorderDark(
-                                              textEditingController: controller
-                                                  .contactPersonPhoneController
-                                                  .value,
-                                              hintText:
-                                                  'contact_person_phone'.tr,
-                                              labelText:
-                                                  'contact_person_phone'.tr,
-                                              isReadOnly: false,
-                                              maxLength: 15,
-                                              keyboardType: TextInputType.phone,
-                                              textInputAction:
-                                                  TextInputAction.next,
-                                              autovalidateMode: AutovalidateMode
-                                                  .onUserInteraction,
-                                              onValueChange: (value) {
-                                                controller.isSaveEnable.value =
-                                                    true;
-                                              },
-                                              validator: MultiValidator([]),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(height: 24),
+                                    const SizedBox(height: 16),
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 20),
                                       child: TextFieldBorderDark(
                                         textEditingController:
-                                            controller.streetController.value,
-                                        hintText: 'street'.tr,
-                                        labelText: 'street'.tr,
+                                            controller.postcodeController.value,
+                                        hintText: 'postcode'.tr,
+                                        labelText: 'postcode'.tr,
                                         isReadOnly: false,
-                                        maxLength: 100,
+                                        maxLength: 20,
                                         keyboardType: TextInputType.text,
                                         textInputAction: TextInputAction.next,
                                         autovalidateMode:
@@ -360,9 +207,31 @@ class _BuyerAddSupplierScreenState extends State<BuyerAddSupplierScreen> {
                                           horizontal: 20),
                                       child: TextFieldBorderDark(
                                         textEditingController:
-                                            controller.locationController.value,
-                                        hintText: 'location'.tr,
-                                        labelText: 'location'.tr,
+                                            controller.addressController.value,
+                                        hintText: 'address'.tr,
+                                        labelText: 'address'.tr,
+                                        isReadOnly: false,
+                                        maxLength: 200,
+                                        keyboardType:
+                                            TextInputType.streetAddress,
+                                        textInputAction: TextInputAction.next,
+                                        autovalidateMode:
+                                            AutovalidateMode.onUserInteraction,
+                                        onValueChange: (value) {
+                                          controller.isSaveEnable.value = true;
+                                        },
+                                        validator: MultiValidator([]),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 16),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20),
+                                      child: TextFieldBorderDark(
+                                        textEditingController:
+                                            controller.streetController.value,
+                                        hintText: 'street'.tr,
+                                        labelText: 'street'.tr,
                                         isReadOnly: false,
                                         maxLength: 100,
                                         keyboardType: TextInputType.text,
@@ -402,11 +271,11 @@ class _BuyerAddSupplierScreenState extends State<BuyerAddSupplierScreen> {
                                           horizontal: 20),
                                       child: TextFieldBorderDark(
                                         textEditingController:
-                                            controller.postcodeController.value,
-                                        hintText: 'postcode'.tr,
-                                        labelText: 'postcode'.tr,
+                                            controller.locationController.value,
+                                        hintText: 'location'.tr,
+                                        labelText: 'location'.tr,
                                         isReadOnly: false,
-                                        maxLength: 20,
+                                        maxLength: 100,
                                         keyboardType: TextInputType.text,
                                         textInputAction: TextInputAction.next,
                                         autovalidateMode:
@@ -417,33 +286,31 @@ class _BuyerAddSupplierScreenState extends State<BuyerAddSupplierScreen> {
                                         validator: MultiValidator([]),
                                       ),
                                     ),
-                                    const SizedBox(height: 24),
+                                    const SizedBox(height: 16),
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 20),
-                                      child: PrimaryTextView(
-                                        text: 'upload_photo'.tr,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20),
+                                      child: TextFieldBorderDark(
+                                        textEditingController: controller
+                                            .storeManagerController.value,
+                                        hintText: 'store_manager'.tr,
+                                        labelText: 'store_manager'.tr,
+                                        isReadOnly: true,
+                                        keyboardType: TextInputType.name,
+                                        textInputAction: TextInputAction.next,
+                                        autovalidateMode:
+                                            AutovalidateMode.onUserInteraction,
+                                        suffixIcon:
+                                            const Icon(Icons.arrow_drop_down),
+                                        onPressed: () {
+                                          controller
+                                              .showSelectStoreManagerDialog();
+                                        },
+                                        validator: MultiValidator([]),
                                       ),
                                     ),
-                                    const SizedBox(height: 10),
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          20, 0, 20, 14),
-                                      child: InkWell(
-                                        onTap: () {
-                                          controller
-                                              .showAttachmentOptionsDialog();
-                                        },
-                                        child: DocumentView(
-                                          onRemoveClick: () {},
-                                          isEditable: false,
-                                          fileRadius: 0,
-                                          width: 100,
-                                          height: 100,
-                                          file: controller.imageUrl.value,
-                                        ),
-                                      ),
+                                    SizedBox(
+                                      height: 12,
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
@@ -484,7 +351,7 @@ class _BuyerAddSupplierScreenState extends State<BuyerAddSupplierScreen> {
                             onPressed: () {
                               if (controller.valid() &&
                                   controller.isSaveEnable.value) {
-                                controller.addOrUpdateSupplierApi();
+                                controller.addOrUpdateStoreApi();
                               }
                             },
                             color: controller.isSaveEnable.value

@@ -666,6 +666,9 @@ class Strings extends Translations {
           'parent_category': "Parent category",
           'add_supplier': "Add Supplier",
           'update_supplier': "Update Supplier",
+          'add_store': "Add Store",
+          'update_store': "Update Store",
+          'store_manager': "Store Manager",
           'contact_person_details': "Contact Person Details",
           'contact_person_name': "Contact Person Name",
           'contact_person_email': "Contact Person Email",
@@ -675,7 +678,7 @@ class Strings extends Translations {
           'return_order': "Return Order",
           'ready_to_deliver': "Ready to deliver",
           'price':"Price",
-
+          'delivered_qty': "Delivered Qty",
           // '': "",
 // '': "",
 // '': "",

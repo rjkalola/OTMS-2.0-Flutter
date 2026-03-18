@@ -1,15 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:get/get.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:belcka/pages/teams/team_details/view/widgets/team_members_list.dart';
 import 'package:belcka/pages/teams/team_details/controller/team_details_controller.dart';
+import 'package:belcka/pages/teams/team_details/view/widgets/team_members_list.dart';
 import 'package:belcka/pages/teams/team_details/view/widgets/team_title_cardview.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
-import 'package:belcka/utils/app_utils.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class TeamDetailsScreen extends StatefulWidget {
   const TeamDetailsScreen({super.key});
@@ -60,12 +59,14 @@ class _TeamDetailsScreenState extends State<TeamDetailsScreen> {
                         )
                       : Visibility(
                           visible: controller.isMainViewVisible.value,
-                          child: Column(
-                            children: [
-                              // Divider(),
-                              TeamTitleCardView(),
-                              Expanded(child: TeamMembersList())
-                            ],
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                // Divider(),
+                                TeamTitleCardView(),
+                                TeamMembersList()
+                              ],
+                            ),
                           ),
                         )),
             ),

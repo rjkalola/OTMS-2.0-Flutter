@@ -51,7 +51,6 @@ class TeamMembersList extends StatelessWidget {
         child: CardViewDashboardItem(
           child: Column(
             children: [
-              /// 🔹 Member Count Header (Fixed inside card)
               Container(
                 padding: const EdgeInsets.fromLTRB(0, 14, 18, 14),
                 width: double.infinity,
@@ -62,7 +61,6 @@ class TeamMembersList extends StatelessWidget {
                   text: "${members.length} Members",
                 ),
               ),
-
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Divider(
@@ -70,52 +68,50 @@ class TeamMembersList extends StatelessWidget {
                   color: dividerColor_(context),
                 ),
               ),
-
-              Expanded(
-                child: ListView.separated(
-                  itemCount: members.length,
-                  itemBuilder: (context, index) {
-                    UserInfo info = members[index];
-
-                    return GestureDetector(
-                      onTap: () {
-                        AppUtils.onClickUserAvatar(info.id ?? 0);
-                      },
-                      child: Container(
-                        color: Colors.transparent,
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
-                          child: Row(
-                            children: [
-                              UserAvtarView(
-                                imageUrl: info.userThumbImage ?? "",
+              ListView.separated(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: members.length,
+                itemBuilder: (context, index) {
+                  UserInfo info = members[index];
+                  return GestureDetector(
+                    onTap: () {
+                      AppUtils.onClickUserAvatar(info.id ?? 0);
+                    },
+                    child: Container(
+                      color: Colors.transparent,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
+                        child: Row(
+                          children: [
+                            UserAvtarView(
+                              imageUrl: info.userThumbImage ?? "",
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  TitleTextView(
+                                    text: info.name ?? "",
+                                  ),
+                                  SubtitleTextView(
+                                    text: info.tradeName ?? "",
+                                  ),
+                                ],
                               ),
-                              const SizedBox(width: 12),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    TitleTextView(
-                                      text: info.name ?? "",
-                                    ),
-                                    SubtitleTextView(
-                                      text: info.tradeName ?? "",
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
-                    );
-                  },
-                  separatorBuilder: (context, index) => Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Divider(
-                      height: 0,
-                      color: dividerColor_(context),
                     ),
+                  );
+                },
+                separatorBuilder: (context, index) => Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Divider(
+                    height: 0,
+                    color: dividerColor_(context),
                   ),
                 ),
               ),

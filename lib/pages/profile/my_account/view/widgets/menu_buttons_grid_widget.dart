@@ -80,6 +80,8 @@ class MenuButtonsGridWidget extends StatelessWidget {
                 };
                 Get.toNamed(AppRoutes.digitalIdCardScreen,
                     arguments: arguments);
+              } else if (info.action == AppConstants.action.checkInSettings) {
+                controller.showCheckInSettingsBottomSheet();
               }
             },
             splashColor: Colors.transparent, // Removes splash effect

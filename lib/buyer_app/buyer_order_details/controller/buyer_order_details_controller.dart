@@ -8,6 +8,7 @@ import 'package:belcka/buyer_app/buyer_order_details/model/buyer_order_details_r
 import 'package:belcka/buyer_app/create_buyer_order/model/product_request_info.dart';
 import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
+import 'package:belcka/storeman_app/storeman_order_details/model/order_deliver_response.dart';
 import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/image_utils.dart';
@@ -23,7 +24,7 @@ import '../../../utils/app_constants.dart';
 import '../../../utils/date_utils.dart';
 
 class BuyerOrderDetailsController extends GetxController
-    implements SelectDateListener ,DialogButtonClickListener{
+    implements SelectDateListener, DialogButtonClickListener {
   final _api = BuyerOrderDetailsRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
@@ -161,10 +162,20 @@ class BuyerOrderDetailsController extends GetxController
       data: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
-          BaseResponse response =
-              BaseResponse.fromJson(jsonDecode(responseModel.result!));
-          AppUtils.showToastMessage(response.Message ?? "");
-          Get.back(result: true);
+          OrderDeliverResponse response =
+              OrderDeliverResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showApiResponseMessage(response.message ?? "");
+          int status = response.info?.status ?? 0;
+          var arguments = {
+            AppConstants.intentKey.status: status,
+            AppConstants.intentKey.result: true,
+          };
+          Get.back(result: arguments);
+
+          // BaseResponse response =
+          //     BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          // AppUtils.showToastMessage(response.Message ?? "");
+          // Get.back(result: true);
         } else {
           isLoading.value = false;
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");

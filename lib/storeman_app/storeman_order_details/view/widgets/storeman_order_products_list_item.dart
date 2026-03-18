@@ -1,5 +1,6 @@
 import 'package:belcka/buyer_app/buyer_order/view/widgets/order_quantity_change_button.dart';
 import 'package:belcka/buyer_app/buyer_order/view/widgets/order_quantity_display_text_view.dart';
+import 'package:belcka/pages/common/model/file_info.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/res/drawable.dart';
@@ -9,6 +10,7 @@ import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/gridview/document_gridview.dart';
+import 'package:belcka/widgets/image/document_view.dart';
 import 'package:belcka/widgets/text/SubTitleTextView.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:belcka/widgets/textfield/text_field_border_dark.dart';
@@ -38,6 +40,14 @@ class StoremanOrderProductsListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isEnableEdit = status != AppConstants.orderStatus.inStock;
+    bool isQtyNotMatched =
+        ((item.qty ?? 0) - (item.deliveredQty ?? 0)).toInt() !=
+            (item.cartQty ?? 0);
+    bool isHaveAttachment = !StringHelper.isEmptyList(item.attachments);
+    bool isHaveNote = !StringHelper.isEmptyString(item.note);
+    print("isEnableEdit:" + isEnableEdit.toString());
+    print("isQtyNotMatched:" + isQtyNotMatched.toString());
+    print("haveAttachment:" + isHaveAttachment.toString());
     return GestureDetector(
       onTap: onListItem,
       child: Padding(
@@ -114,7 +124,7 @@ class StoremanOrderProductsListItem extends StatelessWidget {
                               AppConstants.orderStatus.received,
                           child: TitleTextView(
                             text:
-                                "${'received_qty'.tr}: ${item.receivedQty ?? 0}",
+                                "${'delivered_qty'.tr}: ${item.deliveredQty ?? 0}",
                             fontSize: 13,
                             color: primaryTextColor_(context),
                           ),
@@ -128,9 +138,11 @@ class StoremanOrderProductsListItem extends StatelessWidget {
                 height: 4,
               ),
               Visibility(
-                visible: (item.qty ?? 0).toInt() != (item.cartQty ?? 0) ||
-                    (status == AppConstants.orderStatus.inStock &&
-                        !StringHelper.isEmptyList(item.attachments)),
+                visible: isQtyNotMatched ||
+                    (((status == AppConstants.orderStatus.inStock ||
+                            status ==
+                                AppConstants.orderStatus.partialReceived)) &&
+                        (isHaveNote || isHaveAttachment)),
                 child: Column(
                   children: [
                     SizedBox(
@@ -145,7 +157,7 @@ class StoremanOrderProductsListItem extends StatelessWidget {
                     Row(
                       children: [
                         Visibility(
-                          visible: isEnableEdit,
+                          visible: isEnableEdit && isQtyNotMatched,
                           child: GestureDetector(
                             onTap: () {
                               controller.showAttachmentOptionsDialog(index);
@@ -157,7 +169,7 @@ class StoremanOrderProductsListItem extends StatelessWidget {
                           ),
                         ),
                         Visibility(
-                          visible: isEnableEdit,
+                          visible: isEnableEdit && isQtyNotMatched,
                           child: SizedBox(
                             width: 6,
                           ),
@@ -173,8 +185,7 @@ class StoremanOrderProductsListItem extends StatelessWidget {
                           labelText: 'note'.tr,
                           textInputAction: TextInputAction.newline,
                           validator: MultiValidator([]),
-                          isEnabled: isEnableEdit,
-                          isReadOnly: !isEnableEdit,
+                          isReadOnly: !(isEnableEdit && isQtyNotMatched),
                           textAlignVertical: TextAlignVertical.top,
                           onValueChange: (value) {
                             item.note = value;
@@ -186,27 +197,61 @@ class StoremanOrderProductsListItem extends StatelessWidget {
                       ],
                     ),
                     Visibility(
-                      visible: (item.attachments ?? []).isNotEmpty,
+                      visible: isHaveAttachment,
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 6),
-                        child: DocumentGridview(
-                            isEditable: isEnableEdit,
-                            crossAxisCount: 5,
+                          padding: const EdgeInsets.only(top: 6),
+                          // child: DocumentGridview(
+                          //     isEditable: isEnableEdit,
+                          //     crossAxisCount: 5,
+                          //     physics: const NeverScrollableScrollPhysics(),
+                          //     filesList: (item.attachments ?? []).obs,
+                          //     onViewClick: (int index) async {
+                          //       // String fileUrl = item.attachments![index].imageUrl??"";
+                          //       // await ImageUtils.openAttachment(
+                          //       //     Get.context!, fileUrl, ImageUtils.getFileType(fileUrl));
+                          //       ImageUtils.moveToImagePreview(
+                          //           item.attachments!, index);
+                          //     },
+                          //     onRemoveClick: (int index) {
+                          //       item.attachments!.removeAt(index);
+                          //       controller.orderProductsList.refresh();
+                          //       // onGridItemClick(index, AppConstants.action.removePhoto);
+                          //     }),
+                          child: GridView.builder(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
-                            filesList: (item.attachments ?? []).obs,
-                            onViewClick: (int index) async {
-                              // String fileUrl = item.attachments![index].imageUrl??"";
-                              // await ImageUtils.openAttachment(
-                              //     Get.context!, fileUrl, ImageUtils.getFileType(fileUrl));
-                              ImageUtils.moveToImagePreview(
-                                  item.attachments!, index);
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              childAspectRatio: (1 / 1),
+                              crossAxisCount: 5,
+                              mainAxisSpacing: 7.0,
+                              crossAxisSpacing: 7.0, // spacing between columns
+                            ),
+                            padding: const EdgeInsets.all(8.0),
+                            itemCount: (item.attachments ?? []).length,
+                            itemBuilder: (context, index) {
+                              FilesInfo fileInfo =
+                                  (item.attachments ?? [])[index];
+                              return InkWell(
+                                onTap: () async {
+                                  // String fileUrl = item.attachments![index].imageUrl??"";
+                                  // await ImageUtils.openAttachment(
+                                  //     Get.context!, fileUrl, ImageUtils.getFileType(fileUrl));
+                                  ImageUtils.moveToImagePreview(
+                                      item.attachments!, index);
+                                },
+                                child: DocumentView(
+                                    isEditable:
+                                        isEnableEdit && (fileInfo.id ?? 0) == 0,
+                                    file: fileInfo.imageUrl ?? "",
+                                    onRemoveClick: () {
+                                      item.attachments!.removeAt(index);
+                                      controller.orderProductsList.refresh();
+                                    }),
+                              );
                             },
-                            onRemoveClick: (int index) {
-                              item.attachments!.removeAt(index);
-                              controller.orderProductsList.refresh();
-                              // onGridItemClick(index, AppConstants.action.removePhoto);
-                            }),
-                      ),
+                          )),
                     ),
                   ],
                 ),

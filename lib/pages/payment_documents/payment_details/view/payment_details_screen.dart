@@ -56,10 +56,8 @@ class _PaymentDetailsScreenState extends State<PaymentDetailsScreen> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    getDetailRow(
-                                        'net_timesheet'.tr,
-                                        getValue(controller.paymentsInfo.value
-                                            .netTimeclockAmount)),
+                                    getDetailRow('net_timesheet'.tr,
+                                        getValue(getNetTimeSheetValue())),
                                     Padding(
                                       padding: const EdgeInsets.only(left: 20),
                                       child: TitleTextView(
@@ -103,7 +101,8 @@ class _PaymentDetailsScreenState extends State<PaymentDetailsScreen> {
                                         !StringHelper.isEmptyString(getValue(
                                                 controller.paymentsInfo.value
                                                     .cisAmount))
-                                            ? "-${getValue(controller.paymentsInfo.value.cisAmount)}"
+                                            ? getValue(controller
+                                                .paymentsInfo.value.cisAmount)
                                             : "",
                                         fontColor: primaryTextColor_(context)),
                                     getDetailRow(
@@ -222,5 +221,19 @@ class _PaymentDetailsScreenState extends State<PaymentDetailsScreen> {
     } else {
       return primaryTextColorLight_(context);
     }
+  }
+
+  String getNetTimeSheetValue() {
+    double netTimesheetAmount = double.tryParse(
+            controller.paymentsInfo.value.netTimeclockAmount ?? "0") ??
+        0;
+
+    double netPaidLeaveAmount = double.tryParse(
+            controller.paymentsInfo.value.netPaidLeaveAmount ?? "0") ??
+        0;
+
+    double total = netTimesheetAmount + netPaidLeaveAmount;
+
+    return total.toString();
   }
 }

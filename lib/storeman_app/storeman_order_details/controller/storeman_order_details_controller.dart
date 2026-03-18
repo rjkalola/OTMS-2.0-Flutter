@@ -82,7 +82,7 @@ class StoremanOrderDetailsController extends GetxController
           tempOrderProductsList.clear();
 
           for (var info in orderInfo.value.purchaseOrders!) {
-            info.cartQty = (info.qty ?? 0);
+            info.cartQty = (info.qty ?? 0) - (info.deliveredQty ?? 0);
             tempOrderProductsList.add(info);
           }
 
@@ -171,7 +171,7 @@ class StoremanOrderDetailsController extends GetxController
     bool valid = true;
     for (int i = 0; i < orderProductsList.length; i++) {
       ProductInfo productInfo = orderProductsList[i];
-      if ((productInfo.qty ?? 0).toInt() !=
+      if (((productInfo.qty ?? 0) - (productInfo.deliveredQty ?? 0)).toInt() !=
           (productInfo.cartQty ?? 0).toInt()) {
         if (StringHelper.isEmptyString(productInfo.note)) {
           valid = false;
@@ -198,12 +198,9 @@ class StoremanOrderDetailsController extends GetxController
         status.value == AppConstants.orderStatus.partialReceived) {
       for (int i = 0; i < orderProductsList.length; i++) {
         ProductInfo productInfo = orderProductsList[i];
-        if ((productInfo.qty ?? 0).toInt() !=
-            (productInfo.cartQty ?? 0).toInt()) {
-          map["product_data[$i][id]"] = productInfo.productId ?? 0;
-          map["product_data[$i][qty]"] = productInfo.cartQty ?? 0;
-          map["product_data[$i][note]"] = productInfo.note ?? "";
-        }
+        map["product_data[$i][id]"] = productInfo.productId ?? 0;
+        map["product_data[$i][qty]"] = productInfo.cartQty ?? 0;
+        map["product_data[$i][note]"] = productInfo.note ?? "";
       }
     }
 
@@ -214,20 +211,18 @@ class StoremanOrderDetailsController extends GetxController
         status.value == AppConstants.orderStatus.partialReceived) {
       for (int i = 0; i < orderProductsList.length; i++) {
         ProductInfo productInfo = orderProductsList[i];
-        if ((productInfo.qty ?? 0).toInt() !=
-            (productInfo.cartQty ?? 0).toInt()) {
-          for (FilesInfo filesInfo in productInfo.attachments ?? []) {
-            if (!StringHelper.isEmptyString(filesInfo.imageUrl) &&
-                !filesInfo.imageUrl!.startsWith("http")) {
-              print("product_data[$i][images][]" + (filesInfo.imageUrl ?? ""));
-              formData.files.add(
-                MapEntry(
-                    "product_data[$i][images][]",
-                    await multi.MultipartFile.fromFile(
-                        filesInfo.imageUrl ?? "")),
-              );
-            }
+        // if ((productInfo.qty ?? 0).toInt() !=
+        //     (productInfo.cartQty ?? 0).toInt()) {
+        for (FilesInfo filesInfo in productInfo.attachments ?? []) {
+          if (!StringHelper.isEmptyString(filesInfo.imageUrl) &&
+              !filesInfo.imageUrl!.startsWith("http")) {
+            print("product_data[$i][images][]" + (filesInfo.imageUrl ?? ""));
+            formData.files.add(
+              MapEntry("product_data[$i][images][]",
+                  await multi.MultipartFile.fromFile(filesInfo.imageUrl ?? "")),
+            );
           }
+          // }
         }
       }
     }
@@ -240,12 +235,9 @@ class StoremanOrderDetailsController extends GetxController
           OrderDeliverResponse response =
               OrderDeliverResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.message ?? "");
-          String statusString =
-              status.value == AppConstants.orderStatus.received
-                  ? AppConstants.type.processing
-                  : AppConstants.type.onStock;
+          int status = response.info?.status ?? 0;
           var arguments = {
-            AppConstants.intentKey.status: statusString,
+            AppConstants.intentKey.status: status,
             AppConstants.intentKey.result: true,
           };
           Get.back(result: arguments);
@@ -394,15 +386,7 @@ class StoremanOrderDetailsController extends GetxController
   void onPositiveButtonClicked(String dialogIdentifier) {
     if (dialogIdentifier == AppConstants.dialogIdentifier.orderDelivered) {
       Get.back();
-      if (isProductQuantityValid()) {
-        if (isValidOrder()) {
-          proceedOrder();
-        } else {
-          AppUtils.showToastMessage('msg_storeman_order_note_and_photo'.tr);
-        }
-      } else {
-        AppUtils.showToastMessage('msg_select_at_least_one_qty'.tr);
-      }
+      proceedOrder();
     } else if (dialogIdentifier == AppConstants.dialogIdentifier.orderProceed) {
       Get.back();
       proceedOrder();

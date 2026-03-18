@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:belcka/buyer_app/project_list/controller/buyer_projects_repository.dart';
 import 'package:belcka/buyer_app/purchasing/controller/purchasing_repository.dart';
 import 'package:belcka/buyer_app/purchasing/model/buyer_order_dashboard_response.dart';
-import 'package:belcka/buyer_app/store_list/controller/buyer_store_repository.dart';
+import 'package:belcka/buyer_app/stores/store_list/controller/buyer_store_repository.dart';
+import 'package:belcka/buyer_app/stores/store_list/models/store_info.dart';
+import 'package:belcka/buyer_app/stores/store_list/models/store_list_response.dart';
 import 'package:belcka/pages/common/model/Dropdown_list_response.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
@@ -11,8 +13,8 @@ import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:get/get.dart';
 
-import '../../../routes/app_routes.dart';
-import '../../../utils/app_constants.dart';
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/app_constants.dart';
 
 class BuyerStoresController extends GetxController {
   final _api = BuyerStoreRepository();
@@ -20,7 +22,7 @@ class BuyerStoresController extends GetxController {
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs;
   double cardRadius = 12;
-  final listItems = <ModuleInfo>[].obs;
+  final listItems = <StoreInfo>[].obs;
 
   @override
   void onInit() {
@@ -37,8 +39,8 @@ class BuyerStoresController extends GetxController {
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           isMainViewVisible.value = true;
-          DropdownListResponse response =
-              DropdownListResponse.fromJson(jsonDecode(responseModel.result!));
+          StoreListResponse response =
+          StoreListResponse.fromJson(jsonDecode(responseModel.result!));
           listItems.value = response.info!;
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
@@ -61,7 +63,9 @@ class BuyerStoresController extends GetxController {
   Future<void> moveToScreen(
       {required String appRout, dynamic arguments}) async {
     var result = await Get.toNamed(appRout, arguments: arguments);
-    buyerStoresListApi(false);
+    if (result != null && result) {
+      buyerStoresListApi(true);
+    }
   }
 
   void onBackPress() {

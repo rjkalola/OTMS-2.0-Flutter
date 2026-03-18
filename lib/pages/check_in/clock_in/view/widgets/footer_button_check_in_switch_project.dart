@@ -41,38 +41,43 @@ class FooterButtonCheckInSwitchProject extends StatelessWidget {
                   borderRadius: 10,
                 ),
               ),
-              const SizedBox(
-                width: 12,
+              Visibility(
+                visible: controller.workLogData.value.isCheckIn ?? false,
+                child: const SizedBox(
+                  width: 12,
+                ),
               ),
-              controller.isChecking.value
-                  ? Flexible(
-                      fit: FlexFit.tight,
-                      flex: 1,
-                      child: PrimaryButton(
-                        buttonText: 'check_out_'.tr,
-                        onPressed: () {
-                          controller.onCLickCheckOutButton();
-                        },
-                        color: Color(0xffFF6464),
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16,
-                        borderRadius: 10,
-                      ),
-                    )
-                  : Flexible(
-                      fit: FlexFit.tight,
-                      flex: 1,
-                      child: PrimaryButton(
-                        buttonText: 'check_in_'.tr,
-                        onPressed: () {
-                          controller.onCLickCheckInButton();
-                        },
-                        color: Colors.green,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16,
-                        borderRadius: 10,
-                      ),
-                    ),
+              Visibility(
+                  visible: controller.workLogData.value.isCheckIn ?? false,
+                  child: controller.isChecking.value
+                      ? Flexible(
+                          fit: FlexFit.tight,
+                          flex: 1,
+                          child: PrimaryButton(
+                            buttonText: 'check_out_'.tr,
+                            onPressed: () {
+                              controller.onCLickCheckOutButton();
+                            },
+                            color: Color(0xffFF6464),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            borderRadius: 10,
+                          ),
+                        )
+                      : Flexible(
+                          fit: FlexFit.tight,
+                          flex: 1,
+                          child: PrimaryButton(
+                            buttonText: 'check_in_'.tr,
+                            onPressed: () {
+                              controller.onCLickCheckInButton();
+                            },
+                            color: Colors.green,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            borderRadius: 10,
+                          ),
+                        )),
             ],
           ),
         ),

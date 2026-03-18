@@ -245,6 +245,7 @@ class Action {
   final String selectCompanyListDialog = "selectCompanyListDialog";
   final String selectTradeListDialog = "selectTradeListDialog";
   final String selectSupervisorDialog = 'selectSupervisorDialog';
+  final String selectStoreManagerDialog = 'selectStoreManagerDialog';
   final String selectProjectDialog = 'selectProjectDialog';
   final String selectAddressDialog = 'SelectAddressDialog';
   final String selectCategoryDialog = 'SelectCategoryDialog';
@@ -302,6 +303,7 @@ class Action {
   final String digitalId = 'DigitalId';
   final String rent = 'Rent';
   final String history = 'History';
+  final String checkInSettings = "CheckInSettings";
 
   final String checkIn = "CheckIn";
   final String trades = "Trades";

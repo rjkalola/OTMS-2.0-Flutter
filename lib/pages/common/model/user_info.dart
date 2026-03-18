@@ -21,6 +21,7 @@ class UserInfo {
   bool? showRate;
   bool? isTradeAvailable;
   String? userCode;
+  bool? isCheckIn;
 
   UserInfo(
       {this.id,
@@ -44,7 +45,8 @@ class UserInfo {
       this.isWorking,
       this.showRate,
       this.isTradeAvailable,
-      this.userCode});
+      this.userCode,
+      this.isCheckIn});
 
   UserInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -69,6 +71,7 @@ class UserInfo {
     showRate = json['show_rate'];
     isTradeAvailable = json['is_trade_available'];
     userCode = json['user_code'];
+    isCheckIn = json['is_check_in'];
   }
 
   Map<String, dynamic> toJson() {
@@ -95,6 +98,7 @@ class UserInfo {
     data['show_rate'] = this.showRate;
     data['is_trade_available'] = this.isTradeAvailable;
     data['user_code'] = this.userCode;
+    data['is_check_in'] = this.isCheckIn;
     return data;
   }
 
@@ -118,7 +122,8 @@ class UserInfo {
       bool? isWorking,
       bool? showRate,
       bool? isTradeAvailable,
-      String? userCode}) {
+      String? userCode,
+      bool? isCheckIn}) {
     return UserInfo(
         id: id ?? this.id,
         firstName: firstName ?? this.firstName,
@@ -141,7 +146,8 @@ class UserInfo {
         isWorking: isWorking ?? this.isWorking,
         showRate: showRate ?? this.showRate,
         isTradeAvailable: isTradeAvailable ?? this.isTradeAvailable,
-        userCode: userCode ?? this.userCode);
+        userCode: userCode ?? this.userCode,
+        isCheckIn: isCheckIn ?? this.isCheckIn);
   }
 
   UserInfo copyUserInfo({UserInfo? userInfo}) {
@@ -168,6 +174,7 @@ class UserInfo {
         isWorking: userInfo?.isWorking ?? this.isWorking,
         showRate: userInfo?.showRate ?? this.showRate,
         isTradeAvailable: userInfo?.isTradeAvailable ?? this.isTradeAvailable,
-        userCode: userInfo?.userCode ?? this.userCode);
+        userCode: userInfo?.userCode ?? this.userCode,
+        isCheckIn: userInfo?.isCheckIn ?? this.isCheckIn);
   }
 }

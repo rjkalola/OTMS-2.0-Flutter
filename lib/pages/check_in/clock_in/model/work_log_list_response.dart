@@ -17,6 +17,7 @@ class WorkLogListResponse {
   String? shiftName;
   int? projectId;
   String? projectName;
+  bool? isCheckIn;
 
   WorkLogListResponse(
       {this.isSuccess,
@@ -32,7 +33,8 @@ class WorkLogListResponse {
       this.shiftId,
       this.shiftName,
       this.projectId,
-      this.projectName});
+      this.projectName,
+      this.isCheckIn});
 
   WorkLogListResponse.fromJson(Map<String, dynamic> json) {
     isSuccess = json['IsSuccess'];
@@ -49,6 +51,7 @@ class WorkLogListResponse {
     shiftName = json['shift_name'];
     projectId = json['project_id'];
     projectName = json['project_name'];
+    isCheckIn = json['is_check_in'];
     if (json['my_worklogs'] != null) {
       workLogInfo = <WorkLogInfo>[];
       json['my_worklogs'].forEach((v) {
@@ -85,6 +88,7 @@ class WorkLogListResponse {
     data['shift_name'] = this.shiftName;
     data['project_id'] = this.projectId;
     data['project_name'] = this.projectName;
+    data['is_check_in'] = this.isCheckIn;
     return data;
   }
 }

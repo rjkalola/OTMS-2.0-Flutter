@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:belcka/pages/check_in/clock_in/model/location_info.dart';
+import 'package:belcka/pages/common/check_in_settings_bottom_sheet.dart';
 import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:belcka/pages/common/listener/menu_item_listener.dart';
 import 'package:belcka/pages/common/menu_items_list_bottom_dialog.dart';
@@ -356,6 +357,58 @@ class MyAccountController extends GetxController
     Get.back(result: isDataChanged.value);
   }
 
+  void showCheckInSettingsBottomSheet() {
+    Get.bottomSheet(
+      CheckInSettingsBottomSheet(
+        initialValue: userInfo.value.isCheckIn ?? false,
+        onSave: (value) {
+          Get.back();
+          _saveCheckInSettings(value);
+        },
+        onCancel: () => Get.back(),
+      ),
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+    );
+  }
+
+  void _saveCheckInSettings(bool isCheckIn) {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
+    map["users"] = [
+      {"id": userId ?? 0, "is_check_in": isCheckIn}
+    ];
+    _api.changeBulkCheckin(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          BaseResponse response =
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showApiResponseMessage(response.Message ?? "");
+          userInfo.value.isCheckIn = isCheckIn;
+          // isDataChanged.value = true;
+          if (UserUtils.isLoginUser(userId)) {
+            Get.find<AppStorage>().setUserInfo(userInfo.value);
+            AppUtils.saveLoginUser(userInfo.value);
+          }
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        } else if (error.statusMessage != null &&
+            error.statusMessage!.isNotEmpty) {
+          AppUtils.showApiResponseMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
+
   void showRemoveUserOptionDialog() {
     Get.defaultDialog(
       title: '',
@@ -455,6 +508,8 @@ class MyAccountController extends GetxController
       listItems.add(ModuleInfo(
           name: 'stop_work'.tr, action: AppConstants.action.stopWork));
     }
+    listItems.add(ModuleInfo(
+        name: 'check_in_'.tr, action: AppConstants.action.checkInSettings));
     showCupertinoModalPopup(
       context: context,
       builder: (_) =>
@@ -468,6 +523,8 @@ class MyAccountController extends GetxController
       changeAdminAPI();
     } else if (info.action == AppConstants.action.stopWork) {
       showStopWorkDialog();
+    } else if (info.action == AppConstants.action.checkInSettings) {
+      showCheckInSettingsBottomSheet();
     }
   }
 

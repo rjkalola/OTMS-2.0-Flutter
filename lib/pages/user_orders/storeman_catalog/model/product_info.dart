@@ -59,6 +59,7 @@ class ProductInfo {
   int? cartId;
   List<FilesInfo>? productImages;
   List<FilesInfo>? attachments;
+  int? deliveredQty;
   int? receivedQty;
   int? totalQty;
   String? manufactureName;
@@ -94,6 +95,7 @@ class ProductInfo {
       this.cartQty,
       this.subQty,
       this.receivedQty,
+      this.deliveredQty,
       this.totalQty,
       this.manufactureName,
       this.totalAmount,
@@ -220,6 +222,7 @@ class ProductInfo {
       });
     }
     receivedQty = json['received_qty'];
+    deliveredQty = json['delivered_qty'];
     totalQty = json['total_qty'];
     manufactureName = json['manufacturer_name'];
     availableQty = json['available_qty'];
@@ -233,7 +236,7 @@ class ProductInfo {
     productThumbImage = json['product_thumb_image'];
     packOfUnit = json['pack_off_unit'];
     packOfUnitName = json['pack_off_unit_name'];
-    note =  json['note'];
+    note = json['note'];
   }
 
   Map<String, dynamic> toJson() {
@@ -302,6 +305,7 @@ class ProductInfo {
     }
 
     data['received_qty'] = this.receivedQty;
+    data['delivered_qty'] = this.deliveredQty;
     data['total_qty'] = this.totalQty;
     data['manufacturer_name'] = this.manufactureName;
     data['total_amount'] = this.totalAmount;
@@ -317,7 +321,7 @@ class ProductInfo {
     data['product_thumb_image'] = this.productThumbImage;
     data['pack_off_unit'] = this.packOfUnit;
     data['pack_off_unit_name'] = this.packOfUnitName;
-    data['note'] = this.note; 
+    data['note'] = this.note;
 
     return data;
   }

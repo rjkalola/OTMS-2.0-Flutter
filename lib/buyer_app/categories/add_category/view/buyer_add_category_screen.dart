@@ -58,7 +58,7 @@ class _BuyerAddCategoryScreenState extends State<BuyerAddCategoryScreen> {
                       )
                     : Container(),
                 SizedBox(
-                  width: 10,
+                  width: 12,
                 )
               ],
             ),

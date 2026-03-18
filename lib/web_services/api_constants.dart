@@ -100,6 +100,7 @@ class ApiConstants {
   static String getDigitalCardDetails = '$appUrl/user/get-user-digital-card';
   static String userAnalytics = '$appUrl/analytics/user';
   static String stopUserWork = '$appUrl/stop-work';
+  static String userChangeBulkCheckin = '$appUrl/user/change-bulk-checkin';
 
   //teams
   static String teamList = '$appUrl/team/list';
@@ -116,6 +117,7 @@ class ApiConstants {
   static String teamArchive = '$appUrl/team/archive';
   static String teamUnArchive = '$appUrl/team/unarchive';
   static String teamUserList = '$appUrl/team/user-list';
+  static String teamChangeBulkCheckin = '$appUrl/team/change-bulk-checkin';
 
   //shifts
   static String shiftAdd = '$appUrl/shift/add';
@@ -335,6 +337,11 @@ class ApiConstants {
   static String createSupplier = '$appUrl/suppliers/create';
   static String updateSupplier = '$appUrl/suppliers/update';
   static String deleteSupplier = '$appUrl/suppliers/delete';
+
+  //stores
+  static String createStore = '$appUrl/stores/create';
+  static String updateStore = '$appUrl/stores/update';
+  static String deleteStore = '$appUrl/stores/delete';
 
   //storeman order
   static String storemanInventoryOverview = '$appUrl/storeman-overview';

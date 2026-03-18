@@ -157,13 +157,19 @@ class AppRoutes {
   static const String buyerCatalogueScreen = '/buyer_catalogue_screen';
   static const String buyerAddCatalogueScreen = '/buyer_add_category_screen';
   static const String buyerAddSupplierScreen = '/buyer_add_supplier_screen';
+  static const String buyerAddStoreScreen = '/buyer_add_store_screen';
   static const String orderHistoryScreen = '/order_history_screen';
   static const String orderDetailsScreen = '/order_details_screen';
   static const String buyerDraftOrdersScreen = '/buyer_draft_orders_screen';
   static const String storemanInventoryScreen = '/storeman_inventory_screen';
-  static const String storemanInternalOrdersScreen = '/storeman_internal_orders_screen';
-  static const String storemanSupplierOrdersScreen = '/storeman_supplier_orders_screen';
-  static const String storemanHireProductsScreen = '/storeman_hire_products_screen';
-  static const String storemanOrderDetailsScreen = '/storeman_order_details_screen';
-  static const String storemanInternalOrderDetailsScreen = '/storeman_internal_order_details_screen';
+  static const String storemanInternalOrdersScreen =
+      '/storeman_internal_orders_screen';
+  static const String storemanSupplierOrdersScreen =
+      '/storeman_supplier_orders_screen';
+  static const String storemanHireProductsScreen =
+      '/storeman_hire_products_screen';
+  static const String storemanOrderDetailsScreen =
+      '/storeman_order_details_screen';
+  static const String storemanInternalOrderDetailsScreen =
+      '/storeman_internal_order_details_screen';
 }

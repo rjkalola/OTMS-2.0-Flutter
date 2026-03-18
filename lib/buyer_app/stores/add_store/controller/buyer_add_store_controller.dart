@@ -1,13 +1,15 @@
 import 'dart:convert';
 
-import 'package:belcka/buyer_app/suppliers/add_supplier/controller/buyer_add_supplier_repository.dart';
-import 'package:belcka/buyer_app/suppliers/supplier_list/models/supplier_info.dart';
+import 'package:belcka/buyer_app/stores/add_store/controller/buyer_add_store_repository.dart';
+import 'package:belcka/buyer_app/stores/store_list/models/store_info.dart';
+import 'package:belcka/pages/common/drop_down_list_dialog.dart';
 import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:belcka/pages/common/listener/SelectPhoneExtensionListener.dart';
-import 'package:belcka/pages/common/model/file_info.dart';
 import 'package:belcka/pages/common/phone_extension_list_dialog.dart';
-import 'package:belcka/pages/manageattachment/controller/manage_attachment_controller.dart';
-import 'package:belcka/pages/manageattachment/listener/select_attachment_listener.dart';
+import 'package:belcka/pages/common/listener/select_item_listener.dart';
+import 'package:belcka/pages/permissions/user_list/controller/user_list_repository.dart';
+import 'package:belcka/pages/permissions/user_list/model/user_list_response.dart';
+import 'package:belcka/pages/common/model/user_info.dart';
 import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
@@ -17,37 +19,28 @@ import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/web_services/response/response_model.dart';
-import 'package:dio/dio.dart' as multi;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class BuyerAddSupplierController extends GetxController
-    implements
-        DialogButtonClickListener,
-        SelectPhoneExtensionListener,
-        SelectAttachmentListener {
-  final _api = BuyerAddSupplierRepository();
+class BuyerAddStoreController extends GetxController
+    implements DialogButtonClickListener, SelectPhoneExtensionListener, SelectItemListener {
+  final _api = BuyerAddStoreRepository();
 
   final formKey = GlobalKey<FormState>();
 
   final nameController = TextEditingController().obs;
   final emailController = TextEditingController().obs;
-  final companyNameController = TextEditingController().obs;
-  final accountNumberController = TextEditingController().obs;
-  final contactPersonNameController = TextEditingController().obs;
-  final contactPersonEmailController = TextEditingController().obs;
-  final contactPersonPhoneController = TextEditingController().obs;
   final streetController = TextEditingController().obs;
   final locationController = TextEditingController().obs;
   final townController = TextEditingController().obs;
   final postcodeController = TextEditingController().obs;
+  final addressController = TextEditingController().obs;
   final phoneController = TextEditingController().obs;
 
   final phoneExtension = AppConstants.defaultPhoneExtension.obs;
   final phoneFlag = AppConstants.defaultFlagUrl.obs;
 
-  final contactPersonExtension = AppConstants.defaultPhoneExtension.obs;
-  final contactPersonFlag = AppConstants.defaultFlagUrl.obs;
+  final storeManagerController = TextEditingController().obs;
 
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
@@ -55,46 +48,55 @@ class BuyerAddSupplierController extends GetxController
       isSaveEnable = false.obs,
       status = true.obs;
 
-  RxString imageUrl = "".obs;
+  int storeManagerId = 0;
+  final userList = <UserInfo>[].obs;
 
-  SupplierInfo? itemDetails;
+  StoreInfo? itemDetails;
 
   @override
   void onInit() {
     super.onInit();
+    getUserListApi();
     var arguments = Get.arguments;
     if (arguments != null) {
       itemDetails = arguments[AppConstants.intentKey.itemDetails];
       if (itemDetails != null) {
         nameController.value.text = itemDetails!.name ?? "";
         emailController.value.text = itemDetails!.email ?? "";
-        companyNameController.value.text = itemDetails!.companyName ?? "";
-        accountNumberController.value.text = itemDetails!.accountNumber ?? "";
-        contactPersonNameController.value.text =
-            itemDetails!.contactPersonName ?? "";
-        contactPersonEmailController.value.text =
-            itemDetails!.contactPersonEmail ?? "";
-        contactPersonPhoneController.value.text =
-            itemDetails!.contactPersonPhone ?? "";
         streetController.value.text = itemDetails!.street ?? "";
         locationController.value.text = itemDetails!.location ?? "";
         townController.value.text = itemDetails!.town ?? "";
         postcodeController.value.text = itemDetails!.postcode ?? "";
+        addressController.value.text = itemDetails!.address ?? "";
         phoneController.value.text = itemDetails!.phone ?? "";
-
         phoneExtension.value = itemDetails!.extension ?? phoneExtension.value;
         phoneFlag.value =
             AppUtils.getFlagByExtension(itemDetails!.extension ?? "");
-
-        contactPersonExtension.value =
-            itemDetails!.contactPersonExtension ?? contactPersonExtension.value;
-        contactPersonFlag.value = AppUtils.getFlagByExtension(
-            itemDetails!.contactPersonExtension ?? "");
-
+        storeManagerController.value.text = itemDetails!.managerName ?? "";
+        storeManagerId = itemDetails!.managerId ?? 0;
         status.value = itemDetails!.status ?? false;
-        imageUrl.value = itemDetails!.imageUrl ?? "";
+      } else {
+        isSaveEnable.value = true;
       }
+    } else {
+      isSaveEnable.value = true;
     }
+  }
+
+  void getUserListApi() {
+    Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
+    UserListRepository().getUserList(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          UserListResponse response =
+              UserListResponse.fromJson(jsonDecode(responseModel.result!));
+          userList.value = response.info ?? [];
+        }
+      },
+      onError: (ResponseModel error) {},
+    );
   }
 
   void showDeleteDialog() async {
@@ -110,14 +112,14 @@ class BuyerAddSupplierController extends GetxController
         AppConstants.dialogIdentifier.delete);
   }
 
-  void deleteSupplierApi() {
+  void deleteStoreApi() {
     if (itemDetails == null) {
       return;
     }
     isLoading.value = true;
     Map<String, dynamic> map = {};
-    map["supplier_ids"] = (itemDetails?.id ?? 0).toString();
-    _api.deleteSupplier(
+    map["store_ids"] = (itemDetails?.id ?? 0).toString();
+    _api.deleteStore(
       data: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
@@ -145,45 +147,8 @@ class BuyerAddSupplierController extends GetxController
   @override
   void onPositiveButtonClicked(String dialogIdentifier) {
     if (dialogIdentifier == AppConstants.dialogIdentifier.delete) {
-      deleteSupplierApi();
+      deleteStoreApi();
       Get.back();
-    }
-  }
-
-  showAttachmentOptionsDialog() async {
-    var listOptions = <ModuleInfo>[].obs;
-    ModuleInfo? info;
-
-    info = ModuleInfo();
-    info.name = 'camera'.tr;
-    info.action = AppConstants.attachmentType.camera;
-    listOptions.add(info);
-
-    info = ModuleInfo();
-    info.name = 'gallery'.tr;
-    info.action = AppConstants.attachmentType.image;
-    listOptions.add(info);
-
-    ManageAttachmentController().showAttachmentOptionsDialog(
-        'select_photo_from_'.tr, listOptions, this);
-  }
-
-  @override
-  void onSelectAttachment(List<String> paths, String action) {
-    if (action == AppConstants.attachmentType.camera) {
-      addPhotoToList(paths[0]);
-    } else if (action == AppConstants.attachmentType.image) {
-      addPhotoToList(paths[0]);
-    }
-  }
-
-  addPhotoToList(String? path) {
-    if (!StringHelper.isEmptyString(path)) {
-      isSaveEnable.value = true;
-      FilesInfo info = FilesInfo();
-      info.imageUrl = path;
-      imageUrl.value = path ?? "";
-      // attachmentList.add(info);
     }
   }
 
@@ -191,50 +156,29 @@ class BuyerAddSupplierController extends GetxController
     return formKey.currentState!.validate();
   }
 
-  void addOrUpdateSupplierApi() async {
+  void addOrUpdateStoreApi() async {
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["id"] = itemDetails?.id ?? 0;
     map["company_id"] = ApiConstants.companyId;
     map["name"] = StringHelper.getText(nameController.value);
     map["email"] = StringHelper.getText(emailController.value);
-    map["company_name"] = StringHelper.getText(companyNameController.value);
-    map["account_number"] = StringHelper.getText(accountNumberController.value);
     map["street"] = StringHelper.getText(streetController.value);
     map["location"] = StringHelper.getText(locationController.value);
     map["town"] = StringHelper.getText(townController.value);
     map["postcode"] = StringHelper.getText(postcodeController.value);
+    map["address"] = StringHelper.getText(addressController.value);
     map["phone"] = StringHelper.getText(phoneController.value);
     map["extension"] = phoneExtension.value;
-    map["status"] = status.value;
-    map["contact_person_email"] =
-        StringHelper.getText(contactPersonEmailController.value);
-    map["contact_person_name"] =
-        StringHelper.getText(contactPersonNameController.value);
-    map["contact_person_extension"] = contactPersonExtension.value;
-    map["contact_person_phone"] =
-        StringHelper.getText(contactPersonPhoneController.value);
+    map["store_manager_id"] = storeManagerId;
+    map["product_ids"] = itemDetails?.productIds ?? "";
+    map["status"] = status.value.toString();
 
-    print("Data:"+map.toString());
-
-
-    multi.FormData formData = multi.FormData.fromMap(map);
-
-    if (imageUrl.value.isNotEmpty && !imageUrl.value.startsWith("http")) {
-      formData.files.add(
-        MapEntry(
-          "supplier_image",
-          await multi.MultipartFile.fromFile(imageUrl.value,
-              filename: imageUrl.value.split('/').last),
-        ),
-      );
-    }
-
-    _api.addOrUpdateSupplier(
+    _api.addOrUpdateStore(
       url: itemDetails != null
-          ? ApiConstants.updateSupplier
-          : ApiConstants.createSupplier,
-      formData: formData,
+          ? ApiConstants.updateStore
+          : ApiConstants.createStore,
+      data: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           BaseResponse response =
@@ -255,53 +199,61 @@ class BuyerAddSupplierController extends GetxController
     );
   }
 
-  void showPhoneExtensionDialog({required bool isContactPerson}) {
+  void showPhoneExtensionDialog() {
     Get.bottomSheet(
         PhoneExtensionListDialog(
             title: 'select_country_code'.tr,
             list: DataUtils.getPhoneExtensionList(),
-            listener: _PhoneExtensionProxyListener(this, isContactPerson)),
+            listener: this),
         backgroundColor: Colors.transparent,
         isScrollControlled: true);
   }
 
   @override
   void onSelectPhoneExtension(
-      int id, String extension, String flag, String country) {}
-
-  void onSelectPhoneExtensionInternal(
-      int id, String extension, String flag, String country,
-      {required bool isContactPerson}) {
-    if (isContactPerson) {
-      contactPersonFlag.value = flag;
-      contactPersonExtension.value = extension;
-    } else {
-      phoneFlag.value = flag;
-      phoneExtension.value = extension;
-    }
+      int id, String extension, String flag, String country) {
+    phoneFlag.value = flag;
+    phoneExtension.value = extension;
     isSaveEnable.value = true;
+  }
+
+  void showSelectStoreManagerDialog() {
+    if (userList.isNotEmpty) {
+      showDropDownDialog(
+          AppConstants.action.selectStoreManagerDialog,
+          'store_manager'.tr,
+          DataUtils.getModuleListFromUserList(userList),
+          this);
+    } else {
+      AppUtils.showToastMessage('empty_data_message'.tr);
+    }
+  }
+
+  void showDropDownDialog(String dialogType, String title,
+      List<ModuleInfo> list, SelectItemListener listener) {
+    Get.bottomSheet(
+        DropDownListDialog(
+          title: title,
+          dialogType: dialogType,
+          list: list,
+          listener: listener,
+          isCloseEnable: true,
+          isSearchEnable: true,
+        ),
+        backgroundColor: Colors.transparent,
+        isScrollControlled: true);
+  }
+
+  @override
+  void onSelectItem(int position, int id, String name, String action) {
+    if (action == AppConstants.action.selectStoreManagerDialog) {
+      isSaveEnable.value = true;
+      storeManagerController.value.text = name;
+      storeManagerId = id;
+    }
   }
 
   void onBackPress() {
     Get.back();
-  }
-}
-
-class _PhoneExtensionProxyListener extends SelectPhoneExtensionListener {
-  final BuyerAddSupplierController controller;
-  final bool isContactPerson;
-
-  _PhoneExtensionProxyListener(this.controller, this.isContactPerson);
-
-  @override
-  void onSelectPhoneExtension(
-      int id, String extension, String flag, String country) {
-    controller.onSelectPhoneExtensionInternal(
-      id,
-      extension,
-      flag,
-      country,
-      isContactPerson: isContactPerson,
-    );
   }
 }
