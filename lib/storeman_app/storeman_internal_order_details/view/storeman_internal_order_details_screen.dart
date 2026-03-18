@@ -196,22 +196,18 @@ class _StoremanInternalOrderDetailsScreenState
                                   child: SingleChildScrollView(
                                 child: Column(
                                   children: [
+                                    if (controller.status.value !=
+                                        AppConstants.internalOrderStatus.ready)
                                     OrderDetailsOrdersList(),
-                                    //InternalOrderDetailsListWithQuantity()
+                                    if (controller.status.value ==
+                                        AppConstants.internalOrderStatus.ready)
+                                    InternalOrderDetailsListWithQuantity()
                                   ],
                                 ),
                               )),
-                              if (controller.status.value ==
-                                      AppConstants
-                                          .internalOrderStatus.newOrder ||
-                                  controller.status.value ==
-                                      AppConstants
-                                          .internalOrderStatus.collected ||
-                                  controller.status.value ==
-                                      AppConstants.internalOrderStatus.ready ||
-                                  controller.status.value ==
-                                      AppConstants
-                                          .internalOrderStatus.confirmed)
+                              //ready to collect
+                              if (controller.status.value == AppConstants.internalOrderStatus.newOrder ||
+                                  controller.status.value == AppConstants.internalOrderStatus.confirmed )
                                 PrimaryButton(
                                   margin: const EdgeInsets.all(14),
                                   buttonText: 'ready_to_collect'.tr,
@@ -239,6 +235,7 @@ class _StoremanInternalOrderDetailsScreenState
                                   },
                                   color: Colors.green,
                                 ),
+                              //ready to deliver
                               if (controller.status.value ==
                                   AppConstants.internalOrderStatus.preparing)
                                 PrimaryButton(
@@ -268,35 +265,85 @@ class _StoremanInternalOrderDetailsScreenState
                                   },
                                   color: Colors.green,
                                 ),
+                              //delivered
                               if (controller.status.value ==
-                                  AppConstants.internalOrderStatus.ready)
-                                PrimaryButton(
-                                  margin: const EdgeInsets.all(14),
-                                  buttonText: 'delivered'.tr,
-                                  onPressed: () {
-                                    FocusManager.instance.primaryFocus
-                                        ?.unfocus();
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) =>
-                                          OrderStatusAlertDialog(
-                                        title:
-                                            'Confirm Order ${controller.orderDetails[0].orderId ?? ""}',
-                                        description:
-                                            "Are you sure you want to mark this order as delivered?",
-                                        showTextField: false,
-                                        confirmText: "confirm".tr,
-                                        confirmColor: Colors.green,
-                                        onConfirm: () {
-                                          controller.updateOrderStatus(6, "");
-                                          Navigator.pop(context);
-                                        },
-                                        onCancel: () => Navigator.pop(context),
+                                  AppConstants.internalOrderStatus.ready && controller.getSelectedItemsCount() > 0)
+                              Container(
+                                padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    // Cancel Button
+                                    Expanded(
+                                      child: SizedBox(
+                                        height: 45,
+                                        width: double.infinity,
+                                        child: ElevatedButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              for (var order in controller.orderDetails[0].orders!) {
+                                                order.isSelected = false;
+                                              }
+                                            });
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.red,
+                                            foregroundColor: Colors.white,
+                                            elevation: 4,
+                                            shape: const StadiumBorder(),
+                                          ),
+                                          child: const Text(
+                                            'Cancel',
+                                            style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
+                                          ),
+                                        ),
                                       ),
-                                    );
-                                  },
-                                  color: Colors.green,
+                                    ),
+                                    SizedBox(width: 16,),
+                                    // Confirm Button
+                                    Expanded(
+                                      child: SizedBox(
+                                        height: 45,
+                                        width: double.infinity,
+                                        child: ElevatedButton(
+                                          onPressed: () {
+                                            FocusManager.instance.primaryFocus
+                                                ?.unfocus();
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) =>
+                                                  OrderStatusAlertDialog(
+                                                    title:
+                                                    'Confirm Order ${controller.orderDetails[0].orderId ?? ""}',
+                                                    description:
+                                                    "Are you sure you want to mark this order as delivered?",
+                                                    showTextField: false,
+                                                    confirmText: "confirm".tr,
+                                                    confirmColor: Colors.green,
+                                                    onConfirm: () {
+                                                      controller.updateOrderStatus(6, "");
+                                                      Navigator.pop(context);
+                                                    },
+                                                    onCancel: () => Navigator.pop(context),
+                                                  ),
+                                            );
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.green,
+                                            foregroundColor: Colors.white,
+                                            elevation: 4,
+                                            shape: const StadiumBorder(),
+                                          ),
+                                          child: const Text(
+                                            'Confirm',
+                                            style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
+                              )
                             ],
                           )
                         : const SizedBox.shrink(),

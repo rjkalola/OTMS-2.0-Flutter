@@ -393,7 +393,7 @@ class BasketController extends GetxController implements SelectItemListener {
 
   void updateSubQty(int index, int count) {
     final product = cartList[index];
-    product.packOffQty = "$count";
+    product.cartQty = count.toDouble();
     calculateTotal();
   }
   String calculateTotal() {
@@ -401,7 +401,7 @@ class BasketController extends GetxController implements SelectItemListener {
 
     for (var item in cartList) {
       bool isSubQty = item.isSubQty ?? false;
-      double subQty = double.tryParse(item.subQty ?? "") ?? 0.0;
+      double subQty = double.tryParse(item.packOffQty ?? "") ?? 0.0;
 
       if (isSubQty) {
         double qty = item.cartQty ?? 0.0;
@@ -418,14 +418,6 @@ class BasketController extends GetxController implements SelectItemListener {
       }
     }
     return totalAmount.value.toStringAsFixed(2);
-  }
-
-  double calculatePrice({
-    required double packOffQty,
-    required double pricePerPack,
-  }) {
-    if (packOffQty == 0) return 0.00;
-    return pricePerPack / packOffQty;
   }
 
   void onBackPress() {

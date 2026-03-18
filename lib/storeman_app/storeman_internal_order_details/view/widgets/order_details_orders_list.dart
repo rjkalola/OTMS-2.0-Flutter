@@ -1,5 +1,6 @@
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/storeman_app/storeman_internal_order_details/controller/storeman_internal_order_details_controller.dart';
+import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/text/SubTitleTextView.dart';
@@ -26,6 +27,13 @@ class OrderDetailsOrdersList extends StatelessWidget {
       separatorBuilder: (_, __) => const SizedBox(height: 12),
       itemBuilder: (context, index) {
         final item = orders[index];
+        final isSubQuantity = item.isSubQty ?? false;
+        final deliveredQty = (double.tryParse(item.deliveredQty ?? "") ?? 0.00);
+        final subQty = (double.tryParse(item.subQty ?? "") ?? 0.00);
+        final qty = (double.tryParse(item.qty ?? "") ?? 0.00);
+        final isItemDelivered = (item.status  == AppConstants.internalOrderStatus.delivered) ? true : false;
+        final packOfUnit = item.packOfUnit ?? "";
+
         return Padding(
           padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
           child: CardViewDashboardItem(
@@ -43,7 +51,7 @@ class OrderDetailsOrdersList extends StatelessWidget {
                         borderRadius: 4,
                         fit: BoxFit.cover,
                       ),
-                      const SizedBox(width: 12),
+                      const SizedBox(width: 16),
 
                       Expanded(
                         child: Column(
@@ -55,51 +63,42 @@ class OrderDetailsOrdersList extends StatelessWidget {
                               fontWeight: FontWeight.w500,
                             ),
                             const SizedBox(height: 8),
-                            SubtitleTextView(
-                              text: orders[index].uuid ?? "",
+                            Row(
+                              children: [
+                                SubtitleTextView(
+                                  text: orders[index].uuid ?? "",
+                                ),
+                                Spacer(),
+                                TitleTextView(
+                                  text: "${'qty'.tr}: ${isSubQuantity ? "${subQty.toInt()} $packOfUnit" : qty.toInt()}",
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ],
                             ),
-                            const SizedBox(height: 4),
-                            TitleTextView(
-                              text: "${'qty'.tr}: ${(orders[index].qty ?? "")}",
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            const SizedBox(height: 4),
+                            const SizedBox(height: 8),
                           ],
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 8,),
-                  if (controller.canShowActionButtons)
-                  Divider(
-                    color: dividerColor_(context),
-                  ),
-                  if (controller.canShowActionButtons)
-                  Row(
-                    children: [
-                      Spacer(),
-                      ElevatedButton.icon(
-                        onPressed: () {
-                          print('Re-order button pressed');
-                          controller.orderAgainAction(false, index);
-                        },
-                        icon: Icon(Icons.refresh),
-                        label: TitleTextView(text: "reorder".tr,
-                          fontSize: 15,
-                          color: Colors.white,
-                        fontWeight: FontWeight.w500,),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blueAccent,
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  //SizedBox(height: 8,),
+                  if (isItemDelivered)
+                    Column(
+                      children: [
+                        Row(
+                          children: [
+                            Spacer(),
+                            TitleTextView(
+                              text: "Delivered Qty: ${isSubQuantity ? "${deliveredQty.toInt()} $packOfUnit" : deliveredQty.toInt()}",
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
-                  )
+                        SizedBox(height: 8,),
+                      ],
+                    ),
                 ],
               ),
             ),

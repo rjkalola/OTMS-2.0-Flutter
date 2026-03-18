@@ -1,6 +1,8 @@
 import 'package:belcka/pages/user_orders/widgets/product_quantity_widget.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/storeman_app/storeman_internal_order_details/controller/storeman_internal_order_details_controller.dart';
+import 'package:belcka/storeman_app/storeman_internal_order_details/view/widgets/order_details_editable_notes_field.dart';
+import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/checkbox/custom_checkbox.dart';
@@ -37,7 +39,17 @@ class _InternalOrderDetailsListWithQuantityState extends State<InternalOrderDeta
       itemBuilder: (context, index) {
         final item = orders[index];
         final isSubQuantity = item.isSubQty ?? false;
-        final packOfUnit = item.product?.packOfUnit ?? "";
+        final packOfUnit = item.packOfUnit ?? "";
+
+        final deliveredQty = (double.tryParse(item.deliveredQty ?? "") ?? 0.00);
+        final subQty = (double.tryParse(item.subQty ?? "") ?? 0.00);
+        final qty = (double.tryParse(item.qty ?? "") ?? 0.00);
+
+        //final remainingQty = (isSubQuantity ? (subQty - deliveredQty) : (qty - deliveredQty)).toInt();
+        final remainingQty = (double.tryParse(item.remainingQty ?? "") ?? 0.00);
+        final isItemDelivered = (item.status  == AppConstants.internalOrderStatus.delivered) ? true : false;
+        final isQuantityChanged = item.isQuantityChanged || (item.note ?? "").isNotEmpty;
+
         return Padding(
           padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
           child: GestureDetector(
@@ -52,15 +64,15 @@ class _InternalOrderDetailsListWithQuantityState extends State<InternalOrderDeta
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        if (!isItemDelivered)
                         CustomCheckbox(
                             onValueChange: (value) {
-                              /*
-                              info.isCheck = !(info.isCheck ?? false);
-                              controller.timeSheetList.refresh();
-                              controller.checkSelectAll();
-                              */
+                              setState(() {
+                                orders[index].isSelected = !(orders[index].isSelected);
+                                controller.orderDetails.refresh();
+                              });
                             },
-                            mValue: false),
+                            mValue: orders[index].isSelected),
                         const SizedBox(width: 4),
                         ImageUtils.setRectangleCornerCachedNetworkImage(
                           url: orders[index].productThumbImage ?? "",
@@ -86,24 +98,39 @@ class _InternalOrderDetailsListWithQuantityState extends State<InternalOrderDeta
                               ),
                               const SizedBox(height: 4),
                               TitleTextView(
-                                text: "${'price'.tr}: ${orders[index].product?.currency ?? "£"}${(orders[index].product?.marketPrice ?? "0.00")}",
+                                text: "${'price'.tr}: ${orders[index].currency ?? "£"}"
+                                    "${(orders[index].marketPrice ?? "0.00")}",
                                 fontSize: 15,
                                 fontWeight: FontWeight.w600,
                               ),
                               const SizedBox(height: 4),
                               TitleTextView(
-                                text: "${'total'.tr}: ${orders[index].product?.currency ?? "£"}${(orders[index].product?.totalAmount ?? "0.00")}",
+                                text: "${'total'.tr}: ${orders[index].currency ?? "£"}"
+                                    "${(orders[index].product?.totalAmount ?? "0.00")}",
                                 fontSize: 15,
                                 fontWeight: FontWeight.w600,
                               ),
                               const SizedBox(height: 8),
+                              if (!isItemDelivered)
                               ProductQuantityWidget(
                                 focusNode: controller.qtyFocusNodes[index],
                                 isSubQuantity: isSubQuantity,
-                                quantity:(orders[index].product?.cartQty ?? 0).toInt(),
+                                quantity: remainingQty.toInt(),
                                 unit: packOfUnit,
                                 onChanged: (value) {
-                                  controller.updateSubQty(index, value);
+                                  String newValue = "$value";
+                                  if (newValue.isEmpty) return;
+                                  int? newCount = int.tryParse(newValue);
+                                  setState(() {
+                                    if (newCount == null || newCount <= 0) {
+                                      item.remainingQty = "1";
+                                      item.isQuantityChanged = true;
+                                      controller.updateSubQty(index, 1);
+                                    }
+                                    else{
+                                      controller.updateSubQty(index, newCount);
+                                    }
+                                  });
                                 },
                                 onIncrease: () {
                                   setState(() {
@@ -116,41 +143,65 @@ class _InternalOrderDetailsListWithQuantityState extends State<InternalOrderDeta
                                   });
                                 },
                               ),
+                              const SizedBox(height: 4),
                             ],
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(height: 8,),
-                    if (controller.canShowActionButtons)
-                      Divider(
-                        color: dividerColor_(context),
+                    if (isQuantityChanged)
+                    SizedBox(height: 16,),
+                    // Editable Notes Field
+                    if (isQuantityChanged)
+
+                      /*
+                    OrderDetailsEditableNotesField(value: orders[index].note ?? "", onChanged: (val){
+                      setState(() {
+                        orders[index].note = val;
+                      });
+                    },enabled: !isItemDelivered,),
+                    */
+
+                      OrderDetailsEditableNotesField(
+                        enabled: !isItemDelivered,
+                        value: item.note ?? "",
+                        attachmentCount: 0,
+                        borderColor: (item.isQuantityChanged && (item.note?.isEmpty ?? true))
+                            ? Colors.red
+                            : Colors.grey.shade400,
+                        onChanged: (val) {
+                          setState(() {
+                            orders[index].note = val;
+                          });
+                        },
+                        onAttachmentTap: () {
+                          // Call your ImagePicker logic here
+                          //pickImages(index);
+                        },
                       ),
-                    if (controller.canShowActionButtons)
-                      Row(
+
+                    if (isItemDelivered)
+                      Column(
                         children: [
-                          Spacer(),
-                          ElevatedButton.icon(
-                            onPressed: () {
-                              print('Re-order button pressed');
-                              controller.orderAgainAction(false, index);
-                            },
-                            icon: Icon(Icons.refresh),
-                            label: TitleTextView(text: "reorder".tr,
-                              fontSize: 15,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500,),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blueAccent,
-                              foregroundColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0),
+                          SizedBox(height: 8,),
+                          Row(
+                            children: [
+                              TitleTextView(
+                                text: "Ordered Qty: ${isSubQuantity ? "${subQty.toInt()} $packOfUnit" : qty.toInt()}",
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
                               ),
-                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                            ),
+                              Spacer(),
+                              TitleTextView(
+                                text: "Delivered Qty: ${isSubQuantity ? "${deliveredQty.toInt()} $packOfUnit" : deliveredQty.toInt()}",
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ],
                           ),
+                          SizedBox(height: 8,),
                         ],
-                      )
+                      ),
                   ],
                 ),
               ),

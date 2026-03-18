@@ -117,7 +117,7 @@ class _OrderDetailsHeaderViewState extends State<OrderDetailsHeaderView> {
                       Row(
                         children: [
                           Icon(Icons.place_outlined, size: 30,color: Colors.grey,),
-                          SizedBox(width: 8),
+                          SizedBox(width: 4),
 
                           Expanded(
                             child: TitleTextView(
@@ -233,7 +233,7 @@ class _OrderDetailsHeaderViewState extends State<OrderDetailsHeaderView> {
           ElevatedButton.icon(
             onPressed: () {
               print('Re-order button pressed');
-              controller.orderAgainAction(true, 0);
+
             },
             icon: Icon(Icons.refresh),
             label: TitleTextView(text: "reorder_all".tr,
@@ -262,7 +262,7 @@ class _OrderDetailsHeaderViewState extends State<OrderDetailsHeaderView> {
         ElevatedButton.icon(
           onPressed: () {
             print('Re-order button pressed');
-            controller.orderAgainAction(true, 0);
+
           },
           icon: Icon(Icons.refresh),
           label: TitleTextView(text: "reorder_all".tr,

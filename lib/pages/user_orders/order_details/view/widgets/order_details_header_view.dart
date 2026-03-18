@@ -134,7 +134,7 @@ class _OrderDetailsHeaderViewState extends State<OrderDetailsHeaderView> {
                       Row(
                         children: [
                           Icon(Icons.place_outlined, size: 30,color: Colors.grey,),
-                          SizedBox(width: 8),
+                          SizedBox(width: 4),
                           Expanded(
                             child: TitleTextView(
                                 text: orderInfo.addressName ?? "",

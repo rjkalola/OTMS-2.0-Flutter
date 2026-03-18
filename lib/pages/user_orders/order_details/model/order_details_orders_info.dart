@@ -7,7 +7,7 @@ class OrderDetailsOrdersInfo {
   String? qty;
   String? price;
   int? receivedQty;
-  double? remainingQty;
+  String? remainingQty;
   String? productImage;
   String? productThumbImage;
   String? shortName;
@@ -20,6 +20,12 @@ class OrderDetailsOrdersInfo {
   bool? isSubQty;
   String? marketPrice;
   String? currency;
+  String? packOfUnit;
+  String? packOfQty;
+  bool isSelected = false;
+  String? deliveredQty;
+  int? status;
+  bool isQuantityChanged = false;
 
   OrderDetailsOrdersInfo({
     this.id,
@@ -40,14 +46,18 @@ class OrderDetailsOrdersInfo {
     this.isSubQty,
     this.subQty,
     this.marketPrice,
-    this.currency
+    this.currency,
+    this.packOfUnit,
+    this.packOfQty,
+    this.deliveredQty,
+    this.status
   });
 
   OrderDetailsOrdersInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     orderId = json['order_id'];
     productId = json['product_id'];
-    qty = json['qty'];
+    qty = json['qty'].toString();
     price = json['price'];
     receivedQty = json['received_qty'];
     productImage = json['product_image'];
@@ -61,6 +71,11 @@ class OrderDetailsOrdersInfo {
     isSubQty = json['is_sub_qty'];
     marketPrice = json['market_price'].toString();
     currency = json['currency'];
+    packOfUnit = json['pack_off_unit'];
+    packOfQty = json['pack_off_qty'];
+    deliveredQty = json['delivered_qty'].toString();
+    remainingQty = json['remaining_qty'].toString();
+    status = json['status'];
     product = json['product'] != null
         ? ProductInfo.fromJson(json['product'])
         : null;
@@ -87,6 +102,10 @@ class OrderDetailsOrdersInfo {
     data['sub_qty'] = subQty;
     data['market_price'] = marketPrice;
     data['currency'] = currency;
+    data['pack_off_qty'] = packOfQty;
+    data['pack_off_unit'] = packOfUnit;
+    data['delivered_qty'] = deliveredQty;
+    data['status'] = status;
     return data;
   }
 }
