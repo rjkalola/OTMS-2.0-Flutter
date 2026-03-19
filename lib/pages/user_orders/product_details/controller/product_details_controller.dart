@@ -184,6 +184,7 @@ class ProductDetailsController extends GetxController{
   Future<void> moveToScreen(String rout, dynamic arguments) async {
     var result = await Get.toNamed(rout, arguments: arguments);
     if (result != null && result) {
+      isDataUpdated = result;
       fetchProductDetails();
     }
   }

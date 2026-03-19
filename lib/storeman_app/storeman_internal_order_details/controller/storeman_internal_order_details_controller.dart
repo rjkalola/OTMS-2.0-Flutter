@@ -1,13 +1,18 @@
 import 'dart:convert';
+import 'package:belcka/pages/common/model/file_info.dart';
 import 'package:belcka/pages/user_orders/order_details/model/order_details_info.dart';
+import 'package:belcka/pages/user_orders/order_details/model/order_details_orders_info.dart';
 import 'package:belcka/pages/user_orders/order_details/model/order_details_response.dart';
 import 'package:belcka/storeman_app/storeman_internal_order_details/controller/storeman_internal_order_details_repository.dart';
 import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:path/path.dart';
+import 'package:get/get_connect/http/src/multipart/form_data.dart' as multi hide FormData;
+import 'package:image_picker/image_picker.dart';
+import 'package:dio/dio.dart' as multi;
 
 class StoremanInternalOrderDetailsController extends GetxController{
   RxBool isDeliverySelected = true.obs;
@@ -25,6 +30,7 @@ class StoremanInternalOrderDetailsController extends GetxController{
   bool canShowActionButtons = false;
   RxInt status = 0.obs;
   List<FocusNode> qtyFocusNodes = [];
+  final ImagePicker _picker = ImagePicker();
 
   void initFocusNodes(int length) {
     qtyFocusNodes = List.generate(length, (index) => FocusNode());
@@ -93,6 +99,7 @@ class StoremanInternalOrderDetailsController extends GetxController{
     Get.back(result: isDataUpdated);
   }
 
+  /*
   void updateOrderStatus(int status, String note){
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
@@ -116,18 +123,18 @@ class StoremanInternalOrderDetailsController extends GetxController{
       }
 
       List<Map<String, dynamic>> productList = [];
-
       for (var item in selectedItems) {
         productList.add({
           "id": item.productId,
-          //"qty": (item.isSubQty ?? false) ? item.subQty : item.qty,
           "qty": item.remainingQty,
           "note": item.note,
+          "images":item.attachments
         });
       }
       map["product_data"] = productList;
       print("JSON Payload: $map");
     }
+
     isLoading.value = true;
     _api.updateOrderStatusAPI(
       data: map,
@@ -150,6 +157,83 @@ class StoremanInternalOrderDetailsController extends GetxController{
         }
       },
     );
+
+  }
+  */
+
+  void updateOrderStatus(int status, String note) async {
+    Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
+    map["id"] = orderId;
+    map["status"] = status;
+
+    if (status == 7) {
+      map["note"] = note;
+    }
+
+    final allOrders = orderDetails[0].orders ?? [];
+    final selectedItems = allOrders.where((item) => item.isSelected).toList();
+
+    bool missingRequiredNotes = selectedItems.any((item) {
+      bool hasChanges = (item.isQuantityChanged ?? false) ||
+          (item.attachments != null && item.attachments!.isNotEmpty);
+      bool isNoteEmpty = item.note == null || item.note!.trim().isEmpty;
+      return hasChanges && isNoteEmpty;
+    });
+
+    if (missingRequiredNotes) {
+      AppUtils.showToastMessage("Please add a note for items with quantity changes".tr);
+      return;
+    }
+
+    for (int i = 0; i < selectedItems.length; i++) {
+      OrderDetailsOrdersInfo productInfo = selectedItems[i];
+      map["product_data[$i][id]"] = productInfo.productId;
+      map["product_data[$i][qty]"] = productInfo.remainingQty;
+      map["product_data[$i][note]"] = productInfo.note ?? "";
+    }
+
+    print("JSON Payload:" + map.toString());
+    multi.FormData formData = multi.FormData.fromMap(map);
+
+    for (int i = 0; i < selectedItems.length; i++) {
+      OrderDetailsOrdersInfo productInfo = selectedItems[i];
+      for (FilesInfo filesInfo in productInfo.attachments ?? []) {
+        if (!StringHelper.isEmptyString(filesInfo.imageUrl) &&
+            !filesInfo.imageUrl!.startsWith("http")) {
+
+          print("product_data[$i][images][]" + (filesInfo.imageUrl ?? ""));
+
+          formData.files.add(
+            MapEntry("product_data[$i][images][]",
+                await multi.MultipartFile.fromFile(filesInfo.imageUrl ?? "")),
+          );
+        }
+      }
+    }
+
+    isLoading.value = true;
+    _api.updateOrderStatusAPI(
+      formData: formData,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          isDataUpdated = true;
+          fetchOrderDetails();
+        } else {
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+        } else if (error.statusMessage != null && error.statusMessage!.isNotEmpty) {
+          AppUtils.showSnackBarMessage(error.statusMessage!);
+        }
+      },
+    );
+
   }
 
   void updateSubQty(int index, int count) {
@@ -177,9 +261,38 @@ class StoremanInternalOrderDetailsController extends GetxController{
     order.remainingQty = "${userQty - 1}";
     order.isQuantityChanged = true;
   }
-
   int getSelectedItemsCount(){
     final orders = orderDetails[0].orders ?? [];
     return orders.where((item) => item.isSelected == true).length;
+  }
+  int getTotalQuantity() {
+    int total = 0;
+    final orders = orderDetails[0].orders ?? [];
+    if (orders.isNotEmpty){
+      for (var item in orders){
+        if (item.isSubQty ?? false){
+          total += (double.tryParse(item.subQty ?? "") ?? 0.0).toInt() ;
+        }
+        else{
+          total += (double.tryParse(item.qty ?? "") ?? 0.0).toInt() ;
+        }
+      }
+    }
+    return total;
+  }
+
+  Future<void> pickImages(int index) async {
+    final List<XFile> selectedImages = await _picker.pickMultiImage();
+    if (selectedImages.isNotEmpty) {
+      final order = orderDetails[0].orders![index];
+      //order.attachments = [];
+      final List<FilesInfo> newFiles = selectedImages.map((file) {
+        return FilesInfo(
+          imageUrl: file.path,
+        );
+      }).toList();
+      order.attachments!.addAll(newFiles);
+      order.isQuantityChanged = true;
+    }
   }
 }
