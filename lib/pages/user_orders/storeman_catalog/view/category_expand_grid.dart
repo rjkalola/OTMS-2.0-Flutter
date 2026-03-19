@@ -37,27 +37,23 @@ class CategoryExpandGrid extends StatelessWidget {
                     child: Container(
                       padding: EdgeInsets.fromLTRB(9, 9, 9, 0),
                       alignment: Alignment.bottomCenter,
-                      child: !StringHelper.isEmptyString(
-                          info.thumbUrl ?? "")
+                      child: !StringHelper.isEmptyString(info.thumbUrl ?? "")
                           ? Image.network(
-                        info.thumbUrl ?? "",
-                        fit: BoxFit.contain,
-                        width: double.infinity,
-                        height: double.infinity,
-                        errorBuilder: (context, url, error) =>
-                            ImageUtils.getEmptyViewContainer(
-                                width: 70,
-                                height: 70,
-                                borderRadius: 0),
-                      )
+                              info.thumbUrl ?? "",
+                              fit: BoxFit.contain,
+                              width: double.infinity,
+                              height: double.infinity,
+                              errorBuilder: (context, url, error) =>
+                                  ImageUtils.getEmptyViewContainer(
+                                      width: 70, height: 70, borderRadius: 0),
+                            )
                           : ImageUtils.getEmptyViewContainer(
-                          width: 70, height: 70, borderRadius: 0),
+                              width: 70, height: 70, borderRadius: 0),
                     ),
                   ),
                   Container(
                     alignment: Alignment.center,
-                    padding:
-                    EdgeInsetsGeometry.only(left: 10, right: 10),
+                    padding: EdgeInsetsGeometry.only(left: 10, right: 10),
                     height: 40,
                     child: TitleTextView(
                       text: info.name ?? "",

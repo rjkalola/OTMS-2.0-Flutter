@@ -206,6 +206,8 @@ class BuyerAddCategoryController extends GetxController
     map["parent_category_id"] = parentCategoryId.value;
     map["status"] = status.value;
 
+    print("map:" + map.toString());
+
     multi.FormData formData = multi.FormData.fromMap(map);
 
     if (imageUrl.value.isNotEmpty && !imageUrl.value.startsWith("http")) {

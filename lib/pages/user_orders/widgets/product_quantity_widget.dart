@@ -10,30 +10,27 @@ class ProductQuantityWidget extends StatefulWidget {
   final VoidCallback? onDecrease;
   final FocusNode? focusNode;
 
-  const ProductQuantityWidget({
-    super.key,
-    required this.isSubQuantity,
-    required this.quantity,
-    required this.unit,
-    this.onChanged,
-    this.onIncrease,
-    this.onDecrease,
-    this.focusNode
-  });
+  const ProductQuantityWidget(
+      {super.key,
+      required this.isSubQuantity,
+      required this.quantity,
+      required this.unit,
+      this.onChanged,
+      this.onIncrease,
+      this.onDecrease,
+      this.focusNode});
 
   @override
   State<ProductQuantityWidget> createState() => _ProductQuantityWidgetState();
 }
 
 class _ProductQuantityWidgetState extends State<ProductQuantityWidget> {
-
   late TextEditingController controller;
 
   @override
   void initState() {
     super.initState();
-    controller =
-        TextEditingController(text: widget.quantity.toString());
+    controller = TextEditingController(text: widget.quantity.toString());
   }
 
   @override
@@ -47,7 +44,6 @@ class _ProductQuantityWidgetState extends State<ProductQuantityWidget> {
 
   @override
   Widget build(BuildContext context) {
-
     // SUB QUANTITY → editable decimal field
     if (widget.isSubQuantity) {
       return Row(
@@ -60,10 +56,9 @@ class _ProductQuantityWidgetState extends State<ProductQuantityWidget> {
               textAlign: TextAlign.center,
               focusNode: widget.focusNode,
               keyboardType:
-              const TextInputType.numberWithOptions(decimal: false),
+                  const TextInputType.numberWithOptions(decimal: false),
               inputFormatters: [
-                FilteringTextInputFormatter.allow(
-                    RegExp(r'^\d*\.?\d{0,2}')),
+                FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
               ],
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
@@ -74,9 +69,7 @@ class _ProductQuantityWidgetState extends State<ProductQuantityWidget> {
               },
             ),
           ),
-
           const SizedBox(width: 6),
-
           Text(
             widget.unit,
             style: const TextStyle(fontSize: 14),

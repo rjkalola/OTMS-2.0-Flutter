@@ -3,6 +3,7 @@ import 'package:belcka/res/colors.dart';
 import 'package:belcka/res/drawable.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/image_utils.dart';
+import 'package:belcka/utils/phone_length_formatter.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
@@ -12,7 +13,9 @@ import 'package:belcka/widgets/switch/custom_switch.dart';
 import 'package:belcka/widgets/text/PrimaryTextView.dart';
 import 'package:belcka/widgets/textfield/text_field_border_dark.dart';
 import 'package:belcka/widgets/textfield/text_field_phone_extension_widget.dart';
+import 'package:belcka/widgets/validator/custom_field_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -129,7 +132,8 @@ class _BuyerAddSupplierScreenState extends State<BuyerAddSupplierScreen> {
                                         validator: MultiValidator([
                                           EmailValidator(
                                               errorText:
-                                                  'enter_valid_email_address'.tr),
+                                                  'enter_valid_email_address'
+                                                      .tr),
                                         ]),
                                       ),
                                     ),
@@ -180,6 +184,8 @@ class _BuyerAddSupplierScreenState extends State<BuyerAddSupplierScreen> {
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 20),
                                       child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Flexible(
                                             flex: 2,
@@ -208,7 +214,7 @@ class _BuyerAddSupplierScreenState extends State<BuyerAddSupplierScreen> {
                                               hintText: 'phone_number'.tr,
                                               labelText: 'phone_number'.tr,
                                               isReadOnly: false,
-                                              maxLength: 15,
+                                              maxLength: 10,
                                               keyboardType: TextInputType.phone,
                                               textInputAction:
                                                   TextInputAction.next,
@@ -218,7 +224,22 @@ class _BuyerAddSupplierScreenState extends State<BuyerAddSupplierScreen> {
                                                 controller.isSaveEnable.value =
                                                     true;
                                               },
-                                              validator: MultiValidator([]),
+                                              validator: MultiValidator([
+                                                CustomFieldValidator(
+                                                  (value) =>
+                                                      value == null ||
+                                                      value.trim().isEmpty ||
+                                                      value.trim().length == 10,
+                                                  errorText:
+                                                      'error_phone_number_contain_10_digits'
+                                                          .tr,
+                                                ),
+                                              ]),
+                                              inputFormatters: <TextInputFormatter>[
+                                                FilteringTextInputFormatter
+                                                    .allow(RegExp(r'[0-9]')),
+                                                PhoneLengthFormatter(),
+                                              ],
                                             ),
                                           ),
                                         ],
@@ -276,7 +297,8 @@ class _BuyerAddSupplierScreenState extends State<BuyerAddSupplierScreen> {
                                         validator: MultiValidator([
                                           EmailValidator(
                                               errorText:
-                                                  'enter_valid_email_address'.tr),
+                                                  'enter_valid_email_address'
+                                                      .tr),
                                         ]),
                                       ),
                                     ),
@@ -285,6 +307,8 @@ class _BuyerAddSupplierScreenState extends State<BuyerAddSupplierScreen> {
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 20),
                                       child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Flexible(
                                             flex: 2,
@@ -317,7 +341,7 @@ class _BuyerAddSupplierScreenState extends State<BuyerAddSupplierScreen> {
                                               labelText:
                                                   'contact_person_phone'.tr,
                                               isReadOnly: false,
-                                              maxLength: 15,
+                                              maxLength: 10,
                                               keyboardType: TextInputType.phone,
                                               textInputAction:
                                                   TextInputAction.next,
@@ -327,7 +351,22 @@ class _BuyerAddSupplierScreenState extends State<BuyerAddSupplierScreen> {
                                                 controller.isSaveEnable.value =
                                                     true;
                                               },
-                                              validator: MultiValidator([]),
+                                              validator: MultiValidator([
+                                                CustomFieldValidator(
+                                                  (value) =>
+                                                      value == null ||
+                                                      value.trim().isEmpty ||
+                                                      value.trim().length == 10,
+                                                  errorText:
+                                                      'error_phone_number_contain_10_digits'
+                                                          .tr,
+                                                ),
+                                              ]),
+                                              inputFormatters: <TextInputFormatter>[
+                                                FilteringTextInputFormatter
+                                                    .allow(RegExp(r'[0-9]')),
+                                                PhoneLengthFormatter(),
+                                              ],
                                             ),
                                           ),
                                         ],
