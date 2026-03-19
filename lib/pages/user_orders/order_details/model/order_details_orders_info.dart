@@ -1,3 +1,4 @@
+import 'package:belcka/pages/common/model/file_info.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
 
 class OrderDetailsOrdersInfo {
@@ -26,6 +27,7 @@ class OrderDetailsOrdersInfo {
   String? deliveredQty;
   int? status;
   bool isQuantityChanged = false;
+  List<FilesInfo>? attachments;
 
   OrderDetailsOrdersInfo({
     this.id,
@@ -50,7 +52,8 @@ class OrderDetailsOrdersInfo {
     this.packOfUnit,
     this.packOfQty,
     this.deliveredQty,
-    this.status
+    this.status,
+    this.attachments
   });
 
   OrderDetailsOrdersInfo.fromJson(Map<String, dynamic> json) {
@@ -79,6 +82,13 @@ class OrderDetailsOrdersInfo {
     product = json['product'] != null
         ? ProductInfo.fromJson(json['product'])
         : null;
+
+    if (json['attachments'] != null) {
+      attachments = <FilesInfo>[];
+      json['attachments'].forEach((v) {
+        attachments!.add(new FilesInfo.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -106,6 +116,9 @@ class OrderDetailsOrdersInfo {
     data['pack_off_unit'] = packOfUnit;
     data['delivered_qty'] = deliveredQty;
     data['status'] = status;
+    if (this.attachments != null) {
+      data['attachments'] = this.attachments!.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }

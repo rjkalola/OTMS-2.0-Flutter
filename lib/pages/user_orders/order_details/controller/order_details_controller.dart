@@ -203,4 +203,20 @@ class OrderDetailsController extends GetxController{
       ],
     };
   }
+
+  int getTotalQuantity() {
+    int total = 0;
+    final orders = orderDetails[0].orders ?? [];
+    if (orders.isNotEmpty){
+      for (var item in orders){
+        if (item.isSubQty ?? false){
+          total += (double.tryParse(item.subQty ?? "") ?? 0.0).toInt() ;
+        }
+        else{
+          total += (double.tryParse(item.qty ?? "") ?? 0.0).toInt() ;
+        }
+      }
+    }
+   return total;
+  }
 }

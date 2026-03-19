@@ -79,9 +79,8 @@ class _OrderDetailsHeaderViewState extends State<OrderDetailsHeaderView> {
                     ),
                     SizedBox(width: 4),
                     SubtitleTextView(
-                      text: "${orderInfo.orders?.length ?? 0} item",
+                      text: "${controller.getTotalQuantity()} item",
                     )
-
                   ],
                 )
               ],
@@ -133,8 +132,8 @@ class _OrderDetailsHeaderViewState extends State<OrderDetailsHeaderView> {
                       SizedBox(height: 8),
                       Row(
                         children: [
-                          Icon(Icons.place_outlined, size: 30,color: Colors.grey,),
-                          SizedBox(width: 4),
+                          Icon(Icons.place_outlined, size: 25,color: Colors.grey,),
+                          SizedBox(width: 8),
                           Expanded(
                             child: TitleTextView(
                                 text: orderInfo.addressName ?? "",

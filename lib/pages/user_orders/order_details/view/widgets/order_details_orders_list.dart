@@ -1,12 +1,15 @@
 import 'dart:ffi';
 
+import 'package:belcka/pages/common/model/file_info.dart';
 import 'package:belcka/pages/user_orders/order_details/controller/order_details_controller.dart';
 import 'package:belcka/pages/user_orders/order_details/view/widgets/order_action_buttons.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/image_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/widgets/image/document_view.dart';
 import 'package:belcka/widgets/text/SubTitleTextView.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +38,7 @@ class OrderDetailsOrdersList extends StatelessWidget {
         final qty = (double.tryParse(item.qty ?? "") ?? 0.00);
         final isItemDelivered = (item.status  == AppConstants.internalOrderStatus.delivered) ? true : false;
         final packOfUnit = item.packOfUnit ?? "";
+        bool isHaveAttachment = !StringHelper.isEmptyList(item.attachments);
 
         return CardViewDashboardItem(
           child: Padding(
@@ -95,6 +99,73 @@ class OrderDetailsOrdersList extends StatelessWidget {
                 Divider(
                   color: dividerColor_(context),
                 ),
+
+                if (item.note?.isNotEmpty ?? false)
+                SizedBox(height: 4,),
+                if (item.note?.isNotEmpty ?? false)
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade100,
+                      borderRadius: BorderRadius.circular(4),
+                      border: Border.all(color: Colors.grey.shade300),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min, // Shrinks to text width if short
+                      crossAxisAlignment: CrossAxisAlignment.start, // Keeps icon at the top
+                      children: [
+                        Icon(Icons.description, size: 18, color: Colors.grey.shade700),
+                        const SizedBox(width: 8),
+                        Flexible(
+                          child: TitleTextView(
+                            text: "${item.note}",
+                            fontSize: 14,
+                            maxLine: 30,
+                            softWrap: true,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Visibility(
+                  visible: isHaveAttachment,
+                  child: Padding(
+                      padding: const EdgeInsets.only(top: 6),
+                      child: GridView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate:
+                        SliverGridDelegateWithFixedCrossAxisCount(
+                          childAspectRatio: (1 / 1),
+                          crossAxisCount: 5,
+                          mainAxisSpacing: 7.0,
+                          crossAxisSpacing: 7.0, // spacing between columns
+                        ),
+                        padding: const EdgeInsets.all(8.0),
+                        itemCount: (item.attachments ?? []).length,
+                        itemBuilder: (context, index) {
+                          FilesInfo fileInfo =
+                          (item.attachments ?? [])[index];
+                          return InkWell(
+                            onTap: () async {
+                              ImageUtils.moveToImagePreview(
+                                  item.attachments!, index);
+                            },
+                            child: DocumentView(
+                                isEditable:false,
+                                file: fileInfo.imageUrl ?? "",
+                                onRemoveClick: () {
+
+                                }),
+                          );
+                        },
+                      )),
+                ),
+                SizedBox(height: 8,),
                 if (controller.canShowActionButtons)
                 Row(
                   children: [

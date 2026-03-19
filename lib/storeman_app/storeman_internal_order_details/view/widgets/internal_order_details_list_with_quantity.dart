@@ -1,11 +1,13 @@
+import 'package:belcka/pages/common/model/file_info.dart';
 import 'package:belcka/pages/user_orders/widgets/product_quantity_widget.dart';
-import 'package:belcka/res/colors.dart';
 import 'package:belcka/storeman_app/storeman_internal_order_details/controller/storeman_internal_order_details_controller.dart';
 import 'package:belcka/storeman_app/storeman_internal_order_details/view/widgets/order_details_editable_notes_field.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/image_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/checkbox/custom_checkbox.dart';
+import 'package:belcka/widgets/image/document_view.dart';
 import 'package:belcka/widgets/text/SubTitleTextView.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +25,7 @@ class InternalOrderDetailsListWithQuantity extends StatefulWidget {
 class _InternalOrderDetailsListWithQuantityState extends State<InternalOrderDetailsListWithQuantity> {
 
   final controller = Get.put(StoremanInternalOrderDetailsController());
+
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +52,7 @@ class _InternalOrderDetailsListWithQuantityState extends State<InternalOrderDeta
         final remainingQty = (double.tryParse(item.remainingQty ?? "") ?? 0.00);
         final isItemDelivered = (item.status  == AppConstants.internalOrderStatus.delivered) ? true : false;
         final isQuantityChanged = item.isQuantityChanged || (item.note ?? "").isNotEmpty;
+        bool isHaveAttachment = !StringHelper.isEmptyList(item.attachments);
 
         return Padding(
           padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
@@ -153,19 +157,10 @@ class _InternalOrderDetailsListWithQuantityState extends State<InternalOrderDeta
                     SizedBox(height: 16,),
                     // Editable Notes Field
                     if (isQuantityChanged)
-
-                      /*
-                    OrderDetailsEditableNotesField(value: orders[index].note ?? "", onChanged: (val){
-                      setState(() {
-                        orders[index].note = val;
-                      });
-                    },enabled: !isItemDelivered,),
-                    */
-
                       OrderDetailsEditableNotesField(
                         enabled: !isItemDelivered,
                         value: item.note ?? "",
-                        attachmentCount: 0,
+                        attachmentCount: item.attachments?.length ?? 0,
                         borderColor: (item.isQuantityChanged && (item.note?.isEmpty ?? true))
                             ? Colors.red
                             : Colors.grey.shade400,
@@ -174,11 +169,48 @@ class _InternalOrderDetailsListWithQuantityState extends State<InternalOrderDeta
                             orders[index].note = val;
                           });
                         },
-                        onAttachmentTap: () {
-                          // Call your ImagePicker logic here
-                          //pickImages(index);
+                        onAttachmentTap: () async{
+                          await controller.pickImages(index);
+                          setState(() {});
                         },
                       ),
+                    Visibility(
+                      visible: isHaveAttachment,
+                      child: Padding(
+                          padding: const EdgeInsets.only(top: 6),
+                          child: GridView.builder(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            gridDelegate:
+                            SliverGridDelegateWithFixedCrossAxisCount(
+                              childAspectRatio: (1 / 1),
+                              crossAxisCount: 5,
+                              mainAxisSpacing: 7.0,
+                              crossAxisSpacing: 7.0, // spacing between columns
+                            ),
+                            padding: const EdgeInsets.all(8.0),
+                            itemCount: (item.attachments ?? []).length,
+                            itemBuilder: (context, index) {
+                              FilesInfo fileInfo =
+                              (item.attachments ?? [])[index];
+                              return InkWell(
+                                onTap: () async {
+                                  ImageUtils.moveToImagePreview(
+                                      item.attachments!, index);
+                                },
+                                child: DocumentView(
+                                    isEditable:
+                                    !isItemDelivered && (fileInfo.id ?? 0) == 0,
+                                    file: fileInfo.imageUrl ?? "",
+                                    onRemoveClick: () {
+                                      item.attachments!.removeAt(index);
+                                      controller.orderDetails.refresh();
+                                    }),
+                              );
+                            },
+                          )),
+                    ),
 
                     if (isItemDelivered)
                       Column(
