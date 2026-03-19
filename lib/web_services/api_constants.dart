@@ -239,6 +239,8 @@ class ApiConstants {
   static String getDashboardStockCount = '$appUrl/dashboard/get-count';
   static String getDashboardResponse = '$appUrl/dashboard';
   static String getSettingsUrl = '$appUrl/get-setting';
+  static String getCompanySettings = '$appUrl/setting/get-company-settings';
+  static String saveGeneralSetting = '$appUrl/setting/save-general-setting';
   static String getRequestCountUrl = '$appUrl/get-request-count';
   static String registerFcmUrl = '$appUrl/notifications/save-token';
 

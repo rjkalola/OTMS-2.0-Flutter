@@ -7,12 +7,14 @@ import 'package:belcka/pages/check_in/clock_in/controller/clock_in_repository.da
 import 'package:belcka/pages/check_in/clock_in/controller/clock_in_utils.dart';
 import 'package:belcka/pages/check_in/clock_in/model/counter_details.dart';
 import 'package:belcka/pages/check_in/clock_in/model/work_log_list_response.dart';
+import 'package:belcka/pages/common/check_in_settings_bottom_sheet.dart';
 import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:belcka/pages/common/listener/select_item_listener.dart';
 import 'package:belcka/pages/common/model/user_info.dart';
 import 'package:belcka/pages/common/model/user_response.dart';
 import 'package:belcka/pages/dashboard/models/dashboard_response.dart';
 import 'package:belcka/pages/dashboard/tabs/home_tab/controller/home_tab_repository.dart';
+import 'package:belcka/pages/dashboard/tabs/home_tab/model/company_settings_response.dart';
 import 'package:belcka/pages/dashboard/tabs/home_tab/model/local_permission_sequence_change_info.dart';
 import 'package:belcka/pages/dashboard/tabs/home_tab/model/notification_count_response.dart';
 import 'package:belcka/pages/dashboard/tabs/home_tab/model/permission_info.dart';
@@ -64,6 +66,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       activeWorkHours = "".obs;
   final RxInt notificationCount = 0.obs;
   final workLogData = WorkLogListResponse().obs;
+  final companySettingsResponse = CompanySettingsResponse().obs;
   late final AppLifecycleListener? _appLifecycleListener;
 
   @override
@@ -151,6 +154,30 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
     }
     WorkLogListResponse workLogData = Get.find<AppStorage>().getWorklogData();
     setShiftTimerData(workLogData);
+    if (ApiConstants.companyId != 0) {
+      getCompanySettingsApi();
+    }
+  }
+
+  void getCompanySettingsApi() {
+    _api.getCompanySettings(
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess && responseModel.result != null) {
+          companySettingsResponse.value = CompanySettingsResponse.fromJson(
+              jsonDecode(responseModel.result!) as Map<String, dynamic>);
+          print("Timezone ID:" +
+              (companySettingsResponse.value.data?.timezoneId ?? 0).toString());
+          print("isCheckIn:" +
+              (companySettingsResponse.value.data?.isCheckIn ?? false)
+                  .toString());
+        }
+      },
+      onError: (ResponseModel error) {
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+        }
+      },
+    );
   }
 
   /* void onActionButtonClick(String action) {
@@ -631,7 +658,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       // LiveTimer.stop();
     } else if (info.slug == 'purchasing') {
       moveToScreen2(appRout: AppRoutes.purchasingScreen);
-    }else if (info.slug == 'inventory') {
+    } else if (info.slug == 'inventory') {
       moveToScreen2(appRout: AppRoutes.storemanInventoryScreen);
     } else if (info.slug == 'users') {
       moveToScreen2(appRout: AppRoutes.userListScreen);
@@ -696,7 +723,61 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
           arguments: arguments);
     } else if (action == AppConstants.action.notificationSettings) {
       moveToScreen(appRout: AppRoutes.notificationSettingsScreen);
+    } else if (action == AppConstants.action.checkInSettings) {
+      Get.back();
+      showCheckInSettingsBottomSheet();
     }
+  }
+
+  void showCheckInSettingsBottomSheet() {
+    Get.bottomSheet(
+      CheckInSettingsBottomSheet(
+        initialValue: companySettingsResponse.value.data?.isCheckIn ?? false,
+        onSave: (value) {
+          Get.back();
+          _saveCheckInSettings(value);
+        },
+        onCancel: () => Get.back(),
+      ),
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+    );
+  }
+
+  void _saveCheckInSettings(bool isCheckIn) {
+    isLoading.value = isCheckIn;
+    Map<String, dynamic> map = {};
+    map["is_check_in"] = isCheckIn;
+
+    _api.saveGeneralSetting(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          BaseResponse response =
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          companySettingsResponse.value.data?.isCheckIn = isCheckIn;
+          AppUtils.showApiResponseMessage(response.Message ?? "");
+          // userInfo.value.isCheckIn = isCheckIn;
+          // Get.find<AppStorage>().setUserInfo(userInfo.value);
+          // AppUtils.saveLoginUser(userInfo.value);
+        } else {
+          // AppUtils.showSnackBarMessage(responseModel.statusMessage!);
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+          print("isInternetNotAvailable.value:" +
+              isInternetNotAvailable.value.toString());
+          // AppUtils.showApiResponseMessage('no_internet'.tr);
+        }
+        // else if (error.statusMessage!.isNotEmpty) {
+        //   AppUtils.showSnackBarMessage(error.statusMessage!);
+        // }
+      },
+    );
   }
 
   Future<void> moveToScreen(

@@ -53,7 +53,8 @@ class _StoremanProductsListWidgetState
             return GestureDetector(
               onTap: () {
                 final currentFocus = FocusScope.of(context);
-                if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
+                if (!currentFocus.hasPrimaryFocus &&
+                    currentFocus.focusedChild != null) {
                   // Keyboard is open → close it
                   FocusManager.instance.primaryFocus?.unfocus();
                   return;
@@ -223,7 +224,7 @@ class _StoremanProductsListWidgetState
                           ProductQuantityWidget(
                             focusNode: controller.qtyFocusNodes[index],
                             isSubQuantity: isSubQuantity,
-                            quantity:(product.cartQty ?? 0).toInt(),
+                            quantity: (product.cartQty ?? 0).toInt(),
                             unit: packOfUnit,
                             onChanged: (value) {
                               controller.updateSubQty(index, value);
@@ -261,8 +262,7 @@ class _StoremanProductsListWidgetState
                                 if ((product.cartQty ?? 0) > 0) {
                                   controller.toggleAddToCart(
                                       index, (product.cartQty ?? 0).toInt());
-                                }
-                                else{
+                                } else {
                                   AppUtils.showToastMessage(
                                       'msg_add_at_least_one_qty'.tr);
                                 }

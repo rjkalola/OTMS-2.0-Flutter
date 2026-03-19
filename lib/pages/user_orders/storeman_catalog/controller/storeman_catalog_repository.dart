@@ -9,8 +9,7 @@ class StoremanCatalogRepository {
     Function(ResponseModel error)? onError,
   }) {
     ApiRequest(
-        url: ApiConstants.categoriesGet,
-        queryParameters: queryParameters)
+            url: ApiConstants.categoriesGet, queryParameters: queryParameters)
         .getRequest(
       onSuccess: (data) {
         onSuccess!(data);
@@ -18,14 +17,13 @@ class StoremanCatalogRepository {
       onError: (error) => {if (onError != null) onError(error)},
     );
   }
+
   void getProductsAPI({
     Map<String, dynamic>? queryParameters,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
-    ApiRequest(
-        url: ApiConstants.productsGet,
-        queryParameters: queryParameters)
+    ApiRequest(url: ApiConstants.productsGet, queryParameters: queryParameters)
         .getRequest(
       onSuccess: (data) {
         onSuccess!(data);
@@ -40,10 +38,7 @@ class StoremanCatalogRepository {
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
-    ApiRequest(
-        url: ApiConstants.productsBookmark,
-        data: data)
-        .postRequest(
+    ApiRequest(url: ApiConstants.productsBookmark, data: data).postRequest(
       onSuccess: (data) {
         onSuccess!(data);
       },
@@ -57,25 +52,21 @@ class StoremanCatalogRepository {
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
-    ApiRequest(
-        url: ApiConstants.productsAddToCart,
-        data: data)
-        .postRequest(
+    ApiRequest(url: ApiConstants.productsAddToCart, data: data).postRequest(
       onSuccess: (data) {
         onSuccess!(data);
       },
       onError: (error) => {if (onError != null) onError(error)},
     );
   }
+
   void removeFromCartAPI({
     Map<String, dynamic>? queryParameters,
     dynamic data,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
-    ApiRequest(
-        url: ApiConstants.productsRemoveFromCart,
-        data: data)
+    ApiRequest(url: ApiConstants.productsRemoveFromCart, data: data)
         .postRequest(
       onSuccess: (data) {
         onSuccess!(data);

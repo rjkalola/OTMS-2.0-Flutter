@@ -9,9 +9,7 @@ class HomeTabRepository {
     Function(ResponseModel error)? onError,
   }) {
     ApiRequest(
-            url: ApiConstants.getUserPermissions,
-            data: data,
-            isFormData: false)
+            url: ApiConstants.getUserPermissions, data: data, isFormData: false)
         .getRequest(
       onSuccess: (data) {
         onSuccess!(data);
@@ -43,9 +41,9 @@ class HomeTabRepository {
     Function(ResponseModel error)? onError,
   }) {
     ApiRequest(
-        url: ApiConstants.changeDashboardUserPermissionMultipleSequenceUrl,
-        data: data,
-        isFormData: false)
+            url: ApiConstants.changeDashboardUserPermissionMultipleSequenceUrl,
+            data: data,
+            isFormData: false)
         .postRequest(
       onSuccess: (data) {
         onSuccess!(data);
@@ -84,9 +82,9 @@ class HomeTabRepository {
     Function(ResponseModel error)? onError,
   }) {
     ApiRequest(
-        url: ApiConstants.getNotificationCount,
-        queryParameters: queryParameters,
-        isFormData: false)
+            url: ApiConstants.getNotificationCount,
+            queryParameters: queryParameters,
+            isFormData: false)
         .getRequest(
       onSuccess: (data) {
         onSuccess!(data);
@@ -95,5 +93,33 @@ class HomeTabRepository {
     );
   }
 
+  void saveGeneralSetting({
+    dynamic data,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+        url: ApiConstants.saveGeneralSetting,
+        data: data,
+        isFormData: false)
+        .postRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
 
+  void getCompanySettings({
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(url: ApiConstants.getCompanySettings, isFormData: false)
+        .getRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
 }

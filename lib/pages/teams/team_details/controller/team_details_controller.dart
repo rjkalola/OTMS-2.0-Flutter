@@ -280,7 +280,7 @@ class TeamDetailsController extends GetxController
         onSave: (value) {
           Get.back();
           _saveCheckInSettings(value);
-        } ,
+        },
         onCancel: () => Get.back(),
       ),
       backgroundColor: Colors.transparent,

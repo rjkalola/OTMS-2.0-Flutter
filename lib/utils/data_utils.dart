@@ -62,6 +62,10 @@ class DataUtils {
         name: 'companies'.tr,
         action: AppConstants.action.companies,
         icon: Drawable.usersPermissionIcon));
+    arrayItems.add(ModuleInfo(
+        name: 'check_in_'.tr,
+        action: AppConstants.action.checkInSettings,
+        icon: Drawable.clockIcon));
     return arrayItems;
   }
 
