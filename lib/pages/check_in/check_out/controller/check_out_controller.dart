@@ -7,7 +7,6 @@ import 'package:belcka/pages/check_in/check_in/model/type_of_work_resources_resp
 import 'package:belcka/pages/check_in/check_out/controller/check_out_repository.dart';
 import 'package:belcka/pages/check_in/check_out/model/check_log_details_response.dart';
 import 'package:belcka/pages/check_in/clock_in/controller/clock_in_utils.dart';
-import 'package:belcka/pages/check_in/clock_in/controller/clock_in_utils_.dart';
 import 'package:belcka/pages/check_in/clock_in/model/check_log_info.dart';
 import 'package:belcka/pages/check_in/clock_in/model/location_info.dart';
 import 'package:belcka/pages/check_in/dialogs/select_type_of_work_dialog.dart';

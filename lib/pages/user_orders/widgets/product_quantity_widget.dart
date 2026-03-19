@@ -10,83 +10,70 @@ class ProductQuantityWidget extends StatefulWidget {
   final VoidCallback? onDecrease;
   final FocusNode? focusNode;
 
-  const ProductQuantityWidget(
-      {super.key,
-      required this.isSubQuantity,
-      required this.quantity,
-      required this.unit,
-      this.onChanged,
-      this.onIncrease,
-      this.onDecrease,
-      this.focusNode});
+  const ProductQuantityWidget({
+    super.key,
+    required this.isSubQuantity,
+    required this.quantity,
+    required this.unit,
+    this.onChanged,
+    this.onIncrease,
+    this.onDecrease,
+    this.focusNode,
+  });
 
   @override
   State<ProductQuantityWidget> createState() => _ProductQuantityWidgetState();
 }
 
 class _ProductQuantityWidgetState extends State<ProductQuantityWidget> {
-  late TextEditingController controller;
+  late TextEditingController _textController;
+
+  static const double _boxHeight = 32;
+  static const double _boxWidth = 32;
+  static const double _qtyBoxWidth = 64;
 
   @override
   void initState() {
     super.initState();
-    controller = TextEditingController(text: widget.quantity.toString());
+    _textController = TextEditingController(text: widget.quantity.toString());
   }
 
   @override
   void didUpdateWidget(covariant ProductQuantityWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
-
     if (oldWidget.quantity != widget.quantity) {
-      controller.text = widget.quantity.toString();
+      _textController.text = widget.quantity.toString();
+    }
+  }
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    super.dispose();
+  }
+
+  void _commitQtyFromField() {
+    final value = int.tryParse(_textController.text) ?? widget.quantity;
+    final clamped = value < 1 ? 1 : value;
+    if (clamped != widget.quantity) {
+      _textController.text = clamped.toString();
+      widget.onChanged?.call(clamped);
+    } else {
+      _textController.text = widget.quantity.toString();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    // SUB QUANTITY → editable decimal field
-    if (widget.isSubQuantity) {
-      return Row(
-        children: [
-          SizedBox(
-            width: 60,
-            height: 32,
-            child: TextField(
-              controller: controller,
-              textAlign: TextAlign.center,
-              focusNode: widget.focusNode,
-              keyboardType:
-                  const TextInputType.numberWithOptions(decimal: false),
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
-              ],
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                contentPadding: EdgeInsets.zero,
-              ),
-              onChanged: (value) {
-                widget.onChanged?.call(int.tryParse(value) ?? 0);
-              },
-            ),
-          ),
-          const SizedBox(width: 6),
-          Text(
-            widget.unit,
-            style: const TextStyle(fontSize: 14),
-          ),
-        ],
-      );
-    }
-
-    // NORMAL QUANTITY → + -
     return Row(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        // minus
         InkWell(
           onTap: widget.onDecrease,
           child: Container(
-            width: 34,
-            height: 32,
+            width: _boxWidth,
+            height: _boxHeight,
             alignment: Alignment.center,
             decoration: BoxDecoration(
               border: Border.all(color: Colors.grey.shade300),
@@ -95,32 +82,60 @@ class _ProductQuantityWidgetState extends State<ProductQuantityWidget> {
             child: const Text("-", style: TextStyle(fontSize: 18)),
           ),
         ),
-
         const SizedBox(width: 6),
-
-        // qty
-        Container(
-          width: 50,
-          height: 32,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey.shade300),
-            borderRadius: BorderRadius.circular(6),
-          ),
-          child: Text(
-            widget.quantity.toInt().toString(),
-            style: const TextStyle(fontSize: 14),
-          ),
-        ),
-
+        widget.isSubQuantity
+            ? SizedBox(
+                width: _qtyBoxWidth,
+                height: _boxHeight,
+                child: TextField(
+                  controller: _textController,
+                  maxLines: 1,
+                  textAlign: TextAlign.center,
+                  textAlignVertical: TextAlignVertical.center,
+                  focusNode: widget.focusNode,
+                  cursorColor: Colors.grey.shade400,
+                  style: const TextStyle(fontSize: 14, height: 1.0),
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: false),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                  ],
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    contentPadding:
+                        const EdgeInsets.symmetric(horizontal: 6, vertical: 9),
+                    isDense: true,
+                    filled: true,
+                    fillColor: Colors.transparent,
+                  ),
+                  onSubmitted: (_) => _commitQtyFromField(),
+                  onTapOutside: (_) {
+                    FocusScope.of(context).unfocus();
+                    _commitQtyFromField();
+                  },
+                ),
+              )
+            : Container(
+                width: _qtyBoxWidth,
+                height: _boxHeight,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey.shade300),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Text(
+                  widget.quantity.toString(),
+                  style: const TextStyle(fontSize: 14),
+                ),
+              ),
         const SizedBox(width: 6),
-
-        // plus
         InkWell(
           onTap: widget.onIncrease,
           child: Container(
-            width: 34,
-            height: 32,
+            width: _boxWidth,
+            height: _boxHeight,
             alignment: Alignment.center,
             decoration: BoxDecoration(
               border: Border.all(color: Colors.grey.shade300),
@@ -129,6 +144,13 @@ class _ProductQuantityWidgetState extends State<ProductQuantityWidget> {
             child: const Text("+", style: TextStyle(fontSize: 18)),
           ),
         ),
+        if (widget.isSubQuantity && widget.unit.isNotEmpty) ...[
+          const SizedBox(width: 6),
+          Text(
+            widget.unit,
+            style: const TextStyle(fontSize: 14),
+          ),
+        ],
       ],
     );
   }

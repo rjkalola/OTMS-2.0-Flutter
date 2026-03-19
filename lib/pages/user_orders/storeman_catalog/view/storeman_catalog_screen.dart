@@ -46,9 +46,9 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
                 isCenterTitle: false,
                 isBack: false,
                 bgColor: backgroundColor_(context),
-                widgets: actionButtons(),
+                widgets: actionButtons(), 
                 onBackPressed: () {
-                  controller.onBackPress();
+                  controller.isCategoryExpanded.value = false;
                 },
                 isSearching: controller.isSearchEnable.value,
                 searchController: controller.searchController,

@@ -4,30 +4,23 @@ import 'package:belcka/pages/user_orders/widgets/icons/cart_icon_widget.dart';
 import 'package:belcka/pages/user_orders/widgets/out_of_stock_banner.dart';
 import 'package:belcka/pages/user_orders/widgets/product_quantity_widget.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/drawable.dart';
 import 'package:belcka/routes/app_routes.dart';
-import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/text/SubTitleTextView.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class StoremanProductsListWidget extends StatefulWidget {
+class StoremanProductsListWidget extends StatelessWidget {
   const StoremanProductsListWidget({
     super.key,
   });
 
   @override
-  State<StoremanProductsListWidget> createState() =>
-      _StoremanProductsListWidgetState();
-}
-
-class _StoremanProductsListWidgetState
-    extends State<StoremanProductsListWidget> {
-  final controller = Get.find<StoremanCatalogController>();
-
-  @override
   Widget build(BuildContext context) {
+    final controller = Get.find<StoremanCatalogController>();
     return Obx(() => ListView.builder(
           padding: const EdgeInsets.symmetric(horizontal: 8),
           itemCount: controller.products.length,
@@ -38,14 +31,12 @@ class _StoremanProductsListWidgetState
             final isAdded = product.isCartProduct ?? false;
 
             final isSubQuantity = product.isSubQty ?? false;
-            //final outOfStockCount = ((product.cartQty ?? 0) - (product.qty ?? 0.0));
 
             final outOfStockCount = isSubQuantity
                 ? ((product.cartQty ?? 0) -
-                    (int.parse(product.packOffQty ?? "")))
+                    (int.parse(product.packOffQty ?? "0")))
                 : ((product.cartQty ?? 0) - (product.qty ?? 0.0));
 
-            final packOfUnitName = product.packOfUnitName ?? "";
             final packOfUnit = product.packOfUnit ?? "";
 
             String availableQtyText = "${((product.qty ?? 0.0).toInt())}";
@@ -55,11 +46,9 @@ class _StoremanProductsListWidgetState
                 final currentFocus = FocusScope.of(context);
                 if (!currentFocus.hasPrimaryFocus &&
                     currentFocus.focusedChild != null) {
-                  // Keyboard is open → close it
                   FocusManager.instance.primaryFocus?.unfocus();
                   return;
                 }
-                // Keyboard already closed → navigate
                 var arguments = {"product_id": product.productId};
                 controller.moveToScreen(
                   AppRoutes.productDetailsScreen,
@@ -92,10 +81,8 @@ class _StoremanProductsListWidgetState
                                     itemCount:
                                         product.productImages?.length ?? 0,
                                     onPageChanged: (page) {
-                                      setState(() {
-                                        controller.currentImageIndex[index] =
-                                            page;
-                                      });
+                                      controller.setCurrentImageIndex(
+                                          index, page);
                                     },
                                     itemBuilder: (context, imgIndex) {
                                       return Image.network(
@@ -208,6 +195,8 @@ class _StoremanProductsListWidgetState
                                           FocusManager.instance.primaryFocus
                                               ?.unfocus();
                                           controller.toggleBookmark(index);
+                                          product.isBookMark = !(product.isBookMark??false);
+                                          controller.products.refresh();
                                         })
                                   ],
                                 ),
@@ -221,33 +210,46 @@ class _StoremanProductsListWidgetState
                       ),
                       Row(
                         children: [
-                          ProductQuantityWidget(
-                            focusNode: controller.qtyFocusNodes[index],
-                            isSubQuantity: isSubQuantity,
-                            quantity: (product.cartQty ?? 0).toInt(),
-                            unit: packOfUnit,
-                            onChanged: (value) {
-                              controller.updateSubQty(index, value);
-                            },
-                            onIncrease: () {
-                              setState(() {
+                          // Amazon-style: show quantity controls only when item is in cart
+                          if (isAdded) ...[
+                            ProductQuantityWidget(
+                              focusNode: controller.qtyFocusNodes[index],
+                              isSubQuantity: isSubQuantity,
+                              quantity: (product.cartQty ?? 0).toInt(),
+                              unit: packOfUnit,
+                              onChanged: (value) {
+                                controller.updateSubQty(index, value);
+                                controller.toggleAddToCart(index, value);
+                              },
+                              onIncrease: () {
                                 controller.increaseQty(index);
-                              });
-                            },
-                            onDecrease: () {
-                              setState(() {
+                                final newQty =
+                                    (controller.products[index].cartQty ?? 0)
+                                        .toInt();
+                                controller.toggleAddToCart(index, newQty);
+                              },
+                              onDecrease: () {
+                                final product = controller.products[index];
+                                final currentQty =
+                                    (product.cartQty ?? 0).toInt();
+                                if (currentQty <= 1) return;
                                 controller.decreaseQty(index);
-                              });
-                            },
-                          ),
+                                final newQty =
+                                    (controller.products[index].cartQty ?? 0)
+                                        .toInt();
+                                controller.toggleAddToCart(index, newQty);
+                              },
+                            ),
+                            const SizedBox(width: 8),
+                          ],
                           Spacer(),
-                          // Add to Cart Button
                           ElevatedButton.icon(
                             style: ElevatedButton.styleFrom(
                               minimumSize: const Size(0, 34),
-                              backgroundColor: (isAdded)
-                                  ? defaultAccentColor_(context)
+                              backgroundColor: isAdded
+                                  ? Colors.redAccent.shade200
                                   : Colors.green,
+                              foregroundColor: Colors.white,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
@@ -259,24 +261,28 @@ class _StoremanProductsListWidgetState
                               if (isAdded) {
                                 controller.toggleRemoveCart(index);
                               } else {
-                                if ((product.cartQty ?? 0) > 0) {
-                                  controller.toggleAddToCart(
-                                      index, (product.cartQty ?? 0).toInt());
-                                } else {
-                                  AppUtils.showToastMessage(
-                                      'msg_add_at_least_one_qty'.tr);
-                                }
+                                controller.increaseQty(index);
+                                controller.toggleAddToCart(index, 1);
                               }
                             },
-                            icon: CartIconWidget(
-                              color: Colors.white,
-                              size: 16,
-                            ),
-                            label: TitleTextView(
-                              text: (isAdded) ? "added".tr : "add_to_cart".tr,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14,
+                            icon: isAdded
+                                ? ImageUtils.setSvgAssetsImage(
+                                    path: Drawable.deleteIcon,
+                                    width: 18,
+                                    height: 18,
+                                    color: Colors.white,
+                                  )
+                                : CartIconWidget(
+                                    color: Colors.white,
+                                    size: 16,
+                                  ),
+                            label: Text(
+                              isAdded ? "remove".tr : "add_to_cart".tr,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                              ),
                             ),
                           ),
                         ],

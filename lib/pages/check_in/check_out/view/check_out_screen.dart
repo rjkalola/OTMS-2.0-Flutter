@@ -201,24 +201,25 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                 padding: EdgeInsets.only(top: 6),
                                 controller: controller.noteController,
                                 borderRadius: 15,
-                                hintText:
-                                    (controller.checkLogInfo.value.isOvertime ??
-                                            false)
-                                        ? 'exceeding_time_note'.tr
-                                        : "",
-                                labelText:
-                                    (controller.checkLogInfo.value.isOvertime ??
-                                            false)
-                                        ? 'exceeding_time_note'.tr
-                                        : "",
-                                validator:
-                                    (controller.checkLogInfo.value.isOvertime ??
-                                            false)
-                                        ? MultiValidator([
-                                            RequiredValidator(
-                                                errorText: 'required_field'.tr),
-                                          ])
-                                        : null,
+                                // hintText:
+                                //     (controller.checkLogInfo.value.isOvertime ??
+                                //             false)
+                                //         ? 'exceeding_time_note'.tr
+                                //         : "",
+                                // labelText:
+                                //     (controller.checkLogInfo.value.isOvertime ??
+                                //             false)
+                                //         ? 'exceeding_time_note'.tr
+                                //         : "",
+                                // validator:
+                                //     (controller.checkLogInfo.value.isOvertime ??
+                                //             false)
+                                //         ? MultiValidator([
+                                //             RequiredValidator(
+                                //                 errorText: 'required_field'.tr),
+                                //           ])
+                                //         : null,
+                                validator: MultiValidator([]),
                               ),
                             ),
                             CheckInOutDisplayNoteWidget(
@@ -254,13 +255,13 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                       child: PrimaryButton(
                         buttonText: 'check_out_'.tr,
                         onPressed: () {
-                          // if (controller.isValidPhotos()) {
-                          //   controller.checkOutApi();
-                          // } else {
-                          //   AppUtils.showToastMessage(
-                          //       'msg_empty_after_attachment'.tr);
-                          // }
-                          if ((controller.checkLogInfo.value.isOvertime ??
+                          /* if (controller.isValidPhotos()) {
+                            controller.checkOutApi();
+                          } else {
+                            AppUtils.showToastMessage(
+                                'msg_empty_after_attachment'.tr);
+                          }*/
+                          /* if ((controller.checkLogInfo.value.isOvertime ??
                               false)) {
                             if (!StringHelper.isEmptyString(
                                 StringHelper.getText(
@@ -271,7 +272,8 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                             }
                           } else {
                             controller.checkOutApi();
-                          }
+                          }*/
+                          controller.checkOutApi();
                         },
                         color: Colors.red,
                       ),

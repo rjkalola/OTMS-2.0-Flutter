@@ -4,6 +4,7 @@ import 'package:belcka/pages/user_orders/categories/model/user_orders_categories
 import 'package:belcka/pages/user_orders/categories/model/user_orders_categories_response.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/controller/storeman_catalog_repository.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
+import 'package:belcka/pages/user_orders/storeman_catalog/model/add_to_cart_response.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/get_products_response.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
@@ -40,7 +41,7 @@ class StoremanCatalogController extends GetxController {
   List<ProductInfo> tempList = [];
 
   int categoryIds = 0;
-  final Map<int, int> currentImageIndex = {};
+  final currentImageIndex = <int, int>{}.obs;
 
   RxInt cartCount = 0.obs;
   bool isDataUpdated = false;
@@ -194,7 +195,7 @@ class StoremanCatalogController extends GetxController {
   }
 
   void toggleBookmark(int index) {
-    isLoading.value = true;
+    // isLoading.value = true;
     final product = products[index];
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
@@ -204,9 +205,8 @@ class StoremanCatalogController extends GetxController {
       data: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
-          fetchProducts();
-        }
-        else{
+          // fetchProducts();
+        } else {
           isLoading.value = false;
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
@@ -235,15 +235,22 @@ class StoremanCatalogController extends GetxController {
     _api.addToCartAPI(
       data: map,
       onSuccess: (ResponseModel responseModel) {
-        if (responseModel.isSuccess) {
+        if (responseModel.isSuccess && responseModel.result != null) {
+          AddToCartResponse response = AddToCartResponse.fromJson(
+              jsonDecode(responseModel.result!) as Map<String, dynamic>);
+          if (response.info != null) {
+            product.cartId = response.info!.id;
+            // product.cartQty = (response.info!.qty ?? 0).toDouble();
+            product.isCartProduct = true;
+            products.refresh();
+          }
+          updateCartCount(response.cartProduct ?? 0);
+          // AppUtils.showApiResponseMessage(response.message ?? "");
           isDataUpdated = true;
-          fetchProducts();
-        }
-        else{
-          isLoading.value = false;
+        } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
-
+        isLoading.value = false;
       },
       onError: (ResponseModel error) {
         isLoading.value = false;
@@ -264,11 +271,20 @@ class StoremanCatalogController extends GetxController {
     _api.removeFromCartAPI(
       data: map,
       onSuccess: (ResponseModel responseModel) {
+        isLoading.value = false;
         if (responseModel.isSuccess) {
+          AddToCartResponse response = AddToCartResponse.fromJson(
+              jsonDecode(responseModel.result!) as Map<String, dynamic>);
+          if (response.info != null) {
+            product.cartId = 0;
+            // product.cartQty = (response.info!.qty ?? 0).toDouble();
+            product.isCartProduct = false;
+            products.refresh();
+          }
+          updateCartCount(response.cartProduct ?? 0);
+          // AppUtils.showApiResponseMessage(response.message ?? "");
           isDataUpdated = true;
-          fetchProducts();
-        }
-        else{
+        } else {
           isLoading.value = false;
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
@@ -284,10 +300,16 @@ class StoremanCatalogController extends GetxController {
     );
   }
 
+  void setCurrentImageIndex(int index, int page) {
+    currentImageIndex[index] = page;
+    currentImageIndex.refresh();
+  }
+
   void increaseQty(int index) {
     final product = products[index];
     double userQty = (product.cartQty ?? 0.0) + 1;
     product.cartQty = userQty;
+    products.refresh();
   }
 
   void decreaseQty(int index) {
@@ -295,6 +317,7 @@ class StoremanCatalogController extends GetxController {
     double userQty = product.cartQty ?? 0.0;
     if (userQty == 0 || userQty == 1) return;
     product.cartQty = userQty - 1;
+    products.refresh();
   }
 
   void updateCartCount(int count) {
@@ -304,6 +327,7 @@ class StoremanCatalogController extends GetxController {
   void updateSubQty(int index, int count) {
     final product = products[index];
     product.cartQty = count.toDouble();
+    products.refresh();
   }
 
   void onBackPress() {
@@ -325,10 +349,12 @@ class StoremanCatalogController extends GetxController {
     } else {
       results = tempList
           .where((element) =>
-      (!StringHelper.isEmptyString(element.shortName) &&
-          element.shortName!.toLowerCase().contains(value.toLowerCase())) ||
-          (!StringHelper.isEmptyString(element.uuid) &&
-              element.uuid!.toLowerCase().contains(value.toLowerCase())))
+              (!StringHelper.isEmptyString(element.shortName) &&
+                  element.shortName!
+                      .toLowerCase()
+                      .contains(value.toLowerCase())) ||
+              (!StringHelper.isEmptyString(element.uuid) &&
+                  element.uuid!.toLowerCase().contains(value.toLowerCase())))
           .toList();
     }
     products.value = results;
@@ -339,6 +365,7 @@ class StoremanCatalogController extends GetxController {
     searchItem("");
     isSearchEnable.value = false;
   }
+
   void clearFilter() {
     isResetEnable.value = false;
     selectCategory(0);
