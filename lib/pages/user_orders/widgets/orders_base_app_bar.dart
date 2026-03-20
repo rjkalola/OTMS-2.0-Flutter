@@ -39,7 +39,7 @@ class OrdersBaseAppBar extends StatelessWidget implements PreferredSizeWidget {
           duration: const Duration(milliseconds: 300),
           child: (isSearching ?? false)
               ? Padding(
-                padding: const EdgeInsets.fromLTRB(16, 8, 0, 0),
+                padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
                 child: SearchTextFieldAppBar(
                 controller: searchController!,
                 isClearVisible: isClearVisible!,
@@ -58,6 +58,12 @@ class OrdersBaseAppBar extends StatelessWidget implements PreferredSizeWidget {
         centerTitle: isCenterTitle,
         titleSpacing: (isBack || onBackPressed != null) ? 0 : 20,
         automaticallyImplyLeading: isBack,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(28),
+          ),
+        ),
         leading: isBack ? IconButton(
           icon: Icon(
             Icons.arrow_back_ios_new_outlined,

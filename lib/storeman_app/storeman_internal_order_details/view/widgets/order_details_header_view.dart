@@ -7,7 +7,6 @@ import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
 class OrderDetailsHeaderView extends StatefulWidget {
   const OrderDetailsHeaderView({super.key});
 
@@ -15,7 +14,7 @@ class OrderDetailsHeaderView extends StatefulWidget {
   State<OrderDetailsHeaderView> createState() => _OrderDetailsHeaderViewState();
 }
 
-class _OrderDetailsHeaderViewState extends State<OrderDetailsHeaderView> {
+class _OrderDetailsHeaderViewState extends State<OrderDetailsHeaderView> with WidgetsBindingObserver{
 
   final controller = Get.put(StoremanInternalOrderDetailsController());
   late TextEditingController _reasonController;
@@ -24,12 +23,23 @@ class _OrderDetailsHeaderViewState extends State<OrderDetailsHeaderView> {
   void initState() {
     super.initState();
     _reasonController = TextEditingController();
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _reasonController.dispose();
     super.dispose();
+  }
+  @override
+  void didChangeMetrics() {
+    final bottomInset = View.of(context).viewInsets.bottom;
+    if (bottomInset > 0 && controller.isExpanded.value) {
+      setState(() {
+        controller.isExpanded.value = false;
+      });
+    }
   }
 
   @override
@@ -49,133 +59,120 @@ class _OrderDetailsHeaderViewState extends State<OrderDetailsHeaderView> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
-            child: Row(
-              children: [
-                Row(
-                  children: [
-                    TitleTextView(
-                        text: "order".tr,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w500
-                    ),
-                    SizedBox(width: 4),
-                    TitleTextView(
-                        text: orderInfo.orderId ?? "",
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 12),
-          Padding(
-            padding: EdgeInsets.fromLTRB(16, 0, 8, 0),
-            child: Row(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children:[
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Icon(Icons.home, size: 25,color: Colors.grey,),
-                          SizedBox(width: 8),
-                          Expanded(
-                            child: TitleTextView(
-                                text:orderInfo.projectName ?? "",
-                                fontSize: 17,
-                                fontWeight: FontWeight.w700,
-                              softWrap: true,
-                            ),
+                InkWell(
+                  onTap: () => setState(() => controller.isExpanded.value = !controller.isExpanded.value),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const SizedBox(width: 8),
+                        const Icon(Icons.home, size: 25, color: Colors.grey),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: TitleTextView(
+                            text: orderInfo.projectName ?? "",
+                            fontSize: 17,
+                            fontWeight: FontWeight.w700,
+                            softWrap: true,
                           ),
-                        ],
-                      )
-                      ,
-                      SizedBox(height: 8),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Icon(Icons.store, size: 25,color: Colors.grey,),
-                          SizedBox(width: 8),
-                          Expanded(
-                            child: TitleTextView(
-                              text:orderInfo.storeName ?? "",
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              softWrap: true,
+                        ),
+                        Icon(
+                          controller.isExpanded.value ? Icons.expand_less : Icons.expand_more,
+                          color: Colors.grey,
+                          size: 28,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                // COLLAPSIBLE SECTION
+                if (controller.isExpanded.value) ...[
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8,right: 8),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Icon(Icons.store, size: 25, color: Colors.grey),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: TitleTextView(
+                                text: orderInfo.storeName ?? "",
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                softWrap: true,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 8),
-                      Row(
-                        children: [
-                          Icon(Icons.place_outlined, size: 25,color: Colors.grey,),
-                          SizedBox(width: 8),
-                          Expanded(
-                            child: TitleTextView(
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          children: [
+                            const Icon(Icons.place_outlined, size: 25, color: Colors.grey),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: TitleTextView(
                                 text: orderInfo.addressName ?? "",
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 8),
-                      Row(
-                        children: [
-                          Icon(Icons.library_add_check_outlined, size: 25,color: Colors.grey,),
-                          SizedBox(width: 8),
-                          TitleTextView(
-                              text:"${orderInfo.statusText ?? ""}, ${orderInfo.date ?? ""}",
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          children: [
+                            const Icon(Icons.library_add_check_outlined, size: 25, color: Colors.grey),
+                            const SizedBox(width: 8),
+                            TitleTextView(
+                              text: "${orderInfo.statusText ?? ""}, ${orderInfo.date ?? ""}",
                               fontSize: 14,
-                              fontWeight: FontWeight.w500
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 8),
-                      Row(
-                        children: [
-                          Row(
-                            children: [
-                              TitleTextView(
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                TitleTextView(
                                   text: "${"total".tr}:",
                                   fontSize: 16,
-                                  fontWeight: FontWeight.w700
-                              ),
-                              SizedBox(width: 4),
-                              TitleTextView(
-                                text: "${controller.getTotalQuantity()} item",
-                                fontSize: 16,
-                              )
-
-                            ],
-                          ),
-                          Spacer(),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
-                            child: TitleTextView(
-                                text: orderInfo.userName ?? "",
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700
+                                  fontWeight: FontWeight.w700,
+                                ),
+                                const SizedBox(width: 4),
+                                TitleTextView(
+                                  text: "${controller.getTotalQuantity()} item",
+                                  fontSize: 16,
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
+                            TitleTextView(
+                              text: orderInfo.userName ?? "",
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
+                  const SizedBox(height: 16),
+                ],
+                if (!controller.isExpanded.value)
+                const SizedBox(height: 8),
               ],
             ),
-          ),
-
-          const SizedBox(height: 16),
+          )
         ],
       ),
     );

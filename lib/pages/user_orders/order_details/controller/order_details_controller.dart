@@ -22,6 +22,8 @@ class OrderDetailsController extends GetxController{
   List<OrderDetailsInfo> tempList = [];
   String orderId = "";
   bool canShowActionButtons = false;
+  final orderInfo = OrderDetailsInfo().obs;
+  RxBool isExpanded = false.obs;
 
   @override
   void onInit() {
@@ -51,6 +53,7 @@ class OrderDetailsController extends GetxController{
 
           orderDetails.value = tempList;
           orderDetails.refresh();
+          orderInfo.value = orderDetails[0];
 
           isMainViewVisible.value = true;
           isLoading.value = false;

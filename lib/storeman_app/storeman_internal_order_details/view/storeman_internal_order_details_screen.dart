@@ -6,6 +6,7 @@ import 'package:belcka/storeman_app/storeman_internal_order_details/view/widgets
 import 'package:belcka/storeman_app/storeman_internal_order_details/view/widgets/order_details_orders_list.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
@@ -55,7 +56,10 @@ class _StoremanInternalOrderDetailsScreenState
               backgroundColor: dashBoardBgColor_(context),
               appBar: BaseAppBar(
                 appBar: AppBar(),
-                title: 'details'.tr,
+                title: !StringHelper.isEmptyString(
+                    controller.orderInfo.value.orderId)
+                    ? "${'order'.tr} ${controller.orderInfo.value.orderId ?? ""}"
+                    : "",
                 isCenterTitle: false,
                 isBack: true,
                 bgColor: backgroundColor_(context),

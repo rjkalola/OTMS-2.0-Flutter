@@ -16,7 +16,7 @@ class OrderDetailsHeaderView extends StatefulWidget {
   State<OrderDetailsHeaderView> createState() => _OrderDetailsHeaderViewState();
 }
 
-class _OrderDetailsHeaderViewState extends State<OrderDetailsHeaderView> {
+class _OrderDetailsHeaderViewState extends State<OrderDetailsHeaderView>{
 
   final controller = Get.put(OrderDetailsController());
   late TextEditingController _reasonController;
@@ -49,44 +49,8 @@ class _OrderDetailsHeaderViewState extends State<OrderDetailsHeaderView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
-            child: Row(
-              children: [
-                Row(
-                  children: [
-                    TitleTextView(
-                        text: "order".tr,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w500
-                    ),
-                    SizedBox(width: 4),
-                    TitleTextView(
-                        text: orderInfo.orderId ?? "",
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700
-                    ),
-                  ],
-                ),
-                Spacer(),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    TitleTextView(
-                        text: "${orderInfo.currency ?? ""}${orderInfo.totalAmount ?? "0.00"}",
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700
-                    ),
-                    SizedBox(width: 4),
-                    SubtitleTextView(
-                      text: "${controller.getTotalQuantity()} item",
-                    )
-                  ],
-                )
-              ],
-            ),
-          ),
-          const SizedBox(height: 12),
+
+          /*
           Padding(
             padding: EdgeInsets.fromLTRB(16, 0, 8, 0),
             child: Row(
@@ -161,13 +125,156 @@ class _OrderDetailsHeaderViewState extends State<OrderDetailsHeaderView> {
               ],
             ),
           ),
-
+          SizedBox(height: 8),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+            child: Row(
+              children: [
+                SizedBox(width: 8),
+                TitleTextView(
+                  text: "${"total".tr}:",
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                ),
+                const SizedBox(width: 4),
+                TitleTextView(
+                    text: "${orderInfo.currency ?? ""}${orderInfo.totalAmount ?? "0.00"}",
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700
+                ),
+                SizedBox(width: 4),
+                SubtitleTextView(
+                  text: "(${controller.getTotalQuantity()} item)",
+                )
+              ],
+            ),
+          ),
           const SizedBox(height: 16),
           if (controller.canShowActionButtons)
             Padding(
               padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
               child: _buildOrderActions(orderInfo.status ?? 0),
             ),
+          */
+
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                InkWell(
+                  onTap: () => setState(() => controller.isExpanded.value = !controller.isExpanded.value),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const SizedBox(width: 8),
+                        const Icon(Icons.home, size: 25, color: Colors.grey),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: TitleTextView(
+                            text: orderInfo.projectName ?? "",
+                            fontSize: 17,
+                            fontWeight: FontWeight.w700,
+                            softWrap: true,
+                          ),
+                        ),
+                        Icon(
+                          controller.isExpanded.value ? Icons.expand_less : Icons.expand_more,
+                          color: Colors.grey,
+                          size: 28,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                // COLLAPSIBLE SECTION
+                if (controller.isExpanded.value) ...[
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8,right: 8),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Icon(Icons.store, size: 25, color: Colors.grey),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: TitleTextView(
+                                text: orderInfo.storeName ?? "",
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                softWrap: true,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          children: [
+                            const Icon(Icons.place_outlined, size: 25, color: Colors.grey),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: TitleTextView(
+                                text: orderInfo.addressName ?? "",
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          children: [
+                            const Icon(Icons.library_add_check_outlined, size: 25, color: Colors.grey),
+                            const SizedBox(width: 8),
+                            TitleTextView(
+                              text: "${orderInfo.statusText ?? ""}, ${orderInfo.date ?? ""}",
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          children: [
+                            SizedBox(width: 4),
+                            TitleTextView(
+                              text: "${"total".tr}:",
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                            ),
+                            const SizedBox(width: 4),
+                            TitleTextView(
+                                text: "${orderInfo.currency ?? ""}${orderInfo.totalAmount ?? "0.00"}",
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700
+                            ),
+                            SizedBox(width: 4),
+                            SubtitleTextView(
+                              text: "(${controller.getTotalQuantity()} item)",
+                            )
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        if (controller.canShowActionButtons)
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
+                            child: _buildOrderActions(orderInfo.status ?? 0),
+                          ),
+                      ],
+                    ),
+                  ),
+
+                ],
+                if (!controller.isExpanded.value)
+                  const SizedBox(height: 8),
+              ],
+            ),
+          )
+
         ],
       ),
     );
