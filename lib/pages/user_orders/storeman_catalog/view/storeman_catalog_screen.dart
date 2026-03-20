@@ -50,6 +50,10 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
                 onBackPressed: () {
                   controller.isCategoryExpanded.value = false;
                 },
+                onPressedClear: () {
+                  controller.clearSearch();
+                  controller.isSearchEnable.value = false;
+                },
                 isSearching: controller.isSearchEnable.value,
                 searchController: controller.searchController,
                 onValueChange: (value) {
@@ -137,25 +141,23 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
       ),
 
       Visibility(
-        visible: !controller.isCategoryExpanded.value,
-        child: GestureDetector(
+        visible: !controller.isSearchEnable.value && !controller.isCategoryExpanded.value,
+        child: InkWell(
           onTap: () {
-            controller.isSearchEnable.toggle();
-            if (!controller.isSearchEnable.value) {
+            if (controller.isSearchEnable.value) {
               controller.clearSearch();
             }
+            controller.isSearchEnable.value = !controller.isSearchEnable.value;
           },
+          customBorder: const CircleBorder(),
           child: Padding(
             padding: const EdgeInsets.all(6),
-            child: Obx(() => controller.isSearchEnable.value
-                ? Icon(
-                    Icons.close,
-                  )
-                : ImageUtils.setSvgAssetsImage(
-                    path: Drawable.searchIcon,
-                    width: 24,
-                    height: 24,
-                  )),
+            child: ImageUtils.setSvgAssetsImage(
+              path: Drawable.searchIcon,
+              width: 24,
+              height: 24,
+              color: primaryTextColor_(context),
+            ),
           ),
         ),
       ),

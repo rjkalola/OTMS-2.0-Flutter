@@ -88,6 +88,8 @@ class StoremanCatalogController extends GetxController {
   void toggleCategoryGrid() {
     FocusManager.instance.primaryFocus?.unfocus();
     isCategoryExpanded.toggle();
+    clearSearch();
+    isSearchEnable.value = false;
   }
 
   void selectCategoryFromGrid(int selectedID) {
