@@ -76,8 +76,7 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
                               children: [
                                 Column(
                                   children: [
-                                    StoremanCatalogHeaderView(),
-                                    const SizedBox(height: 10),
+                                    const SizedBox(height: 16),
                                     Expanded(
                                       child: Row(
                                         children: [

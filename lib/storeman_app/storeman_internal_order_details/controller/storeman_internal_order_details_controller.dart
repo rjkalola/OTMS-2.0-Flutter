@@ -31,6 +31,8 @@ class StoremanInternalOrderDetailsController extends GetxController{
   RxInt status = 0.obs;
   List<FocusNode> qtyFocusNodes = [];
   final ImagePicker _picker = ImagePicker();
+  final orderInfo = OrderDetailsInfo().obs;
+  RxBool isExpanded = false.obs;
 
   void initFocusNodes(int length) {
     qtyFocusNodes = List.generate(length, (index) => FocusNode());
@@ -72,6 +74,8 @@ class StoremanInternalOrderDetailsController extends GetxController{
 
           orderDetails.value = tempList;
           orderDetails.refresh();
+
+          orderInfo.value = orderDetails[0];
 
           status.value = orderDetails[0].status ?? 0;
           initFocusNodes(orderDetails[0].orders?.length ?? 0);
