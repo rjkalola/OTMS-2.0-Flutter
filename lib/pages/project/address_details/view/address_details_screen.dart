@@ -53,11 +53,16 @@ class _AddressDetailsScreenState extends State<AddressDetailsScreen>
                   },
                   isSearching: controller.isSearchEnable.value,
                   searchController: controller.searchController,
+                  isClearVisible: true.obs,
+                  onPressedClear: () {
+                    controller.clearSearch();
+                    controller.isSearchEnable.value =
+                    !controller.isSearchEnable.value;
+                  },
                   onValueChange: (value) {
                     controller.searchItems(value);
                   },
                   autoFocus: true,
-                  isClearVisible: false.obs,
                 ),
                 backgroundColor: dashBoardBgColor_(context),
                 body: ModalProgressHUD(
@@ -112,26 +117,34 @@ class _AddressDetailsScreenState extends State<AddressDetailsScreen>
       SizedBox(
         width: 6,
       ),
-      InkWell(
-        onTap: () {
-          if (controller.isSearchEnable.value) {
-            controller.clearSearch();
-          }
-          controller.isSearchEnable.value = !controller.isSearchEnable.value;
-        },
-        customBorder: const CircleBorder(),
-        child: Padding(
-          padding: EdgeInsets.all(6),
-          child: controller.isSearchEnable.value
-              ? Icon(
-                  Icons.close,
-                  color: primaryTextColor_(context),
-                )
-              : ImageUtils.setSvgAssetsImage(
-                  path: Drawable.searchIcon,
-                  width: 24,
-                  height: 24,
-                  color: primaryTextColor_(context)),
+      Visibility(
+        visible: !controller.isSearchEnable.value,
+        child: InkWell(
+          onTap: () {
+            if (controller.isSearchEnable.value) {
+              controller.clearSearch();
+            }
+            controller.isSearchEnable.value = !controller.isSearchEnable.value;
+          },
+          customBorder: const CircleBorder(),
+          child: Padding(
+            padding: EdgeInsets.all(6),
+            // child: controller.isSearchEnable.value
+            //     ? Icon(
+            //         Icons.close,
+            //         color: primaryTextColor_(context),
+            //       )
+            //     : ImageUtils.setSvgAssetsImage(
+            //         path: Drawable.searchIcon,
+            //         width: 24,
+            //         height: 24,
+            //         color: primaryTextColor_(context)),
+            child: ImageUtils.setSvgAssetsImage(
+                path: Drawable.searchIcon,
+                width: 24,
+                height: 24,
+                color: primaryTextColor_(context)),
+          ),
         ),
       ),
       Visibility(

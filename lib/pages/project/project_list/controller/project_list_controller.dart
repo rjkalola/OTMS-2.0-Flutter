@@ -33,10 +33,8 @@ class ProjectListController extends GetxController
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
-      isClearVisible = false.obs,
       isDataUpdated = false.obs,
-      isSearchEnable = false.obs,
-      isClearSearch = false.obs;
+      isSearchEnable = false.obs;
   RxString selectedStatusFilter = "all".obs, activeProjectTitle = "".obs;
   RxInt activeProjectId = 0.obs,
       allCount = 0.obs,
@@ -137,7 +135,7 @@ class ProjectListController extends GetxController
     );
   }
 
-  void activeProjectAPI(int id, String title,int companyId) {
+  void activeProjectAPI(int id, String title, int companyId) {
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["company_id"] = companyId;
@@ -302,7 +300,7 @@ class ProjectListController extends GetxController
   @override
   void onSelectItem(int position, int id, String name, String action) {
     if (action == AppConstants.dialogIdentifier.selectProject) {
-      activeProjectAPI(id, name,projectsList[position].companyId??0);
+      activeProjectAPI(id, name, projectsList[position].companyId ?? 0);
     }
   }
 
@@ -350,6 +348,7 @@ class ProjectListController extends GetxController
   }
 
   void clearAddress() {
+    // isSearchEnable.value = false;
     searchAddressController.value.clear();
     searchAddress("");
   }

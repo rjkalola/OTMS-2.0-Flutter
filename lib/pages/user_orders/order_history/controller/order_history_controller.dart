@@ -147,7 +147,6 @@ class OrderHistoryController extends GetxController{
   void clearSearch() {
     searchController.value.clear();
     searchItem("");
-    isSearchEnable.value = false;
   }
   void onBackPress() {
     Get.back(result: isDataUpdated);

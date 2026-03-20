@@ -41,8 +41,7 @@ class AddressDetailsController extends GetxController
       isMainViewVisible = false.obs,
       isDataUpdated = false.obs,
       isResetEnable = false.obs,
-      isSearchEnable = false.obs,
-      isClearSearch = false.obs;
+      isSearchEnable = false.obs;
   RxInt tradesCount = 0.obs,
       checkInsCount = 0.obs,
       documentsCount = 0.obs,
@@ -435,13 +434,6 @@ class AddressDetailsController extends GetxController
   ];
 
   Future<void> searchItems(String value) async {
-    // if(selectedFilter.value == AppConstants.action.trades){
-    //   searchTradeRecords(value);
-    // }else {
-    //   print("searchItems");
-    //   listCheckInRecords.value = tempCheckInRecords;
-    //   listCheckInRecords.refresh();
-    // }
     selectedFilter.value == AppConstants.action.trades
         ? searchTradeRecords(value)
         : searchCheckInRecords(value);
@@ -492,6 +484,7 @@ class AddressDetailsController extends GetxController
 
   void clearSearch() {
     searchController.value.clear();
+    // isClearVisible.value = false;
     searchTradeRecords("");
     searchCheckInRecords("");
   }

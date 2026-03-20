@@ -45,7 +45,12 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
                 controller.searchAddress(value);
               },
               autoFocus: true,
-              isClearVisible: false.obs,
+              // isClearVisible: controller.isClearVisible,
+              onPressedClear: () {
+                controller.clearAddress();
+                controller.isSearchEnable.value =
+                    !controller.isSearchEnable.value;
+              },
             ),
             body: ModalProgressHUD(
                 inAsyncCall: controller.isLoading.value,
@@ -88,26 +93,24 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
       SizedBox(
         width: 6,
       ),
-      InkWell(
-        onTap: () {
-          if (controller.isSearchEnable.value) {
-            controller.clearAddress();
-          }
-          controller.isSearchEnable.value = !controller.isSearchEnable.value;
-        },
-        customBorder: const CircleBorder(),
-        child: Padding(
-          padding: EdgeInsets.all(6),
-          child: controller.isSearchEnable.value
-              ? Icon(
-                  Icons.close,
-                  color: primaryTextColor_(context),
-                )
-              : ImageUtils.setSvgAssetsImage(
-                  path: Drawable.searchIcon,
-                  width: 24,
-                  height: 24,
-                  color: primaryTextColor_(context)),
+      Visibility(
+        visible: !controller.isSearchEnable.value,
+        child: InkWell(
+          onTap: () {
+            if (controller.isSearchEnable.value) {
+              controller.clearAddress();
+            }
+            controller.isSearchEnable.value = !controller.isSearchEnable.value;
+          },
+          customBorder: const CircleBorder(),
+          child: Padding(
+            padding: EdgeInsets.all(6),
+            child: ImageUtils.setSvgAssetsImage(
+                path: Drawable.searchIcon,
+                width: 24,
+                height: 24,
+                color: primaryTextColor_(context)),
+          ),
         ),
       ),
       Visibility(

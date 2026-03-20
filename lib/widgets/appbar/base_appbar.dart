@@ -15,6 +15,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   final ValueChanged<String>? onValueChange;
   final Rx<TextEditingController>? searchController;
   final Rx<bool>? isClearVisible;
+  final VoidCallback? onPressedClear;
 
   BaseAppBar(
       {super.key,
@@ -29,6 +30,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
       this.searchController,
       this.onValueChange,
       this.isClearVisible,
+      this.onPressedClear,
       this.autoFocus});
 
   @override
@@ -40,9 +42,11 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
           child: (isSearching ?? false)
               ? SearchTextFieldAppBar(
                   controller: searchController!,
-                  isClearVisible: isClearVisible!,
+                  isClearVisible: true.obs,
                   autofocus: autoFocus,
-                  onValueChange: onValueChange)
+                  onValueChange: onValueChange,
+                  onPressedClear: onPressedClear,
+                )
               : Text(
                   title,
                   style: TextStyle(

@@ -42,7 +42,6 @@ class PaymentDocumentsController extends GetxController
       isDataUpdated = false.obs,
       isResetEnable = false.obs,
       isSearchEnable = false.obs,
-      isClearSearch = false.obs,
       isDownloadEnable = false.obs,
       isDeleteEnable = false.obs,
       isCheckAll = false.obs;
@@ -85,6 +84,8 @@ class PaymentDocumentsController extends GetxController
   }
 
   void loadData(bool isProgress) async {
+    isSearchEnable.value = false;
+    clearSearch();
     resetSelectedItems();
     if (selectedFilter.value == AppConstants.action.invoices) {
       getInvoicesApi(isProgress);

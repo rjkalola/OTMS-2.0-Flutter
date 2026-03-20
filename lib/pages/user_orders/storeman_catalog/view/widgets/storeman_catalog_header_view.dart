@@ -21,9 +21,9 @@ class StoremanCatalogHeaderView extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Container(
-            height: 16,
-          )
+          // Container(
+          //   height: 16,
+          // )
         ],
       ),
     );

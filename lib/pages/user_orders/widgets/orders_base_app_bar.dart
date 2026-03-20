@@ -35,6 +35,12 @@ class OrdersBaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
         backgroundColor: bgColor ?? backgroundColor_(context),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(28),
+          ),
+        ),
         title: AnimatedSwitcher(
           duration: const Duration(milliseconds: 300),
           child: (isSearching ?? false)

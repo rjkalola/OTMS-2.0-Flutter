@@ -62,6 +62,7 @@ class StoremanSupplierOrderController extends GetxController {
   }
 
   void loadData() {
+    isSearchEnable.value = false;
     clearSearch();
     getSupplierOrdersApi();
   }
@@ -181,7 +182,6 @@ class StoremanSupplierOrderController extends GetxController {
 
   void clearSearch() {
     searchController.value.clear();
-    isSearchEnable.value = false;
     searchItem("");
   }
 }

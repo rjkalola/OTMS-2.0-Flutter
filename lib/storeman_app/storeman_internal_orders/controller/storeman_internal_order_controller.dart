@@ -28,7 +28,7 @@ class StoremanInternalOrderController extends GetxController {
   final ordersList = <OrderInfo>[].obs;
   List<OrderInfo> tempOrdersList = [];
 
-  RxInt newCount = 0.obs,
+  RxInt newCount = 0.obs, 
       preparingCount = 0.obs,
       readyCount = 0.obs,
       collectedCount = 0.obs;
@@ -60,6 +60,7 @@ class StoremanInternalOrderController extends GetxController {
   }
 
   void loadData() {
+    isSearchEnable.value = false;
     clearSearch();
     getInternalOrdersApi();
   }
@@ -145,13 +146,14 @@ class StoremanInternalOrderController extends GetxController {
 
   void clearSearch() {
     searchController.value.clear();
-    isSearchEnable.value = false;
     searchItem("");
   }
 
   void onItemClick(int index) {
-    var arguments = {"order_id": (ordersList[index].id??0).toString()};
-    moveToScreen(appRout: AppRoutes.storemanInternalOrderDetailsScreen, arguments: arguments);
+    var arguments = {"order_id": (ordersList[index].id ?? 0).toString()};
+    moveToScreen(
+        appRout: AppRoutes.storemanInternalOrderDetailsScreen,
+        arguments: arguments);
   }
 
   Future<void> moveToScreen(

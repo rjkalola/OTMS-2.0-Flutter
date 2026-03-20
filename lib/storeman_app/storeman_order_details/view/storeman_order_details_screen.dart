@@ -53,11 +53,6 @@ class _StoremanOrderDetailsScreenState
               isCenterTitle: false,
               isBack: true,
               bgColor: backgroundColor_(context),
-              isSearching: controller.isSearchEnable.value,
-              searchController: controller.searchController,
-              onValueChange: (value) {
-                controller.searchItem(value);
-              },
               autoFocus: true,
               isClearVisible: false.obs,
             ),

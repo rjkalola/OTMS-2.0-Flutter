@@ -43,13 +43,7 @@ class _CreateBuyerOrderScreenState extends State<CreateBuyerOrderScreen> {
               isBack: true,
               bgColor: backgroundColor_(context),
               widgets: [],
-              isSearching: controller.isSearchEnable.value,
-              searchController: controller.searchController,
-              onValueChange: (value) {
-                controller.searchItem(value);
-              },
-              autoFocus: true,
-              isClearVisible: false.obs,
+              autoFocus: true
             ),
             body: ModalProgressHUD(
                 inAsyncCall: controller.isLoading.value,

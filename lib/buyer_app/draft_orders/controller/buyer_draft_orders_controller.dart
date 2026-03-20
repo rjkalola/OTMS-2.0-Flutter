@@ -175,7 +175,6 @@ class BuyerDraftOrdersController extends GetxController
   void clearSearch() {
     searchController.value.clear();
     searchItem("");
-    isSearchEnable.value = false;
   }
 
   void onBackPress() {

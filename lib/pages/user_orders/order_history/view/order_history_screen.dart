@@ -51,7 +51,11 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                   controller.searchItem(value);
                 },
                 autoFocus: true,
-                isClearVisible: false.obs,
+                onPressedClear: (){
+                  controller.clearSearch();
+                  controller.isSearchEnable.value =
+                      !controller.isSearchEnable.value;
+                },
                 onBackPressed: (){
                   controller.onBackPress();
                 },
@@ -88,25 +92,24 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
   }
   List<Widget>? actionButtons() {
     return [
-      InkWell(
-        onTap: () {
-          controller.isSearchEnable.toggle();
-          if (!controller.isSearchEnable.value) {
-            controller.clearSearch();
-          }
-        },
-        customBorder: const CircleBorder(),
-        child: Padding(
-          padding: const EdgeInsets.all(6),
-          child: Obx(() => controller.isSearchEnable.value
-              ? Icon(
-            Icons.close,
-          )
-              : ImageUtils.setSvgAssetsImage(
-            path: Drawable.searchIcon,
-            width: 24,
-            height: 24,
-          )),
+      Visibility(
+        visible: !controller.isSearchEnable.value,
+        child: InkWell(
+          onTap: () {
+            if (controller.isSearchEnable.value) {
+              controller.clearSearch();
+            }
+            controller.isSearchEnable.value = !controller.isSearchEnable.value;
+          },
+          customBorder: const CircleBorder(),
+          child: Padding(
+            padding: const EdgeInsets.all(6),
+            child: ImageUtils.setSvgAssetsImage(
+              path: Drawable.searchIcon,
+              width: 24,
+              height: 24,
+            ),
+          ),
         ),
       ),
       SizedBox(

@@ -16,12 +16,11 @@ import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/date_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:belcka/web_services/response/base_response.dart';
-import 'package:get_storage/get_storage.dart';
 
 import '../../../web_services/api_constants.dart';
 
@@ -44,8 +43,6 @@ class CreateBuyerOrderController extends GetxController
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
-      isSearchEnable = false.obs,
-      isClearSearch = false.obs,
       isCheckedProduct = false.obs,
       isDraftOrder = false.obs;
   RxString currency = "".obs;
@@ -55,7 +52,6 @@ class CreateBuyerOrderController extends GetxController
   int selectedIndex = 0, storeId = 0, supplierId = 0, orderId = 0;
   final buyerOrdersList = <ProductInfo>[].obs;
   List<ProductInfo> tempBuyerOrderList = [];
-  final searchController = TextEditingController().obs;
 
   @override
   void onInit() {
@@ -410,11 +406,6 @@ class CreateBuyerOrderController extends GetxController
           .toList();
     }
     buyerOrdersList.value = results;
-  }
-
-  void clearSearch() {
-    searchController.value.clear();
-    searchItem("");
   }
 
   void showDeleteDialog() {

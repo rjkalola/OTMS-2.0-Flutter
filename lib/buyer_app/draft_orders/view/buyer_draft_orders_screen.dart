@@ -49,7 +49,11 @@ class _BuyerDraftOrdersScreenState extends State<BuyerDraftOrdersScreen> {
                 controller.searchItem(value);
               },
               autoFocus: true,
-              isClearVisible: false.obs,
+              onPressedClear: () {
+                controller.clearSearch();
+                controller.isSearchEnable.value =
+                    !controller.isSearchEnable.value;
+              },
             ),
             body: ModalProgressHUD(
                 inAsyncCall: controller.isLoading.value,
@@ -75,27 +79,25 @@ class _BuyerDraftOrdersScreenState extends State<BuyerDraftOrdersScreen> {
   List<Widget>? actionButtons() {
     return [
       const SizedBox(width: 6),
-      InkWell(
-        onTap: () {
-          controller.isSearchEnable.toggle();
-          if (!controller.isSearchEnable.value) {
-            controller.clearSearch();
-          }
-        },
-        customBorder: const CircleBorder(),
-        child: Padding(
-          padding: const EdgeInsets.all(6),
-          child: Obx(() => controller.isSearchEnable.value
-              ? Icon(
-                  Icons.close,
-                  color: primaryTextColor_(context),
-                )
-              : ImageUtils.setSvgAssetsImage(
-                  path: Drawable.searchIcon,
-                  width: 24,
-                  height: 24,
-                  color: primaryTextColor_(context),
-                )),
+      Visibility(
+        visible: !controller.isSearchEnable.value,
+        child: InkWell(
+          onTap: () {
+            if (controller.isSearchEnable.value) {
+              controller.clearSearch();
+            }
+            controller.isSearchEnable.value = !controller.isSearchEnable.value;
+          },
+          customBorder: const CircleBorder(),
+          child: Padding(
+            padding: const EdgeInsets.all(6),
+            child: ImageUtils.setSvgAssetsImage(
+              path: Drawable.searchIcon,
+              width: 24,
+              height: 24,
+              color: primaryTextColor_(context),
+            ),
+          ),
         ),
       ),
       SizedBox(

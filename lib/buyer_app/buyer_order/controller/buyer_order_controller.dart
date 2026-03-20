@@ -27,7 +27,6 @@ class BuyerOrderController extends GetxController
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
       isSearchEnable = false.obs,
-      isClearSearch = false.obs,
       isSingleFilter = false.obs;
   RxString startDate = "".obs,
       endDate = "".obs,
@@ -98,6 +97,7 @@ class BuyerOrderController extends GetxController
 
   void loadData() {
     clearSearch();
+    isSearchEnable.value = false;
     if (selectedTab.value == OrderTabType.request) {
       buyerProductsListApi();
     } else if (selectedTab.value == OrderTabType.proceed) {
@@ -395,7 +395,6 @@ class BuyerOrderController extends GetxController
   void clearSearch() {
     searchController.value.clear();
     searchItem("");
-    isSearchEnable.value = false;
   }
 
   Future<void> moveToCreateOrderScreen(
@@ -430,7 +429,6 @@ class BuyerOrderController extends GetxController
       }
       loadData();
     }
-
   }
 
   Future<void> moveToFilterScreen() async {

@@ -150,4 +150,6 @@ class Drawable {
   static const String emptyDataIcon = 'assets/images/img_empty_data.png';
   static const String galleryImage = 'assets/images/gallery_image.svg';
   static const String addImageIcon = 'assets/images/ic_add_image.svg';
+  static const String clearSearchIcon = 'assets/images/ic_clear_search.svg';
+
 }

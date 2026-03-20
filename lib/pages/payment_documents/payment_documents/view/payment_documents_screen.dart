@@ -10,7 +10,9 @@ import 'package:belcka/pages/payment_documents/payment_documents/view/widgets/pa
 import 'package:belcka/pages/payment_documents/payment_documents/view/widgets/payslip_date_list.dart';
 import 'package:belcka/pages/payment_documents/payment_documents/view/widgets/select_all_documents.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/drawable.dart';
 import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
@@ -66,7 +68,11 @@ class _PaymentDocumentsScreenState extends State<PaymentDocumentsScreen>
                     controller.searchItems(value);
                   },
                   autoFocus: true,
-                  isClearVisible: false.obs,
+                  onPressedClear: () {
+                    controller.clearSearch();
+                    controller.isSearchEnable.value =
+                        !controller.isSearchEnable.value;
+                  },
                 ),
                 backgroundColor: dashBoardBgColor_(context),
                 body: ModalProgressHUD(
@@ -144,6 +150,29 @@ class _PaymentDocumentsScreenState extends State<PaymentDocumentsScreen>
 
   List<Widget>? actionButtons() {
     return [
+      // Visibility(
+      //   visible:
+      //       controller.selectedFilter.value != AppConstants.action.payments &&
+      //           !controller.isSearchEnable.value,
+      //   child: InkWell(
+      //     onTap: () {
+      //       if (controller.isSearchEnable.value) {
+      //         controller.clearSearch();
+      //       }
+      //       controller.isSearchEnable.value = !controller.isSearchEnable.value;
+      //     },
+      //     customBorder: const CircleBorder(),
+      //     child: Padding(
+      //       padding: const EdgeInsets.all(6),
+      //       child: ImageUtils.setSvgAssetsImage(
+      //         path: Drawable.searchIcon,
+      //         width: 24,
+      //         height: 24,
+      //         color: primaryTextColor_(context),
+      //       ),
+      //     ),
+      //   ),
+      // ),
       Visibility(
         visible:
             controller.selectedFilter.value != AppConstants.action.payments &&

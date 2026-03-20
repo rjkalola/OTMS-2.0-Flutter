@@ -2,9 +2,7 @@ import 'package:belcka/buyer_app/buyer_order_details/controller/buyer_order_deta
 import 'package:belcka/buyer_app/buyer_order_details/view/widgets/buyer_order_details_header.dart';
 import 'package:belcka/buyer_app/buyer_order_details/view/widgets/buyer_order_products_list.dart';
 import 'package:belcka/res/colors.dart';
-import 'package:belcka/res/drawable.dart';
 import 'package:belcka/utils/app_utils.dart';
-import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
@@ -53,11 +51,8 @@ class _BuyerOrderDetailsScreenState extends State<BuyerOrderDetailsScreen> {
               isCenterTitle: false,
               isBack: true,
               bgColor: backgroundColor_(context),
-              // widgets: actionButtons(),
-              isSearching: controller.isSearchEnable.value,
-              searchController: controller.searchController,
               onValueChange: (value) {
-                controller.searchItem(value);
+
               },
               autoFocus: true,
               isClearVisible: false.obs,
@@ -152,40 +147,4 @@ class _BuyerOrderDetailsScreenState extends State<BuyerOrderDetailsScreen> {
     );
   }
 
-  List<Widget>? actionButtons() {
-    return [
-      const SizedBox(width: 6),
-      InkWell(
-        onTap: () {
-          controller.isSearchEnable.toggle();
-          if (!controller.isSearchEnable.value) {
-            controller.clearSearch();
-          }
-        },
-        customBorder: const CircleBorder(),
-        child: Padding(
-          padding: const EdgeInsets.all(6),
-          child: Obx(() => controller.isSearchEnable.value
-              ? Icon(
-                  Icons.close,
-                  color: primaryTextColor_(context),
-                )
-              : ImageUtils.setSvgAssetsImage(
-                  path: Drawable.searchIcon,
-                  width: 24,
-                  height: 24,
-                  color: primaryTextColor_(context),
-                )),
-        ),
-      ),
-      SizedBox(
-        width: 10,
-      ),
-      // if (UserUtils.isAdmin())
-      //   IconButton(
-      //     icon: const Icon(Icons.more_vert_outlined),
-      //     onPressed: () {},
-      //   ),
-    ];
-  }
 }

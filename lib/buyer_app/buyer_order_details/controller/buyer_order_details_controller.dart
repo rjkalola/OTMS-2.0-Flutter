@@ -28,11 +28,8 @@ class BuyerOrderDetailsController extends GetxController
   final _api = BuyerOrderDetailsRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
-      isMainViewVisible = false.obs,
-      isSearchEnable = false.obs,
-      isClearSearch = false.obs;
+      isMainViewVisible = false.obs;
   RxInt status = 0.obs;
-  final searchController = TextEditingController().obs;
   final noteController = TextEditingController().obs;
   final receiveDateController = TextEditingController().obs;
   DateTime? receiveDate;
@@ -234,12 +231,6 @@ class BuyerOrderDetailsController extends GetxController
           .toList();
     }
     orderProductsList.value = results;
-  }
-
-  void clearSearch() {
-    searchController.value.clear();
-    searchItem("");
-    isSearchEnable.value = false;
   }
 
   void showDatePickerDialog(String dialogIdentifier, DateTime? date,

@@ -83,13 +83,33 @@ class SearchTextFieldAppBar extends StatelessWidget {
                 minHeight: 22, // space reserved for icon
               ),
               suffixIcon: isClearVisible.value
-                  ? IconButton(
-                      onPressed: onPressedClear,
-                      icon: const Icon(Icons.cancel),
+                  ? Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: IconButton(
+                        onPressed: onPressedClear,
+                        style: IconButton.styleFrom(
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          visualDensity: VisualDensity.compact,
+                          padding: const EdgeInsets.all(1),
+                          minimumSize: const Size(24, 24),
+                          maximumSize: const Size(24, 24),
+                        ),
+                        icon: ImageUtils.setSvgAssetsImage(
+                          path: Drawable.clearSearchIcon,
+                          width: 24,
+                          height: 24,
+                          fit: BoxFit.contain,
+                          color: hintColor_(context),
+                        ),
+                      ),
                     )
                   : Container(
                       width: 1,
                     ),
+              suffixIconConstraints: BoxConstraints(
+                minWidth: isClearVisible.value ? 30 : 1,
+                minHeight: 44,
+              ),
             ),
           ),
         ));

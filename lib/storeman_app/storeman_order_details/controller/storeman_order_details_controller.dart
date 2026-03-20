@@ -35,10 +35,8 @@ class StoremanOrderDetailsController extends GetxController
   final _api = StoremanOrderDetailsRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
-      isMainViewVisible = false.obs,
-      isSearchEnable = false.obs;
+      isMainViewVisible = false.obs;
   RxInt status = 0.obs;
-  final searchController = TextEditingController().obs;
   final noteController = TextEditingController().obs;
   final receiveDateController = TextEditingController().obs;
   DateTime? receiveDate;
@@ -319,12 +317,6 @@ class StoremanOrderDetailsController extends GetxController
               element.name!.toLowerCase().contains(value.toLowerCase())))
           .toList());
     }
-  }
-
-  void clearSearch() {
-    searchController.value.clear();
-    searchItem("");
-    isSearchEnable.value = false;
   }
 
   void showDatePickerDialog(String dialogIdentifier, DateTime? date,
