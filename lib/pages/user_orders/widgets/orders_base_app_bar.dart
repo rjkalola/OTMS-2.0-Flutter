@@ -15,6 +15,7 @@ class OrdersBaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   final ValueChanged<String>? onValueChange;
   final Rx<TextEditingController>? searchController;
   final Rx<bool>? isClearVisible;
+  final VoidCallback? onPressedClear;
 
   OrdersBaseAppBar(
       {super.key,
@@ -29,6 +30,7 @@ class OrdersBaseAppBar extends StatelessWidget implements PreferredSizeWidget {
         this.searchController,
         this.onValueChange,
         this.isClearVisible,
+        this.onPressedClear,
         this.autoFocus});
 
   @override
@@ -47,10 +49,12 @@ class OrdersBaseAppBar extends StatelessWidget implements PreferredSizeWidget {
               ? Padding(
                 padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
                 child: SearchTextFieldAppBar(
-                controller: searchController!,
-                isClearVisible: isClearVisible!,
-                autofocus: autoFocus,
-                onValueChange: onValueChange),
+                            controller: searchController!,
+                            isClearVisible: true.obs,
+                            autofocus: autoFocus,
+                            onValueChange: onValueChange,
+                            onPressedClear: onPressedClear,
+                          ),
               )
               : Text(
             title,

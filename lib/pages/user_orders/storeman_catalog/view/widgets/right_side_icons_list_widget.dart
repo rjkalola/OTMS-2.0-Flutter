@@ -17,7 +17,7 @@ class RightSideIconsListWidget extends StatelessWidget {
       () {
         final bool isVisible = controller.isRightSideListEnable.value;
         return Padding(
-          padding: const EdgeInsets.fromLTRB(0, 0, 9, 0),
+          padding: const EdgeInsets.fromLTRB(0, 8, 9, 0),
           child: Stack(
             alignment: Alignment.centerLeft,
             children: [
