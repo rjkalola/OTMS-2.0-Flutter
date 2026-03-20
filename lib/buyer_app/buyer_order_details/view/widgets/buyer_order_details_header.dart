@@ -93,10 +93,11 @@ class BuyerOrderDetailsHeader extends StatelessWidget {
                             color: primaryTextColor_(context),
                           ),
                           PrimaryTextView(
-                            text: (item.status) ==
-                                    AppConstants.orderStatus.received
-                                ? "Received"
-                                : item.statusText ?? "",
+                            // text: (item.status) ==
+                            //         AppConstants.orderStatus.received
+                            //     ? "Received"
+                            //     : item.statusText ?? "",
+                            text: item.statusText ?? "",
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
                             color:

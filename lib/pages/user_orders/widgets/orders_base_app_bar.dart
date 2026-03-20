@@ -37,7 +37,7 @@ class OrdersBaseAppBar extends StatelessWidget implements PreferredSizeWidget {
         backgroundColor: bgColor ?? backgroundColor_(context),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(20),
+            bottomLeft: Radius.circular(28),
             bottomRight: Radius.circular(28),
           ),
         ),
@@ -64,12 +64,6 @@ class OrdersBaseAppBar extends StatelessWidget implements PreferredSizeWidget {
         centerTitle: isCenterTitle,
         titleSpacing: (isBack || onBackPressed != null) ? 0 : 20,
         automaticallyImplyLeading: isBack,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(20),
-            bottomRight: Radius.circular(28),
-          ),
-        ),
         leading: isBack ? IconButton(
           icon: Icon(
             Icons.arrow_back_ios_new_outlined,

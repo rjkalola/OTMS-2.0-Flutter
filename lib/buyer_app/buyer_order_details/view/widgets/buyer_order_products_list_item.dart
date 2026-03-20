@@ -67,16 +67,6 @@ class BuyerOrderProductsListItem extends StatelessWidget {
                           fontSize: 13,
                           color: secondaryExtraLightTextColor_(context),
                         ),
-                        // const SizedBox(height: 10),
-                        // Row(
-                        //   children: [
-                        //     OrderQuantityDisplayTextView(
-                        //       value: item.qty ?? 0,
-                        //       width: 52,
-                        //       height: 30,
-                        //     ),
-                        //   ],
-                        // ),
                         const SizedBox(height: 12),
                         TitleTextView(
                           text: "${'ordered_qty'.tr}: ${AppUtils.formatDecimalNumber(item.qty ?? 0)}",
@@ -119,40 +109,40 @@ class BuyerOrderProductsListItem extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(
-                height: 6,
-              ),
-              Visibility(
-                visible: ((item.qty ?? 0) - (item.receivedQty ?? 0)) > 0,
-                child: Column(
-                  children: [
-                    Divider(
-                      color: dividerColor_(context),
-                    ),
-                    SizedBox(
-                      height: 6,
-                    ),
-                    Row(
-                      children: [
-                        TitleTextView(
-                          text: 'qty_to_receive'.tr,
-                          fontSize: 16,
-                        ),
-                        const Spacer(),
-                        OrderQuantityChangeButton(text: "-", onTap: onRemove),
-                        const SizedBox(width: 8),
-                        OrderQuantityDisplayTextView(
-                          value: (item.cartQty ?? 0).toInt(),
-                          width: 52,
-                          height: 30,
-                        ),
-                        const SizedBox(width: 8),
-                        OrderQuantityChangeButton(text: "+", onTap: onAdd),
-                      ],
-                    )
-                  ],
-                ),
-              )
+              // SizedBox(
+              //   height: 6,
+              // ),
+              // Visibility(
+              //   visible: ((item.qty ?? 0) - (item.receivedQty ?? 0)) > 0,
+              //   child: Column(
+              //     children: [
+              //       Divider(
+              //         color: dividerColor_(context),
+              //       ),
+              //       SizedBox(
+              //         height: 6,
+              //       ),
+              //       Row(
+              //         children: [
+              //           TitleTextView(
+              //             text: 'qty_to_receive'.tr,
+              //             fontSize: 16,
+              //           ),
+              //           const Spacer(),
+              //           OrderQuantityChangeButton(text: "-", onTap: onRemove),
+              //           const SizedBox(width: 8),
+              //           OrderQuantityDisplayTextView(
+              //             value: (item.cartQty ?? 0).toInt(),
+              //             width: 52,
+              //             height: 30,
+              //           ),
+              //           const SizedBox(width: 8),
+              //           OrderQuantityChangeButton(text: "+", onTap: onAdd),
+              //         ],
+              //       )
+              //     ],
+              //   ),
+              // )
             ],
           ),
         ),

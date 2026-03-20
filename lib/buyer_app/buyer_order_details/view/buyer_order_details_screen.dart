@@ -83,7 +83,7 @@ class _BuyerOrderDetailsScreenState extends State<BuyerOrderDetailsScreen> {
                                   child: Column(
                                 children: [
                                   BuyerOrderProductsList(),
-                                  Visibility(
+                                /*  Visibility(
                                     visible: controller.status.value ==
                                             AppConstants.orderStatus.issued ||
                                         controller.status.value ==
@@ -121,23 +121,23 @@ class _BuyerOrderDetailsScreenState extends State<BuyerOrderDetailsScreen> {
                                         )
                                       ],
                                     ),
-                                  ),
+                                  ),*/
                                 ],
                               )),
                             ),
-                            controller.status.value ==
-                                        AppConstants.orderStatus.issued ||
-                                    controller.status.value ==
-                                        AppConstants.orderStatus.partialReceived
-                                ? PrimaryButton(
-                                    margin: EdgeInsets.all(14),
-                                    buttonText: 'receive'.tr,
-                                    onPressed: () {
-                                      controller.showReceiveOrderDialog();
-                                    },
-                                    color: defaultAccentColor_(context),
-                                  )
-                                : Container()
+                            // controller.status.value ==
+                            //             AppConstants.orderStatus.issued ||
+                            //         controller.status.value ==
+                            //             AppConstants.orderStatus.partialReceived
+                            //     ? PrimaryButton(
+                            //         margin: EdgeInsets.all(14),
+                            //         buttonText: 'receive'.tr,
+                            //         onPressed: () {
+                            //           controller.showReceiveOrderDialog();
+                            //         },
+                            //         color: defaultAccentColor_(context),
+                            //       )
+                            //     : Container()
                           ],
                         ),
                       )),

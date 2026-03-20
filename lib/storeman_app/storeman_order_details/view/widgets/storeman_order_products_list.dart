@@ -1,7 +1,3 @@
-import 'package:belcka/buyer_app/buyer_order/controller/buyer_order_controller.dart';
-import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_proceed_order_list_item.dart';
-import 'package:belcka/buyer_app/buyer_order_details/controller/buyer_order_details_controller.dart';
-import 'package:belcka/buyer_app/buyer_order_details/view/widgets/buyer_order_products_list_item.dart';
 import 'package:belcka/storeman_app/storeman_order_details/controller/storeman_order_details_controller.dart';
 import 'package:belcka/storeman_app/storeman_order_details/view/widgets/storeman_order_products_list_item.dart';
 import 'package:belcka/widgets/other_widgets/no_data_found_widget.dart';

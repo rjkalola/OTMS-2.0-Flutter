@@ -1,4 +1,3 @@
-import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_proceed_order_list_item.dart';
 import 'package:belcka/buyer_app/draft_orders/controller/buyer_draft_orders_controller.dart';
 import 'package:belcka/buyer_app/draft_orders/view/buyer_draft_order_list_item.dart';
 import 'package:belcka/widgets/other_widgets/no_data_found_widget.dart';

@@ -52,7 +52,7 @@ class StoremanSupplierOrderTabs extends StatelessWidget {
               ),
               const SizedBox(width: 4),
               HeaderFilterItem(
-                title: 'on_stock'.tr,
+                title: 'in_stock'.tr,
                 selected: (controller.selectedTab.value ==
                     SupplierOrderStatus.onStock),
                 count: controller.onStockCount,

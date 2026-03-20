@@ -94,7 +94,7 @@ class SuppliersCardView extends StatelessWidget {
                             child: Column(
                               children: [
                                 PurchasingScreenItemTextWidget(
-                                  text: 'on_stock'.tr,
+                                  text: 'in_stock'.tr,
                                 ),
                                 SizedBox(
                                   height: 2,

@@ -1,4 +1,3 @@
-import 'package:belcka/pages/project/project_list/controller/project_list_controller.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/shapes/badge_count_widget.dart';
@@ -15,6 +14,8 @@ class HeaderFilterItem extends StatelessWidget {
   final FontWeight? fontWeight;
   final double? fontSize;
   final GestureTapCallback? onTap;
+  final bool useFlexible;
+  final double? fixedWidth;
 
   HeaderFilterItem({
     super.key,
@@ -26,48 +27,62 @@ class HeaderFilterItem extends StatelessWidget {
     this.fontWeight,
     this.fontSize,
     required this.onTap,
+    this.useFlexible = true,
+    this.fixedWidth,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Flexible(
-      flex: flex ?? 1,
-      child: Stack(
-        children: [
-          CardViewDashboardItem(
-              borderColor:
-              selected ? defaultAccentColor_(context) : Colors.transparent,
-              boxColor: lightGreyColor(context),
-              borderWidth: 2,
-              elevation: 2,
-              child: GestureDetector(
-                onTap: onTap,
-                child: Container(
-                  color: Colors.transparent,
-                  padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                  alignment: Alignment.center,
-                  child: TitleTextView(
-                    text: title,
-                    textAlign: TextAlign.center,
-                    fontWeight: fontWeight ?? FontWeight.w400,
-                    fontSize: fontSize ?? 15,
-                    color: fontColor ?? primaryTextColor_(context),
-                  ),
+    final stack = Stack(
+      clipBehavior: Clip.none,
+      children: [
+        CardViewDashboardItem(
+            borderColor:
+                selected ? defaultAccentColor_(context) : Colors.transparent,
+            boxColor: lightGreyColor(context),
+            borderWidth: 2,
+            elevation: 2,
+            child: GestureDetector(
+              onTap: onTap,
+              child: Container(
+                color: Colors.transparent,
+                padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                alignment: Alignment.center,
+                child: TitleTextView(
+                  text: title,
+                  textAlign: TextAlign.center,
+                  fontWeight: fontWeight ?? FontWeight.w400,
+                  fontSize: fontSize ?? 15,
+                  color: fontColor ?? primaryTextColor_(context),
                 ),
-              )),
-          Visibility(
-            visible: (count ?? 0) != 0,
-            child: Align(
-              alignment: Alignment.topRight,
-              child: CustomBadgeIcon(
-                count: count != null ? count!.value : 0,
-                // color: defaultAccentColor_(context),
-                color: Colors.red,
+              ),
+            )),
+        if (count != null)
+          Obx(
+            () => Visibility(
+              visible: count!.value != 0,
+              child: Align(
+                alignment: Alignment.topRight,
+                child: CustomBadgeIcon(
+                  count: count!.value,
+                  color: Colors.red,
+                ),
               ),
             ),
-          )
-        ],
-      ),
-    ),);
+          ),
+      ],
+    );
+
+    if (useFlexible) {
+      return Flexible(
+        flex: flex ?? 1,
+        child: stack,
+      );
+    }
+
+    return SizedBox(
+      width: fixedWidth ?? 104,
+      child: stack,
+    );
   }
 }

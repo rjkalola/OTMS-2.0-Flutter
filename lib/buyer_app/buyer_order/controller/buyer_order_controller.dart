@@ -18,6 +18,7 @@ import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 
 class BuyerOrderController extends GetxController
@@ -33,26 +34,25 @@ class BuyerOrderController extends GetxController
       displayStartDate = "".obs,
       displayEndDate = "".obs;
   RxInt requestCount = 0.obs,
+      upcomingCount = 0.obs,
       proceedCount = 0.obs,
       deliveredCount = 0.obs,
+      cancelledCount = 0.obs,
       selectedDateFilterIndex = (2).obs;
   double cardRadius = 12;
   int selectedIndex = 0;
   String title = "";
   final searchController = TextEditingController().obs;
   final requestOrdersList = <ProductInfo>[].obs;
-  final proceedOrdersList = <OrderInfo>[].obs;
-  final deliveredOrdersList = <OrderInfo>[].obs;
+  final ordersList = <OrderInfo>[].obs;
   List<ProductInfo> tempRequestOrderList = [];
-  List<OrderInfo> tempProceedOrderList = [];
-  List<OrderInfo> tempDeliveredOrderList = [];
+  List<OrderInfo> tempOrdersList = [];
   final selectedTab = OrderTabType.request.obs;
   final filterItemsList = <ModuleInfo>[].obs;
   Map<String, String> appliedFilters = {};
 
   final ScrollController requestScrollController = ScrollController();
-  final ScrollController proceedScrollController = ScrollController();
-  final ScrollController deliveredScrollController = ScrollController();
+  final ScrollController ordersScrollController = ScrollController();
 
   final List<FocusNode> qtyFocusNodes = [];
 
@@ -72,6 +72,8 @@ class BuyerOrderController extends GetxController
           arguments[AppConstants.intentKey.selectedTabType] ?? "";
       if (selectedTabType == AppConstants.type.request) {
         selectedTab.value = OrderTabType.request;
+      } else if (selectedTabType == AppConstants.type.upComing) {
+        selectedTab.value = OrderTabType.upcoming;
       } else if (selectedTabType == AppConstants.type.proceed) {
         selectedTab.value = OrderTabType.proceed;
       } else if (selectedTabType == AppConstants.type.delivered) {
@@ -100,10 +102,13 @@ class BuyerOrderController extends GetxController
     isSearchEnable.value = false;
     if (selectedTab.value == OrderTabType.request) {
       buyerProductsListApi();
+    } else if (selectedTab.value == OrderTabType.upcoming) {
+      buyerOrdersListApi(AppConstants.orderStatus.received.toString());
     } else if (selectedTab.value == OrderTabType.proceed) {
-      buyerOrdersListApi("0,1");
+      buyerOrdersListApi(
+          "${AppConstants.orderStatus.processing.toString()},${AppConstants.orderStatus.partialReceived.toString()}");
     } else if (selectedTab.value == OrderTabType.delivered) {
-      buyerOrdersListApi("2");
+      buyerOrdersListApi(AppConstants.orderStatus.inStock.toString());
     }
   }
 
@@ -132,6 +137,7 @@ class BuyerOrderController extends GetxController
           tempRequestOrderList.clear();
           tempRequestOrderList.addAll(response.info!);
           requestOrdersList.value = tempRequestOrderList;
+          // requestCount.value = tempRequestOrderList.length;
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
@@ -165,15 +171,19 @@ class BuyerOrderController extends GetxController
           BuyerOrdersListResponse response = BuyerOrdersListResponse.fromJson(
               jsonDecode(responseModel.result!));
 
-          if (status == "0,1") {
-            tempProceedOrderList.clear();
-            tempProceedOrderList.addAll(response.info ?? []);
-            proceedOrdersList.value = tempProceedOrderList;
-          } else if (status == "2") {
-            tempDeliveredOrderList.clear();
-            tempDeliveredOrderList.addAll(response.info ?? []);
-            deliveredOrdersList.value = tempDeliveredOrderList;
-          }
+          upcomingCount.value = response.upcoming ?? 0;
+          proceedCount.value = response.processing ?? 0;
+          deliveredCount.value = response.delivered ?? 0;
+
+          tempOrdersList.clear();
+          tempOrdersList.addAll(response.info ?? []);
+          ordersList.value = List<OrderInfo>.from(tempOrdersList);
+          ordersList.refresh();
+          // SchedulerBinding.instance.addPostFrameCallback((_) {
+          //   if (ordersScrollController.hasClients) {
+          //     ordersScrollController.jumpTo(0);
+          //   }
+          // });
 
           startDate.value = response.startDate ?? "";
           endDate.value = response.endDate ?? "";
@@ -263,15 +273,13 @@ class BuyerOrderController extends GetxController
 
   void onItemClick(int index) {
     if (selectedTab.value == OrderTabType.request) {
-    } else if (selectedTab.value == OrderTabType.proceed) {
+      return;
+    }
+    if (selectedTab.value == OrderTabType.upcoming ||
+        selectedTab.value == OrderTabType.proceed ||
+        selectedTab.value == OrderTabType.delivered) {
       var arguments = {
-        AppConstants.intentKey.orderId: proceedOrdersList[index].id ?? 0,
-      };
-      moveToScreen(
-          appRout: AppRoutes.buyerOrderDetailsScreen, arguments: arguments);
-    } else if (selectedTab.value == OrderTabType.delivered) {
-      var arguments = {
-        AppConstants.intentKey.orderId: deliveredOrdersList[index].id ?? 0,
+        AppConstants.intentKey.orderId: ordersList[index].id ?? 0,
       };
       moveToScreen(
           appRout: AppRoutes.buyerOrderDetailsScreen, arguments: arguments);
@@ -353,43 +361,29 @@ class BuyerOrderController extends GetxController
         }).toList();
       }
       requestOrdersList.value = results;
-    } else if (selectedTab.value == OrderTabType.proceed) {
-      List<OrderInfo> results = [];
-      if (value.isEmpty) {
-        results = tempProceedOrderList;
-      } else {
-        String query = value.toLowerCase();
-        results = tempProceedOrderList.where((element) {
-          return (!StringHelper.isEmptyString(element.storeName) &&
-                  element.storeName!.toLowerCase().contains(query)) ||
-              (!StringHelper.isEmptyString(element.supplierName) &&
-                  element.supplierName!.toLowerCase().contains(query)) ||
-              (!StringHelper.isEmptyString(element.orderId) &&
-                  element.orderId!.toLowerCase().contains(query)) ||
-              (!StringHelper.isEmptyString(element.orderNumber) &&
-                  element.orderNumber!.toLowerCase().contains(query));
-        }).toList();
-      }
-      proceedOrdersList.value = results;
-    } else if (selectedTab.value == OrderTabType.delivered) {
-      List<OrderInfo> results = [];
-      if (value.isEmpty) {
-        results = tempDeliveredOrderList;
-      } else {
-        String query = value.toLowerCase();
-        results = tempDeliveredOrderList.where((element) {
-          return (!StringHelper.isEmptyString(element.storeName) &&
-                  element.storeName!.toLowerCase().contains(query)) ||
-              (!StringHelper.isEmptyString(element.supplierName) &&
-                  element.supplierName!.toLowerCase().contains(query)) ||
-              (!StringHelper.isEmptyString(element.orderId) &&
-                  element.orderId!.toLowerCase().contains(query)) ||
-              (!StringHelper.isEmptyString(element.orderNumber) &&
-                  element.orderNumber!.toLowerCase().contains(query));
-        }).toList();
-      }
-      deliveredOrdersList.value = results;
+    } else if (selectedTab.value == OrderTabType.upcoming ||
+        selectedTab.value == OrderTabType.proceed ||
+        selectedTab.value == OrderTabType.delivered) {
+      ordersList.value = _filterOrderInfoList(tempOrdersList, value);
     }
+  }
+
+  List<OrderInfo> _filterOrderInfoList(List<OrderInfo> source, String value) {
+    if (value.isEmpty) {
+      return List<OrderInfo>.from(source);
+    }
+    final query = value.toLowerCase();
+    return source
+        .where((element) =>
+            (!StringHelper.isEmptyString(element.storeName) &&
+                element.storeName!.toLowerCase().contains(query)) ||
+            (!StringHelper.isEmptyString(element.supplierName) &&
+                element.supplierName!.toLowerCase().contains(query)) ||
+            (!StringHelper.isEmptyString(element.orderId) &&
+                element.orderId!.toLowerCase().contains(query)) ||
+            (!StringHelper.isEmptyString(element.orderNumber) &&
+                element.orderNumber!.toLowerCase().contains(query)))
+        .toList();
   }
 
   void clearSearch() {
@@ -401,7 +395,7 @@ class BuyerOrderController extends GetxController
       {required String appRout, dynamic arguments}) async {
     var result = await Get.toNamed(appRout, arguments: arguments);
     if (result != null && result) {
-      selectedTab.value = OrderTabType.proceed;
+      selectedTab.value = OrderTabType.upcoming;
       loadData();
     }
   }
@@ -420,10 +414,15 @@ class BuyerOrderController extends GetxController
         int status = arguments[AppConstants.intentKey.status] ?? 0;
         bool result = arguments[AppConstants.intentKey.result] ?? false;
         if (result) {
-          if (status == AppConstants.orderStatus.partialReceived) {
+          if (status == AppConstants.orderStatus.issued) {
+            selectedTab.value = OrderTabType.upcoming;
+          } else if (status == AppConstants.orderStatus.partialReceived ||
+              status == AppConstants.orderStatus.processing) {
             selectedTab.value = OrderTabType.proceed;
-          } else {
+          } else if (status == AppConstants.orderStatus.received) {
             selectedTab.value = OrderTabType.delivered;
+          } else {
+            selectedTab.value = OrderTabType.proceed;
           }
         }
       }
@@ -489,6 +488,8 @@ class BuyerOrderController extends GetxController
     for (final node in qtyFocusNodes) {
       node.dispose();
     }
+    requestScrollController.dispose();
+    ordersScrollController.dispose();
     super.onClose();
   }
 }

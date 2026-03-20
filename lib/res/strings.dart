@@ -647,7 +647,7 @@ class Strings extends Translations {
           'ready': "Ready",
           'upcoming': "Upcoming",
           'processing': "Processing",
-          'on_stock': "On Stock",
+          'in_stock': "In Stock",
           'unfulfilled': "Unfulfilled",
           'issued': "Issued",
           'servicing': "Servicing",

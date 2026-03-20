@@ -1,8 +1,7 @@
 import 'package:belcka/buyer_app/buyer_order/controller/buyer_order_controller.dart';
-import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_delivered_order_list.dart';
 import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_filter_selected_items_list.dart';
 import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_order_header_view.dart';
-import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_proceed_order_list.dart';
+import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_order_status_list.dart';
 import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_products_list.dart';
 import 'package:belcka/pages/common/listener/date_filter_listener.dart';
 import 'package:belcka/pages/common/widgets/date_filter_options_horizontal_list.dart';
@@ -226,13 +225,13 @@ class _BuyerOrdersScreenState extends State<BuyerOrdersScreen>
   Widget selectedOrderList() {
     if (controller.selectedTab.value == OrderTabType.request) {
       return BuyerProductsList();
-    } else if (controller.selectedTab.value == OrderTabType.proceed) {
-      return BuyerProceedOrderList();
-    } else if (controller.selectedTab.value == OrderTabType.delivered) {
-      return BuyerDeliveredOrderList();
-    } else {
-      return Container();
     }
+    if (controller.selectedTab.value == OrderTabType.upcoming ||
+        controller.selectedTab.value == OrderTabType.proceed ||
+        controller.selectedTab.value == OrderTabType.delivered) {
+      return const BuyerOrderStatusList();
+    }
+    return Container();
   }
 
   @override

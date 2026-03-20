@@ -1,7 +1,9 @@
 enum OrderTabType {
   request,
+  upcoming,
   proceed,
   delivered,
+  cancelled,
 }
 
 enum UserScoreType {
