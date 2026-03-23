@@ -7,6 +7,8 @@ import 'package:belcka/buyer_app/buyer_order_details/controller/buyer_order_deta
 import 'package:belcka/buyer_app/buyer_order_details/model/buyer_order_details_response.dart';
 import 'package:belcka/buyer_app/create_buyer_order/model/product_request_info.dart';
 import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
+import 'package:belcka/pages/common/listener/menu_item_listener.dart';
+import 'package:belcka/pages/common/menu_items_list_bottom_dialog.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
 import 'package:belcka/storeman_app/storeman_order_details/model/order_deliver_response.dart';
 import 'package:belcka/utils/AlertDialogHelper.dart';
@@ -15,6 +17,7 @@ import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/base_response.dart';
+import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -24,11 +27,12 @@ import '../../../utils/app_constants.dart';
 import '../../../utils/date_utils.dart';
 
 class BuyerOrderDetailsController extends GetxController
-    implements SelectDateListener, DialogButtonClickListener {
+    implements SelectDateListener, DialogButtonClickListener, MenuItemListener {
   final _api = BuyerOrderDetailsRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
-      isMainViewVisible = false.obs;
+      isMainViewVisible = false.obs,
+      isCancelQtyAvailable = false.obs;
   RxInt status = 0.obs;
   final noteController = TextEditingController().obs;
   final receiveDateController = TextEditingController().obs;
@@ -70,6 +74,9 @@ class BuyerOrderDetailsController extends GetxController
 
           for (var info in orderInfo.value.purchaseOrders!) {
             info.cartQty = (info.qty ?? 0) - (info.receivedQty ?? 0);
+            if ((info.cancelledQty ?? 0) > 0) {
+              isCancelQtyAvailable.value = true;
+            }
             tempOrderProductsList.add(info);
           }
 
@@ -92,11 +99,12 @@ class BuyerOrderDetailsController extends GetxController
     );
   }
 
-  void buyerOrderInvoiceApi(int id) {
+  void buyerOrderInvoiceApi(int id, {bool? isCancelled}) {
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
     map["id"] = id;
+    if (isCancelled ?? false) map["type"] = "cancel";
     BuyerOrderRepository().buyerOrderInvoice(
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) async {
@@ -285,6 +293,25 @@ class BuyerOrderDetailsController extends GetxController
     if (dialogIdentifier == AppConstants.dialogIdentifier.orderReceived) {
       Get.back();
       onClickReceiveOrder();
+    }
+  }
+
+  void showMenuItemsDialog(BuildContext context) {
+    List<ModuleInfo> listItems = [];
+    listItems.add(ModuleInfo(
+        name: 'cancelled_order_invoice'.tr,
+        action: AppConstants.action.cancelledOrderInvoice));
+    showCupertinoModalPopup(
+      context: context,
+      builder: (_) =>
+          MenuItemsListBottomDialog(list: listItems, listener: this),
+    );
+  }
+
+  @override
+  Future<void> onSelectMenuItem(ModuleInfo info, String dialogType) async {
+    if (info.action == AppConstants.action.cancelledOrderInvoice) {
+      buyerOrderInvoiceApi(orderInfo.value.id ?? 0, isCancelled: true);
     }
   }
 }

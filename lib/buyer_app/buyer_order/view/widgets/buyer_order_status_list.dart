@@ -18,7 +18,8 @@ class BuyerOrderStatusList extends StatelessWidget {
       final tab = controller.selectedTab.value;
       if (tab != OrderTabType.upcoming &&
           tab != OrderTabType.proceed &&
-          tab != OrderTabType.delivered) {
+          tab != OrderTabType.delivered &&
+          tab != OrderTabType.cancelled) {
         return const SizedBox.shrink();
       }
 

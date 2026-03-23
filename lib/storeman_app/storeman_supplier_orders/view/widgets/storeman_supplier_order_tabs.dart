@@ -13,56 +13,82 @@ class StoremanSupplierOrderTabs extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() => Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: Row(
-            children: [
-              HeaderFilterItem(
-                title: 'all'.tr,
-                selected:
-                    (controller.selectedTab.value == SupplierOrderStatus.all),
-                count: controller.allCount,
-                flex: 3,
-                onTap: () {
-                  controller.selectedTab.value = SupplierOrderStatus.all;
-                  controller.loadData();
-                },
-              ),
-              const SizedBox(width: 5),
-              HeaderFilterItem(
-                title: 'upcoming'.tr,
-                selected: (controller.selectedTab.value ==
-                    SupplierOrderStatus.upcoming),
-                count: controller.upcomingCount,
-                flex: 6,
-                onTap: () {
-                  controller.selectedTab.value = SupplierOrderStatus.upcoming;
-                  controller.loadData();
-                },
-              ),
-              const SizedBox(width: 4),
-              HeaderFilterItem(
-                title: 'processing'.tr,
-                selected: (controller.selectedTab.value ==
-                    SupplierOrderStatus.processing),
-                count: controller.processingCount,
-                flex: 6,
-                onTap: () {
-                  controller.selectedTab.value = SupplierOrderStatus.processing;
-                  controller.loadData();
-                },
-              ),
-              const SizedBox(width: 4),
-              HeaderFilterItem(
-                title: 'in_stock'.tr,
-                selected: (controller.selectedTab.value ==
-                    SupplierOrderStatus.onStock),
-                count: controller.onStockCount,
-                flex: 5,
-                onTap: () {
-                  controller.selectedTab.value = SupplierOrderStatus.onStock;
-                  controller.loadData();
-                },
-              ),
-            ],
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            physics: const BouncingScrollPhysics(),
+            clipBehavior: Clip.none,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                HeaderFilterItem(
+                  title: 'all'.tr,
+                  selected: (controller.selectedTab.value ==
+                      SupplierOrderStatus.all),
+                  count: controller.allCount,
+                  useFlexible: false,
+                  fixedWidth: 100,
+                  onTap: () {
+                    controller.selectedTab.value = SupplierOrderStatus.all;
+                    controller.loadData();
+                  },
+                ),
+                const SizedBox(width: 8),
+                HeaderFilterItem(
+                  title: 'upcoming'.tr,
+                  selected: (controller.selectedTab.value ==
+                      SupplierOrderStatus.upcoming),
+                  count: controller.upcomingCount,
+                  useFlexible: false,
+                  fixedWidth: 100,
+                  onTap: () {
+                    controller.selectedTab.value =
+                        SupplierOrderStatus.upcoming;
+                    controller.loadData();
+                  },
+                ),
+                const SizedBox(width: 8),
+                HeaderFilterItem(
+                  title: 'processing'.tr,
+                  selected: (controller.selectedTab.value ==
+                      SupplierOrderStatus.processing),
+                  count: controller.processingCount,
+                  useFlexible: false,
+                  fixedWidth: 100,
+                  onTap: () {
+                    controller.selectedTab.value =
+                        SupplierOrderStatus.processing;
+                    controller.loadData();
+                  },
+                ),
+                const SizedBox(width: 8),
+                HeaderFilterItem(
+                  title: 'in_stock'.tr,
+                  selected: (controller.selectedTab.value ==
+                      SupplierOrderStatus.onStock),
+                  count: controller.onStockCount,
+                  useFlexible: false,
+                  fixedWidth: 100,
+                  onTap: () {
+                    controller.selectedTab.value = SupplierOrderStatus.onStock;
+                    controller.loadData();
+                  },
+                ),
+                const SizedBox(width: 8),
+                HeaderFilterItem(
+                  title: 'cancelled'.tr,
+                  selected: (controller.selectedTab.value ==
+                      SupplierOrderStatus.cancelled),
+                  count: controller.cancelledCount,
+                  useFlexible: false,
+                  fixedWidth: 100,
+                  onTap: () {
+                    controller.selectedTab.value =
+                        SupplierOrderStatus.cancelled;
+                    controller.loadData();
+                  },
+                ),
+              ],
+            ),
           ),
         ));
   }

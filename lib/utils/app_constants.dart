@@ -179,6 +179,7 @@ class DialogIdentifier {
   final String orderProceed = 'ORDER_PROCEED';
   final String orderDelivered = 'ORDER_DELIVERED';
   final String orderReceived = 'ORDER_RECEIVED';
+  final String orderCancelled = 'ORDER_CANCELLED';
 }
 
 class SharedPreferenceKey {
@@ -261,6 +262,7 @@ class Action {
   final String createCode = 'CREATE_CODE';
   final String subContractorDetails = 'SUB_CONTRACTOR_DETAILS';
   final String removeSubContractor = 'REMOVE_SUB_CONTRACTOR';
+  final String cancelledOrderInvoice = 'CANCELLED_ORDER_INVOICE';
   final String joinCompany = 'JOIN_COMPANY';
   final String archiveTeam = 'ARCHIVE_TEAM';
   final String archivedItems = 'ARCHIVED_ITEMS';
@@ -375,6 +377,7 @@ class Type {
   final String upComing = "UPCOMING";
   final String processing = "PROCESSING";
   final String onStock = "ON_STOCK";
+  final String cancelled = "CANCELLED";
   final String available = "AVAILABLE";
 }
 

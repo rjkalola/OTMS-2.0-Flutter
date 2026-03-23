@@ -5,7 +5,9 @@ import 'package:belcka/buyer_app/buyer_order/model/buyer_order_invoice_response.
 import 'package:belcka/buyer_app/buyer_order/model/order_info.dart';
 import 'package:belcka/buyer_app/buyer_order_details/model/buyer_order_details_response.dart';
 import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
+import 'package:belcka/pages/common/listener/menu_item_listener.dart';
 import 'package:belcka/pages/common/listener/select_date_listener.dart';
+import 'package:belcka/pages/common/menu_items_list_bottom_dialog.dart';
 import 'package:belcka/pages/common/model/file_info.dart';
 import 'package:belcka/pages/manageattachment/controller/manage_attachment_controller.dart';
 import 'package:belcka/pages/manageattachment/listener/select_attachment_listener.dart';
@@ -31,11 +33,13 @@ class StoremanOrderDetailsController extends GetxController
     implements
         SelectDateListener,
         DialogButtonClickListener,
-        SelectAttachmentListener {
+        SelectAttachmentListener,
+        MenuItemListener {
   final _api = StoremanOrderDetailsRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
-      isMainViewVisible = false.obs;
+      isMainViewVisible = false.obs,
+      isCancelQtyAvailable = false.obs;
   RxInt status = 0.obs;
   final noteController = TextEditingController().obs;
   final receiveDateController = TextEditingController().obs;
@@ -80,7 +84,12 @@ class StoremanOrderDetailsController extends GetxController
           tempOrderProductsList.clear();
 
           for (var info in orderInfo.value.purchaseOrders!) {
-            info.cartQty = (info.qty ?? 0) - (info.deliveredQty ?? 0);
+            info.cartQty = (info.qty ?? 0) -
+                (info.deliveredQty ?? 0) -
+                (info.cancelledQty ?? 0);
+            if ((info.cancelledQty ?? 0) > 0) {
+              isCancelQtyAvailable.value = true;
+            }
             tempOrderProductsList.add(info);
           }
 
@@ -101,11 +110,12 @@ class StoremanOrderDetailsController extends GetxController
     );
   }
 
-  void buyerOrderInvoiceApi(int id) {
+  void buyerOrderInvoiceApi(int id, {bool? isCancelled}) {
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
     map["id"] = id;
+    if (isCancelled ?? false) map["type"] = "cancel";
     BuyerOrderRepository().buyerOrderInvoice(
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) async {
@@ -169,7 +179,10 @@ class StoremanOrderDetailsController extends GetxController
     bool valid = true;
     for (int i = 0; i < orderProductsList.length; i++) {
       ProductInfo productInfo = orderProductsList[i];
-      if (((productInfo.qty ?? 0) - (productInfo.deliveredQty ?? 0)).toInt() !=
+      if (((productInfo.qty ?? 0) -
+                  (productInfo.deliveredQty ?? 0) -
+                  (productInfo.cancelledQty ?? 0))
+              .toInt() !=
           (productInfo.cartQty ?? 0).toInt()) {
         if (StringHelper.isEmptyString(productInfo.note)) {
           valid = false;
@@ -184,13 +197,13 @@ class StoremanOrderDetailsController extends GetxController
     return valid;
   }
 
-  void proceedOrder() async {
+  void proceedOrder(int clickStatus) async {
     Map<String, dynamic> map = {};
     map["id"] = orderId;
     map["company_id"] = ApiConstants.companyId;
     map["status"] = status.value == AppConstants.orderStatus.received
         ? AppConstants.orderStatus.processing
-        : AppConstants.orderStatus.inStock;
+        : clickStatus;
 
     if (status.value == AppConstants.orderStatus.processing ||
         status.value == AppConstants.orderStatus.partialReceived) {
@@ -289,13 +302,15 @@ class StoremanOrderDetailsController extends GetxController
   // }
 
   void increaseQty(int index) {
-    // if ((orderProductsList[index].cartQty ?? 0) <
-    //     ((orderProductsList[index].qty ?? 0) -
-    //         (orderProductsList[index].receivedQty ?? 0))) {
-    orderProductsList[index].cartQty =
-        (orderProductsList[index].cartQty ?? 0) + 1;
-    orderProductsList.refresh();
-    // }
+    final maxRemaining = ((orderProductsList[index].qty ?? 0) -
+            (orderProductsList[index].deliveredQty ?? 0) -
+            (orderProductsList[index].cancelledQty ?? 0))
+        .toInt();
+    if ((orderProductsList[index].cartQty ?? 0) < maxRemaining) {
+      orderProductsList[index].cartQty =
+          (orderProductsList[index].cartQty ?? 0) + 1;
+      orderProductsList.refresh();
+    }
   }
 
   void decreaseQty(int index) {
@@ -364,6 +379,19 @@ class StoremanOrderDetailsController extends GetxController
         AppConstants.dialogIdentifier.orderDelivered);
   }
 
+  void showOrderCancelDialog() {
+    AlertDialogHelper.showAlertDialog(
+        "",
+        'order_cancel_msg'.tr,
+        'yes'.tr,
+        'no'.tr,
+        "",
+        true,
+        false,
+        this,
+        AppConstants.dialogIdentifier.orderCancelled);
+  }
+
   @override
   void onNegativeButtonClicked(String dialogIdentifier) {
     Get.back();
@@ -378,10 +406,14 @@ class StoremanOrderDetailsController extends GetxController
   void onPositiveButtonClicked(String dialogIdentifier) {
     if (dialogIdentifier == AppConstants.dialogIdentifier.orderDelivered) {
       Get.back();
-      proceedOrder();
+      proceedOrder(AppConstants.orderStatus.inStock);
     } else if (dialogIdentifier == AppConstants.dialogIdentifier.orderProceed) {
       Get.back();
-      proceedOrder();
+      proceedOrder(AppConstants.orderStatus.processing);
+    } else if (dialogIdentifier ==
+        AppConstants.dialogIdentifier.orderCancelled) {
+      Get.back();
+      proceedOrder(AppConstants.orderStatus.cancelled);
     }
   }
 
@@ -425,6 +457,25 @@ class StoremanOrderDetailsController extends GetxController
       orderProductsList[selectedIndex].attachments = listPhotos;
       orderProductsList.refresh();
       // attachmentList.add(info);
+    }
+  }
+
+  void showMenuItemsDialog(BuildContext context) {
+    List<ModuleInfo> listItems = [];
+    listItems.add(ModuleInfo(
+        name: 'cancelled_order_invoice'.tr,
+        action: AppConstants.action.cancelledOrderInvoice));
+    showCupertinoModalPopup(
+      context: context,
+      builder: (_) =>
+          MenuItemsListBottomDialog(list: listItems, listener: this),
+    );
+  }
+
+  @override
+  Future<void> onSelectMenuItem(ModuleInfo info, String dialogType) async {
+    if (info.action == AppConstants.action.cancelledOrderInvoice) {
+      buyerOrderInvoiceApi(orderInfo.value.id ?? 0, isCancelled: true);
     }
   }
 }

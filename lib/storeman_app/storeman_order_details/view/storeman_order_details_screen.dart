@@ -55,6 +55,7 @@ class _StoremanOrderDetailsScreenState
               bgColor: backgroundColor_(context),
               autoFocus: true,
               isClearVisible: false.obs,
+              widgets: actionButtons(),
             ),
             body: ModalProgressHUD(
                 inAsyncCall: controller.isLoading.value,
@@ -142,24 +143,62 @@ class _StoremanOrderDetailsScreenState
                                     AppConstants.orderStatus.processing ||
                                 controller.status ==
                                     AppConstants.orderStatus.partialReceived)
-                              PrimaryButton(
-                                margin: const EdgeInsets.all(14),
-                                buttonText: 'delivered'.tr,
-                                onPressed: () {
-                                  if (controller.isProductQuantityValid()) {
-                                    if (controller.isValidOrder()) {
-                                      controller.showOrderDeliveredDialog();
-                                    } else {
-                                      AppUtils.showToastMessage(
-                                          'msg_storeman_order_note_and_photo'
-                                              .tr);
-                                    }
-                                  } else {
-                                    AppUtils.showToastMessage(
-                                        'msg_select_at_least_one_qty'.tr);
-                                  }
-                                },
-                                color: Colors.green,
+                              Padding(
+                                padding: EdgeInsetsGeometry.all(14),
+                                child: Row(
+                                  children: [
+                                    Flexible(
+                                        flex: 1,
+                                        child: PrimaryButton(
+                                          buttonText: 'delivered'.tr,
+                                          onPressed: () {
+                                            if (controller
+                                                .isProductQuantityValid()) {
+                                              if (controller.isValidOrder()) {
+                                                controller
+                                                    .showOrderDeliveredDialog();
+                                              } else {
+                                                AppUtils.showToastMessage(
+                                                    'msg_storeman_order_note_and_photo'
+                                                        .tr);
+                                              }
+                                            } else {
+                                              AppUtils.showToastMessage(
+                                                  'msg_select_at_least_one_qty'
+                                                      .tr);
+                                            }
+                                          },
+                                          color: Colors.green,
+                                        )),
+                                    SizedBox(
+                                      width: 12,
+                                    ),
+                                    Flexible(
+                                      flex: 1,
+                                      child: PrimaryButton(
+                                        buttonText: 'cancel'.tr,
+                                        onPressed: () {
+                                          if (controller
+                                              .isProductQuantityValid()) {
+                                            if (controller.isValidOrder()) {
+                                              controller
+                                                  .showOrderCancelDialog();
+                                            } else {
+                                              AppUtils.showToastMessage(
+                                                  'msg_storeman_order_note_and_photo'
+                                                      .tr);
+                                            }
+                                          } else {
+                                            AppUtils.showToastMessage(
+                                                'msg_select_at_least_one_qty'
+                                                    .tr);
+                                          }
+                                        },
+                                        color: Colors.redAccent,
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                           ],
                         ),
@@ -169,4 +208,19 @@ class _StoremanOrderDetailsScreenState
       ),
     );
   }
+
+  List<Widget>? actionButtons() {
+    return [
+      Visibility(
+        visible: controller.isCancelQtyAvailable.value,
+        child: IconButton(
+          icon: Icon(Icons.more_vert_outlined),
+          onPressed: () {
+            controller.showMenuItemsDialog(Get.context!);
+          },
+        ),
+      ),
+    ];
+  }
+
 }

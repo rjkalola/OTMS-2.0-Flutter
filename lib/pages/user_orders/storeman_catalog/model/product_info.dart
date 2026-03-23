@@ -69,6 +69,7 @@ class ProductInfo {
   String? orderUsersDisplay;
   int? orderUserCount;
   int? pendingQty;
+  int? cancelledQty;
   String? projectName;
   String? productImage;
   String? productThumbImage;
@@ -145,6 +146,7 @@ class ProductInfo {
       this.orderUsersDisplay,
       this.orderUserCount,
       this.pendingQty,
+      this.cancelledQty,
       this.projectName,
       this.productImage,
       this.productThumbImage,
@@ -231,6 +233,7 @@ class ProductInfo {
     orderUsersDisplay = json['order_users_display'];
     orderUserCount = json['order_user_count'];
     pendingQty = json['pending_qty'];
+    cancelledQty = json['cancelled_qty'];
     projectName = json['project_name'];
     productImage = json['product_image'];
     productThumbImage = json['product_thumb_image'];
@@ -316,6 +319,7 @@ class ProductInfo {
     data['order_users_display'] = this.orderUsersDisplay;
     data['order_user_count'] = this.orderUserCount;
     data['pending_qty'] = this.pendingQty;
+    data['cancelled_qty'] = this.cancelledQty;
     data['project_name'] = this.projectName;
     data['product_image'] = this.productImage;
     data['product_thumb_image'] = this.productThumbImage;

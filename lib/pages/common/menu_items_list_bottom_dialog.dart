@@ -50,7 +50,7 @@ class MenuItemsListBottomDialogState extends State<MenuItemsListBottomDialog> {
             return CupertinoActionSheetAction(
               onPressed: () {
                 Get.back();
-                listener.onSelectMenuItem(item,dialogType??"");
+                listener.onSelectMenuItem(item, dialogType ?? "");
                 print('Selected: ${item.name}');
               },
               // isDestructiveAction: item.isDestructive,
@@ -75,9 +75,7 @@ class MenuItemsListBottomDialogState extends State<MenuItemsListBottomDialog> {
               style: TextStyle(
                 fontWeight: FontWeight.w400,
                 fontSize: 17,
-                color: ThemeConfig.isDarkMode
-                    ? Colors.white54
-                    : Colors.black54,
+                color: ThemeConfig.isDarkMode ? Colors.white54 : Colors.black54,
               ),
             ),
           )),

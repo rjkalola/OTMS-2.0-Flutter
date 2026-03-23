@@ -1,9 +1,7 @@
-import 'dart:ffi';
-
 import 'package:belcka/pages/common/model/user_info.dart';
-import 'package:get/get.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_storage.dart';
+import 'package:get/get.dart';
 
 class UserUtils {
   static UserInfo getUserInfo() {
