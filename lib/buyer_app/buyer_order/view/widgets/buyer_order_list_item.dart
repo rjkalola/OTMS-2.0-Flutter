@@ -11,7 +11,6 @@ import 'package:get/get.dart';
 import '../../../../utils/app_utils.dart';
 import '../../../../utils/string_helper.dart';
 
-/// Shared row UI for Upcoming / Processing (Proceed) / Delivered order lists.
 class BuyerOrderListItem extends StatelessWidget {
   final OrderInfo item;
   final VoidCallback onListItem;

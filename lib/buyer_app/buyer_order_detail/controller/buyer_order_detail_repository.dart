@@ -1,9 +1,10 @@
-import 'package:dio/dio.dart' as multi;
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/network/api_request.dart';
 import 'package:belcka/web_services/response/response_model.dart';
+import 'package:dio/dio.dart' as multi;
 
-class BuyerOrderDetailsRepository {
+/// Same API surface as [StoremanOrderDetailsRepository] (storeman flow).
+class BuyerOrderDetailRepository {
   void orderDetails({
     Map<String, dynamic>? queryParameters,
     Function(ResponseModel responseModel)? onSuccess,
@@ -20,12 +21,16 @@ class BuyerOrderDetailsRepository {
     );
   }
 
-  void receiveBuyerOrder({
-    dynamic data,
+  void proceedStoremanOrder({
+    multi.FormData? formData,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
-    ApiRequest(url: ApiConstants.receiveBuyerOrder, data: data).postRequest(
+    ApiRequest(
+            url: ApiConstants.proceedStoremanOrder,
+            formData: formData,
+            isFormData: true)
+        .postRequest(
       onSuccess: (data) {
         onSuccess!(data);
       },

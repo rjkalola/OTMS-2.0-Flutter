@@ -1,4 +1,5 @@
 import 'package:belcka/buyer_app/buyer_order/view/buyer_orders_screen.dart';
+import 'package:belcka/buyer_app/buyer_order_detail/view/buyer_order_detail_screen.dart';
 import 'package:belcka/buyer_app/buyer_order_details/view/buyer_order_details_screen.dart';
 import 'package:belcka/buyer_app/buyer_settings/view/buyer_settings_screen.dart';
 import 'package:belcka/buyer_app/suppliers/add_supplier/view/buyer_add_supplier_screen.dart';
@@ -466,6 +467,9 @@ class AppPages {
     GetPage(
         name: AppRoutes.buyerOrderDetailsScreen,
         page: () => BuyerOrderDetailsScreen()),
+    GetPage(
+        name: AppRoutes.buyerOrderDetailScreen,
+        page: () => BuyerOrderDetailScreen()),
     GetPage(
         name: AppRoutes.productDetailsScreen,
         page: () => ProductDetailsScreen()),

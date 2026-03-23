@@ -285,7 +285,7 @@ class BuyerOrderController extends GetxController
         AppConstants.intentKey.orderId: ordersList[index].id ?? 0,
       };
       moveToScreen(
-          appRout: AppRoutes.buyerOrderDetailsScreen, arguments: arguments);
+          appRout: AppRoutes.buyerOrderDetailScreen, arguments: arguments);
     }
   }
 
