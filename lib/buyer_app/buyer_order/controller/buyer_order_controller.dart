@@ -109,6 +109,8 @@ class BuyerOrderController extends GetxController
           "${AppConstants.orderStatus.processing.toString()},${AppConstants.orderStatus.partialReceived.toString()}");
     } else if (selectedTab.value == OrderTabType.delivered) {
       buyerOrdersListApi(AppConstants.orderStatus.inStock.toString());
+    }else if (selectedTab.value == OrderTabType.cancelled) {
+      buyerOrdersListApi(AppConstants.orderStatus.cancelled.toString());
     }
   }
 
@@ -277,7 +279,8 @@ class BuyerOrderController extends GetxController
     }
     if (selectedTab.value == OrderTabType.upcoming ||
         selectedTab.value == OrderTabType.proceed ||
-        selectedTab.value == OrderTabType.delivered) {
+        selectedTab.value == OrderTabType.delivered ||
+        selectedTab.value == OrderTabType.cancelled) {
       var arguments = {
         AppConstants.intentKey.orderId: ordersList[index].id ?? 0,
       };

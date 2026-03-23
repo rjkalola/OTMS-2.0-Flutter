@@ -228,7 +228,8 @@ class _BuyerOrdersScreenState extends State<BuyerOrdersScreen>
     }
     if (controller.selectedTab.value == OrderTabType.upcoming ||
         controller.selectedTab.value == OrderTabType.proceed ||
-        controller.selectedTab.value == OrderTabType.delivered) {
+        controller.selectedTab.value == OrderTabType.delivered ||
+        controller.selectedTab.value == OrderTabType.cancelled) {
       return const BuyerOrderStatusList();
     }
     return Container();

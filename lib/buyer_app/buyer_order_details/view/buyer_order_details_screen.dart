@@ -4,17 +4,13 @@ import 'package:belcka/buyer_app/buyer_order_details/view/widgets/buyer_order_pr
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
-import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
-import 'package:belcka/widgets/textfield/reusable/add_note_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
-import '../../../utils/app_constants.dart';
 import '../../../utils/string_helper.dart';
-import '../../../widgets/textfield/reusable/drop_down_text_field.dart';
 
 class BuyerOrderDetailsScreen extends StatefulWidget {
   const BuyerOrderDetailsScreen({super.key});
@@ -56,6 +52,7 @@ class _BuyerOrderDetailsScreenState extends State<BuyerOrderDetailsScreen> {
               },
               autoFocus: true,
               isClearVisible: false.obs,
+              widgets: actionButtons(),
             ),
             body: ModalProgressHUD(
                 inAsyncCall: controller.isLoading.value,
@@ -145,6 +142,20 @@ class _BuyerOrderDetailsScreenState extends State<BuyerOrderDetailsScreen> {
         ),
       ),
     );
+  }
+
+  List<Widget>? actionButtons() {
+    return [
+      Visibility(
+        visible: controller.isCancelQtyAvailable.value,
+        child: IconButton(
+          icon: Icon(Icons.more_vert_outlined),
+          onPressed: () {
+            controller.showMenuItemsDialog(Get.context!);
+          },
+        ),
+      ),
+    ];
   }
 
 }

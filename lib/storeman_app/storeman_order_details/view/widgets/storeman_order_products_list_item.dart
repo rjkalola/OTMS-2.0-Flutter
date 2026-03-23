@@ -41,7 +41,8 @@ class StoremanOrderProductsListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isEnableEdit = status != AppConstants.orderStatus.inStock;
     bool isQtyNotMatched =
-        ((item.qty ?? 0) - (item.deliveredQty ?? 0)).toInt() !=
+        ((item.qty ?? 0) - (item.deliveredQty ?? 0) - (item.cancelledQty ?? 0))
+                .toInt() !=
             (item.cartQty ?? 0);
     bool isHaveAttachment = !StringHelper.isEmptyList(item.attachments);
     bool isHaveNote = !StringHelper.isEmptyString(item.note);
@@ -122,11 +123,27 @@ class StoremanOrderProductsListItem extends StatelessWidget {
                         Visibility(
                           visible: controller.status !=
                               AppConstants.orderStatus.received,
-                          child: TitleTextView(
-                            text:
-                                "${'delivered_qty'.tr}: ${item.deliveredQty ?? 0}",
-                            fontSize: 13,
-                            color: primaryTextColor_(context),
+                          child: Row(
+                            children: [
+                              TitleTextView(
+                                text:
+                                    "${'delivered_qty'.tr}: ${item.deliveredQty ?? 0}",
+                                fontSize: 13,
+                                color: primaryTextColor_(context),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(left: 6, right: 6),
+                                width: 1,
+                                height: 12,
+                                color: secondaryExtraLightTextColor_(context),
+                              ),
+                              TitleTextView(
+                                text:
+                                    "${'cancelled_qty'.tr}: ${item.cancelledQty ?? 0}",
+                                fontSize: 13,
+                                color: primaryTextColor_(context),
+                              )
+                            ],
                           ),
                         )
                       ],
@@ -141,7 +158,8 @@ class StoremanOrderProductsListItem extends StatelessWidget {
                 visible: isQtyNotMatched ||
                     (((status == AppConstants.orderStatus.inStock ||
                             status ==
-                                AppConstants.orderStatus.partialReceived)) &&
+                                AppConstants.orderStatus.partialReceived ||
+                            status == AppConstants.orderStatus.cancelled)) &&
                         (isHaveNote || isHaveAttachment)),
                 child: Column(
                   children: [

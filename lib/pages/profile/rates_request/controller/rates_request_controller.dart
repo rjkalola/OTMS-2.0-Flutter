@@ -1,25 +1,18 @@
-import 'dart:async';
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
-import 'package:belcka/utils/AlertDialogHelper.dart';
-import 'package:dio/dio.dart' as multi;
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:belcka/pages/profile/rates_request/controller/rates_request_repository.dart';
 import 'package:belcka/pages/profile/rates_request/model/rate_request_info_response.dart';
 import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:belcka/utils/app_constants.dart';
-import 'package:belcka/utils/app_storage.dart';
 import 'package:belcka/utils/app_utils.dart';
-import 'package:belcka/utils/data_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
-import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/response_model.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class RatesRequestController extends GetxController implements DialogButtonClickListener{
   final netPerDayController = TextEditingController().obs;

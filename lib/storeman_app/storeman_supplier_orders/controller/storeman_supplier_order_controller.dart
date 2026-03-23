@@ -33,7 +33,8 @@ class StoremanSupplierOrderController extends GetxController {
   RxInt allCount = 0.obs,
       upcomingCount = 0.obs,
       processingCount = 0.obs,
-      onStockCount = 0.obs;
+      onStockCount = 0.obs,
+      cancelledCount = 0.obs;
 
   @override
   void onInit() {
@@ -49,6 +50,8 @@ class StoremanSupplierOrderController extends GetxController {
         selectedTab.value = SupplierOrderStatus.processing;
       } else if (selectedTabType == AppConstants.type.onStock) {
         selectedTab.value = SupplierOrderStatus.onStock;
+      } else if (selectedTabType == AppConstants.type.cancelled) {
+        selectedTab.value = SupplierOrderStatus.cancelled;
       } else {
         selectedTab.value = SupplierOrderStatus.all;
       }
@@ -86,8 +89,12 @@ class StoremanSupplierOrderController extends GetxController {
           tempOrdersList = response.info ?? [];
           ordersList.assignAll(tempOrdersList);
           ordersList.refresh();
-          updateTabCount(response.upcoming ?? 0, response.processing ?? 0,
-              response.delivered ?? 0);
+          updateTabCount(
+            response.upcoming ?? 0,
+            response.processing ?? 0,
+            response.delivered ?? 0,
+            response.cancelled ?? 0,
+          );
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
@@ -107,22 +114,30 @@ class StoremanSupplierOrderController extends GetxController {
   String getStatusParameterValue() {
     String status = "";
     if (selectedTab.value == SupplierOrderStatus.all) {
-      status = "1,2,3,5";
+      status = "1,2,3,4,5";
     } else if (selectedTab.value == SupplierOrderStatus.upcoming) {
       status = "2";
     } else if (selectedTab.value == SupplierOrderStatus.processing) {
       status = "1,3";
     } else if (selectedTab.value == SupplierOrderStatus.onStock) {
       status = "5";
+    } else if (selectedTab.value == SupplierOrderStatus.cancelled) {
+      status = "4";
     }
     return status;
   }
 
-  void updateTabCount(int upcoming, int processing, int onStock) {
+  void updateTabCount(
+    int upcoming,
+    int processing,
+    int onStock,
+    int cancelled,
+  ) {
     allCount.value = 0;
     upcomingCount.value = upcoming;
     processingCount.value = processing;
     onStockCount.value = onStock;
+    cancelledCount.value = cancelled;
   }
 
   void searchItem(String value) {
@@ -171,6 +186,8 @@ class StoremanSupplierOrderController extends GetxController {
             selectedTab.value = SupplierOrderStatus.processing;
           } else if (status == AppConstants.orderStatus.inStock) {
             selectedTab.value = SupplierOrderStatus.onStock;
+          } else if (status == AppConstants.orderStatus.cancelled) {
+            selectedTab.value = SupplierOrderStatus.cancelled;
           } else {
             selectedTab.value = SupplierOrderStatus.all;
           }
