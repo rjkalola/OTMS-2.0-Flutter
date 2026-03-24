@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:belcka/pages/user_orders/order_details/controller/order_details_repository.dart';
 import 'package:belcka/pages/user_orders/order_details/model/order_details_info.dart';
+import 'package:belcka/pages/user_orders/order_details/model/order_details_orders_info.dart';
 import 'package:belcka/pages/user_orders/order_details/model/order_details_response.dart';
 import 'package:belcka/pages/user_orders/order_history/model/order_history_response.dart';
 import 'package:belcka/utils/app_utils.dart';
@@ -79,7 +80,7 @@ class OrderDetailsController extends GetxController{
   }
 
   void updateOrderStatus(int status, String note){
-    isLoading.value = true;
+
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
     map["id"] = orderId;
@@ -88,6 +89,19 @@ class OrderDetailsController extends GetxController{
       map["note"] = note;
     }
 
+    if (status == 2){
+      final allOrders = orderDetails[0].orders ?? [];
+      final selectedItems = allOrders.where((item) => item.isSelected).toList();
+
+      for (int i = 0; i < selectedItems.length; i++) {
+        OrderDetailsOrdersInfo productInfo = selectedItems[i];
+        map["product_data[$i][id]"] = productInfo.productId;
+        map["product_data[$i][qty]"] = productInfo.remainingQty;
+      }
+      print("JSON Payload:" + map.toString());
+    }
+
+    isLoading.value = true;
     _api.updateOrderStatusAPI(
       data: map,
       onSuccess: (ResponseModel responseModel) {
@@ -109,6 +123,7 @@ class OrderDetailsController extends GetxController{
         }
       },
     );
+
   }
   void orderAgainAction(bool isAllOrders, int index){
     isLoading.value = true;
@@ -206,7 +221,10 @@ class OrderDetailsController extends GetxController{
       ],
     };
   }
-
+  int getSelectedItemsCount(){
+    final orders = orderDetails[0].orders ?? [];
+    return orders.where((item) => item.isSelected == true).length;
+  }
   int getTotalQuantity() {
     int total = 0;
     final orders = orderDetails[0].orders ?? [];
