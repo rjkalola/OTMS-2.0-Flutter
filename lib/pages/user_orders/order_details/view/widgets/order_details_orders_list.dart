@@ -5,14 +5,23 @@ import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/widgets/checkbox/custom_checkbox.dart';
 import 'package:belcka/widgets/image/document_view.dart';
 import 'package:belcka/widgets/text/SubTitleTextView.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class OrderDetailsOrdersList extends StatelessWidget {
-  OrderDetailsOrdersList({super.key});
+
+class OrderDetailsOrdersList extends StatefulWidget {
+  const OrderDetailsOrdersList({super.key,
+  });
+
+  @override
+  State<OrderDetailsOrdersList> createState() => _OrderDetailsOrdersListState();
+}
+
+class _OrderDetailsOrdersListState extends State<OrderDetailsOrdersList> {
 
   final controller = Get.put(OrderDetailsController());
 
@@ -44,6 +53,19 @@ class OrderDetailsOrdersList extends StatelessWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+
+                    if ((orders[index].status == AppConstants.internalOrderStatus.ready ||
+                        orders[index].status == AppConstants.internalOrderStatus.preparing))
+
+                    CustomCheckbox(
+                        onValueChange: (value) {
+                          setState(() {
+                            orders[index].isSelected = !(orders[index].isSelected);
+                            controller.orderDetails.refresh();
+                          });
+                        },
+                        mValue: orders[index].isSelected),
+                    const SizedBox(width: 4),
                     ImageUtils.setRectangleCornerCachedNetworkImage(
                       url: orders[index].productThumbImage ?? "",
                       width: 90,

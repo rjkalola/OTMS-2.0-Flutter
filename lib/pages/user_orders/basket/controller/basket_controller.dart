@@ -321,6 +321,15 @@ class BasketController extends GetxController implements SelectItemListener {
   }
 
   void toggleCreateOrder() {
+
+    if (activeProjectId.value <= 0 ||
+        selectedAddressId.value <= 0 ||
+        selectedDeliveryTime.value.isEmpty ||
+        selectedStoreId.value <= 0) {
+      AppUtils.showSnackBarMessage("Please ensure all fields are selected");
+      return;
+    }
+
     isLoading.value = true;
     final body = createOrderRequest(
         companyId: ApiConstants.companyId,
