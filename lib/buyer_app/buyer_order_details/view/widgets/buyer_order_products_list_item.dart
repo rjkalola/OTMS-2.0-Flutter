@@ -69,7 +69,7 @@ class BuyerOrderProductsListItem extends StatelessWidget {
                         ),
                         const SizedBox(height: 12),
                         TitleTextView(
-                          text: "${'ordered_qty'.tr}: ${AppUtils.formatDecimalNumber(item.qty ?? 0)}",
+                          text: "${'ordered'.tr}: ${AppUtils.formatDecimalNumber(item.qty ?? 0)}",
                           fontSize: 13,
                           color: primaryTextColor_(context),
                         ),

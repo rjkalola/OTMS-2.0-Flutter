@@ -3,6 +3,7 @@ import 'package:belcka/pages/project/project_list/controller/project_list_contro
 import 'package:belcka/pages/project/project_list/view/widgets/project_list_header_view.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/res/drawable.dart';
+import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/utils/user_utils.dart';
@@ -115,6 +116,12 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
       ),
       Visibility(
           visible: !UserUtils.isAdmin(), child: const SizedBox(width: 10)),
+      // IconButton(
+      //   icon: Icon(Icons.map_outlined),
+      //   onPressed: () {
+      //     Get.toNamed(AppRoutes.userZonesScreen);
+      //   },
+      // ),
       Visibility(
         visible: UserUtils.isAdmin(),
         child: IconButton(

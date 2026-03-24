@@ -541,7 +541,7 @@ class Strings extends Translations {
           'digital_id_card_downloaded': "Digital Id Card downloaded",
           'expected_qty': "Expected Qty",
           'available_qty': "Available Qty",
-          'ordered_qty': "Ordered Qty",
+          'ordered': "Ordered",
           'add_category': "Add Category",
           'update_category': "Update Category",
           'check_in_note': "Check-In Note",

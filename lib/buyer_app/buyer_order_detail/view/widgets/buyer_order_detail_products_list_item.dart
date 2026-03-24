@@ -122,7 +122,19 @@ class BuyerOrderDetailProductsListItem extends StatelessWidget {
                             children: [
                               TitleTextView(
                                 text:
-                                    "${'delivered_qty'.tr}: ${item.deliveredQty ?? 0}",
+                                    "${'ordered'.tr}: ${(item.qty ?? 0).toInt()}",
+                                fontSize: 13,
+                                color: primaryTextColor_(context),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(left: 6, right: 6),
+                                width: 1,
+                                height: 12,
+                                color: secondaryExtraLightTextColor_(context),
+                              ),
+                              TitleTextView(
+                                text:
+                                    "${'delivered'.tr}: ${item.deliveredQty ?? 0}",
                                 fontSize: 13,
                                 color: primaryTextColor_(context),
                               ),
@@ -135,7 +147,7 @@ class BuyerOrderDetailProductsListItem extends StatelessWidget {
                               ),
                               TitleTextView(
                                 text:
-                                    "${'cancelled_qty'.tr}: ${item.cancelledQty ?? 0}",
+                                    "${'cancelled'.tr}: ${item.cancelledQty ?? 0}",
                                 fontSize: 13,
                                 color: primaryTextColor_(context),
                               )

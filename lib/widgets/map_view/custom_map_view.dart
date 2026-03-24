@@ -18,6 +18,7 @@ class CustomMapView extends StatefulWidget {
     this.onCameraMove,
     this.onCameraIdle,
     this.initialZoom,
+    this.mapType,
   });
 
   final MapCreatedCallback? onMapCreated;
@@ -29,6 +30,7 @@ class CustomMapView extends StatefulWidget {
   final CameraPositionCallback? onCameraMove;
   final VoidCallback? onCameraIdle;
   final double? initialZoom;
+  final Rx<MapType>? mapType;
 
   @override
   State<CustomMapView> createState() => _CustomMapViewState();
@@ -59,6 +61,7 @@ class _CustomMapViewState extends State<CustomMapView> {
           GoogleMap(
             style: MapUtils.googleMapStyle,
             onMapCreated: _handleMapCreated,
+            mapType: widget.mapType?.value ?? MapType.normal,
             scrollGesturesEnabled: true,
             zoomGesturesEnabled: true,
             rotateGesturesEnabled: false,

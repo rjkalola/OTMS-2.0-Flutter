@@ -1,0 +1,31 @@
+import 'package:belcka/web_services/api_constants.dart';
+import 'package:belcka/web_services/network/api_request.dart';
+import 'package:belcka/web_services/response/response_model.dart';
+
+class UserZonesRepository {
+  void getUserLocations({
+    Map<String, dynamic>? queryParameters,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+            url: ApiConstants.getUserLocations, queryParameters: queryParameters)
+        .getRequest(
+      onSuccess: (data) => onSuccess?.call(data),
+      onError: (error) => onError?.call(error),
+    );
+  }
+
+  void getZoneGroups({
+    Map<String, dynamic>? queryParameters,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+            url: ApiConstants.workZoneGetGroups, queryParameters: queryParameters)
+        .getRequest(
+      onSuccess: (data) => onSuccess?.call(data),
+      onError: (error) => onError?.call(error),
+    );
+  }
+}
