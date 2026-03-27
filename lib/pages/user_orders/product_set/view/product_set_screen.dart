@@ -1,5 +1,7 @@
-import 'package:belcka/pages/user_orders/basket/controller/basket_controller.dart';
+import 'package:belcka/pages/user_orders/product_set/controller/product_set_controller.dart';
 import 'package:belcka/pages/user_orders/product_set/view/widgets/product_set_container.dart';
+import 'package:belcka/pages/user_orders/widgets/empty_state_view.dart';
+import 'package:belcka/pages/user_orders/widgets/orders_base_app_bar.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
@@ -16,40 +18,54 @@ class ProductSetScreen extends StatefulWidget {
 }
 
 class _ProductSetScreenState extends State<ProductSetScreen> {
-  final controller = Get.put(BasketController());
+  final controller = Get.put(ProductSetController());
 
   @override
   Widget build(BuildContext context) {
     AppUtils.setStatusBarColor();
-    return Container(
-      color: backgroundColor_(context),
-      child: SafeArea(
-        child: Obx(
-              () => Scaffold(
-            backgroundColor: dashBoardBgColor_(context),
-            appBar: BaseAppBar(
-              appBar: AppBar(),
-              title: 'Product Set'.tr,
-              isCenterTitle: false,
-              isBack: true,
-              bgColor: backgroundColor_(context),
-              widgets: actionButtons(),
-              autoFocus: true,
-              isClearVisible: false.obs,
-            ),
-            body: ModalProgressHUD(
-              inAsyncCall: controller.isLoading.value,
-              opacity: 0,
-              progressIndicator: const CustomProgressbar(),
-              child: controller.isInternetNotAvailable.value
-                  ? NoInternetWidget(
-                onPressed: () {
-                  controller.isInternetNotAvailable.value = false;
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop || result != null) return;
+        controller.onBackPress();
+      },
+      child: Container(
+        color: backgroundColor_(context),
+        child: SafeArea(
+          child: Obx(
+                () => Scaffold(
+              backgroundColor: dashBoardBgColor_(context),
+              appBar: OrdersBaseAppBar(
+                appBar: AppBar(),
+                title: 'Product Set'.tr,
+                isCenterTitle: false,
+                isBack: true,
+                bgColor: backgroundColor_(context),
+                autoFocus: true,
+                isClearVisible: false.obs,
+                onBackPressed: (){
+                  controller.onBackPress();
                 },
-              )
-                  : controller.isMainViewVisible.value
-                  ? ProductSetContainer()
-                  : const SizedBox.shrink(),
+              ),
+              body: ModalProgressHUD(
+                inAsyncCall: controller.isLoading.value,
+                opacity: 0,
+                progressIndicator: const CustomProgressbar(),
+                child: controller.isInternetNotAvailable.value
+                    ? NoInternetWidget(
+                  onPressed: () {
+                    controller.isInternetNotAvailable.value = false;
+                  },
+                )
+                    : controller.isMainViewVisible.value
+                    ? controller.productsSet.isNotEmpty
+                    ? ProductSetContainer()
+                    : EmptyStateView(
+                  title: 'no_products_msg'.tr,
+                  message:"",
+                )
+                    : const SizedBox.shrink(),
+              ),
             ),
           ),
         ),

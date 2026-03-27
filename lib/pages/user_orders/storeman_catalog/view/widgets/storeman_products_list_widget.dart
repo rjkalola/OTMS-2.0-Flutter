@@ -13,10 +13,15 @@ import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class StoremanProductsListWidget extends StatelessWidget {
-  const StoremanProductsListWidget({
-    super.key,
-  });
+class StoremanProductsListWidget extends StatefulWidget {
+  const StoremanProductsListWidget({super.key});
+
+  @override
+  State<StoremanProductsListWidget> createState() =>
+      _StoremanProductsListWidgetState();
+}
+
+class _StoremanProductsListWidgetState extends State<StoremanProductsListWidget> {
 
   @override
   Widget build(BuildContext context) {
@@ -81,24 +86,32 @@ class StoremanProductsListWidget extends StatelessWidget {
                                     itemCount:
                                         product.productImages?.length ?? 0,
                                     onPageChanged: (page) {
-                                      controller.setCurrentImageIndex(
-                                          index, page);
+                                      setState(() {
+                                        controller.setCurrentImageIndex(
+                                            index, page);
+                                      });
                                     },
                                     itemBuilder: (context, imgIndex) {
-                                      return Image.network(
-                                        product.productImages?[imgIndex]
-                                                .thumbUrl ??
-                                            "",
-                                        fit: BoxFit.cover,
-                                        errorBuilder: (context, error, stack) {
-                                          return Center(
-                                            child: Icon(
-                                              Icons.photo_outlined,
-                                              size: 50,
-                                              color: Colors.grey.shade300,
-                                            ),
-                                          );
+
+                                      return InkWell(
+                                        onTap: (){
+                                          ImageUtils.moveToImagePreview(product.productImages ?? [], imgIndex);
                                         },
+                                        child: Image.network(
+                                          product.productImages?[imgIndex]
+                                                  .thumbUrl ??
+                                              "",
+                                          fit: BoxFit.cover,
+                                          errorBuilder: (context, error, stack) {
+                                            return Center(
+                                              child: Icon(
+                                                Icons.photo_outlined,
+                                                size: 50,
+                                                color: Colors.grey.shade300,
+                                              ),
+                                            );
+                                          },
+                                        ),
                                       );
                                     },
                                   ),
@@ -184,20 +197,19 @@ class StoremanProductsListWidget extends StatelessWidget {
                                       ],
                                     ),
                                     Spacer(),
-                                    IconButton(
-                                        icon: product.isBookMark ?? true
-                                            ? Icon(Icons.bookmark)
-                                            : BookmarkIconWidget(),
-                                        color: product.isBookMark ?? true
-                                            ? Colors.deepOrangeAccent
-                                            : primaryTextColor_(context),
-                                        onPressed: () {
+
+                                    InkWell(
+                                        onTap: (){
                                           FocusManager.instance.primaryFocus
                                               ?.unfocus();
                                           controller.toggleBookmark(index);
                                           product.isBookMark = !(product.isBookMark??false);
                                           controller.products.refresh();
-                                        })
+                                        },
+                                        child: Icon(product.isBookMark ?? true ? Icons.bookmark : Icons.bookmark_border,
+                                          size: 20, color: product.isBookMark ?? true
+                                              ? Colors.deepOrangeAccent
+                                              : primaryTextColor_(context),)),
                                   ],
                                 ),
                               ],
@@ -243,6 +255,29 @@ class StoremanProductsListWidget extends StatelessWidget {
                             const SizedBox(width: 8),
                           ],
                           Spacer(),
+
+                          if (isAdded)
+                          GestureDetector(
+                            onTap: (){
+                              FocusManager.instance.primaryFocus?.unfocus();
+                              controller.toggleRemoveCart(index);
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(6),
+                              decoration: BoxDecoration(
+                                color: Colors.redAccent.shade200,
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              child: ImageUtils.setSvgAssetsImage(
+                                path: Drawable.deleteIcon,
+                                width: 18,
+                                height: 18,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+
+                          if (!isAdded)
                           ElevatedButton.icon(
                             style: ElevatedButton.styleFrom(
                               minimumSize: const Size(0, 34),

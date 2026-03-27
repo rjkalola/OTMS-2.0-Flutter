@@ -1,3 +1,4 @@
+import 'package:belcka/pages/authentication/signup1/view/widgets/email_text_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -91,6 +92,9 @@ class _SignUp1ScreenState extends State<SignUp1Screen> {
                                         flex: 3, child: PhoneTextFieldWidget()),
                                   ],
                                 ),
+
+                                EmailTextFieldWidget(),
+
                                 Visibility(
                                   visible: controller.isOtpViewVisible.value,
                                   child: Padding(

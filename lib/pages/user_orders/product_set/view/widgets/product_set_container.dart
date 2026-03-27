@@ -13,19 +13,8 @@ class ProductSetContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return CardViewDashboardItem(
       margin: const EdgeInsets.all(12),
-      padding: const EdgeInsets.all(12),
-      child: ListView.separated(
-        shrinkWrap: true,
-        physics: const BouncingScrollPhysics(),
-        itemCount: 7,
-        separatorBuilder: (_, __) => const Padding(
-          padding: EdgeInsets.symmetric(vertical: 12),
-          child: Center(
-            child: Icon(Icons.add_rounded, color: Colors.blueAccent, size: 32),
-          ),
-        ),
-        itemBuilder: (_, __) =>  ProductSetItemList(),
-      ),
+      padding: const EdgeInsets.fromLTRB(4, 8, 4, 8),
+      child: ProductSetItemList(),
     );
   }
 }

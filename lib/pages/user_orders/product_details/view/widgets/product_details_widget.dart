@@ -1,3 +1,4 @@
+import 'package:belcka/pages/common/model/file_info.dart';
 import 'package:belcka/pages/profile/billing_details_new/view/widgets/navigation_card.dart';
 import 'package:belcka/pages/user_orders/product_details/controller/product_details_controller.dart';
 import 'package:belcka/pages/user_orders/widgets/icons/bookmark_icon_widget.dart';
@@ -10,6 +11,7 @@ import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/widgets/image/document_view.dart';
 import 'package:belcka/widgets/text/SubTitleTextView.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
@@ -60,18 +62,23 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                           controller.setCurrentImageIndex(0, page);
                         },
                         itemBuilder: (context, imgIndex) {
-                          return Image.network(
-                            product.productImages?[imgIndex].thumbUrl ?? "",
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stack) {
-                              return Center(
-                                child: Icon(
-                                  Icons.photo_outlined,
-                                  color: Colors.grey.shade300,
-                                  size: 50,
-                                ),
-                              );
+                          return InkWell(
+                            onTap: (){
+                              ImageUtils.moveToImagePreview(product.productImages ?? [], imgIndex);
                             },
+                            child: Image.network(
+                              product.productImages?[imgIndex].thumbUrl ?? "",
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stack) {
+                                return Center(
+                                  child: Icon(
+                                    Icons.photo_outlined,
+                                    color: Colors.grey.shade300,
+                                    size: 50,
+                                  ),
+                                );
+                              },
+                            ),
                           );
                         },
                       ),
@@ -169,25 +176,21 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                               color: secondaryExtraLightTextColor_(context),
                             ),
                             Spacer(),
-                            IconButton(
-                                icon: product.isBookMark ?? true
-                                    ? Icon(Icons.bookmark)
-                                    : BookmarkIconWidget(),
-                                color: product.isBookMark ?? true
-                                    ? Colors.deepOrangeAccent
-                                    : primaryTextColor_(context),
-                                onPressed: () {
-                                  // FocusManager.instance.primaryFocus
-                                  //     ?.unfocus();
-                                  // controller.toggleBookmark();
 
+                            InkWell(
+                                onTap: (){
                                   FocusManager.instance.primaryFocus?.unfocus();
                                   controller.toggleBookmark();
                                   controller.product.value.isBookMark =
-                                      !(controller.product.value.isBookMark ??
-                                          false);
+                                  !(controller.product.value.isBookMark ??
+                                      false);
                                   controller.product.refresh();
-                                }),
+                                },
+                                child: Icon(product.isBookMark ?? true ? Icons.bookmark : Icons.bookmark_border,
+                                  size: 20, color: product.isBookMark ?? true
+                                      ? Colors.deepOrangeAccent
+                                      : primaryTextColor_(context),)),
+
                           ],
                         ),
                         Divider(
@@ -214,6 +217,29 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                               const SizedBox(width: 8),
                             ],
                             Spacer(),
+
+                            if (isAdded)
+                              GestureDetector(
+                                onTap: (){
+                                  FocusManager.instance.primaryFocus?.unfocus();
+                                  controller.toggleRemoveCart();
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.all(6),
+                                  decoration: BoxDecoration(
+                                    color: Colors.redAccent.shade200,
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                  child: ImageUtils.setSvgAssetsImage(
+                                    path: Drawable.deleteIcon,
+                                    width: 18,
+                                    height: 18,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+
+                            if (!isAdded)
                             ElevatedButton.icon(
                               style: ElevatedButton.styleFrom(
                                 minimumSize: const Size(0, 34),
@@ -279,12 +305,20 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                 ),
 
               SizedBox(height: 20),
-              NavigationCard(
-                value: "product_set".tr,
-                isShowArrow: true,
+              GestureDetector(
+                onTap: () {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                  var arguments = {"product_id": product.productId};
+                  controller.moveToScreen(
+                      AppRoutes.productSetScreen, arguments);
+                },
+                child: NavigationCard(
+                  value: "product_set".tr,
+                  isShowArrow: true,
+                ),
               ),
 
-              InkWell(
+              GestureDetector(
                   onTap: () {
                     FocusManager.instance.primaryFocus?.unfocus();
                     var arguments = {"product_id": product.productId};

@@ -4,7 +4,9 @@ import 'package:belcka/pages/user_orders/basket/controller/basket_controller.dar
 import 'package:belcka/pages/user_orders/widgets/out_of_stock_banner.dart';
 import 'package:belcka/pages/user_orders/widgets/product_quantity_widget.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/drawable.dart';
 import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/text/SubTitleTextView.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
@@ -83,19 +85,24 @@ class _BasketItemsListState extends State<BasketItemsList> {
                                         });
                                       },
                                       itemBuilder: (context, imgIndex) {
-                                        return Image.network(
-                                          product.productImages?[imgIndex].thumbUrl ?? "",
-                                          fit: BoxFit.cover,
-                                          errorBuilder:
-                                              (context, error, stack) {
-                                            return  Center(
-                                              child:  Icon(
-                                                Icons.photo_outlined,
-                                                size: 50,
-                                                color: Colors.grey.shade300,
-                                              ),
-                                            );
+                                        return InkWell(
+                                          onTap: (){
+                                            ImageUtils.moveToImagePreview(product.productImages ?? [], imgIndex);
                                           },
+                                          child: Image.network(
+                                            product.productImages?[imgIndex].thumbUrl ?? "",
+                                            fit: BoxFit.cover,
+                                            errorBuilder:
+                                                (context, error, stack) {
+                                              return  Center(
+                                                child:  Icon(
+                                                  Icons.photo_outlined,
+                                                  size: 50,
+                                                  color: Colors.grey.shade300,
+                                                ),
+                                              );
+                                            },
+                                          ),
                                         );
                                       },
                                     ),
@@ -175,40 +182,63 @@ class _BasketItemsListState extends State<BasketItemsList> {
                                     color: secondaryExtraLightTextColor_(context),
                                   ),
                                   const SizedBox(height: 8),
-                                  // Quantity Selector
-                                  Row(
-                                    children: [
-                                      ProductQuantityWidget(
-                                        focusNode: controller.qtyFocusNodes[index],
-                                        isSubQuantity: isSubQuantity,
-                                        quantity: (product.cartQty ?? 0).toInt(),
-                                        unit: packOfUnit,
-                                        onChanged: (value) {
-                                          controller.updateSubQty(index, value);
-                                        },
-                                        onIncrease: () {
-                                          setState(() {
-                                            controller.increaseQty(index);
-                                          });
-                                        },
-                                        onDecrease: () {
-                                          setState(() {
-                                            controller.decreaseQty(index);
-                                          });
-                                        },
-                                      ),
-                                      SizedBox(width: 8),
-                                      Spacer(),
-                                      IconButton(icon:
-                                      Icon(Icons.delete),
-                                          color: Colors.red,
-                                          onPressed: () {
-                                            controller.toggleRemoveCart(index);
-                                          }),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 10),
                                 ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        Divider(
+                          color: dividerColor_(context),
+                        ),
+                        Row(
+                          children: [
+                            ProductQuantityWidget(
+                              focusNode: controller.qtyFocusNodes[index],
+                              isSubQuantity: isSubQuantity,
+                              quantity: (product.cartQty ?? 0).toInt(),
+                              unit: packOfUnit,
+                              onChanged: (value) {
+                                controller.updateSubQty(index, value);
+                              },
+                              onIncrease: () {
+                                setState(() {
+                                  controller.increaseQty(index);
+                                });
+                              },
+                              onDecrease: () {
+                                setState(() {
+                                  controller.decreaseQty(index);
+                                });
+                              },
+                            ),
+                            Spacer(),
+                            ElevatedButton.icon(
+                              style: ElevatedButton.styleFrom(
+                                minimumSize: const Size(0, 34),
+                                backgroundColor: Colors.redAccent.shade200,
+                                foregroundColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 0, horizontal: 12),
+                              ),
+                              onPressed: () {
+                                FocusManager.instance.primaryFocus?.unfocus();
+                                controller.toggleRemoveCart(index);
+                              },
+                              icon: ImageUtils.setSvgAssetsImage(
+                                path: Drawable.deleteIcon,
+                                width: 18,
+                                height: 18,
+                                color: Colors.white,
+                              ),
+                              label: Text("remove".tr,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14,
+                                ),
                               ),
                             ),
                           ],

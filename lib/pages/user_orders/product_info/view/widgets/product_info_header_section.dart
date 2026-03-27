@@ -45,19 +45,24 @@ class _ProductInfoHeaderSectiontState extends State<ProductInfoHeaderSection> {
                     });
                   },
                   itemBuilder: (context, imgIndex) {
-                    return Image.network(
-                      controller.product.value.productImages?[imgIndex].thumbUrl ?? "",
-                      fit: BoxFit.cover,
-                      errorBuilder:
-                          (context, error, stack) {
-                        return  Center(
-                          child: Icon(
-                            Icons.photo_outlined,
-                            size: 50,
-                            color: Colors.grey.shade300,
-                          ),
-                        );
+                    return InkWell(
+                      onTap: (){
+                        ImageUtils.moveToImagePreview(controller.product.value.productImages ?? [], imgIndex);
                       },
+                      child: Image.network(
+                        controller.product.value.productImages?[imgIndex].thumbUrl ?? "",
+                        fit: BoxFit.cover,
+                        errorBuilder:
+                            (context, error, stack) {
+                          return  Center(
+                            child: Icon(
+                              Icons.photo_outlined,
+                              size: 50,
+                              color: Colors.grey.shade300,
+                            ),
+                          );
+                        },
+                      ),
                     );
                   },
                 ),

@@ -174,4 +174,6 @@ class AppRoutes {
       '/storeman_order_details_screen';
   static const String storemanInternalOrderDetailsScreen =
       '/storeman_internal_order_details_screen';
+
+  static const String productSetScreen = '/product_set_screen';
 }
