@@ -295,6 +295,7 @@ class BasketController extends GetxController implements SelectItemListener {
   }
 
   void toggleRemoveCart(int index) {
+    isLoading.value = true;
     final product = cartList[index];
     Map<String, dynamic> map = {};
     map["id"] = product.id;

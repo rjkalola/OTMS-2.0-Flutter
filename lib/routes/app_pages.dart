@@ -12,6 +12,7 @@ import 'package:belcka/buyer_app/purchasing/view/purchasing_screen.dart';
 import 'package:belcka/buyer_app/stores/add_store/view/buyer_add_store_screen.dart';
 import 'package:belcka/buyer_app/stores/store_list/view/buyer_stores_screen.dart';
 import 'package:belcka/buyer_app/suppliers/supplier_list/view/buyer_supplier_screen.dart';
+import 'package:belcka/pages/user_orders/product_set/view/product_set_screen.dart';
 import 'package:belcka/storeman_app/storeman_internal_order_details/view/storeman_internal_order_details_screen.dart';
 import 'package:belcka/storeman_app/storeman_internal_orders/view/storeman_internal_orders_screen.dart';
 import 'package:belcka/storeman_app/storeman_supplier_orders/view/storeman_supplier_orders_screen.dart';
@@ -518,5 +519,9 @@ class AppPages {
     GetPage(
         name: AppRoutes.storemanInternalOrderDetailsScreen,
         page: () => StoremanInternalOrderDetailsScreen()),
+
+    GetPage(
+        name: AppRoutes.productSetScreen,
+        page: () => ProductSetScreen()),
   ];
 }

@@ -27,6 +27,7 @@ class SignUp1Controller extends GetxController
   final phoneController = TextEditingController().obs;
   final firstNameController = TextEditingController().obs;
   final lastNameController = TextEditingController().obs;
+  final emailController = TextEditingController().obs;
   final focusNodePhone = FocusNode().obs;
   final mExtension = AppConstants.defaultPhoneExtension.obs;
   final mExtensionId = AppConstants.defaultPhoneExtensionId.obs;
@@ -215,6 +216,7 @@ class SignUp1Controller extends GetxController
     map["last_name"] = StringHelper.getText(lastNameController.value);
     map["extension"] = mExtension.value;
     map["phone"] = StringHelper.getPhoneNumberText(phoneController.value);
+    map["email"] = StringHelper.getText(emailController.value);
     map["device_type"] = AppConstants.deviceType;
     // map["device_name"] = AppUtils.getDeviceName();
     // map["latitude"] = "";

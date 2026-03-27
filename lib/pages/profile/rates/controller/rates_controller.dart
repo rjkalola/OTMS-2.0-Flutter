@@ -66,6 +66,7 @@ class RatesController extends GetxController implements SelectItemListener, Dial
     }
     return 0.0;
   }
+  /*
   void calculateGrossAndCIS(){
     var cisPercentage = (int.tryParse(billingInfo.value.cis ?? "") ?? 0) / 100;
     print("cisPercentage:$cisPercentage");
@@ -85,6 +86,38 @@ class RatesController extends GetxController implements SelectItemListener, Dial
       cis.value = net * cisFinalValue;
       grossPerDay.value = net + cis.value;
     }
+    _checkForChanges();
+  }
+  */
+  void calculateGrossAndCIS() {
+    // 1. Parse the CIS percentage (expecting "20" or "30")
+    final cisInput = int.tryParse(billingInfo.value.cis ?? "") ?? 0;
+
+    // 2. Determine multipliers based on your requirements
+    double grossMultiplier;
+    double cisMultiplier;
+
+    if (cisInput == 30) {
+      grossMultiplier = 1.4286;
+      cisMultiplier = 0.4286;
+    } else {
+      // Defaulting to 20% logic as per your request
+      grossMultiplier = 1.25;
+      cisMultiplier = 0.25;
+    }
+
+    // 3. Get the Net value based on the current state
+    double net;
+    if (isRateRequested.value) {
+      net = double.tryParse(originalNetPerDay) ?? 0.00;
+    } else {
+      net = double.tryParse(netPerDayController.value.text) ?? 0.00;
+    }
+
+    // 4. Apply the formulas
+    cis.value = net * cisMultiplier;
+    grossPerDay.value = net * grossMultiplier;
+
     _checkForChanges();
   }
   bool isSameRate(double? oldRate, String newRateInput) {

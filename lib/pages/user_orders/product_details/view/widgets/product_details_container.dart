@@ -11,8 +11,6 @@ class ProductDetailsContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ProductDetailsHeaderView(),
-        SizedBox(height: 4,),
         ProductDetailsWidget()
       ],
     );

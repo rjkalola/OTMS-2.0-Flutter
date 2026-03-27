@@ -7,6 +7,7 @@ import 'package:belcka/pages/user_orders/order_history/model/order_history_respo
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/response_model.dart';
+import 'package:dio/dio.dart' as multi;
 import 'package:get/get.dart';
 
 class OrderDetailsController extends GetxController{
@@ -98,12 +99,14 @@ class OrderDetailsController extends GetxController{
         map["product_data[$i][id]"] = productInfo.productId;
         map["product_data[$i][qty]"] = productInfo.remainingQty;
       }
-      print("JSON Payload:" + map.toString());
     }
+
+    print("JSON Payload:" + map.toString());
+    multi.FormData formData = multi.FormData.fromMap(map);
 
     isLoading.value = true;
     _api.updateOrderStatusAPI(
-      data: map,
+      formData: formData,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           isDataUpdated = true;

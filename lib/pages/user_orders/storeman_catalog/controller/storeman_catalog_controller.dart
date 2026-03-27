@@ -24,19 +24,6 @@ class StoremanCatalogController extends GetxController {
       isRightSideListEnable = true.obs,
       isResetEnable = false.obs;
 
-  final List<IconData> sideIcons = const [
-    Icons.expand,
-    Icons.kitchen,
-    Icons.chair,
-    Icons.light,
-    Icons.bathtub,
-    Icons.dining,
-    Icons.ac_unit,
-    Icons.water_drop,
-    Icons.wifi,
-    Icons.settings,
-  ];
-
   final products = <ProductInfo>[].obs;
   List<ProductInfo> tempList = [];
 
@@ -197,7 +184,7 @@ class StoremanCatalogController extends GetxController {
   }
 
   void toggleBookmark(int index) {
-    // isLoading.value = true;
+     //isLoading.value = true;
     final product = products[index];
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;

@@ -1,5 +1,6 @@
 import 'package:belcka/pages/user_orders/product_details/controller/product_details_controller.dart';
 import 'package:belcka/pages/user_orders/product_details/view/widgets/product_details_container.dart';
+import 'package:belcka/pages/user_orders/widgets/orders_base_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -39,7 +40,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               },
               child: Scaffold(
                 backgroundColor: dashBoardBgColor_(context),
-                appBar: BaseAppBar(
+                appBar: OrdersBaseAppBar(
                   appBar: AppBar(),
                   title: 'product_details'.tr,
                   isCenterTitle: false,

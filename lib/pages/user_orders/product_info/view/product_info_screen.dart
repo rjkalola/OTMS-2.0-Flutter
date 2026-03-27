@@ -1,6 +1,6 @@
-import 'package:belcka/pages/user_orders/basket/controller/basket_controller.dart';
 import 'package:belcka/pages/user_orders/product_info/controller/product_info_controller.dart';
 import 'package:belcka/pages/user_orders/product_info/view/widgets/product_info_container.dart';
+import 'package:belcka/pages/user_orders/widgets/orders_base_app_bar.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
@@ -28,7 +28,7 @@ class _ProductInfoScreenState extends State<ProductInfoScreen> {
         child: Obx(
               () => Scaffold(
             backgroundColor: dashBoardBgColor_(context),
-            appBar: BaseAppBar(
+            appBar: OrdersBaseAppBar(
               appBar: AppBar(),
               title: 'product_info'.tr,
               isCenterTitle: false,
