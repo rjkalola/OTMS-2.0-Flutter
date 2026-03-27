@@ -28,7 +28,6 @@ import 'package:get/get.dart';
 
 import '../../../utils/AlertDialogHelper.dart';
 
-/// Copied from [StoremanOrderDetailsController] for buyer-side storeman-style flow.
 class BuyerOrderDetailController extends GetxController
     implements
         SelectDateListener,
@@ -40,6 +39,7 @@ class BuyerOrderDetailController extends GetxController
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
       isCancelQtyAvailable = false.obs;
+  RxBool isCancelCheck = false.obs;
   RxInt status = 0.obs;
   final noteController = TextEditingController().obs;
   final receiveDateController = TextEditingController().obs;
@@ -83,11 +83,13 @@ class BuyerOrderDetailController extends GetxController
               initialStatus != 0 ? initialStatus : orderInfo.value.status ?? 0;
           tempOrderProductsList.clear();
           isCancelQtyAvailable.value = false;
+          isCancelCheck.value = false;
 
           for (var info in orderInfo.value.purchaseOrders!) {
             info.cartQty = (info.qty ?? 0) -
                 (info.deliveredQty ?? 0) -
                 (info.cancelledQty ?? 0);
+            info.isCheck = false;
             if ((info.cancelledQty ?? 0) > 0) {
               isCancelQtyAvailable.value = true;
             }
@@ -165,11 +167,11 @@ class BuyerOrderDetailController extends GetxController
                   (productInfo.cancelledQty ?? 0))
               .toInt() !=
           (productInfo.cartQty ?? 0).toInt()) {
-        if (StringHelper.isEmptyString(productInfo.note)) {
+        if (StringHelper.isEmptyString(productInfo.tempNote)) {
           valid = false;
           break;
         }
-        if (StringHelper.isEmptyList(productInfo.attachments)) {
+        if (StringHelper.isEmptyList(productInfo.tempAttachments)) {
           valid = false;
           break;
         }
@@ -183,20 +185,22 @@ class BuyerOrderDetailController extends GetxController
     map["id"] = orderId;
     map["company_id"] = ApiConstants.companyId;
     map["status"] = AppConstants.orderStatus.cancelled;
+    final selectedProducts =
+        orderProductsList.where((item) => item.isCheck ?? false).toList();
 
-    for (int i = 0; i < orderProductsList.length; i++) {
-      ProductInfo productInfo = orderProductsList[i];
+    for (int i = 0; i < selectedProducts.length; i++) {
+      ProductInfo productInfo = selectedProducts[i];
       map["product_data[$i][id]"] = productInfo.productId ?? 0;
       map["product_data[$i][qty]"] = productInfo.cartQty ?? 0;
-      map["product_data[$i][note]"] = productInfo.note ?? "";
+      map["product_data[$i][note]"] = productInfo.tempNote ?? "";
     }
 
     print("map:" + map.toString());
     multi.FormData formData = multi.FormData.fromMap(map);
 
-    for (int i = 0; i < orderProductsList.length; i++) {
-      ProductInfo productInfo = orderProductsList[i];
-      for (FilesInfo filesInfo in productInfo.attachments ?? []) {
+    for (int i = 0; i < selectedProducts.length; i++) {
+      ProductInfo productInfo = selectedProducts[i];
+      for (FilesInfo filesInfo in productInfo.tempAttachments ?? []) {
         if (!StringHelper.isEmptyString(filesInfo.imageUrl) &&
             !filesInfo.imageUrl!.startsWith("http")) {
           print("product_data[$i][images][]" + (filesInfo.imageUrl ?? ""));
@@ -257,7 +261,23 @@ class BuyerOrderDetailController extends GetxController
     }
   }
 
-  void onItemClick(int index) {}
+  void onItemClick(int index) {
+    // orderProductsList[index].isCheck =
+    //     !(orderProductsList[index].isCheck ?? false);
+    // orderProductsList.refresh();
+  }
+
+  void enableCancelCheck() {
+    isCancelCheck.value = true;
+    // for (final item in orderProductsList) {
+    //   item.isCheck = false;
+    // }
+    // orderProductsList.refresh();
+  }
+
+  bool hasSelectedCancelItem() {
+    return orderProductsList.any((item) => item.isCheck ?? false);
+  }
 
   void searchItem(String value) {
     if (value.isEmpty) {
@@ -353,20 +373,27 @@ class BuyerOrderDetailController extends GetxController
   addPhotoToList(String? path) {
     if (!StringHelper.isEmptyString(path)) {
       List<FilesInfo> listPhotos =
-          orderProductsList[selectedIndex].attachments ?? [];
+          orderProductsList[selectedIndex].tempAttachments ?? [];
       FilesInfo info = FilesInfo();
       info.imageUrl = path;
       listPhotos.add(info);
-      orderProductsList[selectedIndex].attachments = listPhotos;
+      orderProductsList[selectedIndex].tempAttachments = listPhotos;
       orderProductsList.refresh();
     }
   }
 
   void showMenuItemsDialog(BuildContext context) {
     List<ModuleInfo> listItems = [];
-    listItems.add(ModuleInfo(
-        name: 'cancelled_order_invoice'.tr,
-        action: AppConstants.action.cancelledOrderInvoice));
+    if (status.value != AppConstants.orderStatus.inStock) {
+      listItems.add(ModuleInfo(
+          name: 'cancel_order'.tr, action: AppConstants.action.cancelOrder));
+    }
+    if (isCancelQtyAvailable.value) {
+      listItems.add(ModuleInfo(
+          name: 'cancelled_order_invoice'.tr,
+          action: AppConstants.action.cancelledOrderInvoice));
+    }
+
     showCupertinoModalPopup(
       context: context,
       builder: (_) =>
@@ -378,6 +405,8 @@ class BuyerOrderDetailController extends GetxController
   Future<void> onSelectMenuItem(ModuleInfo info, String dialogType) async {
     if (info.action == AppConstants.action.cancelledOrderInvoice) {
       buyerOrderInvoiceApi(orderInfo.value.id ?? 0, isCancelled: true);
+    } else if (info.action == AppConstants.action.cancelOrder) {
+      enableCancelCheck();
     }
   }
 }

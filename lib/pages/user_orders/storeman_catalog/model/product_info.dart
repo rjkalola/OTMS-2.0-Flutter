@@ -59,6 +59,7 @@ class ProductInfo {
   int? cartId;
   List<FilesInfo>? productImages;
   List<FilesInfo>? attachments;
+  List<FilesInfo>? tempAttachments;
   int? deliveredQty;
   int? receivedQty;
   int? totalQty;
@@ -76,6 +77,9 @@ class ProductInfo {
   String? packOfUnit;
   String? packOfUnitName;
   String? note;
+  List<String>? notes;
+  String? tempNote;
+  bool? isCheck;
 
   ProductInfo(
       {this.id,
@@ -139,6 +143,7 @@ class ProductInfo {
       this.storeIds,
       this.productImages,
       this.attachments,
+      this.tempAttachments,
       this.cartId,
       this.availableQty,
       this.remainingQty,
@@ -152,7 +157,10 @@ class ProductInfo {
       this.productThumbImage,
       this.packOfUnit,
       this.packOfUnitName,
-      this.note});
+      this.note,
+      this.notes,
+      this.tempNote,
+      this.isCheck});
 
   ProductInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -223,6 +231,12 @@ class ProductInfo {
         attachments!.add(new FilesInfo.fromJson(v));
       });
     }
+    if (json['temp_attachments'] != null) {
+      tempAttachments = <FilesInfo>[];
+      json['temp_attachments'].forEach((v) {
+        tempAttachments!.add(new FilesInfo.fromJson(v));
+      });
+    }
     receivedQty = json['received_qty'];
     deliveredQty = json['delivered_qty'];
     totalQty = json['total_qty'];
@@ -240,6 +254,11 @@ class ProductInfo {
     packOfUnit = json['pack_off_unit'];
     packOfUnitName = json['pack_off_unit_name'];
     note = json['note'];
+    if (json['notes'] != null) {
+      notes = List<String>.from(json['notes']);
+    }
+    tempNote = json['temp_note'];
+    isCheck = json['is_check'];
   }
 
   Map<String, dynamic> toJson() {
@@ -306,6 +325,10 @@ class ProductInfo {
     if (this.attachments != null) {
       data['attachments'] = this.attachments!.map((v) => v.toJson()).toList();
     }
+    if (this.tempAttachments != null) {
+      data['temp_attachments'] =
+          this.tempAttachments!.map((v) => v.toJson()).toList();
+    }
 
     data['received_qty'] = this.receivedQty;
     data['delivered_qty'] = this.deliveredQty;
@@ -326,6 +349,9 @@ class ProductInfo {
     data['pack_off_unit'] = this.packOfUnit;
     data['pack_off_unit_name'] = this.packOfUnitName;
     data['note'] = this.note;
+    data['notes'] = this.notes;
+    data['temp_note'] = this.tempNote;
+    data['is_check'] = this.isCheck;
 
     return data;
   }

@@ -2,19 +2,11 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:belcka/pages/check_in/clock_in/controller/clock_in_repository.dart';
-import 'package:belcka/pages/project/project_details/controller/project_details_repository.dart';
-import 'package:belcka/pages/project/project_details/model/project_details_api_response.dart';
-import 'package:belcka/pages/project/project_info/model/geofence_info.dart';
-import 'package:belcka/pages/project/project_info/model/project_info.dart';
-import 'package:belcka/web_services/response/base_response.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:belcka/pages/check_in/clock_in/model/location_info.dart';
 import 'package:belcka/pages/check_in/select_shift/controller/select_shift_repository.dart';
 import 'package:belcka/pages/check_in/select_shift/model/start_work_response.dart';
+import 'package:belcka/pages/project/project_info/model/geofence_info.dart';
+import 'package:belcka/pages/project/project_info/model/project_info.dart';
 import 'package:belcka/pages/shifts/shift_list/controller/shift_list_repository.dart';
 import 'package:belcka/pages/shifts/shift_list/model/shift_list_response.dart';
 import 'package:belcka/routes/app_routes.dart';
@@ -25,7 +17,12 @@ import 'package:belcka/utils/data_utils.dart';
 import 'package:belcka/utils/location_service_new.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/web_services/api_constants.dart';
+import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/module_info.dart';
+import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../../web_services/response/response_model.dart';
 

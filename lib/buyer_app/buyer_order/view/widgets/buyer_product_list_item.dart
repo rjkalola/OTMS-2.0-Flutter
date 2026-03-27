@@ -60,10 +60,10 @@ class BuyerProductListItem extends StatelessWidget {
                       children: [
                         ImageUtils.setRectangleCornerCachedNetworkImage(
                           url: item.thumbUrl ?? "",
-                          width: 90,
-                          height: 90,
+                          width: 86,
+                          height: 86,
                           borderRadius: 4,
-                          fit: BoxFit.cover,
+                          fit: BoxFit.contain,
                         ),
                         const SizedBox(width: 12),
                         Expanded(

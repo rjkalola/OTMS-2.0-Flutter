@@ -210,7 +210,8 @@ class ApiConstants {
   static String getProjectCheckLogs = '$appUrl/project/get-checklogs';
   static String getProjectTradeRecords = '$appUrl/trade/get-checklogs';
   static String activeProject = '$appUrl/project/active';
-  static String getUserLocations = '$appUrl/user-location/get-user-locations';
+  static String getTeamUserLocations =
+      '$appUrl/user-location/get-team-user-locations';
   static String workZoneGetGroups = '$appUrl/work-zone/app-get-groups';
 
   //address

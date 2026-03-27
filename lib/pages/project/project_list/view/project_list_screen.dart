@@ -126,7 +126,7 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
         visible: UserUtils.isAdmin(),
         child: IconButton(
           icon: Icon(Icons.more_vert_outlined),
-          onPressed: () {
+          onPressed: () { 
             if (UserUtils.isAdmin()) {
               controller.showMenuItemsDialog(Get.context!);
             }

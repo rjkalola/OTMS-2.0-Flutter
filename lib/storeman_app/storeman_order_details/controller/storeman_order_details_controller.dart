@@ -184,11 +184,11 @@ class StoremanOrderDetailsController extends GetxController
                   (productInfo.cancelledQty ?? 0))
               .toInt() !=
           (productInfo.cartQty ?? 0).toInt()) {
-        if (StringHelper.isEmptyString(productInfo.note)) {
+        if (StringHelper.isEmptyString(productInfo.tempNote)) {
           valid = false;
           break;
         }
-        if (StringHelper.isEmptyList(productInfo.attachments)) {
+        if (StringHelper.isEmptyList(productInfo.tempAttachments)) {
           valid = false;
           break;
         }
@@ -211,7 +211,7 @@ class StoremanOrderDetailsController extends GetxController
         ProductInfo productInfo = orderProductsList[i];
         map["product_data[$i][id]"] = productInfo.productId ?? 0;
         map["product_data[$i][qty]"] = productInfo.cartQty ?? 0;
-        map["product_data[$i][note]"] = productInfo.note ?? "";
+        map["product_data[$i][note]"] = productInfo.tempNote ?? "";
       }
     }
 
@@ -224,7 +224,7 @@ class StoremanOrderDetailsController extends GetxController
         ProductInfo productInfo = orderProductsList[i];
         // if ((productInfo.qty ?? 0).toInt() !=
         //     (productInfo.cartQty ?? 0).toInt()) {
-        for (FilesInfo filesInfo in productInfo.attachments ?? []) {
+        for (FilesInfo filesInfo in productInfo.tempAttachments ?? []) {
           if (!StringHelper.isEmptyString(filesInfo.imageUrl) &&
               !filesInfo.imageUrl!.startsWith("http")) {
             print("product_data[$i][images][]" + (filesInfo.imageUrl ?? ""));
@@ -450,11 +450,11 @@ class StoremanOrderDetailsController extends GetxController
   addPhotoToList(String? path) {
     if (!StringHelper.isEmptyString(path)) {
       List<FilesInfo> listPhotos =
-          orderProductsList[selectedIndex].attachments ?? [];
+          orderProductsList[selectedIndex].tempAttachments ?? [];
       FilesInfo info = FilesInfo();
       info.imageUrl = path;
       listPhotos.add(info);
-      orderProductsList[selectedIndex].attachments = listPhotos;
+      orderProductsList[selectedIndex].tempAttachments = listPhotos;
       orderProductsList.refresh();
       // attachmentList.add(info);
     }

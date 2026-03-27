@@ -170,33 +170,33 @@ class _StoremanOrderDetailsScreenState
                                           },
                                           color: Colors.green,
                                         )),
-                                    SizedBox(
-                                      width: 12,
-                                    ),
-                                    Flexible(
-                                      flex: 1,
-                                      child: PrimaryButton(
-                                        buttonText: 'cancel'.tr,
-                                        onPressed: () {
-                                          if (controller
-                                              .isProductQuantityValid()) {
-                                            if (controller.isValidOrder()) {
-                                              controller
-                                                  .showOrderCancelDialog();
-                                            } else {
-                                              AppUtils.showToastMessage(
-                                                  'msg_storeman_order_note_and_photo'
-                                                      .tr);
-                                            }
-                                          } else {
-                                            AppUtils.showToastMessage(
-                                                'msg_select_at_least_one_qty'
-                                                    .tr);
-                                          }
-                                        },
-                                        color: Colors.redAccent,
-                                      ),
-                                    )
+                                    // SizedBox(
+                                    //   width: 12,
+                                    // ),
+                                    // Flexible(
+                                    //   flex: 1,
+                                    //   child: PrimaryButton(
+                                    //     buttonText: 'cancel'.tr,
+                                    //     onPressed: () {
+                                    //       if (controller
+                                    //           .isProductQuantityValid()) {
+                                    //         if (controller.isValidOrder()) {
+                                    //           controller
+                                    //               .showOrderCancelDialog();
+                                    //         } else {
+                                    //           AppUtils.showToastMessage(
+                                    //               'msg_storeman_order_note_and_photo'
+                                    //                   .tr);
+                                    //         }
+                                    //       } else {
+                                    //         AppUtils.showToastMessage(
+                                    //             'msg_select_at_least_one_qty'
+                                    //                 .tr);
+                                    //       }
+                                    //     },
+                                    //     color: Colors.redAccent,
+                                    //   ),
+                                    // )
                                   ],
                                 ),
                               ),

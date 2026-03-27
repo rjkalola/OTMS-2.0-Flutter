@@ -8,7 +8,9 @@ import 'package:belcka/res/drawable.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/widgets/PrimaryBorderButton.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/widgets/checkbox/custom_checkbox.dart';
 import 'package:belcka/widgets/image/document_view.dart';
 import 'package:belcka/widgets/text/SubTitleTextView.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
@@ -38,87 +40,114 @@ class BuyerOrderDetailProductsListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool hideAddImage = status == AppConstants.orderStatus.inStock ||
-        status == AppConstants.orderStatus.cancelled;
-
-    /// Note / attachments row always shown; editing + add image off in stock & cancelled.
-    final bool canEditNoteSection = !hideAddImage;
+    bool isEnableEdit = status != AppConstants.orderStatus.inStock;
+    bool isQtyNotMatched =
+        ((item.qty ?? 0) - (item.deliveredQty ?? 0) - (item.cancelledQty ?? 0))
+                .toInt() !=
+            (item.cartQty ?? 0);
+    bool isHaveAttachment = !StringHelper.isEmptyList(item.tempAttachments);
+    print("isEnableEdit:" + isEnableEdit.toString());
+    print("isQtyNotMatched:" + isQtyNotMatched.toString());
+    print("haveAttachment:" + isHaveAttachment.toString());
     return GestureDetector(
       onTap: onListItem,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
         child: CardViewDashboardItem(
           borderRadius: 10,
-          padding: const EdgeInsets.fromLTRB(14, 14, 14, 10),
+          padding: EdgeInsets.fromLTRB(
+              controller.isCancelCheck.value ? 4 : 14, 14, 14, 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Visibility(
+                    visible: controller.isCancelCheck.value,
+                    child: Container(
+                      height: 86,
+                      alignment: Alignment.center,
+                      child: CustomCheckbox(
+                        onValueChange: (value) {
+                          item.isCheck = value ?? false;
+                          controller.orderProductsList.refresh();
+                        },
+                        mValue: item.isCheck ?? false,
+                      ),
+                    ),
+                  ),
                   ImageUtils.setRectangleCornerCachedNetworkImage(
                     url: item.thumbUrl ?? "",
-                    width: 100,
-                    height: 100,
+                    width: 86,
+                    height: 86,
                     borderRadius: 4,
-                    fit: BoxFit.cover,
+                    fit: BoxFit.contain,
                   ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TitleTextView(
-                          text: item.shortName,
-                          fontSize: 15,
-                          maxLine: 2,
-                          fontWeight: FontWeight.w500,
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: TitleTextView(
+                                text: item.shortName,
+                                fontSize: 15,
+                                maxLine: 2,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            Visibility(
+                                visible: !StringHelper.isEmptyList(
+                                        item.notes) ||
+                                    !StringHelper.isEmptyList(item.attachments),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    _showNotesAttachmentsBottomSheet(context);
+                                  },
+                                  child: ImageUtils.setSvgAssetsImage(
+                                      path: Drawable.historyIcon,
+                                      width: 24,
+                                      height: 24),
+                                )),
+                          ],
                         ),
-                        const SizedBox(height: 1),
                         SubtitleTextView(
                           text: item.uuid ?? "",
                           fontSize: 13,
                           color: secondaryExtraLightTextColor_(context),
                         ),
-                        const SizedBox(height: 9),
-                        controller.status.value !=
-                                    AppConstants.orderStatus.inStock &&
-                                controller.status.value !=
-                                    AppConstants.orderStatus.cancelled
-                            ? Row(
-                                children: [
-                                  OrderQuantityChangeButton(
-                                      text: "-", onTap: onRemove),
-                                  const SizedBox(width: 8),
-                                  OrderQuantityDisplayTextView(
-                                    value: (item.cartQty ?? 0).toInt(),
-                                    width: 52,
-                                    height: 30,
-                                  ),
-                                  const SizedBox(width: 8),
-                                  OrderQuantityChangeButton(
-                                      text: "+", onTap: onAdd),
-                                ],
-                              )
-                            : Row(
-                                children: [
-                                  TitleTextView(
-                                    text: "Qty: ",
-                                  ),
-                                  OrderQuantityDisplayTextView(
-                                    value: (item.qty ?? 0).toInt(),
-                                    height: 28,
-                                  )
-                                ],
+                        if (item.isCheck ?? false) const SizedBox(height: 9),
+                        if (item.isCheck ?? false)
+                          Row(
+                            children: [
+                              OrderQuantityChangeButton(
+                                  text: "-", onTap: onRemove),
+                              const SizedBox(width: 8),
+                              OrderQuantityDisplayTextView(
+                                value: (item.cartQty ?? 0).toInt(),
+                                width: 52,
+                                height: 30,
                               ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Visibility(
-                          // visible: controller.status.value !=
-                          //     AppConstants.orderStatus.received,
-                          visible: true,
-                          child: Row(
+                              Visibility(
+                                visible: isQtyNotMatched,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 8),
+                                  child: OrderQuantityChangeButton(
+                                      text: "+", onTap: onAdd),
+                                ),
+                              ),
+                            ],
+                          ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8),
+                          child: Wrap(
+                            spacing: 6,
+                            runSpacing: 0,
+                            crossAxisAlignment: WrapCrossAlignment.center,
                             children: [
                               TitleTextView(
                                 text:
@@ -127,7 +156,6 @@ class BuyerOrderDetailProductsListItem extends StatelessWidget {
                                 color: primaryTextColor_(context),
                               ),
                               Container(
-                                margin: EdgeInsets.only(left: 6, right: 6),
                                 width: 1,
                                 height: 12,
                                 color: secondaryExtraLightTextColor_(context),
@@ -139,8 +167,6 @@ class BuyerOrderDetailProductsListItem extends StatelessWidget {
                                 color: primaryTextColor_(context),
                               ),
                               Container(
-                                margin:
-                                    const EdgeInsets.only(left: 6, right: 6),
                                 width: 1,
                                 height: 12,
                                 color: secondaryExtraLightTextColor_(context),
@@ -153,7 +179,7 @@ class BuyerOrderDetailProductsListItem extends StatelessWidget {
                               )
                             ],
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -162,21 +188,21 @@ class BuyerOrderDetailProductsListItem extends StatelessWidget {
               const SizedBox(
                 height: 4,
               ),
-              Column(
-                children: [
-                  const SizedBox(
-                    height: 2,
-                  ),
-                  Divider(
-                    color: dividerColor_(context),
-                  ),
-                  const SizedBox(
-                    height: 6,
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (!hideAddImage) ...[
+              Visibility(
+                visible: isEnableEdit && isQtyNotMatched,
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 2,
+                    ),
+                    Divider(
+                      color: dividerColor_(context),
+                    ),
+                    const SizedBox(
+                      height: 6,
+                    ),
+                    Row(
+                      children: [
                         GestureDetector(
                           onTap: () {
                             controller.showAttachmentOptionsDialog(index);
@@ -189,72 +215,191 @@ class BuyerOrderDetailProductsListItem extends StatelessWidget {
                         const SizedBox(
                           width: 6,
                         ),
-                      ],
-                      Expanded(
-                          child: TextFieldBorderDark(
-                        isDense: true,
-                        contentPadding: const EdgeInsets.only(
-                            left: 12, right: 12, top: 9, bottom: 9),
-                        textEditingController:
-                            TextEditingController(text: item.note ?? ""),
-                        hintText: 'note'.tr,
-                        labelText: 'note'.tr,
-                        textInputAction: TextInputAction.newline,
-                        validator: MultiValidator([]),
-                        isReadOnly: !canEditNoteSection,
-                        textAlignVertical: TextAlignVertical.top,
-                        onValueChange: (value) {
-                          item.note = value;
-                        },
-                        maxLength: 150,
-                        fontSize: 14,
-                        borderRadius: 10,
-                      ))
-                    ],
-                  ),
-                  Visibility(
-                    visible: !StringHelper.isEmptyList(item.attachments),
-                    child: Padding(
-                        padding: const EdgeInsets.only(top: 6),
-                        child: GridView.builder(
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            childAspectRatio: (1 / 1),
-                            crossAxisCount: 5,
-                            mainAxisSpacing: 7.0,
-                            crossAxisSpacing: 7.0,
-                          ),
-                          padding: const EdgeInsets.all(8.0),
-                          itemCount: (item.attachments ?? []).length,
-                          itemBuilder: (context, index) {
-                            FilesInfo fileInfo =
-                                (item.attachments ?? [])[index];
-                            return InkWell(
-                              onTap: () async {
-                                ImageUtils.moveToImagePreview(
-                                    item.attachments!, index);
-                              },
-                              child: DocumentView(
-                                  isEditable: canEditNoteSection &&
-                                      (fileInfo.id ?? 0) == 0,
-                                  file: fileInfo.imageUrl ?? "",
-                                  onRemoveClick: () {
-                                    item.attachments!.removeAt(index);
-                                    controller.orderProductsList.refresh();
-                                  }),
-                            );
+                        Expanded(
+                            child: TextFieldBorderDark(
+                          isDense: true,
+                          contentPadding: EdgeInsets.only(
+                              left: 12, right: 12, top: 9, bottom: 9),
+                          textEditingController:
+                              TextEditingController(text: item.tempNote ?? ""),
+                          hintText: 'note'.tr,
+                          labelText: 'note'.tr,
+                          textInputAction: TextInputAction.newline,
+                          validator: MultiValidator([]),
+                          isReadOnly: false,
+                          textAlignVertical: TextAlignVertical.top,
+                          onValueChange: (value) {
+                            item.tempNote = value;
                           },
-                        )),
-                  ),
-                ],
+                          maxLength: 150,
+                          fontSize: 14,
+                          borderRadius: 10,
+                        ))
+                      ],
+                    ),
+                    Visibility(
+                      visible: isHaveAttachment,
+                      child: Padding(
+                          padding: const EdgeInsets.only(top: 6),
+                          child: GridView.builder(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              childAspectRatio: (1 / 1),
+                              crossAxisCount: 5,
+                              mainAxisSpacing: 7.0,
+                              crossAxisSpacing: 7.0,
+                            ),
+                            padding: const EdgeInsets.all(8.0),
+                            itemCount: (item.tempAttachments ?? []).length,
+                            itemBuilder: (context, index) {
+                              FilesInfo fileInfo =
+                                  (item.tempAttachments ?? [])[index];
+                              return InkWell(
+                                onTap: () async {
+                                  ImageUtils.moveToImagePreview(
+                                      item.tempAttachments!, index);
+                                },
+                                child: DocumentView(
+                                    isEditable:
+                                        isEnableEdit && (fileInfo.id ?? 0) == 0,
+                                    file: fileInfo.imageUrl ?? "",
+                                    onRemoveClick: () {
+                                      item.tempAttachments!.removeAt(index);
+                                      controller.orderProductsList.refresh();
+                                    }),
+                              );
+                            },
+                          )),
+                    ),
+                  ],
+                ),
               )
             ],
           ),
         ),
       ),
+    );
+  }
+
+  void _showNotesAttachmentsBottomSheet(BuildContext context) {
+    final notes = item.notes ?? <String>[];
+    final attachments =
+        item.tempAttachments ?? item.attachments ?? <FilesInfo>[];
+
+    Get.bottomSheet(
+      SafeArea(
+        child: Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: backgroundColor_(context),
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(18),
+              topRight: Radius.circular(18),
+            ),
+          ),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 22, 16, 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TitleTextView(
+                    text: 'notes'.tr,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  const SizedBox(height: 8),
+                  if (notes.isEmpty)
+                    SubtitleTextView(
+                      text: "-",
+                      fontSize: 14,
+                      color: secondaryExtraLightTextColor_(context),
+                    )
+                  else
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        for (int i = 0; i < notes.length; i++) ...[
+                          if (i > 0) ...[
+                            SizedBox(height: 10),
+                            Divider(
+                              height: 1,
+                              color: dividerColor_(context),
+                            ),
+                            SizedBox(height: 10),
+                          ],
+                          SubtitleTextView(
+                            text: notes[i],
+                            fontSize: 15,
+                            color: primaryTextColor_(context),
+                          ),
+                        ],
+                      ],
+                    ),
+                  const SizedBox(height: 18),
+                  TitleTextView(
+                    text: 'attachments'.tr,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  const SizedBox(height: 8),
+                  if (attachments.isEmpty)
+                    SubtitleTextView(
+                      text: "-",
+                      fontSize: 14,
+                      color: secondaryExtraLightTextColor_(context),
+                    )
+                  else
+                    GridView.builder(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        childAspectRatio: (1 / 1),
+                        crossAxisCount: 5,
+                        mainAxisSpacing: 7.0,
+                        crossAxisSpacing: 7.0,
+                      ),
+                      padding: const EdgeInsets.all(8.0),
+                      itemCount: attachments.length,
+                      itemBuilder: (context, index) {
+                        final fileInfo = attachments[index];
+                        return InkWell(
+                          onTap: () async {
+                            Get.back();
+                            Future.microtask(() =>
+                                ImageUtils.moveToImagePreview(
+                                    attachments, index));
+                          },
+                          child: DocumentView(
+                            isEditable: false,
+                            file: fileInfo.thumbUrl ?? "",
+                            onRemoveClick: () {},
+                          ),
+                        );
+                      },
+                    ),
+                  const SizedBox(height: 20),
+                  PrimaryBorderButton(
+                    buttonText: 'close'.tr,
+                    fontWeight: FontWeight.w400,
+                    fontColor: secondaryLightTextColor_(context),
+                    borderColor: secondaryExtraLightTextColor_(context),
+                    onPressed: () => Get.back(),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
     );
   }
 }

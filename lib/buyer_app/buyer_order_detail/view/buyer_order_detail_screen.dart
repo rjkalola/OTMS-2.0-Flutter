@@ -86,14 +86,16 @@ class _BuyerOrderDetailScreenState extends State<BuyerOrderDetailScreen> {
                                 ),
                               ),
                             ),
-                            if (controller.status.value !=
-                                    AppConstants.orderStatus.inStock &&
-                                controller.status.value !=
-                                    AppConstants.orderStatus.cancelled)
+                            if (controller.isCancelCheck.value)
                               PrimaryButton(
                                 margin: const EdgeInsets.all(14),
                                 buttonText: 'cancel'.tr,
                                 onPressed: () {
+                                  if (!controller.hasSelectedCancelItem()) {
+                                    AppUtils.showToastMessage(
+                                        'msg_select_at_least_one_qty'.tr);
+                                    return;
+                                  }
                                   if (controller.isProductQuantityValid()) {
                                     if (controller.isValidOrder()) {
                                       controller.showOrderCancelDialog();
@@ -107,7 +109,9 @@ class _BuyerOrderDetailScreenState extends State<BuyerOrderDetailScreen> {
                                         'msg_select_at_least_one_qty'.tr);
                                   }
                                 },
-                                color: Colors.redAccent,
+                                color: controller.hasSelectedCancelItem()
+                                    ? Colors.redAccent
+                                    : Colors.grey,
                               ),
                           ],
                         ),
@@ -121,7 +125,8 @@ class _BuyerOrderDetailScreenState extends State<BuyerOrderDetailScreen> {
   List<Widget>? actionButtons() {
     return [
       Visibility(
-        visible: controller.isCancelQtyAvailable.value,
+        visible: controller.isCancelQtyAvailable.value ||
+            controller.status.value != AppConstants.orderStatus.inStock,
         child: IconButton(
           icon: const Icon(Icons.more_vert_outlined),
           onPressed: () {

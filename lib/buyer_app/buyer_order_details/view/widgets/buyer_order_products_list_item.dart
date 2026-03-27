@@ -48,7 +48,7 @@ class BuyerOrderProductsListItem extends StatelessWidget {
                     width: 90,
                     height: 90,
                     borderRadius: 4,
-                    fit: BoxFit.cover,
+                    fit: BoxFit.contain,
                   ),
                   const SizedBox(width: 12),
                   Expanded(

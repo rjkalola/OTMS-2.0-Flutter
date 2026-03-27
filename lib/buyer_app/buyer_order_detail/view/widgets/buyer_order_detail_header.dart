@@ -24,9 +24,8 @@ class BuyerOrderDetailHeader extends StatelessWidget {
         color: backgroundColor_(context),
         boxShadow: [AppUtils.boxShadow(shadowColor_(context), 10)],
         border: Border.all(width: 0.6, color: Colors.transparent),
-        borderRadius: const BorderRadius.only(
-            bottomLeft: Radius.circular(28),
-            bottomRight: Radius.circular(28)),
+        borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(28), bottomRight: Radius.circular(28)),
       ),
       child: GestureDetector(
         onTap: onListItem,
@@ -40,33 +39,47 @@ class BuyerOrderDetailHeader extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      // getDetailRow('order_date'.tr, item.date ?? ""),
+                      // SizedBox(
+                      //   height: 2,
+                      // ),
+                      // getDetailRow('store'.tr, item.storeName ?? ""),
+                      PrimaryTextView(
+                        text: "${'order_date'.tr}: ${item.date ?? ""}",
+                        fontSize: 16,
+                      ),
+                      SizedBox(
+                        height: 3,
+                      ),
                       PrimaryTextView(
                         text: "${'store'.tr}: ${item.storeName ?? ""}",
                         fontSize: 16,
                       ),
-                      const SizedBox(
+                      SizedBox(
                         height: 3,
                       ),
                       PrimaryTextView(
                         text: "${'supplier'.tr}: ${item.supplierName ?? ""}",
                         fontSize: 16,
                       ),
-                      const SizedBox(
+
+                      SizedBox(
                         height: 3,
                       ),
                       PrimaryTextView(
                         text:
-                            "${'items_qty'.tr}: ${AppUtils.formatDecimalNumber(item.orderQty ?? 0)}",
+                        "${'total_amount'.tr}: ${item.currency ?? ""}${item.totalAmount ?? ""}",
                         fontSize: 16,
                       ),
-                      const SizedBox(
+                      SizedBox(
                         height: 3,
                       ),
                       PrimaryTextView(
-                        text: "${'received_on'.tr}: ${item.date ?? ""}",
+                        text:
+                        "${'delivery_date'.tr}: ${item.expectedDeliveryDate ?? ""}",
                         fontSize: 16,
                       ),
-                      const SizedBox(
+                      SizedBox(
                         height: 3,
                       ),
                       Row(
@@ -77,11 +90,15 @@ class BuyerOrderDetailHeader extends StatelessWidget {
                             color: primaryTextColor_(context),
                           ),
                           PrimaryTextView(
+                            // text: (item.status) ==
+                            //         AppConstants.orderStatus.received
+                            //     ? "Received"
+                            //     : item.statusText ?? "",
                             text: item.statusText ?? "",
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
                             color:
-                                AppUtils.getOrderStatusColor(item.status ?? 0),
+                            AppUtils.getOrderStatusColor(item.status ?? 0),
                           )
                         ],
                       )
@@ -91,6 +108,11 @@ class BuyerOrderDetailHeader extends StatelessWidget {
                 Stack(
                   alignment: Alignment.topCenter,
                   children: [
+                    // PrimaryTextView(
+                    //   text: "${'order'.tr}: ${item.orderId ?? ""}",
+                    //   color: secondaryLightTextColor_(context),
+                    //   fontSize: 12,
+                    // ),
                     GestureDetector(
                       onTap: () {
                         controller.buyerOrderInvoiceApi(item.id ?? 0);
@@ -109,6 +131,29 @@ class BuyerOrderDetailHeader extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget getDetailRow(String title, String value) {
+    return RichText(
+      text: TextSpan(
+        style: TextStyle(fontSize: 15, color: primaryTextColor_(Get.context!)),
+        children: [
+          TextSpan(
+              text: "$title: ",
+              style: TextStyle(
+                  color: primaryTextColor_(Get.context!),
+                  fontWeight: FontWeight.w500,
+                  fontSize: 15)),
+          TextSpan(
+            text: value,
+            style: TextStyle(
+                color: primaryTextColor_(Get.context!),
+                fontWeight: FontWeight.normal,
+                fontSize: 15),
+          ),
+        ],
       ),
     );
   }

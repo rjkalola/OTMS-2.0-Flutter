@@ -3,7 +3,11 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:belcka/pages/check_in/clock_in/model/location_info.dart';
+import 'package:belcka/pages/check_in/clock_in/controller/clock_in_repository.dart';
 import 'package:belcka/pages/check_in/select_project/controller/select_project_repository.dart';
+import 'package:belcka/pages/check_in/select_shift/controller/select_shift_repository.dart';
+import 'package:belcka/pages/check_in/select_shift/model/start_work_response.dart';
+import 'package:belcka/pages/project/project_info/model/project_info.dart';
 import 'package:belcka/pages/project/project_info/model/project_list_response.dart';
 import 'package:belcka/pages/project/project_list/controller/project_list_repository.dart';
 import 'package:belcka/routes/app_routes.dart';
@@ -14,7 +18,7 @@ import 'package:belcka/utils/data_utils.dart';
 import 'package:belcka/utils/location_service_new.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/web_services/api_constants.dart';
-import 'package:belcka/web_services/response/module_info.dart';
+import 'package:belcka/web_services/response/base_response.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -29,6 +33,7 @@ class SelectProjectController extends GetxController {
       isLocationLoaded = true.obs,
       isClearVisible = false.obs;
   final _api = SelectProjectRepository();
+  final _selectShiftRepository = SelectShiftRepository();
   final noteController = TextEditingController().obs;
 
   // late GoogleMapController mapController;
@@ -38,8 +43,8 @@ class SelectProjectController extends GetxController {
   final locationService = LocationServiceNew();
   String latitude = "", longitude = "", location = "";
   final searchController = TextEditingController().obs;
-  final projectsList = <ModuleInfo>[].obs;
-  List<ModuleInfo> tempList = [];
+  final projectsList = <ProjectInfo>[].obs;
+  List<ProjectInfo> tempList = [];
   bool fromStartShiftScreen = false, switchProject = false;
   int workLogId = 0;
 
@@ -86,11 +91,12 @@ class SelectProjectController extends GetxController {
               ProjectListResponse.fromJson(jsonDecode(responseModel.result!));
           tempList.clear();
           for (var data in response.info!) {
-            tempList.add(ModuleInfo(
-                id: data.id ?? 0,
-                name: data.name ?? "",
-                companyId: data.companyId ?? 0,
-                randomColor: getRandomColor()));
+            // tempList.add(ModuleInfo(
+            //     id: data.id ?? 0,
+            //     name: data.name ?? "",
+            //     companyId: data.companyId ?? 0,
+            //     randomColor: getRandomColor()));
+            tempList.add(data);
           }
           projectsList.value = tempList;
           projectsList.refresh();
@@ -112,7 +118,7 @@ class SelectProjectController extends GetxController {
 
   Future<void> searchItem(String value) async {
     print(value);
-    List<ModuleInfo> results = [];
+    List<ProjectInfo> results = [];
     if (value.isEmpty) {
       results = tempList;
     } else {
@@ -177,6 +183,87 @@ class SelectProjectController extends GetxController {
     int randomNumber = random.nextInt(DataUtils.listColors.length - 1);
     color = DataUtils.listColors[randomNumber];
     return color;
+  }
+
+  Future<void> onProjectItemTap(ProjectInfo info) async {
+    final shifts = info.shifts;
+    if (shifts != null && shifts.length == 1) {
+      final shiftId = shifts.first.id ?? 0;
+      final pid = info.id ?? 0;
+      if (switchProject) {
+        await userStopWorkApi(shiftId, pid);
+      } else {
+        await userStartWorkApi(shiftId, pid);
+      }
+    } else {
+      await moveToScreen(info.id, info.companyId);
+    }
+  }
+
+  Future<void> userStartWorkApi(int shiftId, int projectId) async {
+    String deviceModelName = await AppUtils.getDeviceName();
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["shift_id"] = shiftId;
+    if (projectId > 0) map["project_id"] = projectId;
+    map["latitude"] = latitude;
+    map["longitude"] = longitude;
+    map["location"] = location;
+    map["device_type"] = AppConstants.deviceType;
+    map["device_model_type"] = deviceModelName;
+    _selectShiftRepository.userStartWork(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          StartWorkResponse.fromJson(jsonDecode(responseModel.result!));
+          var arguments = {
+            AppConstants.intentKey.fromStartShiftScreen: fromStartShiftScreen,
+          };
+          if (fromStartShiftScreen) {
+            Get.offNamed(AppRoutes.clockInScreen, arguments: arguments);
+          } else {
+            Get.back(result: true);
+          }
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        }
+      },
+    );
+  }
+
+  Future<void> userStopWorkApi(int shiftId, int projectId) async {
+    String deviceModelName = await AppUtils.getDeviceName();
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["user_worklog_id"] = workLogId;
+    map["latitude"] = latitude;
+    map["longitude"] = longitude;
+    map["location"] = location;
+    map["device_type"] = AppConstants.deviceType;
+    map["device_model_type"] = deviceModelName;
+    ClockInRepository().userStopWork(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          userStartWorkApi(shiftId, projectId);
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+          isLoading.value = false;
+        }
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        }
+      },
+    );
   }
 
   Future<void> moveToScreen(int? projectId, int? companyId) async {

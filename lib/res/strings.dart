@@ -218,6 +218,8 @@ class Strings extends Translations {
           'unauthorized_message':
               "We are signing you out as we found your account access from another device",
           'search_user': "Search  User",
+          'search_zone': "Search Zone",
+          'search_user_trade': "Search User/Trade",
           'date_of_birth': "Date of Birth",
           'post_code': "Post Code",
           'my_address': "My Address",
@@ -411,6 +413,8 @@ class Strings extends Translations {
           'call': "Call",
           'message': "Message",
           'note': "Note",
+          'notes': "Notes:",
+          'attachments': "Attachments:",
           'task_selected': "Task Selected",
           'add_trade': "Add Trade",
           'trade_name': "Trade Name",

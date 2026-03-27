@@ -1,5 +1,8 @@
 import 'dart:convert';
 import 'dart:async';
+import 'dart:typed_data';
+import 'dart:io';
+import 'dart:ui' as ui;
 
 import 'package:belcka/pages/project/user_zones/controller/user_zones_repository.dart';
 import 'package:belcka/pages/project/user_zones/model/user_location_models.dart';
@@ -12,7 +15,9 @@ import 'package:belcka/utils/map_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/response_model.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -24,13 +29,14 @@ class UserZonesController extends GetxController {
   RxBool isLoading = false.obs,
       isMainViewVisible = false.obs,
       isInternetNotAvailable = false.obs,
-      isPanelOpen = true.obs,
-      isZonesPanel = false.obs;
+      isPanelOpen = false.obs,
+      isZonesPanel = false.obs,
+      isPanelScrimVisible = false.obs;
 
   final searchController = TextEditingController().obs;
+  final isSearchClearVisible = false.obs;
 
-  final center =
-      LatLng(51.5072, -0.1276).obs;
+  final center = LatLng(51.5072, -0.1276).obs;
   final mapType = MapType.normal.obs;
   final markers = <Marker>{}.obs;
   final circles = <Circle>{}.obs;
@@ -47,7 +53,11 @@ class UserZonesController extends GetxController {
 
   GoogleMapController? mapController;
   BitmapDescriptor? _userMarkerIcon;
-  Timer? _refreshTimer;
+  final Map<String, BitmapDescriptor> _zoneMarkerIconCache = {};
+  final Set<String> _zoneMarkerIconBuilding = {};
+
+  // Timer? _refreshTimer;
+  Timer? _panelScrimTimer;
 
   void onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -59,9 +69,9 @@ class UserZonesController extends GetxController {
     _loadMapIcons();
     loadData();
     loadCurrentLocation();
-    _refreshTimer = Timer.periodic(const Duration(seconds: 15), (_) {
-      refreshLocationsSilently();
-    });
+    // _refreshTimer = Timer.periodic(const Duration(seconds: 15), (_) {
+    //   refreshLocationsSilently();
+    // });
   }
 
   Future<void> _loadMapIcons() async {
@@ -72,7 +82,7 @@ class UserZonesController extends GetxController {
   void loadData() {
     isLoading.value = true;
     final query = {"company_id": ApiConstants.companyId};
-    _api.getUserLocations(
+    _api.getTeamUserLocations(
       queryParameters: query,
       onSuccess: (response) {
         _onLocationsLoaded(response);
@@ -91,7 +101,7 @@ class UserZonesController extends GetxController {
 
   void refreshLocationsSilently() {
     final query = {"company_id": ApiConstants.companyId};
-    _api.getUserLocations(
+    _api.getTeamUserLocations(
       queryParameters: query,
       onSuccess: (response) {
         _onLocationsLoaded(response, silent: true);
@@ -113,21 +123,28 @@ class UserZonesController extends GetxController {
   }
 
   void _onLocationsLoaded(ResponseModel responseModel, {bool silent = false}) {
-    if (!responseModel.isSuccess || StringHelper.isEmptyString(responseModel.result)) {
+    if (!responseModel.isSuccess ||
+        StringHelper.isEmptyString(responseModel.result)) {
       if (!silent) {
         AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
       }
       return;
     }
-    isMainViewVisible.value = true;
     final parsed =
         UserLocationsResponse.fromJson(jsonDecode(responseModel.result!));
-    allUsers.assignAll(parsed.info ?? <UserLocationInfo>[]);
+    final teams = parsed.info ?? <TeamUserLocationsGroup>[];
+    allUsers.assignAll(teams.expand((t) => t.users));
 
     for (final user in allUsers) {
       userVisibility[user.id ?? 0] = userVisibility[user.id ?? 0] ?? true;
     }
-    _buildTeams();
+    teamGroups.assignAll(teams
+        .map((t) => TeamUsersGroup(
+              name: t.teamName ?? '',
+              users: t.users,
+            ))
+        .toList());
+    filteredGroups.assignAll(teamGroups);
     _renderOverlays();
   }
 
@@ -141,10 +158,12 @@ class UserZonesController extends GetxController {
   }
 
   void _onZoneGroupsLoaded(ResponseModel responseModel) {
-    if (!responseModel.isSuccess || StringHelper.isEmptyString(responseModel.result)) {
+    if (!responseModel.isSuccess ||
+        StringHelper.isEmptyString(responseModel.result)) {
       AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
       return;
     }
+    isMainViewVisible.value = true;
     final parsed =
         UserZoneGroupsResponse.fromJson(jsonDecode(responseModel.result!));
     zoneGroups.assignAll(parsed.info ?? <UserZoneGroupInfo>[]);
@@ -157,6 +176,17 @@ class UserZonesController extends GetxController {
     _renderOverlays();
   }
 
+  void onSearchTextChanged(String value) {
+    filterGroups(value);
+    isSearchClearVisible.value = !StringHelper.isEmptyString(value);
+  }
+
+  void clearSearchField() {
+    searchController.value.clear();
+    filterGroups("");
+    isSearchClearVisible.value = false;
+  }
+
   void filterGroups(String query) {
     if (isZonesPanel.value) {
       if (query.trim().isEmpty) {
@@ -164,13 +194,26 @@ class UserZonesController extends GetxController {
         return;
       }
       final q = query.toLowerCase();
-      final filtered = zoneGroups.where((g) {
+      final filtered = <UserZoneGroupInfo>[];
+      for (final g in zoneGroups) {
         final groupMatch = (g.name ?? "").toLowerCase().contains(q);
-        final zoneMatch = (g.zones ?? <UserZoneInfo>[]).any((z) =>
-            (z.name ?? "").toLowerCase().contains(q) ||
-            (z.projectName ?? "").toLowerCase().contains(q));
-        return groupMatch || zoneMatch;
-      }).toList();
+        final zones = g.zones ?? <UserZoneInfo>[];
+        final matchedZones = zones.where((z) {
+          return (z.name ?? "").toLowerCase().contains(q) ||
+              (z.projectName ?? "").toLowerCase().contains(q) ||
+              (z.type ?? "").toLowerCase().contains(q);
+        }).toList();
+
+        if (groupMatch || matchedZones.isNotEmpty) {
+          filtered.add(UserZoneGroupInfo(
+            id: g.id,
+            name: g.name,
+            companyId: g.companyId,
+            isUnassigned: g.isUnassigned,
+            zones: groupMatch ? zones : matchedZones,
+          ));
+        }
+      }
       filteredZoneGroups.assignAll(filtered);
       return;
     }
@@ -180,14 +223,23 @@ class UserZonesController extends GetxController {
       return;
     }
     final q = query.toLowerCase();
-    final filtered = teamGroups.where((g) {
+    final filtered = <TeamUsersGroup>[];
+    for (final g in teamGroups) {
       final groupMatch = g.name.toLowerCase().contains(q);
-      final userMatch = g.users.any((u) =>
-          (u.userName ?? "").toLowerCase().contains(q) ||
-          (u.userCode ?? "").toLowerCase().contains(q) ||
-          (u.location ?? "").toLowerCase().contains(q));
-      return groupMatch || userMatch;
-    }).toList();
+      final matchedUsers = g.users.where((u) {
+        return (u.userName ?? "").toLowerCase().contains(q) ||
+            (u.userCode ?? "").toLowerCase().contains(q) ||
+            (u.tradeName ?? "").toLowerCase().contains(q) ||
+            (u.location ?? "").toLowerCase().contains(q);
+      }).toList();
+
+      if (groupMatch || matchedUsers.isNotEmpty) {
+        filtered.add(TeamUsersGroup(
+          name: g.name,
+          users: groupMatch ? g.users : matchedUsers,
+        ));
+      }
+    }
     filteredGroups.assignAll(filtered);
   }
 
@@ -248,16 +300,42 @@ class UserZonesController extends GetxController {
     _renderOverlays();
   }
 
-  void togglePanel() => isPanelOpen.value = !isPanelOpen.value;
+  static const Duration _panelAnimDuration = Duration(milliseconds: 240);
+
+  void togglePanel() {
+    if (isPanelOpen.value) {
+      closePanel();
+    } else {
+      openPanel();
+    }
+  }
+
+  void openPanel() {
+    _panelScrimTimer?.cancel();
+    isPanelOpen.value = true;
+    isPanelScrimVisible.value = false;
+    _panelScrimTimer = Timer(_panelAnimDuration, () {
+      if (isPanelOpen.value) {
+        isPanelScrimVisible.value = true;
+      }
+    });
+  }
+
+  void closePanel() {
+    _panelScrimTimer?.cancel();
+    isPanelScrimVisible.value = false;
+    isPanelOpen.value = false;
+  }
+
   void openStaffPanel() {
     isZonesPanel.value = false;
-    isPanelOpen.value = true;
+    openPanel();
     filterGroups(searchController.value.text);
   }
 
   void openZonesPanel() {
     isZonesPanel.value = true;
-    isPanelOpen.value = true;
+    openPanel();
     filterGroups(searchController.value.text);
   }
 
@@ -292,9 +370,10 @@ class UserZonesController extends GetxController {
             markerId: MarkerId('employee_$id'),
             position: position,
             icon: BitmapDescriptor.defaultMarkerWithHue(
-                (user.isWorking ?? false)
-                    ? BitmapDescriptor.hueGreen
-                    : BitmapDescriptor.hueRed),
+              (user.isWorking ?? false)
+                  ? BitmapDescriptor.hueGreen
+                  : BitmapDescriptor.hueRed,
+            ),
             infoWindow: InfoWindow(
               title: user.userName ?? "",
               snippet: user.location ?? "",
@@ -305,7 +384,8 @@ class UserZonesController extends GetxController {
     }
 
     // Zone overlays from work-zone/app-get-groups API.
-    final allZones = zoneGroups.expand((g) => g.zones ?? <UserZoneInfo>[]).toList();
+    final allZones =
+        zoneGroups.expand((g) => g.zones ?? <UserZoneInfo>[]).toList();
     for (final zone in allZones) {
       final id = zone.id ?? 0;
       if (!(zoneVisibility[id] ?? true)) continue;
@@ -316,11 +396,25 @@ class UserZonesController extends GetxController {
           : const Color(0xff1976d2);
 
       if (zone.latitude != null && zone.longitude != null) {
+        final zoneLabel =
+            (zone.name ?? "").trim().isEmpty ? "Zone" : zone.name!;
+        final markerKey = '${id}_${zoneLabel}_${color.toARGB32()}';
+        final icon = _zoneMarkerIconCache[markerKey];
+        if (icon == null) {
+          _prepareZoneMarkerIcon(
+            markerKey: markerKey,
+            label: zoneLabel,
+            zoneColor: color,
+          );
+        }
         markers.add(
           Marker(
             markerId: MarkerId('zone_$id'),
             position: LatLng(zone.latitude!, zone.longitude!),
-            icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
+            icon: icon ??
+                BitmapDescriptor.defaultMarkerWithHue(
+                    BitmapDescriptor.hueAzure),
+            anchor: const Offset(0.5, _zoneMarkerAnchorY),
             infoWindow: InfoWindow(title: zone.name ?? "Zone"),
           ),
         );
@@ -363,23 +457,136 @@ class UserZonesController extends GetxController {
     polyLines.refresh();
   }
 
-  void _buildTeams() {
-    final map = <String, List<UserLocationInfo>>{};
-    for (final user in allUsers) {
-      final key = StringHelper.isEmptyString(user.teamName)
-          ? 'Unassigned'
-          : user.teamName!;
-      map.putIfAbsent(key, () => <UserLocationInfo>[]).add(user);
+  void _prepareZoneMarkerIcon({
+    required String markerKey,
+    required String label,
+    required Color zoneColor,
+  }) {
+    if (_zoneMarkerIconCache.containsKey(markerKey) ||
+        _zoneMarkerIconBuilding.contains(markerKey)) {
+      return;
     }
-    teamGroups.assignAll(map.entries
-        .map((e) => TeamUsersGroup(name: e.key, users: e.value))
-        .toList());
-    filteredGroups.assignAll(teamGroups);
+    _zoneMarkerIconBuilding.add(markerKey);
+    _createZoneLabelMarkerIcon(label, zoneColor).then((icon) {
+      _zoneMarkerIconCache[markerKey] = icon;
+      _renderOverlays();
+    }).whenComplete(() {
+      _zoneMarkerIconBuilding.remove(markerKey);
+    });
+  }
+
+  static const double _zoneMarkerAnchorY = 35 / 44;
+
+  Future<BitmapDescriptor> _createZoneLabelMarkerIcon(
+      String text, Color zoneColor) async {
+    final double devicePixelRatio =
+        ui.PlatformDispatcher.instance.views.first.devicePixelRatio;
+
+    const double multiplier = 3.0;
+    final double scale = devicePixelRatio * multiplier;
+
+    const double padX = 4;
+    const double maxLabelWidth = 68;
+    const double stemWidth = 0.7;
+    const double bubbleH = 13;
+    const double bubbleTop = 1;
+    const double stemBottomY = 34;
+    const double dotRadius = 1.4;
+
+    final labelText = text.length > 15 ? '${text.substring(0, 15)}..' : text;
+
+    final textPainter = TextPainter(
+      text: TextSpan(
+        text: labelText,
+        style: TextStyle(
+          color: const Color(0xFF111111),
+          fontSize: 5 * multiplier, // scaled internally
+          fontWeight: FontWeight.w400,
+          height: 1.0,
+        ),
+      ),
+      textDirection: TextDirection.ltr,
+      maxLines: 1,
+      ellipsis: '..',
+    )..layout(maxWidth: maxLabelWidth * multiplier);
+
+    final bubbleW = textPainter.width + (padX * multiplier * 2);
+    final width = bubbleW + (6 * multiplier);
+    final height = 44.0 * multiplier;
+
+    final centerX = width / 2;
+    final bubbleLeft = (width - bubbleW) / 2;
+
+    final bubbleRect = RRect.fromRectAndRadius(
+      Rect.fromLTWH(
+        bubbleLeft,
+        bubbleTop * multiplier,
+        bubbleW,
+        bubbleH * multiplier,
+      ),
+      const Radius.circular(0),
+    );
+
+    final recorder = ui.PictureRecorder();
+    final canvas = Canvas(recorder);
+
+    final bubbleFill = Paint()
+      ..color = Colors.white
+      ..isAntiAlias = true;
+
+    final bubbleBorder = Paint()
+      ..color = zoneColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 0.9 * multiplier
+      ..isAntiAlias = true;
+
+    canvas.drawRRect(bubbleRect, bubbleFill);
+    canvas.drawRRect(bubbleRect, bubbleBorder);
+
+    final textDx = ((width - textPainter.width) / 2).roundToDouble();
+    final textDy = ((bubbleTop * multiplier) +
+            ((bubbleH * multiplier - textPainter.height) / 2))
+        .roundToDouble();
+    textPainter.paint(canvas, Offset(textDx, textDy));
+
+    final stemPaint = Paint()
+      ..color = zoneColor
+      ..strokeWidth = stemWidth * multiplier
+      ..style = PaintingStyle.stroke
+      ..isAntiAlias = true;
+
+    canvas.drawLine(
+      Offset(centerX, (bubbleTop + bubbleH) * multiplier),
+      Offset(centerX, stemBottomY * multiplier),
+      stemPaint,
+    );
+
+    final dotCenter = Offset(centerX, (stemBottomY + dotRadius) * multiplier);
+
+    final dotPaint = Paint()
+      ..color = zoneColor
+      ..isAntiAlias = true;
+
+    canvas.drawCircle(dotCenter, dotRadius * multiplier, dotPaint);
+
+    final picture = recorder.endRecording();
+
+    final image = await picture.toImage(
+      width.ceil(),
+      height.ceil(),
+    );
+
+    final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+
+    final bytes = byteData!.buffer.asUint8List();
+
+    return BitmapDescriptor.bytes(bytes);
   }
 
   @override
   void onClose() {
-    _refreshTimer?.cancel();
+    // _refreshTimer?.cancel();
+    _panelScrimTimer?.cancel();
     searchController.value.dispose();
     super.onClose();
   }

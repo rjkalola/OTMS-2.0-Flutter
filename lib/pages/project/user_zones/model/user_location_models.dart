@@ -42,18 +42,42 @@ class UserLocationInfo {
   }
 }
 
+/// One team block from [UserLocationsResponse.info] (get-team-user-locations).
+class TeamUserLocationsGroup {
+  int? teamId;
+  String? teamName;
+  List<UserLocationInfo> users;
+
+  TeamUserLocationsGroup({
+    this.teamId,
+    this.teamName,
+    this.users = const [],
+  });
+
+  TeamUserLocationsGroup.fromJson(Map<String, dynamic> json)
+      : teamId = json['team_id'],
+        teamName = json['team_name'],
+        users = <UserLocationInfo>[] {
+    if (json['users'] != null) {
+      for (final e in json['users'] as List) {
+        users.add(UserLocationInfo.fromJson(e as Map<String, dynamic>));
+      }
+    }
+  }
+}
+
 class UserLocationsResponse {
   bool? isSuccess;
   String? message;
-  List<UserLocationInfo>? info;
+  List<TeamUserLocationsGroup>? info;
 
   UserLocationsResponse.fromJson(Map<String, dynamic> json) {
     isSuccess = json['IsSuccess'];
     message = json['message'];
     if (json['info'] != null) {
-      info = <UserLocationInfo>[];
-      for (final v in json['info']) {
-        info!.add(UserLocationInfo.fromJson(v));
+      info = <TeamUserLocationsGroup>[];
+      for (final v in json['info'] as List) {
+        info!.add(TeamUserLocationsGroup.fromJson(v as Map<String, dynamic>));
       }
     }
   }

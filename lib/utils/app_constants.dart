@@ -256,6 +256,7 @@ class Action {
   final String selectStoreDialog = 'selectStoreDialog';
   final String selectSupplierDialog = 'selectSupplierDialog';
   final String add = 'ADD';
+  final String cancelOrder = 'CANCEL_ORDER';
   final String addAddress = 'ADD_ADDRESS';
   final String edit = 'EDIT';
   final String delete = 'DELETE';

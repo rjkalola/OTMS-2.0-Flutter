@@ -194,7 +194,17 @@ class DayLogList extends StatelessWidget {
           SubtitleTextView(
             text: "(${info.startTimeFormat} - ${info.endTimeFormat})",
             fontSize: 13,
-          )
+          ),
+          Visibility(
+            visible: info.requestStatus != null,
+            child: SubtitleTextView(
+              text: "(${AppUtils.getStatusText(info.requestStatus ?? 0)})",
+              color: info.requestStatus != null
+                  ? AppUtils.getStatusColor(info.requestStatus ?? 0)
+                  : primaryTextColor_(Get.context!),
+              fontSize: 12,
+            ),
+          ),
         ],
       );
 

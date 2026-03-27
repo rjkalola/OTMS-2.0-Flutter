@@ -8,8 +8,8 @@ import 'package:belcka/storeman_app/storeman_order_details/controller/storeman_o
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/widgets/PrimaryBorderButton.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
-import 'package:belcka/widgets/gridview/document_gridview.dart';
 import 'package:belcka/widgets/image/document_view.dart';
 import 'package:belcka/widgets/text/SubTitleTextView.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
@@ -44,7 +44,7 @@ class StoremanOrderProductsListItem extends StatelessWidget {
         ((item.qty ?? 0) - (item.deliveredQty ?? 0) - (item.cancelledQty ?? 0))
                 .toInt() !=
             (item.cartQty ?? 0);
-    bool isHaveAttachment = !StringHelper.isEmptyList(item.attachments);
+    bool isHaveAttachment = !StringHelper.isEmptyList(item.tempAttachments);
     bool isHaveNote = !StringHelper.isEmptyString(item.note);
     print("isEnableEdit:" + isEnableEdit.toString());
     print("isQtyNotMatched:" + isQtyNotMatched.toString());
@@ -64,98 +64,125 @@ class StoremanOrderProductsListItem extends StatelessWidget {
                 children: [
                   ImageUtils.setRectangleCornerCachedNetworkImage(
                     url: item.thumbUrl ?? "",
-                    width: 100,
-                    height: 100,
+                    width: 86,
+                    height: 86,
                     borderRadius: 4,
-                    fit: BoxFit.cover,
+                    fit: BoxFit.contain,
                   ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TitleTextView(
-                          text: item.shortName,
-                          fontSize: 15,
-                          maxLine: 2,
-                          fontWeight: FontWeight.w500,
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: TitleTextView(
+                                text: item.shortName,
+                                fontSize: 15,
+                                maxLine: 2,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            Visibility(
+                                visible: !StringHelper.isEmptyList(
+                                        item.notes) ||
+                                    !StringHelper.isEmptyList(item.attachments),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    _showNotesAttachmentsBottomSheet(context);
+                                  },
+                                  child: ImageUtils.setSvgAssetsImage(
+                                      path: Drawable.historyIcon,
+                                      width: 24,
+                                      height: 24),
+                                )),
+                          ],
                         ),
-                        const SizedBox(height: 1),
                         SubtitleTextView(
                           text: item.uuid ?? "",
                           fontSize: 13,
                           color: secondaryExtraLightTextColor_(context),
                         ),
-                        const SizedBox(height: 9),
-                        controller.status ==
-                                    AppConstants.orderStatus.processing ||
-                                controller.status ==
-                                    AppConstants.orderStatus.partialReceived
-                            ? Row(
-                                children: [
-                                  OrderQuantityChangeButton(
-                                      text: "-", onTap: onRemove),
-                                  const SizedBox(width: 8),
-                                  OrderQuantityDisplayTextView(
-                                    value: (item.cartQty ?? 0).toInt(),
-                                    width: 52,
-                                    height: 30,
-                                  ),
-                                  const SizedBox(width: 8),
-                                  OrderQuantityChangeButton(
-                                      text: "+", onTap: onAdd),
-                                ],
-                              )
-                            : Row(
-                                children: [
-                                  TitleTextView(
-                                    text: "Qty: ",
-                                  ),
-                                  OrderQuantityDisplayTextView(
-                                    value: (item.qty ?? 0).toInt(),
-                                    height: 28,
-                                  )
-                                ],
-                              ),
-                        SizedBox(
-                          height: 8,
-                        ),
+                        if (controller.status ==
+                                AppConstants.orderStatus.processing ||
+                            controller.status ==
+                                AppConstants.orderStatus.partialReceived)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 9),
+                            child: Row(
+                              children: [
+                                OrderQuantityChangeButton(
+                                    text: "-", onTap: onRemove),
+                                const SizedBox(width: 8),
+                                OrderQuantityDisplayTextView(
+                                  value: (item.cartQty ?? 0).toInt(),
+                                  width: 52,
+                                  height: 30,
+                                ),
+                                const SizedBox(width: 8),
+                                OrderQuantityChangeButton(
+                                    text: "+", onTap: onAdd),
+                              ],
+                            ),
+                          ),
+                        if (controller.status ==
+                            AppConstants.orderStatus.received)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 9),
+                            child: Row(
+                              children: [
+                                TitleTextView(
+                                  text: "Qty: ",
+                                ),
+                                OrderQuantityDisplayTextView(
+                                  value: (item.qty ?? 0).toInt(),
+                                  height: 28,
+                                )
+                              ],
+                            ),
+                          ),
                         Visibility(
                           visible: controller.status !=
                               AppConstants.orderStatus.received,
-                          child: Row(
-                            children: [
-                              TitleTextView(
-                                text:
-                                    "${'ordered'.tr}: ${(item.qty ?? 0).toInt()}",
-                                fontSize: 13,
-                                color: primaryTextColor_(context),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(left: 6, right: 6),
-                                width: 1,
-                                height: 12,
-                                color: secondaryExtraLightTextColor_(context),
-                              ),
-                              TitleTextView(
-                                text:
-                                    "${'delivered'.tr}: ${item.deliveredQty ?? 0}",
-                                fontSize: 13,
-                                color: primaryTextColor_(context),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(left: 6, right: 6),
-                                width: 1,
-                                height: 12,
-                                color: secondaryExtraLightTextColor_(context),
-                              ),
-                              TitleTextView(
-                                text:
-                                    "${'cancelled'.tr}: ${item.cancelledQty ?? 0}",
-                                fontSize: 13,
-                                color: primaryTextColor_(context),
-                              )
-                            ],
+                          child:   Padding(
+                            padding: const EdgeInsets.only(top: 8),
+                            child: Wrap(
+                              spacing: 6,
+                              runSpacing: 0,
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              children: [
+                                TitleTextView(
+                                  text:
+                                  "${'ordered'.tr}: ${(item.qty ?? 0).toInt()}",
+                                  fontSize: 13,
+                                  color: primaryTextColor_(context),
+                                ),
+                                Container(
+                                  width: 1,
+                                  height: 12,
+                                  color: secondaryExtraLightTextColor_(context),
+                                ),
+                                TitleTextView(
+                                  text:
+                                  "${'delivered'.tr}: ${item.deliveredQty ?? 0}",
+                                  fontSize: 13,
+                                  color: primaryTextColor_(context),
+                                ),
+                                Container(
+                                  width: 1,
+                                  height: 12,
+                                  color: secondaryExtraLightTextColor_(context),
+                                ),
+                                TitleTextView(
+                                  text:
+                                  "${'cancelled'.tr}: ${item.cancelledQty ?? 0}",
+                                  fontSize: 13,
+                                  color: primaryTextColor_(context),
+                                )
+                              ],
+                            ),
                           ),
                         )
                       ],
@@ -167,12 +194,13 @@ class StoremanOrderProductsListItem extends StatelessWidget {
                 height: 4,
               ),
               Visibility(
-                visible: isQtyNotMatched ||
-                    (((status == AppConstants.orderStatus.inStock ||
-                            status ==
-                                AppConstants.orderStatus.partialReceived ||
-                            status == AppConstants.orderStatus.cancelled)) &&
-                        (isHaveNote || isHaveAttachment)),
+                // visible: isQtyNotMatched ||
+                //     (((status == AppConstants.orderStatus.inStock ||
+                //             status ==
+                //                 AppConstants.orderStatus.partialReceived ||
+                //             status == AppConstants.orderStatus.cancelled)) &&
+                //         (isHaveNote || isHaveAttachment)),
+                visible: isEnableEdit && isQtyNotMatched,
                 child: Column(
                   children: [
                     SizedBox(
@@ -187,7 +215,8 @@ class StoremanOrderProductsListItem extends StatelessWidget {
                     Row(
                       children: [
                         Visibility(
-                          visible: isEnableEdit && isQtyNotMatched,
+                          // visible: isEnableEdit && isQtyNotMatched,
+                          visible: true,
                           child: GestureDetector(
                             onTap: () {
                               controller.showAttachmentOptionsDialog(index);
@@ -199,7 +228,8 @@ class StoremanOrderProductsListItem extends StatelessWidget {
                           ),
                         ),
                         Visibility(
-                          visible: isEnableEdit && isQtyNotMatched,
+                          // visible: isEnableEdit && isQtyNotMatched,
+                          visible: true,
                           child: SizedBox(
                             width: 6,
                           ),
@@ -210,15 +240,16 @@ class StoremanOrderProductsListItem extends StatelessWidget {
                           contentPadding: EdgeInsets.only(
                               left: 12, right: 12, top: 9, bottom: 9),
                           textEditingController:
-                              TextEditingController(text: item.note ?? ""),
+                              TextEditingController(text: item.tempNote ?? ""),
                           hintText: 'note'.tr,
                           labelText: 'note'.tr,
                           textInputAction: TextInputAction.newline,
                           validator: MultiValidator([]),
-                          isReadOnly: !(isEnableEdit && isQtyNotMatched),
+                          // isReadOnly: !(isEnableEdit && isQtyNotMatched),
+                          isReadOnly: false,
                           textAlignVertical: TextAlignVertical.top,
                           onValueChange: (value) {
-                            item.note = value;
+                            item.tempNote = value;
                           },
                           maxLength: 150,
                           fontSize: 14,
@@ -230,23 +261,6 @@ class StoremanOrderProductsListItem extends StatelessWidget {
                       visible: isHaveAttachment,
                       child: Padding(
                           padding: const EdgeInsets.only(top: 6),
-                          // child: DocumentGridview(
-                          //     isEditable: isEnableEdit,
-                          //     crossAxisCount: 5,
-                          //     physics: const NeverScrollableScrollPhysics(),
-                          //     filesList: (item.attachments ?? []).obs,
-                          //     onViewClick: (int index) async {
-                          //       // String fileUrl = item.attachments![index].imageUrl??"";
-                          //       // await ImageUtils.openAttachment(
-                          //       //     Get.context!, fileUrl, ImageUtils.getFileType(fileUrl));
-                          //       ImageUtils.moveToImagePreview(
-                          //           item.attachments!, index);
-                          //     },
-                          //     onRemoveClick: (int index) {
-                          //       item.attachments!.removeAt(index);
-                          //       controller.orderProductsList.refresh();
-                          //       // onGridItemClick(index, AppConstants.action.removePhoto);
-                          //     }),
                           child: GridView.builder(
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
@@ -259,24 +273,24 @@ class StoremanOrderProductsListItem extends StatelessWidget {
                               crossAxisSpacing: 7.0, // spacing between columns
                             ),
                             padding: const EdgeInsets.all(8.0),
-                            itemCount: (item.attachments ?? []).length,
+                            itemCount: (item.tempAttachments ?? []).length,
                             itemBuilder: (context, index) {
                               FilesInfo fileInfo =
-                                  (item.attachments ?? [])[index];
+                                  (item.tempAttachments ?? [])[index];
                               return InkWell(
                                 onTap: () async {
                                   // String fileUrl = item.attachments![index].imageUrl??"";
                                   // await ImageUtils.openAttachment(
                                   //     Get.context!, fileUrl, ImageUtils.getFileType(fileUrl));
                                   ImageUtils.moveToImagePreview(
-                                      item.attachments!, index);
+                                      item.tempAttachments!, index);
                                 },
                                 child: DocumentView(
                                     isEditable:
                                         isEnableEdit && (fileInfo.id ?? 0) == 0,
                                     file: fileInfo.imageUrl ?? "",
                                     onRemoveClick: () {
-                                      item.attachments!.removeAt(index);
+                                      item.tempAttachments!.removeAt(index);
                                       controller.orderProductsList.refresh();
                                     }),
                               );
@@ -290,6 +304,125 @@ class StoremanOrderProductsListItem extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  void _showNotesAttachmentsBottomSheet(BuildContext context) {
+    final notes = item.notes ?? <String>[];
+    final attachments =
+        item.tempAttachments ?? item.attachments ?? <FilesInfo>[];
+
+    Get.bottomSheet(
+      SafeArea(
+        child: Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: backgroundColor_(context),
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(18),
+              topRight: Radius.circular(18),
+            ),
+          ),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 22, 16, 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TitleTextView(
+                    text: 'notes'.tr,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  const SizedBox(height: 8),
+                  if (notes.isEmpty)
+                    SubtitleTextView(
+                      text: "-",
+                      fontSize: 14,
+                      color: secondaryExtraLightTextColor_(context),
+                    )
+                  else
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        for (int i = 0; i < notes.length; i++) ...[
+                          if (i > 0) ...[
+                            SizedBox(height: 10),
+                            Divider(
+                              height: 1,
+                              color: dividerColor_(context),
+                            ),
+                            SizedBox(height: 10),
+                          ],
+                          SubtitleTextView(
+                            text: notes[i],
+                            fontSize: 15,
+                            color: primaryTextColor_(context),
+                          ),
+                        ],
+                      ],
+                    ),
+                  const SizedBox(height: 18),
+                  TitleTextView(
+                    text: 'attachments'.tr,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  const SizedBox(height: 8),
+                  if (attachments.isEmpty)
+                    SubtitleTextView(
+                      text: "-",
+                      fontSize: 14,
+                      color: secondaryExtraLightTextColor_(context),
+                    )
+                  else
+                    GridView.builder(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        childAspectRatio: (1 / 1),
+                        crossAxisCount: 5,
+                        mainAxisSpacing: 7.0,
+                        crossAxisSpacing: 7.0,
+                      ),
+                      padding: const EdgeInsets.all(8.0),
+                      itemCount: attachments.length,
+                      itemBuilder: (context, index) {
+                        final fileInfo = attachments[index];
+                        return InkWell(
+                          onTap: () async {
+                            Get.back();
+                            Future.microtask(() =>
+                                ImageUtils.moveToImagePreview(
+                                    attachments, index));
+                          },
+                          child: DocumentView(
+                            isEditable: false,
+                            file: fileInfo.thumbUrl ?? "",
+                            onRemoveClick: () {},
+                          ),
+                        );
+                      },
+                    ),
+                  const SizedBox(height: 20),
+                  PrimaryBorderButton(
+                    buttonText: 'close'.tr,
+                    fontWeight: FontWeight.w400,
+                    fontColor: secondaryLightTextColor_(context),
+                    borderColor: secondaryExtraLightTextColor_(context),
+                    onPressed: () => Get.back(),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
     );
   }
 }

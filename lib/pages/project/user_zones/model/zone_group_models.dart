@@ -49,6 +49,14 @@ class UserZoneGroupInfo {
   bool? isUnassigned;
   List<UserZoneInfo>? zones;
 
+  UserZoneGroupInfo({
+    this.id,
+    this.name,
+    this.companyId,
+    this.isUnassigned,
+    this.zones,
+  });
+
   UserZoneGroupInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];

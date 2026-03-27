@@ -151,5 +151,9 @@ class Drawable {
   static const String galleryImage = 'assets/images/gallery_image.svg';
   static const String addImageIcon = 'assets/images/ic_add_image.svg';
   static const String clearSearchIcon = 'assets/images/ic_clear_search.svg';
-
+  static const String mapPinIcon = 'assets/images/ic_map_pin.svg';
+  static const String userGroupIcon = 'assets/images/ic_user_group.svg';
+  static const String customMapMarker =
+      'assets/images/ic_custom_map_marker.png';
+  static const String historyIcon = 'assets/images/ic_history.svg';
 }
