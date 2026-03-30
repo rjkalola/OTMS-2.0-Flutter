@@ -48,8 +48,14 @@ class MenuButtonsGridWidget extends StatelessWidget {
                 };
                 Get.toNamed(AppRoutes.billingDetailsNewScreen,
                     arguments: arguments);
-              } else if (index == 1) {
-              } else if (info.action == AppConstants.action.myRequests) {
+              }
+              else if (info.action == AppConstants.action.healthInfo) {
+                Get.toNamed(AppRoutes.healthInfoScreen,);
+              }
+              else if (info.action == AppConstants.action.healthSafety) {
+                Get.toNamed(AppRoutes.healthAndSafetyScreen,);
+              }
+              else if (info.action == AppConstants.action.myRequests) {
                 var arguments = {
                   "user_id": controller.userId ?? 0,
                   // "isOtherUserProfile": controller.isOtherUserProfile.value

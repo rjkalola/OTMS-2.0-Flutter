@@ -15,6 +15,7 @@ class OrderHistoryFilterTabs extends StatelessWidget {
       child: Row(
         children:  [
           OrderHistoryFilterTabItem(label:'all'.tr, filter: OrderFilter.all),
+          OrderHistoryFilterTabItem(label:'ready'.tr, filter: OrderFilter.ready),
           OrderHistoryFilterTabItem(label: 'delivered'.tr, filter: OrderFilter.delivered),
           OrderHistoryFilterTabItem(label: 'collected'.tr, filter: OrderFilter.collected),
           OrderHistoryFilterTabItem(label: 'returned'.tr, filter: OrderFilter.returned),

@@ -11,6 +11,7 @@ import 'package:get/get.dart';
 
 enum OrderFilter {
   all,
+  ready,
   delivered,
   collected,
   returned,
@@ -32,26 +33,7 @@ class OrderHistoryController extends GetxController{
 
   bool isDataUpdated = false;
 
-  List<OrderInfo> get filteredOrders {
-    switch (selectedFilter.value) {
-      case OrderFilter.delivered:
-        return orderList.where((o) => o.status == 7).toList();
 
-      case OrderFilter.collected:
-        return orderList.where((o) => o.status == 6).toList();
-
-      case OrderFilter.returned:
-        return orderList.where((o) => o.status == 9).toList();
-
-      case OrderFilter.cancelled:
-        return orderList
-            .where((o) => o.status == 3 || o.status == 8)
-            .toList();
-      case OrderFilter.all:
-
-      return orderList;
-    }
-  }
 
   final searchController = TextEditingController().obs;
 
@@ -63,6 +45,8 @@ class OrderHistoryController extends GetxController{
   }
   int getStatusFromFilter(OrderFilter filter) {
     switch (filter) {
+      case OrderFilter.ready:
+        return 3;
       case OrderFilter.delivered:
         return 6;
       case OrderFilter.collected:
