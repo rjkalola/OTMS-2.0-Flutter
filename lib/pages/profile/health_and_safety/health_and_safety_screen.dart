@@ -1,0 +1,118 @@
+import 'package:belcka/pages/user_orders/widgets/orders_base_app_bar.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+class HealthAndSafetyScreen extends StatefulWidget {
+  const HealthAndSafetyScreen({super.key});
+
+  @override
+  State<HealthAndSafetyScreen> createState() => _HealthAndSafetyScreenState();
+}
+
+class _HealthAndSafetyScreenState extends State<HealthAndSafetyScreen> {
+
+  @override
+  Widget build(BuildContext context) {
+    AppUtils.setStatusBarColor();
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop || result != null) return;
+        onBackPress();
+      },
+      child: Container(
+        color: backgroundColor_(context),
+        child: SafeArea(
+          child: Scaffold(
+            backgroundColor: dashBoardBgColor_(context),
+            appBar: OrdersBaseAppBar(
+              appBar: AppBar(),
+              title: 'Health & Safety'.tr,
+              isCenterTitle: false,
+              isBack: true,
+              bgColor: backgroundColor_(context),
+              onBackPressed: (){
+                onBackPress();
+              },
+            ),
+            body: Padding(
+              padding: const EdgeInsets.all(12),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildMenuButton(
+                      label: "Near Miss Reporting",
+                      icon: Icons.report_problem_outlined,
+                      onTap: () {
+                        Get.toNamed(AppRoutes.nearMissReportingScreen,);
+                      },
+                    ),
+                    const SizedBox(height: 4),
+                    _buildMenuButton(
+                      label: "Report Incident",
+                      icon: Icons.add_a_photo_outlined,
+                      onTap: () {},
+                    ),
+                    const SizedBox(height: 4),
+                    _buildMenuButton(
+                      label: "History",
+                      icon: Icons.history_edu_outlined,
+                      onTap: () {},
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void onBackPress() {
+    Get.back(result: true);
+  }
+
+  Widget _buildMenuButton({
+    required String label,
+    required IconData icon,
+    required VoidCallback onTap,
+  }) {
+    return CardViewDashboardItem(
+      child: InkWell(
+        borderRadius: BorderRadius.circular(16),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+          child: Row(
+            children: [
+              // Icon Container
+              Icon(icon, size: 22,),
+              const SizedBox(width: 16),
+              // Text
+              Expanded(
+                child: Text(
+                  label,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+              // Arrow
+              const Icon(
+                Icons.arrow_forward_ios_rounded,
+                size: 18,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

@@ -12,6 +12,9 @@ import 'package:belcka/buyer_app/purchasing/view/purchasing_screen.dart';
 import 'package:belcka/buyer_app/stores/add_store/view/buyer_add_store_screen.dart';
 import 'package:belcka/buyer_app/stores/store_list/view/buyer_stores_screen.dart';
 import 'package:belcka/buyer_app/suppliers/supplier_list/view/buyer_supplier_screen.dart';
+import 'package:belcka/pages/profile/health_and_safety/health_and_safety_screen.dart';
+import 'package:belcka/pages/profile/health_and_safety/near_miss_reporting/view/near_miss_reporting_screen.dart';
+import 'package:belcka/pages/profile/health_info/view/health_info_screen.dart';
 import 'package:belcka/pages/user_orders/product_set/view/product_set_screen.dart';
 import 'package:belcka/storeman_app/storeman_internal_order_details/view/storeman_internal_order_details_screen.dart';
 import 'package:belcka/storeman_app/storeman_internal_orders/view/storeman_internal_orders_screen.dart';
@@ -523,5 +526,17 @@ class AppPages {
     GetPage(
         name: AppRoutes.productSetScreen,
         page: () => ProductSetScreen()),
+
+    GetPage(
+        name: AppRoutes.healthAndSafetyScreen,
+        page: () => HealthAndSafetyScreen()),
+
+    GetPage(
+        name: AppRoutes.nearMissReportingScreen,
+        page: () => NearMissReportingScreen()),
+
+    GetPage(
+        name: AppRoutes.healthInfoScreen,
+        page: () => HealthInfoScreen()),
   ];
 }
