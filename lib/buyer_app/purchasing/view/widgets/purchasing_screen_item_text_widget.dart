@@ -13,7 +13,7 @@ class PurchasingScreenItemTextWidget extends StatelessWidget {
     return GestureDetector(
       child: TitleTextView(
         text: text,
-        fontSize: fontSize ?? 16,
+        fontSize: fontSize ?? 15,
         fontWeight: FontWeight.w400,
       ),
     );

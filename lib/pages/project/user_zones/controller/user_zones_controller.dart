@@ -1,23 +1,18 @@
-import 'dart:convert';
 import 'dart:async';
-import 'dart:typed_data';
-import 'dart:io';
-import 'dart:ui' as ui;
+import 'dart:convert';
 
 import 'package:belcka/pages/project/user_zones/controller/user_zones_repository.dart';
 import 'package:belcka/pages/project/user_zones/model/user_location_models.dart';
 import 'package:belcka/pages/project/user_zones/model/zone_group_models.dart';
-import 'package:belcka/res/drawable.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/location_service_new.dart';
-import 'package:belcka/utils/map_utils.dart';
+import 'package:belcka/pages/project/user_zones/utils/team_user_marker_bitmap.dart';
+import 'package:belcka/pages/project/user_zones/utils/zone_label_marker_bitmap.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/response_model.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -52,7 +47,8 @@ class UserZonesController extends GetxController {
   final zoneVisibility = <int, bool>{}.obs;
 
   GoogleMapController? mapController;
-  BitmapDescriptor? _userMarkerIcon;
+  final Map<String, BitmapDescriptor> _teamUserMarkerIconCache = {};
+  final Set<String> _teamUserMarkerIconBuilding = {};
   final Map<String, BitmapDescriptor> _zoneMarkerIconCache = {};
   final Set<String> _zoneMarkerIconBuilding = {};
 
@@ -66,17 +62,11 @@ class UserZonesController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    _loadMapIcons();
     loadData();
     loadCurrentLocation();
     // _refreshTimer = Timer.periodic(const Duration(seconds: 15), (_) {
     //   refreshLocationsSilently();
     // });
-  }
-
-  Future<void> _loadMapIcons() async {
-    _userMarkerIcon = await MapUtils.createIcon(
-        assetPath: Drawable.bluePin, width: 24, height: 34);
   }
 
   void loadData() {
@@ -302,8 +292,8 @@ class UserZonesController extends GetxController {
 
   static const Duration _panelAnimDuration = Duration(milliseconds: 240);
 
-  void togglePanel() {
-    if (isPanelOpen.value) {
+  void togglePanel() { 
+    if (isPanelOpen.value) { 
       closePanel();
     } else {
       openPanel();
@@ -349,31 +339,28 @@ class UserZonesController extends GetxController {
     polygons.clear();
     polyLines.clear();
 
-    if (_userMarkerIcon != null) {
-      markers.add(
-        Marker(
-          markerId: const MarkerId('user_location'),
-          position: center.value,
-          icon: _userMarkerIcon!,
-          infoWindow: const InfoWindow(title: 'Your location'),
-        ),
-      );
-    }
-
     for (final user in allUsers) {
       final id = user.id ?? 0;
       if (!(userVisibility[id] ?? true)) continue;
       if (user.latitude != null && user.longitude != null) {
         final position = LatLng(user.latitude!, user.longitude!);
+        // Bump version when team marker bitmap pipeline changes (invalidates cache).
+        final markerKey = 'user_v8_${id}_${user.userThumbImage ?? ""}';
+        final icon = _teamUserMarkerIconCache[markerKey];
+        if (icon == null) {
+          _prepareTeamUserMarkerIcon(markerKey, user.userThumbImage);
+        }
         markers.add(
           Marker(
             markerId: MarkerId('employee_$id'),
             position: position,
-            icon: BitmapDescriptor.defaultMarkerWithHue(
-              (user.isWorking ?? false)
-                  ? BitmapDescriptor.hueGreen
-                  : BitmapDescriptor.hueRed,
-            ),
+            icon: icon ??
+                BitmapDescriptor.defaultMarkerWithHue(
+                  (user.isWorking ?? false)
+                      ? BitmapDescriptor.hueGreen
+                      : BitmapDescriptor.hueRed,
+                ),
+            anchor: const Offset(0.5, 1.0),
             infoWindow: InfoWindow(
               title: user.userName ?? "",
               snippet: user.location ?? "",
@@ -398,7 +385,8 @@ class UserZonesController extends GetxController {
       if (zone.latitude != null && zone.longitude != null) {
         final zoneLabel =
             (zone.name ?? "").trim().isEmpty ? "Zone" : zone.name!;
-        final markerKey = '${id}_${zoneLabel}_${color.toARGB32()}';
+        // Prefix bumps when zone bitmap quality/layout changes (invalidates cache).
+        final markerKey = 'zbm_x2_${id}_${zoneLabel}_${color.toARGB32()}';
         final icon = _zoneMarkerIconCache[markerKey];
         if (icon == null) {
           _prepareZoneMarkerIcon(
@@ -414,7 +402,7 @@ class UserZonesController extends GetxController {
             icon: icon ??
                 BitmapDescriptor.defaultMarkerWithHue(
                     BitmapDescriptor.hueAzure),
-            anchor: const Offset(0.5, _zoneMarkerAnchorY),
+            anchor: Offset(0.5, ZoneLabelMarkerBitmap.anchorY),
             infoWindow: InfoWindow(title: zone.name ?? "Zone"),
           ),
         );
@@ -457,6 +445,20 @@ class UserZonesController extends GetxController {
     polyLines.refresh();
   }
 
+  void _prepareTeamUserMarkerIcon(String markerKey, String? thumbUrl) {
+    if (_teamUserMarkerIconCache.containsKey(markerKey) ||
+        _teamUserMarkerIconBuilding.contains(markerKey)) {
+      return;
+    }
+    _teamUserMarkerIconBuilding.add(markerKey);
+    TeamUserMarkerBitmap.build(thumbUrl: thumbUrl).then((icon) {
+      _teamUserMarkerIconCache[markerKey] = icon;
+      _renderOverlays();
+    }).whenComplete(() {
+      _teamUserMarkerIconBuilding.remove(markerKey);
+    });
+  }
+
   void _prepareZoneMarkerIcon({
     required String markerKey,
     required String label,
@@ -467,120 +469,12 @@ class UserZonesController extends GetxController {
       return;
     }
     _zoneMarkerIconBuilding.add(markerKey);
-    _createZoneLabelMarkerIcon(label, zoneColor).then((icon) {
+    ZoneLabelMarkerBitmap.build(label: label, zoneColor: zoneColor).then((icon) {
       _zoneMarkerIconCache[markerKey] = icon;
       _renderOverlays();
     }).whenComplete(() {
       _zoneMarkerIconBuilding.remove(markerKey);
     });
-  }
-
-  static const double _zoneMarkerAnchorY = 35 / 44;
-
-  Future<BitmapDescriptor> _createZoneLabelMarkerIcon(
-      String text, Color zoneColor) async {
-    final double devicePixelRatio =
-        ui.PlatformDispatcher.instance.views.first.devicePixelRatio;
-
-    const double multiplier = 3.0;
-    final double scale = devicePixelRatio * multiplier;
-
-    const double padX = 4;
-    const double maxLabelWidth = 68;
-    const double stemWidth = 0.7;
-    const double bubbleH = 13;
-    const double bubbleTop = 1;
-    const double stemBottomY = 34;
-    const double dotRadius = 1.4;
-
-    final labelText = text.length > 15 ? '${text.substring(0, 15)}..' : text;
-
-    final textPainter = TextPainter(
-      text: TextSpan(
-        text: labelText,
-        style: TextStyle(
-          color: const Color(0xFF111111),
-          fontSize: 5 * multiplier, // scaled internally
-          fontWeight: FontWeight.w400,
-          height: 1.0,
-        ),
-      ),
-      textDirection: TextDirection.ltr,
-      maxLines: 1,
-      ellipsis: '..',
-    )..layout(maxWidth: maxLabelWidth * multiplier);
-
-    final bubbleW = textPainter.width + (padX * multiplier * 2);
-    final width = bubbleW + (6 * multiplier);
-    final height = 44.0 * multiplier;
-
-    final centerX = width / 2;
-    final bubbleLeft = (width - bubbleW) / 2;
-
-    final bubbleRect = RRect.fromRectAndRadius(
-      Rect.fromLTWH(
-        bubbleLeft,
-        bubbleTop * multiplier,
-        bubbleW,
-        bubbleH * multiplier,
-      ),
-      const Radius.circular(0),
-    );
-
-    final recorder = ui.PictureRecorder();
-    final canvas = Canvas(recorder);
-
-    final bubbleFill = Paint()
-      ..color = Colors.white
-      ..isAntiAlias = true;
-
-    final bubbleBorder = Paint()
-      ..color = zoneColor
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 0.9 * multiplier
-      ..isAntiAlias = true;
-
-    canvas.drawRRect(bubbleRect, bubbleFill);
-    canvas.drawRRect(bubbleRect, bubbleBorder);
-
-    final textDx = ((width - textPainter.width) / 2).roundToDouble();
-    final textDy = ((bubbleTop * multiplier) +
-            ((bubbleH * multiplier - textPainter.height) / 2))
-        .roundToDouble();
-    textPainter.paint(canvas, Offset(textDx, textDy));
-
-    final stemPaint = Paint()
-      ..color = zoneColor
-      ..strokeWidth = stemWidth * multiplier
-      ..style = PaintingStyle.stroke
-      ..isAntiAlias = true;
-
-    canvas.drawLine(
-      Offset(centerX, (bubbleTop + bubbleH) * multiplier),
-      Offset(centerX, stemBottomY * multiplier),
-      stemPaint,
-    );
-
-    final dotCenter = Offset(centerX, (stemBottomY + dotRadius) * multiplier);
-
-    final dotPaint = Paint()
-      ..color = zoneColor
-      ..isAntiAlias = true;
-
-    canvas.drawCircle(dotCenter, dotRadius * multiplier, dotPaint);
-
-    final picture = recorder.endRecording();
-
-    final image = await picture.toImage(
-      width.ceil(),
-      height.ceil(),
-    );
-
-    final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-
-    final bytes = byteData!.buffer.asUint8List();
-
-    return BitmapDescriptor.bytes(bytes);
   }
 
   @override

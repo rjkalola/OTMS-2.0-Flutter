@@ -78,6 +78,8 @@ class BuyerOrderController extends GetxController
         selectedTab.value = OrderTabType.proceed;
       } else if (selectedTabType == AppConstants.type.delivered) {
         selectedTab.value = OrderTabType.delivered;
+      } else if (selectedTabType == AppConstants.type.cancelled) {
+        selectedTab.value = OrderTabType.cancelled;
       }
       selectedDateFilterIndex.value =
           arguments[AppConstants.intentKey.index] ?? 2;
@@ -139,7 +141,7 @@ class BuyerOrderController extends GetxController
           tempRequestOrderList.clear();
           tempRequestOrderList.addAll(response.info!);
           requestOrdersList.value = tempRequestOrderList;
-          // requestCount.value = tempRequestOrderList.length;
+          requestCount.value = tempRequestOrderList.length;
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
@@ -158,6 +160,19 @@ class BuyerOrderController extends GetxController
     );
   }
 
+  void updateTabCount({
+    int? upcoming,
+    int? processing,
+    int? partialDelivered,
+    int? delivered,
+    int? cancelled,
+  }) {
+    upcomingCount.value = upcoming ?? 0;
+    proceedCount.value = (processing ?? 0) + (partialDelivered ?? 0);
+    deliveredCount.value = delivered ?? 0;
+    cancelledCount.value = cancelled ?? 0;
+  }
+
   void buyerOrdersListApi(String status) {
     isLoading.value = true;
     Map<String, dynamic> map = {};
@@ -173,9 +188,13 @@ class BuyerOrderController extends GetxController
           BuyerOrdersListResponse response = BuyerOrdersListResponse.fromJson(
               jsonDecode(responseModel.result!));
 
-          upcomingCount.value = response.upcoming ?? 0;
-          proceedCount.value = response.processing ?? 0;
-          deliveredCount.value = response.delivered ?? 0;
+          updateTabCount(
+            upcoming: response.upcoming,
+            processing: response.processing,
+            partialDelivered: response.partialDelivered,
+            delivered: response.delivered,
+            cancelled: response.cancelled,
+          );
 
           tempOrdersList.clear();
           tempOrdersList.addAll(response.info ?? []);

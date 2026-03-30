@@ -180,6 +180,8 @@ class DialogIdentifier {
   final String orderDelivered = 'ORDER_DELIVERED';
   final String orderReceived = 'ORDER_RECEIVED';
   final String orderCancelled = 'ORDER_CANCELLED';
+  final String hireFromDate = 'HIRE_FROM_DATE';
+  final String hireToDate = 'HIRE_TO_DATE';
 }
 
 class SharedPreferenceKey {

@@ -21,7 +21,8 @@ class StoremanInventoryScreen extends StatefulWidget {
   const StoremanInventoryScreen({super.key});
 
   @override
-  State<StoremanInventoryScreen> createState() => _StoremanInventoryScreenState();
+  State<StoremanInventoryScreen> createState() =>
+      _StoremanInventoryScreenState();
 }
 
 class _StoremanInventoryScreenState extends State<StoremanInventoryScreen>
@@ -107,7 +108,7 @@ class _StoremanInventoryScreenState extends State<StoremanInventoryScreen>
                                   ),
                                   SuppliersCardView(),
                                   InternalOrdersCardView(),
-                                  // HireCardView()
+                                  HireCardView()
                                 ],
                               )),
                             ),
@@ -146,4 +147,3 @@ class _StoremanInventoryScreenState extends State<StoremanInventoryScreen>
     print("endDate:" + endDate);
   }
 }
-

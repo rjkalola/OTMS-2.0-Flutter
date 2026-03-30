@@ -148,6 +148,7 @@ class AppRoutes {
   static const String createBuyerOrderScreen = '/create_buyer_order_screen';
   static const String storemanCatalogScreen = '/storeman_catalog_screen';
   static const String basketScreen = '/basket_screen';
+  static const String createHireOrderScreen = '/create_hire_order_screen';
   static const String productDetailsScreen = '/product_details_screen';
   static const String buyerSettingsScreen = '/buyer_settings_screen';
   static const String buyerOrderDetailsScreen = '/buyer_order_details_screen';
@@ -170,6 +171,7 @@ class AppRoutes {
       '/storeman_supplier_orders_screen';
   static const String storemanHireProductsScreen =
       '/storeman_hire_products_screen';
+  static const String userHireProductsScreen = '/user_hire_products_screen';
   static const String storemanOrderDetailsScreen =
       '/storeman_order_details_screen';
   static const String storemanInternalOrderDetailsScreen =

@@ -61,23 +61,63 @@ class OrdersCardView extends StatelessWidget {
                         fit: FlexFit.tight,
                         child: GestureDetector(
                           onTap: () {
-                            controller.onItemClick(AppConstants.type.proceed);
+                            controller.onItemClick(AppConstants.type.upComing);
                           },
-                          child: Column(
-                            children: [
-                              PurchasingScreenItemTextWidget(
-                                  text: 'proceed'.tr),
-                              SizedBox(
-                                height: 2,
-                              ),
-                              PurchasingScreenItemValueWidget(
-                                  value: (controller.inventoryData.value
-                                              .proceedOrders ??
-                                          0)
-                                      .toString()),
-                            ],
+                          child: Container(
+                            alignment: Alignment.topCenter,
+                            child: Column(
+                              children: [
+                                PurchasingScreenItemTextWidget(
+                                  text: 'upcoming'.tr,
+                                ),
+                                SizedBox(
+                                  height: 2,
+                                ),
+                                PurchasingScreenItemValueWidget(
+                                    value: (controller.inventoryData.value
+                                                .upcomingOrders ??
+                                            0)
+                                        .toString()),
+                              ],
+                            ),
                           ),
                         )),
+                    Flexible(
+                        flex: 1,
+                        fit: FlexFit.tight,
+                        child: GestureDetector(
+                          onTap: () {
+                            controller.onItemClick(AppConstants.type.proceed);
+                          },
+                          child: Container(
+                            alignment: Alignment.topRight,
+                            child: Column(
+                              children: [
+                                PurchasingScreenItemTextWidget(
+                                  text: 'proceed'.tr,
+                                ),
+                                SizedBox(
+                                  height: 2,
+                                ),
+                                PurchasingScreenItemValueWidget(
+                                    value: ((controller.inventoryData.value
+                                                    .proceedOrders ??
+                                                0) +
+                                            (controller.inventoryData.value
+                                                    .partiallyDeliveredOrders ??
+                                                0))
+                                        .toString()),
+                              ],
+                            ),
+                          ),
+                        )),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
                     Flexible(
                         flex: 1,
                         fit: FlexFit.tight,
@@ -86,11 +126,13 @@ class OrdersCardView extends StatelessWidget {
                             controller.onItemClick(AppConstants.type.delivered);
                           },
                           child: Container(
-                            alignment: Alignment.topRight,
+                            alignment: Alignment.topLeft,
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 PurchasingScreenItemTextWidget(
-                                    text: 'delivered'.tr),
+                                  text: 'delivered'.tr,
+                                ),
                                 SizedBox(
                                   height: 2,
                                 ),
@@ -102,7 +144,39 @@ class OrdersCardView extends StatelessWidget {
                               ],
                             ),
                           ),
-                        ))
+                        )),
+                    Flexible(
+                        flex: 1,
+                        fit: FlexFit.tight,
+                        child: GestureDetector(
+                          onTap: () {
+                            controller.onItemClick(AppConstants.type.cancelled);
+                          },
+                          child: Container(
+                            alignment: Alignment.topCenter,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                PurchasingScreenItemTextWidget(
+                                  text: 'cancelled'.tr,
+                                ),
+                                SizedBox(
+                                  height: 2,
+                                ),
+                                PurchasingScreenItemValueWidget(
+                                    value: (controller.inventoryData.value
+                                                .cancelledOrders ??
+                                            0)
+                                        .toString()),
+                              ],
+                            ),
+                          ),
+                        )),
+                    Flexible(
+                      flex: 1,
+                      fit: FlexFit.tight,
+                      child: SizedBox.shrink(),
+                    ),
                   ],
                 )
               ],

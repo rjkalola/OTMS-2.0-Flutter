@@ -6,7 +6,7 @@ class BuyerOrdersListResponse {
   String? message;
   List<OrderInfo>? info;
   String? startDate, endDate;
-  int? upcoming, processing, delivered, cancelled;
+  int? upcoming, processing, delivered, partialDelivered, cancelled;
   int? newOrders, preparing, ready, collected;
 
   BuyerOrdersListResponse(
@@ -18,6 +18,7 @@ class BuyerOrdersListResponse {
       this.upcoming,
       this.processing,
       this.delivered,
+      this.partialDelivered,
       this.cancelled,
       this.newOrders,
       this.preparing,
@@ -38,6 +39,7 @@ class BuyerOrdersListResponse {
     upcoming = json['upcoming'];
     processing = json['processing'];
     delivered = json['delivered'];
+    partialDelivered = json['partial_delivered'];
     cancelled = json['cancelled'];
     newOrders = json['new'];
     preparing = json['preparing'];
@@ -57,6 +59,7 @@ class BuyerOrdersListResponse {
     data['upcoming'] = this.upcoming;
     data['processing'] = this.processing;
     data['delivered'] = this.delivered;
+    data['partial_delivered'] = this.partialDelivered;
     data['cancelled'] = this.cancelled;
     data['new'] = this.newOrders;
     data['preparing'] = this.preparing;

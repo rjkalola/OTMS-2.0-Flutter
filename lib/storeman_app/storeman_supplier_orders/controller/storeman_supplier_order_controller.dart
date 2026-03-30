@@ -93,6 +93,7 @@ class StoremanSupplierOrderController extends GetxController {
             response.upcoming ?? 0,
             response.processing ?? 0,
             response.delivered ?? 0,
+            response.partialDelivered ?? 0,
             response.cancelled ?? 0,
           );
         } else {
@@ -131,13 +132,17 @@ class StoremanSupplierOrderController extends GetxController {
     int upcoming,
     int processing,
     int onStock,
+    int partialDelivered,
     int cancelled,
   ) {
-    allCount.value = 0;
     upcomingCount.value = upcoming;
-    processingCount.value = processing;
+    processingCount.value = processing + partialDelivered;
     onStockCount.value = onStock;
     cancelledCount.value = cancelled;
+    allCount.value = upcomingCount.value +
+        processingCount.value +
+        onStockCount.value +
+        cancelledCount.value;
   }
 
   void searchItem(String value) {

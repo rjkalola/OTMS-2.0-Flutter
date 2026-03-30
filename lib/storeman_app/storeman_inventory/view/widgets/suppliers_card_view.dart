@@ -35,7 +35,8 @@ class SuppliersCardView extends StatelessWidget {
                         fit: FlexFit.tight,
                         child: GestureDetector(
                           onTap: () {
-                            controller.onSupplierOrdersItemClick(AppConstants.type.upComing);
+                            controller.onSupplierOrdersItemClick(
+                                AppConstants.type.upComing);
                           },
                           child: Container(
                             alignment: Alignment.topLeft,
@@ -48,9 +49,9 @@ class SuppliersCardView extends StatelessWidget {
                                   height: 2,
                                 ),
                                 PurchasingScreenItemValueWidget(
-                                    value: (controller.inventoryData.value
-                                            .upcoming ??
-                                        0)
+                                    value: (controller
+                                                .inventoryData.value.upcoming ??
+                                            0)
                                         .toString()),
                               ],
                             ),
@@ -61,7 +62,8 @@ class SuppliersCardView extends StatelessWidget {
                         fit: FlexFit.tight,
                         child: GestureDetector(
                           onTap: () {
-                            controller.onSupplierOrdersItemClick(AppConstants.type.processing);
+                            controller.onSupplierOrdersItemClick(
+                                AppConstants.type.processing);
                           },
                           child: Container(
                             alignment: Alignment.topCenter,
@@ -74,9 +76,12 @@ class SuppliersCardView extends StatelessWidget {
                                   height: 2,
                                 ),
                                 PurchasingScreenItemValueWidget(
-                                    value: (controller.inventoryData.value
-                                            .processing ??
-                                        0)
+                                    value: ((controller.inventoryData.value
+                                                    .processing ??
+                                                0) +
+                                            (controller.inventoryData.value
+                                                    .supplierPartiallyDelivered ??
+                                                0))
                                         .toString()),
                               ],
                             ),
@@ -87,10 +92,11 @@ class SuppliersCardView extends StatelessWidget {
                         fit: FlexFit.tight,
                         child: GestureDetector(
                           onTap: () {
-                            controller.onSupplierOrdersItemClick(AppConstants.type.onStock);
+                            controller.onSupplierOrdersItemClick(
+                                AppConstants.type.onStock);
                           },
                           child: Container(
-                            alignment: Alignment.topRight,
+                            alignment: Alignment.topCenter,
                             child: Column(
                               children: [
                                 PurchasingScreenItemTextWidget(
@@ -100,9 +106,36 @@ class SuppliersCardView extends StatelessWidget {
                                   height: 2,
                                 ),
                                 PurchasingScreenItemValueWidget(
+                                    value: (controller
+                                                .inventoryData.value.onStock ??
+                                            0)
+                                        .toString()),
+                              ],
+                            ),
+                          ),
+                        )),
+                    Flexible(
+                        flex: 1,
+                        fit: FlexFit.tight,
+                        child: GestureDetector(
+                          onTap: () {
+                            controller.onSupplierOrdersItemClick(
+                                AppConstants.type.cancelled);
+                          },
+                          child: Container(
+                            alignment: Alignment.topRight,
+                            child: Column(
+                              children: [
+                                PurchasingScreenItemTextWidget(
+                                  text: 'cancelled'.tr,
+                                ),
+                                SizedBox(
+                                  height: 2,
+                                ),
+                                PurchasingScreenItemValueWidget(
                                     value: (controller.inventoryData.value
-                                            .onStock ??
-                                        0)
+                                                .supplierCancelled ??
+                                            0)
                                         .toString()),
                               ],
                             ),
@@ -116,6 +149,3 @@ class SuppliersCardView extends StatelessWidget {
     );
   }
 }
-
-
-

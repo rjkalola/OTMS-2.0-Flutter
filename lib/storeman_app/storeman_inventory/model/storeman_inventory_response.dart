@@ -4,6 +4,8 @@ class StoremanInventoryResponse {
   int? upcoming;
   int? processing;
   int? onStock;
+  int? supplierCancelled;
+  int? supplierPartiallyDelivered;
   int? internalNew;
   int? internalPreparing;
   int? internalReady;
@@ -21,6 +23,8 @@ class StoremanInventoryResponse {
       this.upcoming,
       this.processing,
       this.onStock,
+      this.supplierCancelled,
+      this.supplierPartiallyDelivered,
       this.internalNew,
       this.internalPreparing,
       this.internalReady,
@@ -38,6 +42,8 @@ class StoremanInventoryResponse {
     upcoming = json['supplier_upcoming'];
     processing = json['supplier_processing'];
     onStock = json['supplier_delivered'];
+    supplierCancelled = json['supplier_canceled'];
+    supplierPartiallyDelivered = json['supplier_partially_delivered'];
     internalNew = json['new'];
     internalPreparing = json['preparing'];
     internalReady = json['ready'];
@@ -57,6 +63,8 @@ class StoremanInventoryResponse {
     data['upcoming'] = this.upcoming;
     data['processing'] = this.processing;
     data['on_stock'] = this.onStock;
+    data['supplier_cancelled'] = this.supplierCancelled;
+    data['supplier_partially_delivered'] = this.supplierPartiallyDelivered;
     data['internal_new'] = this.internalNew;
     data['internal_preparing'] = this.internalPreparing;
     data['internal_ready'] = this.internalReady;
@@ -70,4 +78,3 @@ class StoremanInventoryResponse {
     return data;
   }
 }
-

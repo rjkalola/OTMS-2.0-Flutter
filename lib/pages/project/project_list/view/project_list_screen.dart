@@ -116,17 +116,17 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
       ),
       Visibility(
           visible: !UserUtils.isAdmin(), child: const SizedBox(width: 10)),
-      // IconButton(
-      //   icon: Icon(Icons.map_outlined),
-      //   onPressed: () {
-      //     Get.toNamed(AppRoutes.userZonesScreen);
-      //   },
-      // ),
+      IconButton(
+        icon: Icon(Icons.map_outlined),
+        onPressed: () {
+          Get.toNamed(AppRoutes.userZonesScreen);
+        },
+      ),
       Visibility(
         visible: UserUtils.isAdmin(),
         child: IconButton(
           icon: Icon(Icons.more_vert_outlined),
-          onPressed: () { 
+          onPressed: () {
             if (UserUtils.isAdmin()) {
               controller.showMenuItemsDialog(Get.context!);
             }

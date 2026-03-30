@@ -13,8 +13,11 @@ class BuyerOrderDashboardResponse {
   int? categories;
   int? suppliers;
   int? requestedOrders;
+  int? upcomingOrders;
   int? proceedOrders;
   int? receivedOrders;
+  int? partiallyDeliveredOrders;
+  int? cancelledOrders;
   List<Inventory>? inventory;
   String? startDate, endDate;
 
@@ -31,8 +34,11 @@ class BuyerOrderDashboardResponse {
       this.categories,
       this.suppliers,
       this.requestedOrders,
+      this.upcomingOrders,
       this.proceedOrders,
       this.receivedOrders,
+      this.partiallyDeliveredOrders,
+      this.cancelledOrders,
       this.inventory,
       this.startDate,
       this.endDate});
@@ -50,8 +56,11 @@ class BuyerOrderDashboardResponse {
     categories = json['categories'];
     suppliers = json['suppliers'];
     requestedOrders = json['requested_orders'];
+    upcomingOrders = json['upcoming_orders'];
     proceedOrders = json['proceed_orders'];
     receivedOrders = json['received_orders'];
+    partiallyDeliveredOrders = json['partially_delivered_orders'];
+    cancelledOrders = json['cancelled_orders'];
     if (json['inventory'] != null) {
       inventory = <Inventory>[];
       json['inventory'].forEach((v) {
@@ -76,8 +85,11 @@ class BuyerOrderDashboardResponse {
     data['categories'] = this.categories;
     data['suppliers'] = this.suppliers;
     data['requested_orders'] = this.requestedOrders;
+    data['upcoming_orders'] = this.upcomingOrders;
     data['proceed_orders'] = this.proceedOrders;
     data['received_orders'] = this.receivedOrders;
+    data['partially_delivered_orders'] = this.partiallyDeliveredOrders;
+    data['cancelled_orders'] = this.cancelledOrders;
     if (this.inventory != null) {
       data['inventory'] = this.inventory!.map((v) => v.toJson()).toList();
     }

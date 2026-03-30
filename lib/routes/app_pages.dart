@@ -125,20 +125,17 @@ import 'package:belcka/pages/timesheet/archive_timesheet_list/view/archive_times
 import 'package:belcka/pages/timesheet/timesheet_list/view/timesheet_list_screen.dart';
 import 'package:belcka/pages/trades/view/company_trades_screen.dart';
 import 'package:belcka/pages/user_orders/basket/view/basket_screen.dart';
+import 'package:belcka/pages/user_orders/hire_module/create_hire_order/view/create_hire_order_screen.dart';
 import 'package:belcka/pages/user_orders/categories/view/user_orders_categories_screen.dart';
 import 'package:belcka/pages/user_orders/order_details/view/order_details_screen.dart';
 import 'package:belcka/pages/user_orders/order_history/view/order_history_screen.dart';
 import 'package:belcka/pages/user_orders/product_details/view/product_details_screen.dart';
 import 'package:belcka/pages/user_orders/product_info/view/product_info_screen.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/view/storeman_catalog_screen.dart';
+import 'package:belcka/pages/user_orders/hire_module/user_hire_products/view/user_hire_products_screen.dart';
 import 'package:belcka/pages/users/archive_user_list/view/archive_user_list_screen.dart';
 import 'package:belcka/pages/users/invite_user/view/invite_user_screen.dart';
 import 'package:belcka/pages/users/user_list/view/user_list_screen.dart';
-import 'package:belcka/storeman_app/storeman_hire_products/view/storeman_hire_products_screen.dart';
-import 'package:belcka/storeman_app/storeman_internal_orders/view/storeman_internal_orders_screen.dart';
-import 'package:belcka/storeman_app/storeman_inventory/view/storeman_inventory_screen.dart';
-import 'package:belcka/storeman_app/storeman_order_details/view/storeman_order_details_screen.dart';
-import 'package:belcka/storeman_app/storeman_supplier_orders/view/storeman_supplier_orders_screen.dart';
 import 'package:get/get.dart';
 
 import 'app_routes.dart';
@@ -466,6 +463,9 @@ class AppPages {
         page: () => StoremanCatalogScreen()),
     GetPage(name: AppRoutes.basketScreen, page: () => BasketScreen()),
     GetPage(
+        name: AppRoutes.createHireOrderScreen,
+        page: () => CreateHireOrderScreen()),
+    GetPage(
         name: AppRoutes.buyerSettingsScreen, page: () => BuyerSettingsScreen()),
     GetPage(
         name: AppRoutes.buyerOrderDetailsScreen,
@@ -504,6 +504,9 @@ class AppPages {
     GetPage(
         name: AppRoutes.storemanHireProductsScreen,
         page: () => StoremanHireProductsScreen()),
+    GetPage(
+        name: AppRoutes.userHireProductsScreen,
+        page: () => UserHireProductsScreen()),
     GetPage(
         name: AppRoutes.storemanOrderDetailsScreen,
         page: () => StoremanOrderDetailsScreen()),

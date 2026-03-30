@@ -332,10 +332,29 @@ class BuyerOrderDetailProductsListItem extends StatelessWidget {
                             ),
                             SizedBox(height: 10),
                           ],
-                          SubtitleTextView(
-                            text: notes[i],
-                            fontSize: 15,
-                            color: primaryTextColor_(context),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 7),
+                                child: Container(
+                                  width: 6,
+                                  height: 6,
+                                  decoration: BoxDecoration(
+                                    color: primaryTextColor_(context),
+                                    shape: BoxShape.circle,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: SubtitleTextView(
+                                  text: notes[i],
+                                  fontSize: 15,
+                                  color: primaryTextColor_(context),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ],

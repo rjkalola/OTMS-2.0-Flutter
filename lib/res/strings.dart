@@ -369,6 +369,12 @@ class Strings extends Translations {
           'digital_id': "Digital ID",
           'rent': "Rent",
           'history': "History",
+          'hire_from': "Hire From",
+          'hire_to': "Hire To",
+          'please_select_hire_from_first':
+              "Please select Hire From date first",
+          'hire_to_must_be_on_or_after_from':
+              "Hire To must be on or after Hire From",
           'search_post_code': "Search Post Code",
           'postcode_address': "Postcode or Address",
           'addresses_found': "addresses found",
