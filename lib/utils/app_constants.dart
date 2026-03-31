@@ -13,6 +13,7 @@ class AppConstants {
   static const Results results = Results();
   static const Status status = Status();
   static const OrderStatus orderStatus = OrderStatus();
+  static const HireStatus hireStatus = HireStatus();
   static const InternalOrdersStatusType internalOrderStatus =
       InternalOrdersStatusType();
   static const ProductStockStatus productStockStatus = ProductStockStatus();
@@ -289,6 +290,7 @@ class Action {
   final String settings = "SETTINGS";
   final String companies = "COMPANIES";
   final String notificationSettings = "NOTIFICATION_SETTINGS";
+  final String hire = "HIRE";
   final String archiveProject = 'ARCHIVE_PROJECT';
   final String download = 'DOWNLOAD';
   final String archivedProjects = 'ARCHIVED_PROJECTS';
@@ -408,6 +410,17 @@ class OrderStatus {
   final int processing = 3;
   final int cancelled = 4;
   final int inStock = 5;
+}
+
+class HireStatus {
+  const HireStatus();
+
+  final int available = 1;
+  final int request = 2;
+  final int hired = 3;
+  final int inService = 4;
+  final int returned = 5;
+  final int cancelled = 6;
 }
 
 class InternalOrdersStatusType {

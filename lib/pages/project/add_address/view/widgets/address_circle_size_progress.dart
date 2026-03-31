@@ -15,6 +15,8 @@ class AddressCircleSizeProgress extends StatelessWidget {
       width: double.infinity,
       child: CustomSlider(
         progress: controller.circleRadius.toInt().obs,
+        min: 0,
+        max: 10000,
         onChanged: (newValue) {
           controller.circleRadius.value = newValue.roundToDouble().toDouble();
           controller.isSaveEnable.value = true;

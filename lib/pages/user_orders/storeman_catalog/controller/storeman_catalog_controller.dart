@@ -8,6 +8,7 @@ import 'package:belcka/pages/user_orders/storeman_catalog/model/add_to_cart_resp
 import 'package:belcka/pages/user_orders/storeman_catalog/model/get_products_response.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:get/get.dart';
@@ -83,6 +84,43 @@ class StoremanCatalogController extends GetxController {
     FocusManager.instance.primaryFocus?.unfocus();
     isCategoryExpanded.value = false;
     selectCategory(selectedID);
+  }
+
+  Future<void> onReorderCategory(int oldIndex, int newIndex) async {
+    final list = List<UserOrdersCategoriesInfo>.from(categoriesList);
+    final movedItem = list.removeAt(oldIndex);
+    list.insert(newIndex, movedItem);
+    categoriesList.value = list;
+    tempCategoryList = List<UserOrdersCategoriesInfo>.from(list);
+    changeCategoriesBulkSequenceApi();
+  }
+
+  void changeCategoriesBulkSequenceApi() {
+    Map<String, dynamic> map = {};
+    map["user_id"] = UserUtils.getLoginUserId();
+    map["company_id"] = ApiConstants.companyId;
+    map["sequence"] = List.generate(
+      categoriesList.length,
+      (index) => {
+        "id": categoriesList[index].id ?? 0,
+        "new_position": index + 1,
+      },
+    );
+    _api.changeCategoriesBulkSequenceAPI(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (!responseModel.isSuccess &&
+            !StringHelper.isEmptyString(responseModel.statusMessage)) {
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+        }
+      },
+      onError: (ResponseModel error) {
+        if (error.statusCode != ApiConstants.CODE_NO_INTERNET_CONNECTION &&
+            error.statusMessage!.isNotEmpty) {
+          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+        }
+      },
+    );
   }
 
   void getCategoriesListApi() {

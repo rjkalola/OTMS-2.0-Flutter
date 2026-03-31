@@ -1,27 +1,3 @@
-import 'package:belcka/utils/user_utils.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:belcka/pages/common/model/user_info.dart';
-import 'package:belcka/pages/permissions/user_list/controller/user_list_controller.dart';
-import 'package:belcka/pages/teams/create_team/controller/create_team_controller.dart';
-import 'package:belcka/pages/teams/team_details/controller/team_details_controller.dart';
-import 'package:belcka/res/colors.dart';
-import 'package:belcka/res/drawable.dart';
-import 'package:belcka/routes/app_routes.dart';
-import 'package:belcka/utils/app_utils.dart';
-import 'package:belcka/utils/image_utils.dart';
-import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
-import 'package:belcka/widgets/other_widgets/user_avtar_view.dart';
-import 'package:belcka/widgets/switch/custom_switch.dart';
-import 'package:belcka/widgets/text/PrimaryTextView.dart';
-import 'package:belcka/widgets/text/SubTitleTextView.dart';
-import 'package:belcka/widgets/text/TitleTextView.dart';
-
-import '../../../../../../utils/app_constants.dart';
-
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
 import 'package:belcka/pages/common/model/user_info.dart';
 import 'package:belcka/pages/teams/team_details/controller/team_details_controller.dart';
 import 'package:belcka/res/colors.dart';
@@ -29,8 +5,10 @@ import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/other_widgets/user_avtar_view.dart';
 import 'package:belcka/widgets/text/PrimaryTextView.dart';
-import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:belcka/widgets/text/SubTitleTextView.dart';
+import 'package:belcka/widgets/text/TitleTextView.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class TeamMembersList extends StatelessWidget {
   TeamMembersList({super.key});
@@ -76,7 +54,9 @@ class TeamMembersList extends StatelessWidget {
                   UserInfo info = members[index];
                   return GestureDetector(
                     onTap: () {
-                      AppUtils.onClickUserAvatar(info.id ?? 0);
+                      if (!(controller.teamInfo.value.isSubcontractor ?? false)) {
+                        AppUtils.onClickUserAvatar(info.id ?? 0);
+                      }
                     },
                     child: Container(
                       color: Colors.transparent,

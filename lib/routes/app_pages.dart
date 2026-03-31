@@ -109,7 +109,7 @@ import 'package:belcka/pages/project/project_details/view/project_details_screen
 import 'package:belcka/pages/project/project_info/view/project_info_screen.dart';
 import 'package:belcka/pages/project/project_list/view/project_list_screen.dart';
 import 'package:belcka/pages/project/trade_records/trade_records_screen.dart';
-import 'package:belcka/pages/project/user_zones/view/user_zones_screen.dart';
+import 'package:belcka/pages/project/maps/user_zones/view/user_zones_screen.dart';
 import 'package:belcka/pages/qr_code_scanner/view/qr_code_scanner.dart';
 import 'package:belcka/pages/settings/view/settings_screen.dart';
 import 'package:belcka/pages/shifts/archive_shift_list/view/archive_shift_list_screen.dart';

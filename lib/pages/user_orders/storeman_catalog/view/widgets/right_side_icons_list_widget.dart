@@ -1,7 +1,6 @@
 import 'package:belcka/pages/user_orders/storeman_catalog/controller/storeman_catalog_controller.dart';
 import 'package:belcka/pages/user_orders/widgets/icons/expand_icon_widget.dart';
 import 'package:belcka/res/colors.dart';
-import 'package:belcka/res/theme/theme_config.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

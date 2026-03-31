@@ -10,17 +10,17 @@ import 'package:belcka/pages/project/project_info/model/project_info.dart';
 import 'package:belcka/pages/project/project_info/model/project_list_response.dart';
 import 'package:belcka/pages/user_orders/hire_module/create_hire_order/controller/create_hire_order_repository.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
-import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/date_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
+import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class CreateHireOrderController extends GetxController
+class CreateHireOrderController  extends GetxController
     implements SelectItemListener, SelectDateListener {
   RxBool isDeliverySelected = true.obs;
   final _api = CreateHireOrderRepository();
@@ -138,8 +138,37 @@ class CreateHireOrderController extends GetxController
   }
 
   void toggleCreateOrder() {
-    if (activeProjectId.value <= 0 || selectedAddressId.value <= 0) {
-      AppUtils.showSnackBarMessage("Please ensure all fields are selected");
+    if (hireFromDate.value == null) {
+      AppUtils.showToastMessage('please_select_hire_from_first'.tr);
+      return;
+    }
+
+    if (hireToDate.value == null) {
+      AppUtils.showToastMessage('please_select_hire_to_date'.tr);
+      return;
+    }
+
+    final fromDay = DateTime(
+      hireFromDate.value!.year,
+      hireFromDate.value!.month,
+      hireFromDate.value!.day,
+    );
+    final toDay = DateTime(
+      hireToDate.value!.year,
+      hireToDate.value!.month,
+      hireToDate.value!.day,
+    );
+    if (toDay.isBefore(fromDay)) {
+      AppUtils.showToastMessage('hire_to_must_be_on_or_after_from'.tr);
+      return;
+    }
+
+    final productIds = cartList
+        .map((item) => item.productId ?? 0)
+        .where((id) => id > 0)
+        .toList();
+    if (productIds.isEmpty) {
+      AppUtils.showToastMessage('msg_add_at_least_one_qty'.tr);
       return;
     }
 
@@ -148,19 +177,21 @@ class CreateHireOrderController extends GetxController
       companyId: ApiConstants.companyId,
       projectId: activeProjectId.value,
       addressId: selectedAddressId.value,
+      productIds: productIds,
     );
-    print(body);
-    _api.createEmployeeOrderAPI(
+    _api.createHireOrderAPI(
       data: body,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
+          BaseResponse response =
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showToastMessage(response.Message ?? "");
           isDataUpdated = true;
-
-          moveToScreen(AppRoutes.orderHistoryScreen, {});
+          Get.back(result: true);
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+          isLoading.value = false;
         }
-        isLoading.value = false;
       },
       onError: (ResponseModel error) {
         isLoading.value = false;
@@ -177,25 +208,19 @@ class CreateHireOrderController extends GetxController
     required int companyId,
     required int projectId,
     required int addressId,
+    required List<int> productIds,
   }) {
     return {
       "company_id": companyId,
-      "project_id": projectId,
+      if (projectId > 0) "project_id": projectId,
       if (addressId > 0) "address_id": addressId,
       if (hireFromDate.value != null)
-        "hire_from": DateUtil.dateToString(
-            hireFromDate.value!, DateUtil.YYYY_MM_DD_DASH),
+        "from_date":
+            DateUtil.dateToString(hireFromDate.value!, DateUtil.DD_MM_YYYY_SLASH),
       if (hireToDate.value != null)
-        "hire_to": DateUtil.dateToString(
-            hireToDate.value!, DateUtil.YYYY_MM_DD_DASH),
-      "product_data": cartList.map((item) {
-        return {
-          "product_id": item.productId,
-          "qty": item.cartQty ?? 0,
-          "price": item.marketPrice,
-          "is_sub_qty": item.isSubQty
-        };
-      }).toList(),
+        "to_date":
+            DateUtil.dateToString(hireToDate.value!, DateUtil.DD_MM_YYYY_SLASH),
+      "product_ids": productIds.join(","),
     };
   }
 

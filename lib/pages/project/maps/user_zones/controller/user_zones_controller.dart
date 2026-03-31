@@ -1,23 +1,28 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:belcka/pages/project/user_zones/controller/user_zones_repository.dart';
-import 'package:belcka/pages/project/user_zones/model/user_location_models.dart';
-import 'package:belcka/pages/project/user_zones/model/zone_group_models.dart';
+import 'package:belcka/pages/project/maps/user_zones/controller/user_zones_repository.dart';
+import 'package:belcka/pages/project/maps/user_zones/model/user_location_models.dart';
+import 'package:belcka/pages/project/maps/user_zones/model/zone_group_models.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/location_service_new.dart';
-import 'package:belcka/pages/project/user_zones/utils/team_user_marker_bitmap.dart';
-import 'package:belcka/pages/project/user_zones/utils/zone_label_marker_bitmap.dart';
+import 'package:belcka/pages/project/maps/user_zones/utils/team_user_marker_bitmap.dart';
+import 'package:belcka/pages/project/maps/user_zones/utils/zone_label_marker_bitmap.dart';
+import 'package:belcka/pages/common/menu_items_list_bottom_dialog.dart';
+import 'package:belcka/pages/common/listener/menu_item_listener.dart';
+import 'package:belcka/pages/project/maps/user_zones/view/widgets/user_zones_user_bottom_sheet.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/web_services/api_constants.dart';
+import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/web_services/response/response_model.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class UserZonesController extends GetxController {
+class UserZonesController extends GetxController implements MenuItemListener {
   final _api = UserZonesRepository();
   final locationService = LocationServiceNew();
 
@@ -54,6 +59,9 @@ class UserZonesController extends GetxController {
 
   // Timer? _refreshTimer;
   Timer? _panelScrimTimer;
+
+  static const String _zoneMenuActionAddByShape = 'zone_add_by_shape';
+  static const String _zoneMenuActionAddByPostCode = 'zone_add_by_post_code';
 
   void onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -333,6 +341,44 @@ class UserZonesController extends GetxController {
 
   void setMapTypeSatellite() => mapType.value = MapType.satellite;
 
+
+  void onAddZonePressed() {
+    closePanel();
+    showMenuItemsDialog(Get.context!);
+  }
+
+  void showMenuItemsDialog(BuildContext context) {
+    final listItems = <ModuleInfo>[
+      ModuleInfo(name: 'add_by_shape'.tr, action: _zoneMenuActionAddByShape),
+      ModuleInfo(
+        name: 'add_by_post_code'.tr,
+        action: _zoneMenuActionAddByPostCode,
+      ),
+    ];
+
+    showCupertinoModalPopup(
+      context: context,
+      builder: (_) => MenuItemsListBottomDialog(list: listItems, listener: this),
+    );
+  }
+
+  @override
+  void onSelectMenuItem(ModuleInfo info, String dialogType) {
+    if (info.action == _zoneMenuActionAddByShape) {
+      AppUtils.showToastMessage('add_by_shape'.tr);
+    } else if (info.action == _zoneMenuActionAddByPostCode) {
+      AppUtils.showToastMessage('add_by_post_code'.tr);
+    }
+  }
+
+  void showUserMarkerBottomSheet(UserLocationInfo user) {
+    Get.bottomSheet(
+      UserZonesUserBottomSheet(user: user),
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+    );
+  }
+
   void _renderOverlays() {
     markers.clear();
     circles.clear();
@@ -354,6 +400,7 @@ class UserZonesController extends GetxController {
           Marker(
             markerId: MarkerId('employee_$id'),
             position: position,
+            consumeTapEvents: true,
             icon: icon ??
                 BitmapDescriptor.defaultMarkerWithHue(
                   (user.isWorking ?? false)
@@ -361,10 +408,8 @@ class UserZonesController extends GetxController {
                       : BitmapDescriptor.hueRed,
                 ),
             anchor: const Offset(0.5, 1.0),
-            infoWindow: InfoWindow(
-              title: user.userName ?? "",
-              snippet: user.location ?? "",
-            ),
+            infoWindow: InfoWindow.noText,
+            onTap: () => showUserMarkerBottomSheet(user),
           ),
         );
       }

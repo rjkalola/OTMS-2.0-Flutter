@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_reorderable_grid_view/entities/reorder_update_entity.dart';
-import 'package:flutter_reorderable_grid_view/widgets/reorderable_builder.dart';
-import 'package:get/get.dart';
 import 'package:belcka/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart';
 import 'package:belcka/pages/dashboard/tabs/home_tab/view/widgets/dashboard_grid_item.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_reorderable_grid_view/widgets/reorderable_builder.dart';
+import 'package:get/get.dart';
 
 import '../../../../../../utils/app_storage.dart';
 
@@ -35,14 +34,15 @@ class DashboardGridView extends StatelessWidget {
         child: Obx(
           () => RefreshIndicator(
             onRefresh: () async {
-              print("controller.isApiLoading:"+controller.isApiLoading.toString());
-              if(!controller.isApiLoading){
+              print("controller.isApiLoading:" +
+                  controller.isApiLoading.toString());
+              if (!controller.isApiLoading) {
                 if (Get.find<AppStorage>().isLocalSequenceChanges()) {
                   await controller
                       .changeDashboardUserPermissionMultipleSequenceApi(
-                      isProgress: false,
-                      isLoadPermissionList: true,
-                      isChangeSequence: false);
+                          isProgress: false,
+                          isLoadPermissionList: true,
+                          isChangeSequence: false);
                 } else {
                   await controller.getDashboardUserPermissionsApi(false,
                       isProfileLoad: true);

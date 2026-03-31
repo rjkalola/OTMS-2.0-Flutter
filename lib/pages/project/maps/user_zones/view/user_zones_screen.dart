@@ -1,6 +1,6 @@
-import 'package:belcka/pages/project/user_zones/controller/user_zones_controller.dart';
-import 'package:belcka/pages/project/user_zones/model/user_location_models.dart';
-import 'package:belcka/pages/project/user_zones/model/zone_group_models.dart';
+import 'package:belcka/pages/project/maps/user_zones/controller/user_zones_controller.dart';
+import 'package:belcka/pages/project/maps/user_zones/model/user_location_models.dart';
+import 'package:belcka/pages/project/maps/user_zones/model/zone_group_models.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/res/drawable.dart';
 import 'package:belcka/res/theme/theme_config.dart';
@@ -8,6 +8,7 @@ import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/PrimaryBorderButton.dart';
+import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
 import 'package:belcka/widgets/map_view/custom_map_view.dart';
@@ -155,8 +156,10 @@ class _UserZonesScreenState extends State<UserZonesScreen> {
                 width: 18,
                 height: 18,
                 color: primaryTextColor_(context)),
+            // text:
+            //     "${controller.visibleZonesCount}/${controller.totalZonesCount}",
             text:
-                "${controller.visibleZonesCount}/${controller.totalZonesCount}",
+            "${controller.totalZonesCount}",
             onTap: controller.openZonesPanel,
           ),
           const SizedBox(width: 8),
@@ -165,10 +168,12 @@ class _UserZonesScreenState extends State<UserZonesScreen> {
             icon: ImageUtils.setSvgAssetsImage(
                 path: Drawable.userGroupIcon,
                 width: 18,
-                height: 18,
+                height: 18, 
                 color: primaryTextColor_(context)),
+            // text:
+            //     "${controller.visibleUsersCount}/${controller.totalUsersCount}",
             text:
-                "${controller.visibleUsersCount}/${controller.totalUsersCount}",
+            "${controller.totalUsersCount}",
             onTap: controller.openStaffPanel,
           ),
         ],
@@ -286,14 +291,40 @@ class _UserZonesScreenState extends State<UserZonesScreen> {
                 },
               ),
             ),
-            PrimaryBorderButton(
-                height: 40,
-                borderColor: secondaryExtraLightTextColor_(context),
-                fontColor: secondaryTextColor_(context),
-                fontWeight: FontWeight.w400,
-                fontSize: 15,
-                buttonText: 'close'.tr,
-                onPressed: () => controller.togglePanel())
+            controller.isZonesPanel.value
+                ? Row(
+                    children: [
+                      Expanded(
+                        child: PrimaryBorderButton(
+                          height: 40,
+                          borderColor: secondaryExtraLightTextColor_(context),
+                          fontColor: secondaryTextColor_(context),
+                          fontWeight: FontWeight.w400,
+                          fontSize: 15,
+                          buttonText: 'close'.tr,
+                          onPressed: () => controller.togglePanel(),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: PrimaryButton(
+                          height: 40,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          buttonText: 'add_zone'.tr,
+                          onPressed: controller.onAddZonePressed,
+                        ),
+                      ),
+                    ],
+                  )
+                : PrimaryBorderButton(
+                    height: 40,
+                    borderColor: secondaryExtraLightTextColor_(context),
+                    fontColor: secondaryTextColor_(context),
+                    fontWeight: FontWeight.w400,
+                    fontSize: 15,
+                    buttonText: 'close'.tr,
+                    onPressed: () => controller.togglePanel())
             // SizedBox(
             //   width: double.infinity,
             //   child: OutlinedButton(

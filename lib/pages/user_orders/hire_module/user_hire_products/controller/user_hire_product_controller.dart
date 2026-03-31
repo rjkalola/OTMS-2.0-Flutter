@@ -20,9 +20,9 @@ class UserHireProductController extends GetxController {
       isSearchEnable = false.obs;
 
   RxString startDate = ''.obs, endDate = ''.obs;
-  RxInt selectedDateFilterIndex = (-1).obs;
+  RxInt selectedDateFilterIndex = (2).obs;
 
-  final selectedTab = HireUserProductStatus.request.obs;
+  final selectedTab = HireUserProductStatus.available.obs;
   final searchController = TextEditingController().obs;
 
   final productsList = <ProductInfo>[].obs;
@@ -63,6 +63,7 @@ class UserHireProductController extends GetxController {
 
   void loadData() {
     clearSearch();
+    isSearchEnable.value = false;
     getHireProductsApi();
   }
 
@@ -142,7 +143,7 @@ class UserHireProductController extends GetxController {
 
   void clearSearch() {
     searchController.value.clear();
-    isSearchEnable.value = false;
+    // isSearchEnable.value = false;
     searchItem('');
   }
 

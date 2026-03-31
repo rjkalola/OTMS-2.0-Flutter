@@ -74,4 +74,18 @@ class StoremanCatalogRepository {
       onError: (error) => {if (onError != null) onError(error)},
     );
   }
+
+  void changeCategoriesBulkSequenceAPI({
+    dynamic data,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(url: ApiConstants.categoriesChangeBulkSequence, data: data)
+        .postRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
 }

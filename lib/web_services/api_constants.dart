@@ -48,7 +48,7 @@ class ApiConstants {
   static String changeDashboardUserPermissionMultipleSequenceUrl =
       '$appUrl/dashboard/user/change-bulk-sequence';
 
-  //trades
+  //trades 
   static String getCompanyTradesUrl = '$appUrl/trade/get-company-trades';
   static String createTrade = '$appUrl/trade/create-trade';
   static String deleteCompanyBulkTrades =
@@ -337,6 +337,8 @@ class ApiConstants {
   static String addCategory = '$appUrl/categories/create';
   static String updateCategory = '$appUrl/categories/update';
   static String deleteCategory = '$appUrl/categories/delete';
+  static String categoriesChangeBulkSequence =
+      '$appUrl/categories/change-bulk-sequence';
 
   //suppliers
   static String getSuppliers = '$appUrl/suppliers/get';
@@ -356,4 +358,5 @@ class ApiConstants {
 
   //Hire products
   static String getHireProducts = '$appUrl/products/get-product-trade';
+  static String hireOrdersCreate = '$appUrl/hire-orders/create';
 }

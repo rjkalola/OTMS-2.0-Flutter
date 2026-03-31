@@ -23,7 +23,7 @@ class CreateHireOrderScreen extends StatefulWidget {
 
 class _CreateHireOrderScreenState extends State<CreateHireOrderScreen> {
   final controller = Get.put(CreateHireOrderController());
-
+ 
   @override
   Widget build(BuildContext context) {
     AppUtils.setStatusBarColor();

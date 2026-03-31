@@ -208,9 +208,7 @@ class TeamDetailsController extends GetxController
   }
 
   void showMenuItemsDialog(BuildContext context) {
-    List<ModuleInfo> listItems = [];
-    // listItems.add(ModuleInfo(
-    //     name: 'create_new_team'.tr, action: AppConstants.action.add));
+    List<ModuleInfo> listItems = []; 
     if (teamInfo.value.isSubcontractor ?? false) {
       listItems.add(ModuleInfo(
           name: 'sub_contractor_details'.tr,

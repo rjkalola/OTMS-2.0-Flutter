@@ -75,6 +75,10 @@ class Strings extends Translations {
           'no': "No",
           'skip': "Skip",
           'close': "Close",
+          'view_profile': "View Profile",
+          'add_zone': "Add Zone",
+          'add_by_shape': "Add By Shape",
+          'add_by_post_code': "Add By Post Code",
           'create_or_join_company': "Create or join\ncompany",
           'create_new_company': "Create new company",
           'join_a_company': "Join a company",
@@ -373,6 +377,7 @@ class Strings extends Translations {
           'hire_to': "Hire To",
           'please_select_hire_from_first':
               "Please select Hire From date first",
+          'please_select_hire_to_date': "Please select Hire To date",
           'hire_to_must_be_on_or_after_from':
               "Hire To must be on or after Hire From",
           'search_post_code': "Search Post Code",
@@ -712,6 +717,6 @@ class Strings extends Translations {
 // '': "",
 // '': "",
         },
-        'hi_IN': {'login': 'Login'}
+        'hi_IN': {'login': 'Login', 'view_profile': 'View Profile', 'add_zone': 'Add Zone', 'add_by_shape': 'Add By Shape', 'add_by_post_code': 'Add By Post Code'}
       };
 }

@@ -114,14 +114,7 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
           ),
         ),
       ),
-      Visibility(
-          visible: !UserUtils.isAdmin(), child: const SizedBox(width: 10)),
-      IconButton(
-        icon: Icon(Icons.map_outlined),
-        onPressed: () {
-          Get.toNamed(AppRoutes.userZonesScreen);
-        },
-      ),
+      SizedBox(width: 6,),
       Visibility(
         visible: UserUtils.isAdmin(),
         child: IconButton(

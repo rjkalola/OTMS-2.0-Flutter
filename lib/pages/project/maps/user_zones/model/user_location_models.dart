@@ -18,6 +18,9 @@ class UserLocationInfo {
   String? location;
   String? lastSeen;
   String? type;
+  String? phone;
+  String? extension;
+  String? email;
 
   UserLocationInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -39,10 +42,13 @@ class UserLocationInfo {
     location = json['location'];
     lastSeen = json['last_seen'];
     type = json['type'];
+    phone = json['phone']?.toString() ?? json['phone_number']?.toString();
+    extension =
+        json['extension']?.toString() ?? json['phone_extension']?.toString();
+    email = json['email']?.toString();
   }
 }
 
-/// One team block from [UserLocationsResponse.info] (get-team-user-locations).
 class TeamUserLocationsGroup {
   int? teamId;
   String? teamName;
