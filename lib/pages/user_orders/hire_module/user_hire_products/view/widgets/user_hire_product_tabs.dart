@@ -19,18 +19,6 @@ class UserHireProductTabs extends StatelessWidget {
           child: Row(
             children: [
               HeaderFilterItem(
-                title: 'all'.tr,
-                selected:
-                    controller.selectedTab.value == HireUserProductStatus.all,
-                count: controller.allCount,
-                useFlexible: false,
-                onTap: () {
-                  controller.selectedTab.value = HireUserProductStatus.all;
-                  controller.loadData();
-                },
-              ),
-              const SizedBox(width: 4),
-              HeaderFilterItem(
                 title: 'available'.tr,
                 selected: controller.selectedTab.value ==
                     HireUserProductStatus.available,
@@ -68,14 +56,14 @@ class UserHireProductTabs extends StatelessWidget {
               ),
               const SizedBox(width: 4),
               HeaderFilterItem(
-                title: 'cancelled'.tr,
+                title: 'in_service'.tr,
                 selected: controller.selectedTab.value ==
-                    HireUserProductStatus.cancelled,
-                count: controller.cancelledCount,
+                    HireUserProductStatus.inService,
+                count: controller.inServiceCount,
                 useFlexible: false,
                 onTap: () {
                   controller.selectedTab.value =
-                      HireUserProductStatus.cancelled;
+                      HireUserProductStatus.inService;
                   controller.loadData();
                 },
               ),

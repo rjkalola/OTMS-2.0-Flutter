@@ -2,6 +2,7 @@ import 'package:belcka/pages/common/listener/date_filter_listener.dart';
 import 'package:belcka/pages/common/widgets/date_filter_options_horizontal_list.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
 import 'package:belcka/pages/user_orders/hire_module/user_hire_products/controller/user_hire_product_controller.dart';
+import 'package:belcka/pages/user_orders/hire_module/user_hire_products/view/widgets/hire_order_status_list.dart';
 import 'package:belcka/pages/user_orders/hire_module/user_hire_products/view/widgets/user_hire_product_list.dart';
 import 'package:belcka/pages/user_orders/hire_module/user_hire_products/view/widgets/user_hire_product_tabs.dart';
 import 'package:belcka/res/colors.dart';
@@ -83,16 +84,24 @@ class _UserHireProductsScreenState extends State<UserHireProductsScreen>
                       children: [
                         _buildHeaderView(),
                         const SizedBox(height: 12),
-                        DateFilterOptionsHorizontalList(
-                          padding: const EdgeInsets.fromLTRB(14, 0, 14, 6),
-                          startDate: controller.startDate.value,
-                          endDate: controller.endDate.value,
-                          listener: this,
-                          selectedPosition: controller.selectedDateFilterIndex,
+                        Visibility(
+                          visible: controller.selectedTab.value !=
+                              HireUserProductStatus.available,
+                          child: DateFilterOptionsHorizontalList(
+                            padding: const EdgeInsets.fromLTRB(14, 0, 14, 6),
+                            startDate: controller.startDate.value,
+                            endDate: controller.endDate.value,
+                            listener: this,
+                            selectedPosition:
+                                controller.selectedDateFilterIndex,
+                          ),
                         ),
-                        if (controller.startDate.value.isNotEmpty &&
-                            controller.endDate.value.isNotEmpty)
-                          SizedBox(
+                        Visibility(
+                          visible: controller.selectedTab.value !=
+                                  HireUserProductStatus.available &&
+                              controller.startDate.value.isNotEmpty &&
+                              controller.endDate.value.isNotEmpty,
+                          child: SizedBox(
                             width: double.infinity,
                             child: CardViewDashboardItem(
                               padding: const EdgeInsets.all(6),
@@ -106,13 +115,15 @@ class _UserHireProductsScreenState extends State<UserHireProductsScreen>
                               ),
                             ),
                           ),
+                        ),
                         Expanded(
                           child: Obx(
                             () {
-                              final _ = controller.listUiTick.value;
-                              return UserHireProductList(
-                                products: controller.productsList,
-                              );
+                              if (controller.selectedTab.value ==
+                                  HireUserProductStatus.available) {
+                                return const UserHireProductList();
+                              }
+                              return const HireOrderStatusList();
                             },
                           ),
                         ),
@@ -138,7 +149,7 @@ class _UserHireProductsScreenState extends State<UserHireProductsScreen>
                                         arguments: arguments);
                                   } else {
                                     AppUtils.showToastMessage(
-                                        'msg_add_at_least_one_qty'.tr);
+                                        'msg_select_at_least_one_item'.tr);
                                   }
                                 },
                                 color: defaultAccentColor_(context),

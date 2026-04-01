@@ -5,17 +5,25 @@ import 'package:flutter/material.dart';
 
 class CreateHireOrderProductList extends StatelessWidget {
   final List<ProductInfo> products;
-  const CreateHireOrderProductList({super.key, required this.products});
+  final bool shrinkWrap;
+  final ScrollPhysics? physics;
+
+  const CreateHireOrderProductList({
+    super.key,
+    required this.products,
+    this.shrinkWrap = false,
+    this.physics,
+  });
 
   @override
   Widget build(BuildContext context) {
-
     return products.isNotEmpty
         ? Padding(
             padding: const EdgeInsets.only(top: 10),
             child: ListView.separated(
               keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-              physics: const AlwaysScrollableScrollPhysics(),
+              shrinkWrap: shrinkWrap,
+              physics: physics ?? const AlwaysScrollableScrollPhysics(),
               itemCount: products.length,
               separatorBuilder: (_, __) => const SizedBox(height: 14),
               itemBuilder: (context, index) {

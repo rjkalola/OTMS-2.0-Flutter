@@ -11,15 +11,19 @@ class StoremanHireProductTabs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
+    return Obx(
+      () => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
           child: Row(
             children: [
               HeaderFilterItem(
                 title: 'request'.tr,
-                selected: (controller.selectedTab.value == HireProductStatus.request),
+                selected: controller.selectedTab.value ==
+                    HireProductStatus.request,
                 count: controller.requestCount,
-                flex: 1,
+                useFlexible: false,
                 onTap: () {
                   controller.selectedTab.value = HireProductStatus.request;
                   controller.loadData();
@@ -28,9 +32,10 @@ class StoremanHireProductTabs extends StatelessWidget {
               const SizedBox(width: 4),
               HeaderFilterItem(
                 title: 'hired'.tr,
-                selected: (controller.selectedTab.value == HireProductStatus.hired),
+                selected: controller.selectedTab.value ==
+                    HireProductStatus.hired,
                 count: controller.hiredCount,
-                flex: 1,
+                useFlexible: false,
                 onTap: () {
                   controller.selectedTab.value = HireProductStatus.hired;
                   controller.loadData();
@@ -39,9 +44,10 @@ class StoremanHireProductTabs extends StatelessWidget {
               const SizedBox(width: 4),
               HeaderFilterItem(
                 title: 'available'.tr,
-                selected: (controller.selectedTab.value == HireProductStatus.available),
+                selected: controller.selectedTab.value ==
+                    HireProductStatus.available,
                 count: controller.availableCount,
-                flex: 1,
+                useFlexible: false,
                 onTap: () {
                   controller.selectedTab.value = HireProductStatus.available;
                   controller.loadData();
@@ -50,9 +56,10 @@ class StoremanHireProductTabs extends StatelessWidget {
               const SizedBox(width: 4),
               HeaderFilterItem(
                 title: 'service'.tr,
-                selected: (controller.selectedTab.value == HireProductStatus.service),
+                selected: controller.selectedTab.value ==
+                    HireProductStatus.service,
                 count: controller.serviceCount,
-                flex: 1,
+                useFlexible: false,
                 onTap: () {
                   controller.selectedTab.value = HireProductStatus.service;
                   controller.loadData();
@@ -60,6 +67,8 @@ class StoremanHireProductTabs extends StatelessWidget {
               ),
             ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

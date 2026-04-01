@@ -98,12 +98,12 @@ class MyAccountController extends GetxController
           action: AppConstants.action.notificationSettings,
           iconData: Icons.notifications_none_outlined));
     }
-    if (UserUtils.isLoginUser(userId)) {
-      arrayItems.add(MyAccountMenuItem(
-          title: 'hire'.tr,
-          action: AppConstants.action.hire,
-          iconData: Icons.supervised_user_circle_outlined));
-    }
+    // if (UserUtils.isLoginUser(userId)) {
+    //   arrayItems.add(MyAccountMenuItem(
+    //       title: 'hire'.tr,
+    //       action: AppConstants.action.hire,
+    //       iconData: Icons.supervised_user_circle_outlined));
+    // }
     return arrayItems;
   }
 

@@ -36,7 +36,7 @@ class UserHireProductListItem extends StatelessWidget {
         children: [
           CardViewDashboardItem(
             borderRadius: 12,
-            margin: const EdgeInsets.fromLTRB(12, 7, 12, 7),
+            margin: const EdgeInsets.fromLTRB(12, 10, 12, 5),
             padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -136,9 +136,9 @@ class UserHireProductListItem extends StatelessWidget {
           Visibility(
             visible: !StringHelper.isEmptyString(item.stockStatus ?? ''),
             child: Align(
-              alignment: Alignment.topRight,
+              alignment: Alignment.topLeft,
               child: TextViewWithContainer(
-                margin: const EdgeInsets.only(right: 28, top: 0),
+                margin: const EdgeInsets.only(left: 34, top: 0),
                 text: item.stockStatus ?? '',
                 padding: EdgeInsets.fromLTRB(8, 1, 8, 1),
                 fontColor: Colors.white,

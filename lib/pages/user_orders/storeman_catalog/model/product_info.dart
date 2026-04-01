@@ -64,7 +64,7 @@ class ProductInfo {
   int? receivedQty;
   int? totalQty;
   String? manufactureName;
-  int? availableQty;
+  double? availableQty;
   int? remainingQty;
   String? storeName;
   String? orderUsersDisplay;
@@ -240,8 +240,8 @@ class ProductInfo {
     receivedQty = json['received_qty'];
     deliveredQty = json['delivered_qty'];
     totalQty = json['total_qty'];
-    manufactureName = json['manufacturer_name'];
-    availableQty = json['available_qty'];
+    manufactureName = json['manufacturer_name']; 
+    availableQty = (json['available_qty'] as num?)?.toDouble();
     remainingQty = json['remaining_qty'];
     storeName = json['store_name'];
     orderUsersDisplay = json['order_users_display'];

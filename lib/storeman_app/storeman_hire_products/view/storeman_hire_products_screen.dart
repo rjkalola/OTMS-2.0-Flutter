@@ -27,6 +27,7 @@ class StoremanHireProductsScreen extends StatefulWidget {
 class _StoremanHireProductsScreenState extends State<StoremanHireProductsScreen>
     implements DateFilterListener {
   late final StoremanHireProductController controller;
+  final RxBool isClearVisible = false.obs;
 
   @override
   void initState() {
@@ -56,8 +57,13 @@ class _StoremanHireProductsScreenState extends State<StoremanHireProductsScreen>
               onValueChange: (value) {
                 controller.searchItem(value);
               },
+              onPressedClear: () {
+                controller.clearSearch();
+                controller.isSearchEnable.value =
+                    !controller.isSearchEnable.value;
+              },
               autoFocus: true,
-              isClearVisible: false.obs,
+              isClearVisible: isClearVisible,
             ),
             body: ModalProgressHUD(
               inAsyncCall: controller.isLoading.value,
@@ -97,8 +103,8 @@ class _StoremanHireProductsScreenState extends State<StoremanHireProductsScreen>
                               ),
                             ),
                           ),
-                        Expanded(
-                          child: StoremanHireProductList(products: controller.productsList),
+                        const Expanded(
+                          child: StoremanHireProductList(),
                         ),
                       ],
                     ),

@@ -56,6 +56,8 @@ class TeamMembersList extends StatelessWidget {
                     onTap: () {
                       if (!(controller.teamInfo.value.isSubcontractor ?? false)) {
                         AppUtils.onClickUserAvatar(info.id ?? 0);
+                      }else{
+                        AppUtils.showToastMessage('user_not_exist_message'.tr);
                       }
                     },
                     child: Container(

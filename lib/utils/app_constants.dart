@@ -120,6 +120,9 @@ class IntentKey {
   final String addressDetailsInfo = "ADDRESS_DETAILS_INFO";
   final String fromNotification = "FROM_NOTIFICATION";
   final String fromRequest = "FROM_REQUEST";
+
+  /// When [fromRequest] is true: show Approve + Cancel on hire request details; if false, Cancel only.
+  final String hireRequestShowApprove = "HIRE_REQUEST_SHOW_APPROVE";
   final String filterType = "FILTER_TYPE";
   final String filterData = "FILTER_DATA";
   final String typeOfWorkInfo = "TYPE_OF_WORK_INFO";
@@ -370,6 +373,7 @@ class Type {
   final String beforePhotos = "BEFORE_PHOTOS";
   final String afterPhotos = "AFTER_PHOTOS";
 
+  final String all = "ALL";
   final String request = "REQUEST";
   final String proceed = "PROCEED";
   final String delivered = "DELIVERED";
@@ -384,6 +388,8 @@ class Type {
   final String onStock = "ON_STOCK";
   final String cancelled = "CANCELLED";
   final String available = "AVAILABLE";
+  final String inService = "IN_SERVICE";
+  final String returned = "RETURNED";
 }
 
 class Status {
@@ -419,7 +425,7 @@ class HireStatus {
   final int request = 2;
   final int hired = 3;
   final int inService = 4;
-  final int returned = 5;
+  final int damaged = 5;
   final int cancelled = 6;
 }
 

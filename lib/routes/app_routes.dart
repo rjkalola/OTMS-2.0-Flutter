@@ -172,6 +172,10 @@ class AppRoutes {
   static const String storemanHireProductsScreen =
       '/storeman_hire_products_screen';
   static const String userHireProductsScreen = '/user_hire_products_screen';
+  static const String userHireOrderDetailsScreen =
+      '/user_hire_order_details_screen';
+  static const String storemanHireOrderDetailsScreen =
+      '/storeman_hire_order_details_screen';
   static const String storemanOrderDetailsScreen =
       '/storeman_order_details_screen';
   static const String storemanInternalOrderDetailsScreen =

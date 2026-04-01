@@ -258,6 +258,8 @@ class Strings extends Translations {
           'are_you_sure_you_want_to_remove': "Are you sure you want to remove?",
           'are_you_sure_you_want_to_approve':
               "Are you sure you want to approve?",
+          'are_you_sure_you_want_to_cancel':
+              "Are you sure you want to cancel?",
           'are_you_sure_you_want_to_unarchive':
               "Are you sure you want to unarchive?",
           'are_you_sure_you_want_to_reject': "Are you sure you want to reject?",
@@ -375,6 +377,10 @@ class Strings extends Translations {
           'history': "History",
           'hire_from': "Hire From",
           'hire_to': "Hire To",
+          'hire_order_details': "Hire Order Details",
+          'full_date': "Period",
+          'approved_by': "Approved by",
+          'ordered_items': "Ordered Items",
           'please_select_hire_from_first':
               "Please select Hire From date first",
           'please_select_hire_to_date': "Please select Hire To date",
@@ -622,6 +628,7 @@ class Strings extends Translations {
           'tax': "Tax",
           'msg_add_at_least_one_qty': "Add at least 1 quantity",
           'msg_select_at_least_one_qty': "Select at least 1 quantity",
+          'msg_select_at_least_one_item': "Select at least 1 item",
           'crete_buyer_order_checkbox_note':
               "Implement the rate adjustments for products in the catalogue",
           'order_length_validation_message': "Order id must be 6 digit",
@@ -700,8 +707,7 @@ class Strings extends Translations {
           'delivered_qty': "Delivered Qty",
           'cancelled_qty': "Cancelled Qty",
           'cancelled_order_invoice': "Cancelled Order Invoice",
-
-          // '': "",
+          'user_not_exist_message': "User does not exist in this company.",
 // '': "",
 // '': "",
           // '': "",

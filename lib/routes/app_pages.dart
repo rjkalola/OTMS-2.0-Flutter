@@ -19,6 +19,7 @@ import 'package:belcka/pages/user_orders/product_set/view/product_set_screen.dar
 import 'package:belcka/storeman_app/storeman_internal_order_details/view/storeman_internal_order_details_screen.dart';
 import 'package:belcka/storeman_app/storeman_internal_orders/view/storeman_internal_orders_screen.dart';
 import 'package:belcka/storeman_app/storeman_supplier_orders/view/storeman_supplier_orders_screen.dart';
+import 'package:belcka/storeman_app/storeman_hire_order_details/view/storeman_hire_order_details_screen.dart';
 import 'package:belcka/storeman_app/storeman_hire_products/view/storeman_hire_products_screen.dart';
 import 'package:belcka/storeman_app/storeman_order_details/view/storeman_order_details_screen.dart';
 import 'package:belcka/storeman_app/storeman_inventory/view/storeman_inventory_screen.dart';
@@ -135,6 +136,7 @@ import 'package:belcka/pages/user_orders/order_history/view/order_history_screen
 import 'package:belcka/pages/user_orders/product_details/view/product_details_screen.dart';
 import 'package:belcka/pages/user_orders/product_info/view/product_info_screen.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/view/storeman_catalog_screen.dart';
+import 'package:belcka/pages/user_orders/hire_module/user_hire_order_details/view/user_hire_order_details_screen.dart';
 import 'package:belcka/pages/user_orders/hire_module/user_hire_products/view/user_hire_products_screen.dart';
 import 'package:belcka/pages/users/archive_user_list/view/archive_user_list_screen.dart';
 import 'package:belcka/pages/users/invite_user/view/invite_user_screen.dart';
@@ -510,6 +512,12 @@ class AppPages {
     GetPage(
         name: AppRoutes.userHireProductsScreen,
         page: () => UserHireProductsScreen()),
+    GetPage(
+        name: AppRoutes.userHireOrderDetailsScreen,
+        page: () => const UserHireOrderDetailsScreen()),
+    GetPage(
+        name: AppRoutes.storemanHireOrderDetailsScreen,
+        page: () => const StoremanHireOrderDetailsScreen()),
     GetPage(
         name: AppRoutes.storemanOrderDetailsScreen,
         page: () => StoremanOrderDetailsScreen()),
