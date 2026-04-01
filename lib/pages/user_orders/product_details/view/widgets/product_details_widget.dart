@@ -177,6 +177,8 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                             ),
                             Spacer(),
 
+                            //Bookmark
+                            /*
                             InkWell(
                                 onTap: (){
                                   FocusManager.instance.primaryFocus?.unfocus();
@@ -190,7 +192,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                   size: 20, color: product.isBookMark ?? true
                                       ? Colors.deepOrangeAccent
                                       : primaryTextColor_(context),)),
-
+                            */
                           ],
                         ),
                         Divider(
@@ -198,6 +200,32 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                         ),
                         Row(
                           children: [
+
+                            /*
+                            if (!isAdded)
+                              ElevatedButton(
+                                onPressed: () {
+                                  if (product.isInSet ?? false){
+                                    print('Remove Set pressed');
+                                  }
+                                  else{
+                                    print('Add Set pressed');
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  minimumSize: const Size(0, 34),
+                                  backgroundColor: defaultAccentColor_(context),
+                                  foregroundColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                ),
+                                child: Text((product.isInSet ?? false) ? 'Set Added' : 'Add Set',
+                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                                ),
+                              ),
+                            */
+
                             if (isAdded) ...[
                               ProductQuantityWidget(
                                 isSubQuantity: isSubQuantity,
