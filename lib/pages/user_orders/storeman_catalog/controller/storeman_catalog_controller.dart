@@ -1,11 +1,14 @@
 import 'dart:convert';
 import 'package:belcka/pages/common/model/file_info.dart';
+import 'package:belcka/pages/timesheet/time_sheet_filter/view/widgets/categories_list.dart';
 import 'package:belcka/pages/user_orders/categories/model/user_orders_categories_info.dart';
 import 'package:belcka/pages/user_orders/categories/model/user_orders_categories_response.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/controller/storeman_catalog_repository.dart';
+import 'package:belcka/pages/user_orders/storeman_catalog/model/product_categories.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/add_to_cart_response.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/get_products_response.dart';
+import 'package:belcka/pages/user_orders/storeman_catalog/model/product_response_model.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/utils/user_utils.dart';
@@ -25,8 +28,13 @@ class StoremanCatalogController extends GetxController {
       isRightSideListEnable = true.obs,
       isResetEnable = false.obs;
 
+  /*
   final products = <ProductInfo>[].obs;
   List<ProductInfo> tempList = [];
+  */
+
+  final categories = <ProductCategories>[].obs;
+  List<ProductCategories> tempList = [];
 
   int categoryIds = 0;
   final currentImageIndex = <int, int>{}.obs;
@@ -51,8 +59,10 @@ class StoremanCatalogController extends GetxController {
 
   @override
   void dispose() {
-    for (var node in qtyFocusNodes) {
-      node.dispose();
+    for (var category in categories) {
+      for (var product in category.products) {
+        product.qtyFocusNode.dispose();
+      }
     }
     super.dispose();
   }
@@ -159,7 +169,7 @@ class StoremanCatalogController extends GetxController {
     );
   }
 
-  void fetchProducts() {
+  Future<void> fetchProducts() async{
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
@@ -172,18 +182,19 @@ class StoremanCatalogController extends GetxController {
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
-          GetProductsResponse response =
-              GetProductsResponse.fromJson(jsonDecode(responseModel.result!));
+          ProductResponseModel response =
+          ProductResponseModel.fromJson(jsonDecode(responseModel.result!));
 
           tempList.clear();
           tempList.addAll(response.info ?? []);
 
-          products.value = tempList;
+          categories.value = tempList;
           prepareProductImages();
-          products.refresh();
+          categories.refresh();
+
           updateCartCount(response.cartProduct ?? 0);
           isMainViewVisible.value = true;
-          initFocusNodes(products.length);
+
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
@@ -200,30 +211,37 @@ class StoremanCatalogController extends GetxController {
     );
   }
 
-  void prepareProductImages() {
-    for (var product in products) {
-      if (product.productImages == null) {
-        product.productImages = [];
-      }
+  void _prepareSingleProductImages(ProductInfo product) {
+    product.productImages ??= [];
 
-      final exists =
-          product.productImages!.any((img) => img.imageUrl == product.imageUrl);
-      if (!exists) {
-        product.productImages!.insert(
-          0,
-          FilesInfo(
-            id: 0,
-            imageUrl: product.imageUrl,
-            thumbUrl: product.thumbUrl,
-          ),
-        );
+    final exists = product.productImages!.any(
+          (img) => img.imageUrl == product.imageUrl,
+    );
+
+    if (!exists) {
+      product.productImages!.insert(
+        0,
+        FilesInfo(
+          id: 0,
+          imageUrl: product.imageUrl,
+          thumbUrl: product.thumbUrl,
+        ),
+      );
+    }
+  }
+
+  void prepareProductImages() {
+    for (var category in categories) {
+      for (var product in category.products ?? []) {
+        _prepareSingleProductImages(product);
       }
     }
   }
 
-  void toggleBookmark(int index) {
+  void toggleBookmark(int index,ProductCategories category) {
      //isLoading.value = true;
-    final product = products[index];
+
+    final product = category.products[index];
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
     map["product_id"] = product.id;
@@ -247,11 +265,12 @@ class StoremanCatalogController extends GetxController {
         }
       },
     );
+
   }
 
-  void toggleAddToCart(int index, int cartQuantity) {
+  void toggleAddToCart(int index, int cartQuantity, ProductCategories category) {
     isLoading.value = true;
-    final product = products[index];
+    final product = category.products[index];
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
     map["product_id"] = product.id;
@@ -269,7 +288,7 @@ class StoremanCatalogController extends GetxController {
             product.cartId = response.info!.id;
             // product.cartQty = (response.info!.qty ?? 0).toDouble();
             product.isCartProduct = true;
-            products.refresh();
+            categories.refresh();
           }
           updateCartCount(response.cartProduct ?? 0);
           // AppUtils.showApiResponseMessage(response.message ?? "");
@@ -288,11 +307,13 @@ class StoremanCatalogController extends GetxController {
         }
       },
     );
+
   }
 
-  void toggleRemoveCart(int index) {
+  void toggleRemoveCart(int index,ProductCategories category) {
+
     isLoading.value = true;
-    final product = products[index];
+    final product = category.products[index];
     Map<String, dynamic> map = {};
     map["id"] = product.cartId;
     _api.removeFromCartAPI(
@@ -306,7 +327,7 @@ class StoremanCatalogController extends GetxController {
             product.cartId = 0;
             // product.cartQty = (response.info!.qty ?? 0).toDouble();
             product.isCartProduct = false;
-            products.refresh();
+            categories.refresh();
           }
           updateCartCount(response.cartProduct ?? 0);
           // AppUtils.showApiResponseMessage(response.message ?? "");
@@ -325,6 +346,7 @@ class StoremanCatalogController extends GetxController {
         }
       },
     );
+
   }
 
   void setCurrentImageIndex(int index, int page) {
@@ -332,29 +354,29 @@ class StoremanCatalogController extends GetxController {
     currentImageIndex.refresh();
   }
 
-  void increaseQty(int index) {
-    final product = products[index];
+  void increaseQty(int index,ProductCategories category) {
+    final product = category.products[index];
     double userQty = (product.cartQty ?? 0.0) + 1;
     product.cartQty = userQty;
-    products.refresh();
+    categories.refresh();
   }
 
-  void decreaseQty(int index) {
-    final product = products[index];
+  void decreaseQty(int index,ProductCategories category) {
+    final product = category.products[index];
     double userQty = product.cartQty ?? 0.0;
     if (userQty == 0 || userQty == 1) return;
     product.cartQty = userQty - 1;
-    products.refresh();
+    categories.refresh();
   }
 
   void updateCartCount(int count) {
     cartCount.value = count;
   }
 
-  void updateSubQty(int index, int count) {
-    final product = products[index];
+  void updateSubQty(int index, int count,ProductCategories category) {
+    final product = category.products[index];
     product.cartQty = count.toDouble();
-    products.refresh();
+    categories.refresh();
   }
 
   void onBackPress() {
@@ -370,21 +392,37 @@ class StoremanCatalogController extends GetxController {
   }
 
   Future<void> searchItem(String value) async {
-    List<ProductInfo> results = [];
     if (value.isEmpty) {
-      results = tempList;
-    } else {
-      results = tempList
-          .where((element) =>
-              (!StringHelper.isEmptyString(element.shortName) &&
-                  element.shortName!
-                      .toLowerCase()
-                      .contains(value.toLowerCase())) ||
-              (!StringHelper.isEmptyString(element.uuid) &&
-                  element.uuid!.toLowerCase().contains(value.toLowerCase())))
-          .toList();
+      categories.value = List.from(tempList);
+      return;
     }
-    products.value = results;
+
+    final query = value.toLowerCase();
+
+    List<ProductCategories> filteredCategories = [];
+
+    for (var category in tempList) {
+      final filteredProducts = (category.products ?? []).where((product) {
+        final nameMatch = (product.shortName ?? "")
+            .toLowerCase()
+            .contains(query);
+
+        final uuidMatch = (product.uuid ?? "")
+            .toLowerCase()
+            .contains(query);
+
+        return nameMatch || uuidMatch;
+      }).toList();
+
+      // Only add category if it has matching products
+      if (filteredProducts.isNotEmpty) {
+        filteredCategories.add(
+          category.copyWith(products: filteredProducts),
+        );
+      }
+    }
+
+    categories.value = filteredCategories;
   }
 
   void clearSearch() {
@@ -396,5 +434,13 @@ class StoremanCatalogController extends GetxController {
   void clearFilter() {
     isResetEnable.value = false;
     selectCategory(0);
+  }
+
+  int getGlobalIndex(int catIndex, int productIndex) {
+    int index = 0;
+    for (int i = 0; i < catIndex; i++) {
+      index += categories[i].products.length;
+    }
+    return index + productIndex;
   }
 }

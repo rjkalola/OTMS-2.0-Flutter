@@ -114,6 +114,9 @@ class _ProductInfoHeaderSectiontState extends State<ProductInfoHeaderSection> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
+
+              //Bookmark
+              /*
               IconButton(
                   icon: controller.product.value.isBookMark ?? true
                       ? Icon(Icons.bookmark)
@@ -126,6 +129,7 @@ class _ProductInfoHeaderSectiontState extends State<ProductInfoHeaderSection> {
                         ?.unfocus();
                     controller.toggleBookmark();
                   })
+              */
             ],
           ),
         ),

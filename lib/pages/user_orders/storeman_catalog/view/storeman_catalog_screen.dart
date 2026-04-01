@@ -86,7 +86,7 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
                                         children: [
                                           Expanded(
                                             child: controller
-                                                    .products.isNotEmpty
+                                                    .categories.isNotEmpty
                                                 ? StoremanProductsListWidget()
                                                 : EmptyStateView(
                                                     title: 'no_products_msg'.tr,

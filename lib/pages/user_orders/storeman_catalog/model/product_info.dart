@@ -1,4 +1,5 @@
 import 'package:belcka/pages/common/model/file_info.dart';
+import 'package:flutter/material.dart';
 
 class ProductInfo {
   int? id;
@@ -80,6 +81,8 @@ class ProductInfo {
   List<String>? notes;
   String? tempNote;
   bool? isCheck;
+  FocusNode qtyFocusNode = FocusNode();
+  bool? isInSet;
 
   ProductInfo(
       {this.id,
@@ -160,7 +163,8 @@ class ProductInfo {
       this.note,
       this.notes,
       this.tempNote,
-      this.isCheck});
+      this.isCheck,
+      this.isInSet});
 
   ProductInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -259,6 +263,7 @@ class ProductInfo {
     }
     tempNote = json['temp_note'];
     isCheck = json['is_check'];
+    isInSet = json['is_in_set'];
   }
 
   Map<String, dynamic> toJson() {
@@ -352,7 +357,7 @@ class ProductInfo {
     data['notes'] = this.notes;
     data['temp_note'] = this.tempNote;
     data['is_check'] = this.isCheck;
-
+    data['is_in_set'] = this.isInSet;
     return data;
   }
 }
