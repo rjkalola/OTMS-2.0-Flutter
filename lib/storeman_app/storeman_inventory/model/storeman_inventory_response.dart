@@ -10,12 +10,15 @@ class StoremanInventoryResponse {
   int? internalPreparing;
   int? internalReady;
   int? internalCollect;
-  int? hireNew;
-  int? hireHired;
-  int? hireAvailable;
-  int? hireServicing;
   String? startDate;
   String? endDate;
+  int? hireAll;
+  int? hireRequested;
+  int? hireHired;
+  int? hireServiced;
+  int? hireDamaged;
+  int? hireCanceled;
+  int? hireAvailable;
 
   StoremanInventoryResponse(
       {this.isSuccess,
@@ -29,12 +32,15 @@ class StoremanInventoryResponse {
       this.internalPreparing,
       this.internalReady,
       this.internalCollect,
-      this.hireNew,
-      this.hireHired,
-      this.hireAvailable,
-      this.hireServicing,
       this.startDate,
-      this.endDate});
+      this.endDate,
+      this.hireAll,
+      this.hireRequested,
+      this.hireHired,
+      this.hireServiced,
+      this.hireDamaged,
+      this.hireCanceled,
+      this.hireAvailable});
 
   StoremanInventoryResponse.fromJson(Map<String, dynamic> json) {
     isSuccess = json['IsSuccess'];
@@ -48,12 +54,22 @@ class StoremanInventoryResponse {
     internalPreparing = json['preparing'];
     internalReady = json['ready'];
     internalCollect = json['collected'];
-    hireNew = json['hire_new'];
-    hireHired = json['hire_hired'];
-    hireAvailable = json['hire_available'];
-    hireServicing = json['hire_servicing'];
     startDate = json['start_date'];
     endDate = json['end_date'];
+    hireAll = _parseInt(json['hire_all']);
+    hireRequested = _parseInt(json['hire_requested']);
+    hireHired = _parseInt(json['hire_hired']);
+    hireServiced = _parseInt(json['hire_serviced']);
+    hireDamaged = _parseInt(json['hire_damaged']);
+    hireCanceled = _parseInt(json['hire_canceled']);
+    hireAvailable = _parseInt(json['hire_available']);
+  }
+
+  static int? _parseInt(dynamic v) {
+    if (v == null) return null;
+    if (v is int) return v;
+    if (v is num) return v.toInt();
+    return int.tryParse(v.toString());
   }
 
   Map<String, dynamic> toJson() {
@@ -69,12 +85,15 @@ class StoremanInventoryResponse {
     data['internal_preparing'] = this.internalPreparing;
     data['internal_ready'] = this.internalReady;
     data['internal_collect'] = this.internalCollect;
-    data['hire_new'] = this.hireNew;
-    data['hire_hired'] = this.hireHired;
-    data['hire_available'] = this.hireAvailable;
-    data['hire_servicing'] = this.hireServicing;
     data['start_date'] = this.startDate;
     data['end_date'] = this.endDate;
+    data['hire_all'] = this.hireAll;
+    data['hire_requested'] = this.hireRequested;
+    data['hire_hired'] = this.hireHired;
+    data['hire_serviced'] = this.hireServiced;
+    data['hire_damaged'] = this.hireDamaged;
+    data['hire_canceled'] = this.hireCanceled;
+    data['hire_available'] = this.hireAvailable;
     return data;
   }
 }

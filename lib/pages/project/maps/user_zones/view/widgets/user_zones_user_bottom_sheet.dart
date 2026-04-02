@@ -28,6 +28,8 @@ class UserZonesUserBottomSheet extends StatelessWidget {
     return '$ext $ph';
   }
 
+  String get _workTime => (user.lastSeen ?? '').trim();
+
   String get _phoneDial {
     final ext = (user.extension ?? '').trim();
     final ph = (user.phone ?? '').trim();
@@ -113,6 +115,20 @@ class UserZonesUserBottomSheet extends StatelessWidget {
                       textAlign: TextAlign.center,
                       color: secondaryLightTextColor_(context),
                       fontSize: 14,
+                    ),
+                  ),
+                ],
+                if (_workTime.isNotEmpty) ...[
+                  const SizedBox(height: 4),
+                  SizedBox(
+                    width: double.infinity,
+                    child: PrimaryTextView(
+                      text: _workTime,
+                      maxLine: 1,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                      color: secondaryLightTextColor_(context),
+                      fontSize: 11,
                     ),
                   ),
                 ],

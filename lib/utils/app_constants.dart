@@ -390,6 +390,12 @@ class Type {
   final String available = "AVAILABLE";
   final String inService = "IN_SERVICE";
   final String returned = "RETURNED";
+
+  final String lowStock = "LOW_STOCK";
+  final String unCompleted = "UN_COMPLETED";
+  final String inStock = "IN_STOCK";
+  final String outOfStock = "LOW_STOCK";
+  final String damaged = "DAMAGED";
 }
 
 class Status {

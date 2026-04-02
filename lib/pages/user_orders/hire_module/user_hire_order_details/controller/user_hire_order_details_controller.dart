@@ -19,6 +19,9 @@ class UserHireOrderDetailsController extends GetxController
   final _api = UserHireOrderDetailsRepository();
   static const String _dialogApprove = 'HIRE_DETAILS_APPROVE';
   static const String _dialogCancel = 'HIRE_DETAILS_CANCEL';
+  static const String _dialogReturn = 'HIRE_DETAILS_RETURN';
+  static const String _dialogAvailable = 'HIRE_DETAILS_AVAILABLE';
+  static const String _dialogDamaged = 'HIRE_DETAILS_DAMAGED';
 
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
@@ -27,11 +30,15 @@ class UserHireOrderDetailsController extends GetxController
   final orderInfo = HireOrderInfo().obs;
   final productsList = <ProductInfo>[].obs;
   final isRequestFlow = false.obs;
+  final needService = false.obs;
+
   /// Request flow from storeman: Approve + Cancel; from user hire list: Cancel only.
   final showHireRequestApprove = false.obs;
 
   int _orderId = 0;
+  int _productId = 0;
   int _pendingStatus = 0;
+  bool _shouldSendNeedService = false;
 
   @override
   void onInit() {
@@ -39,6 +46,7 @@ class UserHireOrderDetailsController extends GetxController
     final arguments = Get.arguments;
     if (arguments != null) {
       _orderId = arguments[AppConstants.intentKey.orderId] ?? 0;
+      _productId = arguments[AppConstants.intentKey.projectId] ?? 0;
       isRequestFlow.value =
           arguments[AppConstants.intentKey.fromRequest] == true;
       if (isRequestFlow.value) {
@@ -58,6 +66,7 @@ class UserHireOrderDetailsController extends GetxController
     _api.getHireOrderDetail(
       queryParameters: {
         'company_id': ApiConstants.companyId,
+        if (_productId > 0) 'product_id': _productId,
         'id': _orderId,
       },
       onSuccess: (ResponseModel responseModel) {
@@ -109,6 +118,70 @@ class UserHireOrderDetailsController extends GetxController
     );
   }
 
+  bool get isHiredStatus =>
+      orderInfo.value.status == AppConstants.hireStatus.hired;
+
+  bool get isInServiceStatus =>
+      orderInfo.value.status == AppConstants.hireStatus.inService;
+
+  void onReturnTap() {
+    _shouldSendNeedService = true;
+    _onAllProductsActionTap(
+      status: AppConstants.hireStatus.inService,
+      confirmMessage: 'are_you_sure_you_want_to_return_hire'.tr,
+      dialogIdentifier: _dialogReturn,
+    );
+  }
+
+  void onAvailableToHireTap() {
+    _shouldSendNeedService = false;
+    _onAllProductsActionTap(
+      status: AppConstants.hireStatus.available,
+      confirmMessage: 'Are you sure you want to mark as Available To Hire?',
+      dialogIdentifier: _dialogAvailable,
+    );
+  }
+
+  void onDamagedTap() {
+    _shouldSendNeedService = false;
+    _onAllProductsActionTap(
+      status: AppConstants.hireStatus.damaged,
+      confirmMessage: 'Are you sure you want to mark as Damaged?',
+      dialogIdentifier: _dialogDamaged,
+    );
+  }
+
+  void onNeedServiceChanged(bool? value) {
+    needService.value = value == true;
+  }
+
+  void _onAllProductsActionTap({
+    required int status,
+    required String confirmMessage,
+    required String dialogIdentifier,
+  }) {
+    final productIds = productsList
+        .where((e) => (e.productId ?? 0) > 0)
+        .map((e) => e.productId!.toString())
+        .toList();
+    if (productIds.isEmpty) {
+      AppUtils.showToastMessage('msg_select_at_least_one_item'.tr);
+      return;
+    }
+    _pendingStatus = status;
+    AlertDialogHelper.showAlertDialog(
+      '',
+      confirmMessage,
+      'yes'.tr,
+      'no'.tr,
+      '',
+      true,
+      false,
+      this,
+      dialogIdentifier,
+    );
+  }
+
   void _onRequestBulkActionTap({
     required int status,
     required String confirmMessage,
@@ -134,9 +207,11 @@ class UserHireOrderDetailsController extends GetxController
   }
 
   void _updateHireOrderStatusApi() {
-    final selectedIds = productsList
-        .where((e) => e.isCheck == true && (e.id ?? 0) > 0)
-        .map((e) => e.id!.toString())
+    final selectedIds = (isRequestFlow.value
+            ? productsList.where((e) => e.isCheck == true)
+            : productsList)
+        .where((e) => (e.productId ?? 0) > 0)
+        .map((e) => e.productId!.toString())
         .toList();
     if (_orderId <= 0 || _pendingStatus <= 0 || selectedIds.isEmpty) {
       return;
@@ -148,6 +223,7 @@ class UserHireOrderDetailsController extends GetxController
         'id': _orderId,
         'status': _pendingStatus,
         'product_ids': selectedIds.join(','),
+        if (_shouldSendNeedService) 'need_service': needService.value,
       },
       onSuccess: (ResponseModel responseModel) {
         isLoading.value = false;
@@ -157,8 +233,8 @@ class UserHireOrderDetailsController extends GetxController
           final result = responseModel.result;
           if (result != null && result.isNotEmpty) {
             try {
-              final deliver = HireOrderUpdateStatusResponse.fromJson(
-                  jsonDecode(result));
+              final deliver =
+                  HireOrderUpdateStatusResponse.fromJson(jsonDecode(result));
               if (deliver.message != null && deliver.message!.isNotEmpty) {
                 message = deliver.message!;
               }
@@ -167,8 +243,7 @@ class UserHireOrderDetailsController extends GetxController
               }
             } catch (_) {
               try {
-                final baseResponse =
-                    BaseResponse.fromJson(jsonDecode(result));
+                final baseResponse = BaseResponse.fromJson(jsonDecode(result));
                 if (baseResponse.Message != null &&
                     baseResponse.Message!.isNotEmpty) {
                   message = baseResponse.Message!;
@@ -194,12 +269,16 @@ class UserHireOrderDetailsController extends GetxController
         }
       },
     );
+    _shouldSendNeedService = false;
   }
 
   @override
   void onPositiveButtonClicked(String dialogIdentifier) {
     if (dialogIdentifier == _dialogApprove ||
-        dialogIdentifier == _dialogCancel) {
+        dialogIdentifier == _dialogCancel ||
+        dialogIdentifier == _dialogReturn ||
+        dialogIdentifier == _dialogAvailable ||
+        dialogIdentifier == _dialogDamaged) {
       Get.back();
       _updateHireOrderStatusApi();
     }
@@ -208,7 +287,10 @@ class UserHireOrderDetailsController extends GetxController
   @override
   void onNegativeButtonClicked(String dialogIdentifier) {
     if (dialogIdentifier == _dialogApprove ||
-        dialogIdentifier == _dialogCancel) {
+        dialogIdentifier == _dialogCancel ||
+        dialogIdentifier == _dialogReturn ||
+        dialogIdentifier == _dialogAvailable ||
+        dialogIdentifier == _dialogDamaged) {
       Get.back();
     }
   }

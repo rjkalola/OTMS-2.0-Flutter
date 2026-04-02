@@ -5,6 +5,7 @@ import 'package:belcka/pages/user_orders/hire_module/user_hire_order_details/vie
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/widgets/checkbox/custom_checkbox.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
@@ -149,6 +150,72 @@ class _UserHireOrderDetailsScreenState
                                         height: 46,
                                         fontSize: 15,
                                       ),
+                              ),
+                            if (!controller.isRequestFlow.value &&
+                                controller.isHiredStatus)
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(10, 0, 14, 2),
+                                child: Row(
+                                  children: [
+                                    CustomCheckbox(
+                                      mValue: controller.needService.value,
+                                      onValueChange:
+                                          controller.onNeedServiceChanged,
+                                    ),
+                                    const SizedBox(width: 2),
+                                    Text(
+                                      'Need Service',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: primaryTextColor_(context),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            if (!controller.isRequestFlow.value &&
+                                controller.isHiredStatus)
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(14, 8, 14, 14),
+                                child: PrimaryButton(
+                                  buttonText: 'return'.tr,
+                                  onPressed: controller.onReturnTap,
+                                  color: Colors.orange,
+                                  height: 46,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            if (!controller.isRequestFlow.value &&
+                                controller.isInServiceStatus)
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(14, 8, 14, 14),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: PrimaryButton(
+                                        buttonText: 'Available To Hire',
+                                        onPressed:
+                                            controller.onAvailableToHireTap,
+                                        color: Colors.green,
+                                        height: 46,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 10),
+                                    Expanded(
+                                      child: PrimaryButton(
+                                        buttonText: 'damaged'.tr,
+                                        onPressed: controller.onDamagedTap,
+                                        color: Colors.redAccent,
+                                        height: 46,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                           ],
                         ),

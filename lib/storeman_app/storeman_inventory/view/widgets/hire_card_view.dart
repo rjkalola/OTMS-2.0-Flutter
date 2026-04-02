@@ -47,7 +47,7 @@ class HireCardView extends StatelessWidget {
                               ),
                               PurchasingScreenItemValueWidget(
                                   value:
-                                  (controller.inventoryData.value.hireNew ??
+                                  (controller.inventoryData.value.hireRequested ??
                                       0)
                                       .toString()),
                             ],
@@ -82,7 +82,7 @@ class HireCardView extends StatelessWidget {
                       fit: FlexFit.tight,
                       child: GestureDetector(
                         onTap: () {
-                          controller.onHireItemClick(AppConstants.type.proceed);
+                          controller.onHireItemClick(AppConstants.type.available);
                         },
                         child: Container(
                           alignment: Alignment.topCenter,
@@ -117,7 +117,7 @@ class HireCardView extends StatelessWidget {
                                 height: 2,
                               ),
                               PurchasingScreenItemValueWidget(
-                                  value: (controller.inventoryData.value.hireServicing ?? 0)
+                                  value: (controller.inventoryData.value.hireServiced ?? 0)
                                       .toString()),
                             ],
                           ),

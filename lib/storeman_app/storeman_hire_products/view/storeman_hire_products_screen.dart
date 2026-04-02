@@ -80,29 +80,29 @@ class _StoremanHireProductsScreenState extends State<StoremanHireProductsScreen>
                       children: [
                         _buildHeaderView(),
                         const SizedBox(height: 12),
-                        DateFilterOptionsHorizontalList(
-                          padding: const EdgeInsets.fromLTRB(14, 0, 14, 6),
-                          startDate: controller.startDate.value,
-                          endDate: controller.endDate.value,
-                          listener: this,
-                          selectedPosition: controller.selectedDateFilterIndex,
-                        ),
-                        if (controller.startDate.value.isNotEmpty &&
-                            controller.endDate.value.isNotEmpty)
-                          SizedBox(
-                            width: double.infinity,
-                            child: CardViewDashboardItem(
-                              padding: const EdgeInsets.all(6),
-                              margin: const EdgeInsets.only(
-                                  left: 14, right: 14, top: 6, bottom: 6),
-                              borderRadius: 8,
-                              child: TitleTextView(
-                                textAlign: TextAlign.center,
-                                text:
-                                    "${controller.startDate.value} - ${controller.endDate.value}",
-                              ),
-                            ),
-                          ),
+                        // DateFilterOptionsHorizontalList(
+                        //   padding: const EdgeInsets.fromLTRB(14, 0, 14, 6),
+                        //   startDate: controller.startDate.value,
+                        //   endDate: controller.endDate.value,
+                        //   listener: this,
+                        //   selectedPosition: controller.selectedDateFilterIndex,
+                        // ),
+                        // if (controller.startDate.value.isNotEmpty &&
+                        //     controller.endDate.value.isNotEmpty)
+                        //   SizedBox(
+                        //     width: double.infinity,
+                        //     child: CardViewDashboardItem(
+                        //       padding: const EdgeInsets.all(6),
+                        //       margin: const EdgeInsets.only(
+                        //           left: 14, right: 14, top: 6, bottom: 6),
+                        //       borderRadius: 8,
+                        //       child: TitleTextView(
+                        //         textAlign: TextAlign.center,
+                        //         text:
+                        //             "${controller.startDate.value} - ${controller.endDate.value}",
+                        //       ),
+                        //     ),
+                        //   ),
                         const Expanded(
                           child: StoremanHireProductList(),
                         ),
@@ -159,20 +159,20 @@ class _StoremanHireProductsScreenState extends State<StoremanHireProductsScreen>
         ),
       ),
       const SizedBox(width: 10),
-      InkWell(
-        borderRadius: BorderRadius.circular(45),
-        onTap: () {
-          // Implement filter logic if needed
-        },
-        child: Padding(
-          padding: const EdgeInsets.only(right: 9),
-          child: ImageUtils.setSvgAssetsImage(
-              path: Drawable.filterIcon,
-              width: 26,
-              height: 26,
-              color: primaryTextColor_(Get.context!)),
-        ),
-      ),
+      // InkWell(
+      //   borderRadius: BorderRadius.circular(45),
+      //   onTap: () {
+      //     // Implement filter logic if needed
+      //   },
+      //   child: Padding(
+      //     padding: const EdgeInsets.only(right: 9),
+      //     child: ImageUtils.setSvgAssetsImage(
+      //         path: Drawable.filterIcon,
+      //         width: 26,
+      //         height: 26,
+      //         color: primaryTextColor_(Get.context!)),
+      //   ),
+      // ),
     ];
   }
 

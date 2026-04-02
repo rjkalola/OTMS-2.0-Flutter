@@ -34,7 +34,7 @@ class UserHireOrderDetailsHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final statusColor = hireStatusColorFromHex(item.statusColor) ??
-        AppUtils.getOrderStatusColor(item.status ?? 0);
+        AppUtils.getHireStatusColor(item.status ?? 0);
 
     return Container(
       decoration: BoxDecoration(

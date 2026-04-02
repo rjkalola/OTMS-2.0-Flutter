@@ -51,7 +51,7 @@ class HireOrderListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final badgeColor = hireStatusColorFromHex(item.statusColor) ??
-        AppUtils.getOrderStatusColor(item.status ?? 0);
+        AppUtils.getHireStatusColor(item.status ?? 0);
 
     return GestureDetector(
       onTap: onListItem,
@@ -82,9 +82,9 @@ class HireOrderListItem extends StatelessWidget {
                 PrimaryTextView(
                   text: [
                     if (!StringHelper.isEmptyString(item.companyName))
-                      item.companyName,
+                      item.companyName!,
                     if (!StringHelper.isEmptyString(item.userName))
-                      item.userName,
+                      "${'ordered_by'.tr}: ${item.userName!}",
                   ].join(' | '),
                   fontSize: 15,
                 ),

@@ -260,6 +260,8 @@ class Strings extends Translations {
               "Are you sure you want to approve?",
           'are_you_sure_you_want_to_cancel':
               "Are you sure you want to cancel?",
+          'are_you_sure_you_want_to_return_hire':
+              "Are you sure you want to return this hire item?",
           'are_you_sure_you_want_to_unarchive':
               "Are you sure you want to unarchive?",
           'are_you_sure_you_want_to_reject': "Are you sure you want to reject?",
@@ -657,6 +659,7 @@ class Strings extends Translations {
           'add_to_cart': "Add to cart",
           'receive_date': "Receive Date",
           'order_date': "Order Date",
+          'ordered_by': "Ordered By",
           'stores': "Stores",
           'qty': "Qty",
           'details': "Details",

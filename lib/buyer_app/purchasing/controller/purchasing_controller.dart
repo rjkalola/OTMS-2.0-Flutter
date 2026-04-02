@@ -77,6 +77,17 @@ class PurchasingController extends GetxController {
     moveToScreen(appRout: AppRoutes.buyerOrdersScreen, arguments: arguments);
   }
 
+  void onOtherItemClick(
+      {required String filterType}) {
+    var arguments = {
+      AppConstants.intentKey.filterType: filterType,
+      AppConstants.intentKey.index: selectedDateFilterIndex.value,
+      AppConstants.intentKey.startDate: startDate.value,
+      AppConstants.intentKey.endDate: endDate.value,
+    };
+    Get.toNamed(AppRoutes.buyerOrdersScreen, arguments: arguments);
+  }
+
   Future<void> moveToScreen(
       {required String appRout, dynamic arguments}) async {
     var result = await Get.toNamed(appRout, arguments: arguments);

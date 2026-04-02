@@ -4,6 +4,7 @@ import 'package:belcka/buyer_app/buyer_order/model/buyer_product_list_response.d
 import 'package:belcka/pages/user_orders/hire_module/user_hire_products/controller/user_hire_product_repository.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/pages/user_orders/hire_module/user_hire_products/model/hire_order_info.dart';
+import 'package:belcka/pages/user_orders/hire_module/user_hire_products/model/hire_products_list_response.dart';
 import 'package:belcka/pages/user_orders/hire_module/user_hire_products/model/hire_orders_list_response.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
 import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
@@ -23,6 +24,7 @@ class UserHireProductController extends GetxController
   final _api = UserHireProductRepository();
   static const String _dialogApprove = 'HIRE_REQUEST_APPROVE';
   static const String _dialogCancel = 'HIRE_REQUEST_CANCEL';
+  static const String _dialogReturnLine = 'HIRE_PRODUCT_LINE_RETURN';
 
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
@@ -41,6 +43,9 @@ class UserHireProductController extends GetxController
 
   final hireOrdersList = <HireOrderInfo>[].obs;
   List<HireOrderInfo> tempHireOrdersList = [];
+
+  final hireProductsList = <ProductInfo>[].obs;
+  List<ProductInfo> tempHireProductsList = [];
   int _pendingOrderId = 0;
   String _pendingProductIds = '';
   int _pendingStatus = 0;
@@ -107,6 +112,12 @@ class UserHireProductController extends GetxController
     requestCount.value = response.requested ?? 0;
     hiredCount.value = response.hired ?? 0;
     inServiceCount.value = response.serviced ?? 0;
+  }
+
+  void _updateHireTabCountsFromProductsResponse(HireProductsListResponse r) {
+    requestCount.value = r.requested ?? 0;
+    hiredCount.value = r.hired ?? 0;
+    inServiceCount.value = r.serviced ?? 0;
   }
 
   void loadData() {
@@ -188,6 +199,12 @@ class UserHireProductController extends GetxController
   }
 
   void getHireOrdersListApi() {
+    if (selectedTab.value == HireUserProductStatus.hired ||
+        selectedTab.value == HireUserProductStatus.inService) {
+      getHireOrderProductsApi();
+      return;
+    }
+
     isLoading.value = true;
     final status = _hireOrdersStatusParam();
     Map<String, dynamic> map = {
@@ -225,6 +242,42 @@ class UserHireProductController extends GetxController
     );
   }
 
+  void getHireOrderProductsApi() {
+    isLoading.value = true;
+    final h = AppConstants.hireStatus;
+    final status = selectedTab.value == HireUserProductStatus.hired
+        ? h.hired
+        : h.inService;
+
+    _api.getHireOrderProducts(
+      queryParameters: {
+        'company_id': ApiConstants.companyId,
+        'status': status,
+      },
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          isMainViewVisible.value = true;
+          final response = HireProductsListResponse.fromJson(
+              jsonDecode(responseModel.result!));
+          _updateHireTabCountsFromProductsResponse(response);
+          tempHireProductsList = List<ProductInfo>.from(response.info ?? []);
+          hireProductsList.assignAll(tempHireProductsList);
+        } else {
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? '');
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showSnackBarMessage(error.statusMessage ?? '');
+        }
+      },
+    );
+  }
+
   void searchItem(String value) {
     if (selectedTab.value == HireUserProductStatus.available) {
       if (value.isEmpty) {
@@ -240,6 +293,31 @@ class UserHireProductController extends GetxController
             .toList());
       }
       productsList.refresh();
+      return;
+    }
+
+    if (selectedTab.value == HireUserProductStatus.hired ||
+        selectedTab.value == HireUserProductStatus.inService) {
+      if (value.isEmpty) {
+        hireProductsList.assignAll(tempHireProductsList);
+      } else {
+        final query = value.toLowerCase();
+        hireProductsList.assignAll(tempHireProductsList.where((e) {
+          return (!StringHelper.isEmptyString(e.shortName) &&
+                  e.shortName!.toLowerCase().contains(query)) ||
+              (!StringHelper.isEmptyString(e.uuid) &&
+                  e.uuid!.toLowerCase().contains(query)) ||
+              (!StringHelper.isEmptyString(e.userName) &&
+                  e.userName!.toLowerCase().contains(query)) ||
+              (!StringHelper.isEmptyString(e.supplierName) &&
+                  e.supplierName!.toLowerCase().contains(query)) ||
+              (!StringHelper.isEmptyString(e.orderId) &&
+                  e.orderId!.toLowerCase().contains(query)) ||
+              (!StringHelper.isEmptyString(e.orderStatusText) &&
+                  e.orderStatusText!.toLowerCase().contains(query));
+        }).toList());
+      }
+      hireProductsList.refresh();
       return;
     }
 
@@ -272,15 +350,13 @@ class UserHireProductController extends GetxController
 
   Future<void> onHireOrderItemClick(int index) async {
     final order = hireOrdersList[index];
-    final fromRequest =
-        selectedTab.value == HireUserProductStatus.request;
+    final fromRequest = selectedTab.value == HireUserProductStatus.request;
     final dynamic result = await Get.toNamed(
       AppRoutes.userHireOrderDetailsScreen,
       arguments: {
         AppConstants.intentKey.orderId: order.id ?? 0,
         AppConstants.intentKey.fromRequest: fromRequest,
-        if (fromRequest)
-          AppConstants.intentKey.hireRequestShowApprove: false,
+        if (fromRequest) AppConstants.intentKey.hireRequestShowApprove: false,
       },
     );
     if (result != null && result is Map) {
@@ -308,7 +384,38 @@ class UserHireProductController extends GetxController
     }
   }
 
-  /// Request tab — approve line item (wire API when available).
+  Future<void> onHireProductLineClick(int index) async {
+    final line = hireProductsList[index];
+    final dynamic result = await Get.toNamed(
+      AppRoutes.userHireOrderDetailsScreen,
+      arguments: {
+        AppConstants.intentKey.orderId: line.orderIdInt ?? 0,
+        AppConstants.intentKey.projectId: line.productId ?? 0,
+        AppConstants.intentKey.fromRequest: false,
+      },
+    );
+    if (result != null && result is Map) {
+      final ok = result[AppConstants.intentKey.result] == true;
+      if (ok) {
+        final status = result[AppConstants.intentKey.status] as int? ?? 0;
+        _selectTabFromHireApiStatus(status);
+        loadData();
+      }
+    }
+  }
+
+  void onHireProductLineReturnTap(int index) {
+    final line = hireProductsList[index];
+    if ((line.orderIdInt ?? 0) <= 0 || (line.productId ?? 0) <= 0) return;
+    _showRequestActionDialog(
+      orderId: line.orderIdInt ?? 0,
+      productIds: line.productId!.toString(),
+      status: AppConstants.hireStatus.inService,
+      message: 'are_you_sure_you_want_to_return_hire'.tr,
+      dialogIdentifier: _dialogReturnLine,
+    );
+  }
+
   void onRequestOrderApproveProductLine(int orderIndex, int productIndex) {
     final order = hireOrdersList[orderIndex];
     final products = order.products;
@@ -317,7 +424,7 @@ class UserHireProductController extends GetxController
         productIndex >= products.length) {
       return;
     }
-    final productId = products[productIndex].id ?? 0;
+    final productId = products[productIndex].productId ?? 0;
     if ((order.id ?? 0) <= 0 || productId <= 0) return;
     _showRequestActionDialog(
       orderId: order.id ?? 0,
@@ -337,7 +444,7 @@ class UserHireProductController extends GetxController
         productIndex >= products.length) {
       return;
     }
-    final productId = products[productIndex].id ?? 0;
+    final productId = products[productIndex].productId ?? 0;
     if ((order.id ?? 0) <= 0 || productId <= 0) return;
     _showRequestActionDialog(
       orderId: order.id ?? 0,
@@ -384,6 +491,8 @@ class UserHireProductController extends GetxController
         'id': _pendingOrderId,
         'status': _pendingStatus,
         'product_ids': _pendingProductIds,
+        if (_pendingStatus == AppConstants.hireStatus.inService)
+          'need_service': false,
       },
       onSuccess: (ResponseModel responseModel) {
         isLoading.value = false;
@@ -392,8 +501,7 @@ class UserHireProductController extends GetxController
           final result = responseModel.result;
           if (result != null && result.isNotEmpty) {
             try {
-              final baseResponse =
-                  BaseResponse.fromJson(jsonDecode(result));
+              final baseResponse = BaseResponse.fromJson(jsonDecode(result));
               if (baseResponse.Message != null &&
                   baseResponse.Message!.isNotEmpty) {
                 message = baseResponse.Message!;
@@ -420,7 +528,8 @@ class UserHireProductController extends GetxController
   @override
   void onPositiveButtonClicked(String dialogIdentifier) {
     if (dialogIdentifier == _dialogApprove ||
-        dialogIdentifier == _dialogCancel) {
+        dialogIdentifier == _dialogCancel ||
+        dialogIdentifier == _dialogReturnLine) {
       Get.back();
       _updateHireOrderStatusApi();
     }
@@ -429,7 +538,8 @@ class UserHireProductController extends GetxController
   @override
   void onNegativeButtonClicked(String dialogIdentifier) {
     if (dialogIdentifier == _dialogApprove ||
-        dialogIdentifier == _dialogCancel) {
+        dialogIdentifier == _dialogCancel ||
+        dialogIdentifier == _dialogReturnLine) {
       Get.back();
     }
   }

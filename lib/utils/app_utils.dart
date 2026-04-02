@@ -327,6 +327,25 @@ class AppUtils {
     return color;
   }
 
+  static Color getHireStatusColor(int status) {
+    Color color = primaryTextColor_(Get.context!);
+    final h = AppConstants.hireStatus;
+    if (status == h.available) {
+      color = Colors.green;
+    } else if (status == h.request) {
+      color = Colors.orange;
+    } else if (status == h.hired) {
+      color = Colors.deepPurple;
+    } else if (status == h.inService) {
+      color = Colors.redAccent;
+    } else if (status == h.damaged) {
+      color = Colors.redAccent;
+    } else if (status == h.cancelled) {
+      color = Colors.redAccent;
+    }
+    return color;
+  }
+
   static Color getProductStockStatusColor(int status) {
     Color color = primaryTextColor_(Get.context!);
     if (status == AppConstants.productStockStatus.lowStock) {

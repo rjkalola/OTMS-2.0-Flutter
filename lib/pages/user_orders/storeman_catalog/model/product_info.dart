@@ -81,8 +81,23 @@ class ProductInfo {
   List<String>? notes;
   String? tempNote;
   bool? isCheck;
-  FocusNode qtyFocusNode = FocusNode();
   bool? isInSet;
+
+  int? orderStatus;
+  String? orderStatusText;
+  String? orderStatusColor;
+  String? date;
+  String? fromDate;
+  String? toDate;
+  String? fromDateFormate;
+  String? toDateFormate;
+  String? orderId;
+  int? orderIdInt;
+  int? approvedBy;
+  String? approveByUserName;
+  String? approvedAt;
+
+  FocusNode qtyFocusNode = FocusNode();
 
   ProductInfo(
       {this.id,
@@ -163,8 +178,7 @@ class ProductInfo {
       this.note,
       this.notes,
       this.tempNote,
-      this.isCheck,
-      this.isInSet});
+      this.isCheck});
 
   ProductInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -180,23 +194,22 @@ class ProductInfo {
     name = json['name'];
     description = json['description'];
     price = json['price'];
-    marketPrice = json['market_price'].toString();
+    marketPrice = json['market_price']?.toString();
     qty = (json['qty'] as num?)?.toDouble();
     cartQty = (json['cart_qty'] as num?)?.toDouble();
-    subQty = json['sub_qty'].toString();
+    subQty = json['sub_qty']?.toString();
     totalAmount = json['total_amount'];
     stockStatus = json['stock_status'];
     currency = json['currency'];
     stockStatusId = json['stock_status_id'];
     isSubQty = json['is_sub_qty'];
-    packOffQty = json['pack_off_qty'].toString();
+    packOffQty = json['pack_off_qty']?.toString();
     packOffUnitId = json['pack_off_unit_id'];
     imageUrl = json['image_url'];
     thumbUrl = json['thumb_url'];
     qrCode = json['qr_code'];
     cutoff = json['cutoff'];
     dateAvailable = json['date_available'];
-    status = json['status'];
     isArchived = json['is_archived'];
     addedBy = json['added_by'];
     userName = json['user_name'];
@@ -244,7 +257,7 @@ class ProductInfo {
     receivedQty = json['received_qty'];
     deliveredQty = json['delivered_qty'];
     totalQty = json['total_qty'];
-    manufactureName = json['manufacturer_name']; 
+    manufactureName = json['manufacturer_name'];
     availableQty = (json['available_qty'] as num?)?.toDouble();
     remainingQty = json['remaining_qty'];
     storeName = json['store_name'];
@@ -264,6 +277,36 @@ class ProductInfo {
     tempNote = json['temp_note'];
     isCheck = json['is_check'];
     isInSet = json['is_in_set'];
+
+    final dynamic orderStatusVal = json['order_status'];
+    if (orderStatusVal is int) {
+      orderStatus = orderStatusVal;
+    } else if (orderStatusVal != null) {
+      orderStatus = int.tryParse(orderStatusVal.toString());
+    }
+    orderStatusText = json['order_status_text']?.toString();
+    orderStatusColor = json['order_status_color']?.toString();
+    date = json['date']?.toString();
+    fromDate = json['from_date']?.toString();
+    toDate = json['to_date']?.toString();
+    fromDateFormate = json['from_date_formate']?.toString();
+    toDateFormate = json['to_date_formate']?.toString();
+    orderId = json['order_id']?.toString();
+    final dynamic orderIdIntVal = json['order_id_int'] ?? json['order_id'];
+    if (orderIdIntVal is int) {
+      orderIdInt = orderIdIntVal;
+    } else if (orderIdIntVal != null) {
+      orderIdInt = int.tryParse(orderIdIntVal.toString());
+    }
+    final dynamic approvedByVal = json['approved_by'];
+    if (approvedByVal is int) {
+      approvedBy = approvedByVal;
+    } else if (approvedByVal != null) {
+      approvedBy = int.tryParse(approvedByVal.toString());
+    }
+    approveByUserName = json['approve_by_user_name']?.toString();
+    approvedAt = json['approved_at']?.toString();
+    status = json['status'];
   }
 
   Map<String, dynamic> toJson() {
@@ -358,6 +401,21 @@ class ProductInfo {
     data['temp_note'] = this.tempNote;
     data['is_check'] = this.isCheck;
     data['is_in_set'] = this.isInSet;
+
+    data['order_status'] = this.orderStatus;
+    data['order_status_text'] = this.orderStatusText;
+    data['order_status_color'] = this.orderStatusColor;
+    data['date'] = this.date;
+    data['from_date'] = this.fromDate;
+    data['to_date'] = this.toDate;
+    data['from_date_formate'] = this.fromDateFormate;
+    data['to_date_formate'] = this.toDateFormate;
+    data['order_id'] = this.orderId;
+    data['order_id_int'] = this.orderIdInt;
+    data['approved_by'] = this.approvedBy;
+    data['approve_by_user_name'] = this.approveByUserName;
+    data['approved_at'] = this.approvedAt;
+
     return data;
   }
 }

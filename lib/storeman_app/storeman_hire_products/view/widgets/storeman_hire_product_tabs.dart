@@ -55,7 +55,7 @@ class StoremanHireProductTabs extends StatelessWidget {
               ),
               const SizedBox(width: 4),
               HeaderFilterItem(
-                title: 'service'.tr,
+                title: 'in_service'.tr,
                 selected: controller.selectedTab.value ==
                     HireProductStatus.service,
                 count: controller.serviceCount,

@@ -41,7 +41,7 @@ class BuyerOrderController extends GetxController
       selectedDateFilterIndex = (2).obs;
   double cardRadius = 12;
   int selectedIndex = 0;
-  String title = "";
+  String title = "", filterType = "";
   final searchController = TextEditingController().obs;
   final requestOrdersList = <ProductInfo>[].obs;
   final ordersList = <OrderInfo>[].obs;
@@ -88,12 +88,24 @@ class BuyerOrderController extends GetxController
       displayStartDate.value = startDate.value;
       displayEndDate.value = endDate.value;
 
-      String filterType = arguments[AppConstants.intentKey.filterType] ?? "";
-      int recordId = arguments[AppConstants.intentKey.recordId] ?? 0;
-      title = arguments[AppConstants.intentKey.title] ?? "";
+      filterType = arguments[AppConstants.intentKey.filterType] ?? "";
+      String recordId = arguments[AppConstants.intentKey.recordId] ?? "";
+
       if (!StringHelper.isEmptyString(filterType)) {
         isSingleFilter.value = true;
-        setSingleFilter(filterType, recordId.toString());
+        if (filterType == AppConstants.type.lowStock) {
+          title = 'low_stock'.tr;
+          setSingleFilter("low_stock", "true");
+        } else if (filterType == AppConstants.type.unCompleted) {
+          title = 'uncompleted'.tr;
+          setSingleFilter(
+              "status", AppConstants.orderStatus.cancelled.toString());
+        } else if (filterType == AppConstants.type.damaged) {
+          title = 'damaged'.tr;
+        } else {
+          title = arguments[AppConstants.intentKey.title] ?? "";
+          setSingleFilter(filterType, recordId);
+        }
       }
     }
     loadData();
@@ -111,7 +123,7 @@ class BuyerOrderController extends GetxController
           "${AppConstants.orderStatus.processing.toString()},${AppConstants.orderStatus.partialReceived.toString()}");
     } else if (selectedTab.value == OrderTabType.delivered) {
       buyerOrdersListApi(AppConstants.orderStatus.inStock.toString());
-    }else if (selectedTab.value == OrderTabType.cancelled) {
+    } else if (selectedTab.value == OrderTabType.cancelled) {
       buyerOrdersListApi(AppConstants.orderStatus.cancelled.toString());
     }
   }
@@ -480,7 +492,14 @@ class BuyerOrderController extends GetxController
       String value = entry.value ?? "";
       ModuleInfo info = ModuleInfo();
       if (isSingleFilter.value && !StringHelper.isEmptyString(title)) {
-        info.name = "${StringHelper.capitalizeFirstLetter(key)}: $title";
+        if (filterType == AppConstants.type.lowStock ||
+            filterType == AppConstants.type.unCompleted ||
+            filterType == AppConstants.type.damaged) {
+          info.name = "${'status'.tr}: $title";
+        } else {
+          info.name =
+              "${StringHelper.capitalizeFirstLetter(formatText(key))}: $title";
+        }
       } else {
         info.name = StringHelper.capitalizeFirstLetter(key);
       }
@@ -497,6 +516,15 @@ class BuyerOrderController extends GetxController
           0, ModuleInfo(name: 'reset'.tr, action: AppConstants.action.reset));
     }
     filterItemsList.refresh();
+  }
+
+  String formatText(String input) {
+    return input
+        .split('_')
+        .map((word) => word.isNotEmpty
+            ? word[0].toUpperCase() + word.substring(1).toLowerCase()
+            : '')
+        .join(' ');
   }
 
   void clearFilter() {

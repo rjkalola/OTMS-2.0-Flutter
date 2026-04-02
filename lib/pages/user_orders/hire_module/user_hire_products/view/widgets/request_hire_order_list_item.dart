@@ -1,6 +1,7 @@
 import 'package:belcka/pages/user_orders/hire_module/user_hire_products/model/hire_order_info.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/image_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/text/PrimaryTextView.dart';
 import 'package:belcka/widgets/text/SubTitleTextView.dart';
@@ -31,7 +32,6 @@ class RequestHireOrderListItem extends StatelessWidget {
   final void Function(int orderListIndex, int productIndex) onApproveProduct;
   final void Function(int orderListIndex, int productIndex) onCancelProduct;
 
-  /// Storeman request list: both Approve and Cancel. User request list: Cancel only.
   final bool showApproveButton;
 
   const RequestHireOrderListItem({
@@ -72,11 +72,13 @@ class RequestHireOrderListItem extends StatelessWidget {
                     const SizedBox(width: 10),
                     Expanded(
                       child: PrimaryTextView(
-                        text: item.userName ?? '',
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
+                        text: !StringHelper.isEmptyString(item.userName)
+                            ? "${'ordered_by'.tr}: ${item.userName}"
+                            : '',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
                         textAlign: TextAlign.end,
-                        maxLine: 1,
+                        maxLine: 2,
                       ),
                     ),
                   ],
@@ -140,7 +142,6 @@ class RequestHireOrderListItem extends StatelessWidget {
                                                 ),
                                                 height: 32,
                                                 fontSize: 13,
-                                                borderRadius: 8,
                                                 color: Colors.red,
                                                 margin: EdgeInsets.zero,
                                               ),
@@ -156,7 +157,6 @@ class RequestHireOrderListItem extends StatelessWidget {
                                                 ),
                                                 height: 32,
                                                 fontSize: 13,
-                                                borderRadius: 8,
                                                 color: Colors.green,
                                                 margin: EdgeInsets.zero,
                                               ),
@@ -175,7 +175,6 @@ class RequestHireOrderListItem extends StatelessWidget {
                                                 ),
                                                 height: 32,
                                                 fontSize: 13,
-                                                borderRadius: 8,
                                                 color: Colors.red,
                                                 margin: EdgeInsets.zero,
                                               ),

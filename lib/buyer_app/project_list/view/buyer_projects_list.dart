@@ -29,7 +29,7 @@ class BuyerProjectsList extends StatelessWidget {
                 return GestureDetector(
                   onTap: () {
                     var arguments = {
-                      AppConstants.intentKey.recordId: info.id ?? 0,
+                      AppConstants.intentKey.recordId: (info.id ?? 0).toString(),
                       AppConstants.intentKey.title: info.name ?? "",
                       AppConstants.intentKey.filterType:
                           AppConstants.action.projects,

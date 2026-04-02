@@ -84,38 +84,38 @@ class _UserHireProductsScreenState extends State<UserHireProductsScreen>
                       children: [
                         _buildHeaderView(),
                         const SizedBox(height: 12),
-                        Visibility(
-                          visible: controller.selectedTab.value !=
-                              HireUserProductStatus.available,
-                          child: DateFilterOptionsHorizontalList(
-                            padding: const EdgeInsets.fromLTRB(14, 0, 14, 6),
-                            startDate: controller.startDate.value,
-                            endDate: controller.endDate.value,
-                            listener: this,
-                            selectedPosition:
-                                controller.selectedDateFilterIndex,
-                          ),
-                        ),
-                        Visibility(
-                          visible: controller.selectedTab.value !=
-                                  HireUserProductStatus.available &&
-                              controller.startDate.value.isNotEmpty &&
-                              controller.endDate.value.isNotEmpty,
-                          child: SizedBox(
-                            width: double.infinity,
-                            child: CardViewDashboardItem(
-                              padding: const EdgeInsets.all(6),
-                              margin: const EdgeInsets.only(
-                                  left: 14, right: 14, top: 6, bottom: 6),
-                              borderRadius: 8,
-                              child: TitleTextView(
-                                textAlign: TextAlign.center,
-                                text:
-                                    '${controller.startDate.value} - ${controller.endDate.value}',
-                              ),
-                            ),
-                          ),
-                        ),
+                        // Visibility(
+                        //   visible: controller.selectedTab.value !=
+                        //       HireUserProductStatus.available,
+                        //   child: DateFilterOptionsHorizontalList(
+                        //     padding: const EdgeInsets.fromLTRB(14, 0, 14, 6),
+                        //     startDate: controller.startDate.value,
+                        //     endDate: controller.endDate.value,
+                        //     listener: this,
+                        //     selectedPosition:
+                        //         controller.selectedDateFilterIndex,
+                        //   ),
+                        // ),
+                        // Visibility(
+                        //   visible: controller.selectedTab.value !=
+                        //           HireUserProductStatus.available &&
+                        //       controller.startDate.value.isNotEmpty &&
+                        //       controller.endDate.value.isNotEmpty,
+                        //   child: SizedBox(
+                        //     width: double.infinity,
+                        //     child: CardViewDashboardItem(
+                        //       padding: const EdgeInsets.all(6),
+                        //       margin: const EdgeInsets.only(
+                        //           left: 14, right: 14, top: 6, bottom: 6),
+                        //       borderRadius: 8,
+                        //       child: TitleTextView(
+                        //         textAlign: TextAlign.center,
+                        //         text:
+                        //             '${controller.startDate.value} - ${controller.endDate.value}',
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
                         Expanded(
                           child: Obx(
                             () {
