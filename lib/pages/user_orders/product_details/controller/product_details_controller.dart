@@ -105,13 +105,13 @@ class ProductDetailsController extends GetxController {
           AddToCartResponse response = AddToCartResponse.fromJson(
               jsonDecode(responseModel.result!) as Map<String, dynamic>);
 
-          /*
-          if (response.info != null) {
-            product.value.cartId = response.info!.id;
+
+          if (response.info != null && response.info!.isNotEmpty) {
+            AddToCartInfo cartInfo = response.info![0];
+            product.value.cartId = cartInfo.id;
             product.value.isCartProduct = true;
             product.refresh();
           }
-          */
 
           /*
           response.info?.forEach((item) {
@@ -123,7 +123,7 @@ class ProductDetailsController extends GetxController {
           });
           */
 
-          fetchProductDetails();
+          // fetchProductDetails();
 
           updateCartCount(response.cartProduct ?? 0);
           isDataUpdated = true;
@@ -236,11 +236,13 @@ class ProductDetailsController extends GetxController {
             AddToCartResponse response = AddToCartResponse.fromJson(
                 jsonDecode(responseModel.result!) as Map<String, dynamic>);
             product.value.cartId = 0;
+            product.value.cartQty = 0; 
             product.value.isCartProduct = false;
             product.refresh();
             updateCartCount(response.cartProduct ?? 0);
           } catch (_) {
             product.value.cartId = 0;
+            product.value.cartQty = 0;
             product.value.isCartProduct = false;
             product.refresh();
           }
@@ -301,10 +303,19 @@ class ProductDetailsController extends GetxController {
 
   void decreaseQty() {
     double userQty = product.value.cartQty ?? 0;
-    if (userQty == 0 || userQty == 1) return;
+    if (userQty <= 1) return;
     product.value.cartQty = userQty - 1;
     product.refresh();
     toggleAddToCart((product.value.cartQty ?? 0).toInt());
+  }
+
+  void decrementOrRemoveFromCart() {
+    final current = (product.value.cartQty ?? 0).toInt();
+    if (current <= 1) {
+      toggleRemoveCart();
+      return;
+    }
+    decreaseQty();
   }
 
   void updateSubQty(int count) {

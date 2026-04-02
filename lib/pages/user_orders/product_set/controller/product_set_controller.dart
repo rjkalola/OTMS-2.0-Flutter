@@ -205,9 +205,21 @@ class ProductSetController extends GetxController{
   void decreaseQty(int index) {
     final product = productsSet[index];
     double userQty = product.cartQty ?? 0.0;
-    if (userQty == 0 || userQty == 1) return;
+    if (userQty <= 1) return;
     product.cartQty = userQty - 1;
     productsSet.refresh();
+  }
+
+  void decrementOrRemoveFromCart(int index) {
+    final product = productsSet[index];
+    final current = (product.cartQty ?? 0).toInt();
+    if (current <= 1) {
+      toggleRemoveCart(index);
+      return;
+    }
+    decreaseQty(index);
+    final newQty = (productsSet[index].cartQty ?? 0).toInt();
+    toggleAddToCart(index, newQty);
   }
   void onBackPress() {
     Get.back(result: isDataUpdated);

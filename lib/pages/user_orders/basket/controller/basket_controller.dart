@@ -396,9 +396,19 @@ class BasketController extends GetxController implements SelectItemListener {
   void decreaseQty(int index) {
     final product = cartList[index];
     double userQty = product.cartQty ?? 0.0;
-    if (userQty == 0 || userQty == 1) return;
+    if (userQty <= 1) return;
     product.cartQty = userQty - 1;
     calculateTotal();
+  }
+
+  void decrementOrRemoveFromCart(int index) {
+    final product = cartList[index];
+    final current = (product.cartQty ?? 0).toInt();
+    if (current <= 1) {
+      toggleRemoveCart(index);
+      return;
+    }
+    decreaseQty(index);
   }
 
   void updateSubQty(int index, int count) {

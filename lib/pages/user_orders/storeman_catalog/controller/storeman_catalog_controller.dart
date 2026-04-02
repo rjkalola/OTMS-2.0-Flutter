@@ -175,7 +175,7 @@ class StoremanCatalogController extends GetxController {
     );
   }
 
-  Future<void> fetchProducts() async{
+  Future<void> fetchProducts() async {
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
@@ -189,7 +189,7 @@ class StoremanCatalogController extends GetxController {
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           ProductResponseModel response =
-          ProductResponseModel.fromJson(jsonDecode(responseModel.result!));
+              ProductResponseModel.fromJson(jsonDecode(responseModel.result!));
 
           tempList.clear();
           tempList.addAll(response.info ?? []);
@@ -200,7 +200,6 @@ class StoremanCatalogController extends GetxController {
 
           updateCartCount(response.cartProduct ?? 0);
           isMainViewVisible.value = true;
-
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
@@ -217,7 +216,7 @@ class StoremanCatalogController extends GetxController {
     );
   }
 
-  Future<void> fetchProductsSet(int productID) async{
+  Future<void> fetchProductsSet(int productID) async {
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
@@ -227,13 +226,13 @@ class StoremanCatalogController extends GetxController {
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
-
-          ProductSetDataResponse response =
-          ProductSetDataResponse.fromJson(jsonDecode(responseModel.result!));
+          ProductSetDataResponse response = ProductSetDataResponse.fromJson(
+              jsonDecode(responseModel.result!));
 
           productsSetList = response.info ?? [];
 
-          List<Map<String, dynamic>> productDataList = productsSetList.map((product) {
+          List<Map<String, dynamic>> productDataList =
+              productsSetList.map((product) {
             return {
               "product_id": product.productId,
               "qty": product.qty,
@@ -243,9 +242,7 @@ class StoremanCatalogController extends GetxController {
           }).toList();
 
           addSetProductsToCart(productID, productDataList);
-
-        }
-        else{
+        } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;
@@ -265,7 +262,7 @@ class StoremanCatalogController extends GetxController {
     product.productImages ??= [];
 
     final exists = product.productImages!.any(
-          (img) => img.imageUrl == product.imageUrl,
+      (img) => img.imageUrl == product.imageUrl,
     );
 
     if (!exists) {
@@ -288,8 +285,8 @@ class StoremanCatalogController extends GetxController {
     }
   }
 
-  void toggleBookmark(int index,ProductCategories category) {
-     //isLoading.value = true;
+  void toggleBookmark(int index, ProductCategories category) {
+    //isLoading.value = true;
 
     final product = category.products[index];
     Map<String, dynamic> map = {};
@@ -315,10 +312,10 @@ class StoremanCatalogController extends GetxController {
         }
       },
     );
-
   }
 
-  void toggleAddToCart(int index, int cartQuantity, ProductCategories category) {
+  void toggleAddToCart(
+      int index, int cartQuantity, ProductCategories category) {
     isLoading.value = true;
     final product = category.products[index];
     Map<String, dynamic> map = {};
@@ -334,16 +331,13 @@ class StoremanCatalogController extends GetxController {
         if (responseModel.isSuccess && responseModel.result != null) {
           AddToCartResponse response = AddToCartResponse.fromJson(
               jsonDecode(responseModel.result!) as Map<String, dynamic>);
-
-          /*
-          if (response.info != null) {
-            product.cartId = response.info!.id;
-            // product.cartQty = (response.info!.qty ?? 0).toDouble();
+          if (response.info != null && response.info!.isNotEmpty) {
+            AddToCartInfo cartInfo = response.info![0];
+            product.cartId = cartInfo.id ?? 0;
+            // product.cartQty = (cartInfo.qty ?? cartQuantity).toDouble();
             product.isCartProduct = true;
             categories.refresh();
           }
-          */
-          fetchProducts();
           updateCartCount(response.cartProduct ?? 0);
           // AppUtils.showApiResponseMessage(response.message ?? "");
           isDataUpdated = true;
@@ -363,7 +357,8 @@ class StoremanCatalogController extends GetxController {
     );
   }
 
-  void addSetProductsToCart(int productId, List<Map<String, dynamic>> productDataList) {
+  void addSetProductsToCart(
+      int productId, List<Map<String, dynamic>> productDataList) {
     isLoading.value = true;
     Map<String, dynamic> request = {
       "company_id": ApiConstants.companyId,
@@ -381,8 +376,7 @@ class StoremanCatalogController extends GetxController {
             isDataUpdated = true;
             fetchProducts();
           }
-        }
-        else{
+        } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;
@@ -396,11 +390,9 @@ class StoremanCatalogController extends GetxController {
         }
       },
     );
-
   }
 
-  void toggleRemoveCart(int index,ProductCategories category) {
-
+  void toggleRemoveCart(int index, ProductCategories category) {
     isLoading.value = true;
     final product = category.products[index];
     Map<String, dynamic> map = {};
@@ -412,12 +404,10 @@ class StoremanCatalogController extends GetxController {
         if (responseModel.isSuccess) {
           AddToCartResponse response = AddToCartResponse.fromJson(
               jsonDecode(responseModel.result!) as Map<String, dynamic>);
-          if (response.info != null) {
             product.cartId = 0;
-            // product.cartQty = (response.info!.qty ?? 0).toDouble();
+            product.cartQty = 0;
             product.isCartProduct = false;
             categories.refresh();
-          }
           updateCartCount(response.cartProduct ?? 0);
           // AppUtils.showApiResponseMessage(response.message ?? "");
           isDataUpdated = true;
@@ -435,7 +425,6 @@ class StoremanCatalogController extends GetxController {
         }
       },
     );
-
   }
 
   void setCurrentImageIndex(int index, int page) {
@@ -443,26 +432,38 @@ class StoremanCatalogController extends GetxController {
     currentImageIndex.refresh();
   }
 
-  void increaseQty(int index,ProductCategories category) {
+  void increaseQty(int index, ProductCategories category) {
     final product = category.products[index];
     double userQty = (product.cartQty ?? 0.0) + 1;
     product.cartQty = userQty;
     categories.refresh();
   }
 
-  void decreaseQty(int index,ProductCategories category) {
+  void decreaseQty(int index, ProductCategories category) {
     final product = category.products[index];
     double userQty = product.cartQty ?? 0.0;
-    if (userQty == 0 || userQty == 1) return;
+    if (userQty <= 1) return;
     product.cartQty = userQty - 1;
     categories.refresh();
+  }
+
+  void decrementOrRemoveFromCart(int index, ProductCategories category) {
+    final product = category.products[index];
+    final currentQty = (product.cartQty ?? 0).toInt();
+    if (currentQty <= 1) {
+      toggleRemoveCart(index, category);
+      return;
+    }
+    decreaseQty(index, category);
+    final newQty = (category.products[index].cartQty ?? 0).toInt();
+    toggleAddToCart(index, newQty, category);
   }
 
   void updateCartCount(int count) {
     cartCount.value = count;
   }
 
-  void updateSubQty(int index, int count,ProductCategories category) {
+  void updateSubQty(int index, int count, ProductCategories category) {
     final product = category.products[index];
     product.cartQty = count.toDouble();
     categories.refresh();
@@ -492,13 +493,10 @@ class StoremanCatalogController extends GetxController {
 
     for (var category in tempList) {
       final filteredProducts = (category.products ?? []).where((product) {
-        final nameMatch = (product.shortName ?? "")
-            .toLowerCase()
-            .contains(query);
+        final nameMatch =
+            (product.shortName ?? "").toLowerCase().contains(query);
 
-        final uuidMatch = (product.uuid ?? "")
-            .toLowerCase()
-            .contains(query);
+        final uuidMatch = (product.uuid ?? "").toLowerCase().contains(query);
 
         return nameMatch || uuidMatch;
       }).toList();

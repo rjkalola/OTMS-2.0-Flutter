@@ -4,12 +4,13 @@ import 'package:belcka/pages/user_orders/product_details/controller/product_deta
 import 'package:belcka/pages/user_orders/widgets/icons/bookmark_icon_widget.dart';
 import 'package:belcka/pages/user_orders/widgets/icons/cart_icon_widget.dart';
 import 'package:belcka/pages/user_orders/widgets/out_of_stock_banner.dart';
-import 'package:belcka/pages/user_orders/widgets/product_quantity_widget.dart';
+import 'package:belcka/pages/user_orders/widgets/product_quantity_change_widget.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/res/drawable.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/image_utils.dart';
+import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/image/document_view.dart';
 import 'package:belcka/widgets/text/SubTitleTextView.dart';
@@ -108,8 +109,9 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: List.generate(
                       product.productImages?.length ?? 0,
-                          (dotIndex) {
-                        final isActive = (controller.currentImageIndex[0] ?? 0) == dotIndex;
+                      (dotIndex) {
+                        final isActive =
+                            (controller.currentImageIndex[0] ?? 0) == dotIndex;
                         return AnimatedContainer(
                           duration: const Duration(milliseconds: 200),
                           width: isActive ? 8 : 6,
@@ -214,109 +216,154 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                         ),
                         Row(
                           children: [
-
                             if (isInSet)
                               Row(
                                 children: [
                                   FilledButton(
                                     onPressed: () {
-                                      controller.fetchProductsSet(product.productId ?? 0);
+                                      controller.fetchProductsSet(
+                                          product.productId ?? 0);
                                     },
-                                    style: FilledButton.styleFrom(backgroundColor: defaultAccentColor_(context)),
+                                    style: FilledButton.styleFrom(
+                                        backgroundColor:
+                                            defaultAccentColor_(context)),
                                     child: Text('Add Set'),
                                   ),
-                                  SizedBox(width: 8,)
+                                  SizedBox(
+                                    width: 8,
+                                  )
                                 ],
                               ),
 
-                            if (isAdded) ...[
-                              ProductQuantityWidget(
-                                isSubQuantity: isSubQuantity,
-                                quantity: (product.cartQty ?? 0).toInt(),
-                                unit: packOfUnit,
-                                onChanged: (value) {
-                                  controller.updateSubQty(value);
-                                  controller.toggleAddToCart(value);
-                                },
-                                onIncrease: () {
-                                  controller.increaseQty();
-                                },
-                                onDecrease: () {
-                                  controller.decreaseQty();
-                                },
-                              ),
-                              const SizedBox(width: 8),
-                            ],
+                            // if (isAdded) ...[
+                            //   ProductQuantityChangeWidget(
+                            //     focusNode: product.qtyFocusNode,
+                            //     isSubQuantity: isSubQuantity,
+                            //     quantity: (product.cartQty ?? 0).toInt(),
+                            //     unit: packOfUnit,
+                            //     onChanged: (value) {
+                            //       controller.updateSubQty(value);
+                            //       controller.toggleAddToCart(value);
+                            //     },
+                            //     onIncrease: () {
+                            //       controller.increaseQty();
+                            //     },
+                            //     onDecrease: () {
+                            //       controller.decrementOrRemoveFromCart();
+                            //     },
+                            //   ),
+                            //   const SizedBox(width: 8),
+                            // ],
                             Spacer(),
 
-                            if (isAdded)
-                              GestureDetector(
-                                onTap: (){
-                                  FocusManager.instance.primaryFocus?.unfocus();
-                                  controller.toggleRemoveCart();
-                                },
-                                child: Container(
-                                  padding: const EdgeInsets.all(6),
-                                  decoration: BoxDecoration(
-                                    color: Colors.redAccent.shade200,
-                                    borderRadius: BorderRadius.circular(6),
-                                  ),
-                                  child: ImageUtils.setSvgAssetsImage(
-                                    path: Drawable.deleteIcon,
-                                    width: 18,
-                                    height: 18,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
+                            // if (isAdded)
+                            //   GestureDetector(
+                            //     onTap: (){
+                            //       FocusManager.instance.primaryFocus?.unfocus();
+                            //       controller.toggleRemoveCart();
+                            //     },
+                            //     child: Container(
+                            //       padding: const EdgeInsets.all(6),
+                            //       decoration: BoxDecoration(
+                            //         color: Colors.redAccent.shade200,
+                            //         borderRadius: BorderRadius.circular(6),
+                            //       ),
+                            //       child: ImageUtils.setSvgAssetsImage(
+                            //         path: Drawable.deleteIcon,
+                            //         width: 18,
+                            //         height: 18,
+                            //         color: Colors.white,
+                            //       ),
+                            //     ),
+                            //   ),
 
-                            if (!isAdded)
-                            ElevatedButton.icon(
-                              style: ElevatedButton.styleFrom(
-                                minimumSize: const Size(0, 34),
-                                backgroundColor: isAdded
-                                    ? Colors.redAccent.shade200
-                                    : Colors.green,
-                                foregroundColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 0, horizontal: 12),
-                              ),
-                              onPressed: () {
-                                FocusManager.instance.primaryFocus?.unfocus();
-                                if (isAdded) {
-                                  controller.toggleRemoveCart();
-                                } else {
-                                  if ((product.cartQty ?? 0) > 0) {
-                                    controller.toggleAddToCart(
-                                        (product.cartQty ?? 0).toInt());
-                                  } else {
-                                    controller.increaseQty();
-                                  }
-                                }
-                              },
-                              icon: isAdded
-                                  ? ImageUtils.setSvgAssetsImage(
-                                      path: Drawable.deleteIcon,
-                                      width: 18,
-                                      height: 18,
-                                      color: Colors.white,
-                                    )
-                                  : CartIconWidget(
-                                      color: Colors.white,
-                                      size: 16,
-                                    ),
-                              label: Text(
-                                isAdded ? "remove".tr : "add_to_cart".tr,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ),
+                            // if (!isAdded)
+                            // ElevatedButton.icon(
+                            //   style: ElevatedButton.styleFrom(
+                            //     minimumSize: const Size(0, 34),
+                            //     backgroundColor: isAdded
+                            //         ? Colors.redAccent.shade200
+                            //         : Colors.green,
+                            //     foregroundColor: Colors.white,
+                            //     shape: RoundedRectangleBorder(
+                            //       borderRadius: BorderRadius.circular(10),
+                            //     ),
+                            //     padding: const EdgeInsets.symmetric(
+                            //         vertical: 0, horizontal: 12),
+                            //   ),
+                            //   onPressed: () {
+                            //     FocusManager.instance.primaryFocus?.unfocus();
+                            //     if (isAdded) {
+                            //       controller.toggleRemoveCart();
+                            //     } else {
+                            //       if ((product.cartQty ?? 0) > 0) {
+                            //         controller.toggleAddToCart(
+                            //             (product.cartQty ?? 0).toInt());
+                            //       } else {
+                            //         controller.increaseQty();
+                            //       }
+                            //     }
+                            //   },
+                            //   icon: isAdded
+                            //       ? ImageUtils.setSvgAssetsImage(
+                            //           path: Drawable.deleteIcon,
+                            //           width: 18,
+                            //           height: 18,
+                            //           color: Colors.white,
+                            //         )
+                            //       : CartIconWidget(
+                            //           color: Colors.white,
+                            //           size: 16,
+                            //         ),
+                            //   label: Text(
+                            //     isAdded ? "remove".tr : "add_to_cart".tr,
+                            //     style: const TextStyle(
+                            //       color: Colors.white,
+                            //       fontWeight: FontWeight.w400,
+                            //       fontSize: 14,
+                            //     ),
+                            //   ),
+                            // ),
+
+                            !isAdded
+                                ? PrimaryButton(
+                                    isFixSize: true,
+                                    width: 140,
+                                    height: 34,
+                                    fontSize: 13,
+                                    color: Colors.green,
+                                    fontWeight: FontWeight.w400,
+                                    buttonText: "add_to_cart".tr,
+                                    onPressed: () {
+                                      FocusManager.instance.primaryFocus
+                                          ?.unfocus();
+                                      if (isAdded) {
+                                        controller.toggleRemoveCart();
+                                      } else {
+                                        if ((product.cartQty ?? 0) > 0) {
+                                          controller.toggleAddToCart(
+                                              (product.cartQty ?? 0).toInt());
+                                        } else {
+                                          controller.increaseQty();
+                                        }
+                                      }
+                                    })
+                                : ProductQuantityChangeWidget(
+                                    focusNode: product.qtyFocusNode,
+                                    isSubQuantity: isSubQuantity,
+                                    quantity: (product.cartQty ?? 0).toInt(),
+                                    unit: packOfUnit,
+                                    onChanged: (value) {
+                                      controller.updateSubQty(value);
+                                      controller.toggleAddToCart(value);
+                                    },
+                                    onIncrease: () {
+                                      controller.increaseQty();
+                                    },
+                                    onDecrease: () {
+                                      controller.decrementOrRemoveFromCart();
+                                    },
+                                  ),
                           ],
                         ),
                         SizedBox(

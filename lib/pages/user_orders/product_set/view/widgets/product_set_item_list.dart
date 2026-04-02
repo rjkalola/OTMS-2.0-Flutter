@@ -4,7 +4,7 @@ import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/image_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:belcka/pages/user_orders/widgets/product_quantity_widget.dart';
+import 'package:belcka/pages/user_orders/widgets/product_quantity_change_widget.dart';
 import 'package:belcka/res/drawable.dart';
 
 
@@ -191,7 +191,7 @@ class _ProductSetItemListState extends State<ProductSetItemList>{
                 Row(
                   children: [
                     if (isAdded) ...[
-                      ProductQuantityWidget(
+                      ProductQuantityChangeWidget(
                         focusNode: controller.qtyFocusNodes[index],
                         isSubQuantity: isSubQuantity,
                         quantity: (product.cartQty ?? 0).toInt(),
@@ -213,17 +213,8 @@ class _ProductSetItemListState extends State<ProductSetItemList>{
                         },
                         onDecrease: () {
                           setState(() {
-                            final product = controller.productsSet[index];
-                            final currentQty =
-                            (product.cartQty ?? 0).toInt();
-                            if (currentQty <= 1) return;
-                            controller.decreaseQty(index);
-                            final newQty =
-                            (controller.productsSet[index].cartQty ?? 0)
-                                .toInt();
-                            controller.toggleAddToCart(index, newQty);
+                            controller.decrementOrRemoveFromCart(index);
                           });
-
                         },
                       ),
                       const SizedBox(width: 8),
