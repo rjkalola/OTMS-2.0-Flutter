@@ -8,6 +8,7 @@ import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/other_widgets/user_avtar_view.dart';
+import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -212,6 +213,31 @@ class _BillingDetailsNewScreenState extends State<BillingDetailsNewScreen> {
                                                 ),
                                               ),
 
+                                              //User code
+                                        /*
+                                              Visibility(
+                                                visible: true,
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    {
+                                                      var arguments = {
+                                                        AppConstants.intentKey
+                                                            .userId:
+                                                        controller.userId
+                                                      };
+                                                      controller.moveToScreen(
+                                                          AppRoutes.userCodeScreen,
+                                                          arguments);
+                                                    }
+                                                  },
+                                                  child: NavigationCard(
+                                                    label: "user_code".tr,
+                                                    value: TitleTextView(text: "",),
+                                                    isShowArrow: true,
+                                                  ),
+                                                ),
+                                              ),
+                                              */
                                               Divider(
                                                   color: dividerColor_(context),
                                                   height: 12),

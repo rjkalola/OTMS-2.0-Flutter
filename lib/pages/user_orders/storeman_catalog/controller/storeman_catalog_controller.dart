@@ -3,6 +3,10 @@ import 'package:belcka/pages/common/model/file_info.dart';
 import 'package:belcka/pages/timesheet/time_sheet_filter/view/widgets/categories_list.dart';
 import 'package:belcka/pages/user_orders/categories/model/user_orders_categories_info.dart';
 import 'package:belcka/pages/user_orders/categories/model/user_orders_categories_response.dart';
+import 'package:belcka/pages/user_orders/product_set/model/product_set_data_info.dart';
+import 'package:belcka/pages/user_orders/product_set/model/product_set_data_response.dart';
+import 'package:belcka/pages/user_orders/product_set/model/product_set_info.dart';
+import 'package:belcka/pages/user_orders/product_set/model/product_set_response.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/controller/storeman_catalog_repository.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_categories.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
@@ -52,6 +56,8 @@ class StoremanCatalogController extends GetxController {
   RxBool isCategoryExpanded = false.obs;
 
   List<FocusNode> qtyFocusNodes = [];
+
+  List<ProductSetDataInfo> productsSetList = [];
 
   void initFocusNodes(int length) {
     qtyFocusNodes = List.generate(length, (index) => FocusNode());
@@ -211,6 +217,50 @@ class StoremanCatalogController extends GetxController {
     );
   }
 
+  Future<void> fetchProductsSet(int productID) async{
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
+    map["product_id"] = productID;
+
+    _api.getProductSetsAPI(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+
+          ProductSetDataResponse response =
+          ProductSetDataResponse.fromJson(jsonDecode(responseModel.result!));
+
+          productsSetList = response.info ?? [];
+
+          List<Map<String, dynamic>> productDataList = productsSetList.map((product) {
+            return {
+              "product_id": product.productId,
+              "qty": product.qty,
+              "cart_qty": 1,
+              "is_sub_qty": product.isSubQty ? 1 : 0,
+            };
+          }).toList();
+
+          addSetProductsToCart(productID, productDataList);
+
+        }
+        else{
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
+
   void _prepareSingleProductImages(ProductInfo product) {
     product.productImages ??= [];
 
@@ -284,16 +334,55 @@ class StoremanCatalogController extends GetxController {
         if (responseModel.isSuccess && responseModel.result != null) {
           AddToCartResponse response = AddToCartResponse.fromJson(
               jsonDecode(responseModel.result!) as Map<String, dynamic>);
+
+          /*
           if (response.info != null) {
             product.cartId = response.info!.id;
             // product.cartQty = (response.info!.qty ?? 0).toDouble();
             product.isCartProduct = true;
             categories.refresh();
           }
+          */
+          fetchProducts();
           updateCartCount(response.cartProduct ?? 0);
           // AppUtils.showApiResponseMessage(response.message ?? "");
           isDataUpdated = true;
         } else {
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
+
+  void addSetProductsToCart(int productId, List<Map<String, dynamic>> productDataList) {
+    isLoading.value = true;
+    Map<String, dynamic> request = {
+      "company_id": ApiConstants.companyId,
+      "product_id": productId,
+      "product_data": productDataList,
+    };
+
+    _api.addToCartAPI(
+      data: request,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess && responseModel.result != null) {
+          AddToCartResponse response = AddToCartResponse.fromJson(
+              jsonDecode(responseModel.result!) as Map<String, dynamic>);
+          if (response.info != null) {
+            isDataUpdated = true;
+            fetchProducts();
+          }
+        }
+        else{
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;

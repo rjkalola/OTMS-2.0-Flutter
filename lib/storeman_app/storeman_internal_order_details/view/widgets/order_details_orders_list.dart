@@ -1,3 +1,4 @@
+import 'package:belcka/pages/common/model/file_info.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/storeman_app/storeman_internal_order_details/controller/storeman_internal_order_details_controller.dart';
 import 'package:belcka/utils/app_constants.dart';
@@ -44,12 +45,18 @@ class OrderDetailsOrdersList extends StatelessWidget {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ImageUtils.setRectangleCornerCachedNetworkImage(
-                        url: orders[index].productThumbImage ?? "",
-                        width: 90,
-                        height: 90,
-                        borderRadius: 4,
-                        fit: BoxFit.cover,
+                      InkWell(
+                        onTap: (){
+                          ImageUtils.moveToImagePreview([FilesInfo(imageUrl: orders[index].productImage ?? "",
+                              thumbUrl: orders[index].productThumbImage ?? "")], 0);
+                        },
+                        child: ImageUtils.setRectangleCornerCachedNetworkImage(
+                          url: orders[index].productThumbImage ?? "",
+                          width: 90,
+                          height: 90,
+                          borderRadius: 4,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                       const SizedBox(width: 16),
 

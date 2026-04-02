@@ -92,7 +92,8 @@ class _StoremanProductsListWidgetState extends State<StoremanProductsListWidget>
                   final product = category.products[index];
                   final pageController = PageController();
                   final isAdded = product.isCartProduct ?? false;
-      
+                  final isInSet = product.isInSet ?? false;
+
                   final isSubQuantity = product.isSubQty ?? false;
       
                   final outOfStockCount = isSubQuantity
@@ -127,39 +128,35 @@ class _StoremanProductsListWidgetState extends State<StoremanProductsListWidget>
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                // Product Image Carousel
-                                Container(
-                                  width: 110,
-                                  height: 110,
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[100],
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  clipBehavior: Clip.hardEdge,
-                                  child: Column(
-                                    children: [
-                                      Expanded(
-                                        child: PageView.builder(
-                                          controller: pageController,
-                                          itemCount:
-                                          product.productImages?.length ?? 0,
-                                          onPageChanged: (page) {
-                                            setState(() {
-                                              controller.setCurrentImageIndex(
-                                                  index, page);
-                                            });
-                                          },
-                                          itemBuilder: (context, imgIndex) {
-      
-                                            return InkWell(
-                                              onTap: (){
-                                                ImageUtils.moveToImagePreview(product.productImages ?? [], imgIndex);
-                                              },
+                                // --- UPDATED PRODUCT IMAGE SECTION ---
+                                Column( // Added a Column here to stack the Image Box and the Dots
+                                  children: [
+                                    Container(
+                                      width: 130, // Enlarged from 110
+                                      height: 130, // Enlarged from 110
+                                      decoration: BoxDecoration(
+                                        color: lightGreyColor(context),
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      clipBehavior: Clip.hardEdge,
+                                      child: PageView.builder(
+                                        controller: pageController,
+                                        itemCount: product.productImages?.length ?? 0,
+                                        onPageChanged: (page) {
+                                          setState(() {
+                                            controller.setCurrentImageIndex(index, page);
+                                          });
+                                        },
+                                        itemBuilder: (context, imgIndex) {
+                                          return InkWell(
+                                            onTap: () {
+                                              ImageUtils.moveToImagePreview(
+                                                  product.productImages ?? [], imgIndex);
+                                            },
+                                            child: Center( // Centers the photo inside the container
                                               child: Image.network(
-                                                product.productImages?[imgIndex]
-                                                    .thumbUrl ??
-                                                    "",
-                                                fit: BoxFit.cover,
+                                                product.productImages?[imgIndex].thumbUrl ?? "",
+                                                fit: BoxFit.contain, // Changed to contain to ensure full photo is visible and centered
                                                 errorBuilder: (context, error, stack) {
                                                   return Center(
                                                     child: Icon(
@@ -170,42 +167,39 @@ class _StoremanProductsListWidgetState extends State<StoremanProductsListWidget>
                                                   );
                                                 },
                                               ),
-                                            );
-                                          },
-                                        ),
+                                            ),
+                                          );
+                                        },
                                       ),
-                                      const SizedBox(height: 4),
-                                      // PageView Dots
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: List.generate(
-                                          product.productImages?.length ?? 0,
-                                              (dotIndex) {
-                                            final isActive = (controller
-                                                .currentImageIndex[index] ??
-                                                0) ==
-                                                dotIndex;
-                                            return AnimatedContainer(
-                                              duration:
-                                              const Duration(milliseconds: 200),
-                                              width: isActive ? 8 : 6,
-                                              height: isActive ? 8 : 6,
-                                              margin: const EdgeInsets.symmetric(
-                                                  horizontal: 2),
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: isActive
-                                                    ? defaultAccentColor_(context)
-                                                    : Colors.grey[500],
-                                              ),
-                                            );
-                                          },
-                                        ),
+                                    ),
+                                    const SizedBox(height: 8), // Gap between image and dots
+                                    // PageView Dots moved outside the Container
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: List.generate(
+                                        product.productImages?.length ?? 0,
+                                            (dotIndex) {
+                                          final isActive =
+                                              (controller.currentImageIndex[index] ?? 0) == dotIndex;
+                                          return AnimatedContainer(
+                                            duration: const Duration(milliseconds: 200),
+                                            width: isActive ? 8 : 6,
+                                            height: isActive ? 8 : 6,
+                                            margin: const EdgeInsets.symmetric(horizontal: 2),
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: isActive
+                                                  ? defaultAccentColor_(context)
+                                                  : Colors.grey[400],
+                                            ),
+                                          );
+                                        },
                                       ),
-                                      const SizedBox(height: 4),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
+                                // --- END OF UPDATED SECTION ---
+
                                 const SizedBox(width: 12),
                                 // Product Details
                                 Expanded(
@@ -231,48 +225,18 @@ class _StoremanProductsListWidgetState extends State<StoremanProductsListWidget>
                                         fontSize: 13,
                                         color: secondaryExtraLightTextColor_(context),
                                       ),
-                                      const SizedBox(height: 4),
-                                      Row(
-                                        children: [
-                                          Column(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            children: [
-                                              TitleTextView(
-                                                text:
-                                                "${product.currency}${product.marketPrice ?? ""}",
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                              const SizedBox(height: 2),
-                                              TitleTextView(
-                                                text:
-                                                "${'qty'.tr}: $availableQtyText",
-                                                fontSize: 13,
-                                                color: secondaryExtraLightTextColor_(
-                                                    context),
-                                              )
-                                            ],
-                                          ),
-                                          Spacer(),
-
-                                          //Bookmark
-                                          /*
-                                          InkWell(
-                                              onTap: (){
-                                                FocusManager.instance.primaryFocus
-                                                    ?.unfocus();
-                                                controller.toggleBookmark(index,category);
-                                                product.isBookMark = !(product.isBookMark ?? false);
-                                                controller.categories.refresh();
-                                              },
-                                              child: Icon(product.isBookMark ?? true ? Icons.bookmark : Icons.bookmark_border,
-                                                size: 20, color: product.isBookMark ?? true
-                                                    ? Colors.deepOrangeAccent
-                                                    : primaryTextColor_(context),)),
-                                          */
-                                        ],
+                                      const SizedBox(height: 8),
+                                      TitleTextView(
+                                        text: "${product.currency}${product.marketPrice ?? ""}",
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
                                       ),
+                                      const SizedBox(height: 2),
+                                      TitleTextView(
+                                        text: "${'qty'.tr}: $availableQtyText",
+                                        fontSize: 13,
+                                        color: secondaryExtraLightTextColor_(context),
+                                      )
                                     ],
                                   ),
                                 ),
@@ -283,18 +247,20 @@ class _StoremanProductsListWidgetState extends State<StoremanProductsListWidget>
                             ),
                             Row(
                               children: [
-                                // Amazon-style: show quantity controls only when item is in cart
-                                /*
-                                if (!isAdded)
-                                  FilledButton(
-                                    onPressed: () {
 
-                                    },
-                                    style: FilledButton.styleFrom(backgroundColor: defaultAccentColor_(context)),
-                                    child: Text((product.isInSet ?? false ? 'Set Added' : 'Add Set')),
+                                if (isInSet)
+                                  Row(
+                                    children: [
+                                      FilledButton(
+                                        onPressed: () {
+                                          controller.fetchProductsSet(product.productId ?? 0);
+                                        },
+                                        style: FilledButton.styleFrom(backgroundColor: defaultAccentColor_(context)),
+                                        child: Text('Add Set'),
+                                      ),
+                                      SizedBox(width: 8,)
+                                    ],
                                   ),
-
-                                */
 
                                 if (isAdded) ...[
                                   ProductQuantityWidget(

@@ -185,4 +185,5 @@ class AppRoutes {
   static const String healthAndSafetyScreen = '/health_and_safety_screen';
   static const String nearMissReportingScreen = '/near_miss_reporting_screen';
   static const String healthInfoScreen = '/health_info_screen';
+  static const String userCodeScreen = '/user_code_screen';
 }

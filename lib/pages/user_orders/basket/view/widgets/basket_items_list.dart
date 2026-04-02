@@ -65,37 +65,37 @@ class _BasketItemsListState extends State<BasketItemsList> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             // Product Image Carousel
-                            Container(
-                              width: 150,
-                              height: 150,
-                              decoration: BoxDecoration(
-                                color: Colors.grey[100],
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              clipBehavior: Clip.hardEdge,
-                              child: Column(
-                                children: [
-                                  Expanded(
-                                    child: PageView.builder(
-                                      controller: pageController,
-                                      itemCount: product.productImages?.length ?? 0,
-                                      onPageChanged: (page) {
-                                        setState(() {
-                                          controller.currentImageIndex[index] = page;
-                                        });
-                                      },
-                                      itemBuilder: (context, imgIndex) {
-                                        return InkWell(
-                                          onTap: (){
-                                            ImageUtils.moveToImagePreview(product.productImages ?? [], imgIndex);
-                                          },
+                            Column(
+                              children: [
+                                Container(
+                                  width: 130,
+                                  height: 130,
+                                  decoration: BoxDecoration(
+                                    color: lightGreyColor(context),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  clipBehavior: Clip.hardEdge,
+                                  child: PageView.builder(
+                                    controller: pageController,
+                                    itemCount: product.productImages?.length ?? 0,
+                                    onPageChanged: (page) {
+                                      setState(() {
+                                        controller.currentImageIndex[index] = page;
+                                      });
+                                    },
+                                    itemBuilder: (context, imgIndex) {
+                                      return InkWell(
+                                        onTap: () {
+                                          ImageUtils.moveToImagePreview(
+                                              product.productImages ?? [], imgIndex);
+                                        },
+                                        child: Center(
                                           child: Image.network(
                                             product.productImages?[imgIndex].thumbUrl ?? "",
-                                            fit: BoxFit.cover,
-                                            errorBuilder:
-                                                (context, error, stack) {
-                                              return  Center(
-                                                child:  Icon(
+                                            fit: BoxFit.contain,
+                                            errorBuilder: (context, error, stack) {
+                                              return Center(
+                                                child: Icon(
                                                   Icons.photo_outlined,
                                                   size: 50,
                                                   color: Colors.grey.shade300,
@@ -103,44 +103,39 @@ class _BasketItemsListState extends State<BasketItemsList> {
                                               );
                                             },
                                           ),
-                                        );
-                                      },
-                                    ),
+                                        ),
+                                      );
+                                    },
                                   ),
-                                  const SizedBox(height: 4),
-                                  // PageView Dots
-                                  Row(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.center,
-                                    children: List.generate(
-                                      product.productImages?.length ?? 0,
-                                          (dotIndex) {
-                                        final isActive =
-                                            (controller.currentImageIndex[index] ??
-                                                0) ==
-                                                dotIndex;
-                                        return AnimatedContainer(
-                                          duration: const Duration(
-                                              milliseconds: 200),
-                                          width: isActive ? 8 : 6,
-                                          height: isActive ? 8 : 6,
-                                          margin:
-                                          const EdgeInsets.symmetric(
-                                              horizontal: 2),
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: isActive
-                                                ? defaultAccentColor_(context)
-                                                : Colors.grey[500],
-                                          ),
-                                        );
-                                      },
-                                    ),
+                                ),
+                                const SizedBox(height: 8),
+
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: List.generate(
+                                    product.productImages?.length ?? 0,
+                                        (dotIndex) {
+                                      final isActive =
+                                          (controller.currentImageIndex[index] ?? 0) == dotIndex;
+                                      return AnimatedContainer(
+                                        duration: const Duration(milliseconds: 200),
+                                        width: isActive ? 8 : 6,
+                                        height: isActive ? 8 : 6,
+                                        margin: const EdgeInsets.symmetric(horizontal: 2),
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: isActive
+                                              ? defaultAccentColor_(context)
+                                              : Colors.grey[400],
+                                        ),
+                                      );
+                                    },
                                   ),
-                                  const SizedBox(height: 4),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
+
+
                             const SizedBox(width: 12),
                             // Product Details
                             Expanded(
