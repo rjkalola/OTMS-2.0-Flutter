@@ -318,6 +318,7 @@ class ApiConstants {
   static String employeeOrdersUpdateStatus =
       '$appUrl/employee-orders/update-status';
   static String productsSet = '$appUrl/products/get-sets';
+  static String setProducts = '$appUrl/products/set-products';
 
   //buyer orders
   static String inventoryOverview = '$appUrl/products/inventory-overview';
@@ -361,5 +362,5 @@ class ApiConstants {
   static String hireOrdersCreate = '$appUrl/hire-orders/create';
   static String hireOrdersGet = '$appUrl/hire-orders/get';
   static String hireOrdersDetail = '$appUrl/hire-orders/detail';
-  static String hireOrdersUpdateStatus = '$appUrl/hire-orders/update-status';
+  static String hireOrdersUpdateStatus = '$appUrl/hire-orders/update-stat';
 }

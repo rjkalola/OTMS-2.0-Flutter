@@ -35,6 +35,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
       final product = controller.product.value;
       final isSubQuantity = product.isSubQty ?? false;
       final isAdded = product.isCartProduct ?? false;
+      final isInSet = product.isInSet ?? false;
       final outOfStockCount = isSubQuantity
           ? ((product.cartQty ?? 0) -
               (int.tryParse(product.packOffQty ?? "0") ?? 0))
@@ -49,12 +50,19 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
           child: Column(
             children: [
               // Product Image Card
-              SizedBox(
-                width: double.infinity,
-                height: 260,
-                child: Stack(
-                  children: [
-                    CardViewDashboardItem(
+              Column(
+                children: [
+                  Container(
+                    width: double.infinity,
+                    // Increased height significantly to give the image more room to breathe
+                    height: 300,
+                    decoration: BoxDecoration(
+                      color: lightGreyColor(context),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    clipBehavior: Clip.hardEdge,
+                    child: CardViewDashboardItem(
+                      margin: EdgeInsets.zero,
                       child: PageView.builder(
                         controller: pageController,
                         itemCount: product.productImages?.length ?? 0,
@@ -63,57 +71,63 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                         },
                         itemBuilder: (context, imgIndex) {
                           return InkWell(
-                            onTap: (){
-                              ImageUtils.moveToImagePreview(product.productImages ?? [], imgIndex);
+                            onTap: () {
+                              ImageUtils.moveToImagePreview(
+                                  product.productImages ?? [], imgIndex);
                             },
-                            child: Image.network(
-                              product.productImages?[imgIndex].thumbUrl ?? "",
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stack) {
-                                return Center(
-                                  child: Icon(
-                                    Icons.photo_outlined,
-                                    color: Colors.grey.shade300,
-                                    size: 50,
-                                  ),
-                                );
-                              },
+                            // Center ensures the image stays in the middle if it's smaller than the box
+                            child: Center(
+                              child: Image.network(
+                                product.productImages?[imgIndex].thumbUrl ?? "",
+                                // 'contain' ensures the FULL image is visible without cropping.
+                                // If you want it to fill the width completely, use 'fitWidth'.
+                                fit: BoxFit.contain,
+                                // This removes the "small" look by telling the image to
+                                // be as large as possible within the 300 height limit.
+                                width: double.infinity,
+                                height: double.infinity,
+                                errorBuilder: (context, error, stack) {
+                                  return Center(
+                                    child: Icon(
+                                      Icons.photo_outlined,
+                                      color: Colors.grey.shade300,
+                                      size: 60,
+                                    ),
+                                  );
+                                },
+                              ),
                             ),
                           );
                         },
                       ),
                     ),
-                    Positioned(
-                      bottom: 10,
-                      left: 0,
-                      right: 0,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: List.generate(
-                          product.productImages?.length ?? 0,
+                  ),
+                  const SizedBox(height: 12),
+                  // PageView Dots
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(
+                      product.productImages?.length ?? 0,
                           (dotIndex) {
-                            final isActive =
-                                (controller.currentImageIndex[0] ?? 0) ==
-                                    dotIndex;
-                            return AnimatedContainer(
-                              duration: const Duration(milliseconds: 200),
-                              width: isActive ? 8 : 6,
-                              height: isActive ? 8 : 6,
-                              margin: const EdgeInsets.symmetric(horizontal: 2),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: isActive
-                                    ? defaultAccentColor_(context)
-                                    : Colors.grey[500],
-                              ),
-                            );
-                          },
-                        ),
-                      ),
+                        final isActive = (controller.currentImageIndex[0] ?? 0) == dotIndex;
+                        return AnimatedContainer(
+                          duration: const Duration(milliseconds: 200),
+                          width: isActive ? 8 : 6,
+                          height: isActive ? 8 : 6,
+                          margin: const EdgeInsets.symmetric(horizontal: 2),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: isActive
+                                ? defaultAccentColor_(context)
+                                : Colors.grey[400],
+                          ),
+                        );
+                      },
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
+
               const SizedBox(height: 16),
               // Product Details
               TitleTextView(
@@ -201,30 +215,19 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                         Row(
                           children: [
 
-                            /*
-                            if (!isAdded)
-                              ElevatedButton(
-                                onPressed: () {
-                                  if (product.isInSet ?? false){
-                                    print('Remove Set pressed');
-                                  }
-                                  else{
-                                    print('Add Set pressed');
-                                  }
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  minimumSize: const Size(0, 34),
-                                  backgroundColor: defaultAccentColor_(context),
-                                  foregroundColor: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
+                            if (isInSet)
+                              Row(
+                                children: [
+                                  FilledButton(
+                                    onPressed: () {
+                                      controller.fetchProductsSet(product.productId ?? 0);
+                                    },
+                                    style: FilledButton.styleFrom(backgroundColor: defaultAccentColor_(context)),
+                                    child: Text('Add Set'),
                                   ),
-                                ),
-                                child: Text((product.isInSet ?? false) ? 'Set Added' : 'Add Set',
-                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
-                                ),
+                                  SizedBox(width: 8,)
+                                ],
                               ),
-                            */
 
                             if (isAdded) ...[
                               ProductQuantityWidget(

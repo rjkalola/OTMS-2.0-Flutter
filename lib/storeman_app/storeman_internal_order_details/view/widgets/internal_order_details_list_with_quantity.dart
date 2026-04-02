@@ -78,12 +78,19 @@ class _InternalOrderDetailsListWithQuantityState extends State<InternalOrderDeta
                             },
                             mValue: orders[index].isSelected),
                         const SizedBox(width: 4),
-                        ImageUtils.setRectangleCornerCachedNetworkImage(
-                          url: orders[index].productThumbImage ?? "",
-                          width: 90,
-                          height: 90,
-                          borderRadius: 4,
-                          fit: BoxFit.cover,
+
+                        InkWell(
+                          onTap: (){
+                            ImageUtils.moveToImagePreview([FilesInfo(imageUrl: orders[index].productImage ?? "",
+                                thumbUrl: orders[index].productThumbImage ?? "")], 0);
+                          },
+                          child: ImageUtils.setRectangleCornerCachedNetworkImage(
+                            url: orders[index].productThumbImage ?? "",
+                            width: 90,
+                            height: 90,
+                            borderRadius: 4,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                         const SizedBox(width: 12),
 

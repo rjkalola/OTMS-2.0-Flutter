@@ -2,7 +2,7 @@ class AddToCartResponse {
   bool? isSuccess;
   String? message;
   int? cartProduct;
-  AddToCartInfo? info;
+  List<AddToCartInfo>? info;
 
   AddToCartResponse({this.isSuccess, this.message, this.cartProduct, this.info});
 
@@ -10,9 +10,16 @@ class AddToCartResponse {
     isSuccess = json['IsSuccess'];
     message = json['message'];
     cartProduct = json['cart_product'];
-    info = json['info'] != null
-        ? AddToCartInfo.fromJson(json['info'] as Map<String, dynamic>)
-        : null;
+
+    if (json['info'] != null) {
+      if (json['info'] is List) {
+        info = (json['info'] as List)
+            .map((e) => AddToCartInfo.fromJson(e))
+            .toList();
+      } else if (json['info'] is Map) {
+        info = [AddToCartInfo.fromJson(json['info'])];
+      }
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -21,7 +28,7 @@ class AddToCartResponse {
     data['message'] = message;
     data['cart_product'] = cartProduct;
     if (info != null) {
-      data['info'] = info!.toJson();
+      data['info'] = info!.map((e) => e.toJson()).toList();
     }
     return data;
   }

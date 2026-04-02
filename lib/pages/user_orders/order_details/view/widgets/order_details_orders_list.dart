@@ -69,7 +69,8 @@ class _OrderDetailsOrdersListState extends State<OrderDetailsOrdersList> {
 
                     InkWell(
                       onTap: (){
-                        //ImageUtils.moveToImagePreview(product.productImages ?? [], imgIndex);
+                        ImageUtils.moveToImagePreview([FilesInfo(imageUrl: orders[index].productImage ?? "",
+                            thumbUrl: orders[index].productThumbImage ?? "")], 0);
                       },
                       child: ImageUtils.setRectangleCornerCachedNetworkImage(
                         url: orders[index].productThumbImage ?? "",
