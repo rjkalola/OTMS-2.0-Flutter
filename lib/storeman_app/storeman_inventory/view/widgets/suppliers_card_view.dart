@@ -12,6 +12,29 @@ class SuppliersCardView extends StatelessWidget {
 
   SuppliersCardView({super.key});
 
+  Widget _statCell({
+    required VoidCallback onTap,
+    required String label,
+    required String value,
+    required Alignment alignment,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Align(
+        alignment: alignment,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            PurchasingScreenItemTextWidget(text: label),
+            const SizedBox(height: 2),
+            PurchasingScreenItemValueWidget(value: value),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Obx(
@@ -22,128 +45,70 @@ class SuppliersCardView extends StatelessWidget {
             margin: EdgeInsets.fromLTRB(14, 8, 14, 8),
             borderRadius: controller.cardRadius,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 PurchasingScreenTitleWidget(title: 'suppliers'.tr),
-                SizedBox(
-                  height: 6,
-                ),
+                const SizedBox(height: 6),
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Flexible(
-                        flex: 1,
-                        fit: FlexFit.tight,
-                        child: GestureDetector(
-                          onTap: () {
-                            controller.onSupplierOrdersItemClick(
-                                AppConstants.type.upComing);
-                          },
-                          child: Container(
-                            alignment: Alignment.topLeft,
-                            child: Column(
-                              children: [
-                                PurchasingScreenItemTextWidget(
-                                  text: 'upcoming'.tr,
-                                ),
-                                SizedBox(
-                                  height: 2,
-                                ),
-                                PurchasingScreenItemValueWidget(
-                                    value: (controller
-                                                .inventoryData.value.upcoming ??
-                                            0)
-                                        .toString()),
-                              ],
-                            ),
-                          ),
-                        )),
-                    Flexible(
-                        flex: 1,
-                        fit: FlexFit.tight,
-                        child: GestureDetector(
-                          onTap: () {
-                            controller.onSupplierOrdersItemClick(
-                                AppConstants.type.processing);
-                          },
-                          child: Container(
-                            alignment: Alignment.topCenter,
-                            child: Column(
-                              children: [
-                                PurchasingScreenItemTextWidget(
-                                  text: 'processing'.tr,
-                                ),
-                                SizedBox(
-                                  height: 2,
-                                ),
-                                PurchasingScreenItemValueWidget(
-                                    value: ((controller.inventoryData.value
-                                                    .processing ??
-                                                0) +
-                                            (controller.inventoryData.value
-                                                    .supplierPartiallyDelivered ??
-                                                0))
-                                        .toString()),
-                              ],
-                            ),
-                          ),
-                        )),
-                    Flexible(
-                        flex: 1,
-                        fit: FlexFit.tight,
-                        child: GestureDetector(
-                          onTap: () {
-                            controller.onSupplierOrdersItemClick(
-                                AppConstants.type.onStock);
-                          },
-                          child: Container(
-                            alignment: Alignment.topCenter,
-                            child: Column(
-                              children: [
-                                PurchasingScreenItemTextWidget(
-                                  text: 'in_stock'.tr,
-                                ),
-                                SizedBox(
-                                  height: 2,
-                                ),
-                                PurchasingScreenItemValueWidget(
-                                    value: (controller
-                                                .inventoryData.value.onStock ??
-                                            0)
-                                        .toString()),
-                              ],
-                            ),
-                          ),
-                        )),
-                    Flexible(
-                        flex: 1,
-                        fit: FlexFit.tight,
-                        child: GestureDetector(
-                          onTap: () {
-                            controller.onSupplierOrdersItemClick(
-                                AppConstants.type.cancelled);
-                          },
-                          child: Container(
-                            alignment: Alignment.topRight,
-                            child: Column(
-                              children: [
-                                PurchasingScreenItemTextWidget(
-                                  text: 'cancelled'.tr,
-                                ),
-                                SizedBox(
-                                  height: 2,
-                                ),
-                                PurchasingScreenItemValueWidget(
-                                    value: (controller.inventoryData.value
-                                                .supplierCancelled ??
-                                            0)
-                                        .toString()),
-                              ],
-                            ),
-                          ),
-                        )),
+                    Expanded(
+                      child: _statCell(
+                        onTap: () => controller.onSupplierOrdersItemClick(
+                            AppConstants.type.upComing),
+                        label: 'upcoming'.tr,
+                        value: (controller.inventoryData.value.upcoming ?? 0)
+                            .toString(),
+                        alignment: Alignment.topLeft,
+                      ),
+                    ),
+                    Expanded(
+                      child: _statCell(
+                        onTap: () => controller.onSupplierOrdersItemClick(
+                            AppConstants.type.processing),
+                        label: 'processing'.tr,
+                        value: ((controller.inventoryData.value.processing ??
+                                    0) +
+                                (controller.inventoryData.value
+                                        .supplierPartiallyDelivered ??
+                                    0))
+                            .toString(),
+                        alignment: Alignment.topCenter,
+                      ),
+                    ),
+                    Expanded(
+                      child: _statCell(
+                        onTap: () => controller.onSupplierOrdersItemClick(
+                            AppConstants.type.onStock),
+                        label: 'in_stock'.tr,
+                        value: (controller.inventoryData.value.onStock ?? 0)
+                            .toString(),
+                        alignment: Alignment.topCenter,
+                      ),
+                    ),
                   ],
                 ),
-              ],
+                const SizedBox(height: 12),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: _statCell(
+                        onTap: () => controller.onSupplierOrdersItemClick(
+                            AppConstants.type.cancelled),
+                        label: 'cancelled'.tr,
+                        value: (controller.inventoryData.value
+                                    .supplierCancelled ??
+                                0)
+                            .toString(),
+                        alignment: Alignment.topLeft,
+                      ),
+                    ),
+                    const Expanded(child: SizedBox()),
+                    const Expanded(child: SizedBox()),
+                  ],
+                ),
+              ], 
             )),
       ),
     );
