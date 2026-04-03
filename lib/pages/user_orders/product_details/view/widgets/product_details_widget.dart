@@ -1,6 +1,8 @@
 import 'package:belcka/pages/common/model/file_info.dart';
 import 'package:belcka/pages/profile/billing_details_new/view/widgets/navigation_card.dart';
+import 'package:belcka/pages/user_orders/favorite_popup/favorite_popup_manager.dart';
 import 'package:belcka/pages/user_orders/product_details/controller/product_details_controller.dart';
+import 'package:belcka/pages/user_orders/project_service/project_service.dart';
 import 'package:belcka/pages/user_orders/widgets/icons/bookmark_icon_widget.dart';
 import 'package:belcka/pages/user_orders/widgets/icons/cart_icon_widget.dart';
 import 'package:belcka/pages/user_orders/widgets/out_of_stock_banner.dart';
@@ -44,6 +46,8 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
       final packOfUnitName = product.packOfUnitName ?? "";
       final packOfUnit = product.packOfUnit ?? "";
       String availableQtyText = "${((product.qty ?? 0.0).toInt())}";
+      final projectService = Get.find<ProjectService>();
+      final LayerLink _layerLink = LayerLink();
 
       return Expanded(
         child: SingleChildScrollView(
@@ -191,24 +195,36 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                               fontSize: 14,
                               color: secondaryExtraLightTextColor_(context),
                             ),
-                            Spacer(),
-
-                            //Bookmark
-                            /*
+                            SizedBox(width: 8,),
+                            //Favorite
                             InkWell(
-                                onTap: (){
-                                  FocusManager.instance.primaryFocus?.unfocus();
-                                  controller.toggleBookmark();
-                                  controller.product.value.isBookMark =
-                                  !(controller.product.value.isBookMark ??
-                                      false);
-                                  controller.product.refresh();
-                                },
+                              onTap: (){
+                                FavoritePopupManager.show(
+                                  context: context,
+                                  layerLink: _layerLink,
+                                  projects: projectService.projectsList,
+                                  onProjectSelected: (project) {
+                                    print("Selected: ${project.name ?? ""}");
+                                    FocusManager.instance.primaryFocus?.unfocus();
+                                    controller.toggleBookmark(project.id ?? 0);
+                                    controller.product.value.isBookMark =
+                                    !(controller.product.value.isBookMark ??
+                                        false);
+                                    controller.product.refresh();
+                                  },
+                                );
+                              },
+                              child: CompositedTransformTarget(
+                                link: _layerLink,
                                 child: Icon(product.isBookMark ?? true ? Icons.bookmark : Icons.bookmark_border,
-                                  size: 20, color: product.isBookMark ?? true
+                                  color: product.isBookMark ?? true
                                       ? Colors.deepOrangeAccent
-                                      : primaryTextColor_(context),)),
-                            */
+                                      : primaryTextColor_(context),
+                                  size: 20,
+                                ),
+                              ),
+                            )
+
                           ],
                         ),
                         Divider(

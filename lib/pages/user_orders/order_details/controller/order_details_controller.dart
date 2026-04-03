@@ -55,9 +55,12 @@ class OrderDetailsController extends GetxController{
 
           orderDetails.value = tempList;
           orderDetails.refresh();
-          orderInfo.value = orderDetails[0];
 
-          isMainViewVisible.value = true;
+          if (orderDetails.isNotEmpty){
+             orderInfo.value = orderDetails[0];
+             isMainViewVisible.value = true;
+          }
+
           isLoading.value = false;
         }
         else{

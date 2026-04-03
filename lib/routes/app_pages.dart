@@ -16,6 +16,8 @@ import 'package:belcka/pages/profile/health_and_safety/health_and_safety_screen.
 import 'package:belcka/pages/profile/health_and_safety/near_miss_reporting/view/near_miss_reporting_screen.dart';
 import 'package:belcka/pages/profile/health_info/view/health_info_screen.dart';
 import 'package:belcka/pages/profile/user_code/view/user_code_screen.dart';
+import 'package:belcka/pages/user_orders/favorite_products/view/favorite_products_screen.dart';
+import 'package:belcka/pages/user_orders/favorites/view/favorites_screen.dart';
 import 'package:belcka/pages/user_orders/product_set/view/product_set_screen.dart';
 import 'package:belcka/storeman_app/storeman_internal_order_details/view/storeman_internal_order_details_screen.dart';
 import 'package:belcka/storeman_app/storeman_internal_orders/view/storeman_internal_orders_screen.dart';
@@ -554,5 +556,13 @@ class AppPages {
     GetPage(
         name: AppRoutes.userCodeScreen,
         page: () => UserCodeScreen()),
+
+    GetPage(
+        name: AppRoutes.favoritesScreen,
+        page: () => FavoritesScreen()),
+
+    GetPage(
+        name: AppRoutes.favoriteProductsScreen,
+        page: () => FavoriteProductsScreen()),
   ];
 }

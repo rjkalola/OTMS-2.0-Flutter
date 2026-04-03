@@ -55,6 +55,7 @@ class BillingDetailsNewController extends GetxController {
   bool showPayRate = true;
   RxString currentRatePerDay = "".obs;
   RxString currentTradeName = "".obs;
+  RxString currentUserCode = "".obs;
   bool fromNotification = false;
   int? userId = 0;
 

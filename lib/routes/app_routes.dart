@@ -186,4 +186,6 @@ class AppRoutes {
   static const String nearMissReportingScreen = '/near_miss_reporting_screen';
   static const String healthInfoScreen = '/health_info_screen';
   static const String userCodeScreen = '/user_code_screen';
+  static const String favoritesScreen = '/favorites_screen';
+  static const String favoriteProductsScreen = '/favorite_products_screen';
 }

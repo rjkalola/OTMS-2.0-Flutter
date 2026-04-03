@@ -46,7 +46,7 @@ class OrderHistoryController extends GetxController{
   int getStatusFromFilter(OrderFilter filter) {
     switch (filter) {
       case OrderFilter.ready:
-        return 3;
+        return 5;
       case OrderFilter.delivered:
         return 6;
       case OrderFilter.collected:

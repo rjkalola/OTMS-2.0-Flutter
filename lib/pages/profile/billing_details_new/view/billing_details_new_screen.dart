@@ -214,7 +214,7 @@ class _BillingDetailsNewScreenState extends State<BillingDetailsNewScreen> {
                                               ),
 
                                               //User code
-                                        /*
+
                                               Visibility(
                                                 visible: true,
                                                 child: GestureDetector(
@@ -232,12 +232,13 @@ class _BillingDetailsNewScreenState extends State<BillingDetailsNewScreen> {
                                                   },
                                                   child: NavigationCard(
                                                     label: "user_code".tr,
-                                                    value: TitleTextView(text: "",),
+                                                    value: TitleTextView(
+                                                      text:controller.billingInfo.value.userCode,),
                                                     isShowArrow: true,
                                                   ),
                                                 ),
                                               ),
-                                              */
+
                                               Divider(
                                                   color: dividerColor_(context),
                                                   height: 12),
