@@ -34,6 +34,7 @@ class BillingInfo {
   String? oldTrade;
   String? newTrade;
   String? cis;
+  String? userCode;
 
   BillingInfo(
       {this.id,
@@ -70,7 +71,8 @@ class BillingInfo {
         this.oldNetRatePerDay,
         this.oldTrade,
         this.newTrade,
-        this.cis = "20"});
+        this.cis = "20",
+      this.userCode});
 
 
   static String safeString(dynamic value, {String defaultValue = ""}) {
@@ -118,6 +120,7 @@ class BillingInfo {
     oldTrade = json['old_trade'];
     newTrade = json['new_trade'];
     cis = safeString(json['cis'], defaultValue: "20");
+    userCode = json['user_code'].toString();
   }
 
   Map<String, dynamic> toJson() {
@@ -157,6 +160,7 @@ class BillingInfo {
     data['old_trade'] = this.oldTrade;
     data['new_trade'] = this.newTrade;
     data['cis'] = this.cis;
+    data['user_code'] = this.userCode;
     return data;
   }
 }

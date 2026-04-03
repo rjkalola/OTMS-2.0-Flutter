@@ -319,6 +319,7 @@ class ApiConstants {
       '$appUrl/employee-orders/update-status';
   static String productsSet = '$appUrl/products/get-sets';
   static String setProducts = '$appUrl/products/set-products';
+  static String productsBookmarkList = '$appUrl/products/bookmark-list';
 
   //buyer orders
   static String inventoryOverview = '$appUrl/products/inventory-overview';

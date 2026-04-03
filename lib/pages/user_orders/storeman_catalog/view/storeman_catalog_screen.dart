@@ -162,10 +162,18 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
         ),
       ),
 
-      SizedBox(
-        width: 2,
+      SizedBox(width: 4,),
+      //Favorites
+      InkWell(
+        onTap: (){
+          controller.moveToScreen(AppRoutes.favoritesScreen, null);
+        }
+        ,
+        child: Icon(Icons.bookmark_border,
+          color: primaryTextColor_(context) ,
+          size: 22,
+        ),
       ),
-      // IconButton(icon: Icon(Icons.bookmark), onPressed: () {}),
       GestureDetector(
         onTap: () {
           // open cart page

@@ -7,6 +7,7 @@ import 'package:belcka/pages/user_orders/product_set/model/product_set_data_info
 import 'package:belcka/pages/user_orders/product_set/model/product_set_data_response.dart';
 import 'package:belcka/pages/user_orders/product_set/model/product_set_info.dart';
 import 'package:belcka/pages/user_orders/product_set/model/product_set_response.dart';
+import 'package:belcka/pages/user_orders/project_service/project_service.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/controller/storeman_catalog_repository.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_categories.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
@@ -81,6 +82,8 @@ class StoremanCatalogController extends GetxController {
       categoryIds = arguments["category_ids"] ?? 0;
     }
     getCategoriesListApi();
+
+    Get.put(ProjectService());
   }
 
   void selectCategory(int selectedID) {
@@ -285,13 +288,13 @@ class StoremanCatalogController extends GetxController {
     }
   }
 
-  void toggleBookmark(int index, ProductCategories category) {
+  void toggleBookmark(int index, ProductCategories category, int projectId) {
     //isLoading.value = true;
-
     final product = category.products[index];
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
     map["product_id"] = product.id;
+    map["project_id"] = projectId;
 
     _api.bookmarkAPI(
       data: map,
