@@ -15,6 +15,7 @@ class PurchasingScreenItemTextWidget extends StatelessWidget {
         text: text,
         fontSize: fontSize ?? 15,
         fontWeight: FontWeight.w400,
+        overflow: TextOverflow.ellipsis,
       ),
     );
   }

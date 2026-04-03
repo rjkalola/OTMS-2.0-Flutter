@@ -463,7 +463,10 @@ class CreateBuyerOrderController extends GetxController
     for (var item in buyerOrdersList) {
       double value = double.parse(AppUtils.formatStringToDecimals(
           ((double.parse(item.price ?? "0")) * (item.cartQty ?? 0))));
-      uniteTotal.value = uniteTotal.value + value;
+      print("value:"+value.toString());
+      uniteTotal.value = double.parse(AppUtils.formatStringToDecimals(
+          uniteTotal.value + value));
     }
+    print(" uniteTotal.value:"+ uniteTotal.value.toString());
   }
 }
