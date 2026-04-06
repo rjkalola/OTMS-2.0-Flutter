@@ -216,6 +216,8 @@ class ApiConstants {
   static String workZoneCreate = '$appUrl/work-zone/create';
   static String workZoneUpdate = '$appUrl/work-zone/update';
   static String workZoneDelete = '$appUrl/work-zone/delete';
+  static String getProjectFolders = '$appUrl/project/get-folders';
+  static String projectCreateFolder = '$appUrl/project/create-folder';
 
   //address
   static String getAddress = '$appUrl/address/get';

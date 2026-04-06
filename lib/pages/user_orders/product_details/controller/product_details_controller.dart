@@ -266,12 +266,12 @@ class ProductDetailsController extends GetxController {
     cartCount.value = count;
   }
 
-  void toggleBookmark(int projectId) {
+  void toggleBookmark(int folderId) {
     // isLoading.value = true;
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
     map["product_id"] = product.value.id;
-    map["project_id"] = projectId;
+    map["folder_id"] = folderId;
 
     _api.bookmarkAPI(
       data: map,

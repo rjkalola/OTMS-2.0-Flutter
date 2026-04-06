@@ -23,13 +23,13 @@ class EmptyStateView extends StatelessWidget {
           //Icon(icon, size: 80, color: Colors.grey),
           Image.asset(
             "assets/images/img_empty_data.png",
-            height: 50,
+            height: 40,
           ),
           SizedBox(height: 16),
           TitleTextView(
             text: title,
-              fontSize: 16,
-              fontWeight: FontWeight.w700
+              fontSize: 15,
+              fontWeight: FontWeight.w600
           ),
           SizedBox(height: 8),
           SubtitleTextView(

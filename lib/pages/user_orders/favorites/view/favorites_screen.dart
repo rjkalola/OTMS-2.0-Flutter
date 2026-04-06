@@ -1,5 +1,7 @@
 import 'package:belcka/pages/project/project_info/model/project_info.dart';
+import 'package:belcka/pages/user_orders/favorite_popup/add_folder_view.dart';
 import 'package:belcka/pages/user_orders/favorites/controller/favorites_controller.dart';
+import 'package:belcka/pages/user_orders/project_service/project_folder_response.dart';
 import 'package:belcka/pages/user_orders/widgets/orders_base_app_bar.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/routes/app_routes.dart';
@@ -67,10 +69,10 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                         child: Obx(() {
                           return ListView.builder(
                             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                            itemCount: controller.projectService.projectsList.length + 1,
+                            itemCount: controller.projectService.folderList.length + 1,
                             itemBuilder: (context, index) {
 
-                              if (index == controller.projectService.projectsList.length) {
+                              if (index == controller.projectService.folderList.length) {
 
                                 return Padding(
                                   padding: const EdgeInsets.only(top: 0, bottom: 20),
@@ -79,7 +81,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
 
                               }
 
-                              final album = controller.projectService.projectsList[index];
+                              final album = controller.projectService.folderList[index];
                               return _buildAlbumCard(album);
                             },
                           );
@@ -97,7 +99,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     );
   }
 
-  Widget _buildAlbumCard(ProjectInfo album) {
+  Widget _buildAlbumCard(ProjectFolderInfo album) {
     return Container(
       height: 55,
       margin: const EdgeInsets.only(bottom: 15),
@@ -115,19 +117,19 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
       child: Center(
         child: ListTile(
           contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-          leading: Icon(Icons.bookmark, color: Colors.deepOrangeAccent, size: 22),
+          leading: Icon(Icons.bookmark, color: album.folderColor, size: 20),
           title: Text(album.name ?? '',
             style: const TextStyle(
               fontSize: 15,
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w600,
             ),
           ),
           trailing: const Icon(Icons.arrow_forward_ios, size: 20),
           onTap: () {
             var arguments = {
-              "project_id":album.id,
+              "id":album.id,
             };
-            //controller.moveToScreen(AppRoutes.favoriteProductsScreen, arguments);
+            controller.moveToScreen(AppRoutes.favoriteProductsScreen, arguments);
           },
         ),
       ),
@@ -138,7 +140,38 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     return Align(
       alignment: Alignment.centerLeft,
       child: TextButton.icon(
-        onPressed: controller.createNewAlbum,
+        onPressed: (){
+          showDialog(
+            context: context,
+            barrierDismissible: true,
+            builder: (BuildContext context) {
+              return Dialog(
+                backgroundColor: Colors.transparent,
+                insetPadding: const EdgeInsets.symmetric(horizontal: 40),
+                child: Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: const [
+                      BoxShadow(color: Colors.black26, blurRadius: 20, offset: Offset(0, 10))
+                    ],
+                  ),
+                  child: AddFolderView(
+                    folders: [],
+                    onCancel: () => Navigator.pop(context),
+                    onAdded: (folderName,projectId) async {
+                      Navigator.pop(context);
+                      await controller.projectService.toggleCreateNewFolder(folderName,projectId);
+                      controller.projectService.folderList.refresh();
+                    },
+
+                  ),
+                ),
+              );
+            },
+          );
+        },
         style: TextButton.styleFrom(
           padding: EdgeInsets.zero,
         ),
@@ -148,7 +181,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
           style: TextStyle(
             color: Colors.grey,
             fontSize: 15,
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w800,
           ),
         ),
       ),
