@@ -23,12 +23,15 @@ class CustomSlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => CupertinoSlider(
-        value: progress.value.toDouble().clamp(min, max),
-        min: min,
-        max: max,
-        activeColor: defaultAccentColor_(context),
-        onChanged: onChanged,
+      () => SizedBox(
+        width: double.infinity,
+        child: CupertinoSlider(
+          value: progress.value.toDouble().clamp(min, max),
+          min: min,
+          max: max,
+          activeColor: defaultAccentColor_(context),
+          onChanged: onChanged,
+        ),
       ),
     );
   }

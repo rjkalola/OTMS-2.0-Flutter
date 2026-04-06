@@ -67,12 +67,12 @@ class SuppliersCardView extends StatelessWidget {
                         onTap: () => controller.onSupplierOrdersItemClick(
                             AppConstants.type.processing),
                         label: 'processing'.tr,
-                        value: ((controller.inventoryData.value.processing ??
-                                    0) +
-                                (controller.inventoryData.value
-                                        .supplierPartiallyDelivered ??
-                                    0))
-                            .toString(),
+                        value:
+                            ((controller.inventoryData.value.processing ?? 0) +
+                                    (controller.inventoryData.value
+                                            .supplierPartiallyDelivered ??
+                                        0))
+                                .toString(),
                         alignment: Alignment.topCenter,
                       ),
                     ),
@@ -97,10 +97,10 @@ class SuppliersCardView extends StatelessWidget {
                         onTap: () => controller.onSupplierOrdersItemClick(
                             AppConstants.type.cancelled),
                         label: 'cancelled'.tr,
-                        value: (controller.inventoryData.value
-                                    .supplierCancelled ??
-                                0)
-                            .toString(),
+                        value:
+                            (controller.inventoryData.value.supplierCancelled ??
+                                    0)
+                                .toString(),
                         alignment: Alignment.topLeft,
                       ),
                     ),
@@ -108,7 +108,7 @@ class SuppliersCardView extends StatelessWidget {
                     const Expanded(child: SizedBox()),
                   ],
                 ),
-              ], 
+              ],
             )),
       ),
     );

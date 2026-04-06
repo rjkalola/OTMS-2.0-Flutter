@@ -4,16 +4,21 @@ import 'dart:convert';
 import 'package:belcka/pages/project/maps/user_zones/controller/user_zones_repository.dart';
 import 'package:belcka/pages/project/maps/user_zones/model/user_location_models.dart';
 import 'package:belcka/pages/project/maps/user_zones/model/zone_group_models.dart';
+import 'package:belcka/pages/project/project_info/model/geofence_info.dart';
+import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/location_service_new.dart';
 import 'package:belcka/pages/project/maps/user_zones/utils/team_user_marker_bitmap.dart';
 import 'package:belcka/pages/project/maps/user_zones/utils/zone_label_marker_bitmap.dart';
 import 'package:belcka/pages/common/menu_items_list_bottom_dialog.dart';
+import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:belcka/pages/common/listener/menu_item_listener.dart';
 import 'package:belcka/pages/project/maps/user_zones/view/widgets/user_zones_user_bottom_sheet.dart';
+import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/web_services/api_constants.dart';
+import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,14 +27,15 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class UserZonesController extends GetxController implements MenuItemListener {
+class UserZonesController extends GetxController
+    implements MenuItemListener, DialogButtonClickListener {
   final _api = UserZonesRepository();
   final locationService = LocationServiceNew();
-
+ 
   RxBool isLoading = false.obs,
       isMainViewVisible = false.obs,
-      isInternetNotAvailable = false.obs,
-      isPanelOpen = false.obs,
+      isInternetNotAvailable = false.obs, 
+      isPanelOpen = false.obs,  
       isZonesPanel = false.obs,
       isPanelScrimVisible = false.obs;
 
@@ -42,6 +48,10 @@ class UserZonesController extends GetxController implements MenuItemListener {
   final circles = <Circle>{}.obs;
   final polygons = <Polygon>{}.obs;
   final polyLines = <Polyline>{}.obs;
+
+  /// Bumped in [_renderOverlays] so [CustomMapView] rebuilds when overlay *content*
+  /// changes but set sizes stay the same (e.g. after zone create/edit).
+  final mapOverlayRevision = 0.obs;
 
   final allUsers = <UserLocationInfo>[].obs;
   final teamGroups = <TeamUsersGroup>[].obs;
@@ -56,6 +66,8 @@ class UserZonesController extends GetxController implements MenuItemListener {
   final Set<String> _teamUserMarkerIconBuilding = {};
   final Map<String, BitmapDescriptor> _zoneMarkerIconCache = {};
   final Set<String> _zoneMarkerIconBuilding = {};
+
+  GeofenceInfo? _zonePendingDelete;
 
   // Timer? _refreshTimer;
   Timer? _panelScrimTimer;
@@ -167,7 +179,7 @@ class UserZonesController extends GetxController implements MenuItemListener {
     zoneGroups.assignAll(parsed.info ?? <UserZoneGroupInfo>[]);
     filteredZoneGroups.assignAll(zoneGroups);
     for (final group in zoneGroups) {
-      for (final zone in group.zones ?? <UserZoneInfo>[]) {
+      for (final zone in group.zones ?? <GeofenceInfo>[]) {
         zoneVisibility[zone.id ?? 0] = zoneVisibility[zone.id ?? 0] ?? true;
       }
     }
@@ -195,7 +207,7 @@ class UserZonesController extends GetxController implements MenuItemListener {
       final filtered = <UserZoneGroupInfo>[];
       for (final g in zoneGroups) {
         final groupMatch = (g.name ?? "").toLowerCase().contains(q);
-        final zones = g.zones ?? <UserZoneInfo>[];
+        final zones = g.zones ?? <GeofenceInfo>[];
         final matchedZones = zones.where((z) {
           return (z.name ?? "").toLowerCase().contains(q) ||
               (z.projectName ?? "").toLowerCase().contains(q) ||
@@ -249,9 +261,9 @@ class UserZonesController extends GetxController implements MenuItemListener {
   }
 
   void toggleZoneVisibility(int id) {
-    final current = zoneVisibility[id] ?? true;
-    zoneVisibility[id] = !current;
-    zoneVisibility.refresh();
+    final m = Map<int, bool>.from(zoneVisibility);
+    m[id] = !(m[id] ?? true);
+    zoneVisibility.assignAll(m);
     _renderOverlays();
   }
 
@@ -264,13 +276,202 @@ class UserZonesController extends GetxController implements MenuItemListener {
     );
   }
 
-  void focusZone(UserZoneInfo zone) {
-    final lat = zone.latitude;
-    final lng = zone.longitude;
-    if (lat == null || lng == null || mapController == null) return;
+  void focusZone(GeofenceInfo zone) {
+    final lat = double.parse(zone.latitude ?? "0");
+    final lng = double.parse(zone.longitude ?? "0");
+    if (mapController == null) return;
     mapController!.animateCamera(
       CameraUpdate.newLatLngZoom(LatLng(lat, lng), 15.0),
     );
+  }
+
+  /// Map tap hit-test for zones (circle / polygon / polyline). Native shape
+  /// [onTap] is unreliable on some platforms; this mirrors the drawn geometry.
+  void onMapZoneTap(LatLng tap) {
+    final flat = zoneGroups
+        .expand((g) => g.zones ?? <GeofenceInfo>[])
+        .where((z) => zoneVisibility[z.id ?? 0] ?? true)
+        .toList();
+    for (var i = flat.length - 1; i >= 0; i--) {
+      final zone = flat[i];
+      final type = (zone.type ?? "").toLowerCase();
+      if (type == AppConstants.zoneType.circle &&
+          zone.latitude != null &&
+          zone.longitude != null) {
+        final r = zone.radius ?? 0;
+        if (r <= 0) continue;
+        final center = LatLng(
+          double.parse(zone.latitude!),
+          double.parse(zone.longitude!),
+        );
+        final d = Geolocator.distanceBetween(
+          tap.latitude,
+          tap.longitude,
+          center.latitude,
+          center.longitude,
+        );
+        if (d <= r) {
+          onEditZone(zone);
+          return;
+        }
+      } else if (type == AppConstants.zoneType.polygon &&
+          (zone.coordinates ?? []).length >= 3) {
+        final pts = (zone.coordinates ?? <GeofenceCoordinates>[])
+            .where((c) => c.lat != null && c.lng != null)
+            .map((c) => LatLng(c.lat!, c.lng!))
+            .toList();
+        if (pts.length >= 3 && _pointInPolygon(tap, pts)) {
+          onEditZone(zone);
+          return;
+        }
+      } else if (type == AppConstants.zoneType.polyline &&
+          (zone.coordinates ?? []).length >= 2) {
+        final pts = (zone.coordinates ?? <GeofenceCoordinates>[])
+            .where((c) => c.lat != null && c.lng != null)
+            .map((c) => LatLng(c.lat!, c.lng!))
+            .toList();
+        if (pts.length >= 2 && _tapNearPolyline(tap, pts, maxMeters: 28)) {
+          onEditZone(zone);
+          return;
+        }
+      }
+    }
+  }
+
+  static bool _pointInPolygon(LatLng point, List<LatLng> polygon) {
+    final x = point.longitude;
+    final y = point.latitude;
+    var inside = false;
+    for (var i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+      final xi = polygon[i].longitude;
+      final yi = polygon[i].latitude;
+      final xj = polygon[j].longitude;
+      final yj = polygon[j].latitude;
+      if ((yi > y) == (yj > y)) continue;
+      final dy = yj - yi;
+      if (dy.abs() < 1e-15) continue;
+      final xIntersect = (xj - xi) * (y - yi) / dy + xi;
+      if (x < xIntersect) inside = !inside;
+    }
+    return inside;
+  }
+
+  static bool _tapNearPolyline(LatLng tap, List<LatLng> pts,
+      {required double maxMeters}) {
+    for (var i = 0; i < pts.length - 1; i++) {
+      final a = pts[i];
+      final b = pts[i + 1];
+      for (var t = 0.0; t <= 1.001; t += 0.125) {
+        final lat = a.latitude + t * (b.latitude - a.latitude);
+        final lng = a.longitude + t * (b.longitude - a.longitude);
+        final d = Geolocator.distanceBetween(
+          tap.latitude,
+          tap.longitude,
+          lat,
+          lng,
+        );
+        if (d <= maxMeters) return true;
+      }
+    }
+    return false;
+  }
+
+  void onEditZone(GeofenceInfo zone) {
+    // final pid = zone.projectId ?? 0;
+    // if (pid == null || pid == 0) {
+    //   AppUtils.showToastMessage('zone_project_required'.tr);
+    //   return;
+    // }
+    closePanel();
+    Get.toNamed(
+      AppRoutes.createZoneScreen,
+      arguments: <String, dynamic>{ 'zone': zone},
+    )?.then((dynamic result) {
+      if (result == true) loadData();
+    });
+  }
+
+  // int? _firstProjectIdFromZones() {
+  //   for (final g in zoneGroups) {
+  //     for (final z in g.zones ?? <GeofenceInfo>[]) {
+  //       final id = z.projectId;
+  //       if (id != null && id != 0) return id;
+  //     }
+  //   }
+  //   return null;
+  // }
+
+  void onDeleteZone(GeofenceInfo zone) {
+    if (Get.context == null) return;
+    _zonePendingDelete = zone;
+    AlertDialogHelper.showAlertDialog(
+      "",
+      'are_you_sure_you_want_to_delete'.tr,
+      'yes'.tr,
+      'no'.tr,
+      "",
+      true,
+      true,
+      this,
+      AppConstants.dialogIdentifier.deleteUserZone,
+    );
+  }
+
+  void _deleteZoneApi(GeofenceInfo zone) {
+    final id = zone.id;
+    if (id == null || id == 0) {
+      AppUtils.showApiResponseMessage('try_again'.tr);
+      return;
+    }
+    isLoading.value = true;
+    _api.deleteZone(
+      queryParameters: {'id': id},
+      onSuccess: (ResponseModel rm) {
+        isLoading.value = false;
+        if (rm.isSuccess) {
+          if (!StringHelper.isEmptyString(rm.result) && rm.result != 'null') {
+            try {
+              final response =
+                  BaseResponse.fromJson(jsonDecode(rm.result!));
+              AppUtils.showApiResponseMessage(response.Message ?? '');
+            } catch (_) {
+              AppUtils.showApiResponseMessage(rm.statusMessage ?? '');
+            }
+          }
+          _removeZoneFromLists(zone);
+        } else {
+          AppUtils.showApiResponseMessage(rm.statusMessage ?? '');
+        }
+      },
+      onError: (ResponseModel err) {
+        isLoading.value = false;
+        _onError(err);
+      },
+    );
+  }
+
+  void _removeZoneFromLists(GeofenceInfo zone) {
+    final targetId = zone.id;
+    final newGroups = <UserZoneGroupInfo>[];
+    for (final g in zoneGroups) {
+      final list = (g.zones ?? <GeofenceInfo>[]).where((z) {
+        if (targetId != null) return z.id != targetId;
+        return !identical(z, zone);
+      }).toList();
+      newGroups.add(UserZoneGroupInfo(
+        id: g.id,
+        name: g.name,
+        companyId: g.companyId,
+        isUnassigned: g.isUnassigned,
+        zones: list,
+      ));
+    }
+    zoneGroups.assignAll(newGroups);
+    if (targetId != null) {
+      zoneVisibility.remove(targetId);
+    }
+    filterGroups(searchController.value.text);
+    _renderOverlays();
   }
 
   int get totalUsersCount => allUsers.length;
@@ -282,7 +483,7 @@ class UserZonesController extends GetxController implements MenuItemListener {
       zoneGroups.fold<int>(0, (sum, g) => sum + (g.zones?.length ?? 0));
 
   int get visibleZonesCount => zoneGroups.fold<int>(0, (sum, g) {
-        final zones = g.zones ?? <UserZoneInfo>[];
+        final zones = g.zones ?? <GeofenceInfo>[];
         return sum +
             zones.where((z) => zoneVisibility[z.id ?? 0] ?? true).length;
       });
@@ -300,8 +501,8 @@ class UserZonesController extends GetxController implements MenuItemListener {
 
   static const Duration _panelAnimDuration = Duration(milliseconds: 240);
 
-  void togglePanel() { 
-    if (isPanelOpen.value) { 
+  void togglePanel() {
+    if (isPanelOpen.value) {
       closePanel();
     } else {
       openPanel();
@@ -341,10 +542,15 @@ class UserZonesController extends GetxController implements MenuItemListener {
 
   void setMapTypeSatellite() => mapType.value = MapType.satellite;
 
-
   void onAddZonePressed() {
     closePanel();
-    showMenuItemsDialog(Get.context!);
+    Get.toNamed(
+      AppRoutes.createZoneScreen,
+      // arguments: <String, dynamic>{'project_id': pid},
+    )?.then((dynamic result) {
+      if (result == true) loadData();
+    });
+    // showMenuItemsDialog(Get.context!);
   }
 
   void showMenuItemsDialog(BuildContext context) {
@@ -358,14 +564,25 @@ class UserZonesController extends GetxController implements MenuItemListener {
 
     showCupertinoModalPopup(
       context: context,
-      builder: (_) => MenuItemsListBottomDialog(list: listItems, listener: this),
+      builder: (_) =>
+          MenuItemsListBottomDialog(list: listItems, listener: this),
     );
   }
 
   @override
   void onSelectMenuItem(ModuleInfo info, String dialogType) {
     if (info.action == _zoneMenuActionAddByShape) {
-      AppUtils.showToastMessage('add_by_shape'.tr);
+      // final pid = _firstProjectIdFromZones();
+      // if (pid == null) {
+      //   AppUtils.showToastMessage('zone_project_required'.tr);
+      //   return;
+      // }
+      // Get.toNamed(
+      //   AppRoutes.createZoneScreen,
+      //   arguments: <String, dynamic>{'project_id': pid},
+      // )?.then((dynamic result) {
+      //   if (result == true) loadData();
+      // });
     } else if (info.action == _zoneMenuActionAddByPostCode) {
       AppUtils.showToastMessage('add_by_post_code'.tr);
     }
@@ -417,7 +634,7 @@ class UserZonesController extends GetxController implements MenuItemListener {
 
     // Zone overlays from work-zone/app-get-groups API.
     final allZones =
-        zoneGroups.expand((g) => g.zones ?? <UserZoneInfo>[]).toList();
+        zoneGroups.expand((g) => g.zones ?? <GeofenceInfo>[]).toList();
     for (final zone in allZones) {
       final id = zone.id ?? 0;
       if (!(zoneVisibility[id] ?? true)) continue;
@@ -443,12 +660,15 @@ class UserZonesController extends GetxController implements MenuItemListener {
         markers.add(
           Marker(
             markerId: MarkerId('zone_$id'),
-            position: LatLng(zone.latitude!, zone.longitude!),
+            position: LatLng(double.parse(zone.latitude ?? "0"),
+                double.parse(zone.longitude ?? "0")),
             icon: icon ??
                 BitmapDescriptor.defaultMarkerWithHue(
                     BitmapDescriptor.hueAzure),
             anchor: Offset(0.5, ZoneLabelMarkerBitmap.anchorY),
             infoWindow: InfoWindow(title: zone.name ?? "Zone"),
+            consumeTapEvents: true,
+            onTap: () => onEditZone(zone),
           ),
         );
       }
@@ -458,29 +678,36 @@ class UserZonesController extends GetxController implements MenuItemListener {
           zone.longitude != null) {
         circles.add(AppUtils.getCircle(
           id: 'zone_circle_$id',
-          latLng: LatLng(zone.latitude!, zone.longitude!),
+          latLng: LatLng(double.parse(zone.latitude ?? "0"),
+              double.parse(zone.longitude ?? "0")),
           radius: zone.radius ?? 0,
           color: color,
         ));
       } else if (type == AppConstants.zoneType.polygon &&
           (zone.coordinates ?? []).isNotEmpty) {
-        final points = (zone.coordinates ?? <UserZoneCoordinate>[])
+        final points = (zone.coordinates ?? <GeofenceCoordinates>[])
             .where((c) => c.lat != null && c.lng != null)
             .map((c) => LatLng(c.lat!, c.lng!))
             .toList();
         if (points.isNotEmpty) {
           polygons.add(AppUtils.getPolygon(
-              id: 'zone_polygon_$id', listLatLng: points, color: color));
+            id: 'zone_polygon_$id',
+            listLatLng: points,
+            color: color,
+          ));
         }
       } else if (type == AppConstants.zoneType.polyline &&
           (zone.coordinates ?? []).isNotEmpty) {
-        final points = (zone.coordinates ?? <UserZoneCoordinate>[])
+        final points = (zone.coordinates ?? <GeofenceCoordinates>[])
             .where((c) => c.lat != null && c.lng != null)
             .map((c) => LatLng(c.lat!, c.lng!))
             .toList();
         if (points.isNotEmpty) {
           polyLines.add(AppUtils.getPolyline(
-              id: 'zone_polyline_$id', listLatLng: points, color: color));
+            id: 'zone_polyline_$id',
+            listLatLng: points,
+            color: color,
+          ));
         }
       }
     }
@@ -488,6 +715,7 @@ class UserZonesController extends GetxController implements MenuItemListener {
     circles.refresh();
     polygons.refresh();
     polyLines.refresh();
+    mapOverlayRevision.value++;
   }
 
   void _prepareTeamUserMarkerIcon(String markerKey, String? thumbUrl) {
@@ -514,12 +742,36 @@ class UserZonesController extends GetxController implements MenuItemListener {
       return;
     }
     _zoneMarkerIconBuilding.add(markerKey);
-    ZoneLabelMarkerBitmap.build(label: label, zoneColor: zoneColor).then((icon) {
+    ZoneLabelMarkerBitmap.build(label: label, zoneColor: zoneColor)
+        .then((icon) {
       _zoneMarkerIconCache[markerKey] = icon;
       _renderOverlays();
     }).whenComplete(() {
       _zoneMarkerIconBuilding.remove(markerKey);
     });
+  }
+
+  @override
+  void onNegativeButtonClicked(String dialogIdentifier) {
+    if (dialogIdentifier == AppConstants.dialogIdentifier.deleteUserZone) {
+      _zonePendingDelete = null;
+    }
+    Get.back();
+  }
+
+  @override
+  void onOtherButtonClicked(String dialogIdentifier) {}
+
+  @override
+  void onPositiveButtonClicked(String dialogIdentifier) {
+    if (dialogIdentifier == AppConstants.dialogIdentifier.deleteUserZone) {
+      Get.back();
+      final zone = _zonePendingDelete;
+      _zonePendingDelete = null;
+      if (zone != null) {
+        _deleteZoneApi(zone);
+      }
+    }
   }
 
   @override

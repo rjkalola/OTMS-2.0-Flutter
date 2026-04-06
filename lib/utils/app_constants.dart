@@ -186,6 +186,7 @@ class DialogIdentifier {
   final String orderCancelled = 'ORDER_CANCELLED';
   final String hireFromDate = 'HIRE_FROM_DATE';
   final String hireToDate = 'HIRE_TO_DATE';
+  final String deleteUserZone = 'DELETE_USER_ZONE';
 }
 
 class SharedPreferenceKey {
@@ -261,6 +262,8 @@ class Action {
   final String selectLeaveTypeDialog = 'selectLeaveTypeDialog';
   final String selectStoreDialog = 'selectStoreDialog';
   final String selectSupplierDialog = 'selectSupplierDialog';
+  final String inventoryChartBar = 'INVENTORY_CHART_BAR';
+  final String inventoryChartLine = 'INVENTORY_CHART_LINE';
   final String add = 'ADD';
   final String cancelOrder = 'CANCEL_ORDER';
   final String addAddress = 'ADD_ADDRESS';

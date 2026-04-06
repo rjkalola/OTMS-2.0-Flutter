@@ -212,7 +212,10 @@ class ApiConstants {
   static String activeProject = '$appUrl/project/active';
   static String getTeamUserLocations =
       '$appUrl/user-location/get-team-user-locations';
-  static String workZoneGetGroups = '$appUrl/work-zone/app-get-groups';
+  static String workZoneGetGroups = '$appUrl/work-zone/get-app-zones';
+  static String workZoneCreate = '$appUrl/work-zone/create';
+  static String workZoneUpdate = '$appUrl/work-zone/update';
+  static String workZoneDelete = '$appUrl/work-zone/delete';
 
   //address
   static String getAddress = '$appUrl/address/get';
@@ -323,6 +326,7 @@ class ApiConstants {
 
   //buyer orders
   static String inventoryOverview = '$appUrl/products/inventory-overview';
+  static String inventoryOverviewCharts = '$appUrl/inventory-overview';
   static String buyerProductsList = '$appUrl/purchase-orders/orders';
   static String getStores = '$appUrl/stores/get';
   static String createBuyerOrder = '$appUrl/purchase-orders/create';

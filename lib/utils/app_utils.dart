@@ -474,7 +474,9 @@ class AppUtils {
       {required String id,
       required LatLng latLng,
       Color? color,
-      required double radius}) {
+      required double radius,
+      VoidCallback? onTap,
+      bool consumeTapEvents = false}) {
     final circle = Circle(
       circleId: CircleId(id),
       center: latLng,
@@ -482,23 +484,35 @@ class AppUtils {
       fillColor: (color ?? Colors.black).withValues(alpha: 0.3),
       strokeColor: color ?? Colors.black,
       strokeWidth: 2,
+      onTap: onTap,
+      consumeTapEvents: consumeTapEvents || onTap != null,
     );
     return circle;
   }
 
   static Polyline getPolyline(
-      {required String id, required List<LatLng> listLatLng, Color? color}) {
+      {required String id,
+      required List<LatLng> listLatLng,
+      Color? color,
+      VoidCallback? onTap,
+      bool consumeTapEvents = false}) {
     final polyline = Polyline(
       polylineId: PolylineId(id),
       color: color ?? Colors.black,
       width: 2,
       points: listLatLng,
+      onTap: onTap,
+      consumeTapEvents: consumeTapEvents || onTap != null,
     );
     return polyline;
   }
 
   static Polygon getPolygon(
-      {required String id, required List<LatLng> listLatLng, Color? color}) {
+      {required String id,
+      required List<LatLng> listLatLng,
+      Color? color,
+      VoidCallback? onTap,
+      bool consumeTapEvents = false}) {
     final polygon = Polygon(
       polygonId: PolygonId(id),
       points: listLatLng,
@@ -506,6 +520,8 @@ class AppUtils {
       strokeColor: color ?? Colors.black,
       fillColor:
           (color ?? Colors.black).withValues(alpha: 0.3), // new opacity API
+      onTap: onTap,
+      consumeTapEvents: consumeTapEvents || onTap != null,
     );
     return polygon;
   }

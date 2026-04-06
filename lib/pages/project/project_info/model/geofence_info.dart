@@ -2,6 +2,8 @@ class GeofenceInfo {
   int? id;
   String? name;
   String? address;
+  int? projectId;
+  String? projectName;
   String? latitude;
   String? longitude;
   double? radius;
@@ -13,6 +15,8 @@ class GeofenceInfo {
       {this.id,
       this.name,
       this.address,
+      this.projectId,
+      this.projectName,
       this.latitude,
       this.longitude,
       this.radius,
@@ -24,8 +28,10 @@ class GeofenceInfo {
     id = json['id'];
     name = json['name'];
     address = json['address'];
-    latitude = json['latitude'];
-    longitude = json['longitude'];
+    projectId = json['project_id'];
+    projectName = json['project_name'];
+    latitude = json['latitude'].toString();
+    longitude = json['longitude'].toString();
     // radius = json['radius'];
     radius = (json['radius'] is int)
         ? (json['radius'] as int).toDouble()
@@ -47,6 +53,8 @@ class GeofenceInfo {
     data['id'] = this.id;
     data['name'] = this.name;
     data['address'] = this.address;
+    data['project_id'] = this.projectId;
+    data['project_name'] = this.projectName;
     data['latitude'] = this.latitude;
     data['longitude'] = this.longitude;
     data['radius'] = this.radius;

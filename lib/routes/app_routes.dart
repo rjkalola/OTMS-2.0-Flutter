@@ -87,6 +87,7 @@ class AppRoutes {
   static const String companyListScreen = '/company_list_screen';
   static const String projectListScreen = '/project_list_screen';
   static const String userZonesScreen = '/user_zones_screen';
+  static const String createZoneScreen = '/create_zone_screen';
   static const String addProjectScreen = '/add_project_screen';
   static const String projectInfoScreen = '/project_info_screen';
   static const String checkInScreen = '/check_in_screen';
@@ -133,6 +134,7 @@ class AppRoutes {
   static const String checkInDayLogsScreen = '/check_in_day_logs_screen';
   static const String editWidgetScreen = '/edit_widget_screen';
   static const String purchasingScreen = '/purchasing_screen';
+  static const String inventoryChartsScreen = '/inventory_charts_screen';
   static const String buyerOrdersScreen = '/buyer_orders_screen';
   static const String personalInfoScreen = '/personal_info_screen';
   static const String userAnalyticsScreen = '/user_analytics_screen';

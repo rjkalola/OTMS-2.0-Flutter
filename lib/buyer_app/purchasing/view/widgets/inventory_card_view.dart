@@ -2,6 +2,8 @@ import 'package:belcka/buyer_app/purchasing/controller/purchasing_controller.dar
 import 'package:belcka/buyer_app/purchasing/model/buyer_order_dashboard_response.dart';
 import 'package:belcka/buyer_app/purchasing/view/widgets/purchasing_screen_item_text_widget.dart';
 import 'package:belcka/buyer_app/purchasing/view/widgets/purchasing_screen_title_text_widget.dart';
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +19,16 @@ class InventoryCardView extends StatelessWidget {
     return Obx(() => !StringHelper.isEmptyList(controller.inventoryData.value.inventory)
         ? SizedBox(
       width: double.infinity,
-      child: CardViewDashboardItem(
+      child: InkWell(
+        onTap: () {
+          Get.toNamed(AppRoutes.inventoryChartsScreen, arguments: {
+            AppConstants.intentKey.index: controller.selectedDateFilterIndex.value,
+            AppConstants.intentKey.startDate: controller.startDate.value,
+            AppConstants.intentKey.endDate: controller.endDate.value,
+          });
+        },
+        borderRadius: BorderRadius.circular(9),
+        child: CardViewDashboardItem(
           padding: EdgeInsets.fromLTRB(16, 12, 16, 12),
           margin: EdgeInsets.fromLTRB(14, 8, 14, 8),
           borderRadius: 9,
@@ -91,7 +102,9 @@ class InventoryCardView extends StatelessWidget {
               //   ],
               // ),
             ],
-          )),
+          ),
+        ),
+      ),
     )
         : Container(),);
   }

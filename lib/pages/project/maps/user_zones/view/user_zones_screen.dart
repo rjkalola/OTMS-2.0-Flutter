@@ -1,6 +1,7 @@
 import 'package:belcka/pages/project/maps/user_zones/controller/user_zones_controller.dart';
 import 'package:belcka/pages/project/maps/user_zones/model/user_location_models.dart';
 import 'package:belcka/pages/project/maps/user_zones/model/zone_group_models.dart';
+import 'package:belcka/pages/project/project_info/model/geofence_info.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/res/drawable.dart';
 import 'package:belcka/res/theme/theme_config.dart';
@@ -65,6 +66,8 @@ class _UserZonesScreenState extends State<UserZonesScreen> {
                               polygons: controller.polygons,
                               polylines: controller.polyLines,
                               mapType: controller.mapType,
+                              overlayRevision: controller.mapOverlayRevision,
+                              onTap: controller.onMapZoneTap,
                             ),
                           ),
                           Positioned(
@@ -374,8 +377,6 @@ class _UserZonesScreenState extends State<UserZonesScreen> {
   }
 
   Widget userListItem(BuildContext context, UserLocationInfo user) {
-    final id = user.id ?? 0;
-    final visible = controller.userVisibility[id] ?? true;
     final name = (user.userName ?? "").trim();
     final trade = (user.tradeName ?? "").trim();
     final lastSeen = (user.lastSeen ?? "").trim();
@@ -455,7 +456,7 @@ class _UserZonesScreenState extends State<UserZonesScreen> {
   }
 
   Widget zoneList(BuildContext context, UserZoneGroupInfo group) {
-    final zones = group.zones ?? <UserZoneInfo>[];
+    final zones = group.zones ?? <GeofenceInfo>[];
     return CardViewDashboardItem(
       boxColor: ThemeConfig.isDarkMode
           ? dashBoardBgColor_(context)
@@ -463,7 +464,7 @@ class _UserZonesScreenState extends State<UserZonesScreen> {
       borderRadius: 10,
       margin: const EdgeInsets.only(bottom: 6, top: 6),
       child: ExpansionTile(
-        initiallyExpanded: true,
+        initiallyExpanded: false,
         shape: Border(),
         collapsedShape: Border(),
         tilePadding: const EdgeInsets.symmetric(horizontal: 12),
@@ -499,9 +500,8 @@ class _UserZonesScreenState extends State<UserZonesScreen> {
     );
   }
 
-  Widget zoneListItem(BuildContext context, UserZoneInfo zone) {
+  Widget zoneListItem(BuildContext context, GeofenceInfo zone) {
     final id = zone.id ?? 0;
-    final visible = controller.zoneVisibility[id] ?? true;
     final zoneName = (zone.name ?? "").trim();
     final projectName = (zone.projectName ?? "").trim();
     return InkWell(
@@ -513,14 +513,20 @@ class _UserZonesScreenState extends State<UserZonesScreen> {
         padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
         child: Row(
           children: [
-            IconButton(
-              visualDensity: VisualDensity.compact,
-              icon: Icon(
-                  visible
-                      ? Icons.visibility_outlined
-                      : Icons.visibility_off_outlined,
-                  size: 20),
-              onPressed: () => controller.toggleZoneVisibility(id),
+            Obx(
+              () {
+                final visible = controller.zoneVisibility[id] ?? true;
+                return IconButton(
+                  visualDensity: VisualDensity.compact,
+                  icon: Icon(
+                    visible
+                        ? Icons.visibility_outlined
+                        : Icons.visibility_off_outlined,
+                    size: 20,
+                  ),
+                  onPressed: () => controller.toggleZoneVisibility(id),
+                );
+              },
             ),
             Expanded(
               child: Column(
@@ -541,11 +547,26 @@ class _UserZonesScreenState extends State<UserZonesScreen> {
                 ],
               ),
             ),
-            // IconButton(
-            //   visualDensity: VisualDensity.compact,
-            //   icon: const Icon(Icons.my_location_outlined, size: 20),
-            //   onPressed: () => controller.focusZone(zone),
-            // ),
+            IconButton(
+              visualDensity: VisualDensity.compact,
+              tooltip: 'edit'.tr,
+              icon: Icon(
+                Icons.edit_outlined,
+                size: 20,
+                color: primaryTextColor_(context),
+              ),
+              onPressed: () => controller.onEditZone(zone),
+            ),
+            IconButton(
+              visualDensity: VisualDensity.compact,
+              tooltip: 'delete'.tr,
+              icon: Icon(
+                Icons.delete_outline,
+                size: 20,
+                color: Theme.of(context).colorScheme.error,
+              ),
+              onPressed: () => controller.onDeleteZone(zone),
+            ),
           ],
         ),
       ),

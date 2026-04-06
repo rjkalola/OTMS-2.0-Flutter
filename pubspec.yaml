@@ -2,7 +2,7 @@ name: belcka
 description: "A new Flutter project."
 publish_to: 'none'
 
-version: 1.0.1+5
+version: 1.0.1+6
 
 environment:
   sdk: '>=3.6.0 <4.0.0'
@@ -58,6 +58,8 @@ dependencies:
   android_intent_plus: ^5.3.1
   audioplayers: ^6.1.0
   percent_indicator: ^4.2.3
+  fl_chart: ^0.70.2
+  flutter_colorpicker: ^1.1.0
 #  cupertino_native: 0.1.0
 
 dev_dependencies:

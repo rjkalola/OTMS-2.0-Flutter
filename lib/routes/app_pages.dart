@@ -8,6 +8,7 @@ import 'package:belcka/buyer_app/categories/catalogue_list/view/buyer_catalogue_
 import 'package:belcka/buyer_app/create_buyer_order/view/create_buyer_order_screen.dart';
 import 'package:belcka/buyer_app/draft_orders/view/buyer_draft_orders_screen.dart';
 import 'package:belcka/buyer_app/project_list/view/buyer_projects_screen.dart';
+import 'package:belcka/buyer_app/inventory_charts/view/inventory_charts_screen.dart';
 import 'package:belcka/buyer_app/purchasing/view/purchasing_screen.dart';
 import 'package:belcka/buyer_app/stores/add_store/view/buyer_add_store_screen.dart';
 import 'package:belcka/buyer_app/stores/store_list/view/buyer_stores_screen.dart';
@@ -113,6 +114,7 @@ import 'package:belcka/pages/project/project_details/view/project_details_screen
 import 'package:belcka/pages/project/project_info/view/project_info_screen.dart';
 import 'package:belcka/pages/project/project_list/view/project_list_screen.dart';
 import 'package:belcka/pages/project/trade_records/trade_records_screen.dart';
+import 'package:belcka/pages/project/maps/create_zone/view/create_zone_screen.dart';
 import 'package:belcka/pages/project/maps/user_zones/view/user_zones_screen.dart';
 import 'package:belcka/pages/qr_code_scanner/view/qr_code_scanner.dart';
 import 'package:belcka/pages/settings/view/settings_screen.dart';
@@ -349,6 +351,7 @@ class AppPages {
     GetPage(name: AppRoutes.addProjectScreen, page: () => AddProjectScreen()),
     GetPage(name: AppRoutes.projectListScreen, page: () => ProjectListScreen()),
     GetPage(name: AppRoutes.userZonesScreen, page: () => UserZonesScreen()),
+    GetPage(name: AppRoutes.createZoneScreen, page: () => const CreateZoneScreen()),
     GetPage(name: AppRoutes.projectInfoScreen, page: () => ProjectInfoScreen()),
     GetPage(name: AppRoutes.checkInScreen, page: () => CheckInScreen()),
     GetPage(name: AppRoutes.checkOutScreen, page: () => CheckOutScreen()),
@@ -431,6 +434,9 @@ class AppPages {
         page: () => CheckInDayLogsScreen()),
     GetPage(name: AppRoutes.editWidgetScreen, page: () => EditWidgetScreen()),
     GetPage(name: AppRoutes.purchasingScreen, page: () => PurchasingScreen()),
+    GetPage(
+        name: AppRoutes.inventoryChartsScreen,
+        page: () => const InventoryChartsScreen()),
     GetPage(name: AppRoutes.buyerOrdersScreen, page: () => BuyerOrdersScreen()),
     GetPage(name: AppRoutes.addCategoryScreen, page: () => AddCategoryScreen()),
     GetPage(

@@ -29,4 +29,19 @@ class UserZonesRepository {
       onError: (error) => onError?.call(error),
     );
   }
+
+  void deleteZone({
+    Map<String, dynamic>? queryParameters,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+      url: ApiConstants.workZoneDelete,
+      queryParameters: queryParameters,
+      isFormData: false,
+    ).deleteRequest(
+      onSuccess: (data) => onSuccess?.call(data),
+      onError: (error) => onError?.call(error),
+    );
+  }
 }
