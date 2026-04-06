@@ -1,3 +1,4 @@
+import 'package:belcka/pages/user_orders/favorite_popup/add_folder_view.dart';
 import 'package:belcka/pages/user_orders/favorite_popup/favorite_popup_manager.dart';
 import 'package:belcka/pages/user_orders/project_service/project_service.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/controller/storeman_catalog_controller.dart';
@@ -285,19 +286,62 @@ class _StoremanProductsListWidgetState
                                           //Favorite
                                           InkWell(
                                             onTap: (){
-                                              FavoritePopupManager.show(
-                                                context: context,
-                                                layerLink: _layerLink,
-                                                projects: projectService.projectsList,
-                                                onProjectSelected: (project) {
-                                                  print("Selected: ${project.name ?? ""}");
-                                                  FocusManager.instance.primaryFocus?.unfocus();
-                                                  controller.toggleBookmark(index, category,project.id ?? 0);
-                                                  product.isBookMark = !(product.isBookMark ??
-                                                      false);
-                                                  controller.categories.refresh();
-                                                },
-                                              );
+
+                                              if (projectService.folderList.isEmpty) {
+
+                                                showDialog(
+                                                  context: context,
+                                                  barrierDismissible: true,
+                                                  builder: (BuildContext context) {
+                                                    return Dialog(
+                                                      backgroundColor: Colors.transparent,
+                                                      insetPadding: const EdgeInsets.symmetric(horizontal: 40),
+                                                      child: Container(
+                                                        padding: const EdgeInsets.all(20),
+                                                        decoration: BoxDecoration(
+                                                          color: Colors.white,
+                                                          borderRadius: BorderRadius.circular(20),
+                                                          boxShadow: const [
+                                                            BoxShadow(color: Colors.black26, blurRadius: 20, offset: Offset(0, 10))
+                                                          ],
+                                                        ),
+                                                        child: AddFolderView(
+                                                          folders: [],
+                                                          onCancel: () => Navigator.pop(context),
+                                                          onAdded: (folderName,projectId) async {
+                                                            Navigator.pop(context);
+                                                            final newFolder = await projectService.toggleCreateNewFolder(folderName,projectId);
+
+                                                            print("New Folder ID: ${newFolder?.id ?? 0}");
+
+                                                            FocusManager.instance.primaryFocus?.unfocus();
+                                                            controller.toggleBookmark(index, category, newFolder?.id ?? 0);
+                                                            product.isBookMark = !(product.isBookMark ?? false);
+                                                            controller.categories.refresh();
+
+                                                            },
+
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                );
+
+                                              } else {
+                                                FavoritePopupManager.show(
+                                                  context: context,
+                                                  layerLink: _layerLink,
+                                                  folders: projectService.folderList,
+                                                  onProjectSelected: (folder) {
+                                                    print("Selected: ${folder.name ?? ""}");
+                                                    FocusManager.instance.primaryFocus?.unfocus();
+                                                    controller.toggleBookmark(index, category, folder.id ?? 0);
+                                                    product.isBookMark = !(product.isBookMark ?? false);
+                                                    controller.categories.refresh();
+                                                  },
+                                                );
+                                              }
+
                                             },
                                             child: CompositedTransformTarget(
                                               link: _layerLink,

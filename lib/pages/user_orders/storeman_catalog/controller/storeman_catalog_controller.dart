@@ -288,13 +288,13 @@ class StoremanCatalogController extends GetxController {
     }
   }
 
-  void toggleBookmark(int index, ProductCategories category, int projectId) {
+  void toggleBookmark(int index, ProductCategories category, int folderId) {
     //isLoading.value = true;
     final product = category.products[index];
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
     map["product_id"] = product.id;
-    map["project_id"] = projectId;
+    map["folder_id"] = folderId;
 
     _api.bookmarkAPI(
       data: map,

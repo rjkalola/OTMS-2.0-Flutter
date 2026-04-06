@@ -13,6 +13,9 @@ import 'package:belcka/pages/project/project_list/view/active_project_dialog.dar
 import 'package:belcka/pages/user_orders/basket/controller/basket_repository.dart';
 import 'package:belcka/pages/user_orders/basket/model/product_cart_list_response.dart';
 import 'package:belcka/pages/user_orders/favorite_products/controller/favorites_products_repository.dart';
+import 'package:belcka/pages/user_orders/product_set/model/product_set_data_info.dart';
+import 'package:belcka/pages/user_orders/product_set/model/product_set_data_response.dart';
+import 'package:belcka/pages/user_orders/storeman_catalog/model/add_to_cart_response.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
 import 'package:belcka/pages/user_orders/widgets/select_address_dialog.dart';
 import 'package:belcka/routes/app_routes.dart';
@@ -37,9 +40,10 @@ class FavoriteProductsController extends GetxController{
   final bookmarkList = <ProductInfo>[].obs;
   List<ProductInfo> tempList = [];
 
-  final Map<int, int> currentImageIndex = {};
+  final currentImageIndex = <int, int>{}.obs;
   bool isDataUpdated = false;
-  int projectId = 0;
+  int folderId = 0;
+  List<ProductSetDataInfo> productsSetList = [];
 
   List<FocusNode> qtyFocusNodes = [];
 
@@ -60,7 +64,7 @@ class FavoriteProductsController extends GetxController{
     super.onInit();
     var arguments = Get.arguments;
     if (arguments != null) {
-      projectId = arguments["project_id"] ?? "";
+      folderId = arguments["id"] ?? "";
     }
     fetchBookmarkList();
   }
@@ -69,7 +73,7 @@ class FavoriteProductsController extends GetxController{
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
-    map["project_id"] = projectId;
+    map["folder_id"] = folderId;
 
     _api.getBookmarkListAPI(
       queryParameters: map,
@@ -148,6 +152,155 @@ class FavoriteProductsController extends GetxController{
         }
       },
     );
+  }
+
+  void toggleBookmark(int index, int folderId) {
+    isLoading.value = true;
+    final product = bookmarkList[index];
+    Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
+    map["product_id"] = product.id;
+    map["folder_id"] = folderId;
+
+    _api.bookmarkAPI(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+           fetchBookmarkList();
+        }
+        else{
+          isLoading.value = false;
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+        }
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
+
+  void toggleAddToCart(
+      int index, int cartQuantity) {
+    isLoading.value = true;
+
+    final product = bookmarkList[index];
+    Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
+    map["product_id"] = product.id;
+    map["qty"] = product.qty;
+    map["cart_qty"] = cartQuantity;
+    map["is_sub_qty"] = (product.isSubQty ?? false) ? 1 : 0;
+
+    _api.addToCartAPI(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess && responseModel.result != null) {
+          AddToCartResponse response = AddToCartResponse.fromJson(
+              jsonDecode(responseModel.result!) as Map<String, dynamic>);
+          if (response.info != null && response.info!.isNotEmpty) {
+            fetchBookmarkList();
+          }
+          isDataUpdated = true;
+        } else {
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
+
+  Future<void> fetchProductsSet(int productID) async {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
+    map["product_id"] = productID;
+
+    _api.getProductSetsAPI(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          ProductSetDataResponse response = ProductSetDataResponse.fromJson(
+              jsonDecode(responseModel.result!));
+
+          productsSetList = response.info ?? [];
+
+          List<Map<String, dynamic>> productDataList =
+          productsSetList.map((product) {
+            return {
+              "product_id": product.productId,
+              "qty": product.qty,
+              "cart_qty": 1,
+              "is_sub_qty": product.isSubQty ? 1 : 0,
+            };
+          }).toList();
+
+          addSetProductsToCart(productID, productDataList);
+        } else {
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
+  void addSetProductsToCart(
+      int productId, List<Map<String, dynamic>> productDataList) {
+    isLoading.value = true;
+    Map<String, dynamic> request = {
+      "company_id": ApiConstants.companyId,
+      "product_id": productId,
+      "product_data": productDataList,
+    };
+
+    _api.addToCartAPI(
+      data: request,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess && responseModel.result != null) {
+          AddToCartResponse response = AddToCartResponse.fromJson(
+              jsonDecode(responseModel.result!) as Map<String, dynamic>);
+          if (response.info != null) {
+            isDataUpdated = true;
+            fetchBookmarkList();
+          }
+        } else {
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
+
+  void setCurrentImageIndex(int index, int page) {
+    currentImageIndex[index] = page;
+    currentImageIndex.refresh();
   }
 
   void increaseQty(int index) {

@@ -213,6 +213,8 @@ class ApiConstants {
   static String getTeamUserLocations =
       '$appUrl/user-location/get-team-user-locations';
   static String workZoneGetGroups = '$appUrl/work-zone/app-get-groups';
+  static String getProjectFolders = '$appUrl/project/get-folders';
+  static String projectCreateFolder = '$appUrl/project/create-folder';
 
   //address
   static String getAddress = '$appUrl/address/get';

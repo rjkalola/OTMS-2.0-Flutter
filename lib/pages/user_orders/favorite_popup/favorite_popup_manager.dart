@@ -1,7 +1,5 @@
 import 'dart:ui';
-
-import 'package:belcka/pages/project/project_info/model/project_info.dart';
-import 'package:belcka/res/colors.dart';
+import 'package:belcka/pages/user_orders/project_service/project_folder_response.dart';
 import 'package:flutter/material.dart';
 
 class FavoritePopupManager {
@@ -10,8 +8,8 @@ class FavoritePopupManager {
   static void show({
     required BuildContext context,
     required LayerLink layerLink,
-    required List<ProjectInfo> projects,
-    required Function(ProjectInfo) onProjectSelected,
+    required List<ProjectFolderInfo> folders,
+    required Function(ProjectFolderInfo) onProjectSelected,
   }) {
     hide(); // Ensure any existing popup is removed
 
@@ -50,9 +48,9 @@ class FavoritePopupManager {
               child: Material(
                 color: Colors.transparent,
                 child: _FavoritePopupContent(
-                  projects: projects,
-                  onSelected: (project) {
-                    onProjectSelected(project);
+                  folders: folders,
+                  onSelected: (folders) {
+                    onProjectSelected(folders);
                     hide();
                   },
                 ),
@@ -72,10 +70,10 @@ class FavoritePopupManager {
 }
 
 class _FavoritePopupContent extends StatelessWidget {
-  final List<ProjectInfo> projects; // Updated type
-  final Function(ProjectInfo) onSelected;
+  final List<ProjectFolderInfo> folders; // Updated type
+  final Function(ProjectFolderInfo) onSelected;
 
-  const _FavoritePopupContent({required this.projects, required this.onSelected});
+  const _FavoritePopupContent({required this.folders, required this.onSelected});
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +100,7 @@ class _FavoritePopupContent extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 // Map through the ProjectInfo list
-                children: projects.map((project) => _buildItem(project)).toList(),
+                children: folders.map((project) => _buildItem(project)).toList(),
               ),
             ),
           ),
@@ -111,11 +109,11 @@ class _FavoritePopupContent extends StatelessWidget {
     );
   }
 
-  Widget _buildItem(ProjectInfo project) {
+  Widget _buildItem(ProjectFolderInfo folder) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: InkWell(
-        onTap: () => onSelected(project),
+        onTap: () => onSelected(folder),
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           decoration: BoxDecoration(
@@ -127,11 +125,11 @@ class _FavoritePopupContent extends StatelessWidget {
           ),
           child: Row(
             children: [
-              Icon(Icons.bookmark, color: Colors.deepOrangeAccent, size: 20),
+              Icon(Icons.bookmark, color: folder.folderColor, size: 20),
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
-                  project.name ?? "",
+                  folder.name ?? "",
                   style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 14),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,

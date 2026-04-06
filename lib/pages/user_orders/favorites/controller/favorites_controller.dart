@@ -21,11 +21,6 @@ class FavoritesController extends GetxController {
     isMainViewVisible.value = true;
   }
 
-  void createNewAlbum() {
-    // Logic to open a dialog or navigate to create a new album
-    print("Create new album tapped");
-  }
-
   void onBackPress() {
     Get.back(result: isDataUpdated);
   }
