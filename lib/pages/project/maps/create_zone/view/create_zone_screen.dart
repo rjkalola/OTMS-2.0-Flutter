@@ -307,7 +307,8 @@ class _CreateZoneScreenState extends State<CreateZoneScreen> {
                             child: PrimaryBorderButton(
                               buttonText: 'cancel'.tr,
                               fontWeight: FontWeight.w400,
-                              borderColor: secondaryExtraLightTextColor_(context),
+                              borderColor:
+                                  secondaryExtraLightTextColor_(context),
                               fontColor: secondaryTextColor_(context),
                               onPressed: () => Get.back<void>(),
                             ),
@@ -388,37 +389,37 @@ class _CreateZoneScreenState extends State<CreateZoneScreen> {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                _toolIcon(
-                  context,
-                  icon: Icons.pan_tool_alt_outlined,
-                  selected: controller.drawTool.value == ZoneDrawTool.pan,
-                  onTap: () => controller.setDrawTool(ZoneDrawTool.pan),
-                ),
-                _toolIcon(
-                  context,
-                  icon: Icons.pentagon_outlined,
-                  selected: controller.drawTool.value == ZoneDrawTool.polygon,
-                  onTap: () => controller.setDrawTool(ZoneDrawTool.polygon),
-                ),
-                _toolIcon(
-                  context,
-                  icon: Icons.circle_outlined,
-                  selected: controller.drawTool.value == ZoneDrawTool.circle,
-                  onTap: () => controller.setDrawTool(ZoneDrawTool.circle),
-                ),
-                // if (controller.drawTool.value == ZoneDrawTool.polygon &&
-                //     controller.polygonPoints.isNotEmpty)
-                //   Padding(
-                //     padding: const EdgeInsets.only(left: 8),
-                //     child: Text(
-                //       '${controller.polygonPoints.length} pts',
-                //       style: TextStyle(
-                //         fontSize: 12,
-                //         color: defaultAccentColor_(context),
-                //         fontWeight: FontWeight.w600,
-                //       ),
-                //     ),
-                //   ),
+                  // _toolIcon(
+                  //   context,
+                  //   icon: Icons.pan_tool_alt_outlined,
+                  //   selected: controller.drawTool.value == ZoneDrawTool.pan,
+                  //   onTap: () => controller.setDrawTool(ZoneDrawTool.pan),
+                  // ),
+                  _toolIcon(
+                    context,
+                    icon: Icons.pentagon_outlined,
+                    selected: controller.drawTool.value == ZoneDrawTool.polygon,
+                    onTap: () => controller.setDrawTool(ZoneDrawTool.polygon),
+                  ),
+                  _toolIcon(
+                    context,
+                    icon: Icons.circle_outlined,
+                    selected: controller.drawTool.value == ZoneDrawTool.circle,
+                    onTap: () => controller.setDrawTool(ZoneDrawTool.circle),
+                  ),
+                  // if (controller.drawTool.value == ZoneDrawTool.polygon &&
+                  //     controller.polygonPoints.isNotEmpty)
+                  //   Padding(
+                  //     padding: const EdgeInsets.only(left: 8),
+                  //     child: Text(
+                  //       '${controller.polygonPoints.length} pts',
+                  //       style: TextStyle(
+                  //         fontSize: 12,
+                  //         color: defaultAccentColor_(context),
+                  //         fontWeight: FontWeight.w600,
+                  //       ),
+                  //     ),
+                  //   ),
                 ],
               ),
             ),

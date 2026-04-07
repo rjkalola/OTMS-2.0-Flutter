@@ -45,7 +45,6 @@ class _StoremanProductsListWidgetState
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 8),
-
                   Container(
                     width: double.infinity,
                     padding: const EdgeInsets.symmetric(
@@ -88,9 +87,7 @@ class _StoremanProductsListWidgetState
                       ],
                     ),
                   ),
-
                   const SizedBox(height: 8),
-
                   ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
@@ -166,6 +163,7 @@ class _StoremanProductsListWidgetState
                                               });
                                             },
                                             itemBuilder: (context, imgIndex) {
+                                              print("product.productImages length:"+product.productImages!.length.toString());
                                               return InkWell(
                                                 onTap: () {
                                                   ImageUtils.moveToImagePreview(
@@ -173,16 +171,16 @@ class _StoremanProductsListWidgetState
                                                           [],
                                                       imgIndex);
                                                 },
-                                                child: Center(
-                                                  // Centers the photo inside the container
+                                                child: SizedBox.expand(
                                                   child: Image.network(
                                                     product
                                                             .productImages?[
                                                                 imgIndex]
                                                             .thumbUrl ??
                                                         "",
-                                                    fit: BoxFit.contain,
-                                                    // Changed to contain to ensure full photo is visible and centered
+                                                    fit: BoxFit.fitWidth,
+                                                    alignment:
+                                                        Alignment.center,
                                                     errorBuilder: (context,
                                                         error, stack) {
                                                       return Center(
@@ -285,70 +283,118 @@ class _StoremanProductsListWidgetState
                                           const SizedBox(height: 4),
                                           //Favorite
                                           InkWell(
-                                            onTap: (){
-
-                                              if (projectService.folderList.isEmpty) {
-
+                                            onTap: () {
+                                              if (projectService
+                                                  .folderList.isEmpty) {
                                                 showDialog(
                                                   context: context,
                                                   barrierDismissible: true,
-                                                  builder: (BuildContext context) {
+                                                  builder:
+                                                      (BuildContext context) {
                                                     return Dialog(
-                                                      backgroundColor: Colors.transparent,
-                                                      insetPadding: const EdgeInsets.symmetric(horizontal: 40),
+                                                      backgroundColor:
+                                                          Colors.transparent,
+                                                      insetPadding:
+                                                          const EdgeInsets
+                                                              .symmetric(
+                                                              horizontal: 40),
                                                       child: Container(
-                                                        padding: const EdgeInsets.all(20),
-                                                        decoration: BoxDecoration(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(20),
+                                                        decoration:
+                                                            BoxDecoration(
                                                           color: Colors.white,
-                                                          borderRadius: BorderRadius.circular(20),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(20),
                                                           boxShadow: const [
-                                                            BoxShadow(color: Colors.black26, blurRadius: 20, offset: Offset(0, 10))
+                                                            BoxShadow(
+                                                                color: Colors
+                                                                    .black26,
+                                                                blurRadius: 20,
+                                                                offset: Offset(
+                                                                    0, 10))
                                                           ],
                                                         ),
                                                         child: AddFolderView(
                                                           folders: [],
-                                                          onCancel: () => Navigator.pop(context),
-                                                          onAdded: (folderName,projectId) async {
-                                                            Navigator.pop(context);
-                                                            final newFolder = await projectService.toggleCreateNewFolder(folderName,projectId);
+                                                          onCancel: () =>
+                                                              Navigator.pop(
+                                                                  context),
+                                                          onAdded: (folderName,
+                                                              projectId) async {
+                                                            Navigator.pop(
+                                                                context);
+                                                            final newFolder =
+                                                                await projectService
+                                                                    .toggleCreateNewFolder(
+                                                                        folderName,
+                                                                        projectId);
 
-                                                            print("New Folder ID: ${newFolder?.id ?? 0}");
+                                                            print(
+                                                                "New Folder ID: ${newFolder?.id ?? 0}");
 
-                                                            FocusManager.instance.primaryFocus?.unfocus();
-                                                            controller.toggleBookmark(index, category, newFolder?.id ?? 0);
-                                                            product.isBookMark = !(product.isBookMark ?? false);
-                                                            controller.categories.refresh();
-
-                                                            },
-
+                                                            FocusManager
+                                                                .instance
+                                                                .primaryFocus
+                                                                ?.unfocus();
+                                                            controller
+                                                                .toggleBookmark(
+                                                                    index,
+                                                                    category,
+                                                                    newFolder
+                                                                            ?.id ??
+                                                                        0);
+                                                            product.isBookMark =
+                                                                !(product
+                                                                        .isBookMark ??
+                                                                    false);
+                                                            controller
+                                                                .categories
+                                                                .refresh();
+                                                          },
                                                         ),
                                                       ),
                                                     );
                                                   },
                                                 );
-
                                               } else {
                                                 FavoritePopupManager.show(
                                                   context: context,
                                                   layerLink: _layerLink,
-                                                  folders: projectService.folderList,
+                                                  folders:
+                                                      projectService.folderList,
                                                   onProjectSelected: (folder) {
-                                                    print("Selected: ${folder.name ?? ""}");
-                                                    FocusManager.instance.primaryFocus?.unfocus();
-                                                    controller.toggleBookmark(index, category, folder.id ?? 0);
-                                                    product.isBookMark = !(product.isBookMark ?? false);
-                                                    controller.categories.refresh();
+                                                    print(
+                                                        "Selected: ${folder.name ?? ""}");
+                                                    FocusManager
+                                                        .instance.primaryFocus
+                                                        ?.unfocus();
+                                                    controller.toggleBookmark(
+                                                        index,
+                                                        category,
+                                                        folder.id ?? 0);
+                                                    product.isBookMark =
+                                                        !(product.isBookMark ??
+                                                            false);
+                                                    controller.categories
+                                                        .refresh();
                                                   },
                                                 );
                                               }
-
                                             },
                                             child: CompositedTransformTarget(
                                               link: _layerLink,
-                                              child: Icon(product.isBookMark ?? true ? Icons.bookmark : Icons.bookmark_border,
-                                                color: product.isBookMark ?? true
+                                              child: Icon(
+                                                product.isBookMark ?? true
+                                                    ? Icons.bookmark
+                                                    : Icons.bookmark_border,
+                                                color: product.isBookMark ??
+                                                        true
                                                     ? Colors.deepOrangeAccent
-                                                    : primaryTextColor_(context),
+                                                    : primaryTextColor_(
+                                                        context),
                                                 size: 20,
                                               ),
                                             ),
@@ -544,8 +590,9 @@ class _StoremanProductsListWidgetState
                                             onDecrease: () {
                                               FocusManager.instance.primaryFocus
                                                   ?.unfocus();
-                                              controller.decrementOrRemoveFromCart(
-                                                  index, category);
+                                              controller
+                                                  .decrementOrRemoveFromCart(
+                                                      index, category);
                                             },
                                           ),
                                   ],

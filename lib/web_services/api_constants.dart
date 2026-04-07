@@ -143,6 +143,12 @@ class ApiConstants {
   static String addBillingInfo = '$appUrl/user-billing/store-billing-info';
   static String updateBillingInfo = '$appUrl/user-billing/update-billing-info';
   static String getBillingInfo = '$appUrl/user-billing/get-billing-info';
+
+  // health info
+  static String getHealthIssues = '$appUrl/user-health-info/get-health-issues';
+  static String getHealthInfo = '$appUrl/user-health-info/get-health-info';
+  static String storeHealthInfo = '$appUrl/user-health-info/store-health-info';
+  static String updateHealthInfo = '$appUrl/user-health-info/update-health-info';
   static String requestsGetRequestDetail =
       '$appUrl/requests/get-request-detail';
   static String archiveAccount = '$appUrl/user/archive-account';
@@ -370,5 +376,5 @@ class ApiConstants {
   static String hireOrdersGet = '$appUrl/hire-orders/get';
   static String hireOrdersGetProducts = '$appUrl/hire-orders/get-products';
   static String hireOrdersDetail = '$appUrl/hire-orders/detail';
-  static String hireOrdersUpdateStatus = '$appUrl/hire-orders/update-stat';
+  static String hireOrdersUpdateStatus = '$appUrl/hire-orders/update-status';
 }

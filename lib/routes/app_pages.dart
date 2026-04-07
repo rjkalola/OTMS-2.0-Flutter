@@ -557,7 +557,7 @@ class AppPages {
 
     GetPage(
         name: AppRoutes.healthInfoScreen,
-        page: () => HealthInfoScreen()),
+        page: () => const HealthInfoScreen()),
 
     GetPage(
         name: AppRoutes.userCodeScreen,

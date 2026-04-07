@@ -49,13 +49,14 @@ class MenuButtonsGridWidget extends StatelessWidget {
                 Get.toNamed(AppRoutes.billingDetailsNewScreen,
                     arguments: arguments);
               } else if (info.action == AppConstants.action.healthInfo) {
-
-                /*
+                var arguments = {
+                  AppConstants.intentKey.userId:
+                      controller.userId ?? UserUtils.getLoginUserId(),
+                };
                 Get.toNamed(
                   AppRoutes.healthInfoScreen,
+                  arguments: arguments,
                 );
-                */
-
               } else if (info.action == AppConstants.action.healthSafety) {
                 Get.toNamed(
                   AppRoutes.healthAndSafetyScreen,

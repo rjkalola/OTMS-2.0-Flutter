@@ -30,6 +30,14 @@ class TradesController extends GetxController
   final companyTradesList = <TradeInfo>[].obs;
   var isDeleteOptionEnabled = false.obs, hasSelection = false.obs;
 
+  bool get hasTradesData {
+    for (final info in companyTradesList) {
+      final trades = info.trades;
+      if (trades != null && trades.isNotEmpty) return true;
+    }
+    return false;
+  }
+
   @override
   void onInit() {
     super.onInit();

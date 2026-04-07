@@ -67,7 +67,9 @@ class _UserZonesScreenState extends State<UserZonesScreen> {
                               polylines: controller.polyLines,
                               mapType: controller.mapType,
                               overlayRevision: controller.mapOverlayRevision,
-                              onTap: controller.onMapZoneTap,
+                              onTap: controller.canManageZones
+                                  ? controller.onMapZoneTap
+                                  : null,
                             ),
                           ),
                           Positioned(
@@ -308,16 +310,18 @@ class _UserZonesScreenState extends State<UserZonesScreen> {
                           onPressed: () => controller.togglePanel(),
                         ),
                       ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: PrimaryButton(
-                          height: 40,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500,
-                          buttonText: 'add_zone'.tr,
-                          onPressed: controller.onAddZonePressed,
+                      if (controller.canManageZones) ...[
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: PrimaryButton(
+                            height: 40,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                            buttonText: 'add_zone'.tr,
+                            onPressed: controller.onAddZonePressed,
+                          ),
                         ),
-                      ),
+                      ],
                     ],
                   )
                 : PrimaryBorderButton(
@@ -547,26 +551,28 @@ class _UserZonesScreenState extends State<UserZonesScreen> {
                 ],
               ),
             ),
-            IconButton(
-              visualDensity: VisualDensity.compact,
-              tooltip: 'edit'.tr,
-              icon: Icon(
-                Icons.edit_outlined,
-                size: 20,
-                color: primaryTextColor_(context),
+            if (controller.canManageZones) ...[
+              IconButton(
+                visualDensity: VisualDensity.compact,
+                tooltip: 'edit'.tr,
+                icon: Icon(
+                  Icons.edit_outlined,
+                  size: 20,
+                  color: primaryTextColor_(context),
+                ),
+                onPressed: () => controller.onEditZone(zone),
               ),
-              onPressed: () => controller.onEditZone(zone),
-            ),
-            IconButton(
-              visualDensity: VisualDensity.compact,
-              tooltip: 'delete'.tr,
-              icon: Icon(
-                Icons.delete_outline,
-                size: 20,
-                color: Theme.of(context).colorScheme.error,
+              IconButton(
+                visualDensity: VisualDensity.compact,
+                tooltip: 'delete'.tr,
+                icon: Icon(
+                  Icons.delete_outline,
+                  size: 20,
+                  color: Theme.of(context).colorScheme.error,
+                ),
+                onPressed: () => controller.onDeleteZone(zone),
               ),
-              onPressed: () => controller.onDeleteZone(zone),
-            ),
+            ],
           ],
         ),
       ),

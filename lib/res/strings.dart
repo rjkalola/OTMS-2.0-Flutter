@@ -382,6 +382,13 @@ class Strings extends Translations {
           'net_per_day': "Net Per Day",
           'billing': "Billing",
           'health_info': "Health Info",
+          'emergency_contact': "Emergency Contact",
+          'health_questions': "Questions",
+          'height_cm': "Height (cm)",
+          'weight_kg': "Weight (kg)",
+          'health_detail_note': "Detail",
+          'health_issue_detail_required':
+              "Please enter detail for each question answered with Yes.",
           'health_safety': "Health & Safety",
           'my_requests': "My Requests",
           'documents': "Documents",

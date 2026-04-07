@@ -17,6 +17,7 @@ import 'package:belcka/pages/common/listener/menu_item_listener.dart';
 import 'package:belcka/pages/project/maps/user_zones/view/widgets/user_zones_user_bottom_sheet.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/module_info.dart';
@@ -78,6 +79,9 @@ class UserZonesController extends GetxController
   void onMapCreated(GoogleMapController controller) {
     mapController = controller;
   }
+
+  /// Add / edit / delete zones and map taps that open the editor — admin only.
+  bool get canManageZones => UserUtils.isAdmin();
 
   @override
   void onInit() {
@@ -288,6 +292,7 @@ class UserZonesController extends GetxController
   /// Map tap hit-test for zones (circle / polygon / polyline). Native shape
   /// [onTap] is unreliable on some platforms; this mirrors the drawn geometry.
   void onMapZoneTap(LatLng tap) {
+    if (!canManageZones) return;
     final flat = zoneGroups
         .expand((g) => g.zones ?? <GeofenceInfo>[])
         .where((z) => zoneVisibility[z.id ?? 0] ?? true)
@@ -377,6 +382,7 @@ class UserZonesController extends GetxController
   }
 
   void onEditZone(GeofenceInfo zone) {
+    if (!canManageZones) return;
     // final pid = zone.projectId ?? 0;
     // if (pid == null || pid == 0) {
     //   AppUtils.showToastMessage('zone_project_required'.tr);
@@ -402,6 +408,7 @@ class UserZonesController extends GetxController
   // }
 
   void onDeleteZone(GeofenceInfo zone) {
+    if (!canManageZones) return;
     if (Get.context == null) return;
     _zonePendingDelete = zone;
     AlertDialogHelper.showAlertDialog(
@@ -543,6 +550,7 @@ class UserZonesController extends GetxController
   void setMapTypeSatellite() => mapType.value = MapType.satellite;
 
   void onAddZonePressed() {
+    if (!canManageZones) return;
     closePanel();
     Get.toNamed(
       AppRoutes.createZoneScreen,
@@ -667,8 +675,8 @@ class UserZonesController extends GetxController
                     BitmapDescriptor.hueAzure),
             anchor: Offset(0.5, ZoneLabelMarkerBitmap.anchorY),
             infoWindow: InfoWindow(title: zone.name ?? "Zone"),
-            consumeTapEvents: true,
-            onTap: () => onEditZone(zone),
+            consumeTapEvents: canManageZones,
+            onTap: canManageZones ? () => onEditZone(zone) : null,
           ),
         );
       }

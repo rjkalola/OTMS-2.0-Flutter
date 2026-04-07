@@ -9,6 +9,7 @@ import 'package:belcka/res/colors.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
+import 'package:belcka/widgets/other_widgets/no_data_found_widget.dart';
 import 'package:belcka/widgets/text/PrimaryTextView.dart';
 import 'package:belcka/utils/app_utils.dart';
 
@@ -64,7 +65,13 @@ class _CompanyTradesScreenState extends State<CompanyTradesScreen> {
                             children: [
                               Divider(),
                               SelectAllText(),
-                              CompanyTradeList()
+                              controller.hasTradesData
+                                  ? CompanyTradeList()
+                                  : Expanded(
+                                      child: Center(
+                                        child: NoDataFoundWidget(),
+                                      ),
+                                    ),
                             ],
                           ),
                         )),
