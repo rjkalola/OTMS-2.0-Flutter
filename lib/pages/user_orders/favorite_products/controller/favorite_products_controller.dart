@@ -126,11 +126,49 @@ class FavoriteProductsController extends GetxController{
     }
   }
 
+  void toggleAddToCart(
+      int index, int cartQuantity) {
+    isLoading.value = true;
+
+    final product = bookmarkList[index];
+    Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
+    map["product_id"] = product.productId ?? 0;
+    map["qty"] = product.qty ?? 0;
+    map["cart_qty"] = cartQuantity;
+    map["is_sub_qty"] = (product.isSubQty ?? false) ? 1 : 0;
+
+    _api.addToCartAPI(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess && responseModel.result != null) {
+          AddToCartResponse response = AddToCartResponse.fromJson(
+              jsonDecode(responseModel.result!) as Map<String, dynamic>);
+          if (response.info != null && response.info!.isNotEmpty) {
+            fetchBookmarkList();
+          }
+          isDataUpdated = true;
+        } else {
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
+
   void toggleRemoveCart(int index) {
     isLoading.value = true;
     final product = bookmarkList[index];
     Map<String, dynamic> map = {};
-    map["id"] = product.id;
+    map["id"] = product.cartId;
     _api.removeFromCartAPI(
       data: map,
       onSuccess: (ResponseModel responseModel) {
@@ -154,62 +192,25 @@ class FavoriteProductsController extends GetxController{
     );
   }
 
-  void toggleBookmark(int index, int folderId) {
+  void toggleBookmark(int index) {
     isLoading.value = true;
     final product = bookmarkList[index];
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
-    map["product_id"] = product.id;
+    map["product_id"] = product.productId;
     map["folder_id"] = folderId;
 
     _api.bookmarkAPI(
       data: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
+          isDataUpdated = true;
            fetchBookmarkList();
         }
         else{
           isLoading.value = false;
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
-      },
-      onError: (ResponseModel error) {
-        isLoading.value = false;
-        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
-          isInternetNotAvailable.value = true;
-        } else if (error.statusMessage!.isNotEmpty) {
-          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
-        }
-      },
-    );
-  }
-
-  void toggleAddToCart(
-      int index, int cartQuantity) {
-    isLoading.value = true;
-
-    final product = bookmarkList[index];
-    Map<String, dynamic> map = {};
-    map["company_id"] = ApiConstants.companyId;
-    map["product_id"] = product.id;
-    map["qty"] = product.qty;
-    map["cart_qty"] = cartQuantity;
-    map["is_sub_qty"] = (product.isSubQty ?? false) ? 1 : 0;
-
-    _api.addToCartAPI(
-      data: map,
-      onSuccess: (ResponseModel responseModel) {
-        if (responseModel.isSuccess && responseModel.result != null) {
-          AddToCartResponse response = AddToCartResponse.fromJson(
-              jsonDecode(responseModel.result!) as Map<String, dynamic>);
-          if (response.info != null && response.info!.isNotEmpty) {
-            fetchBookmarkList();
-          }
-          isDataUpdated = true;
-        } else {
-          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
-        }
-        isLoading.value = false;
       },
       onError: (ResponseModel error) {
         isLoading.value = false;
@@ -318,12 +319,14 @@ class FavoriteProductsController extends GetxController{
 
   void decrementOrRemoveFromCart(int index) {
     final product = bookmarkList[index];
-    final current = (product.cartQty ?? 0).toInt();
-    if (current <= 1) {
+    final currentQty = (product.cartQty ?? 0).toInt();
+    if (currentQty <= 1) {
       toggleRemoveCart(index);
       return;
     }
     decreaseQty(index);
+    final newQty = (bookmarkList[index].cartQty ?? 0).toInt();
+    toggleAddToCart(index, newQty);
   }
 
   void updateSubQty(int index, int count) {

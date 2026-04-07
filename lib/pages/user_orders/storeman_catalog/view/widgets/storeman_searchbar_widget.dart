@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class StoremanSearchbarWidget extends StatelessWidget {
   const StoremanSearchbarWidget({super.key});
@@ -13,7 +14,7 @@ class StoremanSearchbarWidget extends StatelessWidget {
           Expanded(
             child: TextField(
               decoration: InputDecoration(
-                hintText: "Search products...",
+                hintText: "${'search_products'.tr}...",
                 prefixIcon: const Icon(Icons.search),
                 filled: true,
                 contentPadding: const EdgeInsets.symmetric(vertical: 0),

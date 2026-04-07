@@ -72,6 +72,8 @@ class PersonalInfoSectionCard extends StatelessWidget {
                 SizedBox(height: 16),
                 UserCodeTextField(
                   controller: controller.userCodeController,
+                  isEnabled: false,
+                  isReadOnly: true,
                 ),
                 SizedBox(height: 16),
               ],

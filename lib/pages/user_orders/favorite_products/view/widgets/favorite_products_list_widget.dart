@@ -49,9 +49,6 @@ class _FavoriteProductsListWidgetState
         String availableQtyText =
             "${((product.qty ?? 0.0).toInt())}";
 
-        final projectService = Get.find<ProjectService>();
-        final LayerLink _layerLink = LayerLink();
-
         return GestureDetector(
           onTap: () {
             final currentFocus = FocusScope.of(context);
@@ -223,7 +220,7 @@ class _FavoriteProductsListWidgetState
                             InkWell(
                               onTap: (){
                                 FocusManager.instance.primaryFocus?.unfocus();
-                                controller.toggleBookmark(index, product.id ?? 0);
+                                controller.toggleBookmark(index);
                               },
                               child: Icon(product.isBookMark ?? true ? Icons.bookmark : Icons.bookmark_border,
                                 color: product.isBookMark ?? true
@@ -279,8 +276,6 @@ class _FavoriteProductsListWidgetState
                               controller.toggleRemoveCart(
                                   index);
                             } else {
-                              controller.increaseQty(
-                                  index);
                               controller.toggleAddToCart(
                                   index, 1);
                             }
@@ -295,25 +290,19 @@ class _FavoriteProductsListWidgetState
                           controller.updateSubQty(
                               index, value);
                           controller.toggleAddToCart(
-                              index, value);
+                              index, value,);
                         },
                         onIncrease: () {
-                          /*
-                          controller.increaseQty(
-                              index);
-                          final newQty = (category.products[index]
-                              .cartQty ??
-                              0)
-                              .toInt();
+                          controller.increaseQty(index);
+                          final newQty = (product.cartQty ?? 0).toInt();
                           controller.toggleAddToCart(
-                              index, newQty, category);
-                          */
+                              index, newQty);
                         },
                         onDecrease: () {
                           FocusManager.instance.primaryFocus
                               ?.unfocus();
                           controller.decrementOrRemoveFromCart(
-                              index,);
+                              index);
                         },
                       ),
                     ],

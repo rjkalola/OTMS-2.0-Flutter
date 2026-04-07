@@ -80,7 +80,7 @@ class _StoremanProductsListWidgetState
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(
-                            "${category.products.length} items",
+                            "${category.products.length} ${'items'.tr}",
                             style: TextStyle(
                                 fontSize: 11, color: Colors.grey.shade600),
                           ),
@@ -375,7 +375,7 @@ class _StoremanProductsListWidgetState
                                                 backgroundColor:
                                                     defaultAccentColor_(
                                                         context)),
-                                            child: Text('Add Set'),
+                                            child: Text('add_set'.tr),
                                           ),
                                           SizedBox(
                                             width: 8,

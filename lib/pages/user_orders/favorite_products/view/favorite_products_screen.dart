@@ -55,7 +55,7 @@ class _FavoriteProductsScreenState extends State<FavoriteProductsScreen> {
                 backgroundColor: dashBoardBgColor_(context),
                 appBar: OrdersBaseAppBar(
                   appBar: AppBar(),
-                  title: 'Products'.tr,
+                  title: 'products'.tr,
                   isCenterTitle: false,
                   isBack: true,
                   bgColor: backgroundColor_(context),
@@ -78,11 +78,12 @@ class _FavoriteProductsScreenState extends State<FavoriteProductsScreen> {
                       : controller.isMainViewVisible.value
                       ? (controller.bookmarkList.isNotEmpty) ? Column(
                     children: [
-                      SizedBox(
-                        height: 12,
-                      ),
+
                       //Product list
-                      FavoriteProductsListWidget()
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: FavoriteProductsListWidget(),
+                      )
                     ],
                   ) : EmptyStateView(
                     title: 'no_products_msg'.tr,

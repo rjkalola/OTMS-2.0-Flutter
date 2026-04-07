@@ -299,9 +299,9 @@ class _OrderDetailsHeaderViewState extends State<OrderDetailsHeaderView>{
               showDialog(
                 context: context,
                 builder: (context) => OrderStatusAlertDialog(
-                  title: 'Cancel Order ${controller.orderDetails[0].orderId ?? ""}',
-                  description: 'Please provide a reason for cancelling this order.'
-                      'This information is required for project tracking and order history',
+                  title: '${'cancel_order'.tr} ${controller.orderDetails[0].orderId ?? ""}',
+                  description: '${'provide_cancel_order_reason_title'.tr}.'
+                      '${'provide_cancel_order_reason_description'.tr}',
                   showTextField: true,
                   controller: _reasonController,
                   onConfirm: () {

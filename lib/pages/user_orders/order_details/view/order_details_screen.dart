@@ -101,8 +101,8 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                   elevation: 4,
                                   shape: const StadiumBorder(),
                                 ),
-                                child: const Text(
-                                  'Cancel',
+                                child: Text(
+                                  'cancel'.tr,
                                   style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
                                 ),
                               ),
@@ -123,9 +123,9 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                     builder: (context) =>
                                         OrderStatusAlertDialog(
                                           title:
-                                          'Confirm Order ${controller.orderDetails[0].orderId ?? ""}',
+                                          '${'confirm_order'.tr} ${controller.orderDetails[0].orderId ?? ""}',
                                           description:
-                                          "Are you sure you want to mark this order as collected?",
+                                          "collected_order_confirmation".tr,
                                           showTextField: false,
                                           confirmText: "confirm".tr,
                                           confirmColor: Colors.green,

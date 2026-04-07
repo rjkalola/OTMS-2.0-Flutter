@@ -220,6 +220,7 @@ class _BillingDetailsNewScreenState extends State<BillingDetailsNewScreen> {
                                                 child: GestureDetector(
                                                   onTap: () {
                                                     {
+                                                      /*
                                                       var arguments = {
                                                         AppConstants.intentKey
                                                             .userId:
@@ -228,13 +229,14 @@ class _BillingDetailsNewScreenState extends State<BillingDetailsNewScreen> {
                                                       controller.moveToScreen(
                                                           AppRoutes.userCodeScreen,
                                                           arguments);
+                                                      */
                                                     }
                                                   },
                                                   child: NavigationCard(
                                                     label: "user_code".tr,
                                                     value: TitleTextView(
                                                       text:controller.billingInfo.value.userCode,),
-                                                    isShowArrow: true,
+                                                    isShowArrow: false,
                                                   ),
                                                 ),
                                               ),

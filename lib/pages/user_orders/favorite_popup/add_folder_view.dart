@@ -4,6 +4,7 @@ import 'package:belcka/pages/user_orders/project_service/project_service.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -49,10 +50,10 @@ class _AddFolderViewState extends State<AddFolderView>{
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          "Create New Album",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+        TitleTextView(text: "create_new_album".tr,
+            fontWeight: FontWeight.bold, fontSize: 14
         ),
+
         const SizedBox(height: 16),
 
         // 1. PROJECT SELECTION FIELD
@@ -64,7 +65,7 @@ class _AddFolderViewState extends State<AddFolderView>{
             _showProjectPicker(context);
           },
           decoration: InputDecoration(
-            labelText: "Select Project",
+            labelText: "select_project".tr,
             labelStyle: TextStyle(color: accentColor),
             suffixIcon: Icon(Icons.keyboard_arrow_down, color: accentColor),
             filled: true,
@@ -83,7 +84,7 @@ class _AddFolderViewState extends State<AddFolderView>{
           controller: _albumController,
           autofocus: false, // Turned off so it doesn't jump past the project selection
           decoration: InputDecoration(
-            labelText: "Album Name",
+            labelText: "album_name".tr,
             labelStyle: TextStyle(color: accentColor),
             filled: true,
             fillColor: accentColor.withOpacity(0.05),
@@ -106,7 +107,7 @@ class _AddFolderViewState extends State<AddFolderView>{
           children: [
             TextButton(
               onPressed: widget.onCancel,
-              child: const Text("Cancel", style: TextStyle(color: Colors.grey)),
+              child: Text("cancel".tr, style: TextStyle(color: Colors.grey)),
             ),
             const SizedBox(width: 8),
             ElevatedButton(
@@ -121,7 +122,7 @@ class _AddFolderViewState extends State<AddFolderView>{
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               ),
-              child: const Text("Add", style: TextStyle(fontWeight: FontWeight.bold)),
+              child: Text("add".tr, style: TextStyle(fontWeight: FontWeight.bold)),
             ),
           ],
         )
@@ -159,8 +160,8 @@ class _AddFolderViewState extends State<AddFolderView>{
                 ),
               ),
               const SizedBox(height: 20),
-              const Text(
-                "Select Project",
+              Text(
+                "select_project".tr,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
               ),
               const Divider(),
@@ -186,7 +187,7 @@ class _AddFolderViewState extends State<AddFolderView>{
                         color: isSelected ? accentColor : Colors.grey,
                       ),
                       title: Text(
-                        project.name ?? "Unknown Project",
+                        project.name ?? "",
                         style: TextStyle(
                           fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                           color: isSelected ? accentColor : Colors.black87,
