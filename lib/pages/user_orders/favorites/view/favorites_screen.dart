@@ -8,6 +8,7 @@ import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
+import 'package:belcka/widgets/text/SubTitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -37,7 +38,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
             child: Scaffold(
               appBar: OrdersBaseAppBar(
                 appBar: AppBar(),
-                title: 'Favorites',
+                title: 'favorites'.tr,
                 isCenterTitle: false,
                 isBack: true,
                 bgColor: backgroundColor_(context),
@@ -176,13 +177,10 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
           padding: EdgeInsets.zero,
         ),
         icon: const Icon(Icons.add, color: Colors.grey, size: 20),
-        label: const Text(
-          'Create a new album',
-          style: TextStyle(
-            color: Colors.grey,
-            fontSize: 15,
-            fontWeight: FontWeight.w800,
-          ),
+        label: SubtitleTextView(text:
+          'create_a_new_album'.tr,
+          fontSize: 15,
+          fontWeight: FontWeight.w700,
         ),
       ),
     );

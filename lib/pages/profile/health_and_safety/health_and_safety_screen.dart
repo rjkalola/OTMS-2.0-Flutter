@@ -31,7 +31,7 @@ class _HealthAndSafetyScreenState extends State<HealthAndSafetyScreen> {
             backgroundColor: dashBoardBgColor_(context),
             appBar: OrdersBaseAppBar(
               appBar: AppBar(),
-              title: 'Health & Safety'.tr,
+              title: 'health_safety'.tr,
               isCenterTitle: false,
               isBack: true,
               bgColor: backgroundColor_(context),
@@ -46,7 +46,7 @@ class _HealthAndSafetyScreenState extends State<HealthAndSafetyScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _buildMenuButton(
-                      label: "Near Miss Reporting",
+                      label: "near_miss_reporting".tr,
                       icon: Icons.report_problem_outlined,
                       onTap: () {
                         Get.toNamed(AppRoutes.nearMissReportingScreen,);
@@ -54,13 +54,15 @@ class _HealthAndSafetyScreenState extends State<HealthAndSafetyScreen> {
                     ),
                     const SizedBox(height: 4),
                     _buildMenuButton(
-                      label: "Report Incident",
+                      label: "report_incident".tr,
                       icon: Icons.add_a_photo_outlined,
-                      onTap: () {},
+                      onTap: () {
+                        Get.toNamed(AppRoutes.reportIncidentScreen,);
+                      },
                     ),
                     const SizedBox(height: 4),
                     _buildMenuButton(
-                      label: "History",
+                      label: "history".tr,
                       icon: Icons.history_edu_outlined,
                       onTap: () {},
                     ),

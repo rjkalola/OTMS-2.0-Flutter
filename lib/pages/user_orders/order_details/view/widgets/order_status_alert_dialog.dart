@@ -1,5 +1,6 @@
 import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class OrderStatusAlertDialog extends StatefulWidget {
   final String title;
@@ -84,7 +85,7 @@ class _OrderStatusAlertDialogState extends State<OrderStatusAlertDialog> {
                 controller: widget.controller,
                 autofocus: true,
                 decoration: InputDecoration(
-                  hintText: widget.textFieldHint ?? 'Enter cancellation reason...',
+                  hintText: widget.textFieldHint ?? '${'enter_cancellation_reason'.tr}...',
                   filled: true,
                   fillColor: Colors.grey[100],
                   contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),

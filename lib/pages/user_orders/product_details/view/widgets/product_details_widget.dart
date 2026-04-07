@@ -288,7 +288,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                     style: FilledButton.styleFrom(
                                         backgroundColor:
                                             defaultAccentColor_(context)),
-                                    child: Text('Add Set'),
+                                    child: Text('add_set'.tr),
                                   ),
                                   SizedBox(
                                     width: 8,

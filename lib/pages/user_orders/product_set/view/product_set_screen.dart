@@ -37,7 +37,7 @@ class _ProductSetScreenState extends State<ProductSetScreen> {
               backgroundColor: dashBoardBgColor_(context),
               appBar: OrdersBaseAppBar(
                 appBar: AppBar(),
-                title: 'Product Set'.tr,
+                title: 'product_set'.tr,
                 isCenterTitle: false,
                 isBack: true,
                 bgColor: backgroundColor_(context),

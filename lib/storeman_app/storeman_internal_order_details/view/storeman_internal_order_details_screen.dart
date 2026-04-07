@@ -159,10 +159,10 @@ class _StoremanInternalOrderDetailsScreenState
                                             builder: (context) =>
                                                 OrderStatusAlertDialog(
                                               title:
-                                                  'Cancel Order ${controller.orderDetails[0].orderId ?? ""}',
+                                                  '${'cancel_order'.tr} ${controller.orderDetails[0].orderId ?? ""}',
                                               description:
-                                                  'Please provide a reason for cancelling this order.'
-                                                  'This information is required for project tracking and order history',
+                                                  '${'provide_cancel_order_reason_title'.tr}'
+                                                  '${'provide_cancel_order_reason_description'.tr}',
                                               showTextField: true,
                                               controller: _reasonController,
                                               onConfirm: () {
@@ -223,9 +223,8 @@ class _StoremanInternalOrderDetailsScreenState
                                       builder: (context) =>
                                           OrderStatusAlertDialog(
                                         title:
-                                            'Confirm Order ${controller.orderDetails[0].orderId ?? ""}',
-                                        description:
-                                            "Are you sure you want to mark this order as ready for Collect?",
+                                            '${'confirm_order'.tr} ${controller.orderDetails[0].orderId ?? ""}',
+                                        description: 'collect_order_confirmation'.tr,
                                         showTextField: false,
                                         confirmText: "confirm".tr,
                                         confirmColor: Colors.green,
@@ -253,9 +252,9 @@ class _StoremanInternalOrderDetailsScreenState
                                       builder: (context) =>
                                           OrderStatusAlertDialog(
                                         title:
-                                            'Confirm Order ${controller.orderDetails[0].orderId ?? ""}',
+                                            '${'confirm_order'.tr} ${controller.orderDetails[0].orderId ?? ""}',
                                         description:
-                                            "Are you sure you want to mark this order as out for delivery?",
+                                            "${'out_for_deliver_confirmation'.tr}?",
                                         showTextField: false,
                                         confirmText: "confirm".tr,
                                         confirmColor: Colors.green,
@@ -296,8 +295,8 @@ class _StoremanInternalOrderDetailsScreenState
                                             elevation: 4,
                                             shape: const StadiumBorder(),
                                           ),
-                                          child: const Text(
-                                            'Cancel',
+                                          child: Text(
+                                            'cancel'.tr,
                                             style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
                                           ),
                                         ),
@@ -318,9 +317,8 @@ class _StoremanInternalOrderDetailsScreenState
                                               builder: (context) =>
                                                   OrderStatusAlertDialog(
                                                     title:
-                                                    'Confirm Order ${controller.orderDetails[0].orderId ?? ""}',
-                                                    description:
-                                                    "Are you sure you want to mark this order as delivered?",
+                                                    '${'confirm_order'.tr} ${controller.orderDetails[0].orderId ?? ""}',
+                                                    description: 'order_delivered_confirmation'.tr,
                                                     showTextField: false,
                                                     confirmText: "confirm".tr,
                                                     confirmColor: Colors.green,
@@ -338,8 +336,8 @@ class _StoremanInternalOrderDetailsScreenState
                                             elevation: 4,
                                             shape: const StadiumBorder(),
                                           ),
-                                          child: const Text(
-                                            'Confirm',
+                                          child:  Text(
+                                            'confirm'.tr,
                                             style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
                                           ),
                                         ),

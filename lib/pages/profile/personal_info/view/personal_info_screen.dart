@@ -60,7 +60,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
               child: Scaffold(
                 appBar: BaseAppBar(
                   appBar: AppBar(),
-                  title: 'Personal Details'.tr,
+                  title: 'personal_details'.tr,
                   isCenterTitle: false,
                   bgColor: dashBoardBgColor_(context),
                   isBack: true,
