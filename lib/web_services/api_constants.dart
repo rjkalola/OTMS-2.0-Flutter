@@ -377,4 +377,9 @@ class ApiConstants {
   static String hireOrdersGetProducts = '$appUrl/hire-orders/get-products';
   static String hireOrdersDetail = '$appUrl/hire-orders/detail';
   static String hireOrdersUpdateStatus = '$appUrl/hire-orders/update-status';
+
+  //Health and Safety
+  static String nearMissReportsList = '$appUrl/near-miss-reports/get';
+  static String reportIncidentsGet = '$appUrl/report-incidents/get';
+
 }

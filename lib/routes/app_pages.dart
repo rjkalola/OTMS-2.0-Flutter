@@ -14,8 +14,10 @@ import 'package:belcka/buyer_app/stores/add_store/view/buyer_add_store_screen.da
 import 'package:belcka/buyer_app/stores/store_list/view/buyer_stores_screen.dart';
 import 'package:belcka/buyer_app/suppliers/supplier_list/view/buyer_supplier_screen.dart';
 import 'package:belcka/pages/profile/health_and_safety/health_and_safety_screen.dart';
+import 'package:belcka/pages/profile/health_and_safety/near_miss_list/near_miss_list_screen.dart';
 import 'package:belcka/pages/profile/health_and_safety/near_miss_reporting/view/near_miss_reporting_screen.dart';
 import 'package:belcka/pages/profile/health_and_safety/report_incident/view/report_incident_screen.dart';
+import 'package:belcka/pages/profile/health_and_safety/report_incidents_list/report_incidents_list_screen.dart';
 import 'package:belcka/pages/profile/health_info/view/health_info_screen.dart';
 import 'package:belcka/pages/profile/user_code/view/user_code_screen.dart';
 import 'package:belcka/pages/user_orders/favorite_products/view/favorite_products_screen.dart';
@@ -575,5 +577,13 @@ class AppPages {
     GetPage(
         name: AppRoutes.reportIncidentScreen,
         page: () => ReportIncidentScreen()),
+
+    GetPage(
+        name: AppRoutes.nearMissListScreen,
+        page: () => NearMissListScreen()),
+
+    GetPage(
+        name: AppRoutes.reportIncidentsListScreen,
+        page: () => ReportIncidentsListScreen()),
   ];
 }
