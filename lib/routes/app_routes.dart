@@ -191,4 +191,6 @@ class AppRoutes {
   static const String favoritesScreen = '/favorites_screen';
   static const String favoriteProductsScreen = '/favorite_products_screen';
   static const String reportIncidentScreen = '/report_incident_screen';
+  static const String nearMissListScreen = '/near_miss_list_screen';
+  static const String reportIncidentsListScreen = '/report_incidents_list_screen';
 }

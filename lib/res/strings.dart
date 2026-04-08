@@ -772,6 +772,8 @@ class Strings extends Translations {
           'out_for_deliver_confirmation':"Are you sure you want to mark this order as out for delivery?",
           'order_delivered_confirmation':"Are you sure you want to mark this order as delivered?",
           'personal_details':"Personal Details",
+          'hazard':"Hazard",
+
 // '': "",
 // '': "",
           // '': "",

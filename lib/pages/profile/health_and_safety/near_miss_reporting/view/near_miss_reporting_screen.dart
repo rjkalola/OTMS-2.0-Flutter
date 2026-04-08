@@ -9,10 +9,8 @@ import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cache_manager/file.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:image_picker/image_picker.dart';
 
 class NearMissReportingScreen extends StatefulWidget {
   const NearMissReportingScreen({super.key});

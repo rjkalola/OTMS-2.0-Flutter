@@ -49,7 +49,7 @@ class _HealthAndSafetyScreenState extends State<HealthAndSafetyScreen> {
                       label: "near_miss_reporting".tr,
                       icon: Icons.report_problem_outlined,
                       onTap: () {
-                        Get.toNamed(AppRoutes.nearMissReportingScreen,);
+                        Get.toNamed(AppRoutes.nearMissListScreen,);
                       },
                     ),
                     const SizedBox(height: 4),
@@ -57,14 +57,16 @@ class _HealthAndSafetyScreenState extends State<HealthAndSafetyScreen> {
                       label: "report_incident".tr,
                       icon: Icons.add_a_photo_outlined,
                       onTap: () {
-                        Get.toNamed(AppRoutes.reportIncidentScreen,);
+                        Get.toNamed(AppRoutes.reportIncidentsListScreen,);
                       },
                     ),
                     const SizedBox(height: 4),
                     _buildMenuButton(
                       label: "history".tr,
                       icon: Icons.history_edu_outlined,
-                      onTap: () {},
+                      onTap: () {
+
+                      },
                     ),
                   ],
                 ),
