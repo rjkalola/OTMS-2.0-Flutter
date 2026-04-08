@@ -3,7 +3,7 @@ import 'package:belcka/pages/project/project_list/controller/project_list_contro
 import 'package:belcka/pages/project/project_list/view/widgets/project_list_header_view.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/res/drawable.dart';
-import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/res/theme/theme_controller.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/utils/user_utils.dart';
@@ -11,6 +11,7 @@ import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
@@ -25,57 +26,62 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
   final controller = Get.put(ProjectListController());
 
   @override
+  void dispose() {
+    AppUtils.setStatusBarColor();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     AppUtils.setStatusBarColor();
-    return Container(
-      color: backgroundColor_(context),
-      child: SafeArea(
-        child: Obx(
-          () => Scaffold(
-            backgroundColor: dashBoardBgColor_(context),
-            appBar: BaseAppBar(
-              appBar: AppBar(),
-              title: "",
-              isCenterTitle: false,
-              isBack: true,
-              bgColor: backgroundColor_(context),
-              widgets: actionButtons(),
-              isSearching: controller.isSearchEnable.value,
-              searchController: controller.searchAddressController,
-              onValueChange: (value) {
-                controller.searchAddress(value);
-              },
-              autoFocus: true,
-              // isClearVisible: controller.isClearVisible,
-              onPressedClear: () {
-                controller.clearAddress();
-                controller.isSearchEnable.value =
-                    !controller.isSearchEnable.value;
-              },
-            ),
-            body: ModalProgressHUD(
-                inAsyncCall: controller.isLoading.value,
-                opacity: 0,
-                progressIndicator: const CustomProgressbar(),
-                child: controller.isInternetNotAvailable.value
-                    ? NoInternetWidget(
-                        onPressed: () {
-                          controller.isInternetNotAvailable.value = false;
-                          controller.getProjectListApi();
-                        },
-                      )
-                    : Visibility(
-                        visible: controller.isMainViewVisible.value,
-                        child: Column(
-                          children: [
-                            ProjectListHeaderView(),
-                            SizedBox(
-                              height: 14,
-                            ),
-                            AddressList()
-                          ],
+    return Obx(
+      () => Scaffold(
+        backgroundColor: dashBoardBgColor_(context),
+        appBar: BaseAppBar(
+          appBar: AppBar(),
+          title: "",
+          isCenterTitle: false,
+          isBack: true,
+          // bgColor: appBarFill,
+          // foregroundColor: appBarFg,
+          // systemOverlayStyle: systemUi,
+          widgets: actionButtons(),
+          isSearching: controller.isSearchEnable.value,
+          searchController: controller.searchAddressController,
+          onValueChange: (value) {
+            controller.searchAddress(value);
+          },
+          autoFocus: true,
+          onPressedClear: () {
+            controller.clearAddress();
+            controller.isSearchEnable.value = !controller.isSearchEnable.value;
+          },
+        ),
+        body: SafeArea(
+          top: false,
+          child: ModalProgressHUD(
+            inAsyncCall: controller.isLoading.value,
+            opacity: 0,
+            progressIndicator: const CustomProgressbar(),
+            child: controller.isInternetNotAvailable.value
+                ? NoInternetWidget(
+                    onPressed: () {
+                      controller.isInternetNotAvailable.value = false;
+                      controller.getProjectListApi();
+                    },
+                  )
+                : Visibility(
+                    visible: controller.isMainViewVisible.value,
+                    child: Column(
+                      children: [
+                        ProjectListHeaderView(),
+                        SizedBox(
+                          height: 14,
                         ),
-                      )),
+                        AddressList()
+                      ],
+                    ),
+                  ),
           ),
         ),
       ),
@@ -109,12 +115,13 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
             child: ImageUtils.setSvgAssetsImage(
                 path: Drawable.searchIcon,
                 width: 24,
-                height: 24,
-                color: primaryTextColor_(context)),
+                height: 24),
           ),
         ),
       ),
-      SizedBox(width: 6,),
+      SizedBox(
+        width: 6,
+      ),
       Visibility(
         visible: UserUtils.isAdmin(),
         child: IconButton(

@@ -38,8 +38,9 @@ class _StoremanHireProductsScreenState extends State<StoremanHireProductsScreen>
 
     return Obx(
       () => Container(
-        color: backgroundColor_(context),
+        color: dashBoardBgColor_(context),
         child: SafeArea(
+          top: false,
           child: Scaffold(
             backgroundColor: dashBoardBgColor_(context),
             appBar: BaseAppBar(

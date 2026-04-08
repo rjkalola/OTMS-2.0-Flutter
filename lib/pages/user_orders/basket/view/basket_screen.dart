@@ -34,8 +34,9 @@ class _BasketScreenState extends State<BasketScreen> {
         controller.onBackPress();
       },
       child: Container(
-        color: backgroundColor_(context),
+        color: dashBoardBgColor_(context),
         child: SafeArea(
+          top: false,
           child: Obx(
             () => GestureDetector(
               onTap: (){

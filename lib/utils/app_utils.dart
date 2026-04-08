@@ -323,7 +323,7 @@ class AppUtils {
       color = Colors.orange;
     } else if (status == AppConstants.internalOrderStatus.confirmed) {
       color = Colors.green;
-    }else if (status == AppConstants.internalOrderStatus.partialDelivered) {
+    } else if (status == AppConstants.internalOrderStatus.partialDelivered) {
       color = Colors.orange;
     }
     return color;
@@ -369,6 +369,23 @@ class AppUtils {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
+          statusBarIconBrightness:
+              isDarkMode ? Brightness.light : Brightness.dark,
+          statusBarBrightness: isDarkMode ? Brightness.dark : Brightness.light,
+          systemNavigationBarColor: dashBoardBgColor_(Get.context!),
+          // systemNavigationBarDividerColor:Colors.black,
+          systemNavigationBarIconBrightness:
+              isDarkMode ? Brightness.light : Brightness.dark),
+    );
+  }
+
+  static void setStatusBarColorWhite() {
+    ThemeController themeController = Get.find();
+    bool isDarkMode = themeController.isDarkMode;
+
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+          statusBarColor: Colors.white,
           statusBarIconBrightness:
               isDarkMode ? Brightness.light : Brightness.dark,
           statusBarBrightness: isDarkMode ? Brightness.dark : Brightness.light,
@@ -520,8 +537,8 @@ class AppUtils {
       points: listLatLng,
       strokeWidth: 2,
       strokeColor: color ?? Colors.black,
-      fillColor:
-          (color ?? Colors.black).withValues(alpha: 0.3), // new opacity API
+      fillColor: (color ?? Colors.black).withValues(alpha: 0.3),
+      // new opacity API
       onTap: onTap,
       consumeTapEvents: consumeTapEvents || onTap != null,
     );
@@ -576,5 +593,20 @@ class AppUtils {
     } else {
       return value.toString();
     }
+  }
+
+  static ShapeBorder getAppbarShape(
+      {double? topLeft,
+      double? topRight,
+      double? bottomLeft,
+      double? bottomRight}) {
+    return RoundedRectangleBorder(
+      borderRadius: BorderRadius.only(
+        topRight: Radius.circular(topRight ?? 0),
+        topLeft: Radius.circular(topLeft ?? 0),
+        bottomLeft: Radius.circular(bottomLeft ?? 20),
+        bottomRight: Radius.circular(bottomRight ?? 0),
+      ),
+    );
   }
 }

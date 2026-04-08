@@ -1,10 +1,9 @@
-import 'package:belcka/storeman_app/storeman_inventory/controller/storeman_inventory_controller.dart';
-import 'package:belcka/storeman_app/storeman_inventory/view/widgets/suppliers_card_view.dart';
-import 'package:belcka/storeman_app/storeman_inventory/view/widgets/internal_orders_card_view.dart';
-import 'package:belcka/storeman_app/storeman_inventory/view/widgets/hire_card_view.dart';
 import 'package:belcka/pages/common/listener/date_filter_listener.dart';
 import 'package:belcka/res/colors.dart';
-import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/storeman_app/storeman_inventory/controller/storeman_inventory_controller.dart';
+import 'package:belcka/storeman_app/storeman_inventory/view/widgets/hire_card_view.dart';
+import 'package:belcka/storeman_app/storeman_inventory/view/widgets/internal_orders_card_view.dart';
+import 'package:belcka/storeman_app/storeman_inventory/view/widgets/suppliers_card_view.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
@@ -15,7 +14,6 @@ import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 import '../../../pages/common/widgets/date_filter_options_horizontal_list.dart';
-import '../../../utils/app_constants.dart';
 
 class StoremanInventoryScreen extends StatefulWidget {
   const StoremanInventoryScreen({super.key});
@@ -42,6 +40,7 @@ class _StoremanInventoryScreenState extends State<StoremanInventoryScreen>
                 bgColor: backgroundColor_(context),
                 widgets: actionButtons(),
                 isBack: true,
+                shape: AppUtils.getAppbarShape(),
               ),
               backgroundColor: dashBoardBgColor_(context),
               body: ModalProgressHUD(
@@ -54,24 +53,6 @@ class _StoremanInventoryScreenState extends State<StoremanInventoryScreen>
                       )
                     : Column(
                         children: [
-                          Container(
-                            width: double.infinity,
-                            height: 14,
-                            decoration: BoxDecoration(
-                              color: backgroundColor_(context),
-                              boxShadow: [
-                                AppUtils.boxShadow(shadowColor_(context), 6)
-                              ],
-                              border: Border.all(
-                                  width: 0.6, color: Colors.transparent),
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(45),
-                                  bottomRight: Radius.circular(45)),
-                            ),
-                            child: Column(
-                              children: [],
-                            ),
-                          ),
                           Visibility(
                             visible: controller.isMainViewVisible.value,
                             child: Expanded(

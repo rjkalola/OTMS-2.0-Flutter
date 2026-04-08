@@ -25,8 +25,9 @@ class _NearMissListScreenState extends State<NearMissListScreen> {
     AppUtils.setStatusBarColor();
     return Obx(
           () => Container(
-        color: backgroundColor_(context),
+        color: dashBoardBgColor_(context),
         child: SafeArea(
+          top: false,
           child: GestureDetector(
             onTap: () {
               FocusManager.instance.primaryFocus?.unfocus();

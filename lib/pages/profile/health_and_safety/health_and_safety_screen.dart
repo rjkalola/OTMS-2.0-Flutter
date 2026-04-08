@@ -25,8 +25,9 @@ class _HealthAndSafetyScreenState extends State<HealthAndSafetyScreen> {
         onBackPress();
       },
       child: Container(
-        color: backgroundColor_(context),
+        color: dashBoardBgColor_(context),
         child: SafeArea(
+          top: false,
           child: Scaffold(
             backgroundColor: dashBoardBgColor_(context),
             appBar: OrdersBaseAppBar(

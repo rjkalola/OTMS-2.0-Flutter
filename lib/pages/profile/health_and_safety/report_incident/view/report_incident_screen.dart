@@ -36,8 +36,9 @@ class _ReportIncidentScreenState extends State<ReportIncidentScreen> {
         controller.onBackPress();
       },
       child: Container(
-        color: backgroundColor_(context),
+        color: dashBoardBgColor_(context),
         child: SafeArea(
+          top: false,
           child: Obx(
                 () => GestureDetector(
                   onTap: (){

@@ -43,8 +43,9 @@ class _UserHireProductsScreenState extends State<UserHireProductsScreen>
 
     return Obx(
       () => Container(
-        color: backgroundColor_(context),
+        color: dashBoardBgColor_(context),
         child: SafeArea(
+          top: false,
           child: Scaffold(
             backgroundColor: dashBoardBgColor_(context),
             appBar: BaseAppBar(

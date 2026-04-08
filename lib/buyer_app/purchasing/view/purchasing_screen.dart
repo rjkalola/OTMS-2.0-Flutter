@@ -31,8 +31,9 @@ class _PurchasingScreenState extends State<PurchasingScreen>
   @override
   Widget build(BuildContext context) {
     return Obx(() => Container(
-          color: backgroundColor_(context),
+          color: dashBoardBgColor_(context),
           child: SafeArea(
+            top: false,
             child: Scaffold(
               appBar: BaseAppBar(
                 appBar: AppBar(),
@@ -41,6 +42,7 @@ class _PurchasingScreenState extends State<PurchasingScreen>
                 bgColor: backgroundColor_(context),
                 widgets: actionButtons(),
                 isBack: true,
+                shape: AppUtils.getAppbarShape(),
               ),
               backgroundColor: dashBoardBgColor_(context),
               body: ModalProgressHUD(
@@ -53,24 +55,24 @@ class _PurchasingScreenState extends State<PurchasingScreen>
                       )
                     : Column(
                         children: [
-                          Container(
-                            width: double.infinity,
-                            height: 14,
-                            decoration: BoxDecoration(
-                              color: backgroundColor_(context),
-                              boxShadow: [
-                                AppUtils.boxShadow(shadowColor_(context), 6)
-                              ],
-                              border: Border.all(
-                                  width: 0.6, color: Colors.transparent),
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(45),
-                                  bottomRight: Radius.circular(45)),
-                            ),
-                            child: Column(
-                              children: [],
-                            ),
-                          ),
+                          // Container(
+                          //   width: double.infinity,
+                          //   height: 14,
+                          //   decoration: BoxDecoration(
+                          //     color: backgroundColor_(context),
+                          //     boxShadow: [
+                          //       AppUtils.boxShadow(shadowColor_(context), 6)
+                          //     ],
+                          //     border: Border.all(
+                          //         width: 0.6, color: Colors.transparent),
+                          //     borderRadius: BorderRadius.only(
+                          //         bottomLeft: Radius.circular(45),
+                          //         bottomRight: Radius.circular(45)),
+                          //   ),
+                          //   child: Column(
+                          //     children: [],
+                          //   ),
+                          // ),
                           Visibility(
                             visible: controller.isMainViewVisible.value,
                             child: Expanded(

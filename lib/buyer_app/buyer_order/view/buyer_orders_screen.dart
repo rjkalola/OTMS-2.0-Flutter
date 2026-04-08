@@ -47,8 +47,9 @@ class _BuyerOrdersScreenState extends State<BuyerOrdersScreen>
 
     return Obx(
       () => Container(
-        color: backgroundColor_(context),
+        color: dashBoardBgColor_(context),
         child: SafeArea(
+          top: false,
           child: Scaffold(
             backgroundColor: dashBoardBgColor_(context),
             appBar: BaseAppBar(

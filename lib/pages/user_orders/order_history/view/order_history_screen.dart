@@ -32,9 +32,10 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
         if (didPop || result != null) return;
         controller.onBackPress();
       },
-      child: Container(
-        color: backgroundColor_(context),
+      child: Container( 
+        color: dashBoardBgColor_(context),
         child: SafeArea(
+          top: false,
           child: Obx(
                 () => Scaffold(
               backgroundColor: dashBoardBgColor_(context),

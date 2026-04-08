@@ -45,8 +45,9 @@ class _InventoryChartsScreenState extends State<InventoryChartsScreen>
 
     return Obx(
       () => Container(
-        color: backgroundColor_(context),
+        color: dashBoardBgColor_(context),
         child: SafeArea(
+          top: false,
           child: Scaffold(
             backgroundColor: dashBoardBgColor_(context),
             appBar: BaseAppBar(

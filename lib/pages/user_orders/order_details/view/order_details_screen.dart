@@ -34,8 +34,9 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
         controller.onBackPress();
       },
       child: Container(
-        color: backgroundColor_(context),
+        color: dashBoardBgColor_(context),
         child: SafeArea(
+          top: false,
           child: Obx(
                 () => Scaffold(
               backgroundColor: dashBoardBgColor_(context),
