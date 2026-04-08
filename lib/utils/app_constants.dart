@@ -450,6 +450,7 @@ class InternalOrdersStatusType {
   final int cancelled = 7;
   final int returned = 8;
   final int confirmed = 9;
+  final int partialDelivered = 10;
 }
 
 class ProductStockStatus {
@@ -477,6 +478,7 @@ class FilterType {
   final String myRequestFilter = "MY_REQUEST_FILTER";
   final String timesheetFilter = "TIMESHEET_FILTER";
   final String buyerOrderProductsFilter = "BUYER_ORDER_PRODUCTS";
+  final String userZonesFilter = "USER_ZONES_FILTER";
 }
 
 class NotificationType {

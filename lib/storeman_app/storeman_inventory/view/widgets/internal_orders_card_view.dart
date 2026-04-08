@@ -124,15 +124,18 @@ class InternalOrdersCardView extends StatelessWidget {
                             child: Column(
                               children: [
                                 PurchasingScreenItemTextWidget(
-                                  text: 'collect'.tr,
+                                  text: 'completed'.tr,
                                 ),
                                 SizedBox(
                                   height: 2,
                                 ),
                                 PurchasingScreenItemValueWidget(
-                                    value: (controller.inventoryData.value
-                                                .internalCollect ??
-                                            0)
+                                    value: ((controller.inventoryData.value
+                                                    .internalCollect ??
+                                                0) +
+                                            (controller.inventoryData.value
+                                                    .delivered ??
+                                                0))
                                         .toString()),
                               ],
                             ),

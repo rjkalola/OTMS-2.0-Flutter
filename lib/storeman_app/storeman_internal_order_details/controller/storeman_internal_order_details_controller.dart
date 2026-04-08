@@ -1,20 +1,23 @@
 import 'dart:convert';
+import 'package:belcka/buyer_app/buyer_order_detail/model/buyer_order_detail_deliver_response.dart';
 import 'package:belcka/pages/common/model/file_info.dart';
 import 'package:belcka/pages/user_orders/order_details/model/order_details_info.dart';
 import 'package:belcka/pages/user_orders/order_details/model/order_details_orders_info.dart';
 import 'package:belcka/pages/user_orders/order_details/model/order_details_response.dart';
 import 'package:belcka/storeman_app/storeman_internal_order_details/controller/storeman_internal_order_details_repository.dart';
+import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/multipart/form_data.dart' as multi hide FormData;
+import 'package:get/get_connect/http/src/multipart/form_data.dart' as multi
+    hide FormData;
 import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart' as multi;
 
-class StoremanInternalOrderDetailsController extends GetxController{
+class StoremanInternalOrderDetailsController extends GetxController {
   RxBool isDeliverySelected = true.obs;
   final _api = StoremanInternalOrderDetailsRepository();
   RxBool isLoading = false.obs,
@@ -27,6 +30,7 @@ class StoremanInternalOrderDetailsController extends GetxController{
   RxList<OrderDetailsInfo> orderDetails = <OrderDetailsInfo>[].obs;
   List<OrderDetailsInfo> tempList = [];
   String orderId = "";
+  int currentChangedStatus = 0;
   bool canShowActionButtons = false;
   RxInt status = 0.obs;
   List<FocusNode> qtyFocusNodes = [];
@@ -56,6 +60,7 @@ class StoremanInternalOrderDetailsController extends GetxController{
     }
     fetchOrderDetails();
   }
+
   void fetchOrderDetails() {
     isLoading.value = true;
     Map<String, dynamic> map = {};
@@ -67,7 +72,7 @@ class StoremanInternalOrderDetailsController extends GetxController{
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           OrderDetailsResponse response =
-          OrderDetailsResponse.fromJson(jsonDecode(responseModel.result!));
+              OrderDetailsResponse.fromJson(jsonDecode(responseModel.result!));
 
           tempList.clear();
           tempList.addAll(response.info ?? []);
@@ -75,17 +80,15 @@ class StoremanInternalOrderDetailsController extends GetxController{
           orderDetails.value = tempList;
           orderDetails.refresh();
 
-          if (orderDetails.isNotEmpty){
+          if (orderDetails.isNotEmpty) {
             orderInfo.value = orderDetails[0];
             status.value = orderDetails[0].status ?? 0;
             initFocusNodes(orderDetails[0].orders?.length ?? 0);
             isMainViewVisible.value = true;
           }
 
-
           isLoading.value = false;
-        }
-        else{
+        } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
           isLoading.value = false;
         }
@@ -102,7 +105,15 @@ class StoremanInternalOrderDetailsController extends GetxController{
   }
 
   void onBackPress() {
-    Get.back(result: isDataUpdated);
+    if (isDataUpdated) {
+      var arguments = {
+        AppConstants.intentKey.status: currentChangedStatus,
+      };
+      Get.back(result: arguments);
+    } else {
+      Get.back();
+    }
+    // Get.back(result: isDataUpdated);
   }
 
   /*
@@ -173,7 +184,7 @@ class StoremanInternalOrderDetailsController extends GetxController{
     map["id"] = orderId;
     map["status"] = status;
 
-    if (status == 7) {
+    if (status == AppConstants.internalOrderStatus.cancelled) {
       map["note"] = note;
     }
 
@@ -188,7 +199,8 @@ class StoremanInternalOrderDetailsController extends GetxController{
     });
 
     if (missingRequiredNotes) {
-      AppUtils.showToastMessage("Please add a note for items with quantity changes".tr);
+      AppUtils.showToastMessage(
+          "Please add a note for items with quantity changes".tr);
       return;
     }
 
@@ -207,7 +219,6 @@ class StoremanInternalOrderDetailsController extends GetxController{
       for (FilesInfo filesInfo in productInfo.attachments ?? []) {
         if (!StringHelper.isEmptyString(filesInfo.imageUrl) &&
             !filesInfo.imageUrl!.startsWith("http")) {
-
           print("product_data[$i][images][]" + (filesInfo.imageUrl ?? ""));
 
           formData.files.add(
@@ -224,7 +235,17 @@ class StoremanInternalOrderDetailsController extends GetxController{
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           isDataUpdated = true;
-          fetchOrderDetails();
+          BuyerOrderDetailDeliverResponse response =
+              BuyerOrderDetailDeliverResponse.fromJson(
+                  jsonDecode(responseModel.result!));
+          AppUtils.showApiResponseMessage(response.message ?? "");
+          currentChangedStatus = response.status ?? 0;
+          var arguments = {
+            AppConstants.intentKey.status: currentChangedStatus,
+          };
+          Get.back(result: arguments);
+          print("status:" + currentChangedStatus.toString());
+          // fetchOrderDetails();
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
@@ -234,12 +255,12 @@ class StoremanInternalOrderDetailsController extends GetxController{
         isLoading.value = false;
         if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
           isInternetNotAvailable.value = true;
-        } else if (error.statusMessage != null && error.statusMessage!.isNotEmpty) {
+        } else if (error.statusMessage != null &&
+            error.statusMessage!.isNotEmpty) {
           AppUtils.showSnackBarMessage(error.statusMessage!);
         }
       },
     );
-
   }
 
   void updateSubQty(int index, int count) {
@@ -254,7 +275,8 @@ class StoremanInternalOrderDetailsController extends GetxController{
   void increaseQty(int index) {
     final orders = orderDetails[0].orders ?? [];
     final order = orders[index];
-    double userQty = ((double.tryParse(order.remainingQty ?? "") ?? 0.00).toInt()) + 1;
+    double userQty =
+        ((double.tryParse(order.remainingQty ?? "") ?? 0.00).toInt()) + 1;
     order.remainingQty = "$userQty";
     order.isQuantityChanged = true;
   }
@@ -267,20 +289,21 @@ class StoremanInternalOrderDetailsController extends GetxController{
     order.remainingQty = "${userQty - 1}";
     order.isQuantityChanged = true;
   }
-  int getSelectedItemsCount(){
+
+  int getSelectedItemsCount() {
     final orders = orderDetails[0].orders ?? [];
     return orders.where((item) => item.isSelected == true).length;
   }
+
   int getTotalQuantity() {
     int total = 0;
     final orders = orderDetails[0].orders ?? [];
-    if (orders.isNotEmpty){
-      for (var item in orders){
-        if (item.isSubQty ?? false){
-          total += (double.tryParse(item.subQty ?? "") ?? 0.0).toInt() ;
-        }
-        else{
-          total += (double.tryParse(item.qty ?? "") ?? 0.0).toInt() ;
+    if (orders.isNotEmpty) {
+      for (var item in orders) {
+        if (item.isSubQty ?? false) {
+          total += (double.tryParse(item.subQty ?? "") ?? 0.0).toInt();
+        } else {
+          total += (double.tryParse(item.qty ?? "") ?? 0.0).toInt();
         }
       }
     }

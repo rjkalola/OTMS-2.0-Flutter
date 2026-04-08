@@ -28,7 +28,7 @@ class StoremanInternalOrderController extends GetxController {
   final ordersList = <OrderInfo>[].obs;
   List<OrderInfo> tempOrdersList = [];
 
-  RxInt newCount = 0.obs, 
+  RxInt newCount = 0.obs,
       preparingCount = 0.obs,
       readyCount = 0.obs,
       collectedCount = 0.obs;
@@ -85,8 +85,13 @@ class StoremanInternalOrderController extends GetxController {
           tempOrdersList = response.info ?? [];
           ordersList.assignAll(tempOrdersList);
 
-          updateTabCount(response.newOrders ?? 0, response.preparing ?? 0,
-              response.ready ?? 0, response.collected ?? 0);
+          updateTabCount(
+              response.newOrders ?? 0,
+              response.preparing ?? 0,
+              response.ready ?? 0,
+              response.partialDelivered ?? 0,
+              response.collected ?? 0,
+              response.delivered ?? 0);
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
@@ -112,16 +117,18 @@ class StoremanInternalOrderController extends GetxController {
     } else if (selectedTab.value == InternalOrderStatus.ready) {
       status = AppConstants.internalOrderStatus.ready.toString();
     } else if (selectedTab.value == InternalOrderStatus.collected) {
-      status = AppConstants.internalOrderStatus.collected.toString();
+      status =
+          "${AppConstants.internalOrderStatus.collected},${AppConstants.internalOrderStatus.delivered}";
     }
     return status;
   }
 
-  void updateTabCount(int new_, int preparing, int ready, int collected) {
+  void updateTabCount(
+      int new_, int preparing, int ready, int partialDelivered, int collected, int delivered) {
     newCount.value = new_;
     preparingCount.value = preparing;
-    readyCount.value = ready;
-    collectedCount.value = collected;
+    readyCount.value = ready+partialDelivered;
+    collectedCount.value = collected + delivered;
   }
 
   void searchItem(String value) {
@@ -159,8 +166,28 @@ class StoremanInternalOrderController extends GetxController {
   Future<void> moveToScreen(
       {required String appRout, dynamic arguments}) async {
     var result = await Get.toNamed(appRout, arguments: arguments);
-    if (result != null && true) {
+
+    if (result != null) {
+      var arguments = result;
+      if (arguments != null) {
+        int status = arguments[AppConstants.intentKey.status] ?? 0;
+        if (status == AppConstants.internalOrderStatus.newOrder) {
+          selectedTab.value = InternalOrderStatus.newOrders;
+        } else if (status == AppConstants.internalOrderStatus.preparing) {
+          selectedTab.value = InternalOrderStatus.preparing;
+        } else if (status == AppConstants.internalOrderStatus.ready ||
+            status == AppConstants.internalOrderStatus.partialDelivered) {
+          selectedTab.value = InternalOrderStatus.ready;
+        } else if (status == AppConstants.internalOrderStatus.delivered ||
+            status == AppConstants.internalOrderStatus.collected) {
+          selectedTab.value = InternalOrderStatus.collected;
+        }
+      }
       loadData();
     }
+
+    // if (result != null && true) {
+    //   loadData();
+    // }
   }
 }

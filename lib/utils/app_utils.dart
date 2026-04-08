@@ -323,6 +323,8 @@ class AppUtils {
       color = Colors.orange;
     } else if (status == AppConstants.internalOrderStatus.confirmed) {
       color = Colors.green;
+    }else if (status == AppConstants.internalOrderStatus.partialDelivered) {
+      color = Colors.orange;
     }
     return color;
   }

@@ -14,8 +14,11 @@ import 'package:belcka/pages/project/maps/user_zones/utils/zone_label_marker_bit
 import 'package:belcka/pages/common/menu_items_list_bottom_dialog.dart';
 import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:belcka/pages/common/listener/menu_item_listener.dart';
+import 'package:belcka/pages/common/listener/select_date_listener.dart';
+import 'package:belcka/pages/common/listener/select_time_listener.dart';
 import 'package:belcka/pages/project/maps/user_zones/view/widgets/user_zones_user_bottom_sheet.dart';
 import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/date_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
@@ -29,14 +32,18 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class UserZonesController extends GetxController
-    implements MenuItemListener, DialogButtonClickListener {
+    implements
+        MenuItemListener,
+        DialogButtonClickListener,
+        SelectDateListener,
+        SelectTimeListener {
   final _api = UserZonesRepository();
   final locationService = LocationServiceNew();
- 
+
   RxBool isLoading = false.obs,
       isMainViewVisible = false.obs,
-      isInternetNotAvailable = false.obs, 
-      isPanelOpen = false.obs,  
+      isInternetNotAvailable = false.obs,
+      isPanelOpen = false.obs,
       isZonesPanel = false.obs,
       isPanelScrimVisible = false.obs;
 
@@ -70,6 +77,20 @@ class UserZonesController extends GetxController
 
   GeofenceInfo? _zonePendingDelete;
 
+  /// Filter screen selections (query keys/values for zone APIs — extend when backend is ready).
+  Map<String, String> appliedFilters = {};
+  final filterItemsList = <ModuleInfo>[].obs;
+
+  /// Map filter: `datetime` query value formatted `dd/MM/yyyy HH:mm` (e.g. 11/04/2026 11:18).
+  DateTime? zoneFilterDateTime;
+  DateTime? _pendingZoneFilterDate;
+  static const String _zoneFilterDateId = 'USER_ZONE_FILTER_DATE';
+  static const String _zoneFilterTimeId = 'USER_ZONE_FILTER_TIME';
+
+  /// Purchasing-style range line; when only one moment is selected, [displayEndDate] matches [displayStartDate].
+  final displayStartDate = ''.obs;
+  final displayEndDate = ''.obs;
+
   // Timer? _refreshTimer;
   Timer? _panelScrimTimer;
 
@@ -93,9 +114,22 @@ class UserZonesController extends GetxController
     // });
   }
 
+  Map<String, dynamic> _buildQueryParams() {
+    final query = <String, dynamic>{
+      'company_id': ApiConstants.companyId,
+    };
+    for (final e in appliedFilters.entries) {
+      final v = e.value.trim();
+      if (v.isNotEmpty) {
+        query[e.key] = v;
+      }
+    }
+    return query;
+  }
+
   void loadData() {
     isLoading.value = true;
-    final query = {"company_id": ApiConstants.companyId};
+    final query = _buildQueryParams();
     _api.getTeamUserLocations(
       queryParameters: query,
       onSuccess: (response) {
@@ -114,7 +148,7 @@ class UserZonesController extends GetxController
   }
 
   void refreshLocationsSilently() {
-    final query = {"company_id": ApiConstants.companyId};
+    final query = _buildQueryParams();
     _api.getTeamUserLocations(
       queryParameters: query,
       onSuccess: (response) {
@@ -391,7 +425,7 @@ class UserZonesController extends GetxController
     closePanel();
     Get.toNamed(
       AppRoutes.createZoneScreen,
-      arguments: <String, dynamic>{ 'zone': zone},
+      arguments: <String, dynamic>{'zone': zone},
     )?.then((dynamic result) {
       if (result == true) loadData();
     });
@@ -438,8 +472,7 @@ class UserZonesController extends GetxController
         if (rm.isSuccess) {
           if (!StringHelper.isEmptyString(rm.result) && rm.result != 'null') {
             try {
-              final response =
-                  BaseResponse.fromJson(jsonDecode(rm.result!));
+              final response = BaseResponse.fromJson(jsonDecode(rm.result!));
               AppUtils.showApiResponseMessage(response.Message ?? '');
             } catch (_) {
               AppUtils.showApiResponseMessage(rm.statusMessage ?? '');
@@ -543,6 +576,133 @@ class UserZonesController extends GetxController
     isZonesPanel.value = true;
     openPanel();
     filterGroups(searchController.value.text);
+  }
+
+  Future<void> moveToFilterScreen() async {
+    final arguments = {
+      AppConstants.intentKey.filterType:
+          AppConstants.filterType.userZonesFilter,
+      AppConstants.intentKey.filterData: appliedFilters,
+    };
+    final result =
+        await Get.toNamed(AppRoutes.filterScreen, arguments: arguments);
+    if (result is Map) {
+      appliedFilters = {};
+      for (final e in result.entries) {
+        appliedFilters[e.key.toString()] = e.value?.toString() ?? '';
+      }
+      _syncZoneFilterDisplayFromApplied();
+      setFilterItems();
+      loadData();
+    }
+  }
+
+  void _syncZoneFilterDisplayFromApplied() {
+    final dtStr = appliedFilters['datetime']?.trim() ?? '';
+    if (dtStr.isEmpty) {
+      displayStartDate.value = '';
+      displayEndDate.value = '';
+      zoneFilterDateTime = null;
+      return;
+    }
+    displayStartDate.value = dtStr;
+    displayEndDate.value = dtStr;
+    zoneFilterDateTime =
+        DateUtil.stringToDate(dtStr, DateUtil.DD_MM_YYYY_TIME_24_SLASH);
+  }
+
+  void setFilterItems() {
+    filterItemsList.clear();
+    for (final entry in appliedFilters.entries) {
+      final key = entry.key;
+      final value = entry.value;
+      if (value.trim().isEmpty) continue;
+      final info = ModuleInfo();
+      info.name = StringHelper.capitalizeFirstLetter(_formatFilterLabel(key));
+      info.value = value;
+      final list = value.split(',');
+      info.count = list.length;
+      filterItemsList.add(info);
+    }
+    if (filterItemsList.isNotEmpty) {
+      filterItemsList.insert(
+        0,
+        ModuleInfo(name: 'reset'.tr, action: AppConstants.action.reset),
+      );
+    }
+    filterItemsList.refresh();
+  }
+
+  String _formatFilterLabel(String input) {
+    return input
+        .split('_')
+        .map((word) => word.isNotEmpty
+            ? word[0].toUpperCase() + word.substring(1).toLowerCase()
+            : '')
+        .join(' ');
+  }
+
+  /// Purchasing-style `"start - end"`; when both match, [zoneDateTimeDisplayLine] shows a single value.
+  String get zoneDateTimeDisplayLine {
+    final a = displayStartDate.value;
+    final b = displayEndDate.value;
+    if (a.isEmpty) return '';
+    if (a == b) return a;
+    return '$a - $b';
+  }
+
+  void openZoneDateTimeFilter() {
+    final now = zoneFilterDateTime ?? DateTime.now();
+    DateUtil.showDatePickerDialog(
+      initialDate: now,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+      dialogIdentifier: _zoneFilterDateId,
+      selectDateListener: this,
+    );
+  }
+
+  @override
+  void onSelectDate(DateTime date, String dialogIdentifier) {
+    if (dialogIdentifier != _zoneFilterDateId) return;
+    _pendingZoneFilterDate = DateTime(date.year, date.month, date.day);
+    final base = zoneFilterDateTime ?? DateTime.now();
+    final combined = DateTime(
+      _pendingZoneFilterDate!.year,
+      _pendingZoneFilterDate!.month,
+      _pendingZoneFilterDate!.day,
+      base.hour,
+      base.minute,
+    );
+    DateUtil.showTimePickerDialog(
+      initialTime: combined,
+      dialogIdentifier: _zoneFilterTimeId,
+      selectTimeListener: this,
+    );
+  }
+
+  @override
+  void onSelectTime(DateTime time, String dialogIdentifier) {
+    if (dialogIdentifier != _zoneFilterTimeId) return;
+    final d = _pendingZoneFilterDate;
+    if (d == null) return;
+    final dt = DateTime(d.year, d.month, d.day, time.hour, time.minute);
+    zoneFilterDateTime = dt;
+    final s = DateUtil.dateToString(dt, DateUtil.DD_MM_YYYY_TIME_24_SLASH);
+    appliedFilters['datetime'] = s;
+    _syncZoneFilterDisplayFromApplied();
+    setFilterItems();
+    loadData();
+  }
+
+  void clearFilter() {
+    appliedFilters.clear();
+    zoneFilterDateTime = null;
+    _pendingZoneFilterDate = null;
+    displayStartDate.value = '';
+    displayEndDate.value = '';
+    setFilterItems();
+    loadData();
   }
 
   void setMapTypeNormal() => mapType.value = MapType.normal;

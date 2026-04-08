@@ -555,4 +555,11 @@ class UserHireProductController extends GetxController
       loadData();
     }
   }
+
+  moveToScreen(String path, dynamic arguments) async {
+    var result = await Get.toNamed(path, arguments: arguments);
+    if (result != null && result) {
+      loadData();
+    }
+  }
 }

@@ -13,78 +13,77 @@ class BuyerOrderTabs extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() => Padding(
           padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            physics: const BouncingScrollPhysics(),
-            clipBehavior: Clip.none,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+          child: SizedBox(
+            width: double.infinity,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              physics: const BouncingScrollPhysics(),
+              clipBehavior: Clip.none,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                 HeaderFilterItem(
                   title: 'request'.tr,
                   selected:
                       (controller.selectedTab.value == OrderTabType.request),
                   count: controller.requestCount,
                   useFlexible: false,
-                  fixedWidth: 108,
                   onTap: () {
                     controller.selectedTab.value = OrderTabType.request;
                     controller.loadData();
                   },
                 ),
-                SizedBox(width: 8),
+                SizedBox(width: 6),
                 HeaderFilterItem(
                   title: 'upcoming'.tr,
                   selected:
                       (controller.selectedTab.value == OrderTabType.upcoming),
                   count: controller.upcomingCount,
                   useFlexible: false,
-                  fixedWidth: 108,
                   onTap: () {
                     controller.selectedTab.value = OrderTabType.upcoming;
                     controller.loadData();
                   },
                 ),
-                SizedBox(width: 8),
+                SizedBox(width: 6),
                 HeaderFilterItem(
                   title: 'processing'.tr,
                   selected:
                       (controller.selectedTab.value == OrderTabType.proceed),
                   count: controller.proceedCount,
                   useFlexible: false,
-                  fixedWidth: 108,
                   onTap: () {
                     controller.selectedTab.value = OrderTabType.proceed;
                     controller.loadData();
                   },
                 ),
-                SizedBox(width: 8),
+                SizedBox(width: 6),
                 HeaderFilterItem(
                   title: 'delivered'.tr,
                   selected:
                       (controller.selectedTab.value == OrderTabType.delivered),
                   count: controller.deliveredCount,
                   useFlexible: false,
-                  fixedWidth: 108,
                   onTap: () {
                     controller.selectedTab.value = OrderTabType.delivered;
                     controller.loadData();
                   },
                 ),
-                SizedBox(width: 8),
+                SizedBox(width: 6),
                 HeaderFilterItem(
                   title: 'cancelled'.tr,
                   selected:
                       (controller.selectedTab.value == OrderTabType.cancelled),
                   count: controller.cancelledCount,
                   useFlexible: false,
-                  fixedWidth: 108,
                   onTap: () {
                     controller.selectedTab.value = OrderTabType.cancelled;
                     controller.loadData();
                   },
                 ),
               ],
+            ),
             ),
           ),
         ));

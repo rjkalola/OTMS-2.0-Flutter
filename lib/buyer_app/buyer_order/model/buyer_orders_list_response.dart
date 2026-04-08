@@ -39,7 +39,7 @@ class BuyerOrdersListResponse {
     upcoming = json['upcoming'];
     processing = json['processing'];
     delivered = json['delivered'];
-    partialDelivered = json['partial_delivered'];
+    partialDelivered = json['partially_delivered'];
     cancelled = json['cancelled'];
     newOrders = json['new'];
     preparing = json['preparing'];

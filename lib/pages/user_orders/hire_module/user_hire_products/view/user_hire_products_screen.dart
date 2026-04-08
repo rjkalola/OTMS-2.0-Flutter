@@ -1,10 +1,9 @@
 import 'package:belcka/pages/common/listener/date_filter_listener.dart';
-import 'package:belcka/pages/common/widgets/date_filter_options_horizontal_list.dart';
-import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
 import 'package:belcka/pages/user_orders/hire_module/user_hire_products/controller/user_hire_product_controller.dart';
 import 'package:belcka/pages/user_orders/hire_module/user_hire_products/view/widgets/hire_order_status_list.dart';
 import 'package:belcka/pages/user_orders/hire_module/user_hire_products/view/widgets/user_hire_product_list.dart';
 import 'package:belcka/pages/user_orders/hire_module/user_hire_products/view/widgets/user_hire_product_tabs.dart';
+import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/res/drawable.dart';
 import 'package:belcka/utils/app_utils.dart';
@@ -13,9 +12,7 @@ import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
-import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
-import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -127,34 +124,38 @@ class _UserHireProductsScreenState extends State<UserHireProductsScreen>
                             },
                           ),
                         ),
-                        controller.selectedTab.value ==
-                                HireUserProductStatus.available
-                            ? PrimaryButton(
-                                margin: EdgeInsets.all(14),
-                                buttonText: 'confirm'.tr,
-                                onPressed: () {
-                                  var list = <ProductInfo>[];
-                                  for (var item in controller.productsList) {
-                                    if (item.isCheck ?? false) {
-                                      list.add(item);
-                                    }
-                                  }
-                                  if (list.isNotEmpty) {
-                                    var arguments = {
-                                      AppConstants.intentKey.productsData: list,
-                                    };
-                                    controller.moveToCreateOrderScreen(
-                                        appRout:
-                                            AppRoutes.createHireOrderScreen,
-                                        arguments: arguments);
-                                  } else {
-                                    AppUtils.showToastMessage(
-                                        'msg_select_at_least_one_item'.tr);
-                                  }
-                                },
-                                color: defaultAccentColor_(context),
-                              )
-                            : Container()
+                        Obx(() {
+                          final _ = controller.listUiTick.value;
+                          final onAvailableTab = controller.selectedTab.value ==
+                              HireUserProductStatus.available;
+                          final hasSelection = controller.productsList
+                              .any((e) => e.isCheck == true);
+                          if (!onAvailableTab || !hasSelection) {
+                            return const SizedBox.shrink();
+                          }
+                          return PrimaryButton(
+                            margin: EdgeInsets.all(14),
+                            buttonText: 'confirm'.tr,
+                            onPressed: () {
+                              var list = <ProductInfo>[];
+                              for (var item in controller.productsList) {
+                                if (item.isCheck ?? false) {
+                                  list.add(item);
+                                }
+                              }
+                              if (list.isNotEmpty) {
+                                var arguments = {
+                                  AppConstants.intentKey.productsData: list,
+                                };
+                                controller.moveToCreateOrderScreen(
+                                    appRout:
+                                        AppRoutes.createHireOrderScreen,
+                                    arguments: arguments);
+                              }
+                            },
+                            color: defaultAccentColor_(context),
+                          );
+                        }),
                       ],
                     ),
             ),

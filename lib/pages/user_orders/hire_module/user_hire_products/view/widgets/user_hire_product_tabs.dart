@@ -14,10 +14,16 @@ class UserHireProductTabs extends StatelessWidget {
     return Obx(
       () => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
+        child: SizedBox(
+          width: double.infinity,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            physics: const BouncingScrollPhysics(),
+            clipBehavior: Clip.none,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
               HeaderFilterItem(
                 title: 'available'.tr,
                 selected: controller.selectedTab.value ==
@@ -30,7 +36,7 @@ class UserHireProductTabs extends StatelessWidget {
                   controller.loadData();
                 },
               ),
-              const SizedBox(width: 4),
+              const SizedBox(width: 6),
               HeaderFilterItem(
                 title: 'request'.tr,
                 selected: controller.selectedTab.value ==
@@ -42,7 +48,7 @@ class UserHireProductTabs extends StatelessWidget {
                   controller.loadData();
                 },
               ),
-              const SizedBox(width: 4),
+              const SizedBox(width: 6),
               HeaderFilterItem(
                 title: 'hired'.tr,
                 selected:
@@ -54,7 +60,7 @@ class UserHireProductTabs extends StatelessWidget {
                   controller.loadData();
                 },
               ),
-              const SizedBox(width: 4),
+              const SizedBox(width: 6),
               HeaderFilterItem(
                 title: 'in_service'.tr,
                 selected: controller.selectedTab.value ==
@@ -68,6 +74,7 @@ class UserHireProductTabs extends StatelessWidget {
                 },
               ),
             ],
+            ),
           ),
         ),
       ),

@@ -1,14 +1,19 @@
+import 'package:belcka/pages/user_orders/hire_module/create_hire_order/controller/create_hire_order_controller.dart';
 import 'package:belcka/pages/user_orders/hire_module/user_hire_products/view/widgets/user_hire_product_list_item.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
+import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/widgets/other_widgets/no_data_found_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CreateHireOrderProductList extends StatelessWidget {
+  final controller = Get.put(CreateHireOrderController());
+
   final List<ProductInfo> products;
   final bool shrinkWrap;
   final ScrollPhysics? physics;
 
-  const CreateHireOrderProductList({
+  CreateHireOrderProductList({
     super.key,
     required this.products,
     this.shrinkWrap = false,
@@ -33,6 +38,11 @@ class CreateHireOrderProductList extends StatelessWidget {
                   isCartButtonVisible: false,
                   onListItem: () {
                     // Handle item click
+                  },
+                  onProductImageItem: () {
+                    var arguments = {"product_id": item.productId};
+                    controller.moveToScreen(
+                        AppRoutes.productDetailsScreen, arguments);
                   },
                 );
               },

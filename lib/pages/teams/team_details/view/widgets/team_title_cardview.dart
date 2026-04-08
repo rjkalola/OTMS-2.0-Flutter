@@ -26,7 +26,11 @@ class TeamTitleCardView extends StatelessWidget {
           borderRadius: 20,
           child: GestureDetector(
             onTap: () {
-              AppUtils.onClickUserAvatar(controller.teamInfo.value.supervisorId ?? 0);
+              if (!(controller.teamInfo.value.isSubcontractor ?? false)) {
+                AppUtils.onClickUserAvatar(controller.teamInfo.value.supervisorId ?? 0);
+              }else{
+                AppUtils.showToastMessage('user_not_exist_message'.tr);
+              }
             },
             child: Container(
               padding: EdgeInsets.fromLTRB(14, 12, 10, 12),

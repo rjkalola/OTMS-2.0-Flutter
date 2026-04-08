@@ -16,13 +16,14 @@ import 'package:get/get.dart';
 class UserHireProductListItem extends StatelessWidget {
   final ProductInfo item;
   final VoidCallback onListItem;
+  final VoidCallback onProductImageItem;
   final bool isCartButtonVisible;
-
 
   UserHireProductListItem({
     super.key,
     required this.item,
     required this.onListItem,
+    required this.onProductImageItem,
     required this.isCartButtonVisible
   });
 
@@ -44,12 +45,16 @@ class UserHireProductListItem extends StatelessWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ImageUtils.setRectangleCornerCachedNetworkImage(
-                      url: item.thumbUrl ?? '',
-                      width: 80,
-                      height: 80,
-                      borderRadius: 4,
-                      fit: BoxFit.contain,
+                    GestureDetector(
+                      child: ImageUtils.setRectangleCornerCachedNetworkImage(
+                        url: item.thumbUrl ?? '',
+                        width: 80,
+                        height: 80,
+                        borderRadius: 4,
+                        fit: BoxFit.contain,
+                      ),
+
+                      onTap: onProductImageItem,
                     ),
                     const SizedBox(width: 12),
                     Expanded(

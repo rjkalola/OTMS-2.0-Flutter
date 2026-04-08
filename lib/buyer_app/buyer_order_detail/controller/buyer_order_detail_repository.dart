@@ -3,7 +3,6 @@ import 'package:belcka/web_services/network/api_request.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:dio/dio.dart' as multi;
 
-/// Same API surface as [StoremanOrderDetailsRepository] (storeman flow).
 class BuyerOrderDetailRepository {
   void orderDetails({
     Map<String, dynamic>? queryParameters,

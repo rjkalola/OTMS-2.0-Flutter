@@ -13,74 +13,72 @@ class StoremanSupplierOrderTabs extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() => Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            physics: const BouncingScrollPhysics(),
-            clipBehavior: Clip.none,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+          child: SizedBox(
+            width: double.infinity,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              physics: const BouncingScrollPhysics(),
+              clipBehavior: Clip.none,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                 HeaderFilterItem(
                   title: 'all'.tr,
                   selected: (controller.selectedTab.value ==
                       SupplierOrderStatus.all),
                   count: controller.allCount,
                   useFlexible: false,
-                  fixedWidth: 100,
                   onTap: () {
                     controller.selectedTab.value = SupplierOrderStatus.all;
                     controller.loadData();
                   },
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: 6),
                 HeaderFilterItem(
                   title: 'upcoming'.tr,
                   selected: (controller.selectedTab.value ==
                       SupplierOrderStatus.upcoming),
                   count: controller.upcomingCount,
                   useFlexible: false,
-                  fixedWidth: 100,
                   onTap: () {
                     controller.selectedTab.value =
                         SupplierOrderStatus.upcoming;
                     controller.loadData();
                   },
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: 6),
                 HeaderFilterItem(
                   title: 'processing'.tr,
                   selected: (controller.selectedTab.value ==
                       SupplierOrderStatus.processing),
                   count: controller.processingCount,
                   useFlexible: false,
-                  fixedWidth: 100,
                   onTap: () {
                     controller.selectedTab.value =
                         SupplierOrderStatus.processing;
                     controller.loadData();
                   },
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: 6),
                 HeaderFilterItem(
                   title: 'in_stock'.tr,
                   selected: (controller.selectedTab.value ==
                       SupplierOrderStatus.onStock),
                   count: controller.onStockCount,
                   useFlexible: false,
-                  fixedWidth: 100,
                   onTap: () {
                     controller.selectedTab.value = SupplierOrderStatus.onStock;
                     controller.loadData();
                   },
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: 6),
                 HeaderFilterItem(
                   title: 'cancelled'.tr,
                   selected: (controller.selectedTab.value ==
                       SupplierOrderStatus.cancelled),
                   count: controller.cancelledCount,
                   useFlexible: false,
-                  fixedWidth: 100,
                   onTap: () {
                     controller.selectedTab.value =
                         SupplierOrderStatus.cancelled;
@@ -88,6 +86,7 @@ class StoremanSupplierOrderTabs extends StatelessWidget {
                   },
                 ),
               ],
+            ),
             ),
           ),
         ));

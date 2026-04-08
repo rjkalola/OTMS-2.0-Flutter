@@ -12,53 +12,67 @@ class StoremanInternalOrderTabs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() => Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: Row(
-            children: [
-              HeaderFilterItem(
-                title: 'new'.tr,
-                selected: (controller.selectedTab.value == InternalOrderStatus.newOrders),
-                count: controller.newCount,
-                flex: 1,
-                onTap: () {
-                  controller.selectedTab.value = InternalOrderStatus.newOrders;
-                  controller.loadData();
-                },
-              ),
-              const SizedBox(width: 4),
-              HeaderFilterItem(
-                title: 'preparing'.tr,
-                selected: (controller.selectedTab.value == InternalOrderStatus.preparing),
-                count: controller.preparingCount,
-                flex: 1,
-                onTap: () {
-                  controller.selectedTab.value = InternalOrderStatus.preparing;
-                  controller.loadData();
-                },
-              ),
-              const SizedBox(width: 4),
-              HeaderFilterItem(
-                title: 'ready'.tr,
-                selected: (controller.selectedTab.value == InternalOrderStatus.ready),
-                count: controller.readyCount,
-                flex: 1,
-                onTap: () {
-                  controller.selectedTab.value = InternalOrderStatus.ready;
-                  controller.loadData();
-                },
-              ),
-              const SizedBox(width: 4),
-              HeaderFilterItem(
-                title: 'collected'.tr,
-                selected: (controller.selectedTab.value == InternalOrderStatus.collected),
-                count: controller.collectedCount,
-                flex: 1,
-                onTap: () {
-                  controller.selectedTab.value = InternalOrderStatus.collected;
-                  controller.loadData();
-                },
-              ),
-            ],
+          padding: const EdgeInsets.symmetric(horizontal: 14),
+          child: SizedBox(
+            width: double.infinity,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              physics: const BouncingScrollPhysics(),
+              clipBehavior: Clip.none,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                HeaderFilterItem(
+                  title: 'new'.tr,
+                  useFlexible: false,
+                  selected: (controller.selectedTab.value == InternalOrderStatus.newOrders),
+                  count: controller.newCount,
+                  flex: 1,
+                  onTap: () {
+                    controller.selectedTab.value = InternalOrderStatus.newOrders;
+                    controller.loadData();
+                  },
+                ),
+                const SizedBox(width: 6),
+                HeaderFilterItem(
+                  title: 'preparing'.tr,
+                  useFlexible: false,
+                  selected: (controller.selectedTab.value == InternalOrderStatus.preparing),
+                  count: controller.preparingCount,
+                  flex: 1,
+                  onTap: () {
+                    controller.selectedTab.value = InternalOrderStatus.preparing;
+                    controller.loadData();
+                  },
+                ),
+                const SizedBox(width: 6),
+                HeaderFilterItem(
+                  title: 'ready'.tr,
+                  useFlexible: false,
+                  selected: (controller.selectedTab.value == InternalOrderStatus.ready),
+                  count: controller.readyCount,
+                  flex: 1,
+                  onTap: () {
+                    controller.selectedTab.value = InternalOrderStatus.ready;
+                    controller.loadData();
+                  },
+                ),
+                const SizedBox(width: 6),
+                HeaderFilterItem(
+                  title: 'completed'.tr,
+                  useFlexible: false,
+                  selected: (controller.selectedTab.value == InternalOrderStatus.collected),
+                  count: controller.collectedCount,
+                  flex: 1,
+                  onTap: () {
+                    controller.selectedTab.value = InternalOrderStatus.collected;
+                    controller.loadData();
+                  },
+                ),
+              ],
+            ),
+            ),
           ),
         ));
   }

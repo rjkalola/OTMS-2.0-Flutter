@@ -125,6 +125,8 @@ class FilterController extends GetxController {
       url = ApiConstants.getTimesheetFilters;
     } else if (filterType == AppConstants.filterType.buyerOrderProductsFilter) {
       url = ApiConstants.buyerOrderProductsFilters;
+    } else if (filterType == AppConstants.filterType.userZonesFilter) {
+      url = ApiConstants.getUserZonesFilters;
     }
     Map<String, dynamic> map = {};
     isLoading.value = true;

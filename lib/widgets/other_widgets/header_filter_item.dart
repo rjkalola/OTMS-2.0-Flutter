@@ -15,7 +15,6 @@ class HeaderFilterItem extends StatelessWidget {
   final double? fontSize;
   final GestureTapCallback? onTap;
   final bool useFlexible;
-  final double? fixedWidth;
 
   HeaderFilterItem({
     super.key,
@@ -28,13 +27,13 @@ class HeaderFilterItem extends StatelessWidget {
     this.fontSize,
     required this.onTap,
     this.useFlexible = true,
-    this.fixedWidth,
   });
 
   @override
   Widget build(BuildContext context) {
     final stack = Stack(
       clipBehavior: Clip.none,
+      alignment: Alignment.topRight,
       children: [
         CardViewDashboardItem(
             borderColor:
@@ -46,7 +45,8 @@ class HeaderFilterItem extends StatelessWidget {
               onTap: onTap,
               child: Container(
                 color: Colors.transparent,
-                padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
                 alignment: Alignment.center,
                 child: TitleTextView(
                   text: title,
@@ -61,12 +61,9 @@ class HeaderFilterItem extends StatelessWidget {
           Obx(
             () => Visibility(
               visible: count!.value != 0,
-              child: Align(
-                alignment: Alignment.topRight,
-                child: CustomBadgeIcon(
-                  count: count!.value,
-                  color: Colors.red,
-                ),
+              child: CustomBadgeIcon(
+                count: count!.value,
+                color: Colors.red,
               ),
             ),
           ),
@@ -80,9 +77,6 @@ class HeaderFilterItem extends StatelessWidget {
       );
     }
 
-    return SizedBox(
-      width: fixedWidth ?? 104,
-      child: stack,
-    );
+    return stack;
   }
 }

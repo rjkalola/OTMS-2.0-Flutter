@@ -19,6 +19,9 @@ class StoremanInventoryResponse {
   int? hireDamaged;
   int? hireCanceled;
   int? hireAvailable;
+  int? canceled;
+  int? partiallyDelivered;
+  int? delivered;
 
   StoremanInventoryResponse(
       {this.isSuccess,
@@ -40,7 +43,10 @@ class StoremanInventoryResponse {
       this.hireServiced,
       this.hireDamaged,
       this.hireCanceled,
-      this.hireAvailable});
+      this.hireAvailable,
+      this.canceled,
+      this.partiallyDelivered,
+      this.delivered});
 
   StoremanInventoryResponse.fromJson(Map<String, dynamic> json) {
     isSuccess = json['IsSuccess'];
@@ -63,6 +69,9 @@ class StoremanInventoryResponse {
     hireDamaged = _parseInt(json['hire_damaged']);
     hireCanceled = _parseInt(json['hire_canceled']);
     hireAvailable = _parseInt(json['hire_available']);
+    canceled = _parseInt(json['canceled']);
+    partiallyDelivered = _parseInt(json['partially_delivered']);
+    delivered = _parseInt(json['delivered']);
   }
 
   static int? _parseInt(dynamic v) {
@@ -94,6 +103,9 @@ class StoremanInventoryResponse {
     data['hire_damaged'] = this.hireDamaged;
     data['hire_canceled'] = this.hireCanceled;
     data['hire_available'] = this.hireAvailable;
+    data['canceled'] = this.canceled;
+    data['partially_delivered'] = this.partiallyDelivered;
+    data['delivered'] = this.delivered;
     return data;
   }
 }
