@@ -1,5 +1,4 @@
 import 'package:belcka/pages/project/maps/user_zones/controller/user_zones_controller.dart';
-import 'package:belcka/pages/project/maps/user_zones/view/widgets/user_zones_filter_chips.dart';
 import 'package:belcka/pages/project/maps/user_zones/model/user_location_models.dart';
 import 'package:belcka/pages/project/maps/user_zones/model/zone_group_models.dart';
 import 'package:belcka/pages/project/project_info/model/geofence_info.dart';
@@ -12,11 +11,11 @@ import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/PrimaryBorderButton.dart';
 import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
-import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
 import 'package:belcka/widgets/map_view/custom_map_view.dart';
 import 'package:belcka/widgets/other_widgets/user_avtar_view.dart';
 import 'package:belcka/widgets/text/PrimaryTextView.dart';
+import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:belcka/widgets/textfield/search_text_field_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -78,30 +77,6 @@ class _UserZonesScreenState extends State<UserZonesScreen> {
                             top: 0,
                             child: headerView(context),
                           ),
-                          Obx(
-                            () => Positioned(
-                              top: 120.0 +
-                                  (controller.filterItemsList.isNotEmpty
-                                      ? 42.0
-                                      : 0.0),
-                              right: 10,
-                              child: Column(
-                                children: [
-                                  _roundIconButton(
-                                    context,
-                                    icon: Icons.refresh,
-                                    onTap: controller.loadData,
-                                  ),
-                                  const SizedBox(height: 8),
-                                  _roundIconButton(
-                                    context,
-                                    icon: Icons.my_location,
-                                    onTap: controller.moveToCurrentLocation,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
                           _sidePanelScrim(context),
                           _sidePanel(context),
                         ],
@@ -158,19 +133,19 @@ class _UserZonesScreenState extends State<UserZonesScreen> {
                 },
               ),
               const Spacer(),
-              // InkWell(
-              //   onTap: () => controller.moveToFilterScreen(),
-              //   borderRadius: BorderRadius.circular(45),
-              //   child: Padding(
-              //     padding: const EdgeInsets.all(6),
-              //     child: ImageUtils.setSvgAssetsImage(
-              //       path: Drawable.filterIcon,
-              //       width: 26,
-              //       height: 26,
-              //       color: primaryTextColor_(context),
-              //     ),
-              //   ),
-              // ),
+              InkWell(
+                onTap: () => controller.moveToFilterScreen(),
+                borderRadius: BorderRadius.circular(45),
+                child: Padding(
+                  padding: const EdgeInsets.all(6),
+                  child: ImageUtils.setSvgAssetsImage(
+                    path: Drawable.filterIcon,
+                    width: 26,
+                    height: 26,
+                    color: primaryTextColor_(context),
+                  ),
+                ),
+              ),
               const SizedBox(width: 4),
               _countChip(
                 context,
@@ -200,24 +175,24 @@ class _UserZonesScreenState extends State<UserZonesScreen> {
             ],
           ),
         ),
-        // InkWell(
-        //   onTap: () => controller.openZoneDateTimeFilter(),
-        //   borderRadius: BorderRadius.circular(4),
-        //   child: CardViewDashboardItem(
-        //     padding: const EdgeInsets.all(6),
-        //     margin: const EdgeInsets.all(9),
-        //     borderRadius: 8,
-        //     child: Obx(() {
-        //       controller.displayStartDate.value;
-        //       controller.displayEndDate.value;
-        //       final line = controller.zoneDateTimeDisplayLine;
-        //       return TitleTextView(
-        //         textAlign: TextAlign.center,
-        //         text: line.isEmpty ? 'select_date'.tr : line,
-        //       );
-        //     }),
-        //   ),
-        // ),
+        InkWell(
+          onTap: () => controller.openZoneDateTimeFilter(),
+          borderRadius: BorderRadius.circular(4),
+          child: CardViewDashboardItem(
+            padding: const EdgeInsets.all(6),
+            margin: const EdgeInsets.all(9),
+            borderRadius: 8,
+            child: Obx(() {
+              controller.displayStartDate.value;
+              controller.displayEndDate.value;
+              final line = controller.zoneDateTimeDisplayLine;
+              return TitleTextView(
+                textAlign: TextAlign.center,
+                text: line.isEmpty ? 'select_date'.tr : line,
+              );
+            }),
+          ),
+        ),
         // const UserZonesFilterChips(),
       ],
     );

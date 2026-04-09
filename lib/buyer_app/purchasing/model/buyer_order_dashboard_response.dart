@@ -18,6 +18,13 @@ class BuyerOrderDashboardResponse {
   int? receivedOrders;
   int? partiallyDeliveredOrders;
   int? cancelledOrders;
+  int? hireAll;
+  int? hireRequested;
+  int? hireHired;
+  int? hireServiced;
+  int? hireDamaged;
+  int? hireCanceled;
+  int? hireAvailable;
   List<Inventory>? inventory;
   String? startDate, endDate;
 
@@ -39,6 +46,13 @@ class BuyerOrderDashboardResponse {
       this.receivedOrders,
       this.partiallyDeliveredOrders,
       this.cancelledOrders,
+      this.hireAll,
+      this.hireRequested,
+      this.hireHired,
+      this.hireServiced,
+      this.hireDamaged,
+      this.hireCanceled,
+      this.hireAvailable,
       this.inventory,
       this.startDate,
       this.endDate});
@@ -61,6 +75,13 @@ class BuyerOrderDashboardResponse {
     receivedOrders = json['received_orders'];
     partiallyDeliveredOrders = json['partially_delivered_orders'];
     cancelledOrders = json['cancelled_orders'];
+    hireAll = json['hire_all'];
+    hireRequested = json['hire_requested'];
+    hireHired = json['hire_hired'];
+    hireServiced = json['hire_serviced'];
+    hireDamaged = json['hire_damaged'];
+    hireCanceled = json['hire_canceled'];
+    hireAvailable = json['hire_available'];
     if (json['inventory'] != null) {
       inventory = <Inventory>[];
       json['inventory'].forEach((v) {
@@ -90,6 +111,13 @@ class BuyerOrderDashboardResponse {
     data['received_orders'] = this.receivedOrders;
     data['partially_delivered_orders'] = this.partiallyDeliveredOrders;
     data['cancelled_orders'] = this.cancelledOrders;
+    data['hire_all'] = this.hireAll;
+    data['hire_requested'] = this.hireRequested;
+    data['hire_hired'] = this.hireHired;
+    data['hire_serviced'] = this.hireServiced;
+    data['hire_damaged'] = this.hireDamaged;
+    data['hire_canceled'] = this.hireCanceled;
+    data['hire_available'] = this.hireAvailable;
     if (this.inventory != null) {
       data['inventory'] = this.inventory!.map((v) => v.toJson()).toList();
     }

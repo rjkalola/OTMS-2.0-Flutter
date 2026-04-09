@@ -198,234 +198,241 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                             ),
                             SizedBox(width: 8,),
                             //Favorite
-                            InkWell(
-                              onTap: (){
-                                if (projectService.folderList.isEmpty) {
-                                  showDialog(
-                                    context: context,
-                                    barrierDismissible: true,
-                                    builder: (BuildContext context) {
-                                      return Dialog(
-                                        backgroundColor: Colors.transparent,
-                                        insetPadding: const EdgeInsets.symmetric(horizontal: 40),
-                                        child: Container(
-                                          padding: const EdgeInsets.all(20),
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.circular(20),
-                                            boxShadow: const [
-                                              BoxShadow(color: Colors.black26, blurRadius: 20, offset: Offset(0, 10))
-                                            ],
+                            Visibility(
+                              visible: !controller.isReadOnly.value,
+                              child: InkWell(
+                                onTap: (){
+                                  if (projectService.folderList.isEmpty) {
+                                    showDialog(
+                                      context: context,
+                                      barrierDismissible: true,
+                                      builder: (BuildContext context) {
+                                        return Dialog(
+                                          backgroundColor: Colors.transparent,
+                                          insetPadding: const EdgeInsets.symmetric(horizontal: 40),
+                                          child: Container(
+                                            padding: const EdgeInsets.all(20),
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.circular(20),
+                                              boxShadow: const [
+                                                BoxShadow(color: Colors.black26, blurRadius: 20, offset: Offset(0, 10))
+                                              ],
+                                            ),
+                                            child: AddFolderView(
+                                              folders: [],
+                                              onCancel: () => Navigator.pop(context),
+                                              onAdded: (folderName,projectId) async {
+                                                Navigator.pop(context);
+                                                final newFolder = await projectService.toggleCreateNewFolder(folderName,projectId);
+
+                                                print("New Folder ID: ${newFolder?.id ?? 0}");
+
+                                                FocusManager.instance.primaryFocus?.unfocus();
+                                                controller.toggleBookmark(newFolder?.id ?? 0);
+                                                controller.product.value.isBookMark =
+                                                !(controller.product.value.isBookMark ??
+                                                    false);
+                                                controller.product.refresh();
+
+                                              },
+
+                                            ),
                                           ),
-                                          child: AddFolderView(
-                                            folders: [],
-                                            onCancel: () => Navigator.pop(context),
-                                            onAdded: (folderName,projectId) async {
-                                              Navigator.pop(context);
-                                              final newFolder = await projectService.toggleCreateNewFolder(folderName,projectId);
+                                        );
+                                      },
+                                    );
+                                  }
+                                  else{
+                                    FavoritePopupManager.show(
+                                      context: context,
+                                      layerLink: _layerLink,
+                                      folders: projectService.folderList,
+                                      onProjectSelected: (project) {
+                                        print("Selected: ${project.name ?? ""}");
+                                        FocusManager.instance.primaryFocus?.unfocus();
+                                        controller.toggleBookmark(project.id ?? 0);
+                                        controller.product.value.isBookMark =
+                                        !(controller.product.value.isBookMark ??
+                                            false);
+                                        controller.product.refresh();
+                                      },
+                                    );
+                                  }
 
-                                              print("New Folder ID: ${newFolder?.id ?? 0}");
-
-                                              FocusManager.instance.primaryFocus?.unfocus();
-                                              controller.toggleBookmark(newFolder?.id ?? 0);
-                                              controller.product.value.isBookMark =
-                                              !(controller.product.value.isBookMark ??
-                                                  false);
-                                              controller.product.refresh();
-
-                                            },
-
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  );
-                                }
-                                else{
-                                  FavoritePopupManager.show(
-                                    context: context,
-                                    layerLink: _layerLink,
-                                    folders: projectService.folderList,
-                                    onProjectSelected: (project) {
-                                      print("Selected: ${project.name ?? ""}");
-                                      FocusManager.instance.primaryFocus?.unfocus();
-                                      controller.toggleBookmark(project.id ?? 0);
-                                      controller.product.value.isBookMark =
-                                      !(controller.product.value.isBookMark ??
-                                          false);
-                                      controller.product.refresh();
-                                    },
-                                  );
-                                }
-
-                              },
-                              child: CompositedTransformTarget(
-                                link: _layerLink,
-                                child: Icon(product.isBookMark ?? true ? Icons.bookmark : Icons.bookmark_border,
-                                  color: product.isBookMark ?? true
-                                      ? Colors.deepOrangeAccent
-                                      : primaryTextColor_(context),
-                                  size: 20,
+                                },
+                                child: CompositedTransformTarget(
+                                  link: _layerLink,
+                                  child: Icon(product.isBookMark ?? true ? Icons.bookmark : Icons.bookmark_border,
+                                    color: product.isBookMark ?? true
+                                        ? Colors.deepOrangeAccent
+                                        : primaryTextColor_(context),
+                                    size: 20,
+                                  ),
                                 ),
                               ),
                             )
 
                           ],
                         ),
+                        SizedBox(height: 8,),
                         Divider(
                           color: dividerColor_(context),
                         ),
-                        Row(
-                          children: [
-                            if (isInSet)
-                              Row(
-                                children: [
-                                  FilledButton(
-                                    onPressed: () {
-                                      controller.fetchProductsSet(
-                                          product.productId ?? 0);
-                                    },
-                                    style: FilledButton.styleFrom(
-                                        backgroundColor:
-                                            defaultAccentColor_(context)),
-                                    child: Text('add_set'.tr),
-                                  ),
-                                  SizedBox(
-                                    width: 8,
-                                  )
-                                ],
-                              ),
+                        Visibility(
+                          visible: !controller.isReadOnly.value,
+                          child: Row(
+                            children: [
+                              if (isInSet)
+                                Row(
+                                  children: [
+                                    FilledButton(
+                                      onPressed: () {
+                                        controller.fetchProductsSet(
+                                            product.productId ?? 0);
+                                      },
+                                      style: FilledButton.styleFrom(
+                                          backgroundColor:
+                                              defaultAccentColor_(context)),
+                                      child: Text('add_set'.tr),
+                                    ),
+                                    SizedBox(
+                                      width: 8,
+                                    )
+                                  ],
+                                ),
 
-                            // if (isAdded) ...[
-                            //   ProductQuantityChangeWidget(
-                            //     focusNode: product.qtyFocusNode,
-                            //     isSubQuantity: isSubQuantity,
-                            //     quantity: (product.cartQty ?? 0).toInt(),
-                            //     unit: packOfUnit,
-                            //     onChanged: (value) {
-                            //       controller.updateSubQty(value);
-                            //       controller.toggleAddToCart(value);
-                            //     },
-                            //     onIncrease: () {
-                            //       controller.increaseQty();
-                            //     },
-                            //     onDecrease: () {
-                            //       controller.decrementOrRemoveFromCart();
-                            //     },
-                            //   ),
-                            //   const SizedBox(width: 8),
-                            // ],
-                            Spacer(),
+                              // if (isAdded) ...[
+                              //   ProductQuantityChangeWidget(
+                              //     focusNode: product.qtyFocusNode,
+                              //     isSubQuantity: isSubQuantity,
+                              //     quantity: (product.cartQty ?? 0).toInt(),
+                              //     unit: packOfUnit,
+                              //     onChanged: (value) {
+                              //       controller.updateSubQty(value);
+                              //       controller.toggleAddToCart(value);
+                              //     },
+                              //     onIncrease: () {
+                              //       controller.increaseQty();
+                              //     },
+                              //     onDecrease: () {
+                              //       controller.decrementOrRemoveFromCart();
+                              //     },
+                              //   ),
+                              //   const SizedBox(width: 8),
+                              // ],
+                              Spacer(),
 
-                            // if (isAdded)
-                            //   GestureDetector(
-                            //     onTap: (){
-                            //       FocusManager.instance.primaryFocus?.unfocus();
-                            //       controller.toggleRemoveCart();
-                            //     },
-                            //     child: Container(
-                            //       padding: const EdgeInsets.all(6),
-                            //       decoration: BoxDecoration(
-                            //         color: Colors.redAccent.shade200,
-                            //         borderRadius: BorderRadius.circular(6),
-                            //       ),
-                            //       child: ImageUtils.setSvgAssetsImage(
-                            //         path: Drawable.deleteIcon,
-                            //         width: 18,
-                            //         height: 18,
-                            //         color: Colors.white,
-                            //       ),
-                            //     ),
-                            //   ),
+                              // if (isAdded)
+                              //   GestureDetector(
+                              //     onTap: (){
+                              //       FocusManager.instance.primaryFocus?.unfocus();
+                              //       controller.toggleRemoveCart();
+                              //     },
+                              //     child: Container(
+                              //       padding: const EdgeInsets.all(6),
+                              //       decoration: BoxDecoration(
+                              //         color: Colors.redAccent.shade200,
+                              //         borderRadius: BorderRadius.circular(6),
+                              //       ),
+                              //       child: ImageUtils.setSvgAssetsImage(
+                              //         path: Drawable.deleteIcon,
+                              //         width: 18,
+                              //         height: 18,
+                              //         color: Colors.white,
+                              //       ),
+                              //     ),
+                              //   ),
 
-                            // if (!isAdded)
-                            // ElevatedButton.icon(
-                            //   style: ElevatedButton.styleFrom(
-                            //     minimumSize: const Size(0, 34),
-                            //     backgroundColor: isAdded
-                            //         ? Colors.redAccent.shade200
-                            //         : Colors.green,
-                            //     foregroundColor: Colors.white,
-                            //     shape: RoundedRectangleBorder(
-                            //       borderRadius: BorderRadius.circular(10),
-                            //     ),
-                            //     padding: const EdgeInsets.symmetric(
-                            //         vertical: 0, horizontal: 12),
-                            //   ),
-                            //   onPressed: () {
-                            //     FocusManager.instance.primaryFocus?.unfocus();
-                            //     if (isAdded) {
-                            //       controller.toggleRemoveCart();
-                            //     } else {
-                            //       if ((product.cartQty ?? 0) > 0) {
-                            //         controller.toggleAddToCart(
-                            //             (product.cartQty ?? 0).toInt());
-                            //       } else {
-                            //         controller.increaseQty();
-                            //       }
-                            //     }
-                            //   },
-                            //   icon: isAdded
-                            //       ? ImageUtils.setSvgAssetsImage(
-                            //           path: Drawable.deleteIcon,
-                            //           width: 18,
-                            //           height: 18,
-                            //           color: Colors.white,
-                            //         )
-                            //       : CartIconWidget(
-                            //           color: Colors.white,
-                            //           size: 16,
-                            //         ),
-                            //   label: Text(
-                            //     isAdded ? "remove".tr : "add_to_cart".tr,
-                            //     style: const TextStyle(
-                            //       color: Colors.white,
-                            //       fontWeight: FontWeight.w400,
-                            //       fontSize: 14,
-                            //     ),
-                            //   ),
-                            // ),
+                              // if (!isAdded)
+                              // ElevatedButton.icon(
+                              //   style: ElevatedButton.styleFrom(
+                              //     minimumSize: const Size(0, 34),
+                              //     backgroundColor: isAdded
+                              //         ? Colors.redAccent.shade200
+                              //         : Colors.green,
+                              //     foregroundColor: Colors.white,
+                              //     shape: RoundedRectangleBorder(
+                              //       borderRadius: BorderRadius.circular(10),
+                              //     ),
+                              //     padding: const EdgeInsets.symmetric(
+                              //         vertical: 0, horizontal: 12),
+                              //   ),
+                              //   onPressed: () {
+                              //     FocusManager.instance.primaryFocus?.unfocus();
+                              //     if (isAdded) {
+                              //       controller.toggleRemoveCart();
+                              //     } else {
+                              //       if ((product.cartQty ?? 0) > 0) {
+                              //         controller.toggleAddToCart(
+                              //             (product.cartQty ?? 0).toInt());
+                              //       } else {
+                              //         controller.increaseQty();
+                              //       }
+                              //     }
+                              //   },
+                              //   icon: isAdded
+                              //       ? ImageUtils.setSvgAssetsImage(
+                              //           path: Drawable.deleteIcon,
+                              //           width: 18,
+                              //           height: 18,
+                              //           color: Colors.white,
+                              //         )
+                              //       : CartIconWidget(
+                              //           color: Colors.white,
+                              //           size: 16,
+                              //         ),
+                              //   label: Text(
+                              //     isAdded ? "remove".tr : "add_to_cart".tr,
+                              //     style: const TextStyle(
+                              //       color: Colors.white,
+                              //       fontWeight: FontWeight.w400,
+                              //       fontSize: 14,
+                              //     ),
+                              //   ),
+                              // ),
 
-                            !isAdded
-                                ? PrimaryButton(
-                                    isFixSize: true,
-                                    width: 140,
-                                    height: 34,
-                                    fontSize: 13,
-                                    color: Colors.green,
-                                    fontWeight: FontWeight.w400,
-                                    buttonText: "add_to_cart".tr,
-                                    onPressed: () {
-                                      FocusManager.instance.primaryFocus
-                                          ?.unfocus();
-                                      if (isAdded) {
-                                        controller.toggleRemoveCart();
-                                      } else {
-                                        if ((product.cartQty ?? 0) > 0) {
-                                          controller.toggleAddToCart(
-                                              (product.cartQty ?? 0).toInt());
+                              !isAdded
+                                  ? PrimaryButton(
+                                      isFixSize: true,
+                                      width: 140,
+                                      height: 34,
+                                      fontSize: 13,
+                                      color: Colors.green,
+                                      fontWeight: FontWeight.w400,
+                                      buttonText: "add_to_cart".tr,
+                                      onPressed: () {
+                                        FocusManager.instance.primaryFocus
+                                            ?.unfocus();
+                                        if (isAdded) {
+                                          controller.toggleRemoveCart();
                                         } else {
-                                          controller.increaseQty();
+                                          if ((product.cartQty ?? 0) > 0) {
+                                            controller.toggleAddToCart(
+                                                (product.cartQty ?? 0).toInt());
+                                          } else {
+                                            controller.increaseQty();
+                                          }
                                         }
-                                      }
-                                    })
-                                : ProductQuantityChangeWidget(
-                                    focusNode: product.qtyFocusNode,
-                                    isSubQuantity: isSubQuantity,
-                                    quantity: (product.cartQty ?? 0).toInt(),
-                                    unit: packOfUnit,
-                                    onChanged: (value) {
-                                      controller.updateSubQty(value);
-                                      controller.toggleAddToCart(value);
-                                    },
-                                    onIncrease: () {
-                                      controller.increaseQty();
-                                    },
-                                    onDecrease: () {
-                                      controller.decrementOrRemoveFromCart();
-                                    },
-                                  ),
-                          ],
+                                      })
+                                  : ProductQuantityChangeWidget(
+                                      focusNode: product.qtyFocusNode,
+                                      isSubQuantity: isSubQuantity,
+                                      quantity: (product.cartQty ?? 0).toInt(),
+                                      unit: packOfUnit,
+                                      onChanged: (value) {
+                                        controller.updateSubQty(value);
+                                        controller.toggleAddToCart(value);
+                                      },
+                                      onIncrease: () {
+                                        controller.increaseQty();
+                                      },
+                                      onDecrease: () {
+                                        controller.decrementOrRemoveFromCart();
+                                      },
+                                    ),
+                            ],
+                          ),
                         ),
                         SizedBox(
                           height: 8,

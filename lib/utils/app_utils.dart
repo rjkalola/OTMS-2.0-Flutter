@@ -362,7 +362,7 @@ class AppUtils {
     return color;
   }
 
-  static void setStatusBarColor() {
+  static void setStatusBarColor({Color? bottomNavigationBarColor}) {
     ThemeController themeController = Get.find();
     bool isDarkMode = themeController.isDarkMode;
 
@@ -372,24 +372,8 @@ class AppUtils {
           statusBarIconBrightness:
               isDarkMode ? Brightness.light : Brightness.dark,
           statusBarBrightness: isDarkMode ? Brightness.dark : Brightness.light,
-          systemNavigationBarColor: dashBoardBgColor_(Get.context!),
-          // systemNavigationBarDividerColor:Colors.black,
-          systemNavigationBarIconBrightness:
-              isDarkMode ? Brightness.light : Brightness.dark),
-    );
-  }
-
-  static void setStatusBarColorWhite() {
-    ThemeController themeController = Get.find();
-    bool isDarkMode = themeController.isDarkMode;
-
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-          statusBarColor: Colors.white,
-          statusBarIconBrightness:
-              isDarkMode ? Brightness.light : Brightness.dark,
-          statusBarBrightness: isDarkMode ? Brightness.dark : Brightness.light,
-          systemNavigationBarColor: dashBoardBgColor_(Get.context!),
+          systemNavigationBarColor:
+              bottomNavigationBarColor ?? dashBoardBgColor_(Get.context!),
           // systemNavigationBarDividerColor:Colors.black,
           systemNavigationBarIconBrightness:
               isDarkMode ? Brightness.light : Brightness.dark),
@@ -608,5 +592,15 @@ class AppUtils {
         bottomRight: Radius.circular(bottomRight ?? 0),
       ),
     );
+  }
+
+  static VoidCallback onHireProductImageItem({int? productId} ){
+    return () {
+      var arguments = {
+        "product_id": productId,
+        "read_only": true
+      };
+      Get.toNamed(AppRoutes.productDetailsScreen, arguments: arguments);
+    };
   }
 }

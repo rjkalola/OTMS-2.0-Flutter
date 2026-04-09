@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:belcka/pages/check_in/clock_in/controller/clock_in_controller.dart';
 import 'package:belcka/pages/check_in/clock_in/controller/clock_in_utils.dart';
-import 'package:belcka/pages/check_in/clock_in/view/widgets/stop_shift_button.dart';
 import 'package:belcka/res/colors.dart';
-import 'package:belcka/utils/date_utils.dart';
 import 'package:belcka/widgets/text/PrimaryTextView.dart';
 
 class WorkTimeDetailsView extends StatelessWidget {
@@ -30,7 +28,7 @@ class WorkTimeDetailsView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-              height: 14,
+              height: 20,
             ),
             PrimaryTextView(
               // text: controller.isOnBreak.value
@@ -46,7 +44,7 @@ class WorkTimeDetailsView extends StatelessWidget {
               //     ? controller.remainingBreakTime.value
               //     : controller.totalWorkHours.value,
               text: getCounterTime(),
-              fontSize: 26,
+              fontSize: 32,
               color: Colors.white,
               fontWeight: FontWeight.bold,
             ),
@@ -77,32 +75,7 @@ class WorkTimeDetailsView extends StatelessWidget {
               ],
             ),
           ),*/
-            Container(
-              margin: EdgeInsets.only(top: 15),
-              padding: EdgeInsets.fromLTRB(9, 5, 9, 5),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(14),
-                color: Color(0xff305BAB),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  PrimaryTextView(
-                    text: 'total_work_hours_today'.tr,
-                    fontSize: 15,
-                    color: Colors.white,
-                  ),
-                  PrimaryTextView(
-                    text: DateUtil.seconds_To_HH_MM_SS(controller
-                            .workLogData.value.totalPayableWorkingSeconds ??
-                        0),
-                    fontSize: 15,
-                    color: Colors.white,
-                  )
-                ],
-              ),
-            ),
+            const SizedBox(height: 20),
           ],
         ),
       ),

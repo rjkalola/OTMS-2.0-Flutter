@@ -290,7 +290,7 @@ class ApiConstants {
   //filters
   static String getRequestFilters = '$appUrl/requests/get-filters';
   static String getTimesheetFilters = '$appUrl/timesheet/get-resources';
-  static String getUserZonesFilters = '$appUrl/timesheet/get-resources';
+  static String getUserZonesFilters = '$appUrl/work-zone/get-resources';
   static String buyerOrderProductsFilters =
       '$appUrl/purchase-orders/get-filters';
 

@@ -1,5 +1,6 @@
 import 'package:belcka/pages/user_orders/hire_module/user_hire_products/model/hire_order_info.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
@@ -105,12 +106,16 @@ class RequestHireOrderListItem extends StatelessWidget {
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            ImageUtils.setRectangleCornerCachedNetworkImage(
-                              url: product.thumbUrl ?? '',
-                              width: 72,
-                              height: 72,
-                              borderRadius: 4,
-                              fit: BoxFit.contain,
+                            GestureDetector(
+                              onTap: AppUtils.onHireProductImageItem(productId: product.productId??0),
+                              child: ImageUtils
+                                  .setRectangleCornerCachedNetworkImage(
+                                url: product.thumbUrl ?? '',
+                                width: 72,
+                                height: 72,
+                                borderRadius: 4,
+                                fit: BoxFit.contain,
+                              ),
                             ),
                             const SizedBox(width: 10),
                             Expanded(

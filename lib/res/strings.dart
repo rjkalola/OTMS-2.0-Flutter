@@ -222,6 +222,7 @@ class Strings extends Translations {
           'main_contracts': "Main Contracts",
           'working_hours': "Working Hours",
           'working': "Working",
+          'ongoing': "Ongoing",
           'insurance_number': "Insurance Number",
           'insurance_expires_on': "Insurance expires on",
           'number_of_employee': "Number of Employees",

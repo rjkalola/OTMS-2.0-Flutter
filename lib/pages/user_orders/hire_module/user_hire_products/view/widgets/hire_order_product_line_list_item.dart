@@ -40,12 +40,14 @@ class HireOrderProductLineListItem extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ImageUtils.setRectangleCornerCachedNetworkImage(
-                  url: item.thumbUrl ?? '',
-                  width: 76,
-                  height: 76,
-                  borderRadius: 4,
-                  fit: BoxFit.contain,
+                GestureDetector(
+                  child: ImageUtils.setRectangleCornerCachedNetworkImage(
+                    url: item.thumbUrl ?? '',
+                    width: 76,
+                    height: 76,
+                    borderRadius: 4,
+                    fit: BoxFit.contain,
+                  ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(

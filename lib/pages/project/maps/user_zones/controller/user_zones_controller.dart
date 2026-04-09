@@ -114,7 +114,8 @@ class UserZonesController extends GetxController
     // });
   }
 
-  Map<String, dynamic> _buildQueryParams() {
+  /// `user-location/get-team-user-locations` — company, filter fields, and `datetime` (date filter).
+  Map<String, dynamic> _buildTeamUserLocationsQueryParams() {
     final query = <String, dynamic>{
       'company_id': ApiConstants.companyId,
     };
@@ -127,15 +128,23 @@ class UserZonesController extends GetxController
     return query;
   }
 
+  /// `work-zone/get-app-zones` — company id only (no map filters / date range).
+  Map<String, dynamic> _buildZoneGroupsQueryParams() {
+    return <String, dynamic>{
+      'company_id': ApiConstants.companyId,
+    };
+  }
+
   void loadData() {
     isLoading.value = true;
-    final query = _buildQueryParams();
+    final teamQuery = _buildTeamUserLocationsQueryParams();
+    final zoneQuery = _buildZoneGroupsQueryParams();
     _api.getTeamUserLocations(
-      queryParameters: query,
+      queryParameters: teamQuery,
       onSuccess: (response) {
         _onLocationsLoaded(response);
         _api.getZoneGroups(
-          queryParameters: query,
+          queryParameters: zoneQuery,
           onSuccess: (zoneResponse) {
             _onZoneGroupsLoaded(zoneResponse);
             isLoading.value = false;
@@ -148,7 +157,7 @@ class UserZonesController extends GetxController
   }
 
   void refreshLocationsSilently() {
-    final query = _buildQueryParams();
+    final query = _buildTeamUserLocationsQueryParams();
     _api.getTeamUserLocations(
       queryParameters: query,
       onSuccess: (response) {

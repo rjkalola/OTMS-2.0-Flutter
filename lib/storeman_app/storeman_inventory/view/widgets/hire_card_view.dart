@@ -15,121 +15,128 @@ class HireCardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() => SizedBox(
-      width: double.infinity,
-      child: CardViewDashboardItem(
-          padding: EdgeInsets.fromLTRB(16, 12, 16, 12),
-          margin: EdgeInsets.fromLTRB(14, 8, 14, 8),
-          borderRadius: controller.cardRadius,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              PurchasingScreenTitleWidget(title: 'hire'.tr),
-              SizedBox(
-                height: 6,
-              ),
-              Row(
+          width: double.infinity,
+          child: CardViewDashboardItem(
+              padding: EdgeInsets.fromLTRB(16, 12, 16, 12),
+              margin: EdgeInsets.fromLTRB(14, 8, 14, 8),
+              borderRadius: controller.cardRadius,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Flexible(
-                      flex: 1,
-                      fit: FlexFit.tight,
-                      child: GestureDetector(
-                        onTap: () {
-                          controller.onHireItemClick(AppConstants.type.request);
-                        },
-                        child: Container(
-                          alignment: Alignment.topLeft,
-                          child: Column(
-                            children: [
-                              PurchasingScreenItemTextWidget(
-                                  text: 'request'.tr),
-                              SizedBox(
-                                height: 2,
+                  PurchasingScreenTitleWidget(title: 'hire'.tr),
+                  SizedBox(
+                    height: 6,
+                  ),
+                  Row(
+                    children: [
+                      Flexible(
+                          flex: 1,
+                          fit: FlexFit.tight,
+                          child: GestureDetector(
+                            onTap: () {
+                              controller
+                                  .onHireItemClick(AppConstants.type.request);
+                            },
+                            child: Container(
+                              alignment: Alignment.topLeft,
+                              child: Column(
+                                children: [
+                                  PurchasingScreenItemTextWidget(
+                                      text: 'request'.tr),
+                                  SizedBox(
+                                    height: 2,
+                                  ),
+                                  PurchasingScreenItemValueWidget(
+                                      value: (controller.inventoryData.value
+                                                  .hireRequested ??
+                                              0)
+                                          .toString()),
+                                ],
                               ),
-                              PurchasingScreenItemValueWidget(
-                                  value:
-                                  (controller.inventoryData.value.hireRequested ??
-                                      0)
-                                      .toString()),
-                            ],
-                          ),
-                        ),
-                      )),
-                  Flexible(
-                      flex: 1,
-                      fit: FlexFit.tight,
-                      child: GestureDetector(
-                        onTap: () {
-                          controller.onHireItemClick(AppConstants.type.hired);
-                        },
-                        child: Container(
-                          alignment: Alignment.topCenter,
-                          child: Column(
-                            children: [
-                              PurchasingScreenItemTextWidget(
-                                  text: 'hired'.tr),
-                              SizedBox(
-                                height: 2,
+                            ),
+                          )),
+                      Flexible(
+                          flex: 1,
+                          fit: FlexFit.tight,
+                          child: GestureDetector(
+                            onTap: () {
+                              controller
+                                  .onHireItemClick(AppConstants.type.hired);
+                            },
+                            child: Container(
+                              alignment: Alignment.topCenter,
+                              child: Column(
+                                children: [
+                                  PurchasingScreenItemTextWidget(
+                                      text: 'hired'.tr),
+                                  SizedBox(
+                                    height: 2,
+                                  ),
+                                  PurchasingScreenItemValueWidget(
+                                      value: (controller.inventoryData.value
+                                                  .hireHired ??
+                                              0)
+                                          .toString()),
+                                ],
                               ),
-                              PurchasingScreenItemValueWidget(
-                                  value: (controller.inventoryData.value.hireHired ?? 0)
-                                      .toString()),
-                            ],
-                          ),
-                        ),
-                      )),
-                  Flexible(
-                      flex: 1,
-                      fit: FlexFit.tight,
-                      child: GestureDetector(
-                        onTap: () {
-                          controller.onHireItemClick(AppConstants.type.available);
-                        },
-                        child: Container(
-                          alignment: Alignment.topCenter,
-                          child: Column(
-                            children: [
-                              PurchasingScreenItemTextWidget(
-                                  text: 'available'.tr),
-                              SizedBox(
-                                height: 2,
+                            ),
+                          )),
+                      Flexible(
+                          flex: 1,
+                          fit: FlexFit.tight,
+                          child: GestureDetector(
+                            onTap: () {
+                              controller
+                                  .onHireItemClick(AppConstants.type.available);
+                            },
+                            child: Container(
+                              alignment: Alignment.topCenter,
+                              child: Column(
+                                children: [
+                                  PurchasingScreenItemTextWidget(
+                                      text: 'available'.tr),
+                                  SizedBox(
+                                    height: 2,
+                                  ),
+                                  PurchasingScreenItemValueWidget(
+                                      value: (controller.inventoryData.value
+                                                  .hireAvailable ??
+                                              0)
+                                          .toString()),
+                                ],
                               ),
-                              PurchasingScreenItemValueWidget(
-                                  value: (controller.inventoryData.value.hireAvailable ?? 0)
-                                      .toString()),
-                            ],
-                          ),
-                        ),
-                      )),
-                  Flexible(
-                      flex: 1,
-                      fit: FlexFit.tight,
-                      child: GestureDetector(
-                        onTap: () {
-                          controller.onHireItemClick(AppConstants.type.servicing);
-                        },
-                        child: Container(
-                          alignment: Alignment.topRight,
-                          child: Column(
-                            children: [
-                              PurchasingScreenItemTextWidget(
-                                  text: 'servicing'.tr),
-                              SizedBox(
-                                height: 2,
+                            ),
+                          )),
+                      Flexible(
+                          flex: 1,
+                          fit: FlexFit.tight,
+                          child: GestureDetector(
+                            onTap: () {
+                              controller
+                                  .onHireItemClick(AppConstants.type.servicing);
+                            },
+                            child: Container(
+                              alignment: Alignment.topRight,
+                              child: Column(
+                                children: [
+                                  PurchasingScreenItemTextWidget(
+                                      text: 'servicing'.tr),
+                                  SizedBox(
+                                    height: 2,
+                                  ),
+                                  PurchasingScreenItemValueWidget(
+                                      value: (controller.inventoryData.value
+                                                  .hireServiced ??
+                                              0)
+                                          .toString()),
+                                ],
                               ),
-                              PurchasingScreenItemValueWidget(
-                                  value: (controller.inventoryData.value.hireServiced ?? 0)
-                                      .toString()),
-                            ],
-                          ),
-                        ),
-                      )),
+                            ),
+                          )),
+                    ],
+                  ),
                 ],
-              ),
-            ],
-          )),
-    ));
+              )),
+        ));
   }
 }
-
-
-

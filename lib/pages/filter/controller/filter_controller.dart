@@ -129,6 +129,7 @@ class FilterController extends GetxController {
       url = ApiConstants.getUserZonesFilters;
     }
     Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
     isLoading.value = true;
     _api.getFilters(
       url: url,

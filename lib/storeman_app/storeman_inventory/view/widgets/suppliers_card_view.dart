@@ -26,7 +26,7 @@ class SuppliersCardView extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            PurchasingScreenItemTextWidget(text: label),
+            PurchasingScreenItemTextWidget(text: label, fontSize: 14),
             const SizedBox(height: 2),
             PurchasingScreenItemValueWidget(value: value),
           ],
@@ -41,13 +41,16 @@ class SuppliersCardView extends StatelessWidget {
       () => SizedBox(
         width: double.infinity,
         child: CardViewDashboardItem(
-            padding: EdgeInsets.fromLTRB(16, 12, 16, 12),
+            padding: EdgeInsets.fromLTRB(6, 12, 6, 12),
             margin: EdgeInsets.fromLTRB(14, 8, 14, 8),
             borderRadius: controller.cardRadius,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                PurchasingScreenTitleWidget(title: 'suppliers'.tr),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: PurchasingScreenTitleWidget(title: 'suppliers'.tr),
+                ),
                 const SizedBox(height: 6),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,7 +62,7 @@ class SuppliersCardView extends StatelessWidget {
                         label: 'upcoming'.tr,
                         value: (controller.inventoryData.value.upcoming ?? 0)
                             .toString(),
-                        alignment: Alignment.topLeft,
+                        alignment: Alignment.topCenter,
                       ),
                     ),
                     Expanded(
@@ -86,12 +89,6 @@ class SuppliersCardView extends StatelessWidget {
                         alignment: Alignment.topCenter,
                       ),
                     ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
                     Expanded(
                       child: _statCell(
                         onTap: () => controller.onSupplierOrdersItemClick(
@@ -101,13 +98,31 @@ class SuppliersCardView extends StatelessWidget {
                             (controller.inventoryData.value.supplierCancelled ??
                                     0)
                                 .toString(),
-                        alignment: Alignment.topLeft,
+                        alignment: Alignment.topCenter,
                       ),
                     ),
-                    const Expanded(child: SizedBox()),
-                    const Expanded(child: SizedBox()),
                   ],
                 ),
+                // const SizedBox(height: 12),
+                // Row(
+                //   crossAxisAlignment: CrossAxisAlignment.start,
+                //   children: [
+                //     Expanded(
+                //       child: _statCell(
+                //         onTap: () => controller.onSupplierOrdersItemClick(
+                //             AppConstants.type.cancelled),
+                //         label: 'cancelled'.tr,
+                //         value:
+                //             (controller.inventoryData.value.supplierCancelled ??
+                //                     0)
+                //                 .toString(),
+                //         alignment: Alignment.topLeft,
+                //       ),
+                //     ),
+                //     const Expanded(child: SizedBox()),
+                //     const Expanded(child: SizedBox()),
+                //   ],
+                // ),
               ],
             )),
       ),

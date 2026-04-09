@@ -18,7 +18,8 @@ class ProductDetailsController extends GetxController {
   final formKey = GlobalKey<FormState>();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
-      isMainViewVisible = false.obs;
+      isMainViewVisible = false.obs,
+      isReadOnly = false.obs;
   final currentImageIndex = <int, int>{}.obs;
 
   int productId = 0;
@@ -33,6 +34,7 @@ class ProductDetailsController extends GetxController {
     var arguments = Get.arguments;
     if (arguments != null) {
       productId = arguments["product_id"] ?? 0;
+      isReadOnly.value = arguments["read_only"] ?? false;
     }
     fetchProductDetails();
   }
@@ -50,10 +52,10 @@ class ProductDetailsController extends GetxController {
           ProductDetailsResponse response = ProductDetailsResponse.fromJson(
               jsonDecode(responseModel.result!));
           if (response.info != null) {
+            isMainViewVisible.value = true;
             product.value = response.info!;
             prepareProductImages();
           }
-          isMainViewVisible.value = true;
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
@@ -105,7 +107,6 @@ class ProductDetailsController extends GetxController {
           AddToCartResponse response = AddToCartResponse.fromJson(
               jsonDecode(responseModel.result!) as Map<String, dynamic>);
 
-
           if (response.info != null && response.info!.isNotEmpty) {
             AddToCartInfo cartInfo = response.info![0];
             product.value.cartId = cartInfo.id;
@@ -127,7 +128,6 @@ class ProductDetailsController extends GetxController {
 
           updateCartCount(response.cartProduct ?? 0);
           isDataUpdated = true;
-
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
@@ -144,7 +144,7 @@ class ProductDetailsController extends GetxController {
     );
   }
 
-  Future<void> fetchProductsSet(int productID) async{
+  Future<void> fetchProductsSet(int productID) async {
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
@@ -154,13 +154,13 @@ class ProductDetailsController extends GetxController {
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
-
-          ProductSetDataResponse response =
-          ProductSetDataResponse.fromJson(jsonDecode(responseModel.result!));
+          ProductSetDataResponse response = ProductSetDataResponse.fromJson(
+              jsonDecode(responseModel.result!));
 
           productsSetList = response.info ?? [];
 
-          List<Map<String, dynamic>> productDataList = productsSetList.map((product) {
+          List<Map<String, dynamic>> productDataList =
+              productsSetList.map((product) {
             return {
               "product_id": product.productId,
               "qty": product.qty,
@@ -170,9 +170,7 @@ class ProductDetailsController extends GetxController {
           }).toList();
 
           addSetProductsToCart(productID, productDataList);
-
-        }
-        else{
+        } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;
@@ -188,7 +186,8 @@ class ProductDetailsController extends GetxController {
     );
   }
 
-  void addSetProductsToCart(int productId, List<Map<String, dynamic>> productDataList) {
+  void addSetProductsToCart(
+      int productId, List<Map<String, dynamic>> productDataList) {
     isLoading.value = true;
     Map<String, dynamic> request = {
       "company_id": ApiConstants.companyId,
@@ -206,8 +205,7 @@ class ProductDetailsController extends GetxController {
             isDataUpdated = true;
             fetchProductDetails();
           }
-        }
-        else{
+        } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;
@@ -236,7 +234,7 @@ class ProductDetailsController extends GetxController {
             AddToCartResponse response = AddToCartResponse.fromJson(
                 jsonDecode(responseModel.result!) as Map<String, dynamic>);
             product.value.cartId = 0;
-            product.value.cartQty = 0; 
+            product.value.cartQty = 0;
             product.value.isCartProduct = false;
             product.refresh();
             updateCartCount(response.cartProduct ?? 0);
@@ -278,7 +276,7 @@ class ProductDetailsController extends GetxController {
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           isDataUpdated = true;
-           //fetchProductDetails();
+          //fetchProductDetails();
         } else {
           isLoading.value = false;
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");

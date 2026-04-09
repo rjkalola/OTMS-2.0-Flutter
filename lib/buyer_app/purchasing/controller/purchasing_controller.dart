@@ -77,8 +77,7 @@ class PurchasingController extends GetxController {
     moveToScreen(appRout: AppRoutes.buyerOrdersScreen, arguments: arguments);
   }
 
-  void onOtherItemClick(
-      {required String filterType}) {
+  void onOtherItemClick({required String filterType}) {
     var arguments = {
       AppConstants.intentKey.filterType: filterType,
       AppConstants.intentKey.index: selectedDateFilterIndex.value,
@@ -86,6 +85,17 @@ class PurchasingController extends GetxController {
       AppConstants.intentKey.endDate: endDate.value,
     };
     Get.toNamed(AppRoutes.buyerOrdersScreen, arguments: arguments);
+  }
+
+  void onHireItemClick(String type) {
+    var arguments = {
+      AppConstants.intentKey.selectedTabType: type,
+      AppConstants.intentKey.index: selectedDateFilterIndex.value,
+      AppConstants.intentKey.startDate: startDate.value,
+      AppConstants.intentKey.endDate: endDate.value,
+    };
+    moveToScreen(
+        appRout: AppRoutes.storemanHireProductsScreen, arguments: arguments);
   }
 
   Future<void> moveToScreen(

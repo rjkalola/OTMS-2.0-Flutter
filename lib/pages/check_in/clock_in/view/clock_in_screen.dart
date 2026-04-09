@@ -7,9 +7,6 @@ import 'package:belcka/pages/check_in/clock_in/controller/clock_in_controller.da
 import 'package:belcka/pages/check_in/clock_in/view/widgets/footer_button_check_in_switch_project.dart';
 import 'package:belcka/pages/check_in/clock_in/view/widgets/my_day_log_list_view.dart';
 import 'package:belcka/pages/check_in/clock_in/view/widgets/my_day_logs_title.dart';
-import 'package:belcka/pages/check_in/clock_in/view/widgets/start_shift_button.dart';
-import 'package:belcka/pages/check_in/clock_in/view/widgets/start_shift_button_row.dart';
-import 'package:belcka/pages/check_in/clock_in/view/widgets/stop_shift_button.dart';
 import 'package:belcka/pages/check_in/clock_in/view/widgets/work_time_details_view.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/res/drawable.dart';
@@ -30,7 +27,8 @@ class _ClockInScreenState extends State<ClockInScreen> {
 
   @override
   Widget build(BuildContext context) {
-    AppUtils.setStatusBarColor();
+    AppUtils.setStatusBarColor(
+        bottomNavigationBarColor: backgroundColor_(context));
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) async {
@@ -47,7 +45,7 @@ class _ClockInScreenState extends State<ClockInScreen> {
               title: 'work_log'.tr,
               isCenterTitle: false,
               isBack: true,
-              onBackPressed: (){
+              onBackPressed: () {
                 controller.onBackPress();
               },
               bgColor: dashBoardBgColor_(context),
@@ -68,10 +66,6 @@ class _ClockInScreenState extends State<ClockInScreen> {
                                 child: Column(
                                   children: [
                                     WorkTimeDetailsView(),
-                                    (controller.workLogData.value.userIsWorking ??
-                                            false)
-                                        ? StopShiftButton()
-                                        : StartShiftButtonRow(),
                                     MyDayLogsTitle(),
                                     MyDayLogListView(),
                                     FooterButtonCheckInSwitchProject()

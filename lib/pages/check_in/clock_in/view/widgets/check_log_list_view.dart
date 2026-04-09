@@ -35,7 +35,7 @@ class CheckLogListView extends StatelessWidget {
                   [])
               .isNotEmpty
           ? Padding(
-              padding: EdgeInsets.only(left: 0),
+              padding: const EdgeInsets.only(left: 0),
               child: ListView(
                 physics: const NeverScrollableScrollPhysics(), //
                 shrinkWrap: true,
@@ -51,45 +51,26 @@ class CheckLogListView extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SizedBox(
-                            width: 16,
-                          ),
-                          Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              dottedLine(id: info.id ?? 0),
-                              SizedBox(
-                                width: 22,
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              // CustomPaint(
-                              //     size: Size(1.3, double.infinity),
-                              //     painter: DottedLineVerticalWidget(
-                              //         color: Colors.green)),
-                              SizedBox(
-                                width: 10,
-                              )
-                              // circle(info),
-                              // addCircle(id: info.id ?? 0)
-                            ],
-                          ),
                           info.id != 0
                               ? Expanded(
                                   child: Stack(
                                     children: [
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: SizedBox(
+                                          width: 20,
+                                          child: Divider(
+                                            thickness: 1,
+                                            height: 1,
+                                          ),
+                                        ),
+                                      ),
                                       Container(
-                                        margin: EdgeInsets.only(
-                                            left: 8,
-                                            top: 8,
-                                            bottom: 10,
-                                            right: 3),
+                                        margin: const EdgeInsets.only(
+                                          left: 20,
+                                          top: 8,
+                                          bottom: 8,
+                                        ),
                                         height: 86,
                                         decoration: itemDecoration(
                                             isRequestPending: false,
@@ -130,29 +111,36 @@ class CheckLogListView extends StatelessWidget {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.center,
                                               children: [
-                                                Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    setProjectNameTextView(
-                                                        info.addressName ?? ""),
-                                                    setProjectNameTextView(
-                                                        !StringHelper
-                                                                .isEmptyString(info
-                                                                    .companyTaskName)
-                                                            ? info
-                                                                .companyTaskName
-                                                            : info.tradeName)
-                                                  ],
-                                                ),
                                                 Expanded(
+                                                  flex: 3,
                                                   child: Column(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
                                                             .center,
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      setProjectNameTextView(
+                                                          info.addressName ??
+                                                              ""),
+                                                      setProjectNameTextView(!StringHelper
+                                                              .isEmptyString(info
+                                                                  .companyTaskName)
+                                                          ? info.companyTaskName
+                                                          : info.tradeName)
+                                                    ],
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  flex: 2,
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
                                                             .center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .end,
                                                     children: [
                                                       TextViewWithContainer(
                                                         padding:
@@ -164,80 +152,74 @@ class CheckLogListView extends StatelessWidget {
                                                             ? (StringHelper
                                                                     .isEmptyString(info
                                                                         .checkoutDateTime)
-                                                                ? 'working'.tr
+                                                                ? 'ongoing'.tr
                                                                 : "£${info.priceWorkTotalAmount ?? ""}")
                                                             : DateUtil
                                                                 .seconds_To_HH_MM(
                                                                     info.totalWorkSeconds ??
                                                                         0),
-                                                        fontSize: 20,
+                                                        fontSize: 18,
                                                         fontColor:
                                                             primaryTextColor_(
                                                                 context),
                                                         fontWeight:
-                                                            FontWeight.bold,
+                                                            FontWeight.w600,
                                                         boxColor:
                                                             Colors.transparent,
                                                       ),
-                                                      SizedBox(
-                                                        height: 2,
-                                                      ),
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          PrimaryTextView(
-                                                            text:
-                                                                "(${controller.changeFullDateToSortTime(info.checkinDateTime)}",
-                                                            fontSize: 15,
-                                                            color:
-                                                                primaryTextColor_(
-                                                                    context),
-                                                          ),
-                                                          PrimaryTextView(
-                                                            text: " - ",
-                                                            fontSize: 15,
-                                                            color:
-                                                                primaryTextColor_(
-                                                                    context),
-                                                          ),
-                                                          PrimaryTextView(
-                                                            text:
-                                                                toWorkTimeText(
-                                                                    info),
-                                                            fontSize: 15,
-                                                            color: isActiveWorkLog(
-                                                                    info)
-                                                                ? defaultAccentColor_(
-                                                                    context)
-                                                                : primaryTextColor_(
-                                                                    context),
-                                                          )
-                                                        ],
-                                                      )
+                                                      // SizedBox(
+                                                      //   height: 2,
+                                                      // ),
+                                                      // Row(
+                                                      //   mainAxisAlignment:
+                                                      //       MainAxisAlignment
+                                                      //           .center,
+                                                      //   children: [
+                                                      //     PrimaryTextView(
+                                                      //       text:
+                                                      //           "(${controller.changeFullDateToSortTime(info.checkinDateTime)}",
+                                                      //       fontSize: 15,
+                                                      //       color:
+                                                      //           primaryTextColor_(
+                                                      //               context),
+                                                      //     ),
+                                                      //     PrimaryTextView(
+                                                      //       text: " - ",
+                                                      //       fontSize: 15,
+                                                      //       color:
+                                                      //           primaryTextColor_(
+                                                      //               context),
+                                                      //     ),
+                                                      //     PrimaryTextView(
+                                                      //       text:
+                                                      //           toWorkTimeText(
+                                                      //               info),
+                                                      //       fontSize: 15,
+                                                      //       color: isActiveWorkLog(
+                                                      //               info)
+                                                      //           ? defaultAccentColor_(
+                                                      //               context)
+                                                      //           : primaryTextColor_(
+                                                      //               context),
+                                                      //     )
+                                                      //   ],
+                                                      // )
                                                     ],
                                                   ),
                                                 ),
-                                                RightArrowWidget(
-                                                  size: 30,
-                                                  color: primaryTextColor_(
-                                                      context),
-                                                ),
+                                                // RightArrowWidget(
+                                                //   size: 30,
+                                                //   color: primaryTextColor_(
+                                                //       context),
+                                                // ),
                                                 SizedBox(
-                                                  width: 6,
+                                                  width: 10,
                                                 )
                                               ],
                                             ),
                                           ),
                                         ),
                                       ),
-                                      // Align(
-                                      //   alignment: Alignment.topRight,
-                                      //   child: CustomBadgeIcon(
-                                      //     count: 55,
-                                      //   ),
-                                      // ),
                                       setItemTypeTextView(
                                           text: 'check_in_'.tr,
                                           color: "#007AFF")
@@ -245,9 +227,6 @@ class CheckLogListView extends StatelessWidget {
                                   ),
                                 )
                               : emptyView(),
-                          SizedBox(
-                            width: 16,
-                          )
                         ],
                       ),
                     );
@@ -262,17 +241,17 @@ class CheckLogListView extends StatelessWidget {
   Widget setProjectNameTextView(String? text) =>
       !StringHelper.isEmptyString(text)
           ? Container(
-              width: 70,
-              margin: EdgeInsets.only(left: 10, right: 10, top: 3, bottom: 3),
+              // width: 70,
+              margin: EdgeInsets.only(left: 16, right: 10, top: 3, bottom: 3),
               padding: EdgeInsets.fromLTRB(6, 3, 6, 3),
               decoration: BoxDecoration(
                   color: ThemeConfig.isDarkMode
                       ? Color(0xFF339CFF)
                       : Color(0xffACDBFE),
-                  borderRadius: BorderRadius.circular(4)),
+                  borderRadius: BorderRadius.circular(45)),
               child: PrimaryTextView(
                 text: text ?? "",
-                fontSize: 14,
+                fontSize: 13,
                 overflow: TextOverflow.ellipsis,
                 color: ThemeConfig.isDarkMode ? Colors.white : Colors.black,
                 fontWeight: FontWeight.w400,
@@ -287,7 +266,7 @@ class CheckLogListView extends StatelessWidget {
 
   Widget setItemTypeTextView({required String text, required String color}) =>
       Padding(
-          padding: const EdgeInsets.only(left: 30),
+          padding: const EdgeInsets.only(left: 50),
           child: Align(
             alignment: Alignment.topLeft,
             child: Container(
@@ -297,7 +276,7 @@ class CheckLogListView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(45)),
               child: PrimaryTextView(
                 text: text ?? "",
-                fontSize: 12,
+                fontSize: 11,
                 color: Colors.white,
                 fontWeight: FontWeight.w400,
               ),
@@ -373,7 +352,7 @@ class CheckLogListView extends StatelessWidget {
       boxShadow: boxShadow,
       border: Border.all(
           width: 0.9, color: getBorderColor(isWorking, isRequestPending)),
-      borderRadius: BorderRadius.circular(borderRadius ?? 15),
+      borderRadius: BorderRadius.circular(borderRadius ?? 45),
     );
   }
 
@@ -392,6 +371,6 @@ class CheckLogListView extends StatelessWidget {
   }
 
   String toWorkTimeText(CheckLogInfo info) {
-    return "${!StringHelper.isEmptyString(info.checkoutDateTime) ? controller.changeFullDateToSortTime(info.checkoutDateTime) : "Working"})";
+    return "${!StringHelper.isEmptyString(info.checkoutDateTime) ? controller.changeFullDateToSortTime(info.checkoutDateTime) : 'ongoing'.tr})";
   }
 }
