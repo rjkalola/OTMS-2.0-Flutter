@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:belcka/pages/check_in/clock_in/controller/clock_in_repository.dart';
 import 'package:belcka/pages/check_in/clock_in/model/user_billing_info_validation_response.dart';
+import 'package:belcka/pages/check_in/select_shift/model/start_work_response.dart';
 import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:belcka/pages/check_in/clock_in/model/location_info.dart';
-import 'package:belcka/pages/check_in/clock_in2/model/start_work_response.dart';
 import 'package:belcka/pages/check_in/select_shift/controller/select_shift_repository.dart';
 import 'package:belcka/pages/check_in/start_shift_map/controller/start_shift_map_repository.dart';
 import 'package:belcka/pages/check_in/start_shift_map/model/last_work_log_response.dart';

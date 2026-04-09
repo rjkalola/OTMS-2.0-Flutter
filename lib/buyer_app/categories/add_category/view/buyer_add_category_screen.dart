@@ -37,7 +37,7 @@ class _BuyerAddCategoryScreenState extends State<BuyerAddCategoryScreen> {
           child: Scaffold(
             backgroundColor: backgroundColor_(context),
             appBar: BaseAppBar(
-              appBar: AppBar(), 
+              appBar: AppBar(),
               title: controller.itemDetails != null
                   ? 'update_category'.tr
                   : 'add_category'.tr,

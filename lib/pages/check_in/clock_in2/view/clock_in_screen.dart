@@ -3,21 +3,21 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:belcka/pages/check_in/clock_in2/controller/clock_in_controller.dart';
-import 'package:belcka/pages/check_in/clock_in2/view/widgets/continue_yesterdays_work_button.dart';
-import 'package:belcka/pages/check_in/clock_in2/view/widgets/footer_button_check_in_switch_project.dart';
-import 'package:belcka/pages/check_in/clock_in2/view/widgets/footer_buttons_view_start_work.dart';
-import 'package:belcka/pages/check_in/clock_in2/view/widgets/map_view.dart';
-import 'package:belcka/pages/check_in/clock_in2/view/widgets/my_day_log_list_view.dart';
-import 'package:belcka/pages/check_in/clock_in2/view/widgets/my_log_addresses_tabs.dart';
-import 'package:belcka/pages/check_in/clock_in2/view/widgets/start_work_button.dart';
-import 'package:belcka/pages/check_in/clock_in2/view/widgets/work_time_details_view.dart';
+import 'package:belcka/pages/check_in/clock_in/controller/clock_in_controller.dart';
+import 'package:belcka/pages/check_in/clock_in/view/widgets/footer_button_check_in_switch_project.dart';
+import 'package:belcka/pages/check_in/clock_in/view/widgets/my_day_log_list_view.dart';
+import 'package:belcka/pages/check_in/clock_in/view/widgets/my_day_logs_title.dart';
+import 'package:belcka/pages/check_in/clock_in/view/widgets/start_shift_button.dart';
+import 'package:belcka/pages/check_in/clock_in/view/widgets/start_shift_button_row.dart';
+import 'package:belcka/pages/check_in/clock_in/view/widgets/stop_shift_button.dart';
+import 'package:belcka/pages/check_in/clock_in/view/widgets/work_time_details_view.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/res/drawable.dart';
+import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
-import 'package:belcka/utils/app_utils.dart';
+
 class ClockInScreen extends StatefulWidget {
   const ClockInScreen({super.key});
 
@@ -31,59 +31,59 @@ class _ClockInScreenState extends State<ClockInScreen> {
   @override
   Widget build(BuildContext context) {
     AppUtils.setStatusBarColor();
-    return Container(
-      color: backgroundColor_(context),
-      child: SafeArea(
-        child: Scaffold(
-          backgroundColor: backgroundColor_(context),
-          appBar: controller.isWorking()
-              ? BaseAppBar(
-                  appBar: AppBar(),
-                  title: "",
-                  isCenterTitle: false,
-                  isBack: true,
-                  widgets: actionButtons())
-              : null,
-          body: Obx(() {
-            return ModalProgressHUD(
-                inAsyncCall: controller.isLoading.value,
-                opacity: 0,
-                progressIndicator: const CustomProgressbar(),
-                child: controller.isInternetNotAvailable.value
-                    ? const NoInternetWidget()
-                    : Visibility(
-                        visible: controller.isMainViewVisible.value,
-                        child: (controller.isWorking()
-                            ? Column(
-                                children: [
-                                  Expanded(
-                                    child: Column(
-                                      children: [
-                                        MapView(),
-                                        StartWorkButton(),
-                                        ContinueYesterdaysWorkButton()
-                                      ],
-                                    ),
-                                  ),
-                                  FooterButtonsViewStartWork()
-                                ],
-                              )
-                            : Column(
-                                children: [
-                                  Expanded(
-                                    child: Column(
-                                      children: [
-                                        WorkTimeDetailsView(),
-                                        MyLogAddressesTabs(),
-                                        MyDayLogListView()
-                                        // CheckInAddressesListView()
-                                      ],
-                                    ),
-                                  ),
-                                  FooterButtonCheckInSwitchProject()
-                                ],
-                              ))));
-          }),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop || result != null) return;
+        controller.onBackPress();
+      },
+      child: Container(
+        color: dashBoardBgColor_(context),
+        child: SafeArea(
+          child: Scaffold(
+            backgroundColor: dashBoardBgColor_(context),
+            appBar: BaseAppBar(
+              appBar: AppBar(),
+              title: 'work_log'.tr,
+              isCenterTitle: false,
+              isBack: true,
+              onBackPressed: (){
+                controller.onBackPress();
+              },
+              bgColor: dashBoardBgColor_(context),
+              // widgets: actionButtons()
+            ),
+            body: Obx(() {
+              return ModalProgressHUD(
+                  inAsyncCall: controller.isLoading.value,
+                  opacity: 0,
+                  progressIndicator: const CustomProgressbar(),
+                  child: controller.isInternetNotAvailable.value
+                      ? const NoInternetWidget()
+                      : Visibility(
+                          visible: controller.isMainViewVisible.value,
+                          child: Column(
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    WorkTimeDetailsView(),
+                                    (controller.workLogData.value.userIsWorking ??
+                                            false)
+                                        ? StopShiftButton()
+                                        : StartShiftButtonRow(),
+                                    MyDayLogsTitle(),
+                                    MyDayLogListView(),
+                                    FooterButtonCheckInSwitchProject()
+                                    // CheckInAddressesListView()
+                                  ],
+                                ),
+                              ),
+                              // FooterButtonCheckInSwitchProject()
+                            ],
+                          )));
+            }),
+          ),
         ),
       ),
     );

@@ -1,45 +1,56 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:belcka/pages/check_in/clock_in/controller/clock_in_controller.dart';
+import 'package:belcka/pages/check_in/clock_in/controller/clock_in_utils.dart';
+import 'package:belcka/pages/check_in/clock_in/view/widgets/stop_shift_button.dart';
 import 'package:belcka/res/colors.dart';
-import 'package:belcka/res/drawable.dart';
-import 'package:belcka/utils/image_utils.dart';
-import 'package:belcka/widgets/PrimaryButton.dart';
+import 'package:belcka/utils/date_utils.dart';
 import 'package:belcka/widgets/text/PrimaryTextView.dart';
 
 class WorkTimeDetailsView extends StatelessWidget {
-  const WorkTimeDetailsView({super.key});
+  WorkTimeDetailsView({super.key});
+
+  final controller = Get.put(ClockInController());
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(left: 16, right: 16),
-      width: double.infinity,
-      decoration: BoxDecoration(
-        border: Border.all(width: 1, color: dividerColor_(context)),
-        borderRadius: BorderRadius.circular(16),
-        color: Color(0xff659DF2),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(
-            height: 12,
-          ),
-          PrimaryTextView(
-            text: 'work_time_on'.tr,
-            fontSize: 16,
-            color: Colors.white,
-            fontWeight: FontWeight.w500,
-          ),
-          PrimaryTextView(
-            text: "06:00:00",
-            fontSize: 30,
-            color: Colors.white,
-            fontWeight: FontWeight.w600,
-          ),
-          Padding(
+    return Obx(
+      () => Container(
+        margin: EdgeInsets.only(left: 16, right: 16),
+        width: double.infinity,
+        decoration: BoxDecoration(
+            border: Border.all(width: 1, color: dividerColor_(context)),
+            borderRadius: BorderRadius.circular(16),
+            // color: controller.isOnBreak.value
+            //     ? Color(0xffCE6700)
+            //     : Color(0xff007AFF)),
+            color: getBoxColor()),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 14,
+            ),
+            PrimaryTextView(
+              // text: controller.isOnBreak.value
+              //     ? 'break_time_on'.tr
+              //     : 'work_time_on'.tr,
+              text: getStatusText(),
+              fontSize: 15,
+              color: Colors.white,
+              fontWeight: FontWeight.w400,
+            ),
+            PrimaryTextView(
+              // text: controller.isOnBreak.value
+              //     ? controller.remainingBreakTime.value
+              //     : controller.totalWorkHours.value,
+              text: getCounterTime(),
+              fontSize: 26,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+            /* Padding(
             padding: const EdgeInsets.fromLTRB(20, 3, 20, 8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -65,45 +76,66 @@ class WorkTimeDetailsView extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-          Container(
-            margin: EdgeInsets.all(4),
-            padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
-            width: double.infinity,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(6),
-              color: Color(0xff305BAB),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                PrimaryTextView(
-                  text: 'total_work_hours_today'.tr,
-                  fontSize: 15,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500,
-                ),
-                PrimaryTextView(
-                  text: "07:00:00",
-                  fontSize: 15,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500,
-                )
-              ],
-            ),
-          ),
-          SizedBox(
+          ),*/
+            Container(
+              margin: EdgeInsets.only(top: 15),
+              padding: EdgeInsets.fromLTRB(9, 5, 9, 5),
               width: double.infinity,
-              child: PrimaryButton(
-                buttonText: 'stop_work'.tr,
-                onPressed: () {},
-                color: Color(0xffFF6464),
-                fontWeight: FontWeight.w700,
-                fontSize: 16,
-                borderRadius: 12,
-              ))
-        ],
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(14),
+                color: Color(0xff305BAB),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  PrimaryTextView(
+                    text: 'total_work_hours_today'.tr,
+                    fontSize: 15,
+                    color: Colors.white,
+                  ),
+                  PrimaryTextView(
+                    text: DateUtil.seconds_To_HH_MM_SS(controller
+                            .workLogData.value.totalPayableWorkingSeconds ??
+                        0),
+                    fontSize: 15,
+                    color: Colors.white,
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
+  }
+
+  Color getBoxColor() {
+    if (controller.isOnLeave.value) {
+      return Colors.grey;
+    } else if (controller.isOnBreak.value) {
+      return Color(0xffCE6700);
+    } else {
+      return Color(0xff007AFF);
+    }
+  }
+
+  String getStatusText() {
+    if (controller.isOnLeave.value) {
+      return "";
+    } else if (controller.isOnBreak.value) {
+      return 'break_time_on'.tr;
+    } else {
+      return 'work_time_on'.tr;
+    }
+  }
+
+  String getCounterTime() {
+    if (controller.isOnLeave.value) {
+      return 'on_leave'.tr;
+    } else if (controller.isOnBreak.value) {
+      return controller.remainingBreakTime.value;
+    } else {
+      return controller.totalWorkHours.value;
+    }
   }
 }

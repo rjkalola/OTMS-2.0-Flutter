@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:belcka/pages/check_in/clock_in/model/user_billing_info_validation_response.dart';
+import 'package:belcka/pages/check_in/select_shift/model/start_work_response.dart';
 import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:belcka/utils/user_utils.dart';
@@ -16,7 +17,6 @@ import 'package:belcka/pages/check_in/clock_in/model/counter_details.dart';
 import 'package:belcka/pages/check_in/clock_in/model/location_info.dart';
 import 'package:belcka/pages/check_in/clock_in/model/work_log_info.dart';
 import 'package:belcka/pages/check_in/clock_in/model/work_log_list_response.dart';
-import 'package:belcka/pages/check_in/clock_in2/model/start_work_response.dart';
 import 'package:belcka/pages/check_in/select_shift/controller/select_shift_repository.dart';
 import 'package:belcka/pages/dashboard/models/dashboard_response.dart';
 import 'package:belcka/routes/app_routes.dart';

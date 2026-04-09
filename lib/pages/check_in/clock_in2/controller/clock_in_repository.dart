@@ -4,15 +4,12 @@ import 'package:belcka/web_services/network/api_request.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 
 class ClockInRepository {
-  void getNewTimesheetResources({
-    multi.FormData? formData,
+  void userStopWork({
+    dynamic data,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
-    ApiRequest(
-            url: ApiConstants.newTimesheetResourcesUrl,
-            formData: formData,
-            isFormData: true)
+    ApiRequest(url: ApiConstants.userStopWork, data: data, isFormData: false)
         .postRequest(
       onSuccess: (data) {
         onSuccess!(data);
@@ -21,16 +18,13 @@ class ClockInRepository {
     );
   }
 
-  void startWork({
-    multi.FormData? formData,
+  void getUserWorkLogList({
+    dynamic data,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
-    ApiRequest(
-            url: ApiConstants.startWorkUrl,
-            formData: formData,
-            isFormData: true)
-        .postRequest(
+    ApiRequest(url: ApiConstants.userWorkLogList, data: data, isFormData: false)
+        .getRequest(
       onSuccess: (data) {
         onSuccess!(data);
       },
@@ -38,44 +32,16 @@ class ClockInRepository {
     );
   }
 
-  void stopWork({
-    multi.FormData? formData,
+  void userBillingInfoValidation({
+    Map<String, dynamic>? queryParameters,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
     ApiRequest(
-            url: ApiConstants.stopWorkUrl, formData: formData, isFormData: true)
-        .postRequest(
-      onSuccess: (data) {
-        onSuccess!(data);
-      },
-      onError: (error) => {if (onError != null) onError(error)},
-    );
-  }
-
-  void checkIn({
-    multi.FormData? formData,
-    Function(ResponseModel responseModel)? onSuccess,
-    Function(ResponseModel error)? onError,
-  }) {
-    ApiRequest(
-            url: ApiConstants.checkInUrl, formData: formData, isFormData: true)
-        .postRequest(
-      onSuccess: (data) {
-        onSuccess!(data);
-      },
-      onError: (error) => {if (onError != null) onError(error)},
-    );
-  }
-
-  void checkOut({
-    multi.FormData? formData,
-    Function(ResponseModel responseModel)? onSuccess,
-    Function(ResponseModel error)? onError,
-  }) {
-    ApiRequest(
-            url: ApiConstants.checkOutUrl, formData: formData, isFormData: true)
-        .postRequest(
+            url: ApiConstants.userBillingInfoValidation,
+            queryParameters: queryParameters,
+            isFormData: false)
+        .getRequest(
       onSuccess: (data) {
         onSuccess!(data);
       },
