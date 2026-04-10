@@ -74,6 +74,7 @@ class NearMissCard extends StatelessWidget {
                         fontSize: 14,
                       ),
                       const SizedBox(height: 2),
+                      if (reportDescription.isNotEmpty)
                       SubtitleTextView(
                         text: reportDescription,
                         fontSize: 14,

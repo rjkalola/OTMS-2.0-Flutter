@@ -18,7 +18,7 @@ class ProductDetailsController extends GetxController {
   final formKey = GlobalKey<FormState>();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
-      isMainViewVisible = false.obs,
+      isMainViewVisible = false.obs, 
       isReadOnly = false.obs;
   final currentImageIndex = <int, int>{}.obs;
 
@@ -276,7 +276,7 @@ class ProductDetailsController extends GetxController {
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           isDataUpdated = true;
-          //fetchProductDetails();
+          fetchProductDetails();
         } else {
           isLoading.value = false;
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");

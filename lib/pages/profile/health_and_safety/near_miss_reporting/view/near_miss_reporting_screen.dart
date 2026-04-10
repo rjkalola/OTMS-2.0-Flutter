@@ -1,4 +1,5 @@
 import 'package:belcka/pages/profile/health_and_safety/near_miss_reporting/controller/near_miss_reporting_controller.dart';
+import 'package:belcka/pages/profile/health_and_safety/widgets/attachment_section.dart';
 import 'package:belcka/pages/profile/health_and_safety/widgets/selector_card.dart';
 import 'package:belcka/pages/profile/health_and_safety/widgets/styled_text_field.dart';
 import 'package:belcka/pages/user_orders/widgets/orders_base_app_bar.dart';
@@ -21,6 +22,7 @@ class NearMissReportingScreen extends StatefulWidget {
 
 class _NearMissReportingScreenState extends State<NearMissReportingScreen> {
   final controller = Get.put(NearMissReportingController());
+  bool _isDropdownOpen = false;
 
   @override
   Widget build(BuildContext context) {
@@ -69,110 +71,105 @@ class _NearMissReportingScreenState extends State<NearMissReportingScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             // --- Hazard Type Selector ---
-                            TitleTextView(text: "hazard_type".tr,fontWeight: FontWeight.w500,),
+                            TitleTextView(text: "hazard_type".tr,fontWeight: FontWeight.w500,fontSize: 15,),
                             const SizedBox(height: 8),
-                            SelectorCard(placeholder: "select_hazard_type".tr, text: ""),
+                            Column(
+                              children: [
+                                SelectorCard(
+                                  placeholder: "select_hazard_type".tr,
+                                  text: controller.selectedHazard?.title ?? "",
+                                  isOpen: _isDropdownOpen,
+                                  onTap: () {
+                                    setState(() {
+                                      _isDropdownOpen = !_isDropdownOpen; // Toggle open/close
+                                    });
+                                  },
+                                ),
+
+                                // The actual Dropdown Menu
+                                if (_isDropdownOpen)
+                                  Container(
+                                    margin: const EdgeInsets.only(top: 8),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(12),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.1),
+                                          blurRadius: 12,
+                                          offset: const Offset(0, 4),
+                                        ),
+                                      ],
+                                    ),
+                                    child: Column(
+                                      children: controller.healthAndSafetyService.hazards.map((hazard) {
+                                        return InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              controller.selectedHazard = hazard; // Change selection status
+                                              _isDropdownOpen = false;  // Close the dropdown
+                                            });
+                                          },
+                                          child: Container(
+                                            width: double.infinity,
+                                            padding: const EdgeInsets.all(16),
+                                            decoration: const BoxDecoration(
+                                              border: Border(bottom: BorderSide(color: Colors.black12, width: 0.5)),
+                                            ),
+                                            child: Text(
+                                              hazard.title,
+                                              style: const TextStyle(fontSize: 16, color: Colors.black87),
+                                            ),
+                                          ),
+                                        );
+                                      }).toList(),
+                                    ),
+                                  ),
+                              ],
+                            ),
+
                             const SizedBox(height: 16),
 
                             // --- Description Field ---
-                            TitleTextView(text: "description".tr,fontWeight: FontWeight.w500,),
+                            TitleTextView(text: "description".tr,fontWeight: FontWeight.w500,fontSize: 15,),
                             const SizedBox(height: 8),
-                            StyledTextField(hintText: "${'write_description_here'.tr}..."),
+                            StyledTextField(
+                              hintText: "${'write_description_here'.tr}...",
+                              controller: controller.descriptionController,
+                            ),
                             const SizedBox(height: 16),
 
                             // --- THE UPLOAD SECTION ---
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                 TitleTextView(text: "${'upload_photo'.tr} / ${'Video'.tr}",fontWeight: FontWeight.w500,),
-                                // Conditionally show 'Clear' button
-                                if (controller.selectedMedia != null)
-                                  TextButton.icon(
-                                    onPressed: controller.clearMedia,
-                                    icon: const Icon(Icons.close_rounded, size: 16, color: Colors.redAccent),
-                                    label: Text("clear".tr, style: TextStyle(color: Colors.redAccent, fontSize: 13)),
-                                  )
-                              ],
-                            ),
-                            const SizedBox(height: 12),
-
-                            // Conditional Rendering of the Upload Area:
-                            if (controller.selectedMedia == null)
-                            // 1. Placeholder / Upload Action Card
-                              GestureDetector(
-                                onTap: (){
-
-                                },
-                                child: Container(
-                                  width: double.infinity,
-                                  height: 160,
-                                  decoration: BoxDecoration(
-                                    color: backgroundColor_(context),
-                                    borderRadius: BorderRadius.circular(16),
-                                    border: Border.all(color: Colors.blueAccent.withOpacity(0.3), width: 1.5, style: BorderStyle.solid),
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(Icons.cloud_upload_outlined, size: 48, color: Colors.blueAccent.withOpacity(0.7)),
-                                      const SizedBox(height: 12),
-                                      Text(
-                                        "tap_to_upload_media".tr,
-                                        style: TextStyle(fontWeight: FontWeight.w500,),
-                                      ),
-                                      Text(
-                                        "(${"photo_video".tr})",
-                                        style: TextStyle(fontSize: 12,),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              )
-                            else
-                            // 2. The Selected Media Display
-                              Container(
-                                width: double.infinity,
-                                height: 160,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(16),
-                                  boxShadow: [
-                                    BoxShadow(color: Colors.black12, blurRadius: 10, offset: const Offset(0, 4))
-                                  ],
-                                ),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(16),
-                                  child: Image.file(
-                                    controller.selectedMedia!,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-
-                            const SizedBox(height: 40),
+                            AttachmentSection(),
+                            const SizedBox(height: 24),
                           ],
                         ),
                       )
-                  )
-
-                                ),
+                  )),
                     bottomNavigationBar: SafeArea(
                       child: Visibility(
                         visible: controller.isMainViewVisible.value,
                         child: Padding(
-                          padding: const EdgeInsets.all(16.0),
+                          padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                           child: Opacity(
                             opacity: 1.0,
                             child: PrimaryButton(
-                              buttonText: "save".tr,
+                              buttonText: "submit_report".tr,
                               onPressed: () {
                                 FocusManager.instance.primaryFocus?.unfocus();
+                                if (controller.selectedHazard == null){
+                                  AppUtils.showSnackBarMessage('please_select_hazard_type'.tr);
+                                }
+                                else{
+                                  controller.storeNearMissReport();
+                                }
                               },
                             ),
                           ),
                         ),
                       ),
                     ),
-                              ),
+                  ),
                 ),
           ),
         ),

@@ -200,78 +200,111 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                             //Favorite
                             Visibility(
                               visible: !controller.isReadOnly.value,
-                              child: InkWell(
-                                onTap: (){
-                                  if (projectService.folderList.isEmpty) {
-                                    showDialog(
-                                      context: context,
-                                      barrierDismissible: true,
-                                      builder: (BuildContext context) {
-                                        return Dialog(
-                                          backgroundColor: Colors.transparent,
-                                          insetPadding: const EdgeInsets.symmetric(horizontal: 40),
-                                          child: Container(
-                                            padding: const EdgeInsets.all(20),
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius: BorderRadius.circular(20),
-                                              boxShadow: const [
-                                                BoxShadow(color: Colors.black26, blurRadius: 20, offset: Offset(0, 10))
-                                              ],
-                                            ),
-                                            child: AddFolderView(
-                                              folders: [],
-                                              onCancel: () => Navigator.pop(context),
-                                              onAdded: (folderName,projectId) async {
-                                                Navigator.pop(context);
-                                                final newFolder = await projectService.toggleCreateNewFolder(folderName,projectId);
-
-                                                print("New Folder ID: ${newFolder?.id ?? 0}");
-
-                                                FocusManager.instance.primaryFocus?.unfocus();
-                                                controller.toggleBookmark(newFolder?.id ?? 0);
-                                                controller.product.value.isBookMark =
-                                                !(controller.product.value.isBookMark ??
-                                                    false);
-                                                controller.product.refresh();
-
-                                              },
-
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    );
-                                  }
-                                  else{
-                                    FavoritePopupManager.show(
-                                      context: context,
-                                      layerLink: _layerLink,
-                                      folders: projectService.folderList,
-                                      onProjectSelected: (project) {
-                                        print("Selected: ${project.name ?? ""}");
-                                        FocusManager.instance.primaryFocus?.unfocus();
-                                        controller.toggleBookmark(project.id ?? 0);
+                              child: (product.isBookMark ?? false)
+                                  ? InkWell(
+                                      onTap: () {
+                                        FocusManager.instance.primaryFocus
+                                            ?.unfocus();
+                                        controller.toggleBookmark(
+                                            product.folderId ?? 0);
                                         controller.product.value.isBookMark =
-                                        !(controller.product.value.isBookMark ??
-                                            false);
+                                            false;
                                         controller.product.refresh();
                                       },
-                                    );
-                                  }
-
-                                },
-                                child: CompositedTransformTarget(
-                                  link: _layerLink,
-                                  child: Icon(product.isBookMark ?? true ? Icons.bookmark : Icons.bookmark_border,
-                                    color: product.isBookMark ?? true
-                                        ? Colors.deepOrangeAccent
-                                        : primaryTextColor_(context),
-                                    size: 20,
-                                  ),
-                                ),
-                              ),
-                            )
+                                      child: const Icon(
+                                        Icons.bookmark,
+                                        color: Colors.deepOrangeAccent,
+                                        size: 20,
+                                      ),
+                                    )
+                                  : InkWell(
+                                      onTap: () {
+                                        if (projectService.folderList.isEmpty) {
+                                          showDialog(
+                                            context: context,
+                                            barrierDismissible: true,
+                                            builder: (BuildContext context) {
+                                              return Dialog(
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                                insetPadding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 40),
+                                                child: Container(
+                                                  padding: const EdgeInsets.all(20),
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius:
+                                                        BorderRadius.circular(20),
+                                                    boxShadow: const [
+                                                      BoxShadow(
+                                                          color: Colors.black26,
+                                                          blurRadius: 20,
+                                                          offset: Offset(0, 10))
+                                                    ],
+                                                  ),
+                                                  child: AddFolderView(
+                                                    folders: [],
+                                                    onCancel: () =>
+                                                        Navigator.pop(context),
+                                                    onAdded: (folderName,
+                                                        projectId) async {
+                                                      Navigator.pop(context);
+                                                      final newFolder =
+                                                          await projectService
+                                                              .toggleCreateNewFolder(
+                                                                  folderName,
+                                                                  projectId);
+                                                      FocusManager.instance
+                                                          .primaryFocus
+                                                          ?.unfocus();
+                                                      controller.toggleBookmark(
+                                                          newFolder?.id ?? 0);
+                                                      controller.product.value
+                                                              .isBookMark =
+                                                          !(controller
+                                                                  .product
+                                                                  .value
+                                                                  .isBookMark ??
+                                                              false);
+                                                      controller.product
+                                                          .refresh();
+                                                    },
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          );
+                                        } else {
+                                          FavoritePopupManager.show(
+                                            context: context,
+                                            layerLink: _layerLink,
+                                            folders: projectService.folderList,
+                                            onProjectSelected: (project) {
+                                              FocusManager.instance.primaryFocus
+                                                  ?.unfocus();
+                                              controller.toggleBookmark(
+                                                  project.id ?? 0);
+                                              controller.product.value
+                                                      .isBookMark =
+                                                  !(controller.product.value
+                                                          .isBookMark ??
+                                                      false);
+                                              controller.product.refresh();
+                                            },
+                                          );
+                                        }
+                                      },
+                                      child: CompositedTransformTarget(
+                                        link: _layerLink,
+                                        child: Icon(
+                                          Icons.bookmark_border,
+                                          color: primaryTextColor_(context),
+                                          size: 20,
+                                        ),
+                                      ),
+                                    ),
+                            ),
 
                           ],
                         ),

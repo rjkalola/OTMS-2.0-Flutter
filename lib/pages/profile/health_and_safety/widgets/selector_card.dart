@@ -4,54 +4,51 @@ import 'package:flutter/material.dart';
 class SelectorCard extends StatelessWidget {
   final String placeholder;
   final String text;
+  final bool isOpen;
+  final VoidCallback onTap;
 
   const SelectorCard({
     super.key,
     required this.placeholder,
     required this.text,
+    required this.onTap,
+    this.isOpen = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    // Check if the text is empty or null to decide if we show the placeholder
     final bool isPlaceholder = text.isEmpty;
+    final Color activeColor = defaultAccentColor_(context);
+    final Color borderColor = isOpen ? activeColor : Colors.black12;
 
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-      decoration: BoxDecoration(
-        color: backgroundColor_(context), // Using your custom color function
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.black12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.02),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          )
-        ],
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: Text(
-              isPlaceholder ? placeholder : text,
-              style: TextStyle(
-                fontSize: 16,
-                // If it's a placeholder, use the theme's hintColor (default placeholder color)
-                color: isPlaceholder
-                    ? Theme.of(context).hintColor
-                    : Colors.black87,
+    return GestureDetector(
+      onTap: onTap, // Trigger the dropdown
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        decoration: BoxDecoration(
+          color: backgroundColor_(context),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: borderColor, width: isOpen ? 1.5 : 1.0),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Text(
+                isPlaceholder ? placeholder : text,
+                style: TextStyle(
+                  fontSize: 15,
+                  color: isPlaceholder ? secondaryTextColor_(context): primaryTextColor_(context),
+                ),
               ),
-              overflow: TextOverflow.ellipsis,
             ),
-          ),
-          Icon(
-            Icons.arrow_forward_ios_rounded,
-            size: 16,
-            color: Theme.of(context).hintColor.withOpacity(0.5), // Match arrow to theme
-          ),
-        ],
+            Icon(
+              isOpen ? Icons.arrow_drop_up_sharp : Icons.arrow_drop_down_sharp,
+              size: 25,
+              color: isOpen ? activeColor : secondaryTextColor_(context),
+            ),
+          ],
+        ),
       ),
     );
   }

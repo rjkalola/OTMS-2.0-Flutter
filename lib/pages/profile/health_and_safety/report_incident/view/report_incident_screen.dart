@@ -75,19 +75,19 @@ class _ReportIncidentScreenState extends State<ReportIncidentScreen> {
                               // --- Incident Type Selector ---
                               TitleTextView(text: "incident_type".tr,fontWeight: FontWeight.w500,),
                               const SizedBox(height: 8),
-                              SelectorCard(placeholder: "select_incident_type".tr, text: ""),
+                              //SelectorCard(placeholder: "select_incident_type".tr, text: ""),
                               const SizedBox(height: 16),
 
                               // --- Threat Level Selector ---
                               TitleTextView(text: "threat_level_assessment".tr,fontWeight: FontWeight.w500,),
                               const SizedBox(height: 8),
-                              SelectorCard(placeholder: "select_threat_level_assessment".tr, text: ""),
+                              //SelectorCard(placeholder: "select_threat_level_assessment".tr, text: ""),
                               const SizedBox(height: 16),
 
                               // --- Notify Selector ---
                               TitleTextView(text: "notify_to".tr,fontWeight: FontWeight.w500,),
                               const SizedBox(height: 8),
-                              SelectorCard(placeholder: "select_user".tr, text: ""),
+                              //SelectorCard(placeholder: "select_user".tr, text: ""),
                               const SizedBox(height: 16),
 
                               //Audio file
@@ -96,7 +96,10 @@ class _ReportIncidentScreenState extends State<ReportIncidentScreen> {
                               // --- Description Field ---
                               TitleTextView(text: "description".tr,fontWeight: FontWeight.w500,),
                               const SizedBox(height: 8),
-                              StyledTextField(hintText: "${'write_description_here'.tr}..."),
+                              StyledTextField(
+                                hintText: "${'write_description_here'.tr}...",
+                                controller: controller.descriptionController,
+                              ),
 
                               const SizedBox(height: 16),
 

@@ -300,8 +300,8 @@ class StoremanCatalogController extends GetxController {
       data: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
-          // fetchProducts();
-        } else {
+           fetchProducts();
+        }else{
           isLoading.value = false;
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }

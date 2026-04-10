@@ -774,6 +774,9 @@ class Strings extends Translations {
           'order_delivered_confirmation':"Are you sure you want to mark this order as delivered?",
           'personal_details':"Personal Details",
           'hazard':"Hazard",
+          'submit_report':"Submit Report",
+          'please_select_hazard_type':"Please select hazard type",
+          'attachments_text':"Attachments"
 
 // '': "",
 // '': "",
