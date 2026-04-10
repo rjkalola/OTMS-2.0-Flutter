@@ -1,18 +1,20 @@
 import 'dart:io';
 
 import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
-import 'package:belcka/pages/dashboard/controller/dashboard_controller.dart';
-import 'package:belcka/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart';
-import 'package:belcka/res/colors.dart';
-import 'package:belcka/res/theme/theme_controller.dart';
-import 'package:belcka/utils/liiquide_glass_style.dart';
-import 'package:belcka/widgets/CustomProgressbar.dart';
+import 'package:belcka/res/drawable.dart';
+import 'package:belcka/utils/image_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:belcka/pages/dashboard/controller/dashboard_controller.dart';
+import 'package:belcka/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart';
+import 'package:belcka/pages/dashboard/view/widgets/bottom_navigation_bar_widget.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/widgets/CustomProgressbar.dart';
 
 import '../../../utils/app_utils.dart';
+import '../../../widgets/appbar/base_appbar.dart';
 
 class DashboardScreen extends StatelessWidget {
   DashboardScreen({super.key});
@@ -76,22 +78,18 @@ class DashboardScreen extends StatelessWidget {
                       children: dashboardController.tabs,
                     ),
                   ),
-
+                  //New bottom bar for liquid glass effect
                   bottomNavigationBar: AdaptiveBottomNavigationBar(
                     selectedItemColor: defaultAccentColor_(context),
                     unselectedItemColor: primaryTextColor_(context),
                     useNativeBottomBar: true,
-                    bottomNavigationBar: Platform.isAndroid
-                        ? _androidDashboardNavigationBar(
-                            context, dashboardController)
-                        : null,
                     items: [
                       AdaptiveNavigationDestination(
                         icon: 'house',
                         label: 'Home',
                       ),
                       AdaptiveNavigationDestination(
-                        icon: 'bag', 
+                        icon: 'bag',
                         label: 'Store',
                       ),
                       /*
@@ -105,7 +103,7 @@ class DashboardScreen extends StatelessWidget {
                       ),
                       */
                     ],
-                    selectedIndex: dashboardController.selectedIndex.value,
+                    selectedIndex: 0,
                     onTap: (index) {
                       dashboardController.selectedIndex.value = index;
                       dashboardController.onItemTapped(index);
@@ -168,60 +166,4 @@ class DashboardScreen extends StatelessWidget {
 
     return Future.value(true);
   }
-}
-
-Widget _androidDashboardNavigationBar(
-  BuildContext context,
-  DashboardController controller,
-) {
-  final accent = defaultAccentColor_(context);
-  final muted = primaryTextColor_(context);
-  final bool isDark = Get.find<ThemeController>().isDarkMode;
-  final surface = LiquidGlassStyle.glassFill(context, isDark);
-  final barIndex = controller.selectedIndex.value.clamp(0, 1);
-
-  return NavigationBarTheme(
-    data: NavigationBarThemeData(
-      height: 64,
-      backgroundColor: surface,
-      elevation: 0,
-      surfaceTintColor: Colors.transparent,
-      shadowColor: Colors.transparent,
-      indicatorColor: accent.withValues(alpha: 0.18),
-      labelTextStyle: WidgetStateProperty.resolveWith((states) {
-        final selected = states.contains(WidgetState.selected);
-        return TextStyle(
-          fontSize: 12,
-          fontWeight: selected ? FontWeight.w500 : FontWeight.w400,
-          color: selected ? accent : muted,
-        );
-      }),
-      iconTheme: WidgetStateProperty.resolveWith((states) {
-        final selected = states.contains(WidgetState.selected);
-        return IconThemeData(color: selected ? accent : muted, size: 24);
-      }),
-    ),
-    child: NavigationBar(
-      selectedIndex: barIndex,
-      labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-      surfaceTintColor: Colors.transparent,
-      shadowColor: Colors.transparent,
-      onDestinationSelected: (index) {
-        controller.selectedIndex.value = index;
-        controller.onItemTapped(index);
-      },
-      destinations: const [
-        NavigationDestination(
-          icon: Icon(Icons.home_outlined),
-          selectedIcon: Icon(Icons.home_rounded),
-          label: 'Home',
-        ),
-        NavigationDestination(
-          icon: Icon(Icons.storefront_outlined),
-          selectedIcon: Icon(Icons.storefront_rounded),
-          label: 'Store',
-        ),
-      ],
-    ),
-  );
 }
