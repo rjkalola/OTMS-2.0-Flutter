@@ -96,6 +96,7 @@ class ProductInfo {
   int? approvedBy;
   String? approveByUserName;
   String? approvedAt;
+  int? folderId;
 
   FocusNode qtyFocusNode = FocusNode();
 
@@ -178,7 +179,8 @@ class ProductInfo {
       this.note,
       this.notes,
       this.tempNote,
-      this.isCheck});
+      this.isCheck,
+      this.folderId});
 
   ProductInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -307,6 +309,7 @@ class ProductInfo {
     approveByUserName = json['approve_by_user_name']?.toString();
     approvedAt = json['approved_at']?.toString();
     status = json['status'];
+    folderId = json['folder_id'];
   }
 
   Map<String, dynamic> toJson() {
@@ -415,7 +418,7 @@ class ProductInfo {
     data['approved_by'] = this.approvedBy;
     data['approve_by_user_name'] = this.approveByUserName;
     data['approved_at'] = this.approvedAt;
-
+    data['folder_id'] = this.folderId;
     return data;
   }
 }

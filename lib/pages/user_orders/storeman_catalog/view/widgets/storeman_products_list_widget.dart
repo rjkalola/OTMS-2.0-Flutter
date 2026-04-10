@@ -282,6 +282,27 @@ class _StoremanProductsListWidgetState
                                           ),
                                           const SizedBox(height: 4),
                                           //Favorite
+                                          if (product.isBookMark ?? false)
+                                            InkWell(
+                                              onTap: () {
+                                                FocusManager
+                                                    .instance.primaryFocus
+                                                    ?.unfocus();
+                                                controller.toggleBookmark(
+                                                    index,
+                                                    category,
+                                                    product.folderId ?? 0);
+                                                product.isBookMark = false;
+                                                controller.categories
+                                                    .refresh();
+                                              },
+                                              child: Icon(Icons.bookmark,
+                                                color: Colors.deepOrangeAccent,
+                                                size: 20,
+                                              )
+                                            ),
+
+                                          if ((product.isBookMark ?? false) == false)
                                           InkWell(
                                             onTap: () {
                                               if (projectService

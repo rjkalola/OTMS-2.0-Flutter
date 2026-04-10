@@ -380,7 +380,9 @@ class ApiConstants {
   static String hireOrdersUpdateStatus = '$appUrl/hire-orders/update-status';
 
   //Health and Safety
+  static String hsGetResources = '$appUrl/health-safety/get-resources';
   static String nearMissReportsList = '$appUrl/near-miss-reports/get';
   static String reportIncidentsGet = '$appUrl/report-incidents/get';
+  static String nearMissReportsStore = '$appUrl/near-miss-reports/store';
 
 }

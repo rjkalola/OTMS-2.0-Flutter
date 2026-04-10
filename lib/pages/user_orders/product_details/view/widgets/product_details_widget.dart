@@ -198,6 +198,24 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                             ),
                             SizedBox(width: 8,),
                             //Favorite
+
+                            if (product.isBookMark ?? false)
+                              InkWell(
+                                  onTap: () {
+                                    FocusManager
+                                        .instance.primaryFocus
+                                        ?.unfocus();
+                                    controller.toggleBookmark(product.folderId ?? 0);
+                                    controller.product.value.isBookMark = false;
+                                    controller.product.refresh();
+                                  },
+                                  child: Icon(Icons.bookmark,
+                                    color: Colors.deepOrangeAccent,
+                                    size: 20,
+                                  )
+                              ),
+
+                            if ((product.isBookMark ?? false) == false)
                             InkWell(
                               onTap: (){
                                 if (projectService.folderList.isEmpty) {

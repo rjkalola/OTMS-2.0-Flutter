@@ -278,8 +278,9 @@ class ProductDetailsController extends GetxController {
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           isDataUpdated = true;
-           //fetchProductDetails();
-        } else {
+           fetchProductDetails();
+        }
+        else{
           isLoading.value = false;
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }

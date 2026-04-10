@@ -1,8 +1,18 @@
+import 'dart:convert';
+import 'package:belcka/pages/common/model/file_info.dart';
+import 'package:belcka/pages/profile/health_and_safety/health_and_safety_service/health_and_safety_service.dart';
+import 'package:belcka/pages/profile/health_and_safety/health_and_safety_service/hs_resource_types_info.dart';
 import 'package:belcka/pages/profile/health_and_safety/near_miss_reporting/controller/near_miss_reporting_repository.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/web_services/api_constants.dart';
+import 'package:belcka/web_services/response/base_response.dart';
+import 'package:belcka/web_services/response/response_model.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:io';
-import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:dio/dio.dart' as multi;
 
 class NearMissReportingController extends GetxController{
   RxBool isDeliverySelected = true.obs;
@@ -15,12 +25,70 @@ class NearMissReportingController extends GetxController{
 
   File? selectedMedia;
   final ImagePicker picker = ImagePicker();
-
+  final healthAndSafetyService = Get.find<HealthAndSafetyService>();
+  HSResourceTypesInfo? selectedHazard;
+  final TextEditingController descriptionController = TextEditingController();
+  bool isDataUpdated = false;
+  var attachmentList = <PlatformFile>[].obs;
 
   @override
   void onInit() {
     super.onInit();
 
+  }
+
+  void clearAttachments() {
+    attachmentList.clear();
+  }
+  void storeNearMissReport() async {
+    Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
+    map["hazard_id"] = selectedHazard?.id ?? 0;
+    map["description"] = descriptionController.text.trim();
+
+    multi.FormData formData = multi.FormData.fromMap(map);
+    print("reques value:" + map.toString());
+
+
+    for (var file in attachmentList) {
+      if (file.path != null && file.path!.isNotEmpty) {
+        print("Uploading file: ${file.path}");
+        formData.files.add(
+          MapEntry(
+            "files[]",
+            await multi.MultipartFile.fromFile(
+              file.path!,
+              filename: file.name,
+            ),
+          ),
+        );
+      }
+    }
+
+
+    isLoading.value = true;
+    _api.storeNearMissReportsAPI(
+      formData: formData,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          BaseResponse response =
+          BaseResponse.fromJson(jsonDecode(responseModel.result!));
+          AppUtils.showApiResponseMessage(response.Message ?? "");
+          Get.back(result: true);
+        }
+        else{
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+        isDataUpdated = true;
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        }
+      },
+    );
   }
 
   Future<void> moveToScreen(String rout, dynamic arguments) async {
@@ -29,11 +97,11 @@ class NearMissReportingController extends GetxController{
 
     }
   }
-// --- Method to Clear Media (X Button) ---
+
   void clearMedia() {
     selectedMedia = null;
   }
   void onBackPress() {
-    Get.back(result: true);
+    Get.back(result: isDataUpdated);
   }
 }

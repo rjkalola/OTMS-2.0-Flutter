@@ -16,7 +16,7 @@ class ReportIncidentController extends GetxController{
 
   File? selectedMedia;
   final ImagePicker picker = ImagePicker();
-
+  final TextEditingController descriptionController = TextEditingController();
 
   @override
   void onInit() {
