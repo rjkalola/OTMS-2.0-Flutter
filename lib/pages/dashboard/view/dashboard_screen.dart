@@ -1,5 +1,8 @@
 import 'dart:io';
 
+import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
+import 'package:belcka/res/drawable.dart';
+import 'package:belcka/utils/image_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -54,8 +57,8 @@ class DashboardScreen extends StatelessWidget {
                 inAsyncCall: dashboardController.isLoading.value,
                 opacity: 0,
                 progressIndicator: const CustomProgressbar(),
-                child: Scaffold(
-                  backgroundColor: dashBoardBgColor_(context),
+                child: AdaptiveScaffold(
+                  minimizeBehavior: TabBarMinimizeBehavior.never,
                   // appBar: dashboardController.selectedIndex.value == 0
                   //     ? null
                   //     : BaseAppBar(
@@ -75,7 +78,37 @@ class DashboardScreen extends StatelessWidget {
                       children: dashboardController.tabs,
                     ),
                   ),
-                  bottomNavigationBar: BottomNavigationBarWidget(),
+                  //New bottom bar for liquid glass effect
+                  bottomNavigationBar: AdaptiveBottomNavigationBar(
+                    selectedItemColor: defaultAccentColor_(context),
+                    unselectedItemColor: primaryTextColor_(context),
+                    useNativeBottomBar: true,
+                    items: [
+                      AdaptiveNavigationDestination(
+                        icon: 'house',
+                        label: 'Home',
+                      ),
+                      AdaptiveNavigationDestination(
+                        icon: 'bag',
+                        label: 'Store',
+                      ),
+                      /*
+                      AdaptiveNavigationDestination(
+                        icon: 'bubble.left.and.bubble.right',
+                        label: 'Chat',
+                      ),
+                      AdaptiveNavigationDestination(
+                        icon: 'sparkles',
+                        label: 'AI',
+                      ),
+                      */
+                    ],
+                    selectedIndex: 0,
+                    onTap: (index) {
+                      dashboardController.selectedIndex.value = index;
+                      dashboardController.onItemTapped(index);
+                    },
+                  ),
                 )))),
       ),
     );
