@@ -109,7 +109,7 @@ class MyDayLogListView extends StatelessWidget {
                                                 ),
                                               ),*/
                                                       Expanded(
-                                                        flex: 4,
+                                                        flex: 3,
                                                         child: Column(
                                                           crossAxisAlignment:
                                                               CrossAxisAlignment
@@ -170,7 +170,7 @@ class MyDayLogListView extends StatelessWidget {
                                                                         : primaryTextColor_(
                                                                             context),
                                                                     fontSize:
-                                                                        18,
+                                                                        17,
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .w600,
@@ -193,7 +193,7 @@ class MyDayLogListView extends StatelessWidget {
                                                                         text:
                                                                             "(${controller.changeFullDateToSortTime(info.workStartTime)}",
                                                                         fontSize:
-                                                                            17,
+                                                                            16,
                                                                         fontWeight:
                                                                             FontWeight.w600,
                                                                         color: defaultAccentColor_(
@@ -203,7 +203,7 @@ class MyDayLogListView extends StatelessWidget {
                                                                         text:
                                                                             " - ",
                                                                         fontSize:
-                                                                            17,
+                                                                            16,
                                                                         fontWeight:
                                                                             FontWeight.w600,
                                                                         color: defaultAccentColor_(
@@ -213,7 +213,7 @@ class MyDayLogListView extends StatelessWidget {
                                                                         text: toWorkTimeText(
                                                                             info),
                                                                         fontSize:
-                                                                            17,
+                                                                            16,
                                                                         fontWeight:
                                                                             FontWeight.w600,
                                                                         color: isActiveWorkLog(info)

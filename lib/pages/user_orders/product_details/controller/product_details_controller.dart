@@ -18,7 +18,7 @@ class ProductDetailsController extends GetxController {
   final formKey = GlobalKey<FormState>();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
-      isMainViewVisible = false.obs, 
+      isMainViewVisible = false.obs,
       isReadOnly = false.obs;
   final currentImageIndex = <int, int>{}.obs;
 

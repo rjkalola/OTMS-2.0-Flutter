@@ -133,7 +133,7 @@ class CheckLogListView extends StatelessWidget {
                                                   ),
                                                 ),
                                                 Expanded(
-                                                  flex: 2,
+                                                  flex: 3,
                                                   child: Column(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
@@ -158,7 +158,7 @@ class CheckLogListView extends StatelessWidget {
                                                                 .seconds_To_HH_MM(
                                                                     info.totalWorkSeconds ??
                                                                         0),
-                                                        fontSize: 18,
+                                                        fontSize: 17,
                                                         fontColor:
                                                             primaryTextColor_(
                                                                 context),
