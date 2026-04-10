@@ -19,10 +19,9 @@ class AttachmentSection extends StatefulWidget {
 }
 
 class _AttachmentSectionState extends State<AttachmentSection> {
-  final List<PlatformFile> _files = [];
+  // REMOVE THIS: final List<PlatformFile> _files = [];
   final controller = Get.find<NearMissReportingController>();
 
-  // Function to pick files
   Future<void> _pickFiles() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowMultiple: true,
@@ -30,16 +29,8 @@ class _AttachmentSectionState extends State<AttachmentSection> {
       allowedExtensions: ['jpg', 'png', 'mp4', 'mp3', 'pdf'],
     );
 
-    /*
     if (result != null) {
-      setState(() {
-        _files.addAll(result.files);
-      });
-
-    }
-    */
-    if (result != null) {
-      // Access the controller's list directly
+      // Correctly adding to the observed list in the controller
       controller.attachmentList.addAll(result.files);
     }
   }
@@ -49,9 +40,10 @@ class _AttachmentSectionState extends State<AttachmentSection> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TitleTextView(text: "attachments_text".tr,fontWeight: FontWeight.w500,fontSize: 15,),
+        TitleTextView(text: "attachments_text".tr, fontWeight: FontWeight.w500, fontSize: 15),
         const SizedBox(height: 12),
-        // 1. Upload Area (Dashed Box)
+
+        // 1. Upload Area
         GestureDetector(
           onTap: _pickFiles,
           child: Container(
@@ -78,7 +70,7 @@ class _AttachmentSectionState extends State<AttachmentSection> {
                   style: TextStyle(fontWeight: FontWeight.w600, color: defaultAccentColor_(context), fontSize: 15),
                 ),
                 const SizedBox(height: 8),
-                 Text(
+                Text(
                   "Images, Videos, Audio, PDF • Max 100 MB each",
                   style: TextStyle(color: secondaryTextColor_(context), fontSize: 13),
                 ),
@@ -89,49 +81,46 @@ class _AttachmentSectionState extends State<AttachmentSection> {
 
         const SizedBox(height: 24),
 
-        // 2. Display Selected Files
-        if (_files.isNotEmpty) ...[
-          Text(
-            "NEW FILES (${_files.length})",
-            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13, color:primaryTextColor_(context), letterSpacing: 0.5),
-          ),
-          const SizedBox(height: 12),
-
-          Obx(() => ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: controller.attachmentList.length,
-            separatorBuilder: (_, __) => const SizedBox(height: 10),
-            itemBuilder: (context, index) => FileItemTile(
-              file: controller.attachmentList[index],
-              onDelete: () => controller.attachmentList.removeAt(index),
-            ),
-          ))
-
-        ] else
-          const Center(
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 20),
-              child: Text("No attachments added yet", style: TextStyle(color: Colors.black38)),
-            ),
-          ),
+        // 2. DISPLAY LOGIC (FIXED)
+        // Wrap the entire list and the header in Obx so it reacts to controller changes
+        Obx(() {
+          if (controller.attachmentList.isNotEmpty) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "NEW FILES (${controller.attachmentList.length})",
+                  style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 13,
+                      color: primaryTextColor_(context),
+                      letterSpacing: 0.5
+                  ),
+                ),
+                const SizedBox(height: 12),
+                ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: controller.attachmentList.length,
+                  separatorBuilder: (_, __) => const SizedBox(height: 10),
+                  itemBuilder: (context, index) => FileItemTile(
+                    file: controller.attachmentList[index],
+                    onDelete: () => controller.attachmentList.removeAt(index),
+                  ),
+                ),
+              ],
+            );
+          } else {
+            // Show "No attachments" when the controller list is empty
+            return const Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 20),
+                child: Text("No attachments added yet", style: TextStyle(color: Colors.black38)),
+              ),
+            );
+          }
+        }),
       ],
-    );
-  }
-}
-
-class _Badge extends StatelessWidget {
-  final String text;
-  final Color color;
-  final Color textColor;
-  const _Badge({required this.text, required this.color, required this.textColor});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-      decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(6)),
-      child: Text(text, style: TextStyle(color: textColor, fontSize: 10, fontWeight: FontWeight.bold)),
     );
   }
 }

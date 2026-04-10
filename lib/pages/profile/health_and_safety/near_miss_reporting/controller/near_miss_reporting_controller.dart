@@ -41,30 +41,28 @@ class NearMissReportingController extends GetxController{
     attachmentList.clear();
   }
   void storeNearMissReport() async {
-    Map<String, dynamic> map = {};
-    map["company_id"] = ApiConstants.companyId;
-    map["hazard_id"] = selectedHazard?.id ?? 0;
-    map["description"] = descriptionController.text.trim();
+    Map<String, dynamic> map = {
+      "company_id": ApiConstants.companyId,
+      "hazard_id": selectedHazard?.id ?? 0,
+      "description": descriptionController.text.trim(),
+    };
 
-    multi.FormData formData = multi.FormData.fromMap(map);
-    print("reques value:" + map.toString());
-
-
+    // Pre-create the list of MultipartFiles
+    List<multi.MultipartFile> fileList = [];
     for (var file in attachmentList) {
-      if (file.path != null && file.path!.isNotEmpty) {
-        print("Uploading file: ${file.path}");
-        formData.files.add(
-          MapEntry(
-            "files[]",
-            await multi.MultipartFile.fromFile(
-              file.path!,
-              filename: file.name,
-            ),
-          ),
-        );
+      if (file.path != null) {
+        fileList.add(await multi.MultipartFile.fromFile(
+          file.path!,
+          filename: file.name,
+        ));
       }
     }
 
+    // Add the list to the map
+    map["files"] = fileList;
+
+    // Create FormData from the map containing the list
+    multi.FormData formData = multi.FormData.fromMap(map);
 
     isLoading.value = true;
     _api.storeNearMissReportsAPI(

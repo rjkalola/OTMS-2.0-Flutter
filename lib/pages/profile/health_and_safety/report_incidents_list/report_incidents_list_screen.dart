@@ -39,7 +39,6 @@ class _ReportIncidentsListScreenState extends State<ReportIncidentsListScreen> {
                 isCenterTitle: false,
                 isBack: true,
                 bgColor: backgroundColor_(context),
-                widgets: actionButtons(),
                 onBackPressed: () {
                   controller.onBackPress();
                 },
