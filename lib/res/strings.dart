@@ -782,6 +782,10 @@ class Strings extends Translations {
           'please_select_hazard_type': "Please select hazard type",
           'attachments_text': "Attachments",
           'in_service_by': "In Service by",
+          'no_data_found': "No data found",
+          'submit_incident': "Submit Incident"
+
+// '': "",
 // '': "",
           // '': "",
 // '': "",

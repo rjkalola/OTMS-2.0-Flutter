@@ -1,26 +1,22 @@
-import 'dart:io';
-import 'package:belcka/pages/profile/health_and_safety/near_miss_reporting/controller/near_miss_reporting_controller.dart';
 import 'package:belcka/pages/profile/health_and_safety/widgets/file_item_tile.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
-import 'package:path/path.dart' as p;
 
-class AttachmentSection extends StatefulWidget {
-  const AttachmentSection({super.key});
+class AttachmentSection extends StatelessWidget {
+  final List<PlatformFile> attachmentList;
+  final Function(List<PlatformFile>) onFilesSelected;
+  final Function(int) onDelete;
 
-  @override
-  State<AttachmentSection> createState() => _AttachmentSectionState();
-}
-
-class _AttachmentSectionState extends State<AttachmentSection> {
-  // REMOVE THIS: final List<PlatformFile> _files = [];
-  final controller = Get.find<NearMissReportingController>();
+  const AttachmentSection({
+    super.key,
+    required this.attachmentList,
+    required this.onFilesSelected,
+    required this.onDelete,
+  });
 
   Future<void> _pickFiles() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -31,7 +27,7 @@ class _AttachmentSectionState extends State<AttachmentSection> {
 
     if (result != null) {
       // Correctly adding to the observed list in the controller
-      controller.attachmentList.addAll(result.files);
+      attachmentList.addAll(result.files);
     }
   }
 
@@ -84,12 +80,12 @@ class _AttachmentSectionState extends State<AttachmentSection> {
         // 2. DISPLAY LOGIC (FIXED)
         // Wrap the entire list and the header in Obx so it reacts to controller changes
         Obx(() {
-          if (controller.attachmentList.isNotEmpty) {
+          if (attachmentList.isNotEmpty) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "NEW FILES (${controller.attachmentList.length})",
+                  "NEW FILES (${attachmentList.length})",
                   style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 13,
@@ -101,11 +97,11 @@ class _AttachmentSectionState extends State<AttachmentSection> {
                 ListView.separated(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: controller.attachmentList.length,
+                  itemCount: attachmentList.length,
                   separatorBuilder: (_, __) => const SizedBox(height: 10),
                   itemBuilder: (context, index) => FileItemTile(
-                    file: controller.attachmentList[index],
-                    onDelete: () => controller.attachmentList.removeAt(index),
+                    file: attachmentList[index],
+                    onDelete: () => attachmentList.removeAt(index),
                   ),
                 ),
               ],

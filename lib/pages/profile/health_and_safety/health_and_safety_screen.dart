@@ -62,6 +62,7 @@ class _HealthAndSafetyScreenState extends State<HealthAndSafetyScreen> {
                       },
                     ),
                     const SizedBox(height: 4),
+                    /*
                     _buildMenuButton(
                       label: "history".tr,
                       icon: Icons.history_edu_outlined,
@@ -69,6 +70,7 @@ class _HealthAndSafetyScreenState extends State<HealthAndSafetyScreen> {
 
                       },
                     ),
+                    */
                   ],
                 ),
               ),

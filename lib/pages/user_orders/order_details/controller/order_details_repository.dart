@@ -51,4 +51,17 @@ class OrderDetailsRepository {
       onError: (error) => {if (onError != null) onError(error)},
     );
   }
+  void addToCartAPI({
+    Map<String, dynamic>? queryParameters,
+    dynamic data,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(url: ApiConstants.productsAddToCart, data: data).postRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
 }

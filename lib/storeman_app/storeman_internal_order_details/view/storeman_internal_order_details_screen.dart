@@ -177,6 +177,7 @@ class _StoremanInternalOrderDetailsScreenState
                                                       _reasonController.text
                                                           .trim());
                                                   _reasonController.text = "";
+                                                  Navigator.pop(context);
                                                 },
                                                 onCancel: () =>
                                                     Navigator.pop(context),

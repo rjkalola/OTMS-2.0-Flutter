@@ -29,7 +29,7 @@ class CategoryExpandGrid extends StatelessWidget {
           return GridView(
             key: _gridViewKey,
             controller: _scrollController,
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
             children: children,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
