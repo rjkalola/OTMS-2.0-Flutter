@@ -81,7 +81,7 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
                               children: [
                                 Column(
                                   children: [
-                                    const SizedBox(height: 16),
+                                    const SizedBox(height: 8),
                                     Expanded(
                                       child: Row(
                                         children: [
@@ -108,7 +108,7 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
                                       right: controller.isCategoryExpanded.value
                                           ? 0
                                           : -MediaQuery.of(context).size.width,
-                                      top: 20,
+                                      top: 0,
                                       bottom: 0,
                                       width: MediaQuery.of(context).size.width,
                                       child: Container(

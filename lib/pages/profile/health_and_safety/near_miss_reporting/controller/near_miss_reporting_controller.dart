@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:belcka/pages/common/model/file_info.dart';
 import 'package:belcka/pages/profile/health_and_safety/health_and_safety_service/health_and_safety_service.dart';
 import 'package:belcka/pages/profile/health_and_safety/health_and_safety_service/hs_resource_types_info.dart';
 import 'package:belcka/pages/profile/health_and_safety/near_miss_reporting/controller/near_miss_reporting_repository.dart';
@@ -23,7 +22,6 @@ class NearMissReportingController extends GetxController{
       isSearchEnable = false.obs,
       isClearSearch = false.obs;
 
-  File? selectedMedia;
   final ImagePicker picker = ImagePicker();
   final healthAndSafetyService = Get.find<HealthAndSafetyService>();
   HSResourceTypesInfo? selectedHazard;
@@ -37,9 +35,6 @@ class NearMissReportingController extends GetxController{
 
   }
 
-  void clearAttachments() {
-    attachmentList.clear();
-  }
   void storeNearMissReport() async {
     Map<String, dynamic> map = {
       "company_id": ApiConstants.companyId,
@@ -96,9 +91,6 @@ class NearMissReportingController extends GetxController{
     }
   }
 
-  void clearMedia() {
-    selectedMedia = null;
-  }
   void onBackPress() {
     Get.back(result: isDataUpdated);
   }

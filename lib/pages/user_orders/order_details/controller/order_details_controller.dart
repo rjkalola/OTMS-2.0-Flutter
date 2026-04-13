@@ -138,23 +138,15 @@ class OrderDetailsController extends GetxController{
     final Map<String, dynamic> body = isAllOrders
         ? createOrderRequest(
       companyId: ApiConstants.companyId,
-      projectId: order.projectId ?? 0,
-      addressId: order.addressId ?? 0,
-      deliverOn: order.deliverOn ?? "",
-      storeId: order.storeId ?? 0,
     )
         : createSingleOrderRequest(
       companyId: ApiConstants.companyId,
-      projectId: order.projectId ?? 0,
-      addressId: order.addressId ?? 0,
-      deliverOn: order.deliverOn ?? "",
-      storeId: order.storeId ?? 0,
       index: index,
     );
 
     print(body);
 
-    _api.createEmployeeOrderAPI(
+    _api.addToCartAPI(
       data: body,
       onSuccess: (ResponseModel responseModel) {
         isLoading.value = false;
@@ -178,22 +170,14 @@ class OrderDetailsController extends GetxController{
 
   Map<String, dynamic> createOrderRequest({
     required int companyId,
-    required int projectId,
-    required int addressId,
-    required String deliverOn,
-    required int storeId,
   }) {
     return {
       "company_id": companyId,
-      "project_id": projectId,
-      if (addressId > 0) "address_id": addressId,
-      if (storeId > 0) "store_id": storeId,
-      "deliver_on": deliverOn,
       "product_data": orderDetails[0].orders?.map((item) {
         return {
           "product_id": item.productId,
           "qty": (item.isSubQty ?? false) ? item.subQty : item.qty,
-          "price": item.marketPrice,
+          "cart_qty": (item.isSubQty ?? false) ? item.subQty : item.qty,
           "is_sub_qty":item.isSubQty
         };
       }).toList(),
@@ -202,10 +186,6 @@ class OrderDetailsController extends GetxController{
 
   Map<String, dynamic> createSingleOrderRequest({
     required int companyId,
-    required int projectId,
-    required int addressId,
-    required String deliverOn,
-    required int storeId,
     required int index,
   }) {
 
@@ -213,20 +193,13 @@ class OrderDetailsController extends GetxController{
 
     return {
       "company_id": companyId,
-      "project_id": projectId,
-      if (addressId > 0) "address_id": addressId,
-      if (storeId > 0) "store_id": storeId,
-      "deliver_on": deliverOn,
-      "product_data": [
-        {
-          "product_id": item.productId,
-          "qty":(item.isSubQty ?? false) ? item.subQty : item.qty,
-          "price": item.marketPrice,
-          "is_sub_qty":item.isSubQty
-        }
-      ],
+      "product_id": item.productId,
+      "qty":(item.isSubQty ?? false) ? item.subQty : item.qty,
+      "cart_qty": (item.isSubQty ?? false) ? item.subQty : item.qty,
+      "is_sub_qty":item.isSubQty
     };
   }
+
   int getSelectedItemsCount(){
     final orders = orderDetails[0].orders ?? [];
     return orders.where((item) => item.isSelected == true).length;

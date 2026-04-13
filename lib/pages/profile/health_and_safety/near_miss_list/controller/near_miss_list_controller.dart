@@ -12,7 +12,7 @@ class NearMissListController extends GetxController{
   final _api = NearMissListRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
-      isMainViewVisible = true.obs,
+      isMainViewVisible = false.obs,
       isSearchEnable = false.obs,
       isClearSearch = false.obs;
 

@@ -80,9 +80,14 @@ class _NearMissReportingScreenState extends State<NearMissReportingScreen> {
                                   text: controller.selectedHazard?.title ?? "",
                                   isOpen: _isDropdownOpen,
                                   onTap: () {
-                                    setState(() {
-                                      _isDropdownOpen = !_isDropdownOpen; // Toggle open/close
-                                    });
+                                    if (controller.healthAndSafetyService.hazards.isEmpty){
+                                      AppUtils.showSnackBarMessage('no_data_found'.tr);
+                                    }
+                                    else{
+                                      setState(() {
+                                        _isDropdownOpen = !_isDropdownOpen; // Toggle open/close
+                                      });
+                                    }
                                   },
                                 ),
 
@@ -127,7 +132,6 @@ class _NearMissReportingScreenState extends State<NearMissReportingScreen> {
                                   ),
                               ],
                             ),
-
                             const SizedBox(height: 16),
 
                             // --- Description Field ---
@@ -140,7 +144,11 @@ class _NearMissReportingScreenState extends State<NearMissReportingScreen> {
                             const SizedBox(height: 16),
 
                             // --- THE UPLOAD SECTION ---
-                            AttachmentSection(),
+                            AttachmentSection(
+                              attachmentList: controller.attachmentList,
+                              onFilesSelected: (files) => controller.attachmentList.addAll(files),
+                              onDelete: (index) => controller.attachmentList.removeAt(index),
+                            ),
                             const SizedBox(height: 24),
                           ],
                         ),

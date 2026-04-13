@@ -1,5 +1,6 @@
 import 'package:belcka/pages/profile/health_and_safety/near_miss_list/controller/near_miss_list_controller.dart';
 import 'package:belcka/pages/profile/health_and_safety/near_miss_list/view/near_miss_list_widget.dart';
+import 'package:belcka/pages/user_orders/widgets/empty_state_view.dart';
 import 'package:belcka/pages/user_orders/widgets/orders_base_app_bar.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/routes/app_routes.dart';
@@ -56,9 +57,12 @@ class _NearMissListScreenState extends State<NearMissListScreen> {
                   },
                 )
                     : controller.isMainViewVisible.value
-                    ? Padding(
+                    ? (controller.nearMissReportsList.isNotEmpty) ? Padding(
                   padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
                   child: NearMissListWidget(),
+                ) : EmptyStateView(
+                  title: 'no_data_found'.tr,
+                  message:"",
                 )
                     : const SizedBox.shrink(),
               ),

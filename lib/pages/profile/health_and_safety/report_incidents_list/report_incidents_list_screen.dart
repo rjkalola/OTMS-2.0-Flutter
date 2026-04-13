@@ -1,5 +1,6 @@
 import 'package:belcka/pages/profile/health_and_safety/report_incidents_list/controller/report_incident_list_controller.dart';
 import 'package:belcka/pages/profile/health_and_safety/report_incidents_list/view/report_incident_list_widget.dart';
+import 'package:belcka/pages/user_orders/widgets/empty_state_view.dart';
 import 'package:belcka/pages/user_orders/widgets/orders_base_app_bar.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/routes/app_routes.dart';
@@ -38,6 +39,7 @@ class _ReportIncidentsListScreenState extends State<ReportIncidentsListScreen> {
                 title: 'report_incident'.tr,
                 isCenterTitle: false,
                 isBack: true,
+                widgets: actionButtons(),
                 bgColor: backgroundColor_(context),
                 onBackPressed: () {
                   controller.onBackPress();
@@ -55,9 +57,12 @@ class _ReportIncidentsListScreenState extends State<ReportIncidentsListScreen> {
                   },
                 )
                     : controller.isMainViewVisible.value
-                    ? Padding(
+                    ? (controller.incidentsReportsList.isNotEmpty) ? Padding(
                   padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
                   child: ReportIncidentListWidget(),
+                ) : EmptyStateView(
+                  title: 'no_data_found'.tr,
+                  message:"",
                 )
                     : const SizedBox.shrink(),
               ),

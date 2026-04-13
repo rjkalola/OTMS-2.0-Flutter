@@ -1,4 +1,5 @@
 import 'package:belcka/pages/profile/health_and_safety/report_incident/controller/report_incident_controller.dart';
+import 'package:belcka/pages/profile/health_and_safety/widgets/attachment_section.dart';
 import 'package:belcka/pages/profile/health_and_safety/widgets/audio_reporting_widget.dart';
 import 'package:belcka/pages/profile/health_and_safety/widgets/multi_audio_grid_widget.dart';
 import 'package:belcka/pages/profile/health_and_safety/widgets/selector_card.dart';
@@ -9,6 +10,7 @@ import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
+import 'package:belcka/widgets/other_widgets/user_avtar_view.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/file.dart';
@@ -25,6 +27,9 @@ class ReportIncidentScreen extends StatefulWidget {
 
 class _ReportIncidentScreenState extends State<ReportIncidentScreen> {
   final controller = Get.put(ReportIncidentController());
+  bool _isIncidentDropdownOpen = false;
+  bool _isThreatLevelDropdownOpen = false;
+  bool _isUserDropdownOpen = false;
 
   @override
   Widget build(BuildContext context) {
@@ -74,104 +79,225 @@ class _ReportIncidentScreenState extends State<ReportIncidentScreen> {
                             children: [
                               // --- Incident Type Selector ---
                               TitleTextView(text: "incident_type".tr,fontWeight: FontWeight.w500,),
+
                               const SizedBox(height: 8),
-                              //SelectorCard(placeholder: "select_incident_type".tr, text: ""),
+                              Column(
+                                children: [
+                                  SelectorCard(
+                                    placeholder: "select_incident_type".tr,
+                                    text: controller.selectedIncidentType?.title ?? "",
+                                    isOpen: _isIncidentDropdownOpen,
+                                    onTap: () {
+                                      setState(() {
+                                        _isIncidentDropdownOpen = !_isIncidentDropdownOpen; // Toggle open/close
+                                        _isThreatLevelDropdownOpen = false;
+                                        _isUserDropdownOpen = false;
+                                      });
+                                    },
+                                  ),
+
+                                  // The actual Dropdown Menu
+                                  if (_isIncidentDropdownOpen)
+                                    Container(
+                                      margin: const EdgeInsets.only(top: 8),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(12),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black.withOpacity(0.1),
+                                            blurRadius: 12,
+                                            offset: const Offset(0, 4),
+                                          ),
+                                        ],
+                                      ),
+                                      child: Column(
+                                        children: controller.healthAndSafetyService.incidentTypes.map((incident) {
+                                          return InkWell(
+                                            onTap: () {
+                                              setState(() {
+                                                controller.selectedIncidentType = incident; // Change selection status
+                                                _isIncidentDropdownOpen = false;  // Close the dropdown
+                                              });
+                                            },
+                                            child: Container(
+                                              width: double.infinity,
+                                              padding: const EdgeInsets.all(16),
+                                              decoration: const BoxDecoration(
+                                                border: Border(bottom: BorderSide(color: Colors.black12, width: 0.5)),
+                                              ),
+                                              child: Text(
+                                                incident.title,
+                                                style: const TextStyle(fontSize: 16, color: Colors.black87),
+                                              ),
+                                            ),
+                                          );
+                                        }).toList(),
+                                      ),
+                                    ),
+                                ],
+                              ),
                               const SizedBox(height: 16),
 
                               // --- Threat Level Selector ---
                               TitleTextView(text: "threat_level_assessment".tr,fontWeight: FontWeight.w500,),
                               const SizedBox(height: 8),
-                              //SelectorCard(placeholder: "select_threat_level_assessment".tr, text: ""),
+                              Column(
+                                children: [
+                                  SelectorCard(
+                                    placeholder: "select_threat_level_assessment".tr,
+                                    text: controller.selectedThreatLevel?.title ?? "",
+                                    isOpen: _isThreatLevelDropdownOpen,
+                                    onTap: () {
+                                      setState(() {
+                                        _isThreatLevelDropdownOpen = !_isThreatLevelDropdownOpen; // Toggle open/close
+                                        _isIncidentDropdownOpen = false;
+                                        _isUserDropdownOpen = false;
+                                      });
+                                    },
+                                  ),
+
+                                  // The actual Dropdown Menu
+                                  if (_isThreatLevelDropdownOpen)
+                                    Container(
+                                      margin: const EdgeInsets.only(top: 8),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(12),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black.withOpacity(0.1),
+                                            blurRadius: 12,
+                                            offset: const Offset(0, 4),
+                                          ),
+                                        ],
+                                      ),
+                                      child: Column(
+                                        children: controller.healthAndSafetyService.threatLevels.map((threatLevel) {
+                                          return InkWell(
+                                            onTap: () {
+                                              setState(() {
+                                                controller.selectedThreatLevel = threatLevel; // Change selection status
+                                                _isThreatLevelDropdownOpen = false;  // Close the dropdown
+                                              });
+                                            },
+                                            child: Container(
+                                              width: double.infinity,
+                                              padding: const EdgeInsets.all(16),
+                                              decoration: const BoxDecoration(
+                                                border: Border(bottom: BorderSide(color: Colors.black12, width: 0.5)),
+                                              ),
+                                              child: Text(
+                                                threatLevel.title,
+                                                style: const TextStyle(fontSize: 16, color: Colors.black87),
+                                              ),
+                                            ),
+                                          );
+                                        }).toList(),
+                                      ),
+                                    ),
+                                ],
+                              ),
                               const SizedBox(height: 16),
 
                               // --- Notify Selector ---
                               TitleTextView(text: "notify_to".tr,fontWeight: FontWeight.w500,),
                               const SizedBox(height: 8),
-                              //SelectorCard(placeholder: "select_user".tr, text: ""),
+                              Column(
+                                children: [
+                                  SelectorCard(
+                                    placeholder: "select_user".tr,
+                                    text: controller.selectedUser?.name ?? "",
+                                    isOpen: _isUserDropdownOpen,
+                                    onTap: () {
+                                      setState(() {
+                                        _isUserDropdownOpen = !_isUserDropdownOpen;
+                                        _isThreatLevelDropdownOpen = false;
+                                        _isIncidentDropdownOpen = false;
+                                      });
+                                    },
+                                  ),
+
+                                  // The actual Dropdown Menu
+                                  if (_isUserDropdownOpen)
+                                    Container(
+                                      margin: const EdgeInsets.only(top: 8),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(12),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black.withOpacity(0.1),
+                                            blurRadius: 12,
+                                            offset: const Offset(0, 4),
+                                          ),
+                                        ],
+                                      ),
+                                      child: Column(
+                                        children: controller.healthAndSafetyService.users.map((selectedUser) {
+                                          return InkWell(
+                                            onTap: () {
+                                              setState(() {
+                                                controller.selectedUser = selectedUser;
+                                                _isUserDropdownOpen = false;
+                                              });
+                                            },
+                                            child: Container(
+                                              width: double.infinity,
+                                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                              decoration: const BoxDecoration(
+                                                border: Border(bottom: BorderSide(color: Colors.black12, width: 0.5)),
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  // User Photo
+                                                  UserAvtarView(
+                                                    imageSize: 32,
+                                                    imageUrl: selectedUser.userThumbImage ?? "",
+                                                  ),
+                                                  const SizedBox(width: 12), // Space between photo and name
+                                                  // User Name
+                                                  Expanded(
+                                                    child: Text(
+                                                      selectedUser.name,
+                                                      style: const TextStyle(
+                                                        fontSize: 16,
+                                                        color: Color(0xFF1A1C1E),
+                                                        fontWeight: FontWeight.w400,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        }).toList(),
+                                      ),
+                                    ),
+                                ],
+                              ),
+
                               const SizedBox(height: 16),
 
                               //Audio file
-                              MultiAudioGridWidget(),
+                              //MultiAudioGridWidget(),
 
                               // --- Description Field ---
-                              TitleTextView(text: "description".tr,fontWeight: FontWeight.w500,),
+                              TitleTextView(text: "description".tr,fontWeight: FontWeight.w500,fontSize: 15,),
                               const SizedBox(height: 8),
                               StyledTextField(
                                 hintText: "${'write_description_here'.tr}...",
                                 controller: controller.descriptionController,
                               ),
-
                               const SizedBox(height: 16),
 
                               // --- THE UPLOAD SECTION ---
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  TitleTextView(text: "${'upload_photo'.tr} / ${'Video'.tr}",fontWeight: FontWeight.w500,),
-                                  // Conditionally show 'Clear' button
-                                  if (controller.selectedMedia != null)
-                                    TextButton.icon(
-                                      onPressed: controller.clearMedia,
-                                      icon: const Icon(Icons.close_rounded, size: 16, color: Colors.redAccent),
-                                      label: Text("clear".tr, style: TextStyle(color: Colors.redAccent, fontSize: 13)),
-                                    )
-                                ],
+                              AttachmentSection(
+                                attachmentList: controller.attachmentList,
+                                onFilesSelected: (files) => controller.attachmentList.addAll(files),
+                                onDelete: (index) => controller.attachmentList.removeAt(index),
                               ),
-                              const SizedBox(height: 12),
-
-                              // Conditional Rendering of the Upload Area:
-                              if (controller.selectedMedia == null)
-                              // 1. Placeholder / Upload Action Card
-                                GestureDetector(
-                                  onTap: (){
-
-                                  },
-                                  child: Container(
-                                    width: double.infinity,
-                                    height: 160,
-                                    decoration: BoxDecoration(
-                                      color: backgroundColor_(context),
-                                      borderRadius: BorderRadius.circular(16),
-                                      border: Border.all(color: Colors.blueAccent.withOpacity(0.3), width: 1.5, style: BorderStyle.solid),
-                                    ),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Icon(Icons.cloud_upload_outlined, size: 48, color: Colors.blueAccent.withOpacity(0.7)),
-                                        const SizedBox(height: 12),
-                                        Text(
-                                          "tap_to_upload_media".tr,
-                                          style: TextStyle(fontWeight: FontWeight.w500,),
-                                        ),
-                                        Text(
-                                          "(${"photo_video".tr})",
-                                          style: TextStyle(fontSize: 12,),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                )
-                              else
-                              // 2. The Selected Media Display
-                                Container(
-                                  width: double.infinity,
-                                  height: 160,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(16),
-                                    boxShadow: [
-                                      BoxShadow(color: Colors.black12, blurRadius: 10, offset: const Offset(0, 4))
-                                    ],
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(16),
-                                    child: Image.file(
-                                      controller.selectedMedia!,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-
-                              const SizedBox(height: 40),
+                              const SizedBox(height: 24),
                             ],
                           ),
                         )
@@ -180,15 +306,16 @@ class _ReportIncidentScreenState extends State<ReportIncidentScreen> {
                                 ),
                                 bottomNavigationBar: SafeArea(
                   child: Visibility(
-                    visible: controller.isMainViewVisible.value,
+                    visible:true,
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Opacity(
                         opacity: 1.0,
                         child: PrimaryButton(
-                          buttonText: "save".tr,
+                          buttonText: "submit_incident".tr,
                           onPressed: () {
                             FocusManager.instance.primaryFocus?.unfocus();
+                            controller.storeReportIncident();
                           },
                         ),
                       ),

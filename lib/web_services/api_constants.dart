@@ -384,5 +384,6 @@ class ApiConstants {
   static String nearMissReportsList = '$appUrl/near-miss-reports/get';
   static String reportIncidentsGet = '$appUrl/report-incidents/get';
   static String nearMissReportsStore = '$appUrl/near-miss-reports/store';
+  static String reportIncidentsStore = '$appUrl/report-incidents/store';
 
 }

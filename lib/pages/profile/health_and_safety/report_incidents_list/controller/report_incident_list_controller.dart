@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:belcka/pages/profile/health_and_safety/health_and_safety_service/health_and_safety_service.dart';
 import 'package:belcka/pages/profile/health_and_safety/near_miss_list/controller/near_miss_list_repository.dart';
 import 'package:belcka/pages/profile/health_and_safety/near_miss_list/model/near_miss_report_Info.dart';
 import 'package:belcka/pages/profile/health_and_safety/near_miss_list/model/near_miss_response.dart';
@@ -24,6 +25,7 @@ class ReportIncidentListController extends GetxController{
   @override
   void onInit() {
     super.onInit();
+    Get.put(HealthAndSafetyService());
     fetchIncidentsReportsList();
   }
 
