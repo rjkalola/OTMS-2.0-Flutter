@@ -271,8 +271,7 @@ class Strings extends Translations {
           'are_you_sure_you_want_to_remove': "Are you sure you want to remove?",
           'are_you_sure_you_want_to_approve':
               "Are you sure you want to approve?",
-          'are_you_sure_you_want_to_cancel':
-              "Are you sure you want to cancel?",
+          'are_you_sure_you_want_to_cancel': "Are you sure you want to cancel?",
           'are_you_sure_you_want_to_return_hire':
               "Are you sure you want to return this hire item?",
           'are_you_sure_you_want_to_unarchive':
@@ -401,10 +400,9 @@ class Strings extends Translations {
           'hire_to': "Hire To",
           'hire_order_details': "Hire Order Details",
           'full_date': "Period",
-          'approved_by': "Approved by",
+          'approved_by': "Approved By",
           'ordered_items': "Ordered Items",
-          'please_select_hire_from_first':
-              "Please select Hire From date first",
+          'please_select_hire_from_first': "Please select Hire From date first",
           'please_select_hire_to_date': "Please select Hire To date",
           'hire_to_must_be_on_or_after_from':
               "Hire To must be on or after Hire From",
@@ -743,42 +741,47 @@ class Strings extends Translations {
           'hazard_type': "Hazard Type",
           'select_hazard_type': "Select Hazard Type",
           'write_description_here': "Write Description Here",
-          'video':"Video",
+          'video': "Video",
           'clear': "Clear",
           'tap_to_upload_media': "Tap to upload media",
-          'photo_video':"Photo or Video",
+          'photo_video': "Photo or Video",
           'incident_type': "Incident Type",
-          'select_incident_type' : "Select Incident Type",
+          'select_incident_type': "Select Incident Type",
           'select_threat_level_assessment': "Select Threat Level Assessment",
           'threat_level_assessment': "Threat Level Assessment",
           'notify_to': "Notify To",
           'upload': "Upload",
           'record': "Record",
-          'audio':"Audio",
-          'create_new_album':"Create New Album",
-          'album_name':"Album Name",
-          'add': "Add",
-          'products':"Products",
-          'favorites':"Favorites",
+          'audio': "Audio",
+          'create_new_album': "Create New Album",
+          'album_name': "Album Name",
+          'products': "Products",
+          'favorites': "Favorites",
           'create_a_new_album': "Create a new album",
-          'confirm_order':"Confirm Order",
-          'collected_order_confirmation':"Are you sure you want to mark this order as collected?",
-          'provide_cancel_order_reason_title':"Please provide a reason for cancelling this order.",
-          'provide_cancel_order_reason_description':"This information is required for project tracking and order history",
-          'enter_cancellation_reason':"Enter cancellation reason",
+          'confirm_order': "Confirm Order",
+          'collected_order_confirmation':
+              "Are you sure you want to mark this order as collected?",
+          'provide_cancel_order_reason_title':
+              "Please provide a reason for cancelling this order.",
+          'provide_cancel_order_reason_description':
+              "This information is required for project tracking and order history",
+          'enter_cancellation_reason': "Enter cancellation reason",
           'add_set': "Add Set",
-          'search_products':"Search products",
-          'collect_order_preparing':"Are you sure you want to mark this order as preparing?",
-          'collect_order_confirmation':"Are you sure you want to mark this order as ready for Collect?",
-          'out_for_deliver_confirmation':"Are you sure you want to mark this order as out for delivery?",
-          'order_delivered_confirmation':"Are you sure you want to mark this order as delivered?",
-          'personal_details':"Personal Details",
-          'hazard':"Hazard",
-          'submit_report':"Submit Report",
-          'please_select_hazard_type':"Please select hazard type",
-          'attachments_text':"Attachments"
-
-// '': "",
+          'search_products': "Search products",
+          'collect_order_preparing':
+              "Are you sure you want to mark this order as preparing?",
+          'collect_order_confirmation':
+              "Are you sure you want to mark this order as ready for Collect?",
+          'out_for_deliver_confirmation':
+              "Are you sure you want to mark this order as out for delivery?",
+          'order_delivered_confirmation':
+              "Are you sure you want to mark this order as delivered?",
+          'personal_details': "Personal Details",
+          'hazard': "Hazard",
+          'submit_report': "Submit Report",
+          'please_select_hazard_type': "Please select hazard type",
+          'attachments_text': "Attachments",
+          'in_service_by': "In Service by",
 // '': "",
           // '': "",
 // '': "",
@@ -793,6 +796,12 @@ class Strings extends Translations {
 // '': "",
 // '': "",
         },
-        'hi_IN': {'login': 'Login', 'view_profile': 'View Profile', 'add_zone': 'Add Zone', 'add_by_shape': 'Add By Shape', 'add_by_post_code': 'Add By Post Code'}
+        'hi_IN': {
+          'login': 'Login',
+          'view_profile': 'View Profile',
+          'add_zone': 'Add Zone',
+          'add_by_shape': 'Add By Shape',
+          'add_by_post_code': 'Add By Post Code'
+        }
       };
 }

@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:belcka/res/theme/theme_config.dart';
 import 'package:belcka/utils/data_utils.dart';
 import 'package:belcka/utils/image_utils.dart';
@@ -11,50 +8,15 @@ import 'package:get/get.dart';
 import '../../../../res/colors.dart';
 import '../../controller/dashboard_controller.dart';
 
-class BottomNavigationBarWidget {
-  BottomNavigationBarWidget._();
+class BottomNavigationBarWidget extends StatelessWidget {
+  BottomNavigationBarWidget({super.key});
 
-  static AdaptiveBottomNavigationBar adaptiveBar(
-    BuildContext context,
-    DashboardController dashboardController,
-  ) {
-    return AdaptiveBottomNavigationBar(
-      selectedItemColor: defaultAccentColor_(context),
-      unselectedItemColor: primaryTextColor_(context),
-      useNativeBottomBar: true,
-      bottomNavigationBar:
-          Platform.isAndroid ? androidNavigationBar(context) : null,
-      items: [
-        AdaptiveNavigationDestination(
-          icon: ImageUtils.setSvgAssetsImage(
-            path: DataUtils.tabIcons[0],
-            width: 24,
-            height: 24,
-            color: dashboardController.selectedIndex.value == 0
-                ? defaultAccentColor_(context)
-                : ThemeConfig.isDarkMode
-                    ? Colors.white54
-                    : Colors.black54,
-          ),
-          label: 'Home',
-        ),
-        const AdaptiveNavigationDestination(
-          icon: 'bag',
-          label: 'Store',
-        ),
-      ],
-      selectedIndex: dashboardController.selectedIndex.value,
-      onTap: (index) {
-        dashboardController.selectedIndex.value = index;
-        dashboardController.onItemTapped(index);
-      },
-    );
-  }
+  final dashboardController = Get.put(DashboardController());
 
-  static Widget androidNavigationBar(BuildContext context) {
-    final dashboardController = Get.put(DashboardController());
-    return Obx(
-      () => Padding(
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() {
+      return Padding(
         padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
         child: CardViewDashboardItem(
           child: Row(
@@ -101,7 +63,7 @@ class BottomNavigationBarWidget {
             }),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

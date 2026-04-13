@@ -32,13 +32,13 @@ class UserHireOrderDetailsController extends GetxController
   final isRequestFlow = false.obs;
   final needService = false.obs;
 
-  /// Request flow from storeman: Approve + Cancel; from user hire list: Cancel only.
   final showHireRequestApprove = false.obs;
 
   int _orderId = 0;
   int _productId = 0;
   int _pendingStatus = 0;
   bool _shouldSendNeedService = false;
+  bool fromFeed = false;
 
   @override
   void onInit() {
@@ -47,11 +47,14 @@ class UserHireOrderDetailsController extends GetxController
     if (arguments != null) {
       _orderId = arguments[AppConstants.intentKey.orderId] ?? 0;
       _productId = arguments[AppConstants.intentKey.projectId] ?? 0;
-      isRequestFlow.value =
-          arguments[AppConstants.intentKey.fromRequest] == true;
-      if (isRequestFlow.value) {
-        showHireRequestApprove.value =
-            arguments[AppConstants.intentKey.hireRequestShowApprove] == true;
+      fromFeed = arguments[AppConstants.intentKey.fromNotification] ?? false;
+      if (!fromFeed) {
+        isRequestFlow.value =
+            arguments[AppConstants.intentKey.fromRequest] == true;
+        if (isRequestFlow.value) {
+          showHireRequestApprove.value =
+              arguments[AppConstants.intentKey.hireRequestShowApprove] == true;
+        }
       }
     }
     if (_orderId > 0) {
@@ -75,6 +78,14 @@ class UserHireOrderDetailsController extends GetxController
               jsonDecode(responseModel.result!));
           orderInfo.value = response.info ?? HireOrderInfo();
           productsList.assignAll(orderInfo.value.products ?? []);
+          if (fromFeed &&
+              (orderInfo.value.status ?? 0) ==
+                  AppConstants.hireStatus.request) {
+            isRequestFlow.value = AppUtils.isAdmin();
+            if (isRequestFlow.value) {
+              showHireRequestApprove.value = true;
+            }
+          }
           isMainViewVisible.value = true;
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? '');

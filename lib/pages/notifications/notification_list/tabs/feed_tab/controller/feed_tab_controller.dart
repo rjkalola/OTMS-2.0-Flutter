@@ -261,6 +261,17 @@ class FeedTabController extends GetxController {
           moveToScreen(AppRoutes.penaltyDetailsScreen,
               arguments: arguments, index: index);
         }
+      } else if (notificationType ==
+          AppConstants.notificationType.hireOrderStatus) {
+        if ((info.recordId ?? 0) != 0) {
+          var arguments = {
+            AppConstants.intentKey.orderId: info.recordId ?? 0,
+            AppConstants.intentKey.projectId: info.projectId ?? 0,
+            AppConstants.intentKey.fromNotification: true,
+          };
+          moveToScreen(AppRoutes.userHireOrderDetailsScreen,
+              arguments: arguments, index: index);
+        }
       }
     }
   }

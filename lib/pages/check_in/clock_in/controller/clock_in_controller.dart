@@ -345,13 +345,15 @@ class ClockInController extends GetxController
   }
 
   onCLickCheckInButton() {
-    var arguments = {
-      AppConstants.intentKey.workLogId: selectedWorkLogInfo?.id ?? 0,
-      AppConstants.intentKey.projectId: selectedWorkLogInfo?.projectId ?? 0,
-      AppConstants.intentKey.isPriceWork:
-          selectedWorkLogInfo?.isPricework ?? false
-    };
-    moveToScreen(AppRoutes.checkInScreen, arguments);
+    if (workLogData.value.isCheckIn ?? false) {
+      var arguments = {
+        AppConstants.intentKey.workLogId: selectedWorkLogInfo?.id ?? 0,
+        AppConstants.intentKey.projectId: selectedWorkLogInfo?.projectId ?? 0,
+        AppConstants.intentKey.isPriceWork:
+            selectedWorkLogInfo?.isPricework ?? false
+      };
+      moveToScreen(AppRoutes.checkInScreen, arguments);
+    }
   }
 
   onCLickCheckOutButton() {

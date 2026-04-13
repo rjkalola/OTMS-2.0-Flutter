@@ -553,6 +553,9 @@ class NotificationType {
 
   //Personal Info change
   final String personalInfoChange = "19001";
+
+  //Hire Order Status
+  final String hireOrderStatus = "23001";
 }
 
 class RequestType {

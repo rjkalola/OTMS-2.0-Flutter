@@ -22,10 +22,9 @@ class FooterButtonCheckInSwitchProject extends StatelessWidget {
   void _onStopShiftPressed() {
     if (controller.isChecking.value) {
       controller.showCheckOutWarningDialog();
-    } else { 
+    } else {
       controller.onClickWorkLogItem(controller.selectedWorkLogInfo!);
     }
-
 
     // if (controller.isChecking.value) return;
     // final selectedWorkLog = controller.selectedWorkLogInfo;
@@ -100,12 +99,16 @@ class FooterButtonCheckInSwitchProject extends StatelessWidget {
                                 fontWeight: FontWeight.w500,
                                 fontSize: 16,
                               )
-                            : PrimaryButton( 
+                            : PrimaryButton(
                                 buttonText: 'check_in_'.tr,
                                 onPressed: () {
                                   controller.onCLickCheckInButton();
                                 },
-                                color: Colors.green,
+                                color:
+                                    (controller.workLogData.value.isCheckIn ??
+                                            false)
+                                        ? Colors.green
+                                        : Color(0xff9E9E9E),
                                 fontWeight: FontWeight.w500,
                                 fontSize: 16,
                               ),

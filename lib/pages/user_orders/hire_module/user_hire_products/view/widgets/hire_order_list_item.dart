@@ -83,8 +83,8 @@ class HireOrderListItem extends StatelessWidget {
                   text: [
                     if (!StringHelper.isEmptyString(item.companyName))
                       item.companyName!,
-                    if (!StringHelper.isEmptyString(item.userName))
-                      "${'ordered_by'.tr}: ${item.userName!}",
+                    // if (!StringHelper.isEmptyString(item.userName))
+                    //   "${'ordered_by'.tr}: ${item.userName!}",
                   ].join(' | '),
                   fontSize: 15,
                 ),

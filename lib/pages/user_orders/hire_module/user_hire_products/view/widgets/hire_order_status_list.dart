@@ -41,6 +41,7 @@ class HireOrderStatusList extends StatelessWidget {
                 onReturnTap: tab == HireUserProductStatus.hired
                     ? () => controller.onHireProductLineReturnTap(index)
                     : null,
+                isFromProfile: true,
               );
             },
           ),
@@ -69,6 +70,7 @@ class HireOrderStatusList extends StatelessWidget {
               onApproveProduct: controller.onRequestOrderApproveProductLine,
               onCancelProduct: controller.onRequestOrderCancelProductLine,
               showApproveButton: false,
+              isFromProfile: true,
             );
           },
         ),

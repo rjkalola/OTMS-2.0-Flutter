@@ -37,6 +37,7 @@ class StoremanHireProductList extends StatelessWidget {
                 onApproveProduct: controller.onRequestOrderApproveProductLine,
                 onCancelProduct: controller.onRequestOrderCancelProductLine,
                 showApproveButton: true,
+                isFromProfile: false,
               );
             },
           ),
@@ -63,6 +64,7 @@ class StoremanHireProductList extends StatelessWidget {
               onReturnTap: tab == HireProductStatus.hired
                   ? () => controller.onHireProductLineReturnTap(index)
                   : null,
+              isFromProfile: false,
             );
           },
         ),

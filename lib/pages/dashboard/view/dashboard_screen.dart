@@ -23,22 +23,24 @@ class DashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AppUtils.setStatusBarColor();
-    return PopScope(
-      canPop: false,
-      onPopInvokedWithResult: (didPop, result) async {
-        final backNavigationAllowed = await onBackPress();
-        if (backNavigationAllowed) {
-          Get.delete<DashboardController>();
-          Get.delete<HomeTabController>();
-          if (Platform.isIOS) {
-            exit(0);
-          } else {
-            SystemNavigator.pop();
+    AppUtils.setStatusBarColor(
+        bottomNavigationBarColor: backgroundColor_(context));
+    return Obx(
+      () => PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (didPop, result) async {
+          final backNavigationAllowed = await onBackPress();
+          if (backNavigationAllowed) {
+            Get.delete<DashboardController>();
+            Get.delete<HomeTabController>();
+            if (Platform.isIOS) {
+              exit(0);
+            } else {
+              SystemNavigator.pop();
+            }
           }
-        }
-      },
-      /* onPopInvoked: (didPop) async {
+        },
+        /* onPopInvoked: (didPop) async {
         final backNavigationAllowed = await onBackPress();
         if (backNavigationAllowed) {
           if (Platform.isIOS) {
@@ -48,53 +50,54 @@ class DashboardScreen extends StatelessWidget {
           }
         }
       },*/
-      child: Container(
-        color: dashBoardBgColor_(context),
-        child: SafeArea(
-            child: Obx(() => ModalProgressHUD(
-                inAsyncCall: dashboardController.isLoading.value,
-                opacity: 0,
-                progressIndicator: const CustomProgressbar(),
-                child: AdaptiveScaffold(
-                  minimizeBehavior: TabBarMinimizeBehavior.never,
-                  // appBar: dashboardController.selectedIndex.value == 0
-                  //     ? null
-                  //     : BaseAppBar(
-                  //         appBar: AppBar(),
-                  //         title: dashboardController.title.value,
-                  //         isCenterTitle: false,
-                  //         isBack: true,
-                  //         widgets: actionButtons(),
-                  //       ),
-                  body: SizedBox(
-                    width: double.infinity,
-                    height: double.infinity,
-                    child: PageView(
-                      controller: dashboardController.pageController,
-                      onPageChanged: dashboardController.onPageChanged,
-                      physics: const NeverScrollableScrollPhysics(),
-                      children: dashboardController.tabs,
+        child: Container(
+          color: dashBoardBgColor_(context),
+          child: SafeArea(
+              top: false,
+              child: ModalProgressHUD(
+                  inAsyncCall: dashboardController.isLoading.value,
+                  opacity: 0,
+                  progressIndicator: const CustomProgressbar(),
+                  child: AdaptiveScaffold(
+                    minimizeBehavior: TabBarMinimizeBehavior.never,
+                    // appBar: dashboardController.selectedIndex.value == 0
+                    //     ? null
+                    //     : BaseAppBar(
+                    //         appBar: AppBar(),
+                    //         title: dashboardController.title.value,
+                    //         isCenterTitle: false,
+                    //         isBack: true,
+                    //         widgets: actionButtons(),
+                    //       ),
+                    body: SizedBox(
+                      width: double.infinity,
+                      height: double.infinity,
+                      child: PageView(
+                        controller: dashboardController.pageController,
+                        onPageChanged: dashboardController.onPageChanged,
+                        physics: const NeverScrollableScrollPhysics(),
+                        children: dashboardController.tabs,
+                      ),
                     ),
-                  ),
 
-                  bottomNavigationBar: AdaptiveBottomNavigationBar(
-                    selectedItemColor: defaultAccentColor_(context),
-                    unselectedItemColor: primaryTextColor_(context),
-                    useNativeBottomBar: true,
-                    bottomNavigationBar: Platform.isAndroid
-                        ? _androidDashboardNavigationBar(
-                            context, dashboardController)
-                        : null,
-                    items: [
-                      AdaptiveNavigationDestination(
-                        icon: 'house',
-                        label: 'Home',
-                      ),
-                      AdaptiveNavigationDestination(
-                        icon: 'bag', 
-                        label: 'Store',
-                      ),
-                      /*
+                    bottomNavigationBar: AdaptiveBottomNavigationBar(
+                      selectedItemColor: defaultAccentColor_(context),
+                      unselectedItemColor: primaryTextColor_(context),
+                      useNativeBottomBar: true,
+                      bottomNavigationBar: Platform.isAndroid
+                          ? _androidDashboardNavigationBar(
+                              context, dashboardController)
+                          : null,
+                      items: [
+                        AdaptiveNavigationDestination(
+                          icon: 'house',
+                          label: 'Home',
+                        ),
+                        AdaptiveNavigationDestination(
+                          icon: 'bag',
+                          label: 'Store',
+                        ),
+                        /*
                       AdaptiveNavigationDestination(
                         icon: 'bubble.left.and.bubble.right',
                         label: 'Chat',
@@ -104,14 +107,15 @@ class DashboardScreen extends StatelessWidget {
                         label: 'AI',
                       ),
                       */
-                    ],
-                    selectedIndex: dashboardController.selectedIndex.value,
-                    onTap: (index) {
-                      dashboardController.selectedIndex.value = index;
-                      dashboardController.onItemTapped(index);
-                    },
-                  ),
-                )))),
+                      ],
+                      selectedIndex: dashboardController.selectedIndex.value,
+                      onTap: (index) {
+                        dashboardController.selectedIndex.value = index;
+                        dashboardController.onItemTapped(index);
+                      },
+                    ),
+                  ))),
+        ),
       ),
     );
   }

@@ -33,17 +33,17 @@ class RequestHireOrderListItem extends StatelessWidget {
   final void Function(int orderListIndex, int productIndex) onApproveProduct;
   final void Function(int orderListIndex, int productIndex) onCancelProduct;
 
-  final bool showApproveButton;
+  final bool showApproveButton, isFromProfile;
 
-  const RequestHireOrderListItem({
-    super.key,
-    required this.item,
-    required this.orderListIndex,
-    required this.onListItem,
-    required this.onApproveProduct,
-    required this.onCancelProduct,
-    this.showApproveButton = true,
-  });
+  const RequestHireOrderListItem(
+      {super.key,
+      required this.item,
+      required this.orderListIndex,
+      required this.onListItem,
+      required this.onApproveProduct,
+      required this.onCancelProduct,
+      this.showApproveButton = true,
+      required this.isFromProfile});
 
   @override
   Widget build(BuildContext context) {
@@ -71,17 +71,18 @@ class RequestHireOrderListItem extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 10),
-                    Expanded(
-                      child: PrimaryTextView(
-                        text: !StringHelper.isEmptyString(item.userName)
-                            ? "${'ordered_by'.tr}: ${item.userName}"
-                            : '',
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        textAlign: TextAlign.end,
-                        maxLine: 2,
+                    if (!isFromProfile)
+                      Expanded(
+                        child: PrimaryTextView(
+                          text: !StringHelper.isEmptyString(item.userName)
+                              ? "${'ordered_by'.tr}: ${item.userName}"
+                              : '',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          textAlign: TextAlign.end,
+                          maxLine: 2,
+                        ),
                       ),
-                    ),
                   ],
                 ),
                 const SizedBox(height: 2),
@@ -107,7 +108,8 @@ class RequestHireOrderListItem extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             GestureDetector(
-                              onTap: AppUtils.onHireProductImageItem(productId: product.productId??0),
+                              onTap: AppUtils.onHireProductImageItem(
+                                  productId: product.productId ?? 0),
                               child: ImageUtils
                                   .setRectangleCornerCachedNetworkImage(
                                 url: product.thumbUrl ?? '',
