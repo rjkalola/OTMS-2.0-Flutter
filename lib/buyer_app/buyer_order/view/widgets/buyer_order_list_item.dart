@@ -1,4 +1,5 @@
 import 'package:belcka/buyer_app/buyer_order/model/order_info.dart';
+import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_order_incomplete_product_item.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/res/drawable.dart';
 import 'package:belcka/utils/image_utils.dart';
@@ -13,12 +14,14 @@ import '../../../../utils/string_helper.dart';
 
 class BuyerOrderListItem extends StatelessWidget {
   final OrderInfo item;
+  final bool isIncompleteLayout;
   final VoidCallback onListItem;
   final GestureTapCallback? onInvoiceClick;
 
   const BuyerOrderListItem({
     super.key,
     required this.item,
+    this.isIncompleteLayout = false,
     required this.onListItem,
     this.onInvoiceClick,
   });
@@ -33,67 +36,96 @@ class BuyerOrderListItem extends StatelessWidget {
             borderRadius: 14,
             margin: const EdgeInsets.fromLTRB(12, 7, 12, 7),
             padding: const EdgeInsets.fromLTRB(14, 14, 14, 10),
-            child: IntrinsicHeight(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        PrimaryTextView(
-                          text: item.date ?? "",
-                          fontSize: 14,
-                        ),
-                        const SizedBox(height: 2),
-                        PrimaryTextView(
-                          text: [
-                            if (!StringHelper.isEmptyString(item.storeName))
-                              item.storeName,
-                            if (!StringHelper.isEmptyString(item.supplierName))
-                              item.supplierName,
-                          ].join(" | "),
-                          fontSize: 16,
-                        ),
-                        const SizedBox(height: 2),
-                        PrimaryTextView(
-                          text:
-                              "${'total_amount'.tr}: ${item.currency ?? ""}${item.totalAmount ?? ""}",
-                          fontSize: 15,
-                        ),
-                        const SizedBox(height: 2),
-                        PrimaryTextView(
-                          text:
-                              "${'delivery_date'.tr}: ${item.expectedDeliveryDate ?? ""}",
-                          fontSize: 15,
-                        )
-                      ],
-                    ),
-                  ),
-                  Stack(
-                    alignment: Alignment.topRight,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                IntrinsicHeight(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      PrimaryTextView(
-                        text: "${'order'.tr}: ${item.orderId ?? ""}",
-                        color: secondaryLightTextColor_(context),
-                        fontSize: 13,
-                      ),
-                      GestureDetector(
-                        onTap: onInvoiceClick,
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: ImageUtils.setSvgAssetsImage(
-                            path: Drawable.pdfIcon,
-                            width: 28,
-                            height: 28,
-                            color: Colors.red,
-                          ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            PrimaryTextView(
+                              text: item.date ?? "",
+                              fontSize: 14,
+                            ),
+                            const SizedBox(height: 2),
+                            PrimaryTextView(
+                              text: [
+                                if (!StringHelper.isEmptyString(item.storeName))
+                                  item.storeName,
+                                if (!StringHelper.isEmptyString(item.supplierName))
+                                  item.supplierName,
+                              ].join(" | "),
+                              fontSize: 16,
+                            ),
+                            const SizedBox(height: 2),
+                            PrimaryTextView(
+                              text:
+                                  "${'total_amount'.tr}: ${item.currency ?? ""}${item.totalAmount ?? ""}",
+                              fontSize: 15,
+                            ),
+                            const SizedBox(height: 2),
+                            PrimaryTextView(
+                              text:
+                                  "${'delivery_date'.tr}: ${item.expectedDeliveryDate ?? ""}",
+                              fontSize: 15,
+                            )
+                          ],
                         ),
+                      ),
+                      Stack(
+                        alignment: Alignment.topRight,
+                        children: [
+                          PrimaryTextView(
+                            text: "${'order'.tr}: ${item.orderId ?? ""}",
+                            color: secondaryLightTextColor_(context),
+                            fontSize: 13,
+                          ),
+                          GestureDetector(
+                            onTap: onInvoiceClick,
+                            child: Align(
+                              alignment: Alignment.bottomCenter,
+                              child: ImageUtils.setSvgAssetsImage(
+                                path: Drawable.pdfIcon,
+                                width: 28,
+                                height: 28,
+                                color: Colors.red,
+                              ),
+                            ),
+                          )
+                        ],
                       )
                     ],
+                  ),
+                ),
+                if (isIncompleteLayout &&
+                    !StringHelper.isEmptyList(item.purchaseOrders)) ...[
+                  const SizedBox(height: 10),
+                  Divider(
+                    color: dividerColor_(context),
+                    height: 1,
+                  ),
+                  const SizedBox(height: 8),
+                  ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: item.purchaseOrders!.length,
+                    separatorBuilder: (_, __) => Divider(
+                      color: dividerColor_(context),
+                      height: 1,
+                    ),
+                    itemBuilder: (context, index) {
+                      final product = item.purchaseOrders![index];
+                      return BuyerOrderIncompleteProductItem(
+                        item: product,
+                      );
+                    },
                   )
                 ],
-              ),
+              ],
             ),
           ),
           Visibility(

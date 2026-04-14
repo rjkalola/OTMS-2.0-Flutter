@@ -26,12 +26,10 @@ class HeaderUserDetailsView extends StatelessWidget {
     return formatter.format(now);
   }
 
-  String _displayFirstName() {
-    final first = (controller.userInfo.value.firstName ?? '').trim();
-    if (first.isNotEmpty) return first;
-    final last = (controller.userInfo.value.lastName ?? '').trim();
-    if (last.isNotEmpty) return last;
-    return '';
+  String _displayName() {
+    final first = controller.userInfo.value.firstName ?? "";
+    final last = controller.userInfo.value.lastName ?? "";
+    return "$first $last";
   }
 
   @override
@@ -96,9 +94,9 @@ class HeaderUserDetailsView extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 PrimaryTextView(
-                                  text: _displayFirstName().isEmpty
+                                  text: _displayName().isEmpty
                                       ? 'Hi'
-                                      : 'Hi, ${_displayFirstName()}',
+                                      : 'Hi, ${_displayName()}',
                                   fontWeight: FontWeight.w700,
                                   fontSize: 17,
                                   color: primaryTextColorLight_(context),

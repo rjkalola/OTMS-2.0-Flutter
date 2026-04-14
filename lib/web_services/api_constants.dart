@@ -341,6 +341,8 @@ class ApiConstants {
   static String createBuyerOrder = '$appUrl/purchase-orders/create';
   static String updateBuyerOrder = '$appUrl/purchase-orders/update';
   static String buyerOrdersList = '$appUrl/purchase-orders/get';
+  static String buyerIncompleteOrders =
+      '$appUrl/purchase-orders/incomplete-orders';
   static String buyerOrderDetails = '$appUrl/purchase-orders/detail';
   static String buyerOrderInvoice = '$appUrl/purchase-orders/invoice';
   static String receiveBuyerOrder = '$appUrl/purchase-orders/purchase-receive';

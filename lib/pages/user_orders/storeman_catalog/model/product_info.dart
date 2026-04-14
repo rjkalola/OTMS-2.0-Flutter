@@ -95,6 +95,7 @@ class ProductInfo {
   int? orderIdInt;
   int? approvedBy;
   String? approveByUserName;
+  String? approveByUserImage;
   String? approvedAt;
   int? folderId;
 
@@ -189,13 +190,13 @@ class ProductInfo {
     companyName = json['company_name'];
     uuid = json['uuid'];
     sortId = json['sort_id'];
-    shortName = json['short_name'];
+    shortName = json['short_name'] ?? json['product_name'];
     supplierId = json['supplier_id'];
     supplierName = json['supplier_name'];
     supplierCode = json['supplier_code'];
-    name = json['name'];
+    name = json['name'] ?? json['product_name'];
     description = json['description'];
-    price = json['price'];
+    price = json['price']?.toString() ?? json['order_price']?.toString();
     marketPrice = json['market_price']?.toString();
     qty = (json['qty'] as num?)?.toDouble();
     cartQty = (json['cart_qty'] as num?)?.toDouble();
@@ -307,6 +308,7 @@ class ProductInfo {
       approvedBy = int.tryParse(approvedByVal.toString());
     }
     approveByUserName = json['approve_by_user_name']?.toString();
+    approveByUserImage = json['approve_by_user_image']?.toString();
     approvedAt = json['approved_at']?.toString();
     status = json['status'];
     folderId = json['folder_id'];
@@ -417,6 +419,7 @@ class ProductInfo {
     data['order_id_int'] = this.orderIdInt;
     data['approved_by'] = this.approvedBy;
     data['approve_by_user_name'] = this.approveByUserName;
+    data['approve_by_user_image'] = this.approveByUserImage;
     data['approved_at'] = this.approvedAt;
     data['folder_id'] = this.folderId;
     return data;

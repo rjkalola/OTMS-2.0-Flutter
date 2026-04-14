@@ -62,26 +62,24 @@ class RequestHireOrderListItem extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(
-                      child: PrimaryTextView(
-                        text: item.companyName ?? '',
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                        maxLine: 1,
-                      ),
-                    ),
-                    const SizedBox(width: 10),
+                    // Expanded(
+                    //   child: PrimaryTextView(
+                    //     text: item.companyName ?? '',
+                    //     fontSize: 15,
+                    //     fontWeight: FontWeight.w500,
+                    //     maxLine: 1,
+                    //   ),
+                    // ),
+                    // const SizedBox(width: 10),
                     if (!isFromProfile)
-                      Expanded(
-                        child: PrimaryTextView(
-                          text: !StringHelper.isEmptyString(item.userName)
-                              ? "${'ordered_by'.tr}: ${item.userName}"
-                              : '',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          textAlign: TextAlign.end,
-                          maxLine: 2,
-                        ),
+                      PrimaryTextView(
+                        text: !StringHelper.isEmptyString(item.userName)
+                            ? "${'ordered_by'.tr}: ${item.userName}"
+                            : '',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        textAlign: TextAlign.end,
+                        maxLine: 2,
                       ),
                   ],
                 ),

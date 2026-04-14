@@ -121,7 +121,6 @@ class IntentKey {
   final String fromNotification = "FROM_NOTIFICATION";
   final String fromRequest = "FROM_REQUEST";
 
-  /// When [fromRequest] is true: show Approve + Cancel on hire request details; if false, Cancel only.
   final String hireRequestShowApprove = "HIRE_REQUEST_SHOW_APPROVE";
   final String filterType = "FILTER_TYPE";
   final String filterData = "FILTER_DATA";

@@ -40,6 +40,7 @@ class BuyerOrderStatusList extends StatelessWidget {
             final item = orders[index];
             return BuyerOrderListItem(
               item: item,
+              isIncompleteLayout: controller.isIncompletedOrdersFlow,
               onListItem: () => controller.onItemClick(index),
               onInvoiceClick: () =>
                   controller.buyerOrderInvoiceApi(item.id ?? 0),

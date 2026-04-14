@@ -54,7 +54,9 @@ class _BuyerOrdersScreenState extends State<BuyerOrdersScreen>
             backgroundColor: dashBoardBgColor_(context),
             appBar: BaseAppBar(
               appBar: AppBar(),
-              title: 'orders'.tr,
+              title: controller.isIncompletedOrdersFlow
+                  ? 'incompleted'.tr
+                  : 'orders'.tr,
               isCenterTitle: false,
               isBack: true,
               bgColor: backgroundColor_(context),
@@ -97,7 +99,8 @@ class _BuyerOrdersScreenState extends State<BuyerOrdersScreen>
                             ),
                             Visibility(
                               visible: controller.selectedTab.value !=
-                                  OrderTabType.request,
+                                      OrderTabType.request &&
+                                  !controller.isIncompletedOrdersFlow,
                               child: DateFilterOptionsHorizontalList(
                                 padding: EdgeInsets.fromLTRB(14, 0, 14, 6),
                                 startDate: controller.startDate.value,
@@ -109,7 +112,8 @@ class _BuyerOrdersScreenState extends State<BuyerOrdersScreen>
                             ),
                             Visibility(
                               visible: controller.selectedTab.value !=
-                                  OrderTabType.request,
+                                      OrderTabType.request &&
+                                  !controller.isIncompletedOrdersFlow,
                               child: SizedBox(
                                 width: double.infinity,
                                 child: CardViewDashboardItem(

@@ -86,6 +86,8 @@ class FooterButtonCheckInSwitchProject extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 12),
+                      if((controller.workLogData.value.isCheckIn ??
+                          false))
                       Flexible(
                         fit: FlexFit.tight,
                         flex: 1,

@@ -13,6 +13,7 @@ import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/enums/hire_user_product_status.dart';
 import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/response_model.dart';
@@ -178,6 +179,7 @@ class UserHireProductController extends GetxController
         'start_date': startDate.value,
         'end_date': endDate.value,
         'status': _hireOrdersAllStatusesParam(),
+        'user_id': UserUtils.getLoginUserId(),
       },
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
@@ -212,6 +214,7 @@ class UserHireProductController extends GetxController
       'start_date': startDate.value,
       'end_date': endDate.value,
       'status': status,
+      'user_id': UserUtils.getLoginUserId(),
     };
 
     _api.getHireOrdersList(
@@ -253,6 +256,7 @@ class UserHireProductController extends GetxController
       queryParameters: {
         'company_id': ApiConstants.companyId,
         'status': status,
+        'user_id': UserUtils.getLoginUserId(),
       },
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {

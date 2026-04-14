@@ -139,8 +139,7 @@ class CheckLogListView extends StatelessWidget {
                                                         MainAxisAlignment
                                                             .center,
                                                     crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .end,
+                                                        CrossAxisAlignment.end,
                                                     children: [
                                                       TextViewWithContainer(
                                                         padding:
@@ -154,13 +153,21 @@ class CheckLogListView extends StatelessWidget {
                                                                         .checkoutDateTime)
                                                                 ? 'ongoing'.tr
                                                                 : "£${info.priceWorkTotalAmount ?? ""}")
-                                                            : DateUtil
-                                                                .seconds_To_HH_MM(
-                                                                    info.totalWorkSeconds ??
-                                                                        0),
+                                                            : StringHelper
+                                                                    .isEmptyString(info
+                                                                        .checkoutDateTime)
+                                                                ? 'ongoing'.tr
+                                                                : DateUtil
+                                                                    .seconds_To_HH_MM(
+                                                                        info.totalWorkSeconds ??
+                                                                            0),
                                                         fontSize: 17,
-                                                        fontColor:
-                                                            primaryTextColor_(
+                                                        fontColor: StringHelper
+                                                                .isEmptyString(info
+                                                                    .checkoutDateTime)
+                                                            ? defaultAccentColor_(
+                                                                context)
+                                                            : primaryTextColor_(
                                                                 context),
                                                         fontWeight:
                                                             FontWeight.w600,

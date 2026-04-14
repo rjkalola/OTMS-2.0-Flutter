@@ -88,9 +88,10 @@ class OrderInfo {
     userImage = json['user_image'];
     orderNumber = json['order_number'];
     isDraft = json['is_draft'];
-    if (json['purchase_orders'] != null) {
+    final dynamic purchaseOrdersData = json['purchase_orders'] ?? json['products'];
+    if (purchaseOrdersData != null) {
       purchaseOrders = <ProductInfo>[];
-      json['purchase_orders'].forEach((v) {
+      purchaseOrdersData.forEach((v) {
         purchaseOrders!.add(new ProductInfo.fromJson(v));
       });
     }

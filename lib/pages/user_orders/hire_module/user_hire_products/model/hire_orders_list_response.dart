@@ -9,7 +9,6 @@ class HireOrdersListResponse {
   int? serviced;
   int? returned;
   int? canceled;
-  /// Hire orders in “available” status (when API returns aggregate counts).
   int? available;
   List<HireOrderInfo>? info;
 

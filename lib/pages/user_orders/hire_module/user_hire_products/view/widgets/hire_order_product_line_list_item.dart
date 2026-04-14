@@ -58,16 +58,44 @@ class HireOrderProductLineListItem extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TitleTextView(
-                        text: item.shortName ?? '',
-                        fontSize: 14,
-                        maxLine: 2,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      SubtitleTextView(
-                        text: item.uuid ?? '',
-                        fontSize: 12,
-                        color: secondaryExtraLightTextColor_(context),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                TitleTextView(
+                                  text: item.shortName ?? '',
+                                  fontSize: 14,
+                                  maxLine: 2,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                SubtitleTextView(
+                                  text: item.uuid ?? '',
+                                  fontSize: 12,
+                                  color: secondaryExtraLightTextColor_(context),
+                                )
+                              ],
+                            ),
+                          ),
+                          if (showReturn) ...[
+                            const SizedBox(width: 8),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 2),
+                              child: PrimaryButton(
+                                isFixSize: true,
+                                width: 70,
+                                buttonText: 'return'.tr,
+                                onPressed: onReturnTap!,
+                                height: 28,
+                                fontSize: 13,
+                                color: Colors.orange,
+                                margin: EdgeInsets.zero,
+                              ),
+                            ),
+                          ]
+                        ],
                       ),
                       if (isHired) ...[
                         if (!StringHelper.isEmptyString(
@@ -79,13 +107,13 @@ class HireOrderProductLineListItem extends StatelessWidget {
                                 text: "${'approved_by'.tr}:",
                                 fontSize: 13,
                               ),
-                              // SizedBox(
-                              //   width: 6,
-                              // ),
-                              // UserAvtarView(
-                              //   imageUrl: item.userImage ?? "",
-                              //   imageSize: 18,
-                              // ),
+                              SizedBox(
+                                width: 6,
+                              ),
+                              UserAvtarView(
+                                imageUrl: item.approveByUserImage ?? "",
+                                imageSize: 18,
+                              ),
                               SizedBox(
                                 width: 4,
                               ),
@@ -184,22 +212,6 @@ class HireOrderProductLineListItem extends StatelessWidget {
                     ],
                   ),
                 ),
-                if (showReturn) ...[
-                  const SizedBox(width: 8),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 2),
-                    child: PrimaryButton(
-                      isFixSize: true,
-                      width: 70,
-                      buttonText: 'return'.tr,
-                      onPressed: onReturnTap!,
-                      height: 28,
-                      fontSize: 13,
-                      color: Colors.orange,
-                      margin: EdgeInsets.zero,
-                    ),
-                  ),
-                ],
               ],
             ),
           ),

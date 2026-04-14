@@ -67,7 +67,7 @@ class OtherCardView extends StatelessWidget {
                           child: Column(
                             children: [
                               PurchasingScreenItemTextWidget(
-                                  text: 'uncompleted'.tr),
+                                  text: 'incompleted'.tr),
                               SizedBox(
                                 height: 2,
                               ),

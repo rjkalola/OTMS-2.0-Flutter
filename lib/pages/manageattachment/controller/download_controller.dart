@@ -55,6 +55,7 @@ class DownloadController extends GetxController {
       }
       // OpenFilex.open(savePath);
     } catch (e) {
+      print("Error:"+e.toString());
       isDownloading.value = false;
       AppUtils.showToastMessage('download_failed'.tr);
     }

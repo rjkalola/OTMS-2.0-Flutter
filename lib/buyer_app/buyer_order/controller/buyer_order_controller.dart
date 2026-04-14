@@ -6,6 +6,7 @@ import 'package:belcka/buyer_app/buyer_order/model/buyer_orders_list_response.da
 import 'package:belcka/buyer_app/buyer_order/model/buyer_product_list_response.dart';
 import 'package:belcka/buyer_app/buyer_order/model/order_info.dart';
 import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
+import 'package:belcka/pages/user_orders/hire_module/user_hire_products/model/hire_orders_list_response.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/AlertDialogHelper.dart';
@@ -42,6 +43,10 @@ class BuyerOrderController extends GetxController
   double cardRadius = 12;
   int selectedIndex = 0;
   String title = "", filterType = "";
+
+  /// True when opened from purchasing "incompleted" card (incomplete stock orders API).
+  bool get isIncompletedOrdersFlow =>
+      filterType == AppConstants.type.unCompleted;
   final searchController = TextEditingController().obs;
   final requestOrdersList = <ProductInfo>[].obs;
   final ordersList = <OrderInfo>[].obs;
@@ -97,7 +102,8 @@ class BuyerOrderController extends GetxController
           title = 'low_stock'.tr;
           setSingleFilter("low_stock", "true");
         } else if (filterType == AppConstants.type.unCompleted) {
-          title = 'uncompleted'.tr;
+          title = 'incompleted'.tr;
+          selectedTab.value = OrderTabType.cancelled;
           setSingleFilter(
               "status", AppConstants.orderStatus.cancelled.toString());
         } else if (filterType == AppConstants.type.damaged) {
@@ -186,6 +192,10 @@ class BuyerOrderController extends GetxController
   }
 
   void buyerOrdersListApi(String status) {
+    if (isIncompletedOrdersFlow) {
+      buyerIncompleteOrdersListApi();
+      return;
+    }
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
@@ -234,6 +244,43 @@ class BuyerOrderController extends GetxController
           isInternetNotAvailable.value = true;
           // AppUtils.showSnackBarMessage('no_internet'.tr);
           // Utils.showSnackBarMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
+
+  void buyerIncompleteOrdersListApi() {
+    isLoading.value = true;
+    final Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
+
+    _api.buyerIncompleteOrdersList(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          isMainViewVisible.value = true;
+          final Map<String, dynamic> responseJson =
+              jsonDecode(responseModel.result!);
+          HireOrdersListResponse.fromJson(responseJson);
+          final List<dynamic> infoJson = responseJson["info"] ?? <dynamic>[];
+
+          tempOrdersList.clear();
+          tempOrdersList.addAll(
+            infoJson.map((item) => OrderInfo.fromJson(item)).toList(),
+          );
+          ordersList.value = List<OrderInfo>.from(tempOrdersList);
+          ordersList.refresh();
+        } else {
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
         } else if (error.statusMessage!.isNotEmpty) {
           AppUtils.showSnackBarMessage(error.statusMessage ?? "");
         }
@@ -305,18 +352,20 @@ class BuyerOrderController extends GetxController
   }
 
   void onItemClick(int index) {
-    if (selectedTab.value == OrderTabType.request) {
-      return;
-    }
-    if (selectedTab.value == OrderTabType.upcoming ||
-        selectedTab.value == OrderTabType.proceed ||
-        selectedTab.value == OrderTabType.delivered ||
-        selectedTab.value == OrderTabType.cancelled) {
-      var arguments = {
-        AppConstants.intentKey.orderId: ordersList[index].id ?? 0,
-      };
-      moveToScreen(
-          appRout: AppRoutes.buyerOrderDetailScreen, arguments: arguments);
+    if (!isIncompletedOrdersFlow) {
+      if (selectedTab.value == OrderTabType.request) {
+        return;
+      }
+      if (selectedTab.value == OrderTabType.upcoming ||
+          selectedTab.value == OrderTabType.proceed ||
+          selectedTab.value == OrderTabType.delivered ||
+          selectedTab.value == OrderTabType.cancelled) {
+        var arguments = {
+          AppConstants.intentKey.orderId: ordersList[index].id ?? 0,
+        };
+        moveToScreen(
+            appRout: AppRoutes.buyerOrderDetailScreen, arguments: arguments);
+      }
     }
   }
 

@@ -184,44 +184,47 @@ class MyDayLogListView extends StatelessWidget {
                                                                 // SizedBox(
                                                                 //   height: 2,
                                                                 // ),
-                                                                : Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .center,
-                                                                    children: [
-                                                                      PrimaryTextView(
-                                                                        text:
-                                                                            "(${controller.changeFullDateToSortTime(info.workStartTime)}",
-                                                                        fontSize:
-                                                                            16,
-                                                                        fontWeight:
-                                                                            FontWeight.w600,
-                                                                        color: defaultAccentColor_(
-                                                                            context),
-                                                                      ),
-                                                                      PrimaryTextView(
-                                                                        text:
-                                                                            " - ",
-                                                                        fontSize:
-                                                                            16,
-                                                                        fontWeight:
-                                                                            FontWeight.w600,
-                                                                        color: defaultAccentColor_(
-                                                                            context),
-                                                                      ),
-                                                                      PrimaryTextView(
-                                                                        text: toWorkTimeText(
-                                                                            info),
-                                                                        fontSize:
-                                                                            16,
-                                                                        fontWeight:
-                                                                            FontWeight.w600,
-                                                                        color: isActiveWorkLog(info)
-                                                                            ? defaultAccentColor_(context)
-                                                                            : primaryTextColor_(context),
-                                                                      )
-                                                                    ],
-                                                                  )
+                                                                : Padding(
+                                                                  padding: const EdgeInsets.only(right: 8),
+                                                                  child: Row(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .end,
+                                                                      children: [
+                                                                        PrimaryTextView(
+                                                                          text:
+                                                                              "(${controller.changeFullDateToSortTime(info.workStartTime)}",
+                                                                          fontSize:
+                                                                              16,
+                                                                          fontWeight:
+                                                                              FontWeight.w600,
+                                                                          color: defaultAccentColor_(
+                                                                              context),
+                                                                        ),
+                                                                        PrimaryTextView(
+                                                                          text:
+                                                                              " - ",
+                                                                          fontSize:
+                                                                              16,
+                                                                          fontWeight:
+                                                                              FontWeight.w600,
+                                                                          color: defaultAccentColor_(
+                                                                              context),
+                                                                        ),
+                                                                        PrimaryTextView(
+                                                                          text: toWorkTimeText(
+                                                                              info),
+                                                                          fontSize:
+                                                                              16,
+                                                                          fontWeight:
+                                                                              FontWeight.w600,
+                                                                          color: isActiveWorkLog(info)
+                                                                              ? defaultAccentColor_(context)
+                                                                              : primaryTextColor_(context),
+                                                                        )
+                                                                      ],
+                                                                    ),
+                                                                )
                                                           ],
                                                         ),
                                                       ),

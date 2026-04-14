@@ -34,6 +34,22 @@ class BuyerOrderRepository {
     );
   }
 
+  void buyerIncompleteOrdersList({
+    Map<String, dynamic>? queryParameters,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+            url: ApiConstants.buyerIncompleteOrders,
+            queryParameters: queryParameters)
+        .getRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
+
   void buyerOrderInvoice({
     Map<String, dynamic>? queryParameters,
     Function(ResponseModel responseModel)? onSuccess,
