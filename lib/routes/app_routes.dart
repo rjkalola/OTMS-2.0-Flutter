@@ -124,6 +124,7 @@ class AppRoutes {
   static const String inviteUserScreen = '/invite_user_screen';
   static const String createLeaveScreen = '/create_leave_screen';
   static const String leaveListScreen = '/leave_list_screen';
+  static const String leaveHistoryScreen = '/leave_history_screen';
   static const String leaveDetailsScreen = '/leave_details_screen';
   static const String addressDocumentsScreen = '/address_documents_screen';
   static const String archiveUserListScreen = '/archive_user_list_screen';
@@ -166,6 +167,7 @@ class AppRoutes {
   static const String orderHistoryScreen = '/order_history_screen';
   static const String orderDetailsScreen = '/order_details_screen';
   static const String buyerDraftOrdersScreen = '/buyer_draft_orders_screen';
+  static const String generateReportScreen = '/generate_report_screen';
   static const String storemanInventoryScreen = '/storeman_inventory_screen';
   static const String storemanInternalOrdersScreen =
       '/storeman_internal_orders_screen';

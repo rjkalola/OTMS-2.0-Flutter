@@ -186,6 +186,8 @@ class DialogIdentifier {
   final String hireFromDate = 'HIRE_FROM_DATE';
   final String hireToDate = 'HIRE_TO_DATE';
   final String deleteUserZone = 'DELETE_USER_ZONE';
+  final String generateReportDateRange = 'GENERATE_REPORT_DATE_RANGE';
+  final String generateReportModules = 'GENERATE_REPORT_MODULES';
 }
 
 class SharedPreferenceKey {
@@ -222,6 +224,7 @@ class Action {
   final String suppliers = "suppliers";
   final String projects = "projects";
   final String draftOrders = "draftOrders";
+  final String generateReport = "GenerateReport";
   final String categories = "categories";
   final String stocks = "STOCKS";
   final String vendors = "VENDORS";

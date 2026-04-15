@@ -39,8 +39,10 @@ class BuyerSettingsItemsList extends StatelessWidget {
                     ),
                     TitleTextView(
                       text: info.value ?? "",
-                    ),
-                    (info.action ?? "") == AppConstants.action.draftOrders
+                    ), 
+                    ((info.action ?? "") == AppConstants.action.draftOrders ||
+                            (info.action ?? "") ==
+                                AppConstants.action.generateReport)
                         ? RightArrowWidget()
                         : Container()
                   ],

@@ -2,6 +2,7 @@ import 'package:belcka/buyer_app/buyer_order/view/buyer_orders_screen.dart';
 import 'package:belcka/buyer_app/buyer_order_detail/view/buyer_order_detail_screen.dart';
 import 'package:belcka/buyer_app/buyer_order_details/view/buyer_order_details_screen.dart';
 import 'package:belcka/buyer_app/buyer_settings/view/buyer_settings_screen.dart';
+import 'package:belcka/buyer_app/generate_report/view/generate_report_screen.dart';
 import 'package:belcka/buyer_app/suppliers/add_supplier/view/buyer_add_supplier_screen.dart';
 import 'package:belcka/buyer_app/categories/add_category/view/buyer_add_category_screen.dart';
 import 'package:belcka/buyer_app/categories/catalogue_list/view/buyer_catalogue_screen.dart';
@@ -73,6 +74,7 @@ import 'package:belcka/pages/expense/add_expense/view/add_expense_screen.dart';
 import 'package:belcka/pages/filter/view/filter_screen.dart';
 import 'package:belcka/pages/image_preview/view/image_preview_screen.dart';
 import 'package:belcka/pages/leaves/add_leave/view/create_leave_screen.dart';
+import 'package:belcka/pages/leaves/leave_history/view/leave_history_screen.dart';
 import 'package:belcka/pages/leaves/leave_details/view/leave_details_screen.dart';
 import 'package:belcka/pages/leaves/leave_list/view/leave_list_screen.dart';
 import 'package:belcka/pages/my_requests/view/my_requests_screen.dart';
@@ -426,6 +428,7 @@ class AppPages {
     GetPage(name: AppRoutes.inviteUserScreen, page: () => InviteUserScreen()),
     GetPage(name: AppRoutes.createLeaveScreen, page: () => CreateLeaveScreen()),
     GetPage(name: AppRoutes.leaveListScreen, page: () => LeaveListScreen()),
+    GetPage(name: AppRoutes.leaveHistoryScreen, page: () => LeaveHistoryScreen()),
     GetPage(
         name: AppRoutes.leaveDetailsScreen, page: () => LeaveDetailsScreen()),
     GetPage(name: AppRoutes.addExpenseScreen, page: () => AddExpenseScreen()),
@@ -484,6 +487,9 @@ class AppPages {
         page: () => CreateHireOrderScreen()),
     GetPage(
         name: AppRoutes.buyerSettingsScreen, page: () => BuyerSettingsScreen()),
+    GetPage(
+        name: AppRoutes.generateReportScreen,
+        page: () => GenerateReportScreen()),
     GetPage(
         name: AppRoutes.buyerOrderDetailsScreen,
         page: () => BuyerOrderDetailsScreen()),

@@ -48,6 +48,10 @@ class BuyerSettingsController extends GetxController {
         name: 'draft_orders'.tr,
         value: "",
         action: AppConstants.action.draftOrders));
+    listItems.add(ModuleInfo(
+        name: 'generate_report'.tr,
+        value: "",
+        action: AppConstants.action.generateReport));
   }
 
   // void getProjectDetailsApi() {
@@ -98,6 +102,8 @@ class BuyerSettingsController extends GetxController {
       moveToScreen(rout: AppRoutes.buyerCatalogueScreen);
     } else if (action == AppConstants.action.draftOrders) {
       moveToScreen(rout: AppRoutes.buyerDraftOrdersScreen);
+    } else if (action == AppConstants.action.generateReport) {
+      moveToScreen(rout: AppRoutes.generateReportScreen);
     }
   }
 

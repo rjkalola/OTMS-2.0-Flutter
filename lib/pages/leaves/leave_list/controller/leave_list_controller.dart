@@ -105,6 +105,9 @@ class LeaveListController extends GetxController implements MenuItemListener {
   void showMenuItemsDialog(BuildContext context) {
     List<ModuleInfo> listItems = [];
     listItems.add(ModuleInfo(name: 'add'.tr, action: AppConstants.action.add));
+    listItems.add(
+      ModuleInfo(name: 'history'.tr, action: AppConstants.action.historyLogs),
+    );
     showCupertinoModalPopup(
       context: context,
       builder: (_) =>
@@ -117,6 +120,9 @@ class LeaveListController extends GetxController implements MenuItemListener {
     if (info.action == AppConstants.action.add) {
       var arguments = {AppConstants.intentKey.userId: userId};
       moveToScreen(AppRoutes.createLeaveScreen, arguments);
+    } else if (info.action == AppConstants.action.historyLogs) {
+      var arguments = {AppConstants.intentKey.userId: userId};
+      moveToScreen(AppRoutes.leaveHistoryScreen, arguments);
     }
   }
 }

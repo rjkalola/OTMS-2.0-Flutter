@@ -150,7 +150,7 @@ class DropDownMultiSelectionListDialogState
                 ),
               ),
               SizedBox(
-                height: 28,
+                height: 40,
               ),
             ]),
           ),
@@ -302,13 +302,17 @@ class DropDownMultiSelectionListDialogState
                           tempList[i].check = isCheck;
                         });
                       }),
-                  Text(
-                    tempList[i].name ?? "",
-                    textAlign: TextAlign.start,
-                    style: const TextStyle(
-                        fontSize: 17,
-                        color: Color(0xff333333),
-                        fontWeight: FontWeight.w400),
+                  Expanded(
+                    child: Text(
+                      tempList[i].name ?? "",
+                      textAlign: TextAlign.start,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                          fontSize: 17,
+                          color: Color(0xff333333),
+                          fontWeight: FontWeight.w400),
+                    ),
                   )
                 ]),
               ),

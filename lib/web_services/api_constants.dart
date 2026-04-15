@@ -281,6 +281,7 @@ class ApiConstants {
       '$appUrl/setting/user-payrate-permission';
   static String updateProfile = '$appUrl/user/update-profile';
   static String rateHistory = '$appUrl/requests/get-rate-history';
+  static String getHistory = '$appUrl/requests/get-history';
   static String changeRateAndTrade =
       '$appUrl/user-billing/change-trade-and-rate';
   static String changeAdmin = '$appUrl/company/change-admin';
@@ -387,5 +388,9 @@ class ApiConstants {
   static String reportIncidentsGet = '$appUrl/report-incidents/get';
   static String nearMissReportsStore = '$appUrl/near-miss-reports/store';
   static String reportIncidentsStore = '$appUrl/report-incidents/store';
+
+  // Buyer reports
+  static String getModules = '$appUrl/get-modules';
+  static String exportReports = '$appUrl/export-reports';
 
 }
