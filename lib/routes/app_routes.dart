@@ -196,4 +196,6 @@ class AppRoutes {
   static const String nearMissListScreen = '/near_miss_list_screen';
   static const String reportIncidentsListScreen =
       '/report_incidents_list_screen';
+  static const String hsSettingsScreen = '/hs_settings_screen';
+  static const String hsResourceTypesListScreen = '/hs_resource_types_list_screen';
 }

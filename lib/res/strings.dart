@@ -372,7 +372,6 @@ class Strings extends Translations {
           'billing_information_submission_is_pending_for_approval':
               "Billing information submission is pending for approval",
           'rates': "Rates",
-          'done': "Done",
           'this_billing_data_is_awaiting_for_approval':
               "This billing data is awaiting for approval",
           'do_you_want_to_leave_a_note': "Do you want to leave a note?",
@@ -748,8 +747,8 @@ class Strings extends Translations {
           'photo_video': "Photo or Video",
           'incident_type': "Incident Type",
           'select_incident_type': "Select Incident Type",
-          'select_threat_level_assessment': "Select Threat Level Assessment",
-          'threat_level_assessment': "Threat Level Assessment",
+          'select_threat_level_assessment': "Select Threat Level",
+          'threat_level_assessment': "Threat Level",
           'notify_to': "Notify To",
           'upload': "Upload",
           'record': "Record",
@@ -797,6 +796,19 @@ class Strings extends Translations {
           'select_modules_for_report': "Select Modules",
           'export_report': "Export",
           'please_select_modules': "Please select at least one option",
+          'click_to_upload': "Click to upload",
+          'attachment_types': "Images, Videos, Audio, PDF",
+          'max': "Max",
+          'each': "each",
+          'new_files': "NEW FILES",
+          'no_attachments_added_yet': "No attachments added yet",
+          'enter_title':"Enter title",
+          'add_hazard': "Add Hazard",
+          'hazard_title': "Hazard Title",
+          'health_safety_settings': "Health Safety Settings",
+          'hazards': "Hazards",
+          'incident_types': "Incident Types",
+          'threat_levels' : "Threat Levels"
 
 // '': "",
 // '': "",

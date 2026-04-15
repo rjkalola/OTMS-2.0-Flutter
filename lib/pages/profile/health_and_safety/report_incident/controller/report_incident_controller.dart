@@ -48,6 +48,7 @@ class ReportIncidentController extends GetxController{
       "description": descriptionController.text.trim(),
     };
 
+
     // Pre-create the list of MultipartFiles
     List<multi.MultipartFile> fileList = [];
     for (var file in attachmentList) {
@@ -58,6 +59,8 @@ class ReportIncidentController extends GetxController{
         ));
       }
     }
+
+    print("request data:" + map.toString());
 
     // Add the list to the map
     map["files"] = fileList;

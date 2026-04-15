@@ -58,7 +58,7 @@ class MenuButtonsGridWidget extends StatelessWidget {
                   arguments: arguments,
                 );
               } else if (info.action == AppConstants.action.healthSafety) {
-                //Get.toNamed(AppRoutes.healthAndSafetyScreen,);
+                Get.toNamed(AppRoutes.healthAndSafetyScreen,);
               } else if (info.action == AppConstants.action.myRequests) {
                 var arguments = {
                   "user_id": controller.userId ?? 0,

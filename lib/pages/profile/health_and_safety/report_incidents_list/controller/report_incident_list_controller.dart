@@ -1,8 +1,4 @@
 import 'dart:convert';
-import 'package:belcka/pages/profile/health_and_safety/health_and_safety_service/health_and_safety_service.dart';
-import 'package:belcka/pages/profile/health_and_safety/near_miss_list/controller/near_miss_list_repository.dart';
-import 'package:belcka/pages/profile/health_and_safety/near_miss_list/model/near_miss_report_Info.dart';
-import 'package:belcka/pages/profile/health_and_safety/near_miss_list/model/near_miss_response.dart';
 import 'package:belcka/pages/profile/health_and_safety/report_incidents_list/controller/report_incident_list_repository.dart';
 import 'package:belcka/pages/profile/health_and_safety/report_incidents_list/model/incident_report_info.dart';
 import 'package:belcka/pages/profile/health_and_safety/report_incidents_list/model/incidents_response.dart';
@@ -15,7 +11,7 @@ class ReportIncidentListController extends GetxController{
   final _api = ReportIncidentListRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
-      isMainViewVisible = true.obs,
+      isMainViewVisible = false.obs,
       isSearchEnable = false.obs,
       isClearSearch = false.obs;
 
@@ -25,7 +21,6 @@ class ReportIncidentListController extends GetxController{
   @override
   void onInit() {
     super.onInit();
-    Get.put(HealthAndSafetyService());
     fetchIncidentsReportsList();
   }
 

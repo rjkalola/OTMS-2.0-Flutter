@@ -42,6 +42,7 @@ class NearMissReportingController extends GetxController{
       "description": descriptionController.text.trim(),
     };
 
+    print("request data:" + map.toString());
     // Pre-create the list of MultipartFiles
     List<multi.MultipartFile> fileList = [];
     for (var file in attachmentList) {

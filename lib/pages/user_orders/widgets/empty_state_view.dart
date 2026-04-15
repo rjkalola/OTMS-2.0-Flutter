@@ -24,6 +24,7 @@ class EmptyStateView extends StatelessWidget {
           Image.asset(
             "assets/images/img_empty_data.png",
             height: 40,
+            color: Colors.grey,
           ),
           SizedBox(height: 16),
           TitleTextView(
