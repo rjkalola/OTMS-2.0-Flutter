@@ -62,12 +62,12 @@ class AttachmentSection extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  "Click to upload",
+                  "click_to_upload".tr,
                   style: TextStyle(fontWeight: FontWeight.w600, color: defaultAccentColor_(context), fontSize: 15),
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  "Images, Videos, Audio, PDF • Max 100 MB each",
+                  "${'attachment_types'.tr} • ${'max'.tr} 100 MB ${'each'.tr}",
                   style: TextStyle(color: secondaryTextColor_(context), fontSize: 13),
                 ),
               ],
@@ -77,7 +77,7 @@ class AttachmentSection extends StatelessWidget {
 
         const SizedBox(height: 24),
 
-        // 2. DISPLAY LOGIC (FIXED)
+        // 2. DISPLAY LOGIC
         // Wrap the entire list and the header in Obx so it reacts to controller changes
         Obx(() {
           if (attachmentList.isNotEmpty) {
@@ -85,7 +85,7 @@ class AttachmentSection extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "NEW FILES (${attachmentList.length})",
+                  "${'new_files'.tr} (${attachmentList.length})",
                   style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 13,
@@ -108,10 +108,10 @@ class AttachmentSection extends StatelessWidget {
             );
           } else {
             // Show "No attachments" when the controller list is empty
-            return const Center(
+            return  Center(
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 20),
-                child: Text("No attachments added yet", style: TextStyle(color: Colors.black38)),
+                child: Text("no_attachments_added_yet".tr, style: TextStyle(color: primaryTextColorLight_(context))),
               ),
             );
           }

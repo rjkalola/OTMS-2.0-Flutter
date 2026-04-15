@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart'; // For Compute (background threading)
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:get/get.dart';
 import 'package:path/path.dart' as p;
 
 class FileItemTile extends StatelessWidget {
@@ -52,7 +53,7 @@ class FileItemTile extends StatelessWidget {
                     const SizedBox(width: 8),
                     Text(size, style: const TextStyle(fontSize: 12, color: Colors.black45)),
                     const SizedBox(width: 8),
-                    const Badge(text: "New", color: Color(0xFFE8F0FE), textColor: Colors.blue),
+                    Badge(text: "new".tr, color: Color(0xFFE8F0FE), textColor: Colors.blue),
                   ],
                 ),
               ],

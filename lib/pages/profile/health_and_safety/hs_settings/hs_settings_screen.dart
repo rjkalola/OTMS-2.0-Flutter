@@ -1,5 +1,5 @@
-import 'package:belcka/pages/profile/health_and_safety/health_and_safety_controller.dart';
-import 'package:belcka/pages/profile/health_and_safety/widgets/showAddHSSettingsDialog.dart';
+import 'package:belcka/pages/profile/health_and_safety/hs_resource_types/hs_management_type.dart';
+import 'package:belcka/pages/profile/health_and_safety/hs_settings/hs_settings_controller.dart';
 import 'package:belcka/pages/user_orders/widgets/orders_base_app_bar.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/routes/app_routes.dart';
@@ -8,16 +8,16 @@ import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class HealthAndSafetyScreen extends StatefulWidget {
-  const HealthAndSafetyScreen({super.key});
+class HsSettingsScreen extends StatefulWidget {
+  const HsSettingsScreen({super.key});
 
   @override
-  State<HealthAndSafetyScreen> createState() => _HealthAndSafetyScreenState();
+  State<HsSettingsScreen> createState() => _HsSettingsScreenState();
 }
 
-class _HealthAndSafetyScreenState extends State<HealthAndSafetyScreen> {
+class _HsSettingsScreenState extends State<HsSettingsScreen> {
 
-  final controller = Get.put(HealthAndSafetyController());
+  final controller = Get.put(HsSettingsController());
 
   @override
   Widget build(BuildContext context) {
@@ -36,11 +36,10 @@ class _HealthAndSafetyScreenState extends State<HealthAndSafetyScreen> {
             backgroundColor: dashBoardBgColor_(context),
             appBar: OrdersBaseAppBar(
               appBar: AppBar(),
-              title: 'health_safety'.tr,
+              title: 'health_safety_settings'.tr,
               isCenterTitle: false,
               isBack: true,
               bgColor: backgroundColor_(context),
-              widgets: actionButtons(),
               onBackPressed: (){
                 controller.onBackPress();
               },
@@ -52,30 +51,34 @@ class _HealthAndSafetyScreenState extends State<HealthAndSafetyScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _buildMenuButton(
-                      label: "near_miss_reporting".tr,
-                      icon: Icons.report_problem_outlined,
+                      label: HSManagementType.hazards.title.tr,
+                      icon: HSManagementType.hazards.icon,
                       onTap: () {
-                        Get.toNamed(AppRoutes.nearMissListScreen,);
+                        var arguments = {"selectedManagementType": HSManagementType.hazards,};
+                        controller.moveToScreen(
+                            AppRoutes.hsResourceTypesListScreen, arguments);
                       },
                     ),
                     const SizedBox(height: 4),
                     _buildMenuButton(
-                      label: "report_incident".tr,
-                      icon: Icons.medical_services_outlined,
+                      label: HSManagementType.incidentTypes.title.tr,
+                      icon: HSManagementType.incidentTypes.icon,
                       onTap: () {
-                        Get.toNamed(AppRoutes.reportIncidentsListScreen,);
+                        var arguments = {"selectedManagementType": HSManagementType.incidentTypes,};
+                        controller.moveToScreen(
+                            AppRoutes.hsResourceTypesListScreen, arguments);
                       },
                     ),
                     const SizedBox(height: 4),
-                    /*
                     _buildMenuButton(
-                      label: "history".tr,
-                      icon: Icons.history_edu_outlined,
+                      label: HSManagementType.threatLevels.title.tr,
+                      icon: HSManagementType.threatLevels.icon,
                       onTap: () {
-
+                        var arguments = {"selectedManagementType": HSManagementType.threatLevels,};
+                        controller.moveToScreen(
+                            AppRoutes.hsResourceTypesListScreen, arguments);
                       },
                     ),
-                    */
                   ],
                 ),
               ),
@@ -122,23 +125,5 @@ class _HealthAndSafetyScreenState extends State<HealthAndSafetyScreen> {
         ),
       ),
     );
-  }
-
-  List<Widget>? actionButtons() {
-    return [
-      InkWell(
-        onTap: (){
-          Get.toNamed(AppRoutes.hsSettingsScreen,);
-        },
-        child: Padding(
-          padding: const EdgeInsets.all(6),
-          child: Icon(Icons.settings,
-            color: primaryTextColorLight_(context) ,
-            size: 23,
-          ),
-        ),
-      ),
-      SizedBox(width: 8,),
-    ];
   }
 }

@@ -44,10 +44,13 @@ class DigitalIdCardController extends GetxController {
           digitalIdCardInfo.value = response.info!;
           // isMainViewVisible.value = true;
           // isLoading.value = false;
+          /*
           if (!StringHelper.isEmptyString(
               digitalIdCardInfo.value.webUrl ?? "")) {
             loadWebData(digitalIdCardInfo.value.webUrl ?? "");
+
           }
+          */
         } else {
           isLoading.value = false;
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
