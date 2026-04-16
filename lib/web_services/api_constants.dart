@@ -388,6 +388,9 @@ class ApiConstants {
   static String reportIncidentsGet = '$appUrl/report-incidents/get';
   static String nearMissReportsStore = '$appUrl/near-miss-reports/store';
   static String reportIncidentsStore = '$appUrl/report-incidents/store';
+  static String storeHazard = '$appUrl/store-hazard';
+  static String nearMissReportsDelete = '$appUrl/near-miss-reports/delete';
+  static String reportIncidentsDelete = '$appUrl/report-incidents/delete';
 
   // Buyer reports
   static String getModules = '$appUrl/get-modules';

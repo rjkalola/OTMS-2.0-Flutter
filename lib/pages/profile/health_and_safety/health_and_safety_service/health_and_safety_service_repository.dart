@@ -2,15 +2,13 @@ import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/network/api_request.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 
-class NearMissListRepository {
-  void getNearMissReportsListAPI({
+class HealthAndSafetyServiceRepository {
+  void getResourcesAPI({
     Map<String, dynamic>? queryParameters,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
-    ApiRequest(
-        url: ApiConstants.nearMissReportsList,
-        queryParameters: queryParameters)
+    ApiRequest(url: ApiConstants.hsGetResources, queryParameters: queryParameters)
         .getRequest(
       onSuccess: (data) {
         onSuccess!(data);
@@ -19,19 +17,16 @@ class NearMissListRepository {
     );
   }
 
-  void nearMissReportsDeleteAPI({
-    required int id, // Added required id parameter
+  void storeHazardAPI({
     Map<String, dynamic>? queryParameters,
     dynamic data,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
     ApiRequest(
-      // Append the ID to the base URL string
-      url: "${ApiConstants.nearMissReportsDelete}/$id",
-      data: data,
-      queryParameters: queryParameters, // Ensure queryParams are still passed if needed
-    ).deleteRequest(
+        url: ApiConstants.storeHazard,
+        data: data)
+        .postRequest(
       onSuccess: (data) {
         onSuccess!(data);
       },

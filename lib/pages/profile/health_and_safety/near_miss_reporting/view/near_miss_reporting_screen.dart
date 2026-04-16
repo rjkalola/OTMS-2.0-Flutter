@@ -71,7 +71,22 @@ class _NearMissReportingScreenState extends State<NearMissReportingScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             // --- Hazard Type Selector ---
-                            TitleTextView(text: "hazard_type".tr,fontWeight: FontWeight.w500,fontSize: 15,),
+                            RichText(
+                              text: TextSpan(
+                                text: '${'hazard_type'.tr} ',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color:primaryTextColor_(context),
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text: '*',
+                                    style: TextStyle(color: Colors.redAccent),
+                                  ),
+                                ],
+                              ),
+                            ),
                             const SizedBox(height: 8),
                             Column(
                               children: [
@@ -81,7 +96,7 @@ class _NearMissReportingScreenState extends State<NearMissReportingScreen> {
                                   isOpen: _isDropdownOpen,
                                   onTap: () {
                                     if (controller.healthAndSafetyService.hazards.isEmpty){
-                                      AppUtils.showSnackBarMessage('no_data_found'.tr);
+                                      AppUtils.showSnackBarMessage('no_hazards_found'.tr);
                                     }
                                     else{
                                       setState(() {

@@ -2,6 +2,7 @@ import 'package:belcka/pages/profile/health_and_safety/near_miss_list/controller
 import 'package:belcka/pages/profile/health_and_safety/report_incidents_list/controller/report_incident_list_controller.dart';
 import 'package:belcka/pages/profile/health_and_safety/widgets/incident_report_card.dart';
 import 'package:belcka/pages/profile/health_and_safety/widgets/near_miss_card.dart';
+import 'package:belcka/pages/profile/health_and_safety/widgets/showHSConfirmationDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -23,6 +24,7 @@ class _ReportIncidentListWidgetState extends State<ReportIncidentListWidget> {
       itemBuilder: (context, index) {
         final incident = controller.incidentsReportsList[index];
         return IncidentReportCard(
+          title: incident.title,
           imageUrl: incident.userThumbImage,
           userName: incident.userName,
           incidentType: incident.incidentType,
@@ -33,7 +35,16 @@ class _ReportIncidentListWidgetState extends State<ReportIncidentListWidget> {
 
           },
           onEdit: () {},
-          onDelete: () {},
+          onDelete: () {
+            showHSConfirmationDialog(
+              context: context,
+              title: "${'delete_incident_report'.tr}?",
+              subtitle: "are_you_sure_delete_incident_description",
+              confirmText: "delete",
+              confirmColor: const Color(0xFFF05261),
+              onConfirm: () => controller.deleteReport(incident.id),
+            );
+          },
         );
       },
     ));

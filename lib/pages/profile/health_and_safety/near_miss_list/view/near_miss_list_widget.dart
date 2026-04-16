@@ -3,6 +3,8 @@ import 'package:belcka/pages/profile/health_and_safety/widgets/near_miss_card.da
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../widgets/showHSConfirmationDialog.dart';
+
 class NearMissListWidget extends StatefulWidget {
   const NearMissListWidget({super.key});
 
@@ -32,7 +34,14 @@ class _NearMissListWidgetState extends State<NearMissListWidget> {
 
           },
           onDelete: () {
-
+            showHSConfirmationDialog(
+              context: context,
+              title: "${'delete_near_miss_report'.tr}?",
+              subtitle: "are_you_sure_delete_near_miss_description",
+              confirmText: "delete",
+              confirmColor: const Color(0xFFF05261),
+              onConfirm: () => controller.deleteReport(report.id),
+            );
           },
           onAttachmentTap: (){
             print("show attachments");

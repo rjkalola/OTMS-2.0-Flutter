@@ -1,5 +1,7 @@
+import 'package:belcka/pages/profile/health_and_safety/hs_resource_types/hs_management_type.dart';
 import 'package:belcka/pages/profile/health_and_safety/hs_resource_types/hs_resource_types_list_controller.dart';
 import 'package:belcka/pages/profile/health_and_safety/widgets/showAddHSSettingsDialog.dart';
+import 'package:belcka/pages/user_orders/widgets/empty_state_view.dart';
 import 'package:belcka/pages/user_orders/widgets/orders_base_app_bar.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
@@ -32,7 +34,7 @@ class _HsResourceTypesListScreenState extends State<HsResourceTypesListScreen> {
           controller.onBackPress();
         },
       ),
-      body: Padding(
+      body: controller.managementTypeList.isNotEmpty ? Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
           children: [
@@ -58,7 +60,9 @@ class _HsResourceTypesListScreenState extends State<HsResourceTypesListScreen> {
             ),
           ],
         ),
-      ),
+      ) : EmptyStateView(
+          title: controller.noDataFoundMsg.value.tr,
+          message:"",),
     );
   }
 
@@ -68,11 +72,23 @@ class _HsResourceTypesListScreenState extends State<HsResourceTypesListScreen> {
         onTap: (){
           showAddHSSettingsDialog(
             context: context,
-            title: "add_hazard",
-            label: "hazard_title",
+            title: controller.dialogueBoxTitle.value,
+            label: controller.dialogueBoxLabel.value,
             onSave: (val) {
               // Add logic to save via your service
-              print("New Hazard: $val");
+              if (controller.selectedManagementType == HSManagementType.hazards){
+                print("New Hazard: $val");
+                controller.healthAndSafetyService.toggleStoreHazard(val);
+                controller.healthAndSafetyService.hazards.refresh();
+                controller.managementTypeList.value = controller.healthAndSafetyService.hazards;
+              }
+              else if (controller.selectedManagementType == HSManagementType.incidentTypes){
+                print("New Incident: $val");
+              }
+              else{
+                print("New threat: $val");
+              }
+
             },
           );
         },
@@ -116,10 +132,12 @@ class _HsResourceTypesListScreenState extends State<HsResourceTypesListScreen> {
           ),
 
           // Action Buttons
+        /*
           IconButton(
             onPressed: onEdit,
             icon: const Icon(Icons.edit_outlined, color: Colors.black38, size: 22),
           ),
+          */
           IconButton(
             onPressed: onDelete,
             icon: const Icon(Icons.delete_outline_rounded, color: Colors.redAccent, size: 22),

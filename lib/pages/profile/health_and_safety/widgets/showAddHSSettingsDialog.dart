@@ -13,15 +13,13 @@ void showAddHSSettingsDialog({
   showDialog(
     context: context,
     builder: (context) {
-      // Use StatefulBuilder to manage the "Save" button state
       return StatefulBuilder(
         builder: (context, setDialogState) {
           bool isNotEmpty = titleController.text.trim().isNotEmpty;
-
           return Dialog(
-            backgroundColor:backgroundColor_(context),
+            backgroundColor:dashBoardBgColor_(context),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-            insetPadding: const EdgeInsets.symmetric(horizontal: 16), // Better for mobile
+            insetPadding: const EdgeInsets.symmetric(horizontal: 16),
             child: Padding(
               padding: const EdgeInsets.all(24),
               child: Column(
@@ -34,10 +32,10 @@ void showAddHSSettingsDialog({
                     children: [
                       Text(
                         title.tr,
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF1A1C1E),
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                          color: primaryTextColor_(context),
                         ),
                       ),
                       IconButton(
@@ -48,15 +46,15 @@ void showAddHSSettingsDialog({
                       ),
                     ],
                   ),
-                  const SizedBox(height: 28),
+                  const SizedBox(height: 16),
 
                   // 2. Input Label
                   Text(
                     label.tr,
-                    style: const TextStyle(
+                    style:  TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
-                      color: Color(0xFF1A1C1E),
+                      color: primaryTextColor_(context),
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -70,7 +68,7 @@ void showAddHSSettingsDialog({
                       hintText: "${'enter_title'.tr}...",
                       hintStyle:  TextStyle(color: primaryTextColor_(context), fontSize: 15),
                       filled: true,
-                      fillColor: backgroundColor_(context),
+                      fillColor: dashBoardBgColor_(context),
                       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -113,9 +111,8 @@ void showAddHSSettingsDialog({
                             : null, // Disables button automatically
                         style: ElevatedButton.styleFrom(
                           elevation: 0,
-                          backgroundColor: isNotEmpty ? defaultAccentColor_(context) : const Color(0xFFE2E8F0),
-                          foregroundColor: isNotEmpty ? Colors.white : Colors.black26,
-                          disabledBackgroundColor: const Color(0xFFE2E8F0),
+                          backgroundColor: isNotEmpty ? defaultAccentColor_(context) : primaryTextColor_(context),
+                          foregroundColor: isNotEmpty ? Colors.white : primaryTextColor_(context),
                           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                         ),
