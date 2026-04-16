@@ -137,6 +137,54 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                                             },
                                           ),
                                         ),
+                                        Visibility(
+                                          visible: controller
+                                              .isTransportCategory.value,
+                                          child: Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                20, 24, 20, 0),
+                                            child: TextFieldBorderDark(
+                                              textEditingController: controller
+                                                  .carRegisterNumberController
+                                                  .value,
+                                              hintText: 'car_register_number'.tr,
+                                              labelText: 'car_register_number'.tr,
+                                              isReadOnly: false,
+                                              keyboardType:
+                                                  TextInputType.text,
+                                              textInputAction:
+                                                  TextInputAction.next,
+                                              autovalidateMode:
+                                                  AutovalidateMode
+                                                      .onUserInteraction,
+                                              onValueChange: (value) {
+                                                controller.isSaveEnable.value =
+                                                    true;
+                                              },
+                                              inputFormatters: <TextInputFormatter>[
+                                                FilteringTextInputFormatter
+                                                    .allow(
+                                                        RegExp(r'[a-zA-Z0-9]')),
+                                                LengthLimitingTextInputFormatter(
+                                                    10),
+                                              ],
+                                              validator: MultiValidator([
+                                                if (controller
+                                                    .isTransportCategory.value)
+                                                  RequiredValidator(
+                                                      errorText:
+                                                          'required_field'.tr),
+                                                if (controller
+                                                    .isTransportCategory.value)
+                                                  PatternValidator(
+                                                      r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z0-9]{1,10}$',
+                                                      errorText:
+                                                          'enter_valid_car_register_number'
+                                                              .tr),
+                                              ]),
+                                            ),
+                                          ),
+                                        ),
                                         Padding(
                                           padding: const EdgeInsets.fromLTRB(
                                               20, 24, 20, 0),

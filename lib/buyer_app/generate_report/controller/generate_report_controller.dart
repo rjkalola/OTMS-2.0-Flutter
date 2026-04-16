@@ -128,8 +128,14 @@ class GenerateReportController extends GetxController
       return;
     }
     final list = <ModuleInfo>[];
+    final selected = sheetSelectedIds.toList();
     for (final m in base) {
-      list.add(ModuleInfo(id: m.id, name: m.name));
+      final id = m.id ?? 0;
+      list.add(ModuleInfo(
+        id: m.id,
+        name: m.name,
+        check: id > 0 && selected.contains(id),
+      ));
     }
     Get.bottomSheet(
       DropDownMultiSelectionListDialog(

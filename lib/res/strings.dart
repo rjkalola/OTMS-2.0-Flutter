@@ -529,6 +529,9 @@ class Strings extends Translations {
           'edit_expense': "Edit Expense",
           'expenses': "Expenses",
           'sum_of_total': "Sum of total",
+          'car_register_number': "Car Register Number",
+          'enter_valid_car_register_number':
+              "Enter letters and numbers (max 10 characters)",
           'please_select_project': "Please select project",
           'enter_valid_amount': "Enter valid amount",
           'digital_id_card': "Digital Id Card",

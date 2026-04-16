@@ -61,6 +61,7 @@ class _DigitalIdCardScreenState extends State<DigitalIdCardScreen> {
 
   Widget _buildPdfContent() {
     final pdfUrl = controller.digitalIdCardInfo.value.pdfDownloadUrl;
+    // print("pdfUrl:"+(pdfUrl??"")).
 
     if (StringHelper.isEmptyString(pdfUrl)) {
       return const Center(child: Text(""));

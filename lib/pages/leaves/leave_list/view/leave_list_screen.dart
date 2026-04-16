@@ -32,7 +32,9 @@ class _LeaveListScreenState extends State<LeaveListScreen>
             backgroundColor: dashBoardBgColor_(context),
             appBar: BaseAppBar(
               appBar: AppBar(),
-              title: 'leaves'.tr,
+              title: controller.totalLeaves.value > 0
+                  ? "${'leaves'.tr} (${controller.totalLeaves.value})"
+                  : 'leaves'.tr,
               isCenterTitle: false,
               bgColor: dashBoardBgColor_(context),
               isBack: true,

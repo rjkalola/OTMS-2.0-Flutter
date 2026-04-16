@@ -14,7 +14,7 @@ class ModuleInfo {
       type,
       imageUrl,
       thumbUrl;
-  bool? check;
+  bool? check, isTransportCategory;
 
   ModuleInfo(
       {this.id,
@@ -37,7 +37,8 @@ class ModuleInfo {
       this.imageUrl,
       this.thumbUrl,
       this.productsCount,
-      this.count});
+      this.count,
+      this.isTransportCategory});
 
   ModuleInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -59,6 +60,7 @@ class ModuleInfo {
     thumbUrl = json['thumb_url'];
     productsCount = json['products_count'];
     count = json['count'];
+    isTransportCategory = json['is_transport_category'];
   }
 
   Map<String, dynamic> toJson() {
@@ -82,6 +84,7 @@ class ModuleInfo {
     data['thumb_url'] = this.thumbUrl;
     data['products_count'] = this.productsCount;
     data['count'] = this.count;
+    data['is_transport_category'] = this.isTransportCategory;
 
     return data;
   }

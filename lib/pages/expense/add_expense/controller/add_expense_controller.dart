@@ -36,6 +36,7 @@ class AddExpenseController extends GetxController
   final projectController = TextEditingController().obs;
   final addressController = TextEditingController().obs;
   final categoryController = TextEditingController().obs;
+  final carRegisterNumberController = TextEditingController().obs;
   final sumOfTotalController = TextEditingController().obs;
   final dateOfReceiptController = TextEditingController().obs;
   final noteController = TextEditingController().obs;
@@ -48,7 +49,8 @@ class AddExpenseController extends GetxController
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
       isSaveEnable = false.obs,
-      isProjectDropDownEnable = true.obs;
+      isProjectDropDownEnable = true.obs,
+      isTransportCategory = false.obs;
   RxInt expenseId = 0.obs;
 
   final projectList = <ModuleInfo>[].obs;
@@ -101,6 +103,7 @@ class AddExpenseController extends GetxController
       projectController.value.text = expenseInfo.value.projectName ?? "";
       addressController.value.text = expenseInfo.value.addressName ?? "";
       categoryController.value.text = expenseInfo.value.categoryName ?? "";
+      // updateTransportCategoryVisibilityByCategoryId();
       sumOfTotalController.value.text =
           (expenseInfo.value.totalAmount ?? 0).toString();
       dateOfReceiptController.value.text = expenseInfo.value.receiptDate ?? "";
@@ -111,6 +114,7 @@ class AddExpenseController extends GetxController
       title.value = 'add_expense'.tr;
       setInitialDateTime();
       isSaveEnable.value = true;
+      // isTransportCategory.value = false;
     }
   }
 
@@ -125,6 +129,8 @@ class AddExpenseController extends GetxController
       map["receipt_date"] = StringHelper.getText(dateOfReceiptController.value);
       map["total_amount"] = StringHelper.getText(sumOfTotalController.value);
       map["note"] = StringHelper.getText(noteController.value);
+      map["car_register_number"] =
+          StringHelper.getText(carRegisterNumberController.value);
 
       multi.FormData formData = multi.FormData.fromMap(map);
       print("reques value:" + map.toString());
@@ -189,6 +195,8 @@ class AddExpenseController extends GetxController
       map["note"] = StringHelper.getText(noteController.value);
       map["remove_file_ids"] =
           StringHelper.getCommaSeparatedStringIds(removeFileIds);
+      map["car_register_number"] =
+          StringHelper.getText(carRegisterNumberController.value);
 
       multi.FormData formData = multi.FormData.fromMap(map);
       print("reques value:" + map.toString());
@@ -281,9 +289,9 @@ class AddExpenseController extends GetxController
               jsonDecode(responseModel.result!));
           expenseResourcesData = response;
 
-          if(expenseId.value == 0 && (response.id??0) != 0){
-            projectId = response.id??0;
-            projectController.value.text = response.name??"";
+          if (expenseId.value == 0 && (response.id ?? 0) != 0) {
+            projectId = response.id ?? 0;
+            projectController.value.text = response.name ?? "";
           }
 
           if (projectId != 0) {
@@ -333,6 +341,12 @@ class AddExpenseController extends GetxController
           ExpenseDetailsResponse response = ExpenseDetailsResponse.fromJson(
               jsonDecode(responseModel.result!));
           expenseInfo.value = response.info!;
+          if (!StringHelper.isEmptyString(
+              expenseInfo.value.carRegisterNumber ?? "")) {
+            isTransportCategory.value = true;
+            carRegisterNumberController.value.text =
+                expenseInfo.value.carRegisterNumber ?? "";
+          }
           setInitData();
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
@@ -456,8 +470,40 @@ class AddExpenseController extends GetxController
       isSaveEnable.value = true;
       categoryId = id;
       categoryController.value.text = name;
+
+      isTransportCategory.value =
+          categoryList[position].isTransportCategory ?? false;
+      if (!isTransportCategory.value) {
+        carRegisterNumberController.value.clear();
+      }
+
+      // if(categoryList[position].isTransportCategory)
+      //
+      // bool isSelectedCategoryTransport = false;
+      // if (position >= 0 && position < categoryList.length) {
+      //   isSelectedCategoryTransport =
+      //       categoryList[position].isTransportCategory == true;
+      // }
+      // isTransportCategory.value = isSelectedCategoryTransport;
+      // if (!isSelectedCategoryTransport) {
+      //   carRegisterNumberController.value.clear();
+      // }
     }
   }
+
+  // void updateTransportCategoryVisibilityByCategoryId() {
+  //   bool isSelectedCategoryTransport = false;
+  //   for (var info in categoryList) {
+  //     if ((info.id ?? 0) == categoryId) {
+  //       isSelectedCategoryTransport = info.isTransportCategory == true;
+  //       break;
+  //     }
+  //   }
+  //   isTransportCategory.value = isSelectedCategoryTransport;
+  //   if (!isSelectedCategoryTransport) {
+  //     carRegisterNumberController.value.clear();
+  //   }
+  // }
 
   void showDatePickerDialog(String dialogIdentifier, DateTime? date,
       DateTime firstDate, DateTime lastDate) {

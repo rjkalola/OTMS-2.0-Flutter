@@ -32,6 +32,7 @@ class ExpenseInfo {
   bool? isArchive;
   int? requestStatus;
   String? note;
+  String? carRegisterNumber;
   List<FilesInfo>? attachments;
 
   ExpenseInfo(
@@ -66,6 +67,7 @@ class ExpenseInfo {
       this.isArchive,
       this.requestStatus,
       this.note,
+      this.carRegisterNumber,
       this.attachments});
 
   ExpenseInfo.fromJson(Map<String, dynamic> json) {
@@ -105,6 +107,7 @@ class ExpenseInfo {
     isArchive = json['is_archive'];
     requestStatus = json['request_status'];
     note = json['note'];
+    carRegisterNumber = json['car_register_number'];
     if (json['attachments'] != null) {
       attachments = <FilesInfo>[];
       json['attachments'].forEach((v) {
@@ -146,6 +149,7 @@ class ExpenseInfo {
     data['is_archive'] = this.isArchive;
     data['request_status'] = this.requestStatus;
     data['note'] = this.note;
+    data['car_register_number'] = this.carRegisterNumber;
     if (this.attachments != null) {
       data['attachments'] = this.attachments!.map((v) => v.toJson()).toList();
     }

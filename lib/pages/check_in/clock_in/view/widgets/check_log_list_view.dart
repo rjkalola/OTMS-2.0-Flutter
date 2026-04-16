@@ -161,7 +161,7 @@ class CheckLogListView extends StatelessWidget {
                                                                     .seconds_To_HH_MM(
                                                                         info.totalWorkSeconds ??
                                                                             0),
-                                                        fontSize: 17,
+                                                        fontSize: 16,
                                                         fontColor: StringHelper
                                                                 .isEmptyString(info
                                                                     .checkoutDateTime)
