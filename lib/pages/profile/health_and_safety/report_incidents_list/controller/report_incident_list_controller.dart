@@ -63,10 +63,38 @@ class ReportIncidentListController extends GetxController{
     );
   }
 
+  void deleteReport(int incidentId) {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+
+    _api.reportIncidentsDeleteAPI(
+      id: incidentId,
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        isLoading.value = false;
+        if (responseModel.isSuccess) {
+          fetchIncidentsReportsList();
+          AppUtils.showSnackBarMessage("incident_report_deleted_success".tr);
+        }
+        else{
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+        }
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
+
   Future<void> moveToScreen(String rout, dynamic arguments) async {
     var result = await Get.toNamed(rout, arguments: arguments);
     if (result != null && result) {
-
+      fetchIncidentsReportsList();
     }
   }
 

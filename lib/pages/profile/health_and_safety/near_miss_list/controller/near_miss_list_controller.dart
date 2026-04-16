@@ -6,6 +6,7 @@ import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as dio;
 
 class NearMissListController extends GetxController{
   final _api = NearMissListRepository();
@@ -50,6 +51,35 @@ class NearMissListController extends GetxController{
         else{
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
           isLoading.value = false;
+        }
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
+
+  //deleteReport
+  void deleteReport(int reportId) {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+
+    _api.nearMissReportsDeleteAPI(
+      id: reportId,
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        isLoading.value = false;
+        if (responseModel.isSuccess) {
+          fetchNearMissReportsList();
+          AppUtils.showSnackBarMessage("near_miss_report_deleted_success".tr);
+        }
+        else{
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
       },
       onError: (ResponseModel error) {

@@ -14,7 +14,6 @@ import 'package:belcka/web_services/response/response_model.dart';
 import 'package:dio/dio.dart' as multi;
 
 class ReportIncidentController extends GetxController{
-  RxBool isDeliverySelected = true.obs;
   final _api = ReportIncidentRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
@@ -30,6 +29,7 @@ class ReportIncidentController extends GetxController{
   HSResourceTypesInfo? selectedThreatLevel;
   HSResourceTypesInfo? selectedUser;
 
+  final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
   bool isDataUpdated = false;
   var attachmentList = <PlatformFile>[].obs;
@@ -42,14 +42,12 @@ class ReportIncidentController extends GetxController{
   void storeReportIncident() async {
     Map<String, dynamic> map = {
       "company_id": ApiConstants.companyId,
+      'title': titleController.text.trim(),
       "incident_type_id": selectedIncidentType?.id ?? 0,
       "threat_level_id": selectedThreatLevel?.id ?? 0,
       "notify_to": selectedUser?.id ?? 0,
-      "description": descriptionController.text.trim(),
     };
 
-
-    // Pre-create the list of MultipartFiles
     List<multi.MultipartFile> fileList = [];
     for (var file in attachmentList) {
       if (file.path != null) {
@@ -76,12 +74,12 @@ class ReportIncidentController extends GetxController{
           BaseResponse response =
           BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.Message ?? "");
-          Get.back(result: true);
+          isDataUpdated = true;
+          onBackPress();
         }
-        else{
+        else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
-        isDataUpdated = true;
         isLoading.value = false;
       },
       onError: (ResponseModel error) {
@@ -100,6 +98,6 @@ class ReportIncidentController extends GetxController{
     }
   }
   void onBackPress() {
-    Get.back(result: true);
+    Get.back(result: isDataUpdated);
   }
 }

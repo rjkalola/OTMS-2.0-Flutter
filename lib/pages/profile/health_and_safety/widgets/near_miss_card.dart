@@ -141,12 +141,13 @@ class NearMissCard extends StatelessWidget {
                 const Spacer(),
 
                 // Unified Action Buttons with tight spacing
+                /*
                 _buildActionButton(
                   icon: Icons.edit_outlined,
                   color: defaultAccentColor_(context),
                   onTap: onEdit,
                 ),
-
+                */
                 _buildActionButton(
                   icon: Icons.delete_outline_outlined,
                   color: Colors.red,

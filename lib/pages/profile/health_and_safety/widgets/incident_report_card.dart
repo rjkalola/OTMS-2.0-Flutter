@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class IncidentReportCard extends StatelessWidget {
+  final String title;
   final String imageUrl;
   final String userName;
   final String incidentType;
@@ -19,6 +20,7 @@ class IncidentReportCard extends StatelessWidget {
 
   const IncidentReportCard({
     Key? key,
+    required this.title,
     required this.imageUrl,
     required this.userName,
     required this.incidentType,
@@ -73,7 +75,9 @@ class IncidentReportCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       TitleTextView(text: userName, fontWeight: FontWeight.w600, fontSize: 14),
-                      const SizedBox(height: 2),
+                      const SizedBox(height: 4),
+                      TitleTextView(text: title, fontWeight: FontWeight.w400, fontSize: 14),
+                      const SizedBox(height: 4),
                       SubtitleTextView(text: incidentType, fontSize: 13, fontWeight: FontWeight.w500),
                     ],
                   ),
@@ -128,8 +132,10 @@ class IncidentReportCard extends StatelessWidget {
                 const SizedBox(width: 4),
 
                 // Edit/Delete Buttons
+                /*
                 _buildSmallAction(Icons.edit_outlined, defaultAccentColor_(context), onEdit),
                 const SizedBox(width: 4),
+                */
                 _buildSmallAction(Icons.delete_outline_rounded, Colors.red.shade400, onDelete),
               ],
             ),

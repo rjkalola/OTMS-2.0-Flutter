@@ -796,7 +796,32 @@ class Strings extends Translations {
           'health_safety_settings': "Health Safety Settings",
           'hazards': "Hazards",
           'incident_types': "Incident Types",
-          'threat_levels' : "Threat Levels"
+          'threat_levels' : "Threat Levels",
+          'add_incident_type' : "Add Incident Type",
+          'Incident_type_title' : "Incident Type Title",
+          'add_threat_level' : "Add Threat Level",
+          'threat_level_title' : "Threat Level Title",
+          'no_hazards_found': "No hazards found",
+          'no_incident_types_found': "No incident types found",
+          'no_threat_levels_found': "No threat levels found",
+          'title': "Title",
+          'enter_report_title': "Enter report title",
+          'title_is_required': "Title is required",
+          'incident_type_required': "Incident type is required",
+          'threat_level_required': "Threat level is required",
+          'notify_to_required': "Notify to user is required",
+          'one_file_required': "At least one file is required",
+
+          'delete_near_miss_report': "Delete Near Miss Report",
+          'are_you_sure_delete_near_miss_description': "Are you sure you want to delete this near miss report? This action cannot be undone.",
+          'near_miss_report_deleted_success': "Near miss report deleted successfully",
+
+
+          'delete_incident_report': "Delete Incident Report",
+          'are_you_sure_delete_incident_description': "Are you sure you want to delete this incident report? This action cannot be undone.",
+          'incident_report_deleted_success':"Incident report deleted successfully"
+
+
 
 // '': "",
 // '': "",

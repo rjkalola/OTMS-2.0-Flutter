@@ -14,6 +14,7 @@ class IncidentReportInfo{
   final String userName;
   final String userImage;
   final String userThumbImage;
+  final String title;
   final List<ReportFileInfo> files;
 
   IncidentReportInfo({
@@ -30,6 +31,7 @@ class IncidentReportInfo{
     required this.userName,
     required this.userImage,
     required this.userThumbImage,
+    required this.title,
     required this.files,
   });
 
@@ -50,6 +52,7 @@ class IncidentReportInfo{
       userName: json['user_name'] ?? '',
       userImage: json['user_image'] ?? '',
       userThumbImage: json['user_thumb_image'] ?? '',
+      title: json['title'] ?? '',
       files: (json['files'] as List?)
           ?.map((f) => ReportFileInfo.fromJson(f))
           .toList() ?? [],

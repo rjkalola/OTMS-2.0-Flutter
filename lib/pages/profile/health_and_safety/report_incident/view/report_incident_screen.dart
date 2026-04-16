@@ -77,8 +77,74 @@ class _ReportIncidentScreenState extends State<ReportIncidentScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              //text field
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // Label
+                                  RichText(
+                                    text: TextSpan(
+                                      text: '${'title'.tr} ',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                        color:primaryTextColor_(context),
+                                      ),
+                                      children: [
+                                        TextSpan(
+                                          text: '*',
+                                          style: TextStyle(color: Colors.redAccent),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+
+                                  // TextField - Removed fixed height Container
+                                  TextField(
+                                    controller: controller.titleController,
+                                    style: TextStyle(fontSize: 15, color: primaryTextColor_(context)),
+                                    decoration: InputDecoration(
+                                      hintText: "${'enter_report_title'.tr}...",
+                                      hintStyle: TextStyle(color: secondaryTextColor_(context),fontSize: 15),
+                                      filled: true,
+                                      fillColor: backgroundColor_(context),
+                                      // Padding controls the height dynamically
+                                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+
+                                      // Use borders inside decoration instead of Container decoration
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: const BorderSide(color: Colors.black12, width: 1.0),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: BorderSide(color: defaultAccentColor_(context), width: 1.5),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+
+                              const SizedBox(height: 16),
+
                               // --- Incident Type Selector ---
-                              TitleTextView(text: "incident_type".tr,fontWeight: FontWeight.w500,),
+                              RichText(
+                                text: TextSpan(
+                                  text: '${'incident_type'.tr} ',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color:primaryTextColor_(context),
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: '*',
+                                      style: TextStyle(color: Colors.redAccent),
+                                    ),
+                                  ],
+                                ),
+                              ),
 
                               const SizedBox(height: 8),
                               Column(
@@ -89,9 +155,19 @@ class _ReportIncidentScreenState extends State<ReportIncidentScreen> {
                                     isOpen: _isIncidentDropdownOpen,
                                     onTap: () {
                                       setState(() {
-                                        _isIncidentDropdownOpen = !_isIncidentDropdownOpen; // Toggle open/close
-                                        _isThreatLevelDropdownOpen = false;
-                                        _isUserDropdownOpen = false;
+                                        FocusManager.instance.primaryFocus?.unfocus();
+
+                                        if (controller.healthAndSafetyService.incidentTypes.isEmpty){
+                                          AppUtils.showSnackBarMessage('no_incident_types_found'.tr);
+                                        }
+                                        else{
+                                          setState(() {
+                                            _isIncidentDropdownOpen = !_isIncidentDropdownOpen; // Toggle open/close
+                                            _isThreatLevelDropdownOpen = false;
+                                            _isUserDropdownOpen = false;
+                                          });
+                                        }
+
                                       });
                                     },
                                   ),
@@ -140,7 +216,22 @@ class _ReportIncidentScreenState extends State<ReportIncidentScreen> {
                               const SizedBox(height: 16),
 
                               // --- Threat Level Selector ---
-                              TitleTextView(text: "threat_level_assessment".tr,fontWeight: FontWeight.w500,),
+                              RichText(
+                                text: TextSpan(
+                                  text: '${'threat_level_assessment'.tr} ',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color:primaryTextColor_(context),
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: '*',
+                                      style: TextStyle(color: Colors.redAccent),
+                                    ),
+                                  ],
+                                ),
+                              ),
                               const SizedBox(height: 8),
                               Column(
                                 children: [
@@ -150,9 +241,18 @@ class _ReportIncidentScreenState extends State<ReportIncidentScreen> {
                                     isOpen: _isThreatLevelDropdownOpen,
                                     onTap: () {
                                       setState(() {
-                                        _isThreatLevelDropdownOpen = !_isThreatLevelDropdownOpen; // Toggle open/close
-                                        _isIncidentDropdownOpen = false;
-                                        _isUserDropdownOpen = false;
+                                        FocusManager.instance.primaryFocus?.unfocus();
+                                        if (controller.healthAndSafetyService.threatLevels.isEmpty){
+                                          AppUtils.showSnackBarMessage('no_threat_levels_found'.tr);
+                                        }
+                                        else{
+                                          setState(() {
+                                            _isThreatLevelDropdownOpen = !_isThreatLevelDropdownOpen; // Toggle open/close
+                                            _isIncidentDropdownOpen = false;
+                                            _isUserDropdownOpen = false;
+                                          });
+                                        }
+
                                       });
                                     },
                                   ),
@@ -201,7 +301,22 @@ class _ReportIncidentScreenState extends State<ReportIncidentScreen> {
                               const SizedBox(height: 16),
 
                               // --- Notify Selector ---
-                              TitleTextView(text: "notify_to".tr,fontWeight: FontWeight.w500,),
+                              RichText(
+                                text: TextSpan(
+                                  text: '${'notify_to'.tr} ',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color:primaryTextColor_(context),
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: '*',
+                                      style: TextStyle(color: Colors.redAccent),
+                                    ),
+                                  ],
+                                ),
+                              ),
                               const SizedBox(height: 8),
                               Column(
                                 children: [
@@ -211,9 +326,17 @@ class _ReportIncidentScreenState extends State<ReportIncidentScreen> {
                                     isOpen: _isUserDropdownOpen,
                                     onTap: () {
                                       setState(() {
-                                        _isUserDropdownOpen = !_isUserDropdownOpen;
-                                        _isThreatLevelDropdownOpen = false;
-                                        _isIncidentDropdownOpen = false;
+                                        FocusManager.instance.primaryFocus?.unfocus();
+                                        if (controller.healthAndSafetyService.users.isEmpty){
+                                          AppUtils.showSnackBarMessage('no_data_found'.tr);
+                                        }
+                                        else{
+                                          setState(() {
+                                            _isUserDropdownOpen = !_isUserDropdownOpen;
+                                            _isThreatLevelDropdownOpen = false;
+                                            _isIncidentDropdownOpen = false;
+                                          });
+                                        }
                                       });
                                     },
                                   ),
@@ -283,6 +406,7 @@ class _ReportIncidentScreenState extends State<ReportIncidentScreen> {
                               //MultiAudioGridWidget(),
 
                               // --- Description Field ---
+                        /*
                               TitleTextView(text: "description".tr,fontWeight: FontWeight.w500,fontSize: 15,),
                               const SizedBox(height: 8),
                               StyledTextField(
@@ -290,9 +414,10 @@ class _ReportIncidentScreenState extends State<ReportIncidentScreen> {
                                 controller: controller.descriptionController,
                               ),
                               const SizedBox(height: 16),
-
+                              */
                               // --- THE UPLOAD SECTION ---
                               AttachmentSection(
+                                isMandatoryField: true,
                                 attachmentList: controller.attachmentList,
                                 onFilesSelected: (files) => controller.attachmentList.addAll(files),
                                 onDelete: (index) => controller.attachmentList.removeAt(index),
@@ -308,14 +433,28 @@ class _ReportIncidentScreenState extends State<ReportIncidentScreen> {
                   child: Visibility(
                     visible:true,
                     child: Padding(
-                      padding: const EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                       child: Opacity(
                         opacity: 1.0,
                         child: PrimaryButton(
                           buttonText: "submit_incident".tr,
                           onPressed: () {
                             FocusManager.instance.primaryFocus?.unfocus();
-                            controller.storeReportIncident();
+
+                            List<String> errors = [];
+
+                            if (controller.titleController.text.trim().isEmpty) errors.add('title_is_required'.tr);
+                            if (controller.selectedIncidentType == null) errors.add('incident_type_required'.tr);
+                            if (controller.selectedThreatLevel == null) errors.add('threat_level_required'.tr);
+                            if (controller.selectedUser == null) errors.add('notify_to_required'.tr);
+                            if (controller.attachmentList.isEmpty) errors.add('one_file_required'.tr);
+
+                            if (errors.isNotEmpty) {
+                              AppUtils.showSnackBarMessage(errors.join('\n'));
+                            }
+                            else{
+                              controller.storeReportIncident();
+                            }
                           },
                         ),
                       ),

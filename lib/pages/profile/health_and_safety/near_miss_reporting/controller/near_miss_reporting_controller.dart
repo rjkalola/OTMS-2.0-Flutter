@@ -68,12 +68,13 @@ class NearMissReportingController extends GetxController{
           BaseResponse response =
           BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.Message ?? "");
-          Get.back(result: true);
+          isDataUpdated = true;
+          onBackPress();
         }
         else{
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
-        isDataUpdated = true;
+
         isLoading.value = false;
       },
       onError: (ResponseModel error) {

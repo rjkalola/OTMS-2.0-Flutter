@@ -7,12 +7,14 @@ import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 
 class AttachmentSection extends StatelessWidget {
+  final bool isMandatoryField;
   final List<PlatformFile> attachmentList;
   final Function(List<PlatformFile>) onFilesSelected;
   final Function(int) onDelete;
 
   const AttachmentSection({
     super.key,
+     this.isMandatoryField = false,
     required this.attachmentList,
     required this.onFilesSelected,
     required this.onDelete,
@@ -36,7 +38,28 @@ class AttachmentSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+
+        if (!isMandatoryField)
         TitleTextView(text: "attachments_text".tr, fontWeight: FontWeight.w500, fontSize: 15),
+
+        if (isMandatoryField)
+          RichText(
+            text: TextSpan(
+              text: '${'attachments_text'.tr} ',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color:primaryTextColor_(context),
+              ),
+              children: [
+                TextSpan(
+                  text: '*',
+                  style: TextStyle(color: Colors.redAccent),
+                ),
+              ],
+            ),
+          ),
+
         const SizedBox(height: 12),
 
         // 1. Upload Area

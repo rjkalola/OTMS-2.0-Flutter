@@ -9,6 +9,9 @@ class HsResourceTypesListController extends GetxController{
   HSManagementType? selectedManagementType;
   RxString selectedTypeTitle = "".obs;
   final managementTypeList = <HSResourceTypesInfo>[].obs;
+  RxString dialogueBoxTitle = "".obs;
+  RxString dialogueBoxLabel = "".obs;
+  RxString noDataFoundMsg = "".obs;
 
   @override
   void onInit() {
@@ -21,12 +24,21 @@ class HsResourceTypesListController extends GetxController{
 
     if (selectedManagementType == HSManagementType.hazards){
       managementTypeList.value = healthAndSafetyService.hazards;
+      dialogueBoxTitle.value = "add_hazard";
+      dialogueBoxLabel.value = "hazard_title";
+      noDataFoundMsg.value = "no_hazards_found";
     }
     else if (selectedManagementType == HSManagementType.incidentTypes){
       managementTypeList.value = healthAndSafetyService.incidentTypes;
+      dialogueBoxTitle.value = "add_incident_type";
+      dialogueBoxLabel.value = "Incident_type_title";
+      noDataFoundMsg.value = "no_incident_types_found";
     }
     else{
       managementTypeList.value = healthAndSafetyService.threatLevels;
+      dialogueBoxTitle.value = "add_threat_level";
+      dialogueBoxLabel.value = "threat_level_title";
+      noDataFoundMsg.value = "no_threat_levels_found";
     }
   }
 
