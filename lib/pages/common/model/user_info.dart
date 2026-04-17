@@ -22,6 +22,8 @@ class UserInfo {
   bool? isTradeAvailable;
   String? userCode;
   bool? isCheckIn;
+  String? lastWorkedTime;
+  String? lastWorkedDate;
 
   UserInfo(
       {this.id,
@@ -46,7 +48,9 @@ class UserInfo {
       this.showRate,
       this.isTradeAvailable,
       this.userCode,
-      this.isCheckIn});
+      this.isCheckIn,
+      this.lastWorkedTime,
+      this.lastWorkedDate});
 
   UserInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -72,6 +76,8 @@ class UserInfo {
     isTradeAvailable = json['is_trade_available'];
     userCode = json['user_code'];
     isCheckIn = json['is_check_in'];
+    lastWorkedTime = json['last_worked_time'];
+    lastWorkedDate = json['last_worked_date'];
   }
 
   Map<String, dynamic> toJson() {
@@ -99,6 +105,8 @@ class UserInfo {
     data['is_trade_available'] = this.isTradeAvailable;
     data['user_code'] = this.userCode;
     data['is_check_in'] = this.isCheckIn;
+    data['last_worked_time'] = this.lastWorkedTime;
+    data['last_worked_date'] = this.lastWorkedDate;
     return data;
   }
 
@@ -123,7 +131,9 @@ class UserInfo {
       bool? showRate,
       bool? isTradeAvailable,
       String? userCode,
-      bool? isCheckIn}) {
+      bool? isCheckIn,
+      String? lastWorkedTime,
+      String? lastWorkedDate}) {
     return UserInfo(
         id: id ?? this.id,
         firstName: firstName ?? this.firstName,
@@ -147,7 +157,9 @@ class UserInfo {
         showRate: showRate ?? this.showRate,
         isTradeAvailable: isTradeAvailable ?? this.isTradeAvailable,
         userCode: userCode ?? this.userCode,
-        isCheckIn: isCheckIn ?? this.isCheckIn);
+        isCheckIn: isCheckIn ?? this.isCheckIn,
+        lastWorkedTime: lastWorkedTime ?? this.lastWorkedTime,
+        lastWorkedDate: lastWorkedDate ?? this.lastWorkedDate);
   }
 
   UserInfo copyUserInfo({UserInfo? userInfo}) {
@@ -175,6 +187,8 @@ class UserInfo {
         showRate: userInfo?.showRate ?? this.showRate,
         isTradeAvailable: userInfo?.isTradeAvailable ?? this.isTradeAvailable,
         userCode: userInfo?.userCode ?? this.userCode,
-        isCheckIn: userInfo?.isCheckIn ?? this.isCheckIn);
+        isCheckIn: userInfo?.isCheckIn ?? this.isCheckIn,
+        lastWorkedTime: userInfo?.lastWorkedTime ?? this.lastWorkedTime,
+        lastWorkedDate: userInfo?.lastWorkedDate ?? this.lastWorkedDate);
   }
 }

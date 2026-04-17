@@ -38,7 +38,8 @@ class MyAccountController extends GetxController
   final _api = MyAccountRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
-      isMainViewVisible = false.obs;
+      isMainViewVisible = false.obs,
+      isOtherUserProfile = false.obs;
   final title = 'dashboard'.tr.obs;
   final selectedIndex = 0.obs;
   RxBool isDataChanged = false.obs;
@@ -145,6 +146,7 @@ class MyAccountController extends GetxController
     }
     if (!UserUtils.isLoginUser(userId)) {
       getProfileAPI(userId ?? 0, false);
+      isOtherUserProfile.value = true;
     } else {
       isMainViewVisible.value = true;
     }

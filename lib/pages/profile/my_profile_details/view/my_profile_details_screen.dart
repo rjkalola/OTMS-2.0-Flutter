@@ -11,6 +11,7 @@ import 'package:belcka/pages/profile/my_profile_details/view/widgets/phone_field
 import 'package:belcka/pages/profile/my_profile_details/view/widgets/profile_avatar_widget.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
@@ -21,6 +22,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class MyProfileDetailsScreen extends StatefulWidget {
   const MyProfileDetailsScreen({super.key});
+
   @override
   State<MyProfileDetailsScreen> createState() => _MyProfileDetailsScreenState();
 }
@@ -30,111 +32,162 @@ class _MyProfileDetailsScreenState extends State<MyProfileDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Container(
-      color: dashBoardBgColor_(context),
-      child: SafeArea(
-        child: Scaffold(
-          appBar: BaseAppBar(
-            appBar: AppBar(),
-            title: "",
-            isCenterTitle: false,
-            bgColor: dashBoardBgColor_(context),
-            isBack: true,
-          ),
-          backgroundColor: dashBoardBgColor_(context),
-          body: ModalProgressHUD(
-            inAsyncCall: controller.isLoading.value,
-            opacity: 0,
-            progressIndicator: const CustomProgressbar(),
-            child: controller.isInternetNotAvailable.value
-                ?  Center(
-              child: Text('no_internet_text'.tr),
-            )
-                : Visibility(
-                visible: controller.isMainViewVisible.value,
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: SingleChildScrollView(
-                          child: Form(
-                            key: controller.formKey,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                //profile UI
-                                Container(
-                                  padding: EdgeInsets.fromLTRB(16, 14, 16, 0),
-                                  width: double.infinity,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      // Avatar
-                                      ProfileAvatarWidget(),
-                                      SizedBox(height: 10),
-                                      // trade
-                                      Text(
-                                        controller.myProfileInfo.value.tradeName ?? "",
-                                        style: TextStyle(
-                                            fontSize: 15, fontWeight: FontWeight.w500),
-                                      ),
-                                      SizedBox(height: 10),
-                                      CardViewDashboardItem(
-                                          margin: EdgeInsets.fromLTRB(4, 6, 4, 6),
-                                          child: Container(
-                                            padding: EdgeInsets.fromLTRB(16, 14, 16, 14),
-                                            width: double.infinity,
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                TitleText(
-                                                  title: 'general'.tr,
+    return Obx(
+      () => Container(
+        color: dashBoardBgColor_(context),
+        child: SafeArea(
+          child: Scaffold(
+            appBar: BaseAppBar(
+              appBar: AppBar(),
+              title: "",
+              isCenterTitle: false,
+              bgColor: dashBoardBgColor_(context),
+              isBack: true,
+            ),
+            backgroundColor: dashBoardBgColor_(context),
+            body: ModalProgressHUD(
+              inAsyncCall: controller.isLoading.value,
+              opacity: 0,
+              progressIndicator: const CustomProgressbar(),
+              child: controller.isInternetNotAvailable.value
+                  ? Center(
+                      child: Text('no_internet_text'.tr),
+                    )
+                  : Visibility(
+                      visible: controller.isMainViewVisible.value,
+                      child: Column(
+                        children: [
+                          Expanded(
+                            child: SingleChildScrollView(
+                                child: Form(
+                              key: controller.formKey,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  //profile UI
+                                  Container(
+                                    padding: EdgeInsets.fromLTRB(16, 14, 16, 0),
+                                    width: double.infinity,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        // Avatar
+                                        ProfileAvatarWidget(),
+                                        // trade
+                                        !StringHelper.isEmptyString(controller
+                                                .myProfileInfo.value.tradeName)
+                                            ? Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 14),
+                                                child: Text(
+                                                  controller.myProfileInfo.value
+                                                          .tradeName ??
+                                                      "",
+                                                  style: TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.w500),
                                                 ),
-                                                SizedBox(height: 14,),
-                                                Row(children: [
-                                                  Flexible(flex: 1, child: FirstNameFieldWidget(
-
-                                                  )),
+                                              )
+                                            : Container(),
+                                        !StringHelper.isEmptyString(controller
+                                                .myProfileInfo
+                                                .value
+                                                .lastWorkedDate)
+                                            ? Padding(
+                                              padding: const EdgeInsets.only(top: 2),
+                                              child: Text(
+                                                  '${'last_working_date'.tr}: ${controller.myProfileInfo.value.lastWorkedDate}',
+                                                  style: TextStyle(
+                                                      color: secondaryTextColor_(
+                                                          context),
+                                                      fontWeight: FontWeight.w400,
+                                                      fontSize: 13)),
+                                            )
+                                            : Container(),
+                                        SizedBox(height: 14),
+                                        CardViewDashboardItem(
+                                            margin:
+                                                EdgeInsets.fromLTRB(4, 6, 4, 6),
+                                            child: Container(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  16, 14, 16, 14),
+                                              width: double.infinity,
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  TitleText(
+                                                    title: 'general'.tr,
+                                                  ),
                                                   SizedBox(
-                                                    width: 14,
+                                                    height: 14,
                                                   ),
-                                                  Flexible(flex: 1, child: LastNameFieldWidget(
-
-                                                  ))
-                                                ]),
-                                                SizedBox(height: 16,),
-                                                GestureDetector(
-                                                  onTap: (){
-                                                    AppUtils.onClickPhoneNumber(controller.phoneController.value.text ?? "");
-                                                  },
-                                                  child: PhoneFieldWidget(
-
+                                                  Row(children: [
+                                                    Flexible(
+                                                        flex: 1,
+                                                        child:
+                                                            FirstNameFieldWidget()),
+                                                    SizedBox(
+                                                      width: 14,
+                                                    ),
+                                                    Flexible(
+                                                        flex: 1,
+                                                        child:
+                                                            LastNameFieldWidget())
+                                                  ]),
+                                                  SizedBox(
+                                                    height: 16,
                                                   ),
-                                                ),
-                                                SizedBox(height: 16,),
-                                                GestureDetector(
-                                                  onTap: (){
-                                                    if ((controller.emailController.value.text ?? "").isNotEmpty){
-                                                      AppUtils.copyEmail(controller.emailController.value.text ?? "");
-                                                    }
-                                                  },
-                                                    child: EmailFieldWidget(
-
-                                                    )),
-                                              ],
-                                            ),
-                                          )),
-                                    ],
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      AppUtils.onClickPhoneNumber(
+                                                          controller
+                                                                  .phoneController
+                                                                  .value
+                                                                  .text ??
+                                                              "");
+                                                    },
+                                                    child: PhoneFieldWidget(),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 16,
+                                                  ),
+                                                  GestureDetector(
+                                                      onTap: () {
+                                                        if ((controller
+                                                                    .emailController
+                                                                    .value
+                                                                    .text ??
+                                                                "")
+                                                            .isNotEmpty) {
+                                                          AppUtils.copyEmail(
+                                                              controller
+                                                                      .emailController
+                                                                      .value
+                                                                      .text ??
+                                                                  "");
+                                                        }
+                                                      },
+                                                      child:
+                                                          EmailFieldWidget()),
+                                                ],
+                                              ),
+                                            )),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          )),
-                    ),
-                  ],
-                )),
+                                ],
+                              ),
+                            )),
+                          ),
+                        ],
+                      )),
+            ),
           ),
         ),
       ),
-    ),);
+    );
   }
 }

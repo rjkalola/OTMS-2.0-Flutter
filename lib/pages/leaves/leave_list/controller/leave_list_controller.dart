@@ -25,7 +25,10 @@ class LeaveListController extends GetxController implements MenuItemListener {
   final listItems = <LeaveInfo>[].obs;
   int selectedIndex = 0, userId = 0;
   String startDate = "", endDate = "";
-  RxString title = "".obs, displayStartDate = "".obs, displayEndDate = "".obs;
+  RxString title = "".obs,
+      displayStartDate = "".obs,
+      displayEndDate = "".obs,
+      totalLeavesText = "".obs;
   RxInt totalLeaves = 0.obs;
   List<LeaveInfo> tempList = [];
 
@@ -58,7 +61,8 @@ class LeaveListController extends GetxController implements MenuItemListener {
           isMainViewVisible.value = true;
           LeaveListResponse response =
               LeaveListResponse.fromJson(jsonDecode(responseModel.result!));
-          totalLeaves.value = response.totalLeaves??0;
+          totalLeaves.value = response.totalLeavesRaw ?? 0;
+          totalLeavesText.value = response.totalLeaves??"";
           tempList.clear();
           tempList.addAll(response.data ?? []);
           listItems.value = tempList;

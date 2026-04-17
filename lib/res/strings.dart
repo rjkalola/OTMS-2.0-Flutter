@@ -498,6 +498,7 @@ class Strings extends Translations {
           'error_wrong_end_time_selection':
               "End time cannot be before start time",
           'date': "Date",
+          'last_working_date': "Last working date",
           'time': "Time",
           'email_copied': "Email Copied",
           'you_have_not_join_any_company': "You have not joined any company",
@@ -805,17 +806,17 @@ class Strings extends Translations {
           'each': "each",
           'new_files': "NEW FILES",
           'no_attachments_added_yet': "No attachments added yet",
-          'enter_title':"Enter title",
+          'enter_title': "Enter title",
           'add_hazard': "Add Hazard",
           'hazard_title': "Hazard Title",
           'health_safety_settings': "Health Safety Settings",
           'hazards': "Hazards",
           'incident_types': "Incident Types",
-          'threat_levels' : "Threat Levels",
-          'add_incident_type' : "Add Incident Type",
-          'Incident_type_title' : "Incident Type Title",
-          'add_threat_level' : "Add Threat Level",
-          'threat_level_title' : "Threat Level Title",
+          'threat_levels': "Threat Levels",
+          'add_incident_type': "Add Incident Type",
+          'Incident_type_title': "Incident Type Title",
+          'add_threat_level': "Add Threat Level",
+          'threat_level_title': "Threat Level Title",
           'no_hazards_found': "No hazards found",
           'no_incident_types_found': "No incident types found",
           'no_threat_levels_found': "No threat levels found",
@@ -828,15 +829,17 @@ class Strings extends Translations {
           'one_file_required': "At least one file is required",
 
           'delete_near_miss_report': "Delete Near Miss Report",
-          'are_you_sure_delete_near_miss_description': "Are you sure you want to delete this near miss report? This action cannot be undone.",
-          'near_miss_report_deleted_success': "Near miss report deleted successfully",
-
+          'are_you_sure_delete_near_miss_description':
+              "Are you sure you want to delete this near miss report? This action cannot be undone.",
+          'near_miss_report_deleted_success':
+              "Near miss report deleted successfully",
 
           'delete_incident_report': "Delete Incident Report",
-          'are_you_sure_delete_incident_description': "Are you sure you want to delete this incident report? This action cannot be undone.",
-          'incident_report_deleted_success':"Incident report deleted successfully"
-
-
+          'are_you_sure_delete_incident_description':
+              "Are you sure you want to delete this incident report? This action cannot be undone.",
+          'incident_report_deleted_success':
+              "Incident report deleted successfully",
+          'total_leaves': "Total Leaves"
 
 // '': "",
 // '': "",

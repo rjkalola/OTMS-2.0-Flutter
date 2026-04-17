@@ -7,6 +7,7 @@ import 'package:belcka/res/colors.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
+import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -32,9 +33,7 @@ class _LeaveListScreenState extends State<LeaveListScreen>
             backgroundColor: dashBoardBgColor_(context),
             appBar: BaseAppBar(
               appBar: AppBar(),
-              title: controller.totalLeaves.value > 0
-                  ? "${'leaves'.tr} (${controller.totalLeaves.value})"
-                  : 'leaves'.tr,
+              title: 'leaves'.tr,
               isCenterTitle: false,
               bgColor: dashBoardBgColor_(context),
               isBack: true,
@@ -73,8 +72,22 @@ class _LeaveListScreenState extends State<LeaveListScreen>
                                         controller.selectedDateFilterIndex,
                                   ),
                             SizedBox(
-                              height: 15,
+                              height: 10,
                             ),
+                            Visibility(
+                                visible: controller.totalLeaves > 0,
+                                child: Container(
+                                  margin:
+                                      EdgeInsets.only(right: 16, bottom: 12),
+                                  width: double.infinity,
+                                  child: TitleTextView(
+                                    text:
+                                        "${'total_leaves'.tr}: ${controller.totalLeavesText.value}",
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    textAlign: TextAlign.end,
+                                  ),
+                                )),
                             LeaveList(),
                           ],
                         ),
