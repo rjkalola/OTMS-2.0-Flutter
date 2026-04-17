@@ -826,17 +826,23 @@ class Strings extends Translations {
           'threat_level_required': "Threat level is required",
           'notify_to_required': "Notify to user is required",
           'one_file_required': "At least one file is required",
-
           'delete_near_miss_report': "Delete Near Miss Report",
           'are_you_sure_delete_near_miss_description': "Are you sure you want to delete this near miss report? This action cannot be undone.",
           'near_miss_report_deleted_success': "Near miss report deleted successfully",
-
-
           'delete_incident_report': "Delete Incident Report",
           'are_you_sure_delete_incident_description': "Are you sure you want to delete this incident report? This action cannot be undone.",
-          'incident_report_deleted_success':"Incident report deleted successfully"
+          'incident_report_deleted_success':"Incident report deleted successfully",
 
-
+          'delete_hazard': "Delete Hazard",
+          'delete_incident_type': "Delete Incident Type",
+          'delete_threat_level': "Delete Threat Level",
+          'delete_confirmation': "Are you sure you want to delete this?",
+          'hazard_deleted' : "Hazard Deleted",
+          'incident_deleted': "Incident Deleted",
+          'threat_level_deleted': "Threat Level Deleted",
+          'edit_hazard': "Edit Hazard",
+          'edit_incident_type': "Edit Incident Type",
+          'edit_threat_level': "Edit Threat Level"
 
 // '': "",
 // '': "",

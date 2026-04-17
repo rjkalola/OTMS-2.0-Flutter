@@ -64,6 +64,7 @@ class _BasketItemsListState extends State<BasketItemsList> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             // Product Image Carousel
+                        /*
                             Column(
                               children: [
                                 Container(
@@ -138,6 +139,84 @@ class _BasketItemsListState extends State<BasketItemsList> {
                                         ),
                                       );
                                     },
+                                  ),
+                                ),
+                              ],
+                            ),
+                            */
+
+                            Stack(
+                              alignment: Alignment.bottomCenter,
+                              children: [
+                                // 1. The Image Box (Increased Size)
+                                Container(
+                                  width: 110, // Increased from 130
+                                  height: 110, // Increased from 130
+                                  decoration: BoxDecoration(
+                                    color: lightGreyColor(context),
+                                  ),
+                                  clipBehavior: Clip.antiAlias,
+                                  child: PageView.builder(
+                                    controller: pageController,
+                                    itemCount: product.productImages?.length ?? 0,
+                                    onPageChanged: (page) {
+                                      setState(() {
+                                        controller.currentImageIndex[index] =
+                                            page;
+                                      });
+                                    },
+                                    itemBuilder: (context, imgIndex) {
+                                      return InkWell(
+                                        onTap: () {
+                                          ImageUtils.moveToImagePreview(product.productImages ?? [], imgIndex);
+                                        },
+                                        child: SizedBox.expand(
+                                          child: Image.network(
+                                            product.productImages?[imgIndex].thumbUrl ?? "",
+                                            fit: BoxFit.fill,
+                                            alignment: Alignment.center,
+                                            errorBuilder: (context, error, stack) {
+                                              return Center(
+                                                child: Icon(Icons.photo_outlined, size: 50, color: Colors.grey.shade300),
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+
+                                // 2. The Dots (Positioned on top of the image)
+                                Positioned(
+                                  bottom: 10, // Distance from the bottom of the image
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: List.generate(
+                                      product.productImages?.length ?? 0,
+                                          (dotIndex) {
+                                        final isActive = (controller.currentImageIndex[index] ?? 0) == dotIndex;
+                                        return AnimatedContainer(
+                                          duration: const Duration(milliseconds: 200),
+                                          width: isActive ? 8 : 6,
+                                          height: isActive ? 8 : 6,
+                                          margin: const EdgeInsets.symmetric(horizontal: 2),
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: isActive
+                                                ? defaultAccentColor_(context)
+                                                : secondaryTextColor_(context), // White dots look better on images
+                                            boxShadow: [
+                                              if (isActive)
+                                                BoxShadow(
+                                                  color: Colors.black.withOpacity(0.2),
+                                                  blurRadius: 2,
+                                                )
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    ),
                                   ),
                                 ),
                               ],

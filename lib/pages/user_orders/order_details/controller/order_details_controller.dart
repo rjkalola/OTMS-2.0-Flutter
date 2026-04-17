@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'package:belcka/pages/user_orders/basket/controller/basket_controller.dart';
 import 'package:belcka/pages/user_orders/order_details/controller/order_details_repository.dart';
 import 'package:belcka/pages/user_orders/order_details/model/order_details_info.dart';
 import 'package:belcka/pages/user_orders/order_details/model/order_details_orders_info.dart';
 import 'package:belcka/pages/user_orders/order_details/model/order_details_response.dart';
 import 'package:belcka/pages/user_orders/order_history/model/order_history_response.dart';
+import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/response_model.dart';
@@ -153,6 +155,10 @@ class OrderDetailsController extends GetxController{
         if (responseModel.isSuccess) {
           isDataUpdated = true;
           onBackPress();
+          Get.find<BasketController>().fetchCartList();
+          Get.find<BasketController>().isDataUpdated = true;
+          Get.until((route) => Get.currentRoute == AppRoutes.basketScreen);
+
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }

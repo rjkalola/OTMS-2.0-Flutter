@@ -33,7 +33,7 @@ class _DigitalIdCardScreenState extends State<DigitalIdCardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Scaffold(
+    return Scaffold( // No longer wrapped in Obx
       appBar: BaseAppBar(
         appBar: AppBar(),
         title: 'Digital Id Card',
@@ -42,46 +42,44 @@ class _DigitalIdCardScreenState extends State<DigitalIdCardScreen> {
       ),
       body: Stack(
         children: [
-          // 1. The PDF Layer with Transparent Background
-          _buildPdfContent(),
 
-          // 2. Loading Overlay
-        controller.isLoading.value
-            ? const Center(child: CustomProgressbar())
-            : const SizedBox.shrink(),
+          Obx(() => _buildPdfContent()),
 
-          // 3. Download Progress
-          downloadController.isDownloading.value
+          Obx(() => controller.isLoading.value
+              ? const Center(child: CustomProgressbar())
+              : const SizedBox.shrink()),
+
+          Obx(() => downloadController.isDownloading.value
               ? DownloadLoader(progress: downloadController.progress.value)
-              : const SizedBox.shrink()
+              : const SizedBox.shrink()),
         ],
       ),
-    ));
+    );
   }
 
   Widget _buildPdfContent() {
     final pdfUrl = controller.digitalIdCardInfo.value.pdfDownloadUrl;
-    // print("pdfUrl:"+(pdfUrl??"")).
-
-    if (StringHelper.isEmptyString(pdfUrl)) {
-      return const Center(child: Text(""));
+    if (pdfUrl == null || pdfUrl.isEmpty) {
+      return const SizedBox.shrink();
     }
-
     return SfPdfViewer.network(
-      pdfUrl!,
-      onDocumentLoaded: (PdfDocumentLoadedDetails details) {
+      pdfUrl,
+      onDocumentLoaded: (details) {
         controller.isLoading.value = false;
         controller.isMainViewVisible.value = true;
       },
-      onDocumentLoadFailed: (PdfDocumentLoadFailedDetails details) {
+      onDocumentLoadFailed: (details) {
         controller.isLoading.value = false;
+        controller.isMainViewVisible.value = false;
+        print("PDF Load Failed: ${details.description}");
       },
+      canShowPageLoadingIndicator: false,
     );
   }
 
   List<Widget>? actionButtons() {
     return [
-      Visibility(
+      Obx(() => Visibility(
         visible: controller.isMainViewVisible.value,
         child: TextViewWithContainer(
             width: 120,
@@ -104,8 +102,9 @@ class _DigitalIdCardScreenState extends State<DigitalIdCardScreen> {
                     'digital_id_card_downloaded'.tr);
               }
             }),
-      ),
+      )),
       const SizedBox(width: 12),
     ];
   }
+
 }

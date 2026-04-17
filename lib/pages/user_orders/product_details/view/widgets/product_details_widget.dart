@@ -66,46 +66,43 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                       color: lightGreyColor(context),
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    clipBehavior: Clip.hardEdge,
-                    child: CardViewDashboardItem(
-                      margin: EdgeInsets.zero,
-                      child: PageView.builder(
-                        controller: pageController,
-                        itemCount: product.productImages?.length ?? 0,
-                        onPageChanged: (page) {
-                          controller.setCurrentImageIndex(0, page);
-                        },
-                        itemBuilder: (context, imgIndex) {
-                          return InkWell(
-                            onTap: () {
-                              ImageUtils.moveToImagePreview(
-                                  product.productImages ?? [], imgIndex);
-                            },
-                            // Center ensures the image stays in the middle if it's smaller than the box
-                            child: Center(
-                              child: Image.network(
-                                product.productImages?[imgIndex].thumbUrl ?? "",
-                                // 'contain' ensures the FULL image is visible without cropping.
-                                // If you want it to fill the width completely, use 'fitWidth'.
-                                fit: BoxFit.contain,
-                                // This removes the "small" look by telling the image to
-                                // be as large as possible within the 300 height limit.
-                                width: double.infinity,
-                                height: double.infinity,
-                                errorBuilder: (context, error, stack) {
-                                  return Center(
-                                    child: Icon(
-                                      Icons.photo_outlined,
-                                      color: Colors.grey.shade300,
-                                      size: 60,
-                                    ),
-                                  );
-                                },
-                              ),
+                    clipBehavior: Clip.antiAlias,
+                    child: PageView.builder(
+                      controller: pageController,
+                      itemCount: product.productImages?.length ?? 0,
+                      onPageChanged: (page) {
+                        controller.setCurrentImageIndex(0, page);
+                      },
+                      itemBuilder: (context, imgIndex) {
+                        return InkWell(
+                          onTap: () {
+                            ImageUtils.moveToImagePreview(
+                                product.productImages ?? [], imgIndex);
+                          },
+                          // Center ensures the image stays in the middle if it's smaller than the box
+                          child: Center(
+                            child: Image.network(
+                              product.productImages?[imgIndex].thumbUrl ?? "",
+                              // 'contain' ensures the FULL image is visible without cropping.
+                              // If you want it to fill the width completely, use 'fitWidth'.
+                              fit: BoxFit.fill,
+                              // This removes the "small" look by telling the image to
+                              // be as large as possible within the 300 height limit.
+                              width: double.infinity,
+                              height: double.infinity,
+                              errorBuilder: (context, error, stack) {
+                                return Center(
+                                  child: Icon(
+                                    Icons.photo_outlined,
+                                    color: Colors.grey.shade300,
+                                    size: 60,
+                                  ),
+                                );
+                              },
                             ),
-                          );
-                        },
-                      ),
+                          ),
+                        );
+                      },
                     ),
                   ),
                   const SizedBox(height: 12),
