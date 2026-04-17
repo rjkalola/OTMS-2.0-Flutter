@@ -38,7 +38,7 @@ class IncidentReportCard extends StatelessWidget {
       case 'high':
         return Colors.red; // Soft red
       case 'medium':
-        return Colors.orange; // Soft orange/amber
+        return Color(0xFFFDC90F); // Soft orange/amber
       case 'low':
         return  Colors.green; // Soft green
       default:
@@ -86,6 +86,7 @@ class IncidentReportCard extends StatelessWidget {
                 // 3. Threat Level Badge (Mobile optimized)
                 if (threatLevel.isNotEmpty)
                   Container(
+                    width: 80,
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                     decoration: BoxDecoration(
                       color: _getThreatColor(),
@@ -93,6 +94,7 @@ class IncidentReportCard extends StatelessWidget {
                     ),
                     child: Text(
                       threatLevel,
+                      textAlign: TextAlign.center,
                       style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold),
                     ),
                   ),

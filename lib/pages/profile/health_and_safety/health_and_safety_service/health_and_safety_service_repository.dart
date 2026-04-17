@@ -16,21 +16,4 @@ class HealthAndSafetyServiceRepository {
       onError: (error) => {if (onError != null) onError(error)},
     );
   }
-
-  void storeHazardAPI({
-    Map<String, dynamic>? queryParameters,
-    dynamic data,
-    Function(ResponseModel responseModel)? onSuccess,
-    Function(ResponseModel error)? onError,
-  }) {
-    ApiRequest(
-        url: ApiConstants.storeHazard,
-        data: data)
-        .postRequest(
-      onSuccess: (data) {
-        onSuccess!(data);
-      },
-      onError: (error) => {if (onError != null) onError(error)},
-    );
-  }
 }

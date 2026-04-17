@@ -64,39 +64,4 @@ class HealthAndSafetyService extends GetxService {
 
     }
   }
-
-  //Store actions
-  void toggleStoreHazard(String title) async {
-    isLoading.value = true;
-    Map<String, dynamic> map = {
-      "company_id": ApiConstants.companyId,
-      "title": title,
-    };
-
-    _api.storeHazardAPI(
-      data: map,
-      onSuccess: (ResponseModel responseModel) {
-        if (responseModel.isSuccess && responseModel.result != null) {
-          try {
-            fetchResources();
-            isLoading.value = false;
-          }
-          catch (e){
-            isLoading.value = false;
-            debugPrint("Parsing Error: $e");
-          }
-        } else {
-          isLoading.value = false;
-          if (responseModel.statusMessage != null) {
-            AppUtils.showSnackBarMessage(responseModel.statusMessage!);
-          }
-        }
-      },
-      onError: (ResponseModel error) {
-        isLoading.value = false;
-        AppUtils.showSnackBarMessage(error.statusMessage ?? "An error occurred");
-      },
-    );
-  }
-
 }

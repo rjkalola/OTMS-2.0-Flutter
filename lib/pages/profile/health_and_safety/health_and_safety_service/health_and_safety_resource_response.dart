@@ -8,6 +8,7 @@ class HealthAndSafetyResourceResponse {
   final List<HSResourceTypesInfo> hazards;
   final List<HSResourceTypesInfo> incidentTypes;
   final List<HSResourceTypesInfo> threatLevels;
+  final List<HSResourceTypesInfo> info;
 
   HealthAndSafetyResourceResponse({
     required this.isSuccess,
@@ -17,6 +18,7 @@ class HealthAndSafetyResourceResponse {
     required this.hazards,
     required this.incidentTypes,
     required this.threatLevels,
+    required this.info,
   });
 
   factory HealthAndSafetyResourceResponse.fromJson(Map<String, dynamic> json) {
@@ -28,7 +30,7 @@ class HealthAndSafetyResourceResponse {
       hazards: (json['hazards'] as List?)?.map((i) => HSResourceTypesInfo.fromJson(i)).toList() ?? [],
       incidentTypes: (json['incident_types'] as List?)?.map((i) => HSResourceTypesInfo.fromJson(i)).toList() ?? [],
       threatLevels: (json['threat_levels'] as List?)?.map((i) => HSResourceTypesInfo.fromJson(i)).toList() ?? [],
-
+      info: (json['info'] as List?)?.map((i) => HSResourceTypesInfo.fromJson(i)).toList() ?? [],
     );
   }
 }

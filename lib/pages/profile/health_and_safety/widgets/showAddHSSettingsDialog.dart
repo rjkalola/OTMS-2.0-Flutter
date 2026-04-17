@@ -6,6 +6,7 @@ void showAddHSSettingsDialog({
   required BuildContext context,
   required String title,
   required String label,
+  required String text,
   required Function(String) onSave,
 }) {
   final TextEditingController titleController = TextEditingController();
@@ -13,6 +14,9 @@ void showAddHSSettingsDialog({
   showDialog(
     context: context,
     builder: (context) {
+
+      titleController.text = text;
+
       return StatefulBuilder(
         builder: (context, setDialogState) {
           bool isNotEmpty = titleController.text.trim().isNotEmpty;
