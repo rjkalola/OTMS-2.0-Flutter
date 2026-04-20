@@ -1,8 +1,10 @@
 import 'package:belcka/pages/teams/create_team/controller/create_team_controller.dart';
 import 'package:belcka/pages/teams/create_team/view/widgets/add_team_member.dart';
+import 'package:belcka/pages/teams/create_team/view/widgets/max_members_textfield.dart';
 import 'package:belcka/pages/teams/create_team/view/widgets/supervisor_textfield.dart';
 import 'package:belcka/pages/teams/create_team/view/widgets/team_members_list.dart';
 import 'package:belcka/pages/teams/create_team/view/widgets/team_name_textfield.dart';
+import 'package:belcka/pages/teams/create_team/view/widgets/trade_wise_max_members_list.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
@@ -58,16 +60,20 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
                             Expanded(
                               child: Form(
                                 key: controller.formKey,
-                                child: Column(
-                                  children: [
-                                    TeamNameTextField(),
-                                    SupervisorTextField(),
-                                    AddTeamMember(),
-                                    SizedBox(
-                                      height: 6,
-                                    ),
-                                    TeamMembersList()
-                                  ],
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+                                      TeamNameTextField(),
+                                      SupervisorTextField(),
+                                      AddTeamMember(),
+                                      SizedBox(
+                                        height: 6,
+                                      ),
+                                      TeamMembersList(),
+                                      MaxMembersTextField(),
+                                      TradeWiseMaxMembersList(),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),

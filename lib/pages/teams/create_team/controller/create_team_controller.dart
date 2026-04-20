@@ -25,6 +25,7 @@ class CreateTeamController extends GetxController
     implements SelectUserListener, SelectItemListener {
   final teamNameController = TextEditingController().obs;
   final supervisorController = TextEditingController().obs;
+  final maxMembersController = TextEditingController().obs;
 
   final formKey = GlobalKey<FormState>();
   final _api = CreateTeamRepository();
@@ -35,6 +36,7 @@ class CreateTeamController extends GetxController
   final teamMembersList = <UserInfo>[].obs;
   final teamUserList = <UserInfo>[].obs;
   final userList = <UserInfo>[].obs;
+  final tradeMaxLimitFields = <TradeMaxLimitField>[].obs;
   int supervisorId = 0;
   TeamInfo? teamInfo;
   final title = ''.obs;
@@ -48,19 +50,79 @@ class CreateTeamController extends GetxController
     }
     teamUserListApiApi(teamInfo?.id ?? 0);
     setInitData();
+    getTradesApi();
   }
 
   void setInitData() {
     if (teamInfo != null) {
-      title.value = 'Edit Team'.tr;
+      title.value = 'edit_team'.tr;
       teamNameController.value.text = teamInfo?.name ?? "";
       supervisorController.value.text = teamInfo?.supervisorName ?? "";
       supervisorId = teamInfo?.supervisorId ?? 0;
       teamMembersList.addAll(teamInfo?.teamMembers ?? []);
+      maxMembersController.value.text = (teamInfo?.maxMembers ?? 0) > 0
+          ? (teamInfo?.maxMembers ?? 0).toString()
+          : "";
     } else {
       title.value = 'create_new_team'.tr;
       isSaveEnable.value = true;
     }
+  }
+
+  void getTradesApi() {
+    Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
+    _api.getTradesApi(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          final responseJson = jsonDecode(responseModel.result!);
+          final trades = <ModuleInfo>[];
+          if (responseJson['info'] != null) {
+            responseJson['info'].forEach((v) {
+              trades.add(ModuleInfo.fromJson(v));
+            });
+          }
+          _buildTradeMaxLimitFields(trades);
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        }
+      },
+      onError: (ResponseModel error) {
+        if (error.statusCode != ApiConstants.CODE_NO_INTERNET_CONNECTION &&
+            error.statusMessage!.isNotEmpty) {
+          AppUtils.showApiResponseMessage(error.statusMessage);
+        }
+      },
+    );
+  }
+
+  void _buildTradeMaxLimitFields(List<ModuleInfo> trades) {
+    final existingTradeMaxMap = <int, int>{};
+    for (final limit in teamInfo?.tradeMaxLimits ?? <TradeMaxLimit>[]) {
+      if (limit.tradeId != null) {
+        existingTradeMaxMap[limit.tradeId!] = limit.maxMembers ?? 0;
+      }
+    }
+
+    for (final item in tradeMaxLimitFields) {
+      item.controller.dispose();
+    }
+    tradeMaxLimitFields.clear();
+
+    for (final trade in trades) {
+      final existingValue = existingTradeMaxMap[trade.id ?? 0] ?? 0;
+      tradeMaxLimitFields.add(
+        TradeMaxLimitField(
+          tradeId: trade.id ?? 0,
+          tradeName: trade.name ?? "",
+          controller: TextEditingController(
+            text: existingValue > 0 ? existingValue.toString() : "",
+          ),
+        ),
+      );
+    }
+    tradeMaxLimitFields.refresh();
   }
 
   void getUserListApi() {
@@ -101,6 +163,8 @@ class CreateTeamController extends GetxController
       map["name"] = StringHelper.getText(teamNameController.value);
       map["team_member_ids"] =
           UserUtils.getCommaSeparatedIdsString(teamMembersList);
+      map["max_members"] = getMaxMembersCount();
+      map["trade_max_limits"] = getTradeMaxLimitsRequest();
       isLoading.value = true;
       _api.addTeam(
         data: map,
@@ -136,6 +200,8 @@ class CreateTeamController extends GetxController
       map["name"] = StringHelper.getText(teamNameController.value);
       map["team_member_ids"] =
           UserUtils.getCommaSeparatedIdsString(teamMembersList);
+      map["max_members"] = getMaxMembersCount();
+      map["trade_max_limits"] = getTradeMaxLimitsRequest();
       isLoading.value = true;
       _api.updateTeam(
         data: map,
@@ -193,6 +259,65 @@ class CreateTeamController extends GetxController
 
   bool valid() {
     return formKey.currentState!.validate();
+  }
+
+  int getMaxMembersCount() {
+    return int.tryParse(StringHelper.getText(maxMembersController.value)) ?? 0;
+  }
+
+  List<Map<String, dynamic>> getTradeMaxLimitsRequest() {
+    final limits = <Map<String, dynamic>>[];
+    for (final trade in tradeMaxLimitFields) {
+      final maxLimit = int.tryParse(StringHelper.getText(trade.controller)) ?? 0;
+      if (maxLimit > 0) {
+        limits.add({
+          "trade_id": trade.tradeId,
+          "max_limit": maxLimit,
+        });
+      }
+    }
+    return limits;
+  }
+
+  void onMaxMembersChanged(String value) {
+    isSaveEnable.value = true;
+  }
+
+  void incrementMaxMembers() {
+    final current = getMaxMembersCount();
+    maxMembersController.value.text = (current + 1).toString();
+    isSaveEnable.value = true;
+  }
+
+  void decrementMaxMembers() {
+    final current = getMaxMembersCount();
+    final updated = current > 0 ? current - 1 : 0;
+    maxMembersController.value.text = updated > 0 ? updated.toString() : "";
+    isSaveEnable.value = true;
+  }
+
+  void onTradeLimitChanged(int index, String value) {
+    if (index < 0 || index >= tradeMaxLimitFields.length) return;
+    isSaveEnable.value = true;
+  }
+
+  void incrementTradeLimit(int index) {
+    if (index < 0 || index >= tradeMaxLimitFields.length) return;
+    final controller = tradeMaxLimitFields[index].controller;
+    final current = int.tryParse(StringHelper.getText(controller)) ?? 0;
+    controller.text = (current + 1).toString();
+    isSaveEnable.value = true;
+    tradeMaxLimitFields.refresh();
+  }
+
+  void decrementTradeLimit(int index) {
+    if (index < 0 || index >= tradeMaxLimitFields.length) return;
+    final controller = tradeMaxLimitFields[index].controller;
+    final current = int.tryParse(StringHelper.getText(controller)) ?? 0;
+    final updated = current > 0 ? current - 1 : 0;
+    controller.text = updated > 0 ? updated.toString() : "";
+    isSaveEnable.value = true;
+    tradeMaxLimitFields.refresh();
   }
 
   void showSelectSupervisorDialog() {
@@ -310,4 +435,27 @@ class CreateTeamController extends GetxController
       teamMembersList.refresh();
     }
   }
+
+  @override
+  void onClose() {
+    teamNameController.value.dispose();
+    supervisorController.value.dispose();
+    maxMembersController.value.dispose();
+    for (final item in tradeMaxLimitFields) {
+      item.controller.dispose();
+    }
+    super.onClose();
+  }
+}
+
+class TradeMaxLimitField {
+  final int tradeId;
+  final String tradeName;
+  final TextEditingController controller;
+
+  TradeMaxLimitField({
+    required this.tradeId,
+    required this.tradeName,
+    required this.controller,
+  });
 }

@@ -55,7 +55,7 @@ class CreateTeamController extends GetxController
 
   void setInitData() {
     if (teamInfo != null) {
-      title.value = 'Edit Team'.tr;
+      title.value = 'edit_team'.tr;
       teamNameController.value.text = teamInfo?.name ?? "";
       supervisorController.value.text = teamInfo?.supervisorName ?? "";
       supervisorId = teamInfo?.supervisorId ?? 0;
@@ -130,7 +130,7 @@ class CreateTeamController extends GetxController
       onError: (ResponseModel error) {
         isLoading.value = false;
         AppUtils.showApiResponseMessage(
-            error.statusMessage ?? 'Error');
+            error.statusMessage ?? "");
       },
     );
   }
@@ -165,7 +165,7 @@ class CreateTeamController extends GetxController
       onError: (ResponseModel error) {
         isLoading.value = false;
         AppUtils.showApiResponseMessage(
-            error.statusMessage ?? 'Error');
+            error.statusMessage ?? "");
       },
     );
   }
@@ -196,7 +196,7 @@ class CreateTeamController extends GetxController
       onError: (ResponseModel error) {
         isLoading.value = false;
         AppUtils.showApiResponseMessage(
-            error.statusMessage ?? 'Error');
+            error.statusMessage ?? "");
       },
     );
   }

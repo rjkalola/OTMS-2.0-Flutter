@@ -96,15 +96,29 @@ class _MyProfileDetailsScreenState extends State<MyProfileDetailsScreen> {
                                                 .value
                                                 .lastWorkedDate)
                                             ? Padding(
-                                              padding: const EdgeInsets.only(top: 2),
-                                              child: Text(
-                                                  '${'last_working_date'.tr}: ${controller.myProfileInfo.value.lastWorkedDate}',
-                                                  style: TextStyle(
-                                                      color: secondaryTextColor_(
-                                                          context),
-                                                      fontWeight: FontWeight.w400,
-                                                      fontSize: 13)),
-                                            )
+                                                padding: const EdgeInsets.only(
+                                                    top: 2),
+                                                child: Text(
+                                                    (controller
+                                                                .myProfileInfo
+                                                                .value
+                                                                .isWorking ??
+                                                            false)
+                                                        ? 'working'.tr
+                                                        : '${'last_working_date'.tr}: ${controller.myProfileInfo.value.lastWorkedDate}',
+                                                    style: TextStyle(
+                                                        color: (controller
+                                                                    .myProfileInfo
+                                                                    .value
+                                                                    .isWorking ??
+                                                                false)
+                                                            ? Colors.green
+                                                            : secondaryTextColor_(
+                                                            context),
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        fontSize: 13)),
+                                              )
                                             : Container(),
                                         SizedBox(height: 14),
                                         CardViewDashboardItem(

@@ -18,9 +18,8 @@ class TeamMembersList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => Expanded(
-        child: ListView.separated(
-            physics: const AlwaysScrollableScrollPhysics(),
+      () => ListView.separated(
+            physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             scrollDirection: Axis.vertical,
             itemBuilder: (context, position) {
@@ -78,16 +77,8 @@ class TeamMembersList extends StatelessWidget {
               );
             },
             itemCount: controller.teamMembersList.length,
-            // separatorBuilder: (context, position) => const Padding(
-            //   padding: EdgeInsets.only(left: 100),
-            //   child: Divider(
-            //     height: 0,
-            //     color: dividerColor,
-            //     thickness: 0.8,
-            //   ),
-            // ),
-            separatorBuilder: (context, position) => Container()),
-      ),
+            separatorBuilder: (context, position) => Container(),
+          ),
     );
   }
 }

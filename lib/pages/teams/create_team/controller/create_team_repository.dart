@@ -48,4 +48,21 @@ class CreateTeamRepository {
       onError: (error) => {if (onError != null) onError(error)},
     );
   }
+
+  void getTradesApi({
+    Map<String, dynamic>? queryParameters,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+            url: ApiConstants.getTradesUrl,
+            queryParameters: queryParameters,
+            isFormData: false)
+        .getRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
 }

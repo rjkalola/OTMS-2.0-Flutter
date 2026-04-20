@@ -259,6 +259,8 @@ class Strings extends Translations {
           'select_supervisor': "Select Supervisor",
           'add_team_members': "Add team members",
           'select_team_members': "Select team members",
+          'max_members': "Max Members",
+          'trade_wise_max_members': "Trade-Wise Max Members",
           'select': "Select",
           'add': "Add",
           'delete': "Delete",

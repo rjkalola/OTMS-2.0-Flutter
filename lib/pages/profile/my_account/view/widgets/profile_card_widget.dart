@@ -48,10 +48,19 @@ class ProfileCardWidget extends StatelessWidget {
           Expanded(
             child: GestureDetector(
               onTap: () {
-                var arguments = {
-                  AppConstants.intentKey.userId: controller.userId
-                };
-                Get.toNamed(AppRoutes.personalInfoScreen, arguments: arguments);
+                // var arguments = {
+                //   AppConstants.intentKey.userId: controller.userId
+                // };
+                // Get.toNamed(AppRoutes.personalInfoScreen, arguments: arguments);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => FullScreenImageViewScreen(
+                      imageUrl: controller.userInfo.value.userImage ?? "",
+                      isLoginUser: UserUtils.isLoginUser(controller.userId),
+                    ),
+                  ),
+                );
               },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,9 +81,13 @@ class ProfileCardWidget extends StatelessWidget {
                           !StringHelper.isEmptyString(
                               controller.userInfo.value.lastWorkedDate)
                       ? Text(
-                          '${'last_working_date'.tr}: ${controller.userInfo.value.lastWorkedDate}',
+                          isWorking
+                              ? 'working'.tr
+                              : '${'last_working_date'.tr}: ${controller.userInfo.value.lastWorkedDate}',
                           style: TextStyle(
-                              color: secondaryTextColor_(context),
+                              color: isWorking
+                                  ? Colors.green
+                                  : secondaryTextColor_(context),
                               fontWeight: FontWeight.w400,
                               fontSize: 13))
                       : Container(),
