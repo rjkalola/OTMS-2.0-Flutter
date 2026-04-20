@@ -8,13 +8,21 @@ import 'package:path/path.dart' as p;
 class FileItemTile extends StatelessWidget {
   final PlatformFile file;
   final VoidCallback onDelete;
+  final bool isSaved;
 
-  const FileItemTile({required this.file, required this.onDelete});
+  const FileItemTile({
+    required this.file,
+    required this.onDelete,
+    this.isSaved = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     String extension = p.extension(file.name).replaceAll('.', '').toUpperCase();
-    String size = '${(file.size / 1024).toStringAsFixed(0)} KB';
+
+    String sizeText = file.size > 0
+        ? '${(file.size / 1024).toStringAsFixed(0)} KB'
+        : '';
 
     return Container(
       padding: const EdgeInsets.all(12),
@@ -25,7 +33,7 @@ class FileItemTile extends StatelessWidget {
       ),
       child: Row(
         children: [
-          // File Preview Placeholder
+          // File Preview Placeholder (Use Image.network if it's an image and saved)
           Container(
             width: 48,
             height: 48,
@@ -33,7 +41,12 @@ class FileItemTile extends StatelessWidget {
               color: Colors.grey.withOpacity(0.1),
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Icon(_getIcon(extension), color: Colors.black38),
+            child: (isSaved && ['JPG', 'PNG', 'JPEG'].contains(extension))
+                ? ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.network(file.path!, fit: BoxFit.cover),
+            )
+                : Icon(_getIcon(extension), color: Colors.black38),
           ),
           const SizedBox(width: 12),
           // File Details
@@ -49,11 +62,22 @@ class FileItemTile extends StatelessWidget {
                 const SizedBox(height: 4),
                 Row(
                   children: [
-                    Badge(text: extension, color: Colors.blueAccent.withOpacity(0.1), textColor: Colors.blueAccent),
+                    Badge(
+                        text: extension.isEmpty ? "FILE" : extension,
+                        color: Colors.blueAccent.withOpacity(0.1),
+                        textColor: Colors.blueAccent
+                    ),
+                    if (sizeText.isNotEmpty) ...[
+                      const SizedBox(width: 8),
+                      Text(sizeText, style: const TextStyle(fontSize: 12, color: Colors.black45)),
+                    ],
                     const SizedBox(width: 8),
-                    Text(size, style: const TextStyle(fontSize: 12, color: Colors.black45)),
-                    const SizedBox(width: 8),
-                    Badge(text: "new".tr, color: Color(0xFFE8F0FE), textColor: Colors.blue),
+                    // DYNAMIC BADGE: Saved vs New
+                    Badge(
+                      text: isSaved ? "saved".tr : "new".tr,
+                      color: isSaved ? Colors.green.withOpacity(0.1) : Color(0xFFE8F0FE),
+                      textColor: isSaved ? Colors.green : Colors.blue,
+                    ),
                   ],
                 ),
               ],

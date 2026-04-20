@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:belcka/pages/profile/health_and_safety/widgets/file_item_tile.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
@@ -11,16 +13,19 @@ class AttachmentSection extends StatelessWidget {
   final List<PlatformFile> attachmentList;
   final Function(List<PlatformFile>) onFilesSelected;
   final Function(int) onDelete;
+  var deletedAttachmentIds = <String>[];
 
-  const AttachmentSection({
+   AttachmentSection({
     super.key,
      this.isMandatoryField = false,
     required this.attachmentList,
     required this.onFilesSelected,
     required this.onDelete,
+    required this.deletedAttachmentIds,
   });
 
   Future<void> _pickFiles() async {
+    FocusManager.instance.primaryFocus?.unfocus();
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowMultiple: true,
       type: FileType.custom,
@@ -100,8 +105,6 @@ class AttachmentSection extends StatelessWidget {
 
         const SizedBox(height: 24),
 
-        // 2. DISPLAY LOGIC
-        // Wrap the entire list and the header in Obx so it reacts to controller changes
         Obx(() {
           if (attachmentList.isNotEmpty) {
             return Column(
@@ -124,7 +127,16 @@ class AttachmentSection extends StatelessWidget {
                   separatorBuilder: (_, __) => const SizedBox(height: 10),
                   itemBuilder: (context, index) => FileItemTile(
                     file: attachmentList[index],
-                    onDelete: () => attachmentList.removeAt(index),
+                    onDelete: (){
+
+                      if ((int.tryParse(attachmentList[index].identifier ?? "") ?? 0) > 0){
+                        print("removed id:${attachmentList[index].identifier} ");
+                        deletedAttachmentIds.add(attachmentList[index].identifier ?? "");
+                      }
+
+                      attachmentList.removeAt(index);
+                    },
+                    isSaved: ((int.tryParse(attachmentList[index].identifier ?? "") ?? 0) > 0) ? true : false,
                   ),
                 ),
               ],
@@ -139,6 +151,7 @@ class AttachmentSection extends StatelessWidget {
             );
           }
         }),
+
       ],
     );
   }

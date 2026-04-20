@@ -134,10 +134,10 @@ class IncidentReportCard extends StatelessWidget {
                 const SizedBox(width: 4),
 
                 // Edit/Delete Buttons
-                /*
+
                 _buildSmallAction(Icons.edit_outlined, defaultAccentColor_(context), onEdit),
                 const SizedBox(width: 4),
-                */
+
                 _buildSmallAction(Icons.delete_outline_rounded, Colors.red.shade400, onDelete),
               ],
             ),

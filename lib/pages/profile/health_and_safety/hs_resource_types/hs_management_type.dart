@@ -19,8 +19,8 @@ enum HSManagementType {
   IconData get icon {
     switch (this) {
       case HSManagementType.hazards: return Icons.warning_amber_rounded;
-      case HSManagementType.incidentTypes: return Icons.error_outline_rounded;
-      case HSManagementType.threatLevels: return Icons.shield_outlined;
+      case HSManagementType.incidentTypes: return Icons.medical_services_outlined;
+      case HSManagementType.threatLevels: return Icons.report_gmailerrorred;
     }
   }
 

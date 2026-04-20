@@ -46,7 +46,7 @@ class _NearMissReportingScreenState extends State<NearMissReportingScreen> {
                                 backgroundColor: dashBoardBgColor_(context),
                                 appBar: OrdersBaseAppBar(
                   appBar: AppBar(),
-                  title: 'near_miss_reporting'.tr,
+                  title: controller.appBarTitle.value.tr,
                   isCenterTitle: false,
                   isBack: true,
                   bgColor: backgroundColor_(context),
@@ -92,9 +92,10 @@ class _NearMissReportingScreenState extends State<NearMissReportingScreen> {
                               children: [
                                 SelectorCard(
                                   placeholder: "select_hazard_type".tr,
-                                  text: controller.selectedHazard?.title ?? "",
+                                  text: controller.selectedHazard.value?.title ?? "",
                                   isOpen: _isDropdownOpen,
                                   onTap: () {
+                                    FocusManager.instance.primaryFocus?.unfocus();
                                     if (controller.healthAndSafetyService.hazards.isEmpty){
                                       AppUtils.showSnackBarMessage('no_hazards_found'.tr);
                                     }
@@ -126,7 +127,7 @@ class _NearMissReportingScreenState extends State<NearMissReportingScreen> {
                                         return InkWell(
                                           onTap: () {
                                             setState(() {
-                                              controller.selectedHazard = hazard; // Change selection status
+                                              controller.selectedHazard.value = hazard; // Change selection status
                                               _isDropdownOpen = false;  // Close the dropdown
                                             });
                                           },
@@ -159,10 +160,18 @@ class _NearMissReportingScreenState extends State<NearMissReportingScreen> {
                             const SizedBox(height: 16),
 
                             // --- THE UPLOAD SECTION ---
-                            AttachmentSection(
-                              attachmentList: controller.attachmentList,
-                              onFilesSelected: (files) => controller.attachmentList.addAll(files),
-                              onDelete: (index) => controller.attachmentList.removeAt(index),
+                            GestureDetector(
+                              onTap: (){
+                                FocusManager.instance.primaryFocus?.unfocus();
+                              },
+                              child: AttachmentSection(
+                                attachmentList: controller.attachmentList,
+                                onFilesSelected: (files) => controller.attachmentList.addAll(files),
+                                onDelete: (index) {
+
+                                },
+                                deletedAttachmentIds: controller.deletedAttachmentIds,
+                              ),
                             ),
                             const SizedBox(height: 24),
                           ],
@@ -177,10 +186,10 @@ class _NearMissReportingScreenState extends State<NearMissReportingScreen> {
                           child: Opacity(
                             opacity: 1.0,
                             child: PrimaryButton(
-                              buttonText: "submit_report".tr,
+                              buttonText: controller.saveButtonTitle.value.tr,
                               onPressed: () {
                                 FocusManager.instance.primaryFocus?.unfocus();
-                                if (controller.selectedHazard == null){
+                                if (controller.selectedHazard.value == null){
                                   AppUtils.showSnackBarMessage('please_select_hazard_type'.tr);
                                 }
                                 else{

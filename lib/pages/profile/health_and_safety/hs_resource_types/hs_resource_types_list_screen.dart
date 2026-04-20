@@ -233,11 +233,11 @@ class _HsResourceTypesListScreenState extends State<HsResourceTypesListScreen> {
   Widget _getLeadingIcon(String type) {
     switch (type) {
       case 'incident_types':
-        return const Icon(Icons.medical_services_outlined, color: Colors.blueAccent, size: 22);
+        return  Icon(HSManagementType.incidentTypes.icon, color: Colors.blueAccent, size: 22);
       case 'hazards':
-        return const Icon(Icons.warning_amber_rounded, color: Colors.orangeAccent, size: 22);
+        return  Icon(HSManagementType.hazards.icon, color: Colors.orangeAccent, size: 22);
       case 'threat_levels':
-        return const Icon(Icons.shield_outlined, color: Colors.redAccent, size: 22);
+        return  Icon(HSManagementType.threatLevels.icon, color: Colors.redAccent, size: 22);
       default:
         return const Icon(Icons.info_outline);
     }

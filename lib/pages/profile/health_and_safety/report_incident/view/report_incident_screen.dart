@@ -53,7 +53,7 @@ class _ReportIncidentScreenState extends State<ReportIncidentScreen> {
                                 backgroundColor: dashBoardBgColor_(context),
                                 appBar: OrdersBaseAppBar(
                   appBar: AppBar(),
-                  title: 'report_incident'.tr,
+                  title: controller.appBarTitle.value.tr,
                   isCenterTitle: false,
                   isBack: true,
                   bgColor: backgroundColor_(context),
@@ -151,7 +151,7 @@ class _ReportIncidentScreenState extends State<ReportIncidentScreen> {
                                 children: [
                                   SelectorCard(
                                     placeholder: "select_incident_type".tr,
-                                    text: controller.selectedIncidentType?.title ?? "",
+                                    text: controller.selectedIncidentType.value?.title ?? "",
                                     isOpen: _isIncidentDropdownOpen,
                                     onTap: () {
                                       setState(() {
@@ -192,7 +192,7 @@ class _ReportIncidentScreenState extends State<ReportIncidentScreen> {
                                           return InkWell(
                                             onTap: () {
                                               setState(() {
-                                                controller.selectedIncidentType = incident; // Change selection status
+                                                controller.selectedIncidentType.value = incident; // Change selection status
                                                 _isIncidentDropdownOpen = false;  // Close the dropdown
                                               });
                                             },
@@ -237,7 +237,7 @@ class _ReportIncidentScreenState extends State<ReportIncidentScreen> {
                                 children: [
                                   SelectorCard(
                                     placeholder: "select_threat_level_assessment".tr,
-                                    text: controller.selectedThreatLevel?.title ?? "",
+                                    text: controller.selectedThreatLevel.value?.title ?? "",
                                     isOpen: _isThreatLevelDropdownOpen,
                                     onTap: () {
                                       setState(() {
@@ -277,7 +277,7 @@ class _ReportIncidentScreenState extends State<ReportIncidentScreen> {
                                           return InkWell(
                                             onTap: () {
                                               setState(() {
-                                                controller.selectedThreatLevel = threatLevel; // Change selection status
+                                                controller.selectedThreatLevel.value = threatLevel; // Change selection status
                                                 _isThreatLevelDropdownOpen = false;  // Close the dropdown
                                               });
                                             },
@@ -322,7 +322,7 @@ class _ReportIncidentScreenState extends State<ReportIncidentScreen> {
                                 children: [
                                   SelectorCard(
                                     placeholder: "select_user".tr,
-                                    text: controller.selectedUser?.name ?? "",
+                                    text: controller.selectedUser.value?.name ?? "",
                                     isOpen: _isUserDropdownOpen,
                                     onTap: () {
                                       setState(() {
@@ -361,7 +361,7 @@ class _ReportIncidentScreenState extends State<ReportIncidentScreen> {
                                           return InkWell(
                                             onTap: () {
                                               setState(() {
-                                                controller.selectedUser = selectedUser;
+                                                controller.selectedUser.value = selectedUser;
                                                 _isUserDropdownOpen = false;
                                               });
                                             },
@@ -421,6 +421,7 @@ class _ReportIncidentScreenState extends State<ReportIncidentScreen> {
                                 attachmentList: controller.attachmentList,
                                 onFilesSelected: (files) => controller.attachmentList.addAll(files),
                                 onDelete: (index) => controller.attachmentList.removeAt(index),
+                                deletedAttachmentIds: controller.deletedAttachmentIds,
                               ),
                               const SizedBox(height: 24),
                             ],
@@ -437,16 +438,16 @@ class _ReportIncidentScreenState extends State<ReportIncidentScreen> {
                       child: Opacity(
                         opacity: 1.0,
                         child: PrimaryButton(
-                          buttonText: "submit_incident".tr,
+                          buttonText: controller.saveButtonTitle.value.tr,
                           onPressed: () {
                             FocusManager.instance.primaryFocus?.unfocus();
 
                             List<String> errors = [];
 
                             if (controller.titleController.text.trim().isEmpty) errors.add('title_is_required'.tr);
-                            if (controller.selectedIncidentType == null) errors.add('incident_type_required'.tr);
-                            if (controller.selectedThreatLevel == null) errors.add('threat_level_required'.tr);
-                            if (controller.selectedUser == null) errors.add('notify_to_required'.tr);
+                            if (controller.selectedIncidentType.value == null) errors.add('incident_type_required'.tr);
+                            if (controller.selectedThreatLevel.value == null) errors.add('threat_level_required'.tr);
+                            if (controller.selectedUser.value == null) errors.add('notify_to_required'.tr);
                             if (controller.attachmentList.isEmpty) errors.add('one_file_required'.tr);
 
                             if (errors.isNotEmpty) {

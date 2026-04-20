@@ -59,21 +59,36 @@ class _DigitalIdCardScreenState extends State<DigitalIdCardScreen> {
 
   Widget _buildPdfContent() {
     final pdfUrl = controller.digitalIdCardInfo.value.pdfDownloadUrl;
+
     if (pdfUrl == null || pdfUrl.isEmpty) {
       return const SizedBox.shrink();
     }
-    return SfPdfViewer.network(
-      pdfUrl,
-      onDocumentLoaded: (details) {
-        controller.isLoading.value = false;
-        controller.isMainViewVisible.value = true;
-      },
-      onDocumentLoadFailed: (details) {
-        controller.isLoading.value = false;
-        controller.isMainViewVisible.value = false;
-        print("PDF Load Failed: ${details.description}");
-      },
-      canShowPageLoadingIndicator: false,
+
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+        child: AspectRatio(
+          aspectRatio: 1.3,
+          child: Card(
+            elevation: 8,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+            clipBehavior: Clip.antiAlias,
+            child: SfPdfViewer.network(
+              pdfUrl,
+              enableDoubleTapZooming: false,
+              canShowPageLoadingIndicator: false,
+              onDocumentLoaded: (details) {
+                controller.isLoading.value = false;
+                controller.isMainViewVisible.value = true;
+              },
+              onDocumentLoadFailed: (details) {
+                controller.isLoading.value = false;
+                controller.isMainViewVisible.value = false;
+              },
+            ),
+          ),
+        ),
+      ),
     );
   }
 

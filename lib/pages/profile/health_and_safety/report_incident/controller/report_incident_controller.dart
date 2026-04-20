@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:belcka/pages/profile/health_and_safety/health_and_safety_service/health_and_safety_service.dart';
 import 'package:belcka/pages/profile/health_and_safety/health_and_safety_service/hs_resource_types_info.dart';
 import 'package:belcka/pages/profile/health_and_safety/report_incident/controller/report_incident_repository.dart';
+import 'package:belcka/pages/profile/health_and_safety/report_incidents_list/model/incident_report_info.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:get/get.dart';
@@ -25,36 +26,128 @@ class ReportIncidentController extends GetxController{
 
   final healthAndSafetyService = Get.find<HealthAndSafetyService>();
 
-  HSResourceTypesInfo? selectedIncidentType;
-  HSResourceTypesInfo? selectedThreatLevel;
-  HSResourceTypesInfo? selectedUser;
+  final selectedIncidentType = Rxn<HSResourceTypesInfo>();
+  final selectedThreatLevel = Rxn<HSResourceTypesInfo>();
+  final selectedUser = Rxn<HSResourceTypesInfo>();
 
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
   bool isDataUpdated = false;
   var attachmentList = <PlatformFile>[].obs;
+  var deletedAttachmentIds = <String>[].obs;
+
+  bool isEdit = false;
+  IncidentReportInfo? selectedIncidentToEdit;
+
+  RxString appBarTitle = "".obs;
+  RxString saveButtonTitle = "".obs;
 
   @override
   void onInit() {
     super.onInit();
+
+    var arguments = Get.arguments;
+    if (arguments != null) {
+      isEdit = arguments["isEdit"];
+      selectedIncidentToEdit = arguments["selectedIncidentToEdit"];
+
+      appBarTitle.value = "edit_report_incident";
+      saveButtonTitle.value = "update_incident";
+
+      titleController.text = selectedIncidentToEdit?.title ?? "";
+
+      //Incident type
+      selectedIncidentType.value = (selectedIncidentType.value != null)
+          ? selectedIncidentType.value!.copyWith(
+        id: selectedIncidentToEdit?.incidentTypeId ?? 0,
+        title: selectedIncidentToEdit?.incidentType ?? "",
+      )
+          : HSResourceTypesInfo(
+        id: selectedIncidentToEdit?.incidentTypeId ?? 0,
+        title: selectedIncidentToEdit?.incidentType ?? "",
+        firstName: '',
+        lastName: '',
+        name: '',
+        userImage: '',
+        userThumbImage: '',
+      );
+
+      //Threat Level
+      selectedThreatLevel.value = (selectedThreatLevel.value != null)
+          ? selectedThreatLevel.value!.copyWith(
+        id: selectedIncidentToEdit?.threatLevelId ?? 0,
+        title: selectedIncidentToEdit?.threatLevel ?? "",
+      )
+          : HSResourceTypesInfo(
+        id: selectedIncidentToEdit?.threatLevelId ?? 0,
+        title: selectedIncidentToEdit?.threatLevel ?? "",
+        firstName: '',
+        lastName: '',
+        name: '',
+        userImage: '',
+        userThumbImage: '',
+      );
+
+      //Notify to
+      selectedUser.value = (selectedUser.value != null)
+          ? selectedUser.value!.copyWith(
+        id: selectedIncidentToEdit?.notifyTo ?? 0,
+        title: selectedIncidentToEdit?.notifyToName ?? "",
+      )
+          : HSResourceTypesInfo(
+        id: selectedIncidentToEdit?.notifyTo ?? 0,
+        title: selectedIncidentToEdit?.notifyToName ?? "",
+        firstName: '',
+        lastName: '',
+        name: '',
+        userImage: '',
+        userThumbImage: '',
+      );
+
+      attachmentList.value = (selectedIncidentToEdit?.files ?? []).map((file) {
+
+        String fileNameFromUrl = Uri.parse(file.imageUrl ?? '').pathSegments.last;
+
+        return PlatformFile(
+            identifier:"${file.id}",
+            name:fileNameFromUrl,
+            size: 0,
+            path: file.imageUrl
+        );
+      }).toList();
+
+    }
+    else{
+      appBarTitle.value = "add_report_incident";
+      saveButtonTitle.value = "report_incident";
+    }
 
   }
   void storeReportIncident() async {
     Map<String, dynamic> map = {
       "company_id": ApiConstants.companyId,
       'title': titleController.text.trim(),
-      "incident_type_id": selectedIncidentType?.id ?? 0,
-      "threat_level_id": selectedThreatLevel?.id ?? 0,
-      "notify_to": selectedUser?.id ?? 0,
+      "incident_type_id": selectedIncidentType.value?.id ?? 0,
+      "threat_level_id": selectedThreatLevel.value?.id ?? 0,
+      "notify_to": selectedUser.value?.id ?? 0,
+      if (isEdit)
+        "remove_attachment_ids":deletedAttachmentIds.toList(),
+      if (isEdit)
+        "report_incident_id":selectedIncidentToEdit?.id ?? 0
     };
 
     List<multi.MultipartFile> fileList = [];
     for (var file in attachmentList) {
-      if (file.path != null) {
-        fileList.add(await multi.MultipartFile.fromFile(
-          file.path!,
-          filename: file.name,
-        ));
+      if ((int.tryParse(file.identifier ?? "") ?? 0) > 0){
+
+      }
+      else{
+        if (file.path != null) {
+          fileList.add(await multi.MultipartFile.fromFile(
+            file.path!,
+            filename: file.name,
+          ));
+        }
       }
     }
 

@@ -7,6 +7,7 @@ class IncidentReportInfo{
   final int incidentTypeId;
   final int threatLevelId;
   final int notifyTo;
+  final String notifyToName;
   final String incidentType;
   final String threatLevel;
   final String date;
@@ -33,6 +34,7 @@ class IncidentReportInfo{
     required this.userThumbImage,
     required this.title,
     required this.files,
+    required this.notifyToName,
   });
 
   bool get hasAttachments => files.isNotEmpty;
@@ -52,6 +54,7 @@ class IncidentReportInfo{
       userName: json['user_name'] ?? '',
       userImage: json['user_image'] ?? '',
       userThumbImage: json['user_thumb_image'] ?? '',
+      notifyToName: json['notify_to_name'] ?? '',
       title: json['title'] ?? '',
       files: (json['files'] as List?)
           ?.map((f) => ReportFileInfo.fromJson(f))

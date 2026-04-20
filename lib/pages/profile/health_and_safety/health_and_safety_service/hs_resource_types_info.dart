@@ -1,4 +1,4 @@
-class HSResourceTypesInfo{
+class HSResourceTypesInfo {
   final int id;
   final String firstName;
   final String lastName;
@@ -16,6 +16,26 @@ class HSResourceTypesInfo{
     required this.userImage,
     required this.userThumbImage,
   });
+
+  HSResourceTypesInfo copyWith({
+    int? id,
+    String? firstName,
+    String? lastName,
+    String? name,
+    String? title,
+    String? userImage,
+    String? userThumbImage,
+  }) {
+    return HSResourceTypesInfo(
+      id: id ?? this.id,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      name: name ?? this.name,
+      title: title ?? this.title,
+      userImage: userImage ?? this.userImage,
+      userThumbImage: userThumbImage ?? this.userThumbImage,
+    );
+  }
 
   factory HSResourceTypesInfo.fromJson(Map<String, dynamic> json) {
     return HSResourceTypesInfo(
