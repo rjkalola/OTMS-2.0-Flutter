@@ -119,12 +119,14 @@ class _OrderDetailsOrdersListState extends State<OrderDetailsOrdersList> {
                     ),
                   ],
                 ),
+                SizedBox(height: 4,),
+                /*
                 SizedBox(height: 8,),
                 if (controller.canShowActionButtons)
                 Divider(
                   color: dividerColor_(context),
                 ),
-
+                */
                 if (item.note?.isNotEmpty ?? false)
                 SizedBox(height: 4,),
                 if (item.note?.isNotEmpty ?? false)
@@ -190,6 +192,8 @@ class _OrderDetailsOrdersListState extends State<OrderDetailsOrdersList> {
                         },
                       )),
                 ),
+
+                /*
                 SizedBox(height: 8,),
                 if (controller.canShowActionButtons)
                 Row(
@@ -216,6 +220,7 @@ class _OrderDetailsOrdersListState extends State<OrderDetailsOrdersList> {
                     ),
                   ],
                 )
+                */
               ],
             ),
           ),

@@ -3,6 +3,7 @@ import 'package:belcka/pages/profile/health_and_safety/report_incidents_list/con
 import 'package:belcka/pages/profile/health_and_safety/widgets/incident_report_card.dart';
 import 'package:belcka/pages/profile/health_and_safety/widgets/near_miss_card.dart';
 import 'package:belcka/pages/profile/health_and_safety/widgets/showHSConfirmationDialog.dart';
+import 'package:belcka/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -34,7 +35,10 @@ class _ReportIncidentListWidgetState extends State<ReportIncidentListWidget> {
           onAttachmentTap: () {
 
           },
-          onEdit: () {},
+          onEdit: () {
+            var arguments = {"selectedIncidentToEdit": incident,"isEdit":true};
+            controller.moveToScreen(AppRoutes.reportIncidentScreen, arguments);
+          },
           onDelete: () {
             showHSConfirmationDialog(
               context: context,

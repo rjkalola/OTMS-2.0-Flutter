@@ -848,7 +848,14 @@ class Strings extends Translations {
           'threat_level_deleted': "Threat Level Deleted",
           'edit_hazard': "Edit Hazard",
           'edit_incident_type': "Edit Incident Type",
-          'edit_threat_level': "Edit Threat Level"
+          'edit_threat_level': "Edit Threat Level",
+          'add_near_miss_reporting': "Add Near Miss Report",
+          'edit_near_miss_reporting': "Edit Near Miss Report",
+          'update_report': "Update Report",
+          'saved': "Saved",
+          'add_report_incident': "Add Report Incident",
+          'update_incident': "Update Incident",
+          'edit_report_incident': "Edit Report Incident",
 
 // '': "",
 // '': "",

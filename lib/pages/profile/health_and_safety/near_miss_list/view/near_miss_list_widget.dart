@@ -1,5 +1,6 @@
 import 'package:belcka/pages/profile/health_and_safety/near_miss_list/controller/near_miss_list_controller.dart';
 import 'package:belcka/pages/profile/health_and_safety/widgets/near_miss_card.dart';
+import 'package:belcka/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -31,7 +32,8 @@ class _NearMissListWidgetState extends State<NearMissListWidget> {
           hasAttachment: report.hasAttachments,
           files: report.files,
           onEdit: () {
-
+            var arguments = {"selectedReportToEdit": report,"isEdit":true};
+            controller.moveToScreen(AppRoutes.nearMissReportingScreen, arguments);
           },
           onDelete: () {
             showHSConfirmationDialog(
