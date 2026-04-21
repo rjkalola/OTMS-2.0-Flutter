@@ -395,16 +395,15 @@ class ApiConstants {
   static String storeHazard = '$appUrl/store-hazard';
   static String storeIncidentTypes = '$appUrl/store-incident-types';
   static String storeThreatLevels = '$appUrl/store-threat-levels';
-
   static String nearMissReportsDelete = '$appUrl/near-miss-reports/delete';
   static String reportIncidentsDelete = '$appUrl/report-incidents/delete';
   static String hazardsGet = '$appUrl/hazards/get';
   static String incidentTypesGet = '$appUrl/incident-types/get';
   static String threatLevelsGet = '$appUrl/threat-levels/get';
-
   static String deleteHazard = '$appUrl/delete-hazard';
   static String deleteIncidentType = '$appUrl/delete-incident-type';
   static String deleteThreatLevel = '$appUrl/delete-threat-level';
+  static String getInductionTrainings = '$appUrl/induction-trainings/get';
 
   // Buyer reports
   static String getModules = '$appUrl/get-modules';

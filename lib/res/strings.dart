@@ -867,7 +867,10 @@ class Strings extends Translations {
           'unauthorized_leave_': "Unauthorized\nleave",
           'outside_working_area_': "Outside working\narea",
           'total_worklogs': "Total worklogs",
-
+          'induction_and_training': "Induction & Training",
+          'image_not_found':"Image not found",
+          'click_to_open_pdf':"Click to open PDF",
+          'file':"File",
 
 // '': "",
 // '': "",
