@@ -858,6 +858,10 @@ class Strings extends Translations {
           'add_report_incident': "Add Report Incident",
           'update_incident': "Update Incident",
           'edit_report_incident': "Edit Report Incident",
+          'induction_and_training': "Induction & Training",
+          'image_not_found':"Image not found",
+          'click_to_open_pdf':"Click to open PDF",
+          'file':"File",
 
 // '': "",
 // '': "",

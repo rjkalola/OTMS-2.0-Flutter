@@ -198,4 +198,5 @@ class AppRoutes {
       '/report_incidents_list_screen';
   static const String hsSettingsScreen = '/hs_settings_screen';
   static const String hsResourceTypesListScreen = '/hs_resource_types_list_screen';
+  static const String inductionTrainingListScreen = '/induction_training_list_screen';
 }

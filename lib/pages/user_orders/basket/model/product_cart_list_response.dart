@@ -4,10 +4,12 @@ class ProductCartListResponse {
   bool? isSuccess;
   String? message;
   List<ProductInfo>? info;
+  int? cartProduct;
 
   ProductCartListResponse.fromJson(Map<String, dynamic> json) {
     isSuccess = json['IsSuccess'];
     message = json['message'];
+    cartProduct = json['cart_product'];
 
     if (json['info'] is List) {
       info = (json['info'] as List)
@@ -22,6 +24,7 @@ class ProductCartListResponse {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['IsSuccess'] = this.isSuccess;
     data['message'] = this.message;
+    data['cart_product'] = cartProduct;
     if (this.info != null) {
       data['info'] = this.info!.map((v) => v.toJson()).toList();
     }

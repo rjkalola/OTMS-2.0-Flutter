@@ -53,7 +53,7 @@ class _HealthAndSafetyScreenState extends State<HealthAndSafetyScreen> {
                   children: [
                     _buildMenuButton(
                       label: "near_miss_reporting".tr,
-                      icon: Icons.report_problem_outlined,
+                      icon: Icons.build_outlined,
                       onTap: () {
                         Get.toNamed(AppRoutes.nearMissListScreen,);
                       },
@@ -61,21 +61,20 @@ class _HealthAndSafetyScreenState extends State<HealthAndSafetyScreen> {
                     const SizedBox(height: 4),
                     _buildMenuButton(
                       label: "report_incident".tr,
-                      icon: Icons.medical_services_outlined,
+                      icon: Icons.report_problem_outlined,
                       onTap: () {
                         Get.toNamed(AppRoutes.reportIncidentsListScreen,);
                       },
                     ),
                     const SizedBox(height: 4),
-                    /*
-                    _buildMenuButton(
-                      label: "history".tr,
-                      icon: Icons.history_edu_outlined,
-                      onTap: () {
 
+                    _buildMenuButton(
+                      label: "induction_and_training".tr,
+                      icon: Icons.menu_book_outlined,
+                      onTap: () {
+                        Get.toNamed(AppRoutes.inductionTrainingListScreen,);
                       },
                     ),
-                    */
                   ],
                 ),
               ),
@@ -100,7 +99,7 @@ class _HealthAndSafetyScreenState extends State<HealthAndSafetyScreen> {
           child: Row(
             children: [
               // Icon Container
-              Icon(icon, size: 22,),
+              Icon(icon, size: 22,color: secondaryTextColor_(context),),
               const SizedBox(width: 16),
               // Text
               Expanded(
@@ -133,7 +132,7 @@ class _HealthAndSafetyScreenState extends State<HealthAndSafetyScreen> {
         child: Padding(
           padding: const EdgeInsets.all(6),
           child: Icon(Icons.settings,
-            color: primaryTextColorLight_(context) ,
+            color: primaryTextColor_(context) ,
             size: 23,
           ),
         ),

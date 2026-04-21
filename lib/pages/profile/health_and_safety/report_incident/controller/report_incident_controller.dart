@@ -92,14 +92,14 @@ class ReportIncidentController extends GetxController{
       selectedUser.value = (selectedUser.value != null)
           ? selectedUser.value!.copyWith(
         id: selectedIncidentToEdit?.notifyTo ?? 0,
-        title: selectedIncidentToEdit?.notifyToName ?? "",
+        name: selectedIncidentToEdit?.notifyToName ?? "",
       )
           : HSResourceTypesInfo(
         id: selectedIncidentToEdit?.notifyTo ?? 0,
-        title: selectedIncidentToEdit?.notifyToName ?? "",
+        name: selectedIncidentToEdit?.notifyToName ?? "",
         firstName: '',
         lastName: '',
-        name: '',
+        title: '',
         userImage: '',
         userThumbImage: '',
       );

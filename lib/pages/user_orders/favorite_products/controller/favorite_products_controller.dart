@@ -28,8 +28,9 @@ class FavoriteProductsController extends GetxController{
   bool isDataUpdated = false;
   int folderId = 0;
   List<ProductSetDataInfo> productsSetList = [];
-
   List<FocusNode> qtyFocusNodes = [];
+
+  RxInt cartCount = 0.obs;
 
   void initFocusNodes(int length) {
     qtyFocusNodes = List.generate(length, (index) => FocusNode());
@@ -73,6 +74,7 @@ class FavoriteProductsController extends GetxController{
           isMainViewVisible.value = true;
           isLoading.value = false;
           initFocusNodes(bookmarkList.length);
+          updateCartCount(response.cartProduct ?? 0);
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
           isLoading.value = false;
@@ -88,7 +90,9 @@ class FavoriteProductsController extends GetxController{
       },
     );
   }
-
+  void updateCartCount(int count) {
+    cartCount.value = count;
+  }
   void prepareProductImages() {
     for (var product in bookmarkList) {
       if (product.productImages == null) {

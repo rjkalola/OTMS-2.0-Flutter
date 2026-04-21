@@ -6,6 +6,7 @@ import 'package:belcka/pages/user_orders/favorite_products/view/widgets/favorite
 import 'package:belcka/pages/user_orders/project_service/project_service.dart';
 import 'package:belcka/pages/user_orders/widgets/empty_cart_view.dart';
 import 'package:belcka/pages/user_orders/widgets/empty_state_view.dart';
+import 'package:belcka/pages/user_orders/widgets/icons/cart_icon_widget.dart';
 import 'package:belcka/pages/user_orders/widgets/orders_base_app_bar.dart';
 import 'package:belcka/pages/user_orders/widgets/out_of_stock_banner.dart';
 import 'package:belcka/pages/user_orders/widgets/product_quantity_change_widget.dart';
@@ -62,6 +63,7 @@ class _FavoriteProductsScreenState extends State<FavoriteProductsScreen> {
                   bgColor: backgroundColor_(context),
                   autoFocus: true,
                   isClearVisible: false.obs,
+                  widgets: actionButtons(),
                   onBackPressed: (){
                     controller.onBackPress();
                   },
@@ -100,4 +102,54 @@ class _FavoriteProductsScreenState extends State<FavoriteProductsScreen> {
     );
   }
 
+  List<Widget>? actionButtons() {
+    return [
+      GestureDetector(
+        onTap: () {
+          // open cart page
+          FocusManager.instance.primaryFocus?.unfocus();
+          controller.moveToScreen(AppRoutes.basketScreen, null);
+        },
+        child: Stack(
+          children: [
+            IconButton(
+              icon: CartIconWidget(),
+              color: backgroundColor_(context),
+              onPressed: () {
+                controller.moveToScreen(AppRoutes.basketScreen, null);
+              },
+            ),
+            if (controller.cartCount.value > 0)
+              Positioned(
+                right: 6,
+                top: 3,
+                child: Container(
+                  padding: const EdgeInsets.all(2),
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  constraints: const BoxConstraints(
+                    minWidth: 18,
+                    minHeight: 18,
+                  ),
+                  child: Text(
+                    controller.cartCount.value.toString(),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
+      SizedBox(
+        width: 10,
+      ),
+    ];
+  }
 }
