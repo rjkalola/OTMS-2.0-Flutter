@@ -9,36 +9,38 @@ import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:get/get.dart';
 
-class UserAnalyticsScoreController extends GetxController{
+class UserAnalyticsScoreController extends GetxController {
   final _api = UserAnalyticsScoreRepository();
-  RxBool isLoading = false.obs,
+  final RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
-      isMainViewVisible = false.obs;
+      isMainViewVisible = true.obs;
   int? userId = UserUtils.getLoginUserId();
 
   String startDate = "", endDate = "";
   final RxInt selectedDateFilterIndex = (1).obs;
-  Rx<UserAnalyticsModel?> userAnalytics = Rx<UserAnalyticsModel?>(null);
+  final Rx<UserAnalyticsModel?> userAnalytics = Rx<UserAnalyticsModel?>(null);
 
   @override
   void onInit() {
     super.onInit();
-    var arguments = Get.arguments;
+    final arguments = Get.arguments;
     if (arguments != null) {
       userId = arguments[AppConstants.intentKey.userId] ??
           UserUtils.getLoginUserId();
     }
-    getUserAnalyticsAPI();
+    // getUserAnalyticsAPI();
   }
 
-  Future<void> moveToScreen(String rout, dynamic arguments) async {
-    var result = await Get.toNamed(rout, arguments: arguments);
+  Future<void> moveToScreen(String route, dynamic arguments) async {
+    final result = await Get.toNamed(route, arguments: arguments);
     if (result != null && result) {
       getUserAnalyticsAPI();
     }
   }
-  //API Calls
+
+  // API Calls
   void getUserAnalyticsAPI() {
+    isInternetNotAvailable.value = false;
     isLoading.value = true;
     final Map<String, dynamic> map = {
       "user_id": userId,
@@ -52,15 +54,13 @@ class UserAnalyticsScoreController extends GetxController{
         if (responseModel.isSuccess) {
           try {
             final Map<String, dynamic> json =
-            jsonDecode(responseModel.result!) as Map<String, dynamic>;
+                jsonDecode(responseModel.result!) as Map<String, dynamic>;
             userAnalytics.value = UserAnalyticsModel.fromJson(json);
             isMainViewVisible.value = true;
           } catch (e) {
-            AppUtils.showSnackBarMessage(
-                "Failed to parse analytics data");
+            AppUtils.showSnackBarMessage("failed_to_parse_analytics_data".tr);
           }
-        }
-        else{
+        } else {
           AppUtils.showSnackBarMessage(
             responseModel.statusMessage ?? "",
           );
@@ -77,6 +77,7 @@ class UserAnalyticsScoreController extends GetxController{
       },
     );
   }
+
   Color scoreTextColor(int value) {
     if (value < 25) return Color(0xFFF26B4D);
     if (value < 50) return Color(0xFF576F8F);

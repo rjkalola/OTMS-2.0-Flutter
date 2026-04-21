@@ -1,15 +1,17 @@
 import 'package:belcka/pages/analytics/user_score/controller/user_analytics_score_controller.dart';
 import 'package:belcka/pages/analytics/widgets/animated_progress_bar.dart';
-import 'package:belcka/res/theme/app_colors.dart';
+import 'package:belcka/res/colors.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/enums/order_tab_type.dart';
+import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 class UserScoreTypesWidget extends StatelessWidget {
+  final controller = Get.find<UserAnalyticsScoreController>();
+
   final String title;
   final String valueText;
   final UserScoreType? scoreType;
@@ -21,20 +23,19 @@ class UserScoreTypesWidget extends StatelessWidget {
   /// For Warnings
   final Widget? customIndicator;
 
-  const UserScoreTypesWidget({
-    super.key,
-    required this.title,
-    required this.valueText,
-    this.progress,
-    this.progressColor,
-    this.customIndicator,
-    this.scoreType
-  });
+  UserScoreTypesWidget(
+      {super.key,
+      required this.title,
+      required this.valueText,
+      this.progress,
+      this.progressColor,
+      this.customIndicator,
+      this.scoreType});
 
   @override
   Widget build(BuildContext context) {
     return CardViewDashboardItem(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -42,19 +43,38 @@ class UserScoreTypesWidget extends StatelessWidget {
             children: [
               Text(title,
                   style: const TextStyle(
-                      fontSize: 24, fontWeight: FontWeight.bold)),
-              Spacer(),
-              _viewDetails(scoreType)
+                      fontSize: 18, fontWeight: FontWeight.w600)),
+              const Spacer(),
+              PrimaryButton(
+                  isFixSize: true,
+                  width: 120,
+                  height: 32,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14,
+                  buttonText: 'view_details'.tr,
+                  color: const Color(0xFF007AFF).withValues(alpha: 0.15),
+                  fontColor: defaultAccentColor_(Get.context!),
+                  onPressed: () {
+                    final arguments = {
+                      AppConstants.intentKey.userId: controller.userId,
+                      "score_type": scoreType,
+                    };
+                    final route = _detailsRouteByScoreType(scoreType);
+                    controller.moveToScreen(
+                      route,
+                      arguments,
+                    );
+                  })
             ],
           ),
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
                 valueText,
-                style: const TextStyle(
-                    fontSize: 28, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
               ),
             ],
           ),
@@ -71,27 +91,15 @@ class UserScoreTypesWidget extends StatelessWidget {
     );
   }
 
-  Widget _viewDetails(UserScoreType? scoreType) {
-    final controller = Get.put(UserAnalyticsScoreController());
-
-    return TextButton(
-      onPressed: () {
-        var arguments = {
-          AppConstants.intentKey.userId: controller.userId,
-          "score_type": scoreType,
-        };
-        controller.moveToScreen(AppRoutes.userScoreTypesScreen, arguments);
-      },
-      style: TextButton.styleFrom(
-        backgroundColor: Color(0xFF007AFF).withOpacity(0.15),
-        shape: const StadiumBorder(),
-      ),
-      child: const Text(
-        "View Details",
-        style: TextStyle(fontWeight: FontWeight.bold,
-            color: AppColors.defaultAccentColor,
-            fontSize: 13),
-      ),
-    );
+  String _detailsRouteByScoreType(UserScoreType? type) {
+    switch (type) {
+      case UserScoreType.kpi:
+        return AppRoutes.kpiScoreScreen;
+      case UserScoreType.appActivity:
+        return AppRoutes.appActivityScoreScreen;
+      case UserScoreType.warnings:
+      default:
+        return AppRoutes.warningsScoreScreen;
+    }
   }
 }

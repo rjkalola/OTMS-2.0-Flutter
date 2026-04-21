@@ -22,25 +22,9 @@ class UserAnalyticsScoreScreen extends StatefulWidget {
   State<UserAnalyticsScoreScreen> createState() => _UserAnalyticsScoreScreenState();
 }
 
-class _UserAnalyticsScoreScreenState extends State<UserAnalyticsScoreScreen> with SingleTickerProviderStateMixin
+class _UserAnalyticsScoreScreenState extends State<UserAnalyticsScoreScreen>
     implements DateFilterListener {
   final controller = Get.put(UserAnalyticsScoreController());
-  late AnimationController animatedController;
-  int selectedTab = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    animatedController =
-    AnimationController(vsync: this, duration: const Duration(milliseconds: 900))
-      ..forward();
-  }
-
-  @override
-  void dispose() {
-    animatedController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +60,7 @@ class _UserAnalyticsScoreScreenState extends State<UserAnalyticsScoreScreen> wit
                   OverallScoreHeaderView(),
                   const SizedBox(height: 16),
                   DateFilterOptionsHorizontalList(
-                    padding: EdgeInsets.fromLTRB(14, 0, 14, 6),
+                              padding: const EdgeInsets.fromLTRB(14, 0, 14, 6),
                     startDate: controller.startDate,
                     endDate: controller.endDate,
                     listener: this,
@@ -111,48 +95,20 @@ class _UserAnalyticsScoreScreenState extends State<UserAnalyticsScoreScreen> wit
       //controller.appliedFilters = {};
     }
     controller.getUserAnalyticsAPI();
-    print("startDate:" + startDate);
-    print("endDate:" + endDate);
   }
 
   List<Widget>? actionButtons() {
     return [
       IconButton(
-        icon: Icon(Icons.open_in_new),
+        icon: const Icon(Icons.more_vert_outlined),
         onPressed: () {
-
-        },
-      ),
-      IconButton(
-        icon: Icon(Icons.more_vert_outlined),
-        onPressed: () {
-          var arguments = {
+          final arguments = {
             "score": controller.userAnalytics.value?.score ?? 0,
           };
           controller.moveToScreen(AppRoutes.scoreMoreDetailsScreen, arguments);
         },
       ),
     ];
-  }
-
-  Widget _animatedCard({required int index, required Widget child}) {
-    final animation = CurvedAnimation(
-      parent: animatedController,
-      curve: Interval(0.2 * index, 1, curve: Curves.easeOut),
-    );
-
-    return SlideTransition(
-      position:
-      Tween<Offset>(begin: const Offset(0, 0.2), end: Offset.zero)
-          .animate(animation),
-      child: FadeTransition(
-        opacity: animation,
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 16),
-          child: child,
-        ),
-      ),
-    );
   }
 }
 

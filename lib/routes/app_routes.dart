@@ -141,7 +141,9 @@ class AppRoutes {
   static const String userAnalyticsScreen = '/user_analytics_screen';
   static const String userAnalyticsScoreScreen = '/user_analytics_score_screen';
   static const String paymentDocumentsScreen = '/payment_documents_screen';
-  static const String userScoreTypesScreen = '/user_score_types_screen';
+  static const String warningsScoreScreen = '/warnings_score_screen';
+  static const String kpiScoreScreen = '/kpi_score_screen';
+  static const String appActivityScoreScreen = '/app_activity_score_screen';
   static const String scoreMoreDetailsScreen = '/score_more_details_screen';
   static const String addInvoiceScreen = '/add_invoice_screen';
   static const String addPayslipScreen = '/add_payslip_screen';

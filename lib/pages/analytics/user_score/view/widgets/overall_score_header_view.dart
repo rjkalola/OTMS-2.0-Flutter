@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 class OverallScoreHeaderView extends StatelessWidget {
   OverallScoreHeaderView({super.key});
 
-  final controller = Get.put(UserAnalyticsScoreController());
+  final controller = Get.find<UserAnalyticsScoreController>();
 
   @override
   Widget build(BuildContext context) {
@@ -19,37 +19,39 @@ class OverallScoreHeaderView extends StatelessWidget {
         color: backgroundColor_(context),
         boxShadow: [AppUtils.boxShadow(shadowColor_(context), 10)],
         border: Border.all(width: 0.6, color: Colors.transparent),
-        borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(28), bottomRight: Radius.circular(28)),
+        borderRadius: const BorderRadius.only(
+          bottomLeft: Radius.circular(28),
+          bottomRight: Radius.circular(28),
+        ),
       ),
       child: Column(
         children: [
           Container(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.fromLTRB(16, 4, 16, 12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text('Overall',
-                    style: TextStyle(fontSize: 20,
+                Text('overall'.tr,
+                    style: const TextStyle(fontSize: 16,
                         fontWeight: FontWeight.w400,
                         color: Color(0xFF727272))),
-                SizedBox(height: 8),
+                const SizedBox(height: 4),
                 Text(
                   '${userScore}%',
                   style: TextStyle(
-                      fontSize: 28, fontWeight: FontWeight.bold, color: controller.scoreTextColor(userScore)),
+                      fontSize: 24, fontWeight: FontWeight.w600, color: controller.scoreTextColor(userScore)),
                 ),
 
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 AnimatedProgressBar(
                   value: (userScore / 100),
                   color: controller.scoreTextColor(userScore),
-                  height: 15,
+                  height: 14,
                 ),
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
         ],

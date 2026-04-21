@@ -1,4 +1,3 @@
-import 'package:belcka/pages/analytics/user_score/controller/user_analytics_score_controller.dart';
 import 'package:belcka/pages/analytics/user_score/view/widgets/user_score_types_widget.dart';
 import 'package:belcka/pages/analytics/user_score/view/widgets/user_score_warning_indicator_widget.dart';
 import 'package:belcka/utils/enums/order_tab_type.dart';
@@ -8,12 +7,10 @@ import 'package:get/get.dart';
 class UserScoreTypesContainerView extends StatelessWidget {
   UserScoreTypesContainerView({super.key});
 
-  final controller = Get.put(UserAnalyticsScoreController());
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -23,7 +20,7 @@ class UserScoreTypesContainerView extends StatelessWidget {
             customIndicator: const UserScoreWarningIndicatorWidget(activeCount: 0),
             scoreType:UserScoreType.warnings,
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
 
           UserScoreTypesWidget(
             title: 'kpi'.tr,
@@ -32,7 +29,7 @@ class UserScoreTypesContainerView extends StatelessWidget {
             progressColor: const Color(0xFF3B82F6),
             scoreType:UserScoreType.kpi,
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           UserScoreTypesWidget(
             title: 'app_activity'.tr,
             valueText:'0%',

@@ -605,6 +605,7 @@ class Strings extends Translations {
           'my_analytics': "My Analytics",
           'appeal_note': "Appeal Note",
           'score': "Score",
+          'overall': "Overall",
           'invoices': "Invoices",
           'payments': "Payments",
           'payslips': "Payslips",
@@ -858,6 +859,15 @@ class Strings extends Translations {
           'add_report_incident': "Add Report Incident",
           'update_incident': "Update Incident",
           'edit_report_incident': "Edit Report Incident",
+          'view_details': "View Details",
+          'failed_to_parse_analytics_data': "Failed to parse analytics data",
+          'check_ins': "Check-Ins",
+          'stopped_work_automatically': "Stopped work automatically",
+          'late_work_started_': "Late work\nstarted",
+          'unauthorized_leave_': "Unauthorized\nleave",
+          'outside_working_area_': "Outside working\narea",
+          'total_worklogs': "Total worklogs",
+
 
 // '': "",
 // '': "",

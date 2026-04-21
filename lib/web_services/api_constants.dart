@@ -100,6 +100,9 @@ class ApiConstants {
   static String removeUserPermanently = '$appUrl/user/delete-account';
   static String getDigitalCardDetails = '$appUrl/user/get-user-digital-card';
   static String userAnalytics = '$appUrl/analytics/user';
+  static String getWarningsAnalytics = '$appUrl/analytics/get-warnings';
+  static String getKpiAnalytics = '$appUrl/analytics/get-kpi';
+  static String getAppActivityAnalytics = '$appUrl/analytics/get-app-activity';
   static String stopUserWork = '$appUrl/stop-work';
   static String userChangeBulkCheckin = '$appUrl/user/change-bulk-checkin';
 

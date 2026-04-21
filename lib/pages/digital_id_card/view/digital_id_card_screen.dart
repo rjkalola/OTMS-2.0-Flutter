@@ -73,18 +73,24 @@ class _DigitalIdCardScreenState extends State<DigitalIdCardScreen> {
             elevation: 8,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
             clipBehavior: Clip.antiAlias,
-            child: SfPdfViewer.network(
-              pdfUrl,
-              enableDoubleTapZooming: false,
-              canShowPageLoadingIndicator: false,
-              onDocumentLoaded: (details) {
-                controller.isLoading.value = false;
-                controller.isMainViewVisible.value = true;
-              },
-              onDocumentLoadFailed: (details) {
-                controller.isLoading.value = false;
-                controller.isMainViewVisible.value = false;
-              },
+            child: IgnorePointer(
+              ignoring: true,
+              child: SfPdfViewer.network(
+                pdfUrl,
+                enableDoubleTapZooming: false,
+                enableTextSelection: false,
+                canShowScrollHead: false,
+                canShowPaginationDialog: false,
+                canShowPageLoadingIndicator: false,
+                onDocumentLoaded: (details) {
+                  controller.isLoading.value = false;
+                  controller.isMainViewVisible.value = true;
+                },
+                onDocumentLoadFailed: (details) {
+                  controller.isLoading.value = false;
+                  controller.isMainViewVisible.value = false;
+                },
+              ),
             ),
           ),
         ),
