@@ -27,7 +27,7 @@ class OrderDetailsController extends GetxController{
   String orderId = "";
   bool canShowActionButtons = false;
   final orderInfo = OrderDetailsInfo().obs;
-  RxBool isExpanded = false.obs;
+  RxBool isExpanded = true.obs;
 
   @override
   void onInit() {

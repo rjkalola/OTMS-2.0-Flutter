@@ -17,11 +17,10 @@ class _InductionTrainingListWidgetState extends State<InductionTrainingListWidge
   @override
   Widget build(BuildContext context) {
     return Obx(() => ListView.builder(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
+
       itemCount: controller.inductionTrainingList.length,
       itemBuilder: (context, index) {
         final induction = controller.inductionTrainingList[index];
-
         return InductionTrainingCard(
             imageUrl: induction.addedByUserThumbImage,
             userName: induction.addedByName,

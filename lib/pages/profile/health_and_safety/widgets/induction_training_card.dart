@@ -52,7 +52,7 @@ class InductionTrainingCard extends StatelessWidget {
                       ),
                       Text(
                         trainingTitle,
-                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                        style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
                       ),
                     ],
                   ),
@@ -73,8 +73,8 @@ class InductionTrainingCard extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 8),
                 child: Text(
                   description,
-                  style: TextStyle(color: Colors.grey[700], fontSize: 13),
-                  maxLines: 2,
+                  style: TextStyle(color: secondaryTextColor_(context), fontSize: 13),
+                  maxLines: 100,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),

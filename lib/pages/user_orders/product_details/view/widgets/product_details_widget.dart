@@ -194,78 +194,51 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                               color: secondaryExtraLightTextColor_(context),
                             ),
                             SizedBox(width: 8,),
-                            //Favorite
+
+                            // Favorite Section
                             Visibility(
                               visible: !controller.isReadOnly.value,
-                              child: (product.isBookMark ?? false)
-                                  ? InkWell(
-                                      onTap: () {
-                                        FocusManager.instance.primaryFocus
-                                            ?.unfocus();
-                                        controller.toggleBookmark(
-                                            product.folderId ?? 0);
-                                        controller.product.value.isBookMark =
-                                            false;
+                              child: Builder(
+                                builder: (buttonContext) {
+                                  final isBookmarked = controller.product.value.isBookMark ?? false;
+
+                                  return InkWell(
+                                    onTap: () {
+                                      if (isBookmarked) {
+                                        // Logic for Un-bookmarking
+                                        FocusManager.instance.primaryFocus?.unfocus();
+                                        controller.toggleBookmark(controller.product.value.folderId ?? 0);
+                                        controller.product.value.isBookMark = false;
                                         controller.product.refresh();
-                                      },
-                                      child: const Icon(
-                                        Icons.bookmark,
-                                        color: Colors.deepOrangeAccent,
-                                        size: 20,
-                                      ),
-                                    )
-                                  : InkWell(
-                                      onTap: () {
+                                      } else {
+                                        // Logic for Bookmarking
                                         if (projectService.folderList.isEmpty) {
                                           showDialog(
-                                            context: context,
+                                            context: buttonContext,
                                             barrierDismissible: true,
                                             builder: (BuildContext context) {
                                               return Dialog(
-                                                backgroundColor:
-                                                    Colors.transparent,
-                                                insetPadding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 40),
+                                                backgroundColor: Colors.transparent,
+                                                insetPadding: const EdgeInsets.symmetric(horizontal: 40),
                                                 child: Container(
                                                   padding: const EdgeInsets.all(20),
                                                   decoration: BoxDecoration(
                                                     color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(20),
+                                                    borderRadius: BorderRadius.circular(20),
                                                     boxShadow: const [
-                                                      BoxShadow(
-                                                          color: Colors.black26,
-                                                          blurRadius: 20,
-                                                          offset: Offset(0, 10))
+                                                      BoxShadow(color: Colors.black26, blurRadius: 20, offset: Offset(0, 10))
                                                     ],
                                                   ),
                                                   child: AddFolderView(
                                                     folders: [],
-                                                    onCancel: () =>
-                                                        Navigator.pop(context),
-                                                    onAdded: (folderName,
-                                                        projectId) async {
+                                                    onCancel: () => Navigator.pop(context),
+                                                    onAdded: (folderName, projectId) async {
                                                       Navigator.pop(context);
-                                                      final newFolder =
-                                                          await projectService
-                                                              .toggleCreateNewFolder(
-                                                                  folderName,
-                                                                  projectId);
-                                                      FocusManager.instance
-                                                          .primaryFocus
-                                                          ?.unfocus();
-                                                      controller.toggleBookmark(
-                                                          newFolder?.id ?? 0);
-                                                      controller.product.value
-                                                              .isBookMark =
-                                                          !(controller
-                                                                  .product
-                                                                  .value
-                                                                  .isBookMark ??
-                                                              false);
-                                                      controller.product
-                                                          .refresh();
+                                                      final newFolder = await projectService.toggleCreateNewFolder(folderName, projectId);
+                                                      FocusManager.instance.primaryFocus?.unfocus();
+                                                      controller.toggleBookmark(newFolder?.id ?? 0);
+                                                      controller.product.value.isBookMark = true;
+                                                      controller.product.refresh();
                                                     },
                                                   ),
                                                 ),
@@ -273,36 +246,33 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                                             },
                                           );
                                         } else {
+                                          // Show Popup using the specific buttonContext
                                           FavoritePopupManager.show(
-                                            context: context,
+                                            context: buttonContext,
                                             layerLink: _layerLink,
                                             folders: projectService.folderList,
                                             onProjectSelected: (project) {
-                                              FocusManager.instance.primaryFocus
-                                                  ?.unfocus();
-                                              controller.toggleBookmark(
-                                                  project.id ?? 0);
-                                              controller.product.value
-                                                      .isBookMark =
-                                                  !(controller.product.value
-                                                          .isBookMark ??
-                                                      false);
+                                              FocusManager.instance.primaryFocus?.unfocus();
+                                              controller.toggleBookmark(project.id ?? 0);
+                                              controller.product.value.isBookMark = true;
                                               controller.product.refresh();
                                             },
                                           );
                                         }
-                                      },
-                                      child: CompositedTransformTarget(
-                                        link: _layerLink,
-                                        child: Icon(
-                                          Icons.bookmark_border,
-                                          color: primaryTextColor_(context),
-                                          size: 20,
-                                        ),
+                                      }
+                                    },
+                                    child: CompositedTransformTarget(
+                                      link: _layerLink,
+                                      child: Icon(
+                                        isBookmarked ? Icons.bookmark : Icons.bookmark_border,
+                                        color: isBookmarked ? Colors.deepOrangeAccent : primaryTextColor_(buttonContext),
+                                        size: 20,
                                       ),
                                     ),
+                                  );
+                                },
+                              ),
                             ),
-
                           ],
                         ),
                         SizedBox(height: 8,),

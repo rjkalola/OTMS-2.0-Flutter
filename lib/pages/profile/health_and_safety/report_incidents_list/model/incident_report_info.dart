@@ -1,3 +1,4 @@
+import 'package:belcka/pages/profile/health_and_safety/induction_training/model/attachment_item_model.dart';
 import 'package:belcka/pages/profile/health_and_safety/near_miss_list/model/report_file_info.dart';
 
 class IncidentReportInfo{
@@ -16,7 +17,7 @@ class IncidentReportInfo{
   final String userImage;
   final String userThumbImage;
   final String title;
-  final List<ReportFileInfo> files;
+  final List<AttachmentItemModel> files;
 
   IncidentReportInfo({
     required this.id,
@@ -57,7 +58,7 @@ class IncidentReportInfo{
       notifyToName: json['notify_to_name'] ?? '',
       title: json['title'] ?? '',
       files: (json['files'] as List?)
-          ?.map((f) => ReportFileInfo.fromJson(f))
+          ?.map((f) => AttachmentItemModel.fromJson(f))
           .toList() ?? [],
     );
   }

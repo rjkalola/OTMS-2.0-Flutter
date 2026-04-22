@@ -1,4 +1,4 @@
-import 'package:belcka/pages/profile/health_and_safety/near_miss_list/model/report_file_info.dart';
+import 'package:belcka/pages/profile/health_and_safety/induction_training/model/attachment_item_model.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/text/SubTitleTextView.dart';
@@ -13,7 +13,7 @@ class IncidentReportCard extends StatelessWidget {
   final String incidentType;
   final String threatLevel;
   final String date;
-  final List<ReportFileInfo> files;
+  final List<AttachmentItemModel> files;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
   final VoidCallback? onAttachmentTap;

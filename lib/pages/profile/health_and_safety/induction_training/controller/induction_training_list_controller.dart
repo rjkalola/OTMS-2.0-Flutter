@@ -45,8 +45,8 @@ class InductionTrainingListController extends GetxController{
           tempList.addAll(response.info ?? []);
 
           inductionTrainingList.value = tempList;
-          inductionTrainingList.refresh();
 
+          inductionTrainingList.refresh();
 
           isMainViewVisible.value = true;
           isLoading.value = false;

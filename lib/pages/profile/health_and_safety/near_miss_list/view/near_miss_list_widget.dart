@@ -1,3 +1,4 @@
+import 'package:belcka/pages/profile/health_and_safety/attachments_view/attachment_view.dart';
 import 'package:belcka/pages/profile/health_and_safety/near_miss_list/controller/near_miss_list_controller.dart';
 import 'package:belcka/pages/profile/health_and_safety/widgets/near_miss_card.dart';
 import 'package:belcka/routes/app_routes.dart';
@@ -19,7 +20,6 @@ class _NearMissListWidgetState extends State<NearMissListWidget> {
   @override
   Widget build(BuildContext context) {
     return Obx(() => ListView.builder(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
       itemCount: controller.nearMissReportsList.length,
       itemBuilder: (context, index) {
         final report = controller.nearMissReportsList[index];
@@ -46,7 +46,7 @@ class _NearMissListWidgetState extends State<NearMissListWidget> {
             );
           },
           onAttachmentTap: (){
-            print("show attachments");
+            AttachmentSheet.show(context, report.files);
           },
         );
       },

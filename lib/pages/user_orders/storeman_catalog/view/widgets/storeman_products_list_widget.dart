@@ -259,145 +259,82 @@ class _StoremanProductsListWidgetState
                                                     context),
                                           ),
                                           const SizedBox(height: 4),
-                                          //Favorite
-                                          if (product.isBookMark ?? false)
-                                            InkWell(
-                                              onTap: () {
-                                                FocusManager
-                                                    .instance.primaryFocus
-                                                    ?.unfocus();
-                                                controller.toggleBookmark(
-                                                    index,
-                                                    category,
-                                                    product.folderId ?? 0);
-                                                product.isBookMark = false;
-                                                controller.categories
-                                                    .refresh();
-                                              },
-                                              child: Icon(Icons.bookmark,
-                                                color: Colors.deepOrangeAccent,
-                                                size: 20,
-                                              )
-                                            ),
+                                          // Favorite Button Section
+                                          Builder(
+                                            builder: (buttonContext) {
+                                              bool isBookmarked = product.isBookMark ?? false;
+                                              return InkWell(
+                                                onTap: () {
+                                                  if (isBookmarked) {
+                                                    // Un-bookmarking
+                                                    FocusManager.instance.primaryFocus?.unfocus();
+                                                    controller.toggleBookmark(index, category, product.folderId ?? 0);
+                                                    product.isBookMark = false;
+                                                    controller.categories.refresh();
+                                                  } else {
+                                                    //Bookmarking
+                                                    if (projectService.folderList.isEmpty) {
+                                                      // Show Add Folder Dialog
+                                                      showDialog(
+                                                        context: buttonContext,
+                                                        barrierDismissible: true,
+                                                        builder: (BuildContext context) {
+                                                          return Dialog(
+                                                            backgroundColor: Colors.transparent,
+                                                            insetPadding: const EdgeInsets.symmetric(horizontal: 40),
+                                                            child: Container(
+                                                              padding: const EdgeInsets.all(20),
+                                                              decoration: BoxDecoration(
+                                                                color: Colors.white,
+                                                                borderRadius: BorderRadius.circular(20),
+                                                                boxShadow: const [
+                                                                  BoxShadow(color: Colors.black26, blurRadius: 20, offset: Offset(0, 10))
+                                                                ],
+                                                              ),
+                                                              child: AddFolderView(
+                                                                folders: [],
+                                                                onCancel: () => Navigator.pop(context),
+                                                                onAdded: (folderName, projectId) async {
+                                                                  Navigator.pop(context);
+                                                                  final newFolder = await projectService.toggleCreateNewFolder(folderName, projectId);
 
-                                          if ((product.isBookMark ?? false) == false)
-                                          InkWell(
-                                            onTap: () {
-                                              if (projectService
-                                                  .folderList.isEmpty) {
-                                                showDialog(
-                                                  context: context,
-                                                  barrierDismissible: true,
-                                                  builder:
-                                                      (BuildContext context) {
-                                                    return Dialog(
-                                                      backgroundColor:
-                                                          Colors.transparent,
-                                                      insetPadding:
-                                                          const EdgeInsets
-                                                              .symmetric(
-                                                              horizontal: 40),
-                                                      child: Container(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(20),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: Colors.white,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(20),
-                                                          boxShadow: const [
-                                                            BoxShadow(
-                                                                color: Colors
-                                                                    .black26,
-                                                                blurRadius: 20,
-                                                                offset: Offset(
-                                                                    0, 10))
-                                                          ],
-                                                        ),
-                                                        child: AddFolderView(
-                                                          folders: [],
-                                                          onCancel: () =>
-                                                              Navigator.pop(
-                                                                  context),
-                                                          onAdded: (folderName,
-                                                              projectId) async {
-                                                            Navigator.pop(
-                                                                context);
-                                                            final newFolder =
-                                                                await projectService
-                                                                    .toggleCreateNewFolder(
-                                                                        folderName,
-                                                                        projectId);
-
-                                                            print(
-                                                                "New Folder ID: ${newFolder?.id ?? 0}");
-
-                                                            FocusManager
-                                                                .instance
-                                                                .primaryFocus
-                                                                ?.unfocus();
-                                                            controller
-                                                                .toggleBookmark(
-                                                                    index,
-                                                                    category,
-                                                                    newFolder
-                                                                            ?.id ??
-                                                                        0);
-                                                            product.isBookMark =
-                                                                !(product
-                                                                        .isBookMark ??
-                                                                    false);
-                                                            controller
-                                                                .categories
-                                                                .refresh();
-                                                          },
-                                                        ),
-                                                      ),
-                                                    );
-                                                  },
-                                                );
-                                              } else {
-                                                FavoritePopupManager.show(
-                                                  context: context,
-                                                  layerLink: _layerLink,
-                                                  folders:
-                                                      projectService.folderList,
-                                                  onProjectSelected: (folder) {
-                                                    print(
-                                                        "Selected: ${folder.name ?? ""}");
-                                                    FocusManager
-                                                        .instance.primaryFocus
-                                                        ?.unfocus();
-                                                    controller.toggleBookmark(
-                                                        index,
-                                                        category,
-                                                        folder.id ?? 0);
-                                                    product.isBookMark =
-                                                        !(product.isBookMark ??
-                                                            false);
-                                                    controller.categories
-                                                        .refresh();
-                                                  },
-                                                );
-                                              }
+                                                                  FocusManager.instance.primaryFocus?.unfocus();
+                                                                  controller.toggleBookmark(index, category, newFolder?.id ?? 0);
+                                                                  product.isBookMark = true;
+                                                                  controller.categories.refresh();
+                                                                },
+                                                              ),
+                                                            ),
+                                                          );
+                                                        },
+                                                      );
+                                                    } else {
+                                                      // Show the Popup Manager with the CORRECT buttonContext
+                                                      FavoritePopupManager.show(
+                                                        context: buttonContext, // This ensures position is calculated correctly
+                                                        layerLink: _layerLink,
+                                                        folders: projectService.folderList,
+                                                        onProjectSelected: (folder) {
+                                                          FocusManager.instance.primaryFocus?.unfocus();
+                                                          controller.toggleBookmark(index, category, folder.id ?? 0);
+                                                          product.isBookMark = true;
+                                                          controller.categories.refresh();
+                                                        },
+                                                      );
+                                                    }
+                                                  }
+                                                },
+                                                child: CompositedTransformTarget(
+                                                  link: _layerLink,
+                                                  child: Icon(
+                                                    isBookmarked ? Icons.bookmark : Icons.bookmark_border,
+                                                    color: isBookmarked ? Colors.deepOrangeAccent : primaryTextColor_(buttonContext),
+                                                    size: 20,
+                                                  ),
+                                                ),
+                                              );
                                             },
-                                            child: CompositedTransformTarget(
-                                              link: _layerLink,
-                                              child: Icon(
-                                                product.isBookMark ?? true
-                                                    ? Icons.bookmark
-                                                    : Icons.bookmark_border,
-                                                color: product.isBookMark ??
-                                                        true
-                                                    ? Colors.deepOrangeAccent
-                                                    : primaryTextColor_(
-                                                        context),
-                                                size: 20,
-                                              ),
-                                            ),
-                                          )
+                                          ),
                                         ],
                                       ),
                                     ),
