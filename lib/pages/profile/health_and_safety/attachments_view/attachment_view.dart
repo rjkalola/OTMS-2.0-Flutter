@@ -3,8 +3,10 @@ import 'package:belcka/pages/profile/health_and_safety/attachments_view/audio_pr
 import 'package:belcka/pages/profile/health_and_safety/attachments_view/video_preview_widget.dart';
 import 'package:belcka/pages/profile/health_and_safety/induction_training/model/attachment_item_model.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/widgets/custom_views/downloading_widget.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -37,8 +39,8 @@ class AttachmentSheet extends StatelessWidget {
     return Obx(() => Stack(
       children: [
         Container(
-          decoration: const BoxDecoration(
-            color: Colors.white,
+          decoration:  BoxDecoration(
+            color: dashBoardBgColor_(context),
             borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
           ),
           height: MediaQuery.of(context).size.height * 0.9,
@@ -87,17 +89,17 @@ class AttachmentSheet extends StatelessWidget {
 
   Widget _buildHeader(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.fromLTRB(20, 8, 8, 0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
             children: [
-              Icon(Icons.attachment_outlined, color: primaryTextColor_(context)),
+              Icon(Icons.attachment_outlined, color: primaryTextColor_(context),size: 20,),
               const SizedBox(width: 10),
               Text(
                 "${'attachments_text'.tr} (${attachments.length})",
-                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700, color: primaryTextColor_(context)),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: primaryTextColor_(context)),
               ),
             ],
           ),
@@ -116,14 +118,14 @@ class AttachmentSheet extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         child: SizedBox(
           width: double.infinity,
-          height: 55,
+          height: 50,
           child: OutlinedButton(
             onPressed: downloadController.isDownloading.value ? null : () => Navigator.pop(context),
             style: OutlinedButton.styleFrom(
               side: BorderSide(color: Colors.blueGrey.shade100),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             ),
-            child: Text("close".tr, style: const TextStyle(color: Color(0xFF141D3B), fontWeight: FontWeight.w600, fontSize: 16)),
+            child: Text("close".tr, style:  TextStyle(color: primaryTextColor_(context), fontWeight: FontWeight.w600, fontSize: 16)),
           ),
         ),
       ),
@@ -141,7 +143,7 @@ class _AttachmentCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: Colors.grey.shade200,width: 1.0),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
@@ -158,7 +160,7 @@ class _AttachmentCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(item.fileName, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15)),
+                      Text(item.fileName, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 14)),
                       const SizedBox(height: 10),
                       Row(
                         children: [
@@ -171,7 +173,7 @@ class _AttachmentCard extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                    icon: Icon(Icons.download_outlined, color: primaryTextColor_(context)),
+                    icon: Icon(Icons.download_outlined, color: primaryTextColor_(context),size: 20,),
                     onPressed: () {
                       if (!StringHelper.isEmptyString(item.imageUrl) && !downloadController.isDownloading.value) {
                         downloadController.downloadFile(
@@ -194,13 +196,35 @@ class _AttachmentCard extends StatelessWidget {
     switch (item.docType) {
       case 'image':
         return InkWell(
-          onTap: () => _openExternally(item.imageUrl),
-          child: Image.network(
-            item.imageUrl,
+          onTap: () async {
+            await ImageUtils.openAttachment(
+                Get.context!, item.imageUrl, ImageUtils.getFileType(item.imageUrl));
+          },
+          child: SizedBox(
             height: 220,
             width: double.infinity,
-            fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) => _buildPlaceholder(Icons.broken_image, "image_not_found".tr),
+            child: CachedNetworkImage(
+              imageUrl: item.imageUrl,
+              fit: BoxFit.cover,
+              placeholder: (context, url) => Container(
+                color: Colors.grey.shade100,
+                child: const Center(
+                  child: SizedBox(
+                    width: 30, height: 30,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: Color(0xFF141D3B),
+                    ),
+                  ),
+                ),
+              ),
+              errorWidget: (context, url, error) => Container(
+                color: Colors.grey.shade100,
+                child: _buildPlaceholder(Icons.broken_image, "image_not_found".tr),
+              ),
+
+              fadeInDuration: const Duration(milliseconds: 300),
+            ),
           ),
         );
       case 'video':
@@ -209,7 +233,10 @@ class _AttachmentCard extends StatelessWidget {
         return AudioPreviewWidget(url: item.imageUrl);
       case 'pdf':
         return InkWell(
-          onTap: () => _openExternally(item.imageUrl),
+          onTap: () async {
+            await ImageUtils.openAttachment(
+                Get.context!, item.imageUrl, ImageUtils.getFileType(item.imageUrl));
+          },
           child: Container(
             height: 180,
             color: const Color(0xFFFFEBEE),

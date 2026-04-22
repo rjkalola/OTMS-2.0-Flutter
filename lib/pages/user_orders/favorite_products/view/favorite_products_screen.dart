@@ -79,13 +79,15 @@ class _FavoriteProductsScreenState extends State<FavoriteProductsScreen> {
                     },
                   )
                       : controller.isMainViewVisible.value
-                      ? (controller.bookmarkList.isNotEmpty) ? Column(
+                      ? (controller.bookmarkList.isNotEmpty) ?
+                  Column(
                     children: [
-
                       //Product list
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: FavoriteProductsListWidget(),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: FavoriteProductsListWidget(),
+                        ),
                       )
                     ],
                   ) : EmptyStateView(

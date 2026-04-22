@@ -29,7 +29,6 @@ class _FavoriteProductsListWidgetState
 
     return Obx(() => ListView.builder(
       shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
       itemCount: controller.bookmarkList.length,
       itemBuilder: (context, index) {
         final product = controller.bookmarkList[index];

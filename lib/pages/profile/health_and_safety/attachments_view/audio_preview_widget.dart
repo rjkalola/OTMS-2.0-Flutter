@@ -20,16 +20,24 @@ class _AudioPreviewWidgetState extends State<AudioPreviewWidget> {
     super.initState();
     player = AudioPlayer();
 
-    // Listen to states
-    player.onDurationChanged.listen((d) => setState(() => duration = d));
-    player.onPositionChanged.listen((p) => setState(() => position = p));
+    player.onDurationChanged.listen((d) {
+      if (mounted) setState(() => duration = d);
+    });
+
+    player.onPositionChanged.listen((p) {
+      if (mounted) setState(() => position = p);
+    });
+
     player.onPlayerStateChanged.listen((state) {
-      setState(() => isPlaying = state == PlayerState.playing);
+      if (mounted) {
+        setState(() => isPlaying = state == PlayerState.playing);
+      }
     });
   }
 
   @override
   void dispose() {
+    player.stop();
     player.dispose();
     super.dispose();
   }

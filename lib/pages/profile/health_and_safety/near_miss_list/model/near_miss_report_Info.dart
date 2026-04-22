@@ -1,3 +1,4 @@
+import 'package:belcka/pages/profile/health_and_safety/induction_training/model/attachment_item_model.dart';
 import 'package:belcka/pages/profile/health_and_safety/near_miss_list/model/report_file_info.dart';
 
 class NearMissReportInfo {
@@ -11,7 +12,7 @@ class NearMissReportInfo {
   final String addedByUserName;
   final String addedByUserImage;
   final String addedByUserThumbImage;
-  final List<ReportFileInfo> files;
+  final List<AttachmentItemModel> files;
 
   NearMissReportInfo({
     required this.id,
@@ -43,7 +44,7 @@ class NearMissReportInfo {
       addedByUserImage: json['added_by_user_image'] ?? '',
       addedByUserThumbImage: json['added_by_user_thumb_image'] ?? '',
       files: (json['files'] as List?)
-          ?.map((f) => ReportFileInfo.fromJson(f))
+          ?.map((f) => AttachmentItemModel.fromJson(f))
           .toList() ?? [],
     );
   }

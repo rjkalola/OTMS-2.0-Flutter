@@ -2,6 +2,11 @@ import 'dart:ui';
 import 'package:belcka/pages/user_orders/project_service/project_folder_response.dart';
 import 'package:flutter/material.dart';
 
+import 'dart:ui';
+import 'package:flutter/material.dart';
+// Ensure this path matches your project structure
+import 'package:belcka/pages/user_orders/project_service/project_folder_response.dart';
+
 class FavoritePopupManager {
   static OverlayEntry? _overlayEntry;
 
@@ -11,24 +16,25 @@ class FavoritePopupManager {
     required List<ProjectFolderInfo> folders,
     required Function(ProjectFolderInfo) onProjectSelected,
   }) {
-    hide(); // Ensure any existing popup is removed
+    hide();
+
+    final RenderBox renderBox = context.findRenderObject() as RenderBox;
+    final position = renderBox.localToGlobal(Offset.zero);
+    final screenSize = MediaQuery.of(context).size;
+
+    bool showAbove = position.dy > (screenSize.height * 0.6);
 
     _overlayEntry = OverlayEntry(
       builder: (context) => Stack(
         children: [
-          // 1. ADDED: The Background Blur Layer
-          // Positioned.fill ensures it covers the entire screen
           Positioned.fill(
             child: GestureDetector(
-              onTap: hide, // Tap outside to dismiss
-              // AbsorbPointer prevents interactions with the blurred background
+              onTap: hide,
               behavior: HitTestBehavior.opaque,
-              child: ClipRect( // Required to keep the blur contained
+              child: ClipRect(
                 child: BackdropFilter(
-                  // Use a modest blur value to enhance the "Liquid Glass" look
                   filter: ImageFilter.blur(sigmaX: 1.0, sigmaY: 1.0),
                   child: Container(
-                    // Slightly darkened overlay to increase popup contrast
                     color: Colors.black.withOpacity(0.05),
                   ),
                 ),
@@ -36,21 +42,22 @@ class FavoritePopupManager {
             ),
           ),
 
-          // 2. The Popup Content (Unchanged positioning)
+          // Popup Content
           Positioned(
             width: 220,
             child: CompositedTransformFollower(
               link: layerLink,
               showWhenUnlinked: false,
-              followerAnchor: Alignment.topCenter,
-              targetAnchor: Alignment.bottomCenter,
-              offset: const Offset(0, 10),
+              followerAnchor: showAbove ? Alignment.bottomCenter : Alignment.topCenter,
+              targetAnchor: showAbove ? Alignment.topCenter : Alignment.bottomCenter,
+              offset: Offset(0, showAbove ? -10 : 10),
               child: Material(
                 color: Colors.transparent,
                 child: _FavoritePopupContent(
                   folders: folders,
-                  onSelected: (folders) {
-                    onProjectSelected(folders);
+                  showAbove: showAbove,
+                  onSelected: (selectedFolder) {
+                    onProjectSelected(selectedFolder);
                     hide();
                   },
                 ),
@@ -63,6 +70,7 @@ class FavoritePopupManager {
 
     Overlay.of(context).insert(_overlayEntry!);
   }
+
   static void hide() {
     _overlayEntry?.remove();
     _overlayEntry = null;
@@ -70,41 +78,50 @@ class FavoritePopupManager {
 }
 
 class _FavoritePopupContent extends StatelessWidget {
-  final List<ProjectFolderInfo> folders; // Updated type
+  final List<ProjectFolderInfo> folders;
   final Function(ProjectFolderInfo) onSelected;
+  final bool showAbove;
 
-  const _FavoritePopupContent({required this.folders, required this.onSelected});
+  const _FavoritePopupContent({
+    required this.folders,
+    required this.onSelected,
+    required this.showAbove,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final triangle = CustomPaint(
+      size: const Size(20, 10),
+      painter: TrianglePainter(isDown: showAbove),
+    );
+
+    final contentBox = Container(
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: const [
+          BoxShadow(color: Colors.black26, blurRadius: 15, offset: Offset(0, 5))
+        ],
+      ),
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxHeight: 250),
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: folders.map((project) => _buildItem(project)).toList(),
+          ),
+        ),
+      ),
+    );
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        CustomPaint(
-          size: const Size(20, 10),
-          painter: TrianglePainter(),
-        ),
-        Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: const [
-              BoxShadow(color: Colors.black26, blurRadius: 15, offset: Offset(0, 5))
-            ],
-          ),
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxHeight: 250),
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                // Map through the ProjectInfo list
-                children: folders.map((project) => _buildItem(project)).toList(),
-              ),
-            ),
-          ),
-        ),
+        if (!showAbove) triangle, // Show triangle on top if popup is below icon
+        contentBox,
+        if (showAbove) triangle, // Show triangle on bottom if popup is above icon
       ],
     );
   }
@@ -114,6 +131,7 @@ class _FavoritePopupContent extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: InkWell(
         onTap: () => onSelected(folder),
+        borderRadius: BorderRadius.circular(15),
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           decoration: BoxDecoration(
@@ -144,17 +162,28 @@ class _FavoritePopupContent extends StatelessWidget {
 }
 
 class TrianglePainter extends CustomPainter {
+  final bool isDown;
+
+  TrianglePainter({required this.isDown});
+
   @override
   void paint(Canvas canvas, Size size) {
     var paint = Paint()..color = Colors.white;
     var path = Path();
 
-    // Path for an upward pointing triangle
-    path.moveTo(size.width / 2, 0);          // Top tip
-    path.lineTo(size.width, size.height);    // Bottom right
-    path.lineTo(0, size.height);             // Bottom left
-    path.close();
+    if (isDown) {
+      // Triangle pointing down (arrow at bottom of popup)
+      path.moveTo(0, 0);
+      path.lineTo(size.width, 0);
+      path.lineTo(size.width / 2, size.height);
+    } else {
+      // Triangle pointing up (arrow at top of popup)
+      path.moveTo(size.width / 2, 0);
+      path.lineTo(size.width, size.height);
+      path.lineTo(0, size.height);
+    }
 
+    path.close();
     canvas.drawPath(path, paint);
   }
 

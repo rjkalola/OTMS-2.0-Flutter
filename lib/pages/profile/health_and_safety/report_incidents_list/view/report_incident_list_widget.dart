@@ -1,7 +1,6 @@
-import 'package:belcka/pages/profile/health_and_safety/near_miss_list/controller/near_miss_list_controller.dart';
+import 'package:belcka/pages/profile/health_and_safety/attachments_view/attachment_view.dart';
 import 'package:belcka/pages/profile/health_and_safety/report_incidents_list/controller/report_incident_list_controller.dart';
 import 'package:belcka/pages/profile/health_and_safety/widgets/incident_report_card.dart';
-import 'package:belcka/pages/profile/health_and_safety/widgets/near_miss_card.dart';
 import 'package:belcka/pages/profile/health_and_safety/widgets/showHSConfirmationDialog.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +19,6 @@ class _ReportIncidentListWidgetState extends State<ReportIncidentListWidget> {
   @override
   Widget build(BuildContext context) {
     return Obx(() => ListView.builder(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
       itemCount: controller.incidentsReportsList.length,
       itemBuilder: (context, index) {
         final incident = controller.incidentsReportsList[index];
@@ -33,7 +31,7 @@ class _ReportIncidentListWidgetState extends State<ReportIncidentListWidget> {
           date: incident.date,
           files: incident.files,
           onAttachmentTap: () {
-
+            AttachmentSheet.show(context, incident.files);
           },
           onEdit: () {
             var arguments = {"selectedIncidentToEdit": incident,"isEdit":true};
