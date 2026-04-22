@@ -61,6 +61,7 @@ dependencies:
   fl_chart: ^0.70.2
   flutter_colorpicker: ^1.1.0
   adaptive_platform_ui: ^0.1.104
+
 #  cupertino_native: 0.1.0
 
 dev_dependencies:

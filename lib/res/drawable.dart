@@ -156,4 +156,5 @@ class Drawable {
   static const String customMapMarker =
       'assets/images/ic_custom_map_marker.png';
   static const String historyIcon = 'assets/images/ic_history.svg';
+  static const String reportIcon = 'assets/images/ic_report.svg';
 }

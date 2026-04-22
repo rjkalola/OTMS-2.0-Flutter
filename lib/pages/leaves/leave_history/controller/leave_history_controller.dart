@@ -42,6 +42,7 @@ class LeaveHistoryController extends GetxController {
     if (userId != 0) map["user_id"] = userId;
     map["start_date"] = startDate;
     map["end_date"] = endDate;
+    map["type"] = AppConstants.requestType.leave;
 
     _api.getLeaveHistory(
       queryParameters: map,

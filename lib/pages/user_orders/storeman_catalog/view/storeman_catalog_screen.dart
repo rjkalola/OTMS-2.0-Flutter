@@ -65,7 +65,8 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
               ),
               backgroundColor: dashBoardBgColor_(context),
               body: ModalProgressHUD(
-                inAsyncCall: controller.isLoading.value,
+                inAsyncCall: controller.isLoading.value &&
+                    !controller.isProductsLoading.value,
                 opacity: 0,
                 progressIndicator: const CustomProgressbar(),
                 child: controller.isInternetNotAvailable.value
@@ -74,7 +75,8 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
                           controller.isInternetNotAvailable.value = false;
                         },
                       )
-                    : controller.isMainViewVisible.value
+                    : (controller.isMainViewVisible.value ||
+                            controller.isProductsLoading.value)
                         ? Padding(
                             padding: const EdgeInsets.all(0),
                             child: Stack(
@@ -86,8 +88,10 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
                                       child: Row(
                                         children: [
                                           Expanded(
-                                            child: controller
-                                                    .categories.isNotEmpty
+                                            child: (controller
+                                                        .isProductsLoading.value ||
+                                                    controller
+                                                        .categories.isNotEmpty)
                                                 ? StoremanProductsListWidget()
                                                 : EmptyStateView(
                                                     title: 'no_products_msg'.tr,

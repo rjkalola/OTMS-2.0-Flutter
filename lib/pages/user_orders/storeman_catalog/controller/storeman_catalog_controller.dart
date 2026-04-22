@@ -26,6 +26,7 @@ class StoremanCatalogController extends GetxController {
   RxBool isDeliverySelected = true.obs;
   final _api = StoremanCatalogRepository();
   RxBool isLoading = false.obs,
+      isProductsLoading = false.obs,
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
       isSearchEnable = false.obs,
@@ -180,6 +181,7 @@ class StoremanCatalogController extends GetxController {
 
   Future<void> fetchProducts() async {
     isLoading.value = true;
+    isProductsLoading.value = true;
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
     if (activeCategoryId.value > 0) {
@@ -206,9 +208,11 @@ class StoremanCatalogController extends GetxController {
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
+        isProductsLoading.value = false;
         isLoading.value = false;
       },
       onError: (ResponseModel error) {
+        isProductsLoading.value = false;
         isLoading.value = false;
         if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
           isInternetNotAvailable.value = true;

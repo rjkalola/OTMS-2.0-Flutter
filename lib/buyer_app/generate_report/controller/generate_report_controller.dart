@@ -4,9 +4,11 @@ import 'package:belcka/buyer_app/generate_report/view/generate_report_export_bot
 import 'package:belcka/pages/common/drop_down_multi_selection_list_dialog.dart';
 import 'package:belcka/pages/common/listener/select_date_range_listener.dart';
 import 'package:belcka/pages/common/listener/select_multi_item_listener.dart';
+import 'package:belcka/pages/common/widgets/download_result_bottom_sheet.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/date_utils.dart';
+import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/module_info.dart';
@@ -43,6 +45,7 @@ class GenerateReportController extends GetxController
   final sheetEndDate = ''.obs;
   final sheetModuleDisplayText = ''.obs;
   final sheetSelectedIds = <int>[].obs;
+  final lastDownloadedPath = ''.obs;
 
   @override
   void onInit() {
@@ -275,7 +278,7 @@ class GenerateReportController extends GetxController
     final fileName =
         'report_${typeKey}_${DateTime.now().millisecondsSinceEpoch}.xlsx';
     try {
-      await _api.downloadExportReport(
+      final downloadedPath = await _api.downloadExportReport(
         startDate: sheetStartDate.value,
         endDate: sheetEndDate.value,
         reportType: typeKey,
@@ -283,12 +286,34 @@ class GenerateReportController extends GetxController
         fileName: fileName,
         onProgress: (p) => exportProgress.value = p,
       );
-      AppUtils.showToastMessage('file_downloaded'.tr);
+      lastDownloadedPath.value = downloadedPath;
+      // AppUtils.showToastMessage('file_downloaded'.tr);
+      _showViewDocumentDialog(downloadedPath);
     } catch (e) {
       AppUtils.showToastMessage('download_failed'.tr);
     } finally {
       isExporting.value = false;
     }
+  }
+
+  void _showViewDocumentDialog(String filePath) {
+    Get.bottomSheet(
+      DownloadResultBottomSheet(
+        onClose: () => Get.back(),
+        onViewFile: () async {
+          Get.back();
+          final context = Get.context;
+          if (context == null) return;
+          await ImageUtils.openAttachment(
+            context,
+            filePath,
+            ImageUtils.getFileType(filePath),
+          );
+        },
+      ),
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+    );
   }
 
   void onBackPress() {

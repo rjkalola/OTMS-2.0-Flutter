@@ -5,11 +5,14 @@ import 'package:belcka/buyer_app/purchasing/view/widgets/orders_card_view.dart';
 import 'package:belcka/buyer_app/purchasing/view/widgets/other_card_view.dart';
 import 'package:belcka/pages/common/listener/date_filter_listener.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/drawable.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/widgets/other_widgets/right_arrow_widget.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -127,6 +130,13 @@ class _PurchasingScreenState extends State<PurchasingScreen>
 
   List<Widget>? actionButtons() {
     return [
+      GestureDetector(
+          onTap: () {
+            Get.toNamed(
+                AppRoutes.generateReportScreen);
+          },
+          child: ImageUtils.setSvgAssetsImage(
+              path: Drawable.reportIcon, width: 24, height: 24)),
       IconButton(
         icon: Icon(Icons.settings),
         onPressed: () {

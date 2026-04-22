@@ -58,8 +58,8 @@ class DropDownMultiSelectionListDialogState
             maxHeight: maxHeight,
           ),
           child: Container(
-            decoration: const BoxDecoration(
-                color: Colors.white,
+            decoration:  BoxDecoration(
+                color: backgroundColor_(context),
                 borderRadius:
                 BorderRadius.vertical(top: Radius.circular(20))),
             child: Column(mainAxisSize: MainAxisSize.min, children: [
@@ -308,9 +308,9 @@ class DropDownMultiSelectionListDialogState
                       textAlign: TextAlign.start,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
+                      style:  TextStyle(
                           fontSize: 17,
-                          color: Color(0xff333333),
+                          color: primaryTextColor_(context),
                           fontWeight: FontWeight.w400),
                     ),
                   )

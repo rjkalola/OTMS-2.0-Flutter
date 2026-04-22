@@ -27,6 +27,7 @@ class LeaveHistoryInfo {
   String? time;
   String? actionBy;
   String? typeName;
+  String? leaveType;
   String? message;
 
   LeaveHistoryInfo({
@@ -39,6 +40,7 @@ class LeaveHistoryInfo {
     this.time,
     this.actionBy,
     this.typeName,
+    this.leaveType,
     this.message,
   });
 
@@ -52,6 +54,7 @@ class LeaveHistoryInfo {
     time = json['time'];
     actionBy = json['action_by'];
     typeName = json['type_name'];
+    leaveType = json['leave_type'];
     message = json['message'];
   }
 }

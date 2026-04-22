@@ -119,8 +119,7 @@ class _DigitalIdCardScreenState extends State<DigitalIdCardScreen> {
                     : downloadController.downloadFile(
                     controller.digitalIdCardInfo.value.pdfDownloadUrl ?? "",
                     "${controller.digitalIdCardInfo.value.name ?? ""}'s ID Card.pdf",
-                    downloadSuccessMessage:
-                    'digital_id_card_downloaded'.tr);
+                    listener: controller);
               }
             }),
       )),

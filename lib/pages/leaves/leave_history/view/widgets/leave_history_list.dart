@@ -66,7 +66,7 @@ class LeaveHistoryList extends StatelessWidget {
                 alignment: Alignment.topLeft,
                 child: TextViewWithContainer(
                   margin: const EdgeInsets.only(left: 34, top: 0),
-                  text: 'Paid',
+                  text: info.leaveType??"",
                   padding: const EdgeInsets.fromLTRB(6, 0, 6, 0),
                   fontColor: Colors.white,
                   fontWeight: FontWeight.w400,

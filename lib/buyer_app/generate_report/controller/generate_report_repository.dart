@@ -50,7 +50,7 @@ class GenerateReportRepository {
     return "${dir.path}/$fileName";
   }
 
-  Future<void> downloadExportReport({
+  Future<String> downloadExportReport({
     required String startDate,
     required String endDate,
     required String reportType,
@@ -79,5 +79,6 @@ class GenerateReportRepository {
         }
       },
     );
+    return savePath;
   }
 }

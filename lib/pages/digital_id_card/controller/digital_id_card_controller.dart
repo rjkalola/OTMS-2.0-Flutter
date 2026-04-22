@@ -3,15 +3,19 @@ import 'dart:convert';
 import 'package:belcka/pages/digital_id_card/controller/digital_id_card_repository.dart';
 import 'package:belcka/pages/digital_id_card/model/digital_id_card_info.dart';
 import 'package:belcka/pages/digital_id_card/model/digital_id_card_response.dart';
+import 'package:belcka/pages/manageattachment/listener/download_file_listener.dart';
+import 'package:belcka/pages/common/widgets/download_result_bottom_sheet.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
-import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/response_model.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class DigitalIdCardController extends GetxController {
+class DigitalIdCardController extends GetxController
+    implements DownloadFileListener {
   final _api = DigitalIdCardRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
@@ -87,5 +91,33 @@ class DigitalIdCardController extends GetxController {
         ),
       )
       ..loadRequest(Uri.parse(url));
+  }
+
+  @override
+  void onDownload({required int progress, required String action}) {}
+
+  @override
+  void afterDownload({required String filaPath, required String action}) {
+    _showViewDocumentDialog(filaPath);
+  }
+
+  void _showViewDocumentDialog(String filePath) {
+    Get.bottomSheet(
+      DownloadResultBottomSheet(
+        onClose: () => Get.back(),
+        onViewFile: () async {
+          Get.back();
+          final context = Get.context;
+          if (context == null) return;
+          await ImageUtils.openAttachment(
+            context,
+            filePath,
+            ImageUtils.getFileType(filePath),
+          );
+        },
+      ),
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+    );
   }
 }
