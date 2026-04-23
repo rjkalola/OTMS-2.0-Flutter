@@ -1,3 +1,4 @@
+import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/text/SubTitleTextView.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
@@ -18,70 +19,88 @@ class OrderHistoryCard extends StatelessWidget {
     required this.status,
   });
 
-  bool get isCancelled => status == 7;
-  bool get isReturned => status == 8;
+  bool get isCancelled => status == AppConstants.internalOrderStatus.cancelled;
+  bool get isReturned => status == AppConstants.internalOrderStatus.returned;
 
   int get currentStep {
     // Preparing stage
-    if (status == 1 || status == 4 || status == 9) {
+    if (status == AppConstants.internalOrderStatus.newOrder ||
+        status == AppConstants.internalOrderStatus.preparing ||
+        status == AppConstants.internalOrderStatus.confirmed)
+    {
       return 0;
     }
     // Middle stage
-    if (status == 3 || status == 5 || status == 7) {
+    if (status == AppConstants.internalOrderStatus.rejected ||
+        status == AppConstants.internalOrderStatus.ready ||
+        status == AppConstants.internalOrderStatus.cancelled)
+    {
       return 1;
     }
     // Final stage
-    if (status == 2 || status == 6) {
+    if (status == AppConstants.internalOrderStatus.collected ||
+        status == AppConstants.internalOrderStatus.delivered ||
+        status == AppConstants.internalOrderStatus.partialDelivered)
+    {
       return 2;
     }
+
     return 0;
   }
 
   String get middleLabel {
-    if (status == 7) return 'cancelled'.tr;
-    if (status == 8) return 'returned'.tr;
+    if (status == AppConstants.internalOrderStatus.cancelled) return 'cancelled'.tr;
+    if (status == AppConstants.internalOrderStatus.returned) return 'returned'.tr;
     return 'ready'.tr;
   }
 
   String get lastStepLabel {
-    if (status == 6 || status == 1) {
+    if (status == AppConstants.internalOrderStatus.delivered) {
       return 'delivered'.tr;
     }
-    return 'collect'.tr;
+    if (status == AppConstants.internalOrderStatus.partialDelivered) {
+      return 'partially_delivered'.tr;
+    }
+    return 'collected'.tr;
   }
 
   Color getStepColor(int step) {
     // Status 1 → all grey
-    if (status == 1) {
+    if (status == AppConstants.internalOrderStatus.newOrder) {
       return Colors.grey.shade400;
     }
 
     // Status 4 → first blue
-    if (status == 4) {
+    if (status == AppConstants.internalOrderStatus.preparing) {
       if (step == 0) return Colors.blueAccent;
       return Colors.grey.shade400;
     }
 
     // Status 3,5,9 → first two blue
-    if (status == 3 || status == 5 || status == 9) {
+    if (status == AppConstants.internalOrderStatus.rejected ||
+        status == AppConstants.internalOrderStatus.ready ||
+        status == AppConstants.internalOrderStatus.confirmed)
+    {
       if (step <= 1) return Colors.blueAccent;
       return Colors.grey.shade400;
     }
 
     // Status 6,2 → all blue
-    if (status == 6 || status == 2) {
+    if (status == AppConstants.internalOrderStatus.delivered ||
+        status == AppConstants.internalOrderStatus.collected ||
+        status == AppConstants.internalOrderStatus.partialDelivered) {
       return Colors.blueAccent;
     }
 
     // Cancelled
-    if (status == 7) {
+    if (status == AppConstants.internalOrderStatus.cancelled) {
       if (step == 0) return Colors.blueAccent;
       if (step == 1) return Colors.red;
       return Colors.grey.shade400;
     }
 
     // Returned
-    if (status == 8) {
+    if (status == AppConstants.internalOrderStatus.returned) {
       if (step == 0) return Colors.blueAccent;
       if (step == 1) return Colors.orange;
       return Colors.grey.shade400;
@@ -91,17 +110,21 @@ class OrderHistoryCard extends StatelessWidget {
   }
 
   Color getLineColor(int step) {
-    if (status == 4 && step == 0) return Colors.blueAccent;
+    if (status == AppConstants.internalOrderStatus.preparing && step == 0) return Colors.blueAccent;
 
-    if ((status == 3 || status == 5 || status == 9) && step == 0) {
+    if ((status == AppConstants.internalOrderStatus.rejected ||
+        status == AppConstants.internalOrderStatus.ready ||
+        status == AppConstants.internalOrderStatus.confirmed) && step == 0) {
       return Colors.blueAccent;
     }
 
-    if (status == 6 || status == 2) {
+    if (status == AppConstants.internalOrderStatus.delivered ||
+        status == AppConstants.internalOrderStatus.collected ||
+        status == AppConstants.internalOrderStatus.partialDelivered) {
       return Colors.blueAccent;
     }
 
-    if (status == 7 && step == 0 || status == 8 && step == 0) {
+    if (status == AppConstants.internalOrderStatus.cancelled && step == 0 || status == AppConstants.internalOrderStatus.returned && step == 0) {
       return Colors.blueAccent;
     }
 

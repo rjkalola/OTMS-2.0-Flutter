@@ -14,6 +14,7 @@ class NearMissCard extends StatelessWidget {
   final String reportDescription;
   final String hazardType;
   final bool hasAttachment;
+  final String date;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
   final List<AttachmentItemModel> files;
@@ -26,6 +27,7 @@ class NearMissCard extends StatelessWidget {
     required this.reportDescription,
     required this.hazardType,
     this.hasAttachment = false,
+    required this.date,
     required this.onEdit,
     required this.onDelete,
     required this.files,
@@ -109,37 +111,34 @@ class NearMissCard extends StatelessWidget {
             ),
 
             const SizedBox(height: 8),
-            const Divider(height: 1, thickness: 0.4), // Subtle separation
+            const Divider(height: 1, thickness: 0.4),
             const SizedBox(height: 4),
 
-            // 3. Polished Bottom Actions
             Row(
               children: [
-                if (hasAttachment) ...[
+
+                // Date Display
+                Icon(Icons.calendar_today_outlined, size: 12, color: Colors.grey[500]),
+                const SizedBox(width: 4),
+                Text(date, style: TextStyle(color: Colors.grey[600], fontSize: 11)),
+
+                const Spacer(),
+
+                // Attachment Action
+                if (hasAttachment)
                   InkWell(
                     onTap: onAttachmentTap,
-                    borderRadius: BorderRadius.circular(4),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       child: Row(
                         children: [
                           Icon(Icons.attachment_rounded, color: defaultAccentColor_(context), size: 18),
-                          const SizedBox(width: 4),
-                          Text(
-                            "${'attachments'.tr} (${files.length})",
-                            style: TextStyle(
-                              color: defaultAccentColor_(context),
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
+                          const SizedBox(width: 2),
+                          Text("${files.length}", style: TextStyle(color: defaultAccentColor_(context), fontSize: 12, fontWeight: FontWeight.bold)),
                         ],
                       ),
                     ),
                   ),
-                ],
-
-                const Spacer(),
 
                 _buildActionButton(
                   icon: Icons.edit_outlined,

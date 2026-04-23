@@ -54,8 +54,7 @@ class _OrderDetailsOrdersListState extends State<OrderDetailsOrdersList> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
 
-                    if ((orders[index].status == AppConstants.internalOrderStatus.ready ||
-                        orders[index].status == AppConstants.internalOrderStatus.preparing))
+                    if ((orders[index].status == AppConstants.internalOrderStatus.ready))
 
                     CustomCheckbox(
                         onValueChange: (value) {
@@ -82,7 +81,6 @@ class _OrderDetailsOrdersListState extends State<OrderDetailsOrdersList> {
                     ),
 
                     const SizedBox(width: 12),
-
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,6 +112,17 @@ class _OrderDetailsOrdersListState extends State<OrderDetailsOrdersList> {
                             fontSize: 15,
                             fontWeight: FontWeight.w600,
                           ),
+                          if (isItemDelivered)
+                            Column(
+                              children: [
+                                SizedBox(height: 4,),
+                                TitleTextView(
+                                  text: "Delivered Qty: ${isSubQuantity ? "${deliveredQty.toInt()} $packOfUnit" : deliveredQty.toInt()}",
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ],
+                            ),
                         ],
                       ),
                     ),

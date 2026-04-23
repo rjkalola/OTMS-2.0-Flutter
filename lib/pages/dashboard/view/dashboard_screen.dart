@@ -52,69 +52,71 @@ class DashboardScreen extends StatelessWidget {
       },*/
         child: Container(
           color: dashBoardBgColor_(context),
-          child: SafeArea(
-              top: false,
-              child: ModalProgressHUD(
-                  inAsyncCall: dashboardController.isLoading.value,
-                  opacity: 0,
-                  progressIndicator: const CustomProgressbar(),
-                  child: AdaptiveScaffold(
-                    minimizeBehavior: TabBarMinimizeBehavior.never,
-                    // appBar: dashboardController.selectedIndex.value == 0
-                    //     ? null
-                    //     : BaseAppBar(
-                    //         appBar: AppBar(),
-                    //         title: dashboardController.title.value,
-                    //         isCenterTitle: false,
-                    //         isBack: true,
-                    //         widgets: actionButtons(),
-                    //       ),
-                    body: SizedBox(
-                      width: double.infinity,
-                      height: double.infinity,
-                      child: PageView(
-                        controller: dashboardController.pageController,
-                        onPageChanged: dashboardController.onPageChanged,
-                        physics: const NeverScrollableScrollPhysics(),
-                        children: dashboardController.tabs,
-                      ),
+          child: ModalProgressHUD(
+              inAsyncCall: dashboardController.isLoading.value,
+              opacity: 0,
+              progressIndicator: const CustomProgressbar(),
+              child: AdaptiveScaffold(
+                minimizeBehavior: TabBarMinimizeBehavior.never,
+                // appBar: dashboardController.selectedIndex.value == 0
+                //     ? null
+                //     : BaseAppBar(
+                //         appBar: AppBar(),
+                //         title: dashboardController.title.value,
+                //         isCenterTitle: false,
+                //         isBack: true,
+                //         widgets: actionButtons(),
+                //       ),
+                body: SafeArea(
+                  top: false,
+                  bottom: false,
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: double.infinity,
+                    child: PageView(
+                      controller: dashboardController.pageController,
+                      onPageChanged: dashboardController.onPageChanged,
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: dashboardController.tabs,
                     ),
+                  ),
+                ),
 
-                    bottomNavigationBar: AdaptiveBottomNavigationBar(
-                      selectedItemColor: defaultAccentColor_(context),
-                      unselectedItemColor: primaryTextColor_(context),
-                      useNativeBottomBar: true,
-                      bottomNavigationBar: Platform.isAndroid
-                          ? _androidDashboardNavigationBar(
-                              context, dashboardController)
-                          : null,
-                      items: [
-                        AdaptiveNavigationDestination(
-                          icon: 'house',
-                          label: 'Home',
-                        ),
-                        AdaptiveNavigationDestination(
-                          icon: 'bag',
-                          label: 'Store',
-                        ),
-                        /*
-                      AdaptiveNavigationDestination(
-                        icon: 'bubble.left.and.bubble.right',
-                        label: 'Chat',
-                      ),
-                      AdaptiveNavigationDestination(
-                        icon: 'sparkles',
-                        label: 'AI',
-                      ),
-                      */
-                      ],
-                      selectedIndex: dashboardController.selectedIndex.value,
-                      onTap: (index) {
-                        dashboardController.selectedIndex.value = index;
-                        dashboardController.onItemTapped(index);
-                      },
+                bottomNavigationBar: AdaptiveBottomNavigationBar(
+                  selectedItemColor: defaultAccentColor_(context),
+                  unselectedItemColor: primaryTextColor_(context),
+                  useNativeBottomBar: true,
+                  bottomNavigationBar: Platform.isAndroid
+                      ? _androidDashboardNavigationBar(
+                          context, dashboardController)
+                      : null,
+                  items: [
+                    AdaptiveNavigationDestination(
+                      icon: 'house',
+                      label: 'Home',
                     ),
-                  ))),
+                    AdaptiveNavigationDestination(
+                      icon: 'bag',
+                      label: 'Store',
+                    ),
+                    /*
+                  AdaptiveNavigationDestination(
+                    icon: 'bubble.left.and.bubble.right',
+                    label: 'Chat',
+                  ),
+                  AdaptiveNavigationDestination(
+                    icon: 'sparkles',
+                    label: 'AI',
+                  ),
+                  */
+                  ],
+                  selectedIndex: dashboardController.selectedIndex.value,
+                  onTap: (index) {
+                    dashboardController.selectedIndex.value = index;
+                    dashboardController.onItemTapped(index);
+                  },
+                ),
+              )),
         ),
       ),
     );

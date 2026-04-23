@@ -56,9 +56,6 @@ class OrderHistoryController extends GetxController {
     }
   }
 
-  static const int _statusDelivered = 6;
-  static const int _statusCollected = 2;
-
   void _applyOrderHistorySuccess(OrderHistoryResponse response) {
     tempList.clear();
     tempList.addAll(response.info ?? []);

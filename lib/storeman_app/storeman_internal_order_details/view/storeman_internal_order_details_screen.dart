@@ -208,13 +208,14 @@ class _StoremanInternalOrderDetailsScreenState
                                     child: SingleChildScrollView(
                                   child: Column(
                                     children: [
-                                      if (controller.status.value !=
-                                          AppConstants
-                                              .internalOrderStatus.ready)
+                                      // Show this ONLY if it is neither ready nor partialDelivered
+                                      if (controller.status.value != AppConstants.internalOrderStatus.ready &&
+                                          controller.status.value != AppConstants.internalOrderStatus.partialDelivered)
                                         OrderDetailsOrdersList(),
-                                      if (controller.status.value ==
-                                          AppConstants
-                                              .internalOrderStatus.ready)
+
+                                      // Show this if it is EITHER ready or partialDelivered
+                                      if (controller.status.value == AppConstants.internalOrderStatus.ready ||
+                                          controller.status.value == AppConstants.internalOrderStatus.partialDelivered)
                                         InternalOrderDetailsListWithQuantity()
                                     ],
                                   ),
@@ -322,9 +323,8 @@ class _StoremanInternalOrderDetailsScreenState
                                     color: Colors.green,
                                   ),
                                 //delivered
-                                if (controller.status.value ==
-                                        AppConstants
-                                            .internalOrderStatus.ready &&
+                                if ((controller.status.value == AppConstants.internalOrderStatus.ready ||
+                                    controller.status.value == AppConstants.internalOrderStatus.partialDelivered) &&
                                     controller.getSelectedItemsCount() > 0)
                                   Container(
                                     padding: const EdgeInsets.symmetric(
