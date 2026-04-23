@@ -18,7 +18,7 @@ class BuyerDraftOrderList extends StatelessWidget {
               child: ListView.separated(
                 keyboardDismissBehavior:
                     ScrollViewKeyboardDismissBehavior.onDrag,
-                physics: const AlwaysScrollableScrollPhysics(),
+                physics: const ClampingScrollPhysics(),
                 // shrinkWrap: true,
                 itemCount: controller.ordersList.length,
                 separatorBuilder: (_, __) => const SizedBox(height: 14),

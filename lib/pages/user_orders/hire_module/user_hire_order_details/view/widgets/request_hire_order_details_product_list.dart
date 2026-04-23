@@ -32,7 +32,7 @@ class RequestHireOrderDetailsProductList extends StatelessWidget {
       child: ListView.separated(
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         shrinkWrap: shrinkWrap,
-        physics: physics ?? const AlwaysScrollableScrollPhysics(),
+        physics: physics ?? const ClampingScrollPhysics(),
         itemCount: products.length,
         separatorBuilder: (_, __) => const SizedBox(height: 14),
         itemBuilder: (context, index) {

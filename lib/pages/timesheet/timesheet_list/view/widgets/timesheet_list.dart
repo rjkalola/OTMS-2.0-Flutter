@@ -30,7 +30,7 @@ class TimeSheetList extends StatelessWidget {
       },
       child: controller.timeSheetList.isNotEmpty
           ? ListView.separated(
-              physics: const AlwaysScrollableScrollPhysics(),
+              physics: const ClampingScrollPhysics(),
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
               itemBuilder: (context, position) {

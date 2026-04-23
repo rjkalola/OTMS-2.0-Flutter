@@ -25,7 +25,7 @@ class PaymentsList extends StatelessWidget {
       () => Expanded(
         child: controller.listPayments.isNotEmpty
             ? ListView.separated(
-                physics: const AlwaysScrollableScrollPhysics(),
+                physics: const ClampingScrollPhysics(),
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
                 itemBuilder: (context, position) {

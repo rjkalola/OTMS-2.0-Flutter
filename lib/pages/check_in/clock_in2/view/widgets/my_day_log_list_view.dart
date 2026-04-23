@@ -33,7 +33,7 @@ class MyDayLogListView extends StatelessWidget {
           (controller.workLogData.value.workLogInfo ?? []).isNotEmpty
               ? Expanded(
                   child: ListView(
-                    physics: const AlwaysScrollableScrollPhysics(),
+                    physics: const ClampingScrollPhysics(),
                     //
                     shrinkWrap: true,
                     scrollDirection: Axis.vertical,

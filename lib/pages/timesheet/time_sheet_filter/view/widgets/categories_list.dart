@@ -12,7 +12,7 @@ class CategoriesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() => Expanded(
           child: ListView(
-            physics: const AlwaysScrollableScrollPhysics(), //
+            physics: const ClampingScrollPhysics(), //
             shrinkWrap: true,
             scrollDirection: Axis.vertical,
             children: List.generate(

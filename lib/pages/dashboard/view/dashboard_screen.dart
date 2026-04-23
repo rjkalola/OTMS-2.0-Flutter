@@ -54,6 +54,7 @@ class DashboardScreen extends StatelessWidget {
           color: dashBoardBgColor_(context),
           child: SafeArea(
               top: false,
+              bottom: !GetPlatform.isIOS,
               child: ModalProgressHUD(
                   inAsyncCall: dashboardController.isLoading.value,
                   opacity: 0,

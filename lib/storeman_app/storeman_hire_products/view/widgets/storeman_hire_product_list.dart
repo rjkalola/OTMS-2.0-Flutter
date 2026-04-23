@@ -25,7 +25,7 @@ class StoremanHireProductList extends StatelessWidget {
           child: ListView.separated(
             controller: controller.ordersScrollController,
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-            physics: const AlwaysScrollableScrollPhysics(),
+            physics: const ClampingScrollPhysics(),
             itemCount: orders.length,
             separatorBuilder: (_, __) => const SizedBox(height: 14),
             itemBuilder: (context, index) {
@@ -53,7 +53,7 @@ class StoremanHireProductList extends StatelessWidget {
         child: ListView.separated(
           controller: controller.ordersScrollController,
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-          physics: const AlwaysScrollableScrollPhysics(),
+          physics: const ClampingScrollPhysics(),
           itemCount: lines.length,
           separatorBuilder: (_, __) => const SizedBox(height: 14),
           itemBuilder: (context, index) {

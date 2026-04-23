@@ -71,8 +71,8 @@ class DashboardGridView extends StatelessWidget {
                 return GridView(
                   key: _gridViewKey,
                   controller: _scrollController,
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  padding: const EdgeInsets.only(bottom: 16),
+                  physics: const ClampingScrollPhysics(),
+                  padding: const EdgeInsets.only(bottom: 30,top: 16),
                   children: children,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,

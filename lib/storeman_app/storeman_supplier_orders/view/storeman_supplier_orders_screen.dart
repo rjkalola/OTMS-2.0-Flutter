@@ -24,8 +24,10 @@ class StoremanSupplierOrdersScreen extends StatefulWidget {
       _StoremanSupplierOrdersScreenState();
 }
 
-class _StoremanSupplierOrdersScreenState extends State<StoremanSupplierOrdersScreen>
+class _StoremanSupplierOrdersScreenState
+    extends State<StoremanSupplierOrdersScreen>
     implements DateFilterListener {
+
   late final StoremanSupplierOrderController controller;
 
   @override
@@ -39,74 +41,79 @@ class _StoremanSupplierOrdersScreenState extends State<StoremanSupplierOrdersScr
     AppUtils.setStatusBarColor();
 
     return Obx(
-      () => Container(
+          () => Container(
         color: dashBoardBgColor_(context),
-        child: SafeArea(
-          top: false,
-          child: Scaffold(
-            backgroundColor: dashBoardBgColor_(context),
-            appBar: BaseAppBar(
-              appBar: AppBar(),
-              title: 'suppliers'.tr,
-              isCenterTitle: false,
-              isBack: true,
-              bgColor: backgroundColor_(context),
-              widgets: actionButtons(),
-              isSearching: controller.isSearchEnable.value,
-              searchController: controller.searchController,
-              onValueChange: (value) {
-                controller.searchItem(value);
-              },
-              autoFocus: true,
-              onPressedClear: () {
-                controller.clearSearch();
-                controller.isSearchEnable.value =
-                    !controller.isSearchEnable.value;
-              },
+        child: Scaffold(
+          backgroundColor: dashBoardBgColor_(context),
+          appBar: BaseAppBar(
+            appBar: AppBar(),
+            title: 'suppliers'.tr,
+            isCenterTitle: false,
+            isBack: true,
+            bgColor: backgroundColor_(context),
+            widgets: actionButtons(),
+            isSearching: controller.isSearchEnable.value,
+            searchController: controller.searchController,
+            onValueChange: (value) {
+              controller.searchItem(value);
+            },
+            autoFocus: true,
+            onPressedClear: () {
+              controller.clearSearch();
+              controller.isSearchEnable.value =
+              !controller.isSearchEnable.value;
+            },
+          ),
+          body: Padding(
+            padding: EdgeInsets.only(
+              bottom: GetPlatform.isIOS
+                  ? 0
+                  : MediaQuery.of(context).viewPadding.bottom,
             ),
-            body: ModalProgressHUD(
+            child: ModalProgressHUD(
               inAsyncCall: controller.isLoading.value,
               opacity: 0,
               progressIndicator: const CustomProgressbar(),
               child: controller.isInternetNotAvailable.value
                   ? NoInternetWidget(
-                      onPressed: () {
-                        controller.isInternetNotAvailable.value = false;
-                        controller.loadData();
-                      },
-                    )
+                onPressed: () {
+                  controller.isInternetNotAvailable.value = false;
+                  controller.loadData();
+                },
+              )
                   : Column(
-                      children: [
-                        _buildHeaderView(),
-                        const SizedBox(height: 12),
-                        DateFilterOptionsHorizontalList(
-                          padding: const EdgeInsets.fromLTRB(14, 0, 14, 6),
-                          startDate: controller.startDate.value,
-                          endDate: controller.endDate.value,
-                          listener: this,
-                          selectedPosition: controller.selectedDateFilterIndex,
+                children: [
+                  _buildHeaderView(),
+                  const SizedBox(height: 12),
+                  DateFilterOptionsHorizontalList(
+                    padding: const EdgeInsets.fromLTRB(14, 0, 14, 6),
+                    startDate: controller.startDate.value,
+                    endDate: controller.endDate.value,
+                    listener: this,
+                    selectedPosition:
+                    controller.selectedDateFilterIndex,
+                  ),
+                  if (controller.startDate.value.isNotEmpty &&
+                      controller.endDate.value.isNotEmpty)
+                    SizedBox(
+                      width: double.infinity,
+                      child: CardViewDashboardItem(
+                        padding: const EdgeInsets.all(6),
+                        margin: const EdgeInsets.only(
+                            left: 14, right: 14, top: 6, bottom: 6),
+                        borderRadius: 8,
+                        child: TitleTextView(
+                          textAlign: TextAlign.center,
+                          text:
+                          "${controller.startDate.value} - ${controller.endDate.value}",
                         ),
-                        if (controller.startDate.value.isNotEmpty &&
-                            controller.endDate.value.isNotEmpty)
-                          SizedBox(
-                            width: double.infinity,
-                            child: CardViewDashboardItem(
-                              padding: const EdgeInsets.all(6),
-                              margin: const EdgeInsets.only(
-                                  left: 14, right: 14, top: 6, bottom: 6),
-                              borderRadius: 8,
-                              child: TitleTextView(
-                                textAlign: TextAlign.center,
-                                text:
-                                    "${controller.startDate.value} - ${controller.endDate.value}",
-                              ),
-                            ),
-                          ),
-                        Expanded(
-                          child: StoremanSupplierOrderList(),
-                        ),
-                      ],
+                      ),
                     ),
+                  Expanded(
+                    child: StoremanSupplierOrderList(),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -120,7 +127,9 @@ class _StoremanSupplierOrdersScreenState extends State<StoremanSupplierOrdersScr
         color: backgroundColor_(context),
         boxShadow: [AppUtils.boxShadow(shadowColor_(context), 10)],
         borderRadius: const BorderRadius.only(
-            bottomLeft: Radius.circular(28), bottomRight: Radius.circular(28)),
+          bottomLeft: Radius.circular(28),
+          bottomRight: Radius.circular(28),
+        ),
       ),
       child: Column(
         children: [
@@ -141,7 +150,8 @@ class _StoremanSupplierOrdersScreenState extends State<StoremanSupplierOrdersScr
             if (controller.isSearchEnable.value) {
               controller.clearSearch();
             }
-            controller.isSearchEnable.value = !controller.isSearchEnable.value;
+            controller.isSearchEnable.value =
+            !controller.isSearchEnable.value;
           },
           customBorder: const CircleBorder(),
           child: Padding(
@@ -156,26 +166,17 @@ class _StoremanSupplierOrdersScreenState extends State<StoremanSupplierOrdersScr
         ),
       ),
       const SizedBox(width: 10),
-      // InkWell(
-      //   borderRadius: BorderRadius.circular(45),
-      //   onTap: () {
-      //     // Implement filter logic if needed
-      //   },
-      //   child: Padding(
-      //     padding: const EdgeInsets.only(right: 9),
-      //     child: ImageUtils.setSvgAssetsImage(
-      //         path: Drawable.filterIcon,
-      //         width: 26,
-      //         height: 26,
-      //         color: primaryTextColor_(Get.context!)),
-      //   ),
-      // ),
     ];
   }
 
   @override
-  void onSelectDateFilter(int filterIndex, String filter, String startDate,
-      String endDate, String dialogIdentifier) {
+  void onSelectDateFilter(
+      int filterIndex,
+      String filter,
+      String startDate,
+      String endDate,
+      String dialogIdentifier,
+      ) {
     controller.startDate.value = startDate;
     controller.endDate.value = endDate;
     controller.loadData();

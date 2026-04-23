@@ -44,7 +44,7 @@ class HeaderUserDetailsView extends StatelessWidget {
     return Obx(
       () => Padding(
         // Space so the bottom shadow is not clipped by the parent.
-        padding: const EdgeInsets.only(bottom: 14),
+        padding: const EdgeInsets.only(bottom: 0),
         child: Material(
           color: backgroundColor_(context),
           elevation: 8,

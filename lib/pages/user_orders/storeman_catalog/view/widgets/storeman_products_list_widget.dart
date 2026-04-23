@@ -562,7 +562,7 @@ class _ProductsLoadingSkeleton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      physics: const AlwaysScrollableScrollPhysics(),
+      physics: const ClampingScrollPhysics(),
       padding: const EdgeInsets.fromLTRB(16, 8, 8, 8),
       itemCount: 5,
       itemBuilder: (context, index) {

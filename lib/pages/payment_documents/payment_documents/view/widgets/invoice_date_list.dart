@@ -34,7 +34,7 @@ class InvoiceDateList extends StatelessWidget {
       return Expanded(
         child: filteredRecords.isNotEmpty
             ? ListView.separated(
-                physics: const AlwaysScrollableScrollPhysics(),
+                physics: const ClampingScrollPhysics(),
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   final info = filteredRecords[index];

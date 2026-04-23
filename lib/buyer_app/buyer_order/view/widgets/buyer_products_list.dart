@@ -20,7 +20,7 @@ class BuyerProductsList extends StatelessWidget {
                 controller: controller.requestScrollController,
                 keyboardDismissBehavior:
                     ScrollViewKeyboardDismissBehavior.onDrag,
-                physics: const AlwaysScrollableScrollPhysics(),
+                physics: const ClampingScrollPhysics(),
                 // shrinkWrap: true,
                 itemCount: controller.requestOrdersList.length,
                 separatorBuilder: (_, __) => const SizedBox(height: 10),

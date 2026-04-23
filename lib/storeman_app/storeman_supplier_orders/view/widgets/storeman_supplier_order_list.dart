@@ -19,7 +19,7 @@ class StoremanSupplierOrderList extends StatelessWidget {
               child: ListView.separated(
                 keyboardDismissBehavior:
                     ScrollViewKeyboardDismissBehavior.onDrag,
-                physics: const AlwaysScrollableScrollPhysics(),
+                physics: const ClampingScrollPhysics(),
                 itemCount: controller.ordersList.length,
                 separatorBuilder: (_, __) => const SizedBox(height: 14),
                 itemBuilder: (context, index) {

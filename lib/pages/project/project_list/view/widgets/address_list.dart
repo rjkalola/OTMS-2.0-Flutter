@@ -24,7 +24,7 @@ class AddressList extends StatelessWidget {
     return Obx(() => Expanded(
           child: controller.tempList.isNotEmpty
               ? ListView.separated(
-                  physics: const AlwaysScrollableScrollPhysics(),
+                  physics: const ClampingScrollPhysics(),
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, position) {

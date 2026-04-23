@@ -16,7 +16,7 @@ class TimesheetFilterList extends StatelessWidget {
     return Obx(() => Container(
           color: titleBgColor_(context),
           child: ListView(
-            physics: const AlwaysScrollableScrollPhysics(), //
+            physics: const ClampingScrollPhysics(), //
             shrinkWrap: true,
             scrollDirection: Axis.vertical,
             children: List.generate(

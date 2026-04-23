@@ -18,7 +18,7 @@ class BuyerStoresList extends StatelessWidget {
     return Expanded(
       child: controller.listItems.isNotEmpty
           ? ListView.separated(
-              physics: const AlwaysScrollableScrollPhysics(),
+              physics: const ClampingScrollPhysics(),
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
               itemBuilder: (context, position) {

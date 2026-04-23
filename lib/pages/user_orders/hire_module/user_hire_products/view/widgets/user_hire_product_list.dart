@@ -23,7 +23,7 @@ class UserHireProductList extends StatelessWidget {
         padding: const EdgeInsets.only(top: 10),
         child: ListView.separated(
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-          physics: const AlwaysScrollableScrollPhysics(),
+          physics: const ClampingScrollPhysics(),
           itemCount: products.length,
           separatorBuilder: (_, __) => const SizedBox(height: 14),
           itemBuilder: (context, index) {

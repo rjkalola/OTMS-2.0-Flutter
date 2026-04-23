@@ -24,7 +24,7 @@ class TimeSheetList extends StatelessWidget {
             true); // Add await to ensure proper async handling
       },
       child: ListView.separated(
-          physics: const AlwaysScrollableScrollPhysics(),
+          physics: const ClampingScrollPhysics(),
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
           itemBuilder: (context, position) {

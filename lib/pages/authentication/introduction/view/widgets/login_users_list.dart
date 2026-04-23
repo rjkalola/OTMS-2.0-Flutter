@@ -16,7 +16,7 @@ class LoginUsersList extends StatelessWidget {
           visible: controller.loginUsers.isNotEmpty,
           child: Expanded(
             child: ListView(
-              physics: const AlwaysScrollableScrollPhysics(), //
+              physics: const ClampingScrollPhysics(), //
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
               children: List.generate(

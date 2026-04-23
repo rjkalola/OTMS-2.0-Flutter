@@ -25,7 +25,7 @@ class TradeUserRecords extends StatelessWidget {
       () => Expanded(
         child: controller.listTrades.isNotEmpty
             ? ListView.separated(
-                physics: const AlwaysScrollableScrollPhysics(),
+                physics: const ClampingScrollPhysics(),
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
                 itemBuilder: (context, position) {

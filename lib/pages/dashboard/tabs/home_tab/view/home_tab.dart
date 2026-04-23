@@ -55,9 +55,6 @@ class _HomeTabState extends State<HomeTab> with AutomaticKeepAliveClientMixin {
                     children: [
                       HeaderUserDetailsView(),
                       // EditWidgetsButton(),
-                      SizedBox(
-                        height: 12,
-                      ),
                       DashboardGridView()
                       // DashboardGridView()
                     ],

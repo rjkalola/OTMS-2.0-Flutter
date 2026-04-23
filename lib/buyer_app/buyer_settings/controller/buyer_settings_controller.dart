@@ -48,10 +48,10 @@ class BuyerSettingsController extends GetxController {
         name: 'draft_orders'.tr,
         value: "",
         action: AppConstants.action.draftOrders));
-    listItems.add(ModuleInfo(
-        name: 'generate_report'.tr,
-        value: "",
-        action: AppConstants.action.generateReport));
+    // listItems.add(ModuleInfo(
+    //     name: 'generate_report'.tr,
+    //     value: "",
+    //     action: AppConstants.action.generateReport));
   }
 
   // void getProjectDetailsApi() {

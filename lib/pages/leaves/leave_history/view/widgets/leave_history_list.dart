@@ -1,6 +1,8 @@
 import 'package:belcka/pages/leaves/leave_history/controller/leave_history_controller.dart';
 import 'package:belcka/pages/leaves/leave_history/model/leave_history_response.dart';
+import 'package:belcka/pages/leaves/leave_utils.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/other_widgets/no_data_found_widget.dart';
@@ -61,17 +63,18 @@ class LeaveHistoryList extends StatelessWidget {
               ),
             ),
             Visibility(
-              visible: showPaidBadge,
+              visible: !StringHelper.isEmptyString(info.leaveType??""),
               child: Align(
                 alignment: Alignment.topLeft,
                 child: TextViewWithContainer(
                   margin: const EdgeInsets.only(left: 34, top: 0),
-                  text: info.leaveType??"",
+                  text: StringHelper.capitalizeFirstLetter(info.leaveType??""),
                   padding: const EdgeInsets.fromLTRB(6, 0, 6, 0),
                   fontColor: Colors.white,
                   fontWeight: FontWeight.w400,
                   fontSize: 11,
-                  boxColor: Colors.green,
+                  boxColor: LeaveUtils.getLeaveTypeColor(
+                      info.leaveType ?? ""),
                 ),
               ),
             ),
