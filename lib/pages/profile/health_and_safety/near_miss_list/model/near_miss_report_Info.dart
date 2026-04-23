@@ -8,6 +8,7 @@ class NearMissReportInfo {
   final int hazardId;
   final String hazardName;
   final String description;
+  final String date;
   final int addedBy;
   final String addedByUserName;
   final String addedByUserImage;
@@ -26,6 +27,7 @@ class NearMissReportInfo {
     required this.addedByUserImage,
     required this.addedByUserThumbImage,
     required this.files,
+    required this.date
   });
 
   // Helper to check if any files exist
@@ -39,6 +41,7 @@ class NearMissReportInfo {
       hazardId: json['hazard_id'] ?? 0,
       hazardName: json['hazard_name'] ?? '',
       description: json['description'] ?? '',
+      date: json['date'] ?? '',
       addedBy: json['added_by'] ?? 0,
       addedByUserName: json['added_by_user_name'] ?? '',
       addedByUserImage: json['added_by_user_image'] ?? '',

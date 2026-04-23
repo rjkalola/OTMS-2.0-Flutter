@@ -30,6 +30,7 @@ class _NearMissListWidgetState extends State<NearMissListWidget> {
           reportDescription: report.description ?? "",
           hazardType: report.hazardName ?? "",
           hasAttachment: report.hasAttachments,
+          date: report.date ?? "",
           files: report.files,
           onEdit: () {
             var arguments = {"selectedReportToEdit": report,"isEdit":true};

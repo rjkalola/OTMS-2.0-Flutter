@@ -878,6 +878,7 @@ class Strings extends Translations {
           'image_not_found':"Image not found",
           'click_to_open_pdf':"Click to open PDF",
           'file':"File",
+          'partially_delivered': "Partially Delivered",
 
 // '': "",
 // '': "",

@@ -30,19 +30,18 @@ class _StoremanProductsListWidgetState
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<StoremanCatalogController>();
-
     return Obx(() => RefreshIndicator(
           onRefresh: () async {
-            await controller.fetchProducts();
+            await controller.fetchProducts(isRefresh: true);
           },
           child: controller.isProductsLoading.value
               ? _ProductsLoadingSkeleton()
               : ListView.builder(
             padding: EdgeInsets.fromLTRB(16, 0, 8, 0),
             itemCount: controller.categories.length,
+            controller: controller.scrollController,
             itemBuilder: (context, catIndex) {
               final category = controller.categories[catIndex];
-
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -551,6 +550,7 @@ class _StoremanProductsListWidgetState
                 ],
               );
             },
+
           ),
         ));
   }
