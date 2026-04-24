@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/liquid_glass_effect/slider/precise_slider_widget.dart';
@@ -22,43 +25,33 @@ class CustomSlider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => SizedBox(
-        width: double.infinity,
-        child: CupertinoSlider(
-          value: progress.value.toDouble().clamp(min, max),
-          min: min,
-          max: max,
-          activeColor: defaultAccentColor_(context),
-          onChanged: onChanged,
-        ),
-      ),
-    );
-  }
-
- /* @override
-  Widget build(BuildContext context) {
-    if (AppUtils().isDeviceSupportsLiquidGlass()){
+    if (Platform.isAndroid){
       return Obx(
-            () => Padding(
-              padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-              child: CNSlider(
-                min: 0.0,
-                max: 100.0,
-                color: Colors.blueAccent,
-                value: progress.value.toDouble(),
-                onChanged: onChanged,
-              ),
-            ),
+            () => SizedBox(
+          width: double.infinity,
+          child: CupertinoSlider(
+            value: progress.value.toDouble().clamp(min, max),
+            min: min,
+            max: max,
+            activeColor: defaultAccentColor_(context),
+            onChanged: onChanged,
+          ),
+        ),
       );
     }
     else{
       return Obx(
-            () => PreciseSlider(
-          value: progress.value.toDouble(),
-          onChanged: onChanged,
+            () => Padding(
+          padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+          child: AdaptiveSlider(
+            min: min,
+            max: max,
+            value: progress.value.toDouble().clamp(min, max),
+            activeColor: defaultAccentColor_(context),
+            onChanged: onChanged,
+          ),
         ),
       );
     }
-  }*/
+  }
 }

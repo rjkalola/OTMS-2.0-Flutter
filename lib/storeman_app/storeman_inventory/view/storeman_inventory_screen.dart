@@ -42,7 +42,6 @@ class _StoremanInventoryScreenState extends State<StoremanInventoryScreen>
                 title: "inventory".tr,
                 isCenterTitle: false,
                 bgColor: backgroundColor_(context),
-                widgets: actionButtons(),
                 isBack: true,
                 shape: AppUtils.getAppbarShape(),
               ),
