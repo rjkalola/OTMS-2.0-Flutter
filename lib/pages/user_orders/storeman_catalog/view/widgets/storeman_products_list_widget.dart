@@ -71,7 +71,9 @@ class _StoremanProductsListWidgetState
                             color: primaryTextColor_(context),
                           ),
                         ),
+
                         //Show item count
+              /*
                         Container(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 8, vertical: 2),
@@ -85,6 +87,7 @@ class _StoremanProductsListWidgetState
                                 fontSize: 11, color: Colors.grey.shade600),
                           ),
                         )
+                        */
                       ],
                     ),
                   ),

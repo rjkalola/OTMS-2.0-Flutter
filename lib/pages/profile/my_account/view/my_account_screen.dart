@@ -56,7 +56,7 @@ class MyAccountScreen extends StatelessWidget {
                             // Profile Card
                             ProfileCardWidget(),
                             SizedBox(
-                              height: 16,
+                              height: 4,
                             ),
                             // Menu Buttons Grid
                             MenuButtonsGridWidget(),

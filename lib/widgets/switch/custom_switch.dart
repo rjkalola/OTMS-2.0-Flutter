@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/liquid_glass_effect/switch/precise_toggle_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,24 +23,21 @@ class CustomSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoSwitch(
-      // activeColor: activeCircleColor ?? Colors.white,
-      activeTrackColor: activeColor ?? Colors.green,
-      value: mValue,
-      onChanged: !(isDisable ?? false)
-          ? (value) {
-              onValueChange!(value);
-            }
-          : null,
-    );
-  }
-
- /* @override
-  Widget build(BuildContext context) {
-    if (AppUtils().isDeviceSupportsLiquidGlass()){
-      return CNSwitch(
+    if (Platform.isAndroid){
+      return CupertinoSwitch(
+        // activeColor: activeCircleColor ?? Colors.white,
+        activeTrackColor: activeColor ?? Colors.green,
         value: mValue,
-        color: activeColor,
+        onChanged: !(isDisable ?? false)
+            ? (value) {
+          onValueChange!(value);
+        }
+            : null,
+      );
+    }
+    else{
+      return AdaptiveSwitch(
+        value: mValue,
         onChanged:(value) {
           if (isDisable == true) {
             null;
@@ -47,19 +47,5 @@ class CustomSwitch extends StatelessWidget {
         },
       );
     }
-    else{
-      return PreciseToggle(
-        value: mValue,
-        onChanged: (value) {
-          if (isDisable == true) {
-            null;
-          } else {
-            onValueChange!(value);
-          }
-        },
-        activeColor: activeColor,
-        activeCircleColor: activeCircleColor,
-      );
-    }
-  }*/
+  }
 }

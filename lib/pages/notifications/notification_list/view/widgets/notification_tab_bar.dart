@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:belcka/pages/notifications/notification_list/controller/notification_list_controller.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/res/theme/theme_config.dart';
@@ -14,93 +16,106 @@ class NotificationTabBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() =>
-        //   Container(
-        // margin: EdgeInsets.fromLTRB(16, 0, 16, 0),
-        // padding: EdgeInsets.all(6),
-        // decoration: AppUtils.getGrayBorderDecoration(
-        //     color: ThemeConfig.isDarkMode
-        //         ? AppUtils.getColor("#2D2D2D")
-        //         : AppUtils.getColor("#D8D8D8"),
-        //     radius: 15),
-        //   child:
-        CardViewDashboardItem(
-            margin: EdgeInsets.fromLTRB(16, 0, 16, 0),
-            padding: EdgeInsets.all(2),
-            borderRadius: 45,
-            child: Row(
-              children: [
-                Flexible(
-                    flex: 1,
-                    fit: FlexFit.tight,
-                    child: CardViewDashboardItem(
-                      boxColor: controller.selectedIndex.value == 0
-                          ? null
-                          : Colors.transparent,
-                      borderColor: controller.selectedIndex.value == 0
-                          ? null
-                          : Colors.transparent,
-                      blur: controller.selectedIndex.value == 0 ? null : 0,
-                      boxShadow:
-                          controller.selectedIndex.value == 0 ? null : [],
-                      child: TextViewWithContainer(
-                        height: 38,
-                        // borderRadius: 15,
-                        // boxColor: controller.selectedIndex.value == 0
-                        //     ? backgroundColor_(context)
-                        //     : Colors.transparent,
-                        text: 'feed'.tr,
-                        fontColor: controller.selectedIndex.value == 0
-                            ? primaryTextColor_(context)
-                            : secondaryLightTextColor_(context),
-                        fontWeight: controller.selectedIndex.value == 0
-                            ? FontWeight.w600
-                            : FontWeight.w400,
-                        alignment: Alignment.center,
-                        onTap: () {
-                          controller.selectedIndex.value = 0;
-                          controller
-                              .onItemTapped(controller.selectedIndex.value);
-                        },
-                      ),
-                    )),
-                Flexible(
-                    flex: 1,
-                    fit: FlexFit.tight,
-                    child: CardViewDashboardItem(
-                      boxColor: controller.selectedIndex.value == 1
-                          ? null
-                          : Colors.transparent,
-                      borderColor: controller.selectedIndex.value == 1
-                          ? null
-                          : Colors.transparent,
-                      blur: controller.selectedIndex.value == 1 ? null : 0,
-                      boxShadow:
-                          controller.selectedIndex.value == 1 ? null : [],
-                      child: TextViewWithContainer(
-                        height: 38,
-                        // borderRadius: 15,
-                        // boxColor: controller.selectedIndex.value == 1
-                        //     ? backgroundColor_(context)
-                        //     : Colors.transparent,
-                        text: controller.announcementCount.value > 0
-                            ? "${'announcement'.tr} (${controller.announcementCount.value})"
-                            : 'announcement'.tr,
-                        fontColor: controller.selectedIndex.value == 1
-                            ? primaryTextColor_(context)
-                            : secondaryLightTextColor_(context),
-                        fontWeight: controller.selectedIndex.value == 1
-                            ? FontWeight.w600
-                            : FontWeight.w400,
-                        alignment: Alignment.center,
-                        onTap: () {
-                          controller.selectedIndex.value = 1;
-                          controller
-                              .onItemTapped(controller.selectedIndex.value);
-                        },
-                      ),
-                    )),
-              ],
-            )));
+    if (Platform.isAndroid){
+      return Obx(() =>
+          CardViewDashboardItem(
+              margin: EdgeInsets.fromLTRB(16, 0, 16, 0),
+              padding: EdgeInsets.all(2),
+              borderRadius: 45,
+              child: Row(
+                children: [
+                  Flexible(
+                      flex: 1,
+                      fit: FlexFit.tight,
+                      child: CardViewDashboardItem(
+                        boxColor: controller.selectedIndex.value == 0
+                            ? null
+                            : Colors.transparent,
+                        borderColor: controller.selectedIndex.value == 0
+                            ? null
+                            : Colors.transparent,
+                        blur: controller.selectedIndex.value == 0 ? null : 0,
+                        boxShadow:
+                        controller.selectedIndex.value == 0 ? null : [],
+                        child: TextViewWithContainer(
+                          height: 38,
+                          // borderRadius: 15,
+                          // boxColor: controller.selectedIndex.value == 0
+                          //     ? backgroundColor_(context)
+                          //     : Colors.transparent,
+                          text: 'feed'.tr,
+                          fontColor: controller.selectedIndex.value == 0
+                              ? primaryTextColor_(context)
+                              : secondaryLightTextColor_(context),
+                          fontWeight: controller.selectedIndex.value == 0
+                              ? FontWeight.w600
+                              : FontWeight.w400,
+                          alignment: Alignment.center,
+                          onTap: () {
+                            controller.selectedIndex.value = 0;
+                            controller
+                                .onItemTapped(controller.selectedIndex.value);
+                          },
+                        ),
+                      )),
+                  Flexible(
+                      flex: 1,
+                      fit: FlexFit.tight,
+                      child: CardViewDashboardItem(
+                        boxColor: controller.selectedIndex.value == 1
+                            ? null
+                            : Colors.transparent,
+                        borderColor: controller.selectedIndex.value == 1
+                            ? null
+                            : Colors.transparent,
+                        blur: controller.selectedIndex.value == 1 ? null : 0,
+                        boxShadow:
+                        controller.selectedIndex.value == 1 ? null : [],
+                        child: TextViewWithContainer(
+                          height: 38,
+                          // borderRadius: 15,
+                          // boxColor: controller.selectedIndex.value == 1
+                          //     ? backgroundColor_(context)
+                          //     : Colors.transparent,
+                          text: controller.announcementCount.value > 0
+                              ? "${'announcement'.tr} (${controller.announcementCount.value})"
+                              : 'announcement'.tr,
+                          fontColor: controller.selectedIndex.value == 1
+                              ? primaryTextColor_(context)
+                              : secondaryLightTextColor_(context),
+                          fontWeight: controller.selectedIndex.value == 1
+                              ? FontWeight.w600
+                              : FontWeight.w400,
+                          alignment: Alignment.center,
+                          onTap: () {
+                            controller.selectedIndex.value = 1;
+                            controller
+                                .onItemTapped(controller.selectedIndex.value);
+                          },
+                        ),
+                      )),
+                ],
+              )));
+    }
+    else{
+      return Obx(() => Container(
+        margin: EdgeInsets.fromLTRB(16, 0, 16, 0),
+        padding: EdgeInsets.all(2),
+        height: 50,
+        child: AdaptiveSegmentedControl(
+          labels: [
+            'feed'.tr,
+            controller.announcementCount.value > 0
+                ? "${'announcement'.tr} (${controller.announcementCount.value})"
+                : 'announcement'.tr,
+          ],
+          selectedIndex: controller.selectedIndex.value,
+          onValueChanged: (index) {
+            controller.selectedIndex.value = index;
+            controller.onItemTapped(index);
+          },
+        ),
+      ));
+    }
   }
 }
