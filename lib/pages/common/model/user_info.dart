@@ -24,6 +24,7 @@ class UserInfo {
   bool? isCheckIn;
   String? lastWorkedTime;
   String? lastWorkedDate;
+  String? statusColor;
 
   UserInfo(
       {this.id,
@@ -50,7 +51,8 @@ class UserInfo {
       this.userCode,
       this.isCheckIn,
       this.lastWorkedTime,
-      this.lastWorkedDate});
+      this.lastWorkedDate,
+      this.statusColor});
 
   UserInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -78,6 +80,7 @@ class UserInfo {
     isCheckIn = json['is_check_in'];
     lastWorkedTime = json['last_worked_time'];
     lastWorkedDate = json['last_worked_date'];
+    statusColor = json['status_color'];
   }
 
   Map<String, dynamic> toJson() {
@@ -107,6 +110,7 @@ class UserInfo {
     data['is_check_in'] = this.isCheckIn;
     data['last_worked_time'] = this.lastWorkedTime;
     data['last_worked_date'] = this.lastWorkedDate;
+    data['status_color'] = this.statusColor;
     return data;
   }
 
@@ -133,7 +137,8 @@ class UserInfo {
       String? userCode,
       bool? isCheckIn,
       String? lastWorkedTime,
-      String? lastWorkedDate}) {
+      String? lastWorkedDate,
+      String? statusColor}) {
     return UserInfo(
         id: id ?? this.id,
         firstName: firstName ?? this.firstName,
@@ -159,7 +164,8 @@ class UserInfo {
         userCode: userCode ?? this.userCode,
         isCheckIn: isCheckIn ?? this.isCheckIn,
         lastWorkedTime: lastWorkedTime ?? this.lastWorkedTime,
-        lastWorkedDate: lastWorkedDate ?? this.lastWorkedDate);
+        lastWorkedDate: lastWorkedDate ?? this.lastWorkedDate,
+        statusColor: statusColor ?? this.statusColor);
   }
 
   UserInfo copyUserInfo({UserInfo? userInfo}) {
@@ -189,6 +195,7 @@ class UserInfo {
         userCode: userInfo?.userCode ?? this.userCode,
         isCheckIn: userInfo?.isCheckIn ?? this.isCheckIn,
         lastWorkedTime: userInfo?.lastWorkedTime ?? this.lastWorkedTime,
-        lastWorkedDate: userInfo?.lastWorkedDate ?? this.lastWorkedDate);
+        lastWorkedDate: userInfo?.lastWorkedDate ?? this.lastWorkedDate,
+        statusColor: userInfo?.statusColor ?? this.statusColor);
   }
 }

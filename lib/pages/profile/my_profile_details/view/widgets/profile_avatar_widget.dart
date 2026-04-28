@@ -9,15 +9,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 
+import '../../../../../utils/app_utils.dart';
+
 class ProfileAvatarWidget extends StatelessWidget {
-   ProfileAvatarWidget({super.key});
+  ProfileAvatarWidget({super.key});
+
   final controller = Get.put(MyProfileDetailsController());
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-      },
+      onTap: () {},
       child: Center(
         child: Stack(
           clipBehavior: Clip.none,
@@ -35,16 +37,16 @@ class ProfileAvatarWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 child: !StringHelper.isEmptyString(controller.imagePath.value)
                     ? Image.file(
-                  File(controller.imagePath.value!),
-                  fit: BoxFit.cover,
-                )
+                        File(controller.imagePath.value!),
+                        fit: BoxFit.cover,
+                      )
                     : Image.network(
-                  controller.myProfileInfo.value.userThumbImage ?? "",
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => _placeholder(),
-                  loadingBuilder: (_, child, loading) =>
-                  loading == null ? child : _placeholder(),
-                ),
+                        controller.myProfileInfo.value.userThumbImage ?? "",
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, __, ___) => _placeholder(),
+                        loadingBuilder: (_, child, loading) =>
+                            loading == null ? child : _placeholder(),
+                      ),
               ),
             ),
 
@@ -56,7 +58,14 @@ class ProfileAvatarWidget extends StatelessWidget {
                 width: 16,
                 height: 16,
                 decoration: BoxDecoration(
-                  color: controller.myProfileInfo.value.isWorking ?? false ? Colors.green : Colors.red,
+                  color: (controller.myProfileInfo.value.statusColor != null &&
+                          controller.myProfileInfo.value.statusColor!
+                              .startsWith("#"))
+                      ? AppUtils.getColor(
+                          controller.myProfileInfo.value.statusColor ??
+                              "#FF1744")
+                      : Colors.redAccent,
+                  // color: controller.myProfileInfo.value.isWorking ?? false ? Colors.green : Colors.red,
                   shape: BoxShape.circle,
                   border: Border.all(
                     color: Colors.white,

@@ -50,8 +50,8 @@ class UserAvtarView extends StatelessWidget {
             padding: EdgeInsets.all(onlineStatusPadding ?? 2.0),
             child: CircleWidget(
                 color: onlineStatusColor ?? Colors.green,
-                width: onlineStatusSize ?? 12,
-                height: onlineStatusSize ?? 12),
+                width: onlineStatusSize ?? 10,
+                height: onlineStatusSize ?? 10),
           ),
         )
       ],

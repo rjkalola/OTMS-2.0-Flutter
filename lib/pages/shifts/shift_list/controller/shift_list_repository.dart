@@ -4,12 +4,15 @@ import 'package:belcka/web_services/response/response_model.dart';
 
 class ShiftListRepository {
   void getShiftList({
-    // Map<String, dynamic>? queryParameters,
-    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    // dynamic data,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
-    ApiRequest(url: ApiConstants.shiftList, data: data, isFormData: false)
+    ApiRequest(
+            url: ApiConstants.shiftList,
+            queryParameters: queryParameters,
+            isFormData: false)
         .getRequest(
       onSuccess: (data) {
         onSuccess!(data);

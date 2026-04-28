@@ -3,6 +3,7 @@ import 'package:belcka/pages/profile/my_account/full_screen_image_view/full_scre
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
@@ -17,6 +18,7 @@ class ProfileCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("statusColor:" + (controller.userInfo.value.statusColor).toString());
     bool isWorking = controller.isOtherUserProfile.value
         ? (controller.userInfo.value.isWorking ?? false)
         : true;
@@ -39,7 +41,13 @@ class ProfileCardWidget extends StatelessWidget {
             },
             child: UserAvtarView(
               isOnlineStatusVisible: true,
-              onlineStatusColor: isWorking ? Colors.green : Colors.redAccent,
+              onlineStatusColor: (controller.userInfo.value.statusColor !=
+                          null &&
+                      controller.userInfo.value.statusColor!.startsWith("#"))
+                  ? AppUtils.getColor(
+                      controller.userInfo.value.statusColor ?? "#FF1744")
+                  : Colors.redAccent,
+              // onlineStatusColor: isWorking ? Colors.green : Colors.redAccent,
               imageSize: 50,
               imageUrl: controller.userInfo.value.userThumbImage ?? "",
             ),

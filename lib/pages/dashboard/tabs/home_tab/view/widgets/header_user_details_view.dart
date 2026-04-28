@@ -79,10 +79,16 @@ class HeaderUserDetailsView extends StatelessWidget {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          UserAvtarView(
+                          UserAvtarView( 
                             imageUrl:
                                 controller.userInfo.value.userThumbImage ?? "",
                             isOnlineStatusVisible: true,
+                            onlineStatusColor: (controller.userInfo.value.statusColor !=
+                                null &&
+                                controller.userInfo.value.statusColor!.startsWith("#"))
+                                ? AppUtils.getColor(
+                                controller.userInfo.value.statusColor ?? "#FF1744")
+                                : Colors.redAccent,
                             imageBorderColor: avatarBorder,
                             imageBorderWidth: 1.5,
                             // onlineStatusColor: statusGrey,

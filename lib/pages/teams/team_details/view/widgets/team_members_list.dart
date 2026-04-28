@@ -54,9 +54,10 @@ class TeamMembersList extends StatelessWidget {
                   UserInfo info = members[index];
                   return GestureDetector(
                     onTap: () {
-                      if (!(controller.teamInfo.value.isSubcontractor ?? false)) {
+                      if (!(controller.teamInfo.value.isSubcontractor ??
+                          false)) {
                         AppUtils.onClickUserAvatar(info.id ?? 0);
-                      }else{
+                      } else {
                         AppUtils.showToastMessage('user_not_exist_message'.tr);
                       }
                     },
@@ -67,8 +68,14 @@ class TeamMembersList extends StatelessWidget {
                         child: Row(
                           children: [
                             UserAvtarView(
-                              imageUrl: info.userThumbImage ?? "",
-                            ),
+                                imageUrl: info.userThumbImage ?? "",
+                                isOnlineStatusVisible: true,
+                                onlineStatusSize: 10,
+                                onlineStatusColor: (info.statusColor != null &&
+                                        info.statusColor!.startsWith("#"))
+                                    ? AppUtils.getColor(
+                                        info.statusColor ?? "#FF1744")
+                                    : Colors.redAccent),
                             const SizedBox(width: 12),
                             Expanded(
                               child: Column(

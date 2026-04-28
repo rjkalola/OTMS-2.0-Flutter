@@ -134,7 +134,7 @@ class AddTimeSheetController extends GetxController
     map["company_id"] = ApiConstants.companyId;
     map["project_id"] = projectId;
     ShiftListRepository().getShiftList(
-      data: map,
+      queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           ShiftListResponse response =

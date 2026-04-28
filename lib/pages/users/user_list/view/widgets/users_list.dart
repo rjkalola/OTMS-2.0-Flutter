@@ -7,6 +7,8 @@ import 'package:belcka/widgets/text/PrimaryTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../../utils/app_utils.dart';
+
 class UsersList extends StatelessWidget {
   UsersList({super.key});
 
@@ -36,6 +38,13 @@ class UsersList extends StatelessWidget {
                             UserAvtarView(
                               imageUrl: info.userThumbImage ?? "",
                               imageSize: 52,
+                              isOnlineStatusVisible: true,
+                              onlineStatusColor: (info.statusColor != null &&
+                                      info.statusColor!.startsWith("#"))
+                                  ? AppUtils.getColor(
+                                      info.statusColor ?? "#FF1744")
+                                  : Colors.redAccent,
+
                             ),
                             SizedBox(
                               width: 12,
