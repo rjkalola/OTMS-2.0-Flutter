@@ -18,6 +18,13 @@ import 'package:get/get.dart';
 
 class AnnouncementTabController extends GetxController {
   final _api = AnnouncementTabRepository();
+  static const List<Map<String, String>> reactionOptions = [
+    {"emoji": "😊", "code": "1f60a"},
+    {"emoji": "😠", "code": "1f620"},
+    {"emoji": "👍", "code": "1f44d"},
+    {"emoji": "👎", "code": "1f44e"},
+    {"emoji": "😢", "code": "1f622"},
+  ];
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs;
@@ -136,5 +143,108 @@ class AnnouncementTabController extends GetxController {
     if (!StringHelper.isEmptyString(ids)) {
       announcementReadApi(ids);
     }
+  }
+
+  Future<void> storeAnnouncementFeed({
+    required int announcementId,
+    required String emoji,
+    required String emojiCode,
+  }) async {
+    Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
+    map["emoji"] = emoji;
+    map["emoji_code"] = emojiCode;
+    map["id"] = announcementId;
+    map["user_id"] = UserUtils.getLoginUserId();
+    _api.storeFeed(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        bool hasServerMessage = false;
+        if (responseModel.isSuccess) {
+          // AnnouncementListResponse response = AnnouncementListResponse.fromJson(
+          //     jsonDecode(responseModel.result!));
+
+          // int index = -1;
+          // for (var info in announcementList) {
+          //   if ((info.id ?? 0) == announcementId) {
+          //     index = announcementList.indexOf(info);
+          //     break;
+          //   }
+          // }
+
+
+
+          // hasServerMessage = _updateAnnouncementReactionFromResponse(
+          //   announcementId: announcementId,
+          //   responseRaw: responseModel.result,
+          //   selectedEmoji: emoji,
+          //   selectedEmojiCode: emojiCode,
+          // );
+
+
+        }
+        // if (!hasServerMessage &&
+        //     (responseModel.statusMessage ?? "").isNotEmpty) {
+        //   AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        // }
+      },
+      onError: (ResponseModel error) {
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        } else if ((error.statusMessage ?? "").isNotEmpty) {
+          AppUtils.showApiResponseMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
+
+  bool _updateAnnouncementReactionFromResponse({
+    required int announcementId,
+    required String? responseRaw,
+    required String selectedEmoji,
+    required String selectedEmojiCode,
+  }) {
+    final int currentUserId = UserUtils.getLoginUserId();
+    AnnouncementFeedInfo? reactionInfo;
+    String? serverMessage;
+
+    if ((responseRaw ?? "").isNotEmpty) {
+      final decoded = jsonDecode(responseRaw ?? "");
+      if (decoded is Map<String, dynamic>) {
+        serverMessage = decoded["message"]?.toString();
+        if (decoded["info"] is Map) {
+          reactionInfo = AnnouncementFeedInfo.fromJson(
+            (decoded["info"] as Map).cast<String, dynamic>(),
+          );
+        }
+      }
+    }
+
+    final hasServerMessage = (serverMessage ?? "").isNotEmpty;
+    if (hasServerMessage) {
+      AppUtils.showApiResponseMessage(serverMessage ?? "");
+    }
+
+    reactionInfo ??= AnnouncementFeedInfo(
+      announcementId: announcementId,
+      userId: currentUserId,
+      action: selectedEmoji,
+      code: selectedEmojiCode,
+    );
+
+    final index = announcementList.indexWhere(
+      (item) => (item.announcementId ?? 0) == announcementId,
+    );
+    if (index < 0) return hasServerMessage;
+
+    final announcement = announcementList[index];
+    final feeds = <AnnouncementFeedInfo>[...(announcement.feeds ?? [])];
+    feeds.removeWhere((feed) => (feed.userId ?? 0) == currentUserId);
+    feeds.add(reactionInfo);
+
+    announcement.feeds = feeds;
+    announcementList[index] = announcement;
+    announcementList.refresh();
+    return hasServerMessage;
   }
 }

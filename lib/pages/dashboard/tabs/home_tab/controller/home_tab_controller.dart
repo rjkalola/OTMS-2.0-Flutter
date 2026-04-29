@@ -687,7 +687,10 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       moveToScreen(appRout: AppRoutes.userAnalyticsScoreScreen);
     } else if (info.slug == 'map') {
       moveToScreen2(appRout: AppRoutes.userZonesScreen);
+    }else if (info.slug == 'health_safety') {
+      moveToScreen2(appRout: AppRoutes.healthAndSafetyScreen);
     }
+
   }
 
   Future<void> showControlPanelDialog() async {

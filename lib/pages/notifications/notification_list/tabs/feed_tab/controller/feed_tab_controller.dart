@@ -268,6 +268,7 @@ class FeedTabController extends GetxController {
             AppConstants.intentKey.orderId: info.recordId ?? 0,
             AppConstants.intentKey.projectId: info.projectId ?? 0,
             AppConstants.intentKey.fromNotification: true,
+            AppConstants.intentKey.hireRequestShowApprove: UserUtils.isAdmin()
           };
           moveToScreen(AppRoutes.userHireOrderDetailsScreen,
               arguments: arguments, index: index);

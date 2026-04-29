@@ -1,3 +1,4 @@
+import 'package:belcka/utils/user_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:belcka/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart';
@@ -13,7 +14,7 @@ class AnalyticsDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppUtils.isAdmin()
+    return UserUtils.isAdmin()
         ? Divider(
       thickness: 3,
       color: dividerColor_(context),

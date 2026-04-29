@@ -353,6 +353,19 @@ class NotificationService {
           };
           Get.offAllNamed(rout, arguments: arguments);
         }
+      }
+      //Hire
+      else if (notificationType ==
+          AppConstants.notificationType.hireOrderStatus) {
+        String rout = AppRoutes.userHireOrderDetailsScreen;
+        int recordId = int.parse(data['record_id'] ?? "0");
+        var arguments = {
+          AppConstants.intentKey.orderId: recordId,
+          // AppConstants.intentKey.projectId: info.projectId ?? 0,
+          AppConstants.intentKey.fromNotification: true,
+          AppConstants.intentKey.hireRequestShowApprove: UserUtils.isAdmin()
+        };
+        Get.offAllNamed(rout, arguments: arguments);
       } else {
         Get.offAllNamed(AppRoutes.splashScreen);
       }

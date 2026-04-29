@@ -1,3 +1,4 @@
+import 'package:belcka/utils/user_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -16,7 +17,7 @@ class AnalyticsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppUtils.isAdmin()
+    return UserUtils.isAdmin()
         ? Padding(
             padding: const EdgeInsets.fromLTRB(20, 12, 14, 12),
             child: Row(children: [

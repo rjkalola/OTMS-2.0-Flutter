@@ -2,6 +2,8 @@ import 'package:belcka/pages/common/model/file_info.dart';
 import 'package:belcka/pages/notifications/create_announcement/controller/create_announcement_controller.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/widgets/gridview/document_gridview.dart';
+import 'package:belcka/widgets/gridview/image_gridview.dart';
+import 'package:belcka/widgets/image/document_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

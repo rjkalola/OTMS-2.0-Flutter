@@ -260,23 +260,25 @@ class StoremanHireProductController extends GetxController
     } else {
       orderId = hireProductsList[index].orderIdInt ?? 0;
     }
-    final dynamic result = await Get.toNamed(
-      AppRoutes.userHireOrderDetailsScreen,
-      arguments: {
-        AppConstants.intentKey.orderId: orderId,
-        if (!fromRequest)
-          AppConstants.intentKey.projectId:
-              (hireProductsList[index].productId ?? 0),
-        AppConstants.intentKey.fromRequest: fromRequest,
-        if (fromRequest) AppConstants.intentKey.hireRequestShowApprove: true,
-      },
-    );
-    if (result != null && result is Map) {
-      final ok = result[AppConstants.intentKey.result] == true;
-      if (ok) {
-        final status = result[AppConstants.intentKey.status] as int? ?? 0;
-        _selectTabFromHireApiStatus(status);
-        loadData();
+    if (orderId != 0) {
+      final dynamic result = await Get.toNamed(
+        AppRoutes.userHireOrderDetailsScreen,
+        arguments: {
+          AppConstants.intentKey.orderId: orderId,
+          if (!fromRequest)
+            AppConstants.intentKey.projectId:
+                (hireProductsList[index].productId ?? 0),
+          AppConstants.intentKey.fromRequest: fromRequest,
+          if (fromRequest) AppConstants.intentKey.hireRequestShowApprove: true,
+        },
+      );
+      if (result != null && result is Map) {
+        final ok = result[AppConstants.intentKey.result] == true;
+        if (ok) {
+          final status = result[AppConstants.intentKey.status] as int? ?? 0;
+          _selectTabFromHireApiStatus(status);
+          loadData();
+        }
       }
     }
   }

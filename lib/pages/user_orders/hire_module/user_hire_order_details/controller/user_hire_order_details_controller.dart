@@ -6,9 +6,11 @@ import 'package:belcka/pages/user_orders/hire_module/user_hire_order_details/mod
 import 'package:belcka/pages/user_orders/hire_module/user_hire_products/model/hire_order_info.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
 import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
+import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/response_model.dart';
@@ -38,7 +40,7 @@ class UserHireOrderDetailsController extends GetxController
   int _productId = 0;
   int _pendingStatus = 0;
   bool _shouldSendNeedService = false;
-  bool fromFeed = false;
+  bool fromNotification = false;
 
   @override
   void onInit() {
@@ -47,15 +49,18 @@ class UserHireOrderDetailsController extends GetxController
     if (arguments != null) {
       _orderId = arguments[AppConstants.intentKey.orderId] ?? 0;
       _productId = arguments[AppConstants.intentKey.projectId] ?? 0;
-      fromFeed = arguments[AppConstants.intentKey.fromNotification] ?? false;
-      if (!fromFeed) {
+      fromNotification =
+          arguments[AppConstants.intentKey.fromNotification] ?? false;
+      if (!fromNotification) {
         isRequestFlow.value =
             arguments[AppConstants.intentKey.fromRequest] == true;
-        if (isRequestFlow.value) {
-          showHireRequestApprove.value =
-              arguments[AppConstants.intentKey.hireRequestShowApprove] == true;
-        }
       }
+      // if (isRequestFlow.value) {
+      showHireRequestApprove.value =
+          arguments[AppConstants.intentKey.hireRequestShowApprove] == true;
+      print("showHireRequestApprove.value:" +
+          showHireRequestApprove.value.toString());
+      // }
     }
     if (_orderId > 0) {
       loadDetail();
@@ -78,12 +83,13 @@ class UserHireOrderDetailsController extends GetxController
               jsonDecode(responseModel.result!));
           orderInfo.value = response.info ?? HireOrderInfo();
           productsList.assignAll(orderInfo.value.products ?? []);
-          if (fromFeed &&
+          if (fromNotification &&
               (orderInfo.value.status ?? 0) ==
                   AppConstants.hireStatus.request) {
-            isRequestFlow.value = AppUtils.isAdmin();
-            if (isRequestFlow.value) {
-              showHireRequestApprove.value = true;
+            isRequestFlow.value = UserUtils.isAdmin();
+            print("isRequestFlow.value::::" + isRequestFlow.value.toString());
+            if (!isRequestFlow.value) {
+              showHireRequestApprove.value = false;
             }
           }
           isMainViewVisible.value = true;
@@ -101,10 +107,6 @@ class UserHireOrderDetailsController extends GetxController
         }
       },
     );
-  }
-
-  void onBackPress() {
-    Get.back();
   }
 
   void onToggleProductSelection(int index, bool? value) {
@@ -308,4 +310,12 @@ class UserHireOrderDetailsController extends GetxController
 
   @override
   void onOtherButtonClicked(String dialogIdentifier) {}
+
+  void onBackPress() {
+    if (fromNotification) {
+      Get.offNamed(AppRoutes.dashboardScreen);
+    } else {
+      Get.back();
+    }
+  }
 }

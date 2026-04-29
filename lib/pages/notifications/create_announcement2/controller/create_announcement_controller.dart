@@ -53,8 +53,8 @@ class CreateAnnouncementController extends GetxController
     // if (arguments != null) {
     //   teamInfo = arguments[AppConstants.intentKey.teamInfo];
     // }
-    // FilesInfo info = FilesInfo();
-    // attachmentList.add(info);
+    FilesInfo info = FilesInfo();
+    attachmentList.add(info);
     loadResources(true);
   }
 
@@ -196,16 +196,16 @@ class CreateAnnouncementController extends GetxController
 
   onGridItemClick(int index, String action) async {
     if (action == AppConstants.action.viewPhoto) {
-      // if (index == 0) {
-      //   showAttachmentOptionsDialog();
-      // } else {
+      if (index == 0) {
+        showAttachmentOptionsDialog();
+      } else {
         // var list = attachmentList.sublist(1, attachmentList.length);
         // ImageUtils.moveToImagePreview(list, index - 1);
 
         String fileUrl = attachmentList[index].imageUrl ?? "";
         await ImageUtils.openAttachment(
             Get.context!, fileUrl, ImageUtils.getFileType(fileUrl));
-      // }
+      }
     } else if (action == AppConstants.action.removePhoto) {
       removePhotoFromList(index: index);
     }

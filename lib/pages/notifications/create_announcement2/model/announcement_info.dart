@@ -17,7 +17,6 @@ class AnnouncementInfo {
   int? unreadCount;
   String? unreadIds;
   bool? isRead;
-  List<AnnouncementFeedInfo>? feeds;
 
   AnnouncementInfo(
       {this.id,
@@ -35,8 +34,7 @@ class AnnouncementInfo {
       this.date,
       this.unreadCount,
       this.unreadIds,
-      this.isRead,
-      this.feeds});
+      this.isRead});
 
   AnnouncementInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -60,12 +58,6 @@ class AnnouncementInfo {
     unreadCount = json['unread_count'];
     unreadIds = json['unread_ids'];
     isRead = json['is_read'];
-    if (json['feeds'] != null) {
-      feeds = <AnnouncementFeedInfo>[];
-      json['feeds'].forEach((v) {
-        feeds!.add(AnnouncementFeedInfo.fromJson(v));
-      });
-    }
   }
 
   Map<String, dynamic> toJson() {
@@ -88,56 +80,6 @@ class AnnouncementInfo {
     data['unread_count'] = this.unreadCount;
     data['unread_ids'] = this.unreadIds;
     data['is_read'] = this.isRead;
-    if (this.feeds != null) {
-      data['feeds'] = this.feeds!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
-}
-
-class AnnouncementFeedInfo {
-  int? id;
-  int? announcementId;
-  int? userId;
-  String? action;
-  String? code;
-  String? userName;
-  String? userImage;
-  String? userThumbImage;
-
-  AnnouncementFeedInfo(
-      {this.id,
-      this.announcementId,
-      this.userId,
-      this.action,
-      this.code,
-      this.userName,
-      this.userImage,
-      this.userThumbImage});
-
-  AnnouncementFeedInfo.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    announcementId = json['annoucemnet_id'] ?? json['announcement_id'];
-    userId = json['user_id'];
-    action = json['action'];
-    action ??= json['emoji'];
-    code = json['code'];
-    code ??= json['emoji_code'];
-    userName = json['user_name'];
-    userImage = json['user_image'];
-    userThumbImage = json['user_thumb_image'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['annoucemnet_id'] = announcementId;
-    data['user_id'] = userId;
-    data['action'] = action;
-    data['code'] = code;
-    data['user_name'] = userName;
-    data['user_image'] = userImage;
-    data['user_thumb_image'] = userThumbImage;
     return data;
   }
 }

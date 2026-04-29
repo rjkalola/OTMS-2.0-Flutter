@@ -278,6 +278,7 @@ class ApiConstants {
   static String announcementDetails = '$appUrl/announcements/detail';
   static String announcementDelete = '$appUrl/announcements/delete';
   static String announcementRead = '$appUrl/announcements/mark-as-read';
+  static String announcementStoreFeed = '$appUrl/announcements/store-feed';
 
   //my account
   static String userProfile = '$appUrl/user/profile';

@@ -17,6 +17,233 @@ class AnnouncementList extends StatelessWidget {
   AnnouncementList({super.key});
 
   final controller = Get.put(AnnouncementTabController());
+  static const Map<String, String> _emojiByCode = {
+    "1f60a": "😊",
+    "1f620": "😠",
+    "1f44d": "👍",
+    "1f44e": "👎",
+    "1f622": "😢",
+  };
+
+  Future<void> _showReactionMenu(
+      BuildContext context, Offset position, AnnouncementInfo info) async {
+    final selectedReaction = await showDialog<Map<String, String>>(
+      context: context,
+      barrierColor: Colors.transparent,
+      builder: (dialogContext) {
+        return Stack(
+          children: [
+            Positioned(
+              left: (position.dx - 150).clamp(12.0, 2400.0),
+              top: (position.dy - 72).clamp(50.0, 2400.0),
+              child: Material(
+                color: Colors.transparent,
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: ThemeConfig.isDarkMode
+                        ? AppUtils.getColor("#1f2129")
+                        : Colors.white,
+                    borderRadius: BorderRadius.circular(26),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.18),
+                        blurRadius: 10,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: AnnouncementTabController.reactionOptions
+                        .map(
+                          (reaction) => InkWell(
+                            borderRadius: BorderRadius.circular(20),
+                            onTap: () => Navigator.of(dialogContext)
+                                .pop(reaction),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 7),
+                              child: Text(
+                                reaction["emoji"] ?? "",
+                                style: const TextStyle(fontSize: 24),
+                              ),
+                            ),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (selectedReaction != null) {
+      controller.storeAnnouncementFeed(
+        announcementId: info.announcementId ?? 0,
+        emoji: selectedReaction["emoji"] ?? "",
+        emojiCode: selectedReaction["code"] ?? "",
+      );
+    }
+  }
+
+  Map<String, int> _reactionCountMap(AnnouncementInfo info) {
+    final map = <String, int>{};
+    for (final feed in (info.feeds ?? <AnnouncementFeedInfo>[])) {
+      final code = (feed.code ?? "").toLowerCase();
+      final emoji = _emojiByCode[code] ?? feed.action ?? "";
+      if (emoji.isEmpty) continue;
+      map[emoji] = (map[emoji] ?? 0) + 1;
+    }
+    return map;
+  }
+
+  List<AnnouncementFeedInfo> _allFeeds(AnnouncementInfo info) {
+    return (info.feeds ?? <AnnouncementFeedInfo>[]);
+  }
+
+  String _feedEmoji(AnnouncementFeedInfo feed) {
+    final code = (feed.code ?? "").toLowerCase();
+    return _emojiByCode[code] ?? feed.action ?? "";
+  }
+
+  void _showEmojiDetailsBottomSheet(BuildContext context, AnnouncementInfo info) {
+    final emojiFeeds = _allFeeds(info);
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: ThemeConfig.isDarkMode
+          ? AppUtils.getColor("#1f2129")
+          : Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
+      ),
+      builder: (sheetContext) {
+        return SafeArea(
+          child: SizedBox(
+            height: MediaQuery.of(sheetContext).size.height * 0.62,
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                  child: Row(
+                    children: [
+                      InkWell(
+                        onTap: () => Navigator.of(sheetContext).pop(),
+                        child: const Icon(Icons.arrow_back, size: 24),
+                      ),
+                      const SizedBox(width: 12),
+                      PrimaryTextView(
+                        text: "Feed Emoji Details",
+                        fontSize: 17,
+                        color: primaryTextColor_(sheetContext),
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: emojiFeeds.isEmpty
+                      ? Center(
+                          child: PrimaryTextView(
+                            text: "No reactions found",
+                            fontSize: 15,
+                            color: secondaryLightTextColor_(sheetContext),
+                            fontWeight: FontWeight.w400,
+                          ),
+                        )
+                      : ListView.separated(
+                          padding: const EdgeInsets.fromLTRB(16, 10, 16, 24),
+                          itemCount: emojiFeeds.length,
+                          separatorBuilder: (_, __) =>
+                              const SizedBox(height: 14),
+                          itemBuilder: (_, index) {
+                            final feed = emojiFeeds[index];
+                            return Row(
+                              children: [
+                                UserAvtarView(
+                                  imageUrl: feed.userThumbImage ??
+                                      feed.userImage ??
+                                      "",
+                                  imageSize: 35,
+                                ),
+                                const SizedBox(width: 14),
+                                Expanded(
+                                  child: PrimaryTextView(
+                                    text: feed.userName ?? "-",
+                                    fontSize: 16,
+                                    color: primaryTextColor_(sheetContext),
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                                Text(
+                                  _feedEmoji(feed),
+                                  style: const TextStyle(fontSize: 22),
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildReactionSummary(
+      BuildContext context, AnnouncementInfo info, Color textColor) {
+    final reactions = _reactionCountMap(info);
+    if (reactions.isEmpty) {
+      return const SizedBox.shrink();
+    }
+    return Padding(
+      padding: const EdgeInsets.only(left: 12, top: 10),
+      child: Wrap(
+        spacing: 8,
+        runSpacing: 6,
+        children: reactions.entries
+            .map(
+              (entry) => InkWell(
+                borderRadius: BorderRadius.circular(18),
+                onTap: () => _showEmojiDetailsBottomSheet(context, info),
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: ThemeConfig.isDarkMode
+                        ? AppUtils.getColor("#2d2f3a")
+                        : AppUtils.getColor("#f1f3f5"),
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(entry.key, style: const TextStyle(fontSize: 15)),
+                      const SizedBox(width: 6),
+                      Text(
+                        entry.value.toString(),
+                        style: TextStyle(
+                          color: textColor,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            )
+            .toList(),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +272,10 @@ class AnnouncementList extends StatelessWidget {
                       };
                       controller.moveToScreen(
                           AppRoutes.announcementDetailsScreen, arguments);
+                    },
+                    onLongPressStart: (details) {
+                      _showReactionMenu(
+                          context, details.globalPosition, info);
                     },
                     child: Container(
                       padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
@@ -87,6 +318,11 @@ class AnnouncementList extends StatelessWidget {
                                     color: secondaryLightTextColor_(context),
                                     fontWeight: FontWeight.w400,
                                   ),
+                                ),
+                                _buildReactionSummary(
+                                  context,
+                                  info,
+                                  secondaryLightTextColor_(context),
                                 ),
                               ],
                             ),
