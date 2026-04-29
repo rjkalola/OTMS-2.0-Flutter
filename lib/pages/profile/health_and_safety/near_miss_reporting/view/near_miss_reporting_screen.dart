@@ -159,7 +159,6 @@ class _NearMissReportingScreenState extends State<NearMissReportingScreen> {
                             ),
                             const SizedBox(height: 16),
 
-                            // --- THE UPLOAD SECTION ---
                             GestureDetector(
                               onTap: (){
                                 FocusManager.instance.primaryFocus?.unfocus();
@@ -208,5 +207,4 @@ class _NearMissReportingScreenState extends State<NearMissReportingScreen> {
       ),
     );
   }
-
 }

@@ -2,6 +2,7 @@ import 'package:belcka/pages/user_orders/favorite_popup/add_folder_view.dart';
 import 'package:belcka/pages/user_orders/favorite_popup/favorite_popup_manager.dart';
 import 'package:belcka/pages/user_orders/project_service/project_service.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/controller/storeman_catalog_controller.dart';
+import 'package:belcka/pages/user_orders/storeman_catalog/view/widgets/products_loading_skeleton.dart';
 import 'package:belcka/pages/user_orders/widgets/icons/bookmark_icon_widget.dart';
 import 'package:belcka/pages/user_orders/widgets/icons/cart_icon_widget.dart';
 import 'package:belcka/pages/user_orders/widgets/out_of_stock_banner.dart';
@@ -35,7 +36,7 @@ class _StoremanProductsListWidgetState
             await controller.fetchProducts(isRefresh: true);
           },
           child: controller.isProductsLoading.value
-              ? _ProductsLoadingSkeleton()
+              ? ProductsLoadingSkeleton()
               : ListView.builder(
             padding: EdgeInsets.fromLTRB(16, 0, 8, 0),
             itemCount: controller.categories.length,
@@ -45,7 +46,7 @@ class _StoremanProductsListWidgetState
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8),
                   Container(
                     width: double.infinity,
                     padding: const EdgeInsets.symmetric(
@@ -91,9 +92,10 @@ class _StoremanProductsListWidgetState
                       ],
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 12),
                   ListView.builder(
                     shrinkWrap: true,
+                    padding: EdgeInsets.zero,
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: category.products.length,
                     itemBuilder: (context, index) {
@@ -132,7 +134,7 @@ class _StoremanProductsListWidgetState
                           );
                         },
                         child: CardViewDashboardItem(
-                          margin: const EdgeInsets.symmetric(vertical: 6),
+                          margin: const EdgeInsets.only(bottom: 8),
                           child: Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Column(
@@ -146,8 +148,8 @@ class _StoremanProductsListWidgetState
                                       children: [
                                         // 1. The Image Box (Increased Size)
                                         Container(
-                                          width: 110, // Increased from 130
-                                          height: 110, // Increased from 130
+                                          width: 130,
+                                          height: 130,
                                           decoration: BoxDecoration(
                                             color: lightGreyColor(context),
                                           ),
@@ -168,7 +170,7 @@ class _StoremanProductsListWidgetState
                                                 child: SizedBox.expand(
                                                   child: Image.network(
                                                     product.productImages?[imgIndex].thumbUrl ?? "",
-                                                    fit: BoxFit.fill,
+                                                    fit: BoxFit.cover,
                                                     alignment: Alignment.center,
                                                     errorBuilder: (context, error, stack) {
                                                       return Center(
@@ -556,215 +558,5 @@ class _StoremanProductsListWidgetState
 
           ),
         ));
-  }
-}
-
-class _ProductsLoadingSkeleton extends StatelessWidget {
-  const _ProductsLoadingSkeleton();
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      physics: const ClampingScrollPhysics(),
-      padding: const EdgeInsets.fromLTRB(16, 8, 8, 8),
-      itemCount: 5,
-      itemBuilder: (context, index) {
-        return Column(
-          children: [
-            const _SkeletonProductCard(),
-            SizedBox(height: 6,)
-            // if (index < 4)
-            //   Padding(
-            //     padding: const EdgeInsets.symmetric(vertical: 8),
-            //     child: _SkeletonBox(
-            //       height: 8,
-            //       width: double.infinity,
-            //       borderRadius: 2,
-            //     ),
-            //   ),
-          ],
-        );
-      },
-    );
-  }
-}
-
-class _SkeletonProductCard extends StatelessWidget {
-  const _SkeletonProductCard();
-
-  @override
-  Widget build(BuildContext context) {
-    return CardViewDashboardItem(
-      margin: const EdgeInsets.symmetric(vertical: 4),
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                _SkeletonCircle(size: 90),
-                SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _SkeletonBox(
-                        height: 14,
-                        width: double.infinity,
-                        borderRadius: 8,
-                      ),
-                      SizedBox(height: 8),
-                      _SkeletonBox(
-                        height: 14,
-                        width: 220,
-                        borderRadius: 8,
-                      ),
-                      SizedBox(height: 8),
-                      _SkeletonBox(
-                        height: 14,
-                        width: 180,
-                        borderRadius: 8,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 14),
-            const _SkeletonBox(
-              height: 1,
-              width: double.infinity,
-              borderRadius: 9,
-            ),
-            // const SizedBox(height: 8),
-            // const _SkeletonBox(
-            //   height: 18,
-            //   width: double.infinity,
-            //   borderRadius: 9,
-            // ),
-            // const SizedBox(height: 8),
-            // const _SkeletonBox(
-            //   height: 18,
-            //   width: 260,
-            //   borderRadius: 9,
-            // ),
-            const SizedBox(height: 12),
-            Row(
-              children: const [
-                _SkeletonBox(height: 20, width: 20, borderRadius: 10),
-                SizedBox(width: 6),
-                _SkeletonBox(height: 20, width: 20, borderRadius: 10),
-                SizedBox(width: 6),
-                _SkeletonBox(height: 20, width: 20, borderRadius: 10),
-                SizedBox(width: 6),
-                _SkeletonBox(height: 20, width: 48, borderRadius: 10),
-                Spacer(),
-                _SkeletonBox(height: 24, width: 140, borderRadius: 12),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _SkeletonBox extends StatelessWidget {
-  final double height;
-  final double width;
-  final double borderRadius;
-
-  const _SkeletonBox({
-    required this.height,
-    required this.width,
-    this.borderRadius = 8,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return _AnimatedSkeletonBox(
-      height: height,
-      width: width,
-      borderRadius: borderRadius,
-    );
-  }
-}
-
-class _SkeletonCircle extends StatelessWidget {
-  final double size;
-
-  const _SkeletonCircle({required this.size});
-
-  @override
-  Widget build(BuildContext context) {
-    return _AnimatedSkeletonBox(
-      height: size,
-      width: size,
-      borderRadius: 0,
-    );
-  }
-}
-
-class _AnimatedSkeletonBox extends StatefulWidget {
-  final double height;
-  final double width;
-  final double borderRadius;
-
-  const _AnimatedSkeletonBox({
-    required this.height,
-    required this.width,
-    required this.borderRadius,
-  });
-
-  @override
-  State<_AnimatedSkeletonBox> createState() => _AnimatedSkeletonBoxState();
-}
-
-class _AnimatedSkeletonBoxState extends State<_AnimatedSkeletonBox>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1300),
-    )..repeat();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final base = isDark ? const Color(0xFF3A3A3A) : const Color(0xFFE1E5EA);
-    final highlight = isDark ? const Color(0xFF565656) : const Color(0xFFF7F9FB);
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, child) {
-        final slide = _controller.value;
-        final start = (slide - 1).clamp(-1.0, 1.0);
-        final end = (slide + 1).clamp(-1.0, 2.0);
-        return Container(
-          height: widget.height,
-          width: widget.width,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(widget.borderRadius),
-            gradient: LinearGradient(
-              begin: Alignment(start, 0),
-              end: Alignment(end, 0),
-              colors: [base, highlight, base],
-              stops: const [0.25, 0.5, 0.75],
-            ),
-          ),
-        );
-      },
-    );
   }
 }

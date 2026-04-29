@@ -1,3 +1,4 @@
+import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:belcka/pages/profile/billing_info/view/widgets/title_text.dart';
 import 'package:belcka/pages/profile/health_info/controller/health_info_controller.dart';
 import 'package:belcka/pages/profile/health_info/model/health_issue_form_item.dart';
@@ -73,6 +74,7 @@ class _QuestionTile extends StatelessWidget {
                     'yes'.tr,
                     style: TextStyle(color: primaryTextColor_(context)),
                   ),
+
                   Radio<bool>(
                     value: true,
                     activeColor: defaultAccentColor_(context),

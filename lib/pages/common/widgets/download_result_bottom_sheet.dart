@@ -9,10 +9,12 @@ class DownloadResultBottomSheet extends StatelessWidget {
     super.key,
     required this.onViewFile,
     required this.onClose,
+    this.subtitle
   });
 
   final VoidCallback onViewFile;
   final VoidCallback onClose;
+  final String? subtitle;
 
   @override
   Widget build(BuildContext context) {
@@ -55,10 +57,21 @@ class DownloadResultBottomSheet extends StatelessWidget {
                     ],
                   ),
                 ),
+
+                if (subtitle != null)
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+                    child: Text(
+                      subtitle!,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
+                    ),
+                  ),
+
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 22, 20, 12),
                   child: TitleTextView(
-                    text: 'view_downloaded_document'.tr,
+                    text: 'view_downloaded_file'.tr,
                     textAlign: TextAlign.center,
                     fontSize: 16,
                   ),

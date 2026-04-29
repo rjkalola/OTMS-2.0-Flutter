@@ -1,4 +1,6 @@
+import 'package:belcka/pages/common/widgets/download_result_bottom_sheet.dart';
 import 'package:belcka/pages/manageattachment/controller/download_controller.dart';
+import 'package:belcka/pages/manageattachment/listener/download_file_listener.dart';
 import 'package:belcka/pages/profile/health_and_safety/attachments_view/audio_preview_widget.dart';
 import 'package:belcka/pages/profile/health_and_safety/attachments_view/video_preview_widget.dart';
 import 'package:belcka/pages/profile/health_and_safety/induction_training/model/attachment_item_model.dart';
@@ -9,9 +11,10 @@ import 'package:belcka/widgets/custom_views/downloading_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:open_filex/open_filex.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class AttachmentSheet extends StatelessWidget {
+class AttachmentSheet extends StatelessWidget{
   final List<AttachmentItemModel> attachments;
   final downloadController = Get.put(DownloadController());
 
@@ -133,11 +136,46 @@ class AttachmentSheet extends StatelessWidget {
   }
 }
 
-class _AttachmentCard extends StatelessWidget {
+class _AttachmentCard extends StatelessWidget implements DownloadFileListener{
   final AttachmentItemModel item;
   final DownloadController downloadController;
 
   const _AttachmentCard({required this.item, required this.downloadController});
+
+  @override
+  void onDownload({required int progress, required String action}) {}
+
+  @override
+  void afterDownload({required String filaPath, required String action}) {
+    _showViewDocumentDialog(filaPath);
+  }
+
+  void _showViewDocumentDialog(String filePath) {
+    List<String> segments = filePath.split('/');
+    String displayPath = segments.length >= 2
+        ? ".../${segments[segments.length - 2]}/${segments.last}"
+        : filePath;
+
+    Get.bottomSheet(
+      DownloadResultBottomSheet(
+        onClose: () => Get.back(),
+        subtitle: "${'file_saved_to'.tr}: ${displayPath ?? ""}",
+        onViewFile: () async {
+          Get.back();
+          final result = await OpenFilex.open(filePath);
+          if (result.type != ResultType.done) {
+            Get.snackbar(
+                'error'.tr,
+                "${'could_not_open_file'.tr}: ${result.message}",
+                snackPosition: SnackPosition.BOTTOM
+            );
+          }
+        },
+      ),
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -179,7 +217,8 @@ class _AttachmentCard extends StatelessWidget {
                         downloadController.downloadFile(
                             item.imageUrl,
                             "${item.fileName}.${item.extension}",
-                            downloadSuccessMessage: 'file_downloaded'.tr
+                            downloadSuccessMessage: 'file_downloaded'.tr,
+                          listener: this
                         );
                       }
                     }
