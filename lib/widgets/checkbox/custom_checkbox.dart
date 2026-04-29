@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:flutter/material.dart';
 
 class CustomCheckbox extends StatelessWidget {
@@ -13,10 +16,19 @@ class CustomCheckbox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Checkbox(
-      activeColor: color ?? Colors.green,
-      value: mValue,
-      onChanged: onValueChange,
-    );
+    if (Platform.isAndroid){
+      return Checkbox(
+        activeColor: color ?? Colors.green,
+        value: mValue,
+        onChanged: onValueChange,
+      );
+    }
+    else{
+      return AdaptiveCheckbox(
+        activeColor: color ?? Colors.green,
+        value: mValue,
+        onChanged: onValueChange,
+      );
+    }
   }
 }

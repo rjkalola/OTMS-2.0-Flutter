@@ -879,6 +879,12 @@ class Strings extends Translations {
           'click_to_open_pdf':"Click to open PDF",
           'file':"File",
           'partially_delivered': "Partially Delivered",
+          'select_from': "Select From",
+          'files': "Files",
+          'view_downloaded_file': "Do you want to view downloaded file?",
+          'file_saved_to': "File saved to",
+          'error': "Error",
+          'could_not_open_file': "Could not open the file"
 
 // '': "",
 // '': "",

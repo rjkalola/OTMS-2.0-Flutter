@@ -2,6 +2,7 @@ import 'package:belcka/pages/user_orders/storeman_catalog/controller/storeman_ca
 import 'package:belcka/pages/user_orders/storeman_catalog/view/category_expand_grid.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/view/widgets/right_side_icons_list_widget.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/view/widgets/storeman_catalog_header_view.dart';
+import 'package:belcka/pages/user_orders/storeman_catalog/view/widgets/storeman_products_grid_widget.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/view/widgets/storeman_products_list_widget.dart';
 import 'package:belcka/pages/user_orders/widgets/icons/cart_icon_widget.dart';
 import 'package:belcka/pages/user_orders/widgets/empty_state_view.dart';
@@ -36,6 +37,7 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
         color: dashBoardBgColor_(context),
         child: SafeArea(
           top: false,
+          bottom: false,
           child: GestureDetector(
             onTap: () {
               FocusManager.instance.primaryFocus?.unfocus();
@@ -92,7 +94,7 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
                                                         .isProductsLoading.value ||
                                                     controller
                                                         .categories.isNotEmpty)
-                                                ? StoremanProductsListWidget()
+                                                ? (controller.isGridViewSelected.value ? StoremanProductsGridWidget() : StoremanProductsListWidget())
                                                 : EmptyStateView(
                                                     title: 'no_products_msg'.tr,
                                                     message:
@@ -103,6 +105,7 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
                                         ],
                                       ),
                                     ),
+                                    const SizedBox(height: 12),
                                   ],
                                 ),
                                 Obx(() => AnimatedPositioned(

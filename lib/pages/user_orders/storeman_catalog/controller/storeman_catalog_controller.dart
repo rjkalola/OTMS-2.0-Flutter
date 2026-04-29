@@ -66,6 +66,7 @@ class StoremanCatalogController extends GetxController {
   List<FocusNode> qtyFocusNodes = [];
 
   List<ProductSetDataInfo> productsSetList = [];
+  RxBool isGridViewSelected = false.obs;
 
   void initFocusNodes(int length) {
     qtyFocusNodes = List.generate(length, (index) => FocusNode());

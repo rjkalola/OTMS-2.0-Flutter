@@ -476,9 +476,14 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                     isShowArrow: true,
                   )),
 
-              NavigationCard(
-                value: "technical_specification".tr,
-                isShowArrow: true,
+              GestureDetector(
+                onTap: (){
+
+                },
+                child: NavigationCard(
+                  value: "technical_specification".tr,
+                  isShowArrow: true,
+                ),
               ),
             ],
           ),

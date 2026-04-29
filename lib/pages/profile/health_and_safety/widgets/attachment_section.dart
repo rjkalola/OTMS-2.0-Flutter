@@ -1,31 +1,71 @@
-import 'dart:ffi';
-
 import 'package:belcka/pages/profile/health_and_safety/widgets/file_item_tile.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:image_picker/image_picker.dart'; // Add this
 import 'package:get/get.dart';
-import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'dart:io';
 
 class AttachmentSection extends StatelessWidget {
   final bool isMandatoryField;
   final List<PlatformFile> attachmentList;
   final Function(List<PlatformFile>) onFilesSelected;
   final Function(int) onDelete;
-  var deletedAttachmentIds = <String>[];
+  final List<String> deletedAttachmentIds;
 
-   AttachmentSection({
+  AttachmentSection({
     super.key,
-     this.isMandatoryField = false,
+    this.isMandatoryField = false,
     required this.attachmentList,
     required this.onFilesSelected,
     required this.onDelete,
     required this.deletedAttachmentIds,
   });
 
-  Future<void> _pickFiles() async {
+  // --- Picker Selection Menu ---
+  void _showPickerOptions(BuildContext context) {
     FocusManager.instance.primaryFocus?.unfocus();
+
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => SafeArea(
+        child: Wrap(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(18.0),
+              child: Text(
+                "select_from".tr,
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.photo_library, color: Colors.blue),
+              title: Text("photos".tr),
+              onTap: () {
+                Navigator.pop(context);
+                _pickFromGallery();
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.insert_drive_file, color: Colors.orange),
+              title: Text("files".tr),
+              onTap: () {
+                Navigator.pop(context);
+                _pickFiles();
+              },
+            ),
+            const SizedBox(height: 12),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _pickFiles() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowMultiple: true,
       type: FileType.custom,
@@ -33,8 +73,26 @@ class AttachmentSection extends StatelessWidget {
     );
 
     if (result != null) {
-      // Correctly adding to the observed list in the controller
-      attachmentList.addAll(result.files);
+      onFilesSelected(result.files);
+    }
+  }
+
+  Future<void> _pickFromGallery() async {
+    final ImagePicker picker = ImagePicker();
+    final List<XFile> images = await picker.pickMultiImage();
+
+    if (images.isNotEmpty) {
+      List<PlatformFile> platformFiles = images.map((xFile) {
+        final file = File(xFile.path);
+        return PlatformFile(
+          name: xFile.name,
+          path: xFile.path,
+          size: file.lengthSync(),
+          bytes: file.readAsBytesSync(),
+        );
+      }).toList();
+
+      onFilesSelected(platformFiles);
     }
   }
 
@@ -43,9 +101,8 @@ class AttachmentSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
         if (!isMandatoryField)
-        TitleTextView(text: "attachments_text".tr, fontWeight: FontWeight.w500, fontSize: 15),
+          TitleTextView(text: "attachments_text".tr, fontWeight: FontWeight.w500, fontSize: 15),
 
         if (isMandatoryField)
           RichText(
@@ -54,9 +111,9 @@ class AttachmentSection extends StatelessWidget {
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
-                color:primaryTextColor_(context),
+                color: primaryTextColor_(context),
               ),
-              children: [
+              children: const [
                 TextSpan(
                   text: '*',
                   style: TextStyle(color: Colors.redAccent),
@@ -67,9 +124,8 @@ class AttachmentSection extends StatelessWidget {
 
         const SizedBox(height: 12),
 
-        // 1. Upload Area
         GestureDetector(
-          onTap: _pickFiles,
+          onTap: () => _showPickerOptions(context),
           child: Container(
             width: double.infinity,
             padding: const EdgeInsets.all(24),
@@ -127,31 +183,28 @@ class AttachmentSection extends StatelessWidget {
                   separatorBuilder: (_, __) => const SizedBox(height: 10),
                   itemBuilder: (context, index) => FileItemTile(
                     file: attachmentList[index],
-                    onDelete: (){
-
-                      if ((int.tryParse(attachmentList[index].identifier ?? "") ?? 0) > 0){
-                        print("removed id:${attachmentList[index].identifier} ");
-                        deletedAttachmentIds.add(attachmentList[index].identifier ?? "");
+                    onDelete: () {
+                      final id = attachmentList[index].identifier;
+                      if ((int.tryParse(id ?? "") ?? 0) > 0) {
+                        deletedAttachmentIds.add(id!);
                       }
-
                       attachmentList.removeAt(index);
+                      onDelete(index);
                     },
-                    isSaved: ((int.tryParse(attachmentList[index].identifier ?? "") ?? 0) > 0) ? true : false,
+                    isSaved: ((int.tryParse(attachmentList[index].identifier ?? "") ?? 0) > 0),
                   ),
                 ),
               ],
             );
           } else {
-            // Show "No attachments" when the controller list is empty
-            return  Center(
+            return Center(
               child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 20),
+                padding: const EdgeInsets.symmetric(vertical: 20),
                 child: Text("no_attachments_added_yet".tr, style: TextStyle(color: primaryTextColorLight_(context))),
               ),
             );
           }
         }),
-
       ],
     );
   }
