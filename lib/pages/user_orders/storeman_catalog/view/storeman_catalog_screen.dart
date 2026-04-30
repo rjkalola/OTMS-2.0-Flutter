@@ -17,6 +17,7 @@ import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
 import 'package:belcka/widgets/text/toolbar_menu_item_text_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class StoremanCatalogScreen extends StatefulWidget {
@@ -94,7 +95,7 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
                                                         .isProductsLoading.value ||
                                                     controller
                                                         .categories.isNotEmpty)
-                                                ? (controller.isGridViewSelected.value ? StoremanProductsGridWidget() : StoremanProductsListWidget())
+                                                ? (controller.isGridView.value ? StoremanProductsGridWidget() : StoremanProductsListWidget())
                                                 : EmptyStateView(
                                                     title: 'no_products_msg'.tr,
                                                     message:
@@ -170,6 +171,23 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
         ),
       ),
 
+      InkWell(
+        onTap: () {
+          controller.isGridView.value = !controller.isGridView.value;
+          GetStorage().write('isGridView', controller.isGridView.value);
+        },
+        customBorder: const CircleBorder(),
+        child: Padding(
+          padding: const EdgeInsets.all(6),
+          child: Icon(
+            controller.isGridView.value
+                ? Icons.view_list   // show list icon when in grid
+                : Icons.grid_view,  // show grid icon when in list
+            size: 22,
+            color: primaryTextColor_(context),
+          ),
+        ),
+      ),
       SizedBox(width: 4,),
       //Favorites
       InkWell(

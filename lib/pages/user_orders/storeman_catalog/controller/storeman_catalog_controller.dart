@@ -21,6 +21,7 @@ import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 
 class StoremanCatalogController extends GetxController {
   RxBool isDeliverySelected = true.obs;
@@ -66,7 +67,7 @@ class StoremanCatalogController extends GetxController {
   List<FocusNode> qtyFocusNodes = [];
 
   List<ProductSetDataInfo> productsSetList = [];
-  RxBool isGridViewSelected = false.obs;
+  RxBool isGridView = false.obs;
 
   void initFocusNodes(int length) {
     qtyFocusNodes = List.generate(length, (index) => FocusNode());
@@ -101,6 +102,8 @@ class StoremanCatalogController extends GetxController {
     });
 
     Get.put(ProjectService());
+
+    isGridView.value = GetStorage().read('isGridView') ?? false;
   }
 
   void selectCategory(int selectedID) {
