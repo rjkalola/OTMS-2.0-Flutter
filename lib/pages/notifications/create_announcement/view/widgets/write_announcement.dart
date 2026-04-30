@@ -14,7 +14,7 @@ class WriteAnnouncement extends StatelessWidget {
   final Rx<TextEditingController> controller;
   final ValueChanged<String>? onValueChange;
   final bool? isReadOnly;
-
+ 
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -40,12 +40,13 @@ class WriteAnnouncement extends StatelessWidget {
             textEditingController: controller.value,
             autovalidateMode: AutovalidateMode.disabled,
             hintText: 'write_announcement_placeholder'.tr,
-            labelText: 'write_announcement_placeholder'.tr,
+            labelText: null,
             borderRadius: 22,
             textInputAction: TextInputAction.newline,
             validator: MultiValidator([]),
             isReadOnly: isReadOnly,
             textAlignVertical: TextAlignVertical.top,
+            textAlign: TextAlign.start,
             onValueChange: onValueChange,
             minLines: 6,
             maxLines: 12,

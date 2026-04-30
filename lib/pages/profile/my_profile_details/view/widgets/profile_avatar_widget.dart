@@ -58,12 +58,11 @@ class ProfileAvatarWidget extends StatelessWidget {
                 width: 16,
                 height: 16,
                 decoration: BoxDecoration(
-                  color: (controller.myProfileInfo.value.statusColor != null &&
-                          controller.myProfileInfo.value.statusColor!
-                              .startsWith("#"))
+                  color: (controller.myProfileInfo.value.statusColor !=
+                      null &&
+                      controller.myProfileInfo.value.statusColor!.startsWith("#"))
                       ? AppUtils.getColor(
-                          controller.myProfileInfo.value.statusColor ??
-                              "#FF1744")
+                      controller.myProfileInfo.value.statusColor ?? "#FF1744")
                       : Colors.redAccent,
                   // color: controller.myProfileInfo.value.isWorking ?? false ? Colors.green : Colors.red,
                   shape: BoxShape.circle,

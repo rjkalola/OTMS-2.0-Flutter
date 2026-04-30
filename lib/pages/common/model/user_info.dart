@@ -22,6 +22,7 @@ class UserInfo {
   bool? isTradeAvailable;
   String? userCode;
   bool? isCheckIn;
+  bool? isOnBreak;
   String? lastWorkedTime;
   String? lastWorkedDate;
   String? statusColor;
@@ -50,6 +51,7 @@ class UserInfo {
       this.isTradeAvailable,
       this.userCode,
       this.isCheckIn,
+      this.isOnBreak,
       this.lastWorkedTime,
       this.lastWorkedDate,
       this.statusColor});
@@ -78,6 +80,7 @@ class UserInfo {
     isTradeAvailable = json['is_trade_available'];
     userCode = json['user_code'];
     isCheckIn = json['is_check_in'];
+    isOnBreak = json['is_on_break'];
     lastWorkedTime = json['last_worked_time'];
     lastWorkedDate = json['last_worked_date'];
     statusColor = json['status_color'];
@@ -108,6 +111,7 @@ class UserInfo {
     data['is_trade_available'] = this.isTradeAvailable;
     data['user_code'] = this.userCode;
     data['is_check_in'] = this.isCheckIn;
+    data['is_on_break'] = this.isOnBreak;
     data['last_worked_time'] = this.lastWorkedTime;
     data['last_worked_date'] = this.lastWorkedDate;
     data['status_color'] = this.statusColor;
@@ -136,6 +140,7 @@ class UserInfo {
       bool? isTradeAvailable,
       String? userCode,
       bool? isCheckIn,
+      bool? isOnBreak,
       String? lastWorkedTime,
       String? lastWorkedDate,
       String? statusColor}) {
@@ -163,6 +168,7 @@ class UserInfo {
         isTradeAvailable: isTradeAvailable ?? this.isTradeAvailable,
         userCode: userCode ?? this.userCode,
         isCheckIn: isCheckIn ?? this.isCheckIn,
+        isOnBreak: isOnBreak ?? this.isOnBreak,
         lastWorkedTime: lastWorkedTime ?? this.lastWorkedTime,
         lastWorkedDate: lastWorkedDate ?? this.lastWorkedDate,
         statusColor: statusColor ?? this.statusColor);
@@ -194,6 +200,7 @@ class UserInfo {
         isTradeAvailable: userInfo?.isTradeAvailable ?? this.isTradeAvailable,
         userCode: userInfo?.userCode ?? this.userCode,
         isCheckIn: userInfo?.isCheckIn ?? this.isCheckIn,
+        isOnBreak: userInfo?.isOnBreak ?? this.isOnBreak,
         lastWorkedTime: userInfo?.lastWorkedTime ?? this.lastWorkedTime,
         lastWorkedDate: userInfo?.lastWorkedDate ?? this.lastWorkedDate,
         statusColor: userInfo?.statusColor ?? this.statusColor);

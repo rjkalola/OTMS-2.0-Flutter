@@ -5,6 +5,7 @@ import 'package:belcka/pages/notifications/announcement_details/controller/annou
 import 'package:belcka/pages/notifications/create_announcement/model/announcement_info.dart';
 import 'package:belcka/pages/notifications/create_announcement/model/announcement_list_response.dart';
 import 'package:belcka/pages/notifications/notification_list/controller/notification_list_controller.dart';
+import 'package:belcka/pages/notifications/notification_list/model/announcement_emoji_response.dart';
 import 'package:belcka/pages/notifications/notification_list/tabs/announcement_tab/controller/announcement_tab_repository.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
@@ -159,34 +160,38 @@ class AnnouncementTabController extends GetxController {
     _api.storeFeed(
       data: map,
       onSuccess: (ResponseModel responseModel) {
-        bool hasServerMessage = false;
         if (responseModel.isSuccess) {
-          // AnnouncementListResponse response = AnnouncementListResponse.fromJson(
-          //     jsonDecode(responseModel.result!));
+          AnnouncementEmojiResponse response =
+              AnnouncementEmojiResponse.fromJson(
+                  jsonDecode(responseModel.result!));
 
-          // int index = -1;
-          // for (var info in announcementList) {
-          //   if ((info.id ?? 0) == announcementId) {
-          //     index = announcementList.indexOf(info);
-          //     break;
-          //   }
-          // }
+          int index = -1;
+          for (int i = 0; i < announcementList.length; i++) {
+            AnnouncementInfo info = announcementList[i];
+            if ((info.id ?? 0) == announcementId) {
+              index = i;
+              break;
+            }
+          }
 
+          if (index >= 0) {
+            int feedIndex = -1;
+            for (int j = 0; j < announcementList[index].feeds!.length; j++) {
+              AnnouncementFeedInfo feed = announcementList[index].feeds![j];
+              if (feed.id == (response.info?.id ?? 0)) {
+                feedIndex = j;
+                break;
+              }
+            }
+            if (feedIndex >= 0) {
+              announcementList[index].feeds![feedIndex] = response.info!;
+            } else {
+              announcementList[index].feeds!.add(response.info!);
+            }
+          }
 
-
-          // hasServerMessage = _updateAnnouncementReactionFromResponse(
-          //   announcementId: announcementId,
-          //   responseRaw: responseModel.result,
-          //   selectedEmoji: emoji,
-          //   selectedEmojiCode: emojiCode,
-          // );
-
-
+          announcementList.refresh();
         }
-        // if (!hasServerMessage &&
-        //     (responseModel.statusMessage ?? "").isNotEmpty) {
-        //   AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
-        // }
       },
       onError: (ResponseModel error) {
         if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
@@ -196,55 +201,5 @@ class AnnouncementTabController extends GetxController {
         }
       },
     );
-  }
-
-  bool _updateAnnouncementReactionFromResponse({
-    required int announcementId,
-    required String? responseRaw,
-    required String selectedEmoji,
-    required String selectedEmojiCode,
-  }) {
-    final int currentUserId = UserUtils.getLoginUserId();
-    AnnouncementFeedInfo? reactionInfo;
-    String? serverMessage;
-
-    if ((responseRaw ?? "").isNotEmpty) {
-      final decoded = jsonDecode(responseRaw ?? "");
-      if (decoded is Map<String, dynamic>) {
-        serverMessage = decoded["message"]?.toString();
-        if (decoded["info"] is Map) {
-          reactionInfo = AnnouncementFeedInfo.fromJson(
-            (decoded["info"] as Map).cast<String, dynamic>(),
-          );
-        }
-      }
-    }
-
-    final hasServerMessage = (serverMessage ?? "").isNotEmpty;
-    if (hasServerMessage) {
-      AppUtils.showApiResponseMessage(serverMessage ?? "");
-    }
-
-    reactionInfo ??= AnnouncementFeedInfo(
-      announcementId: announcementId,
-      userId: currentUserId,
-      action: selectedEmoji,
-      code: selectedEmojiCode,
-    );
-
-    final index = announcementList.indexWhere(
-      (item) => (item.announcementId ?? 0) == announcementId,
-    );
-    if (index < 0) return hasServerMessage;
-
-    final announcement = announcementList[index];
-    final feeds = <AnnouncementFeedInfo>[...(announcement.feeds ?? [])];
-    feeds.removeWhere((feed) => (feed.userId ?? 0) == currentUserId);
-    feeds.add(reactionInfo);
-
-    announcement.feeds = feeds;
-    announcementList[index] = announcement;
-    announcementList.refresh();
-    return hasServerMessage;
   }
 }

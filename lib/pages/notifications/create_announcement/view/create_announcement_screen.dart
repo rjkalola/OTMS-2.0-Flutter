@@ -12,6 +12,7 @@ import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
+import 'package:belcka/widgets/text/PrimaryTextView.dart';
 import 'package:belcka/widgets/textfield/reusable/drop_down_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -175,7 +176,8 @@ class _CreateAnnouncementScreenState extends State<CreateAnnouncementScreen> {
                                                     const SizedBox(width: 20),
                                                     AnnouncementUploadButton(
                                                       onPressed: () {
-                                                        controller.showAttachmentOptionsDialog();
+                                                        controller
+                                                            .showAttachmentOptionsDialog();
                                                         // controller
                                                         //     .onGridItemClick(
                                                         //   0,
@@ -197,6 +199,18 @@ class _CreateAnnouncementScreenState extends State<CreateAnnouncementScreen> {
                                               controller.onGridItemClick,
                                         ),
                                         const SizedBox(height: 16),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 20, bottom: 10),
+                                          child: PrimaryTextView(
+                                            text:
+                                                'write_announcement_placeholder'
+                                                    .tr,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                            textAlign: TextAlign.start,
+                                          ),
+                                        ),
                                         WriteAnnouncement(
                                           controller: controller
                                               .writeAnnouncementController,

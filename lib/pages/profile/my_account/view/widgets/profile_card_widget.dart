@@ -18,10 +18,14 @@ class ProfileCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("statusColor:" + (controller.userInfo.value.statusColor).toString());
-    bool isWorking = controller.isOtherUserProfile.value
-        ? (controller.userInfo.value.isWorking ?? false)
-        : true;
+    // print("statusColor:" + (controller.userInfo.value.statusColor).toString());
+    bool isWorking = controller.userInfo.value.isWorking ?? false;
+    bool isOnBreak = controller.userInfo.value.isOnBreak ?? false;
+    Color statusColor = (controller.userInfo.value.statusColor != null &&
+            controller.userInfo.value.statusColor!.startsWith("#"))
+        ? AppUtils.getColor(controller.userInfo.value.statusColor ?? "#FF1744")
+        : Colors.redAccent;
+
     return CardViewDashboardItem(
       margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       padding: EdgeInsets.all(12),
@@ -41,12 +45,7 @@ class ProfileCardWidget extends StatelessWidget {
             },
             child: UserAvtarView(
               isOnlineStatusVisible: true,
-              onlineStatusColor: (controller.userInfo.value.statusColor !=
-                          null &&
-                      controller.userInfo.value.statusColor!.startsWith("#"))
-                  ? AppUtils.getColor(
-                      controller.userInfo.value.statusColor ?? "#FF1744")
-                  : Colors.redAccent,
+              onlineStatusColor: statusColor,
               // onlineStatusColor: isWorking ? Colors.green : Colors.redAccent,
               imageSize: 50,
               imageUrl: controller.userInfo.value.userThumbImage ?? "",
@@ -85,17 +84,14 @@ class ProfileCardWidget extends StatelessWidget {
                               fontWeight: FontWeight.w400,
                               fontSize: 13))
                       : Container(),
-                  controller.isOtherUserProfile.value &&
-                          !StringHelper.isEmptyString(
-                              controller.userInfo.value.lastWorkedDate)
+                  !StringHelper.isEmptyString(
+                          controller.userInfo.value.lastWorkedDate)
                       ? Text(
-                          isWorking
-                              ? 'working'.tr
+                          (isWorking || isOnBreak)
+                              ? (isOnBreak ? 'on_break'.tr : 'working'.tr)
                               : '${'last_working_date'.tr}: ${controller.userInfo.value.lastWorkedDate}',
                           style: TextStyle(
-                              color: isWorking
-                                  ? Colors.green
-                                  : secondaryTextColor_(context),
+                              color: statusColor,
                               fontWeight: FontWeight.w400,
                               fontSize: 13))
                       : Container(),

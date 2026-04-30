@@ -1,19 +1,14 @@
-import 'package:belcka/pages/authentication/login/view/widgets/otp_view.dart';
-import 'package:belcka/pages/authentication/login/view/widgets/phone_extension_field_widget.dart';
-import 'package:belcka/pages/authentication/login/view/widgets/phone_text_field_widget.dart';
 import 'package:belcka/pages/profile/billing_details_new/view/widgets/title_text.dart';
 import 'package:belcka/pages/profile/my_profile_details/controller/my_profile_details_controller.dart';
 import 'package:belcka/pages/profile/my_profile_details/view/widgets/email_field_widget.dart';
 import 'package:belcka/pages/profile/my_profile_details/view/widgets/first_name_field_widget.dart';
 import 'package:belcka/pages/profile/my_profile_details/view/widgets/last_name_field_widget.dart';
-import 'package:belcka/pages/profile/my_profile_details/view/widgets/phone_extension_field.dart';
 import 'package:belcka/pages/profile/my_profile_details/view/widgets/phone_field_widget.dart';
 import 'package:belcka/pages/profile/my_profile_details/view/widgets/profile_avatar_widget.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
-import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:flutter/material.dart';
@@ -99,22 +94,31 @@ class _MyProfileDetailsScreenState extends State<MyProfileDetailsScreen> {
                                                 padding: const EdgeInsets.only(
                                                     top: 2),
                                                 child: Text(
-                                                    (controller
-                                                                .myProfileInfo
-                                                                .value
-                                                                .isWorking ??
-                                                            false)
-                                                        ? 'working'.tr
-                                                        : '${'last_working_date'.tr}: ${controller.myProfileInfo.value.lastWorkedDate}',
-                                                    style: TextStyle(
-                                                        color: (controller
+                                                    ((controller
                                                                     .myProfileInfo
                                                                     .value
                                                                     .isWorking ??
+                                                                false) ||
+                                                            (controller
+                                                                    .myProfileInfo
+                                                                    .value
+                                                                    .isOnBreak ??
+                                                                false))
+                                                        ? ((controller
+                                                                    .myProfileInfo
+                                                                    .value
+                                                                    .isOnBreak ??
                                                                 false)
-                                                            ? Colors.green
-                                                            : secondaryTextColor_(
-                                                            context),
+                                                            ? 'on_break'.tr
+                                                            : 'working'.tr)
+                                                        : '${'last_working_date'.tr}: ${controller.myProfileInfo.value.lastWorkedDate}',
+                                                    style: TextStyle(
+                                                        color: (controller.myProfileInfo.value.statusColor !=
+                                                            null &&
+                                                            controller.myProfileInfo.value.statusColor!.startsWith("#"))
+                                                            ? AppUtils.getColor(
+                                                            controller.myProfileInfo.value.statusColor ?? "#FF1744")
+                                                            : Colors.redAccent,
                                                         fontWeight:
                                                             FontWeight.w400,
                                                         fontSize: 13)),

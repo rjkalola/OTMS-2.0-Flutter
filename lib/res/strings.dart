@@ -557,6 +557,9 @@ class Strings extends Translations {
           'videos': "Videos",
           'video_compress_message': "Wait… Video is compressing",
           'video_player': "Video Player",
+          'video_unable_to_load':
+              "Could not load this video. Check your connection or try again later. If the problem continues, the server may be busy.",
+          'open_video_externally': "Open in another app",
           'uploading_video_message': "Uploading Video, Please Wait...",
           'would_you_like_to_change':
               "Are you sure you'd like to proceed with this change?",

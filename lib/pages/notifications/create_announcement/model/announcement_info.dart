@@ -117,7 +117,7 @@ class AnnouncementFeedInfo {
 
   AnnouncementFeedInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    announcementId = json['annoucemnet_id'] ?? json['announcement_id'];
+    announcementId = json['announcement_id'] ;
     userId = json['user_id'];
     action = json['action'];
     action ??= json['emoji'];
@@ -131,7 +131,7 @@ class AnnouncementFeedInfo {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
-    data['annoucemnet_id'] = announcementId;
+    data['announcement_id'] = announcementId;
     data['user_id'] = userId;
     data['action'] = action;
     data['code'] = code;

@@ -84,7 +84,7 @@ class AnnouncementList extends StatelessWidget {
 
     if (selectedReaction != null) {
       controller.storeAnnouncementFeed(
-        announcementId: info.announcementId ?? 0,
+        announcementId: info.id ?? 0,
         emoji: selectedReaction["emoji"] ?? "",
         emojiCode: selectedReaction["code"] ?? "",
       );
