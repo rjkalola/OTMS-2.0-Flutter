@@ -26,7 +26,7 @@ class StoremanProductsListWidget extends StatefulWidget {
       _StoremanProductsListWidgetState();
 }
 
-class _StoremanProductsListWidgetState 
+class _StoremanProductsListWidgetState
     extends State<StoremanProductsListWidget> {
   @override
   Widget build(BuildContext context) {
@@ -149,7 +149,7 @@ class _StoremanProductsListWidgetState
                                         // 1. The Image Box (Increased Size)
                                         Container(
                                           width: 130,
-                                          height: 130,
+                                          height: 150,
                                           decoration: BoxDecoration(
                                             color: lightGreyColor(context),
                                           ),
@@ -186,7 +186,9 @@ class _StoremanProductsListWidgetState
 
                                         // 2. The Dots (Positioned on top of the image)
                                         Positioned(
-                                          bottom: 10, // Distance from the bottom of the image
+                                          bottom: 8,
+                                          left: 0,
+                                          right: 0,
                                           child: Row(
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: List.generate(
@@ -194,22 +196,13 @@ class _StoremanProductsListWidgetState
                                                   (dotIndex) {
                                                 final isActive = (controller.currentImageIndex[index] ?? 0) == dotIndex;
                                                 return AnimatedContainer(
-                                                  duration: const Duration(milliseconds: 200),
-                                                  width: isActive ? 8 : 6,
-                                                  height: isActive ? 8 : 6,
+                                                  duration: const Duration(milliseconds: 300),
                                                   margin: const EdgeInsets.symmetric(horizontal: 2),
+                                                  width: isActive ? 12 : 4,
+                                                  height: 4,
                                                   decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    color: isActive
-                                                        ? defaultAccentColor_(context)
-                                                        : secondaryTextColor_(context), // White dots look better on images
-                                                    boxShadow: [
-                                                      if (isActive)
-                                                        BoxShadow(
-                                                          color: Colors.black.withOpacity(0.2),
-                                                          blurRadius: 2,
-                                                        )
-                                                    ],
+                                                    borderRadius: BorderRadius.circular(2),
+                                                    color: isActive ? defaultAccentColor_(context) : Colors.grey.withOpacity(0.4),
                                                   ),
                                                 );
                                               },
