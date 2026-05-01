@@ -9,15 +9,20 @@ class DownloadResultBottomSheet extends StatelessWidget {
     super.key,
     required this.onViewFile,
     required this.onClose,
-    this.subtitle
+    required this.filePath,
   });
 
   final VoidCallback onViewFile;
   final VoidCallback onClose;
-  final String? subtitle;
+  final String filePath;
 
   @override
   Widget build(BuildContext context) {
+    List<String> segments = filePath.split('/');
+    String displayPath = segments.length >= 2
+        ? ".../${segments[segments.length - 2]}/${segments.last}"
+        : filePath;
+    String subTitle = "${'file_saved_to'.tr}: ${displayPath ?? ""}";
     return LayoutBuilder(
       builder: (context, constraints) {
         return ConstrainedBox(
@@ -25,7 +30,8 @@ class DownloadResultBottomSheet extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               color: dashBoardBgColor_(context),
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+              borderRadius:
+                  const BorderRadius.vertical(top: Radius.circular(20)),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -57,17 +63,14 @@ class DownloadResultBottomSheet extends StatelessWidget {
                     ],
                   ),
                 ),
-
-                if (subtitle != null)
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
-                    child: Text(
-                      subtitle!,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
-                    ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+                  child: Text(
+                    subTitle,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
                   ),
-
+                ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 22, 20, 12),
                   child: TitleTextView(

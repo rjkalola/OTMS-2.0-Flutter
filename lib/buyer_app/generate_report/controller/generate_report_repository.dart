@@ -1,14 +1,11 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:belcka/buyer_app/generate_report/model/generate_report_modules_response.dart';
+import 'package:belcka/utils/download_save_path.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/network/api_request.dart';
 import 'package:belcka/web_services/response/response_model.dart';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class GenerateReportRepository {
   void getModules({
@@ -34,20 +31,8 @@ class GenerateReportRepository {
     return GenerateReportModulesResponse.fromJson(map);
   }
 
-  Future<String> resolveDownloadPath(String fileName) async {
-    if (Platform.isAndroid) {
-      final androidInfo = await DeviceInfoPlugin().androidInfo;
-      final sdkInt = androidInfo.version.sdkInt;
-      if (sdkInt <= 29) {
-        final status = await Permission.storage.status;
-        if (!status.isGranted) {
-          await Permission.storage.request();
-        }
-      }
-      return "/storage/emulated/0/Download/$fileName";
-    }
-    final dir = await getApplicationDocumentsDirectory();
-    return "${dir.path}/$fileName";
+  Future<String> resolveDownloadPath(String fileName) {
+    return resolveDownloadSavePath(fileName);
   }
 
   Future<String> downloadExportReport({

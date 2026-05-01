@@ -104,6 +104,7 @@ class DigitalIdCardController extends GetxController
   void _showViewDocumentDialog(String filePath) {
     Get.bottomSheet(
       DownloadResultBottomSheet(
+        filePath: filePath,
         onClose: () => Get.back(),
         onViewFile: () async {
           Get.back();

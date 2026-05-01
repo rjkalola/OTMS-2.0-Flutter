@@ -217,8 +217,7 @@ class HireOrderProductLineListItem extends StatelessWidget {
           ),
           if (!isAvailable && !StringHelper.isEmptyString(item.orderId))
             Align(
-              alignment: Alignment.topLeft,
-              child: TextViewWithContainer(
+              alignment: Alignment.topLeft, child: TextViewWithContainer(
                 margin: const EdgeInsets.only(left: 34, top: 0),
                 text: "${'order'.tr}: #${item.orderId ?? ""}",
                 padding: const EdgeInsets.fromLTRB(8, 1, 8, 1),
