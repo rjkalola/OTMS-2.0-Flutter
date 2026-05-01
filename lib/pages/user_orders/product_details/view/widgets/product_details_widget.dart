@@ -1,5 +1,7 @@
 import 'package:belcka/pages/common/model/file_info.dart';
 import 'package:belcka/pages/profile/billing_details_new/view/widgets/navigation_card.dart';
+import 'package:belcka/pages/profile/health_and_safety/attachments_view/attachment_view.dart';
+import 'package:belcka/pages/profile/health_and_safety/induction_training/model/attachment_item_model.dart';
 import 'package:belcka/pages/user_orders/favorite_popup/add_folder_view.dart';
 import 'package:belcka/pages/user_orders/favorite_popup/favorite_popup_manager.dart';
 import 'package:belcka/pages/user_orders/product_details/controller/product_details_controller.dart';
@@ -85,7 +87,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                               product.productImages?[imgIndex].thumbUrl ?? "",
                               // 'contain' ensures the FULL image is visible without cropping.
                               // If you want it to fill the width completely, use 'fitWidth'.
-                              fit: BoxFit.fill,
+                              fit: BoxFit.cover,
                               // This removes the "small" look by telling the image to
                               // be as large as possible within the 300 height limit.
                               width: double.infinity,
@@ -478,7 +480,12 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
 
               GestureDetector(
                 onTap: (){
-
+                  if (product.attachments?.isEmpty ?? false){
+                    AppUtils.showSnackBarMessage('no_technical_info'.tr);
+                  }
+                  else{
+                    AttachmentSheet.show(context, convertAttachments(product.attachments ?? []));
+                  }
                 },
                 child: NavigationCard(
                   value: "technical_specification".tr,
@@ -491,4 +498,27 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
       );
     });
   }
+
+}
+
+List<AttachmentItemModel> convertAttachments(List<FilesInfo>? oldList) {
+  if (oldList == null) return [];
+  return oldList.map((file) {
+    String url = file.imageUrl ?? '';
+    String ext = url.split('.').last.toLowerCase();
+    return AttachmentItemModel(
+      id: file.id ?? 0,
+      extension: ext,
+      docType: _inferDocType(ext),
+      imageUrl: url,
+      thumbUrl: file.thumbUrl ?? '',
+    );
+  }).toList();
+}
+
+String _inferDocType(String extension) {
+  if (['jpg', 'jpeg', 'png', 'webp'].contains(extension)) return 'image';
+  if (['mp4', 'mov', 'avi'].contains(extension)) return 'video';
+  if (extension == 'pdf') return 'pdf';
+  return 'image';
 }
