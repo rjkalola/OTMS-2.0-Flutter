@@ -41,6 +41,7 @@ class _StoremanHireProductsScreenState extends State<StoremanHireProductsScreen>
         color: dashBoardBgColor_(context),
         child: SafeArea(
           top: false,
+          bottom: !GetPlatform.isIOS,
           child: Scaffold(
             backgroundColor: dashBoardBgColor_(context),
             appBar: BaseAppBar(

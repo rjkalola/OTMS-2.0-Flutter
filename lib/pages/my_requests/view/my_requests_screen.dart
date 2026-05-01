@@ -25,61 +25,65 @@ class MyRequestsScreen extends StatelessWidget implements DateFilterListener {
     return Obx(() => Container(
         color: dashBoardBgColor_(context),
         child: SafeArea(
+            top: false,
+            bottom: !GetPlatform.isIOS,
             child: Scaffold(
-          appBar: BaseAppBar(
-            appBar: AppBar(),
-            title: (controller.isFromMyProfile.value &&
-                    !controller.isOtherUserProfile.value)
-                ? "my_requests".tr
-                : "requests".tr,
-            isCenterTitle: false,
-            bgColor: dashBoardBgColor_(context),
-            isBack: true,
-            widgets: actionButtons(),
-          ),
-          backgroundColor: dashBoardBgColor_(context),
-          body: ModalProgressHUD(
-            inAsyncCall: controller.isLoading.value,
-            opacity: 0,
-            progressIndicator: const CustomProgressbar(),
-            child: controller.isInternetNotAvailable.value
-                ? Center(
-                    child: Text("no_internet_text".tr),
-                  )
-                : Visibility(
-                    visible: controller.isMainViewVisible.value,
-                    child: Column(
-                      children: [
-                        // Horizontally scrollable filter design
-                        // Padding(
-                        //   padding: const EdgeInsets.fromLTRB(14, 0, 14, 6),
-                        //   child: DateFilterMyRequestOptionsHorizontalList(
-                        //     listener: this,
-                        //   ),
-                        // ),
-                        // Requests List
-                        DateFilterOptionsHorizontalList(
-                          padding: EdgeInsets.fromLTRB(14, 0, 14, 6),
-                          startDate: controller.startDate,
-                          endDate: controller.endDate,
-                          listener: this,
-                          selectedPosition: controller.selectedDateFilterIndex,
+              appBar: BaseAppBar(
+                appBar: AppBar(),
+                title: (controller.isFromMyProfile.value &&
+                        !controller.isOtherUserProfile.value)
+                    ? "my_requests".tr
+                    : "requests".tr,
+                isCenterTitle: false,
+                bgColor: dashBoardBgColor_(context),
+                isBack: true,
+                widgets: actionButtons(),
+              ),
+              backgroundColor: dashBoardBgColor_(context),
+              body: ModalProgressHUD(
+                inAsyncCall: controller.isLoading.value,
+                opacity: 0,
+                progressIndicator: const CustomProgressbar(),
+                child: controller.isInternetNotAvailable.value
+                    ? Center(
+                        child: Text("no_internet_text".tr),
+                      )
+                    : Visibility(
+                        visible: controller.isMainViewVisible.value,
+                        child: Column(
+                          children: [
+                            // Horizontally scrollable filter design
+                            // Padding(
+                            //   padding: const EdgeInsets.fromLTRB(14, 0, 14, 6),
+                            //   child: DateFilterMyRequestOptionsHorizontalList(
+                            //     listener: this,
+                            //   ),
+                            // ),
+                            // Requests List
+                            DateFilterOptionsHorizontalList(
+                              padding: EdgeInsets.fromLTRB(14, 0, 14, 6),
+                              startDate: controller.startDate,
+                              endDate: controller.endDate,
+                              listener: this,
+                              selectedPosition:
+                                  controller.selectedDateFilterIndex,
+                            ),
+                            Expanded(
+                              child: ListView.builder(
+                                padding: EdgeInsets.all(12),
+                                itemCount: controller.myRequestList.length,
+                                itemBuilder: (context, index) {
+                                  final request =
+                                      controller.myRequestList[index];
+                                  return RequestCard(request: request);
+                                },
+                              ),
+                            ),
+                          ],
                         ),
-                        Expanded(
-                          child: ListView.builder(
-                            padding: EdgeInsets.all(12),
-                            itemCount: controller.myRequestList.length,
-                            itemBuilder: (context, index) {
-                              final request = controller.myRequestList[index];
-                              return RequestCard(request: request);
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-          ),
-        ))));
+                      ),
+              ),
+            ))));
   }
 
   void setState(Null Function() param0) {}
