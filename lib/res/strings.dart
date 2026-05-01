@@ -892,7 +892,8 @@ class Strings extends Translations {
           'view_downloaded_file': "Do you want to view downloaded file?",
           'file_saved_to': "File saved to",
           'error': "Error",
-          'could_not_open_file': "Could not open the file"
+          'could_not_open_file': "Could not open the file",
+          'no_technical_info': "No technical specification added",
 
 // '': "",
 // '': "",
