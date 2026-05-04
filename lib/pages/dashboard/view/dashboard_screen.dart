@@ -6,6 +6,7 @@ import 'package:belcka/pages/dashboard/tabs/home_tab/controller/home_tab_control
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/res/theme/theme_controller.dart';
 import 'package:belcka/utils/liiquide_glass_style.dart';
+import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -81,8 +82,7 @@ class DashboardScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-
-                bottomNavigationBar: AdaptiveBottomNavigationBar(
+                bottomNavigationBar: (ApiConstants.companyId != 0) ? AdaptiveBottomNavigationBar(
                   selectedItemColor: defaultAccentColor_(context),
                   unselectedItemColor: primaryTextColor_(context),
                   useNativeBottomBar: true,
@@ -115,7 +115,7 @@ class DashboardScreen extends StatelessWidget {
                     dashboardController.selectedIndex.value = index;
                     dashboardController.onItemTapped(index);
                   },
-                ),
+                ) : null,
               )),
         ),
       ),

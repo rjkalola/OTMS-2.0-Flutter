@@ -16,6 +16,7 @@ class ProductInfo {
   String? description;
   String? price;
   String? marketPrice;
+  String? perUnitPrice;
   double? qty;
   double? cartQty;
   String? subQty;
@@ -181,7 +182,8 @@ class ProductInfo {
       this.notes,
       this.tempNote,
       this.isCheck,
-      this.folderId});
+      this.folderId,
+      this.perUnitPrice});
 
   ProductInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -198,6 +200,7 @@ class ProductInfo {
     description = json['description'];
     price = json['price']?.toString() ?? json['order_price']?.toString();
     marketPrice = json['market_price']?.toString();
+    perUnitPrice = json['per_unit_price']?.toString();
     qty = (json['qty'] as num?)?.toDouble();
     cartQty = (json['cart_qty'] as num?)?.toDouble();
     subQty = json['sub_qty']?.toString();
@@ -330,6 +333,7 @@ class ProductInfo {
     data['description'] = this.description;
     data['price'] = this.price;
     data['market_price'] = this.marketPrice;
+    data['per_unit_price'] = this.perUnitPrice;
     data['qty'] = this.qty;
     data['cart_qty'] = this.cartQty;
     data['sub_qty'] = this.subQty;
