@@ -50,6 +50,10 @@ class WorkLogInfo {
   String? userImageThumb;
   double? totalDayAdjustmentAmount;
 
+  /// True when an online worklog (id > 0) was stopped while offline, pending sync.
+  /// Offline-created rows use [id] == 0 instead.
+  bool? offlineRecord;
+
   WorkLogInfo(
       {this.id,
       this.shiftId,
@@ -93,7 +97,8 @@ class WorkLogInfo {
       this.userName,
       this.userImage,
       this.userImageThumb,
-      this.totalDayAdjustmentAmount});
+      this.totalDayAdjustmentAmount,
+      this.offlineRecord});
 
   WorkLogInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -103,10 +108,10 @@ class WorkLogInfo {
     projectName = json['project_name'];
     isPricework = json['is_pricework'];
     workStartTime = json['work_start_time'];
-    workEndTime = json['work_end_time'];
+    workEndTime = _workEndFromJson(json['work_end_time']);
     totalWorkSeconds = json['total_work_seconds'];
     totalBreaklogSeconds = json['total_breaklog_seconds'];
-    payableWorkSeconds = json['payable_work_seconds'];
+    payableWorkSeconds = (json['payable_work_seconds'] as num?)?.toInt();
     // isRequestPending = json['is_request_pending'];
     if (json['break_log'] != null) {
       breakLog = <BreakInfo>[];
@@ -159,6 +164,7 @@ class WorkLogInfo {
     userImageThumb = json['user_image_thumb'];
     totalDayAdjustmentAmount =
         (json['total_day_adjustment_amount'] as num?)?.toDouble();
+    offlineRecord = json['offline_record'] as bool?;
   }
 
   Map<String, dynamic> toJson() {
@@ -217,7 +223,18 @@ class WorkLogInfo {
     data['user_image'] = this.userImage;
     data['user_image_thumb'] = this.userImageThumb;
     data['total_day_adjustment_amount'] = this.totalDayAdjustmentAmount;
+    data['offline_record'] = this.offlineRecord;
 
     return data;
+  }
+
+  static String? _workEndFromJson(dynamic value) {
+    if (value == null) return null;
+    if (value is String) {
+      final t = value.trim();
+      if (t.isEmpty || t.toLowerCase() == 'null') return null;
+      return t;
+    }
+    return value.toString();
   }
 }

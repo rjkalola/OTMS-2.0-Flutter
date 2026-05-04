@@ -37,12 +37,13 @@ class WorkLogListResponse {
       this.isCheckIn});
 
   WorkLogListResponse.fromJson(Map<String, dynamic> json) {
-    isSuccess = json['IsSuccess'];
+    isSuccess = _boolFromJson(json['IsSuccess']);
     message = json['message'];
-    userIsWorking = json['user_is_working'];
-    totalWorkingSeconds = json['total_working_seconds'];
-    totalBreakSeconds = json['total_break_seconds'];
-    totalPayableWorkingSeconds = json['total_payable_working_seconds'];
+    userIsWorking = _boolFromJson(json['user_is_working']);
+    totalWorkingSeconds = (json['total_working_seconds'] as num?)?.toInt();
+    totalBreakSeconds = (json['total_break_seconds'] as num?)?.toInt();
+    totalPayableWorkingSeconds =
+        (json['total_payable_working_seconds'] as num?)?.toInt();
     shiftInfo = json['shift_info'] != null
         ? ShiftInfo.fromJson(json['shift_info'])
         : null;
@@ -51,7 +52,7 @@ class WorkLogListResponse {
     shiftName = json['shift_name'];
     projectId = json['project_id'];
     projectName = json['project_name'];
-    isCheckIn = json['is_check_in'];
+    isCheckIn = _boolFromJson(json['is_check_in']);
     if (json['my_worklogs'] != null) {
       workLogInfo = <WorkLogInfo>[];
       json['my_worklogs'].forEach((v) {
@@ -90,5 +91,18 @@ class WorkLogListResponse {
     data['project_name'] = this.projectName;
     data['is_check_in'] = this.isCheckIn;
     return data;
+  }
+
+  /// GetStorage / JSON sometimes yields `1`/`0` instead of booleans.
+  static bool? _boolFromJson(dynamic value) {
+    if (value == null) return null;
+    if (value is bool) return value;
+    if (value is num) return value != 0;
+    if (value is String) {
+      final s = value.toLowerCase();
+      if (s == 'true' || s == '1') return true;
+      if (s == 'false' || s == '0' || s.isEmpty) return false;
+    }
+    return null;
   }
 }

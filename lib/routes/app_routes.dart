@@ -13,6 +13,7 @@ class AppRoutes {
   static const String qrCodeScannerScreen = '/qr_code_scanner';
   static const String companySignUpScreen = '/company_signup_screen';
   static const String clockInScreen = '/clock_in_screen';
+  static const String clockInOfflineScreen = '/clock_in_offline_screen';
   static const String companyDetailsScreen = '/company_details_screen';
   static const String selectToolScreen = '/select_tool_screen';
   static const String companyTradesScreen = '/company_trades_screen';

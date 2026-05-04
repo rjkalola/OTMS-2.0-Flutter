@@ -176,7 +176,7 @@ class ClockInController extends GetxController
           WorkLogListResponse response =
               WorkLogListResponse.fromJson(jsonDecode(responseModel.result!));
           Get.find<AppStorage>().setWorklogData(response);
-
+          Get.find<AppStorage>().setWorklogDataOffline(response);
           // WorkLogListResponse response =
           //     WorkLogListResponse.fromJson(jsonDecode(DataUtils.workResponse));
 

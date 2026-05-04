@@ -214,6 +214,7 @@ class SharedPreferenceKey {
   final String timesheetViewAmountVisible = "VIEW_AMOUNT_VISIBLE";
   final String showRate = "SHOW_RATE";
   final String worklogData = "WORK_LOG_DATA";
+  final String worklogDataOffline = "WORK_LOG_DATA_OFFLINE";
 }
 
 class Action {

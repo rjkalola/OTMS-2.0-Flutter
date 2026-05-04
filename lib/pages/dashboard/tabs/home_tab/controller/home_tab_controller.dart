@@ -70,12 +70,18 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
   late final AppLifecycleListener? _appLifecycleListener;
 
   @override
-  void onInit() {
+  Future<void> onInit() async {
     super.onInit();
-    userInfo.value = Get.find<AppStorage>().getUserInfo();
-    if ((userInfo.value.id ?? 0) != 0) {
-      setInitialData();
-    }
+
+    bool isInternet = await AppUtils.interNetCheck();
+    // if (isInternet) {
+      userInfo.value = Get.find<AppStorage>().getUserInfo();
+      if ((userInfo.value.id ?? 0) != 0) {
+        setInitialData();
+      }
+    // } else {
+    //   Get.toNamed(AppRoutes.clockInOfflineScreen);
+    // }
 
     // WidgetsBinding.instance.addObserver(this);
     // appLifeCycle();

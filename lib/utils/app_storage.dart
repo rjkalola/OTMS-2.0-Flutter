@@ -61,6 +61,24 @@ class AppStorage extends GetxController {
     return WorkLogListResponse.fromJson(map);
   }
 
+  void setWorklogDataOffline(WorkLogListResponse info) {
+    storage.write(
+        AppConstants.sharedPreferenceKey.worklogDataOffline, info.toJson());
+  }
+
+  WorkLogListResponse getWorklogDataOffline() {
+    final dynamic data =
+        storage.read(AppConstants.sharedPreferenceKey.worklogDataOffline);
+
+    if (data == null) {
+      return WorkLogListResponse();
+    }
+
+    final Map<String, dynamic> map = Map<String, dynamic>.from(data);
+
+    return WorkLogListResponse.fromJson(map);
+  }
+
   void setLoginUsers(List<UserInfo> list) {
     storage.write(
         AppConstants.sharedPreferenceKey.savedLoginUserList, jsonEncode(list));

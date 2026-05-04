@@ -58,6 +58,7 @@ import 'package:belcka/pages/check_in/check_in_photos_preview/view/check_in_phot
 import 'package:belcka/pages/check_in/check_log_details/view/check_log_details_screen.dart';
 import 'package:belcka/pages/check_in/check_out/view/check_out_screen.dart';
 import 'package:belcka/pages/check_in/clock_in/view/clock_in_screen.dart';
+import 'package:belcka/pages/check_in/clock_in_offline/view/clock_in_offline_screen.dart';
 import 'package:belcka/pages/check_in/penalty/penalty_details/view/penalty_details_screen.dart';
 import 'package:belcka/pages/check_in/penalty/penalty_list/view/penalty_list_screen.dart';
 import 'package:belcka/pages/check_in/select_before_after_photos/view/select_before_after_photos_screen.dart';
@@ -215,6 +216,10 @@ class AppPages {
       page: () => ClockInScreen(),
     ),
     GetPage(
+      name: AppRoutes.clockInOfflineScreen,
+      page: () => ClockInOfflineScreen(),
+    ),
+    GetPage(
       name: AppRoutes.selectBeforeAfterPhotosScreen,
       page: () => SelectBeforeAfterPhotosScreen(),
     ),
@@ -361,7 +366,8 @@ class AppPages {
     GetPage(name: AppRoutes.addProjectScreen, page: () => AddProjectScreen()),
     GetPage(name: AppRoutes.projectListScreen, page: () => ProjectListScreen()),
     GetPage(name: AppRoutes.userZonesScreen, page: () => UserZonesScreen()),
-    GetPage(name: AppRoutes.createZoneScreen, page: () => const CreateZoneScreen()),
+    GetPage(
+        name: AppRoutes.createZoneScreen, page: () => const CreateZoneScreen()),
     GetPage(name: AppRoutes.projectInfoScreen, page: () => ProjectInfoScreen()),
     GetPage(name: AppRoutes.checkInScreen, page: () => CheckInScreen()),
     GetPage(name: AppRoutes.checkOutScreen, page: () => CheckOutScreen()),
@@ -433,7 +439,8 @@ class AppPages {
     GetPage(name: AppRoutes.inviteUserScreen, page: () => InviteUserScreen()),
     GetPage(name: AppRoutes.createLeaveScreen, page: () => CreateLeaveScreen()),
     GetPage(name: AppRoutes.leaveListScreen, page: () => LeaveListScreen()),
-    GetPage(name: AppRoutes.leaveHistoryScreen, page: () => LeaveHistoryScreen()),
+    GetPage(
+        name: AppRoutes.leaveHistoryScreen, page: () => LeaveHistoryScreen()),
     GetPage(
         name: AppRoutes.leaveDetailsScreen, page: () => LeaveDetailsScreen()),
     GetPage(name: AppRoutes.addExpenseScreen, page: () => AddExpenseScreen()),
@@ -467,8 +474,7 @@ class AppPages {
         name: AppRoutes.warningsScoreScreen,
         page: () => const WarningsAnalyticsScreen()),
     GetPage(
-        name: AppRoutes.kpiScoreScreen,
-        page: () => const KpiAnalyticsScreen()),
+        name: AppRoutes.kpiScoreScreen, page: () => const KpiAnalyticsScreen()),
     GetPage(
         name: AppRoutes.appActivityScoreScreen,
         page: () => const AppActivityAnalyticsScreen()),
@@ -557,15 +563,12 @@ class AppPages {
         name: AppRoutes.buyerAddSupplierScreen,
         page: () => BuyerAddSupplierScreen()),
     GetPage(
-        name: AppRoutes.buyerAddStoreScreen,
-        page: () => BuyerAddStoreScreen()),
+        name: AppRoutes.buyerAddStoreScreen, page: () => BuyerAddStoreScreen()),
     GetPage(
         name: AppRoutes.storemanInternalOrderDetailsScreen,
         page: () => StoremanInternalOrderDetailsScreen()),
 
-    GetPage(
-        name: AppRoutes.productSetScreen,
-        page: () => ProductSetScreen()),
+    GetPage(name: AppRoutes.productSetScreen, page: () => ProductSetScreen()),
 
     GetPage(
         name: AppRoutes.healthAndSafetyScreen,
@@ -576,16 +579,11 @@ class AppPages {
         page: () => NearMissReportingScreen()),
 
     GetPage(
-        name: AppRoutes.healthInfoScreen,
-        page: () => const HealthInfoScreen()),
+        name: AppRoutes.healthInfoScreen, page: () => const HealthInfoScreen()),
 
-    GetPage(
-        name: AppRoutes.userCodeScreen,
-        page: () => UserCodeScreen()),
+    GetPage(name: AppRoutes.userCodeScreen, page: () => UserCodeScreen()),
 
-    GetPage(
-        name: AppRoutes.favoritesScreen,
-        page: () => FavoritesScreen()),
+    GetPage(name: AppRoutes.favoritesScreen, page: () => FavoritesScreen()),
 
     GetPage(
         name: AppRoutes.favoriteProductsScreen,
@@ -596,15 +594,12 @@ class AppPages {
         page: () => ReportIncidentScreen()),
 
     GetPage(
-        name: AppRoutes.nearMissListScreen,
-        page: () => NearMissListScreen()),
+        name: AppRoutes.nearMissListScreen, page: () => NearMissListScreen()),
 
     GetPage(
         name: AppRoutes.reportIncidentsListScreen,
         page: () => ReportIncidentsListScreen()),
-    GetPage(
-        name: AppRoutes.hsSettingsScreen,
-        page: () => HsSettingsScreen()),
+    GetPage(name: AppRoutes.hsSettingsScreen, page: () => HsSettingsScreen()),
     GetPage(
         name: AppRoutes.hsResourceTypesListScreen,
         page: () => HsResourceTypesListScreen()),
