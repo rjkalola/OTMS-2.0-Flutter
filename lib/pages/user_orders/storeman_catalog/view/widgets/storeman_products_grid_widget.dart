@@ -247,7 +247,7 @@ class _StoremanProductsGridWidgetState extends State<StoremanProductsGridWidget>
                   const SizedBox(height: 8),
                   TitleTextView(
                     text:
-                    "${product.currency}${product.marketPrice ?? ""}",
+                    "${product.currency}${product.perUnitPrice ?? ""}",
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),

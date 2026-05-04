@@ -252,7 +252,7 @@ class _BasketItemsListState extends State<BasketItemsList> {
                                   const SizedBox(height: 4),
                                   TitleTextView(
                                     text:
-                                        "${product.currency}${product.marketPrice ?? ""}",
+                                        "${product.currency}${product.perUnitPrice ?? ""}",
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   ),

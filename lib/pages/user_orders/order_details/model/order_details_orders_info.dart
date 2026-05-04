@@ -20,6 +20,7 @@ class OrderDetailsOrdersInfo {
   String? subQty;
   bool? isSubQty;
   String? marketPrice;
+  String? perUnitPrice;
   String? currency;
   String? packOfUnit;
   String? packOfQty;
@@ -53,7 +54,8 @@ class OrderDetailsOrdersInfo {
     this.packOfQty,
     this.deliveredQty,
     this.status,
-    this.attachments
+    this.attachments,
+    this.perUnitPrice
   });
 
   OrderDetailsOrdersInfo.fromJson(Map<String, dynamic> json) {
@@ -73,6 +75,7 @@ class OrderDetailsOrdersInfo {
     subQty = json['sub_qty'].toString();
     isSubQty = json['is_sub_qty'];
     marketPrice = json['market_price'].toString();
+    perUnitPrice = json['per_unit_price'].toString();
     currency = json['currency'];
     packOfUnit = json['pack_off_unit'];
     packOfQty = json['pack_off_qty'];
@@ -111,6 +114,7 @@ class OrderDetailsOrdersInfo {
     data['is_sub_qty'] = isSubQty;
     data['sub_qty'] = subQty;
     data['market_price'] = marketPrice;
+    data['per_unit_price'] = perUnitPrice;
     data['currency'] = currency;
     data['pack_off_qty'] = packOfQty;
     data['pack_off_unit'] = packOfUnit;
