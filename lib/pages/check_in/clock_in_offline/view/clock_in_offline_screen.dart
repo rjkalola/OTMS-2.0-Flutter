@@ -1,0 +1,82 @@
+import 'package:belcka/pages/check_in/clock_in/controller/clock_in_controller.dart';
+import 'package:belcka/pages/check_in/clock_in/view/widgets/footer_button_check_in_switch_project.dart';
+import 'package:belcka/pages/check_in/clock_in/view/widgets/my_day_log_list_view.dart';
+import 'package:belcka/pages/check_in/clock_in/view/widgets/my_day_logs_title.dart';
+import 'package:belcka/pages/check_in/clock_in/view/widgets/work_time_details_view.dart';
+import 'package:belcka/pages/check_in/clock_in_offline/view/widgets/time_counter_view.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/drawable.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/widgets/CustomProgressbar.dart';
+import 'package:belcka/widgets/appbar/base_appbar.dart';
+import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+
+class ClockInOfflineScreen extends StatefulWidget {
+  const ClockInOfflineScreen({super.key});
+
+  @override
+  State<ClockInOfflineScreen> createState() => _ClockInOfflineScreenState();
+}
+
+class _ClockInOfflineScreenState extends State<ClockInOfflineScreen> {
+  final controller = Get.put(ClockInController());
+
+  @override
+  Widget build(BuildContext context) {
+    AppUtils.setStatusBarColor(
+        bottomNavigationBarColor: backgroundColor_(context));
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop || result != null) return;
+        controller.onBackPress();
+      },
+      child: Container(
+        color: dashBoardBgColor_(context),
+        child: SafeArea(
+          child: Scaffold(
+            backgroundColor: dashBoardBgColor_(context),
+            appBar: BaseAppBar(
+              appBar: AppBar(),
+              title: 'work_log'.tr,
+              isCenterTitle: false,
+              isBack: true,
+              onBackPressed: () {
+                controller.onBackPress();
+              },
+              bgColor: dashBoardBgColor_(context),
+              // widgets: actionButtons()
+            ),
+            body: Obx(() {
+              return ModalProgressHUD(
+                  inAsyncCall: controller.isLoading.value,
+                  opacity: 0,
+                  progressIndicator: const CustomProgressbar(),
+                  child: controller.isInternetNotAvailable.value
+                      ? const NoInternetWidget()
+                      : Visibility(
+                          visible: controller.isMainViewVisible.value,
+                          child: Column(
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    TimeCounterView(),
+                                  ],
+                                ),
+                              ),
+                              // FooterButtonCheckInSwitchProject()
+                            ],
+                          )));
+            }),
+          ),
+        ),
+      ),
+    );
+  }
+
+}

@@ -103,7 +103,7 @@ class ApiConstants {
   static String getWarningsAnalytics = '$appUrl/analytics/get-warnings';
   static String getKpiAnalytics = '$appUrl/analytics/get-kpi';
   static String getAppActivityAnalytics = '$appUrl/analytics/get-app-activity';
-  static String stopUserWork = '$appUrl/stop-work';
+  static String stopUserWork = '$appUrl/user-worklog/stop-work';
   static String userChangeBulkCheckin = '$appUrl/user/change-bulk-checkin';
 
   //teams
@@ -165,14 +165,16 @@ class ApiConstants {
   static String rejectRequest = '$appUrl/requests/reject-request';
 
   //start work
-  static String userStartWork = '$appUrl/user-start-work';
-  static String userStopWork = '$appUrl/user-stop-work';
-  static String userWorkLogList = '$appUrl/user-worklogs-list';
-  static String getWorkLogDetails = '$appUrl/get-worklog-detail';
-  static String requestWorkLogChange = '$appUrl/request-worklog-change';
+  static String userStartWork = '$appUrl/user-worklog/user-start-work';
+  static String userStopWork = '$appUrl/user-worklog/user-stop-work';
+  static String userWorkLogList = '$appUrl/user-worklog/user-worklogs-list';
+  static String getWorkLogDetails = '$appUrl/user-worklog/get-worklog-detail';
+  static String requestWorkLogChange =
+      '$appUrl/user-worklog/request-worklog-change';
   static String workLogRequestDetails = '$appUrl/requests/get-request-detail';
-  static String workLogRequestApproveReject = '$appUrl/worklog-request/action';
-  static String getLastWorkLog = '$appUrl/get-last-worklog';
+  static String workLogRequestApproveReject =
+      '$appUrl/user-worklog/worklog-request/action';
+  static String getLastWorkLog = '$appUrl/user-worklog/get-last-worklog';
   static String userBillingInfoValidation = '$appUrl/user-billing/validate';
 
   //check In
@@ -189,8 +191,8 @@ class ApiConstants {
       '$appUrl/user-checklog/remove-attachment';
   static String checkLocationOutsideBoundary =
       '$appUrl/user-checklog/check-location';
-  static String getCheckInDayLogs = '$appUrl/get-checklogs';
-  static String getPenaltyDayLogs = '$appUrl/get-penalties';
+  static String getCheckInDayLogs = '$appUrl/user-worklog/get-checklogs';
+  static String getPenaltyDayLogs = '$appUrl/user-worklog/get-penalties';
 
   //timesheet
   static String getTimeSheetList = '$appUrl/timesheet/get';
