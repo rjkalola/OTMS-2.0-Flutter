@@ -73,12 +73,12 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
   Future<void> onInit() async {
     super.onInit();
 
-    bool isInternet = await AppUtils.interNetCheck();
+    // bool isInternet = await AppUtils.interNetCheck();
     // if (isInternet) {
-      userInfo.value = Get.find<AppStorage>().getUserInfo();
-      if ((userInfo.value.id ?? 0) != 0) {
-        setInitialData();
-      }
+    userInfo.value = Get.find<AppStorage>().getUserInfo();
+    if ((userInfo.value.id ?? 0) != 0) {
+      setInitialData();
+    }
     // } else {
     //   Get.toNamed(AppRoutes.clockInOfflineScreen);
     // }

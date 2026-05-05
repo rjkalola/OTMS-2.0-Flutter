@@ -55,6 +55,8 @@ class LocationServiceNew {
     LocationInfo locationInfo = LocationInfo(
         latitude: position.latitude.toString(),
         longitude: position.longitude.toString());
+    String? location = await LocationServiceNew.getAddressFromCoordinates(position.latitude,  position.longitude);
+    locationInfo.location = location??"";
     Get.find<AppStorage>().setLastLocation(locationInfo);
     print("Location: ${position.latitude}, ${position.longitude}");
     return position;

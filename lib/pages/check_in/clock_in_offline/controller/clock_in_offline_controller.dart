@@ -6,6 +6,7 @@ import 'package:belcka/pages/leaves/leave_list/model/leave_info.dart';
 import 'package:belcka/pages/check_in/clock_in/model/location_info.dart';
 import 'package:belcka/pages/check_in/clock_in/model/work_log_info.dart';
 import 'package:belcka/pages/check_in/clock_in/model/work_log_list_response.dart';
+import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_storage.dart';
 import 'package:belcka/utils/date_utils.dart';
 import 'package:belcka/utils/location_service_new.dart';
@@ -34,7 +35,8 @@ class ClockInOfflineController extends GetxController {
     LocationInfo? locationInfo = Get.find<AppStorage>().getLastLocation();
     if (locationInfo != null) {
       setLocation(double.parse(locationInfo.latitude ?? "0"),
-          double.parse(locationInfo.longitude ?? "0"));
+          double.parse(locationInfo.longitude ?? "0"),
+          locationInput: locationInfo.location);
     }
     locationRequest();
     appLifeCycle();
@@ -53,6 +55,7 @@ class ClockInOfflineController extends GetxController {
   void _reloadFromStorage() {
     workLogData = Get.find<AppStorage>().getWorklogDataOffline();
     workLogData.workLogInfo ??= <WorkLogInfo>[];
+    print("Length" + workLogData.workLogInfo!.length.toString());
   }
 
   void _persist() {
@@ -164,7 +167,9 @@ class ClockInOfflineController extends GetxController {
 
   /// Stop online-running row first if present; otherwise stop offline id==0 row.
   Future<void> onStopWork() async {
-    await fetchLocationAndAddress();
+    print("111");
+    // await fetchLocationAndAddress();
+    print("2222");
     final DateTime sessionEnd = DateTime.now();
     final String endStr = _nowWorkDateTimeString();
     final LocationInfo? stopLoc = _currentLocationInfo();
@@ -184,11 +189,8 @@ class ClockInOfflineController extends GetxController {
         final DateFormat fullFormat =
             DateFormat(DateUtil.DD_MM_YYYY_TIME_24_SLASH2);
         final ws = fullFormat.parse(online.workStartTime!);
-        online.totalWorkSeconds = sessionEnd
-            .difference(ws)
-            .inSeconds
-            .clamp(0, 1 << 30)
-            .toInt();
+        online.totalWorkSeconds =
+            sessionEnd.difference(ws).inSeconds.clamp(0, 1 << 30).toInt();
       } catch (_) {
         online.totalWorkSeconds = calc.payableWorkSeconds + calc.breakSeconds;
       }
@@ -200,10 +202,10 @@ class ClockInOfflineController extends GetxController {
         final DateFormat fullFormat =
             DateFormat(DateUtil.DD_MM_YYYY_TIME_24_SLASH2);
         final ws = fullFormat.parse(off.workStartTime!);
-        final int secs = DateUtil.dateDifferenceInSeconds(
-                date1: ws, date2: sessionEnd)
-            .clamp(0, 1 << 30)
-            .toInt();
+        final int secs =
+            DateUtil.dateDifferenceInSeconds(date1: ws, date2: sessionEnd)
+                .clamp(0, 1 << 30)
+                .toInt();
         off.workEndTime = endStr;
         off.stopWorkLocation = stopLoc;
         off.payableWorkSeconds = secs;
@@ -223,7 +225,9 @@ class ClockInOfflineController extends GetxController {
   /// Start a new offline-only segment ([id] == 0) when no session is running.
   Future<void> onStartWork() async {
     if (_hasAnyRunningSession()) return;
-    await fetchLocationAndAddress();
+    print("333");
+    // await fetchLocationAndAddress();
+    print("444");
     final LocationInfo? startLoc = _currentLocationInfo();
     final String startStr = _nowWorkDateTimeString();
 
@@ -318,8 +322,7 @@ class ClockInOfflineController extends GetxController {
       } else {
         try {
           final DateTime ws = fullFormat.parse(log.workStartTime!);
-          int secs =
-              DateUtil.dateDifferenceInSeconds(date1: ws, date2: now);
+          int secs = DateUtil.dateDifferenceInSeconds(date1: ws, date2: now);
           if (secs > 0) totalWorkHourSeconds += secs;
         } catch (_) {}
       }
@@ -693,8 +696,8 @@ class ClockInOfflineController extends GetxController {
           "$todayDate ${DateUtil.changeDateFormat(leave.startTime ?? "", DateUtil.HH_MM_24, DateUtil.HH_MM_SS_24_2)}");
       final DateTime leaveEnd = fullFormat.parse(
           "$todayDate ${DateUtil.changeDateFormat(leave.endTime ?? "", DateUtil.HH_MM_24, DateUtil.HH_MM_SS_24_2)}");
-      totalLeaveSeconds += overlapSeconds(
-          workStartTime, workEndTime, leaveStart, leaveEnd);
+      totalLeaveSeconds +=
+          overlapSeconds(workStartTime, workEndTime, leaveStart, leaveEnd);
     }
 
     activeWorkSeconds -= totalLeaveSeconds;
@@ -772,15 +775,21 @@ class ClockInOfflineController extends GetxController {
     }
   }
 
-  Future<void> setLocation(double? lat, double? lon) async {
+  Future<void> setLocation(double? lat, double? lon,
+      {String? locationInput}) async {
     if (lat != null && lon != null) {
       latitude = lat.toString();
       longitude = lon.toString();
-      location = await LocationServiceNew.getAddressFromCoordinates(lat, lon);
+      print("setLocation");
+      if (!StringHelper.isEmptyString(locationInput)) {
+        print("locationInput:" + locationInput!);
+        location = locationInput;
+        // location = await LocationServiceNew.getAddressFromCoordinates(lat, lon);
+      }
     }
   }
 
   void onBackPress() {
-    Get.back();
+    Get.offAllNamed(AppRoutes.dashboardScreen);
   }
 }

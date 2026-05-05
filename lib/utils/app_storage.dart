@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:belcka/pages/check_in/clock_in/model/work_log_list_response.dart';
+import 'package:belcka/utils/app_utils.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -69,7 +70,7 @@ class AppStorage extends GetxController {
   WorkLogListResponse getWorklogDataOffline() {
     final dynamic data =
         storage.read(AppConstants.sharedPreferenceKey.worklogDataOffline);
-
+    print("offline data:"+data.toString());
     if (data == null) {
       return WorkLogListResponse();
     }
@@ -360,6 +361,8 @@ class AppStorage extends GetxController {
     removeData(AppConstants.sharedPreferenceKey.isLocalSequenceChanged);
     removeData(AppConstants.sharedPreferenceKey.timesheetDateFilterIndex);
     removeData(AppConstants.sharedPreferenceKey.timesheetViewAmountVisible);
+    removeData(AppConstants.sharedPreferenceKey.worklogData);
+    removeData(AppConstants.sharedPreferenceKey.worklogDataOffline);
   }
 
   void removeData(String key) {

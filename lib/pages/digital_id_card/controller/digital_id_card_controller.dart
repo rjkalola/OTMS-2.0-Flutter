@@ -12,6 +12,7 @@ import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:open_filex/open_filex.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class DigitalIdCardController extends GetxController
@@ -107,14 +108,21 @@ class DigitalIdCardController extends GetxController
         filePath: filePath,
         onClose: () => Get.back(),
         onViewFile: () async {
+          // Get.back();
+          // final context = Get.context;
+          // if (context == null) return;
+          // await ImageUtils.openAttachment(
+          //   context,
+          //   filePath,
+          //   ImageUtils.getFileType(filePath),
+          // );
           Get.back();
-          final context = Get.context;
-          if (context == null) return;
-          await ImageUtils.openAttachment(
-            context,
-            filePath,
-            ImageUtils.getFileType(filePath),
-          );
+          final result = await OpenFilex.open(filePath);
+          if (result.type != ResultType.done) {
+            Get.snackbar(
+                'error'.tr, "${'could_not_open_file'.tr}: ${result.message}",
+                snackPosition: SnackPosition.BOTTOM);
+          }
         },
       ),
       backgroundColor: Colors.transparent,

@@ -101,6 +101,12 @@ class TimeSheetList extends StatelessWidget {
                           child: UserAvtarView(
                             imageUrl: info.userThumbImage ?? "",
                             imageSize: 46,
+                            isOnlineStatusVisible: true,
+                            onlineStatusColor: (info.userStatusColor != null &&
+                                info.userStatusColor!.startsWith("#"))
+                                ? AppUtils.getColor(
+                                info.userStatusColor ?? "#FF1744")
+                                : Colors.redAccent,
                           ),
                         ),
                       ),

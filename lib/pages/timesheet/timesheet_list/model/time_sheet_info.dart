@@ -22,6 +22,9 @@ class TimeSheetInfo {
   int? totalBreakSeconds;
   int? payableWorkSeconds;
   int? totalPayableSeconds;
+  bool? isWorking;
+  bool? isOnBreak;
+  String? userStatusColor;
   bool? isExpanded;
   List<DayLogInfo>? dayLogs;
   List<WeekLogInfo>? weekLogs;
@@ -47,6 +50,9 @@ class TimeSheetInfo {
       this.totalBreakSeconds,
       this.payableWorkSeconds,
       this.totalPayableSeconds,
+      this.isWorking,
+      this.isOnBreak,
+      this.userStatusColor,
       this.isExpanded,
       this.dayLogs,
       this.weekLogs});
@@ -72,6 +78,9 @@ class TimeSheetInfo {
     totalBreakSeconds = json['total_break_seconds'];
     payableWorkSeconds = json['payable_work_seconds'];
     totalPayableSeconds = json['total_payable_seconds'];
+    isWorking = json['is_working'];
+    isOnBreak = json['is_on_break'];
+    userStatusColor = json['user_status_color'];
     isExpanded = json['isExpanded'];
     if (json['day_logs'] != null) {
       dayLogs = <DayLogInfo>[];
@@ -109,6 +118,9 @@ class TimeSheetInfo {
     data['total_break_seconds'] = this.totalBreakSeconds;
     data['payable_work_seconds'] = this.payableWorkSeconds;
     data['total_payable_seconds'] = this.totalPayableSeconds;
+    data['is_working'] = this.isWorking;
+    data['is_on_break'] = this.isOnBreak;
+    data['user_status_color'] = this.userStatusColor;
     data['isExpanded'] = this.isExpanded;
     if (this.dayLogs != null) {
       data['day_logs'] = this.dayLogs!.map((v) => v.toJson()).toList();

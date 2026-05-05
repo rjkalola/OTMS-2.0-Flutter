@@ -137,7 +137,7 @@ class SelectTypeOfWorkDialogState extends State<SelectTypeOfWorkDialog> {
             Visibility(
               visible: !StringHelper.isEmptyList(list),
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 36),
                 child: Row(
                   children: [
                     Flexible(
@@ -215,9 +215,13 @@ class SelectTypeOfWorkDialogState extends State<SelectTypeOfWorkDialog> {
                                 info.isCheck = !(info.isCheck ?? false);
                                 tempList.refresh();
                               },
-                              child: TitleTextView(
-                                text: tempList[i].name ?? "",
-                                fontSize: 17,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 8, bottom: 8),
+                                child: TitleTextView(
+                                  text: tempList[i].name ?? "",
+                                  fontSize: 16,
+                                ),
                               ),
                             ),
                           ),
@@ -230,7 +234,7 @@ class SelectTypeOfWorkDialogState extends State<SelectTypeOfWorkDialog> {
                         ],
                       )),
                   Padding(
-                    padding: const EdgeInsets.only(left: 28),
+                    padding: const EdgeInsets.only(left: 32),
                     child: Row(
                       children: [
                         textContainerItem(tempList[i].tradeName ?? "",
@@ -288,14 +292,14 @@ class SelectTypeOfWorkDialogState extends State<SelectTypeOfWorkDialog> {
   Widget textContainerItem(String text, Color boxColor) {
     return !StringHelper.isEmptyString(text)
         ? Padding(
-            padding: const EdgeInsets.only(right: 6, top: 4),
+            padding: const EdgeInsets.only(right: 6, top: 5),
             child: TextViewWithContainer(
               alignment: Alignment.center,
-              height: 22,
+              height: 20,
               text: text ?? "",
               padding: EdgeInsets.fromLTRB(4, 0, 4, 0),
               fontColor: Colors.white,
-              fontSize: 12,
+              fontSize: 11,
               boxColor: boxColor,
               borderRadius: 5,
               maxLines: 1,
