@@ -32,6 +32,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
         color: dashBoardBgColor_(context),
         child: SafeArea(
           top: false,
+          bottom: !GetPlatform.isIOS,
           child: GestureDetector(
             onTap: () {
               FocusManager.instance.primaryFocus?.unfocus();
@@ -66,7 +67,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                   padding: const EdgeInsets.all(0),
                   child: Column(
                     children: [
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 4),
                       Expanded(
                         child: Obx(() {
                           return ListView.builder(

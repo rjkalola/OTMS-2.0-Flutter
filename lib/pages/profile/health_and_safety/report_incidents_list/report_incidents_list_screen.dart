@@ -29,6 +29,7 @@ class _ReportIncidentsListScreenState extends State<ReportIncidentsListScreen> {
         color: dashBoardBgColor_(context),
         child: SafeArea(
           top: false,
+          bottom: !GetPlatform.isIOS,
           child: GestureDetector(
             onTap: () {
               FocusManager.instance.primaryFocus?.unfocus();

@@ -29,6 +29,8 @@ class _HealthInfoScreenState extends State<HealthInfoScreen> {
       () => Container(
         color: dashBoardBgColor_(context),
         child: SafeArea(
+          top: false,
+          bottom: !GetPlatform.isIOS,
           child: ModalProgressHUD(
             inAsyncCall: controller.isLoading.value,
             opacity: 0,
@@ -75,7 +77,7 @@ class _HealthInfoScreenState extends State<HealthInfoScreen> {
                   visible: controller.isMainViewVisible.value &&
                       !controller.isInternetNotAvailable.value,
                   child: PrimaryButton(
-                    margin: const EdgeInsets.fromLTRB(14, 18, 14, 16),
+                    margin: const EdgeInsets.fromLTRB(14, 18, 14, 0),
                     buttonText: 'save'.tr,
                     color: defaultAccentColor_(context),
                     onPressed: controller.onSave,

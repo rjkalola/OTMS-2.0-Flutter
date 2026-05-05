@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:belcka/pages/dashboard/tabs/more_tab/controller/more_tab_repository.dart';
 import 'package:belcka/utils/AlertDialogHelper.dart';
@@ -68,6 +69,29 @@ class UserSettingsController extends GetxController
   void showLogoutDialog() {
     AlertDialogHelper.showAlertDialog("", 'logout_msg'.tr, 'yes'.tr, 'no'.tr,
         "", true, false, this, AppConstants.dialogIdentifier.logout);
+
+    /*
+    AdaptiveAlertDialog.show(
+      context: context,
+      title: '',
+      message: 'logout_msg'.tr,
+      actions: [
+        AlertAction(
+          title: 'Cancel',
+          style: AlertActionStyle.cancel,
+          onPressed: () {},
+        ),
+        AlertAction(
+          title: 'Confirm',
+          style: AlertActionStyle.defaultAction,
+          onPressed: () {
+            // Do something
+          },
+        ),
+      ],
+    );
+    */
+
   }
 
   @override

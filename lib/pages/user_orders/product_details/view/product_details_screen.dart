@@ -34,6 +34,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             () => Container(
           color: backgroundColor_(context),
           child: SafeArea(
+            top: false,
+            bottom: !GetPlatform.isIOS,
             child: GestureDetector(
               onTap: (){
                 FocusManager.instance.primaryFocus?.unfocus();

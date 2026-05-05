@@ -33,6 +33,7 @@ class _ProductSetScreenState extends State<ProductSetScreen> {
         color: dashBoardBgColor_(context),
         child: SafeArea(
           top: false,
+          bottom: !GetPlatform.isIOS,
           child: Obx(
                 () => Scaffold(
               backgroundColor: dashBoardBgColor_(context),

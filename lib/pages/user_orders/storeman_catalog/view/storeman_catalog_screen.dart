@@ -38,7 +38,7 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
         color: dashBoardBgColor_(context),
         child: SafeArea(
           top: false,
-          bottom: false,
+          bottom: !GetPlatform.isIOS,
           child: GestureDetector(
             onTap: () {
               FocusManager.instance.primaryFocus?.unfocus();
@@ -106,7 +106,7 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
                                         ],
                                       ),
                                     ),
-                                    const SizedBox(height: 12),
+
                                   ],
                                 ),
                                 Obx(() => AnimatedPositioned(
