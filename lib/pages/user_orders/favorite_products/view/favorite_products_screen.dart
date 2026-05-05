@@ -48,6 +48,7 @@ class _FavoriteProductsScreenState extends State<FavoriteProductsScreen> {
         color: dashBoardBgColor_(context),
         child: SafeArea(
           top: false,
+          bottom: !GetPlatform.isIOS,
           child: Obx(
                 () => GestureDetector(
               onTap: (){
@@ -85,7 +86,7 @@ class _FavoriteProductsScreenState extends State<FavoriteProductsScreen> {
                       //Product list
                       Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.all(16.0),
+                          padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
                           child: FavoriteProductsListWidget(),
                         ),
                       )

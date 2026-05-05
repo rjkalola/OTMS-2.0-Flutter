@@ -117,15 +117,13 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                         final isActive =
                             (controller.currentImageIndex[0] ?? 0) == dotIndex;
                         return AnimatedContainer(
-                          duration: const Duration(milliseconds: 200),
-                          width: isActive ? 8 : 6,
-                          height: isActive ? 8 : 6,
+                          duration: const Duration(milliseconds: 300),
                           margin: const EdgeInsets.symmetric(horizontal: 2),
+                          width: isActive ? 12 : 4,
+                          height: 4,
                           decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: isActive
-                                ? defaultAccentColor_(context)
-                                : Colors.grey[400],
+                            borderRadius: BorderRadius.circular(2),
+                            color: isActive ? defaultAccentColor_(context) : Colors.grey.withOpacity(0.4),
                           ),
                         );
                       },

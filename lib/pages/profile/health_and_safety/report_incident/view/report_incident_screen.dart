@@ -44,6 +44,7 @@ class _ReportIncidentScreenState extends State<ReportIncidentScreen> {
         color: dashBoardBgColor_(context),
         child: SafeArea(
           top: false,
+          bottom: !GetPlatform.isIOS,
           child: Obx(
                 () => GestureDetector(
                   onTap: (){
@@ -72,11 +73,12 @@ class _ReportIncidentScreenState extends State<ReportIncidentScreen> {
                       },
                     )
                         : Padding(
-                        padding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
+                        padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
                         child: SingleChildScrollView(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              SizedBox(height: 16,),
                               //text field
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -434,7 +436,7 @@ class _ReportIncidentScreenState extends State<ReportIncidentScreen> {
                   child: Visibility(
                     visible:true,
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
                       child: Opacity(
                         opacity: 1.0,
                         child: PrimaryButton(

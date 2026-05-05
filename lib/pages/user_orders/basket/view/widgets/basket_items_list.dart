@@ -173,7 +173,7 @@ class _BasketItemsListState extends State<BasketItemsList> {
                                         child: SizedBox.expand(
                                           child: Image.network(
                                             product.productImages?[imgIndex].thumbUrl ?? "",
-                                            fit: BoxFit.fill,
+                                            fit: BoxFit.cover,
                                             alignment: Alignment.center,
                                             errorBuilder: (context, error, stack) {
                                               return Center(
@@ -197,22 +197,13 @@ class _BasketItemsListState extends State<BasketItemsList> {
                                           (dotIndex) {
                                         final isActive = (controller.currentImageIndex[index] ?? 0) == dotIndex;
                                         return AnimatedContainer(
-                                          duration: const Duration(milliseconds: 200),
-                                          width: isActive ? 8 : 6,
-                                          height: isActive ? 8 : 6,
+                                          duration: const Duration(milliseconds: 300),
                                           margin: const EdgeInsets.symmetric(horizontal: 2),
+                                          width: isActive ? 12 : 4,
+                                          height: 4,
                                           decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: isActive
-                                                ? defaultAccentColor_(context)
-                                                : secondaryTextColor_(context), // White dots look better on images
-                                            boxShadow: [
-                                              if (isActive)
-                                                BoxShadow(
-                                                  color: Colors.black.withOpacity(0.2),
-                                                  blurRadius: 2,
-                                                )
-                                            ],
+                                            borderRadius: BorderRadius.circular(2),
+                                            color: isActive ? defaultAccentColor_(context) : Colors.grey.withOpacity(0.4),
                                           ),
                                         );
                                       },

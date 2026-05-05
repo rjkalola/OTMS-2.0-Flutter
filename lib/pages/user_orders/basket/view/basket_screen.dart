@@ -37,6 +37,7 @@ class _BasketScreenState extends State<BasketScreen> {
         color: dashBoardBgColor_(context),
         child: SafeArea(
           top: false,
+          bottom: !GetPlatform.isIOS,
           child: Obx(
             () => GestureDetector(
               onTap: (){
@@ -83,7 +84,7 @@ class _BasketScreenState extends State<BasketScreen> {
                   child: Visibility(
                     visible: controller.isMainViewVisible.value && controller.cartList.isNotEmpty,
                     child: Padding(
-                      padding: const EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                       child: Opacity(
                         opacity: 1.0,
                         child: PrimaryButton(

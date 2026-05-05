@@ -36,6 +36,8 @@ class _UserCodeScreenState extends State<UserCodeScreen> {
       child: Obx(() => Container(
             color: dashBoardBgColor_(context),
             child: SafeArea(
+              top: false,
+              bottom: !GetPlatform.isIOS,
               child: Scaffold(
                 appBar: BaseAppBar(
                   appBar: AppBar(),

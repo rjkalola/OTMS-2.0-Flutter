@@ -1,3 +1,4 @@
+import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,6 +25,8 @@ class UserSettingsScreen extends StatelessWidget {
     return Obx(() => Container(
           color: dashBoardBgColor_(context),
           child: SafeArea(
+            top: false,
+            bottom: !GetPlatform.isIOS,
             child: Scaffold(
               appBar: BaseAppBar(
                 appBar: AppBar(),

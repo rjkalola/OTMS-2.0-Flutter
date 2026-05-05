@@ -52,6 +52,8 @@ class _BillingInfoScreenState extends State<BillingInfoScreen> {
         child: Container(
           color: dashBoardBgColor_(context),
           child: SafeArea(
+            top: false,
+            bottom: !GetPlatform.isIOS,
             child: Scaffold(
               appBar: BaseAppBar(
                 appBar: AppBar(),
@@ -90,7 +92,7 @@ class _BillingInfoScreenState extends State<BillingInfoScreen> {
                 child: Visibility(
                   visible: controller.isShowSaveButton.value,
                   child: Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                     child: Obx(() {
                       final enabled = controller.isSaveEnabled.value;
                       return Opacity(
