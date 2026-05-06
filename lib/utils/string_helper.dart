@@ -123,4 +123,11 @@ class StringHelper {
       return getText(controller);
     }
   }
+
+  static void printLongString(String text) {
+    final pattern = RegExp('.{1,800}'); // 800 chars per chunk
+    pattern.allMatches(text).forEach((match) {
+      print(match.group(0));
+    });
+  }
 }

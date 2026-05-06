@@ -18,11 +18,27 @@ class ClockInOfflineScreen extends StatefulWidget {
 
 class _ClockInOfflineScreenState extends State<ClockInOfflineScreen> {
   late final ClockInOfflineController controller;
+  late final String _controllerTag;
 
   @override
   void initState() {
     super.initState();
-    controller = Get.put(ClockInOfflineController());
+    // Always use a fresh, screen-scoped controller instance to avoid
+    // route-removal races with previously registered global instances.
+    _controllerTag = UniqueKey().toString();
+    controller = Get.put(ClockInOfflineController(), tag: _controllerTag);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      controller.onScreenEnter();
+    });
+  }
+
+  @override
+  void dispose() {
+    if (Get.isRegistered<ClockInOfflineController>(tag: _controllerTag)) {
+      Get.delete<ClockInOfflineController>(tag: _controllerTag, force: true);
+    }
+    super.dispose();
   }
 
   @override
@@ -69,11 +85,13 @@ class _ClockInOfflineScreenState extends State<ClockInOfflineScreen> {
                                 alignment: Alignment.center,
                                 child: SingleChildScrollView(
                                   physics: const ClampingScrollPhysics(),
-                                  child: TimeCounterView(),
+                                  child: TimeCounterView(
+                                    time: controller.totalWorkHours.value,
+                                  ),
                                 ),
                               ),
                             ),
-                            const _OfflineWorkFooter(),
+                            _OfflineWorkFooter(controller: controller),
                           ],
                         ),
                       ),
@@ -90,15 +108,16 @@ class _ClockInOfflineScreenState extends State<ClockInOfflineScreen> {
 }
 
 class _OfflineWorkFooter extends StatelessWidget {
-  const _OfflineWorkFooter();
+  const _OfflineWorkFooter({required this.controller});
+
+  final ClockInOfflineController controller;
 
   @override
   Widget build(BuildContext context) {
-    final c = Get.find<ClockInOfflineController>();
     return Obx(() {
       return Container(
         key: ValueKey(
-            '${c.totalWorkHours.value}_${c.isLoading.value}_${c.showStopButton}_${c.showStartButton}'),
+            '${controller.totalWorkHours.value}_${controller.isLoading.value}_${controller.showStopButton}_${controller.showStartButton}'),
         decoration: BoxDecoration(
           color: backgroundColor_(context),
           borderRadius: const BorderRadius.only(
@@ -110,18 +129,18 @@ class _OfflineWorkFooter extends StatelessWidget {
           top: false,
           child: Padding(
             padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
-            child: c.showStopButton
+            child: controller.showStopButton
                 ? PrimaryButton(
                     buttonText: 'stop_shift'.tr,
-                    onPressed: () => c.onStopWork(),
+                    onPressed: () => controller.onStopWork(),
                     color: const Color(0xffFF6464),
                     fontWeight: FontWeight.w500,
                     fontSize: 16,
                   )
-                : c.showStartButton
+                : controller.showStartButton
                     ? PrimaryButton(
                         buttonText: 'start_shift'.tr,
-                        onPressed: () => c.onStartWork(),
+                        onPressed: () => controller.onStartWork(),
                         color: Colors.green,
                         fontWeight: FontWeight.w500,
                         fontSize: 16,

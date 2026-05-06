@@ -12,7 +12,6 @@ import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
-import 'package:belcka/widgets/other_widgets/right_arrow_widget.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -130,21 +129,27 @@ class _PurchasingScreenState extends State<PurchasingScreen>
 
   List<Widget>? actionButtons() {
     return [
-      GestureDetector(
-          onTap: () {
-            Get.toNamed(
-                AppRoutes.generateReportScreen);
+      Visibility(
+        visible: controller.isMainViewVisible.value,
+        child: GestureDetector(
+            onTap: () {
+              Get.toNamed(AppRoutes.generateReportScreen);
+            },
+            child: ImageUtils.setSvgAssetsImage(
+                path: Drawable.reportIcon, width: 24, height: 24)),
+      ),
+      Visibility(
+        visible: controller.isMainViewVisible.value,
+        child: IconButton(
+          icon: Icon(Icons.settings),
+          onPressed: () {
+            var arguments = {
+              AppConstants.intentKey.itemDetails:
+                  controller.inventoryData.value,
+            };
+            Get.toNamed(AppRoutes.buyerSettingsScreen, arguments: arguments);
           },
-          child: ImageUtils.setSvgAssetsImage(
-              path: Drawable.reportIcon, width: 24, height: 24)),
-      IconButton(
-        icon: Icon(Icons.settings),
-        onPressed: () {
-          var arguments = {
-            AppConstants.intentKey.itemDetails: controller.inventoryData.value,
-          };
-          Get.toNamed(AppRoutes.buyerSettingsScreen, arguments: arguments);
-        },
+        ),
       ),
     ];
   }

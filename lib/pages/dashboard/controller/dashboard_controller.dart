@@ -64,8 +64,6 @@ class DashboardController extends GetxController
     pageController = PageController(initialPage: selectedIndex.value);
     setTitle(selectedIndex.value);
 
-    // setDashboardData();
-    // getSettingApi();
     getFirebaseToken();
   }
 

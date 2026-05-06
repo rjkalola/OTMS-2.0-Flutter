@@ -8,6 +8,7 @@ import 'package:belcka/pages/check_in/clock_in/model/work_log_info.dart';
 import 'package:belcka/pages/check_in/clock_in/model/work_log_list_response.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_storage.dart';
+import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/date_utils.dart';
 import 'package:belcka/utils/location_service_new.dart';
 import 'package:belcka/utils/string_helper.dart';
@@ -15,6 +16,8 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+
+import '../../../../utils/app_constants.dart';
 
 class ClockInOfflineController extends GetxController {
   final RxBool isLoading = false.obs,
@@ -44,6 +47,21 @@ class ClockInOfflineController extends GetxController {
     if (workLogData.userIsWorking == true || _hasAnyRunningSession()) {
       startTimer();
     }
+    print("----------------------------------------------");
+    print("hasOfflineRecordsForUpload:"+hasOfflineRecordsForUpload().toString());
+    print("----------------------------------------------");
+    getOfflineRecordsUploadJson();
+  }
+
+  /// Called each time screen opens/re-opens.
+  void onScreenEnter() {
+    _reloadFromStorage();
+    _refreshCounterFromData();
+    if (workLogData.userIsWorking == true || _hasAnyRunningSession()) {
+      startTimer();
+    } else {
+      stopTimer();
+    }
   }
 
   @override
@@ -55,11 +73,60 @@ class ClockInOfflineController extends GetxController {
   void _reloadFromStorage() {
     workLogData = Get.find<AppStorage>().getWorklogDataOffline();
     workLogData.workLogInfo ??= <WorkLogInfo>[];
-    print("Length" + workLogData.workLogInfo!.length.toString());
+    print("Size"+workLogData.workLogInfo!.length.toString());
   }
 
   void _persist() {
     Get.find<AppStorage>().setWorklogDataOffline(workLogData);
+  }
+
+  bool _isOfflineUploadCandidate(WorkLogInfo log) {
+    final int id = log.id ?? 0;
+    final bool createdOffline = id == 0;
+    final bool stoppedOffline = id > 0 && (log.offlineRecord ?? false);
+    if (!createdOffline && !stoppedOffline) return false;
+
+    if (createdOffline) {
+      return !StringHelper.isEmptyString(log.workStartTime);
+    }
+
+    return !StringHelper.isEmptyString(log.workStartTime) &&
+        !StringHelper.isEmptyString(log.workEndTime);
+  }
+
+  bool hasOfflineRecordsForUpload() {
+    _reloadFromStorage();
+    for (final log in workLogData.workLogInfo ?? <WorkLogInfo>[]) {
+      if (_isOfflineUploadCandidate(log)) return true;
+    }
+    return false;
+  }
+
+  Future<List<Map<String, dynamic>>> getOfflineRecordsUploadJson() async {
+    _reloadFromStorage();
+    String deviceModelName = await AppUtils.getDeviceName();
+    final List<Map<String, dynamic>> rows = [];
+    for (final log in workLogData.workLogInfo ?? <WorkLogInfo>[]) {
+      if (!_isOfflineUploadCandidate(log)) continue;
+
+      final Map<String, dynamic> row = {
+        "work_start_time": log.workStartTime,
+        "work_end_time": log.workEndTime,
+        "start_work_location": log.startWorkLocation?.toJson(),
+        "stop_work_location": log.stopWorkLocation?.toJson(),
+        "device_type": AppConstants.deviceType,
+        "device_model_type": deviceModelName,
+      };
+      if ((log.id ?? 0) > 0) {
+        row["id"] = log.id;
+      }
+      rows.add(row);
+    }
+    print("----------------------------------");
+    StringHelper.printLongString(rows.toString());
+    print("----------------------------------");
+
+    return rows;
   }
 
   int? get _effectiveShiftId =>
@@ -225,9 +292,7 @@ class ClockInOfflineController extends GetxController {
   /// Start a new offline-only segment ([id] == 0) when no session is running.
   Future<void> onStartWork() async {
     if (_hasAnyRunningSession()) return;
-    print("333");
     // await fetchLocationAndAddress();
-    print("444");
     final LocationInfo? startLoc = _currentLocationInfo();
     final String startStr = _nowWorkDateTimeString();
 
@@ -273,8 +338,16 @@ class ClockInOfflineController extends GetxController {
       !showStopButton && (workLogData.isCheckIn != false);
 
   void startTimer() {
+    stopTimer();
     _onTick();
-    _timer = Timer.periodic(const Duration(seconds: 1), (_) => _onTick());
+    _timer = Timer.periodic(const Duration(seconds: 1), (_) {
+      if (isClosed) return;
+      try {
+        _onTick();
+      } catch (_) {
+        // Keep periodic timer alive even if one tick fails.
+      }
+    });
   }
 
   void stopTimer() {
@@ -290,7 +363,11 @@ class ClockInOfflineController extends GetxController {
 
   void _refreshCounterFromData() {
     final CounterDetails details = _getTotalWorkHoursOffline(workLogData);
-    totalWorkHours.value = details.totalWorkTime;
+    if (totalWorkHours.value == details.totalWorkTime) {
+      totalWorkHours.refresh();
+    } else {
+      totalWorkHours.value = details.totalWorkTime;
+    }
   }
 
   CounterDetails _zeroCounterDetails() {
@@ -756,6 +833,12 @@ class ClockInOfflineController extends GetxController {
         if (!isLocationLoaded.value) locationRequest();
         _reloadFromStorage();
         _refreshCounterFromData();
+        if (workLogData.userIsWorking == true || _hasAnyRunningSession()) {
+          startTimer();
+        }
+      },
+      onPause: () {
+        stopTimer();
       },
     );
   }

@@ -1,8 +1,13 @@
 import 'package:belcka/pages/check_in/clock_in/model/counter_details.dart';
+import 'package:belcka/pages/check_in/clock_in/model/work_log_info.dart';
 import 'package:belcka/pages/check_in/clock_in/model/work_log_list_response.dart';
 import 'package:belcka/pages/leaves/leave_list/model/leave_info.dart';
+import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/utils/app_storage.dart';
+import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/date_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 // class ClockInUtils {
@@ -530,4 +535,63 @@ class ClockInUtils {
 //   );
 //   return updatedDate;
 // }
+
+  static bool hasOfflineRecordsForUpload() {
+    WorkLogListResponse workLogData =
+        Get.find<AppStorage>().getWorklogDataOffline();
+    workLogData.workLogInfo ??= <WorkLogInfo>[];
+    for (final log in workLogData.workLogInfo ?? <WorkLogInfo>[]) {
+      if (_isOfflineUploadCandidate(log)) return true;
+    }
+    return false;
+  }
+
+  static bool _isOfflineUploadCandidate(WorkLogInfo log) {
+    final int id = log.id ?? 0;
+    final bool createdOffline = id == 0;
+    final bool stoppedOffline = id > 0 && (log.offlineRecord ?? false);
+    if (!createdOffline && !stoppedOffline) return false;
+
+    if (createdOffline) {
+      return !StringHelper.isEmptyString(log.workStartTime);
+    }
+
+    return !StringHelper.isEmptyString(log.workStartTime) &&
+        !StringHelper.isEmptyString(log.workEndTime);
+  }
+
+  static Future<List<Map<String, dynamic>>>
+      getOfflineRecordsUploadJson() async {
+    WorkLogListResponse workLogData =
+        Get.find<AppStorage>().getWorklogDataOffline();
+    workLogData.workLogInfo ??= <WorkLogInfo>[];
+    String deviceModelName = await AppUtils.getDeviceName();
+    final List<Map<String, dynamic>> rows = [];
+    for (final log in workLogData.workLogInfo ?? <WorkLogInfo>[]) {
+      if (!_isOfflineUploadCandidate(log)) continue;
+
+      final Map<String, dynamic> row = {
+        "work_start_time": log.workStartTime,
+        "work_end_time": log.workEndTime,
+        "start_work_location": log.startWorkLocation?.toJson(),
+        "stop_work_location": log.stopWorkLocation?.toJson(),
+        "device_type": AppConstants.deviceType,
+        "device_model_type": deviceModelName,
+      };
+      if ((log.id ?? 0) > 0) {
+        row["id"] = log.id;
+      }
+      rows.add(row);
+    }
+    print("----------------------------------");
+    StringHelper.printLongString(rows.toString());
+    print("----------------------------------");
+
+    return rows;
+  }
+
+  static void clearOfflineRecordsJson() {
+    Get.find<AppStorage>()
+        .removeData(AppConstants.sharedPreferenceKey.worklogDataOffline);
+  }
 }

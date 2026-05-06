@@ -84,15 +84,19 @@ class ClockInController extends GetxController
     }
     shiftId = Get.find<AppStorage>().getShiftId();
 
-    LocationInfo? locationInfo = Get.find<AppStorage>().getLastLocation();
-    if (locationInfo != null) {
-      setLocation(double.parse(locationInfo.latitude ?? "0"),
-          double.parse(locationInfo.longitude ?? "0"));
-    }
+    if (ClockInUtils.hasOfflineRecordsForUpload()) {
+      showUploadOfflineDataDialog();
+    } else {
+      LocationInfo? locationInfo = Get.find<AppStorage>().getLastLocation();
+      if (locationInfo != null) {
+        setLocation(double.parse(locationInfo.latitude ?? "0"),
+            double.parse(locationInfo.longitude ?? "0"));
+      }
 
-    locationRequest();
-    appLifeCycle();
-    getUserWorkLogListApi();
+      locationRequest();
+      appLifeCycle();
+      getUserWorkLogListApi();
+    }
   }
 
   Future<void> userStartWorkApi() async {
@@ -444,7 +448,24 @@ class ClockInController extends GetxController
         AppConstants.dialogIdentifier.checkoutWarningDialog) {
       Get.back();
       onCLickCheckOutButton();
+    } else if (dialogIdentifier ==
+        AppConstants.dialogIdentifier.offlineWorklogDatUpload) {
+      Get.back();
+      moveToScreen(AppRoutes.uploadOfflineWorklogScreen, null);
     }
+  }
+
+  void showUploadOfflineDataDialog() {
+    AlertDialogHelper.showAlertDialog(
+        "",
+        'offline_worklog_data_available_message'.tr,
+        'upload'.tr,
+        "",
+        "",
+        false,
+        false,
+        this,
+        AppConstants.dialogIdentifier.offlineWorklogDatUpload);
   }
 
   @override

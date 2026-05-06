@@ -59,6 +59,7 @@ import 'package:belcka/pages/check_in/check_log_details/view/check_log_details_s
 import 'package:belcka/pages/check_in/check_out/view/check_out_screen.dart';
 import 'package:belcka/pages/check_in/clock_in/view/clock_in_screen.dart';
 import 'package:belcka/pages/check_in/clock_in_offline/view/clock_in_offline_screen.dart';
+import 'package:belcka/pages/check_in/upload_offline_worklog/view/upload_offline_worklog_screen.dart';
 import 'package:belcka/pages/check_in/penalty/penalty_details/view/penalty_details_screen.dart';
 import 'package:belcka/pages/check_in/penalty/penalty_list/view/penalty_list_screen.dart';
 import 'package:belcka/pages/check_in/select_before_after_photos/view/select_before_after_photos_screen.dart';
@@ -218,6 +219,10 @@ class AppPages {
     GetPage(
       name: AppRoutes.clockInOfflineScreen,
       page: () => ClockInOfflineScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.uploadOfflineWorklogScreen,
+      page: () => const UploadOfflineWorklogScreen(),
     ),
     GetPage(
       name: AppRoutes.selectBeforeAfterPhotosScreen,

@@ -70,7 +70,7 @@ class AppStorage extends GetxController {
   WorkLogListResponse getWorklogDataOffline() {
     final dynamic data =
         storage.read(AppConstants.sharedPreferenceKey.worklogDataOffline);
-    print("offline data:"+data.toString());
+    StringHelper.printLongString(data.toString());
     if (data == null) {
       return WorkLogListResponse();
     }

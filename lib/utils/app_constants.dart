@@ -172,6 +172,7 @@ class DialogIdentifier {
   final String approve = 'APPROVE';
   final String reject = 'REJECT';
   final String delete = 'DELETE';
+  final String offlineWorklogDatUpload = 'OFFLINE_WORK_LOG_DATA_UPLOAD';
   final String appeal = 'APPEAL';
   final String selectAddress = 'SELECT_ADDRESS';
   final String deleteProject = 'DELETE_PROJECT';

@@ -73,15 +73,19 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
   Future<void> onInit() async {
     super.onInit();
 
-    // bool isInternet = await AppUtils.interNetCheck();
-    // if (isInternet) {
-    userInfo.value = Get.find<AppStorage>().getUserInfo();
-    if ((userInfo.value.id ?? 0) != 0) {
-      setInitialData();
+    bool isInternet = await AppUtils.interNetCheck();
+    if (isInternet) {
+      if (ClockInUtils.hasOfflineRecordsForUpload()) {
+        showUploadOfflineDataDialog();
+      } else {
+        userInfo.value = Get.find<AppStorage>().getUserInfo();
+        if ((userInfo.value.id ?? 0) != 0) {
+          setInitialData();
+        }
+      }
+    } else {
+      Get.toNamed(AppRoutes.clockInOfflineScreen);
     }
-    // } else {
-    //   Get.toNamed(AppRoutes.clockInOfflineScreen);
-    // }
 
     // WidgetsBinding.instance.addObserver(this);
     // appLifeCycle();
@@ -792,33 +796,40 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
 
   Future<void> moveToScreen(
       {required String appRout, dynamic arguments}) async {
-    /* Timer(const Duration(seconds: 2), () async {
-
-    });*/
     var result = await Get.toNamed(appRout, arguments: arguments);
-    if (ApiConstants.companyId != 0) {
-      WorkLogListResponse response = Get.find<AppStorage>().getWorklogData();
-      setShiftTimerData(response);
-      if (Get.find<AppStorage>().isLocalSequenceChanges()) {
-        changeDashboardUserPermissionMultipleSequenceApi(
-            isProgress: false,
-            isLoadPermissionList: true,
-            isChangeSequence: false);
+
+    bool isInternet = await AppUtils.interNetCheck();
+    if (isInternet) {
+      if (ClockInUtils.hasOfflineRecordsForUpload()) {
+        showUploadOfflineDataDialog();
       } else {
-        getDashboardUserPermissionsApi(false, isProfileLoad: true);
-      }
-      if (Get.isBottomSheetOpen ?? false) {
-        Get.back();
-        if (Get.isBottomSheetOpen ?? false) {
-          Navigator.of(Get.context!).pop();
+        if (ApiConstants.companyId != 0) {
+          WorkLogListResponse response = Get.find<AppStorage>().getWorklogData();
+          setShiftTimerData(response);
+          if (Get.find<AppStorage>().isLocalSequenceChanges()) {
+            changeDashboardUserPermissionMultipleSequenceApi(
+                isProgress: false,
+                isLoadPermissionList: true,
+                isChangeSequence: false);
+          } else {
+            getDashboardUserPermissionsApi(false, isProfileLoad: true);
+          }
+          if (Get.isBottomSheetOpen ?? false) {
+            Get.back();
+            if (Get.isBottomSheetOpen ?? false) {
+              Navigator.of(Get.context!).pop();
+            }
+            showControlPanelDialog();
+          }
+        } else {
+          if (UserUtils.getLoginUserId() != 0) {
+            var arguments = {AppConstants.intentKey.fromSignUpScreen: true};
+            Get.offAllNamed(AppRoutes.switchCompanyScreen, arguments: arguments);
+          }
         }
-        showControlPanelDialog();
       }
     } else {
-      if (UserUtils.getLoginUserId() != 0) {
-        var arguments = {AppConstants.intentKey.fromSignUpScreen: true};
-        Get.offAllNamed(AppRoutes.switchCompanyScreen, arguments: arguments);
-      }
+      Get.toNamed(AppRoutes.clockInOfflineScreen);
     }
   }
 
@@ -826,7 +837,17 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       {required String appRout, dynamic arguments}) async {
     var result = await Get.toNamed(appRout, arguments: arguments);
     // getNotificationCountApi(isProgress: false);
-    getUserProfileAPI();
+
+    bool isInternet = await AppUtils.interNetCheck();
+    if (isInternet) {
+      if (ClockInUtils.hasOfflineRecordsForUpload()) {
+        showUploadOfflineDataDialog();
+      } else {
+        getUserProfileAPI();
+      }
+    } else {
+      Get.toNamed(AppRoutes.clockInOfflineScreen);
+    }
   }
 
   void pullToRefreshData() {
@@ -935,6 +956,23 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
     } else if (dialogIdentifier == AppConstants.dialogIdentifier.logout) {
       Get.back();
       logoutAPI();
+    } else if (dialogIdentifier ==
+        AppConstants.dialogIdentifier.offlineWorklogDatUpload) {
+      Get.back();
+      moveToScreen(appRout: AppRoutes.uploadOfflineWorklogScreen);
     }
+  }
+
+  void showUploadOfflineDataDialog() {
+    AlertDialogHelper.showAlertDialog(
+        "",
+        'offline_worklog_data_available_message'.tr,
+        'upload'.tr,
+        "",
+        "",
+        false,
+        false,
+        this,
+        AppConstants.dialogIdentifier.offlineWorklogDatUpload);
   }
 }
