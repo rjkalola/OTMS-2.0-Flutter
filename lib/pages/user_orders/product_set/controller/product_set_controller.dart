@@ -91,12 +91,13 @@ class ProductSetController extends GetxController{
     );
   }
 
-  void toggleBookmark(int index) {
+  void toggleBookmark(int index,int folderId) {
     isLoading.value = true;
     final product = productsSet[index];
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
     map["product_id"] = product.productId;
+    map["folder_id"] = folderId;
 
     _api.bookmarkAPI(
       data: map,
@@ -104,9 +105,10 @@ class ProductSetController extends GetxController{
         if (responseModel.isSuccess) {
           isDataUpdated = true;
            fetchProductsSet();
-        } else {
-          isLoading.value = false;
+        }
+        else{
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+          isLoading.value = false;
         }
       },
       onError: (ResponseModel error) {

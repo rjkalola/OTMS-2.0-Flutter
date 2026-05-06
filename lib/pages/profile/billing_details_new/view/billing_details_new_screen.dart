@@ -146,7 +146,7 @@ class _BillingDetailsNewScreenState extends State<BillingDetailsNewScreen> {
 
                                               Visibility(
                                                 visible: controller.showPayRate,
-                                                child: InkWell(
+                                                child: GestureDetector(
                                                   onTap: () {
                                                     {
                                                       var arguments = {
