@@ -1,4 +1,7 @@
+import 'package:belcka/pages/user_orders/favorite_popup/add_folder_view.dart';
+import 'package:belcka/pages/user_orders/favorite_popup/favorite_popup_manager.dart';
 import 'package:belcka/pages/user_orders/product_set/controller/product_set_controller.dart';
+import 'package:belcka/pages/user_orders/project_service/project_service.dart';
 import 'package:belcka/pages/user_orders/widgets/out_of_stock_banner.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/image_utils.dart';
@@ -38,6 +41,8 @@ class _ProductSetItemListState extends State<ProductSetItemList>{
 
         final packOfUnit = product.packOfUnit ?? "";
         String availableQtyText = "${((product.qty ?? 0.0).toInt())}";
+        final projectService = Get.find<ProjectService>();
+        final LayerLink _layerLink = LayerLink();
 
         return Container(
           margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
@@ -81,6 +86,8 @@ class _ProductSetItemListState extends State<ProductSetItemList>{
                             ),
                             const SizedBox(width: 6),
 
+                            //Fav
+          /*
                             InkWell(
                                 onTap: (){
                                   FocusManager.instance.primaryFocus
@@ -93,6 +100,8 @@ class _ProductSetItemListState extends State<ProductSetItemList>{
                                   size: 20, color: product.isBookMark ?? true
                                       ? Colors.deepOrangeAccent
                                       : primaryTextColor_(context),)),
+                            */
+
                           ],
                         ),
 
@@ -140,7 +149,7 @@ class _ProductSetItemListState extends State<ProductSetItemList>{
                         ),
 
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
                               "${'available_qty'.tr}: $availableQtyText",
@@ -150,8 +159,86 @@ class _ProductSetItemListState extends State<ProductSetItemList>{
                               ),
                             ),
 
-                            if (!isAdded)
+                            SizedBox(width: 8,),
+                            Builder(
+                              builder: (buttonContext) {
+                                bool isBookmarked = product.isBookMark ?? false;
+                                return InkWell(
+                                  onTap: () {
+                                    if (isBookmarked) {
+                                      // Un-bookmarking
+                                      FocusManager.instance.primaryFocus?.unfocus();
+                                      controller.toggleBookmark(index, product.folderId ?? 0);
+                                      // product.isBookMark = false;
+                                      // controller.productsSet.refresh();
+                                    }
+                                    else{
+                                      //Bookmarking
+                                      if (projectService.folderList.isEmpty) {
+                                        // Show Add Folder Dialog
+                                        showDialog(
+                                          context: buttonContext,
+                                          barrierDismissible: true,
+                                          builder: (BuildContext context) {
+                                            return Dialog(
+                                              backgroundColor: Colors.transparent,
+                                              insetPadding: const EdgeInsets.symmetric(horizontal: 40),
+                                              child: Container(
+                                                padding: const EdgeInsets.all(20),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius: BorderRadius.circular(20),
+                                                  boxShadow: const [
+                                                    BoxShadow(color: Colors.black26, blurRadius: 20, offset: Offset(0, 10))
+                                                  ],
+                                                ),
+                                                child: AddFolderView(
+                                                  folders: [],
+                                                  onCancel: () => Navigator.pop(context),
+                                                  onAdded: (folderName, projectId) async {
+                                                    Navigator.pop(context);
+                                                    final newFolder = await projectService.toggleCreateNewFolder(folderName, projectId);
+                                                    FocusManager.instance.primaryFocus?.unfocus();
+                                                    controller.toggleBookmark(index, newFolder?.id ?? 0);
+                                                    // product.isBookMark = true;
+                                                    // controller.productsSet.refresh();
+                                                  },
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        );
+                                      } else {
+                                        // Show the Popup Manager with the CORRECT buttonContext
+                                        FavoritePopupManager.show(
+                                          context: buttonContext,
+                                          layerLink: _layerLink,
+                                          folders: projectService.folderList,
+                                          onProjectSelected: (folder) {
+                                            FocusManager.instance.primaryFocus?.unfocus();
 
+                                            controller.toggleBookmark(index, folder.id ?? 0);
+
+                                            // product.isBookMark = true;
+                                            // controller.productsSet.refresh();
+                                          },
+                                        );
+                                      }
+                                    }
+                                  },
+                                  child: CompositedTransformTarget(
+                                    link: _layerLink,
+                                    child: Icon(
+                                      isBookmarked ? Icons.bookmark : Icons.bookmark_border,
+                                      color: isBookmarked ? Colors.deepOrangeAccent : primaryTextColor_(buttonContext),
+                                      size: 20,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                            Spacer(),
+                            if (!isAdded)
                               GestureDetector(
                                 onTap: (){
                                   setState(() {

@@ -56,7 +56,7 @@ class TaxInfoFieldsView extends StatelessWidget {
 
                 // CIS
                 Visibility(
-                  visible:(int.parse(controller.billingRequestInfo.value.cis ?? "")) > 0,
+                  visible:((int.tryParse(controller.billingRequestInfo.value.cis ?? "") ?? 0) > 0),
                   child: CisTextField(
                     controller:controller.cisController,
                       ),

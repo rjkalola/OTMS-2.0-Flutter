@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:belcka/pages/common/model/file_info.dart';
 import 'package:belcka/pages/timesheet/time_sheet_filter/view/widgets/categories_list.dart';
@@ -68,6 +69,7 @@ class StoremanCatalogController extends GetxController {
 
   List<ProductSetDataInfo> productsSetList = [];
   RxBool isGridView = false.obs;
+  Timer? _debounce;
 
   void initFocusNodes(int length) {
     qtyFocusNodes = List.generate(length, (index) => FocusNode());
@@ -198,7 +200,7 @@ class StoremanCatalogController extends GetxController {
     );
   }
 
-  Future<void> fetchProducts({bool isRefresh = false}) async {
+  Future<void> fetchProducts({bool isRefresh = false, String searchValue = ""}) async {
     if (isRefresh) {
       currentPage.value = 1;
       hasMoreData.value = true;
@@ -219,6 +221,7 @@ class StoremanCatalogController extends GetxController {
     map["company_id"] = ApiConstants.companyId;
     map["page"] = currentPage.value;
     map["limit"] = limit;
+    map["search"] = searchValue;
 
     if (activeCategoryId.value > 0) {
       map["category_ids"] = activeCategoryId.value;
@@ -539,6 +542,7 @@ class StoremanCatalogController extends GetxController {
     }
   }
 
+  /*
   Future<void> searchItem(String value) async {
     if (value.isEmpty) {
       categories.value = List.from(tempList);
@@ -568,6 +572,14 @@ class StoremanCatalogController extends GetxController {
     }
 
     categories.value = filteredCategories;
+  }
+  */
+
+  Future<void> searchItem(String value) async {
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () async {
+      fetchProducts(isRefresh: true,searchValue: value);
+    });
   }
 
   void clearSearch() {
