@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:belcka/pages/dashboard/tabs/more_tab/controller/more_tab_repository.dart';
+import 'package:belcka/res/theme/theme_controller.dart';
 import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:dio/dio.dart' as multi;
 import 'package:flutter/material.dart';
@@ -25,12 +26,14 @@ class UserSettingsController extends GetxController
   final _api = UserSettingsRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
-      isMainViewVisible = false.obs;
+      isMainViewVisible = false.obs,
+      initialMode = false.obs;
 
   @override
   void onInit() {
     super.onInit();
     isMainViewVisible.value = true;
+    initialMode.value = Get.put(ThemeController()).isDarkMode;
   }
 
   Future<void> logoutAPI() async {
@@ -91,7 +94,6 @@ class UserSettingsController extends GetxController
       ],
     );
     */
-
   }
 
   @override
@@ -111,4 +113,14 @@ class UserSettingsController extends GetxController
 
   @override
   void onOtherButtonClicked(String dialogIdentifier) {}
+
+  void onBackPress() {
+    if (initialMode.value != Get.put(ThemeController()).isDarkMode) {
+      print("111");
+      Get.offAllNamed(AppRoutes.dashboardScreen);
+    } else {
+      print("222");
+      Get.back();
+    }
+  }
 }

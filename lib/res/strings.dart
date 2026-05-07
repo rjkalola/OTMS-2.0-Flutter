@@ -202,6 +202,7 @@ class Strings extends Translations {
           'widget': "Widget",
           'notification': "Notification",
           'notifications': "Notifications",
+          'conflicts': "Conflicts",
           'notification_settings': "Notification Settings",
           'settings': "Settings",
           'trades': "Trades",

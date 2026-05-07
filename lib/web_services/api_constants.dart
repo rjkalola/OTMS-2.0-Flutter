@@ -28,6 +28,7 @@ class ApiConstants {
 
   //company
   static String getCompanyResourcesUrl = '$appUrl/get-company-resources';
+  static String companyConflicts = '$appUrl/company/conflicts';
   static String joinCompanyUrl = '$appUrl/company/join-company';
   static String storeTradeUrl = '$appUrl/company/add-trade';
   static String companyRegistrationUrl =

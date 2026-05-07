@@ -1,4 +1,5 @@
 import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
+import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,94 +23,105 @@ class UserSettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Container(
-          color: dashBoardBgColor_(context),
-          child: SafeArea(
-            top: false,
-            bottom: !GetPlatform.isIOS,
-            child: Scaffold(
-              appBar: BaseAppBar(
-                appBar: AppBar(),
-                title: 'settings'.tr,
-                isCenterTitle: false,
-                bgColor: dashBoardBgColor_(context),
-                isBack: true,
-              ),
-              backgroundColor: dashBoardBgColor_(context),
-              body: ModalProgressHUD(
-                inAsyncCall: controller.isLoading.value,
-                opacity: 0,
-                progressIndicator: const CustomProgressbar(),
-                child: controller.isInternetNotAvailable.value
-                    ? Center(
-                        child: Text("no_internet_text".tr),
-                      )
-                    : ListView(
-                        children: [
-                          // _buildSettingItem(
-                          //   icon: Icons.language,
-                          //   title: 'Language',
-                          //   subtitle: 'English (United States)',
-                          //   onTap: () {},
-                          // ),
-                          BuildDarkModeItemWidget(),
-                          _buildSettingItem(
-                            icon: Icons.description,
-                            title: 'privacy_policy'.tr,
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => MyWebViewScreen(
-                                    url: 'https://belcka.com/privacy-policy',
-                                    pageTitle: 'privacy_policy'.tr,
+    AppUtils.setStatusBarColor();
+    return Obx(() => PopScope(
+          canPop: false,
+          onPopInvokedWithResult: (didPop, result) async {
+            if (didPop || result != null) return;
+            controller.onBackPress();
+          },
+          child: Container(
+            color: dashBoardBgColor_(context),
+            child: SafeArea(
+              top: false,
+              bottom: !GetPlatform.isIOS,
+              child: Scaffold(
+                appBar: BaseAppBar(
+                  appBar: AppBar(),
+                  title: 'settings'.tr,
+                  isCenterTitle: false,
+                  onBackPressed: () {
+                    controller.onBackPress();
+                  },
+                  bgColor: dashBoardBgColor_(context),
+                  isBack: true,
+                ),
+                backgroundColor: dashBoardBgColor_(context),
+                body: ModalProgressHUD(
+                  inAsyncCall: controller.isLoading.value,
+                  opacity: 0,
+                  progressIndicator: const CustomProgressbar(),
+                  child: controller.isInternetNotAvailable.value
+                      ? Center(
+                          child: Text("no_internet_text".tr),
+                        )
+                      : ListView(
+                          children: [
+                            // _buildSettingItem(
+                            //   icon: Icons.language,
+                            //   title: 'Language',
+                            //   subtitle: 'English (United States)',
+                            //   onTap: () {},
+                            // ),
+                            BuildDarkModeItemWidget(),
+                            _buildSettingItem(
+                              icon: Icons.description,
+                              title: 'privacy_policy'.tr,
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MyWebViewScreen(
+                                      url: 'https://belcka.com/privacy-policy',
+                                      pageTitle: 'privacy_policy'.tr,
+                                    ),
                                   ),
-                                ),
-                              );
-                            },
-                          ),
-                          _buildSettingItem(
-                            icon: Icons.info_outline,
-                            title: 'app_info'.tr,
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => MyWebViewScreen(
-                                    url: 'https://belcka.com/app-info',
-                                    pageTitle: 'app_info'.tr,
+                                );
+                              },
+                            ),
+                            _buildSettingItem(
+                              icon: Icons.info_outline,
+                              title: 'app_info'.tr,
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MyWebViewScreen(
+                                      url: 'https://belcka.com/app-info',
+                                      pageTitle: 'app_info'.tr,
+                                    ),
                                   ),
-                                ),
-                              );
-                            },
-                          ),
-                          _buildSettingItem(
-                            icon: Icons.swap_horiz,
-                            title: 'switch_company'.tr,
-                            onTap: () {
-                              if (UserUtils.getLoginUserId() != 0) {
-                                Get.toNamed(AppRoutes.switchCompanyScreen);
-                              }
-                            },
-                          ),
-                          // _buildSettingItem(
-                          //   icon: Icons.delete_outline,
-                          //   title: 'delete_account'.tr,
-                          //   onTap: () {
-                          //     Get.toNamed(AppRoutes.deleteAccountScreen);
-                          //   },
-                          //   isDestructive: true,
-                          // ),
-                          _buildSettingItem(
-                            icon: Icons.logout,
-                            title: 'logout'.tr,
-                            onTap: () {
-                              controller.showLogoutDialog();
-                            },
-                            isDestructive: true,
-                          ),
-                        ],
-                      ),
+                                );
+                              },
+                            ),
+                            _buildSettingItem(
+                              icon: Icons.swap_horiz,
+                              title: 'switch_company'.tr,
+                              onTap: () {
+                                if (UserUtils.getLoginUserId() != 0) {
+                                  Get.toNamed(AppRoutes.switchCompanyScreen);
+                                }
+                              },
+                            ),
+                            // _buildSettingItem(
+                            //   icon: Icons.delete_outline,
+                            //   title: 'delete_account'.tr,
+                            //   onTap: () {
+                            //     Get.toNamed(AppRoutes.deleteAccountScreen);
+                            //   },
+                            //   isDestructive: true,
+                            // ),
+                            _buildSettingItem(
+                              icon: Icons.logout,
+                              title: 'logout'.tr,
+                              onTap: () {
+                                controller.showLogoutDialog();
+                              },
+                              isDestructive: true,
+                            ),
+                          ],
+                        ),
+                ),
               ),
             ),
           ),

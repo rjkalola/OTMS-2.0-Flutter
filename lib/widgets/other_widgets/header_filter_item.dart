@@ -10,7 +10,7 @@ class HeaderFilterItem extends StatelessWidget {
   final RxInt? count;
   final bool selected;
   final int? flex;
-  final Color? fontColor;
+  final Color? fontColor, budgeCircleColor;
   final FontWeight? fontWeight;
   final double? fontSize;
   final GestureTapCallback? onTap;
@@ -27,6 +27,7 @@ class HeaderFilterItem extends StatelessWidget {
     this.fontSize,
     required this.onTap,
     this.useFlexible = true,
+    this.budgeCircleColor
   });
 
   @override
