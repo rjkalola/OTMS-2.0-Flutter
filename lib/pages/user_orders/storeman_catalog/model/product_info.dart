@@ -83,7 +83,7 @@ class ProductInfo {
   String? tempNote;
   bool? isCheck;
   bool? isInSet;
-
+  String? statusColor;
   int? orderStatus;
   String? orderStatusText;
   String? orderStatusColor;
@@ -183,7 +183,8 @@ class ProductInfo {
       this.tempNote,
       this.isCheck,
       this.folderId,
-      this.perUnitPrice});
+      this.perUnitPrice,
+      this.statusColor});
 
   ProductInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -292,6 +293,9 @@ class ProductInfo {
     }
     orderStatusText = json['order_status_text']?.toString();
     orderStatusColor = json['order_status_color']?.toString();
+
+    statusColor = json['status_color']?.toString();
+
     date = json['date']?.toString();
     fromDate = json['from_date']?.toString();
     toDate = json['to_date']?.toString();
@@ -375,6 +379,7 @@ class ProductInfo {
     data['category_ids'] = this.categoryIds;
     data['store_ids'] = this.storeIds;
     data['cart_id'] = this.cartId;
+    data['status_color'] = this.statusColor;
     if (this.productImages != null) {
       data['product_images'] =
           this.productImages!.map((v) => v.toJson()).toList();
