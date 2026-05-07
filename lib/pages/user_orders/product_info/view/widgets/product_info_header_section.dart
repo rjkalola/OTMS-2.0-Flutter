@@ -22,114 +22,78 @@ class _ProductInfoHeaderSectiontState extends State<ProductInfoHeaderSection> {
   @override
   Widget build(BuildContext context) {
     final pageController = PageController();
-    return Obx(() => Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          width: 150,
-          height: 150,
-          decoration: BoxDecoration(
-            color: Colors.grey[100],
-            borderRadius: BorderRadius.circular(12),
-          ),
-          clipBehavior: Clip.hardEdge,
-          child: Column(
-            children: [
-              Expanded(
-                child: PageView.builder(
-                  controller: pageController,
-                  itemCount: controller.product.value.productImages?.length ?? 0,
-                  onPageChanged: (page) {
-                    setState(() {
-                      controller.currentImageIndex[0] = page;
-                    });
+    return Obx(() => Container(
+      width: double.infinity,
+      // Increased height significantly to give the image more room to breathe
+      height: 300,
+      decoration: BoxDecoration(
+        color: lightGreyColor(context),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: Column(
+        children: [
+          Expanded(
+            child: PageView.builder(
+              controller: pageController,
+              itemCount: controller.product.value.productImages?.length ?? 0,
+              onPageChanged: (page) {
+                setState(() {
+                  controller.currentImageIndex[0] = page;
+                });
+              },
+              itemBuilder: (context, imgIndex) {
+                return InkWell(
+                  onTap: (){
+                    ImageUtils.moveToImagePreview(controller.product.value.productImages ?? [], imgIndex);
                   },
-                  itemBuilder: (context, imgIndex) {
-                    return InkWell(
-                      onTap: (){
-                        ImageUtils.moveToImagePreview(controller.product.value.productImages ?? [], imgIndex);
-                      },
-                      child: Image.network(
-                        controller.product.value.productImages?[imgIndex].thumbUrl ?? "",
-                        fit: BoxFit.cover,
-                        alignment: Alignment.center,
-                        errorBuilder:
-                            (context, error, stack) {
-                          return  Center(
-                            child: Icon(
-                              Icons.photo_outlined,
-                              size: 50,
-                              color: Colors.grey.shade300,
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                  },
-                ),
-              ),
-              const SizedBox(height: 4),
-              // PageView Dots
-              Row(
-                mainAxisAlignment:
-                MainAxisAlignment.center,
-                children: List.generate(
-                  controller.product.value.productImages?.length ?? 0,
-                      (dotIndex) {
-                    final isActive =
-                        (controller.currentImageIndex[0] ??
-                            0) ==
-                            dotIndex;
-                    return AnimatedContainer(
-                      duration: const Duration(milliseconds: 300),
-                      margin: const EdgeInsets.symmetric(horizontal: 2),
-                      width: isActive ? 12 : 4,
-                      height: 4,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(2),
-                        color: isActive ? defaultAccentColor_(context) : Colors.grey.withOpacity(0.4),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              const SizedBox(height: 4),
-            ],
+                  child: Image.network(
+                    controller.product.value.productImages?[imgIndex].thumbUrl ?? "",
+                    fit: BoxFit.cover,
+                    alignment: Alignment.center,
+                    errorBuilder:
+                        (context, error, stack) {
+                      return  Center(
+                        child: Icon(
+                          Icons.photo_outlined,
+                          size: 50,
+                          color: Colors.grey.shade300,
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
+            ),
           ),
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: TitleTextView(
-                  text: controller.product.value.shortName ?? "",
-                  fontSize: 15,
-                  maxLine: 2,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-
-              //Bookmark
-              /*
-              IconButton(
-                  icon: controller.product.value.isBookMark ?? true
-                      ? Icon(Icons.bookmark)
-                      : BookmarkIconWidget(),
-                  color: controller.product.value.isBookMark ?? true
-                      ? Colors.deepOrangeAccent
-                      : primaryTextColor_(context),
-                  onPressed: () {
-                    FocusManager.instance.primaryFocus
-                        ?.unfocus();
-                    controller.toggleBookmark();
-                  })
-              */
-            ],
+          const SizedBox(height: 4),
+          // PageView Dots
+          Row(
+            mainAxisAlignment:
+            MainAxisAlignment.center,
+            children: List.generate(
+              controller.product.value.productImages?.length ?? 0,
+                  (dotIndex) {
+                final isActive =
+                    (controller.currentImageIndex[0] ??
+                        0) ==
+                        dotIndex;
+                return AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  margin: const EdgeInsets.symmetric(horizontal: 2),
+                  width: isActive ? 12 : 4,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(2),
+                    color: isActive ? defaultAccentColor_(context) : Colors.grey.withOpacity(0.4),
+                  ),
+                );
+              },
+            ),
           ),
-        ),
-      ],
+          const SizedBox(height: 4),
+        ],
+      ),
     ));
   }
 }
