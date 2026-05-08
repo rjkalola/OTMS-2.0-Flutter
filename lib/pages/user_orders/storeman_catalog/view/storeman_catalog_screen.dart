@@ -106,7 +106,6 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
                                         ],
                                       ),
                                     ),
-
                                   ],
                                 ),
                                 Obx(() => AnimatedPositioned(

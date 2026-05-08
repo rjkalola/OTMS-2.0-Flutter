@@ -47,6 +47,7 @@ class _StoremanProductsListWidgetState
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: 8),
+                  if (!category.continuedCategory)
                   Container(
                     width: double.infinity,
                     padding: const EdgeInsets.symmetric(
@@ -64,6 +65,7 @@ class _StoremanProductsListWidgetState
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+
                         Expanded(
                           child: TitleTextView(
                             text: category.categoryName.toUpperCase() ?? "",
@@ -72,6 +74,7 @@ class _StoremanProductsListWidgetState
                             color: primaryTextColor_(context),
                           ),
                         ),
+
 
                         //Show item count
               /*

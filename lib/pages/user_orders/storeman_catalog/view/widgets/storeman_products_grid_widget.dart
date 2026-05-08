@@ -46,6 +46,7 @@ class _StoremanProductsGridWidgetState extends State<StoremanProductsGridWidget>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //CATEGORY HEADER
+              if (!category.continuedCategory)
               Padding(
                 padding: const EdgeInsets.only(top: 0, bottom: 16),
                 child: Container(
