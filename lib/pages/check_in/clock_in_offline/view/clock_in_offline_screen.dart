@@ -1,6 +1,9 @@
 import 'package:belcka/pages/check_in/clock_in_offline/controller/clock_in_offline_controller.dart';
+import 'package:belcka/pages/check_in/clock_in/model/work_log_info.dart';
 import 'package:belcka/pages/check_in/clock_in_offline/view/widgets/time_counter_view.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/utils/date_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
@@ -81,13 +84,18 @@ class _ClockInOfflineScreenState extends State<ClockInOfflineScreen> {
                         child: Column(
                           children: [
                             Expanded(
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: SingleChildScrollView(
-                                  physics: const ClampingScrollPhysics(),
-                                  child: TimeCounterView(
-                                    time: controller.totalWorkHours.value,
-                                  ),
+                              child: SingleChildScrollView(
+                                physics: const ClampingScrollPhysics(),
+                                child: Column(
+                                  children: [
+                                    const SizedBox(height: 12),
+                                    TimeCounterView(
+                                      time: controller.totalWorkHours.value,
+                                    ),
+                                    const SizedBox(height: 16),
+                                    _OfflineWorklogList(
+                                        controller: controller),
+                                  ],
                                 ),
                               ),
                             ),
@@ -104,6 +112,115 @@ class _ClockInOfflineScreenState extends State<ClockInOfflineScreen> {
         ),
       ),
     );
+  }
+}
+
+class _OfflineWorklogList extends StatelessWidget {
+  const _OfflineWorklogList({required this.controller});
+
+  final ClockInOfflineController controller;
+
+  String _displayTime(String? fullDateTime) {
+    if (StringHelper.isEmptyString(fullDateTime)) return "-";
+    try {
+      return DateUtil.changeDateFormat(fullDateTime!,
+          DateUtil.DD_MM_YYYY_TIME_24_SLASH2, DateUtil.HH_MM_24);
+    } catch (_) {
+      return fullDateTime ?? "-";
+    }
+  }
+
+  bool _isOngoing(WorkLogInfo log) {
+    return !StringHelper.isEmptyString(log.workStartTime) &&
+        StringHelper.isEmptyString(log.workEndTime);
+  }
+
+  String _payableText(WorkLogInfo log) {
+    if (_isOngoing(log)) {
+      try {
+        final DateTime? start = DateUtil.stringToDate(
+            log.workStartTime ?? "", DateUtil.DD_MM_YYYY_TIME_24_SLASH2);
+        if (start != null) {
+          final int secs =
+              DateUtil.dateDifferenceInSeconds(date1: start, date2: DateTime.now());
+          return DateUtil.seconds_To_HH_MM_SS(secs < 0 ? 0 : secs);
+        }
+      } catch (_) {}
+      return DateUtil.seconds_To_HH_MM_SS(0);
+    }
+    return DateUtil.seconds_To_HH_MM_SS(log.payableWorkSeconds ?? 0);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() {
+      final _ = controller.totalWorkHours.value;
+      final List<WorkLogInfo> logs = (controller.workLogData.workLogInfo ?? [])
+          .where((e) => !StringHelper.isEmptyString(e.workStartTime))
+          .toList()
+        ..sort((a, b) =>
+            (b.workStartTime ?? "").compareTo(a.workStartTime ?? ""));
+
+      if (logs.isEmpty) {
+        return const SizedBox.shrink();
+      }
+
+      return Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          border: Border.all(width: 1, color: dividerColor_(context)),
+          borderRadius: BorderRadius.circular(12),
+          color: backgroundColor_(context),
+        ),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                    child: Text('start_shift'.tr,
+                        style: const TextStyle(fontWeight: FontWeight.w600))),
+                Expanded(
+                    child: Text('stop_shift'.tr,
+                        style: const TextStyle(fontWeight: FontWeight.w600))),
+                Expanded(
+                    child: Text('payable'.tr,
+                        textAlign: TextAlign.end,
+                        style: const TextStyle(fontWeight: FontWeight.w600))),
+              ],
+            ),
+            const SizedBox(height: 8),
+            ...logs.map((log) {
+              final ongoing = _isOngoing(log);
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 6),
+                child: Row(
+                  children: [
+                    Expanded(child: Text(_displayTime(log.workStartTime))),
+                    Expanded(
+                      child: Text(
+                        ongoing ? 'ongoing'.tr : _displayTime(log.workEndTime),
+                        style: TextStyle(
+                          color: ongoing ? const Color(0xff007AFF) : null,
+                          fontWeight:
+                              ongoing ? FontWeight.w600 : FontWeight.normal,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Text(
+                        _payableText(log),
+                        textAlign: TextAlign.end,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }).toList(),
+          ],
+        ),
+      );
+    });
   }
 }
 

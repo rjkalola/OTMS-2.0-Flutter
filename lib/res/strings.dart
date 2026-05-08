@@ -901,6 +901,7 @@ class Strings extends Translations {
           'no_technical_info': "No technical specification added",
           'offline_worklog_data_available_message':
               "You have offline worklog data available, Need to upload this data to server.",
+          'payable': "Payable",
 // '': "",
           // '': "",
 // '': "",
