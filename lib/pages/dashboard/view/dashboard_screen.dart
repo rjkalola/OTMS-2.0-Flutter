@@ -82,24 +82,25 @@ class DashboardScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                bottomNavigationBar: (ApiConstants.companyId != 0) ? AdaptiveBottomNavigationBar(
-                  selectedItemColor: defaultAccentColor_(context),
-                  unselectedItemColor: primaryTextColor_(context),
-                  useNativeBottomBar: true,
-                  bottomNavigationBar: Platform.isAndroid
-                      ? _androidDashboardNavigationBar(
-                          context, dashboardController)
-                      : null,
-                  items: [
-                    AdaptiveNavigationDestination(
-                      icon: 'house',
-                      label: 'Home',
-                    ),
-                    AdaptiveNavigationDestination(
-                      icon: 'bag',
-                      label: 'Store',
-                    ),
-                    /*
+                bottomNavigationBar: (ApiConstants.companyId != 0)
+                    ? AdaptiveBottomNavigationBar(
+                        selectedItemColor: defaultAccentColor_(context),
+                        unselectedItemColor: primaryTextColor_(context),
+                        useNativeBottomBar: true,
+                        bottomNavigationBar: Platform.isAndroid
+                            ? _androidDashboardNavigationBar(
+                                context, dashboardController)
+                            : null,
+                        items: [
+                          AdaptiveNavigationDestination(
+                            icon: 'house',
+                            label: 'Home',
+                          ),
+                          AdaptiveNavigationDestination(
+                            icon: 'bag',
+                            label: 'Store',
+                          ),
+                          /*
                   AdaptiveNavigationDestination(
                     icon: 'bubble.left.and.bubble.right',
                     label: 'Chat',
@@ -109,13 +110,14 @@ class DashboardScreen extends StatelessWidget {
                     label: 'AI',
                   ),
                   */
-                  ],
-                  selectedIndex: dashboardController.selectedIndex.value,
-                  onTap: (index) {
-                    dashboardController.selectedIndex.value = index;
-                    dashboardController.onItemTapped(index);
-                  },
-                ) : null,
+                        ],
+                        selectedIndex: dashboardController.selectedIndex.value,
+                        onTap: (index) {
+                          dashboardController.selectedIndex.value = index;
+                          dashboardController.onItemTapped(index);
+                        },
+                      )
+                    : null,
               )),
         ),
       ),
@@ -183,7 +185,7 @@ Widget _androidDashboardNavigationBar(
   final accent = defaultAccentColor_(context);
   final muted = primaryTextColor_(context);
   final bool isDark = Get.find<ThemeController>().isDarkMode;
-  final surface = LiquidGlassStyle.glassFill(context, isDark);
+  final surface = backgroundColor_(context);
   final barIndex = controller.selectedIndex.value.clamp(0, 1);
 
   return NavigationBarTheme(

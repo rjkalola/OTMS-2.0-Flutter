@@ -104,7 +104,6 @@ class ClockInOfflineController extends GetxController {
 
   Future<List<Map<String, dynamic>>> getOfflineRecordsUploadJson() async {
     _reloadFromStorage();
-    String deviceModelName = await AppUtils.getDeviceName();
     final List<Map<String, dynamic>> rows = [];
     for (final log in workLogData.workLogInfo ?? <WorkLogInfo>[]) {
       if (!_isOfflineUploadCandidate(log)) continue;
@@ -114,11 +113,13 @@ class ClockInOfflineController extends GetxController {
         "work_end_time": log.workEndTime,
         "start_work_location": log.startWorkLocation?.toJson(),
         "stop_work_location": log.stopWorkLocation?.toJson(),
-        "device_type": AppConstants.deviceType,
-        "device_model_type": deviceModelName,
       };
       if ((log.id ?? 0) > 0) {
-        row["id"] = log.id;
+        row["user_worklog_id"] = log.id;
+        row["shift_id"] = log.shiftId;
+        if (log.projectId != null) {
+          row["project_id"] = log.projectId;
+        }
       }
       rows.add(row);
     }
@@ -127,6 +128,21 @@ class ClockInOfflineController extends GetxController {
     print("----------------------------------");
 
     return rows;
+  }
+
+  /// Final request payload for offline upload.
+  /// For `id > 0` rows, includes: `user_worklog_id`, `shift_id`, `project_id`.
+  /// For `id == 0` rows, shift/project are intentionally omitted (selected later).
+  Future<Map<String, dynamic>> getOfflineUploadRequestBody() async {
+    final List<Map<String, dynamic>> worklogs = await getOfflineRecordsUploadJson();
+    final int userId = Get.find<AppStorage>().getUserInfo().id ?? 0;
+    final String deviceModelName = await AppUtils.getDeviceName();
+    return {
+      "user_id": userId,
+      "device_type": AppConstants.deviceType,
+      "device_model_type": deviceModelName,
+      "worklogs": worklogs,
+    };
   }
 
   int? get _effectiveShiftId =>
@@ -243,6 +259,9 @@ class ClockInOfflineController extends GetxController {
 
     final WorkLogInfo? online = _runningOnlineLog();
     if (online != null) {
+      // Preserve identifiers for server upload of offline-stopped online rows.
+      online.shiftId ??= workLogData.shiftId ?? workLogData.shiftInfo?.id;
+      online.projectId ??= workLogData.projectId;
       final calc = _calculateOnlineLogPayableAt(
         workLogData,
         online,

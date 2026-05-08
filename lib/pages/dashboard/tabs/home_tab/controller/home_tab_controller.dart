@@ -375,6 +375,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
             WorkLogListResponse response =
                 WorkLogListResponse.fromJson(jsonDecode(responseModel.result!));
             Get.find<AppStorage>().setWorklogData(response);
+            Get.find<AppStorage>().setWorklogDataOffline(response);
             if (response.workLogInfo!.isNotEmpty ||
                 (response.userIsWorking ?? false)) {
               moveToScreen(appRout: AppRoutes.clockInScreen);
@@ -532,6 +533,8 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
           userInfo.value = Get.find<AppStorage>().getUserInfo();
           Get.find<AppStorage>().setShowRate(response.info?.showRate ?? false);
           if ((response.info?.companyId ?? 0) != 0) {
+            ApiConstants.companyId = response.info?.companyId ?? 0;
+            Get.find<AppStorage>().setCompanyId(ApiConstants.companyId);
             getUserWorkLogListApi(isShiftClick: false, isProgress: false);
             getNotificationCountApi(isProgress: false);
 
@@ -653,15 +656,15 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       };
       moveToScreen(appRout: AppRoutes.editWidgetScreen, arguments: arguments);
     } else if (info.slug == 'team') {
-    /*  if ((info.teamId ?? 0) != 0) {
+        if ((info.teamId ?? 0) != 0) {
         var arguments = {
           AppConstants.intentKey.teamId: info.teamId ?? 0,
           AppConstants.intentKey.isAllUserTeams: false
         };
         moveToScreen2(
             appRout: AppRoutes.teamDetailsScreen, arguments: arguments);
-      }*/
-      moveToScreen2(appRout: AppRoutes.conflictsScreen);
+      }
+      // moveToScreen2(appRout: AppRoutes.conflictsScreen);
     } else if (info.slug == 'teams') {
       var arguments = {AppConstants.intentKey.isAllUserTeams: true};
       moveToScreen2(appRout: AppRoutes.teamListScreen, arguments: arguments);
@@ -804,7 +807,8 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
         showUploadOfflineDataDialog();
       } else {
         if (ApiConstants.companyId != 0) {
-          WorkLogListResponse response = Get.find<AppStorage>().getWorklogData();
+          WorkLogListResponse response =
+              Get.find<AppStorage>().getWorklogData();
           setShiftTimerData(response);
           if (Get.find<AppStorage>().isLocalSequenceChanges()) {
             changeDashboardUserPermissionMultipleSequenceApi(
@@ -812,7 +816,8 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
                 isLoadPermissionList: true,
                 isChangeSequence: false);
           } else {
-            getDashboardUserPermissionsApi(false, isProfileLoad: true);
+            // getDashboardUserPermissionsApi(false, isProfileLoad: true);
+            getUserProfileAPI();
           }
           if (Get.isBottomSheetOpen ?? false) {
             Get.back();
@@ -824,7 +829,8 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
         } else {
           if (UserUtils.getLoginUserId() != 0) {
             var arguments = {AppConstants.intentKey.fromSignUpScreen: true};
-            Get.offAllNamed(AppRoutes.switchCompanyScreen, arguments: arguments);
+            Get.offAllNamed(AppRoutes.switchCompanyScreen,
+                arguments: arguments);
           }
         }
       }

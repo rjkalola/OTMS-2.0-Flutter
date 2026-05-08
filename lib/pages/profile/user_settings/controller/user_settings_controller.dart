@@ -27,13 +27,12 @@ class UserSettingsController extends GetxController
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
-      initialMode = false.obs;
+      isModeChange = false.obs;
 
   @override
   void onInit() {
     super.onInit();
     isMainViewVisible.value = true;
-    initialMode.value = Get.put(ThemeController()).isDarkMode;
   }
 
   Future<void> logoutAPI() async {
@@ -115,9 +114,10 @@ class UserSettingsController extends GetxController
   void onOtherButtonClicked(String dialogIdentifier) {}
 
   void onBackPress() {
-    if (initialMode.value != Get.put(ThemeController()).isDarkMode) {
+    print("isModeChange.value:" + isModeChange.value.toString());
+    if (isModeChange.value) {
       print("111");
-      Get.offAllNamed(AppRoutes.dashboardScreen);
+      Get.offAllNamed(AppRoutes.splashScreen);
     } else {
       print("222");
       Get.back();

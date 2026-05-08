@@ -107,7 +107,7 @@ class EditWidgetList extends StatelessWidget {
                                 },
                                 // mValue:
                                 //     (status == 3 || status == 1) ? true : false)
-                                mValue: info.isShow ?? "")
+                                mValue: info.isShow ?? false)
                             : EmptySwitchView()
                       ],
                     ),

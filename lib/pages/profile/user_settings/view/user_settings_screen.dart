@@ -19,7 +19,7 @@ import '../../../common/model/user_info.dart';
 
 class UserSettingsScreen extends StatelessWidget {
   UserSettingsScreen({Key? key}) : super(key: key);
-  final controller = UserSettingsController();
+  final controller = Get.put(UserSettingsController());
 
   @override
   Widget build(BuildContext context) {

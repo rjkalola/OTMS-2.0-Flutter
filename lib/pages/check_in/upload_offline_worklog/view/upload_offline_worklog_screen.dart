@@ -1,4 +1,3 @@
-import 'package:belcka/pages/check_in/clock_in/controller/clock_in_utils.dart';
 import 'package:belcka/pages/check_in/upload_offline_worklog/controller/upload_offline_worklog_controller.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/app_utils.dart';
@@ -61,14 +60,14 @@ class _UploadOfflineWorklogScreenState
                             child: Column(
                               children: [
                                 DropDownTextField(
-                                  title: 'Select Project',
+                                  title: 'select_project'.tr,
                                   controller: controller.projectController,
                                   borderRadius: 15,
                                   onPressed: controller.showSelectProjectDialog,
                                 ),
                                 const SizedBox(height: 18),
                                 DropDownTextField(
-                                  title: 'Select Shift',
+                                  title: 'select_shift'.tr,
                                   controller: controller.shiftController,
                                   borderRadius: 15,
                                   onPressed: controller.showSelectShiftDialog,
@@ -80,11 +79,8 @@ class _UploadOfflineWorklogScreenState
                         Padding(
                           padding: const EdgeInsets.all(12),
                           child: PrimaryButton(
-                            buttonText: 'Upload',
-                            onPressed: () {
-                              ClockInUtils.getOfflineRecordsUploadJson();
-                              ClockInUtils.clearOfflineRecordsJson();
-                            },
+                            buttonText: 'upload'.tr,
+                            onPressed: controller.onUploadButtonTap,
                           ),
                         ),
                         SizedBox(

@@ -1,3 +1,5 @@
+import 'package:belcka/pages/profile/user_settings/controller/user_settings_controller.dart';
+import 'package:belcka/utils/app_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -12,35 +14,40 @@ import 'package:belcka/widgets/switch/custom_switch.dart';
 class BuildDarkModeItemWidget extends StatelessWidget {
   BuildDarkModeItemWidget({super.key});
 
-  final controller = Get.put(ThemeController());
+  final themeController = Get.put(ThemeController());
+  final controller = Get.find<UserSettingsController>();
 
   @override
   Widget build(BuildContext context) {
     return Obx(
       () => CardViewDashboardItem(
-        margin: EdgeInsets.fromLTRB(12, 6, 12, 6),
-        child:ListTile(
-            contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            leading: Icon(
-              Icons.dark_mode_outlined,
-              color: primaryTextColor_(context),
-              size: 32,
-            ),
-            title:  Text(
-              'Dark mode',
-              style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 18,
-                  color: primaryTextColor_(context)),
-            ),
-            trailing: CustomSwitch(
-              onValueChange: (value) {
-                controller.toggleTheme(value);
-              },
-              mValue: controller.isDarkMode,
-            ))
-      ),
+          margin: EdgeInsets.fromLTRB(12, 6, 12, 6),
+          child: ListTile(
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              leading: Icon(
+                Icons.dark_mode_outlined,
+                color: primaryTextColor_(context),
+                size: 32,
+              ),
+              title: Text(
+                'Dark mode',
+                style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 18,
+                    color: primaryTextColor_(context)),
+              ),
+              trailing: CustomSwitch(
+                onValueChange: (value) {
+                  controller.isModeChange.value = true;
+                  print("controller.isModeChange.value:" +
+                      controller.isModeChange.value.toString());
+                  themeController.toggleTheme(value);
+                  ThemeConfig.isDarkMode = themeController.isDarkMode;
+                  AppUtils.setStatusBarColor();
+                },
+                mValue: themeController.isDarkMode,
+              ))),
     );
   }
 }

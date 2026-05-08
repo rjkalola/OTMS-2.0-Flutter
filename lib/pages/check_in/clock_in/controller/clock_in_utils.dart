@@ -560,8 +560,10 @@ class ClockInUtils {
         !StringHelper.isEmptyString(log.workEndTime);
   }
 
-  static Future<List<Map<String, dynamic>>>
-      getOfflineRecordsUploadJson() async {
+  static Future<List<Map<String, dynamic>>> getOfflineRecordsUploadJson({
+    int? selectedProjectId,
+    int? selectedShiftId,
+  }) async {
     WorkLogListResponse workLogData =
         Get.find<AppStorage>().getWorklogDataOffline();
     workLogData.workLogInfo ??= <WorkLogInfo>[];
@@ -569,8 +571,13 @@ class ClockInUtils {
     final List<Map<String, dynamic>> rows = [];
     for (final log in workLogData.workLogInfo ?? <WorkLogInfo>[]) {
       if (!_isOfflineUploadCandidate(log)) continue;
+      final int? shiftId = log.shiftId;
+      final int? projectId = log.projectId;
+      final bool hasLogShiftAndProject = shiftId != null && projectId != null;
 
       final Map<String, dynamic> row = {
+        "shift_id": hasLogShiftAndProject ? selectedShiftId : shiftId,
+        "project_id": hasLogShiftAndProject ? selectedProjectId : projectId,
         "work_start_time": log.workStartTime,
         "work_end_time": log.workEndTime,
         "start_work_location": log.startWorkLocation?.toJson(),

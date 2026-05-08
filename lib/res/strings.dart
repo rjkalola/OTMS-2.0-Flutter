@@ -542,6 +542,9 @@ class Strings extends Translations {
           'enter_valid_car_register_number':
               "Enter letters and numbers (max 10 characters)",
           'please_select_project': "Please select project",
+          'please_select_shift': "Please select shift",
+          'upload_worklog_confirmation_message':
+              "Are you sure you want to upload worklog data to the server?",
           'enter_valid_amount': "Enter valid amount",
           'digital_id_card': "Digital Id Card",
           'user_id': "User Id",
