@@ -133,6 +133,18 @@ class _PurchasingScreenState extends State<PurchasingScreen>
         visible: controller.isMainViewVisible.value,
         child: GestureDetector(
             onTap: () {
+              Get.toNamed(AppRoutes.hireHistoryScreen);
+            },
+            child: ImageUtils.setSvgAssetsImage(
+                path: Drawable.historyIcon, width: 24, height: 24)),
+      ),
+      SizedBox(
+        width: 8,
+      ),
+      Visibility(
+        visible: controller.isMainViewVisible.value,
+        child: GestureDetector(
+            onTap: () {
               Get.toNamed(AppRoutes.generateReportScreen);
             },
             child: ImageUtils.setSvgAssetsImage(

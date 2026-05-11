@@ -44,6 +44,7 @@ class _StoremanInventoryScreenState extends State<StoremanInventoryScreen>
                 bgColor: backgroundColor_(context),
                 isBack: true,
                 shape: AppUtils.getAppbarShape(),
+                widgets: actionButtons(),
               ),
               backgroundColor: dashBoardBgColor_(context),
               body: ModalProgressHUD(
@@ -107,13 +108,25 @@ class _StoremanInventoryScreenState extends State<StoremanInventoryScreen>
 
   List<Widget>? actionButtons() {
     return [
-      GestureDetector(
-          onTap: () {
-            Get.toNamed(AppRoutes.generateReportScreen);
-          },
-          child: ImageUtils.setSvgAssetsImage(
-              path: Drawable.reportIcon, width: 24, height: 24)),
-      SizedBox(width: 12,)
+      Visibility(
+        visible: controller.isMainViewVisible.value,
+        child: GestureDetector(
+            onTap: () {
+              Get.toNamed(AppRoutes.hireHistoryScreen);
+            },
+            child: ImageUtils.setSvgAssetsImage(
+                path: Drawable.historyIcon, width: 24, height: 24)),
+      ),
+      SizedBox(
+        width: 14,
+      ),
+      // GestureDetector(
+      //     onTap: () {
+      //       Get.toNamed(AppRoutes.generateReportScreen);
+      //     },
+      //     child: ImageUtils.setSvgAssetsImage(
+      //         path: Drawable.reportIcon, width: 24, height: 24)),
+      // SizedBox(width: 12,)
       // IconButton(
       //   icon: Icon(Icons.settings),
       //   onPressed: () {
