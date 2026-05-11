@@ -184,7 +184,8 @@ class OrderDetailsController extends GetxController{
           "product_id": item.productId,
           "qty": (item.isSubQty ?? false) ? item.subQty : item.qty,
           "cart_qty": (item.isSubQty ?? false) ? item.subQty : item.qty,
-          "is_sub_qty":item.isSubQty
+          "is_sub_qty":item.isSubQty,
+          "price": item.displayPrice
         };
       }).toList(),
     };
@@ -202,7 +203,8 @@ class OrderDetailsController extends GetxController{
       "product_id": item.productId,
       "qty":(item.isSubQty ?? false) ? item.subQty : item.qty,
       "cart_qty": (item.isSubQty ?? false) ? item.subQty : item.qty,
-      "is_sub_qty":item.isSubQty
+      "is_sub_qty":item.isSubQty,
+      "price": item.displayPrice
     };
   }
 

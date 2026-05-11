@@ -110,7 +110,7 @@ class _InternalOrderDetailsListWithQuantityState extends State<InternalOrderDeta
                               const SizedBox(height: 4),
                               TitleTextView(
                                 text: "${'price'.tr}: ${orders[index].currency ?? "£"}"
-                                    "${(orders[index].perUnitPrice ?? "0.00")}",
+                                    "${(orders[index].displayPrice ?? "0.00")}",
                                 fontSize: 15,
                                 fontWeight: FontWeight.w600,
                               ),

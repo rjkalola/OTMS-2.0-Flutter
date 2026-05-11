@@ -379,7 +379,7 @@ class BasketController extends GetxController implements SelectItemListener {
         return {
           "product_id": item.productId,
           "qty": item.cartQty ?? 0,
-          "price": item.perUnitPrice,
+          "price": item.displayPrice,
           "is_sub_qty":item.isSubQty
         };
       }).toList(),
@@ -439,7 +439,7 @@ class BasketController extends GetxController implements SelectItemListener {
       }
       */
 
-      double price = double.tryParse(item.perUnitPrice ?? "") ?? 0.00;
+      double price = double.tryParse(item.displayPrice ?? "") ?? 0.00;
       double qty = item.cartQty ?? 0.0;
       totalAmount.value += price * qty;
     }

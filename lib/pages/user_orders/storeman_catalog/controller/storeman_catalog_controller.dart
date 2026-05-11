@@ -299,6 +299,7 @@ class StoremanCatalogController extends GetxController {
               "qty": product.qty,
               "cart_qty": 1,
               "is_sub_qty": product.isSubQty ? 1 : 0,
+              "price": product.displayPrice,
             };
           }).toList();
 
@@ -384,6 +385,7 @@ class StoremanCatalogController extends GetxController {
     map["product_id"] = product.id;
     map["qty"] = product.qty;
     map["cart_qty"] = cartQuantity;
+    map["price"] = product.displayPrice ?? "";
     map["is_sub_qty"] = (product.isSubQty ?? false) ? 1 : 0;
 
     _api.addToCartAPI(

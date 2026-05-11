@@ -68,9 +68,9 @@ class _DigitalIdCardScreenState extends State<DigitalIdCardScreen> {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
         child: AspectRatio(
-          aspectRatio: 1.3,
+          aspectRatio: 1.6,
           child: Card(
-            elevation: 8,
+            elevation: 2,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
             clipBehavior: Clip.antiAlias,
             child: IgnorePointer(

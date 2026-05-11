@@ -98,6 +98,7 @@ class ProductDetailsController extends GetxController {
     map["product_id"] = product.value.id;
     map["qty"] = product.value.qty;
     map["cart_qty"] = cartQuantity;
+    map["price"] = product.value.displayPrice ?? "";
     map["is_sub_qty"] = (product.value.isSubQty ?? false) ? 1 : 0;
 
     _api.addToCartAPI(

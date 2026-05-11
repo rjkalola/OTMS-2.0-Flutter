@@ -10,6 +10,7 @@ class ProductSetDataInfo {
   final String currency;
   final String price;
   final String marketPrice;
+  final String displayPrice;
   final String totalAmount;
   final int qty;
   final int subQty;
@@ -79,6 +80,7 @@ class ProductSetDataInfo {
     required this.imageUrl,
     required this.thumbUrl,
     required this.qrCodeUrl,
+    required this.displayPrice
   });
 
   factory ProductSetDataInfo.fromJson(Map<String, dynamic> json) {
@@ -94,6 +96,7 @@ class ProductSetDataInfo {
       currency: json['currency'] ?? '',
       price: json['price'] ?? '0',
       marketPrice: json['market_price'] ?? '0',
+      displayPrice: json['display_price'] ?? '0',
       totalAmount: json['total_amount'] ?? '0',
       qty: json['qty'] ?? 0,
       subQty: json['sub_qty'] ?? 0,
