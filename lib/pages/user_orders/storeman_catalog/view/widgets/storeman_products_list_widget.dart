@@ -9,6 +9,7 @@ import 'package:belcka/pages/user_orders/widgets/out_of_stock_banner.dart';
 import 'package:belcka/pages/user_orders/widgets/product_quantity_change_widget.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/res/drawable.dart';
+import 'package:belcka/res/theme/app_colors.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/widgets/PrimaryButton.dart';
@@ -30,6 +31,7 @@ class _StoremanProductsListWidgetState
     extends State<StoremanProductsListWidget> {
 
   final Map<int, int> currentImageIndex = {};
+  final Set<int> _expandedProductIds = {};
 
   @override
   Widget build(BuildContext context) {
@@ -98,6 +100,15 @@ class _StoremanProductsListWidgetState
                             final LayerLink layerLink = LayerLink();
                             String availableQtyText =
                                 "${((product.qty ?? 0.0).toInt())}";
+
+                            double totalPrice = product.productSet?.fold(0.0, (sum, item) {
+                              double price = double.tryParse(item.displayPrice ?? '0') ?? 0.0;
+                              return sum! + price;
+                            }) ?? 0.0;
+
+                            String formattedPrice = totalPrice.toStringAsFixed(2);
+                            bool isSetExpanded = _expandedProductIds.contains(product.productId ?? 0);
+
                             return GestureDetector(
                               onTap: () {
                                 final currentFocus = FocusScope.of(context);
@@ -181,9 +192,7 @@ class _StoremanProductsListWidgetState
                                                 bottom: 8,
                                                 child: Row(
                                                   children: List.generate(
-                                                    product.productImages
-                                                            ?.length ??
-                                                        0,
+                                                    product.productImages?.length ?? 0,
                                                     (dotIndex) {
                                                       final isActive = (currentImageIndex[index] ?? 0) == dotIndex;
                                                       return AnimatedContainer(
@@ -283,7 +292,14 @@ class _StoremanProductsListWidgetState
                                           if (isInSet)
                                             InkWell(
                                               onTap: () {
-                                                controller.fetchProductsSet(product.productId ?? 0);
+                                                setState(() {
+                                                  if (isSetExpanded) {
+                                                    _expandedProductIds.remove(product.productId ?? 0);
+                                                  }
+                                                  else{
+                                                    _expandedProductIds.add(product.productId ?? 0);
+                                                  }
+                                                });
                                               },
                                               child: Container(
                                                 padding: EdgeInsets.symmetric(
@@ -303,8 +319,8 @@ class _StoremanProductsListWidgetState
                                                       ),
                                                     ),
                                                     const SizedBox(width: 4),
-                                                    const Icon(
-                                                      Icons.keyboard_arrow_down,
+                                                     Icon(
+                                                      isSetExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
                                                       color: Colors.white,
                                                       size: 18,
                                                     ),
@@ -399,8 +415,7 @@ class _StoremanProductsListWidgetState
                                           const SizedBox(width: 14),
 
                                           // ADD TO CART
-                                          !isAdded
-                                              ? PrimaryButton(
+                                          !isAdded ? PrimaryButton(
                                                   isFixSize: true,
                                                   width: 150,
                                                   height: 40,
@@ -409,90 +424,43 @@ class _StoremanProductsListWidgetState
                                                   fontWeight: FontWeight.w600,
                                                   buttonText: "add_to_cart".tr,
                                                   onPressed: () {
-                                                    FocusManager
-                                                        .instance.primaryFocus
-                                                        ?.unfocus();
-
+                                                    FocusManager.instance.primaryFocus?.unfocus();
                                                     if (isAdded) {
-                                                      controller
-                                                          .toggleRemoveCart(
-                                                        index,
-                                                        category,
-                                                      );
-                                                    } else {
-                                                      controller.increaseQty(
-                                                        index,
-                                                        category,
-                                                      );
-
-                                                      controller
-                                                          .toggleAddToCart(
-                                                        index,
-                                                        1,
-                                                        category,
+                                                      controller.toggleRemoveCart(index, category,);
+                                                    }
+                                                    else{
+                                                      controller.increaseQty(index, category,);
+                                                      controller.toggleAddToCart(index, 1, category,
                                                       );
                                                     }
                                                   },
                                                 )
                                               : ProductQuantityChangeWidget(
-                                                  focusNode:
-                                                      product.qtyFocusNode,
+                                                  focusNode: product.qtyFocusNode,
                                                   isSubQuantity: isSubQuantity,
-                                                  quantity:
-                                                      (product.cartQty ?? 0)
-                                                          .toInt(),
+                                                  quantity: (product.cartQty ?? 0).toInt(),
                                                   unit: packOfUnit,
-                                                  onChanged: (
-                                                    value,
-                                                  ) {
-                                                    controller.updateSubQty(
-                                                      index,
-                                                      value,
-                                                      category,
-                                                    );
-
-                                                    controller.toggleAddToCart(
-                                                      index,
-                                                      value,
-                                                      category,
-                                                    );
+                                                  onChanged: (value,) {
+                                                    controller.updateSubQty(index, value, category,);
+                                                    controller.toggleAddToCart(index, value, category,);
                                                   },
                                                   onIncrease: () {
-                                                    controller.increaseQty(
-                                                      index,
-                                                      category,
-                                                    );
-
-                                                    final newQty = (category
-                                                                .products[index]
-                                                                .cartQty ??
-                                                            0)
-                                                        .toInt();
-
-                                                    controller.toggleAddToCart(
-                                                      index,
-                                                      newQty,
-                                                      category,
-                                                    );
+                                                    controller.increaseQty(index, category,);
+                                                    final newQty = (category.products[index].cartQty ?? 0).toInt();
+                                                    controller.toggleAddToCart(index, newQty, category,);
                                                   },
                                                   onDecrease: () {
-                                                    FocusManager
-                                                        .instance.primaryFocus
-                                                        ?.unfocus();
+                                                    FocusManager.instance.primaryFocus?.unfocus();
+                                                    controller.decrementOrRemoveFromCart(index, category,);
+                                                    },
 
-                                                    controller
-                                                        .decrementOrRemoveFromCart(
-                                                      index,
-                                                      category,
-                                                    );
-                                                  },
-                                                ),
+                                          ),
                                         ],
                                       ),
                                     ),
+
                                     // SET PRODUCTS
-                                /*
-                                    if (isInSet) ...[
+                                    if (isInSet && isSetExpanded) ...[
                                       Divider(
                                         color: dividerColor_(context),
                                         height: 1,
@@ -506,73 +474,47 @@ class _StoremanProductsListWidgetState
                                               child: ListView.separated(
                                                 scrollDirection:
                                                     Axis.horizontal,
-                                                itemCount: 3,
+                                                itemCount: product.productSet?.length ?? 0,
                                                 separatorBuilder: (_, __) =>
                                                     const SizedBox(width: 20),
-                                                itemBuilder: (
-                                                  context,
-                                                  setIndex,
-                                                ) {
+                                                itemBuilder: (context, setIndex,) {
+                                                  final setItem =  product.productSet?[setIndex];
                                                   return Row(
                                                     children: [
                                                       Column(
                                                         children: [
-                                                          Container(
-                                                            width: 90,
-                                                            height: 70,
-                                                            clipBehavior:
-                                                                Clip.antiAlias,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          12),
-                                                            ),
-                                                            child:
-                                                                Image.network(
-                                                              product
-                                                                      .productImages
-                                                                      ?.first
-                                                                      .thumbUrl ??
-                                                                  "",
+                                                          Container(width: 90, height: 70, clipBehavior: Clip.antiAlias,
+                                                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(12),),
+                                                            child: Image.network(setItem?.thumbUrl ?? "",
                                                               fit: BoxFit.cover,
+                                                              errorBuilder: (context, error, stack,
+                                                                  ) {
+                                                                return Center(
+                                                                  child: Icon(Icons.photo_outlined, size: 45, color: Colors.grey.shade300,
+                                                                  ),
+                                                                );
+                                                              },
                                                             ),
                                                           ),
-                                                          const SizedBox(
-                                                              height: 8),
-                                                          SizedBox(
-                                                            width: 90,
-                                                            child: Text(
-                                                              "asdasd",
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .center,
+                                                          const SizedBox(height: 8),
+                                                          SizedBox(width: 110,
+                                                            child:
+                                                            Text(setItem?.productName ?? "",
+                                                              textAlign: TextAlign.center,
                                                               maxLines: 1,
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              style:
-                                                                  const TextStyle(
-                                                                fontSize: 13,
-                                                              ),
+                                                              overflow: TextOverflow.ellipsis,
+                                                              style: const TextStyle(fontSize: 13,),
                                                             ),
                                                           ),
                                                         ],
                                                       ),
-                                                      if (setIndex != 2)
-                                                        const Padding(
-                                                          padding: EdgeInsets
-                                                              .symmetric(
-                                                                  horizontal:
-                                                                      10),
-                                                          child: Text(
-                                                            "+",
+                                                      if (setIndex != (product.productSet?.length ?? 0) - 1)
+                                                        const Padding(padding: EdgeInsets.symmetric(horizontal: 4),
+                                                          child: Text("+",
                                                             style: TextStyle(
-                                                              fontSize: 26,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
+                                                              fontSize: 15,
+                                                              color: AppColors.primaryTextColor,
+                                                              fontWeight: FontWeight.bold,
                                                             ),
                                                           ),
                                                         ),
@@ -582,23 +524,34 @@ class _StoremanProductsListWidgetState
                                               ),
                                             ),
 
-                                            const SizedBox(height: 12),
-
                                             // ADD SET TO CART
-                                            Container(
-                                              height: 48,
-                                              decoration: BoxDecoration(
-                                                color: Colors.green,
-                                                borderRadius:
-                                                    BorderRadius.circular(30),
-                                              ),
-                                              alignment: Alignment.center,
-                                              child: const Text(
-                                                "Add to set to cart: £1000.53",
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 16,
+                                            GestureDetector(
+                                              onTap:(){
+                                                if (product.productSet?.isNotEmpty ?? false){
+                                                  List<Map<String, dynamic>> productDataList = (product.productSet!.map((item) {
+                                                    return {
+                                                      "product_id": item.productId,
+                                                      "qty": item.qty,
+                                                      "cart_qty": 1,
+                                                      "is_sub_qty": (item.isSubQty ?? false) ? 1 : 0,
+                                                      "price": item.displayPrice,
+                                                    };
+                                                  }
+                                                  ).toList());
+                                                  controller.addSetProductsToCart(product.productId ?? 0, productDataList,index,category);
+                                                }
+                                              },
+                                              child: Container(
+                                                width: 250,
+                                                height: 36,
+                                                decoration: BoxDecoration(color: Colors.green, borderRadius: BorderRadius.circular(30),),
+                                                alignment: Alignment.center,
+                                                child:
+                                                Text("Add set to cart: ${product.currency}$formattedPrice",
+                                                  style: TextStyle(color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 15,
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -606,7 +559,6 @@ class _StoremanProductsListWidgetState
                                         ),
                                       ),
                                     ],
-                                    */
 
                                     // OUT OF STOCK
                                     if (isAdded)

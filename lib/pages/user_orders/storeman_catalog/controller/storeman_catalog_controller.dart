@@ -303,7 +303,7 @@ class StoremanCatalogController extends GetxController {
             };
           }).toList();
 
-          addSetProductsToCart(productID, productDataList);
+          //addSetProductsToCart(productID, productDataList);
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
@@ -421,7 +421,8 @@ class StoremanCatalogController extends GetxController {
   }
 
   void addSetProductsToCart(
-      int productId, List<Map<String, dynamic>> productDataList) {
+      int productId, List<Map<String, dynamic>> productDataList,int index, ProductCategories category) {
+    final product = category.products[index];
     isLoading.value = true;
     Map<String, dynamic> request = {
       "company_id": ApiConstants.companyId,
@@ -437,7 +438,12 @@ class StoremanCatalogController extends GetxController {
               jsonDecode(responseModel.result!) as Map<String, dynamic>);
           if (response.info != null) {
             isDataUpdated = true;
-            fetchProducts(isRefresh: true);
+            //fetchProducts(isRefresh: true);
+            AddToCartInfo cartInfo = response.info![0];
+            product.cartId = cartInfo.id ?? 0;
+            product.isCartProduct = true;
+            product.cartQty = 1;
+            categories.refresh();
           }
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");

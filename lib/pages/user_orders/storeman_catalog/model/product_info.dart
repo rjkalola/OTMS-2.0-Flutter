@@ -1,4 +1,6 @@
 import 'package:belcka/pages/common/model/file_info.dart';
+import 'package:belcka/pages/user_orders/product_set/model/product_set_data_info.dart';
+import 'package:belcka/pages/user_orders/storeman_catalog/model/product_set_model.dart';
 import 'package:flutter/material.dart';
 
 class ProductInfo {
@@ -63,6 +65,7 @@ class ProductInfo {
   List<FilesInfo>? productImages;
   List<FilesInfo>? attachments;
   List<FilesInfo>? tempAttachments;
+  List<ProductSetModel>? productSet;
   int? deliveredQty;
   int? receivedQty;
   int? totalQty;
@@ -186,7 +189,8 @@ class ProductInfo {
       this.folderId,
       this.perUnitPrice,
       this.statusColor,
-      this.displayPrice});
+      this.displayPrice,
+      this.productSet});
 
   ProductInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -246,6 +250,14 @@ class ProductInfo {
     categoryIds = json['category_ids'];
     storeIds = json['store_ids'];
     cartId = json['cart_id'];
+
+    if (json['product_set'] != null) {
+      productSet = <ProductSetModel>[];
+      json['product_set'].forEach((v) {
+        productSet!.add(new ProductSetModel.fromJson(v));
+      });
+    }
+
     if (json['product_images'] != null) {
       productImages = <FilesInfo>[];
       json['product_images'].forEach((v) {
@@ -382,6 +394,11 @@ class ProductInfo {
     data['store_ids'] = this.storeIds;
     data['cart_id'] = this.cartId;
     data['status_color'] = this.statusColor;
+
+    if (this.productSet != null) {
+      data['product_set'] =
+          this.productSet!.map((v) => v.toJson()).toList();
+    }
     if (this.productImages != null) {
       data['product_images'] =
           this.productImages!.map((v) => v.toJson()).toList();
