@@ -124,6 +124,7 @@ class FavoriteProductsController extends GetxController{
     map["product_id"] = product.productId ?? 0;
     map["qty"] = product.qty ?? 0;
     map["cart_qty"] = cartQuantity;
+    map["price"] = product.displayPrice ?? "";
     map["is_sub_qty"] = (product.isSubQty ?? false) ? 1 : 0;
 
     _api.addToCartAPI(
@@ -233,6 +234,7 @@ class FavoriteProductsController extends GetxController{
               "qty": product.qty,
               "cart_qty": 1,
               "is_sub_qty": product.isSubQty ? 1 : 0,
+              "price": product.displayPrice,
             };
           }).toList();
 

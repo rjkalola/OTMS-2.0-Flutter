@@ -17,6 +17,7 @@ class ProductInfo {
   String? price;
   String? marketPrice;
   String? perUnitPrice;
+  String? displayPrice;
   double? qty;
   double? cartQty;
   String? subQty;
@@ -184,7 +185,8 @@ class ProductInfo {
       this.isCheck,
       this.folderId,
       this.perUnitPrice,
-      this.statusColor});
+      this.statusColor,
+      this.displayPrice});
 
   ProductInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -202,6 +204,7 @@ class ProductInfo {
     price = json['price']?.toString() ?? json['order_price']?.toString();
     marketPrice = json['market_price']?.toString();
     perUnitPrice = json['per_unit_price']?.toString();
+    displayPrice = json['display_price']?.toString();
     qty = (json['qty'] as num?)?.toDouble();
     cartQty = (json['cart_qty'] as num?)?.toDouble();
     subQty = json['sub_qty']?.toString();
@@ -293,9 +296,7 @@ class ProductInfo {
     }
     orderStatusText = json['order_status_text']?.toString();
     orderStatusColor = json['order_status_color']?.toString();
-
     statusColor = json['status_color']?.toString();
-
     date = json['date']?.toString();
     fromDate = json['from_date']?.toString();
     toDate = json['to_date']?.toString();
@@ -338,6 +339,7 @@ class ProductInfo {
     data['price'] = this.price;
     data['market_price'] = this.marketPrice;
     data['per_unit_price'] = this.perUnitPrice;
+    data['display_price'] = this.displayPrice;
     data['qty'] = this.qty;
     data['cart_qty'] = this.cartQty;
     data['sub_qty'] = this.subQty;

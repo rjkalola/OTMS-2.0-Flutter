@@ -28,6 +28,9 @@ class StoremanProductsListWidget extends StatefulWidget {
 
 class _StoremanProductsListWidgetState
     extends State<StoremanProductsListWidget> {
+
+  final Map<int, int> currentImageIndex = {};
+
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<StoremanCatalogController>();
@@ -38,270 +41,319 @@ class _StoremanProductsListWidgetState
           child: controller.isProductsLoading.value
               ? ProductsLoadingSkeleton()
               : ListView.builder(
-            padding: EdgeInsets.fromLTRB(16, 0, 8, 0),
-            itemCount: controller.categories.length,
-            controller: controller.scrollController,
-            itemBuilder: (context, catIndex) {
-              final category = controller.categories[catIndex];
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 8),
-                  if (!category.continuedCategory)
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 12, horizontal: 16),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context)
-                          .scaffoldBackgroundColor
-                          .withOpacity(0.95),
-                      border: Border(
-                        left: BorderSide(
-                            color: defaultAccentColor_(context),
-                            width: 4), // Accent line
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  padding: EdgeInsets.fromLTRB(16, 0, 8, 0),
+                  itemCount: controller.categories.length,
+                  controller: controller.scrollController,
+                  itemBuilder: (context, catIndex) {
+                    final category = controller.categories[catIndex];
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-
-                        Expanded(
-                          child: TitleTextView(
-                            text: category.categoryName.toUpperCase() ?? "",
-                            fontSize: 14,
-                            fontWeight: FontWeight.w700,
-                            color: primaryTextColor_(context),
-                          ),
-                        ),
-
-
-                        //Show item count
-              /*
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 2),
-                          decoration: BoxDecoration(
-                            color: Colors.grey.shade200,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Text(
-                            "${category.products.length} ${'items'.tr}",
-                            style: TextStyle(
-                                fontSize: 11, color: Colors.grey.shade600),
-                          ),
-                        )
-                        */
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    padding: EdgeInsets.zero,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: category.products.length,
-                    itemBuilder: (context, index) {
-                      final product = category.products[index];
-                      final pageController = PageController();
-                      final isAdded = product.isCartProduct ?? false;
-                      final isInSet = product.isInSet ?? false;
-
-                      final isSubQuantity = product.isSubQty ?? false;
-
-                      final outOfStockCount = isSubQuantity
-                          ? ((product.cartQty ?? 0) -
-                              (int.parse(product.packOffQty ?? "0")))
-                          : ((product.cartQty ?? 0) - (product.qty ?? 0.0));
-
-                      final packOfUnit = product.packOfUnit ?? "";
-
-                      String availableQtyText =
-                          "${((product.qty ?? 0.0).toInt())}";
-
-                      final projectService = Get.find<ProjectService>();
-                      final LayerLink _layerLink = LayerLink();
-
-                      return GestureDetector(
-                        onTap: () {
-                          final currentFocus = FocusScope.of(context);
-                          if (!currentFocus.hasPrimaryFocus &&
-                              currentFocus.focusedChild != null) {
-                            FocusManager.instance.primaryFocus?.unfocus();
-                            return;
-                          }
-                          var arguments = {"product_id": product.productId};
-                          controller.moveToScreen(
-                            AppRoutes.productDetailsScreen,
-                            arguments,
-                          );
-                        },
-                        child: CardViewDashboardItem(
-                          margin: const EdgeInsets.only(bottom: 8),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Column(
+                        SizedBox(height: 8),
+                        if (!category.continuedCategory)
+                          Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 12, horizontal: 16),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.95),
+                              border: Border(left: BorderSide(color: defaultAccentColor_(context), width: 4),
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
+                                Expanded(
+                                  child: TitleTextView(
+                                    text: category.categoryName.toUpperCase() ?? "",
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700,
+                                    color: primaryTextColor_(context),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        const SizedBox(height: 12),
 
-                                    Stack(
-                                      alignment: Alignment.bottomCenter,
-                                      children: [
-                                        // 1. The Image Box (Increased Size)
-                                        Container(
-                                          width: 130,
-                                          height: 150,
-                                          decoration: BoxDecoration(
-                                            color: lightGreyColor(context),
-                                          ),
-                                          clipBehavior: Clip.antiAlias,
-                                          child: PageView.builder(
-                                            controller: pageController,
-                                            itemCount: product.productImages?.length ?? 0,
-                                            onPageChanged: (page) {
-                                              setState(() {
-                                                controller.setCurrentImageIndex(index, page);
-                                              });
-                                            },
-                                            itemBuilder: (context, imgIndex) {
-                                              return InkWell(
-                                                onTap: () {
-                                                  ImageUtils.moveToImagePreview(product.productImages ?? [], imgIndex);
-                                                },
-                                                child: SizedBox.expand(
-                                                  child: Image.network(
-                                                    product.productImages?[imgIndex].thumbUrl ?? "",
-                                                    fit: BoxFit.cover,
-                                                    alignment: Alignment.center,
-                                                    errorBuilder: (context, error, stack) {
-                                                      return Center(
-                                                        child: Icon(Icons.photo_outlined, size: 50, color: Colors.grey.shade300),
+                        //Products UI
+                        ListView.builder(
+                          shrinkWrap: true,
+                          padding: EdgeInsets.zero,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: category.products.length,
+                          itemBuilder: (context, index) {
+                            final product = category.products[index];
+                            final pageController = PageController();
+                            final isAdded = product.isCartProduct ?? false;
+                            final isInSet = product.isInSet ?? false;
+                            final isSubQuantity = product.isSubQty ?? false;
+                            final outOfStockCount = isSubQuantity
+                                ? ((product.cartQty ?? 0) -
+                                    (int.parse(product.packOffQty ?? "0")))
+                                : ((product.cartQty ?? 0) -
+                                    (product.qty ?? 0.0));
+                            final packOfUnit = product.packOfUnit ?? "";
+                            final projectService = Get.find<ProjectService>();
+                            final LayerLink layerLink = LayerLink();
+                            String availableQtyText =
+                                "${((product.qty ?? 0.0).toInt())}";
+                            return GestureDetector(
+                              onTap: () {
+                                final currentFocus = FocusScope.of(context);
+                                if (!currentFocus.hasPrimaryFocus &&
+                                    currentFocus.focusedChild != null) {
+                                  FocusManager.instance.primaryFocus?.unfocus();
+                                  return;
+                                }
+                                var arguments = {
+                                  "product_id": product.productId
+                                };
+                                controller.moveToScreen(
+                                  AppRoutes.productDetailsScreen,
+                                  arguments,
+                                );
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.only(bottom: 16),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(18),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.05),
+                                      blurRadius: 8,
+                                      offset: const Offset(0, 3),
+                                    ),
+                                  ],
+                                ),
+                                child: Column(
+                                  children: [
+                                    // TOP SECTION
+                                    Padding(
+                                      padding: const EdgeInsets.all(10),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          // IMAGE
+                                          Stack(
+                                            alignment: Alignment.bottomCenter,
+                                            children: [
+                                              Container(
+                                                width: 150,
+                                                height: 150,
+                                                decoration: BoxDecoration(
+                                                  color:
+                                                      lightGreyColor(context),
+                                                ),
+                                                clipBehavior: Clip.antiAlias,
+                                                child: PageView.builder(
+                                                  controller: pageController,
+                                                  itemCount: product.productImages?.length ?? 0,
+                                                  onPageChanged: (page) {
+                                                    setState(() {
+                                                      currentImageIndex[index] = page;
+                                                    });
+                                                  },
+                                                  itemBuilder:
+                                                      (context, imgIndex) {
+                                                    return InkWell(
+                                                      onTap: () {
+                                                        ImageUtils.moveToImagePreview(product.productImages ?? [], imgIndex,
+                                                        );
+                                                      },
+                                                      child: Image.network(product.productImages?[imgIndex].thumbUrl ?? "",
+                                                        fit: BoxFit.cover,
+                                                        errorBuilder: (context, error, stack,
+                                                        ) {
+                                                          return Center(
+                                                            child: Icon(Icons.photo_outlined, size: 45, color: Colors.grey.shade300,
+                                                            ),
+                                                          );
+                                                        },
+                                                      ),
+                                                    );
+                                                  },
+                                                ),
+                                              ),
+                                              Positioned(
+                                                bottom: 8,
+                                                child: Row(
+                                                  children: List.generate(
+                                                    product.productImages
+                                                            ?.length ??
+                                                        0,
+                                                    (dotIndex) {
+                                                      final isActive = (currentImageIndex[index] ?? 0) == dotIndex;
+                                                      return AnimatedContainer(
+                                                        duration: const Duration(milliseconds: 250),
+                                                        margin: const EdgeInsets.symmetric(horizontal: 2),
+                                                        width: isActive ? 12 : 5,
+                                                        height: 5,
+                                                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),
+                                                          color: isActive ? defaultAccentColor_(context)
+                                                              : Colors.white,
+                                                        ),
                                                       );
                                                     },
                                                   ),
                                                 ),
-                                              );
-                                            },
-                                          ),
-                                        ),
-
-                                        // 2. The Dots (Positioned on top of the image)
-                                        Positioned(
-                                          bottom: 8,
-                                          left: 0,
-                                          right: 0,
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: List.generate(
-                                              product.productImages?.length ?? 0,
-                                                  (dotIndex) {
-                                                final isActive = (controller.currentImageIndex[index] ?? 0) == dotIndex;
-                                                return AnimatedContainer(
-                                                  duration: const Duration(milliseconds: 300),
-                                                  margin: const EdgeInsets.symmetric(horizontal: 2),
-                                                  width: isActive ? 12 : 4,
-                                                  height: 4,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(2),
-                                                    color: isActive ? defaultAccentColor_(context) : Colors.grey.withOpacity(0.4),
-                                                  ),
-                                                );
-                                              },
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-
-                                    const SizedBox(width: 12),
-                                    // Product Details
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Expanded(
-                                                child: TitleTextView(
-                                                  text: product.shortName ?? "",
-                                                  fontSize: 15,
-                                                  maxLine: 2,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
                                               ),
                                             ],
                                           ),
-                                          const SizedBox(height: 4),
-                                          SubtitleTextView(
-                                            text: product.uuid ?? "",
-                                            fontSize: 13,
-                                            color:
-                                                secondaryExtraLightTextColor_(
-                                                    context),
+
+                                          const SizedBox(width: 10),
+
+                                          // DETAILS
+                                          Expanded(
+                                            child: SizedBox(
+                                              height: 135,
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  // TITLE
+                                                  TitleTextView(
+                                                    text: product.shortName ?? "",
+                                                    fontSize: 15,
+                                                    maxLine: 2,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+
+                                                  const SizedBox(height: 4),
+
+                                                  // SKU
+                                                  SubtitleTextView(
+                                                    text: product.uuid ?? "",
+                                                    fontSize: 12,
+                                                    color: secondaryExtraLightTextColor_(context),),
+
+                                                  const SizedBox(height: 8),
+                                                  // DESCRIPTION
+                                                  Expanded(
+                                                    child: Text(
+                                                      product.description ?? "",
+                                                      maxLines: 3,
+                                                      overflow: TextOverflow.ellipsis,
+                                                      style: TextStyle(
+                                                        fontSize: 13,
+                                                        height: 1.4,
+                                                        color: Colors.grey.shade600,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  // QTY + PRICE
+                                                  Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        "Qty: $availableQtyText",
+                                                        style: const TextStyle(
+                                                          fontSize: 14,
+                                                        ),
+                                                      ),
+                                                      TitleTextView(
+                                                        text:
+                                                            "${product.currency}${product.displayPrice ?? ""}",
+                                                        fontSize: 17,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
                                           ),
-                                          const SizedBox(height: 8),
-                                          TitleTextView(
-                                            text:
-                                                "${product.currency}${product.perUnitPrice ?? ""}",
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          const SizedBox(height: 2),
-                                          TitleTextView(
-                                            text:
-                                                "${'qty'.tr}: $availableQtyText",
-                                            fontSize: 13,
-                                            color:
-                                                secondaryExtraLightTextColor_(
-                                                    context),
-                                          ),
-                                          const SizedBox(height: 4),
-                                          // Favorite Button Section
+                                        ],
+                                      ),
+                                    ),
+
+                                    Divider(
+                                      color: dividerColor_(context),
+                                      height: 1,
+                                    ),
+
+                                    // ACTIONS
+                                    Padding(
+                                      padding: const EdgeInsets.all(10),
+                                      child: Row(
+                                        children: [
+                                          // SET AVAILABLE
+                                          if (isInSet)
+                                            InkWell(
+                                              onTap: () {
+                                                controller.fetchProductsSet(product.productId ?? 0);
+                                              },
+                                              child: Container(
+                                                padding: EdgeInsets.symmetric(
+                                                  horizontal: 14,
+                                                  vertical: 8,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  color: defaultAccentColor_(context),
+                                                  borderRadius: BorderRadius.circular(30),
+                                                ),
+                                                child: Row(
+                                                  children: [
+                                                    Text("Set Available",
+                                                      style: const TextStyle(
+                                                        color: Colors.white,
+                                                        fontWeight: FontWeight.w600,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(width: 4),
+                                                    const Icon(
+                                                      Icons.keyboard_arrow_down,
+                                                      color: Colors.white,
+                                                      size: 18,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+
+                                          const Spacer(),
+
+                                          // BOOKMARK
                                           Builder(
                                             builder: (buttonContext) {
                                               bool isBookmarked = product.isBookMark ?? false;
                                               return InkWell(
                                                 onTap: () {
                                                   if (isBookmarked) {
-                                                    // Un-bookmarking
                                                     FocusManager.instance.primaryFocus?.unfocus();
-                                                    controller.toggleBookmark(index, category, product.folderId ?? 0);
+                                                    controller.toggleBookmark(
+                                                      index, category, product.folderId ?? 0,
+                                                    );
                                                     product.isBookMark = false;
                                                     controller.categories.refresh();
-                                                  } else {
-                                                    //Bookmarking
-                                                    if (projectService.folderList.isEmpty) {
-                                                      // Show Add Folder Dialog
+                                                  }
+                                                  else{
+                                                    if (projectService
+                                                        .folderList.isEmpty) {
                                                       showDialog(
                                                         context: buttonContext,
-                                                        barrierDismissible: true,
-                                                        builder: (BuildContext context) {
+                                                        barrierDismissible:
+                                                            true,
+                                                        builder: (BuildContext
+                                                            context) {
                                                           return Dialog(
                                                             backgroundColor: Colors.transparent,
                                                             insetPadding: const EdgeInsets.symmetric(horizontal: 40),
                                                             child: Container(
                                                               padding: const EdgeInsets.all(20),
-                                                              decoration: BoxDecoration(
-                                                                color: Colors.white,
-                                                                borderRadius: BorderRadius.circular(20),
-                                                                boxShadow: const [
-                                                                  BoxShadow(color: Colors.black26, blurRadius: 20, offset: Offset(0, 10))
-                                                                ],
+                                                              decoration: BoxDecoration(color: Colors.white,borderRadius: BorderRadius.circular(20),
                                                               ),
                                                               child: AddFolderView(
                                                                 folders: [],
-                                                                onCancel: () => Navigator.pop(context),
+                                                                onCancel: () =>
+                                                                    Navigator.pop(context),
                                                                 onAdded: (folderName, projectId) async {
                                                                   Navigator.pop(context);
                                                                   final newFolder = await projectService.toggleCreateNewFolder(folderName, projectId);
-
                                                                   FocusManager.instance.primaryFocus?.unfocus();
-                                                                  controller.toggleBookmark(index, category, newFolder?.id ?? 0);
+                                                                  controller.toggleBookmark(index, category, newFolder?.id ?? 0,);
                                                                   product.isBookMark = true;
                                                                   controller.categories.refresh();
                                                                 },
@@ -310,15 +362,16 @@ class _StoremanProductsListWidgetState
                                                           );
                                                         },
                                                       );
-                                                    } else {
-                                                      // Show the Popup Manager with the CORRECT buttonContext
+                                                    }
+                                                    else{
                                                       FavoritePopupManager.show(
-                                                        context: buttonContext, // This ensures position is calculated correctly
-                                                        layerLink: _layerLink,
+                                                        context: buttonContext,
+                                                        layerLink: layerLink,
                                                         folders: projectService.folderList,
-                                                        onProjectSelected: (folder) {
+                                                        onProjectSelected:
+                                                            (folder) {
                                                           FocusManager.instance.primaryFocus?.unfocus();
-                                                          controller.toggleBookmark(index, category, folder.id ?? 0);
+                                                          controller.toggleBookmark(index, category, folder.id ?? 0,);
                                                           product.isBookMark = true;
                                                           controller.categories.refresh();
                                                         },
@@ -326,233 +379,256 @@ class _StoremanProductsListWidgetState
                                                     }
                                                   }
                                                 },
-                                                child: CompositedTransformTarget(
-                                                  link: _layerLink,
+                                                child:
+                                                    CompositedTransformTarget(
+                                                  link: layerLink,
                                                   child: Icon(
-                                                    isBookmarked ? Icons.bookmark : Icons.bookmark_border,
-                                                    color: isBookmarked ? Colors.deepOrangeAccent : primaryTextColor_(buttonContext),
-                                                    size: 20,
+                                                    isBookmarked
+                                                        ? Icons.bookmark
+                                                        : Icons.bookmark_border,
+                                                    color: isBookmarked
+                                                        ? Colors.orange
+                                                        : Colors.black87,
+                                                    size: 24,
                                                   ),
                                                 ),
                                               );
                                             },
                                           ),
+
+                                          const SizedBox(width: 14),
+
+                                          // ADD TO CART
+                                          !isAdded
+                                              ? PrimaryButton(
+                                                  isFixSize: true,
+                                                  width: 150,
+                                                  height: 40,
+                                                  fontSize: 14,
+                                                  color: Colors.green,
+                                                  fontWeight: FontWeight.w600,
+                                                  buttonText: "add_to_cart".tr,
+                                                  onPressed: () {
+                                                    FocusManager
+                                                        .instance.primaryFocus
+                                                        ?.unfocus();
+
+                                                    if (isAdded) {
+                                                      controller
+                                                          .toggleRemoveCart(
+                                                        index,
+                                                        category,
+                                                      );
+                                                    } else {
+                                                      controller.increaseQty(
+                                                        index,
+                                                        category,
+                                                      );
+
+                                                      controller
+                                                          .toggleAddToCart(
+                                                        index,
+                                                        1,
+                                                        category,
+                                                      );
+                                                    }
+                                                  },
+                                                )
+                                              : ProductQuantityChangeWidget(
+                                                  focusNode:
+                                                      product.qtyFocusNode,
+                                                  isSubQuantity: isSubQuantity,
+                                                  quantity:
+                                                      (product.cartQty ?? 0)
+                                                          .toInt(),
+                                                  unit: packOfUnit,
+                                                  onChanged: (
+                                                    value,
+                                                  ) {
+                                                    controller.updateSubQty(
+                                                      index,
+                                                      value,
+                                                      category,
+                                                    );
+
+                                                    controller.toggleAddToCart(
+                                                      index,
+                                                      value,
+                                                      category,
+                                                    );
+                                                  },
+                                                  onIncrease: () {
+                                                    controller.increaseQty(
+                                                      index,
+                                                      category,
+                                                    );
+
+                                                    final newQty = (category
+                                                                .products[index]
+                                                                .cartQty ??
+                                                            0)
+                                                        .toInt();
+
+                                                    controller.toggleAddToCart(
+                                                      index,
+                                                      newQty,
+                                                      category,
+                                                    );
+                                                  },
+                                                  onDecrease: () {
+                                                    FocusManager
+                                                        .instance.primaryFocus
+                                                        ?.unfocus();
+
+                                                    controller
+                                                        .decrementOrRemoveFromCart(
+                                                      index,
+                                                      category,
+                                                    );
+                                                  },
+                                                ),
                                         ],
                                       ),
                                     ),
-                                  ],
-                                ),
-                                Divider(
-                                  color: dividerColor_(context),
-                                ),
-                                Row(
-                                  children: [
-                                    if (isInSet)
-                                      Row(
-                                        children: [
-                                          FilledButton(
-                                            onPressed: () {
-                                              controller.fetchProductsSet(
-                                                  product.productId ?? 0);
-                                            },
-                                            style: FilledButton.styleFrom(
-                                                backgroundColor:
-                                                    defaultAccentColor_(
-                                                        context)),
-                                            child: Text('add_set'.tr),
-                                          ),
-                                          SizedBox(
-                                            width: 8,
-                                          )
-                                        ],
+                                    // SET PRODUCTS
+                                /*
+                                    if (isInSet) ...[
+                                      Divider(
+                                        color: dividerColor_(context),
+                                        height: 1,
                                       ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(10),
+                                        child: Column(
+                                          children: [
+                                            SizedBox(
+                                              height: 110,
+                                              child: ListView.separated(
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                itemCount: 3,
+                                                separatorBuilder: (_, __) =>
+                                                    const SizedBox(width: 20),
+                                                itemBuilder: (
+                                                  context,
+                                                  setIndex,
+                                                ) {
+                                                  return Row(
+                                                    children: [
+                                                      Column(
+                                                        children: [
+                                                          Container(
+                                                            width: 90,
+                                                            height: 70,
+                                                            clipBehavior:
+                                                                Clip.antiAlias,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          12),
+                                                            ),
+                                                            child:
+                                                                Image.network(
+                                                              product
+                                                                      .productImages
+                                                                      ?.first
+                                                                      .thumbUrl ??
+                                                                  "",
+                                                              fit: BoxFit.cover,
+                                                            ),
+                                                          ),
+                                                          const SizedBox(
+                                                              height: 8),
+                                                          SizedBox(
+                                                            width: 90,
+                                                            child: Text(
+                                                              "asdasd",
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              maxLines: 1,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              style:
+                                                                  const TextStyle(
+                                                                fontSize: 13,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      if (setIndex != 2)
+                                                        const Padding(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      10),
+                                                          child: Text(
+                                                            "+",
+                                                            style: TextStyle(
+                                                              fontSize: 26,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                    ],
+                                                  );
+                                                },
+                                              ),
+                                            ),
 
-                                    // if (isAdded) ...[
-                                    //   ProductQuantityWidget(
-                                    //     focusNode: product.qtyFocusNode,
-                                    //     isSubQuantity: isSubQuantity,
-                                    //     quantity:
-                                    //         (product.cartQty ?? 0).toInt(),
-                                    //     unit: packOfUnit,
-                                    //     onChanged: (value) {
-                                    //       controller.updateSubQty(
-                                    //           index, value, category);
-                                    //       controller.toggleAddToCart(
-                                    //           index, value, category);
-                                    //     },
-                                    //     onIncrease: () {
-                                    //       controller.increaseQty(
-                                    //           index, category);
-                                    //       final newQty = (category
-                                    //                   .products[index]
-                                    //                   .cartQty ??
-                                    //               0)
-                                    //           .toInt();
-                                    //       controller.toggleAddToCart(
-                                    //           index, newQty, category);
-                                    //     },
-                                    //     onDecrease: () {
-                                    //       final product =
-                                    //           category.products[index];
-                                    //       final currentQty =
-                                    //           (product.cartQty ?? 0).toInt();
-                                    //       if (currentQty <= 1) return;
-                                    //       controller.decreaseQty(
-                                    //           index, category);
-                                    //       final newQty = (category
-                                    //                   .products[index]
-                                    //                   .cartQty ??
-                                    //               0)
-                                    //           .toInt();
-                                    //       controller.toggleAddToCart(
-                                    //           index, newQty, category);
-                                    //     },
-                                    //   ),
-                                    //   const SizedBox(width: 8),
-                                    // ],
-                                    Spacer(),
+                                            const SizedBox(height: 12),
 
-                                    // if (isAdded)
-                                    //   GestureDetector(
-                                    //     onTap: () {
-                                    //       FocusManager.instance.primaryFocus
-                                    //           ?.unfocus();
-                                    //       controller.toggleRemoveCart(
-                                    //           index, category);
-                                    //     },
-                                    //     child: Container(
-                                    //       padding: const EdgeInsets.all(6),
-                                    //       decoration: BoxDecoration(
-                                    //         color: Colors.redAccent.shade200,
-                                    //         borderRadius:
-                                    //             BorderRadius.circular(6),
-                                    //       ),
-                                    //       child: ImageUtils.setSvgAssetsImage(
-                                    //         path: Drawable.deleteIcon,
-                                    //         width: 18,
-                                    //         height: 18,
-                                    //         color: Colors.white,
-                                    //       ),
-                                    //     ),
-                                    //   ),
+                                            // ADD SET TO CART
+                                            Container(
+                                              height: 48,
+                                              decoration: BoxDecoration(
+                                                color: Colors.green,
+                                                borderRadius:
+                                                    BorderRadius.circular(30),
+                                              ),
+                                              alignment: Alignment.center,
+                                              child: const Text(
+                                                "Add to set to cart: £1000.53",
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 16,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                    */
 
-                                    // if (!isAdded)
-                                    //   ElevatedButton.icon(
-                                    //     style: ElevatedButton.styleFrom(
-                                    //       minimumSize: const Size(0, 34),
-                                    //       backgroundColor: isAdded
-                                    //           ? Colors.redAccent.shade200
-                                    //           : Colors.green,
-                                    //       foregroundColor: Colors.white,
-                                    //       shape: RoundedRectangleBorder(
-                                    //         borderRadius: BorderRadius.circular(10),
-                                    //       ),
-                                    //       padding: const EdgeInsets.symmetric(
-                                    //           vertical: 0, horizontal: 12),
-                                    //     ),
-                                    //     onPressed: () {
-                                    //       FocusManager.instance.primaryFocus?.unfocus();
-                                    //       if (isAdded) {
-                                    //         controller.toggleRemoveCart(index,category);
-                                    //       } else {
-                                    //         controller.increaseQty(index,category);
-                                    //         controller.toggleAddToCart(index, 1,category);
-                                    //       }
-                                    //     },
-                                    //     icon: isAdded
-                                    //         ? ImageUtils.setSvgAssetsImage(
-                                    //       path: Drawable.deleteIcon,
-                                    //       width: 18,
-                                    //       height: 18,
-                                    //       color: Colors.white,
-                                    //     )
-                                    //         : CartIconWidget(
-                                    //       color: Colors.white,
-                                    //       size: 16,
-                                    //     ),
-                                    //     label: Text(
-                                    //       isAdded ? "remove".tr : "add_to_cart".tr,
-                                    //       style: TextStyle(
-                                    //         color: Colors.white,
-                                    //         fontWeight: FontWeight.w400,
-                                    //         fontSize: 14,
-                                    //       ),
-                                    //     ),
-                                    //   ),
-
-                                    !isAdded
-                                        ? PrimaryButton(
-                                            isFixSize: true,
-                                            width: 140,
-                                            height: 34,
-                                            fontSize: 13,
-                                            color: Colors.green,
-                                            fontWeight: FontWeight.w400,
-                                            buttonText: "add_to_cart".tr,
-                                            onPressed: () {
-                                              FocusManager.instance.primaryFocus
-                                                  ?.unfocus();
-                                              if (isAdded) {
-                                                controller.toggleRemoveCart(
-                                                    index, category);
-                                              } else {
-                                                controller.increaseQty(
-                                                    index, category);
-                                                controller.toggleAddToCart(
-                                                    index, 1, category);
-                                              }
-                                            })
-                                        : ProductQuantityChangeWidget(
-                                            focusNode: product.qtyFocusNode,
-                                            isSubQuantity: isSubQuantity,
-                                            quantity:
-                                                (product.cartQty ?? 0).toInt(),
-                                            unit: packOfUnit,
-                                            onChanged: (value) {
-                                              controller.updateSubQty(
-                                                  index, value, category);
-                                              controller.toggleAddToCart(
-                                                  index, value, category);
-                                            },
-                                            onIncrease: () {
-                                              controller.increaseQty(
-                                                  index, category);
-                                              final newQty = (category
-                                                          .products[index]
-                                                          .cartQty ??
-                                                      0)
-                                                  .toInt();
-                                              controller.toggleAddToCart(
-                                                  index, newQty, category);
-                                            },
-                                            onDecrease: () {
-                                              FocusManager.instance.primaryFocus
-                                                  ?.unfocus();
-                                              controller
-                                                  .decrementOrRemoveFromCart(
-                                                      index, category);
-                                            },
-                                          ),
+                                    // OUT OF STOCK
+                                    if (isAdded)
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 10, right: 10, bottom: 10),
+                                        child: OutOfStockBanner(
+                                          itemCount: (outOfStockCount).toInt(),
+                                          deliveryDays: 5,
+                                        ),
+                                      ),
                                   ],
                                 ),
-                                // OUT OF STOCK MESSAGE
-                                if (isAdded)
-                                  OutOfStockBanner(
-                                    itemCount: (outOfStockCount).toInt(),
-                                    deliveryDays: 5,
-                                  ),
-                              ],
-                            ),
-                          ),
+                              ),
+                            );
+                          },
                         ),
-                      );
-                    },
-                  ),
-                ],
-              );
-            },
-
+                      ],
+                    );
+                  },
           ),
-        ));
+    )
+    );
   }
 }

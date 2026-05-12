@@ -81,51 +81,45 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
                     : (controller.isMainViewVisible.value ||
                             controller.isProductsLoading.value)
                         ? Padding(
-                            padding: const EdgeInsets.all(0),
-                            child: Stack(
-                              children: [
-                                Column(
-                                  children: [
-                                    const SizedBox(height: 8),
-                                    Expanded(
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            child: (controller
-                                                        .isProductsLoading.value ||
-                                                    controller
-                                                        .categories.isNotEmpty)
-                                                ? (controller.isGridView.value ? StoremanProductsGridWidget() : StoremanProductsListWidget())
-                                                : EmptyStateView(
-                                                    title: 'no_products_msg'.tr,
-                                                    message:
-                                                        "${'no_products_sub_msg'.tr}.",
-                                                  ),
-                                          ),
-                                          RightSideIconsListWidget(),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Obx(() => AnimatedPositioned(
-                                      duration:
-                                          const Duration(milliseconds: 300),
-                                      curve: Curves.easeInOut,
-                                      right: controller.isCategoryExpanded.value
-                                          ? 0
-                                          : -MediaQuery.of(context).size.width,
-                                      top: 0,
-                                      bottom: 0,
-                                      width: MediaQuery.of(context).size.width,
-                                      child: Container(
-                                        color: dashBoardBgColor_(context),
-                                        child: CategoryExpandGrid(),
-                                      ),
-                                    )),
-                              ],
-                            ),
-                          )
+                  padding: const EdgeInsets.all(0),
+                  child: Stack(
+                    children: [
+                      Column(
+                        children: [
+                          RightSideIconsListWidget(key: const ValueKey('top_category_bar')),
+                          Expanded(
+                            child: Obx(() => (controller.isProductsLoading.value ||
+                                controller.categories.isNotEmpty)
+                                ? (controller.isGridView.value
+                                ? StoremanProductsGridWidget()
+                                : StoremanProductsListWidget())
+                                : EmptyStateView(
+                              title: 'no_products_msg'.tr,
+                              message: "${'no_products_sub_msg'.tr}.",
+                            )),
+                          ),
+                        ],
+                      ),
+
+                      Obx(() => AnimatedPositioned(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                        right: controller.isCategoryExpanded.value
+                            ? 0
+                            : -MediaQuery.of(context).size.width,
+                        top: 0,
+                        bottom: 0,
+                        width: MediaQuery.of(context).size.width,
+                        child: RepaintBoundary(
+                          child: Container(
+                            color: dashBoardBgColor_(context),
+                            child: CategoryExpandGrid(),
+                          ),
+                        ),
+                      )),
+                    ],
+                  ),
+                )
                         : const SizedBox.shrink(),
               ),
             ),

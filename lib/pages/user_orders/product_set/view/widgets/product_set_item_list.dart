@@ -138,7 +138,7 @@ class _ProductSetItemListState extends State<ProductSetItemList>{
                           children: [
                             Expanded(
                               child: Text(
-                                "${product.currency ?? ""}${product.perUnitPrice ?? ""}",
+                                "${product.currency ?? ""}${product.displayPrice ?? ""}",
                                 style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,

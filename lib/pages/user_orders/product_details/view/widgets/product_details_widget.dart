@@ -182,7 +182,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                       children: [
                         TitleTextView(
                           text:
-                              "${product.currency ?? ""}${product.perUnitPrice ?? ""}",
+                              "${product.currency ?? ""}${product.displayPrice ?? ""}",
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),

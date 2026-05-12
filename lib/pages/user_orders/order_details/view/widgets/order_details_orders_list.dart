@@ -108,7 +108,7 @@ class _OrderDetailsOrdersListState extends State<OrderDetailsOrdersList> {
                           const SizedBox(height: 4),
 
                           TitleTextView(
-                            text: "${orderInfo.currency ?? ""}${orders[index].perUnitPrice ?? "0.00"}",
+                            text: "${orderInfo.currency ?? ""}${orders[index].displayPrice ?? "0.00"}",
                             fontSize: 15,
                             fontWeight: FontWeight.w600,
                           ),
