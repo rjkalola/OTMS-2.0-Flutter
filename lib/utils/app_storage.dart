@@ -1,11 +1,7 @@
 import 'dart:convert';
 
-import 'package:belcka/pages/check_in/clock_in/model/work_log_list_response.dart';
-import 'package:belcka/utils/app_utils.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:belcka/pages/check_in/clock_in/model/location_info.dart';
+import 'package:belcka/pages/check_in/clock_in/model/work_log_list_response.dart';
 import 'package:belcka/pages/common/model/user_info.dart';
 import 'package:belcka/pages/dashboard/models/dashboard_response.dart';
 import 'package:belcka/pages/dashboard/models/permission_settings.dart';
@@ -14,6 +10,8 @@ import 'package:belcka/pages/dashboard/tabs/home_tab/model/user_permissions_resp
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/web_services/api_constants.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../pages/dashboard/models/dashboard_stock_count_response.dart';
 

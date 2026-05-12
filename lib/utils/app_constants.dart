@@ -189,6 +189,12 @@ class DialogIdentifier {
   final String deleteUserZone = 'DELETE_USER_ZONE';
   final String generateReportDateRange = 'GENERATE_REPORT_DATE_RANGE';
   final String generateReportModules = 'GENERATE_REPORT_MODULES';
+  final String timesheetConflictDeleteWorklog = 'TIMESHEET_CONFLICT_DELETE_WORKLOG';
+  final String timesheetConflictCut = 'TIMESHEET_CONFLICT_CUT';
+  final String timesheetConflictSplit = 'TIMESHEET_CONFLICT_SPLIT';
+  final String teamConflictResolve = 'TEAM_CONFLICT_RESOLVE';
+  final String healthSafetyConflictResolve = 'HEALTH_SAFETY_CONFLICT_RESOLVE';
+  final String storeConflictResolve = 'STORE_CONFLICT_RESOLVE';
 }
 
 class SharedPreferenceKey {

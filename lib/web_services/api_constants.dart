@@ -122,6 +122,7 @@ class ApiConstants {
   static String archiveTeamList = '$appUrl/team/archive-list';
   static String teamArchive = '$appUrl/team/archive';
   static String teamUnArchive = '$appUrl/team/unarchive';
+  static String resolveTeamConflict = '$appUrl/team/resolve-team-conflict';
   static String teamUserList = '$appUrl/team/user-list';
   static String teamChangeBulkCheckin = '$appUrl/team/change-bulk-checkin';
 
@@ -208,6 +209,9 @@ class ApiConstants {
   static String lockTimesheet = '$appUrl/timesheet/approve';
   static String unlockTimesheet = '$appUrl/timesheet/unapprove';
   static String paidTimesheet = '$appUrl/timesheet/paid';
+  static String deleteTimesheetWorklog = '$appUrl/time-clock/delete-worklog';
+  static String cutTimesheetWorklog = '$appUrl/time-clock/cut-worklog';
+  static String splitTimesheetWorklog = '$appUrl/time-clock/split-worklog';
   static String getPenaltyDetails = '$appUrl/time-clock/penalty-details';
   static String deletePenalty = '$appUrl/time-clock/delete-penalty';
   static String appealPenalty = '$appUrl/time-clock/appeal-penalty';
@@ -294,10 +298,10 @@ class ApiConstants {
   static String getHistory = '$appUrl/requests/get-history';
   static String changeRateAndTrade =
       '$appUrl/user-billing/change-trade-and-rate';
-  static String changeAdmin = '$appUrl/company/change-admin';
+  static String changeAdmin = '$appUrl/company/make-admin';
 
   // static String archiveUser = '$appUrl/user/unarchive-account';
-
+  
   //filters
   static String getRequestFilters = '$appUrl/requests/get-filters';
   static String getTimesheetFilters = '$appUrl/timesheet/get-resources';
@@ -334,6 +338,8 @@ class ApiConstants {
   static String productsAddToCart = '$appUrl/products/add-to-cart';
   static String productsCartList = '$appUrl/products/cart-list';
   static String productsRemoveFromCart = '$appUrl/products/remove-from-cart';
+  static String resolveStoreConflict =
+      '$appUrl/products/resolve-store-conflict';
   static String employeeOrdersCreate = '$appUrl/employee-orders/create';
   static String productDetail = '$appUrl/products/detail';
   static String employeeOrdersHistory = '$appUrl/employee-orders/history';
@@ -394,6 +400,8 @@ class ApiConstants {
 
   //Health and Safety
   static String hsGetResources = '$appUrl/health-safety/get-resources';
+  static String resolveHealthSafetyConflict =
+      '$appUrl/health-safety/resolve-conflict';
   static String nearMissReportsList = '$appUrl/near-miss-reports/get';
   static String reportIncidentsGet = '$appUrl/report-incidents/get';
   static String nearMissReportsStore = '$appUrl/near-miss-reports/store';

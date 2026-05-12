@@ -191,17 +191,23 @@ class UploadOfflineWorklogController extends GetxController
       "user_id": UserUtils.getLoginUserId(),
       "device_type": AppConstants.deviceType,
       "device_model_type": await AppUtils.getDeviceName(),
-      "worklogs": worklogs
-          .map((row) => <String, dynamic>{
-                "user_worklog_id": row["id"] ?? 0,
-                "shift_id": row["shift_id"] ?? selectedShiftId,
-                "project_id": row["project_id"] ?? selectedProjectId,
-                "work_start_time": row["work_start_time"],
-                "work_end_time": row["work_end_time"],
-                "start_work_location": row["start_work_location"] ?? {},
-                "stop_work_location": row["stop_work_location"] ?? {},
-              })
-          .toList(),
+      "worklogs": worklogs.map((row) {
+        final entry = <String, dynamic>{
+          "user_worklog_id": row["id"] ?? 0,
+          // shift_id / project_id are set in ClockInUtils: selected for id 0, log values for id > 0
+          "shift_id": row["shift_id"],
+          "project_id": row["project_id"],
+          "work_start_time": row["work_start_time"],
+          "start_work_location": row["start_work_location"] ?? {},
+        };
+        if (row.containsKey("work_end_time")) {
+          entry["work_end_time"] = row["work_end_time"];
+        }
+        if (row.containsKey("stop_work_location")) {
+          entry["stop_work_location"] = row["stop_work_location"];
+        }
+        return entry;
+      }).toList(),
     };
 
     print("payload:"+payload.toString());

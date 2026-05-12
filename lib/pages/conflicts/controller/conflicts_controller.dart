@@ -1,9 +1,12 @@
 import 'dart:convert';
 
 import 'package:belcka/pages/conflicts/controller/conflicts_repository.dart';
+import 'package:belcka/pages/conflicts/controller/timesheet_conflict_payload.dart';
 import 'package:belcka/pages/conflicts/model/conflicts_response.dart';
+import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/web_services/api_constants.dart';
+import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,7 +25,7 @@ class ConflictsController extends GetxController {
 
   String startDate = "";
   String endDate = "";
-
+ 
   RxInt totalConflicts = 0.obs;
 
   final timesheetConflicts = <UserConflictData>[].obs;
@@ -164,6 +167,181 @@ class ConflictsController extends GetxController {
   void clearSearch() {
     searchController.value.clear();
     applySearch("");
+  }
+
+  void _onTimesheetMutationResponse(
+    ResponseModel responseModel, {
+    VoidCallback? onSuccess,
+  }) {
+    void finishWithError() {
+      if (!isClosed) isLoading.value = false;
+    }
+
+    if (responseModel.isSuccess && responseModel.result != null) {
+      try {
+        final response =
+            BaseResponse.fromJson(jsonDecode(responseModel.result!));
+        if (response.IsSuccess != false) {
+          AppUtils.showApiResponseMessage(response.Message ?? "");
+          onSuccess?.call();
+          // company/conflicts can briefly lag behind delete/cut/split; an
+          // immediate GET sometimes still returns the removed conflict.
+          if (!isClosed) isLoading.value = true;
+          Future.delayed(const Duration(milliseconds: 500), () {
+            if (isClosed) return;
+            loadData(true);
+          });
+        } else {
+          AppUtils.showApiResponseMessage(response.Message ?? "");
+          finishWithError();
+        }
+      } catch (_) {
+        AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+        finishWithError();
+      }
+    } else {
+      AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+      finishWithError();
+    }
+  }
+
+  void _onTimesheetMutationError(ResponseModel error) {
+    if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+      isInternetNotAvailable.value = true;
+      AppUtils.showApiResponseMessage('no_internet'.tr);
+    } else if (!StringHelper.isEmptyString(error.statusMessage)) {
+      AppUtils.showApiResponseMessage(error.statusMessage);
+    }
+  }
+
+  void deleteTimesheetWorklog(int worklogId, {VoidCallback? onSuccess}) {
+    isLoading.value = true;
+    _api.deleteTimesheetWorklog(
+      worklogId: worklogId,
+      onSuccess: (ResponseModel responseModel) {
+        _onTimesheetMutationResponse(responseModel, onSuccess: onSuccess);
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        _onTimesheetMutationError(error);
+      },
+    );
+  }
+
+  void cutTimesheetConflict(
+    UserConflictData data,
+    ConflictItem a,
+    ConflictItem b, {
+    VoidCallback? onSuccess,
+  }) {
+    final list = buildCutDataList(data, a, b);
+    if (list == null) {
+      AppUtils.showApiResponseMessage("Could not prepare cut");
+      return;
+    }
+    isLoading.value = true;
+    _api.cutTimesheetWorklog(
+      cutData: list,
+      onSuccess: (ResponseModel responseModel) {
+        _onTimesheetMutationResponse(responseModel, onSuccess: onSuccess);
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        _onTimesheetMutationError(error);
+      },
+    );
+  }
+
+  void splitTimesheetConflict(
+    UserConflictData data,
+    ConflictItem a,
+    ConflictItem b, {
+    VoidCallback? onSuccess,
+  }) {
+    final list = buildSplitDataList(data, a, b);
+    if (list == null) {
+      AppUtils.showApiResponseMessage("Could not prepare split");
+      return;
+    }
+    isLoading.value = true;
+    _api.splitTimesheetWorklog(
+      splitData: list,
+      onSuccess: (ResponseModel responseModel) {
+        _onTimesheetMutationResponse(responseModel, onSuccess: onSuccess);
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        _onTimesheetMutationError(error);
+      },
+    );
+  }
+
+  void resolveTeamConflict(int teamId, {VoidCallback? onSuccess}) {
+    if (teamId == 0) {
+      AppUtils.showApiResponseMessage("Invalid team");
+      return;
+    }
+    isLoading.value = true;
+    _api.resolveTeamConflict(
+      teamId: teamId,
+      onSuccess: (ResponseModel responseModel) {
+        _onTimesheetMutationResponse(responseModel, onSuccess: onSuccess);
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        _onTimesheetMutationError(error);
+      },
+    );
+  }
+
+  void resolveHealthSafetyConflict({
+    required String conflictType,
+    required int recordId,
+    VoidCallback? onSuccess,
+  }) {
+    final type = conflictType.trim();
+    if (type.isEmpty || recordId == 0) {
+      AppUtils.showApiResponseMessage("Invalid data");
+      return;
+    }
+    isLoading.value = true;
+    _api.resolveHealthSafetyConflict(
+      conflictType: type,
+      recordId: recordId,
+      onSuccess: (ResponseModel responseModel) {
+        _onTimesheetMutationResponse(responseModel, onSuccess: onSuccess);
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        _onTimesheetMutationError(error);
+      },
+    );
+  }
+
+  void resolveStoreConflict({
+    required String conflictType,
+    required int productId,
+    required int storeId,
+    VoidCallback? onSuccess,
+  }) {
+    final type = conflictType.trim();
+    if (type.isEmpty || productId == 0 || storeId == 0) {
+      AppUtils.showApiResponseMessage("Invalid data");
+      return;
+    }
+    isLoading.value = true;
+    _api.resolveStoreConflict(
+      conflictType: type,
+      productId: productId,
+      storeId: storeId,
+      onSuccess: (ResponseModel responseModel) {
+        _onTimesheetMutationResponse(responseModel, onSuccess: onSuccess);
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        _onTimesheetMutationError(error);
+      },
+    );
   }
 
   void _refreshCounts() {

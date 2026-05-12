@@ -49,8 +49,11 @@ class CompanyPermissionController extends GetxController {
           companyPermissionList.value = tempList;*/
 
           tempList.clear();
+          // tempList.addAll((response.permissions ?? [])
+          //     .where((e) => (e.isApp ?? false) || (e.isWeb ?? false))
+          //     .toList());
           tempList.addAll((response.permissions ?? [])
-              .where((e) => (e.isApp ?? false) || (e.isWeb ?? false))
+              .where((e) => (e.isApp ?? false))
               .toList());
           companyPermissionList.value = tempList;
 

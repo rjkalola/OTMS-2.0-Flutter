@@ -203,6 +203,10 @@ class Strings extends Translations {
           'notification': "Notification",
           'notifications': "Notifications",
           'conflicts': "Conflicts",
+          'are_you_sure_you_want_to_split': "Are you sure you want to split?",
+          'are_you_sure_you_want_to_cut': "Are you sure you want to Cut?",
+          'are_you_sure_you_want_to_resolve':
+              "Are you sure you want to resolve?",
           'notification_settings': "Notification Settings",
           'settings': "Settings",
           'trades': "Trades",

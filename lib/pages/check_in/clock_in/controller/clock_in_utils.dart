@@ -354,6 +354,8 @@ class ClockInUtils {
             if (!StringHelper.isEmptyString(workEnd)) {
               totalWorkHourSeconds += (log.payableWorkSeconds ?? 0);
               totalBreakHourSeconds += (log.totalBreaklogSeconds ?? 0);
+              // print("-------------------------");
+              // print("totalWorkHourSeconds:"+totalWorkHourSeconds.toString());
               continue;
             }
 
@@ -473,6 +475,7 @@ class ClockInUtils {
 
             if (activeWorkSeconds < 0) activeWorkSeconds = 0;
 
+
             totalWorkHourSeconds += activeWorkSeconds;
           }
         } else {
@@ -560,6 +563,17 @@ class ClockInUtils {
         !StringHelper.isEmptyString(log.workEndTime);
   }
 
+  /// True when work was stopped offline with end time and location (API expects
+  /// both [work_end_time] and [stop_work_location] only in that case).
+  static bool _hasStopWorkData(WorkLogInfo log) {
+    if (StringHelper.isEmptyString(log.workEndTime)) return false;
+    final loc = log.stopWorkLocation;
+    if (loc == null) return false;
+    return !StringHelper.isEmptyString(loc.latitude) ||
+        !StringHelper.isEmptyString(loc.longitude) ||
+        !StringHelper.isEmptyString(loc.location);
+  }
+
   static Future<List<Map<String, dynamic>>> getOfflineRecordsUploadJson({
     int? selectedProjectId,
     int? selectedShiftId,
@@ -571,20 +585,23 @@ class ClockInUtils {
     final List<Map<String, dynamic>> rows = [];
     for (final log in workLogData.workLogInfo ?? <WorkLogInfo>[]) {
       if (!_isOfflineUploadCandidate(log)) continue;
-      final int? shiftId = log.shiftId;
-      final int? projectId = log.projectId;
-      final bool hasLogShiftAndProject = shiftId != null && projectId != null;
+      final int workLogId = log.id ?? 0;
+      // New offline-created row (id 0): server has no row yet — use UI selection.
+      // Existing row stopped offline (id > 0): send stored shift/project as-is.
+      final bool useSelectedProjectShift = workLogId == 0;
 
       final Map<String, dynamic> row = {
-        "shift_id": hasLogShiftAndProject ? selectedShiftId : shiftId,
-        "project_id": hasLogShiftAndProject ? selectedProjectId : projectId,
+        "shift_id": useSelectedProjectShift ? selectedShiftId : log.shiftId,
+        "project_id": useSelectedProjectShift ? selectedProjectId : log.projectId,
         "work_start_time": log.workStartTime,
-        "work_end_time": log.workEndTime,
         "start_work_location": log.startWorkLocation?.toJson(),
-        "stop_work_location": log.stopWorkLocation?.toJson(),
         "device_type": AppConstants.deviceType,
         "device_model_type": deviceModelName,
       };
+      if (_hasStopWorkData(log)) {
+        row["work_end_time"] = log.workEndTime;
+        row["stop_work_location"] = log.stopWorkLocation!.toJson();
+      }
       if ((log.id ?? 0) > 0) {
         row["id"] = log.id;
       }

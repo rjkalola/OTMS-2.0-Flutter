@@ -24,4 +24,104 @@ class ConflictsRepository {
       },
     );
   }
+
+  void deleteTimesheetWorklog({
+    required int worklogId,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+      url: ApiConstants.deleteTimesheetWorklog,
+      data: <String, dynamic>{"worklog_id": worklogId},
+      isFormData: false,
+    ).postRequest(
+      onSuccess: (data) => onSuccess?.call(data),
+      onError: (error) => onError?.call(error),
+    );
+  }
+
+  void cutTimesheetWorklog({
+    required List<Map<String, dynamic>> cutData,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+      url: ApiConstants.cutTimesheetWorklog,
+      data: <String, dynamic>{"cut_data": cutData},
+      isFormData: false,
+    ).postRequest(
+      onSuccess: (data) => onSuccess?.call(data),
+      onError: (error) => onError?.call(error),
+    );
+  }
+
+  void splitTimesheetWorklog({
+    required List<Map<String, dynamic>> splitData,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+      url: ApiConstants.splitTimesheetWorklog,
+      data: <String, dynamic>{"split_data": splitData},
+      isFormData: false,
+    ).postRequest(
+      onSuccess: (data) => onSuccess?.call(data),
+      onError: (error) => onError?.call(error),
+    );
+  }
+
+  void resolveTeamConflict({
+    required int teamId,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+      url: ApiConstants.resolveTeamConflict,
+      data: <String, dynamic>{"team_id": teamId},
+      isFormData: false,
+    ).postRequest(
+      onSuccess: (data) => onSuccess?.call(data),
+      onError: (error) => onError?.call(error),
+    );
+  }
+
+  void resolveHealthSafetyConflict({
+    required String conflictType,
+    required int recordId,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+      url: ApiConstants.resolveHealthSafetyConflict,
+      data: <String, dynamic>{
+        "conflict_type": conflictType,
+        "record_id": recordId,
+      },
+      isFormData: false,
+    ).postRequest(
+      onSuccess: (data) => onSuccess?.call(data),
+      onError: (error) => onError?.call(error),
+    );
+  }
+
+  void resolveStoreConflict({
+    required String conflictType,
+    required int productId,
+    required int storeId,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+      url: ApiConstants.resolveStoreConflict,
+      data: <String, dynamic>{
+        "conflict_type": conflictType,
+        "product_id": productId,
+        "store_id": storeId,
+      },
+      isFormData: false,
+    ).postRequest(
+      onSuccess: (data) => onSuccess?.call(data),
+      onError: (error) => onError?.call(error),
+    );
+  }
 }
