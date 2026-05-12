@@ -86,7 +86,7 @@ class EditWidgetList extends StatelessWidget {
                                   // info.status = !info.status!;
                                   // info.status = (info.status ?? 0) == 0 ? 1 : 0;
                                   // int status = info.status ?? 0;
-                                  info.isShow = !info.isShow!;
+                                  info.isShow = !(info.isShow??false);
                                   /* switch (status) {
                                     case 0:
                                       info.status = 3;

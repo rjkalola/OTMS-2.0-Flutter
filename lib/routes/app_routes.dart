@@ -128,6 +128,7 @@ class AppRoutes {
   static const String createLeaveScreen = '/create_leave_screen';
   static const String leaveListScreen = '/leave_list_screen';
   static const String leaveHistoryScreen = '/leave_history_screen';
+  static const String hireHistoryScreen = '/hire_history_screen';
   static const String leaveDetailsScreen = '/leave_details_screen';
   static const String addressDocumentsScreen = '/address_documents_screen';
   static const String archiveUserListScreen = '/archive_user_list_screen';

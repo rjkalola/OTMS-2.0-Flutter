@@ -490,6 +490,7 @@ class Strings extends Translations {
           'leaves': "Leaves",
           'leave': "Leave",
           'leave_history': "Leave History",
+          'hire_history': "Hire History",
           'leave_details': "Leave Details",
           'all_day': "All Day",
           'total_time_requested': "Total time requested",

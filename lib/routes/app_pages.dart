@@ -82,6 +82,7 @@ import 'package:belcka/pages/expense/add_expense/view/add_expense_screen.dart';
 import 'package:belcka/pages/filter/view/filter_screen.dart';
 import 'package:belcka/pages/image_preview/view/image_preview_screen.dart';
 import 'package:belcka/pages/leaves/add_leave/view/create_leave_screen.dart';
+import 'package:belcka/buyer_app/hire_history/view/hire_history_screen.dart';
 import 'package:belcka/pages/leaves/leave_history/view/leave_history_screen.dart';
 import 'package:belcka/pages/leaves/leave_details/view/leave_details_screen.dart';
 import 'package:belcka/pages/leaves/leave_list/view/leave_list_screen.dart';
@@ -447,6 +448,8 @@ class AppPages {
     GetPage(name: AppRoutes.leaveListScreen, page: () => LeaveListScreen()),
     GetPage(
         name: AppRoutes.leaveHistoryScreen, page: () => LeaveHistoryScreen()),
+    GetPage(
+        name: AppRoutes.hireHistoryScreen, page: () => const HireHistoryScreen()),
     GetPage(
         name: AppRoutes.leaveDetailsScreen, page: () => LeaveDetailsScreen()),
     GetPage(name: AppRoutes.addExpenseScreen, page: () => AddExpenseScreen()),

@@ -44,7 +44,12 @@ class WidgetsController extends GetxController {
           UserPermissionsResponse response = UserPermissionsResponse.fromJson(
               jsonDecode(responseModel.result!));
           tempList.clear();
-          tempList.addAll(response.permissions ?? []);
+          for (var info in response.permissions!) {
+            if(info.isApp??false){
+              tempList.add(info);
+            }
+          }
+          // tempList.addAll(response.permissions ?? []);
           companyPermissionList.value = tempList;
           companyPermissionList.refresh();
         } else {

@@ -1,6 +1,8 @@
 import 'package:belcka/pages/conflicts/controller/conflicts_controller.dart';
 import 'package:belcka/pages/conflicts/model/conflicts_response.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -218,92 +220,432 @@ class _TeamConflictTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final countText =
         "${data.currentMemberCount ?? 0}/${data.maxMemberLimit ?? 0}";
-    return Container(
+    return Material(
       color: backgroundColor_(context),
-      margin: const EdgeInsets.only(bottom: 1),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      child: InkWell(
+        onTap: () => _openTeamConflictDetails(context),
+        child: Container(
+          margin: const EdgeInsets.only(bottom: 1),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          child: Row(
+            children: [
+              CircleAvatar(
+                radius: 18,
+                backgroundImage: (data.supervisorThumbImage ?? "").isNotEmpty
+                    ? NetworkImage(data.supervisorThumbImage!)
+                    : null,
+                child: (data.supervisorThumbImage ?? "").isEmpty
+                    ? const Icon(Icons.person, size: 18)
+                    : null,
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Flexible(
+                          child: Text(
+                            data.teamName ?? "-",
+                            style: TextStyle(
+                                color: primaryTextColor_(context),
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFF1E8FF),
+                            borderRadius: BorderRadius.circular(45),
+                          ),
+                          child: Text(
+                            "Limit exceeded",
+                            style: const TextStyle(
+                              color: Color(0xFF8B5CF6),
+                              fontSize: 11,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(4),
+                            child: LinearProgressIndicator(
+                              value: (data.maxMemberLimit ?? 0) == 0
+                                  ? 1
+                                  : (data.currentMemberCount ?? 0) /
+                                      (data.maxMemberLimit ?? 1),
+                              minHeight: 6,
+                              color: rejectTextColor_(context),
+                              backgroundColor: dividerColor_(context),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          countText,
+                          style: TextStyle(
+                              color: primaryTextColor_(context),
+                              fontWeight: FontWeight.w600),
+                        )
+                      ],
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      "Supervisor: ${data.supervisorName ?? '-'}",
+                      style:
+                          TextStyle(color: secondaryLightTextColor_(context)),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _openTeamConflictDetails(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final current = data.currentMemberCount ?? 0;
+    final maxAllowed = data.maxMemberLimit ?? 0;
+    final over = (current - maxAllowed).clamp(0, 999);
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      barrierColor:
+          isDarkMode ? const Color(0xCC121826) : const Color(0x99000000),
+      builder: (_) {
+        return Container(
+          height: MediaQuery.of(context).size.height * 0.78,
+          decoration: BoxDecoration(
+            color: backgroundColor_(context),
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+          ),
+          child: Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CircleAvatar(
+                            radius: 18,
+                            backgroundImage:
+                                (data.supervisorThumbImage ?? "").isNotEmpty
+                                    ? NetworkImage(data.supervisorThumbImage!)
+                                    : null,
+                            child: (data.supervisorThumbImage ?? "").isEmpty
+                                ? const Icon(Icons.person, size: 18)
+                                : null,
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  data.teamName ?? "-",
+                                  style: TextStyle(
+                                    color: primaryTextColor_(context),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                const SizedBox(height: 2),
+                                Text(
+                                  "Supervisor: ${data.supervisorName ?? '-'}",
+                                  style: TextStyle(
+                                    color: secondaryLightTextColor_(context),
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFF1E8FF),
+                              borderRadius: BorderRadius.circular(45),
+                            ),
+                            child: const Text(
+                              "Team Limit",
+                              style: TextStyle(
+                                color: Color(0xFF8B5CF6),
+                                fontSize: 11,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          InkWell(
+                            onTap: () => Get.back(),
+                            child: const Icon(Icons.close, size: 20),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      _teamSheetTitle(context, "MEMBER USAGE"),
+                      const SizedBox(height: 8),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFFF0F0),
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: const Color(0xFFFFC9C9),
+                            width: 1,
+                          ),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "CURRENT",
+                                        style: TextStyle(
+                                          color: secondaryLightTextColor_(
+                                              context),
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        "$current",
+                                        style: const TextStyle(
+                                          color: Color(0xFFE23D3D),
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        "MAX ALLOWED",
+                                        style: TextStyle(
+                                          color: secondaryLightTextColor_(
+                                              context),
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        "$maxAllowed",
+                                        style: TextStyle(
+                                          color: primaryTextColor_(context),
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 10),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(4),
+                              child: LinearProgressIndicator(
+                                value: maxAllowed == 0
+                                    ? 1
+                                    : (current / maxAllowed).clamp(0.0, 1.0),
+                                minHeight: 8,
+                                color: const Color(0xFFE23D3D),
+                                backgroundColor: dividerColor_(context),
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              over > 0
+                                  ? "$over members over the limit — reduce team size to resolve"
+                                  : "Team is within the member limit.",
+                              style: TextStyle(
+                                color: over > 0
+                                    ? const Color(0xFFE23D3D)
+                                    : secondaryLightTextColor_(context),
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      _teamSheetTitle(context, "TEAM DETAILS"),
+                      const SizedBox(height: 8),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: dashBoardBgColor_(context),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Column(
+                          children: [
+                            _teamDetailRow(
+                                context, "Team Name", data.teamName ?? "-"),
+                            _teamDetailRow(context, "Supervisor",
+                                data.supervisorName ?? "-"),
+                            _teamDetailRow(
+                              context,
+                              "Conflict Type",
+                              _formatTeamConflictType(data.conflictType),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      _teamSheetTitle(context, "RESOLUTION"),
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 60),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      width: double.infinity,
+                      child: OutlinedButton.icon(
+                        onPressed: () {
+                          Get.back();
+                          if ((data.teamId ?? 0) != 0) {
+                            final arguments = {
+                              AppConstants.intentKey.teamId: data.teamId ?? 0,
+                              AppConstants.intentKey.isAllUserTeams: false,
+                            };
+                            Get.toNamed(AppRoutes.teamDetailsScreen,
+                                arguments: arguments);
+                          }
+                        },
+                        icon: const Icon(Icons.open_in_new, size: 16),
+                        label: const Text("View Team"),
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: const Color(0xFF2F4C7F),
+                          side: BorderSide(color: dividerColor_(context)),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFFFF4D7D),
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          elevation: 0,
+                        ),
+                        onPressed: () {},
+                        child: const Text(
+                          "Mark as Resolved",
+                          style: TextStyle(fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _teamSheetTitle(BuildContext context, String text) {
+    return Text(
+      text,
+      style: TextStyle(
+        color: secondaryLightTextColor_(context),
+        fontSize: 11,
+        fontWeight: FontWeight.w600,
+        letterSpacing: 0.3,
+      ),
+    );
+  }
+
+  Widget _teamDetailRow(BuildContext context, String title, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         children: [
-          CircleAvatar(
-            radius: 18,
-            backgroundImage: (data.supervisorThumbImage ?? "").isNotEmpty
-                ? NetworkImage(data.supervisorThumbImage!)
-                : null,
-            child: (data.supervisorThumbImage ?? "").isEmpty
-                ? const Icon(Icons.person, size: 18)
-                : null,
-          ),
-          const SizedBox(width: 10),
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Flexible(
-                      child: Text(
-                        data.teamName ?? "-",
-                        style: TextStyle(
-                            color: primaryTextColor_(context),
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFF1E8FF),
-                        borderRadius: BorderRadius.circular(45),
-                      ),
-                      child: Text(
-                        "Limit exceeded",
-                        style: const TextStyle(
-                          color: Color(0xFF8B5CF6),
-                          fontSize: 11,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    Expanded(
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(4),
-                        child: LinearProgressIndicator(
-                          value: (data.maxMemberLimit ?? 0) == 0
-                              ? 1
-                              : (data.currentMemberCount ?? 0) /
-                                  (data.maxMemberLimit ?? 1),
-                          minHeight: 6,
-                          color: rejectTextColor_(context),
-                          backgroundColor: dividerColor_(context),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      countText,
-                      style: TextStyle(
-                          color: primaryTextColor_(context),
-                          fontWeight: FontWeight.w600),
-                    )
-                  ],
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  "Supervisor: ${data.supervisorName ?? '-'}",
-                  style: TextStyle(color: secondaryLightTextColor_(context)),
-                ),
-              ],
+            child: Text(
+              title,
+              style: TextStyle(
+                color: secondaryLightTextColor_(context),
+                fontSize: 13,
+              ),
+            ),
+          ),
+          Text(
+            value,
+            style: TextStyle(
+              color: primaryTextColor_(context),
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ],
       ),
     );
+  }
+
+  String _formatTeamConflictType(String? conflictType) {
+    if ((conflictType ?? "").isEmpty) return "-";
+    if (conflictType == "team_member_limit") {
+      return "Member Limit Exceeded";
+    }
+    return conflictType!
+        .split("_")
+        .map((e) => e.isEmpty
+            ? ""
+            : "${e[0].toUpperCase()}${e.substring(1).toLowerCase()}")
+        .join(" ");
   }
 }
 
@@ -819,23 +1161,6 @@ class _StoreConflictTile extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(16, 8, 16, 60),
                 child: Column(
                   children: [
-                    SizedBox(
-                      width: double.infinity,
-                      child: OutlinedButton.icon(
-                        onPressed: () {},
-                        icon: const Icon(Icons.store_outlined, size: 16),
-                        label: const Text("View Store"),
-                        style: OutlinedButton.styleFrom(
-                          foregroundColor: const Color(0xFF2F4C7F),
-                          side: BorderSide(color: dividerColor_(context)),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
