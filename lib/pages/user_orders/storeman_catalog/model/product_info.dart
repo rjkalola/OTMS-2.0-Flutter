@@ -103,6 +103,7 @@ class ProductInfo {
   String? approveByUserImage;
   String? approvedAt;
   int? folderId;
+  bool? isDisplayPrice;
 
   FocusNode qtyFocusNode = FocusNode();
 
@@ -190,7 +191,8 @@ class ProductInfo {
       this.perUnitPrice,
       this.statusColor,
       this.displayPrice,
-      this.productSet});
+      this.productSet,
+      this.isDisplayPrice});
 
   ProductInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -250,6 +252,7 @@ class ProductInfo {
     categoryIds = json['category_ids'];
     storeIds = json['store_ids'];
     cartId = json['cart_id'];
+    isDisplayPrice = json['is_display_price'];
 
     if (json['product_set'] != null) {
       productSet = <ProductSetModel>[];
@@ -394,6 +397,7 @@ class ProductInfo {
     data['store_ids'] = this.storeIds;
     data['cart_id'] = this.cartId;
     data['status_color'] = this.statusColor;
+    data['is_display_price'] = this.isDisplayPrice;
 
     if (this.productSet != null) {
       data['product_set'] =
