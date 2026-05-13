@@ -199,6 +199,7 @@ class _FavoriteProductsListWidgetState
                                   context),
                             ),
                             const SizedBox(height: 8),
+                            if (product.isDisplayPrice ?? false)
                             TitleTextView(
                               text:
                               "${product.currency}${product.displayPrice ?? ""}",

@@ -180,6 +180,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        if (product.isDisplayPrice ?? false)
                         TitleTextView(
                           text:
                               "${product.currency ?? ""}${product.displayPrice ?? ""}",

@@ -108,6 +108,7 @@ class _InternalOrderDetailsListWithQuantityState extends State<InternalOrderDeta
                                 text: orders[index].uuid ?? "",
                               ),
                               const SizedBox(height: 4),
+                              if (orders[index].isDisplayPrice ?? false)
                               TitleTextView(
                                 text: "${'price'.tr}: ${orders[index].currency ?? "£"}"
                                     "${(orders[index].displayPrice ?? "0.00")}",

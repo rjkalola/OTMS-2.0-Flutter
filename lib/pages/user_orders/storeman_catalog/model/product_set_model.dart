@@ -10,6 +10,7 @@ class ProductSetModel {
   final int? qty;
   final String? subQty;
   final bool? isSubQty;
+  final bool? isDisplayPrice;
 
   ProductSetModel({
     this.id,
@@ -23,6 +24,7 @@ class ProductSetModel {
     this.qty,
     this.subQty,
     this.isSubQty,
+    this.isDisplayPrice
   });
 
   factory ProductSetModel.fromJson(Map<String, dynamic> json) {
@@ -38,6 +40,7 @@ class ProductSetModel {
       qty: json['qty'],
       subQty: json['sub_qty'],
       isSubQty: json['is_sub_qty'],
+      isDisplayPrice: json['is_display_price'],
     );
   }
 
@@ -54,6 +57,7 @@ class ProductSetModel {
       'qty': qty,
       'sub_qty': subQty,
       'is_sub_qty': isSubQty,
+      'is_display_price': isDisplayPrice
     };
   }
 }
