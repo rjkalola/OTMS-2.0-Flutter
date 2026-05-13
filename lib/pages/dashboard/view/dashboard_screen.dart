@@ -82,7 +82,8 @@ class DashboardScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                bottomNavigationBar: (ApiConstants.companyId != 0)
+                bottomNavigationBar: (ApiConstants.companyId != 0 &&
+                        dashboardController.isStoreTabVisible.value)
                     ? AdaptiveBottomNavigationBar(
                         selectedItemColor: defaultAccentColor_(context),
                         unselectedItemColor: primaryTextColor_(context),
@@ -182,6 +183,8 @@ Widget _androidDashboardNavigationBar(
   BuildContext context,
   DashboardController controller,
 ) {
+  final dashboardController = Get.put(DashboardController());
+
   final accent = defaultAccentColor_(context);
   final muted = primaryTextColor_(context);
   final bool isDark = Get.find<ThemeController>().isDarkMode;

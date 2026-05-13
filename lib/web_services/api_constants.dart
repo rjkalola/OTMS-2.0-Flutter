@@ -166,6 +166,8 @@ class ApiConstants {
   static String getAllRequest = '$appUrl/requests/get-all-request';
   static String approveRequest = '$appUrl/requests/approve-request';
   static String rejectRequest = '$appUrl/requests/reject-request';
+  static String userBillingResolveConflict =
+      '$appUrl/user-billing/resolve-conflict';
 
   //start work
   static String userStartWork = '$appUrl/user-worklog/user-start-work';

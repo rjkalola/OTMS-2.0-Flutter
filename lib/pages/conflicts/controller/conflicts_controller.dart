@@ -344,6 +344,72 @@ class ConflictsController extends GetxController {
     );
   }
 
+  void approveBillingConflictKeepChanges({
+    required int logId,
+    required int userId,
+    VoidCallback? onSuccess,
+  }) {
+    if (logId == 0 || userId == 0) {
+      AppUtils.showApiResponseMessage("Invalid data");
+      return;
+    }
+    isLoading.value = true;
+    _api.approveBillingConflictKeepChanges(
+      logId: logId,
+      userId: userId,
+      onSuccess: (ResponseModel responseModel) {
+        _onTimesheetMutationResponse(responseModel, onSuccess: onSuccess);
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        _onTimesheetMutationError(error);
+      },
+    );
+  }
+
+  void discardBillingConflictChanges({
+    required int userId,
+    required int worklogId,
+    VoidCallback? onSuccess,
+  }) {
+    if (userId == 0) {
+      AppUtils.showApiResponseMessage("Invalid data");
+      return;
+    }
+    isLoading.value = true;
+    if (worklogId != 0) {
+      _api.rejectBillingConflictRequest(
+        logId: worklogId,
+        userId: userId,
+        onSuccess: (ResponseModel responseModel) {
+          _onTimesheetMutationResponse(responseModel, onSuccess: onSuccess);
+        },
+        onError: (ResponseModel error) {
+          isLoading.value = false;
+          _onTimesheetMutationError(error);
+        },
+      );
+      return;
+    }
+    final companyId = ApiConstants.companyId;
+    if (companyId == 0) {
+      isLoading.value = false;
+      AppUtils.showApiResponseMessage("Invalid data");
+      return;
+    }
+    _api.discardBillingConflictChanges(
+      companyId: companyId,
+      userId: userId,
+      onSuccess: (ResponseModel responseModel) {
+        _onTimesheetMutationResponse(responseModel, onSuccess: onSuccess);
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        _onTimesheetMutationError(error);
+      },
+    );
+  }
+
   void _refreshCounts() {
     timesheetCount.value = timesheetConflicts.length;
     billingCount.value = billingConflicts.length;

@@ -4,12 +4,32 @@ class BuyerProductListResponse {
   bool? isSuccess;
   String? message;
   List<ProductInfo>? info;
+  int? upcoming;
+  int? processing;
+  int? delivered;
+  int? partiallyDelivered;
+  int? cancelled;
 
-  BuyerProductListResponse({this.isSuccess, this.message, this.info});
+  BuyerProductListResponse({
+    this.isSuccess,
+    this.message,
+    this.info,
+    this.upcoming,
+    this.processing,
+    this.delivered,
+    this.partiallyDelivered,
+    this.cancelled,
+  });
 
   BuyerProductListResponse.fromJson(Map<String, dynamic> json) {
     isSuccess = json['IsSuccess'];
     message = json['message'];
+    upcoming = (json['upcoming'] as num?)?.toInt();
+    processing = (json['processing'] as num?)?.toInt();
+    delivered = (json['delivered'] as num?)?.toInt();
+    partiallyDelivered =
+        (json['partially_delivered'] as num?)?.toInt();
+    cancelled = (json['cancelled'] as num?)?.toInt();
     if (json['info'] != null) {
       info = <ProductInfo>[];
       json['info'].forEach((v) {
@@ -25,6 +45,11 @@ class BuyerProductListResponse {
     if (this.info != null) {
       data['info'] = this.info!.map((v) => v.toJson()).toList();
     }
+    data['upcoming'] = this.upcoming;
+    data['processing'] = this.processing;
+    data['delivered'] = this.delivered;
+    data['partially_delivered'] = this.partiallyDelivered;
+    data['cancelled'] = this.cancelled;
     return data;
   }
 }

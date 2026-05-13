@@ -124,4 +124,61 @@ class ConflictsRepository {
       onError: (error) => onError?.call(error),
     );
   }
+
+  void approveBillingConflictKeepChanges({
+    required int logId,
+    required int userId,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+      url: ApiConstants.approveRequest,
+      data: <String, dynamic>{
+        "log_id": logId,
+        "user_id": userId,
+      },
+      isFormData: false,
+    ).postRequest(
+      onSuccess: (data) => onSuccess?.call(data),
+      onError: (error) => onError?.call(error),
+    );
+  }
+
+  void rejectBillingConflictRequest({
+    required int logId,
+    required int userId,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+      url: ApiConstants.rejectRequest,
+      data: <String, dynamic>{
+        "log_id": logId,
+        "user_id": userId,
+      },
+      isFormData: false,
+    ).postRequest(
+      onSuccess: (data) => onSuccess?.call(data),
+      onError: (error) => onError?.call(error),
+    );
+  }
+
+  void discardBillingConflictChanges({
+    required int companyId,
+    required int userId,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+      url: ApiConstants.userBillingResolveConflict,
+      data: <String, dynamic>{
+        "company_id": companyId,
+        "user_id": userId,
+      },
+      isFormData: false,
+    ).postRequest(
+      onSuccess: (data) => onSuccess?.call(data),
+      onError: (error) => onError?.call(error),
+    );
+  }
 }

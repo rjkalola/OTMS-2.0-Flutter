@@ -35,7 +35,8 @@ class DashboardController extends GetxController
   //     DataUtils.getHeaderActionButtonsList().obs;
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
-      isMainViewVisible = false.obs;
+      isMainViewVisible = false.obs,
+      isStoreTabVisible = true.obs;
   final title = 'dashboard'.tr.obs;
   final selectedIndex = 0.obs;
 

@@ -132,10 +132,10 @@ class UploadOfflineWorklogController extends GetxController
     if (action == AppConstants.dialogIdentifier.selectProject) {
       selectedProjectId = id;
       projectController.value.text = name;
-      print("selectedProjectId:"+selectedProjectId.toString());
+      print("selectedProjectId:" + selectedProjectId.toString());
 
-      final selectedProject = projectsList
-          .firstWhereOrNull((project) => (project.id ?? 0) == selectedProjectId);
+      final selectedProject = projectsList.firstWhereOrNull(
+          (project) => (project.id ?? 0) == selectedProjectId);
       shiftsList.value = selectedProject?.shifts ?? [];
 
       selectedShiftId = 0;
@@ -143,7 +143,7 @@ class UploadOfflineWorklogController extends GetxController
     } else if (action == AppConstants.dialogIdentifier.selectShift) {
       selectedShiftId = id;
       shiftController.value.text = name;
-      print("selectedShiftId:"+selectedShiftId.toString());
+      print("selectedShiftId:" + selectedShiftId.toString());
     }
   }
 
@@ -184,22 +184,29 @@ class UploadOfflineWorklogController extends GetxController
       return;
     }
 
-    print("selectedProjectId:"+selectedProjectId.toString());
-    print("selectedShiftId:"+selectedShiftId.toString());
+    print("selectedProjectId:" + selectedProjectId.toString());
+    print("selectedShiftId:" + selectedShiftId.toString());
 
     final payload = <String, dynamic>{
       "user_id": UserUtils.getLoginUserId(),
-      "device_type": AppConstants.deviceType,
-      "device_model_type": await AppUtils.getDeviceName(),
+      // "device_type": AppConstants.deviceType,
+      // "device_model_type": await AppUtils.getDeviceName(),
+      "start_device_type": AppConstants.deviceType,
+      "start_device_model_type": await AppUtils.getDeviceName(),
+      "end_device_type": AppConstants.deviceType,
+      "end_device_model_type": await AppUtils.getDeviceName(),
       "worklogs": worklogs.map((row) {
+        final int userWorklogId = (row["id"] as num?)?.toInt() ?? 0;
         final entry = <String, dynamic>{
-          "user_worklog_id": row["id"] ?? 0,
           // shift_id / project_id are set in ClockInUtils: selected for id 0, log values for id > 0
           "shift_id": row["shift_id"],
           "project_id": row["project_id"],
           "work_start_time": row["work_start_time"],
           "start_work_location": row["start_work_location"] ?? {},
         };
+        if (userWorklogId > 0) {
+          entry["user_worklog_id"] = userWorklogId;
+        }
         if (row.containsKey("work_end_time")) {
           entry["work_end_time"] = row["work_end_time"];
         }
@@ -210,10 +217,11 @@ class UploadOfflineWorklogController extends GetxController
       }).toList(),
     };
 
-    print("payload:"+payload.toString());
+    print("payload:" + payload.toString());
 
     isLoading.value = true;
-    ApiRequest(url: ApiConstants.userStoreOfflineWork, data: payload).postRequest(
+    ApiRequest(url: ApiConstants.userStoreOfflineWork, data: payload)
+        .postRequest(
       onSuccess: (data) {
         final responseModel = data as ResponseModel;
         if (responseModel.isSuccess) {
@@ -232,7 +240,8 @@ class UploadOfflineWorklogController extends GetxController
       onError: (error) {
         final responseModel = error as ResponseModel;
         isLoading.value = false;
-        if (responseModel.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+        if (responseModel.statusCode ==
+            ApiConstants.CODE_NO_INTERNET_CONNECTION) {
           AppUtils.showApiResponseMessage('no_internet'.tr);
         } else if (!StringHelper.isEmptyString(responseModel.statusMessage)) {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");

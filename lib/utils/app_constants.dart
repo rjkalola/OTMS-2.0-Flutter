@@ -195,6 +195,8 @@ class DialogIdentifier {
   final String teamConflictResolve = 'TEAM_CONFLICT_RESOLVE';
   final String healthSafetyConflictResolve = 'HEALTH_SAFETY_CONFLICT_RESOLVE';
   final String storeConflictResolve = 'STORE_CONFLICT_RESOLVE';
+  final String billingConflictResolve = 'BILLING_CONFLICT_RESOLVE';
+  final String billingConflictDiscard = 'BILLING_CONFLICT_DISCARD';
 }
 
 class SharedPreferenceKey {

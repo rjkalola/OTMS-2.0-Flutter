@@ -8,7 +8,7 @@ class CompanySettingsResponse {
     this.isSuccess,
     this.message,
     this.data,
-    this.payRateUsers,
+    this.payRateUsers, 
   });
 
   CompanySettingsResponse.fromJson(Map<String, dynamic> json) {
@@ -68,6 +68,7 @@ class CompanySettingsData {
   bool? isLeaveLimit;
   int? leaveLimit;
   bool? isCheckIn;
+  bool? isShowStore;
   String? createdAt;
   String? updatedAt;
   String? deletedAt;
@@ -102,6 +103,7 @@ class CompanySettingsData {
     this.isLeaveLimit,
     this.leaveLimit,
     this.isCheckIn,
+    this.isShowStore,
     this.createdAt,
     this.updatedAt,
     this.deletedAt,
@@ -137,6 +139,7 @@ class CompanySettingsData {
     isLeaveLimit = json['is_leave_limit'];
     leaveLimit = json['leave_limit'];
     isCheckIn = json['is_check_in'];
+    isShowStore = json['is_show_store'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
@@ -175,6 +178,7 @@ class CompanySettingsData {
     data['is_leave_limit'] = isLeaveLimit;
     data['leave_limit'] = leaveLimit;
     data['is_check_in'] = isCheckIn;
+    data['is_show_store'] = isShowStore;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     data['deleted_at'] = deletedAt;

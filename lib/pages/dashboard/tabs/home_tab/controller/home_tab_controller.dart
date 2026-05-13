@@ -12,6 +12,7 @@ import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:belcka/pages/common/listener/select_item_listener.dart';
 import 'package:belcka/pages/common/model/user_info.dart';
 import 'package:belcka/pages/common/model/user_response.dart';
+import 'package:belcka/pages/dashboard/controller/dashboard_controller.dart';
 import 'package:belcka/pages/dashboard/models/dashboard_response.dart';
 import 'package:belcka/pages/dashboard/tabs/home_tab/controller/home_tab_repository.dart';
 import 'package:belcka/pages/dashboard/tabs/home_tab/model/company_settings_response.dart';
@@ -74,18 +75,18 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
     super.onInit();
 
     bool isInternet = await AppUtils.interNetCheck();
-    if (isInternet) {
-      if (ClockInUtils.hasOfflineRecordsForUpload()) {
-        showUploadOfflineDataDialog();
-      } else {
-        userInfo.value = Get.find<AppStorage>().getUserInfo();
-        if ((userInfo.value.id ?? 0) != 0) {
-          setInitialData();
-        }
-      }
-    } else {
-      Get.toNamed(AppRoutes.clockInOfflineScreen);
+    // if (isInternet) {
+    //   if (ClockInUtils.hasOfflineRecordsForUpload()) {
+    //     showUploadOfflineDataDialog();
+    //   } else {
+    userInfo.value = Get.find<AppStorage>().getUserInfo();
+    if ((userInfo.value.id ?? 0) != 0) {
+      setInitialData();
     }
+    // }
+    // } else {
+    //   Get.toNamed(AppRoutes.clockInOfflineScreen);
+    // }
 
     // WidgetsBinding.instance.addObserver(this);
     // appLifeCycle();
@@ -180,6 +181,11 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
           print("isCheckIn:" +
               (companySettingsResponse.value.data?.isCheckIn ?? false)
                   .toString());
+
+          bool isStoreTabVisible =
+              companySettingsResponse.value.data?.isShowStore ?? false;
+          Get.put(DashboardController()).isStoreTabVisible.value =
+              isStoreTabVisible;
         }
       },
       onError: (ResponseModel error) {
@@ -547,6 +553,8 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
               getDashboardUserPermissionsApi(false, isProfileLoad: false);
             }
 
+            getCompanySettingsApi();
+
             if (UserUtils.isAdmin() &&
                 !(response.info?.isTradeAvailable ?? false)) {
               showTradeWarningDialog();
@@ -803,41 +811,39 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
     var result = await Get.toNamed(appRout, arguments: arguments);
 
     bool isInternet = await AppUtils.interNetCheck();
-    if (isInternet) {
-      if (ClockInUtils.hasOfflineRecordsForUpload()) {
-        showUploadOfflineDataDialog();
+    // if (isInternet) {
+    //   if (ClockInUtils.hasOfflineRecordsForUpload()) {
+    //     showUploadOfflineDataDialog();
+    //   } else {
+    if (ApiConstants.companyId != 0) {
+      WorkLogListResponse response = Get.find<AppStorage>().getWorklogData();
+      setShiftTimerData(response);
+      if (Get.find<AppStorage>().isLocalSequenceChanges()) {
+        changeDashboardUserPermissionMultipleSequenceApi(
+            isProgress: false,
+            isLoadPermissionList: true,
+            isChangeSequence: false);
       } else {
-        if (ApiConstants.companyId != 0) {
-          WorkLogListResponse response =
-              Get.find<AppStorage>().getWorklogData();
-          setShiftTimerData(response);
-          if (Get.find<AppStorage>().isLocalSequenceChanges()) {
-            changeDashboardUserPermissionMultipleSequenceApi(
-                isProgress: false,
-                isLoadPermissionList: true,
-                isChangeSequence: false);
-          } else {
-            // getDashboardUserPermissionsApi(false, isProfileLoad: true);
-            getUserProfileAPI();
-          }
-          if (Get.isBottomSheetOpen ?? false) {
-            Get.back();
-            if (Get.isBottomSheetOpen ?? false) {
-              Navigator.of(Get.context!).pop();
-            }
-            showControlPanelDialog();
-          }
-        } else {
-          if (UserUtils.getLoginUserId() != 0) {
-            var arguments = {AppConstants.intentKey.fromSignUpScreen: true};
-            Get.offAllNamed(AppRoutes.switchCompanyScreen,
-                arguments: arguments);
-          }
+        // getDashboardUserPermissionsApi(false, isProfileLoad: true);
+        getUserProfileAPI();
+      }
+      if (Get.isBottomSheetOpen ?? false) {
+        Get.back();
+        if (Get.isBottomSheetOpen ?? false) {
+          Navigator.of(Get.context!).pop();
         }
+        showControlPanelDialog();
       }
     } else {
-      Get.toNamed(AppRoutes.clockInOfflineScreen);
+      if (UserUtils.getLoginUserId() != 0) {
+        var arguments = {AppConstants.intentKey.fromSignUpScreen: true};
+        Get.offAllNamed(AppRoutes.switchCompanyScreen, arguments: arguments);
+      }
     }
+    //   }
+    // } else {
+    //   Get.toNamed(AppRoutes.clockInOfflineScreen);
+    // }
   }
 
   Future<void> moveToScreen2(
@@ -846,15 +852,15 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
     // getNotificationCountApi(isProgress: false);
 
     bool isInternet = await AppUtils.interNetCheck();
-    if (isInternet) {
-      if (ClockInUtils.hasOfflineRecordsForUpload()) {
-        showUploadOfflineDataDialog();
-      } else {
-        getUserProfileAPI();
-      }
-    } else {
-      Get.toNamed(AppRoutes.clockInOfflineScreen);
-    }
+    // if (isInternet) {
+    //   if (ClockInUtils.hasOfflineRecordsForUpload()) {
+    //     showUploadOfflineDataDialog();
+    //   } else {
+    getUserProfileAPI();
+    //   }
+    // } else {
+    //   Get.toNamed(AppRoutes.clockInOfflineScreen);
+    // }
   }
 
   void pullToRefreshData() {

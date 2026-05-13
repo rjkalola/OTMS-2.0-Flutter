@@ -147,7 +147,7 @@ class ConflictsListView extends StatelessWidget {
 
   _ConflictSection _timesheetSection(ConflictsController controller) =>
       _ConflictSection(
-        title: 'Timesheet Conflicts',
+        title: 'timesheet_conflicts_section'.tr,
         badgeColor: const Color(0xFFFFA300),
         items: controller.timesheetConflicts
             .map((e) => _UserConflictTile(data: e, isTimesheet: true))
@@ -156,7 +156,7 @@ class ConflictsListView extends StatelessWidget {
 
   _ConflictSection _billingSection(ConflictsController controller) =>
       _ConflictSection(
-        title: 'Billing Conflicts',
+        title: 'billing_conflicts_section'.tr,
         badgeColor: const Color(0xFF5663FF),
         items: controller.billingConflicts
             .map((e) => _UserConflictTile(data: e, isTimesheet: false))
@@ -165,7 +165,7 @@ class ConflictsListView extends StatelessWidget {
 
   _ConflictSection _teamSection(ConflictsController controller) =>
       _ConflictSection(
-        title: 'Team Conflicts',
+        title: 'team_conflicts_section'.tr,
         badgeColor: const Color(0xFF8B5CF6),
         items: controller.teamConflicts
             .map((e) => _TeamConflictTile(data: e))
@@ -174,7 +174,7 @@ class ConflictsListView extends StatelessWidget {
 
   _ConflictSection _healthSafetySection(ConflictsController controller) =>
       _ConflictSection(
-        title: 'Health & Safety Conflicts',
+        title: 'health_safety_conflicts_section'.tr,
         badgeColor: const Color(0xFFEF4444),
         items: controller.healthSafetyConflicts
             .map((e) => _HealthSafetyConflictTile(data: e))
@@ -183,7 +183,7 @@ class ConflictsListView extends StatelessWidget {
 
   _ConflictSection _storeSection(ConflictsController controller) =>
       _ConflictSection(
-        title: 'Store Conflicts',
+        title: 'store_conflicts_section'.tr,
         badgeColor: const Color(0xFF06B6D4),
         items: controller.storeConflicts
             .map((e) => _StoreConflictTile(data: e))
@@ -289,7 +289,7 @@ class _UserConflictTile extends StatelessWidget {
       return _BaseTile(
         imageUrl: data.userThumbImage ?? data.userImage,
         title: data.userName ?? "-",
-        tagText: 'Delete Only',
+        tagText: 'conflicts_timesheet_delete_only_tag'.tr,
         tagColor: const Color(0xFFFFE8E8),
         tagTextColor: const Color(0xFFE23D3D),
         subtitleTop: data.formattedDate ?? data.date ?? "",
@@ -301,7 +301,7 @@ class _UserConflictTile extends StatelessWidget {
     return _BaseTile(
       imageUrl: data.userThumbImage ?? data.userImage,
       title: data.userName ?? "-",
-      tagText: 'Billing Info',
+      tagText: 'billing_conflict_tile_tag'.tr,
       tagColor: const Color(0xFFE7EEFF),
       tagTextColor: const Color(0xFF4E63DD),
       subtitleTop: data.formattedDate ?? data.date ?? "",
@@ -321,12 +321,13 @@ Map<String, dynamic>? _conflictBillingDataAsMap(dynamic raw) {
 }
 
 String _billingConflictFieldValue(Map<String, dynamic>? map, String key) {
-  if (map == null || !map.containsKey(key)) return '—';
+  final dash = 'conflicts_empty_value'.tr;
+  if (map == null || !map.containsKey(key)) return dash;
   final v = map[key];
-  if (v == null) return '—';
+  if (v == null) return dash;
   if (v is String) {
     final t = v.trim();
-    return t.isEmpty ? '—' : t;
+    return t.isEmpty ? dash : t;
   }
   if (v is num || v is bool) {
     return '$v';
@@ -334,14 +335,14 @@ String _billingConflictFieldValue(Map<String, dynamic>? map, String key) {
   if (v is Map || v is List) {
     try {
       final encoded = jsonEncode(v);
-      return encoded.isEmpty ? '—' : encoded;
+      return encoded.isEmpty ? dash : encoded;
     } catch (_) {
       final s = v.toString().trim();
-      return s.isEmpty ? '—' : s;
+      return s.isEmpty ? dash : s;
     }
   }
   final s = v.toString().trim();
-  return s.isEmpty ? '—' : s;
+  return s.isEmpty ? dash : s;
 }
 
 List<String> _billingConflictFieldKeys(
@@ -366,9 +367,10 @@ List<String> _billingConflictFieldKeysWithContent(
 ) {
   return _billingConflictFieldKeys(oldMap, newMap)
       .where((key) {
+        final dash = 'conflicts_empty_value'.tr;
         final before = _billingConflictFieldValue(oldMap, key);
         final after = _billingConflictFieldValue(newMap, key);
-        return before != '—' || after != '—';
+        return before != dash || after != dash;
       })
       .toList();
 }
@@ -398,13 +400,84 @@ void _openBillingConflictSheet(BuildContext context, UserConflictData data) {
   );
 }
 
-class _BillingConflictSheet extends StatelessWidget {
+class _BillingConflictSheet extends StatefulWidget {
   const _BillingConflictSheet({required this.data});
 
   final UserConflictData data;
 
   @override
+  State<_BillingConflictSheet> createState() => _BillingConflictSheetState();
+}
+
+class _BillingConflictSheetState extends State<_BillingConflictSheet>
+    implements DialogButtonClickListener {
+  @override
+  void onNegativeButtonClicked(String dialogIdentifier) {
+    Get.back();
+  }
+
+  @override
+  void onOtherButtonClicked(String dialogIdentifier) {}
+
+  @override
+  void onPositiveButtonClicked(String dialogIdentifier) {
+    final items = widget.data.items ?? [];
+    if (items.isEmpty) {
+      Get.back();
+      return;
+    }
+    final item = items.first;
+    final ctrl = Get.find<ConflictsController>();
+    if (dialogIdentifier ==
+        AppConstants.dialogIdentifier.billingConflictResolve) {
+      _dismissConflictAlertAndBottomSheet();
+      ctrl.approveBillingConflictKeepChanges(
+        logId: item.worklogId ?? 0,
+        userId: item.userId ?? 0,
+      );
+      return;
+    }
+    if (dialogIdentifier ==
+        AppConstants.dialogIdentifier.billingConflictDiscard) {
+      _dismissConflictAlertAndBottomSheet();
+      ctrl.discardBillingConflictChanges(
+        userId: item.userId ?? 0,
+        worklogId: item.worklogId ?? 0,
+      );
+    }
+  }
+
+  void _showBillingResolveConfirm() {
+    AlertDialogHelper.showAlertDialog(
+      "",
+      'are_you_sure_you_want_to_resolve'.tr,
+      'yes'.tr,
+      'no'.tr,
+      "",
+      true,
+      false,
+      this,
+      AppConstants.dialogIdentifier.billingConflictResolve,
+    );
+  }
+
+  void _showBillingDiscardConfirm() {
+    AlertDialogHelper.showAlertDialog(
+      "",
+      'are_you_sure_you_want_to_discard'.tr,
+      'yes'.tr,
+      'no'.tr,
+      "",
+      true,
+      false,
+      this,
+      AppConstants.dialogIdentifier.billingConflictDiscard,
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final data = widget.data;
     final items = data.items ?? [];
     if (items.isEmpty) {
       return const SizedBox.shrink();
@@ -419,6 +492,7 @@ class _BillingConflictSheet extends StatelessWidget {
     final hasMessage = message.trim().isNotEmpty;
     final showBillingChanges =
         hasMessage || fieldKeysVisible.isNotEmpty;
+    final showKeepChanges = (item.worklogId ?? 0) != 0;
 
     return Container(
       height: MediaQuery.of(context).size.height * 0.78,
@@ -493,7 +567,7 @@ class _BillingConflictSheet extends StatelessWidget {
                             ),
                             const SizedBox(width: 4),
                             Text(
-                              "Billing",
+                              'billing_conflict_sheet_badge'.tr,
                               style: TextStyle(
                                 color: const Color(0xFF4E63DD),
                                 fontSize: 11,
@@ -512,7 +586,8 @@ class _BillingConflictSheet extends StatelessWidget {
                   ),
                   if (showBillingChanges) ...[
                     const SizedBox(height: 20),
-                    _billingSheetSectionTitle(context, "BILLING INFO CHANGES"),
+                    _billingSheetSectionTitle(
+                        context, 'billing_conflict_billing_info_changes'.tr),
                     if (hasMessage) ...[
                       const SizedBox(height: 8),
                       Container(
@@ -571,32 +646,35 @@ class _BillingConflictSheet extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _billingSheetSectionTitle(context, "RESOLUTION"),
+                _billingSheetSectionTitle(
+                    context, 'conflicts_resolution_section'.tr),
                 const SizedBox(height: 10),
                 Row(
                   children: [
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: () => Get.back(),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF4E63DD),
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                    if (showKeepChanges) ...[
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: _showBillingResolveConfirm,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF4E63DD),
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            elevation: 0,
                           ),
-                          padding: const EdgeInsets.symmetric(vertical: 14),
-                          elevation: 0,
-                        ),
-                        child: const Text(
-                          "Keep Changes",
-                          style: TextStyle(fontWeight: FontWeight.w600),
+                          child: Text(
+                            'billing_conflict_keep_changes'.tr,
+                            style: const TextStyle(fontWeight: FontWeight.w600),
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(width: 10),
+                      const SizedBox(width: 10),
+                    ],
                     Expanded(
                       child: OutlinedButton(
-                        onPressed: () => Get.back(),
+                        onPressed: _showBillingDiscardConfirm,
                         style: OutlinedButton.styleFrom(
                           foregroundColor: const Color(0xFFE23D3D),
                           side: const BorderSide(color: Color(0xFFFF8A8A)),
@@ -605,9 +683,9 @@ class _BillingConflictSheet extends StatelessWidget {
                           ),
                           padding: const EdgeInsets.symmetric(vertical: 14),
                         ),
-                        child: const Text(
-                          "Discard",
-                          style: TextStyle(fontWeight: FontWeight.w600),
+                        child: Text(
+                          'billing_conflict_discard'.tr,
+                          style: const TextStyle(fontWeight: FontWeight.w600),
                         ),
                       ),
                     ),
@@ -660,7 +738,7 @@ class _BillingConflictSheet extends StatelessWidget {
               Expanded(
                 child: _billingValueBox(
                   context,
-                  caption: "BEFORE",
+                  caption: 'billing_conflict_before'.tr,
                   value: before,
                   background: const Color(0xFFFFEEF1),
                   borderColor: const Color(0xFFFFC9D4),
@@ -670,7 +748,7 @@ class _BillingConflictSheet extends StatelessWidget {
               Expanded(
                 child: _billingValueBox(
                   context,
-                  caption: "AFTER",
+                  caption: 'billing_conflict_after'.tr,
                   value: after,
                   background: const Color(0xFFEEF8F0),
                   borderColor: const Color(0xFFB8E6C8),
@@ -876,7 +954,8 @@ class _TimesheetConflictSheetState extends State<_TimesheetConflictSheet>
                   const SizedBox(height: 8),
                   _TimesheetOverlapBlock(item: b, useWorkDot: b.isLeave != true),
                   const SizedBox(height: 20),
-                  _timesheetSheetSectionTitle(context, "RESOLUTION"),
+                  _timesheetSheetSectionTitle(
+                      context, 'conflicts_resolution_section'.tr),
                   const SizedBox(height: 10),
                   _resolutionButtons(context, kind),
                   if (_panel == _TimesheetSheetPanel.cut &&
@@ -1976,7 +2055,7 @@ class _TeamConflictTile extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _teamSheetTitle(context, "RESOLUTION"),
+                    _teamSheetTitle(context, 'conflicts_resolution_section'.tr),
                     const SizedBox(height: 10),
                     SizedBox(
                       width: double.infinity,
@@ -2643,7 +2722,7 @@ class _StoreConflictTile extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _sheetTitle(context, "RESOLUTION"),
+                    _sheetTitle(context, 'conflicts_resolution_section'.tr),
                     const SizedBox(height: 10),
                     SizedBox(
                       width: double.infinity,

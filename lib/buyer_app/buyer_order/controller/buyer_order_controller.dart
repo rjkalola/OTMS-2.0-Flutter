@@ -160,6 +160,14 @@ class BuyerOrderController extends GetxController
           tempRequestOrderList.addAll(response.info!);
           requestOrdersList.value = tempRequestOrderList;
           requestCount.value = tempRequestOrderList.length;
+
+          updateTabCount(
+            upcoming: response.upcoming,
+            processing: response.processing,
+            partialDelivered: response.partiallyDelivered,
+            delivered: response.delivered,
+            cancelled: response.cancelled,
+          );
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
