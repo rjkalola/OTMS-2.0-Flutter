@@ -16,19 +16,10 @@ class CustomCheckbox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (Platform.isAndroid){
-      return Checkbox(
-        activeColor: color ?? Colors.green,
-        value: mValue,
-        onChanged: onValueChange,
-      );
-    }
-    else{
-      return AdaptiveCheckbox(
-        activeColor: color ?? Colors.green,
-        value: mValue,
-        onChanged: onValueChange,
-      );
-    }
+    return Checkbox(
+      activeColor: color ?? Colors.green,
+      value: mValue,
+      onChanged: onValueChange,
+    );
   }
 }

@@ -128,7 +128,7 @@ class _StoremanProductsListWidgetState
                               child: Container(
                                 margin: const EdgeInsets.only(bottom: 16),
                                 decoration: BoxDecoration(
-                                  color: Colors.white,
+                                  color: backgroundColor_(context),
                                   borderRadius: BorderRadius.circular(18),
                                   boxShadow: [
                                     BoxShadow(
@@ -155,8 +155,7 @@ class _StoremanProductsListWidgetState
                                                 width: 150,
                                                 height: 150,
                                                 decoration: BoxDecoration(
-                                                  color:
-                                                      lightGreyColor(context),
+                                                  color: lightGreyColor(context),
                                                 ),
                                                 clipBehavior: Clip.antiAlias,
                                                 child: PageView.builder(
@@ -243,7 +242,7 @@ class _StoremanProductsListWidgetState
                                                   Expanded(
                                                     child: Text(
                                                       product.description ?? "",
-                                                      maxLines: 3,
+                                                      maxLines: 2,
                                                       overflow: TextOverflow.ellipsis,
                                                       style: TextStyle(
                                                         fontSize: 13,
@@ -252,6 +251,7 @@ class _StoremanProductsListWidgetState
                                                       ),
                                                     ),
                                                   ),
+
                                                   // QTY + PRICE
                                                   Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                     children: [
