@@ -752,6 +752,8 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
     } else if (action == AppConstants.action.checkInSettings) {
       Get.back();
       showCheckInSettingsBottomSheet();
+    } else if (action == AppConstants.action.storeSettings) {
+      moveToScreen(appRout: AppRoutes.storeSettingsScreen);
     }
   }
 

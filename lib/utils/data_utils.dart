@@ -66,6 +66,10 @@ class DataUtils {
         name: 'check_in_'.tr,
         action: AppConstants.action.checkInSettings,
         icon: Drawable.clockIcon));
+    arrayItems.add(ModuleInfo(
+        name: 'store_setting'.tr,
+        action: AppConstants.action.storeSettings,
+        icon: Drawable.storeIcon));
     return arrayItems;
   }
 

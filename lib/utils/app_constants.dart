@@ -197,6 +197,7 @@ class DialogIdentifier {
   final String storeConflictResolve = 'STORE_CONFLICT_RESOLVE';
   final String billingConflictResolve = 'BILLING_CONFLICT_RESOLVE';
   final String billingConflictDiscard = 'BILLING_CONFLICT_DISCARD';
+  final String selectStoreSettingsTeamFilter = 'SELECT_STORE_SETTINGS_TEAM_FILTER';
 }
 
 class SharedPreferenceKey {
@@ -329,7 +330,7 @@ class Action {
   final String rent = 'Rent';
   final String history = 'History';
   final String checkInSettings = "CheckInSettings";
-
+  final String storeSettings = "StoreSettings";
   final String checkIn = "CheckIn";
   final String trades = "Trades";
 

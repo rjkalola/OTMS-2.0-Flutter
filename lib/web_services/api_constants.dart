@@ -124,6 +124,7 @@ class ApiConstants {
   static String teamUnArchive = '$appUrl/team/unarchive';
   static String resolveTeamConflict = '$appUrl/team/resolve-team-conflict';
   static String teamUserList = '$appUrl/team/user-list';
+  static String teamGetTeamMemberList = '$appUrl/team/get-team-member-list';
   static String teamChangeBulkCheckin = '$appUrl/team/change-bulk-checkin';
 
   //shifts
@@ -269,6 +270,8 @@ class ApiConstants {
   static String getDashboardResponse = '$appUrl/dashboard';
   static String getSettingsUrl = '$appUrl/get-setting';
   static String getCompanySettings = '$appUrl/setting/get-company-settings';
+  static String settingChangeBulkUserStoreStatus =
+      '$appUrl/setting/change-bulk-user-store-status';
   static String saveGeneralSetting = '$appUrl/setting/save-general-setting';
   static String getRequestCountUrl = '$appUrl/get-request-count';
   static String registerFcmUrl = '$appUrl/notifications/save-token';

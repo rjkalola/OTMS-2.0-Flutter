@@ -924,6 +924,10 @@ class Strings extends Translations {
           'offline_worklog_data_available_message':
               "You have offline worklog data available, Need to upload this data to server.",
           'payable': "Payable",
+          'store_setting': "Store Setting",
+          'filter_team': "Filter Team",
+          'all_teams': "All Teams",
+          'search_users': "Search users...",
 // '': "",
           // '': "",
 // '': "",

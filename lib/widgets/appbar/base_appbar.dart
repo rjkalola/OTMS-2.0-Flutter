@@ -20,6 +20,8 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? onPressedClear;
   final SystemUiOverlayStyle? systemOverlayStyle;
   final ShapeBorder? shape;
+  final String? searchHint;
+  final String? searchLabel;
 
   BaseAppBar(
       {super.key,
@@ -38,7 +40,9 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
       this.onPressedClear,
       this.autoFocus,
       this.systemOverlayStyle,
-      this.shape});
+      this.shape,
+      this.searchHint,
+      this.searchLabel});
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +61,8 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
                   autofocus: autoFocus,
                   onValueChange: onValueChange,
                   onPressedClear: onPressedClear,
+                  hint: searchHint,
+                  label: searchLabel,
                 )
               : Text(
                   title,
