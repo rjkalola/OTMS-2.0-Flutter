@@ -21,7 +21,7 @@ class RightSideIconsListWidget extends StatelessWidget {
           margin: const EdgeInsets.fromLTRB(10, 8, 10, 0),
           padding: const EdgeInsets.symmetric(horizontal: 10),
           decoration: BoxDecoration(
-            color: const Color(0xFFF1F1F1),
+            color: backgroundColor_(context),
             borderRadius: BorderRadius.circular(24),
           ),
           child: Row(
@@ -86,7 +86,7 @@ class RightSideIconsListWidget extends StatelessWidget {
                           decoration: BoxDecoration(
                             color: isSelected
                                 ? defaultAccentColor_(context)
-                                : Colors.white,
+                                : dashBoardBgColor_(context),
                             borderRadius:
                             BorderRadius.circular(18),
                           ),
@@ -101,7 +101,7 @@ class RightSideIconsListWidget extends StatelessWidget {
                                   Icons.image_outlined,
                                   size: 24,
                                   color: isSelected
-                                      ? Colors.white
+                                      ? backgroundColor_(context)
                                       : Colors.grey,
                                 );
                               },
@@ -124,7 +124,7 @@ class RightSideIconsListWidget extends StatelessWidget {
                     width: 35,
                     height: 45,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: backgroundColor_(context),
                       borderRadius:
                       BorderRadius.circular(18),
                     ),
@@ -137,7 +137,7 @@ class RightSideIconsListWidget extends StatelessWidget {
                         duration:
                         const Duration(milliseconds: 300),
                         child: ExpandIconWidget(
-                          color: Colors.black54,
+                          color: primaryTextColor_(context),
                         ),
                       ),
                     ),
