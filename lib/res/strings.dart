@@ -923,6 +923,12 @@ class Strings extends Translations {
           'no_technical_info': "No technical specification added",
           'offline_worklog_data_available_message':
               "You have offline worklog data available, Need to upload this data to server.",
+          'offline_worklog_data_conflict': "Data Conflict",
+          'offline_worklog_overlapping_shifts': "overlapping shifts",
+          'offline_worklog_overlap': "overlap",
+          'offline_worklog_start': "Start",
+          'offline_worklog_end': "End",
+          'offline_worklog_keep': "Keep",
           'payable': "Payable",
           'store_setting': "Store Setting",
           'filter_team': "Filter Team",

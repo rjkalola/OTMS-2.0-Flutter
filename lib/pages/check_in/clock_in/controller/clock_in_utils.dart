@@ -618,4 +618,16 @@ class ClockInUtils {
     Get.find<AppStorage>()
         .removeData(AppConstants.sharedPreferenceKey.worklogDataOffline);
   }
+
+  /// Keeps only offline rows whose [workStartTime] matches [workStartTime] (API conflict trim).
+  static void retainOfflineWorklogsByStartTime(String workStartTime) {
+    if (StringHelper.isEmptyString(workStartTime)) return;
+    final storage = Get.find<AppStorage>();
+    final workLogData = storage.getWorklogDataOffline();
+    workLogData.workLogInfo ??= <WorkLogInfo>[];
+    workLogData.workLogInfo = workLogData.workLogInfo!
+        .where((log) => (log.workStartTime ?? '') == workStartTime)
+        .toList();
+    storage.setWorklogDataOffline(workLogData);
+  }
 }

@@ -64,7 +64,7 @@ class StoremanOrderDetailsHeader extends StatelessWidget {
                       ),
                       PrimaryTextView(
                         text:
-                            "${'items_qty'.tr}: ${AppUtils.formatDecimalNumber(item.orderQty ?? 0)}",
+                            "${'items_qty'.tr}: ${AppUtils.formatDecimalNumber(item.qty ?? 0)}",
                         fontSize: 16,
                       ),
                       SizedBox(

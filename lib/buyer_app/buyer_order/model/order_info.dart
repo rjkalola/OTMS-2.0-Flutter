@@ -17,6 +17,7 @@ class OrderInfo {
   String? expectedDeliveryDate;
   String? totalAmount;
   double? orderQty;
+  double? qty;
   int? receiveQty;
   String? note;
   String? tax;
@@ -47,6 +48,7 @@ class OrderInfo {
       this.expectedDeliveryDate,
       this.totalAmount,
       this.orderQty,
+      this.qty,
       this.receiveQty,
       this.note,
       this.tax,
@@ -77,6 +79,7 @@ class OrderInfo {
     expectedDeliveryDate = json['expected_delivery_date'];
     totalAmount = json['total_amount'];
     orderQty = (json['order_qty'] as num?)?.toDouble();
+    qty = (json['qty'] as num?)?.toDouble();
     receiveQty = json['receive_qty'];
     note = json['note'];
     tax = json['tax'];
@@ -88,7 +91,8 @@ class OrderInfo {
     userImage = json['user_image'];
     orderNumber = json['order_number'];
     isDraft = json['is_draft'];
-    final dynamic purchaseOrdersData = json['purchase_orders'] ?? json['products'];
+    final dynamic purchaseOrdersData =
+        json['purchase_orders'] ?? json['products'];
     if (purchaseOrdersData != null) {
       purchaseOrders = <ProductInfo>[];
       purchaseOrdersData.forEach((v) {
@@ -115,6 +119,7 @@ class OrderInfo {
     data['expected_delivery_date'] = this.expectedDeliveryDate;
     data['total_amount'] = this.totalAmount;
     data['order_qty'] = this.orderQty;
+    data['qty'] = this.qty;
     data['receive_qty'] = this.receiveQty;
     data['note'] = this.note;
     data['tax'] = this.tax;

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:belcka/pages/common/listener/menu_item_listener.dart';
@@ -40,38 +41,60 @@ class UserListController extends GetxController implements MenuItemListener {
     getUserListApi();
   }
 
-  void getUserListApi() {
-    isLoading.value = true;
+  /// When [showLoading] is false (e.g. pull-to-refresh), the full-screen
+  /// progress HUD is skipped; callers should await the future for completion.
+  Future<void> getUserListApi({bool showLoading = true}) {
+    if (showLoading) {
+      isLoading.value = true;
+    }
+    final completer = Completer<void>();
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
     _api.getUserList(
       data: map,
       onSuccess: (ResponseModel responseModel) {
-        if (responseModel.isSuccess) {
-          UserListResponse response =
-              UserListResponse.fromJson(jsonDecode(responseModel.result!));
-          ImageUtils.preloadUserImages(response.info ?? []);
-          tempList.clear();
-          tempList.addAll(response.info ?? []);
-          usersList.value = tempList;
-          usersList.refresh();
-          isMainViewVisible.value = true;
-        } else {
-          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+        try {
+          if (responseModel.isSuccess) {
+            UserListResponse response =
+                UserListResponse.fromJson(jsonDecode(responseModel.result!));
+            ImageUtils.preloadUserImages(response.info ?? []);
+            tempList.clear();
+            tempList.addAll(response.info ?? []);
+            usersList.value = tempList;
+            usersList.refresh();
+            isMainViewVisible.value = true;
+          } else {
+            AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+          }
+        } finally {
+          if (showLoading) {
+            isLoading.value = false;
+          }
+          if (!completer.isCompleted) {
+            completer.complete();
+          }
         }
-        isLoading.value = false;
       },
       onError: (ResponseModel error) {
-        isLoading.value = false;
-        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
-          isInternetNotAvailable.value = true;
-          // AppUtils.showSnackBarMessage('no_internet'.tr);
-          // Utils.showSnackBarMessage('no_internet'.tr);
-        } else if (error.statusMessage!.isNotEmpty) {
-          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+        try {
+          if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+            isInternetNotAvailable.value = true;
+            // AppUtils.showSnackBarMessage('no_internet'.tr);
+            // Utils.showSnackBarMessage('no_internet'.tr);
+          } else if (error.statusMessage!.isNotEmpty) {
+            AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+          }
+        } finally {
+          if (showLoading) {
+            isLoading.value = false;
+          }
+          if (!completer.isCompleted) {
+            completer.complete();
+          }
         }
       },
     );
+    return completer.future;
   }
 
   void preloadUserImages(List<UserInfo> list) {

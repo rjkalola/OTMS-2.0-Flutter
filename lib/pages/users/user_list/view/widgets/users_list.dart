@@ -17,8 +17,14 @@ class UsersList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() => Expanded(
-          child: ListView.separated(
-              physics: const ClampingScrollPhysics(),
+          child: RefreshIndicator(
+            onRefresh: () async {
+              await controller.getUserListApi(showLoading: false);
+            },
+            child: ListView.separated(
+              physics: const AlwaysScrollableScrollPhysics(
+                parent: ClampingScrollPhysics(),
+              ),
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
               itemBuilder: (context, position) {
@@ -95,6 +101,7 @@ class UsersList extends StatelessWidget {
               //   ),
               // ),
               separatorBuilder: (context, position) => Container()),
+          ),
         ));
   }
 }

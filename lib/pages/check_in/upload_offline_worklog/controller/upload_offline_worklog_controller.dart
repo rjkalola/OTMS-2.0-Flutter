@@ -1,6 +1,11 @@
 import 'dart:convert';
 
 import 'package:belcka/pages/check_in/clock_in/controller/clock_in_utils.dart';
+import 'package:belcka/pages/check_in/clock_in/model/work_log_info.dart';
+import 'package:belcka/pages/check_in/upload_offline_worklog/model/offline_worklog_conflict_item.dart';
+import 'package:belcka/pages/check_in/upload_offline_worklog/model/store_offline_work_response.dart';
+import 'package:belcka/utils/app_storage.dart';
+import 'package:belcka/pages/check_in/upload_offline_worklog/view/widgets/offline_worklog_conflict_bottom_sheet.dart';
 import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:belcka/pages/common/drop_down_list_dialog.dart';
 import 'package:belcka/pages/common/listener/select_item_listener.dart';
@@ -9,7 +14,6 @@ import 'package:belcka/pages/project/project_info/model/project_list_response.da
 import 'package:belcka/pages/project/project_list/controller/project_list_repository.dart';
 import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:belcka/routes/app_routes.dart';
-import 'package:belcka/utils/app_storage.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
@@ -217,24 +221,12 @@ class UploadOfflineWorklogController extends GetxController
       }).toList(),
     };
 
-    print("payload:" + payload.toString());
-
     isLoading.value = true;
     ApiRequest(url: ApiConstants.userStoreOfflineWork, data: payload)
         .postRequest(
       onSuccess: (data) {
         final responseModel = data as ResponseModel;
-        if (responseModel.isSuccess) {
-          final response =
-              BaseResponse.fromJson(jsonDecode(responseModel.result ?? "{}"));
-          AppUtils.showApiResponseMessage(response.Message ?? "");
-          Get.find<AppStorage>().removeData(
-            AppConstants.sharedPreferenceKey.worklogDataOffline,
-          );
-          Get.back(result: true);
-        } else {
-          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
-        }
+        _handleStoreOfflineWorkResponse(responseModel);
         isLoading.value = false;
       },
       onError: (error) {
@@ -248,6 +240,53 @@ class UploadOfflineWorklogController extends GetxController
         }
       },
     );
+  }
+
+  void _handleStoreOfflineWorkResponse(ResponseModel responseModel) {
+    if (!responseModel.isSuccess) {
+      AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+      return;
+    }
+
+    final response = StoreOfflineWorkResponse.fromJson(
+      jsonDecode(responseModel.result ?? "{}") as Map<String, dynamic>,
+    );
+    final message = response.message ?? "";
+
+    if (response.data == null) {
+      ClockInUtils.clearOfflineRecordsJson();
+      AppUtils.showApiResponseMessage(message);
+      Get.back(result: true);
+      return;
+    }
+
+    final conflictData = response.data!;
+    final hasConflictList = conflictData.conflicts?.isNotEmpty ?? false;
+    if (conflictData.hasConflicts == true || hasConflictList) {
+      if (!hasConflictList) {
+        AppUtils.showApiResponseMessage(message);
+        return;
+      }
+      final group = conflictData.conflicts!.first;
+      final items = group.sheetItems();
+      if (items.length < 2) {
+        AppUtils.showApiResponseMessage(message);
+        return;
+      }
+      final offlineStart = group.offlineWorklog?.startTime;
+      if (!StringHelper.isEmptyString(offlineStart)) {
+        ClockInUtils.retainOfflineWorklogsByStartTime(offlineStart!);
+      }
+      if (!StringHelper.isEmptyString(message)) {
+        AppUtils.showApiResponseMessage(message);
+      }
+      showWorklogConflictBottomSheet(group);
+      return;
+    }
+
+    ClockInUtils.clearOfflineRecordsJson();
+    AppUtils.showApiResponseMessage(message);
+    Get.back(result: true);
   }
 
   @override
@@ -275,5 +314,104 @@ class UploadOfflineWorklogController extends GetxController
 
   void onBackPress() {
     Get.offAllNamed(AppRoutes.dashboardScreen);
+  }
+
+  void showWorklogConflictBottomSheet(StoreOfflineWorkConflictGroup group) {
+    final items = group.sheetItems();
+    if (items.length < 2) return;
+    if (Get.context == null) return;
+    showOfflineWorklogConflictBottomSheet(
+      context: Get.context!,
+      items: items,
+      projectsList: projectsList,
+      onKeep: (index, item) {
+        Get.back();
+        keepOfflineWorklogApi(item, isOfflineEntry: index == 0);
+      },
+    );
+  }
+
+  Future<void> keepOfflineWorklogApi(
+    OfflineWorklogConflictItem item, {
+    required bool isOfflineEntry,
+  }) async {
+    final worklogEntry = _buildKeepWorklogEntry(item, isOfflineEntry: isOfflineEntry);
+
+    final payload = <String, dynamic>{
+      'user_id': UserUtils.getLoginUserId(),
+      'start_device_type': AppConstants.deviceType,
+      'start_device_model_type': await AppUtils.getDeviceName(),
+      'end_device_type': AppConstants.deviceType,
+      'end_device_model_type': await AppUtils.getDeviceName(),
+      'worklogs': [worklogEntry],
+    };
+
+    isLoading.value = true;
+    ApiRequest(url: ApiConstants.userKeepOfflineWork, data: payload).postRequest(
+      onSuccess: (data) {
+        final responseModel = data as ResponseModel;
+        if (responseModel.isSuccess) {
+          final response = BaseResponse.fromJson(
+            jsonDecode(responseModel.result ?? '{}') as Map<String, dynamic>,
+          );
+          AppUtils.showApiResponseMessage(
+            response.Message ?? responseModel.statusMessage ?? '',
+          );
+          ClockInUtils.clearOfflineRecordsJson();
+          Get.back(result: true);
+        } else {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? '');
+        }
+        isLoading.value = false;
+      },
+      onError: (error) {
+        isLoading.value = false;
+        final responseModel = error as ResponseModel;
+        if (responseModel.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        } else if (!StringHelper.isEmptyString(responseModel.statusMessage)) {
+          AppUtils.showApiResponseMessage(responseModel.statusMessage ?? '');
+        }
+      },
+    );
+  }
+
+  Map<String, dynamic> _buildKeepWorklogEntry(
+    OfflineWorklogConflictItem item, {
+    required bool isOfflineEntry,
+  }) {
+    var entry = item.toKeepWorklogJson();
+    if (!isOfflineEntry) return entry;
+
+    final local = _localOfflineLogMatching(item.startTime);
+    if (local == null) return entry;
+
+    final keptId = (entry['user_worklog_id'] as num?)?.toInt() ?? 0;
+    if (keptId == 0 && (local.id ?? 0) > 0) {
+      entry['user_worklog_id'] = local.id;
+    }
+    if (!entry.containsKey('work_end_time') &&
+        !StringHelper.isEmptyString(local.workEndTime)) {
+      entry['work_end_time'] = local.workEndTime;
+    }
+    if (!entry.containsKey('start_work_location') &&
+        local.startWorkLocation != null) {
+      entry['start_work_location'] = local.startWorkLocation!.toJson();
+    }
+    if (!entry.containsKey('stop_work_location') &&
+        local.stopWorkLocation != null) {
+      entry['stop_work_location'] = local.stopWorkLocation!.toJson();
+    }
+    return entry;
+  }
+
+  WorkLogInfo? _localOfflineLogMatching(String? startTime) {
+    if (StringHelper.isEmptyString(startTime)) return null;
+    final logs =
+        Get.find<AppStorage>().getWorklogDataOffline().workLogInfo ?? <WorkLogInfo>[];
+    for (final log in logs) {
+      if ((log.workStartTime ?? '') == startTime) return log;
+    }
+    return null;
   }
 }

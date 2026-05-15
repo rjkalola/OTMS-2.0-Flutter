@@ -56,7 +56,7 @@ class StoremanInternalOrderListItem extends StatelessWidget {
                 const SizedBox(height: 2),
                 PrimaryTextView(
                   text:
-                      "${'items_in_order'.tr}:  ${AppUtils.formatDecimalNumber(item.orderQty ?? 0)}",
+                      "${'items_in_order'.tr}:  ${AppUtils.formatDecimalNumber(item.qty ?? 0)}",
                   fontSize: 15,
                   fontWeight: FontWeight.w400,
                 ),
