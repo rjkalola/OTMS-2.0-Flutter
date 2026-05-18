@@ -372,11 +372,11 @@ class CreateTeamController extends GetxController
   // }
 
   void showSelectTeamMemberListDialog() {
-    List<UserInfo> filteredTeamUsers =
-        teamUserList.where((user) => user.id != supervisorId).toList();
+    // List<UserInfo> filteredTeamUsers =
+    //     teamUserList.where((user) => user.id != supervisorId).toList();
 
     List<UserInfo> teamMembersDialogList = UserUtils.getCheckedUserList(
-      getUserListCopied(filteredTeamUsers),
+      getUserListCopied(teamUserList),
       teamMembersList,
     );
 
@@ -431,8 +431,8 @@ class CreateTeamController extends GetxController
       supervisorController.value.text = name;
       supervisorId = id;
 
-      teamMembersList.removeWhere((user) => user.id == supervisorId);
-      teamMembersList.refresh();
+      // teamMembersList.removeWhere((user) => user.id == supervisorId);
+      // teamMembersList.refresh();
     }
   }
 

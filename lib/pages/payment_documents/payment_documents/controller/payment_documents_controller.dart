@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:belcka/pages/common/listener/menu_item_listener.dart';
 import 'package:belcka/pages/common/menu_items_list_bottom_dialog.dart';
+import 'package:belcka/pages/common/widgets/download_result_bottom_sheet.dart';
 import 'package:belcka/pages/manageattachment/listener/download_file_listener.dart';
 import 'package:belcka/pages/payment_documents/add_invoice/model/invoice_date_info.dart';
 import 'package:belcka/pages/payment_documents/add_payslip/model/payslip_date_info.dart';
@@ -24,6 +25,7 @@ import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../manageattachment/controller/download_controller.dart';
@@ -561,9 +563,22 @@ class PaymentDocumentsController extends GetxController
 
   @override
   void afterDownload({required String filaPath, required String action}) {
-    AppUtils.showToastMessage('file_downloaded'.tr);
     resetSelectedItems();
-    print("filaPath:::::" + filaPath);
+    _showDownloadResultBottomSheet(filaPath);
+  }
+
+  void _showDownloadResultBottomSheet(String filePath) {
+    Get.bottomSheet(
+      DownloadResultBottomSheet(
+        filePath: filePath,
+        showViewPrompt: false,
+        primaryButtonText: 'ok'.tr,
+        onClose: () => Get.back(),
+        onViewFile: () => Get.back(),
+      ),
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+    );
   }
 
   @override

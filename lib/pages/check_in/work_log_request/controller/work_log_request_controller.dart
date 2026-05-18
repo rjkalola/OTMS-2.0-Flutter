@@ -62,7 +62,10 @@ class WorkLogRequestController extends GetxController
           arguments[AppConstants.intentKey.fromNotification] ?? false;
       // setInitialTime();
     }
-    getWorkLogRequestDetails();
+    if(requestLogId != 0){
+      getWorkLogRequestDetails();
+    }
+
     // locationRequest();
     // appLifeCycle();
     LocationInfo? locationInfo = Get.find<AppStorage>().getLastLocation();

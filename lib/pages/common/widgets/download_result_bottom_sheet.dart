@@ -10,11 +10,15 @@ class DownloadResultBottomSheet extends StatelessWidget {
     required this.onViewFile,
     required this.onClose,
     required this.filePath,
+    this.showViewPrompt = true,
+    this.primaryButtonText,
   });
 
   final VoidCallback onViewFile;
   final VoidCallback onClose;
   final String filePath;
+  final bool showViewPrompt;
+  final String? primaryButtonText;
 
   @override
   Widget build(BuildContext context) {
@@ -71,18 +75,20 @@ class DownloadResultBottomSheet extends StatelessWidget {
                     style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 22, 20, 12),
-                  child: TitleTextView(
-                    text: 'view_downloaded_file'.tr,
-                    textAlign: TextAlign.center,
-                    fontSize: 16,
+                if (showViewPrompt)
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 22, 20, 12),
+                    child: TitleTextView(
+                      text: 'view_downloaded_file'.tr,
+                      textAlign: TextAlign.center,
+                      fontSize: 16,
+                    ),
                   ),
-                ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
+                  padding: EdgeInsets.fromLTRB(
+                      16, showViewPrompt ? 8 : 22, 16, 12),
                   child: PrimaryButton(
-                    buttonText: 'view_file'.tr,
+                    buttonText: primaryButtonText ?? 'view_file'.tr,
                     fontWeight: FontWeight.w400,
                     fontSize: 16,
                     onPressed: onViewFile,

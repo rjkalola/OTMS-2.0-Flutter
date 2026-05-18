@@ -15,10 +15,10 @@ class DownloadController extends GetxController {
       isDownloading.value = true;
       progress.value = 0;
 
-      final savePath = await resolveDownloadSavePath(fileName);
+      final stagingPath = await resolveDownloadStagingPath(fileName);
       await Dio().download(
         url,
-        savePath,
+        stagingPath,
         onReceiveProgress: (received, total) {
           if (total != -1) {
             progress.value = ((received / total) * 100).toInt();
@@ -28,6 +28,10 @@ class DownloadController extends GetxController {
             print("progress.value:" + progress.value.toString());
           }
         },
+      );
+      final savePath = await finalizeDownloadSave(
+        stagingPath: stagingPath,
+        fileName: fileName,
       );
       isDownloading.value = false;
       if (listener != null) {

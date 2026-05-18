@@ -31,10 +31,6 @@ class GenerateReportRepository {
     return GenerateReportModulesResponse.fromJson(map);
   }
 
-  Future<String> resolveDownloadPath(String fileName) {
-    return resolveDownloadSavePath(fileName);
-  }
-
   Future<String> downloadExportReport({
     required String startDate,
     required String endDate,
@@ -46,10 +42,10 @@ class GenerateReportRepository {
     final dio = Dio();
     dio.options.connectTimeout = const Duration(minutes: 3);
     dio.options.receiveTimeout = const Duration(minutes: 3);
-    final savePath = await resolveDownloadPath(fileName);
+    final stagingPath = await resolveDownloadStagingPath(fileName);
     await dio.download(
       ApiConstants.exportReports,
-      savePath,
+      stagingPath,
       queryParameters: {
         'company_id': ApiConstants.companyId.toString(),
         'start_date': startDate,
@@ -64,6 +60,9 @@ class GenerateReportRepository {
         }
       },
     );
-    return savePath;
+    return finalizeDownloadSave(
+      stagingPath: stagingPath,
+      fileName: fileName,
+    );
   }
 }

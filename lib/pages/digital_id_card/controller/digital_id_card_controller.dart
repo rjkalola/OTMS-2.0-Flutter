@@ -99,6 +99,7 @@ class DigitalIdCardController extends GetxController
 
   @override
   void afterDownload({required String filaPath, required String action}) {
+    print("filaPath:::::" + filaPath);
     _showViewDocumentDialog(filaPath);
   }
 

@@ -221,6 +221,10 @@ class UploadOfflineWorklogController extends GetxController
       }).toList(),
     };
 
+    print("----");
+    StringHelper.printLongString(payload.toString());
+    print("----");
+
     isLoading.value = true;
     ApiRequest(url: ApiConstants.userStoreOfflineWork, data: payload)
         .postRequest(

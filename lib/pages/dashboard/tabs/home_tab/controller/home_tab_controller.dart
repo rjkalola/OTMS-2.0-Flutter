@@ -74,19 +74,19 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
   Future<void> onInit() async {
     super.onInit();
 
-    // bool isInternet = await AppUtils.interNetCheck();
-    // if (isInternet) {
-    //   if (ClockInUtils.hasOfflineRecordsForUpload()) {
-    //     showUploadOfflineDataDialog();
-    //   } else {
-    userInfo.value = Get.find<AppStorage>().getUserInfo();
-    if ((userInfo.value.id ?? 0) != 0) {
-      setInitialData();
+    bool isInternet = await AppUtils.interNetCheck();
+    if (isInternet) {
+      if (ClockInUtils.hasOfflineRecordsForUpload()) {
+        showUploadOfflineDataDialog();
+      } else {
+        userInfo.value = Get.find<AppStorage>().getUserInfo();
+        if ((userInfo.value.id ?? 0) != 0) {
+          setInitialData();
+        }
+      }
+    } else {
+      Get.toNamed(AppRoutes.clockInOfflineScreen);
     }
-    // }
-    // } else {
-    //   Get.toNamed(AppRoutes.clockInOfflineScreen);
-    // }
 
     // WidgetsBinding.instance.addObserver(this);
     // appLifeCycle();
@@ -813,10 +813,10 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
     var result = await Get.toNamed(appRout, arguments: arguments);
 
     bool isInternet = await AppUtils.interNetCheck();
-    // if (isInternet) {
-    //   if (ClockInUtils.hasOfflineRecordsForUpload()) {
-    //     showUploadOfflineDataDialog();
-    //   } else {
+    if (isInternet) {
+      if (ClockInUtils.hasOfflineRecordsForUpload()) {
+        showUploadOfflineDataDialog();
+      } else {
         if (ApiConstants.companyId != 0) {
           WorkLogListResponse response =
               Get.find<AppStorage>().getWorklogData();
@@ -844,10 +844,10 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
                 arguments: arguments);
           }
         }
-      // }
-    // } else {
-    //   Get.toNamed(AppRoutes.clockInOfflineScreen);
-    // }
+      }
+    } else {
+      Get.toNamed(AppRoutes.clockInOfflineScreen);
+    }
   }
 
   Future<void> moveToScreen2(
@@ -855,16 +855,16 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
     var result = await Get.toNamed(appRout, arguments: arguments);
     // getNotificationCountApi(isProgress: false);
 
-    // bool isInternet = await AppUtils.interNetCheck();
-    // if (isInternet) {
-    //   if (ClockInUtils.hasOfflineRecordsForUpload()) {
-    //     showUploadOfflineDataDialog();
-    //   } else {
+    bool isInternet = await AppUtils.interNetCheck();
+    if (isInternet) {
+      if (ClockInUtils.hasOfflineRecordsForUpload()) {
+        showUploadOfflineDataDialog();
+      } else {
         getUserProfileAPI();
-    //   }
-    // } else {
-    //   Get.toNamed(AppRoutes.clockInOfflineScreen);
-    // }
+      }
+    } else {
+      Get.toNamed(AppRoutes.clockInOfflineScreen);
+    }
   }
 
   void pullToRefreshData() {
