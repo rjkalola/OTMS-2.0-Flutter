@@ -353,8 +353,10 @@ class ClockInOfflineController extends GetxController {
 
   /// Treat null [isCheckIn] as true so offline start is available if the flag
   /// was lost in storage round-trip.
+  // bool get showStartButton =>
+  //     !showStopButton && (workLogData.isCheckIn != false);
   bool get showStartButton =>
-      !showStopButton && (workLogData.isCheckIn != false);
+      !showStopButton ;
 
   void startTimer() {
     stopTimer();
