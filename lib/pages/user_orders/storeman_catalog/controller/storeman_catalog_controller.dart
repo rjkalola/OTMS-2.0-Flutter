@@ -104,8 +104,7 @@ class StoremanCatalogController extends GetxController {
     });
 
     Get.put(ProjectService());
-
-    isGridView.value = GetStorage().read('isGridView') ?? false;
+    //isGridView.value = GetStorage().read('isGridView') ?? false;
   }
 
   void selectCategory(int selectedID) {

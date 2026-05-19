@@ -4,6 +4,8 @@ import 'package:belcka/pages/project/project_list/view/widgets/project_list_head
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/res/drawable.dart';
 import 'package:belcka/res/theme/theme_controller.dart';
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/utils/user_utils.dart';
@@ -97,6 +99,22 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
       //     style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
       //   ),
       // ),
+      Visibility(
+        visible: false,
+        child: InkWell(
+          onTap: () {
+            controller.moveToScreen(AppRoutes.projectAnalyticsScreen,[]);
+          },
+          child: Padding(
+            padding: EdgeInsets.all(6),
+            child: ImageUtils.setSvgAssetsImage(
+                path: Drawable.chartPieBarIcon,
+                width: 20,
+                height: 20,
+            color: primaryTextColor_(context)),
+          ),
+        ),
+      ),
       SizedBox(
         width: 6,
       ),
