@@ -9,6 +9,7 @@ class ProductQuantityWidget extends StatefulWidget {
   final VoidCallback? onIncrease;
   final VoidCallback? onDecrease;
   final FocusNode? focusNode;
+  final bool hideMinus;
 
   const ProductQuantityWidget({
     super.key,
@@ -19,6 +20,7 @@ class ProductQuantityWidget extends StatefulWidget {
     this.onIncrease,
     this.onDecrease,
     this.focusNode,
+    this.hideMinus = false
   });
 
   @override
@@ -69,6 +71,7 @@ class _ProductQuantityWidgetState extends State<ProductQuantityWidget> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        if (!widget.hideMinus)
         InkWell(
           onTap: widget.onDecrease,
           child: Container(

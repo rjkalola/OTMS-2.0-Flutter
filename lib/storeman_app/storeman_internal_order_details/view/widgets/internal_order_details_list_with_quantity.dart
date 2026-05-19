@@ -93,7 +93,6 @@ class _InternalOrderDetailsListWithQuantityState extends State<InternalOrderDeta
                           ),
                         ),
                         const SizedBox(width: 12),
-
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -115,18 +114,22 @@ class _InternalOrderDetailsListWithQuantityState extends State<InternalOrderDeta
                                 fontSize: 15,
                                 fontWeight: FontWeight.w600,
                               ),
+
+                              /*
                               const SizedBox(height: 4),
                               TitleTextView(
                                 text: "${'total'.tr}: ${orders[index].currency ?? "£"}"
-                                    "${(orders[index].product?.totalAmount ?? "0.00")}",
+                                    "${(orders[index].price ?? "0.00")}",
                                 fontSize: 15,
                                 fontWeight: FontWeight.w600,
                               ),
+                              */
                               const SizedBox(height: 8),
                               if (!isItemDelivered)
                               ProductQuantityWidget(
                                 focusNode: controller.qtyFocusNodes[index],
-                                isSubQuantity: isSubQuantity,
+                                hideMinus: true,
+                                isSubQuantity: false,
                                 quantity: remainingQty.toInt(),
                                 unit: packOfUnit,
                                 onChanged: (value) {
@@ -151,7 +154,7 @@ class _InternalOrderDetailsListWithQuantityState extends State<InternalOrderDeta
                                 },
                                 onDecrease: () {
                                   setState(() {
-                                    controller.decreaseQty(index);
+                                    //controller.decreaseQty(index);
                                   });
                                 },
                               ),

@@ -208,5 +208,7 @@ class AppRoutes {
   static const String inductionTrainingListScreen =
       '/induction_training_list_screen';
   static const String storeSettingsScreen = '/store_settings_screen';
+
+  static const String projectAnalyticsScreen = '/project_analytics_screen';
 }
 

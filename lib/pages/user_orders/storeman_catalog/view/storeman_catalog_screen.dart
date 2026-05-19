@@ -163,7 +163,7 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
           ),
         ),
       ),
-
+    /*
       InkWell(
         onTap: () {
           controller.isGridView.value = !controller.isGridView.value;
@@ -181,6 +181,7 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
           ),
         ),
       ),
+      */
       SizedBox(width: 4,),
       //Favorites
       InkWell(

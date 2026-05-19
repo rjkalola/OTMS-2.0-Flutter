@@ -39,7 +39,7 @@ class AddToCartInfo {
   int? companyId;
   int? productId;
   int? userId;
-  int? qty;
+  double? qty;
   int? subQty;
   double? price;
   double? subTotal;
@@ -68,7 +68,7 @@ class AddToCartInfo {
     companyId = json['company_id'];
     productId = json['product_id'];
     userId = json['user_id'];
-    qty = json['qty'];
+    qty = (json['qty'] as num?)?.toDouble();
     subQty = json['sub_qty'];
     price = json['price'] != null ? (json['price'] as num).toDouble() : null;
     subTotal =
