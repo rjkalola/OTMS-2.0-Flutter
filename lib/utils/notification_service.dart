@@ -13,7 +13,7 @@ import 'app_constants.dart';
 
 class NotificationService {
   static final FlutterLocalNotificationsPlugin _localNotifications =
-      FlutterLocalNotificationsPlugin();
+  FlutterLocalNotificationsPlugin();
 
   static Future<void> init() async {
     final granted = await _requestPermissions();
@@ -143,11 +143,11 @@ class NotificationService {
 
       final requestType = data['request_type'] ?? "0";
       int requestTypeInt =
-          !StringHelper.isEmptyString(requestType) ? int.parse(requestType) : 0;
+      !StringHelper.isEmptyString(requestType) ? int.parse(requestType) : 0;
       final userId = data['user_id'] ?? "0";
 
       int userIdInt =
-          !StringHelper.isEmptyString(userId) ? int.parse(userId) : 0;
+      !StringHelper.isEmptyString(userId) ? int.parse(userId) : 0;
 
       final requestedByUserId = data['requested_by'] ?? "0";
       int requestedByUserIdInt = !StringHelper.isEmptyString(requestedByUserId)
@@ -158,7 +158,7 @@ class NotificationService {
 
       //Team
       if (notificationType ==
-              AppConstants.notificationType.USER_ADDED_TO_TEAM ||
+          AppConstants.notificationType.USER_ADDED_TO_TEAM ||
           notificationType ==
               AppConstants.notificationType.USER_REMOVED_FROM_TEAM) {
         final teamId = data['team_id'] ?? "0";
@@ -167,12 +167,12 @@ class NotificationService {
         String rout = AppRoutes.teamDetailsScreen;
         var arguments = {
           AppConstants.intentKey.teamId:
-              !StringHelper.isEmptyString(teamId) ? int.parse(teamId) : 0,
+          !StringHelper.isEmptyString(teamId) ? int.parse(teamId) : 0,
           AppConstants.intentKey.fromNotification: true,
         };
         Get.offAllNamed(rout, arguments: arguments);
       } else if (notificationType ==
-              AppConstants.notificationType.TIMESHEET_APPROVE ||
+          AppConstants.notificationType.TIMESHEET_APPROVE ||
           notificationType ==
               AppConstants.notificationType.TIMESHEET_UNAPPROVE ||
           notificationType ==
@@ -198,14 +198,14 @@ class NotificationService {
         String rout = AppRoutes.stopShiftScreen;
         var arguments = {
           AppConstants.intentKey.workLogId:
-              !StringHelper.isEmptyString(workLogId) ? int.parse(workLogId) : 0,
+          !StringHelper.isEmptyString(workLogId) ? int.parse(workLogId) : 0,
           AppConstants.intentKey.userId:
-              !StringHelper.isEmptyString(userId) ? int.parse(userId) : 0,
+          !StringHelper.isEmptyString(userId) ? int.parse(userId) : 0,
           AppConstants.intentKey.fromNotification: true,
         };
         Get.offAllNamed(rout, arguments: arguments);
       } else if (notificationType ==
-              AppConstants.notificationType.TIMESHEET_EDIT ||
+          AppConstants.notificationType.TIMESHEET_EDIT ||
           notificationType == AppConstants.notificationType.WORKLOG_ADD) {
         final requestLogId = data['request_log_id'] ?? "0";
         final userId = data['user_id'] ?? "0";
@@ -217,7 +217,7 @@ class NotificationService {
               ? int.parse(requestLogId)
               : 0,
           AppConstants.intentKey.userId:
-              !StringHelper.isEmptyString(userId) ? int.parse(userId) : 0,
+          !StringHelper.isEmptyString(userId) ? int.parse(userId) : 0,
           AppConstants.intentKey.fromNotification: true,
         };
         Get.offAllNamed(rout, arguments: arguments);
@@ -228,7 +228,7 @@ class NotificationService {
         String rout = AppRoutes.projectDetailsScreen;
         var arguments = {
           AppConstants.intentKey.projectId:
-              !StringHelper.isEmptyString(projectId) ? int.parse(projectId) : 0,
+          !StringHelper.isEmptyString(projectId) ? int.parse(projectId) : 0,
           AppConstants.intentKey.fromNotification: true,
         };
         Get.offAllNamed(rout, arguments: arguments);
@@ -245,7 +245,7 @@ class NotificationService {
         if (!StringHelper.isEmptyString(leaveId)) {
           var arguments = {
             AppConstants.intentKey.leaveId:
-                !StringHelper.isEmptyString(leaveId) ? int.parse(leaveId) : 0,
+            !StringHelper.isEmptyString(leaveId) ? int.parse(leaveId) : 0,
             AppConstants.intentKey.fromNotification: true,
           };
           Get.offAllNamed(AppRoutes.leaveDetailsScreen, arguments: arguments);
@@ -259,7 +259,7 @@ class NotificationService {
         if (!StringHelper.isEmptyString(recordId)) {
           var arguments = {
             AppConstants.intentKey.expenseId:
-                !StringHelper.isEmptyString(recordId) ? int.parse(recordId) : 0,
+            !StringHelper.isEmptyString(recordId) ? int.parse(recordId) : 0,
             AppConstants.intentKey.fromNotification: true,
           };
           Get.offAllNamed(AppRoutes.addExpenseScreen, arguments: arguments);
@@ -269,7 +269,7 @@ class NotificationService {
       }
       //Billing
       else if (notificationType ==
-              AppConstants.notificationType.CREATE_BILLING_INFO ||
+          AppConstants.notificationType.CREATE_BILLING_INFO ||
           notificationType ==
               AppConstants.notificationType.UPDATE_BILLING_INFO) {
         String rout = AppRoutes.billingRequestScreen;
@@ -282,7 +282,7 @@ class NotificationService {
         };
         Get.offAllNamed(rout, arguments: arguments);
       } else if (notificationType ==
-              AppConstants.notificationType.REJECT_REQUEST ||
+          AppConstants.notificationType.REJECT_REQUEST ||
           notificationType == AppConstants.notificationType.APPROVE_REQUEST) {
         if (requestedByUserIdInt == UserUtils.getLoginUserId()) {
           String rout = AppRoutes.billingDetailsNewScreen;
@@ -338,13 +338,13 @@ class NotificationService {
         Get.offAllNamed(rout, arguments: arguments);
       } //Penalty
       else if (notificationType ==
-              AppConstants.notificationType.penaltyAppeal ||
+          AppConstants.notificationType.penaltyAppeal ||
           notificationType == AppConstants.notificationType.penaltyApprove ||
           notificationType == AppConstants.notificationType.penaltyReject) {
         String rout = AppRoutes.penaltyDetailsScreen;
         final recordId = data['record_id'] ?? "0";
         int id =
-            !StringHelper.isEmptyString(recordId) ? int.parse(recordId) : 0;
+        !StringHelper.isEmptyString(recordId) ? int.parse(recordId) : 0;
         print("recordId is:" + id.toString());
         if (id != 0) {
           var arguments = {
@@ -364,6 +364,31 @@ class NotificationService {
           // AppConstants.intentKey.projectId: info.projectId ?? 0,
           AppConstants.intentKey.fromNotification: true,
           AppConstants.intentKey.hireRequestShowApprove: UserUtils.isAdmin()
+        };
+        Get.offAllNamed(rout, arguments: arguments);
+      }
+
+      //Employee orders
+      else if (notificationType ==
+          AppConstants.notificationType.employeeOrderCreate ||
+          notificationType ==
+              AppConstants.notificationType.employeeOrderStatusChange) {
+        String rout = AppRoutes.storemanInternalOrderDetailsScreen;
+        var arguments = {
+          "order_id": data['record_id'] ?? "0",
+          AppConstants.intentKey.fromNotification: true,
+        };
+        Get.offAllNamed(rout, arguments: arguments);
+      }
+
+      //Purchase orders
+      else if (notificationType ==
+          AppConstants.notificationType.purchaseOrder) {
+        String rout = AppRoutes.storemanOrderDetailsScreen;
+        int recordId = int.parse(data['record_id'] ?? "0");
+        var arguments = {
+          AppConstants.intentKey.orderId: recordId,
+          AppConstants.intentKey.fromNotification: true,
         };
         Get.offAllNamed(rout, arguments: arguments);
       } else {

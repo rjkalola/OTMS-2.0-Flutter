@@ -46,7 +46,7 @@ class FeedTabController extends GetxController {
         if (responseModel.isSuccess) {
           isMainViewVisible.value = true;
           FeedListResponse response =
-              FeedListResponse.fromJson(jsonDecode(responseModel.result!));
+          FeedListResponse.fromJson(jsonDecode(responseModel.result!));
           preloadUserImages(response.info ?? []);
           tempList.clear();
           tempList.addAll(response.info ?? []);
@@ -106,7 +106,7 @@ class FeedTabController extends GetxController {
       String notificationType = (info.feedType ?? 0).toString();
       //Team
       if (notificationType ==
-              AppConstants.notificationType.USER_ADDED_TO_TEAM ||
+          AppConstants.notificationType.USER_ADDED_TO_TEAM ||
           notificationType ==
               AppConstants.notificationType.USER_REMOVED_FROM_TEAM) {
         if ((info.teamId ?? 0) != 0) {
@@ -117,7 +117,7 @@ class FeedTabController extends GetxController {
           moveToScreen(rout, arguments: arguments, index: index);
         }
       } else if (notificationType ==
-              AppConstants.notificationType.TIMESHEET_APPROVE ||
+          AppConstants.notificationType.TIMESHEET_APPROVE ||
           notificationType ==
               AppConstants.notificationType.TIMESHEET_UNAPPROVE ||
           notificationType ==
@@ -145,7 +145,7 @@ class FeedTabController extends GetxController {
           moveToScreen(rout, arguments: arguments, index: index);
         }
       } else if (notificationType ==
-              AppConstants.notificationType.TIMESHEET_EDIT ||
+          AppConstants.notificationType.TIMESHEET_EDIT ||
           notificationType == AppConstants.notificationType.WORKLOG_ADD) {
         if ((info.requestLogId ?? 0) != 0) {
           String rout = AppRoutes.workLogRequestScreen;
@@ -170,7 +170,7 @@ class FeedTabController extends GetxController {
       }
       //Billing
       else if (notificationType ==
-              AppConstants.notificationType.CREATE_BILLING_INFO ||
+          AppConstants.notificationType.CREATE_BILLING_INFO ||
           notificationType ==
               AppConstants.notificationType.UPDATE_BILLING_INFO) {
         if ((info.requestLogId ?? 0) != 0) {
@@ -181,7 +181,7 @@ class FeedTabController extends GetxController {
           moveToScreen(rout, arguments: arguments, index: index);
         }
       } else if (notificationType ==
-              AppConstants.notificationType.REJECT_REQUEST ||
+          AppConstants.notificationType.REJECT_REQUEST ||
           notificationType == AppConstants.notificationType.APPROVE_REQUEST) {
         if (info.userId == UserUtils.getLoginUserId()) {
           String rout = AppRoutes.billingDetailsNewScreen;
@@ -251,7 +251,7 @@ class FeedTabController extends GetxController {
       }
       //Penalty
       else if (notificationType ==
-              AppConstants.notificationType.penaltyAppeal ||
+          AppConstants.notificationType.penaltyAppeal ||
           notificationType == AppConstants.notificationType.penaltyApprove ||
           notificationType == AppConstants.notificationType.penaltyReject) {
         if ((info.recordId ?? 0) != 0) {
@@ -271,6 +271,22 @@ class FeedTabController extends GetxController {
             AppConstants.intentKey.hireRequestShowApprove: UserUtils.isAdmin()
           };
           moveToScreen(AppRoutes.userHireOrderDetailsScreen,
+              arguments: arguments, index: index);
+        }
+      } else if (notificationType ==
+          AppConstants.notificationType.employeeOrderCreate ||
+          notificationType ==
+              AppConstants.notificationType.employeeOrderStatusChange) {
+        var arguments = {"order_id": "${info.recordId ?? 0}"};
+        moveToScreen(AppRoutes.storemanInternalOrderDetailsScreen,
+            arguments: arguments, index: index);
+      } else if (notificationType ==
+          AppConstants.notificationType.purchaseOrder) {
+        if ((info.recordId ?? 0) != 0) {
+          var arguments = {
+            AppConstants.intentKey.orderId: info.recordId ?? 0,
+          };
+          moveToScreen(AppRoutes.storemanOrderDetailsScreen,
               arguments: arguments, index: index);
         }
       }

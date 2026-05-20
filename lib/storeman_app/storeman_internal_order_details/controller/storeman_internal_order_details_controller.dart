@@ -4,6 +4,7 @@ import 'package:belcka/pages/common/model/file_info.dart';
 import 'package:belcka/pages/user_orders/order_details/model/order_details_info.dart';
 import 'package:belcka/pages/user_orders/order_details/model/order_details_orders_info.dart';
 import 'package:belcka/pages/user_orders/order_details/model/order_details_response.dart';
+import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/storeman_app/storeman_internal_order_details/controller/storeman_internal_order_details_repository.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
@@ -37,7 +38,7 @@ class StoremanInternalOrderDetailsController extends GetxController {
   final ImagePicker _picker = ImagePicker();
   final orderInfo = OrderDetailsInfo().obs;
   RxBool isExpanded = false.obs;
-
+  bool fromNotification = false;
   void initFocusNodes(int length) {
     qtyFocusNodes = List.generate(length, (index) => FocusNode());
   }
@@ -57,6 +58,7 @@ class StoremanInternalOrderDetailsController extends GetxController {
     if (arguments != null) {
       orderId = arguments["order_id"] ?? "";
       canShowActionButtons = arguments["canShowActionButtons"] ?? false;
+      fromNotification = arguments[AppConstants.intentKey.fromNotification] ?? false;
     }
     fetchOrderDetails();
   }
@@ -85,6 +87,7 @@ class StoremanInternalOrderDetailsController extends GetxController {
             status.value = orderDetails[0].status ?? 0;
             initFocusNodes(orderDetails[0].orders?.length ?? 0);
             isMainViewVisible.value = true;
+            //initializeOrders(orderDetails[0].orders ?? []);
           }
 
           isLoading.value = false;
@@ -104,79 +107,31 @@ class StoremanInternalOrderDetailsController extends GetxController {
     );
   }
 
+  void initializeOrders(List<OrderDetailsOrdersInfo> fetchedOrders) {
+    orderDetails[0].orders = fetchedOrders.map((order) {
+      final isItemDelivered = (order.status == AppConstants.internalOrderStatus.delivered);
+      order.isSelected = !isItemDelivered;
+      return order;
+    }).toList();
+    orderDetails.refresh();
+  }
+
   void onBackPress() {
-    if (isDataUpdated) {
-      var arguments = {
-        AppConstants.intentKey.status: currentChangedStatus,
-      };
-      Get.back(result: arguments);
-    } else {
-      Get.back();
+    if (fromNotification) {
+      Get.offNamed(AppRoutes.dashboardScreen);
     }
-    // Get.back(result: isDataUpdated);
-  }
-
-  /*
-  void updateOrderStatus(int status, String note){
-    Map<String, dynamic> map = {};
-    map["company_id"] = ApiConstants.companyId;
-    map["id"] = orderId;
-    map["status"] = status;
-    if (status == 7){
-      map["note"] = note;
-    }
-    else if (status == 6) {
-
-      final allOrders = orderDetails[0].orders ?? [];
-      final selectedItems = allOrders.where((item) => item.isSelected).toList();
-
-      bool missingRequiredNotes = selectedItems.any((item) =>
-      (item.isQuantityChanged ?? false) && (item.note == null || item.note!.trim().isEmpty)
-      );
-
-      if (missingRequiredNotes) {
-        AppUtils.showToastMessage("Please add a note for items with changed quantities.".tr);
-        return;
+    else{
+      if (isDataUpdated) {
+        var arguments = {
+          AppConstants.intentKey.status: currentChangedStatus,
+        };
+        Get.back(result: arguments);
       }
-
-      List<Map<String, dynamic>> productList = [];
-      for (var item in selectedItems) {
-        productList.add({
-          "id": item.productId,
-          "qty": item.remainingQty,
-          "note": item.note,
-          "images":item.attachments
-        });
+      else{
+        Get.back();
       }
-      map["product_data"] = productList;
-      print("JSON Payload: $map");
     }
-
-    isLoading.value = true;
-    _api.updateOrderStatusAPI(
-      data: map,
-      onSuccess: (ResponseModel responseModel) {
-        if (responseModel.isSuccess) {
-          isDataUpdated = true;
-          fetchOrderDetails();
-        }
-        else{
-          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
-        }
-        isLoading.value = false;
-      },
-      onError: (ResponseModel error) {
-        isLoading.value = false;
-        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
-          isInternetNotAvailable.value = true;
-        } else if (error.statusMessage!.isNotEmpty) {
-          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
-        }
-      },
-    );
-
   }
-  */
 
   void updateOrderStatus(int status, String note) async {
     Map<String, dynamic> map = {};

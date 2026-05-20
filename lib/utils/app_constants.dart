@@ -15,17 +15,18 @@ class AppConstants {
   static const OrderStatus orderStatus = OrderStatus();
   static const HireStatus hireStatus = HireStatus();
   static const InternalOrdersStatusType internalOrderStatus =
-      InternalOrdersStatusType();
+  InternalOrdersStatusType();
   static const ProductStockStatus productStockStatus = ProductStockStatus();
 
   static const CompanyResourcesFlag companyResourcesFlag =
-      CompanyResourcesFlag();
+  CompanyResourcesFlag();
   static const NotificationType notificationType = NotificationType();
   static const RequestType requestType = RequestType();
   static const FilterType filterType = FilterType();
   static const ZoneType zoneType = ZoneType();
 
-  static String deviceType = Platform.isAndroid ? "1" : "2";
+  // static String deviceType = Platform.isAndroid ? "1" : "2";
+  static int deviceType = Platform.isAndroid ? 1 : 2;
   static const int productListLimit = 20;
   static const int defaultPhoneExtensionId = 1;
   static const String defaultPhoneExtension = "+44";
@@ -569,6 +570,14 @@ class NotificationType {
 
   //Hire Order Status
   final String hireOrderStatus = "23001";
+
+  //Purchase Order Status
+  final String purchaseOrder = "24001";
+
+  //Employee orders
+  final String employeeOrderCreate = "20001";
+  final String employeeOrderStatusChange = "20002";
+
 }
 
 class RequestType {
