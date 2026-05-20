@@ -15,11 +15,11 @@ class AppConstants {
   static const OrderStatus orderStatus = OrderStatus();
   static const HireStatus hireStatus = HireStatus();
   static const InternalOrdersStatusType internalOrderStatus =
-      InternalOrdersStatusType();
+  InternalOrdersStatusType();
   static const ProductStockStatus productStockStatus = ProductStockStatus();
 
   static const CompanyResourcesFlag companyResourcesFlag =
-      CompanyResourcesFlag();
+  CompanyResourcesFlag();
   static const NotificationType notificationType = NotificationType();
   static const RequestType requestType = RequestType();
   static const FilterType filterType = FilterType();

@@ -12,6 +12,8 @@ import 'package:belcka/web_services/response/response_model.dart';
 import 'package:dio/dio.dart' as multi;
 import 'package:get/get.dart';
 
+import '../../../../utils/app_constants.dart';
+
 class OrderDetailsController extends GetxController{
   RxBool isDeliverySelected = true.obs;
   final _api = OrderDetailsRepository();
@@ -28,6 +30,7 @@ class OrderDetailsController extends GetxController{
   bool canShowActionButtons = false;
   final orderInfo = OrderDetailsInfo().obs;
   RxBool isExpanded = true.obs;
+  bool fromNotification = false;
 
   @override
   void onInit() {
@@ -36,6 +39,7 @@ class OrderDetailsController extends GetxController{
     if (arguments != null) {
       orderId = arguments["order_id"] ?? "";
       canShowActionButtons = arguments["canShowActionButtons"] ?? false;
+      fromNotification = arguments[AppConstants.intentKey.fromNotification] ?? false;
     }
     fetchOrderDetails();
   }
@@ -82,7 +86,12 @@ class OrderDetailsController extends GetxController{
   }
 
   void onBackPress() {
-    Get.back(result: isDataUpdated);
+    if (fromNotification) {
+      Get.offNamed(AppRoutes.dashboardScreen);
+    }
+    else{
+      Get.back();
+    }
   }
 
   void updateOrderStatus(int status, String note){
