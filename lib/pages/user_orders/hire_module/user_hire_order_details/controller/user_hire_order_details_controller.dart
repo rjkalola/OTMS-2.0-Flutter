@@ -265,10 +265,15 @@ class UserHireOrderDetailsController extends GetxController
             }
           }
           AppUtils.showApiResponseMessage(message);
-          Get.back(result: {
-            AppConstants.intentKey.status: statusForTab,
-            AppConstants.intentKey.result: true,
-          });
+          if (fromNotification) {
+            Get.offNamed(AppRoutes.dashboardScreen);
+          } else {
+            Get.back(result: {
+              AppConstants.intentKey.status: statusForTab,
+              AppConstants.intentKey.result: true,
+            });
+          }
+
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? '');
         }

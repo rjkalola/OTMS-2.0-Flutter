@@ -4,6 +4,7 @@ import 'package:belcka/storeman_app/storeman_supplier_orders/controller/storeman
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/widgets/PrimaryButton.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/widgets/other_widgets/user_avtar_view.dart';
 import 'package:belcka/widgets/text/PrimaryTextView.dart';
 import 'package:belcka/widgets/text/TextViewWithContainer.dart';
 import 'package:flutter/material.dart';
@@ -63,6 +64,55 @@ class StoremanSupplierOrderListItem extends StatelessWidget {
                         fontSize: 15,
                         fontWeight: FontWeight.w400,
                       ),
+                      if (!StringHelper.isEmptyString(
+                          item.approveByUserName)) ...[
+                        const SizedBox(height: 4),
+                        Row(
+                          children: [
+                            PrimaryTextView(
+                              text: "${'approved_by'.tr}:",
+                              fontSize: 13,
+                            ),
+                            const SizedBox(width: 6),
+                            UserAvtarView(
+                              imageUrl: item.approveByUserImage ?? "",
+                              imageSize: 18,
+                            ),
+                            const SizedBox(width: 4),
+                            Expanded(
+                              child: PrimaryTextView(
+                                text: item.approveByUserName ?? "",
+                                fontSize: 13,
+                                softWrap: true,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                      if (!StringHelper.isEmptyString(item.orderByName)) ...[
+                        const SizedBox(height: 4),
+                        Row(
+                          children: [
+                            PrimaryTextView(
+                              text: "${'ordered_by'.tr}:",
+                              fontSize: 13,
+                            ),
+                            const SizedBox(width: 6),
+                            UserAvtarView(
+                              imageUrl: item.orderByImage ?? "",
+                              imageSize: 18,
+                            ),
+                            const SizedBox(width: 4),
+                            Expanded(
+                              child: PrimaryTextView(
+                                text: item.orderByName ?? "",
+                                fontSize: 13,
+                                softWrap: true,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                       const SizedBox(height: 2),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

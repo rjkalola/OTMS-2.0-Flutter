@@ -366,6 +366,31 @@ class NotificationService {
           AppConstants.intentKey.hireRequestShowApprove: UserUtils.isAdmin()
         };
         Get.offAllNamed(rout, arguments: arguments);
+      }
+
+      //Employee orders
+      else if (notificationType ==
+              AppConstants.notificationType.employeeOrderCreate ||
+          notificationType ==
+              AppConstants.notificationType.employeeOrderStatusChange) {
+        String rout = AppRoutes.storemanInternalOrderDetailsScreen;
+        var arguments = {
+          "order_id": data['record_id'] ?? "0",
+          AppConstants.intentKey.fromNotification: true,
+        };
+        Get.offAllNamed(rout, arguments: arguments);
+      }
+
+      //Purchase orders
+      else if (notificationType ==
+          AppConstants.notificationType.purchaseOrder) {
+        String rout = AppRoutes.storemanOrderDetailsScreen;
+        int recordId = int.parse(data['record_id'] ?? "0");
+        var arguments = {
+          AppConstants.intentKey.orderId: recordId,
+          AppConstants.intentKey.fromNotification: true,
+        };
+        Get.offAllNamed(rout, arguments: arguments);
       } else {
         Get.offAllNamed(AppRoutes.splashScreen);
       }

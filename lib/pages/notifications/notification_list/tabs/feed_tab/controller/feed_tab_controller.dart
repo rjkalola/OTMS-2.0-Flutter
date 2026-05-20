@@ -273,6 +273,22 @@ class FeedTabController extends GetxController {
           moveToScreen(AppRoutes.userHireOrderDetailsScreen,
               arguments: arguments, index: index);
         }
+      } else if (notificationType ==
+              AppConstants.notificationType.employeeOrderCreate ||
+          notificationType ==
+              AppConstants.notificationType.employeeOrderStatusChange) {
+        var arguments = {"order_id": "${info.recordId ?? 0}"};
+        moveToScreen(AppRoutes.storemanInternalOrderDetailsScreen,
+            arguments: arguments, index: index);
+      } else if (notificationType ==
+          AppConstants.notificationType.purchaseOrder) {
+        if ((info.recordId ?? 0) != 0) {
+          var arguments = {
+            AppConstants.intentKey.orderId: info.recordId ?? 0,
+          };
+          moveToScreen(AppRoutes.storemanOrderDetailsScreen,
+              arguments: arguments, index: index);
+        }
       }
     }
   }

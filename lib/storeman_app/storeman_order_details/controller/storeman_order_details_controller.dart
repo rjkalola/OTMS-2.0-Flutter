@@ -12,6 +12,7 @@ import 'package:belcka/pages/common/model/file_info.dart';
 import 'package:belcka/pages/manageattachment/controller/manage_attachment_controller.dart';
 import 'package:belcka/pages/manageattachment/listener/select_attachment_listener.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
+import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/storeman_app/storeman_order_details/controller/storeman_order_details_repository.dart';
 import 'package:belcka/storeman_app/storeman_order_details/model/order_deliver_response.dart';
 import 'package:belcka/utils/app_constants.dart';
@@ -20,7 +21,6 @@ import 'package:belcka/utils/date_utils.dart';
 import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/web_services/api_constants.dart';
-import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:dio/dio.dart' as multi;
@@ -48,6 +48,7 @@ class StoremanOrderDetailsController extends GetxController
   final orderProductsList = <ProductInfo>[].obs;
   List<ProductInfo> tempOrderProductsList = [];
   int orderId = 0, initialStatus = 0, selectedIndex = 0;
+  bool fromNotification = false;
 
   @override
   void onInit() {
@@ -56,6 +57,8 @@ class StoremanOrderDetailsController extends GetxController
     if (arguments != null) {
       orderId = arguments[AppConstants.intentKey.orderId] ?? 0;
       initialStatus = arguments[AppConstants.intentKey.status] ?? 0;
+      fromNotification =
+          arguments[AppConstants.intentKey.fromNotification] ?? false;
     }
     receiveDateController.value.text =
         DateUtil.dateToString(DateTime.now(), DateUtil.DD_MM_YYYY_SLASH);
@@ -476,6 +479,14 @@ class StoremanOrderDetailsController extends GetxController
   Future<void> onSelectMenuItem(ModuleInfo info, String dialogType) async {
     if (info.action == AppConstants.action.cancelledOrderInvoice) {
       buyerOrderInvoiceApi(orderInfo.value.id ?? 0, isCancelled: true);
+    }
+  }
+
+  void onBackPress() {
+    if (fromNotification) {
+      Get.offNamed(AppRoutes.dashboardScreen);
+    } else {
+      Get.back();
     }
   }
 }

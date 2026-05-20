@@ -31,7 +31,6 @@ class StoremanInternalOrderDetailsController extends GetxController {
   List<OrderDetailsInfo> tempList = [];
   String orderId = "";
   int currentChangedStatus = 0;
-  bool canShowActionButtons = false;
   RxInt status = 0.obs;
   List<FocusNode> qtyFocusNodes = [];
   final ImagePicker _picker = ImagePicker();
@@ -56,7 +55,6 @@ class StoremanInternalOrderDetailsController extends GetxController {
     var arguments = Get.arguments;
     if (arguments != null) {
       orderId = arguments["order_id"] ?? "";
-      canShowActionButtons = arguments["canShowActionButtons"] ?? false;
     }
     fetchOrderDetails();
   }

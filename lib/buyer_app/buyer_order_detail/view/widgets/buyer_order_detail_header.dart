@@ -4,6 +4,8 @@ import 'package:belcka/res/colors.dart';
 import 'package:belcka/res/drawable.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/image_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/widgets/other_widgets/user_avtar_view.dart';
 import 'package:belcka/widgets/text/PrimaryTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -79,6 +81,23 @@ class BuyerOrderDetailHeader extends StatelessWidget {
                         "${'delivery_date'.tr}: ${item.expectedDeliveryDate ?? ""}",
                         fontSize: 16,
                       ),
+                      if (!StringHelper.isEmptyString(
+                          item.approveByUserName)) ...[
+                        const SizedBox(height: 4),
+                        _userInfoRow(
+                          "${'approved_by'.tr}:",
+                          item.approveByUserImage ?? "",
+                          item.approveByUserName ?? "",
+                        ),
+                      ],
+                      if (!StringHelper.isEmptyString(item.orderByName)) ...[
+                        const SizedBox(height: 4),
+                        _userInfoRow(
+                          "${'ordered_by'.tr}:",
+                          item.orderByImage ?? "",
+                          item.orderByName ?? "",
+                        ),
+                      ],
                       SizedBox(
                         height: 3,
                       ),
@@ -132,6 +151,34 @@ class BuyerOrderDetailHeader extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _userInfoRow(
+    String label,
+    String imageUrl,
+    String name,
+  ) {
+    return Row(
+      children: [
+        PrimaryTextView(
+          text: label,
+          fontSize: 15,
+        ),
+        const SizedBox(width: 6),
+        UserAvtarView(
+          imageUrl: imageUrl,
+          imageSize: 20,
+        ),
+        const SizedBox(width: 4),
+        Expanded(
+          child: PrimaryTextView(
+            text: name,
+            fontSize: 15,
+            softWrap: true,
+          ),
+        ),
+      ],
     );
   }
 

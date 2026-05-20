@@ -1,5 +1,6 @@
 import 'package:belcka/pages/common/model/file_info.dart';
 import 'package:belcka/pages/user_orders/product_set/model/product_set_data_info.dart';
+import 'package:belcka/pages/user_orders/storeman_catalog/model/order_user_data.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_set_model.dart';
 import 'package:flutter/material.dart';
 
@@ -75,6 +76,7 @@ class ProductInfo {
   String? storeName;
   String? orderUsersDisplay;
   int? orderUserCount;
+  List<OrderUserData>? orderUsersData;
   int? pendingQty;
   int? cancelledQty;
   String? projectName;
@@ -176,6 +178,7 @@ class ProductInfo {
       this.storeName,
       this.orderUsersDisplay,
       this.orderUserCount,
+      this.orderUsersData,
       this.pendingQty,
       this.cancelledQty,
       this.projectName,
@@ -288,6 +291,12 @@ class ProductInfo {
     storeName = json['store_name'];
     orderUsersDisplay = json['order_users_display'];
     orderUserCount = json['order_user_count'];
+    if (json['order_users_data'] != null) {
+      orderUsersData = <OrderUserData>[];
+      json['order_users_data'].forEach((v) {
+        orderUsersData!.add(OrderUserData.fromJson(v));
+      });
+    }
     pendingQty = json['pending_qty'];
     cancelledQty = json['cancelled_qty'];
     projectName = json['project_name'];
@@ -426,6 +435,10 @@ class ProductInfo {
     data['store_name'] = this.storeName;
     data['order_users_display'] = this.orderUsersDisplay;
     data['order_user_count'] = this.orderUserCount;
+    if (this.orderUsersData != null) {
+      data['order_users_data'] =
+          this.orderUsersData!.map((v) => v.toJson()).toList();
+    }
     data['pending_qty'] = this.pendingQty;
     data['cancelled_qty'] = this.cancelledQty;
     data['project_name'] = this.projectName;

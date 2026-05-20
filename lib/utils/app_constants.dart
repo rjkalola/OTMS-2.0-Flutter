@@ -25,7 +25,8 @@ class AppConstants {
   static const FilterType filterType = FilterType();
   static const ZoneType zoneType = ZoneType();
 
-  static String deviceType = Platform.isAndroid ? "1" : "2";
+  // static String deviceType = Platform.isAndroid ? "1" : "2";
+  static int deviceType = Platform.isAndroid ? 1 : 2;
   static const int productListLimit = 20;
   static const int defaultPhoneExtensionId = 1;
   static const String defaultPhoneExtension = "+44";
@@ -569,6 +570,14 @@ class NotificationType {
 
   //Hire Order Status
   final String hireOrderStatus = "23001";
+
+  //Purchase Order Status
+  final String purchaseOrder = "24001";
+
+  //Employee orders
+  final String employeeOrderCreate = "20001";
+  final String employeeOrderStatusChange = "20002";
+
 }
 
 class RequestType {

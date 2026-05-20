@@ -39,171 +39,181 @@ class _StoremanOrderDetailsScreenState
     AppUtils.setStatusBarColor();
 
     return Obx(
-      () => Container(
-        color: dashBoardBgColor_(context),
-        child: SafeArea(
-          top: false,
-          child: Scaffold(
-            backgroundColor: dashBoardBgColor_(context),
-            appBar: BaseAppBar(
-              appBar: AppBar(),
-              title: !StringHelper.isEmptyString(
-                      controller.orderInfo.value.orderId)
-                  ? "${'order'.tr} ${controller.orderInfo.value.orderId ?? ""}"
-                  : "Order Details",
-              isCenterTitle: false,
-              isBack: true,
-              bgColor: backgroundColor_(context),
-              autoFocus: true,
-              isClearVisible: false.obs,
-              widgets: actionButtons(),
-            ),
-            body: ModalProgressHUD(
-                inAsyncCall: controller.isLoading.value,
-                opacity: 0,
-                progressIndicator: const CustomProgressbar(),
-                child: controller.isInternetNotAvailable.value
-                    ? NoInternetWidget(
-                        onPressed: () {
-                          controller.isInternetNotAvailable.value = false;
-                          controller.orderDetailsApi();
-                        },
-                      )
-                    : Visibility(
-                        visible: controller.isMainViewVisible.value,
-                        child: Column(
-                          children: [
-                            GestureDetector(
-                              onTap: () => FocusScope.of(context).unfocus(),
-                              onPanDown: (_) =>
-                                  FocusScope.of(context).unfocus(),
-                              child: StoremanOrderDetailsHeader(
-                                  item: controller.orderInfo.value,
-                                  onListItem: () {}),
-                            ),
-                            const SizedBox(height: 15),
-                            Expanded(
-                              child: SingleChildScrollView(
-                                child: Column(
-                                  children: [
-                                    StoremanOrderProductsList(),
-                                    /*Visibility(
-                                      visible: controller.status.value ==
-                                              AppConstants.orderStatus.issued ||
-                                          controller.status.value ==
-                                              AppConstants
-                                                  .orderStatus.partialReceived,
-                                      child: Column(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 20, right: 20, top: 20),
-                                            child: DropDownTextField(
-                                              title: 'receive_date'.tr,
-                                              controller: controller
-                                                  .receiveDateController,
-                                              borderRadius: 16,
-                                              validators: const [],
-                                              onPressed: () {
-                                                controller.showDatePickerDialog(
-                                                    AppConstants
-                                                        .dialogIdentifier
-                                                        .selectDate,
-                                                    controller.receiveDate,
-                                                    DateTime.now(),
-                                                    DateTime(2060));
-                                              },
+      () => PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (didPop, result) async {
+          if (didPop || result != null) return;
+          controller.onBackPress();
+        },
+        child: Container(
+          color: dashBoardBgColor_(context),
+          child: SafeArea(
+            top: false,
+            child: Scaffold(
+              backgroundColor: dashBoardBgColor_(context),
+              appBar: BaseAppBar(
+                appBar: AppBar(),
+                title: !StringHelper.isEmptyString(
+                        controller.orderInfo.value.orderId)
+                    ? "${'order'.tr} ${controller.orderInfo.value.orderId ?? ""}"
+                    : "Order Details",
+                isCenterTitle: false,
+                isBack: true,
+                bgColor: backgroundColor_(context),
+                autoFocus: true,
+                isClearVisible: false.obs, 
+                widgets: actionButtons(),
+                onBackPressed: () {
+                  controller.onBackPress();
+                },
+              ),
+              body: ModalProgressHUD(
+                  inAsyncCall: controller.isLoading.value,
+                  opacity: 0,
+                  progressIndicator: const CustomProgressbar(),
+                  child: controller.isInternetNotAvailable.value
+                      ? NoInternetWidget(
+                          onPressed: () {
+                            controller.isInternetNotAvailable.value = false;
+                            controller.orderDetailsApi();
+                          },
+                        )
+                      : Visibility(
+                          visible: controller.isMainViewVisible.value,
+                          child: Column(
+                            children: [
+                              GestureDetector(
+                                onTap: () => FocusScope.of(context).unfocus(),
+                                onPanDown: (_) =>
+                                    FocusScope.of(context).unfocus(),
+                                child: StoremanOrderDetailsHeader(
+                                    item: controller.orderInfo.value,
+                                    onListItem: () {}),
+                              ),
+                              const SizedBox(height: 15),
+                              Expanded(
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+                                      StoremanOrderProductsList(),
+                                      /*Visibility(
+                                        visible: controller.status.value ==
+                                                AppConstants.orderStatus.issued ||
+                                            controller.status.value ==
+                                                AppConstants
+                                                    .orderStatus.partialReceived,
+                                        child: Column(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 20, right: 20, top: 20),
+                                              child: DropDownTextField(
+                                                title: 'receive_date'.tr,
+                                                controller: controller
+                                                    .receiveDateController,
+                                                borderRadius: 16,
+                                                validators: const [],
+                                                onPressed: () {
+                                                  controller.showDatePickerDialog(
+                                                      AppConstants
+                                                          .dialogIdentifier
+                                                          .selectDate,
+                                                      controller.receiveDate,
+                                                      DateTime.now(),
+                                                      DateTime(2060));
+                                                },
+                                              ),
                                             ),
-                                          ),
-                                          const SizedBox(height: 12),
-                                          AddNoteWidget(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                16, 10, 16, 10),
-                                            controller:
-                                                controller.noteController,
-                                            borderRadius: 16,
-                                          )
-                                        ],
-                                      ),
-                                    ),*/
-                                  ],
+                                            const SizedBox(height: 12),
+                                            AddNoteWidget(
+                                              padding: const EdgeInsets.fromLTRB(
+                                                  16, 10, 16, 10),
+                                              controller:
+                                                  controller.noteController,
+                                              borderRadius: 16,
+                                            )
+                                          ],
+                                        ),
+                                      ),*/
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                            if (controller.status.value ==
-                                AppConstants.orderStatus.received)
-                              PrimaryButton(
-                                margin: const EdgeInsets.all(14),
-                                buttonText: 'proceed'.tr,
-                                onPressed: () {
-                                  controller.showOrderProceedDialog();
-                                },
-                                color: Colors.orange,
-                              ),
-                            if (controller.status.value ==
-                                    AppConstants.orderStatus.processing ||
-                                controller.status ==
-                                    AppConstants.orderStatus.partialReceived)
-                              Padding(
-                                padding: EdgeInsetsGeometry.all(14),
-                                child: Row(
-                                  children: [
-                                    Flexible(
-                                        flex: 1,
-                                        child: PrimaryButton(
-                                          buttonText: 'delivered'.tr,
-                                          onPressed: () {
-                                            if (controller
-                                                .isProductQuantityValid()) {
-                                              if (controller.isValidOrder()) {
-                                                controller
-                                                    .showOrderDeliveredDialog();
+                              if (controller.status.value ==
+                                  AppConstants.orderStatus.received)
+                                PrimaryButton(
+                                  margin: const EdgeInsets.all(14),
+                                  buttonText: 'proceed'.tr,
+                                  onPressed: () {
+                                    controller.showOrderProceedDialog();
+                                  },
+                                  color: Colors.orange,
+                                ),
+                              if (controller.status.value ==
+                                      AppConstants.orderStatus.processing ||
+                                  controller.status ==
+                                      AppConstants.orderStatus.partialReceived)
+                                Padding(
+                                  padding: EdgeInsetsGeometry.all(14),
+                                  child: Row(
+                                    children: [
+                                      Flexible(
+                                          flex: 1,
+                                          child: PrimaryButton(
+                                            buttonText: 'delivered'.tr,
+                                            onPressed: () {
+                                              if (controller
+                                                  .isProductQuantityValid()) {
+                                                if (controller.isValidOrder()) {
+                                                  controller
+                                                      .showOrderDeliveredDialog();
+                                                } else {
+                                                  AppUtils.showToastMessage(
+                                                      'msg_storeman_order_note_and_photo'
+                                                          .tr);
+                                                }
                                               } else {
                                                 AppUtils.showToastMessage(
-                                                    'msg_storeman_order_note_and_photo'
+                                                    'msg_select_at_least_one_qty'
                                                         .tr);
                                               }
-                                            } else {
-                                              AppUtils.showToastMessage(
-                                                  'msg_select_at_least_one_qty'
-                                                      .tr);
-                                            }
-                                          },
-                                          color: Colors.green,
-                                        )),
-                                    // SizedBox(
-                                    //   width: 12,
-                                    // ),
-                                    // Flexible(
-                                    //   flex: 1,
-                                    //   child: PrimaryButton(
-                                    //     buttonText: 'cancel'.tr,
-                                    //     onPressed: () {
-                                    //       if (controller
-                                    //           .isProductQuantityValid()) {
-                                    //         if (controller.isValidOrder()) {
-                                    //           controller
-                                    //               .showOrderCancelDialog();
-                                    //         } else {
-                                    //           AppUtils.showToastMessage(
-                                    //               'msg_storeman_order_note_and_photo'
-                                    //                   .tr);
-                                    //         }
-                                    //       } else {
-                                    //         AppUtils.showToastMessage(
-                                    //             'msg_select_at_least_one_qty'
-                                    //                 .tr);
-                                    //       }
-                                    //     },
-                                    //     color: Colors.redAccent,
-                                    //   ),
-                                    // )
-                                  ],
+                                            },
+                                            color: Colors.green,
+                                          )),
+                                      // SizedBox(
+                                      //   width: 12,
+                                      // ),
+                                      // Flexible(
+                                      //   flex: 1,
+                                      //   child: PrimaryButton(
+                                      //     buttonText: 'cancel'.tr,
+                                      //     onPressed: () {
+                                      //       if (controller
+                                      //           .isProductQuantityValid()) {
+                                      //         if (controller.isValidOrder()) {
+                                      //           controller
+                                      //               .showOrderCancelDialog();
+                                      //         } else {
+                                      //           AppUtils.showToastMessage(
+                                      //               'msg_storeman_order_note_and_photo'
+                                      //                   .tr);
+                                      //         }
+                                      //       } else {
+                                      //         AppUtils.showToastMessage(
+                                      //             'msg_select_at_least_one_qty'
+                                      //                 .tr);
+                                      //       }
+                                      //     },
+                                      //     color: Colors.redAccent,
+                                      //   ),
+                                      // )
+                                    ],
+                                  ),
                                 ),
-                              ),
-                          ],
-                        ),
-                      )),
+                            ],
+                          ),
+                        )),
+            ),
           ),
         ),
       ),

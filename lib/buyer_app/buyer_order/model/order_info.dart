@@ -27,6 +27,12 @@ class OrderInfo {
   int? receivedBy;
   String? userName;
   String? userImage;
+  int? orderBy;
+  String? orderByName;
+  String? orderByImage;
+  int? approveBy;
+  String? approveByUserName;
+  String? approveByUserImage;
   List<ProductInfo>? purchaseOrders;
   String? orderNumber;
   bool? isDraft;
@@ -58,6 +64,12 @@ class OrderInfo {
       this.receivedBy,
       this.userName,
       this.userImage,
+      this.orderBy,
+      this.orderByName,
+      this.orderByImage,
+      this.approveBy,
+      this.approveByUserName,
+      this.approveByUserImage,
       this.purchaseOrders,
       this.orderNumber,
       this.isDraft});
@@ -89,6 +101,17 @@ class OrderInfo {
     receivedBy = json['received_by'];
     userName = json['user_name'];
     userImage = json['user_image'];
+    orderBy = json['order_by'];
+    orderByName = json['order_by_name'];
+    orderByImage = json['order_by_image'];
+    final dynamic approveByVal = json['approve_by'] ?? json['approved_by'];
+    if (approveByVal is int) {
+      approveBy = approveByVal;
+    } else if (approveByVal != null) {
+      approveBy = int.tryParse(approveByVal.toString());
+    }
+    approveByUserName = json['approve_by_user_name']?.toString();
+    approveByUserImage = json['approve_by_user_image']?.toString();
     orderNumber = json['order_number'];
     isDraft = json['is_draft'];
     final dynamic purchaseOrdersData =
@@ -129,6 +152,12 @@ class OrderInfo {
     data['received_by'] = this.receivedBy;
     data['user_name'] = this.userName;
     data['user_image'] = this.userImage;
+    data['order_by'] = this.orderBy;
+    data['order_by_name'] = this.orderByName;
+    data['order_by_image'] = this.orderByImage;
+    data['approve_by'] = this.approveBy;
+    data['approve_by_user_name'] = this.approveByUserName;
+    data['approve_by_user_image'] = this.approveByUserImage;
     data['order_number'] = this.orderNumber;
     data['is_draft'] = this.isDraft;
     if (this.purchaseOrders != null) {

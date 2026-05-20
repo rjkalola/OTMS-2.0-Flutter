@@ -1,3 +1,4 @@
+import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_order_users_bottom_sheet.dart';
 import 'package:belcka/buyer_app/buyer_order/view/widgets/order_quantity_change_button.dart';
 import 'package:belcka/buyer_app/buyer_order/view/widgets/order_quantity_display_text_view.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
@@ -166,12 +167,34 @@ class BuyerProductListItem extends StatelessWidget {
                                       Visibility(
                                         visible: !StringHelper.isEmptyString(
                                             item.orderUsersDisplay),
-                                        child: TitleTextView(
-                                          text: item.orderUsersDisplay ?? "",
-                                          fontSize: 15,
-                                          color: defaultAccentColor_(context),
-                                          fontWeight: FontWeight.w400,
-                                        ),
+                                        child: !StringHelper.isEmptyList(
+                                                item.orderUsersData)
+                                            ? GestureDetector(
+                                                behavior:
+                                                    HitTestBehavior.opaque,
+                                                onTap: () {
+                                                  BuyerOrderUsersBottomSheet
+                                                      .show(
+                                                          item.orderUsersData);
+                                                },
+                                                child: TitleTextView(
+                                                  text: item
+                                                          .orderUsersDisplay ??
+                                                      "",
+                                                  fontSize: 15,
+                                                  color: defaultAccentColor_(
+                                                      context),
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              )
+                                            : TitleTextView(
+                                                text: item.orderUsersDisplay ??
+                                                    "",
+                                                fontSize: 15,
+                                                color: defaultAccentColor_(
+                                                    context),
+                                                fontWeight: FontWeight.w400,
+                                              ),
                                       ),
                                     ],
                                   ),

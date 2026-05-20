@@ -723,6 +723,7 @@ class Strings extends Translations {
           'receive_date': "Receive Date",
           'order_date': "Order Date",
           'ordered_by': "Ordered By",
+          'order_users': "Order Users",
           'stores': "Stores",
           'qty': "Qty",
           'details': "Details",

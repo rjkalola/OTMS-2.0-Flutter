@@ -4,6 +4,7 @@ import 'package:belcka/res/colors.dart';
 import 'package:belcka/res/drawable.dart';
 import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/widgets/other_widgets/user_avtar_view.dart';
 import 'package:belcka/widgets/text/PrimaryTextView.dart';
 import 'package:belcka/widgets/text/TextViewWithContainer.dart';
 import 'package:flutter/material.dart';
@@ -72,7 +73,59 @@ class BuyerOrderListItem extends StatelessWidget {
                               text:
                                   "${'delivery_date'.tr}: ${item.expectedDeliveryDate ?? ""}",
                               fontSize: 15,
-                            )
+                            ),
+                            if (!isIncompleteLayout &&
+                                !StringHelper.isEmptyString(
+                                    item.approveByUserName)) ...[
+                              const SizedBox(height: 4),
+                              Row(
+                                children: [
+                                  PrimaryTextView(
+                                    text: "${'approved_by'.tr}:",
+                                    fontSize: 13,
+                                  ),
+                                  const SizedBox(width: 6),
+                                  UserAvtarView(
+                                    imageUrl: item.approveByUserImage ?? "",
+                                    imageSize: 18,
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Expanded(
+                                    child: PrimaryTextView(
+                                      text: item.approveByUserName ?? "",
+                                      fontSize: 13,
+                                      softWrap: true,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                            if (!isIncompleteLayout &&
+                                !StringHelper.isEmptyString(
+                                    item.orderByName)) ...[
+                              const SizedBox(height: 4),
+                              Row(
+                                children: [
+                                  PrimaryTextView(
+                                    text: "${'ordered_by'.tr}:",
+                                    fontSize: 13,
+                                  ),
+                                  const SizedBox(width: 6),
+                                  UserAvtarView(
+                                    imageUrl: item.orderByImage ?? "",
+                                    imageSize: 18,
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Expanded(
+                                    child: PrimaryTextView(
+                                      text: item.orderByName ?? "",
+                                      fontSize: 13,
+                                      softWrap: true,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ],
                         ),
                       ),
