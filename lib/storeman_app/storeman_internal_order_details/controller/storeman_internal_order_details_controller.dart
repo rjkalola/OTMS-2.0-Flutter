@@ -38,6 +38,7 @@ class StoremanInternalOrderDetailsController extends GetxController {
   final orderInfo = OrderDetailsInfo().obs;
   RxBool isExpanded = false.obs;
   bool fromNotification = false;
+
   void initFocusNodes(int length) {
     qtyFocusNodes = List.generate(length, (index) => FocusNode());
   }
@@ -56,7 +57,8 @@ class StoremanInternalOrderDetailsController extends GetxController {
     var arguments = Get.arguments;
     if (arguments != null) {
       orderId = arguments["order_id"] ?? "";
-      fromNotification = arguments[AppConstants.intentKey.fromNotification] ?? false;
+      fromNotification =
+          arguments[AppConstants.intentKey.fromNotification] ?? false;
     }
     fetchOrderDetails();
   }
@@ -107,7 +109,8 @@ class StoremanInternalOrderDetailsController extends GetxController {
 
   void initializeOrders(List<OrderDetailsOrdersInfo> fetchedOrders) {
     orderDetails[0].orders = fetchedOrders.map((order) {
-      final isItemDelivered = (order.status == AppConstants.internalOrderStatus.delivered);
+      final isItemDelivered =
+          (order.status == AppConstants.internalOrderStatus.delivered);
       order.isSelected = !isItemDelivered;
       return order;
     }).toList();
@@ -117,15 +120,13 @@ class StoremanInternalOrderDetailsController extends GetxController {
   void onBackPress() {
     if (fromNotification) {
       Get.offNamed(AppRoutes.dashboardScreen);
-    }
-    else{
+    } else {
       if (isDataUpdated) {
         var arguments = {
           AppConstants.intentKey.status: currentChangedStatus,
         };
         Get.back(result: arguments);
-      }
-      else{
+      } else {
         Get.back();
       }
     }
@@ -196,7 +197,11 @@ class StoremanInternalOrderDetailsController extends GetxController {
           var arguments = {
             AppConstants.intentKey.status: currentChangedStatus,
           };
-          Get.back(result: arguments);
+          if (fromNotification) {
+            Get.offNamed(AppRoutes.dashboardScreen);
+          } else {
+            Get.back(result: arguments);
+          }
           print("status:" + currentChangedStatus.toString());
           // fetchOrderDetails();
         } else {

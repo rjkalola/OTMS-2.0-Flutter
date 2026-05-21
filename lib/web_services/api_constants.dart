@@ -397,7 +397,7 @@ class ApiConstants {
   static String proceedStoremanOrder = '$appUrl/purchase-orders/update-status';
 
   //Hire products
-  static String getHireProducts = '$appUrl/products/get-product-trade';
+  static String getHireProducts = '$appUrl/product-tools/get';
   static String hireOrdersCreate = '$appUrl/hire-orders/create';
   static String hireOrdersGet = '$appUrl/hire-orders/get';
   static String hireOrdersGetProducts = '$appUrl/hire-orders/get-products';

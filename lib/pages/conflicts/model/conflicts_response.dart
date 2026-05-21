@@ -337,7 +337,7 @@ class StoreConflictData {
     productThumbImage = json['product_thumb_image'];
     storeId = json['store_id'];
     storeName = json['store_name'];
-    currentQty = json['current_qty'];
+    currentQty = (json['current_qty'] as num?)?.toDouble();
     price = json['price'];
     totalAmount = json['total_amount'];
     currency = json['currency'];
@@ -352,7 +352,7 @@ class StoreConflictData {
   String? productThumbImage;
   int? storeId;
   String? storeName;
-  int? currentQty;
+  double? currentQty;
   String? price;
   String? totalAmount;
   String? currency;
