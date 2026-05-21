@@ -85,7 +85,7 @@ class StoremanInternalOrderDetailsController extends GetxController {
             status.value = orderDetails[0].status ?? 0;
             initFocusNodes(orderDetails[0].orders?.length ?? 0);
             isMainViewVisible.value = true;
-            //initializeOrders(orderDetails[0].orders ?? []);
+            initializeOrders(orderDetails[0].orders ?? []);
           }
 
           isLoading.value = false;
