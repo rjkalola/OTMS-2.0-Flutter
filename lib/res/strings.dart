@@ -942,6 +942,8 @@ class Strings extends Translations {
           'transactions':"transactions",
           'received':"Received",
           'invoiced':"Invoiced",
+          'clear_all':"Clear All",
+          'clear_all_cart_msg':"Are you sure you want to clear cart?",
 
 // '': "",
           // '': "",
