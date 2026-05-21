@@ -42,14 +42,22 @@ class ProductInfoContainer extends StatelessWidget {
               _buildFullWidthRow("Description", product.description ?? ""),
             ],context),
             const SizedBox(height: 20),
-            _buildSectionTitle("Supplier Details"),
-            _buildInfoCard([
-              if ((product.supplierName ?? "").isNotEmpty)
-              _buildRow("Supplier name", product.supplierName ?? ""),
-              if ((product.supplierCode ?? "").isNotEmpty)
-              _buildRow("Supplier code", product.supplierCode ?? ""),
-            ],context),
-            const SizedBox(height: 20),
+
+            if ((product.supplierName ?? "").isNotEmpty ||
+                (product.supplierCode ?? "").isNotEmpty)
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildSectionTitle("Supplier Details"),
+                _buildInfoCard([
+                  if ((product.supplierName ?? "").isNotEmpty)
+                    _buildRow("Supplier name", product.supplierName ?? ""),
+                  if ((product.supplierCode ?? "").isNotEmpty)
+                    _buildRow("Supplier code", product.supplierCode ?? ""),
+                ],context),
+                const SizedBox(height: 20),
+              ],
+            ),
 
             if ((product.height ?? "").isNotEmpty ||
                 (product.weight ?? "").isNotEmpty ||

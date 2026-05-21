@@ -52,6 +52,9 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
       final projectService = Get.find<ProjectService>();
       final LayerLink _layerLink = LayerLink();
 
+      final bool showColon = (product.supplierName?.isNotEmpty ?? false) &&
+          (product.supplierCode?.isNotEmpty ?? false);
+
       return Expanded(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
@@ -140,12 +143,16 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                 maxLine: 2,
                 fontWeight: FontWeight.w500,
               ),
+
+              if ((product.supplierName ?? "").isNotEmpty || (product.supplierCode ?? "").isNotEmpty)
               SizedBox(height: 8),
 
               Row(
                 children: [
                   TitleTextView(
-                    text: "${product.supplierName ?? ""}: ",
+                    text: showColon
+                        ? "${product.supplierName}: "
+                        : (product.supplierName ?? ""),
                     color: primaryTextColor_(context),
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
@@ -157,6 +164,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                   ),
                 ],
               ),
+
               Row(
                 children: [
                   TitleTextView(

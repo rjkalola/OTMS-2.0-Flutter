@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:belcka/buyer_app/create_buyer_order/controller/create_buyer_order_repository.dart';
 import 'package:belcka/pages/common/drop_down_list_dialog.dart';
+import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:belcka/pages/common/listener/select_item_listener.dart';
 import 'package:belcka/pages/common/model/file_info.dart';
 import 'package:belcka/pages/common/model/Dropdown_list_response.dart';
@@ -15,6 +16,7 @@ import 'package:belcka/pages/user_orders/basket/model/product_cart_list_response
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
 import 'package:belcka/pages/user_orders/widgets/select_address_dialog.dart';
 import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
@@ -24,7 +26,7 @@ import 'package:belcka/web_services/response/response_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class BasketController extends GetxController implements SelectItemListener {
+class BasketController extends GetxController implements SelectItemListener, DialogButtonClickListener {
   RxBool isDeliverySelected = true.obs;
   final _api = BasketRepository();
   RxBool isLoading = false.obs,
@@ -293,12 +295,41 @@ class BasketController extends GetxController implements SelectItemListener {
       }
     }
   }
+  void showClearConfirmDialog() {
+    AlertDialogHelper.showAlertDialog("", 'clear_all_cart_msg'.tr, 'yes'.tr, 'no'.tr,
+        "", true, false, this, AppConstants.dialogIdentifier.clearCart);
+  }
+  @override
+  void onNegativeButtonClicked(String dialogIdentifier) {
+    if (dialogIdentifier == AppConstants.dialogIdentifier.clearCart) {
+      Get.back();
+    }
+  }
 
-  void toggleRemoveCart(int index) {
+  @override
+  void onPositiveButtonClicked(String dialogIdentifier) {
+    if (dialogIdentifier == AppConstants.dialogIdentifier.clearCart) {
+      Get.back();
+      toggleRemoveCart(0,isClearAll: true);
+    }
+  }
+  @override
+  void onOtherButtonClicked(String dialogIdentifier) {
+
+  }
+  void clearAllItems() {
+    showClearConfirmDialog();
+  }
+  void toggleRemoveCart(int index,{bool isClearAll = false}) {
     isLoading.value = true;
     final product = cartList[index];
     Map<String, dynamic> map = {};
-    map["id"] = product.id;
+    if (isClearAll){
+      map["ids"] = cartList.map((product) => product.id).join(',');
+    }
+    else{
+      map["id"] = product.id;
+    }
     _api.removeFromCartAPI(
       data: map,
       onSuccess: (ResponseModel responseModel) {

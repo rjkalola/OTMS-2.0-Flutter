@@ -108,6 +108,12 @@ class _BasketScreenState extends State<BasketScreen> {
 
   List<Widget>? actionButtons() {
     return [
+      if (controller.cartList.isNotEmpty)
+      TextButton.icon(
+        onPressed: controller.clearAllItems,
+        icon: const Icon(Icons.delete_sweep, color: Colors.red),
+        label: const Text('Clear All', style: TextStyle(color: Colors.red)),
+      ),
       GestureDetector(
         onTap: (){
           FocusManager.instance.primaryFocus?.unfocus();

@@ -199,6 +199,7 @@ class DialogIdentifier {
   final String billingConflictResolve = 'BILLING_CONFLICT_RESOLVE';
   final String billingConflictDiscard = 'BILLING_CONFLICT_DISCARD';
   final String selectStoreSettingsTeamFilter = 'SELECT_STORE_SETTINGS_TEAM_FILTER';
+  final String clearCart = 'CLEAR_CART';
 }
 
 class SharedPreferenceKey {
