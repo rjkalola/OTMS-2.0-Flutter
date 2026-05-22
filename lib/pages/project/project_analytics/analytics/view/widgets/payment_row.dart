@@ -1,4 +1,4 @@
-import 'package:belcka/pages/project/project_analytics/model/project_analytics_model.dart';
+import 'package:belcka/pages/project/project_analytics/analytics/model/project_analytics_model.dart';
 import 'package:flutter/material.dart';
 
 class PaymentRow extends StatelessWidget {

@@ -106,7 +106,9 @@ class _InternalOrderDetailsListWithQuantityState extends State<InternalOrderDeta
                               SubtitleTextView(
                                 text: orders[index].uuid ?? "",
                               ),
+                              /*
                               const SizedBox(height: 4),
+
                               if (orders[index].isDisplayPrice ?? false)
                               TitleTextView(
                                 text: "${'price'.tr}: ${orders[index].currency ?? "£"}"
@@ -114,7 +116,7 @@ class _InternalOrderDetailsListWithQuantityState extends State<InternalOrderDeta
                                 fontSize: 15,
                                 fontWeight: FontWeight.w600,
                               ),
-
+                              */
                               /*
                               const SizedBox(height: 4),
                               TitleTextView(

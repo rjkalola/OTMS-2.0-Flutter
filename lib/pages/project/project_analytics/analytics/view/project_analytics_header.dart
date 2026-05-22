@@ -1,4 +1,4 @@
-import 'package:belcka/pages/project/project_analytics/controller/project_analytics_controller.dart';
+import 'package:belcka/pages/project/project_analytics/analytics/controller/project_analytics_controller.dart';
 import 'package:belcka/pages/project/project_list/view/widgets/project_title.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/app_utils.dart';
