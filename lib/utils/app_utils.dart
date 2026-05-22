@@ -570,13 +570,22 @@ class AppUtils {
     );
   }
 
-  static VoidCallback onHireProductImageItem({int? productId} ){
+  static VoidCallback onHireProductImageItem({int? productId}) {
     return () {
-      var arguments = {
-        "product_id": productId,
-        "read_only": true
-      };
+      var arguments = {"product_id": productId, "read_only": true};
       Get.toNamed(AppRoutes.productDetailsScreen, arguments: arguments);
     };
+  }
+
+  static void moveToRateScreen() {
+    var arguments = {
+      // AppConstants.intentKey
+      //     .billingInfo:
+      // controller
+      //     .billingInfo
+      //     .value,
+      AppConstants.intentKey.userId: UserUtils.getLoginUserId()
+    };
+    Get.toNamed(AppRoutes.ratesScreen, arguments: arguments);
   }
 }

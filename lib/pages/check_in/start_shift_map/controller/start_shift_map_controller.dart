@@ -107,10 +107,16 @@ class StartShiftMapController extends GetxController {
         if (responseModel.isSuccess) {
           StartWorkResponse response =
               StartWorkResponse.fromJson(jsonDecode(responseModel.result!));
-          var arguments = {
-            AppConstants.intentKey.fromStartShiftScreen: true,
-          };
-          Get.offNamed(AppRoutes.clockInScreen, arguments: arguments);
+          if (response.isRateApproved == null ||
+              (response.isRateApproved ?? false)) {
+            var arguments = {
+              AppConstants.intentKey.fromStartShiftScreen: true,
+            };
+            Get.offNamed(AppRoutes.clockInScreen, arguments: arguments);
+          } else {
+            AppUtils.showApiResponseMessage('rate_not_added_or_approved'.tr);
+           AppUtils.moveToRateScreen();
+          }
         } else {
           // AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }

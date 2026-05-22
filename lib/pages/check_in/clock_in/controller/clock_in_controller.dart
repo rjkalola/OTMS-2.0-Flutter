@@ -116,7 +116,13 @@ class ClockInController extends GetxController
         if (responseModel.isSuccess) {
           StartWorkResponse response =
               StartWorkResponse.fromJson(jsonDecode(responseModel.result!));
-          getUserWorkLogListApi();
+          if (response.isRateApproved == null ||
+              (response.isRateApproved ?? false)) {
+            getUserWorkLogListApi();
+          } else {
+            AppUtils.showApiResponseMessage('rate_not_added_or_approved'.tr);
+            AppUtils.moveToRateScreen();
+          }
         } else {
           // AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }

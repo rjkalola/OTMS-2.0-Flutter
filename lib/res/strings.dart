@@ -456,6 +456,8 @@ class Strings extends Translations {
           'send': "Send",
           'trade': "Trade",
           'rate_request': "Rate Request",
+          'rate_not_added_or_approved':
+              "Your rate is not added or approved.",
           'note_min_length_error': "Note must be at least 60 characters",
           'note_max_length_error': "Note must not exceed 500 characters",
           'lock': "Lock",

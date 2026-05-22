@@ -255,6 +255,14 @@ class UploadOfflineWorklogController extends GetxController
     final response = StoreOfflineWorkResponse.fromJson(
       jsonDecode(responseModel.result ?? "{}") as Map<String, dynamic>,
     );
+
+    if (response.isRateApproved == null ||
+        !(response.isRateApproved ?? false)) {
+      AppUtils.showApiResponseMessage('rate_not_added_or_approved'.tr);
+      AppUtils.moveToRateScreen();
+      return;
+    }
+
     final message = response.message ?? "";
 
     if (response.data == null) {
@@ -339,7 +347,8 @@ class UploadOfflineWorklogController extends GetxController
     OfflineWorklogConflictItem item, {
     required bool isOfflineEntry,
   }) async {
-    final worklogEntry = _buildKeepWorklogEntry(item, isOfflineEntry: isOfflineEntry);
+    final worklogEntry =
+        _buildKeepWorklogEntry(item, isOfflineEntry: isOfflineEntry);
 
     final payload = <String, dynamic>{
       'user_id': UserUtils.getLoginUserId(),
@@ -351,7 +360,8 @@ class UploadOfflineWorklogController extends GetxController
     };
 
     isLoading.value = true;
-    ApiRequest(url: ApiConstants.userKeepOfflineWork, data: payload).postRequest(
+    ApiRequest(url: ApiConstants.userKeepOfflineWork, data: payload)
+        .postRequest(
       onSuccess: (data) {
         final responseModel = data as ResponseModel;
         if (responseModel.isSuccess) {
@@ -371,7 +381,8 @@ class UploadOfflineWorklogController extends GetxController
       onError: (error) {
         isLoading.value = false;
         final responseModel = error as ResponseModel;
-        if (responseModel.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+        if (responseModel.statusCode ==
+            ApiConstants.CODE_NO_INTERNET_CONNECTION) {
           AppUtils.showApiResponseMessage('no_internet'.tr);
         } else if (!StringHelper.isEmptyString(responseModel.statusMessage)) {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? '');
@@ -411,8 +422,8 @@ class UploadOfflineWorklogController extends GetxController
 
   WorkLogInfo? _localOfflineLogMatching(String? startTime) {
     if (StringHelper.isEmptyString(startTime)) return null;
-    final logs =
-        Get.find<AppStorage>().getWorklogDataOffline().workLogInfo ?? <WorkLogInfo>[];
+    final logs = Get.find<AppStorage>().getWorklogDataOffline().workLogInfo ??
+        <WorkLogInfo>[];
     for (final log in logs) {
       if ((log.workStartTime ?? '') == startTime) return log;
     }

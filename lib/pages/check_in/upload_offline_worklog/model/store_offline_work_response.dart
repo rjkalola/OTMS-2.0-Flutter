@@ -6,6 +6,7 @@ class StoreOfflineWorkResponse {
     this.message,
     this.data,
     this.activeCompanyId,
+    this.isRateApproved,
   });
 
   factory StoreOfflineWorkResponse.fromJson(Map<String, dynamic> json) {
@@ -18,6 +19,7 @@ class StoreOfflineWorkResponse {
             )
           : null,
       activeCompanyId: json['active_company_id'],
+      isRateApproved: json['is_rate_approved'] as bool?,
     );
   }
 
@@ -25,6 +27,7 @@ class StoreOfflineWorkResponse {
   final String? message;
   final StoreOfflineWorkData? data;
   final dynamic activeCompanyId;
+  final bool? isRateApproved;
 }
 
 class StoreOfflineWorkData {

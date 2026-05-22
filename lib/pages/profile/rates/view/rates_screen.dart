@@ -108,7 +108,7 @@ class _RatesScreenState extends State<RatesScreen> {
                                       style: TextStyle(fontSize: 15),
                                     ),
                                     Text(
-                                      "${controller.billingInfo.value.currency}${controller.grossPerDay.toStringAsFixed(2)}",
+                                      "${controller.billingInfo.value.currency??"£"}${controller.grossPerDay.toStringAsFixed(2)}",
                                       style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.w500),
@@ -125,7 +125,7 @@ class _RatesScreenState extends State<RatesScreen> {
                                       style: TextStyle(fontSize: 15),
                                     ),
                                     Text(
-                                      "${controller.billingInfo.value.currency}${controller.cis.toStringAsFixed(2)}",
+                                      "${controller.billingInfo.value.currency??"£"}${controller.cis.toStringAsFixed(2)}",
                                       style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.w500),

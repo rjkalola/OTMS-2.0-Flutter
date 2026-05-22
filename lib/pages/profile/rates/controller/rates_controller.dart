@@ -21,15 +21,17 @@ import 'package:path/path.dart';
 
 import '../../../teams/join_team_to_company/model/trade_list_response.dart';
 
-class RatesController extends GetxController implements SelectItemListener, DialogButtonClickListener{
-
+class RatesController extends GetxController
+    implements SelectItemListener, DialogButtonClickListener {
   final tradeController = TextEditingController().obs;
   final joinCompanyDateController = TextEditingController().obs;
   final netPerDayController = TextEditingController().obs;
 
   final formKey = GlobalKey<FormState>();
   final _api = RatesRepository();
-  RxBool isLoading = false.obs, isInternetNotAvailable = false.obs, isMainViewVisible = false.obs;
+  RxBool isLoading = false.obs,
+      isInternetNotAvailable = false.obs,
+      isMainViewVisible = false.obs;
   final billingInfo = BillingInfo().obs;
   final FocusNode focusNode = FocusNode();
   var arguments = Get.arguments;
@@ -50,7 +52,8 @@ class RatesController extends GetxController implements SelectItemListener, Dial
   void onInit() {
     super.onInit();
     if (arguments != null) {
-      billingInfo.value = arguments[AppConstants.intentKey.billingInfo];
+      billingInfo.value =
+          arguments[AppConstants.intentKey.billingInfo] ?? BillingInfo();
       billingInfo.value.userId = arguments[AppConstants.intentKey.userId];
     }
     billingInfo.value.companyId = ApiConstants.companyId;
@@ -58,6 +61,7 @@ class RatesController extends GetxController implements SelectItemListener, Dial
     getActiveCompanyInfo();
     getTradeDataApi();
   }
+
   double parseToDouble(dynamic value) {
     if (value == null) return 0.0;
     if (value is num) return value.toDouble();
@@ -66,6 +70,7 @@ class RatesController extends GetxController implements SelectItemListener, Dial
     }
     return 0.0;
   }
+
   /*
   void calculateGrossAndCIS(){
     var cisPercentage = (int.tryParse(billingInfo.value.cis ?? "") ?? 0) / 100;
@@ -120,6 +125,7 @@ class RatesController extends GetxController implements SelectItemListener, Dial
 
     _checkForChanges();
   }
+
   bool isSameRate(double? oldRate, String newRateInput) {
     if (newRateInput.trim().isEmpty) return false;
     if (oldRate == null) return false;
@@ -128,6 +134,7 @@ class RatesController extends GetxController implements SelectItemListener, Dial
     // Prevent floating-point precision issues
     return (oldRate - newRate).abs() < 0.0001;
   }
+
   void _checkForChanges() {
     bool changed = false;
     final oldRate = double.tryParse(originalNetPerDay);
@@ -142,11 +149,13 @@ class RatesController extends GetxController implements SelectItemListener, Dial
     }
     isSaveEnabled.value = changed;
   }
+
   @override
   void onClose() {
     netPerDayController.value.dispose();
     super.onClose();
   }
+
   void getActiveCompanyInfo() async {
     Map<String, dynamic> map = {};
     map["user_id"] = billingInfo.value.userId;
@@ -155,11 +164,11 @@ class RatesController extends GetxController implements SelectItemListener, Dial
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
-          final response = ActiveCompanyInfoResponse.fromJson(jsonDecode(responseModel.result!));
+          final response = ActiveCompanyInfoResponse.fromJson(
+              jsonDecode(responseModel.result!));
           applyActiveCompanyData(response.info);
           isMainViewVisible.value = true;
-        }
-        else{
+        } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;
@@ -174,6 +183,7 @@ class RatesController extends GetxController implements SelectItemListener, Dial
       },
     );
   }
+
   void applyActiveCompanyData(ActiveCompanyInfo companyInfo) {
     final info = companyInfo;
     final bool isPending = info.isPendingRequest ?? false;
@@ -186,10 +196,9 @@ class RatesController extends GetxController implements SelectItemListener, Dial
     if (isPending && info.diffData?.tradeName != null) {
       final oldTrade = info.diffData!.tradeName!.oldValue?.toString() ?? "";
       final newTrade = info.diffData!.tradeName!.newValue?.toString() ?? "";
-      if (oldTrade.isNotEmpty && newTrade.isNotEmpty){
+      if (oldTrade.isNotEmpty && newTrade.isNotEmpty) {
         tradeText = "$oldTrade > $newTrade";
-      }
-      else if (oldTrade.isNotEmpty){
+      } else if (oldTrade.isNotEmpty) {
         tradeText = oldTrade;
       }
     }
@@ -202,11 +211,11 @@ class RatesController extends GetxController implements SelectItemListener, Dial
       final oldRate = info.diffData!.netRatePerDay!.oldValue ?? 0.00;
       final newRate = info.diffData!.netRatePerDay!.newValue ?? 0.00;
       if (newRate > 0) {
-        rateText = "${AppUtils.formatStringToDecimals(parseToDouble(oldRate))} > "
+        rateText =
+            "${AppUtils.formatStringToDecimals(parseToDouble(oldRate))} > "
             "${AppUtils.formatStringToDecimals(parseToDouble(newRate))}";
         originalNetPerDay = "$newRate";
-      }
-      else if (oldRate > 0){
+      } else if (oldRate > 0) {
         rateText = AppUtils.formatStringToDecimals(parseToDouble(oldRate));
         originalNetPerDay = "$oldRate";
       }
@@ -218,6 +227,7 @@ class RatesController extends GetxController implements SelectItemListener, Dial
     //calculate gross per day and cis %
     calculateGrossAndCIS();
   }
+
   void onSubmit() {
     bool isBothChanged = false;
 
@@ -227,12 +237,11 @@ class RatesController extends GetxController implements SelectItemListener, Dial
       isBothChanged = true;
     }
 
-    if (isBothChanged){
+    if (isBothChanged) {
       //both changed
       changeRateAndTradeAPI();
-    }
-    else{
-      if (!isSameRate(oldRate, newRateInput)){
+    } else {
+      if (!isSameRate(oldRate, newRateInput)) {
         //rate change api
         changeCompanyRateAPI();
       }
@@ -242,6 +251,7 @@ class RatesController extends GetxController implements SelectItemListener, Dial
       }
     }
   }
+
   void changeCompanyRateAPI() async {
     Map<String, dynamic> map = {};
     map["user_id"] = billingInfo.value.userId;
@@ -257,12 +267,11 @@ class RatesController extends GetxController implements SelectItemListener, Dial
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           BaseResponse response =
-          BaseResponse.fromJson(jsonDecode(responseModel.result!));
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.Message ?? "");
           isDataChanged = true;
           getActiveCompanyInfo();
-        }
-        else{
+        } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;
@@ -278,6 +287,7 @@ class RatesController extends GetxController implements SelectItemListener, Dial
       },
     );
   }
+
   void changeTradeAPI() async {
     Map<String, dynamic> map = {};
     map["user_id"] = billingInfo.value.userId;
@@ -290,12 +300,11 @@ class RatesController extends GetxController implements SelectItemListener, Dial
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           BaseResponse response =
-          BaseResponse.fromJson(jsonDecode(responseModel.result!));
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.Message ?? "");
           isDataChanged = true;
           getActiveCompanyInfo();
-        }
-        else{
+        } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;
@@ -311,6 +320,7 @@ class RatesController extends GetxController implements SelectItemListener, Dial
       },
     );
   }
+
   void changeRateAndTradeAPI() async {
     Map<String, dynamic> map = {};
     map["user_id"] = billingInfo.value.userId;
@@ -325,12 +335,11 @@ class RatesController extends GetxController implements SelectItemListener, Dial
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           BaseResponse response =
-          BaseResponse.fromJson(jsonDecode(responseModel.result!));
+              BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.Message ?? "");
           isDataChanged = true;
           getActiveCompanyInfo();
-        }
-        else{
+        } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;
@@ -350,6 +359,7 @@ class RatesController extends GetxController implements SelectItemListener, Dial
   bool valid() {
     return formKey.currentState!.validate();
   }
+
   void getTradeDataApi() {
     Map<String, dynamic> map = {};
     map["flag"] = "tradeList";
@@ -357,15 +367,13 @@ class RatesController extends GetxController implements SelectItemListener, Dial
     _api.getCompanyResourcesApi(
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
-
         if (responseModel.isSuccess) {
           TradeListResponse response =
-          TradeListResponse.fromJson(jsonDecode(responseModel.result!));
+              TradeListResponse.fromJson(jsonDecode(responseModel.result!));
           if (!StringHelper.isEmptyList(response.info)) {
             listTrades.addAll(response.info!);
           }
-        } else {
-        }
+        } else {}
 
         isLoading.value = false;
       },
@@ -377,6 +385,7 @@ class RatesController extends GetxController implements SelectItemListener, Dial
       },
     );
   }
+
   void showTradeList() {
     if (listTrades.isNotEmpty) {
       showDropDownDialog(AppConstants.dialogIdentifier.selectTrade,
@@ -400,17 +409,10 @@ class RatesController extends GetxController implements SelectItemListener, Dial
         backgroundColor: Colors.transparent,
         isScrollControlled: true);
   }
+
   showActionDialog(String dialogType) async {
-    AlertDialogHelper.showAlertDialog(
-        "",
-        'would_you_like_to_change'.tr,
-        'yes'.tr,
-        'no'.tr,
-        "",
-        true,
-        false,
-        this,
-        dialogType);
+    AlertDialogHelper.showAlertDialog("", 'would_you_like_to_change'.tr,
+        'yes'.tr, 'no'.tr, "", true, false, this, dialogType);
   }
 
   @override
@@ -421,9 +423,11 @@ class RatesController extends GetxController implements SelectItemListener, Dial
       _checkForChanges();
     }
   }
+
   void onBackPress() {
     Get.back(result: isDataChanged);
   }
+
   @override
   void onNegativeButtonClicked(String dialogIdentifier) {
     Get.back();

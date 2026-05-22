@@ -215,14 +215,22 @@ class SelectProjectController extends GetxController {
       data: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
-          StartWorkResponse.fromJson(jsonDecode(responseModel.result!));
-          var arguments = {
-            AppConstants.intentKey.fromStartShiftScreen: fromStartShiftScreen,
-          };
-          if (fromStartShiftScreen) {
-            Get.offNamed(AppRoutes.clockInScreen, arguments: arguments);
+          StartWorkResponse response =
+              StartWorkResponse.fromJson(jsonDecode(responseModel.result!));
+
+          if (response.isRateApproved == null ||
+              (response.isRateApproved ?? false)) {
+            var arguments = {
+              AppConstants.intentKey.fromStartShiftScreen: fromStartShiftScreen,
+            };
+            if (fromStartShiftScreen) {
+              Get.offNamed(AppRoutes.clockInScreen, arguments: arguments);
+            } else {
+              Get.back(result: true);
+            }
           } else {
-            Get.back(result: true);
+            AppUtils.showApiResponseMessage('rate_not_added_or_approved'.tr);
+           AppUtils.moveToRateScreen();
           }
         }
         isLoading.value = false;

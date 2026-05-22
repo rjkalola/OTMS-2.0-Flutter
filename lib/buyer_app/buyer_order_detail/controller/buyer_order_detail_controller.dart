@@ -118,6 +118,7 @@ class BuyerOrderDetailController extends GetxController
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
     map["id"] = id;
+    map["is_price_hide"] = false;
     if (isCancelled ?? false) map["type"] = "cancel";
     BuyerOrderRepository().buyerOrderInvoice(
       queryParameters: map,
