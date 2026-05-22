@@ -1,6 +1,5 @@
 import 'dart:math' as math;
-
-import 'package:belcka/pages/project/project_analytics/view/widgets/donut_section.dart';
+import 'package:belcka/pages/project/project_analytics/analytics/view/widgets/donut_section.dart';
 import 'package:flutter/material.dart';
 
 class DonutChart extends StatelessWidget {

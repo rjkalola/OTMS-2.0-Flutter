@@ -1,10 +1,7 @@
 import 'dart:io';
 import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
-import 'package:belcka/pages/notifications/notification_list/controller/notification_list_controller.dart';
-import 'package:belcka/pages/project/project_analytics/controller/project_analytics_controller.dart';
+import 'package:belcka/pages/project/project_analytics/analytics/controller/project_analytics_controller.dart';
 import 'package:belcka/res/colors.dart';
-import 'package:belcka/res/theme/theme_config.dart';
-import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/text/TextViewWithContainer.dart';
 import 'package:flutter/material.dart';

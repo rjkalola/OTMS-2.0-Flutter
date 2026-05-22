@@ -30,9 +30,9 @@ class UserUtils {
   }
 
   static bool isEmployee() {
-    UserInfo? info = Get.find<AppStorage>().getUserInfo();
-    // return info.userTypeId == AppConstants.userType.employee;
-    return false;
+    UserInfo info = Get.find<AppStorage>().getUserInfo();
+    int userRoleId = info.userRoleId ?? 0;
+    return userRoleId == AppConstants.userType.employee;
   }
 
   static bool isManager() {

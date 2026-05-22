@@ -4,7 +4,7 @@ import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:belcka/pages/common/listener/menu_item_listener.dart';
 import 'package:belcka/pages/common/listener/select_item_listener.dart';
 import 'package:belcka/pages/common/menu_items_list_bottom_dialog.dart';
-import 'package:belcka/pages/project/project_analytics/model/project_analytics_model.dart';
+import 'package:belcka/pages/project/project_analytics/analytics/model/project_analytics_model.dart';
 import 'package:belcka/pages/project/project_info/model/project_info.dart';
 import 'package:belcka/pages/project/project_info/model/project_list_response.dart';
 import 'package:belcka/pages/project/project_list/controller/project_list_repository.dart';

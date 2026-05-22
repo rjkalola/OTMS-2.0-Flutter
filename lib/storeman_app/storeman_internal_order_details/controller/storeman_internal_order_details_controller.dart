@@ -9,6 +9,7 @@ import 'package:belcka/storeman_app/storeman_internal_order_details/controller/s
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +39,7 @@ class StoremanInternalOrderDetailsController extends GetxController {
   final orderInfo = OrderDetailsInfo().obs;
   RxBool isExpanded = false.obs;
   bool fromNotification = false;
+  bool canShowActionButtons = false;
 
   void initFocusNodes(int length) {
     qtyFocusNodes = List.generate(length, (index) => FocusNode());
@@ -60,6 +62,14 @@ class StoremanInternalOrderDetailsController extends GetxController {
       fromNotification =
           arguments[AppConstants.intentKey.fromNotification] ?? false;
     }
+
+    if (UserUtils.isEmployee()){
+      canShowActionButtons = false;
+    }
+    else{
+      canShowActionButtons = true;
+    }
+
     fetchOrderDetails();
   }
 
@@ -87,7 +97,9 @@ class StoremanInternalOrderDetailsController extends GetxController {
             status.value = orderDetails[0].status ?? 0;
             initFocusNodes(orderDetails[0].orders?.length ?? 0);
             isMainViewVisible.value = true;
-            initializeOrders(orderDetails[0].orders ?? []);
+            if (canShowActionButtons) {
+              initializeOrders(orderDetails[0].orders ?? []);
+            }
           }
 
           isLoading.value = false;

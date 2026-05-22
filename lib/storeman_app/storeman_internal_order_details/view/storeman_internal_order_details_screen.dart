@@ -98,9 +98,7 @@ class _StoremanInternalOrderDetailsScreenState
                                   child: Row(
                                     children: [
                                       // Return Button
-                                      if (controller.status.value ==
-                                          AppConstants
-                                              .internalOrderStatus.delivered)
+                                      if ((controller.status.value == AppConstants.internalOrderStatus.delivered) && controller.canShowActionButtons)
                                         OutlinedButton(
                                           onPressed: () {
                                             FocusManager.instance.primaryFocus
@@ -146,9 +144,9 @@ class _StoremanInternalOrderDetailsScreenState
 
                                       Spacer(),
                                       //Cancel button
-                                      if (controller.status.value ==
-                                              AppConstants.internalOrderStatus
-                                                  .newOrder ||
+                                      if ((controller.status.value ==
+                                          AppConstants.internalOrderStatus
+                                              .newOrder ||
                                           controller.status.value ==
                                               AppConstants.internalOrderStatus
                                                   .partialDelivered ||
@@ -157,7 +155,7 @@ class _StoremanInternalOrderDetailsScreenState
                                                   .internalOrderStatus.ready ||
                                           controller.status.value ==
                                               AppConstants.internalOrderStatus
-                                                  .preparing )
+                                                  .preparing) && controller.canShowActionButtons)
                                         OutlinedButton(
                                           onPressed: () {
                                             FocusManager.instance.primaryFocus
@@ -223,8 +221,8 @@ class _StoremanInternalOrderDetailsScreenState
                                   ),
                                 )),
                                 //mark as prepare
-                                if (controller.status.value ==
-                                    AppConstants.internalOrderStatus.newOrder)
+                                if ((controller.status.value ==
+                                    AppConstants.internalOrderStatus.newOrder) && controller.canShowActionButtons)
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: PrimaryButton(
@@ -260,8 +258,7 @@ class _StoremanInternalOrderDetailsScreenState
                                     ),
                                   ),
                                 //ready to collect
-                                if (controller.status.value ==
-                                    AppConstants.internalOrderStatus.confirmed)
+                                if ((controller.status.value == AppConstants.internalOrderStatus.confirmed) && controller.canShowActionButtons)
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: PrimaryButton(
@@ -297,8 +294,8 @@ class _StoremanInternalOrderDetailsScreenState
                                     ),
                                   ),
                                 //mark as ready
-                                if (controller.status.value ==
-                                    AppConstants.internalOrderStatus.preparing)
+                                if ((controller.status.value ==
+                                    AppConstants.internalOrderStatus.preparing) && controller.canShowActionButtons)
                                   PrimaryButton(
                                     margin: const EdgeInsets.all(14),
                                     buttonText: 'mark_as_ready'.tr,
@@ -331,9 +328,9 @@ class _StoremanInternalOrderDetailsScreenState
                                     color: Colors.green,
                                   ),
                                 //delivered
-                                if ((controller.status.value == AppConstants.internalOrderStatus.ready ||
+                                if (((controller.status.value == AppConstants.internalOrderStatus.ready ||
                                     controller.status.value == AppConstants.internalOrderStatus.partialDelivered) &&
-                                    controller.getSelectedItemsCount() > 0)
+                                    controller.getSelectedItemsCount() > 0) && controller.canShowActionButtons)
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Container(
