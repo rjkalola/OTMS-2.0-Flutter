@@ -8,6 +8,8 @@ class AppRoutes {
       '/update_sign_up_details_screen';
   static const String verifyOtpScreen = '/verify_otp_screen';
   static const String dashboardScreen = '/dashboard_screen';
+  static const String workshopDashboardScreen = '/workshop_dashboard_screen';
+  static const String teamMemberListScreen = '/team_member_list_screen';
   static const String joinCompanyScreen = '/join_company_screen';
   static const String selectCompanyTradeScreen = '/select_company_trade_screen';
   static const String qrCodeScannerScreen = '/qr_code_scanner';
@@ -204,11 +206,11 @@ class AppRoutes {
   static const String reportIncidentsListScreen =
       '/report_incidents_list_screen';
   static const String hsSettingsScreen = '/hs_settings_screen';
-  static const String hsResourceTypesListScreen = '/hs_resource_types_list_screen';
+  static const String hsResourceTypesListScreen =
+      '/hs_resource_types_list_screen';
   static const String inductionTrainingListScreen =
       '/induction_training_list_screen';
   static const String storeSettingsScreen = '/store_settings_screen';
 
   static const String projectAnalyticsScreen = '/project_analytics_screen';
 }
-

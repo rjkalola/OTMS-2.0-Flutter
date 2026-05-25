@@ -43,8 +43,7 @@ class BuyerOrderController extends GetxController
   double cardRadius = 12;
   int selectedIndex = 0;
   String title = "", filterType = "";
-
-  /// True when opened from purchasing "incompleted" card (incomplete stock orders API).
+ 
   bool get isIncompletedOrdersFlow =>
       filterType == AppConstants.type.unCompleted;
   final searchController = TextEditingController().obs;
@@ -480,6 +479,32 @@ class BuyerOrderController extends GetxController
   void clearSearch() {
     searchController.value.clear();
     searchItem("");
+  }
+
+  void onClickCreateOrder() {
+    final selectedProducts =
+        requestOrdersList.where((item) => (item.cartQty ?? 0) > 0).toList();
+
+    if (selectedProducts.isEmpty) {
+      AppUtils.showToastMessage('msg_add_at_least_one_qty'.tr);
+      return;
+    }
+
+    if (!_hasSameSupplier(selectedProducts)) {
+      AppUtils.showToastMessage('msg_selected_products_same_supplier'.tr);
+      return;
+    }
+
+    var arguments = {
+      AppConstants.intentKey.productsData: selectedProducts,
+    };
+    moveToCreateOrderScreen(
+        appRout: AppRoutes.createBuyerOrderScreen, arguments: arguments);
+  }
+
+  bool _hasSameSupplier(List<ProductInfo> products) {
+    final supplierId = products.first.supplierId;
+    return products.every((item) => item.supplierId == supplierId);
   }
 
   Future<void> moveToCreateOrderScreen(

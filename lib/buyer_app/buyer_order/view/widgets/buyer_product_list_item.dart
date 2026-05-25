@@ -119,7 +119,11 @@ class BuyerProductListItem extends StatelessWidget {
                       ],
                     ),
                     if (!controller.isSingleFilter.value &&
-                        (!StringHelper.isEmptyString(item.storeName) ||
+                        (!StringHelper.isEmptyString(item.supplierName) ||
+                            !StringHelper.isEmptyString(item.storeName) ||
+                            !StringHelper.isEmptyString(item.projectName) ||
+                            !StringHelper.isEmptyString(
+                                item.productCategories) ||
                             !StringHelper.isEmptyString(
                                 item.orderUsersDisplay)))
                       Column(
@@ -147,11 +151,11 @@ class BuyerProductListItem extends StatelessWidget {
                                         child: TitleTextView(
                                           text: [
                                             if (!StringHelper.isEmptyString(
-                                                item.storeName))
-                                              item.storeName,
-                                            if (!StringHelper.isEmptyString(
                                                 item.supplierName))
                                               item.supplierName,
+                                            if (!StringHelper.isEmptyString(
+                                                item.storeName))
+                                              item.storeName,
                                             if (!StringHelper.isEmptyString(
                                                 item.projectName))
                                               item.projectName,
@@ -178,9 +182,9 @@ class BuyerProductListItem extends StatelessWidget {
                                                           item.orderUsersData);
                                                 },
                                                 child: TitleTextView(
-                                                  text: item
-                                                          .orderUsersDisplay ??
-                                                      "",
+                                                  text:
+                                                      item.orderUsersDisplay ??
+                                                          "",
                                                   fontSize: 15,
                                                   color: defaultAccentColor_(
                                                       context),

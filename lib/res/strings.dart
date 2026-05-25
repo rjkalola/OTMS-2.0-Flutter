@@ -694,6 +694,8 @@ class Strings extends Translations {
           'unite_total': "Unite Total",
           'tax': "Tax",
           'msg_add_at_least_one_qty': "Add at least 1 quantity",
+          'msg_selected_products_same_supplier':
+              "All selected products must belong to the same supplier!",
           'msg_select_at_least_one_qty': "Select at least 1 quantity",
           'msg_select_at_least_one_item': "Select at least 1 item",
           'crete_buyer_order_checkbox_note':

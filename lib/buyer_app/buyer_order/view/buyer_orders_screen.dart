@@ -5,10 +5,8 @@ import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_order_status_lis
 import 'package:belcka/buyer_app/buyer_order/view/widgets/buyer_products_list.dart';
 import 'package:belcka/pages/common/listener/date_filter_listener.dart';
 import 'package:belcka/pages/common/widgets/date_filter_options_horizontal_list.dart';
-import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/res/drawable.dart';
-import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/enums/order_tab_type.dart';
 import 'package:belcka/utils/image_utils.dart';
@@ -21,8 +19,6 @@ import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-
-import '../../../utils/app_constants.dart';
 
 class BuyerOrdersScreen extends StatefulWidget {
   const BuyerOrdersScreen({super.key});
@@ -137,26 +133,7 @@ class _BuyerOrdersScreenState extends State<BuyerOrdersScreen>
                                     margin: EdgeInsets.all(14),
                                     buttonText: 'create_order'.tr,
                                     onPressed: () {
-                                      var list = <ProductInfo>[];
-                                      for (var item
-                                          in controller.requestOrdersList) {
-                                        if ((item.cartQty ?? 0) > 0) {
-                                          list.add(item);
-                                        }
-                                      }
-                                      if (list.isNotEmpty) {
-                                        var arguments = {
-                                          AppConstants.intentKey.productsData:
-                                              list,
-                                        };
-                                        controller.moveToCreateOrderScreen(
-                                            appRout: AppRoutes
-                                                .createBuyerOrderScreen,
-                                            arguments: arguments);
-                                      } else {
-                                        AppUtils.showToastMessage(
-                                            'msg_add_at_least_one_qty'.tr);
-                                      }
+                                      controller.onClickCreateOrder();
                                     },
                                     color: Colors.green,
                                   )

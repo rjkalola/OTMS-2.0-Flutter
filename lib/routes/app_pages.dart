@@ -162,6 +162,8 @@ import 'package:belcka/pages/user_orders/hire_module/user_hire_products/view/use
 import 'package:belcka/pages/users/archive_user_list/view/archive_user_list_screen.dart';
 import 'package:belcka/pages/users/invite_user/view/invite_user_screen.dart';
 import 'package:belcka/pages/users/user_list/view/user_list_screen.dart';
+import 'package:belcka/pages/workshop/team_member_list/view/team_member_list_screen.dart';
+import 'package:belcka/pages/workshop/workshop_dashboard/view/workshop_dashboard_screen.dart';
 import 'package:get/get.dart';
 
 import 'app_routes.dart';
@@ -199,6 +201,14 @@ class AppPages {
     GetPage(
       name: AppRoutes.dashboardScreen,
       page: () => DashboardScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.workshopDashboardScreen,
+      page: () => WorkshopDashboardScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.teamMemberListScreen,
+      page: () => const TeamMemberListScreen(),
     ),
     GetPage(
       name: AppRoutes.joinCompanyScreen,
@@ -454,7 +464,8 @@ class AppPages {
     GetPage(
         name: AppRoutes.leaveHistoryScreen, page: () => LeaveHistoryScreen()),
     GetPage(
-        name: AppRoutes.hireHistoryScreen, page: () => const HireHistoryScreen()),
+        name: AppRoutes.hireHistoryScreen,
+        page: () => const HireHistoryScreen()),
     GetPage(
         name: AppRoutes.leaveDetailsScreen, page: () => LeaveDetailsScreen()),
     GetPage(name: AppRoutes.addExpenseScreen, page: () => AddExpenseScreen()),
@@ -500,7 +511,8 @@ class AppPages {
     GetPage(
         name: AppRoutes.paymentDetailsScreen,
         page: () => PaymentDetailsScreen()),
-    GetPage(name: AppRoutes.conflictsScreen, page: () => const ConflictsScreen()),
+    GetPage(
+        name: AppRoutes.conflictsScreen, page: () => const ConflictsScreen()),
     GetPage(
         name: AppRoutes.userOrdersCategoriesScreen,
         page: () => UserOrdersCategoriesScreen()),

@@ -20,6 +20,9 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? onPressedClear;
   final SystemUiOverlayStyle? systemOverlayStyle;
   final ShapeBorder? shape;
+  final double? elevation;
+  final Color? shadowColor;
+  final Color? surfaceTintColor;
   final String? searchHint;
   final String? searchLabel;
 
@@ -41,6 +44,9 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
       this.autoFocus,
       this.systemOverlayStyle,
       this.shape,
+      this.elevation,
+      this.shadowColor,
+      this.surfaceTintColor,
       this.searchHint,
       this.searchLabel});
 
@@ -49,6 +55,9 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
     final Color fg = foregroundColor ?? primaryTextColor_(context);
     return AppBar(
         shape: shape,
+        elevation: elevation,
+        shadowColor: shadowColor,
+        surfaceTintColor: surfaceTintColor,
         systemOverlayStyle: systemOverlayStyle,
         foregroundColor: foregroundColor,
         backgroundColor: bgColor ?? backgroundColor_(context),
