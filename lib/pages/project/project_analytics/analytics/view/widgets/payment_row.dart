@@ -1,4 +1,5 @@
 import 'package:belcka/pages/project/project_analytics/analytics/model/project_analytics_model.dart';
+import 'package:belcka/res/colors.dart';
 import 'package:flutter/material.dart';
 
 class PaymentRow extends StatelessWidget {
@@ -32,10 +33,10 @@ class PaymentRow extends StatelessWidget {
               children: [
                 Text(
                   payment.address,
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
-                      color: Color(0xFF0F172A)),
+                      color: primaryTextColor_(context)),
                   overflow: TextOverflow.ellipsis,
                 ),
                 Text(

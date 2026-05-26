@@ -184,6 +184,8 @@ class BasketController extends GetxController implements SelectItemListener, Dia
           addressList.clear();
           addressList.value = response.info ?? [];
           addressList.refresh();
+
+          /*
           if (addressList.isNotEmpty) {
             selectedAddressId.value = addressList[0].id ?? 0;
             selectedAddressTitle.value = addressList[0].name ?? "";
@@ -191,6 +193,8 @@ class BasketController extends GetxController implements SelectItemListener, Dia
             selectedAddressId.value = 0;
             selectedAddressTitle.value = "";
           }
+          */
+
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
@@ -514,7 +518,7 @@ class BasketController extends GetxController implements SelectItemListener, Dia
           list: list,
           listener: listener,
           isCloseEnable: true,
-          isSearchEnable: false,
+          isSearchEnable: true,
         ),
         backgroundColor: Colors.transparent,
         isScrollControlled: true);
@@ -523,7 +527,7 @@ class BasketController extends GetxController implements SelectItemListener, Dia
   void showAddressList() {
     if (addressList.isNotEmpty) {
       showAddressListDialog(AppConstants.dialogIdentifier.selectAddress,
-          'select_address'.tr, addressList, this);
+          'select_address'.tr, addressList, this,);
     } else {
       AppUtils.showToastMessage('empty_address_list'.tr);
     }

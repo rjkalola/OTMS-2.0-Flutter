@@ -17,6 +17,12 @@ class OrderDetailsOrdersList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    if (controller.orderDetails.isEmpty) {
+      return const Center(
+        child: Text("No orders found."),
+      );
+    }
+
     final orderInfo = controller.orderDetails[0];
     final orders = orderInfo.orders ?? [];
 

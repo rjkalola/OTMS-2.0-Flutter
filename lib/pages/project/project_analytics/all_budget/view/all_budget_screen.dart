@@ -1,9 +1,17 @@
 import 'dart:math' as math;
 import 'package:belcka/pages/project/project_analytics/all_budget/controller/all_budget_controller.dart';
 import 'package:belcka/pages/project/project_analytics/all_budget/model/budget_category.dart';
+import 'package:belcka/pages/project/project_analytics/all_budget/view/widgets/view_details_btn.dart';
+import 'package:belcka/pages/user_orders/widgets/orders_base_app_bar.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/widgets/CustomProgressbar.dart';
+import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class AllBudgetScreen extends StatefulWidget {
   const AllBudgetScreen({super.key});
@@ -50,73 +58,69 @@ class _AllBudgetScreenState extends State<AllBudgetScreen>
 
   @override
   Widget build(BuildContext context) {
+    AppUtils.setStatusBarColor();
     return Scaffold(
+      backgroundColor: dashBoardBgColor_(context),
+      appBar: OrdersBaseAppBar(
+        appBar: AppBar(),
+        title: 'All Budget',
+        isCenterTitle: false,
+        isBack: true,
+        widgets: actionButtons(),
+      ),
       body: SafeArea(
-        child: Column(
-          children: [
-            _buildHeader(),
-            Expanded(
-              child: ListView(
-                physics: const BouncingScrollPhysics(),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                children: [
-                  _buildTotalCard(_anims[0]),
-                  const SizedBox(height: 12),
-                  _buildBreakdownHeader(),
-                  const SizedBox(height: 10),
-                  ...List.generate(
-                    controller.categories.length,
-                    (i) => Padding(
-                      padding: const EdgeInsets.only(bottom: 12),
-                      child: _buildCategoryCard(controller.categories[i], i, _anims[i + 1]),
+        top: false,
+        bottom: false,
+        child:ModalProgressHUD(
+        inAsyncCall: controller.isLoading.value,
+            opacity: 0,
+            progressIndicator: const CustomProgressbar(),
+            child: controller.isInternetNotAvailable.value
+            ? NoInternetWidget(
+          onPressed: () {
+            controller.isInternetNotAvailable.value = false;
+          },
+        )
+            : Visibility(
+          visible: controller.isMainViewVisible.value,
+          child: Column(
+            children: [
+              Expanded(
+                child: ListView(
+                  physics: const BouncingScrollPhysics(),
+                  padding:
+                  const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  children: [
+                    _buildTotalCard(_anims[0]),
+                    const SizedBox(height: 12),
+                    ...List.generate(
+                      controller.categories.length,
+                          (i) => Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: _buildCategoryCard(controller.categories[i], i, _anims[i + 1]),
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 12),
-                  _buildFooterNote(),
-                  const SizedBox(height: 20),
-                ],
+                    const SizedBox(height: 12),
+                    _buildFooterNote(),
+                    const SizedBox(height: 20),
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
+            ],
+          ),
+        )),
       ),
     );
   }
 
-  // ─── Header ──────────────────────────────────────────────────────────────
-
-  Widget _buildHeader() {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(8, 10, 16, 10),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        border: Border(bottom: BorderSide(color: Color(0xFFF1F5F9))),
-      ),
-      child: Row(
-        children: [
-          IconButton(
-            icon: const Icon(Icons.arrow_back_ios_new_rounded,
-                size: 18, color: Color(0xFF1E293B)),
-            onPressed: () {},
-          ),
-          const Text(
-            'All Budget',
-            style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w800,
-                color: Color(0xFF0F172A),
-                letterSpacing: -0.4),
-          ),
-          const Spacer(),
-          _IconBtn(icon: Icons.open_in_new_rounded),
-          const SizedBox(width: 4),
-          _IconBtn(icon: Icons.more_vert_rounded),
-        ],
-      ),
-    );
+  List<Widget>? actionButtons() {
+    return [
+      _IconBtn(icon: Icons.open_in_new_rounded),
+      const SizedBox(width: 8),
+      _IconBtn(icon: Icons.more_vert_rounded),
+      SizedBox(width: 16,)
+    ];
   }
-
   // ─── Total Card ───────────────────────────────────────────────────────────
 
   Widget _buildTotalCard(Animation<double> anim) {
@@ -199,40 +203,8 @@ class _AllBudgetScreenState extends State<AllBudgetScreen>
     );
   }
 
-  // ─── Breakdown header ─────────────────────────────────────────────────────
-
-  Widget _buildBreakdownHeader() {
-    return Row(
-      children: [
-        const Text('Breakdown',
-            style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w800,
-                color: Color(0xFF0F172A),
-                letterSpacing: -0.3)),
-        const SizedBox(width: 8),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-          decoration: BoxDecoration(
-            color: const Color(0xFFEFF6FF),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Text(
-            '${controller.categories.length} categories',
-            style: const TextStyle(
-                fontSize: 11,
-                color: Color(0xFF2563EB),
-                fontWeight: FontWeight.w600),
-          ),
-        ),
-      ],
-    );
-  }
-
   // ─── Category Card ────────────────────────────────────────────────────────
-
-  Widget _buildCategoryCard(
-      BudgetCategory cat, int index, Animation<double> anim) {
+  Widget _buildCategoryCard(BudgetCategory cat, int index, Animation<double> anim) {
     final isSelected = controller.selectedIndex == index;
 
     return FadeTransition(
@@ -311,7 +283,20 @@ class _AllBudgetScreenState extends State<AllBudgetScreen>
                         ],
                       ),
                     ),
-                    _ViewDetailsBtn(color: cat.color),
+                    ViewDetailsBtn(
+                      color: cat.color,
+                      onTap: (){
+                        if (cat.type == "labor"){
+                          controller.moveToScreen(AppRoutes.laborDetailsScreen,[]);
+                        }
+                        else if (cat.type == "materials"){
+                          controller.moveToScreen(AppRoutes.materialsDetailsScreen,[]);
+                        }
+                        else if (cat.type == "others"){
+
+                        }
+                      },
+                    ),
                   ],
                 ),
                 const SizedBox(height: 16),
@@ -452,27 +437,6 @@ class _IconBtn extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           border: Border.all(color: const Color(0xFFE2E8F0))),
       child: Icon(icon, size: 17, color: const Color(0xFF64748B)),
-    );
-  }
-}
-
-class _ViewDetailsBtn extends StatelessWidget {
-  final Color color;
-  const _ViewDetailsBtn({required this.color});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      decoration: BoxDecoration(
-        color: color.withOpacity(0.08),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Text(
-        'View Details',
-        style: TextStyle(
-            fontSize: 11, color: color, fontWeight: FontWeight.w700),
-      ),
     );
   }
 }

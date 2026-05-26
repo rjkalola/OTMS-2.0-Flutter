@@ -1,4 +1,5 @@
 import 'package:belcka/pages/project/project_analytics/analytics/model/project_analytics_model.dart';
+import 'package:belcka/res/colors.dart';
 import 'package:flutter/material.dart';
 
 class BudgetRow extends StatelessWidget {
@@ -15,16 +16,16 @@ class BudgetRow extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(item.label,
-                style: const TextStyle(
+                style:  TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
-                    color: Color(0xFF475569))),
+                    color: primaryTextColor_(context))),
             Text(
               '£${_fmtShort(item.amount)}',
-              style: const TextStyle(
+              style:  TextStyle(
                   fontSize: 13,
-                  fontWeight: FontWeight.w700,
-                  color: Color(0xFF0F172A)),
+                  fontWeight: FontWeight.w600,
+                  color: primaryTextColor_(context)),
             ),
           ],
         ),
