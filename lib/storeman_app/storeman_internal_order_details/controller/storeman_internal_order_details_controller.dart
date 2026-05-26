@@ -63,13 +63,6 @@ class StoremanInternalOrderDetailsController extends GetxController {
           arguments[AppConstants.intentKey.fromNotification] ?? false;
     }
 
-    if (UserUtils.isEmployee()){
-      canShowActionButtons = false;
-    }
-    else{
-      canShowActionButtons = true;
-    }
-
     fetchOrderDetails();
   }
 
@@ -85,6 +78,18 @@ class StoremanInternalOrderDetailsController extends GetxController {
         if (responseModel.isSuccess) {
           OrderDetailsResponse response =
               OrderDetailsResponse.fromJson(jsonDecode(responseModel.result!));
+
+          canShowActionButtons = responseModel.canAccessInventory ?? false;
+
+          //remove this when we get value from api
+          if (UserUtils.isAdmin()){
+            canShowActionButtons = true;
+          }
+          else{
+            canShowActionButtons = false;
+          }
+
+          print("canAccessInventory: $canShowActionButtons");
 
           tempList.clear();
           tempList.addAll(response.info ?? []);

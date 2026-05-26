@@ -293,4 +293,8 @@ class ProjectAnalyticsController extends GetxController
       Get.back();
     }
   }
+
+  void onBackPress() {
+    Get.back();
+  }
 }

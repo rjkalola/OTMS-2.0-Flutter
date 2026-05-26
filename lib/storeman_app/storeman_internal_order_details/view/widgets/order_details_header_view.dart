@@ -44,7 +44,11 @@ class _OrderDetailsHeaderViewState extends State<OrderDetailsHeaderView> with Wi
 
   @override
   Widget build(BuildContext context) {
-
+    if (controller.orderDetails.isEmpty) {
+      return const Center(
+        child: Text("No orders found."), // Or a CircularProgressIndicator()
+      );
+    }
     final orderInfo = controller.orderDetails[0];
 
     return Container(

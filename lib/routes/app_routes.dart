@@ -219,5 +219,10 @@ class AppRoutes {
       '/induction_training_list_screen';
   static const String storeSettingsScreen = '/store_settings_screen';
 
+  //Project Analytics
   static const String projectAnalyticsScreen = '/project_analytics_screen';
+  static const String allBudgetScreen = '/all_budget_screen';
+  static const String allPaymentsScreen = '/all_payments_screen';
+  static const String laborDetailsScreen = '/labor_details_screen';
+  static const String materialsDetailsScreen = '/materials_details_screen';
 }

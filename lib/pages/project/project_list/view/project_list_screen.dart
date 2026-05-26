@@ -100,7 +100,7 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
       //   ),
       // ),
       Visibility(
-        visible: false,
+        visible: true,
         child: InkWell(
           onTap: () {
             controller.moveToScreen(AppRoutes.projectAnalyticsScreen,[]);

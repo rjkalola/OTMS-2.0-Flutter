@@ -11,6 +11,8 @@ import 'package:belcka/web_services/response/response_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../storeman_internal_order_details/controller/storeman_internal_order_details_controller.dart';
+
 class StoremanInternalOrderController extends GetxController {
   final _api = StoremanInternalOrderRepository();
 
@@ -157,7 +159,9 @@ class StoremanInternalOrderController extends GetxController {
   }
 
   void onItemClick(int index) {
+    Get.delete<StoremanInternalOrderDetailsController>();
     var arguments = {"order_id": (ordersList[index].id ?? 0).toString()};
+    print("order id:${ordersList[index].id ?? 0}");
     moveToScreen(
         appRout: AppRoutes.storemanInternalOrderDetailsScreen,
         arguments: arguments);

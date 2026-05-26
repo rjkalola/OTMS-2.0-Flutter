@@ -24,7 +24,11 @@ import 'package:belcka/pages/profile/health_and_safety/report_incident/view/repo
 import 'package:belcka/pages/profile/health_and_safety/report_incidents_list/report_incidents_list_screen.dart';
 import 'package:belcka/pages/profile/health_info/view/health_info_screen.dart';
 import 'package:belcka/pages/profile/user_code/view/user_code_screen.dart';
+import 'package:belcka/pages/project/project_analytics/all_budget/view/all_budget_screen.dart';
+import 'package:belcka/pages/project/project_analytics/all_payments/view/all_payments_screen.dart';
 import 'package:belcka/pages/project/project_analytics/analytics/view/project_analytics_screen.dart';
+import 'package:belcka/pages/project/project_analytics/labor_details/view/labor_details_screen.dart';
+import 'package:belcka/pages/project/project_analytics/material_details/view/materials_details_screen.dart';
 import 'package:belcka/pages/store_settings/view/store_settings_screen.dart';
 import 'package:belcka/pages/user_orders/favorite_products/view/favorite_products_screen.dart';
 import 'package:belcka/pages/user_orders/favorites/view/favorites_screen.dart';
@@ -657,5 +661,17 @@ class AppPages {
     GetPage(
         name: AppRoutes.projectAnalyticsScreen,
         page: () => ProjectAnalyticsScreen()),
+    GetPage(
+        name: AppRoutes.allBudgetScreen,
+        page: () => AllBudgetScreen()),
+    GetPage(
+        name: AppRoutes.allPaymentsScreen,
+        page: () => AllPaymentsScreen()),
+    GetPage(
+        name: AppRoutes.laborDetailsScreen,
+        page: () => LaborDetailsScreen()),
+    GetPage(
+        name: AppRoutes.materialsDetailsScreen,
+        page: () => MaterialsDetailsScreen()),
   ];
 }

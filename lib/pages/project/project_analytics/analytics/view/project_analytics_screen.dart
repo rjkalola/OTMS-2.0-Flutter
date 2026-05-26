@@ -9,6 +9,7 @@ import 'package:belcka/pages/project/project_analytics/analytics/view/widgets/pi
 import 'package:belcka/pages/project/project_analytics/analytics/view/widgets/project_analytics_segment_control.dart';
 import 'package:belcka/pages/project/project_analytics/analytics/view/widgets/stat_card.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
@@ -132,9 +133,11 @@ class _ProjectAnalyticsScreenState extends State<ProjectAnalyticsScreen>
                   style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w800,
-                      color: Color(0xFF0F172A),
+                      color: primaryTextColor_(context),
                       letterSpacing: -0.3)),
-              PillBadge(label: 'all_budgets'.tr, onTap: () {}),
+              PillBadge(label: 'all_budgets'.tr, onTap: () {
+                controller.moveToScreen(AppRoutes.allBudgetScreen,[]);
+              }),
             ],
           ),
           const SizedBox(height: 20),
@@ -187,9 +190,11 @@ class _ProjectAnalyticsScreenState extends State<ProjectAnalyticsScreen>
                   style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w800,
-                      color: Color(0xFF0F172A),
+                      color: primaryTextColor_(context),
                       letterSpacing: -0.3)),
-              PillBadge(label: 'all_payments'.tr, onTap: () {}),
+              PillBadge(label: 'all_payments'.tr, onTap: () {
+                controller.moveToScreen(AppRoutes.allPaymentsScreen,[]);
+              }),
             ],
           ),
           const SizedBox(height: 16),

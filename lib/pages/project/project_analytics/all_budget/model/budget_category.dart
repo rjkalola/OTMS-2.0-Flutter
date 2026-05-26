@@ -5,12 +5,14 @@ class BudgetCategory {
   final double total;
   final double spent;
   final Color color;
+  final String type;
 
   const BudgetCategory({
     required this.name,
     required this.total,
     required this.spent,
     required this.color,
+    required this.type,
   });
 
   double get remaining => total - spent;
