@@ -11,10 +11,11 @@ import 'package:belcka/widgets/text/TextViewWithContainer.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 
-class TeamMemberListItem extends StatelessWidget {
-  const TeamMemberListItem({super.key, required this.info});
+class WorkshopTeamsListItem extends StatelessWidget {
+  const WorkshopTeamsListItem({super.key, required this.info, this.onTap});
 
   final TeamMemberUserInfo info;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -25,43 +26,50 @@ class TeamMemberListItem extends StatelessWidget {
           borderRadius: 12,
           margin: const EdgeInsets.fromLTRB(12, 9, 12, 6),
           padding: const EdgeInsets.fromLTRB(12, 16, 10, 12),
-          child: Row(
-            children: [
-              GestureDetector(
-                onTap: () => AppUtils.onClickUserAvatar(info.id ?? 0),
-                child: UserAvtarView(
-                  imageUrl: info.image ?? '',
-                  imageSize: 52,
-                  imageBorderWidth: 2,
-                  imageBorderColor: const Color(0xff1E1E1E),
-                  isOnlineStatusVisible: info.isWorking == true,
-                  onlineStatusColor: Colors.green,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(12),
+            onTap: onTap,
+            child: Row(
+              children: [
+                GestureDetector(
+                  onTap: () => AppUtils.onClickUserAvatar(info.id ?? 0),
+                  child: UserAvtarView(
+                    imageUrl: info.image ?? '',
+                    imageSize: 50,
+                    imageBorderWidth: 1.2,
+                    imageBorderColor: const Color(0xff1E1E1E),
+                    isOnlineStatusVisible: true,
+                    onlineStatusColor: (info.statusColor != null &&
+                            info.statusColor!.startsWith("#"))
+                        ? AppUtils.getColor(info.statusColor ?? "#FF1744")
+                        : Colors.redAccent,
+                  ),
                 ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TitleTextView(
-                      text: info.name ?? '',
-                      fontSize: 17,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    if (!StringHelper.isEmptyString(info.lastWorkedDate))
-                      Padding(
-                        padding: const EdgeInsets.only(top: 2),
-                        child: SubtitleTextView(
-                          text: 'Last activity ${info.lastWorkedDate}',
-                          fontSize: 13,
-                        ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TitleTextView(
+                        text: info.name ?? '',
+                        fontSize: 17,
+                        fontWeight: FontWeight.w600,
                       ),
-                  ],
+                      if (!StringHelper.isEmptyString(info.lastWorkedTime))
+                        Padding(
+                          padding: const EdgeInsets.only(top: 2),
+                          child: SubtitleTextView(
+                            text: 'Last activity ${info.lastWorkedTime}',
+                            fontSize: 13,
+                          ),
+                        ),
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(width: 8),
-              RightArrowWidget(color: primaryTextColor_(context)),
-            ],
+                const SizedBox(width: 8),
+                RightArrowWidget(color: primaryTextColor_(context)),
+              ],
+            ),
           ),
         ),
         Positioned(

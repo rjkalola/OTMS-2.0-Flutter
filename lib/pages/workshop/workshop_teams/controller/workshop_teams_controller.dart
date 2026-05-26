@@ -4,7 +4,7 @@ import 'package:belcka/pages/common/drop_down_list_dialog.dart';
 import 'package:belcka/pages/common/listener/date_filter_listener.dart';
 import 'package:belcka/pages/common/listener/select_item_listener.dart';
 import 'package:belcka/pages/store_settings/model/team_member_list_response.dart';
-import 'package:belcka/pages/workshop/team_member_list/controller/team_member_list_repository.dart';
+import 'package:belcka/pages/workshop/workshop_teams/controller/workshop_teams_repository.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
@@ -17,9 +17,9 @@ import 'package:belcka/web_services/response/response_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class TeamMemberListController extends GetxController
+class WorkshopTeamsController extends GetxController
     implements SelectItemListener, DateFilterListener {
-  final _api = TeamMemberListRepository();
+  final _api = WorkshopTeamsRepository();
 
   final teams = <TeamMemberListItemInfo>[].obs;
   final selectedTeamFilterId = (-1).obs;
@@ -121,6 +121,33 @@ class TeamMemberListController extends GetxController
     return users;
   }
 
+  List<TeamMemberListItemInfo> _filteredTeams() {
+    selectedTeamFilterId.value;
+    teams.length;
+    if (selectedTeamFilterId.value == -1) {
+      return teams;
+    }
+    return teams
+        .where((team) => team.teamId == selectedTeamFilterId.value)
+        .toList();
+  }
+
+  int getDisplayMaxMembersCount() {
+    int count = 0;
+    for (final team in _filteredTeams()) {
+      count += team.maxMembers ?? 0;
+    }
+    return count;
+  }
+
+  int getDisplayTeamMemberCount() {
+    int count = 0;
+    for (final team in _filteredTeams()) {
+      count += team.teamMemberCount ?? (team.users?.length ?? 0);
+    }
+    return count;
+  }
+
   void showFilterTeamBottomSheet() {
     if (teams.isEmpty) return;
     final list = <ModuleInfo>[
@@ -181,8 +208,29 @@ class TeamMemberListController extends GetxController
     Get.back();
   }
 
-  void moveToCreateTeamScreen() {
-    Get.toNamed(AppRoutes.createTeamScreen);
+  Future<void> moveToAddMemberScreen() async {
+    final result = await Get.toNamed(AppRoutes.addMemberToWorkshopTeamScreen);
+    if (result == true) {
+      getTeamMemberListApi();
+    }
+  }
+
+  Future<void> moveToRemoveMemberScreen() async {
+    final result =
+        await Get.toNamed(AppRoutes.removeMemberFromWorkshopTeamScreen);
+    if (result == true) {
+      getTeamMemberListApi();
+    }
+  }
+
+  Future<void> moveToUserChecklogs(TeamMemberUserInfo info) async {
+    await Get.toNamed(
+      AppRoutes.workshopUserChecklogsScreen,
+      arguments: {
+        AppConstants.intentKey.userId: info.id ?? 0,
+        AppConstants.intentKey.userName: info.name ?? '',
+      },
+    );
   }
 
   void moveToTeamListScreen() {

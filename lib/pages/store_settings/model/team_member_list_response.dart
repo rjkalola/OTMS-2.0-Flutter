@@ -24,15 +24,21 @@ class TeamMemberListItemInfo {
   int? teamId;
   String? name;
   int? teamMemberCount;
+  int? maxMembers;
   List<TeamMemberUserInfo>? users;
 
   TeamMemberListItemInfo(
-      {this.teamId, this.name, this.teamMemberCount, this.users});
+      {this.teamId,
+      this.name,
+      this.teamMemberCount,
+      this.maxMembers,
+      this.users});
 
   TeamMemberListItemInfo.fromJson(Map<String, dynamic> json) {
     teamId = json['team_id'];
     name = json['name'];
     teamMemberCount = json['team_member_count'];
+    maxMembers = json['max_members'];
     if (json['users'] != null) {
       users = <TeamMemberUserInfo>[];
       json['users'].forEach((v) {

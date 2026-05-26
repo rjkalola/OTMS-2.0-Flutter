@@ -1,6 +1,6 @@
-import 'package:belcka/pages/workshop/team_member_list/controller/team_member_list_controller.dart';
-import 'package:belcka/pages/workshop/team_member_list/view/widgets/team_member_list_item.dart';
 import 'package:belcka/pages/common/widgets/date_filter_options_horizontal_list.dart';
+import 'package:belcka/pages/workshop/workshop_teams/controller/workshop_teams_controller.dart';
+import 'package:belcka/pages/workshop/workshop_teams/view/widgets/workshop_teams_list_item.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
@@ -11,15 +11,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
-class TeamMemberListScreen extends StatefulWidget {
-  const TeamMemberListScreen({super.key});
+class WorkshopTeamsScreen extends StatefulWidget {
+  const WorkshopTeamsScreen({super.key});
 
   @override
-  State<TeamMemberListScreen> createState() => _TeamMemberListScreenState();
+  State<WorkshopTeamsScreen> createState() => _WorkshopTeamsScreenState();
 }
 
-class _TeamMemberListScreenState extends State<TeamMemberListScreen> {
-  final controller = Get.put(TeamMemberListController());
+class _WorkshopTeamsScreenState extends State<WorkshopTeamsScreen> {
+  final controller = Get.put(WorkshopTeamsController());
 
   @override
   Widget build(BuildContext context) {
@@ -98,26 +98,26 @@ class _TeamMemberListScreenState extends State<TeamMemberListScreen> {
     return [
       InkWell(
         customBorder: const CircleBorder(),
-        onTap: controller.moveToCreateTeamScreen,
+        onTap: controller.moveToRemoveMemberScreen,
         child: Padding(
           padding: const EdgeInsets.all(6),
           child: Icon(
-            Icons.add,
+            Icons.delete_outline,
             color: primaryTextColor_(context),
-            size: 30,
+            size: 24,
           ),
         ),
       ),
       const SizedBox(width: 4),
       InkWell(
         customBorder: const CircleBorder(),
-        onTap: controller.moveToTeamListScreen,
+        onTap: controller.moveToAddMemberScreen,
         child: Padding(
           padding: const EdgeInsets.all(6),
           child: Icon(
-            Icons.more_vert,
+            Icons.add,
             color: primaryTextColor_(context),
-            size: 26,
+            size: 24,
           ),
         ),
       ),
@@ -128,51 +128,73 @@ class _TeamMemberListScreenState extends State<TeamMemberListScreen> {
   Widget _teamFilter(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 10, 16, 6),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(45),
-        onTap: () {
-          FocusManager.instance.primaryFocus?.unfocus();
-          controller.showFilterTeamBottomSheet();
-        },
-        child: Container(
-          height: 36,
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: Row(
-            children: [
-              Expanded(
-                child: Obx(
-                  () => Text(
-                    '${controller.selectedTeamFilterName.value} Team Filter',
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: secondaryTextColor_(context),
+      child: Row(
+        children: [
+          Expanded(
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(45),
+                onTap: () {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                  controller.showFilterTeamBottomSheet();
+                },
+                child: Container(
+                  height: 46,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(45),
+                    border: Border.all(
+                      color: const Color(0xffcccccc),
+                      width: 1,
                     ),
                   ),
-                ),
-              ),
-              const SizedBox(width: 8),
-              Obx(
-                () => Text(
-                  '${controller.buildDisplayUsers().length}',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: defaultAccentColor_(context),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Obx(
+                          () => Text(
+                            controller.selectedTeamFilterName.value,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400,
+                              color: primaryTextColor_(context),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Icon(
+                        Icons.keyboard_arrow_down,
+                        color: hintColor_(context),
+                      ),
+                    ],
                   ),
                 ),
               ),
-              Text(
-                '/${_totalUsers()} ${'working'.tr}',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: secondaryTextColor_(context),
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
+          const SizedBox(width: 10),
+          Obx(
+            () => Text(
+              '${controller.getDisplayMaxMembersCount()}',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: defaultAccentColor_(context),
+              ),
+            ),
+          ),
+          Obx(
+            () => Text(
+              '/${controller.getDisplayTeamMemberCount()} ${'working'.tr}',
+              style: TextStyle(
+                fontSize: 14,
+                color: secondaryTextColor_(context),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -187,20 +209,15 @@ class _TeamMemberListScreenState extends State<TeamMemberListScreen> {
       }
 
       return ListView.separated(
-        padding: const EdgeInsets.only(bottom: 16),
+        padding: const EdgeInsets.only(bottom: 16, top: 12),
         physics: const ClampingScrollPhysics(),
-        itemBuilder: (context, index) => TeamMemberListItem(info: users[index]),
-        separatorBuilder: (_, __) => const SizedBox(height: 0),
+        itemBuilder: (context, index) => WorkshopTeamsListItem(
+          info: users[index],
+          onTap: () => controller.moveToUserChecklogs(users[index]),
+        ),
+        separatorBuilder: (_, __) => const SizedBox(height: 6),
         itemCount: users.length,
       );
     });
-  }
-
-  int _totalUsers() {
-    int total = 0;
-    for (final team in controller.teams) {
-      total += team.users?.length ?? 0;
-    }
-    return total;
   }
 }

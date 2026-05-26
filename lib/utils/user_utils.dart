@@ -89,4 +89,9 @@ class UserUtils {
     UserInfo info = Get.find<AppStorage>().getUserInfo();
     return info.tradeId ?? 0;
   }
+
+  static int getLoginUserTeamId() {
+    UserInfo info = Get.find<AppStorage>().getUserInfo();
+    return info.teamId ?? 0;
+  }
 }

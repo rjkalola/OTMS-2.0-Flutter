@@ -1,0 +1,196 @@
+import 'dart:convert';
+
+import 'package:belcka/pages/common/drop_down_list_dialog.dart';
+import 'package:belcka/pages/common/listener/select_item_listener.dart';
+import 'package:belcka/pages/common/model/user_info.dart';
+import 'package:belcka/pages/permissions/user_list/model/user_list_response.dart';
+import 'package:belcka/pages/store_settings/model/team_member_list_response.dart';
+import 'package:belcka/pages/workshop/add_member_to_workshop_team/controller/add_member_to_workshop_team_repository.dart';
+import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/date_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/utils/user_utils.dart';
+import 'package:belcka/web_services/api_constants.dart';
+import 'package:belcka/web_services/response/base_response.dart';
+import 'package:belcka/web_services/response/module_info.dart';
+import 'package:belcka/web_services/response/response_model.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+class AddMemberToWorkshopTeamController extends GetxController
+    implements SelectItemListener {
+  final _api = AddMemberToWorkshopTeamRepository();
+
+  final teams = <TeamMemberListItemInfo>[].obs;
+  final users = <UserInfo>[].obs;
+  final selectedTeamName = ''.obs;
+  final selectedTeamId = 0.obs;
+  final isLoading = false.obs;
+  final isInternetNotAvailable = false.obs;
+  final isMainViewVisible = false.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    selectedTeamName.value = 'select_team'.tr;
+    getInitialData();
+  }
+
+  void getInitialData() {
+    getTeamDropdownApi();
+    getTeamUserListApi();
+  }
+
+  void getTeamDropdownApi() {
+    isLoading.value = true;
+    final dates = DateUtil.getDateWeekRange('Month');
+    final map = <String, dynamic>{
+      'user_id': UserUtils.getLoginUserId(),
+      'start_date': DateUtil.dateToString(dates[0], DateUtil.DD_MM_YYYY_SLASH),
+      'end_date': DateUtil.dateToString(dates[1], DateUtil.DD_MM_YYYY_SLASH),
+    };
+
+    _api.getTeamMemberList(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess && responseModel.result != null) {
+          final response = TeamMemberListResponse.fromJson(
+              jsonDecode(responseModel.result!) as Map<String, dynamic>);
+          if (response.isSuccess == true) {
+            teams.assignAll(response.info ?? []);
+            if (selectedTeamId.value == 0 && teams.isNotEmpty) {
+              selectedTeamId.value = teams.first.teamId ?? 0;
+              selectedTeamName.value = teams.first.name ?? 'select_team'.tr;
+            }
+          } else {
+            AppUtils.showSnackBarMessage(response.message ?? '');
+          }
+        } else {
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? '');
+        }
+        isLoading.value = false;
+      },
+      onError: _handleError,
+    );
+  }
+
+  void getTeamUserListApi() {
+    isLoading.value = true;
+    final map = <String, dynamic>{
+      'company_id': ApiConstants.companyId,
+    };
+
+    _api.getTeamUserList(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess && responseModel.result != null) {
+          final response = UserListResponse.fromJson(
+              jsonDecode(responseModel.result!) as Map<String, dynamic>);
+          if (response.isSuccess == true) {
+            isMainViewVisible.value = true;
+            users.assignAll(response.info ?? []);
+            for (final user in users) {
+              user.isCheck = false;
+            }
+          } else {
+            AppUtils.showSnackBarMessage(response.message ?? '');
+          }
+        } else {
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? '');
+        }
+        isLoading.value = false;
+      },
+      onError: _handleError,
+    );
+  }
+
+  void _handleError(ResponseModel error) {
+    isLoading.value = false;
+    if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+      isInternetNotAvailable.value = true;
+    } else if (!StringHelper.isEmptyString(error.statusMessage)) {
+      AppUtils.showSnackBarMessage(error.statusMessage ?? '');
+    }
+  }
+
+  void showTeamDropdown() {
+    if (teams.isEmpty) return;
+    final list = teams
+        .where((team) => team.teamId != null)
+        .map((team) => ModuleInfo(id: team.teamId, name: team.name))
+        .toList();
+
+    Get.bottomSheet(
+      DropDownListDialog(
+        title: 'select_team'.tr,
+        dialogType: AppConstants.dialogIdentifier.selectTeam,
+        list: list,
+        listener: this,
+        isCloseEnable: true,
+        isSearchEnable: true,
+      ),
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+    );
+  }
+
+  int selectedUsersCount() {
+    return users.where((user) => user.isCheck == true).length;
+  }
+
+  void toggleUser(UserInfo user) {
+    user.isCheck = !(user.isCheck ?? false);
+    users.refresh();
+  }
+
+  void addSelectedUsersToTeam() {
+    if (selectedTeamId.value == 0) {
+      AppUtils.showToastMessage('select_team'.tr);
+      return;
+    }
+
+    final selectedIds = users
+        .where((user) => user.isCheck == true && (user.id ?? 0) != 0)
+        .map((user) => '${user.id}')
+        .join(',');
+    if (StringHelper.isEmptyString(selectedIds)) {
+      AppUtils.showToastMessage('empty_data_message'.tr);
+      return;
+    }
+
+    isLoading.value = true;
+    final map = <String, dynamic>{
+      'team_id': '${selectedTeamId.value}',
+      'user_id': selectedIds,
+    };
+    _api.addUserToTeam(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.result != null) {
+          final response = BaseResponse.fromJson(
+              jsonDecode(responseModel.result!) as Map<String, dynamic>);
+          if (response.IsSuccess == true) {
+            AppUtils.showApiResponseMessage(response.Message ?? '');
+            Get.back(result: true);
+          } else {
+            AppUtils.showSnackBarMessage(response.Message ?? '');
+          }
+        } else {
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? '');
+        }
+        isLoading.value = false;
+      },
+      onError: _handleError,
+    );
+  }
+
+  @override
+  void onSelectItem(int position, int id, String name, String action) {
+    if (action == AppConstants.dialogIdentifier.selectTeam) {
+      selectedTeamId.value = id;
+      selectedTeamName.value =
+          !StringHelper.isEmptyString(name) ? name : 'select_team'.tr;
+    }
+  }
+}

@@ -11,6 +11,7 @@ class UserInfo {
   String? userImage;
   String? userThumbImage;
   int? companyId;
+  int? teamId;
   int? deviceType;
   String? apiToken;
   int? tradeId;
@@ -40,6 +41,7 @@ class UserInfo {
       this.userImage,
       this.userThumbImage,
       this.companyId,
+      this.teamId,
       this.deviceType,
       this.apiToken,
       this.tradeId,
@@ -69,6 +71,7 @@ class UserInfo {
     userImage = json['user_image'];
     userThumbImage = json['user_thumb_image'];
     companyId = json['company_id'];
+    teamId = json['team_id'];
     deviceType = json['device_type'];
     apiToken = json['api_token'];
     tradeId = json['trade_id'];
@@ -100,6 +103,7 @@ class UserInfo {
     data['user_image'] = this.userImage;
     data['user_thumb_image'] = this.userThumbImage;
     data['company_id'] = this.companyId;
+    data['team_id'] = teamId;
     data['device_type'] = this.deviceType;
     data['api_token'] = this.apiToken;
     data['trade_id'] = this.tradeId;
@@ -131,6 +135,7 @@ class UserInfo {
       String? userImage,
       String? userThumbImage,
       int? companyId,
+      int? teamId,
       int? deviceType,
       String? deviceToken,
       bool? isCheck,
@@ -157,6 +162,7 @@ class UserInfo {
         userImage: userImage ?? this.userImage,
         userThumbImage: userImage ?? this.userThumbImage,
         companyId: companyId ?? this.companyId,
+        teamId: teamId ?? this.teamId,
         deviceType: deviceType ?? this.deviceType,
         apiToken: deviceToken ?? this.apiToken,
         tradeId: tradeId ?? this.tradeId,
@@ -189,6 +195,7 @@ class UserInfo {
         userImage: userInfo?.userImage ?? this.userImage,
         userThumbImage: userInfo?.userImage ?? this.userThumbImage,
         companyId: userInfo?.companyId ?? this.companyId,
+        teamId: userInfo?.teamId ?? teamId,
         deviceType: userInfo?.deviceType ?? this.deviceType,
         apiToken: userInfo?.apiToken ?? this.apiToken,
         tradeId: userInfo?.tradeId ?? this.tradeId,

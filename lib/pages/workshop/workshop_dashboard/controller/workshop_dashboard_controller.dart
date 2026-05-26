@@ -1,6 +1,5 @@
 import 'package:belcka/pages/workshop/workshop_dashboard/model/workshop_dashboard_item.dart';
 import 'package:belcka/routes/app_routes.dart';
-import 'package:belcka/utils/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -32,15 +31,10 @@ class WorkshopDashboardController extends GetxController {
   void onItemTap(WorkshopDashboardItem item) {
     switch (item.action) {
       case WorkshopDashboardAction.team:
-        Get.toNamed(AppRoutes.teamMemberListScreen);
+        Get.toNamed(AppRoutes.workshopTeamsScreen);
         break;
       case WorkshopDashboardAction.hiredTools:
-        Get.toNamed(
-          AppRoutes.storemanHireProductsScreen,
-          arguments: {
-            AppConstants.intentKey.selectedTabType: AppConstants.type.hired,
-          },
-        );
+        Get.toNamed(AppRoutes.workshopHiredToolsScreen);
         break;
       case WorkshopDashboardAction.projects:
         Get.toNamed(AppRoutes.projectListScreen);

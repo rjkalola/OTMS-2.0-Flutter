@@ -449,7 +449,7 @@ class HireStatus {
   final int request = 2;
   final int hired = 3;
   final int inService = 4;
-  final int damaged = 5;
+  final int damaged = 5;  
   final int cancelled = 6;
 }
 

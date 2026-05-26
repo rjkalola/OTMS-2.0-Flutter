@@ -9,7 +9,14 @@ class AppRoutes {
   static const String verifyOtpScreen = '/verify_otp_screen';
   static const String dashboardScreen = '/dashboard_screen';
   static const String workshopDashboardScreen = '/workshop_dashboard_screen';
-  static const String teamMemberListScreen = '/team_member_list_screen';
+  static const String workshopTeamsScreen = '/workshop_teams_screen';
+  static const String addMemberToWorkshopTeamScreen =
+      '/add_member_to_workshop_team_screen';
+  static const String removeMemberFromWorkshopTeamScreen =
+      '/remove_member_from_workshop_team_screen';
+  static const String workshopHiredToolsScreen = '/workshop_hired_tools_screen';
+  static const String workshopUserChecklogsScreen =
+      '/workshop_user_checklogs_screen';
   static const String joinCompanyScreen = '/join_company_screen';
   static const String selectCompanyTradeScreen = '/select_company_trade_screen';
   static const String qrCodeScannerScreen = '/qr_code_scanner';

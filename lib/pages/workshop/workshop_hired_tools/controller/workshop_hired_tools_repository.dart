@@ -2,14 +2,14 @@ import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/network/api_request.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 
-class TeamMemberListRepository {
-  void getTeamMemberList({
+class WorkshopHiredToolsRepository {
+  void getWorkshopHiredTools({
     Map<String, dynamic>? queryParameters,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
     ApiRequest(
-      url: ApiConstants.teamGetTeamMemberList,
+      url: ApiConstants.hireOrdersWorkshopList,
       data: null,
       queryParameters: queryParameters,
       isFormData: false,

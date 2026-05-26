@@ -49,7 +49,7 @@ class ApiConstants {
   static String changeDashboardUserPermissionMultipleSequenceUrl =
       '$appUrl/dashboard/user/change-bulk-sequence';
 
-  //trades 
+  //trades
   static String getCompanyTradesUrl = '$appUrl/trade/get-company-trades';
   static String createTrade = '$appUrl/trade/create-trade';
   static String deleteCompanyBulkTrades =
@@ -125,6 +125,8 @@ class ApiConstants {
   static String resolveTeamConflict = '$appUrl/team/resolve-team-conflict';
   static String teamUserList = '$appUrl/team/user-list';
   static String teamGetTeamMemberList = '$appUrl/team/get-team-member-list';
+  static String teamAddUserToTeam = '$appUrl/team/add-user-to-team';
+  static String teamRemoveUsersToTeam = '$appUrl/team/remove-users-to-team';
   static String teamChangeBulkCheckin = '$appUrl/team/change-bulk-checkin';
 
   //shifts
@@ -156,7 +158,8 @@ class ApiConstants {
   static String getHealthIssues = '$appUrl/user-health-info/get-health-issues';
   static String getHealthInfo = '$appUrl/user-health-info/get-health-info';
   static String storeHealthInfo = '$appUrl/user-health-info/store-health-info';
-  static String updateHealthInfo = '$appUrl/user-health-info/update-health-info';
+  static String updateHealthInfo =
+      '$appUrl/user-health-info/update-health-info';
   static String requestsGetRequestDetail =
       '$appUrl/requests/get-request-detail';
   static String archiveAccount = '$appUrl/user/archive-account';
@@ -181,7 +184,8 @@ class ApiConstants {
   static String workLogRequestApproveReject =
       '$appUrl/user-worklog/worklog-request/action';
   static String getLastWorkLog = '$appUrl/user-worklog/get-last-worklog';
-  static String userStoreOfflineWork = '$appUrl/user-worklog/store-offline-work';
+  static String userStoreOfflineWork =
+      '$appUrl/user-worklog/store-offline-work';
   static String userKeepOfflineWork = '$appUrl/user-worklog/keep-offline-work';
   static String userBillingInfoValidation = '$appUrl/user-billing/validate';
 
@@ -231,6 +235,7 @@ class ApiConstants {
   static String getProjectDetails = '$appUrl/project/project-detail';
   static String projectArchiveList = '$appUrl/project/archive-list';
   static String getProjectCheckLogs = '$appUrl/project/get-checklogs';
+  static String getWorkshopUserCheckLogs = '$appUrl/project/workshop-checklogs';
   static String getProjectTradeRecords = '$appUrl/trade/get-checklogs';
   static String activeProject = '$appUrl/project/active';
   static String getTeamUserLocations =
@@ -307,7 +312,7 @@ class ApiConstants {
   static String changeAdmin = '$appUrl/company/make-admin';
 
   // static String archiveUser = '$appUrl/user/unarchive-account';
-  
+
   //filters
   static String getRequestFilters = '$appUrl/requests/get-filters';
   static String getTimesheetFilters = '$appUrl/timesheet/get-resources';
@@ -401,6 +406,7 @@ class ApiConstants {
   static String hireOrdersCreate = '$appUrl/hire-orders/create';
   static String hireOrdersGet = '$appUrl/hire-orders/get';
   static String hireOrdersGetProducts = '$appUrl/hire-orders/get-products';
+  static String hireOrdersWorkshopList = '$appUrl/hire-orders/workshop-list';
   static String hireOrdersDetail = '$appUrl/hire-orders/detail';
   static String hireOrdersUpdateStatus = '$appUrl/hire-orders/update-status';
 
@@ -428,5 +434,4 @@ class ApiConstants {
   // Buyer reports
   static String getModules = '$appUrl/get-modules';
   static String exportReports = '$appUrl/export-reports';
-
 }

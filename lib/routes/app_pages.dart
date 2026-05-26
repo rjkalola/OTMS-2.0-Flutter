@@ -162,8 +162,12 @@ import 'package:belcka/pages/user_orders/hire_module/user_hire_products/view/use
 import 'package:belcka/pages/users/archive_user_list/view/archive_user_list_screen.dart';
 import 'package:belcka/pages/users/invite_user/view/invite_user_screen.dart';
 import 'package:belcka/pages/users/user_list/view/user_list_screen.dart';
-import 'package:belcka/pages/workshop/team_member_list/view/team_member_list_screen.dart';
+import 'package:belcka/pages/workshop/add_member_to_workshop_team/view/add_member_to_workshop_team_screen.dart';
+import 'package:belcka/pages/workshop/remove_member_from_workshop_team/view/remove_member_from_workshop_team_screen.dart';
+import 'package:belcka/pages/workshop/workshop_hired_tools/view/workshop_hired_tools_screen.dart';
+import 'package:belcka/pages/workshop/workshop_teams/view/workshop_teams_screen.dart';
 import 'package:belcka/pages/workshop/workshop_dashboard/view/workshop_dashboard_screen.dart';
+import 'package:belcka/pages/workshop/workshop_user_checklogs/view/workshop_user_checklogs_screen.dart';
 import 'package:get/get.dart';
 
 import 'app_routes.dart';
@@ -207,8 +211,24 @@ class AppPages {
       page: () => WorkshopDashboardScreen(),
     ),
     GetPage(
-      name: AppRoutes.teamMemberListScreen,
-      page: () => const TeamMemberListScreen(),
+      name: AppRoutes.workshopTeamsScreen,
+      page: () => const WorkshopTeamsScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.addMemberToWorkshopTeamScreen,
+      page: () => const AddMemberToWorkshopTeamScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.removeMemberFromWorkshopTeamScreen,
+      page: () => const RemoveMemberFromWorkshopTeamScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.workshopHiredToolsScreen,
+      page: () => const WorkshopHiredToolsScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.workshopUserChecklogsScreen,
+      page: () => const WorkshopUserChecklogsScreen(),
     ),
     GetPage(
       name: AppRoutes.joinCompanyScreen,
