@@ -95,6 +95,7 @@ class RightSideIconsListWidget extends StatelessWidget {
                               item.thumbUrl ?? "",
                               width: 26,
                               height: 26,
+                              color: primaryTextColor_(context),
                               errorBuilder:
                                   (_, __, ___) {
                                 return Icon(
