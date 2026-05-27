@@ -3,15 +3,13 @@ class ResponseModel {
   String? statusMessage;
   String? messageCode;
   String? result;
-  bool? canAccessInventory;
   bool isSuccess;
 
   ResponseModel(
       {required this.isSuccess,
       this.statusCode,
       this.statusMessage,
-      this.result,
-      this.canAccessInventory});
+      this.result,});
 
   @override
   String toString() {

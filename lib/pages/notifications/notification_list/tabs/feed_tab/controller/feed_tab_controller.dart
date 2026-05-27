@@ -4,6 +4,7 @@ import 'package:belcka/pages/notifications/notification_list/controller/notifica
 import 'package:belcka/pages/notifications/notification_list/model/feed_info.dart';
 import 'package:belcka/pages/notifications/notification_list/tabs/feed_tab/controller/feed_tab_repository.dart';
 import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/storeman_app/storeman_internal_order_details/controller/storeman_internal_order_details_controller.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/custom_cache_manager.dart';
@@ -277,6 +278,7 @@ class FeedTabController extends GetxController {
               AppConstants.notificationType.employeeOrderCreate ||
           notificationType ==
               AppConstants.notificationType.employeeOrderStatusChange) {
+        Get.delete<StoremanInternalOrderDetailsController>();
         var arguments = {"order_id": "${info.recordId ?? 0}"};
         moveToScreen(AppRoutes.storemanInternalOrderDetailsScreen,
             arguments: arguments, index: index);

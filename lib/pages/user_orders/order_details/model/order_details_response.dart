@@ -2,13 +2,15 @@ import 'package:belcka/pages/user_orders/order_details/model/order_details_info.
 
 class OrderDetailsResponse {
   bool? isSuccess;
+  bool? canAccessInventory;
   String? message;
   List<OrderDetailsInfo>? info;
 
-  OrderDetailsResponse({this.isSuccess, this.message, this.info});
+  OrderDetailsResponse({this.isSuccess, this.message, this.info, this.canAccessInventory});
 
   OrderDetailsResponse.fromJson(Map<String, dynamic> json) {
     isSuccess = json['IsSuccess'];
+    canAccessInventory = json['can_access_inventory'];
     message = json['message'];
     if (json['info'] != null) {
       info = <OrderDetailsInfo>[];

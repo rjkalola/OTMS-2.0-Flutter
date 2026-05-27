@@ -79,18 +79,8 @@ class StoremanInternalOrderDetailsController extends GetxController {
           OrderDetailsResponse response =
               OrderDetailsResponse.fromJson(jsonDecode(responseModel.result!));
 
-          canShowActionButtons = responseModel.canAccessInventory ?? false;
-
-          //remove this when we get value from api
-          if (UserUtils.isAdmin()){
-            canShowActionButtons = true;
-          }
-          else{
-            canShowActionButtons = false;
-          }
-
+          canShowActionButtons = response.canAccessInventory ?? false;
           print("canAccessInventory: $canShowActionButtons");
-
           tempList.clear();
           tempList.addAll(response.info ?? []);
 

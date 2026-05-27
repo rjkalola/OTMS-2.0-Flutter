@@ -1,4 +1,6 @@
 import 'package:belcka/pages/common/listener/date_filter_listener.dart';
+import 'package:belcka/pages/dashboard/controller/dashboard_controller.dart';
+import 'package:belcka/pages/dashboard/tabs/home_tab/view/home_tab.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/res/drawable.dart';
 import 'package:belcka/routes/app_routes.dart';
@@ -30,6 +32,8 @@ class StoremanInventoryScreen extends StatefulWidget {
 class _StoremanInventoryScreenState extends State<StoremanInventoryScreen>
     implements DateFilterListener {
   final controller = Get.put(StoremanInventoryController());
+
+  final tabController = Get.put(DashboardController());
 
   @override
   Widget build(BuildContext context) {
@@ -108,6 +112,24 @@ class _StoremanInventoryScreenState extends State<StoremanInventoryScreen>
 
   List<Widget>? actionButtons() {
     return [
+      /*
+      Visibility(
+        visible: true,
+        child: InkWell(
+          onTap: () {
+
+          },
+          customBorder: const CircleBorder(),
+          child: Padding(
+            padding: const EdgeInsets.all(6),
+            child: Icon(Icons.add),
+          ),
+        ),
+      ),
+      */
+      SizedBox(
+        width: 6,
+      ),
       Visibility(
         visible: controller.isMainViewVisible.value,
         child: GestureDetector(
