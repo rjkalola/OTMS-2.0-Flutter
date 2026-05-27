@@ -24,6 +24,7 @@ class TeamMemberListItemInfo {
   int? teamId;
   String? name;
   int? teamMemberCount;
+  int? workingMemberCount;
   int? maxMembers;
   List<TeamMemberUserInfo>? users;
 
@@ -31,6 +32,7 @@ class TeamMemberListItemInfo {
       {this.teamId,
       this.name,
       this.teamMemberCount,
+      this.workingMemberCount,
       this.maxMembers,
       this.users});
 
@@ -38,6 +40,7 @@ class TeamMemberListItemInfo {
     teamId = json['team_id'];
     name = json['name'];
     teamMemberCount = json['team_member_count'];
+    workingMemberCount = json['working_member_count'];
     maxMembers = json['max_members'];
     if (json['users'] != null) {
       users = <TeamMemberUserInfo>[];

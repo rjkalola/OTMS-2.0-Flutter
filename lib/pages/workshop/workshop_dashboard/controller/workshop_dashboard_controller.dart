@@ -1,7 +1,10 @@
 import 'package:belcka/pages/workshop/workshop_dashboard/model/workshop_dashboard_item.dart';
 import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/user_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../../../utils/app_constants.dart';
 
 class WorkshopDashboardController extends GetxController {
   final dashboardItems = const <WorkshopDashboardItem>[
@@ -37,7 +40,10 @@ class WorkshopDashboardController extends GetxController {
         Get.toNamed(AppRoutes.workshopHiredToolsScreen);
         break;
       case WorkshopDashboardAction.projects:
-        Get.toNamed(AppRoutes.projectListScreen);
+        var arguments = {
+          AppConstants.intentKey.teamId: UserUtils.getSupervisorTeamIds(),
+        };
+        Get.toNamed(AppRoutes.projectListScreen, arguments: arguments);
         break;
     }
   }

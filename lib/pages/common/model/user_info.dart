@@ -27,6 +27,7 @@ class UserInfo {
   String? lastWorkedTime;
   String? lastWorkedDate;
   String? statusColor;
+  String? supervisorTeamIds;
 
   UserInfo(
       {this.id,
@@ -56,7 +57,8 @@ class UserInfo {
       this.isOnBreak,
       this.lastWorkedTime,
       this.lastWorkedDate,
-      this.statusColor});
+      this.statusColor,
+      this.supervisorTeamIds});
 
   UserInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -87,6 +89,7 @@ class UserInfo {
     lastWorkedTime = json['last_worked_time'];
     lastWorkedDate = json['last_worked_date'];
     statusColor = json['status_color'];
+    supervisorTeamIds = json['supervisor_team_ids'];
   }
 
   Map<String, dynamic> toJson() {
@@ -119,6 +122,7 @@ class UserInfo {
     data['last_worked_time'] = this.lastWorkedTime;
     data['last_worked_date'] = this.lastWorkedDate;
     data['status_color'] = this.statusColor;
+    data['supervisor_team_ids'] = this.supervisorTeamIds;
     return data;
   }
 
@@ -148,7 +152,8 @@ class UserInfo {
       bool? isOnBreak,
       String? lastWorkedTime,
       String? lastWorkedDate,
-      String? statusColor}) {
+      String? statusColor,
+      String? supervisorTeamIds}) {
     return UserInfo(
         id: id ?? this.id,
         firstName: firstName ?? this.firstName,
@@ -177,7 +182,8 @@ class UserInfo {
         isOnBreak: isOnBreak ?? this.isOnBreak,
         lastWorkedTime: lastWorkedTime ?? this.lastWorkedTime,
         lastWorkedDate: lastWorkedDate ?? this.lastWorkedDate,
-        statusColor: statusColor ?? this.statusColor);
+        statusColor: statusColor ?? this.statusColor,
+        supervisorTeamIds: supervisorTeamIds ?? this.supervisorTeamIds);
   }
 
   UserInfo copyUserInfo({UserInfo? userInfo}) {
@@ -210,6 +216,8 @@ class UserInfo {
         isOnBreak: userInfo?.isOnBreak ?? this.isOnBreak,
         lastWorkedTime: userInfo?.lastWorkedTime ?? this.lastWorkedTime,
         lastWorkedDate: userInfo?.lastWorkedDate ?? this.lastWorkedDate,
-        statusColor: userInfo?.statusColor ?? this.statusColor);
+        statusColor: userInfo?.statusColor ?? this.statusColor,
+        supervisorTeamIds:
+            userInfo?.supervisorTeamIds ?? this.supervisorTeamIds);
   }
 }

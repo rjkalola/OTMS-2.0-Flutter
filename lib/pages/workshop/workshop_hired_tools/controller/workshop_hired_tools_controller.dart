@@ -17,6 +17,8 @@ class WorkshopHiredToolsController extends GetxController {
 
   final selectedStatus = AppConstants.hireStatus.hired.obs;
   final toolsList = <WorkshopHiredToolInfo>[].obs;
+  final requestedCount = 0.obs;
+  final hiredCount = 0.obs;
   final searchController = TextEditingController().obs;
   final isLoading = false.obs;
   final isInternetNotAvailable = false.obs;
@@ -58,7 +60,7 @@ class WorkshopHiredToolsController extends GetxController {
   void getWorkshopHiredToolsApi() {
     isLoading.value = true;
     final map = <String, dynamic>{
-      'team_id': UserUtils.getLoginUserTeamId(),
+      'team_ids': UserUtils.getSupervisorTeamIds(),
       'status': selectedStatus.value,
     };
 
@@ -70,6 +72,8 @@ class WorkshopHiredToolsController extends GetxController {
           final response = WorkshopHiredToolsResponse.fromJson(
               jsonDecode(responseModel.result!) as Map<String, dynamic>);
           if (response.isSuccess == true) {
+            requestedCount.value = response.requested ?? 0;
+            hiredCount.value = response.hired ?? 0;
             tempToolsList =
                 List<WorkshopHiredToolInfo>.from(response.info ?? []);
             toolsList.assignAll(tempToolsList);

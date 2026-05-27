@@ -41,6 +41,7 @@ class ProjectListController extends GetxController
       newCount = 0.obs,
       pendingCount = 0.obs,
       completeCount = 0.obs;
+  String teamIds = "";
 
   final projectsList = <ProjectInfo>[].obs;
   final addressList = <AddressInfo>[].obs;
@@ -49,6 +50,10 @@ class ProjectListController extends GetxController
   @override
   void onInit() {
     super.onInit();
+    var arguments = Get.arguments;
+    if (arguments != null) {
+      teamIds = arguments[AppConstants.intentKey.teamId] ?? "";
+    }
     getProjectListApi();
   }
 
@@ -56,6 +61,9 @@ class ProjectListController extends GetxController
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
+    if (!StringHelper.isEmptyString(teamIds)) {
+      map["team_ids"] = teamIds;
+    }
 
     _api.getProjectList(
       queryParameters: map,

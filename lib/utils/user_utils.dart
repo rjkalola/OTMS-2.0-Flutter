@@ -94,4 +94,9 @@ class UserUtils {
     UserInfo info = Get.find<AppStorage>().getUserInfo();
     return info.teamId ?? 0;
   }
+
+  static String getSupervisorTeamIds() {
+    UserInfo info = Get.find<AppStorage>().getUserInfo();
+    return info.supervisorTeamIds ?? "";
+  }
 }

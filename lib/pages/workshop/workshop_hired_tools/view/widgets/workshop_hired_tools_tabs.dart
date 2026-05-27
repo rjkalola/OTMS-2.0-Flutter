@@ -20,6 +20,7 @@ class WorkshopHiredToolsTabs extends StatelessWidget {
               title: 'hired'.tr,
               selected: controller.selectedStatus.value ==
                   AppConstants.hireStatus.hired,
+              count: controller.hiredCount,
               onTap: controller.selectHiredTab,
             ),
             const SizedBox(width: 12),
@@ -27,6 +28,7 @@ class WorkshopHiredToolsTabs extends StatelessWidget {
               title: 'requested'.tr,
               selected: controller.selectedStatus.value ==
                   AppConstants.hireStatus.request,
+              count: controller.requestedCount,
               onTap: controller.selectRequestedTab,
             ),
           ],

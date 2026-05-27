@@ -8,7 +8,6 @@ import 'package:belcka/pages/workshop/workshop_teams/controller/workshop_teams_r
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
-import 'package:belcka/utils/date_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
@@ -24,7 +23,7 @@ class WorkshopTeamsController extends GetxController
   final teams = <TeamMemberListItemInfo>[].obs;
   final selectedTeamFilterId = (-1).obs;
   final selectedTeamFilterName = ''.obs;
-  final selectedDateFilterIndex = 2.obs;
+  final selectedDateFilterIndex = 1.obs;
   final searchQuery = ''.obs;
   final searchController = TextEditingController().obs;
   final startDate = ''.obs;
@@ -39,10 +38,10 @@ class WorkshopTeamsController extends GetxController
   void onInit() {
     super.onInit();
     selectedTeamFilterName.value = 'all_teams'.tr;
-    final dates = DateUtil.getDateWeekRange('Month');
-    startDate.value =
-        DateUtil.dateToString(dates[0], DateUtil.DD_MM_YYYY_SLASH);
-    endDate.value = DateUtil.dateToString(dates[1], DateUtil.DD_MM_YYYY_SLASH);
+    // final dates = DateUtil.getDateWeekRange('Month');
+    // startDate.value =
+    //     DateUtil.dateToString(dates[0], DateUtil.DD_MM_YYYY_SLASH);
+    // endDate.value = DateUtil.dateToString(dates[1], DateUtil.DD_MM_YYYY_SLASH);
     getTeamMemberListApi();
   }
 
@@ -132,10 +131,10 @@ class WorkshopTeamsController extends GetxController
         .toList();
   }
 
-  int getDisplayMaxMembersCount() {
+  int getDisplayWorkingMemberCount() {
     int count = 0;
     for (final team in _filteredTeams()) {
-      count += team.maxMembers ?? 0;
+      count += team.workingMemberCount ?? 0;
     }
     return count;
   }

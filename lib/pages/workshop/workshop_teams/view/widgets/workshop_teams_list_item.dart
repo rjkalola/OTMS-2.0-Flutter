@@ -32,7 +32,7 @@ class WorkshopTeamsListItem extends StatelessWidget {
             child: Row(
               children: [
                 GestureDetector(
-                  onTap: () => AppUtils.onClickUserAvatar(info.id ?? 0),
+                  // onTap: () => AppUtils.onClickUserAvatar(info.id ?? 0),
                   child: UserAvtarView(
                     imageUrl: info.image ?? '',
                     imageSize: 50,

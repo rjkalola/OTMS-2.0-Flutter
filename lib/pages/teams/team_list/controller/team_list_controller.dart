@@ -90,10 +90,13 @@ class TeamListController extends GetxController implements MenuItemListener {
     if (value.isEmpty) {
       results = tempList;
     } else {
+      final query = value.toLowerCase();
       results = tempList
           .where((element) =>
-      (!StringHelper.isEmptyString(element.name) &&
-          element.name!.toLowerCase().contains(value.toLowerCase())))
+              (!StringHelper.isEmptyString(element.name) &&
+                  element.name!.toLowerCase().contains(query)) ||
+              (!StringHelper.isEmptyString(element.supervisorName) &&
+                  element.supervisorName!.toLowerCase().contains(query)))
           .toList();
     }
     teamsList.value = results;

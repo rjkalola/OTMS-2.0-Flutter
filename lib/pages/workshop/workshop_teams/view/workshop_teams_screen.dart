@@ -177,7 +177,7 @@ class _WorkshopTeamsScreenState extends State<WorkshopTeamsScreen> {
           const SizedBox(width: 10),
           Obx(
             () => Text(
-              '${controller.getDisplayMaxMembersCount()}',
+              '${controller.getDisplayWorkingMemberCount()}',
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,

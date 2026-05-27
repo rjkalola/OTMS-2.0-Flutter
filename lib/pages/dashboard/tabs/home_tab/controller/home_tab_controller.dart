@@ -711,8 +711,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       moveToScreen2(appRout: AppRoutes.userZonesScreen);
     } else if (info.slug == 'health_safety') {
       moveToScreen2(appRout: AppRoutes.healthAndSafetyScreen);
-    }
-    else if (info.slug == 'workshop' || info.slug == 'workshop_dashboard') {
+    } else if (info.slug == 'workshop' || info.slug == 'workshop_dashboard') {
       moveToScreen2(appRout: AppRoutes.workshopDashboardScreen);
     }
   }

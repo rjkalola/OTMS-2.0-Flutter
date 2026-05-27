@@ -256,49 +256,47 @@ class UploadOfflineWorklogController extends GetxController
       jsonDecode(responseModel.result ?? "{}") as Map<String, dynamic>,
     );
 
-    if (response.isRateApproved == null ||
-        !(response.isRateApproved ?? false)) {
-      AppUtils.showApiResponseMessage('rate_not_added_or_approved'.tr);
-      AppUtils.moveToRateScreen();
-      return;
-    }
+    if (response.isRateApproved == null || (response.isRateApproved ?? false)) {
+      final message = response.message ?? "";
 
-    final message = response.message ?? "";
+      if (response.data == null) {
+        ClockInUtils.clearOfflineRecordsJson();
+        AppUtils.showApiResponseMessage(message);
+        Get.back(result: true);
+        return;
+      }
 
-    if (response.data == null) {
+      final conflictData = response.data!;
+      final hasConflictList = conflictData.conflicts?.isNotEmpty ?? false;
+      if (conflictData.hasConflicts == true || hasConflictList) {
+        if (!hasConflictList) {
+          AppUtils.showApiResponseMessage(message);
+          return;
+        }
+        final group = conflictData.conflicts!.first;
+        final items = group.sheetItems();
+        if (items.length < 2) {
+          AppUtils.showApiResponseMessage(message);
+          return;
+        }
+        final offlineStart = group.offlineWorklog?.startTime;
+        if (!StringHelper.isEmptyString(offlineStart)) {
+          ClockInUtils.retainOfflineWorklogsByStartTime(offlineStart!);
+        }
+        if (!StringHelper.isEmptyString(message)) {
+          AppUtils.showApiResponseMessage(message);
+        }
+        showWorklogConflictBottomSheet(group);
+        return;
+      }
+
       ClockInUtils.clearOfflineRecordsJson();
       AppUtils.showApiResponseMessage(message);
       Get.back(result: true);
-      return;
+    } else {
+      AppUtils.showApiResponseMessage('rate_not_added_or_approved'.tr);
+      AppUtils.moveToRateScreen();
     }
-
-    final conflictData = response.data!;
-    final hasConflictList = conflictData.conflicts?.isNotEmpty ?? false;
-    if (conflictData.hasConflicts == true || hasConflictList) {
-      if (!hasConflictList) {
-        AppUtils.showApiResponseMessage(message);
-        return;
-      }
-      final group = conflictData.conflicts!.first;
-      final items = group.sheetItems();
-      if (items.length < 2) {
-        AppUtils.showApiResponseMessage(message);
-        return;
-      }
-      final offlineStart = group.offlineWorklog?.startTime;
-      if (!StringHelper.isEmptyString(offlineStart)) {
-        ClockInUtils.retainOfflineWorklogsByStartTime(offlineStart!);
-      }
-      if (!StringHelper.isEmptyString(message)) {
-        AppUtils.showApiResponseMessage(message);
-      }
-      showWorklogConflictBottomSheet(group);
-      return;
-    }
-
-    ClockInUtils.clearOfflineRecordsJson();
-    AppUtils.showApiResponseMessage(message);
-    Get.back(result: true);
   }
 
   @override
