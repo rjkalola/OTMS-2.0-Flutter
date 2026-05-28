@@ -8,6 +8,8 @@ class TeamInfo {
   int? teamMemberCount;
   String? supervisorName;
   String? supervisorTrade;
+  String? supervisorPhone;
+  String? supervisorExtension;
   String? supervisorPhoneWithExtension;
   String? supervisorImageName;
   String? supervisorImage;
@@ -27,6 +29,8 @@ class TeamInfo {
       this.teamMemberCount,
       this.supervisorName,
       this.supervisorTrade,
+      this.supervisorPhone,
+      this.supervisorExtension,
       this.supervisorPhoneWithExtension,
       this.supervisorImageName,
       this.supervisorImage,
@@ -46,6 +50,8 @@ class TeamInfo {
     teamMemberCount = json['team_member_count'];
     supervisorName = json['supervisor_name'];
     supervisorTrade = json['supervisor_trade'];
+    supervisorPhone = json['supervisor_phone'];
+    supervisorExtension = json['supervisor_extension'];
     supervisorImageName = json['supervisor_image_name'];
     supervisorPhoneWithExtension = json['supervisor_phone_with_extension'];
     supervisorImage = json['supervisor_image'];
@@ -79,6 +85,8 @@ class TeamInfo {
     data['team_member_count'] = this.teamMemberCount;
     data['supervisor_name'] = this.supervisorName;
     data['supervisor_trade'] = this.supervisorTrade;
+    data['supervisor_phone'] = this.supervisorPhone;
+    data['supervisor_extension'] = this.supervisorExtension;
     data['supervisor_phone_with_extension'] = this.supervisorPhoneWithExtension;
     data['supervisor_image_name'] = this.supervisorImageName;
     data['supervisor_image'] = this.supervisorImage;

@@ -173,6 +173,7 @@ class BasketController extends GetxController implements SelectItemListener, Dia
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["project_id"] = activeProjectId.value;
+    map["hide_completed_address"] = true;
     map["status"] = status;
     AddressListRepository().getAddressList(
       queryParameters: map,

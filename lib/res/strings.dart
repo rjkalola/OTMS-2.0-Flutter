@@ -599,6 +599,8 @@ class Strings extends Translations {
           'empty_trade_warning_message':
               "Your company doesn’t have any trades yet. Please add a trade to continue.",
           'empty_address_message': "Please select address",
+          'no_supervisor_teams_message':
+              "You are not the supervisor of any team.",
 
           'purchasing': "Purchasing",
           'orders': "Orders",

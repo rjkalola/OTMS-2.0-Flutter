@@ -31,11 +31,10 @@ class TeamListController extends GetxController implements MenuItemListener {
       isClearVisible = false.obs,
       isDataUpdated = false.obs,
       isAllUserTeams = false.obs;
-  final title = "".obs;
+  final title = "".obs; 
   final searchController = TextEditingController().obs;
   final teamsList = <TeamInfo>[].obs;
   List<TeamInfo> tempList = [];
-
 
   @override
   void onInit() {
@@ -96,7 +95,12 @@ class TeamListController extends GetxController implements MenuItemListener {
               (!StringHelper.isEmptyString(element.name) &&
                   element.name!.toLowerCase().contains(query)) ||
               (!StringHelper.isEmptyString(element.supervisorName) &&
-                  element.supervisorName!.toLowerCase().contains(query)))
+                  element.supervisorName!.toLowerCase().contains(query)) ||
+              (!StringHelper.isEmptyString(
+                      element.supervisorPhoneWithExtension) &&
+                  element.supervisorPhoneWithExtension!
+                      .toLowerCase()
+                      .contains(query)))
           .toList();
     }
     teamsList.value = results;

@@ -50,6 +50,7 @@ class DashboardGridView extends StatelessWidget {
               }
             },
             child: ReorderableBuilder(
+              enableDraggable: !controller.isApiLoading,
               scrollController: _scrollController,
               onReorderPositions: (positions) {
                 print("onReorderPositions");
@@ -72,7 +73,7 @@ class DashboardGridView extends StatelessWidget {
                   key: _gridViewKey,
                   controller: _scrollController,
                   physics: const ClampingScrollPhysics(),
-                  padding: const EdgeInsets.only(bottom: 30,top: 16),
+                  padding: const EdgeInsets.only(bottom: 30, top: 16),
                   children: children,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,

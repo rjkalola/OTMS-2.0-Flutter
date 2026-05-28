@@ -293,9 +293,14 @@ class DateUtil {
                         color: defaultAccentColor_(Get.context!),
                       ),
                       onPressed: () {
-                        selectDateListener.onSelectDate(
-                            selectedDate ?? DateTime.now(), dialogIdentifier);
                         Get.back();
+                        // Close current picker first; some listeners open another
+                        // modal immediately (e.g. time picker after date select).
+                        final DateTime pickedDate = selectedDate ?? safeInitial;
+                        Future.microtask(() {
+                          selectDateListener.onSelectDate(
+                              pickedDate, dialogIdentifier);
+                        });
                       },
                     ),
                   ],

@@ -146,6 +146,19 @@ class _LeaveDetailsScreenState extends State<LeaveDetailsScreen> {
                                         },
                                       ),
                                       SizedBox(
+                                        height: 24,
+                                      ),
+                                      LeaveNote(
+                                        controller:
+                                            controller.statusNoteController,
+                                        title: controller.statusNoteTitle.value,
+                                        onValueChange: (value) {
+                                          controller.isSaveEnable.value =
+                                              !StringHelper.isEmptyString(
+                                                  value);
+                                        },
+                                      ),
+                                      SizedBox(
                                         height: 16,
                                       ),
                                     ],

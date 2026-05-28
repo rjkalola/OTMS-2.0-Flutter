@@ -13,6 +13,7 @@ class LeaveInfo {
   String? startTime;
   String? endTime;
   String? totalTimeOfDays;
+  String? note;
   String? managerNote;
   bool? isRequested;
   int? requestStatus;
@@ -33,6 +34,7 @@ class LeaveInfo {
       this.startTime,
       this.endTime,
       this.totalTimeOfDays,
+      this.note,
       this.managerNote,
       this.isRequested,
       this.requestStatus,
@@ -54,6 +56,7 @@ class LeaveInfo {
     startTime = json['start_time'];
     endTime = json['end_time'];
     totalTimeOfDays = json['total_time_of_days'];
+    note = json['note'];
     managerNote = json['manager_note'];
     isRequested = json['is_requested'];
     requestStatus = json['request_status'];
@@ -77,6 +80,7 @@ class LeaveInfo {
     data['start_time'] = this.startTime;
     data['end_time'] = this.endTime;
     data['total_time_of_days'] = this.totalTimeOfDays;
+    data['note'] = this.note;
     data['manager_note'] = this.managerNote;
     data['is_requested'] = this.isRequested;
     data['request_status'] = this.requestStatus;

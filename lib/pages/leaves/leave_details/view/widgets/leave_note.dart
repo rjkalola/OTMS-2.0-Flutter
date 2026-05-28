@@ -9,11 +9,13 @@ class LeaveNote extends StatelessWidget {
       {super.key,
       required this.controller,
       this.onValueChange,
-      this.isReadOnly});
+      this.isReadOnly,
+      this.title});
 
   final Rx<TextEditingController> controller;
   final ValueChanged<String>? onValueChange;
   final bool? isReadOnly;
+  final String? title;
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +27,8 @@ class LeaveNote extends StatelessWidget {
           child: TextFieldBorder(
             textEditingController: controller.value,
             autovalidateMode: AutovalidateMode.onUserInteraction,
-            hintText: 'manager_note'.tr,
-            labelText: 'manager_note'.tr,
+            hintText: title ?? 'manager_note'.tr,
+            labelText: title ?? 'manager_note'.tr,
             textInputAction: TextInputAction.newline,
             validator: MultiValidator([]),
             isReadOnly: true,

@@ -26,6 +26,7 @@ class LeaveDetailsController extends GetxController
   final startTimeController = TextEditingController().obs;
   final endTimeController = TextEditingController().obs;
   final noteController = TextEditingController().obs;
+  final statusNoteController = TextEditingController().obs;
   final requestNoteController = TextEditingController().obs;
 
   DateTime? selectDate, startDate, endDate;
@@ -46,6 +47,7 @@ class LeaveDetailsController extends GetxController
   int leaveId = 0;
   final leaveInfo = LeaveInfo().obs;
   final title = ''.obs;
+  final statusNoteTitle = ''.obs;
 
   @override
   void onInit() {
@@ -140,7 +142,20 @@ class LeaveDetailsController extends GetxController
       }
     }
 
+    // Keep manager note behavior as before.
     noteController.value.text = leaveInfo.value.managerNote ?? "";
+
+    // Show decision note separately below manager note.
+    statusNoteController.value.text = "";
+    statusNoteTitle.value = "";
+    if (!StringHelper.isEmptyString(leaveInfo.value.note ?? "")) {
+      statusNoteController.value.text = leaveInfo.value.note ?? "";
+      if (requestStatus.value == AppConstants.status.approved) {
+        statusNoteTitle.value = 'approved_note'.tr;
+      } else if (requestStatus.value == AppConstants.status.rejected) {
+        statusNoteTitle.value = 'rejected_note'.tr;
+      }
+    }
 
     setTotalDays();
   }
@@ -212,7 +227,7 @@ class LeaveDetailsController extends GetxController
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["user_leave_id"] = leaveId;
-    // map["note"] = StringHelper.getText(noteController.value);
+    map["note"] = StringHelper.getText(requestNoteController.value);
     _api.approveLeave(
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
@@ -239,7 +254,7 @@ class LeaveDetailsController extends GetxController
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["user_leave_id"] = leaveId;
-    // map["note"] = StringHelper.getText(noteController.value);
+    map["note"] = StringHelper.getText(requestNoteController.value);
     print("map:" + map.toString());
     _api.rejectLeave(
       queryParameters: map,

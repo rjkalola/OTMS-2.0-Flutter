@@ -30,6 +30,7 @@ import 'package:belcka/utils/app_storage.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/data_utils.dart';
 import 'package:belcka/utils/date_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/base_response.dart';
@@ -234,6 +235,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
             listPermissions.addAll((response.permissions ?? [])
                 .where((e) => e.isApp ?? false)
                 .toList());
+            listPermissions.refresh();
             updateShiftValue(isClearValue: false);
             // getUserWorkLogListApi(isShiftClick: false, isProgress: false);
             // getNotificationCountApi(isProgress: false);
@@ -482,6 +484,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
         }*/
       }
     }
+
   }
 
   void getNotificationCountApi({
@@ -712,6 +715,10 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
     } else if (info.slug == 'health_safety') {
       moveToScreen2(appRout: AppRoutes.healthAndSafetyScreen);
     } else if (info.slug == 'workshop' || info.slug == 'workshop_dashboard') {
+      if (StringHelper.isEmptyString(UserUtils.getSupervisorTeamIds())) {
+        AppUtils.showToastMessage('no_supervisor_teams_message'.tr);
+        return;
+      }
       moveToScreen2(appRout: AppRoutes.workshopDashboardScreen);
     }
   }
@@ -823,6 +830,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
           WorkLogListResponse response =
               Get.find<AppStorage>().getWorklogData();
           setShiftTimerData(response);
+          isApiLoading = true;
           if (Get.find<AppStorage>().isLocalSequenceChanges()) {
             changeDashboardUserPermissionMultipleSequenceApi(
                 isProgress: false,
@@ -862,6 +870,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       if (ClockInUtils.hasOfflineRecordsForUpload()) {
         showUploadOfflineDataDialog();
       } else {
+        isApiLoading = true;
         getUserProfileAPI();
       }
     } else {

@@ -7,7 +7,6 @@ import 'package:belcka/pages/check_in/check_in/model/company_locations_response.
 import 'package:belcka/pages/check_in/check_in/model/type_of_work_resources_info.dart';
 import 'package:belcka/pages/check_in/check_in/model/type_of_work_resources_response.dart';
 import 'package:belcka/pages/check_in/clock_in/model/location_info.dart';
-import 'package:belcka/pages/check_in/clock_in/model/work_log_info.dart';
 import 'package:belcka/pages/check_in/dialogs/select_type_of_work_dialog.dart';
 import 'package:belcka/pages/common/drop_down_list_dialog.dart';
 import 'package:belcka/pages/common/listener/select_item_listener.dart';
