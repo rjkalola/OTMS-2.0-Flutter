@@ -46,13 +46,18 @@ class _StoremanCatalogScreenState extends State<StoremanCatalogScreen> {
             child: Scaffold(
               appBar: OrdersBaseAppBar(
                 appBar: AppBar(),
-                title: '',
+                title: controller.isFromInventory ? 'store'.tr : '',
                 isCenterTitle: false,
-                isBack: controller.isCategoryExpanded.value,
+                isBack: controller.isCategoryExpanded.value || controller.isFromInventory,
                 bgColor: backgroundColor_(context),
                 widgets: actionButtons(),
                 onBackPressed: () {
-                  controller.isCategoryExpanded.value = false;
+                  if (controller.isCategoryExpanded.value){
+                    controller.isCategoryExpanded.value = false;
+                  }
+                  else{
+                    controller.onBackPress();
+                  }
                 },
                 onPressedClear: () {
                   controller.clearSearch();

@@ -112,12 +112,12 @@ class _StoremanInventoryScreenState extends State<StoremanInventoryScreen>
 
   List<Widget>? actionButtons() {
     return [
-      /*
       Visibility(
         visible: true,
         child: InkWell(
           onTap: () {
-
+            controller.moveToScreen(appRout: AppRoutes.storemanCatalogScreen,
+                arguments: {'comingFromInventory': true});
           },
           customBorder: const CircleBorder(),
           child: Padding(
@@ -126,7 +126,7 @@ class _StoremanInventoryScreenState extends State<StoremanInventoryScreen>
           ),
         ),
       ),
-      */
+
       SizedBox(
         width: 6,
       ),

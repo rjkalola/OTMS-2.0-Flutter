@@ -118,6 +118,44 @@ class BasketSummarySection extends StatelessWidget {
       ),
       */
 
+      // Select User
+      if (controller.isFromInventory)
+      const SizedBox(height: 16),
+      if (controller.isFromInventory)
+      GestureDetector(
+        onTap: (){
+          controller.showSelectUserDialog();
+        },
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TitleTextView(
+              text: 'select_user'.tr,
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: OrdersTitleTextView(
+                text: controller.selectedUserName.value,
+                maxLine: 1,
+                softWrap: true,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.right,
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
+                color: primaryTextColor_(context),
+              ),
+            ),
+            const SizedBox(width: 6),
+            const Icon(
+              Icons.chevron_right,
+              size: 25,
+            ),
+          ],
+        ),
+      ),
+
       // Address
       const SizedBox(height: 16),
       GestureDetector(

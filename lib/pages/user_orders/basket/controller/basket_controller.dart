@@ -5,6 +5,8 @@ import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:belcka/pages/common/listener/select_item_listener.dart';
 import 'package:belcka/pages/common/model/file_info.dart';
 import 'package:belcka/pages/common/model/Dropdown_list_response.dart';
+import 'package:belcka/pages/permissions/user_list/controller/user_list_repository.dart';
+import 'package:belcka/pages/permissions/user_list/model/user_list_response.dart';
 import 'package:belcka/pages/project/address_list/controller/address_list_repository.dart';
 import 'package:belcka/pages/project/address_list/model/address_info.dart';
 import 'package:belcka/pages/project/address_list/model/address_list_response.dart';
@@ -13,6 +15,7 @@ import 'package:belcka/pages/project/project_info/model/project_list_response.da
 import 'package:belcka/pages/project/project_list/view/active_project_dialog.dart';
 import 'package:belcka/pages/user_orders/basket/controller/basket_repository.dart';
 import 'package:belcka/pages/user_orders/basket/model/product_cart_list_response.dart';
+import 'package:belcka/pages/user_orders/storeman_catalog/controller/storeman_catalog_controller.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
 import 'package:belcka/pages/user_orders/widgets/select_address_dialog.dart';
 import 'package:belcka/routes/app_routes.dart';
@@ -53,8 +56,14 @@ class BasketController extends GetxController implements SelectItemListener, Dia
   RxInt selectedStoreId = 0.obs;
   RxString selectedStoreTitle = "".obs;
 
+  RxInt selectedUserId = 0.obs;
+  RxString selectedUserName = "".obs;
+
   RxString selectedDeliveryTime = "".obs;
   RxDouble totalAmount = 0.0.obs;
+  bool isFromInventory = false;
+
+  final userList = <ModuleInfo>[].obs;
 
   final List<ModuleInfo> listDeliveryTime = <ModuleInfo>[].obs;
   List<FocusNode> qtyFocusNodes = [];
@@ -74,6 +83,21 @@ class BasketController extends GetxController implements SelectItemListener, Dia
   @override
   void onInit() {
     super.onInit();
+
+    if (Get.isRegistered<StoremanCatalogController>()) {
+      final catalogController = Get.find<StoremanCatalogController>();
+      if (catalogController.isFromInventory) {
+        isFromInventory = true;
+        getUserListApi();
+      }
+      else{
+        isFromInventory = false;
+      }
+    }
+    else{
+      isFromInventory = false;
+    }
+
     setupDeliveryTimeData();
     getProjectListApi();
     getStoresApi();
@@ -88,6 +112,58 @@ class BasketController extends GetxController implements SelectItemListener, Dia
     selectedDeliveryTime.value = listDeliveryTime[0].name ?? "";
   }
 
+  void showSelectUserDialog() {
+    if (userList.isNotEmpty) {
+      showDropDownDialog(AppConstants.action.selectUserDialog, 'select_user'.tr,
+          userList, this);
+    } else {
+      AppUtils.showToastMessage('empty_data_message'.tr);
+    }
+  }
+  void showDropDownDialog(String dialogType, String title,
+      List<ModuleInfo> list, SelectItemListener listener) {
+    Get.bottomSheet(
+        DropDownListDialog(
+          title: title,
+          dialogType: dialogType,
+          list: list,
+          listener: listener,
+          isCloseEnable: true,
+          isSearchEnable: true,
+        ),
+        backgroundColor: Colors.transparent,
+        isScrollControlled: true);
+  }
+  void getUserListApi() {
+    isLoading.value = true;
+    Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
+    UserListRepository().getUserList(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          isMainViewVisible.value = true;
+          UserListResponse response =
+          UserListResponse.fromJson(jsonDecode(responseModel.result!));
+          userList.clear();
+          for (var data in response.info!) {
+            userList.add(ModuleInfo(id: data.id ?? 0, name: data.name ?? ""));
+          }
+        } else {
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
   void getProjectListApi() {
     isLoading.value = true;
     Map<String, dynamic> map = {};
@@ -358,21 +434,29 @@ class BasketController extends GetxController implements SelectItemListener, Dia
 
   void toggleCreateOrder() {
 
+    if (isFromInventory && selectedUserId.value <= 0) {
+      AppUtils.showSnackBarMessage("Please select a user");
+      return;
+    }
+
     if (activeProjectId.value <= 0 ||
         selectedAddressId.value <= 0 ||
         selectedDeliveryTime.value.isEmpty ||
         selectedStoreId.value <= 0) {
+
       AppUtils.showSnackBarMessage("Please ensure all fields are selected");
       return;
     }
 
     isLoading.value = true;
     final body = createOrderRequest(
+        userId: isFromInventory ? selectedUserId.value : 0,
         companyId: ApiConstants.companyId,
         projectId: activeProjectId.value,
         addressId: selectedAddressId.value,
         deliverOn: selectedDeliveryTime.value,
         storeId: selectedStoreId.value);
+
     print(body);
     _api.createEmployeeOrderAPI(
       data: body,
@@ -403,8 +487,11 @@ class BasketController extends GetxController implements SelectItemListener, Dia
     required int addressId,
     required String deliverOn,
     required int storeId,
+    required int userId,
   }) {
     return {
+      if (isFromInventory)
+        "user_id": userId,
       "company_id": companyId,
       "project_id": projectId,
       if (addressId > 0) "address_id": addressId,
@@ -585,6 +672,10 @@ class BasketController extends GetxController implements SelectItemListener, Dia
     } else if (action == AppConstants.action.selectStoreDialog) {
       selectedStoreId.value = id;
       selectedStoreTitle.value = name;
+    }
+    else if (action == AppConstants.action.selectUserDialog) {
+      selectedUserId.value = id;
+      selectedUserName.value = name;
     }
     print(name);
   }
