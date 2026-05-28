@@ -73,7 +73,7 @@ class _InternalOrderDetailsListWithQuantityState extends State<InternalOrderDeta
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        if (!isItemDelivered)
+                        if (!isItemDelivered && controller.canShowActionButtons)
                         CustomCheckbox(
                             onValueChange: (value) {
                               setState(() {
@@ -132,7 +132,7 @@ class _InternalOrderDetailsListWithQuantityState extends State<InternalOrderDeta
                               ),
                               */
                               const SizedBox(height: 8),
-                              if (!isItemDelivered)
+                              if (!isItemDelivered && controller.canShowActionButtons)
                               ProductQuantityWidget(
                                 focusNode: controller.qtyFocusNodes[index],
                                 hideMinus: true,

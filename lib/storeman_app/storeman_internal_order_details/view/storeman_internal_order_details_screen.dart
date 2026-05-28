@@ -209,13 +209,13 @@ class _StoremanInternalOrderDetailsScreenState
                                   child: Column(
                                     children: [
                                       // Show this ONLY if it is neither ready nor partialDelivered
-                                      if (controller.status.value != AppConstants.internalOrderStatus.ready &&
-                                          controller.status.value != AppConstants.internalOrderStatus.partialDelivered)
+                                      if ((controller.status.value != AppConstants.internalOrderStatus.ready &&
+                                          controller.status.value != AppConstants.internalOrderStatus.partialDelivered) || !controller.canShowActionButtons)
                                         OrderDetailsOrdersList(),
 
                                       // Show this if it is EITHER ready or partialDelivered
-                                      if (controller.status.value == AppConstants.internalOrderStatus.ready ||
-                                          controller.status.value == AppConstants.internalOrderStatus.partialDelivered)
+                                      if ((controller.status.value == AppConstants.internalOrderStatus.ready ||
+                                          controller.status.value == AppConstants.internalOrderStatus.partialDelivered) && controller.canShowActionButtons)
                                         InternalOrderDetailsListWithQuantity()
                                     ],
                                   ),

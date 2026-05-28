@@ -70,6 +70,7 @@ class StoremanCatalogController extends GetxController {
   List<ProductSetDataInfo> productsSetList = [];
   RxBool isGridView = false.obs;
   Timer? _debounce;
+  bool isFromInventory = false;
 
   void initFocusNodes(int length) {
     qtyFocusNodes = List.generate(length, (index) => FocusNode());
@@ -92,7 +93,9 @@ class StoremanCatalogController extends GetxController {
     var arguments = Get.arguments;
     if (arguments != null) {
       categoryIds = arguments["category_ids"] ?? 0;
+      isFromInventory = arguments["comingFromInventory"] ?? false;
     }
+
     getCategoriesListApi();
 
     scrollController.addListener(() {
