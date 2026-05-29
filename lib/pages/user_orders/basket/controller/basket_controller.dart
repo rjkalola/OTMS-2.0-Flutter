@@ -464,9 +464,14 @@ class BasketController extends GetxController implements SelectItemListener, Dia
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           isDataUpdated = true;
-          fetchCartList();
-          moveToScreen(AppRoutes.orderHistoryScreen, {});
-        } else {
+          if (isFromInventory){
+            Get.until((route) => Get.currentRoute == AppRoutes.storemanInventoryScreen);
+          }
+          else{
+            fetchCartList();
+            moveToScreen(AppRoutes.orderHistoryScreen, {});
+          }
+        }else{
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;

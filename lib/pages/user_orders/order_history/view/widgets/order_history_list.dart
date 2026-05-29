@@ -15,9 +15,8 @@ class OrderHistoryList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Obx(() {
-
         if (controller.orderList.isEmpty) {
-          return Center(child: Text('no_orders_found'.tr));
+          return Center(child: Text(""));
         }
 
         return ListView.builder(

@@ -104,7 +104,6 @@ class _OrderDetailsOrdersListState extends State<OrderDetailsOrdersList> {
                             fontSize: 15,
                             fontWeight: FontWeight.w600,
                           ),
-
                           const SizedBox(height: 4),
                           if (orders[index].isDisplayPrice ?? false)
                           TitleTextView(
@@ -112,6 +111,22 @@ class _OrderDetailsOrdersListState extends State<OrderDetailsOrdersList> {
                             fontSize: 15,
                             fontWeight: FontWeight.w600,
                           ),
+
+                          const SizedBox(height: 4),
+                          TitleTextView(
+                            text: "${'status'.tr}: ${item.statusText ?? ""}",
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          if (item.status  == AppConstants.internalOrderStatus.newOrder)
+                            const SizedBox(height: 4),
+                          if (item.status  == AppConstants.internalOrderStatus.newOrder)
+                            TitleTextView(
+                              text: "${'available_qty'.tr}: ${item.availableQty ?? ""}",
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+
                           if (isItemDelivered)
                             Column(
                               children: [

@@ -19,7 +19,7 @@ class OrderDetailsOrdersList extends StatelessWidget {
 
     if (controller.orderDetails.isEmpty) {
       return const Center(
-        child: Text("No orders found."),
+        child: Text(""),
       );
     }
 
@@ -53,11 +53,11 @@ class OrderDetailsOrdersList extends StatelessWidget {
                     children: [
                       InkWell(
                         onTap: (){
-                          ImageUtils.moveToImagePreview([FilesInfo(imageUrl: orders[index].productImage ?? "",
-                              thumbUrl: orders[index].productThumbImage ?? "")], 0);
+                          ImageUtils.moveToImagePreview([FilesInfo(imageUrl: item.productImage ?? "",
+                              thumbUrl: item.productThumbImage ?? "")], 0);
                         },
                         child: ImageUtils.setRectangleCornerCachedNetworkImage(
-                          url: orders[index].productThumbImage ?? "",
+                          url: item.productThumbImage ?? "",
                           width: 90,
                           height: 90,
                           borderRadius: 4,
@@ -70,7 +70,7 @@ class OrderDetailsOrdersList extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             TitleTextView(
-                              text: orders[index].shortName ?? "",
+                              text: item.shortName ?? "",
                               fontSize: 15,
                               fontWeight: FontWeight.w500,
                             ),
@@ -78,7 +78,7 @@ class OrderDetailsOrdersList extends StatelessWidget {
                             Row(
                               children: [
                                 SubtitleTextView(
-                                  text: orders[index].uuid ?? "",
+                                  text: item.uuid ?? "",
                                 ),
                                 Spacer(),
                                 TitleTextView(
@@ -89,6 +89,20 @@ class OrderDetailsOrdersList extends StatelessWidget {
                               ],
                             ),
                             const SizedBox(height: 8),
+                            TitleTextView(
+                              text: "${'status'.tr}: ${item.statusText ?? ""}",
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            if (item.status  == AppConstants.internalOrderStatus.newOrder)
+                            const SizedBox(height: 4),
+                            if (item.status  == AppConstants.internalOrderStatus.newOrder)
+                            TitleTextView(
+                              text: "${'available_qty'.tr}: ${item.availableQty ?? ""}",
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            const SizedBox(height: 4),
                           ],
                         ),
                       ),

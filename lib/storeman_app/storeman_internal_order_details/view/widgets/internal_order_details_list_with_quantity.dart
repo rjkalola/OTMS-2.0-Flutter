@@ -32,7 +32,7 @@ class _InternalOrderDetailsListWithQuantityState extends State<InternalOrderDeta
 
     if (controller.orderDetails.isEmpty) {
       return const Center(
-        child: Text("No orders found."), // Or a CircularProgressIndicator()
+        child: Text(""),
       );
     }
     final orderInfo = controller.orderDetails[0];
@@ -111,6 +111,13 @@ class _InternalOrderDetailsListWithQuantityState extends State<InternalOrderDeta
                               SubtitleTextView(
                                 text: orders[index].uuid ?? "",
                               ),
+                              TitleTextView(
+                                text: "${'status'.tr}: ${orders[index].statusText ?? ""}",
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              const SizedBox(height: 4),
+
                               /*
                               const SizedBox(height: 4),
 

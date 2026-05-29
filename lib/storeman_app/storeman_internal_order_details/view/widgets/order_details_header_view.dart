@@ -143,6 +143,12 @@ class _OrderDetailsHeaderViewState extends State<OrderDetailsHeaderView> with Wi
                           ],
                         ),
                         const SizedBox(height: 8),
+                        TitleTextView(
+                          text: "${'expected_delivery_time'.tr}: ${orderInfo.deliverOn ?? ""}",
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        const SizedBox(height: 8),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [

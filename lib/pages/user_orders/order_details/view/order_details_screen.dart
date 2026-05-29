@@ -37,7 +37,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
         color: dashBoardBgColor_(context),
         child: SafeArea(
           top: false,
-          bottom: !GetPlatform.isIOS,
+          bottom: true,
           child: Obx(
                 () => Scaffold(
               backgroundColor: dashBoardBgColor_(context),
