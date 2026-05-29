@@ -2,7 +2,9 @@ import 'package:belcka/pages/common/widgets/date_filter_options_horizontal_list.
 import 'package:belcka/pages/workshop/workshop_teams/controller/workshop_teams_controller.dart';
 import 'package:belcka/pages/workshop/workshop_teams/view/widgets/workshop_teams_list_item.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/drawable.dart';
 import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
@@ -45,7 +47,15 @@ class _WorkshopTeamsScreenState extends State<WorkshopTeamsScreen> {
                 isBack: true,
                 onBackPressed: controller.onBackPress,
                 bgColor: backgroundColor_(context),
-                widgets: _appBarActions(),
+                widgets: _appBarActions(context),
+                isSearching: controller.isSearchEnable.value,
+                searchController: controller.searchController,
+                onValueChange: controller.searchItem,
+                onPressedClear: () {
+                  controller.clearSearch();
+                  controller.isSearchEnable.value = false;
+                },
+                autoFocus: true,
                 elevation: 5,
                 shadowColor: shadowColor_(context).withValues(alpha: 0.28),
                 surfaceTintColor: Colors.transparent,
@@ -94,30 +104,61 @@ class _WorkshopTeamsScreenState extends State<WorkshopTeamsScreen> {
     );
   }
 
-  List<Widget>? _appBarActions() {
+  List<Widget>? _appBarActions(BuildContext context) {
     return [
-      InkWell(
-        customBorder: const CircleBorder(),
-        onTap: controller.moveToRemoveMemberScreen,
-        child: Padding(
-          padding: const EdgeInsets.all(6),
-          child: Icon(
-            Icons.delete_outline,
-            color: primaryTextColor_(context),
-            size: 24,
+      Visibility(
+        visible: !controller.isSearchEnable.value,
+        child: InkWell(
+          onTap: () {
+            controller.isSearchEnable.value = true;
+          },
+          customBorder: const CircleBorder(),
+          child: Padding(
+            padding: const EdgeInsets.all(6),
+            child: ImageUtils.setSvgAssetsImage(
+              path: Drawable.searchIcon,
+              width: 24,
+              height: 24,
+              color: primaryTextColor_(context),
+            ),
           ),
         ),
       ),
-      const SizedBox(width: 4),
-      InkWell(
-        customBorder: const CircleBorder(),
-        onTap: controller.moveToAddMemberScreen,
-        child: Padding(
-          padding: const EdgeInsets.all(6),
-          child: Icon(
-            Icons.add,
-            color: primaryTextColor_(context),
-            size: 24,
+      Visibility(
+        visible: !controller.isSearchEnable.value,
+        child: const SizedBox(width: 4),
+      ),
+      Visibility(
+        visible: !controller.isSearchEnable.value,
+        child: InkWell(
+          customBorder: const CircleBorder(),
+          onTap: controller.moveToRemoveMemberScreen,
+          child: Padding(
+            padding: const EdgeInsets.all(6),
+            child: Icon(
+              Icons.delete_outline,
+              color: primaryTextColor_(context),
+              size: 24,
+            ),
+          ),
+        ),
+      ),
+      Visibility(
+        visible: !controller.isSearchEnable.value,
+        child: const SizedBox(width: 4),
+      ),
+      Visibility(
+        visible: !controller.isSearchEnable.value,
+        child: InkWell(
+          customBorder: const CircleBorder(),
+          onTap: controller.moveToAddMemberScreen,
+          child: Padding(
+            padding: const EdgeInsets.all(6),
+            child: Icon(
+              Icons.add,
+              color: primaryTextColor_(context),
+              size: 24,
+            ),
           ),
         ),
       ),

@@ -56,6 +56,8 @@ class CreateLeaveController extends GetxController
 
   LeaveInfo? leaveInfo;
   final title = ''.obs;
+  final statusNoteTitle = ''.obs;
+  final statusNoteText = ''.obs;
 
   @override
   void onInit() {
@@ -154,6 +156,18 @@ class CreateLeaveController extends GetxController
       }
 
       noteController.value.text = leaveInfo?.managerNote ?? "";
+
+      statusNoteTitle.value = "";
+      statusNoteText.value = "";
+      if (!StringHelper.isEmptyString(leaveInfo?.note ?? "")) {
+        statusNoteText.value = leaveInfo?.note ?? "";
+        final requestStatus = leaveInfo?.requestStatus ?? 0;
+        if (requestStatus == AppConstants.status.approved) {
+          statusNoteTitle.value = 'approved_note'.tr;
+        } else if (requestStatus == AppConstants.status.rejected) {
+          statusNoteTitle.value = 'rejected_note'.tr;
+        }
+      }
 
       setTotalDays();
     } else {

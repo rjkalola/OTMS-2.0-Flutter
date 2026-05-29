@@ -25,10 +25,12 @@ class UserListController extends GetxController implements MenuItemListener {
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
-      isClearVisible = false.obs,
+      isSearchEnable = false.obs,
       isDataUpdated = false.obs;
   final searchController = TextEditingController().obs;
   final usersList = <UserInfo>[].obs;
+  final totalUsers = 0.obs;
+  final workingMemberCount = 0.obs;
   List<UserInfo> tempList = [];
 
   @override
@@ -41,8 +43,7 @@ class UserListController extends GetxController implements MenuItemListener {
     getUserListApi();
   }
 
-  /// When [showLoading] is false (e.g. pull-to-refresh), the full-screen
-  /// progress HUD is skipped; callers should await the future for completion.
+
   Future<void> getUserListApi({bool showLoading = true}) {
     if (showLoading) {
       isLoading.value = true;
@@ -62,6 +63,8 @@ class UserListController extends GetxController implements MenuItemListener {
             tempList.addAll(response.info ?? []);
             usersList.value = tempList;
             usersList.refresh();
+            totalUsers.value = response.totalUsers ?? 0;
+            workingMemberCount.value = response.workingMemberCount ?? 0;
             isMainViewVisible.value = true;
           } else {
             AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
@@ -104,8 +107,16 @@ class UserListController extends GetxController implements MenuItemListener {
     }
   }
 
+  int getDisplayWorkingMemberCount() => workingMemberCount.value;
+
+  int getDisplayTotalUsersCount() => totalUsers.value;
+
+  void clearSearch() {
+    searchController.value.clear();
+    searchItem('');
+  }
+
   Future<void> searchItem(String value) async {
-    print(value);
     List<UserInfo> results = [];
     if (value.isEmpty) {
       results = tempList;

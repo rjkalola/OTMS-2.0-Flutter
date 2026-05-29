@@ -96,6 +96,7 @@ class ApiConstants {
   static String userList = '$appUrl/user/list';
   static String inviteUser = '$appUrl/invite-user';
   static String archiveUserList = '$appUrl/user/archive-users-list';
+
   // static String archiveUserAccount = '$appUrl/user/archive-user-account';
   static String archiveUserAccount = '$appUrl/user/archive-user';
   static String unarchiveUserAccount = '$appUrl/user/unarchive-account';

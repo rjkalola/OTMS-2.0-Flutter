@@ -30,7 +30,7 @@ class WorkshopTeamsController extends GetxController
   final endDate = ''.obs;
   final isLoading = false.obs;
   final isInternetNotAvailable = false.obs;
-  final isMainViewVisible = false.obs;
+  final isMainViewVisible = false.obs;  
   final isSearchEnable = false.obs;
   final isClearVisible = false.obs;
 
@@ -109,10 +109,7 @@ class WorkshopTeamsController extends GetxController
         continue;
       }
       for (final user in team.users ?? <TeamMemberUserInfo>[]) {
-        final matchesSearch = q.isEmpty ||
-            (!StringHelper.isEmptyString(user.name) &&
-                user.name!.toLowerCase().contains(q));
-        if (matchesSearch) {
+        if (q.isEmpty || _matchesSearch(user, q)) {
           users.add(user);
         }
       }
@@ -187,7 +184,19 @@ class WorkshopTeamsController extends GetxController
         !StringHelper.isEmptyString(name) ? name! : 'all_teams'.tr;
   }
 
-  void onSearchChanged(String value) {
+  bool _matchesSearch(TeamMemberUserInfo user, String query) {
+    return _fieldMatches(user.name, query) ||
+        _fieldMatches(user.projectName, query) ||
+        _fieldMatches(user.teamName, query) ||
+        _fieldMatches(user.tradeName, query);
+  }
+
+  bool _fieldMatches(String? field, String query) {
+    return !StringHelper.isEmptyString(field) &&
+        field!.toLowerCase().contains(query);
+  }
+
+  void searchItem(String value) {
     searchQuery.value = value;
     isClearVisible.value = !StringHelper.isEmptyString(value);
   }

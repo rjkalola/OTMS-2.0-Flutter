@@ -6,6 +6,8 @@ class TeamInfo {
   int? maxMembers;
   int? supervisorId;
   int? teamMemberCount;
+  int? totalUsers;
+  int? workingMemberCount;
   String? supervisorName;
   String? supervisorTrade;
   String? supervisorPhone;
@@ -27,6 +29,8 @@ class TeamInfo {
       this.maxMembers,
       this.supervisorId,
       this.teamMemberCount,
+      this.totalUsers,
+      this.workingMemberCount,
       this.supervisorName,
       this.supervisorTrade,
       this.supervisorPhone,
@@ -48,6 +52,8 @@ class TeamInfo {
     maxMembers = json['max_members'];
     supervisorId = json['supervisor_id'];
     teamMemberCount = json['team_member_count'];
+    totalUsers = json['total_users'];
+    workingMemberCount = json['working_member_count'];
     supervisorName = json['supervisor_name'];
     supervisorTrade = json['supervisor_trade'];
     supervisorPhone = json['supervisor_phone'];
@@ -83,6 +89,8 @@ class TeamInfo {
     data['max_members'] = this.maxMembers;
     data['supervisor_id'] = this.supervisorId;
     data['team_member_count'] = this.teamMemberCount;
+    data['total_users'] = this.totalUsers;
+    data['working_member_count'] = this.workingMemberCount;
     data['supervisor_name'] = this.supervisorName;
     data['supervisor_trade'] = this.supervisorTrade;
     data['supervisor_phone'] = this.supervisorPhone;

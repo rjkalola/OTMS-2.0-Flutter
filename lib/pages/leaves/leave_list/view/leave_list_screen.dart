@@ -101,6 +101,10 @@ class _LeaveListScreenState extends State<LeaveListScreen>
   List<Widget>? actionButtons() {
     return [
       IconButton(
+        icon: Icon(Icons.calendar_month_outlined),
+        onPressed: controller.openLeaveCalendar,
+      ),
+      IconButton(
         icon: Icon(Icons.more_vert_outlined),
         onPressed: () {
           controller.showMenuItemsDialog(Get.context!);

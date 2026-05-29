@@ -3,6 +3,7 @@ import 'package:belcka/pages/leaves/add_leave/view/widgets/all_day_off_view.dart
 import 'package:belcka/pages/leaves/add_leave/view/widgets/all_day_on_view.dart';
 import 'package:belcka/pages/leaves/add_leave/view/widgets/all_day_widget.dart';
 import 'package:belcka/pages/leaves/add_leave/view/widgets/leave_note.dart';
+import 'package:belcka/pages/leaves/add_leave/view/widgets/leave_status_note_view.dart';
 import 'package:belcka/pages/leaves/add_leave/view/widgets/total_time_requested.dart';
 import 'package:belcka/pages/leaves/leave_utils.dart';
 import 'package:belcka/res/colors.dart';
@@ -160,6 +161,24 @@ class _CreateLeaveScreenState extends State<CreateLeaveScreen> {
                                               !StringHelper.isEmptyString(
                                                   value);
                                         },
+                                      ),
+                                      Obx(
+                                        () => Visibility(
+                                          visible: controller.leaveInfo !=
+                                                  null &&
+                                              !StringHelper.isEmptyString(
+                                                  controller
+                                                      .statusNoteText.value) &&
+                                              !StringHelper.isEmptyString(
+                                                  controller
+                                                      .statusNoteTitle.value),
+                                          child: LeaveStatusNoteView(
+                                            title: controller
+                                                .statusNoteTitle.value,
+                                            note: controller
+                                                .statusNoteText.value,
+                                          ),
+                                        ),
                                       ),
                                     ],
                                   ),

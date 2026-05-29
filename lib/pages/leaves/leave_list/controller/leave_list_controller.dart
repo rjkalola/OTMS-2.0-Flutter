@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:belcka/pages/common/listener/menu_item_listener.dart';
 import 'package:belcka/pages/common/menu_items_list_bottom_dialog.dart';
+import 'package:belcka/pages/leaves/leave_calendar/view/leave_calendar_screen.dart';
 import 'package:belcka/pages/leaves/leave_list/controller/leave_list_repository.dart';
 import 'package:belcka/pages/leaves/leave_list/model/leave_info.dart';
 import 'package:belcka/pages/leaves/leave_list/model/leave_list_response.dart';
@@ -106,6 +107,20 @@ class LeaveListController extends GetxController implements MenuItemListener {
     endDate = "";
     selectedDateFilterIndex.value = -1;
     getLeaveListApi(true);
+  }
+
+  void openLeaveCalendar() {
+    final approvedLeaves = listItems
+        .where(
+          (leave) =>
+              leave.requestStatus == AppConstants.status.approved,
+        )
+        .toList();
+    Get.to(
+      () => LeaveCalendarScreen(
+        leaves: approvedLeaves,
+      ),
+    );
   }
 
   void showMenuItemsDialog(BuildContext context) {

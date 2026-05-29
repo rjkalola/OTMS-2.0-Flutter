@@ -32,11 +32,29 @@ class TeamMembersList extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.fromLTRB(0, 14, 18, 14),
                 width: double.infinity,
-                child: PrimaryTextView(
-                  textAlign: TextAlign.right,
-                  color: primaryTextColor_(context),
-                  fontSize: 14,
-                  text: "${members.length} Members",
+                child: Row(
+                  children: [
+                    const Spacer(),
+                    Obx(
+                      () => Text(
+                        '${controller.teamInfo.value.workingMemberCount ?? 0}',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: defaultAccentColor_(context),
+                        ),
+                      ),
+                    ),
+                    Obx(
+                      () => Text(
+                        '/${controller.teamInfo.value.totalUsers ?? 0} ${'working'.tr}',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: secondaryTextColor_(context),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               Padding(

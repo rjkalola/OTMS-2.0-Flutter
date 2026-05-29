@@ -1,7 +1,7 @@
+import 'package:belcka/widgets/textfield/text_field_border_dark.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
-import 'package:belcka/widgets/textfield/text_field_border_dark.dart';
 
 class LeaveNote extends StatelessWidget {
   LeaveNote(
