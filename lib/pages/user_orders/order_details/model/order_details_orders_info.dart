@@ -31,6 +31,8 @@ class OrderDetailsOrdersInfo {
   bool isQuantityChanged = false;
   List<FilesInfo>? attachments;
   bool? isDisplayPrice;
+  String? statusText;
+  String? availableQty;
 
   OrderDetailsOrdersInfo({
     this.id,
@@ -59,7 +61,9 @@ class OrderDetailsOrdersInfo {
     this.attachments,
     this.perUnitPrice,
     this.displayPrice,
-    this.isDisplayPrice
+    this.isDisplayPrice,
+    this.statusText,
+    this.availableQty
   });
 
   OrderDetailsOrdersInfo.fromJson(Map<String, dynamic> json) {
@@ -87,6 +91,8 @@ class OrderDetailsOrdersInfo {
     isDisplayPrice = json['is_display_price'];
     deliveredQty = json['delivered_qty'].toString();
     remainingQty = json['remaining_qty'].toString();
+    statusText = json['status_text'].toString();
+    availableQty = json['available_qty'].toString();
     status = json['status'];
     product = json['product'] != null
         ? ProductInfo.fromJson(json['product'])
@@ -128,6 +134,8 @@ class OrderDetailsOrdersInfo {
     data['delivered_qty'] = deliveredQty;
     data['is_display_price'] = isDisplayPrice;
     data['status'] = status;
+    data['status_text'] = statusText;
+    data['available_qty'] = availableQty;
     if (this.attachments != null) {
       data['attachments'] = this.attachments!.map((v) => v.toJson()).toList();
     }

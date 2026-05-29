@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:belcka/pages/user_orders/order_details/controller/order_details_controller.dart';
+import 'package:belcka/storeman_app/storeman_internal_order_details/controller/storeman_internal_order_details_controller.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -369,16 +371,41 @@ class NotificationService {
       }
 
       //Employee orders
+
       else if (notificationType ==
-              AppConstants.notificationType.employeeOrderCreate ||
-          notificationType ==
-              AppConstants.notificationType.employeeOrderStatusChange) {
+          AppConstants.notificationType.employeeOrderCreate) {
+        Get.delete<StoremanInternalOrderDetailsController>();
         String rout = AppRoutes.storemanInternalOrderDetailsScreen;
         var arguments = {
           "order_id": data['record_id'] ?? "0",
           AppConstants.intentKey.fromNotification: true,
         };
         Get.offAllNamed(rout, arguments: arguments);
+      }
+
+      else if (notificationType ==
+          AppConstants.notificationType.employeeOrderStatusChange) {
+        if (userIdInt == UserUtils.getLoginUserId()){
+
+          print("login user");
+
+          Get.delete<OrderDetailsController>();
+          String rout = AppRoutes.orderDetailsScreen;
+          var arguments = {
+            "order_id": data['record_id'] ?? "0",
+            AppConstants.intentKey.fromNotification: true,
+          };
+          Get.offAllNamed(rout, arguments: arguments);
+        }
+        else{
+          Get.delete<StoremanInternalOrderDetailsController>();
+          String rout = AppRoutes.storemanInternalOrderDetailsScreen;
+          var arguments = {
+            "order_id": data['record_id'] ?? "0",
+            AppConstants.intentKey.fromNotification: true,
+          };
+          Get.offAllNamed(rout, arguments: arguments);
+        }
       }
 
       //Purchase orders

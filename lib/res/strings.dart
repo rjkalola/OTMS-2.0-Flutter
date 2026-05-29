@@ -950,6 +950,7 @@ class Strings extends Translations {
           'invoiced':"Invoiced",
           'clear_all':"Clear All",
           'clear_all_cart_msg':"Are you sure you want to clear cart?",
+          'expected_delivery_time':"Expected Delivery Time",
 
 // '': "",
           // '': "",

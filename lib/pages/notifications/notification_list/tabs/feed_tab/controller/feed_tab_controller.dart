@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:belcka/pages/notifications/notification_list/controller/notification_list_controller.dart';
 import 'package:belcka/pages/notifications/notification_list/model/feed_info.dart';
 import 'package:belcka/pages/notifications/notification_list/tabs/feed_tab/controller/feed_tab_repository.dart';
+import 'package:belcka/pages/user_orders/order_details/controller/order_details_controller.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/storeman_app/storeman_internal_order_details/controller/storeman_internal_order_details_controller.dart';
 import 'package:belcka/utils/app_constants.dart';
@@ -274,15 +275,32 @@ class FeedTabController extends GetxController {
           moveToScreen(AppRoutes.userHireOrderDetailsScreen,
               arguments: arguments, index: index);
         }
-      } else if (notificationType ==
-              AppConstants.notificationType.employeeOrderCreate ||
-          notificationType ==
-              AppConstants.notificationType.employeeOrderStatusChange) {
+      }
+
+      else if (notificationType ==
+          AppConstants.notificationType.employeeOrderCreate) {
         Get.delete<StoremanInternalOrderDetailsController>();
         var arguments = {"order_id": "${info.recordId ?? 0}"};
         moveToScreen(AppRoutes.storemanInternalOrderDetailsScreen,
             arguments: arguments, index: index);
-      } else if (notificationType ==
+      }
+      else if (notificationType ==
+              AppConstants.notificationType.employeeOrderStatusChange) {
+        if (info.userId == UserUtils.getLoginUserId()){
+          Get.delete<OrderDetailsController>();
+          var arguments = {"order_id": "${info.recordId ?? 0}"};
+          moveToScreen(AppRoutes.orderDetailsScreen,
+              arguments: arguments, index: index);
+        }
+        else{
+          Get.delete<StoremanInternalOrderDetailsController>();
+          var arguments = {"order_id": "${info.recordId ?? 0}"};
+          moveToScreen(AppRoutes.storemanInternalOrderDetailsScreen,
+              arguments: arguments, index: index);
+        }
+      }
+
+      else if (notificationType ==
           AppConstants.notificationType.purchaseOrder) {
         if ((info.recordId ?? 0) != 0) {
           var arguments = {
