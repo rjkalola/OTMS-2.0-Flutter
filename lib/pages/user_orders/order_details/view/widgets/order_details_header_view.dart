@@ -35,7 +35,11 @@ class _OrderDetailsHeaderViewState extends State<OrderDetailsHeaderView>{
 
   @override
   Widget build(BuildContext context) {
-
+    if (controller.orderDetails.isEmpty) {
+      return const Center(
+        child: Text(""),
+      );
+    }
     final orderInfo = controller.orderDetails[0];
 
     return Container(

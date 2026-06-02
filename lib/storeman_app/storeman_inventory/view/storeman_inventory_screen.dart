@@ -1,6 +1,7 @@
 import 'package:belcka/pages/common/listener/date_filter_listener.dart';
 import 'package:belcka/pages/dashboard/controller/dashboard_controller.dart';
 import 'package:belcka/pages/dashboard/tabs/home_tab/view/home_tab.dart';
+import 'package:belcka/pages/user_orders/storeman_catalog/controller/storeman_catalog_controller.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/res/drawable.dart';
 import 'package:belcka/routes/app_routes.dart';
@@ -116,6 +117,9 @@ class _StoremanInventoryScreenState extends State<StoremanInventoryScreen>
         visible: true,
         child: InkWell(
           onTap: () {
+            if (Get.isRegistered<StoremanCatalogController>()) {
+              Get.delete<StoremanCatalogController>();
+            }
             controller.moveToScreen(appRout: AppRoutes.storemanCatalogScreen,
                 arguments: {'comingFromInventory': true});
           },

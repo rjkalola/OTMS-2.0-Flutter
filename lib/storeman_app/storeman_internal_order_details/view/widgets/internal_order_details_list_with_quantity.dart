@@ -29,7 +29,6 @@ class _InternalOrderDetailsListWithQuantityState extends State<InternalOrderDeta
 
   @override
   Widget build(BuildContext context) {
-
     if (controller.orderDetails.isEmpty) {
       return const Center(
         child: Text(""),

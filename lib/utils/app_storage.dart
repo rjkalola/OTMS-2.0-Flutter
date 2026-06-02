@@ -7,6 +7,7 @@ import 'package:belcka/pages/dashboard/models/dashboard_response.dart';
 import 'package:belcka/pages/dashboard/models/permission_settings.dart';
 import 'package:belcka/pages/dashboard/tabs/home_tab/model/local_permission_sequence_change_info.dart';
 import 'package:belcka/pages/dashboard/tabs/home_tab/model/user_permissions_response.dart';
+import 'package:belcka/pages/user_orders/offline_cart/cart_service.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/web_services/api_constants.dart';
@@ -18,6 +19,7 @@ import '../pages/dashboard/models/dashboard_stock_count_response.dart';
 class AppStorage extends GetxController {
   final storage = GetStorage();
   static String uniqueId = "";
+  final CartService cartService = CartService();
 
   Future<void> initStorage() async {
     await GetStorage.init();
@@ -360,10 +362,11 @@ class AppStorage extends GetxController {
     removeData(AppConstants.sharedPreferenceKey.timesheetDateFilterIndex);
     removeData(AppConstants.sharedPreferenceKey.timesheetViewAmountVisible);
     removeData(AppConstants.sharedPreferenceKey.worklogData);
-    removeData(AppConstants.sharedPreferenceKey.worklogDataOffline);
+
   }
 
-  void removeData(String key) {
+  Future<void> removeData(String key) async {
     storage.remove(key);
+    await cartService.clearCart();
   }
 }

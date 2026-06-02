@@ -15,6 +15,7 @@ import 'package:belcka/pages/project/project_info/model/project_list_response.da
 import 'package:belcka/pages/project/project_list/view/active_project_dialog.dart';
 import 'package:belcka/pages/user_orders/basket/controller/basket_repository.dart';
 import 'package:belcka/pages/user_orders/basket/model/product_cart_list_response.dart';
+import 'package:belcka/pages/user_orders/offline_cart/cart_service.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/controller/storeman_catalog_controller.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
 import 'package:belcka/pages/user_orders/widgets/select_address_dialog.dart';
@@ -62,7 +63,7 @@ class BasketController extends GetxController implements SelectItemListener, Dia
   RxString selectedDeliveryTime = "".obs;
   RxDouble totalAmount = 0.0.obs;
   bool isFromInventory = false;
-
+  final CartService cartService = CartService();
   final userList = <ModuleInfo>[].obs;
 
   final List<ModuleInfo> listDeliveryTime = <ModuleInfo>[].obs;
@@ -388,10 +389,14 @@ class BasketController extends GetxController implements SelectItemListener, Dia
   }
 
   @override
-  void onPositiveButtonClicked(String dialogIdentifier) {
+  Future<void> onPositiveButtonClicked(String dialogIdentifier) async {
     if (dialogIdentifier == AppConstants.dialogIdentifier.clearCart) {
       Get.back();
-      toggleRemoveCart(0,isClearAll: true);
+      //toggleRemoveCart(0,isClearAll: true);
+      isDataUpdated = true;
+      await cartService.clearCart();
+
+      print(await cartService.getCartItems());
     }
   }
   @override
