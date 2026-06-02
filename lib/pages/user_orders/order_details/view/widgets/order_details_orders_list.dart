@@ -28,6 +28,12 @@ class _OrderDetailsOrdersListState extends State<OrderDetailsOrdersList> {
   @override
   Widget build(BuildContext context) {
 
+    if (controller.orderDetails.isEmpty) {
+      return const Center(
+        child: Text(""),
+      );
+    }
+
     final orderInfo = controller.orderDetails[0];
     final orders = orderInfo.orders ?? [];
 

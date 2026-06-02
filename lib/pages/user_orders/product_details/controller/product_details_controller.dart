@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:belcka/pages/common/model/file_info.dart';
+import 'package:belcka/pages/user_orders/offline_cart/cart_service.dart';
 import 'package:belcka/pages/user_orders/product_details/controller/product_details_repository.dart';
 import 'package:belcka/pages/user_orders/product_details/model/product_details_response.dart';
 import 'package:belcka/pages/user_orders/product_set/model/product_set_data_info.dart';
@@ -26,6 +27,8 @@ class ProductDetailsController extends GetxController {
   final product = ProductInfo().obs;
   bool isDataUpdated = false;
   RxInt cartCount = 0.obs;
+  final CartService cartService = CartService();
+  RxMap<int, Map<String, dynamic>> cartMap = <int, Map<String, dynamic>>{}.obs;
   List<ProductSetDataInfo> productsSetList = [];
 
   @override
@@ -37,6 +40,20 @@ class ProductDetailsController extends GetxController {
       isReadOnly.value = arguments["read_only"] ?? false;
     }
     fetchProductDetails();
+
+  }
+
+  Future<void> loadCart() async {
+    final items = await cartService.getCartItems();
+    //print("Cart Items: $items");
+    cartMap.clear();
+    for (final item in items) {
+      final productId = item["product_id"] ?? item["productId"];
+      if (productId == null) {
+        continue;
+      }
+      cartMap[productId] = item;
+    }
   }
 
   void fetchProductDetails() {
@@ -47,7 +64,7 @@ class ProductDetailsController extends GetxController {
 
     _api.getProductDetailsAPI(
       queryParameters: map,
-      onSuccess: (ResponseModel responseModel) {
+      onSuccess: (ResponseModel responseModel) async {
         if (responseModel.isSuccess) {
           ProductDetailsResponse response = ProductDetailsResponse.fromJson(
               jsonDecode(responseModel.result!));
@@ -55,6 +72,7 @@ class ProductDetailsController extends GetxController {
             isMainViewVisible.value = true;
             product.value = response.info!;
             prepareProductImages();
+            //await loadCart();
           }
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
@@ -91,7 +109,8 @@ class ProductDetailsController extends GetxController {
     }
   }
 
-  void toggleAddToCart(int cartQuantity) {
+  Future<void> toggleAddToCart(int cartQuantity) async {
+
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
@@ -143,6 +162,16 @@ class ProductDetailsController extends GetxController {
         }
       },
     );
+
+
+    /*
+    // await cartService.addToCart(
+    //   product.toJson(),
+    // );
+
+    //loadCart();
+    cartMap[productId] = product.toJson();
+    */
   }
 
   Future<void> fetchProductsSet(int productID) async {
@@ -222,7 +251,8 @@ class ProductDetailsController extends GetxController {
     );
   }
 
-  void toggleRemoveCart() {
+  Future<void> toggleRemoveCart() async {
+
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["id"] = product.value.cartId;
@@ -259,10 +289,19 @@ class ProductDetailsController extends GetxController {
         }
       },
     );
+
+    /*
+     await cartService.removeFromCart(productId);
+    // loadCart();
+    cartMap.remove(productId);
+    */
   }
 
   void updateCartCount(int count) {
     cartCount.value = count;
+
+    // cartMap[productId]?["cart_qty"] = count;
+    // cartMap.refresh();
   }
 
   void toggleBookmark(int folderId) {

@@ -96,6 +96,9 @@ class StoremanInternalOrderDetailsController extends GetxController {
               initializeOrders(orderDetails[0].orders ?? []);
             }
           }
+          else{
+            isMainViewVisible.value = false;
+          }
 
           isLoading.value = false;
         } else {

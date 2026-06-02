@@ -2,8 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:belcka/pages/common/model/file_info.dart';
 import 'package:belcka/pages/timesheet/time_sheet_filter/view/widgets/categories_list.dart';
+import 'package:belcka/pages/user_orders/offline_cart/cart_item.dart';
 import 'package:belcka/pages/user_orders/categories/model/user_orders_categories_info.dart';
 import 'package:belcka/pages/user_orders/categories/model/user_orders_categories_response.dart';
+import 'package:belcka/pages/user_orders/offline_cart/cart_service.dart';
 import 'package:belcka/pages/user_orders/product_set/model/product_set_data_info.dart';
 import 'package:belcka/pages/user_orders/product_set/model/product_set_data_response.dart';
 import 'package:belcka/pages/user_orders/product_set/model/product_set_info.dart';
@@ -71,6 +73,7 @@ class StoremanCatalogController extends GetxController {
   RxBool isGridView = false.obs;
   Timer? _debounce;
   bool isFromInventory = false;
+  final CartService cartService = CartService();
 
   void initFocusNodes(int length) {
     qtyFocusNodes = List.generate(length, (index) => FocusNode());
@@ -95,6 +98,8 @@ class StoremanCatalogController extends GetxController {
       categoryIds = arguments["category_ids"] ?? 0;
       isFromInventory = arguments["comingFromInventory"] ?? false;
     }
+
+    print("isFromInventory:$isFromInventory");
 
     getCategoriesListApi();
 
@@ -378,10 +383,13 @@ class StoremanCatalogController extends GetxController {
     );
   }
 
-  void toggleAddToCart(
-      int index, int cartQuantity, ProductCategories category) {
-    isLoading.value = true;
+  Future<void> toggleAddToCart(
+      int index, int cartQuantity, ProductCategories category) async {
     final product = category.products[index];
+
+
+    isLoading.value = true;
+
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
     map["product_id"] = product.id;
@@ -420,6 +428,14 @@ class StoremanCatalogController extends GetxController {
         }
       },
     );
+
+
+    /*
+    await cartService.addToCart(
+      product.toJson(),
+    );
+    */
+
   }
 
   void addSetProductsToCart(
@@ -610,4 +626,8 @@ class StoremanCatalogController extends GetxController {
     }
     return index + productIndex;
   }
+
+  //Offline add to cart flow
+
+
 }

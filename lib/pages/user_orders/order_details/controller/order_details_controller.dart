@@ -66,6 +66,9 @@ class OrderDetailsController extends GetxController{
              orderInfo.value = orderDetails[0];
              isMainViewVisible.value = true;
           }
+          else{
+            isMainViewVisible.value = false;
+          }
 
           isLoading.value = false;
         }
