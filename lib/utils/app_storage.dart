@@ -363,10 +363,10 @@ class AppStorage extends GetxController {
     removeData(AppConstants.sharedPreferenceKey.timesheetViewAmountVisible);
     removeData(AppConstants.sharedPreferenceKey.worklogData);
     removeData(AppConstants.sharedPreferenceKey.worklogDataOffline);
+    removeData(AppConstants.sharedPreferenceKey.cartItems);
   }
 
   Future<void> removeData(String key) async {
     storage.remove(key);
-    await cartService.clearCart();
   }
 }

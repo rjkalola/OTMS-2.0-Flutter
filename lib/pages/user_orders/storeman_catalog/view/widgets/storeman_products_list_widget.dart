@@ -266,7 +266,7 @@ class _StoremanProductsListWidgetState
                                                           ),
                                                         ),
 
-                                                        if (product.isDisplayPrice ?? false)
+                                                        if ((product.isDisplayPrice ?? false) && !controller.isFromInventory)
                                                         TitleTextView(
                                                           text:
                                                               "${product.currency}${product.displayPrice ?? ""}",

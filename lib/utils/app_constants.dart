@@ -227,6 +227,7 @@ class SharedPreferenceKey {
   final String showRate = "SHOW_RATE";
   final String worklogData = "WORK_LOG_DATA";
   final String worklogDataOffline = "WORK_LOG_DATA_OFFLINE";
+  final String cartItems = "CART_ITEMS";
 }
 
 class Action {

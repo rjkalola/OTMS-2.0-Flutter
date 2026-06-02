@@ -246,7 +246,7 @@ class _StoremanProductsGridWidgetState extends State<StoremanProductsGridWidget>
                     color: secondaryExtraLightTextColor_(context),
                   ),
                   const SizedBox(height: 8),
-                  if (product.isDisplayPrice ?? false)
+                  if ((product.isDisplayPrice ?? false) && !controller.isFromInventory)
                   TitleTextView(
                     text:
                     "${product.currency}${product.displayPrice ?? ""}",
