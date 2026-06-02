@@ -62,6 +62,7 @@ dependencies:
   flutter_colorpicker: ^1.1.0
   adaptive_platform_ui: ^0.1.104
   table_calendar: ^3.2.0
+  shared_preferences: ^2.5.5
 
 #  cupertino_native: 0.1.0
 

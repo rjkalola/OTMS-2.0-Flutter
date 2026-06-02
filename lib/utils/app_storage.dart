@@ -362,7 +362,7 @@ class AppStorage extends GetxController {
     removeData(AppConstants.sharedPreferenceKey.timesheetDateFilterIndex);
     removeData(AppConstants.sharedPreferenceKey.timesheetViewAmountVisible);
     removeData(AppConstants.sharedPreferenceKey.worklogData);
-
+    removeData(AppConstants.sharedPreferenceKey.worklogDataOffline);
   }
 
   Future<void> removeData(String key) async {

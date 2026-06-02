@@ -42,6 +42,7 @@ class ApproveRejectButtons extends StatelessWidget {
               child: PrimaryButton(
                 buttonText: approveTitle ?? 'approve'.tr,
                 onPressed: onClickApprove,
+                color: Colors.green,
                 fontSize: fontSize,
               )),
         ],
