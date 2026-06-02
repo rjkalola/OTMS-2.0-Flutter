@@ -28,6 +28,7 @@ import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 
 class BasketController extends GetxController implements SelectItemListener, DialogButtonClickListener {
@@ -392,11 +393,12 @@ class BasketController extends GetxController implements SelectItemListener, Dia
   Future<void> onPositiveButtonClicked(String dialogIdentifier) async {
     if (dialogIdentifier == AppConstants.dialogIdentifier.clearCart) {
       Get.back();
-      //toggleRemoveCart(0,isClearAll: true);
+      toggleRemoveCart(0,isClearAll: true);
+      /*
       isDataUpdated = true;
-      await cartService.clearCart();
-
+      cartService.clearCart();
       print(await cartService.getCartItems());
+      */
     }
   }
   @override
@@ -576,7 +578,13 @@ class BasketController extends GetxController implements SelectItemListener, Dia
       double qty = item.cartQty ?? 0.0;
       totalAmount.value += price * qty;
     }
-    return totalAmount.value.toStringAsFixed(2);
+
+    if (isFromInventory){
+      return "0.00";
+    }
+    else{
+      return totalAmount.value.toStringAsFixed(2);
+    }
   }
 
   void onBackPress() {

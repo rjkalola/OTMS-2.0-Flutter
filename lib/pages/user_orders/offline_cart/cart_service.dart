@@ -1,32 +1,21 @@
-import 'dart:convert';
-
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get_storage/get_storage.dart';
 
 class CartService {
-  static const String cartKey = "cart_items";
+  static const String cartKey = "CART_ITEMS";
 
-  Future<List<Map<String, dynamic>>> getCartItems() async {
-    final prefs = await SharedPreferences.getInstance();
+  final GetStorage storage = GetStorage();
 
-    final data = prefs.getString(cartKey);
+  List<Map<String, dynamic>> getCartItems() {
+    final data = storage.read(cartKey);
 
-    if (data == null || data.isEmpty) {
-      return [];
-    }
+    if (data == null) return [];
 
-    return List<Map<String, dynamic>>.from(
-      jsonDecode(data),
-    );
+    return List<Map<String, dynamic>>.from(data);
   }
 
-  Future<Map<String, dynamic>?> getCartItem(
-      int productId,
-      ) async {
-
-    final items = await getCartItems();
-
+  Map<String, dynamic>? getCartItem(int productId) {
     try {
-      return items.firstWhere(
+      return getCartItems().firstWhere(
             (e) => e["product_id"] == productId,
       );
     } catch (_) {
@@ -34,87 +23,76 @@ class CartService {
     }
   }
 
-  Future<void> saveCartItems(
-      List<Map<String, dynamic>> items,
-      ) async {
-    final prefs = await SharedPreferences.getInstance();
-
-    await prefs.setString(
-      cartKey,
-      jsonEncode(items),
-    );
+  void saveCartItems(List<Map<String, dynamic>> items) {
+    storage.write(cartKey, items);
   }
 
-  Future<void> addToCart(
-      Map<String, dynamic> product,
-      ) async {
-    final items = await getCartItems();
+  void addToCart(Map<String, dynamic> product) {
+    final items = getCartItems();
+
     final index = items.indexWhere(
           (e) => e["product_id"] == product["product_id"],
     );
+
     if (index >= 0) {
       items[index]["cart_qty"] =
           (items[index]["cart_qty"] ?? 1) + 1;
-
-    }else{
+    } else {
       product["cart_qty"] = 1;
       items.add(product);
     }
-    await saveCartItems(items);
+
+    saveCartItems(items);
   }
 
-  Future<void> removeFromCart(int productId,) async {
-    final items = await getCartItems();
+  void removeFromCart(int productId) {
+    final items = getCartItems();
+
     items.removeWhere(
           (e) => e["product_id"] == productId,
     );
 
-    await saveCartItems(items);
+    saveCartItems(items);
   }
 
-  Future<void> updateQty(int productId, int qty,) async{
-    final items = await getCartItems();
+  void updateQty(int productId, int qty) {
+    final items = getCartItems();
+
     final index = items.indexWhere(
           (e) => e["product_id"] == productId,
     );
+
     if (index == -1) return;
+
     if (qty <= 0) {
       items.removeAt(index);
-    }
-    else{
+    } else {
       items[index]["cart_qty"] = qty;
     }
-    await saveCartItems(items);
+
+    saveCartItems(items);
   }
 
-  Future<bool> isProductAdded(
-      int productId,
-      ) async {
-
-    final items = await getCartItems();
-
-    return items.any(
+  bool isProductAdded(int productId) {
+    return getCartItems().any(
           (e) => e["product_id"] == productId,
     );
   }
-  Future<int> getCartQty(int productId,) async {
-    final item = await getCartItem(
-      productId,
-    );
-    return item?["cart_qty"] ?? 0;
+
+  int getCartQty(int productId) {
+    return getCartItem(productId)?["cart_qty"] ?? 0;
   }
 
-  Future<Map<int, Map<String, dynamic>>> getCartMap() async {
-    final items = await getCartItems();
+  Map<int, Map<String, dynamic>> getCartMap() {
+    final items = getCartItems();
 
-    return{
+    return {
       for (final item in items)
         item["product_id"]: item,
     };
   }
 
-  Future<void> clearCart() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove(cartKey);
+  void clearCart() {
+    storage.remove(cartKey);
   }
 }

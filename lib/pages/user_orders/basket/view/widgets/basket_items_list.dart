@@ -241,7 +241,7 @@ class _BasketItemsListState extends State<BasketItemsList> {
                                         secondaryExtraLightTextColor_(context),
                                   ),
                                   const SizedBox(height: 4),
-                                  if (product.isDisplayPrice ?? false)
+                                  if ((product.isDisplayPrice ?? false) && !controller.isFromInventory)
                                   TitleTextView(
                                     text:
                                         "${product.currency}${product.displayPrice ?? ""}",

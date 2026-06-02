@@ -374,13 +374,21 @@ class NotificationService {
 
       else if (notificationType ==
           AppConstants.notificationType.employeeOrderCreate) {
-        Get.delete<StoremanInternalOrderDetailsController>();
-        String rout = AppRoutes.storemanInternalOrderDetailsScreen;
-        var arguments = {
-          "order_id": data['record_id'] ?? "0",
-          AppConstants.intentKey.fromNotification: true,
-        };
-        Get.offAllNamed(rout, arguments: arguments);
+        if (Get.currentRoute == AppRoutes.storemanInternalOrderDetailsScreen) {
+          final controller = Get.find<StoremanInternalOrderDetailsController>();
+          controller.orderId = data['record_id'] ?? "0";
+          controller.fromNotification = true;
+          controller.fetchOrderDetails();
+        }
+        else{
+          Get.offAllNamed(
+            AppRoutes.storemanInternalOrderDetailsScreen,
+            arguments: {
+              "order_id": data['record_id'] ?? "0",
+              AppConstants.intentKey.fromNotification: true,
+            },
+          );
+        }
       }
 
       else if (notificationType ==
@@ -389,22 +397,36 @@ class NotificationService {
 
           print("login user");
 
-          Get.delete<OrderDetailsController>();
-          String rout = AppRoutes.orderDetailsScreen;
-          var arguments = {
-            "order_id": data['record_id'] ?? "0",
-            AppConstants.intentKey.fromNotification: true,
-          };
-          Get.offAllNamed(rout, arguments: arguments);
+          if (Get.currentRoute == AppRoutes.orderDetailsScreen) {
+            final controller = Get.find<OrderDetailsController>();
+            controller.orderId = data['record_id'];
+            controller.fetchOrderDetails();
+          }
+          else{
+            Get.toNamed(
+              AppRoutes.orderDetailsScreen,
+              arguments: {"order_id": data['record_id'],
+                AppConstants.intentKey.fromNotification: true,
+              },
+            );
+          }
         }
         else{
-          Get.delete<StoremanInternalOrderDetailsController>();
-          String rout = AppRoutes.storemanInternalOrderDetailsScreen;
-          var arguments = {
-            "order_id": data['record_id'] ?? "0",
-            AppConstants.intentKey.fromNotification: true,
-          };
-          Get.offAllNamed(rout, arguments: arguments);
+          if (Get.currentRoute == AppRoutes.storemanInternalOrderDetailsScreen) {
+            final controller = Get.find<StoremanInternalOrderDetailsController>();
+            controller.orderId = data['record_id'] ?? "0";
+            controller.fromNotification = true;
+            controller.fetchOrderDetails();
+          }
+          else{
+            Get.offAllNamed(
+              AppRoutes.storemanInternalOrderDetailsScreen,
+              arguments: {
+                "order_id": data['record_id'] ?? "0",
+                AppConstants.intentKey.fromNotification: true,
+              },
+            );
+          }
         }
       }
 
