@@ -1,6 +1,9 @@
 import 'package:belcka/pages/leaves/leave_list/model/leave_info.dart';
 import 'package:belcka/pages/leaves/leave_utils.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/date_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
@@ -14,9 +17,16 @@ import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class LeaveCalendarScreen extends StatefulWidget {
-  const LeaveCalendarScreen({super.key, required this.leaves});
+  const LeaveCalendarScreen({
+    super.key,
+    required this.leaves,
+    required this.userId,
+    this.reloadLeaves,
+  });
 
   final List<LeaveInfo> leaves;
+  final int userId;
+  final Future<List<LeaveInfo>> Function()? reloadLeaves;
 
   @override
   State<LeaveCalendarScreen> createState() => _LeaveCalendarScreenState();
@@ -31,6 +41,8 @@ class _LeaveCalendarScreenState extends State<LeaveCalendarScreen> {
 
   late DateTime _focusedDay;
   late DateTime _selectedDay;
+  late List<LeaveInfo> _calendarLeaves;
+  bool _hasChangedData = false;
   CalendarFormat _calendarFormat = CalendarFormat.month;
 
   @override
@@ -38,12 +50,58 @@ class _LeaveCalendarScreenState extends State<LeaveCalendarScreen> {
     super.initState();
     final initialDay =
         LeaveCalendarHelper.initialFocusedDay(widget.leaves) ?? DateTime.now();
+    _calendarLeaves = List<LeaveInfo>.from(widget.leaves);
     _focusedDay = initialDay;
     _selectedDay = initialDay;
   }
 
   List<LeaveInfo> _leavesOnDay(DateTime day) {
-    return LeaveCalendarHelper.leavesOnDay(widget.leaves, day);
+    return LeaveCalendarHelper.leavesOnDay(_calendarLeaves, day);
+  }
+
+  Future<void> _onBackPressed() async {
+    Get.back(result: _hasChangedData);
+  }
+
+  Future<void> _reloadCalendarLeaves() async {
+    if (widget.reloadLeaves == null) return;
+    final updatedLeaves = await widget.reloadLeaves!.call();
+    if (!mounted) return;
+    setState(() {
+      _calendarLeaves = List<LeaveInfo>.from(updatedLeaves);
+    });
+  }
+
+  Future<void> _onClickLeaveItem(LeaveInfo leave) async {
+    final status = leave.requestStatus ?? 0;
+    dynamic result;
+    if (status == 0 ||
+        status == AppConstants.status.approved ||
+        status == AppConstants.status.rejected) {
+      final arguments = {
+        AppConstants.intentKey.leaveInfo: leave,
+        AppConstants.intentKey.userId: widget.userId,
+      };
+      result = await Get.toNamed(AppRoutes.createLeaveScreen, arguments: arguments);
+    } else {
+      final arguments = {AppConstants.intentKey.leaveId: leave.id ?? 0};
+      result = await Get.toNamed(AppRoutes.leaveDetailsScreen, arguments: arguments);
+    }
+
+    if (result != null && result == true) {
+      _hasChangedData = true;
+      await _reloadCalendarLeaves();
+    }
+  }
+
+  bool _isApprovedLeave(LeaveInfo leave) {
+    return leave.requestStatus == AppConstants.status.approved;
+  }
+
+  bool _isPendingLeave(LeaveInfo leave) {
+    final status = leave.requestStatus ?? 0;
+    return status == AppConstants.status.pending ||
+        (leave.isRequested ?? false);
   }
 
   String? _formatSelectedDaySummary(List<LeaveInfo> leaves) {
@@ -51,7 +109,12 @@ class _LeaveCalendarScreenState extends State<LeaveCalendarScreen> {
 
     var paidCount = 0;
     var unpaidCount = 0;
+    var pendingCount = 0;
     for (final leave in leaves) {
+      if (_isPendingLeave(leave)) {
+        pendingCount++;
+        continue;
+      }
       final type = (leave.leaveType ?? "").toLowerCase();
       if (type == "paid") {
         paidCount++;
@@ -61,6 +124,9 @@ class _LeaveCalendarScreenState extends State<LeaveCalendarScreen> {
     }
 
     final parts = <String>[];
+    if (pendingCount > 0) {
+      parts.add("$pendingCount ${'pending'.tr}");
+    }
     if (paidCount > 0) {
       parts.add("$paidCount ${'paid_leave'.tr}");
     }
@@ -81,10 +147,16 @@ class _LeaveCalendarScreenState extends State<LeaveCalendarScreen> {
     final halfDayLeaves =
         selectedLeaves.where((leave) => !(leave.isAlldayLeave ?? false)).toList();
 
-    return Container(
-      color: dashBoardBgColor_(context),
-      child: SafeArea(
-        child: Scaffold(
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+        _onBackPressed();
+      },
+      child: Container(
+        color: dashBoardBgColor_(context),
+        child: SafeArea(
+          child: Scaffold(
           backgroundColor: dashBoardBgColor_(context),
           appBar: BaseAppBar(
             appBar: AppBar(),
@@ -92,6 +164,7 @@ class _LeaveCalendarScreenState extends State<LeaveCalendarScreen> {
             isCenterTitle: false,
             bgColor: dashBoardBgColor_(context),
             isBack: true,
+            onBackPressed: _onBackPressed,
           ),
           body: Column(
             children: [
@@ -245,6 +318,7 @@ class _LeaveCalendarScreenState extends State<LeaveCalendarScreen> {
               ),
             ],
           ),
+          ),
         ),
       ),
     );
@@ -256,8 +330,18 @@ class _LeaveCalendarScreenState extends State<LeaveCalendarScreen> {
       child: Row(
         children: [
           _legendItem(context, Colors.green, 'paid'.tr),
-          const SizedBox(width: 20),
-          _legendItem(context, Colors.orange, 'unpaid'.tr),
+          const SizedBox(width: 16),
+          _legendItem(
+            context,
+            _getCalendarLeaveTypeColor(context, 'unpaid'),
+            'unpaid'.tr,
+          ),
+          const SizedBox(width: 16),
+          _legendItem(
+            context,
+            _pendingCalendarColor.withValues(alpha: 0.45),
+            'pending'.tr,
+          ),
         ],
       ),
     );
@@ -277,6 +361,8 @@ class _LeaveCalendarScreenState extends State<LeaveCalendarScreen> {
     );
   }
 
+  static const Color _pendingCalendarColor = Colors.orange;
+
   Widget? _buildDayCell(
     BuildContext context,
     DateTime day, {
@@ -285,6 +371,10 @@ class _LeaveCalendarScreenState extends State<LeaveCalendarScreen> {
     bool isSelected = false,
   }) {
     final events = _leavesOnDay(day);
+    final hasPendingLeave =
+        events.any((leave) => _isPendingLeave(leave));
+    final approvedEvents =
+        events.where((leave) => _isApprovedLeave(leave)).toList();
     final textColor = isOutside
         ? secondaryLightTextColor_(context)
         : (day.weekday == DateTime.saturday || day.weekday == DateTime.sunday)
@@ -308,18 +398,32 @@ class _LeaveCalendarScreenState extends State<LeaveCalendarScreen> {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          if (events.isNotEmpty)
+          if (hasPendingLeave && !isSelected)
+            Positioned.fill(
+              child: Padding(
+                padding: const EdgeInsets.all(4),
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: _pendingCalendarColor.withValues(alpha: 0.28),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                ),
+              ),
+            ),
+          if (approvedEvents.isNotEmpty)
             Positioned(
               left: 2,
               right: 2,
               bottom: 4,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
-                children: events.take(2).map((leave) {
+                children: approvedEvents.take(2).map((leave) {
                   final segment =
                       LeaveCalendarHelper.getAllDaySegment(leave, day);
-                  final color = LeaveUtils.getLeaveTypeColor(
-                      leave.leaveType ?? "");
+                  final color = _getCalendarLeaveTypeColor(
+                    context,
+                    leave.leaveType ?? "",
+                  );
                   return Container(
                     height: 4,
                     margin: const EdgeInsets.only(top: 2),
@@ -345,6 +449,37 @@ class _LeaveCalendarScreenState extends State<LeaveCalendarScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  bool _shouldShowStatus(LeaveInfo leave) {
+    return _isPendingLeave(leave) ||
+        !StringHelper.isEmptyString(
+          AppUtils.getStatusText(leave.requestStatus ?? 0),
+        ) ||
+        (leave.isDeleteRequest ?? false);
+  }
+
+  String _statusLabel(LeaveInfo leave) {
+    if (leave.isDeleteRequest ?? false) return 'delete_request'.tr;
+    final statusText = AppUtils.getStatusText(leave.requestStatus ?? 0);
+    if (!StringHelper.isEmptyString(statusText)) return statusText;
+    if (_isPendingLeave(leave)) return 'pending'.tr;
+    return '';
+  }
+
+  Widget _buildStatusBadge(BuildContext context, LeaveInfo leave) {
+    return TextViewWithContainer(
+      text: _statusLabel(leave),
+      padding: const EdgeInsets.fromLTRB(6, 2, 6, 2),
+      fontColor: Colors.white,
+      fontSize: 11,
+      boxColor: (leave.isDeleteRequest ?? false)
+          ? Colors.orange
+          : _isPendingLeave(leave)
+              ? AppUtils.getStatusColor(AppConstants.status.pending)
+              : AppUtils.getStatusColor(leave.requestStatus ?? 0),
+      borderRadius: 5,
     );
   }
 
@@ -390,54 +525,70 @@ class _LeaveCalendarScreenState extends State<LeaveCalendarScreen> {
 
   Widget _leaveEventCard(BuildContext context, LeaveInfo leave) {
     final isAllDay = leave.isAlldayLeave ?? false;
-    final color = LeaveUtils.getLeaveTypeColor(leave.leaveType ?? "");
+    final color = _getCalendarLeaveTypeColor(
+      context,
+      leave.leaveType ?? "",
+      leave: leave,
+    );
 
     return CardViewDashboardItem(
       margin: const EdgeInsets.only(bottom: 10),
       padding: const EdgeInsets.fromLTRB(12, 14, 12, 14),
       borderRadius: 12,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: TitleTextView(
-                  text: leave.leaveName ?? "",
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
+      child: GestureDetector(
+        onTap: () => _onClickLeaveItem(leave),
+        behavior: HitTestBehavior.opaque,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: TitleTextView(
+                    text: leave.leaveName ?? "",
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
-              ),
-              TextViewWithContainer(
-                text: StringHelper.capitalizeFirstLetter(leave.leaveType ?? ""),
-                padding: const EdgeInsets.fromLTRB(6, 2, 6, 2),
-                fontColor: Colors.white,
-                fontSize: 12,
-                boxColor: color,
-                borderRadius: 5,
-              ),
-            ],
-          ),
-          const SizedBox(height: 6),
-          SubtitleTextView(
-            text: isAllDay
-                ? "${'date'.tr}: ${leave.startDate ?? ""} - ${leave.endDate ?? ""}"
-                : "${'date'.tr}: ${leave.startDate ?? ""}",
-            fontSize: 14,
-          ),
-          if (!isAllDay)
+                if (_shouldShowStatus(leave)) ...[
+                  _buildStatusBadge(context, leave),
+                  const SizedBox(width: 6),
+                ],
+                if (_isApprovedLeave(leave))
+                  TextViewWithContainer(
+                    text: StringHelper.capitalizeFirstLetter(
+                      leave.leaveType ?? "",
+                    ),
+                    padding: const EdgeInsets.fromLTRB(6, 2, 6, 2),
+                    fontColor: Colors.white,
+                    fontSize: 12,
+                    boxColor: color,
+                    borderRadius: 5,
+                  ),
+              ],
+            ),
+            const SizedBox(height: 6),
             SubtitleTextView(
-              text:
-                  "${'time'.tr}: ${_formatTime24(leave.startTime ?? "")} - ${_formatTime24(leave.endTime ?? "")}",
+              text: isAllDay
+                  ? "${'date'.tr}: ${leave.startDate ?? ""} - ${leave.endDate ?? ""}"
+                  : "${'date'.tr}: ${leave.startDate ?? ""}",
               fontSize: 14,
             ),
-          if (_hasUserInfo(leave))
-            Padding(
-              padding: const EdgeInsets.only(top: 8),
-              child: _buildUserRow(context, leave),
-            ),
-        ],
+            if (!isAllDay)
+              SubtitleTextView(
+                text:
+                    "${'time'.tr}: ${_formatTime24(leave.startTime ?? "")} - ${_formatTime24(leave.endTime ?? "")}",
+                fontSize: 14,
+              ),
+            if (_hasUserInfo(leave))
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: _buildUserRow(context, leave),
+              ),
+          ],
+        ),
       ),
     );
   }
@@ -550,7 +701,11 @@ class _LeaveCalendarScreenState extends State<LeaveCalendarScreen> {
       top = (drawableHeight - blockHeight).clamp(0.0, drawableHeight);
     }
 
-    final color = LeaveUtils.getLeaveTypeColor(leave.leaveType ?? "");
+    final color = _getCalendarLeaveTypeColor(
+      context,
+      leave.leaveType ?? "",
+      leave: leave,
+    );
     final timeLabel =
         '${_formatTime24(leave.startTime ?? "")} - ${_formatTime24(leave.endTime ?? "")}';
 
@@ -579,6 +734,24 @@ class _LeaveCalendarScreenState extends State<LeaveCalendarScreen> {
         ),
       ),
     );
+  }
+
+  Color _getCalendarLeaveTypeColor(
+    BuildContext context,
+    String leaveType, {
+    LeaveInfo? leave,
+  }) {
+    if (leave != null && _isPendingLeave(leave)) {
+      return _pendingCalendarColor;
+    }
+    switch (leaveType.toLowerCase()) {
+      case 'paid':
+        return Colors.green;
+      case 'unpaid':
+        return Colors.blue;
+      default:
+        return primaryTextColorLight_(context);
+    }
   }
 
   String _formatHourLabel24(int hour) {

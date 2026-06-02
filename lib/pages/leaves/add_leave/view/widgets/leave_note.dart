@@ -22,8 +22,8 @@ class LeaveNote extends StatelessWidget {
         child: TextFieldBorderDark(
           textEditingController: controller.value,
           autovalidateMode: AutovalidateMode.onUserInteraction,
-          hintText: 'manager_note'.tr,
-          labelText: 'manager_note'.tr,
+          hintText: 'note'.tr,
+          labelText: 'note'.tr,
           textInputAction: TextInputAction.newline,
           validator: MultiValidator([]),
           isReadOnly: isReadOnly,

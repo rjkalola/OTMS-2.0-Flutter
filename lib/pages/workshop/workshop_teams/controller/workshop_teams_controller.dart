@@ -30,7 +30,7 @@ class WorkshopTeamsController extends GetxController
   final endDate = ''.obs;
   final isLoading = false.obs;
   final isInternetNotAvailable = false.obs;
-  final isMainViewVisible = false.obs;  
+  final isMainViewVisible = false.obs;
   final isSearchEnable = false.obs;
   final isClearVisible = false.obs;
 

@@ -23,7 +23,8 @@ class CheckInSettingsBottomSheet extends StatefulWidget {
       _CheckInSettingsBottomSheetState();
 }
 
-class _CheckInSettingsBottomSheetState extends State<CheckInSettingsBottomSheet> {
+class _CheckInSettingsBottomSheetState
+    extends State<CheckInSettingsBottomSheet> {
   late bool _isCheckIn;
 
   @override

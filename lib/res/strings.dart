@@ -525,7 +525,6 @@ class Strings extends Translations {
           'work_days': "Work Days",
           'start_time': "Start Time",
           'end_time': "End Time",
-          'manager_note': "Manager Note",
           'error_wrong_start_date_selection':
               "Start date cannot be after end date",
           'error_wrong_end_date_selection':

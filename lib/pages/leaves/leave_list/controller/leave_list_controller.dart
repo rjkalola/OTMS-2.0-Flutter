@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:belcka/pages/common/listener/menu_item_listener.dart';
@@ -47,7 +48,8 @@ class LeaveListController extends GetxController implements MenuItemListener {
     getLeaveListApi(true);
   }
 
-  void getLeaveListApi(bool isProgress) {
+  Future<void> getLeaveListApi(bool isProgress) {
+    final completer = Completer<void>();
     isLoading.value = isProgress;
     Map<String, dynamic> map = {};
     map["start_date"] = startDate;
@@ -72,14 +74,21 @@ class LeaveListController extends GetxController implements MenuItemListener {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;
+        if (!completer.isCompleted) {
+          completer.complete();
+        }
       },
       onError: (ResponseModel error) {
         isLoading.value = false;
         if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
           isInternetNotAvailable.value = true;
         }
+        if (!completer.isCompleted) {
+          completer.complete();
+        }
       },
     );
+    return completer.future;
   }
 
   onClickWorkLogItem(int workLogId, int userId) async {
@@ -109,18 +118,32 @@ class LeaveListController extends GetxController implements MenuItemListener {
     getLeaveListApi(true);
   }
 
-  void openLeaveCalendar() {
-    final approvedLeaves = listItems
-        .where(
-          (leave) =>
-              leave.requestStatus == AppConstants.status.approved,
-        )
-        .toList();
-    Get.to(
+  List<LeaveInfo> _filterCalendarLeaves(List<LeaveInfo> leaves) {
+    return leaves.where((leave) {
+      final status = leave.requestStatus ?? 0;
+      return status == AppConstants.status.approved ||
+          status == AppConstants.status.pending ||
+          (leave.isRequested ?? false);
+    }).toList();
+  }
+
+  Future<List<LeaveInfo>> _reloadLeavesForCalendar() async {
+    await getLeaveListApi(false);
+    return _filterCalendarLeaves(listItems);
+  }
+
+  Future<void> openLeaveCalendar() async {
+    final calendarLeaves = _filterCalendarLeaves(listItems);
+    final result = await Get.to(
       () => LeaveCalendarScreen(
-        leaves: approvedLeaves,
+        leaves: calendarLeaves,
+        userId: userId,
+        reloadLeaves: _reloadLeavesForCalendar,
       ),
     );
+    if (result != null && result == true) {
+      getLeaveListApi(true);
+    }
   }
 
   void showMenuItemsDialog(BuildContext context) {
