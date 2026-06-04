@@ -133,7 +133,7 @@ class _ProductSetItemListState extends State<ProductSetItemList>{
                         ),
 
                         const SizedBox(height: 4),
-                        if (product.isDisplayPrice ?? false)
+                        if ((product.isDisplayPrice ?? false) && !controller.isFromInventory)
                         Row(
                           children: [
                             Expanded(

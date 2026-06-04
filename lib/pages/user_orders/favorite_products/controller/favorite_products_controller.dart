@@ -4,6 +4,7 @@ import 'package:belcka/pages/user_orders/basket/model/product_cart_list_response
 import 'package:belcka/pages/user_orders/favorite_products/controller/favorites_products_repository.dart';
 import 'package:belcka/pages/user_orders/product_set/model/product_set_data_info.dart';
 import 'package:belcka/pages/user_orders/product_set/model/product_set_data_response.dart';
+import 'package:belcka/pages/user_orders/storeman_catalog/controller/storeman_catalog_controller.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/add_to_cart_response.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
 import 'package:belcka/utils/app_utils.dart';
@@ -31,6 +32,7 @@ class FavoriteProductsController extends GetxController{
   List<FocusNode> qtyFocusNodes = [];
 
   RxInt cartCount = 0.obs;
+  bool isFromInventory = false;
 
   void initFocusNodes(int length) {
     qtyFocusNodes = List.generate(length, (index) => FocusNode());
@@ -50,6 +52,18 @@ class FavoriteProductsController extends GetxController{
     var arguments = Get.arguments;
     if (arguments != null) {
       folderId = arguments["id"] ?? "";
+    }
+    if (Get.isRegistered<StoremanCatalogController>()) {
+      final catalogController = Get.find<StoremanCatalogController>();
+      if (catalogController.isFromInventory) {
+        isFromInventory = true;
+      }
+      else{
+        isFromInventory = false;
+      }
+    }
+    else{
+      isFromInventory = false;
     }
     fetchBookmarkList();
   }

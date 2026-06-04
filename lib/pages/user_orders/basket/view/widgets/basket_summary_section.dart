@@ -222,7 +222,9 @@ class BasketSummarySection extends StatelessWidget {
         ]),
       ),
       // Total
+      if (!controller.isFromInventory)
       const SizedBox(height: 16),
+      if (!controller.isFromInventory)
       Padding(
         padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
         child: Row(
