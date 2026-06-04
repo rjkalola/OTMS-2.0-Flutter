@@ -3,6 +3,7 @@ import 'package:belcka/pages/common/listener/date_filter_listener.dart';
 import 'package:belcka/pages/common/widgets/date_filter_options_horizontal_list.dart';
 import 'package:belcka/pages/manageattachment/controller/download_controller.dart';
 import 'package:belcka/pages/payment_documents/payment_documents/controller/payment_documents_controller.dart';
+import 'package:belcka/pages/payment_documents/payment_documents/view/widgets/certificates_category_grid.dart';
 import 'package:belcka/pages/payment_documents/payment_documents/view/widgets/document_footer_buttons_view.dart';
 import 'package:belcka/pages/payment_documents/payment_documents/view/widgets/header_tab_view.dart';
 import 'package:belcka/pages/payment_documents/payment_documents/view/widgets/invoice_date_list.dart';
@@ -97,21 +98,25 @@ class _PaymentDocumentsScreenState extends State<PaymentDocumentsScreen>
                                   children: [
                                     HeaderTabView(),
                                     const SizedBox(height: 16),
-                                    (controller.isDownloadEnable.value ||
-                                            controller.isDeleteEnable.value)
-                                        ? SelectAllDocuments()
-                                        : DateFilterOptionsHorizontalList(
-                                            padding: EdgeInsets.fromLTRB(
-                                                16, 0, 16, 0),
-                                            startDate: controller.startDate,
-                                            endDate: controller.endDate,
-                                            listener: this,
-                                            selectedPosition: controller
-                                                .selectedDateFilterIndex,
-                                          ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
+                                    if (controller.isDownloadEnable.value ||
+                                        controller.isDeleteEnable.value)
+                                      SelectAllDocuments()
+                                    else if (controller.selectedFilter.value !=
+                                        AppConstants.action.certificates)
+                                      DateFilterOptionsHorizontalList(
+                                        padding:
+                                            EdgeInsets.fromLTRB(16, 0, 16, 0),
+                                        startDate: controller.startDate,
+                                        endDate: controller.endDate,
+                                        listener: this,
+                                        selectedPosition: controller
+                                            .selectedDateFilterIndex,
+                                      ),
+                                    if (controller.selectedFilter.value !=
+                                        AppConstants.action.certificates)
+                                      SizedBox(
+                                        height: 10,
+                                      ),
                                     setSelectedWidget(),
                                     const SizedBox(height: 16),
                                     DocumentFooterButtonsView()
@@ -132,17 +137,23 @@ class _PaymentDocumentsScreenState extends State<PaymentDocumentsScreen>
   }
 
   Widget setSelectedWidget() {
-    if (controller.selectedFilter.value.tr == AppConstants.action.invoices) {
+    if (controller.selectedFilter.value == AppConstants.action.invoices) {
       return InvoiceDateList(
           searchText: controller.searchController.value.text);
-    } else if (controller.selectedFilter.value.tr ==
+    } else if (controller.selectedFilter.value ==
         AppConstants.action.payslips) {
       return PayslipDateList(
           searchText: controller.searchController.value.text);
-    } else if (controller.selectedFilter.value.tr ==
+    } else if (controller.selectedFilter.value ==
         AppConstants.action.payments) {
-      print("payment tab");
       return PaymentsList();
+    } else if (controller.selectedFilter.value ==
+        AppConstants.action.certificates) {
+      return Expanded(
+        child: SingleChildScrollView(
+          child: CertificatesCategoryGrid(),
+        ),
+      );
     } else {
       return Container();
     }
@@ -174,11 +185,13 @@ class _PaymentDocumentsScreenState extends State<PaymentDocumentsScreen>
       //   ),
       // ),
       Visibility(
-        visible:
-            controller.selectedFilter.value != AppConstants.action.payments &&
-                UserUtils.isAdmin(),
+        visible: controller.selectedFilter.value !=
+                AppConstants.action.payments &&
+            controller.selectedFilter.value !=
+                AppConstants.action.certificates &&
+            UserUtils.isAdmin(),
         child: IconButton(
-          icon: Icon(Icons.add),
+          icon: const Icon(Icons.add),
           onPressed: () {
             if (controller.selectedFilter.value ==
                 AppConstants.action.invoices) {
@@ -193,13 +206,14 @@ class _PaymentDocumentsScreenState extends State<PaymentDocumentsScreen>
               };
               controller.moveToScreen(AppRoutes.addPayslipScreen, arguments);
             }
-            // controller.showMenuItemsDialog(Get.context!);
           },
         ),
       ),
       Visibility(
-        visible:
-            controller.selectedFilter.value != AppConstants.action.payments,
+        visible: controller.selectedFilter.value !=
+                AppConstants.action.payments &&
+            controller.selectedFilter.value !=
+                AppConstants.action.certificates,
         child: IconButton(
           icon: Icon(Icons.more_vert_outlined),
           onPressed: () {

@@ -13,6 +13,8 @@ import 'package:belcka/pages/payment_documents/payment_documents/model/download_
 import 'package:belcka/pages/payment_documents/payment_documents/model/invoices_list_response.dart';
 import 'package:belcka/pages/payment_documents/payment_documents/model/payments_info.dart';
 import 'package:belcka/pages/payment_documents/payment_documents/model/payments_list_response.dart';
+import 'package:belcka/pages/payment_documents/payment_documents/model/certificates_dashboard_response.dart';
+import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/pages/payment_documents/payment_documents/model/payslips_list_response.dart';
 import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:belcka/utils/app_constants.dart';
@@ -51,12 +53,21 @@ class PaymentDocumentsController extends GetxController
   RxInt invoicesCount = 0.obs,
       paymentsCount = 0.obs,
       payslipsCount = 0.obs,
+      certificatesCount = 0.obs,
+      certificatesValidCount = 0.obs,
+      certificatesExpiringSoonCount = 0.obs,
+      certificatesExpiredSoonCount = 0.obs,
+      certificatesInsuranceCount = 0.obs,
+      certificatesDocumentsCount = 0.obs,
       selectedDateFilterIndex = (1).obs;
 
   RxString selectedFilter = AppConstants.action.invoices.obs;
+  RxString selectedCertificateCategory =
+      AppConstants.action.certificateExpiredSoon.obs;
 
   String filterPerDay = "", startDate = "", endDate = "";
-  int userId = UserUtils.getLoginUserId();
+  // int userId = UserUtils.getLoginUserId();
+  int userId = 0;
 
   //Home Tab
   final selectedActionButtonPagerPosition = 0.obs;
@@ -95,7 +106,60 @@ class PaymentDocumentsController extends GetxController
       getPayments(isProgress);
     } else if (selectedFilter.value == AppConstants.action.payslips) {
       getPayslipsApi(isProgress);
+    } else if (selectedFilter.value == AppConstants.action.certificates) {
+      loadCertificatesData(isProgress);
     }
+  }
+
+  void loadCertificatesData(bool isProgress) {
+    isLoading.value = isProgress;
+    Map<String, dynamic> map = {};
+    map["company_id"] = ApiConstants.companyId;
+
+    _api.getCertificatesDashboard(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          isMainViewVisible.value = true;
+          CertificatesDashboardResponse response =
+              CertificatesDashboardResponse.fromJson(
+                  jsonDecode(responseModel.result!));
+          final info = response.info;
+          certificatesValidCount.value = info?.valid ?? 0;
+          certificatesExpiringSoonCount.value = info?.expiringSoon ?? 0;
+          certificatesExpiredSoonCount.value = info?.expiringSoon ?? 0;
+          certificatesInsuranceCount.value = info?.insurance ?? 0;
+          certificatesDocumentsCount.value = info?.totalCertificates ?? 0;
+          certificatesCount.value = info?.totalCertificates ?? 0;
+        } else {
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
+
+  void onCertificateCategorySelected(String category) {
+    selectedCertificateCategory.value = category;
+
+    if (category == AppConstants.action.certificateExpiredSoon) {
+      moveToScreen(AppRoutes.expireSoonCertificatesScreen, {
+        AppConstants.intentKey.userId: userId,
+      });
+      return;
+    }
+
+    moveToScreen(AppRoutes.certificatesListScreen, {
+      AppConstants.intentKey.userId: userId,
+    });
   }
 
   void onTabChange(String action) {

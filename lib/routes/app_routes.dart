@@ -160,6 +160,11 @@ class AppRoutes {
   static const String scoreMoreDetailsScreen = '/score_more_details_screen';
   static const String addInvoiceScreen = '/add_invoice_screen';
   static const String addPayslipScreen = '/add_payslip_screen';
+  static const String createCertificateScreen = '/create_certificate_screen';
+  static const String certificatesListScreen = '/certificates_list_screen';
+  static const String expireSoonCertificatesScreen =
+      '/expire_soon_certificates_screen';
+  static const String certificateDetailsScreen = '/certificate_details_screen';
   static const String paymentDetailsScreen = '/payment_details_screen';
   static const String conflictsScreen = '/conflicts_screen';
   static const String userOrdersCategoriesScreen =

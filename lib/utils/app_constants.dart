@@ -97,6 +97,8 @@ class IntentKey {
   final String shiftInfo = "SHIFT_INFO";
   final String billingInfo = "BILLING_INFO";
   final String documentType = "DOCUMENT_TYPE";
+  final String certificateStatus = "CERTIFICATE_STATUS";
+  final String certificateIconColor = "CERTIFICATE_ICON_COLOR";
   final String fromStartShiftScreen = 'FROM_START_SHIFT_SCREEN';
   final String switchProject = 'SWITCH_PROJECT';
   final String workLogInfo = "WORK_LOG_INFO";
@@ -147,6 +149,7 @@ class DialogIdentifier {
   final String selectProject = 'SELECT_PROJECT';
   final String selectShift = 'SELECT_SHIFT';
   final String selectTeam = 'SELECT_TEAM';
+  final String selectCourse = 'SELECT_COURSE';
   final String selectUser = 'SELECT_USER';
   final String sortByDialog = 'SORT_BY_DIALOG';
   final String filterByDialog = 'FILTER_BY_DIALOG';
@@ -343,6 +346,10 @@ class Action {
   final String invoices = "Invoices";
   final String payments = "Payments";
   final String payslips = "Payslips";
+  final String certificates = "Certificates";
+  final String certificateExpiredSoon = "CertificateExpiredSoon";
+  final String certificateInsurance = "CertificateInsurance";
+  final String certificateDocuments = "CertificateDocuments";
 }
 
 class StockCountType {

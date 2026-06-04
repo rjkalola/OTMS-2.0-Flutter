@@ -158,4 +158,6 @@ class Drawable {
   static const String historyIcon = 'assets/images/ic_history.svg';
   static const String reportIcon = 'assets/images/ic_report.svg';
   static const String storeIcon = 'assets/images/ic_store.svg';
+  static const String userCertificateAvtarImage =
+      'assets/images/user_certificate_avtar_image.svg';
 }

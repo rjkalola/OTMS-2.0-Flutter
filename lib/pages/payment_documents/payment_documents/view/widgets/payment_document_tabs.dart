@@ -1,90 +1,71 @@
 import 'package:belcka/pages/payment_documents/payment_documents/controller/payment_documents_controller.dart';
-import 'package:belcka/pages/project/address_details/view/widgets/address_details_filter_item.dart';
 import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/widgets/other_widgets/header_filter_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class PaymentDocumentTabs extends StatelessWidget {
-  PaymentDocumentTabs({super.key});
+  PaymentDocumentTabs({super.key, this.bottomPadding = 16});
 
+  final double bottomPadding;
   final controller = Get.put(PaymentDocumentsController());
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Padding(
-          padding: EdgeInsets.fromLTRB(12, 0, 12, 16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              AddressDetailsFilterItem(
-                title: 'invoices'.tr,
-                action: AppConstants.action.invoices,
-                selectedAction: controller.selectedFilter,
-                count: controller.invoicesCount.value,
-                onItemClick: (String action) {
-                  controller.onTabChange(action);
-                },
-              ),
-              SizedBox(
-                width: 6,
-              ),
-              AddressDetailsFilterItem(
-                title: 'payments'.tr,
-                action: AppConstants.action.payments,
-                selectedAction: controller.selectedFilter,
-                count: controller.paymentsCount.value,
-                onItemClick: (String action) {
-                  controller.onTabChange(action);
-                },
-              ),
-              SizedBox(
-                width: 6,
-              ),
-              AddressDetailsFilterItem(
-                title: 'payslips'.tr,
-                action: AppConstants.action.payslips,
-                selectedAction: controller.selectedFilter,
-                count: controller.payslipsCount.value,
-                onItemClick: (String action) {
-                  controller.onTabChange(action);
-                },
-              ),
-            ],
+    return Obx(
+      () => Padding(
+        padding: EdgeInsets.fromLTRB(12, 0, 12, bottomPadding),
+        child: SizedBox(
+          width: double.infinity,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                HeaderFilterItem(
+                  title: 'invoices'.tr,
+                  selected: controller.selectedFilter.value ==
+                      AppConstants.action.invoices,
+                  count: controller.invoicesCount,
+                  useFlexible: false,
+                  onTap: () =>
+                      controller.onTabChange(AppConstants.action.invoices),
+                ),
+                const SizedBox(width: 6),
+                HeaderFilterItem(
+                  title: 'payments'.tr,
+                  selected: controller.selectedFilter.value ==
+                      AppConstants.action.payments,
+                  count: controller.paymentsCount,
+                  useFlexible: false,
+                  onTap: () =>
+                      controller.onTabChange(AppConstants.action.payments),
+                ),
+                const SizedBox(width: 6),
+                HeaderFilterItem(
+                  title: 'payslips'.tr,
+                  selected: controller.selectedFilter.value ==
+                      AppConstants.action.payslips,
+                  count: controller.payslipsCount,
+                  useFlexible: false,
+                  onTap: () =>
+                      controller.onTabChange(AppConstants.action.payslips),
+                ),
+                const SizedBox(width: 6),
+                HeaderFilterItem(
+                  title: 'certificates'.tr,
+                  selected: controller.selectedFilter.value ==
+                      AppConstants.action.certificates,
+                  useFlexible: false,
+                  onTap: () =>
+                      controller.onTabChange(AppConstants.action.certificates),
+                ),
+              ],
+            ),
           ),
-        ));
+        ),
+      ),
+    );
   }
-
-
-
 }
-
-// class _AddressFilterListState extends State<AddressFilterList> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Obx(() => Padding(
-//       padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
-//       child: Row(
-//         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//         children: [
-//           AddressFilterItem(
-//             title: 'all'.tr,
-//             action: "all",
-//             count: controller.allCount.value,
-//           ),
-//           SizedBox(
-//             width: 6,
-//           ),
-//           AddressFilterItem(title: 'new'.tr, action: "new"),
-//           SizedBox(
-//             width: 6,
-//           ),
-//           AddressFilterItem(title: 'pending'.tr, action: "pending"),
-//           SizedBox(
-//             width: 6,
-//           ),
-//           AddressFilterItem(title: 'complete'.tr, action: "complete")
-//         ],
-//       ),
-//     ),);
-//   }
-// }

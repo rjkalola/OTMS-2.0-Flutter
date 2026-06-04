@@ -484,7 +484,6 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
         }*/
       }
     }
-
   }
 
   void getNotificationCountApi({
@@ -679,7 +678,11 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       var arguments = {AppConstants.intentKey.isAllUserTeams: true};
       moveToScreen2(appRout: AppRoutes.teamListScreen, arguments: arguments);
       // LiveTimer.stop();
-    } else if (info.slug == 'conflicts') {
+    }
+    // else if (info.slug == 'documents') {
+    //   moveToScreen2(appRout: AppRoutes.paymentDocumentsScreen);
+    // }
+    else if (info.slug == 'conflicts') {
       moveToScreen2(appRout: AppRoutes.conflictsScreen);
     } else if (info.slug == 'purchasing') {
       moveToScreen2(appRout: AppRoutes.purchasingScreen);
