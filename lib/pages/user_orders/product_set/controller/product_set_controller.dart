@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:belcka/pages/user_orders/product_set/controller/product_set_repository.dart';
 import 'package:belcka/pages/user_orders/product_set/model/product_set_response.dart';
+import 'package:belcka/pages/user_orders/storeman_catalog/controller/storeman_catalog_controller.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/add_to_cart_response.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
 import 'package:belcka/utils/app_utils.dart';
@@ -24,9 +25,8 @@ class ProductSetController extends GetxController{
 
   int productId = 0;
   bool isDataUpdated = false;
-
-
   List<FocusNode> qtyFocusNodes = [];
+  bool isFromInventory = false;
 
   void initFocusNodes(int length) {
     qtyFocusNodes = List.generate(length, (index) => FocusNode());
@@ -46,6 +46,18 @@ class ProductSetController extends GetxController{
     var arguments = Get.arguments;
     if (arguments != null) {
       productId = arguments["product_id"] ?? 0;
+    }
+    if (Get.isRegistered<StoremanCatalogController>()) {
+      final catalogController = Get.find<StoremanCatalogController>();
+      if (catalogController.isFromInventory) {
+        isFromInventory = true;
+      }
+      else{
+        isFromInventory = false;
+      }
+    }
+    else{
+      isFromInventory = false;
     }
     fetchProductsSet();
   }

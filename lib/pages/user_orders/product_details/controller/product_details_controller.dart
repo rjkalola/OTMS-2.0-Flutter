@@ -5,6 +5,7 @@ import 'package:belcka/pages/user_orders/product_details/controller/product_deta
 import 'package:belcka/pages/user_orders/product_details/model/product_details_response.dart';
 import 'package:belcka/pages/user_orders/product_set/model/product_set_data_info.dart';
 import 'package:belcka/pages/user_orders/product_set/model/product_set_data_response.dart';
+import 'package:belcka/pages/user_orders/storeman_catalog/controller/storeman_catalog_controller.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/add_to_cart_response.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
 import 'package:belcka/utils/app_utils.dart';
@@ -31,6 +32,8 @@ class ProductDetailsController extends GetxController {
   RxMap<int, Map<String, dynamic>> cartMap = <int, Map<String, dynamic>>{}.obs;
   List<ProductSetDataInfo> productsSetList = [];
 
+  bool isFromInventory = false;
+
   @override
   void onInit() {
     super.onInit();
@@ -39,6 +42,20 @@ class ProductDetailsController extends GetxController {
       productId = arguments["product_id"] ?? 0;
       isReadOnly.value = arguments["read_only"] ?? false;
     }
+
+    if (Get.isRegistered<StoremanCatalogController>()) {
+      final catalogController = Get.find<StoremanCatalogController>();
+      if (catalogController.isFromInventory) {
+        isFromInventory = true;
+      }
+      else{
+        isFromInventory = false;
+      }
+    }
+    else{
+      isFromInventory = false;
+    }
+
     fetchProductDetails();
 
   }
