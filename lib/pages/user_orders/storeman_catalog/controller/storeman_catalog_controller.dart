@@ -104,7 +104,8 @@ class StoremanCatalogController extends GetxController {
     getCategoriesListApi();
 
     scrollController.addListener(() {
-      if (scrollController.position.pixels >= scrollController.position.maxScrollExtent - 200) {
+      if (scrollController.position.pixels >=
+          scrollController.position.maxScrollExtent - 200) {
         if (!isLoading.value && hasMoreData.value) {
           fetchProducts();
         }
@@ -207,7 +208,8 @@ class StoremanCatalogController extends GetxController {
     );
   }
 
-  Future<void> fetchProducts({bool isRefresh = false, String searchValue = ""}) async {
+  Future<void> fetchProducts(
+      {bool isRefresh = false, String searchValue = ""}) async {
     if (isRefresh) {
       currentPage.value = 1;
       hasMoreData.value = true;
@@ -219,8 +221,7 @@ class StoremanCatalogController extends GetxController {
 
     if (currentPage.value == 1) {
       isProductsLoading.value = true;
-    }
-    else{
+    } else {
       isLoadingMore.value = true;
     }
 
@@ -240,7 +241,7 @@ class StoremanCatalogController extends GetxController {
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           ProductResponseModel response =
-          ProductResponseModel.fromJson(jsonDecode(responseModel.result!));
+              ProductResponseModel.fromJson(jsonDecode(responseModel.result!));
           var newItems = response.info;
 
           if (isRefresh) {
@@ -263,9 +264,7 @@ class StoremanCatalogController extends GetxController {
 
           updateCartCount(response.cartProduct);
           isMainViewVisible.value = true;
-
-        }
-        else{
+        } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
         isProductsLoading.value = false;
@@ -366,8 +365,8 @@ class StoremanCatalogController extends GetxController {
       data: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
-           fetchProducts(isRefresh: true);
-        }else{
+          fetchProducts(isRefresh: true);
+        } else {
           isLoading.value = false;
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
@@ -386,7 +385,6 @@ class StoremanCatalogController extends GetxController {
   Future<void> toggleAddToCart(
       int index, int cartQuantity, ProductCategories category) async {
     final product = category.products[index];
-
 
     isLoading.value = true;
 
@@ -429,17 +427,18 @@ class StoremanCatalogController extends GetxController {
       },
     );
 
-
     /*
     await cartService.addToCart(
       product.toJson(),
     );
     */
-
   }
 
   void addSetProductsToCart(
-      int productId, List<Map<String, dynamic>> productDataList,int index, ProductCategories category) {
+      int productId,
+      List<Map<String, dynamic>> productDataList,
+      int index,
+      ProductCategories category) {
     final product = category.products[index];
     isLoading.value = true;
     Map<String, dynamic> request = {
@@ -491,10 +490,10 @@ class StoremanCatalogController extends GetxController {
         if (responseModel.isSuccess) {
           AddToCartResponse response = AddToCartResponse.fromJson(
               jsonDecode(responseModel.result!) as Map<String, dynamic>);
-            product.cartId = 0;
-            product.cartQty = 0;
-            product.isCartProduct = false;
-            categories.refresh();
+          product.cartId = 0;
+          product.cartQty = 0;
+          product.isCartProduct = false;
+          categories.refresh();
           updateCartCount(response.cartProduct ?? 0);
           // AppUtils.showApiResponseMessage(response.message ?? "");
           isDataUpdated = true;
@@ -604,7 +603,7 @@ class StoremanCatalogController extends GetxController {
   Future<void> searchItem(String value) async {
     if (_debounce?.isActive ?? false) _debounce!.cancel();
     _debounce = Timer(const Duration(milliseconds: 500), () async {
-      fetchProducts(isRefresh: true,searchValue: value);
+      fetchProducts(isRefresh: true, searchValue: value);
     });
   }
 
@@ -627,7 +626,5 @@ class StoremanCatalogController extends GetxController {
     return index + productIndex;
   }
 
-  //Offline add to cart flow
-
-
+//Offline add to cart flow
 }

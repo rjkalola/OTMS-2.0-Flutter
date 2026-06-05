@@ -157,7 +157,8 @@ class BuyerOrderController extends GetxController
           tempRequestOrderList.clear();
           tempRequestOrderList.addAll(response.info!);
           requestOrdersList.value = tempRequestOrderList;
-          requestCount.value = tempRequestOrderList.length;
+          // requestCount.value = tempRequestOrderList.length;
+          requestCount.value = response.requested ??0;
 
           updateTabCount(
             upcoming: response.upcoming,

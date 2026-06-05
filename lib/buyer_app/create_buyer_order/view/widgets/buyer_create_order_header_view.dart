@@ -40,9 +40,10 @@ class BuyerCreateOrderHeaderView extends StatelessWidget {
                 labelText: 'order_id'.tr,
                 isReadOnly: false,
                 maxLength: 6,
-                keyboardType: TextInputType.number,
+                keyboardType: TextInputType.text,
                 textInputAction: TextInputAction.next,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
+
                 onValueChange: (value) {},
                 validator: MultiValidator([
                   RequiredValidator(errorText: 'required_field'.tr),
@@ -50,8 +51,9 @@ class BuyerCreateOrderHeaderView extends StatelessWidget {
                       errorText: 'order_length_validation_message'.tr),
                 ]),
                 inputFormatters: <TextInputFormatter>[
-                  // for below version 2 use this
-                  FilteringTextInputFormatter.digitsOnly,
+                  FilteringTextInputFormatter.allow(
+                    RegExp(r'[a-zA-Z0-9]'),
+                  ),
                 ]),
           ),
           SizedBox(

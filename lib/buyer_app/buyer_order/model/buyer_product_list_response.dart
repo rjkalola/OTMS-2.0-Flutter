@@ -4,6 +4,7 @@ class BuyerProductListResponse {
   bool? isSuccess;
   String? message;
   List<ProductInfo>? info;
+  int? requested;
   int? upcoming;
   int? processing;
   int? delivered;
@@ -14,6 +15,7 @@ class BuyerProductListResponse {
     this.isSuccess,
     this.message,
     this.info,
+    this.requested,
     this.upcoming,
     this.processing,
     this.delivered,
@@ -24,6 +26,7 @@ class BuyerProductListResponse {
   BuyerProductListResponse.fromJson(Map<String, dynamic> json) {
     isSuccess = json['IsSuccess'];
     message = json['message'];
+    requested = (json['requested'] as num?)?.toInt();
     upcoming = (json['upcoming'] as num?)?.toInt();
     processing = (json['processing'] as num?)?.toInt();
     delivered = (json['delivered'] as num?)?.toInt();
@@ -45,6 +48,7 @@ class BuyerProductListResponse {
     if (this.info != null) {
       data['info'] = this.info!.map((v) => v.toJson()).toList();
     }
+    data['requested'] = this.requested;
     data['upcoming'] = this.upcoming;
     data['processing'] = this.processing;
     data['delivered'] = this.delivered;
