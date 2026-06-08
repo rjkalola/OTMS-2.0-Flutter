@@ -8,6 +8,7 @@ import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/storeman_app/storeman_inventory/controller/storeman_inventory_controller.dart';
 import 'package:belcka/storeman_app/storeman_inventory/view/widgets/hire_card_view.dart';
 import 'package:belcka/storeman_app/storeman_inventory/view/widgets/internal_orders_card_view.dart';
+import 'package:belcka/storeman_app/storeman_inventory/view/widgets/manage_stock_view.dart';
 import 'package:belcka/storeman_app/storeman_inventory/view/widgets/suppliers_card_view.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/image_utils.dart';
@@ -99,6 +100,7 @@ class _StoremanInventoryScreenState extends State<StoremanInventoryScreen>
                                   SuppliersCardView(),
                                   InternalOrdersCardView(),
                                   HireCardView(),
+                                  ManageStockView()
                                 ],
                               )),
                             ),

@@ -355,6 +355,7 @@ class ApiConstants {
   //user orders
   static String categoriesGet = '$appUrl/categories/get';
   static String productsGet = '$appUrl/products/get';
+  static String getInventoryResources = '$appUrl/get-inventory-resources';
   static String productsBookmark = '$appUrl/products/bookmark';
   static String productsAddToCart = '$appUrl/products/add-to-cart';
   static String productsCartList = '$appUrl/products/cart-list';
@@ -386,6 +387,7 @@ class ApiConstants {
   static String receiveBuyerOrder = '$appUrl/purchase-orders/purchase-receive';
   static String buyerProjectsList = '$appUrl/project/get-favorite';
   static String buyerOrderDelete = '$appUrl/purchase-orders/delete';
+  static String editStock = '$appUrl/purchase-orders/edit-stock';
 
   //categories
   static String buyerCatalogueList = '$appUrl/categories/get';

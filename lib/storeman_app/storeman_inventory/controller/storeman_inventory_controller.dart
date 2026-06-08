@@ -115,4 +115,11 @@ class StoremanInventoryController extends GetxController {
     await Get.toNamed(appRout, arguments: arguments);
     inventoryOverviewApi(false);
   }
+
+  void onManageStockItemClick() {
+    moveToScreen(
+      appRout: AppRoutes.storemanManageStockDashboardScreen,
+      arguments: {},
+    );
+  }
 }

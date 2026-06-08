@@ -190,6 +190,10 @@ class AppRoutes {
   static const String buyerDraftOrdersScreen = '/buyer_draft_orders_screen';
   static const String generateReportScreen = '/generate_report_screen';
   static const String storemanInventoryScreen = '/storeman_inventory_screen';
+  static const String storemanManageStockDashboardScreen =
+      '/storeman_manage_stock_dashboard_screen';
+  static const String stockProductsListScreen = '/stock_products_list_screen';
+  static const String editStockScreen = '/edit_stock_screen';
   static const String storemanInternalOrdersScreen =
       '/storeman_internal_orders_screen';
   static const String storemanSupplierOrdersScreen =
