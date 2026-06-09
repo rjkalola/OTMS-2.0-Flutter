@@ -252,6 +252,7 @@ class AnnouncementList extends StatelessWidget {
         padding: const EdgeInsets.only(top: 9),
         child: ListView.separated(
             physics: const ClampingScrollPhysics(),
+            controller: controller.scrollController,
             shrinkWrap: true,
             scrollDirection: Axis.vertical,
             itemBuilder: (context, position) {

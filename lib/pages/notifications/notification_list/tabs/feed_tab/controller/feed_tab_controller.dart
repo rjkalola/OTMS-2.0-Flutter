@@ -13,6 +13,7 @@ import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/response_model.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../model/feed_list_response.dart';
@@ -21,9 +22,15 @@ class FeedTabController extends GetxController {
   final _api = FeedTabRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
-      isMainViewVisible = false.obs;
+      isMainViewVisible = false.obs,
+      isLoadingMore = false.obs;
   final feedList = <FeedInfo>[].obs;
   List<FeedInfo> tempList = [];
+
+  var currentPage = 1.obs;
+  int limit = 20;
+  var hasMoreData = true.obs;
+  final ScrollController scrollController = ScrollController();
 
   @override
   void onInit() {
@@ -32,14 +39,47 @@ class FeedTabController extends GetxController {
     // if (arguments != null) {
     //   permissionId = arguments[AppConstants.intentKey.permissionId] ?? 0;
     // }
-    getFeedListApi();
+
+    getFeedListApi(isRefresh:true);
+
+    scrollController.addListener(() {
+      if (scrollController.position.pixels >=
+          scrollController.position.maxScrollExtent - 200) {
+        if (!isLoading.value && hasMoreData.value) {
+          getFeedListApi();
+        }
+      }
+    });
+
   }
 
-  void getFeedListApi() {
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
+
+  void getFeedListApi({bool isRefresh = false, String searchValue = ""}) {
+    if (isRefresh) {
+      currentPage.value = 1;
+      hasMoreData.value = true;
+    }
+    if (!hasMoreData.value && !isRefresh) return;
     isLoading.value = true;
+
+    if (currentPage.value == 1) {
+
+    }
+    else{
+      isLoadingMore.value = true;
+    }
+
     Map<String, dynamic> map = {};
     map["user_id"] = UserUtils.getLoginUserId();
     map["company_id"] = ApiConstants.companyId;
+    map["page"] = currentPage.value;
+    map["limit"] = limit;
+    map["search"] = searchValue;
     // map["user_id"] = 13;
     // map["company_id"] = 5;
     _api.getFeedList(
@@ -50,9 +90,25 @@ class FeedTabController extends GetxController {
           FeedListResponse response =
               FeedListResponse.fromJson(jsonDecode(responseModel.result!));
           preloadUserImages(response.info ?? []);
-          tempList.clear();
-          tempList.addAll(response.info ?? []);
-          feedList.value = tempList;
+
+          var newItems = response.info ?? [];
+
+          if (isRefresh) {
+            tempList.clear();
+          }
+
+          if (response.pagination != null) {
+            if (currentPage.value >= response.pagination!.totalPages) {
+              hasMoreData.value = false;
+            }
+            else{
+              currentPage.value++;
+            }
+          }
+
+          tempList.addAll(newItems);
+
+          feedList.value = List.from(tempList);
           feedList.refresh();
           isMainViewVisible.value = true;
           Get.put(NotificationListController()).announcementCount.value =

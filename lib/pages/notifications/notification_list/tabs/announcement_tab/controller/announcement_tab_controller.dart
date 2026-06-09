@@ -15,6 +15,7 @@ import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/response_model.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AnnouncementTabController extends GetxController {
@@ -28,9 +29,14 @@ class AnnouncementTabController extends GetxController {
   ];
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
-      isMainViewVisible = false.obs;
+      isMainViewVisible = false.obs,
+      isLoadingMore = false.obs;
   final announcementList = <AnnouncementInfo>[].obs;
   List<AnnouncementInfo> tempList = [];
+  var currentPage = 1.obs;
+  int limit = 20;
+  var hasMoreData = true.obs;
+  final ScrollController scrollController = ScrollController();
 
   @override
   void onInit() {
@@ -40,14 +46,45 @@ class AnnouncementTabController extends GetxController {
     //   permissionId = arguments[AppConstants.intentKey.permissionId] ?? 0;
     // }
     // getUserListApi();
-    getAnnouncementListApi();
-  }
 
-  void getAnnouncementListApi() {
+    getAnnouncementListApi(isRefresh:true);
+
+    scrollController.addListener(() {
+      if (scrollController.position.pixels >=
+          scrollController.position.maxScrollExtent - 200) {
+        if (!isLoading.value && hasMoreData.value) {
+          getAnnouncementListApi();
+        }
+      }
+    });
+  }
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
+  void getAnnouncementListApi({bool isRefresh = false, String searchValue = ""}) {
+    if (isRefresh) {
+      currentPage.value = 1;
+      hasMoreData.value = true;
+    }
+    if (!hasMoreData.value && !isRefresh) return;
     isLoading.value = true;
+
+    if (currentPage.value == 1) {
+
+    }
+    else{
+      isLoadingMore.value = true;
+    }
+
     Map<String, dynamic> map = {};
     map["user_id"] = UserUtils.getLoginUserId();
     map["company_id"] = ApiConstants.companyId;
+    map["page"] = currentPage.value;
+    map["limit"] = limit;
+    map["search"] = searchValue;
+
     _api.getAnnouncementList(
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
@@ -56,9 +93,28 @@ class AnnouncementTabController extends GetxController {
           AnnouncementListResponse response = AnnouncementListResponse.fromJson(
               jsonDecode(responseModel.result!));
           preloadUserImages(response.info ?? []);
-          tempList.clear();
-          tempList.addAll(response.info ?? []);
-          announcementList.value = tempList;
+
+          var newItems = response.info ?? [];
+
+          if (isRefresh) {
+            tempList.clear();
+          }
+
+          if (response.pagination != null) {
+
+            print("Total pages: ${response.pagination!.totalPages}");
+
+            if (currentPage.value >= response.pagination!.totalPages) {
+              hasMoreData.value = false;
+            }
+            else{
+              currentPage.value++;
+            }
+          }
+
+          tempList.addAll(newItems);
+          announcementList.value = List.from(tempList);
+
           announcementList.refresh();
           isMainViewVisible.value = true;
 
