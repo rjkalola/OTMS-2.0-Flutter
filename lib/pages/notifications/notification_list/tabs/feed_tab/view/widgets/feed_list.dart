@@ -21,6 +21,7 @@ class FeedList extends StatelessWidget {
       () => Padding(
         padding: const EdgeInsets.only(top: 9),
         child: ListView.separated(
+            controller: controller.scrollController,
             physics: const ClampingScrollPhysics(),
             shrinkWrap: true,
             scrollDirection: Axis.vertical,
