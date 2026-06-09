@@ -29,6 +29,25 @@ class MaterialsDetailsController extends GetxController {
   final double spent = 220500.42;
   final double overspending = 20500.42;
 
+  // Summary counts
+  int get completedCount => filtered.where((o) => o.status == OrderStatus.completed).length;
+  int get returnedCount => filtered.where((o) => o.status == OrderStatus.returned).length;
+  int get cancelledCount => filtered.where((o) => o.status == OrderStatus.cancelled).length;
+  double get filteredTotal => filtered.fold(0.0, (s, o) => s + o.amount);
+
+  List<MaterialOrder> get filtered {
+    var list = orders;
+    if (searchQuery.isNotEmpty) {
+      final q = searchQuery.toLowerCase();
+      list = list.where((o) =>
+      o.orderId.toLowerCase().contains(q) ||
+          o.address.toLowerCase().contains(q) ||
+          o.user.toLowerCase().contains(q) || statusLabel(o.status).toLowerCase().contains(q)
+      ).toList();
+    }
+    return list;
+  }
+
   @override
   void onInit() {
     super.onInit();
@@ -39,5 +58,13 @@ class MaterialsDetailsController extends GetxController {
   void dispose() {
 
     super.dispose();
+  }
+  String statusLabel(OrderStatus s) {
+    switch (s) {
+      case OrderStatus.completed: return 'Completed';
+      case OrderStatus.returned: return 'Returned';
+      case OrderStatus.cancelled: return 'Cancelled';
+      case OrderStatus.pending: return 'Pending';
+    }
   }
 }
