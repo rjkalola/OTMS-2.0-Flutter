@@ -41,6 +41,9 @@ import 'package:belcka/storeman_app/storeman_hire_products/view/storeman_hire_pr
 import 'package:belcka/storeman_app/storeman_order_details/view/storeman_order_details_screen.dart';
 import 'package:belcka/storeman_app/storeman_inventory/view/storeman_inventory_screen.dart';
 import 'package:belcka/storeman_app/manage_stock_dashboard/view/manage_stock_dashboard_screen.dart';
+import 'package:belcka/pages/manage_forms/form_details/view/form_details_screen.dart';
+import 'package:belcka/pages/manage_forms/forms_list/view/forms_list_screen.dart';
+import 'package:belcka/storeman_app/stock_history/view/stock_history_screen.dart';
 import 'package:belcka/storeman_app/stock_products_list/view/stock_products_list_screen.dart';
 import 'package:belcka/storeman_app/edit_stock/view/edit_stock_screen.dart';
 import 'package:belcka/pages/add_category/view/add_category_screen.dart';
@@ -613,6 +616,9 @@ class AppPages {
         page: () => StockProductsListScreen()),
     GetPage(name: AppRoutes.editStockScreen, page: () => EditStockScreen()),
     GetPage(
+        name: AppRoutes.stockHistoryScreen,
+        page: () => const StockHistoryScreen()),
+    GetPage(
         name: AppRoutes.storemanInternalOrdersScreen,
         page: () => StoremanInternalOrdersScreen()),
     GetPage(
@@ -699,5 +705,11 @@ class AppPages {
     GetPage(
         name: AppRoutes.materialsDetailsScreen,
         page: () => MaterialsDetailsScreen()),
+    GetPage(
+        name: AppRoutes.formsListScreen,
+        page: () => const FormsListScreen()),
+    GetPage(
+        name: AppRoutes.formDetailsScreen,
+        page: () => const FormDetailsScreen()),
   ];
 }

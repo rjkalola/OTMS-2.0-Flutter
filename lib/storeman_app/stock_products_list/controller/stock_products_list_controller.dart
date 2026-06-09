@@ -4,7 +4,6 @@ import 'package:belcka/pages/common/drop_down_list_dialog.dart';
 import 'package:belcka/pages/common/listener/select_item_listener.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/get_products_response.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
-import 'package:belcka/pages/user_orders/storeman_catalog/model/product_response_model.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/storeman_app/stock_products_list/controller/stock_products_list_repository.dart';
 import 'package:belcka/storeman_app/stock_products_list/model/inventory_resources_response.dart';
@@ -23,7 +22,6 @@ class StockProductsListController extends GetxController
   final _api = StockProductsListRepository();
 
   RxBool isLoading = false.obs,
-      isLoadingMore = false.obs,
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
       isSearchEnable = false.obs,
@@ -39,6 +37,7 @@ class StockProductsListController extends GetxController
   final categoryList = <ModuleInfo>[].obs;
 
   int storeId = 0;
+  int stockStatus = 0;
   String screenTitle = '';
   int _tempSupplierId = 0;
   int _tempCategoryId = 0;
@@ -46,14 +45,12 @@ class StockProductsListController extends GetxController
   int _appliedCategoryId = 0;
   bool _isFilterResourcesLoaded = false;
 
-  var currentPage = 1.obs;
-  final int limit = AppConstants.productListLimit;
-  var hasMoreData = true.obs;
   final RxInt totalItems = 0.obs;
   final RxInt titleCount = 0.obs;
 
   final ScrollController scrollController = ScrollController();
   String _searchQuery = '';
+  bool _hasStockUpdated = false;
 
   @override
   void onInit() {
@@ -61,19 +58,11 @@ class StockProductsListController extends GetxController
     final arguments = Get.arguments;
     if (arguments != null) {
       storeId = arguments['store_id'] ?? 0;
+      stockStatus = arguments['stock_status'] ?? 0;
       screenTitle = arguments['title'] ?? 'stocks'.tr;
     }
 
-    scrollController.addListener(() {
-      if (scrollController.position.pixels >=
-          scrollController.position.maxScrollExtent - 200) {
-        if (!isLoading.value && !isLoadingMore.value && hasMoreData.value) {
-          fetchProducts();
-        }
-      }
-    });
-
-    fetchProducts(isRefresh: true);
+    fetchProducts();
   }
 
   @override
@@ -85,29 +74,18 @@ class StockProductsListController extends GetxController
     super.onClose();
   }
 
-  void fetchProducts({bool isRefresh = false}) {
-    if (isRefresh) {
-      currentPage.value = 1;
-      hasMoreData.value = true;
-    }
-
-    if (!hasMoreData.value && !isRefresh) return;
-
-    if (isRefresh) {
-      isLoading.value = true;
-    } else {
-      isLoadingMore.value = true;
-    }
-
+  void fetchProducts() {
+    isLoading.value = true;
     isInternetNotAvailable.value = false;
 
     final Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
     map["store_ids"] = storeId;
     map["is_products"] = true;
-    map["web"] = true;
-    map["page"] = currentPage.value;
-    map["limit"] = limit;
+    map["is_web"] = true;
+    if (stockStatus > 0) {
+      map["stock_status"] = stockStatus;
+    }
 
     _api.getProducts(
       queryParameters: map,
@@ -119,43 +97,18 @@ class StockProductsListController extends GetxController
           final GetProductsResponse response =
               GetProductsResponse.fromJson(jsonMap);
 
-          final newItems = response.info ?? [];
-
-          if (isRefresh) {
-            tempList.clear();
-          }
-
-          final pagination = jsonMap['data'] != null
-              ? PaginationData.fromJson(
-                  jsonMap['data'] as Map<String, dynamic>,
-                )
-              : null;
-
-          if (pagination != null) {
-            totalItems.value = pagination.totalItems;
-            if (currentPage.value >= pagination.totalPages) {
-              hasMoreData.value = false;
-            } else {
-              currentPage.value++;
-            }
-          } else if (newItems.length < limit) {
-            hasMoreData.value = false;
-          } else {
-            currentPage.value++;
-          }
-
-          tempList.addAll(newItems);
+          tempList.clear();
+          tempList.addAll(response.info ?? []);
+          totalItems.value = tempList.length;
           _refreshProductsList();
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
 
         isLoading.value = false;
-        isLoadingMore.value = false;
       },
       onError: (ResponseModel error) {
         isLoading.value = false;
-        isLoadingMore.value = false;
         if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
           isInternetNotAvailable.value = true;
         } else if (error.statusMessage?.isNotEmpty ?? false) {
@@ -403,7 +356,12 @@ class StockProductsListController extends GetxController
       },
     );
     if (result == true) {
-      fetchProducts(isRefresh: true);
+      _hasStockUpdated = true;
+      fetchProducts();
     }
+  }
+
+  void onBackPress() {
+    Get.back(result: _hasStockUpdated ? true : null);
   }
 }

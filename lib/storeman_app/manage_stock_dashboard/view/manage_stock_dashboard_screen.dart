@@ -1,6 +1,9 @@
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/drawable.dart';
+import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/storeman_app/manage_stock_dashboard/controller/manage_stock_dashboard_controller.dart';
 import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/text/TitleTextView.dart';
@@ -27,7 +30,18 @@ class ManageStockDashboardScreen extends StatelessWidget {
               bgColor: backgroundColor_(context),
               isBack: true,
               shape: AppUtils.getAppbarShape(),
-              widgets: const [],
+              widgets: [
+                GestureDetector(
+                  onTap: () => Get.toNamed(AppRoutes.stockHistoryScreen),
+                  child: ImageUtils.setSvgAssetsImage(
+                    path: Drawable.historyIcon,
+                    width: 24,
+                    height: 24,
+                    color: primaryTextColor_(context),
+                  ),
+                ),
+                const SizedBox(width: 14),
+              ],
             ),
             backgroundColor: dashBoardBgColor_(context),
             body: ModalProgressHUD(
@@ -102,6 +116,7 @@ class ManageStockDashboardScreen extends StatelessWidget {
                               count: controller.inStockCount.value,
                               borderColor: const Color(0xFF2E7D32),
                               icon: Icons.warning_rounded,
+                              onTap: controller.onInStockClick,
                             ),
                             const SizedBox(height: 12),
                             _StockStatusCard(
@@ -109,6 +124,7 @@ class ManageStockDashboardScreen extends StatelessWidget {
                               count: controller.lowStockCount.value,
                               borderColor: const Color(0xFFF4A51D),
                               icon: Icons.warning_rounded,
+                              onTap: controller.onLowStockClick,
                             ),
                             const SizedBox(height: 12),
                             _StockStatusCard(
@@ -116,6 +132,7 @@ class ManageStockDashboardScreen extends StatelessWidget {
                               count: controller.outOfStockCount.value,
                               borderColor: const Color(0xFFE53935),
                               icon: Icons.do_not_disturb_alt_rounded,
+                              onTap: controller.onOutOfStockClick,
                             ),
                           ],
                         ),

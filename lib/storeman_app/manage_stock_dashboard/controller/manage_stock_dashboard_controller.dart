@@ -91,6 +91,7 @@ class ManageStockDashboardController extends GetxController
     final Map<String, dynamic> map = {};
     map['company_id'] = ApiConstants.companyId;
     map['store_id'] = selectedStoreId.value;
+    map['is_web'] = true;
 
     _api.getModules(
       queryParameters: map,
@@ -154,13 +155,50 @@ class ManageStockDashboardController extends GetxController
   }
 
   void onAllProductsClick() {
-    Get.toNamed(
-      AppRoutes.stockProductsListScreen,
-      arguments: {
-        'store_id': selectedStoreId.value,
-        'title': '${'all'.tr} ${'products'.tr}',
-      },
+    _openStockProductsList(
+      title: '${'all'.tr} ${'products'.tr}',
     );
+  }
+
+  void onInStockClick() {
+    _openStockProductsList(
+      title: 'in_stock'.tr,
+      stockStatus: AppConstants.productStockStatus.inStock,
+    );
+  }
+
+  void onLowStockClick() {
+    _openStockProductsList(
+      title: 'low_stock'.tr,
+      stockStatus: AppConstants.productStockStatus.lowStock,
+    );
+  }
+
+  void onOutOfStockClick() {
+    _openStockProductsList(
+      title: 'out_of_stock'.tr,
+      stockStatus: AppConstants.productStockStatus.outOfStock,
+    );
+  }
+
+  void _openStockProductsList({
+    required String title,
+    int stockStatus = 0,
+  }) async {
+    final arguments = <String, dynamic>{
+      'store_id': selectedStoreId.value,
+      'title': title,
+    };
+    if (stockStatus > 0) {
+      arguments['stock_status'] = stockStatus;
+    }
+    final result = await Get.toNamed(
+      AppRoutes.stockProductsListScreen,
+      arguments: arguments,
+    );
+    if (result == true) {
+      fetchCountsForSelectedStore();
+    }
   }
 }
 

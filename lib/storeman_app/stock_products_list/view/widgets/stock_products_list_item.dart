@@ -19,18 +19,13 @@ class StockProductsListItem extends StatelessWidget {
   const StockProductsListItem({super.key, required this.item, this.onTap});
 
   String _qtyText() {
+    final qtyText = AppUtils.formatDecimalNumber(item.qty ?? 0);
     if (item.isSubQty == true) {
       final packOffQty = item.packOffQty ?? '';
       final packOffUnit = item.packOfUnit ?? '';
-      if (!StringHelper.isEmptyString(packOffQty)) {
-        return '$packOffQty $packOffUnit'.trim();
-      }
+      return '$qtyText ($packOffQty $packOffUnit)'.trim();
     }
-    final qty = item.qty ?? 0;
-    if (qty == qty.roundToDouble()) {
-      return qty.toInt().toString();
-    }
-    return AppUtils.formatDecimalNumber(qty);
+    return qtyText;
   }
 
   String _subtitle() {

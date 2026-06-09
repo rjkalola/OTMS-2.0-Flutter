@@ -480,7 +480,7 @@ class ProductStockStatus {
   const ProductStockStatus();
 
   final int lowStock = 1;
-  final int inStock = 2;
+  final int inStock = 5;
 
   // final int unlocked = 3;
   final int outOfStock = 4;

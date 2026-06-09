@@ -23,7 +23,7 @@ class EditStockController extends GetxController implements SelectItemListener {
   int storeId = 0;
 
   final referenceController = TextEditingController();
-  final userController = TextEditingController().obs;
+  final userController = TextEditingController().obs; 
   final qtyController = TextEditingController();
 
   final isLoading = false.obs;

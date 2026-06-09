@@ -34,7 +34,13 @@ class _StockProductsListScreenState extends State<StockProductsListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop || result != null) return;
+        controller.onBackPress();
+      },
+      child: Obx(
       () => Container(
         color: Colors.white,
         child: SafeArea(
@@ -46,6 +52,7 @@ class _StockProductsListScreenState extends State<StockProductsListScreen> {
               isCenterTitle: false,
               bgColor: Colors.white,
               isBack: true,
+              onBackPressed: controller.onBackPress,
               shape: AppUtils.getAppbarShape(bottomLeft: 20, bottomRight: 20),
               widgets: _actionButtons(context),
               isSearching: controller.isSearchEnable.value,
@@ -62,7 +69,7 @@ class _StockProductsListScreenState extends State<StockProductsListScreen> {
                   ? NoInternetWidget(
                       onPressed: () {
                         controller.isInternetNotAvailable.value = false;
-                        controller.fetchProducts(isRefresh: true);
+                        controller.fetchProducts();
                       },
                     )
                   : Column(
@@ -85,10 +92,7 @@ class _StockProductsListScreenState extends State<StockProductsListScreen> {
                                     controller: controller.scrollController,
                                     padding:
                                         const EdgeInsets.only(bottom: 16),
-                                    itemCount: controller.productsList.length +
-                                        (controller.isLoadingMore.value
-                                            ? 1
-                                            : 0),
+                                    itemCount: controller.productsList.length,
                                     separatorBuilder: (_, __) => Divider(
                                       height: 1,
                                       thickness: 1,
@@ -97,15 +101,6 @@ class _StockProductsListScreenState extends State<StockProductsListScreen> {
                                       color: dividerColor_(context),
                                     ),
                                     itemBuilder: (context, index) {
-                                      if (index >=
-                                          controller.productsList.length) {
-                                        return const Padding(
-                                          padding: EdgeInsets.all(16),
-                                          child: Center(
-                                            child: CustomProgressbar(),
-                                          ),
-                                        );
-                                      }
                                       return StockProductsListItem(
                                         item: controller.productsList[index],
                                         onTap: () =>
@@ -123,6 +118,7 @@ class _StockProductsListScreenState extends State<StockProductsListScreen> {
           ),
         ),
       ),
+    ),
     );
   }
 

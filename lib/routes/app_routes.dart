@@ -194,6 +194,7 @@ class AppRoutes {
       '/storeman_manage_stock_dashboard_screen';
   static const String stockProductsListScreen = '/stock_products_list_screen';
   static const String editStockScreen = '/edit_stock_screen';
+  static const String stockHistoryScreen = '/stock_history_screen';
   static const String storemanInternalOrdersScreen =
       '/storeman_internal_orders_screen';
   static const String storemanSupplierOrdersScreen =
@@ -234,4 +235,8 @@ class AppRoutes {
   static const String allPaymentsScreen = '/all_payments_screen';
   static const String laborDetailsScreen = '/labor_details_screen';
   static const String materialsDetailsScreen = '/materials_details_screen';
+
+  // Manage Forms
+  static const String formsListScreen = '/forms_list_screen';
+  static const String formDetailsScreen = '/form_details_screen';
 }

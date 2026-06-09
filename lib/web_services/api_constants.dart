@@ -388,6 +388,7 @@ class ApiConstants {
   static String buyerProjectsList = '$appUrl/project/get-favorite';
   static String buyerOrderDelete = '$appUrl/purchase-orders/delete';
   static String editStock = '$appUrl/purchase-orders/edit-stock';
+  static String stockHistory = '$appUrl/stocks/stock-history';
 
   //categories
   static String buyerCatalogueList = '$appUrl/categories/get';
@@ -446,4 +447,8 @@ class ApiConstants {
   // Buyer reports
   static String getModules = '$appUrl/get-modules';
   static String exportReports = '$appUrl/export-reports';
+
+  // Forms
+  static String formsList = '$appUrl/forms/list';
+  static String formsDetail(int id) => '$appUrl/forms/$id';
 }
