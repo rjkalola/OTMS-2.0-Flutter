@@ -138,15 +138,16 @@ class _UserHireProductsScreenState extends State<UserHireProductsScreen>
                             margin: EdgeInsets.all(14),
                             buttonText: 'confirm'.tr,
                             onPressed: () {
-                              var list = <ProductInfo>[];
+                              ProductInfo? selected;
                               for (var item in controller.productsList) {
                                 if (item.isCheck ?? false) {
-                                  list.add(item);
+                                  selected = item;
+                                  break;
                                 }
                               }
-                              if (list.isNotEmpty) {
+                              if (selected != null) {
                                 var arguments = {
-                                  AppConstants.intentKey.productsData: list,
+                                  AppConstants.intentKey.productsData: selected,
                                 };
                                 controller.moveToCreateOrderScreen(
                                     appRout:

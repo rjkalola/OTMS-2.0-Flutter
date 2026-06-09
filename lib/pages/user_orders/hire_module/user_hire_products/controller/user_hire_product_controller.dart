@@ -200,6 +200,17 @@ class UserHireProductController extends GetxController
     productsList.assignAll(List<ProductInfo>.from(productsList));
   }
 
+  void toggleProductSelection(ProductInfo item) {
+    final wasSelected = item.isCheck == true;
+    for (var product in productsList) {
+      product.isCheck = false;
+    }
+    if (!wasSelected) {
+      item.isCheck = true;
+    }
+    notifyProductItemChanged();
+  }
+
   void getHireOrdersListApi() {
     if (selectedTab.value == HireUserProductStatus.hired ||
         selectedTab.value == HireUserProductStatus.inService) {

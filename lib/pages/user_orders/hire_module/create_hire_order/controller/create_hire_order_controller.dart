@@ -30,7 +30,7 @@ class CreateHireOrderController  extends GetxController
       isSearchEnable = false.obs,
       isClearSearch = false.obs;
 
-  final cartList = <ProductInfo>[].obs;
+  final selectedProduct = Rxn<ProductInfo>();
   List<ProductInfo> tempList = [];
   final Map<int, int> currentImageIndex = {};
   bool isDataUpdated = false;
@@ -52,8 +52,12 @@ class CreateHireOrderController  extends GetxController
     super.onInit();
     var arguments = Get.arguments;
     if (arguments != null) {
-      cartList.value = arguments[AppConstants.intentKey.productsData] ?? [];
-      print("cartList size:"+cartList.length.toString());
+      final data = arguments[AppConstants.intentKey.productsData];
+      if (data is ProductInfo) {
+        selectedProduct.value = data;
+      } else if (data is List && data.isNotEmpty) {
+        selectedProduct.value = data.first as ProductInfo;
+      }
     }
     getProjectListApi();
   }
@@ -164,11 +168,8 @@ class CreateHireOrderController  extends GetxController
       return;
     }
 
-    final productIds = cartList
-        .map((item) => item.productId ?? 0)
-        .where((id) => id > 0)
-        .toList();
-    if (productIds.isEmpty) {
+    final productId = selectedProduct.value?.productId ?? 0;
+    if (productId <= 0) {
       AppUtils.showToastMessage('msg_add_at_least_one_qty'.tr);
       return;
     }
@@ -178,7 +179,7 @@ class CreateHireOrderController  extends GetxController
       companyId: ApiConstants.companyId,
       projectId: activeProjectId.value,
       addressId: selectedAddressId.value,
-      productIds: productIds,
+      productId: productId,
     );
     _api.createHireOrderAPI(
       data: body,
@@ -209,7 +210,7 @@ class CreateHireOrderController  extends GetxController
     required int companyId,
     required int projectId,
     required int addressId,
-    required List<int> productIds,
+    required int productId,
   }) {
     return {
       "company_id": companyId,
@@ -221,7 +222,8 @@ class CreateHireOrderController  extends GetxController
       if (hireToDate.value != null)
         "to_date":
             DateUtil.dateToString(hireToDate.value!, DateUtil.DD_MM_YYYY_SLASH),
-      "product_ids": productIds.join(","),
+      // "product_ids": productId.toString(),
+      "product_id": productId.toString(),
     };
   }
 

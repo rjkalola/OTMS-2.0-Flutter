@@ -120,20 +120,38 @@ class BuyerOrderController extends GetxController
     isSearchEnable.value = false;
     if (selectedTab.value == OrderTabType.request) {
       buyerProductsListApi();
+      _loadOrdersTabCounts();
     } else if (selectedTab.value == OrderTabType.upcoming) {
       buyerOrdersListApi(AppConstants.orderStatus.received.toString());
+      _loadRequestTabCount();
     } else if (selectedTab.value == OrderTabType.proceed) {
       buyerOrdersListApi(
           "${AppConstants.orderStatus.processing.toString()},${AppConstants.orderStatus.partialReceived.toString()}");
+      _loadRequestTabCount();
     } else if (selectedTab.value == OrderTabType.delivered) {
       buyerOrdersListApi(AppConstants.orderStatus.inStock.toString());
+      _loadRequestTabCount();
     } else if (selectedTab.value == OrderTabType.cancelled) {
       buyerOrdersListApi(AppConstants.orderStatus.cancelled.toString());
+      _loadRequestTabCount();
     }
   }
 
-  void buyerProductsListApi() {
-    isLoading.value = true;
+  void _loadRequestTabCount() {
+    buyerProductsListApi(isForCountOnly: true);
+  }
+
+  void _loadOrdersTabCounts() {
+    buyerOrdersListApi(
+      AppConstants.orderStatus.received.toString(),
+      isForCountOnly: true,
+    );
+  }
+
+  void buyerProductsListApi({bool isForCountOnly = false}) {
+    if (!isForCountOnly) {
+      isLoading.value = true;
+    }
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
     for (var entry in appliedFilters.entries) {
@@ -145,41 +163,38 @@ class BuyerOrderController extends GetxController
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
-          isMainViewVisible.value = true;
           BuyerProductListResponse response = BuyerProductListResponse.fromJson(
               jsonDecode(responseModel.result!));
 
-          for (ProductInfo info in response.info ?? []) {
-            info.cartQty =
-                (info.totalQty ?? 0) < 0 ? 0 : (info.totalQty ?? 0).toDouble();
+          requestCount.value = response.requested ?? 0;
+
+          if (!isForCountOnly) {
+            isMainViewVisible.value = true;
+
+            for (ProductInfo info in response.info ?? []) {
+              info.cartQty =
+                  (info.totalQty ?? 0) < 0 ? 0 : (info.totalQty ?? 0).toDouble();
+            }
+
+            tempRequestOrderList.clear();
+            tempRequestOrderList.addAll(response.info!);
+            requestOrdersList.value = tempRequestOrderList;
           }
-
-          tempRequestOrderList.clear();
-          tempRequestOrderList.addAll(response.info!);
-          requestOrdersList.value = tempRequestOrderList;
-          // requestCount.value = tempRequestOrderList.length;
-          requestCount.value = response.requested ??0;
-
-          updateTabCount(
-            upcoming: response.upcoming,
-            processing: response.processing,
-            partialDelivered: response.partiallyDelivered,
-            delivered: response.delivered,
-            cancelled: response.cancelled,
-          );
-        } else {
+        } else if (!isForCountOnly) {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
-        isLoading.value = false;
+        if (!isForCountOnly) {
+          isLoading.value = false;
+        }
       },
       onError: (ResponseModel error) {
-        isLoading.value = false;
-        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
-          isInternetNotAvailable.value = true;
-          // AppUtils.showSnackBarMessage('no_internet'.tr);
-          // Utils.showSnackBarMessage('no_internet'.tr);
-        } else if (error.statusMessage!.isNotEmpty) {
-          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+        if (!isForCountOnly) {
+          isLoading.value = false;
+          if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+            isInternetNotAvailable.value = true;
+          } else if (error.statusMessage!.isNotEmpty) {
+            AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+          }
         }
       },
     );
@@ -198,12 +213,14 @@ class BuyerOrderController extends GetxController
     cancelledCount.value = cancelled ?? 0;
   }
 
-  void buyerOrdersListApi(String status) {
-    if (isIncompletedOrdersFlow) {
+  void buyerOrdersListApi(String status, {bool isForCountOnly = false}) {
+    if (isIncompletedOrdersFlow && !isForCountOnly) {
       buyerIncompleteOrdersListApi();
       return;
     }
-    isLoading.value = true;
+    if (!isForCountOnly) {
+      isLoading.value = true;
+    }
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
     map["start_date"] = startDate.value;
@@ -213,7 +230,6 @@ class BuyerOrderController extends GetxController
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
-          isMainViewVisible.value = true;
           BuyerOrdersListResponse response = BuyerOrdersListResponse.fromJson(
               jsonDecode(responseModel.result!));
 
@@ -225,34 +241,35 @@ class BuyerOrderController extends GetxController
             cancelled: response.cancelled,
           );
 
-          tempOrdersList.clear();
-          tempOrdersList.addAll(response.info ?? []);
-          ordersList.value = List<OrderInfo>.from(tempOrdersList);
-          ordersList.refresh();
-          // SchedulerBinding.instance.addPostFrameCallback((_) {
-          //   if (ordersScrollController.hasClients) {
-          //     ordersScrollController.jumpTo(0);
-          //   }
-          // });
+          if (!isForCountOnly) {
+            isMainViewVisible.value = true;
 
-          startDate.value = response.startDate ?? "";
-          endDate.value = response.endDate ?? "";
+            tempOrdersList.clear();
+            tempOrdersList.addAll(response.info ?? []);
+            ordersList.value = List<OrderInfo>.from(tempOrdersList);
+            ordersList.refresh();
 
-          displayStartDate.value = response.startDate ?? "";
-          displayEndDate.value = response.endDate ?? "";
-        } else {
+            startDate.value = response.startDate ?? "";
+            endDate.value = response.endDate ?? "";
+
+            displayStartDate.value = response.startDate ?? "";
+            displayEndDate.value = response.endDate ?? "";
+          }
+        } else if (!isForCountOnly) {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
-        isLoading.value = false;
+        if (!isForCountOnly) {
+          isLoading.value = false;
+        }
       },
       onError: (ResponseModel error) {
-        isLoading.value = false;
-        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
-          isInternetNotAvailable.value = true;
-          // AppUtils.showSnackBarMessage('no_internet'.tr);
-          // Utils.showSnackBarMessage('no_internet'.tr);
-        } else if (error.statusMessage!.isNotEmpty) {
-          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+        if (!isForCountOnly) {
+          isLoading.value = false;
+          if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+            isInternetNotAvailable.value = true;
+          } else if (error.statusMessage!.isNotEmpty) {
+            AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+          }
         }
       },
     );

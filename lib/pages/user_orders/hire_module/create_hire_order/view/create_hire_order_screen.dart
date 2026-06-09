@@ -67,7 +67,7 @@ class _CreateHireOrderScreenState extends State<CreateHireOrderScreen> {
                           },
                         )
                       : controller.isMainViewVisible.value
-                          ? (controller.cartList.isNotEmpty)
+                          ? (controller.selectedProduct.value != null)
                               ? Column(
                                   children: [
                                     CreateHireOrderHeaderView(),
@@ -76,7 +76,9 @@ class _CreateHireOrderScreenState extends State<CreateHireOrderScreen> {
                                     ),
                                     Expanded(
                                       child: CreateHireOrderProductList(
-                                        products: controller.cartList,
+                                        products: [
+                                          controller.selectedProduct.value!
+                                        ],
                                       ),
                                     ),
                                   ],
@@ -87,7 +89,7 @@ class _CreateHireOrderScreenState extends State<CreateHireOrderScreen> {
                 bottomNavigationBar: SafeArea(
                   child: Visibility(
                     visible: controller.isMainViewVisible.value &&
-                        controller.cartList.isNotEmpty,
+                        controller.selectedProduct.value != null,
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Opacity(

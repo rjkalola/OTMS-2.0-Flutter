@@ -38,7 +38,16 @@ class ManageStockDashboardScreen extends StatelessWidget {
                   ? Center(
                       child: Text("no_internet_text".tr),
                     )
-                  : Visibility(
+                  : controller.isMainViewVisible.value &&
+                          controller.listStores.isEmpty
+                      ? Center(
+                          child: TitleTextView(
+                            text: 'no_store_found'.tr,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        )
+                      : Visibility(
                       visible: controller.isMainViewVisible.value,
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(14, 16, 14, 0),

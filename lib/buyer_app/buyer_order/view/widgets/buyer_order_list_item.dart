@@ -40,6 +40,83 @@ class BuyerOrderListItem extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    PrimaryTextView(
+                      text: item.date ?? "",
+                      fontSize: 14,
+                    ),
+                    PrimaryTextView(
+                      text: "${'order'.tr}: ${item.orderId ?? ""}",
+                      color: secondaryLightTextColor_(context),
+                      fontSize: 13,
+                    )
+                  ],
+                ),
+                const SizedBox(height: 2),
+                PrimaryTextView(
+                  text: [
+                    if (!StringHelper.isEmptyString(item.storeName))
+                      item.storeName,
+                    if (!StringHelper.isEmptyString(
+                        item.supplierName))
+                      item.supplierName,
+                  ].join(" | "),
+                  fontSize: 16,
+                ),
+                if (!isIncompleteLayout &&
+                    !StringHelper.isEmptyString(
+                        item.approveByUserName)) ...[
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      PrimaryTextView(
+                        text: "${'approved_by'.tr}:",
+                        fontSize: 13,
+                      ),
+                      const SizedBox(width: 6),
+                      UserAvtarView(
+                        imageUrl: item.approveByUserImage ?? "",
+                        imageSize: 18,
+                      ),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: PrimaryTextView(
+                          text: item.approveByUserName ?? "",
+                          fontSize: 13,
+                          softWrap: true,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+                if (!isIncompleteLayout &&
+                    !StringHelper.isEmptyString(
+                        item.orderByName)) ...[
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      PrimaryTextView(
+                        text: "${'ordered_by'.tr}:",
+                        fontSize: 13,
+                      ),
+                      const SizedBox(width: 6),
+                      UserAvtarView(
+                        imageUrl: item.orderByImage ?? "",
+                        imageSize: 18,
+                      ),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: PrimaryTextView(
+                          text: item.orderByName ?? "",
+                          fontSize: 13,
+                          softWrap: true,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
                 IntrinsicHeight(
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,24 +125,10 @@ class BuyerOrderListItem extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            PrimaryTextView(
-                              text: item.date ?? "",
-                              fontSize: 14,
-                            ),
-                            const SizedBox(height: 2),
-                            PrimaryTextView(
-                              text: [
-                                if (!StringHelper.isEmptyString(item.storeName))
-                                  item.storeName,
-                                if (!StringHelper.isEmptyString(item.supplierName))
-                                  item.supplierName,
-                              ].join(" | "),
-                              fontSize: 16,
-                            ),
                             const SizedBox(height: 2),
                             PrimaryTextView(
                               text:
-                                  "${'total_amount'.tr}: ${item.currency ?? ""}${item.totalAmount ?? ""}",
+                              "${'total_amount'.tr}: ${item.currency ?? ""}${item.totalAmount ?? ""}",
                               fontSize: 15,
                             ),
                             const SizedBox(height: 2),
@@ -74,69 +137,12 @@ class BuyerOrderListItem extends StatelessWidget {
                                   "${'delivery_date'.tr}: ${item.expectedDeliveryDate ?? ""}",
                               fontSize: 15,
                             ),
-                            if (!isIncompleteLayout &&
-                                !StringHelper.isEmptyString(
-                                    item.approveByUserName)) ...[
-                              const SizedBox(height: 4),
-                              Row(
-                                children: [
-                                  PrimaryTextView(
-                                    text: "${'approved_by'.tr}:",
-                                    fontSize: 13,
-                                  ),
-                                  const SizedBox(width: 6),
-                                  UserAvtarView(
-                                    imageUrl: item.approveByUserImage ?? "",
-                                    imageSize: 18,
-                                  ),
-                                  const SizedBox(width: 4),
-                                  Expanded(
-                                    child: PrimaryTextView(
-                                      text: item.approveByUserName ?? "",
-                                      fontSize: 13,
-                                      softWrap: true,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                            if (!isIncompleteLayout &&
-                                !StringHelper.isEmptyString(
-                                    item.orderByName)) ...[
-                              const SizedBox(height: 4),
-                              Row(
-                                children: [
-                                  PrimaryTextView(
-                                    text: "${'ordered_by'.tr}:",
-                                    fontSize: 13,
-                                  ),
-                                  const SizedBox(width: 6),
-                                  UserAvtarView(
-                                    imageUrl: item.orderByImage ?? "",
-                                    imageSize: 18,
-                                  ),
-                                  const SizedBox(width: 4),
-                                  Expanded(
-                                    child: PrimaryTextView(
-                                      text: item.orderByName ?? "",
-                                      fontSize: 13,
-                                      softWrap: true,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
                           ],
                         ),
                       ),
                       Stack(
                         alignment: Alignment.topRight,
                         children: [
-                          PrimaryTextView(
-                            text: "${'order'.tr}: ${item.orderId ?? ""}",
-                            color: secondaryLightTextColor_(context),
-                            fontSize: 13,
-                          ),
                           GestureDetector(
                             onTap: onInvoiceClick,
                             child: Align(

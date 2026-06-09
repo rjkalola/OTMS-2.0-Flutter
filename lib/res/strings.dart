@@ -798,6 +798,7 @@ class Strings extends Translations {
           'msg_storeman_order_note_and_photo': "Please select Note & Photo",
           'leave_including': "Leave Including",
           'select_store': "Select Store",
+          'no_store_found': "No store found",
           'reorder': "Reorder",
           'parent_category': "Parent category",
           'add_supplier': "Add Supplier",

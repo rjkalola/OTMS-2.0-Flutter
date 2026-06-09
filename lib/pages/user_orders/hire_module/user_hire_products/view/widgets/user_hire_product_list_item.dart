@@ -103,9 +103,8 @@ class UserHireProductListItem extends StatelessWidget {
                                   ),
                                   onPressed: () {
                                     FocusManager.instance.primaryFocus?.unfocus();
-                                    item.isCheck = !isInCart;
                                     Get.find<UserHireProductController>()
-                                        .notifyProductItemChanged();
+                                        .toggleProductSelection(item);
                                   },
                                   icon: isInCart
                                       ? ImageUtils.setSvgAssetsImage(

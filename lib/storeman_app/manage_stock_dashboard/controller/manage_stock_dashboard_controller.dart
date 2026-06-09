@@ -5,6 +5,7 @@ import 'package:belcka/pages/common/listener/select_item_listener.dart';
 import 'package:belcka/pages/common/model/Dropdown_list_response.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/storeman_app/manage_stock_dashboard/controller/manage_stock_dashboard_repository.dart';
+import 'package:belcka/storeman_app/manage_stock_dashboard/model/manage_stock_modules_response.dart';
 import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
@@ -24,7 +25,6 @@ class ManageStockDashboardController extends GetxController
   final selectedStoreId = 0.obs;
   final selectedStoreTitle = "".obs;
 
-  // TODO: Replace stub with your count API response when you share it.
   final RxInt allProductsCount = 0.obs;
   final RxInt inStockCount = 0.obs;
   final RxInt lowStockCount = 0.obs;
@@ -83,10 +83,41 @@ class ManageStockDashboardController extends GetxController
   }
 
   void fetchCountsForSelectedStore() {
-    // TODO: Plug your count API here.
-    // The UI is already wired for store selection; when the API is ready,
-    // update `allProductsCount`, `inStockCount`, `lowStockCount`,
-    // and `outOfStockCount`.
+    if (selectedStoreId.value <= 0) {
+      _resetCounts();
+      return;
+    }
+
+    final Map<String, dynamic> map = {};
+    map['company_id'] = ApiConstants.companyId;
+    map['store_id'] = selectedStoreId.value;
+
+    _api.getModules(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          final response = ManageStockModulesResponse.fromJson(
+            jsonDecode(responseModel.result!) as Map<String, dynamic>,
+          );
+          allProductsCount.value = response.totalProducts ?? 0;
+          inStockCount.value = response.inStockCount ?? 0;
+          lowStockCount.value = response.lowStockCount ?? 0;
+          outOfStockCount.value = response.outOfStockCount ?? 0;
+        } else {
+          _resetCounts();
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? '');
+        }
+      },
+      onError: (ResponseModel error) {
+        _resetCounts();
+        if (error.statusMessage?.isNotEmpty ?? false) {
+          AppUtils.showSnackBarMessage(error.statusMessage ?? '');
+        }
+      },
+    );
+  }
+
+  void _resetCounts() {
     allProductsCount.value = 0;
     inStockCount.value = 0;
     lowStockCount.value = 0;
