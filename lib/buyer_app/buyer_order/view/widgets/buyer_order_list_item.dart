@@ -44,7 +44,7 @@ class BuyerOrderListItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     PrimaryTextView(
-                      text: item.date ?? "",
+                      text: "${'order_date'.tr}: ${item.date ?? ""}",
                       fontSize: 14,
                     ),
                     PrimaryTextView(
@@ -117,6 +117,12 @@ class BuyerOrderListItem extends StatelessWidget {
                     ],
                   ),
                 ],
+                const SizedBox(height: 2),
+                PrimaryTextView(
+                  text:
+                  "${'expected_delivery_date'.tr}: ${item.expectedDeliveryDate ?? ""}",
+                  fontSize: 15,
+                ),
                 IntrinsicHeight(
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,12 +135,6 @@ class BuyerOrderListItem extends StatelessWidget {
                             PrimaryTextView(
                               text:
                               "${'total_amount'.tr}: ${item.currency ?? ""}${item.totalAmount ?? ""}",
-                              fontSize: 15,
-                            ),
-                            const SizedBox(height: 2),
-                            PrimaryTextView(
-                              text:
-                                  "${'delivery_date'.tr}: ${item.expectedDeliveryDate ?? ""}",
                               fontSize: 15,
                             ),
                           ],

@@ -31,7 +31,7 @@ class _HireHistoryScreenState extends State<HireHistoryScreen>
             backgroundColor: dashBoardBgColor_(context),
             appBar: BaseAppBar(
               appBar: AppBar(),
-              title: 'hire_history'.tr,
+              title: 'history'.tr,
               isCenterTitle: false,
               bgColor: dashBoardBgColor_(context),
               isBack: true,

@@ -598,6 +598,7 @@ class RequestType {
   final int company = 105;
   final int leave = 110;
   final int penalty = 118;
+  final int employeeOrder = 125;
   final int hire = 131;
 // //Work
 //   final String USER_WORK_STOP_AUTOMATICALLY = "2001";

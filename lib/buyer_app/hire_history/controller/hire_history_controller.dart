@@ -38,7 +38,7 @@ class HireHistoryController extends GetxController {
     if (userId != 0) map["user_id"] = userId;
     map["start_date"] = startDate;
     map["end_date"] = endDate;
-    map["type"] = AppConstants.requestType.hire;
+    map["type"] = AppConstants.requestType.employeeOrder;
 
     _api.getHireHistory(
       queryParameters: map,

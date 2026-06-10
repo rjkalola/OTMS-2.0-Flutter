@@ -1,15 +1,23 @@
 import 'package:belcka/pages/manage_forms/form_details/model/form_field_condition.dart';
 import 'package:belcka/pages/manage_forms/form_details/model/form_field_model.dart';
+import 'package:belcka/pages/manage_forms/form_details/model/form_field_type.dart';
 import 'package:belcka/utils/string_helper.dart';
 
 class FormConditionEvaluator {
   const FormConditionEvaluator._();
-
+ 
   static bool isFieldVisible({
     required FormFieldModel field,
     required List<FormFieldModel> allFields,
     required String? Function(String fieldId) getSingleSelection,
     required Set<String>? Function(String fieldId) getMultipleSelection,
+    String Function(String fieldId)? getTextValue,
+    bool Function(String fieldId)? hasLocationValue,
+    bool Function(String fieldId)? isTaskChecked,
+    bool Function(String fieldId)? hasRating,
+    bool Function(String fieldId)? hasPhoneValue,
+    bool Function(String fieldId)? hasDateValue,
+    bool Function(String fieldId)? hasSliderValue,
   }) {
     if (field.showOnlyIf != true) return true;
 
@@ -21,6 +29,13 @@ class FormConditionEvaluator {
         allFields: allFields,
         getSingleSelection: getSingleSelection,
         getMultipleSelection: getMultipleSelection,
+        getTextValue: getTextValue,
+        hasLocationValue: hasLocationValue,
+        isTaskChecked: isTaskChecked,
+        hasRating: hasRating,
+        hasPhoneValue: hasPhoneValue,
+        hasDateValue: hasDateValue,
+        hasSliderValue: hasSliderValue,
       );
     }
 
@@ -32,6 +47,13 @@ class FormConditionEvaluator {
         allFields: allFields,
         getSingleSelection: getSingleSelection,
         getMultipleSelection: getMultipleSelection,
+        getTextValue: getTextValue,
+        hasLocationValue: hasLocationValue,
+        isTaskChecked: isTaskChecked,
+        hasRating: hasRating,
+        hasPhoneValue: hasPhoneValue,
+        hasDateValue: hasDateValue,
+        hasSliderValue: hasSliderValue,
       );
     }
 
@@ -58,6 +80,13 @@ class FormConditionEvaluator {
     required List<FormFieldModel> allFields,
     required String? Function(String fieldId) getSingleSelection,
     required Set<String>? Function(String fieldId) getMultipleSelection,
+    String Function(String fieldId)? getTextValue,
+    bool Function(String fieldId)? hasLocationValue,
+    bool Function(String fieldId)? isTaskChecked,
+    bool Function(String fieldId)? hasRating,
+    bool Function(String fieldId)? hasPhoneValue,
+    bool Function(String fieldId)? hasDateValue,
+    bool Function(String fieldId)? hasSliderValue,
   }) {
     bool? result;
 
@@ -69,6 +98,13 @@ class FormConditionEvaluator {
         allFields: allFields,
         getSingleSelection: getSingleSelection,
         getMultipleSelection: getMultipleSelection,
+        getTextValue: getTextValue,
+        hasLocationValue: hasLocationValue,
+        isTaskChecked: isTaskChecked,
+        hasRating: hasRating,
+        hasPhoneValue: hasPhoneValue,
+        hasDateValue: hasDateValue,
+        hasSliderValue: hasSliderValue,
       );
 
       final joinWith = (condition.joinWith ?? 'if').toLowerCase();
@@ -91,6 +127,13 @@ class FormConditionEvaluator {
     required List<FormFieldModel> allFields,
     required String? Function(String fieldId) getSingleSelection,
     required Set<String>? Function(String fieldId) getMultipleSelection,
+    String Function(String fieldId)? getTextValue,
+    bool Function(String fieldId)? hasLocationValue,
+    bool Function(String fieldId)? isTaskChecked,
+    bool Function(String fieldId)? hasRating,
+    bool Function(String fieldId)? hasPhoneValue,
+    bool Function(String fieldId)? hasDateValue,
+    bool Function(String fieldId)? hasSliderValue,
   }) {
     if (StringHelper.isEmptyString(sourceFieldId)) return false;
 
@@ -102,6 +145,13 @@ class FormConditionEvaluator {
       field: sourceField,
       getSingleSelection: getSingleSelection,
       getMultipleSelection: getMultipleSelection,
+      getTextValue: getTextValue,
+      hasLocationValue: hasLocationValue,
+      isTaskChecked: isTaskChecked,
+      hasRating: hasRating,
+      hasPhoneValue: hasPhoneValue,
+        hasDateValue: hasDateValue,
+        hasSliderValue: hasSliderValue,
     );
 
     switch (operator.toLowerCase().replaceAll(' ', '_')) {
@@ -117,6 +167,13 @@ class FormConditionEvaluator {
               field: sourceField,
               getSingleSelection: getSingleSelection,
               getMultipleSelection: getMultipleSelection,
+              getTextValue: getTextValue,
+              hasLocationValue: hasLocationValue,
+              isTaskChecked: isTaskChecked,
+              hasRating: hasRating,
+              hasPhoneValue: hasPhoneValue,
+              hasDateValue: hasDateValue,
+              hasSliderValue: hasSliderValue,
             ) ==
             (conditionValue ?? '');
       default:
@@ -129,7 +186,45 @@ class FormConditionEvaluator {
     required FormFieldModel field,
     required String? Function(String fieldId) getSingleSelection,
     required Set<String>? Function(String fieldId) getMultipleSelection,
+    String Function(String fieldId)? getTextValue,
+    bool Function(String fieldId)? hasLocationValue,
+    bool Function(String fieldId)? isTaskChecked,
+    bool Function(String fieldId)? hasRating,
+    bool Function(String fieldId)? hasPhoneValue,
+    bool Function(String fieldId)? hasDateValue,
+    bool Function(String fieldId)? hasSliderValue,
   }) {
+    if (field.normalizedType == FormFieldType.openEnded ||
+        field.normalizedType == FormFieldType.email) {
+      return StringHelper.isEmptyString(
+        (getTextValue?.call(fieldId) ?? '').trim(),
+      );
+    }
+
+    if (field.normalizedType == FormFieldType.location) {
+      return !(hasLocationValue?.call(fieldId) ?? false);
+    }
+
+    if (field.normalizedType == FormFieldType.task) {
+      return !(isTaskChecked?.call(fieldId) ?? false);
+    }
+
+    if (field.normalizedType == FormFieldType.rating) {
+      return !(hasRating?.call(fieldId) ?? false);
+    }
+
+    if (field.normalizedType == FormFieldType.phone) {
+      return !(hasPhoneValue?.call(fieldId) ?? false);
+    }
+
+    if (field.normalizedType == FormFieldType.date) {
+      return !(hasDateValue?.call(fieldId) ?? false);
+    }
+
+    if (field.normalizedType == FormFieldType.numbersSlider) {
+      return !(hasSliderValue?.call(fieldId) ?? false);
+    }
+
     if (field.multipleSelection == true) {
       final selected = getMultipleSelection(fieldId);
       return selected == null || selected.isEmpty;
@@ -142,7 +237,43 @@ class FormConditionEvaluator {
     required FormFieldModel field,
     required String? Function(String fieldId) getSingleSelection,
     required Set<String>? Function(String fieldId) getMultipleSelection,
+    String Function(String fieldId)? getTextValue,
+    bool Function(String fieldId)? hasLocationValue,
+    bool Function(String fieldId)? isTaskChecked,
+    bool Function(String fieldId)? hasRating,
+    bool Function(String fieldId)? hasPhoneValue,
+    bool Function(String fieldId)? hasDateValue,
+    bool Function(String fieldId)? hasSliderValue,
   }) {
+    if (field.normalizedType == FormFieldType.openEnded ||
+        field.normalizedType == FormFieldType.email) {
+      return getTextValue?.call(fieldId) ?? '';
+    }
+
+    if (field.normalizedType == FormFieldType.location) {
+      return (hasLocationValue?.call(fieldId) ?? false) ? 'filled' : '';
+    }
+
+    if (field.normalizedType == FormFieldType.task) {
+      return (isTaskChecked?.call(fieldId) ?? false) ? 'checked' : '';
+    }
+
+    if (field.normalizedType == FormFieldType.rating) {
+      return (hasRating?.call(fieldId) ?? false) ? 'rated' : '';
+    }
+
+    if (field.normalizedType == FormFieldType.phone) {
+      return (hasPhoneValue?.call(fieldId) ?? false) ? 'filled' : '';
+    }
+
+    if (field.normalizedType == FormFieldType.date) {
+      return (hasDateValue?.call(fieldId) ?? false) ? 'filled' : '';
+    }
+
+    if (field.normalizedType == FormFieldType.numbersSlider) {
+      return (hasSliderValue?.call(fieldId) ?? false) ? 'filled' : '';
+    }
+
     if (field.multipleSelection == true) {
       final selected = getMultipleSelection(fieldId);
       return selected?.join(', ') ?? '';
