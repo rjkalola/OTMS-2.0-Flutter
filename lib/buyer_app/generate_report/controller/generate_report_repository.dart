@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:belcka/buyer_app/generate_report/model/generate_report_modules_response.dart';
 import 'package:belcka/utils/download_save_path.dart';
 import 'package:belcka/web_services/api_constants.dart';

@@ -17,7 +17,8 @@ class MyRequestsController extends GetxController {
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
-      isResetEnable = false.obs;
+      isResetEnable = false.obs,
+      isLoadingMore = false.obs;
   String startDate = "", endDate = "";
 
   final myRequestList = <MyRequestInfo>[].obs;
@@ -27,6 +28,11 @@ class MyRequestsController extends GetxController {
   final isFromMyProfile = false.obs;
   int? userId = 0;
   final isOtherUserProfile = false.obs;
+
+  var currentPage = 1.obs;
+  int limit = 20;
+  var hasMoreData = true.obs;
+  final ScrollController scrollController = ScrollController();
 
   @override
   void onInit() {
@@ -42,10 +48,39 @@ class MyRequestsController extends GetxController {
       isFromMyProfile.value = false;
       userId = UserUtils.getLoginUserId();
     }
-    getMyRequestsList(appliedFilters);
+    getMyRequestsList(appliedFilters,isRefresh:true);
+
+    scrollController.addListener(() {
+      if (scrollController.position.pixels >=
+          scrollController.position.maxScrollExtent - 200) {
+        if (!isLoading.value && hasMoreData.value) {
+          getMyRequestsList(appliedFilters);
+        }
+      }
+    });
+  }
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
   }
 
-  void getMyRequestsList(Map<String, String> appliedFilters) async {
+  void getMyRequestsList(Map<String, String> appliedFilters,{bool isRefresh = false, String searchValue = ""}) async {
+
+    if (isRefresh) {
+      currentPage.value = 1;
+      hasMoreData.value = true;
+    }
+    if (!hasMoreData.value && !isRefresh) return;
+    isLoading.value = true;
+
+    if (currentPage.value == 1) {
+
+    }
+    else{
+      isLoadingMore.value = true;
+    }
+
     Map<String, dynamic> map = {};
     if (isFromMyProfile.value == true) {
       map["user_id"] = userId; //UserUtils.getLoginUserId();
@@ -54,18 +89,38 @@ class MyRequestsController extends GetxController {
     map["start_date"] = startDate;
     map["end_date"] = endDate;
     map["filters"] = appliedFilters;
+    map["page"] = currentPage.value;
+    map["limit"] = limit;
+    map["search"] = searchValue;
 
-    isLoading.value = true;
     _api.getMyRequestsList(
       data: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           MyRequestListResponse response =
               MyRequestListResponse.fromJson(jsonDecode(responseModel.result!));
-          tempList.clear();
-          tempList.addAll(response.requests ?? []);
 
-          myRequestList.value = tempList;
+          var newItems = response.requests ?? [];
+
+          if (isRefresh) {
+            tempList.clear();
+          }
+
+          if (response.pagination != null) {
+            print("Total pages: ${response.pagination!.totalPages}");
+
+            print("Current page: ${response.pagination!.currentPage}");
+
+            if (currentPage.value >= response.pagination!.totalPages) {
+              hasMoreData.value = false;
+            }
+            else{
+              currentPage.value++;
+            }
+          }
+
+          tempList.addAll(newItems);
+          myRequestList.value = List.from(tempList);
           myRequestList.refresh();
 
           isMainViewVisible.value = true;
@@ -88,7 +143,7 @@ class MyRequestsController extends GetxController {
   Future<void> moveToScreen(String rout, dynamic arguments) async {
     var result = await Get.toNamed(rout, arguments: arguments);
     if (result != null && result) {
-      getMyRequestsList(appliedFilters);
+      getMyRequestsList(appliedFilters,isRefresh: true);
     }
   }
 
@@ -98,6 +153,6 @@ class MyRequestsController extends GetxController {
     endDate = "";
     selectedDateFilterIndex.value = -1;
     appliedFilters = {};
-    getMyRequestsList(appliedFilters);
+    getMyRequestsList(appliedFilters,isRefresh: true);
   }
 }

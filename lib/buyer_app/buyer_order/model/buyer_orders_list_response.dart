@@ -1,5 +1,6 @@
 import 'package:belcka/buyer_app/buyer_order/model/order_info.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
+import 'package:belcka/pages/user_orders/storeman_catalog/model/product_response_model.dart';
 
 class BuyerOrdersListResponse {
   bool? isSuccess;
@@ -8,6 +9,7 @@ class BuyerOrdersListResponse {
   String? startDate, endDate;
   int? upcoming, processing, delivered, partialDelivered, cancelled;
   int? newOrders, preparing, ready, collected;
+  PaginationData? pagination;
 
   BuyerOrdersListResponse(
       {this.isSuccess,
@@ -23,7 +25,8 @@ class BuyerOrdersListResponse {
       this.newOrders,
       this.preparing,
       this.ready,
-      this.collected});
+      this.collected,
+        this.pagination});
 
   BuyerOrdersListResponse.fromJson(Map<String, dynamic> json) {
     isSuccess = json['IsSuccess'];
@@ -33,6 +36,7 @@ class BuyerOrdersListResponse {
       json['info'].forEach((v) {
         info!.add(new OrderInfo.fromJson(v));
       });
+      pagination=  json['data'] != null ? PaginationData.fromJson(json['data']) : null;
     }
     startDate = json['start_date'];
     endDate = json['end_date'];

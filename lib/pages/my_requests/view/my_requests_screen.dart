@@ -72,6 +72,7 @@ class MyRequestsScreen extends StatelessWidget implements DateFilterListener {
                               child: ListView.builder(
                                 padding: EdgeInsets.all(12),
                                 itemCount: controller.myRequestList.length,
+                                controller: controller.scrollController,
                                 itemBuilder: (context, index) {
                                   final request =
                                       controller.myRequestList[index];
@@ -94,7 +95,7 @@ class MyRequestsScreen extends StatelessWidget implements DateFilterListener {
     controller.isResetEnable.value = true;
     controller.startDate = startDate;
     controller.endDate = endDate;
-    controller.getMyRequestsList(controller.appliedFilters);
+    controller.getMyRequestsList(controller.appliedFilters,isRefresh: true);
     print("startDate:" + startDate);
     print("endDate:" + endDate);
   }
@@ -124,7 +125,7 @@ class MyRequestsScreen extends StatelessWidget implements DateFilterListener {
           if (result != null) {
             controller.isResetEnable.value = true;
             controller.appliedFilters = result;
-            controller.getMyRequestsList(result);
+            controller.getMyRequestsList(result,isRefresh: true);
           }
         },
         child: Visibility(
