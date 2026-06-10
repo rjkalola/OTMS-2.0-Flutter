@@ -290,8 +290,11 @@ class GenerateReportController extends GetxController
       lastDownloadedPath.value = downloadedPath;
       // AppUtils.showToastMessage('file_downloaded'.tr);
       _showViewDocumentDialog(downloadedPath);
-    } catch (e) {
-      AppUtils.showToastMessage('download_failed'.tr);
+    } catch (e, stackTrace) {
+      print('Export Error: $e');
+      print('Stacktrace: $stackTrace');
+      AppUtils.showToastMessage('download_failed'.tr + ': $e');
+
     } finally {
       isExporting.value = false;
     }

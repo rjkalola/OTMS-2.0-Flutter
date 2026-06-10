@@ -12,7 +12,7 @@ String _safeFileName(String fileName) =>
 /// Writable path for Dio while downloading (app temp on Android).
 Future<String> resolveDownloadStagingPath(String fileName) async {
   final safeName = _safeFileName(fileName);
-  if (Platform.isAndroid) {
+  if (Platform.isAndroid || Platform.isIOS) {
     final dir = await getTemporaryDirectory();
     return p.join(dir.path, safeName);
   }

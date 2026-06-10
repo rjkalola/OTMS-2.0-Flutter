@@ -28,7 +28,8 @@ class BuyerOrderController extends GetxController
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
       isSearchEnable = false.obs,
-      isSingleFilter = false.obs;
+      isSingleFilter = false.obs,
+      isLoadingMore = false.obs;
   RxString startDate = "".obs,
       endDate = "".obs,
       displayStartDate = "".obs,
@@ -58,6 +59,9 @@ class BuyerOrderController extends GetxController
   final ScrollController ordersScrollController = ScrollController();
 
   final List<FocusNode> qtyFocusNodes = [];
+  var currentPage = 1.obs;
+  int limit = 20;
+  var hasMoreData = true.obs;
 
   FocusNode getQtyFocusNode(int index) {
     if (qtyFocusNodes.length <= index) {
@@ -112,10 +116,20 @@ class BuyerOrderController extends GetxController
         }
       }
     }
-    loadData();
+    loadData(isRefresh:true);
+    /*
+    ordersScrollController.addListener(() {
+      if (ordersScrollController.position.pixels >=
+          ordersScrollController.position.maxScrollExtent - 200) {
+        if (!isLoading.value && hasMoreData.value) {
+          loadData();
+        }
+      }
+    });
+    */
   }
 
-  void loadData() {
+  void loadData({bool isRefresh = false}) {
     clearSearch();
     isSearchEnable.value = false;
     if (selectedTab.value == OrderTabType.request) {
@@ -213,19 +227,41 @@ class BuyerOrderController extends GetxController
     cancelledCount.value = cancelled ?? 0;
   }
 
-  void buyerOrdersListApi(String status, {bool isForCountOnly = false}) {
+  void buyerOrdersListApi(String status, {bool isForCountOnly = false, bool isRefresh = false, String searchValue = ""}) {
     if (isIncompletedOrdersFlow && !isForCountOnly) {
       buyerIncompleteOrdersListApi();
       return;
     }
     if (!isForCountOnly) {
+      /*
+      if (isRefresh) {
+        currentPage.value = 1;
+        hasMoreData.value = true;
+      }
+      if (!hasMoreData.value && !isRefresh) return;
+      */
       isLoading.value = true;
+
+      /*
+      if (currentPage.value == 1) {
+
+      }
+      else{
+        isLoadingMore.value = true;
+      }
+      */
     }
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
     map["start_date"] = startDate.value;
     map["end_date"] = endDate.value;
     map["status"] = status;
+    /*
+    map["page"] = currentPage.value;
+    map["limit"] = limit;
+    map["search"] = searchValue;
+    */
+
     _api.buyerOrdersList(
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
@@ -244,9 +280,27 @@ class BuyerOrderController extends GetxController
           if (!isForCountOnly) {
             isMainViewVisible.value = true;
 
+            var newItems = response.info ?? [];
             tempOrdersList.clear();
-            tempOrdersList.addAll(response.info ?? []);
+
+            /*
+            if (isRefresh) {
+              tempOrdersList.clear();
+            }
+            if (response.pagination != null) {
+              print("Total pages: ${response.pagination!.totalPages}");
+              if (currentPage.value >= response.pagination!.totalPages) {
+                hasMoreData.value = false;
+              }
+              else{
+                currentPage.value++;
+              }
+            }
+            */
+
+            tempOrdersList.addAll(newItems);
             ordersList.value = List<OrderInfo>.from(tempOrdersList);
+
             ordersList.refresh();
 
             startDate.value = response.startDate ?? "";
