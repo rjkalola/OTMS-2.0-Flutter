@@ -10,6 +10,9 @@ class FormFieldModel {
   bool? multipleSelection;
   bool? allowMultipleUploads;
   bool? locationStampCapture;
+  String? imageSource;
+  String? videoSource;
+  String? scannerSource;
   String? locationSelectBy;
   String? ratingMinLabel;
   String? ratingMaxLabel;
@@ -37,6 +40,9 @@ class FormFieldModel {
     this.multipleSelection,
     this.allowMultipleUploads,
     this.locationStampCapture,
+    this.imageSource,
+    this.videoSource,
+    this.scannerSource,
     this.locationSelectBy,
     this.ratingMinLabel,
     this.ratingMaxLabel,
@@ -65,6 +71,9 @@ class FormFieldModel {
     multipleSelection = json['multipleSelection'];
     allowMultipleUploads = json['allowMultipleUploads'];
     locationStampCapture = json['locationStampCapture'];
+    imageSource = json['imageSource'] ?? json['image_source'];
+    videoSource = json['videoSource'] ?? json['video_source'];
+    scannerSource = json['scannerSource'] ?? json['scanner_source'];
     locationSelectBy = json['locationSelectBy'] ?? json['location_select_by'];
     ratingMinLabel = json['ratingMinLabel'] ?? json['rating_min_label'];
     ratingMaxLabel = json['ratingMaxLabel'] ?? json['rating_max_label'];
@@ -109,6 +118,9 @@ class FormFieldModel {
       multipleSelection ??= raw['multipleSelection'];
       allowMultipleUploads ??= raw['allowMultipleUploads'];
       locationStampCapture ??= raw['locationStampCapture'];
+      imageSource ??= raw['imageSource']?.toString();
+      videoSource ??= raw['videoSource']?.toString();
+      scannerSource ??= raw['scannerSource']?.toString();
       locationSelectBy ??= raw['locationSelectBy'];
       ratingMinLabel ??= raw['ratingMinLabel'];
       ratingMaxLabel ??= raw['ratingMaxLabel'];
@@ -117,6 +129,8 @@ class FormFieldModel {
       dateIncludeTime ??= raw['dateIncludeTime'];
       minValue ??= raw['minValue'];
       maxValue ??= raw['maxValue'];
+      formulaExpression ??=
+          raw['formulaExpression'] ?? raw['formula_expression']?.toString();
       conditionValue ??= raw['conditionValue']?.toString();
       conditionFieldId ??= raw['conditionFieldId']?.toString();
       conditionOperator ??= raw['conditionOperator']?.toString();
@@ -155,6 +169,23 @@ class FormFieldModel {
   bool get includesDate => dateIncludeDate != false;
 
   bool get includesTime => dateIncludeTime == true;
+
+  bool get allowsMultipleImageUploads => allowMultipleUploads == true;
+
+  bool get allowsMultipleVideoUploads => allowMultipleUploads == true;
+
+  bool get allowsMultipleScannerUploads => allowMultipleUploads == true;
+
+  bool get allowsMultipleUploadsEnabled => allowMultipleUploads == true;
+
+  String get normalizedImageSource =>
+      (imageSource ?? 'both').trim().toLowerCase();
+
+  String get normalizedVideoSource =>
+      (videoSource ?? 'both').trim().toLowerCase();
+
+  String get normalizedScannerSource =>
+      (scannerSource ?? 'both').trim().toLowerCase();
 
   double get sliderMin => _parseNumericValue(minValue) ?? 0;
 

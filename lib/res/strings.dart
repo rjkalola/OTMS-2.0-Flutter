@@ -107,6 +107,27 @@ class Strings extends Translations {
           'whats_your_company_details': 'What\'s your company\ndetails?',
           'enter_valid_email_address': "Enter a valid email address.",
           'email_example_placeholder': "email@example.com",
+          'number_placeholder': "0",
+          'click_to_sign': "Click to sign",
+          'sign': "Sign",
+          'upload_an_image': "Upload an image",
+          'upload_a_video': "Upload a video",
+          'scan': "Scan",
+          'scan_failed': "Unable to scan document. Please try again.",
+          'camera_permission_required':
+              "Camera permission is required to scan documents.",
+          'upload_a_file': "Upload a file",
+          'upload_more_files': "Upload more files",
+          'record_audio': "Record audio",
+          'stop_recording': "Stop recording",
+          'record_again': "Record again",
+          'microphone_permission_required':
+              "Microphone permission is required to record audio.",
+          'microphone_permission_denied':
+              "Microphone permission is denied. Enable it in settings.",
+          'audio_recording_unavailable':
+              "Audio recording is unavailable. Stop the app and run it again.",
+          'audio_recording_failed': "Unable to start audio recording.",
           'business_email': "Business Email",
           'how_many_users_Are_on_your_team':
               "How many users are\non your team?",

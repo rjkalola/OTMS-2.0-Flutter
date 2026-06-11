@@ -18,6 +18,13 @@ class FormConditionEvaluator {
     bool Function(String fieldId)? hasPhoneValue,
     bool Function(String fieldId)? hasDateValue,
     bool Function(String fieldId)? hasSliderValue,
+    String Function(String fieldId)? getFormulaValue,
+    bool Function(String fieldId)? hasSignatureValue,
+    bool Function(String fieldId)? hasImageUploadValue,
+    bool Function(String fieldId)? hasVideoUploadValue,
+    bool Function(String fieldId)? hasScannerUploadValue,
+    bool Function(String fieldId)? hasFileUploadValue,
+    bool Function(String fieldId)? hasAudioRecordingValue,
   }) {
     if (field.showOnlyIf != true) return true;
 
@@ -36,6 +43,13 @@ class FormConditionEvaluator {
         hasPhoneValue: hasPhoneValue,
         hasDateValue: hasDateValue,
         hasSliderValue: hasSliderValue,
+        getFormulaValue: getFormulaValue,
+        hasSignatureValue: hasSignatureValue,
+        hasImageUploadValue: hasImageUploadValue,
+        hasVideoUploadValue: hasVideoUploadValue,
+        hasScannerUploadValue: hasScannerUploadValue,
+        hasFileUploadValue: hasFileUploadValue,
+        hasAudioRecordingValue: hasAudioRecordingValue,
       );
     }
 
@@ -54,6 +68,13 @@ class FormConditionEvaluator {
         hasPhoneValue: hasPhoneValue,
         hasDateValue: hasDateValue,
         hasSliderValue: hasSliderValue,
+        getFormulaValue: getFormulaValue,
+        hasSignatureValue: hasSignatureValue,
+        hasImageUploadValue: hasImageUploadValue,
+        hasVideoUploadValue: hasVideoUploadValue,
+        hasScannerUploadValue: hasScannerUploadValue,
+        hasFileUploadValue: hasFileUploadValue,
+        hasAudioRecordingValue: hasAudioRecordingValue,
       );
     }
 
@@ -87,6 +108,13 @@ class FormConditionEvaluator {
     bool Function(String fieldId)? hasPhoneValue,
     bool Function(String fieldId)? hasDateValue,
     bool Function(String fieldId)? hasSliderValue,
+    String Function(String fieldId)? getFormulaValue,
+    bool Function(String fieldId)? hasSignatureValue,
+    bool Function(String fieldId)? hasImageUploadValue,
+    bool Function(String fieldId)? hasVideoUploadValue,
+    bool Function(String fieldId)? hasScannerUploadValue,
+    bool Function(String fieldId)? hasFileUploadValue,
+    bool Function(String fieldId)? hasAudioRecordingValue,
   }) {
     bool? result;
 
@@ -105,6 +133,13 @@ class FormConditionEvaluator {
         hasPhoneValue: hasPhoneValue,
         hasDateValue: hasDateValue,
         hasSliderValue: hasSliderValue,
+        getFormulaValue: getFormulaValue,
+        hasSignatureValue: hasSignatureValue,
+        hasImageUploadValue: hasImageUploadValue,
+        hasVideoUploadValue: hasVideoUploadValue,
+        hasScannerUploadValue: hasScannerUploadValue,
+        hasFileUploadValue: hasFileUploadValue,
+        hasAudioRecordingValue: hasAudioRecordingValue,
       );
 
       final joinWith = (condition.joinWith ?? 'if').toLowerCase();
@@ -134,6 +169,13 @@ class FormConditionEvaluator {
     bool Function(String fieldId)? hasPhoneValue,
     bool Function(String fieldId)? hasDateValue,
     bool Function(String fieldId)? hasSliderValue,
+    String Function(String fieldId)? getFormulaValue,
+    bool Function(String fieldId)? hasSignatureValue,
+    bool Function(String fieldId)? hasImageUploadValue,
+    bool Function(String fieldId)? hasVideoUploadValue,
+    bool Function(String fieldId)? hasScannerUploadValue,
+    bool Function(String fieldId)? hasFileUploadValue,
+    bool Function(String fieldId)? hasAudioRecordingValue,
   }) {
     if (StringHelper.isEmptyString(sourceFieldId)) return false;
 
@@ -150,8 +192,15 @@ class FormConditionEvaluator {
       isTaskChecked: isTaskChecked,
       hasRating: hasRating,
       hasPhoneValue: hasPhoneValue,
-        hasDateValue: hasDateValue,
-        hasSliderValue: hasSliderValue,
+      hasDateValue: hasDateValue,
+      hasSliderValue: hasSliderValue,
+      getFormulaValue: getFormulaValue,
+      hasSignatureValue: hasSignatureValue,
+      hasImageUploadValue: hasImageUploadValue,
+      hasVideoUploadValue: hasVideoUploadValue,
+      hasScannerUploadValue: hasScannerUploadValue,
+      hasFileUploadValue: hasFileUploadValue,
+      hasAudioRecordingValue: hasAudioRecordingValue,
     );
 
     switch (operator.toLowerCase().replaceAll(' ', '_')) {
@@ -174,6 +223,13 @@ class FormConditionEvaluator {
               hasPhoneValue: hasPhoneValue,
               hasDateValue: hasDateValue,
               hasSliderValue: hasSliderValue,
+              getFormulaValue: getFormulaValue,
+              hasSignatureValue: hasSignatureValue,
+              hasImageUploadValue: hasImageUploadValue,
+              hasVideoUploadValue: hasVideoUploadValue,
+              hasScannerUploadValue: hasScannerUploadValue,
+              hasFileUploadValue: hasFileUploadValue,
+              hasAudioRecordingValue: hasAudioRecordingValue,
             ) ==
             (conditionValue ?? '');
       default:
@@ -193,12 +249,50 @@ class FormConditionEvaluator {
     bool Function(String fieldId)? hasPhoneValue,
     bool Function(String fieldId)? hasDateValue,
     bool Function(String fieldId)? hasSliderValue,
+    String Function(String fieldId)? getFormulaValue,
+    bool Function(String fieldId)? hasSignatureValue,
+    bool Function(String fieldId)? hasImageUploadValue,
+    bool Function(String fieldId)? hasVideoUploadValue,
+    bool Function(String fieldId)? hasScannerUploadValue,
+    bool Function(String fieldId)? hasFileUploadValue,
+    bool Function(String fieldId)? hasAudioRecordingValue,
   }) {
     if (field.normalizedType == FormFieldType.openEnded ||
-        field.normalizedType == FormFieldType.email) {
+        field.normalizedType == FormFieldType.email ||
+        field.normalizedType == FormFieldType.number) {
       return StringHelper.isEmptyString(
         (getTextValue?.call(fieldId) ?? '').trim(),
       );
+    }
+
+    if (field.normalizedType == FormFieldType.formula) {
+      return StringHelper.isEmptyString(
+        (getFormulaValue?.call(fieldId) ?? '').trim(),
+      );
+    }
+
+    if (field.normalizedType == FormFieldType.signature) {
+      return !(hasSignatureValue?.call(fieldId) ?? false);
+    }
+
+    if (field.normalizedType == FormFieldType.imageUpload) {
+      return !(hasImageUploadValue?.call(fieldId) ?? false);
+    }
+
+    if (field.normalizedType == FormFieldType.videoUpload) {
+      return !(hasVideoUploadValue?.call(fieldId) ?? false);
+    }
+
+    if (field.normalizedType == FormFieldType.scanner) {
+      return !(hasScannerUploadValue?.call(fieldId) ?? false);
+    }
+
+    if (field.normalizedType == FormFieldType.fileUpload) {
+      return !(hasFileUploadValue?.call(fieldId) ?? false);
+    }
+
+    if (field.normalizedType == FormFieldType.audioRecording) {
+      return !(hasAudioRecordingValue?.call(fieldId) ?? false);
     }
 
     if (field.normalizedType == FormFieldType.location) {
@@ -244,10 +338,46 @@ class FormConditionEvaluator {
     bool Function(String fieldId)? hasPhoneValue,
     bool Function(String fieldId)? hasDateValue,
     bool Function(String fieldId)? hasSliderValue,
+    String Function(String fieldId)? getFormulaValue,
+    bool Function(String fieldId)? hasSignatureValue,
+    bool Function(String fieldId)? hasImageUploadValue,
+    bool Function(String fieldId)? hasVideoUploadValue,
+    bool Function(String fieldId)? hasScannerUploadValue,
+    bool Function(String fieldId)? hasFileUploadValue,
+    bool Function(String fieldId)? hasAudioRecordingValue,
   }) {
     if (field.normalizedType == FormFieldType.openEnded ||
-        field.normalizedType == FormFieldType.email) {
+        field.normalizedType == FormFieldType.email ||
+        field.normalizedType == FormFieldType.number) {
       return getTextValue?.call(fieldId) ?? '';
+    }
+
+    if (field.normalizedType == FormFieldType.formula) {
+      return getFormulaValue?.call(fieldId) ?? '';
+    }
+
+    if (field.normalizedType == FormFieldType.signature) {
+      return (hasSignatureValue?.call(fieldId) ?? false) ? 'signed' : '';
+    }
+
+    if (field.normalizedType == FormFieldType.imageUpload) {
+      return (hasImageUploadValue?.call(fieldId) ?? false) ? 'uploaded' : '';
+    }
+
+    if (field.normalizedType == FormFieldType.videoUpload) {
+      return (hasVideoUploadValue?.call(fieldId) ?? false) ? 'uploaded' : '';
+    }
+
+    if (field.normalizedType == FormFieldType.scanner) {
+      return (hasScannerUploadValue?.call(fieldId) ?? false) ? 'scanned' : '';
+    }
+
+    if (field.normalizedType == FormFieldType.fileUpload) {
+      return (hasFileUploadValue?.call(fieldId) ?? false) ? 'uploaded' : '';
+    }
+
+    if (field.normalizedType == FormFieldType.audioRecording) {
+      return (hasAudioRecordingValue?.call(fieldId) ?? false) ? 'recorded' : '';
     }
 
     if (field.normalizedType == FormFieldType.location) {

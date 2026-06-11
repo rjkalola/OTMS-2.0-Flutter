@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:belcka/pages/manage_forms/form_details/controller/form_details_repository.dart';
 import 'package:belcka/pages/manage_forms/form_details/model/form_detail_info.dart';
@@ -12,14 +13,24 @@ import 'package:belcka/pages/common/phone_extension_list_dialog.dart';
 import 'package:belcka/pages/manage_forms/form_details/model/form_date_value.dart';
 import 'package:belcka/pages/manage_forms/form_details/model/form_location_value.dart';
 import 'package:belcka/pages/manage_forms/form_details/model/form_phone_value.dart';
+import 'package:belcka/pages/manage_forms/form_details/model/form_signature_value.dart';
+import 'package:belcka/pages/manage_forms/form_details/model/form_audio_recording_value.dart';
+import 'package:belcka/pages/manage_forms/form_details/model/form_uploaded_file.dart';
 import 'package:belcka/pages/manage_forms/form_details/utils/form_condition_evaluator.dart';
+import 'package:belcka/pages/manage_forms/form_details/utils/form_formula_evaluator.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/date_utils.dart';
 import 'package:belcka/utils/data_utils.dart';
+import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/utils/location_service_new.dart';
 import 'package:belcka/utils/string_helper.dart';
+import 'package:cunning_document_scanner/cunning_document_scanner.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:belcka/res/colors.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/response_model.dart';
@@ -32,6 +43,7 @@ class FormDetailsController extends GetxController
         SelectTimeListener {
   final _api = FormDetailsRepository();
   final _locationService = LocationServiceNew();
+  final _imagePicker = ImagePicker();
 
   final formInfo = FormDetailInfo().obs;
   final fields = <FormFieldModel>[].obs;
@@ -51,6 +63,12 @@ class FormDetailsController extends GetxController
   final phoneValues = <String, FormPhoneValue>{}.obs;
   final dateValues = <String, FormDateValue>{}.obs;
   final sliderValues = <String, double?>{}.obs;
+  final signatureValues = <String, FormSignatureValue>{}.obs;
+  final imageUploadValues = <String, RxList<String>>{}.obs;
+  final videoUploadValues = <String, RxList<String>>{}.obs;
+  final scannerUploadValues = <String, RxList<String>>{}.obs;
+  final fileUploadValues = <String, RxList<FormUploadedFile>>{}.obs;
+  final audioRecordingValues = <String, FormAudioRecordingValue?>{}.obs;
   final showValidationErrors = false.obs;
 
   String? _activePhoneFieldId;
@@ -121,6 +139,12 @@ class FormDetailsController extends GetxController
     phoneValues.clear();
     dateValues.clear();
     sliderValues.clear();
+    signatureValues.clear();
+    imageUploadValues.clear();
+    videoUploadValues.clear();
+    scannerUploadValues.clear();
+    fileUploadValues.clear();
+    audioRecordingValues.clear();
     _registerFieldState(fields);
   }
 
@@ -144,7 +168,8 @@ class FormDetailsController extends GetxController
       }
 
       if (field.normalizedType == FormFieldType.openEnded ||
-          field.normalizedType == FormFieldType.email) {
+          field.normalizedType == FormFieldType.email ||
+          field.normalizedType == FormFieldType.number) {
         textValues[fieldId!] = '';
         continue;
       }
@@ -181,6 +206,36 @@ class FormDetailsController extends GetxController
 
       if (field.normalizedType == FormFieldType.numbersSlider) {
         sliderValues[fieldId!] = null;
+        continue;
+      }
+
+      if (field.normalizedType == FormFieldType.signature) {
+        signatureValues[fieldId!] = FormSignatureValue();
+        continue;
+      }
+
+      if (field.normalizedType == FormFieldType.imageUpload) {
+        imageUploadValues[fieldId!] = <String>[].obs;
+        continue;
+      }
+
+      if (field.normalizedType == FormFieldType.videoUpload) {
+        videoUploadValues[fieldId!] = <String>[].obs;
+        continue;
+      }
+
+      if (field.normalizedType == FormFieldType.scanner) {
+        scannerUploadValues[fieldId!] = <String>[].obs;
+        continue;
+      }
+
+      if (field.normalizedType == FormFieldType.fileUpload) {
+        fileUploadValues[fieldId!] = <FormUploadedFile>[].obs;
+        continue;
+      }
+
+      if (field.normalizedType == FormFieldType.audioRecording) {
+        audioRecordingValues[fieldId!] = null;
       }
     }
   }
@@ -225,6 +280,85 @@ class FormDetailsController extends GetxController
       return 'this_field_is_required'.tr;
     }
     return 'enter_valid_email_address'.tr;
+  }
+
+  void setNumberValue(String fieldId, String value) {
+    textValues[fieldId] = value;
+    textValues.refresh();
+    if (hasNumberValue(fieldId)) {
+      _clearFieldError(fieldId);
+    } else {
+      final field = findFieldById(fieldId);
+      if (field != null && !field.isRequired && value.trim().isEmpty) {
+        _clearFieldError(fieldId);
+      }
+    }
+    _clearErrorsForHiddenFields();
+  }
+
+  bool hasNumberValue(String fieldId) {
+    final value = getTextValue(fieldId).trim();
+    if (value.isEmpty) return false;
+    return num.tryParse(value) != null;
+  }
+
+  String getFormulaDisplayValue(FormFieldModel field) {
+    final result = _evaluateFormulaField(field, {});
+    return FormFormulaEvaluator.formatResult(result);
+  }
+
+  double? getFormulaNumericValue(FormFieldModel field) {
+    return _evaluateFormulaField(field, {});
+  }
+
+  double? _evaluateFormulaField(
+    FormFieldModel field,
+    Set<String> visiting,
+  ) {
+    final fieldId = field.id ?? '';
+    if (StringHelper.isEmptyString(fieldId)) return null;
+    if (visiting.contains(fieldId)) return null;
+
+    final expression = field.formulaExpression?.trim() ?? '';
+    if (StringHelper.isEmptyString(expression)) return null;
+
+    visiting.add(fieldId);
+    final result = FormFormulaEvaluator.evaluate(
+      expression: expression,
+      allFields: fields,
+      getFieldNumericValue: (sourceField, nestedVisiting) {
+        return _getFormulaSourceNumericValue(
+          sourceField,
+          {...visiting, ...nestedVisiting},
+        );
+      },
+    );
+    visiting.remove(fieldId);
+    return result;
+  }
+
+  double? _getFormulaSourceNumericValue(
+    FormFieldModel field,
+    Set<String> visiting,
+  ) {
+    final fieldId = field.id ?? '';
+    if (StringHelper.isEmptyString(fieldId)) return 0;
+
+    if (field.normalizedType == FormFieldType.number) {
+      final value = getTextValue(fieldId).trim();
+      if (value.isEmpty) return 0;
+      return num.tryParse(value)?.toDouble();
+    }
+
+    if (field.normalizedType == FormFieldType.numbersSlider) {
+      return sliderValues[fieldId];
+    }
+
+    if (field.normalizedType == FormFieldType.formula) {
+      return _evaluateFormulaField(field, visiting);
+    }
+
+    return 0;
   }
 
   FormLocationValue? getLocationValue(String fieldId) => locationValues[fieldId];
@@ -331,6 +465,590 @@ class FormDetailsController extends GetxController
   }
 
   bool hasSliderValue(String fieldId) => sliderValues[fieldId] != null;
+
+  FormSignatureValue getSignatureValue(String fieldId) {
+    return signatureValues[fieldId] ?? FormSignatureValue();
+  }
+
+  void setSignatureValue(String fieldId, FormSignatureValue value) {
+    signatureValues[fieldId] = value;
+    signatureValues.refresh();
+    if (value.isNotEmpty) {
+      _clearFieldError(fieldId);
+    }
+    _clearErrorsForHiddenFields();
+  }
+
+  void clearSignature(String fieldId) {
+    signatureValues[fieldId] = FormSignatureValue();
+    signatureValues.refresh();
+    _clearErrorsForHiddenFields();
+  }
+
+  bool hasSignatureValue(String fieldId) {
+    return getSignatureValue(fieldId).isNotEmpty;
+  }
+
+  List<String> getImageUploadPaths(String fieldId) {
+    return imageUploadValues[fieldId]?.toList() ?? [];
+  }
+
+  void addImageUploadPaths(
+    String fieldId,
+    List<String> paths, {
+    required bool allowMultiple,
+  }) {
+    final images = imageUploadValues[fieldId];
+    if (images == null || paths.isEmpty) return;
+
+    if (allowMultiple) {
+      images.addAll(paths);
+    } else {
+      images
+        ..clear()
+        ..add(paths.first);
+    }
+    images.refresh();
+    _clearFieldError(fieldId);
+    _clearErrorsForHiddenFields();
+  }
+
+  void removeImageUploadAt(String fieldId, int index) {
+    final images = imageUploadValues[fieldId];
+    if (images == null || index < 0 || index >= images.length) return;
+    images.removeAt(index);
+    images.refresh();
+    _clearErrorsForHiddenFields();
+  }
+
+  bool hasImageUploadValue(String fieldId) {
+    return getImageUploadPaths(fieldId).isNotEmpty;
+  }
+
+  List<String> getVideoUploadPaths(String fieldId) {
+    return videoUploadValues[fieldId]?.toList() ?? [];
+  }
+
+  void addVideoUploadPaths(
+    String fieldId,
+    List<String> paths, {
+    required bool allowMultiple,
+  }) {
+    final videos = videoUploadValues[fieldId];
+    if (videos == null || paths.isEmpty) return;
+
+    if (allowMultiple) {
+      videos.addAll(paths);
+    } else {
+      videos
+        ..clear()
+        ..add(paths.first);
+    }
+    videos.refresh();
+    _clearFieldError(fieldId);
+    _clearErrorsForHiddenFields();
+  }
+
+  void removeVideoUploadAt(String fieldId, int index) {
+    final videos = videoUploadValues[fieldId];
+    if (videos == null || index < 0 || index >= videos.length) return;
+    videos.removeAt(index);
+    videos.refresh();
+    _clearErrorsForHiddenFields();
+  }
+
+  bool hasVideoUploadValue(String fieldId) {
+    return getVideoUploadPaths(fieldId).isNotEmpty;
+  }
+
+  List<String> getScannerUploadPaths(String fieldId) {
+    return scannerUploadValues[fieldId]?.toList() ?? [];
+  }
+
+  void addScannerUploadPaths(
+    String fieldId,
+    List<String> paths, {
+    required bool allowMultiple,
+  }) {
+    final scans = scannerUploadValues[fieldId];
+    if (scans == null || paths.isEmpty) return;
+
+    if (allowMultiple) {
+      scans.addAll(paths);
+    } else {
+      scans
+        ..clear()
+        ..add(paths.first);
+    }
+    scans.refresh();
+    _clearFieldError(fieldId);
+    _clearErrorsForHiddenFields();
+  }
+
+  void removeScannerUploadAt(String fieldId, int index) {
+    final scans = scannerUploadValues[fieldId];
+    if (scans == null || index < 0 || index >= scans.length) return;
+    scans.removeAt(index);
+    scans.refresh();
+    _clearErrorsForHiddenFields();
+  }
+
+  bool hasScannerUploadValue(String fieldId) {
+    return getScannerUploadPaths(fieldId).isNotEmpty;
+  }
+
+  List<FormUploadedFile> getFileUploads(String fieldId) {
+    return fileUploadValues[fieldId]?.toList() ?? [];
+  }
+
+  void addFileUploads(
+    String fieldId,
+    List<FormUploadedFile> files, {
+    required bool allowMultiple,
+  }) {
+    final uploads = fileUploadValues[fieldId];
+    if (uploads == null || files.isEmpty) return;
+
+    if (allowMultiple) {
+      uploads.addAll(files);
+    } else {
+      uploads
+        ..clear()
+        ..add(files.first);
+    }
+    uploads.refresh();
+    _clearFieldError(fieldId);
+    _clearErrorsForHiddenFields();
+  }
+
+  void removeFileUploadAt(String fieldId, int index) {
+    final uploads = fileUploadValues[fieldId];
+    if (uploads == null || index < 0 || index >= uploads.length) return;
+    uploads.removeAt(index);
+    uploads.refresh();
+    _clearErrorsForHiddenFields();
+  }
+
+  bool hasFileUploadValue(String fieldId) {
+    return getFileUploads(fieldId).isNotEmpty;
+  }
+
+  FormAudioRecordingValue? getAudioRecording(String fieldId) {
+    return audioRecordingValues[fieldId];
+  }
+
+  void setAudioRecording(String fieldId, FormAudioRecordingValue value) {
+    audioRecordingValues[fieldId] = value;
+    audioRecordingValues.refresh();
+    _clearFieldError(fieldId);
+    _clearErrorsForHiddenFields();
+  }
+
+  void clearAudioRecording(String fieldId) {
+    audioRecordingValues[fieldId] = null;
+    audioRecordingValues.refresh();
+    _clearErrorsForHiddenFields();
+  }
+
+  bool hasAudioRecordingValue(String fieldId) {
+    return getAudioRecording(fieldId) != null;
+  }
+
+  Future<void> pickFileUpload({
+    required FormFieldModel field,
+  }) async {
+    final fieldId = field.id ?? '';
+    if (StringHelper.isEmptyString(fieldId)) return;
+
+    try {
+      final result = await FilePicker.platform.pickFiles(
+        allowMultiple: field.allowsMultipleUploadsEnabled,
+        type: FileType.any,
+      );
+      if (result == null) return;
+
+      final files = result.files
+          .where((file) => !StringHelper.isEmptyString(file.path))
+          .map(
+            (file) => FormUploadedFile(
+              path: file.path!,
+              name: file.name,
+            ),
+          )
+          .toList();
+      if (files.isEmpty) return;
+
+      addFileUploads(
+        fieldId,
+        files,
+        allowMultiple: field.allowsMultipleUploadsEnabled,
+      );
+    } catch (_) {
+      // Picker failed (e.g. permission denied).
+    }
+  }
+
+  Future<void> pickImageUpload({
+    required BuildContext context,
+    required FormFieldModel field,
+  }) async {
+    final fieldId = field.id ?? '';
+    if (StringHelper.isEmptyString(fieldId)) return;
+
+    final source = field.normalizedImageSource;
+    if (source == 'both') {
+      await _showImageSourceSheet(context: context, field: field);
+      return;
+    }
+
+    final imageSource =
+        source == 'camera' ? ImageSource.camera : ImageSource.gallery;
+    await _pickImages(
+      fieldId: fieldId,
+      field: field,
+      source: imageSource,
+    );
+  }
+
+  Future<void> _showImageSourceSheet({
+    required BuildContext context,
+    required FormFieldModel field,
+  }) async {
+    final selectedSource = await showModalBottomSheet<ImageSource>(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (sheetContext) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: const Icon(Icons.photo_camera_outlined),
+                title: Text('camera'.tr),
+                onTap: () =>
+                    Navigator.pop(sheetContext, ImageSource.camera),
+              ),
+              ListTile(
+                leading: const Icon(Icons.photo_library_outlined),
+                title: Text('gallery'.tr),
+                onTap: () =>
+                    Navigator.pop(sheetContext, ImageSource.gallery),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+
+    if (selectedSource == null) return;
+
+    final fieldId = field.id ?? '';
+    await _pickImages(
+      fieldId: fieldId,
+      field: field,
+      source: selectedSource,
+    );
+  }
+
+  Future<void> _pickImages({
+    required String fieldId,
+    required FormFieldModel field,
+    required ImageSource source,
+  }) async {
+    try {
+      final allowMultiple = field.allowsMultipleImageUploads;
+      final paths = <String>[];
+
+      if (source == ImageSource.camera) {
+        final pickedFile = await _imagePicker.pickImage(source: source);
+        if (pickedFile == null) return;
+        final path = await _compressImagePath(pickedFile.path);
+        if (!StringHelper.isEmptyString(path)) {
+          paths.add(path!);
+        }
+      } else if (allowMultiple) {
+        final pickedFiles = await _imagePicker.pickMultiImage();
+        if (pickedFiles.isEmpty) return;
+        for (final pickedFile in pickedFiles) {
+          final path = await _compressImagePath(pickedFile.path);
+          if (!StringHelper.isEmptyString(path)) {
+            paths.add(path!);
+          }
+        }
+      } else {
+        final pickedFile = await _imagePicker.pickImage(source: source);
+        if (pickedFile == null) return;
+        final path = await _compressImagePath(pickedFile.path);
+        if (!StringHelper.isEmptyString(path)) {
+          paths.add(path!);
+        }
+      }
+
+      if (paths.isEmpty) return;
+      addImageUploadPaths(
+        fieldId,
+        paths,
+        allowMultiple: allowMultiple,
+      );
+    } catch (_) {
+      // Picker failed (e.g. permission denied).
+    }
+  }
+
+  Future<String?> _compressImagePath(String path) async {
+    final compressed = await ImageUtils.compressImage(File(path));
+    return compressed?.path ?? path;
+  }
+
+  Future<void> pickVideoUpload({
+    required BuildContext context,
+    required FormFieldModel field,
+  }) async {
+    final fieldId = field.id ?? '';
+    if (StringHelper.isEmptyString(fieldId)) return;
+
+    final source = field.normalizedVideoSource;
+    if (source == 'both') {
+      await _showVideoSourceSheet(context: context, field: field);
+      return;
+    }
+
+    final imageSource =
+        source == 'camera' ? ImageSource.camera : ImageSource.gallery;
+    await _pickVideos(
+      fieldId: fieldId,
+      field: field,
+      source: imageSource,
+    );
+  }
+
+  Future<void> _showVideoSourceSheet({
+    required BuildContext context,
+    required FormFieldModel field,
+  }) async {
+    final selectedSource = await showModalBottomSheet<ImageSource>(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (sheetContext) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: const Icon(Icons.videocam_outlined),
+                title: Text('camera'.tr),
+                onTap: () =>
+                    Navigator.pop(sheetContext, ImageSource.camera),
+              ),
+              ListTile(
+                leading: const Icon(Icons.video_library_outlined),
+                title: Text('gallery'.tr),
+                onTap: () =>
+                    Navigator.pop(sheetContext, ImageSource.gallery),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+
+    if (selectedSource == null) return;
+
+    final fieldId = field.id ?? '';
+    await _pickVideos(
+      fieldId: fieldId,
+      field: field,
+      source: selectedSource,
+    );
+  }
+
+  Future<void> _pickVideos({
+    required String fieldId,
+    required FormFieldModel field,
+    required ImageSource source,
+  }) async {
+    try {
+      final pickedFile = await _imagePicker.pickVideo(source: source);
+      if (pickedFile == null) return;
+
+      final path = await _compressVideoPath(pickedFile.path);
+      if (StringHelper.isEmptyString(path)) return;
+
+      addVideoUploadPaths(
+        fieldId,
+        [path!],
+        allowMultiple: field.allowsMultipleVideoUploads,
+      );
+    } catch (_) {
+      // Picker failed (e.g. permission denied).
+    }
+  }
+
+  Future<String?> _compressVideoPath(String path) async {
+    final compressed = await ImageUtils.compressVideo(File(path));
+    return compressed?.path ?? path;
+  }
+
+  Future<void> scanDocument({
+    required BuildContext context,
+    required FormFieldModel field,
+  }) async {
+    final fieldId = field.id ?? '';
+    if (StringHelper.isEmptyString(fieldId)) return;
+
+    final source = field.normalizedScannerSource;
+    if (source == 'both') {
+      await _showScannerSourceSheet(context: context, field: field);
+      return;
+    }
+
+    if (source == 'gallery') {
+      await _scanFromGallery(fieldId: fieldId, field: field);
+    } else {
+      await _scanFromCamera(fieldId: fieldId, field: field);
+    }
+  }
+
+  Future<void> _showScannerSourceSheet({
+    required BuildContext context,
+    required FormFieldModel field,
+  }) async {
+    final selectedSource = await showModalBottomSheet<ImageSource>(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (sheetContext) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: const Icon(Icons.document_scanner_outlined),
+                title: Text('camera'.tr),
+                onTap: () =>
+                    Navigator.pop(sheetContext, ImageSource.camera),
+              ),
+              ListTile(
+                leading: const Icon(Icons.photo_library_outlined),
+                title: Text('gallery'.tr),
+                onTap: () =>
+                    Navigator.pop(sheetContext, ImageSource.gallery),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+
+    if (selectedSource == null) return;
+
+    final fieldId = field.id ?? '';
+    if (selectedSource == ImageSource.camera) {
+      await _scanFromCamera(fieldId: fieldId, field: field);
+    } else {
+      await _scanFromGallery(fieldId: fieldId, field: field);
+    }
+  }
+
+  Future<void> _scanFromCamera({
+    required String fieldId,
+    required FormFieldModel field,
+  }) async {
+    try {
+      final pictures = await CunningDocumentScanner.getPictures(
+        noOfPages: field.allowsMultipleScannerUploads ? 100 : 1,
+        isGalleryImportAllowed: false,
+      );
+      if (pictures == null || pictures.isEmpty) return;
+
+      final paths = <String>[];
+      for (final picture in pictures) {
+        final path = await _compressImagePath(picture);
+        if (!StringHelper.isEmptyString(path)) {
+          paths.add(path!);
+        }
+      }
+      if (paths.isEmpty) return;
+
+      addScannerUploadPaths(
+        fieldId,
+        paths,
+        allowMultiple: field.allowsMultipleScannerUploads,
+      );
+    } on Exception {
+      AppUtils.showSnackBarMessage('camera_permission_required'.tr);
+    } catch (_) {
+      AppUtils.showSnackBarMessage('scan_failed'.tr);
+    }
+  }
+
+  Future<void> _scanFromGallery({
+    required String fieldId,
+    required FormFieldModel field,
+  }) async {
+    try {
+      final allowMultiple = field.allowsMultipleScannerUploads;
+      final paths = <String>[];
+
+      if (allowMultiple) {
+        final pickedFiles = await _imagePicker.pickMultiImage();
+        if (pickedFiles.isEmpty) return;
+
+        for (final pickedFile in pickedFiles) {
+          final path = await _cropScannedImage(pickedFile.path);
+          if (!StringHelper.isEmptyString(path)) {
+            paths.add(path!);
+          }
+        }
+      } else {
+        final pickedFile = await _imagePicker.pickImage(
+          source: ImageSource.gallery,
+        );
+        if (pickedFile == null) return;
+
+        final path = await _cropScannedImage(pickedFile.path);
+        if (!StringHelper.isEmptyString(path)) {
+          paths.add(path!);
+        }
+      }
+
+      if (paths.isEmpty) return;
+      addScannerUploadPaths(
+        fieldId,
+        paths,
+        allowMultiple: allowMultiple,
+      );
+    } catch (_) {
+      AppUtils.showSnackBarMessage('scan_failed'.tr);
+    }
+  }
+
+  Future<String?> _cropScannedImage(String path) async {
+    final croppedFile = await ImageCropper().cropImage(
+      sourcePath: path,
+      uiSettings: [
+        AndroidUiSettings(
+          toolbarTitle: 'scan'.tr,
+          toolbarColor: backgroundColor_(Get.context!),
+          toolbarWidgetColor: primaryTextColor_(Get.context!),
+          lockAspectRatio: false,
+        ),
+        IOSUiSettings(
+          title: 'scan'.tr,
+          aspectRatioLockEnabled: false,
+        ),
+      ],
+    );
+    if (croppedFile == null) return null;
+    final croppedPath = croppedFile.path;
+    if (StringHelper.isEmptyString(croppedPath)) return null;
+    return _compressImagePath(croppedPath);
+  }
 
   void showFormDatePicker(String fieldId) {
     final value = dateValues[fieldId] ?? FormDateValue();
@@ -459,6 +1177,17 @@ class FormDetailsController extends GetxController
       hasPhoneValue: hasPhoneValue,
       hasDateValue: hasDateValue,
       hasSliderValue: hasSliderValue,
+      hasSignatureValue: hasSignatureValue,
+      hasImageUploadValue: hasImageUploadValue,
+      hasVideoUploadValue: hasVideoUploadValue,
+      hasScannerUploadValue: hasScannerUploadValue,
+      hasFileUploadValue: hasFileUploadValue,
+      hasAudioRecordingValue: hasAudioRecordingValue,
+      getFormulaValue: (fieldId) {
+        final sourceField = findFieldById(fieldId);
+        if (sourceField == null) return '';
+        return getFormulaDisplayValue(sourceField);
+      },
     );
   }
 
@@ -490,6 +1219,12 @@ class FormDetailsController extends GetxController
       phoneValues[fieldId];
       dateValues[fieldId];
       sliderValues[fieldId];
+      signatureValues[fieldId];
+      imageUploadValues[fieldId]?.length;
+      videoUploadValues[fieldId]?.length;
+      scannerUploadValues[fieldId]?.length;
+      fileUploadValues[fieldId]?.length;
+      audioRecordingValues[fieldId];
       final selected = multipleSelections[fieldId];
       selected?.length;
       selected?.toList();
@@ -573,6 +1308,14 @@ class FormDetailsController extends GetxController
     return !isValidEmail(value);
   }
 
+  bool _isNumberFieldInvalid(FormFieldModel field) {
+    final fieldId = field.id ?? '';
+    if (StringHelper.isEmptyString(fieldId)) return false;
+    final value = getTextValue(fieldId).trim();
+    if (value.isEmpty) return field.isRequired;
+    return num.tryParse(value) == null;
+  }
+
   bool _isLocationFieldInvalid(FormFieldModel field) {
     return !hasLocationValue(field);
   }
@@ -607,6 +1350,42 @@ class FormDetailsController extends GetxController
     return !hasSliderValue(fieldId);
   }
 
+  bool _isSignatureFieldInvalid(FormFieldModel field) {
+    final fieldId = field.id ?? '';
+    if (StringHelper.isEmptyString(fieldId)) return false;
+    return !hasSignatureValue(fieldId);
+  }
+
+  bool _isImageUploadFieldInvalid(FormFieldModel field) {
+    final fieldId = field.id ?? '';
+    if (StringHelper.isEmptyString(fieldId)) return false;
+    return !hasImageUploadValue(fieldId);
+  }
+
+  bool _isVideoUploadFieldInvalid(FormFieldModel field) {
+    final fieldId = field.id ?? '';
+    if (StringHelper.isEmptyString(fieldId)) return false;
+    return !hasVideoUploadValue(fieldId);
+  }
+
+  bool _isScannerFieldInvalid(FormFieldModel field) {
+    final fieldId = field.id ?? '';
+    if (StringHelper.isEmptyString(fieldId)) return false;
+    return !hasScannerUploadValue(fieldId);
+  }
+
+  bool _isFileUploadFieldInvalid(FormFieldModel field) {
+    final fieldId = field.id ?? '';
+    if (StringHelper.isEmptyString(fieldId)) return false;
+    return !hasFileUploadValue(fieldId);
+  }
+
+  bool _isAudioRecordingFieldInvalid(FormFieldModel field) {
+    final fieldId = field.id ?? '';
+    if (StringHelper.isEmptyString(fieldId)) return false;
+    return !hasAudioRecordingValue(fieldId);
+  }
+
   bool validateForm() {
     invalidFieldIds.clear();
     final isValid = _validateFieldList(fields);
@@ -639,6 +1418,13 @@ class FormDetailsController extends GetxController
 
       if (field.normalizedType == FormFieldType.email &&
           _isEmailFieldInvalid(field)) {
+        invalidFieldIds.add(fieldId);
+        isValid = false;
+        continue;
+      }
+
+      if (field.normalizedType == FormFieldType.number &&
+          _isNumberFieldInvalid(field)) {
         invalidFieldIds.add(fieldId);
         isValid = false;
         continue;
@@ -680,6 +1466,30 @@ class FormDetailsController extends GetxController
         isValid = false;
       } else if (field.normalizedType == FormFieldType.numbersSlider &&
           _isNumbersSliderFieldInvalid(field)) {
+        invalidFieldIds.add(fieldId);
+        isValid = false;
+      } else if (field.normalizedType == FormFieldType.signature &&
+          _isSignatureFieldInvalid(field)) {
+        invalidFieldIds.add(fieldId);
+        isValid = false;
+      } else if (field.normalizedType == FormFieldType.imageUpload &&
+          _isImageUploadFieldInvalid(field)) {
+        invalidFieldIds.add(fieldId);
+        isValid = false;
+      } else if (field.normalizedType == FormFieldType.videoUpload &&
+          _isVideoUploadFieldInvalid(field)) {
+        invalidFieldIds.add(fieldId);
+        isValid = false;
+      } else if (field.normalizedType == FormFieldType.scanner &&
+          _isScannerFieldInvalid(field)) {
+        invalidFieldIds.add(fieldId);
+        isValid = false;
+      } else if (field.normalizedType == FormFieldType.fileUpload &&
+          _isFileUploadFieldInvalid(field)) {
+        invalidFieldIds.add(fieldId);
+        isValid = false;
+      } else if (field.normalizedType == FormFieldType.audioRecording &&
+          _isAudioRecordingFieldInvalid(field)) {
         invalidFieldIds.add(fieldId);
         isValid = false;
       }

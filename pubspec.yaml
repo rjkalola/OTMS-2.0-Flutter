@@ -64,6 +64,8 @@ dependencies:
   table_calendar: ^3.2.0
   shared_preferences: ^2.5.5
   flutter_html_table: ^3.0.0
+  record: ^6.2.1
+  cunning_document_scanner: ^1.2.3
 
 #  cupertino_native: 0.1.0
 

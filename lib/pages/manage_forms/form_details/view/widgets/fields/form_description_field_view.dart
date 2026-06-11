@@ -26,7 +26,7 @@ class FormDescriptionFieldView extends StatelessWidget {
       margin: isNested
           ? const EdgeInsets.symmetric(horizontal: 4)
           : const EdgeInsets.fromLTRB(16, 0, 16, 12),
-      padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
+      padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
       child: FormDescriptionHtmlContent(html: content),
     );
   }
