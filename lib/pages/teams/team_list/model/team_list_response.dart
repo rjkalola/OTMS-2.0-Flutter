@@ -1,13 +1,16 @@
 import 'package:belcka/pages/teams/team_list/model/team_info.dart';
+import 'package:belcka/pages/user_orders/storeman_catalog/model/product_response_model.dart';
 
 class TeamListResponse {
   bool? isSuccess;
   String? message;
   List<TeamInfo>? info;
+  PaginationData? pagination;
 
-  TeamListResponse({this.isSuccess, this.message, this.info});
+  TeamListResponse({this.isSuccess, this.message, this.info,this.pagination});
 
   TeamListResponse.fromJson(Map<String, dynamic> json) {
+
     isSuccess = json['IsSuccess'];
     message = json['message'];
     if (json['info'] != null) {
@@ -16,6 +19,7 @@ class TeamListResponse {
         info!.add(new TeamInfo.fromJson(v));
       });
     }
+    pagination=  json['data'] != null ? PaginationData.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {

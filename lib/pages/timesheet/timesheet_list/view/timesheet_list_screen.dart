@@ -232,7 +232,7 @@ class _TimeSheetListScreenState extends State<TimeSheetListScreen>
       Get.find<AppStorage>().setTimesheetDateFilterIndex(1);
       controller.isViewAmount.value = false;
     }
-    controller.loadTimesheetData(true);
+    controller.loadTimesheetData(true,isRefresh: true);
     print("startDate:" + startDate);
     print("endDate:" + endDate);
   }

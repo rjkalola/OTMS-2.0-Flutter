@@ -27,6 +27,7 @@ class UsersList extends StatelessWidget {
               ),
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
+              controller: controller.scrollController,
               itemBuilder: (context, position) {
                 UserInfo info = controller.usersList[position];
                 return Padding(

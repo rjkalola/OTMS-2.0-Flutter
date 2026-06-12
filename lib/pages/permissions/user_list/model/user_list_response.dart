@@ -1,4 +1,5 @@
 import 'package:belcka/pages/common/model/user_info.dart';
+import 'package:belcka/pages/user_orders/storeman_catalog/model/product_response_model.dart';
 
 class UserListResponse {
   bool? isSuccess;
@@ -6,6 +7,7 @@ class UserListResponse {
   List<UserInfo>? info;
   int? totalUsers;
   int? workingMemberCount;
+  PaginationData? pagination;
 
   UserListResponse({
     this.isSuccess,
@@ -13,6 +15,7 @@ class UserListResponse {
     this.info,
     this.totalUsers,
     this.workingMemberCount,
+    this.pagination,
   });
 
   UserListResponse.fromJson(Map<String, dynamic> json) {
@@ -26,6 +29,12 @@ class UserListResponse {
         info!.add(new UserInfo.fromJson(v));
       });
     }
+
+    print(json);
+    print(json['data']);
+    print(json['data'].runtimeType);
+
+    pagination = json['data'] != null ? PaginationData.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {

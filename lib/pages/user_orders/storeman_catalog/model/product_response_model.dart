@@ -28,18 +28,26 @@ class ProductResponseModel {
 }
 
 class PaginationData {
-  final int totalItems;
-  final int currentPage;
-  final int totalPages;
+  int? totalItems;
+  int? itemCount;
+  int? itemsPerPage;
+  int? totalPages;
+  int? currentPage;
 
-  PaginationData({required this.totalItems, required this.currentPage, required this.totalPages});
+  PaginationData({
+    this.totalItems,
+    this.itemCount,
+    this.itemsPerPage,
+    this.totalPages,
+    this.currentPage,
+  });
 
-  factory PaginationData.fromJson(Map<String, dynamic> json) {
-    return PaginationData(
-      totalItems: json['totalItems'] ?? 0,
-      currentPage: json['currentPage'] ?? 1,
-      totalPages: json['totalPages'] ?? 0,
-    );
+  PaginationData.fromJson(Map<String, dynamic> json) {
+    totalItems = json['totalItems'];
+    itemCount = json['itemCount'];
+    itemsPerPage = json['itemsPerPage'];
+    totalPages = json['totalPages'];
+    currentPage = json['currentPage'];
   }
 }
 

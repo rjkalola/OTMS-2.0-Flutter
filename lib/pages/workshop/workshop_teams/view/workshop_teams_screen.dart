@@ -74,7 +74,7 @@ class _WorkshopTeamsScreenState extends State<WorkshopTeamsScreen> {
                     ? NoInternetWidget(
                         onPressed: () {
                           controller.isInternetNotAvailable.value = false;
-                          controller.getTeamMemberListApi();
+                          controller.getTeamMemberListApi(isRefresh: true);
                         },
                       )
                     : Visibility(
@@ -252,6 +252,7 @@ class _WorkshopTeamsScreenState extends State<WorkshopTeamsScreen> {
       return ListView.separated(
         padding: const EdgeInsets.only(bottom: 16, top: 12),
         physics: const ClampingScrollPhysics(),
+        controller: controller.scrollController,
         itemBuilder: (context, index) => WorkshopTeamsListItem(
           info: users[index],
           onTap: () => controller.moveToUserChecklogs(users[index]),

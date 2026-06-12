@@ -26,12 +26,18 @@ class UserListController extends GetxController implements MenuItemListener {
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
       isSearchEnable = false.obs,
-      isDataUpdated = false.obs;
+      isDataUpdated = false.obs,
+      isLoadingMore = false.obs;
   final searchController = TextEditingController().obs;
   final usersList = <UserInfo>[].obs;
   final totalUsers = 0.obs;
   final workingMemberCount = 0.obs;
   List<UserInfo> tempList = [];
+
+  var currentPage = 1.obs;
+  int limit = 10;
+  var hasMoreData = true.obs;
+  final ScrollController scrollController = ScrollController();
 
   @override
   void onInit() {
@@ -40,17 +46,46 @@ class UserListController extends GetxController implements MenuItemListener {
     // if (arguments != null) {
     //   permissionId = arguments[AppConstants.intentKey.permissionId] ?? 0;
     // }
-    getUserListApi();
+
+    getUserListApi(isRefresh: true);
+
+    scrollController.addListener(() {
+      if (scrollController.position.pixels >=
+          scrollController.position.maxScrollExtent - 200) {
+        if (!isLoading.value && hasMoreData.value) {
+          getUserListApi();
+        }
+      }
+    });
+  }
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
   }
 
-
-  Future<void> getUserListApi({bool showLoading = true}) {
+  Future<void> getUserListApi({bool showLoading = true,bool isRefresh = false, String searchValue = ""}) {
+    if (isRefresh) {
+      currentPage.value = 1;
+      hasMoreData.value = true;
+    }
     if (showLoading) {
       isLoading.value = true;
     }
+    if (currentPage.value == 1) {
+
+    }
+    else{
+      isLoadingMore.value = true;
+    }
+
     final completer = Completer<void>();
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
+    map["page"] = currentPage.value;
+    map["limit"] = limit;
+    map["search"] = searchValue;
+
     _api.getUserList(
       data: map,
       onSuccess: (ResponseModel responseModel) {
@@ -59,14 +94,40 @@ class UserListController extends GetxController implements MenuItemListener {
             UserListResponse response =
                 UserListResponse.fromJson(jsonDecode(responseModel.result!));
             ImageUtils.preloadUserImages(response.info ?? []);
-            tempList.clear();
-            tempList.addAll(response.info ?? []);
-            usersList.value = tempList;
+
+            if (response.pagination != null) {
+              var newItems = response.info ?? [];
+
+              print("Total pages: ${response.pagination!.totalPages}");
+              print("Current page: ${response.pagination!.currentPage}");
+
+              if (isRefresh) {
+                tempList.clear();
+                currentPage.value = 1;
+              }
+              tempList.addAll(newItems);
+              int totalPages = response.pagination!.totalPages ?? 1;
+              int apiCurrentPage = response.pagination!.currentPage ?? 1;
+              if (apiCurrentPage >= totalPages) {
+                hasMoreData.value = false;
+              }
+              else{
+                hasMoreData.value = true;
+                currentPage.value++;
+              }
+            }
+            else{
+              print("Pagination error: 'data' object is null or failed to parse");
+            }
+
+            usersList.value = List.from(tempList);
+
             usersList.refresh();
             totalUsers.value = response.totalUsers ?? 0;
             workingMemberCount.value = response.workingMemberCount ?? 0;
             isMainViewVisible.value = true;
-          } else {
+          }
+          else{
             AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
           }
         } finally {
@@ -132,7 +193,7 @@ class UserListController extends GetxController implements MenuItemListener {
   Future<void> moveToScreen(String rout, dynamic arguments) async {
     var result = await Get.toNamed(rout, arguments: arguments);
     if (result != null && result) {
-      getUserListApi();
+      getUserListApi(isRefresh: true);
     }
   }
 
@@ -153,7 +214,7 @@ class UserListController extends GetxController implements MenuItemListener {
     }
 
     if (result != null && result) {
-      getUserListApi();
+      getUserListApi(isRefresh: true);
     }
   }
 

@@ -91,22 +91,32 @@ class FeedTabController extends GetxController {
               FeedListResponse.fromJson(jsonDecode(responseModel.result!));
           preloadUserImages(response.info ?? []);
 
-          var newItems = response.info ?? [];
-
-          if (isRefresh) {
-            tempList.clear();
-          }
-
           if (response.pagination != null) {
-            if (currentPage.value >= response.pagination!.totalPages) {
+            var newItems = response.info ?? [];
+            print("Total pages: ${response.pagination!.totalPages}");
+
+            print("Current page: ${response.pagination!.currentPage}");
+
+            if (isRefresh) {
+              tempList.clear();
+              currentPage.value = 1;
+            }
+
+            tempList.addAll(newItems);
+
+            int totalPages = response.pagination!.totalPages ?? 1;
+            int apiCurrentPage = response.pagination!.currentPage ?? 1;
+            if (apiCurrentPage >= totalPages) {
               hasMoreData.value = false;
             }
             else{
+              hasMoreData.value = true;
               currentPage.value++;
             }
           }
-
-          tempList.addAll(newItems);
+          else{
+            print("Pagination error: 'data' object is null or failed to parse");
+          }
 
           feedList.value = List.from(tempList);
           feedList.refresh();

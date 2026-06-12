@@ -28,6 +28,7 @@ class TeamsList extends StatelessWidget {
               physics: const ClampingScrollPhysics(),
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
+              controller: controller.scrollController,
               itemBuilder: (context, position) {
                 TeamInfo info = controller.teamsList[position];
                 return Padding(
