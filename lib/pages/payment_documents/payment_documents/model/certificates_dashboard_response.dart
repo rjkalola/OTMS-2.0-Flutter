@@ -26,6 +26,8 @@ class CertificatesDashboardInfo {
   int? expiringSoon;
   int? expired;
   int? insurance;
+  int? drivingLicense;
+  int? certificate;
   int? totalCertificates;
 
   CertificatesDashboardInfo({
@@ -33,6 +35,8 @@ class CertificatesDashboardInfo {
     this.expiringSoon,
     this.expired,
     this.insurance,
+    this.drivingLicense,
+    this.certificate,
     this.totalCertificates,
   });
 
@@ -41,6 +45,8 @@ class CertificatesDashboardInfo {
     expiringSoon = json['expiring_soon'];
     expired = json['expired'];
     insurance = json['insurance'];
+    drivingLicense = json['driving_license'];
+    certificate = json['certificate'];
     totalCertificates = json['total_certificates'];
   }
 }

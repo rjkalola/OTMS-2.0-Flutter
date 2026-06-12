@@ -29,6 +29,9 @@ class AppConstants {
   static int deviceType = Platform.isAndroid ? 1 : 2;
   static const int productListLimit = 20;
   static const int defaultPhoneExtensionId = 1;
+  static const int certificateTypeCertificates = 1;
+  static const int certificateTypeDrivingLicense = 2;
+  static const int certificateTypeInsurance = 3;
   static const String defaultPhoneExtension = "+44";
   static const double defaultLatitude = 51.5072;
   static const double defaultLongitude = 0.1276;
@@ -98,6 +101,7 @@ class IntentKey {
   final String billingInfo = "BILLING_INFO";
   final String documentType = "DOCUMENT_TYPE";
   final String certificateStatus = "CERTIFICATE_STATUS";
+  final String certificateType = "CERTIFICATE_TYPE";
   final String certificateIconColor = "CERTIFICATE_ICON_COLOR";
   final String fromStartShiftScreen = 'FROM_START_SHIFT_SCREEN';
   final String switchProject = 'SWITCH_PROJECT';
@@ -131,6 +135,8 @@ class IntentKey {
   final String selectedTabType = "SELECTED_TAB_TYPE";
   final String startDate = "START_DATE";
   final String endDate = "END_DATE";
+  final String selectedDateFilterIndex = "SELECTED_DATE_FILTER_INDEX";
+  final String requestType = "REQUEST_TYPE";
 }
 
 class DialogIdentifier {
@@ -150,6 +156,7 @@ class DialogIdentifier {
   final String selectShift = 'SELECT_SHIFT';
   final String selectTeam = 'SELECT_TEAM';
   final String selectCourse = 'SELECT_COURSE';
+  final String selectCertificateType = 'SELECT_CERTIFICATE_TYPE';
   final String selectUser = 'SELECT_USER';
   final String sortByDialog = 'SORT_BY_DIALOG';
   final String filterByDialog = 'FILTER_BY_DIALOG';
@@ -349,6 +356,7 @@ class Action {
   final String certificates = "Certificates";
   final String certificateExpiredSoon = "CertificateExpiredSoon";
   final String certificateInsurance = "CertificateInsurance";
+  final String certificateDrivingLicense = "CertificateDrivingLicense";
   final String certificateDocuments = "CertificateDocuments";
 }
 
@@ -480,9 +488,8 @@ class ProductStockStatus {
   const ProductStockStatus();
 
   final int lowStock = 1;
+  final int minusStock = 2;
   final int inStock = 5;
-
-  // final int unlocked = 3;
   final int outOfStock = 4;
 }
 
@@ -598,6 +605,7 @@ class RequestType {
   final int company = 105;
   final int leave = 110;
   final int penalty = 118;
+  final int purchaseOrder = 119;
   final int employeeOrder = 125;
   final int hire = 131;
 // //Work

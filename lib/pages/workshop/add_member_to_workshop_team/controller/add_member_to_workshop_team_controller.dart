@@ -29,12 +29,22 @@ class AddMemberToWorkshopTeamController extends GetxController
   final isLoading = false.obs;
   final isInternetNotAvailable = false.obs;
   final isMainViewVisible = false.obs;
+  final searchQuery = ''.obs;
+  final searchController = TextEditingController().obs;
+  final isSearchEnable = false.obs;
+  final isClearVisible = false.obs;
 
   @override
   void onInit() {
     super.onInit();
     selectedTeamName.value = 'select_team'.tr;
     getInitialData();
+  }
+
+  @override
+  void onClose() {
+    searchController.value.dispose();
+    super.onClose();
   }
 
   void getInitialData() {
@@ -133,6 +143,50 @@ class AddMemberToWorkshopTeamController extends GetxController
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
     );
+  }
+
+  List<UserInfo> buildDisplayUsers() {
+    searchQuery.value;
+    users.length;
+
+    final query = searchQuery.value.toLowerCase().trim();
+    if (query.isEmpty) {
+      return users;
+    }
+
+    return users.where((user) => _matchesSearch(user, query)).toList();
+  }
+
+  bool _matchesSearch(UserInfo user, String query) {
+    return _fieldMatches(user.name, query) ||
+        _fieldMatches(user.tradeName, query) ||
+        _fieldMatches(user.email, query) ||
+        _fieldMatches(user.userCode, query);
+  }
+
+  bool _fieldMatches(String? field, String query) {
+    return !StringHelper.isEmptyString(field) &&
+        field!.toLowerCase().contains(query);
+  }
+
+  void searchItem(String value) {
+    searchQuery.value = value;
+    isClearVisible.value = !StringHelper.isEmptyString(value);
+  }
+
+  void clearSearch() {
+    searchController.value.clear();
+    searchQuery.value = '';
+    isClearVisible.value = false;
+  }
+
+  void onBackPress() {
+    if (isSearchEnable.value) {
+      clearSearch();
+      isSearchEnable.value = false;
+      return;
+    }
+    Get.back();
   }
 
   int selectedUsersCount() {

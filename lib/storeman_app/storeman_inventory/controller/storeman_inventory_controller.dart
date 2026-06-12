@@ -122,4 +122,10 @@ class StoremanInventoryController extends GetxController {
       arguments: {},
     );
   }
+
+  void onHireHistoryClick() {
+    Get.toNamed(AppRoutes.hireHistoryScreen, arguments: {
+      AppConstants.intentKey.requestType: AppConstants.requestType.employeeOrder,
+    });
+  }
 }

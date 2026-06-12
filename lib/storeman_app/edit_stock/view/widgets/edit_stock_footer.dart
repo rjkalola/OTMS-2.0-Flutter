@@ -28,6 +28,20 @@ class EditStockFooter extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  DropDownTextField(
+                    title: 'select_project'.tr,
+                    controller: controller.projectController,
+                    onPressed: controller.showSelectProjectDialog,
+                    borderRadius: 8,
+                  ),
+                  const SizedBox(height: 10),
+                  DropDownTextField(
+                    title: 'select_address'.tr,
+                    controller: controller.addressController,
+                    onPressed: controller.showSelectAddressDialog,
+                    borderRadius: 8,
+                  ),
+                  const SizedBox(height: 10),
                   Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

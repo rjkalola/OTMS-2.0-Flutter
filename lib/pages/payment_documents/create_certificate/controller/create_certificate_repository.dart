@@ -4,6 +4,21 @@ import '../../../../web_services/api_constants.dart';
 import '../../../../web_services/network/api_request.dart';
 
 class CreateCertificateRepository {
+  void getCertificateTypes({
+    Map<String, dynamic>? queryParameters,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+            url: ApiConstants.certificatesTypes,
+            queryParameters: queryParameters,
+            isFormData: false)
+        .getRequest(
+      onSuccess: (data) => onSuccess!(data),
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
+
   void getCourses({
     Map<String, dynamic>? queryParameters,
     Function(ResponseModel responseModel)? onSuccess,

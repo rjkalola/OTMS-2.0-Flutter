@@ -324,8 +324,10 @@ class StoreConflictData {
     this.currentQty,
     this.price,
     this.totalAmount,
+    this.maxLimit,
     this.currency,
     this.message,
+    this.date,
   });
 
   StoreConflictData.fromJson(dynamic json) {
@@ -339,9 +341,11 @@ class StoreConflictData {
     storeName = json['store_name'];
     currentQty = (json['current_qty'] as num?)?.toDouble();
     price = json['price'];
-    totalAmount = json['total_amount'];
+    totalAmount = json['total_amount']?.toString();
+    maxLimit = json['max_limit'];
     currency = json['currency'];
     message = json['message'];
+    date = json['date'];
   }
 
   String? conflictType;
@@ -355,6 +359,8 @@ class StoreConflictData {
   double? currentQty;
   String? price;
   String? totalAmount;
+  num? maxLimit;
   String? currency;
   String? message;
+  String? date;
 }

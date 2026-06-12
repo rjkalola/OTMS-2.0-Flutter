@@ -103,4 +103,10 @@ class PurchasingController extends GetxController {
     var result = await Get.toNamed(appRout, arguments: arguments);
     inventoryOverviewApi(false);
   }
+
+  void onHireHistoryClick() {
+    Get.toNamed(AppRoutes.hireHistoryScreen, arguments: {
+      AppConstants.intentKey.requestType: AppConstants.requestType.purchaseOrder,
+    });
+  }
 }

@@ -106,6 +106,7 @@ import 'package:belcka/pages/notifications/notification_settings/view/notificati
 import 'package:belcka/pages/payment_documents/add_invoice/view/add_invoice_screen.dart';
 import 'package:belcka/pages/payment_documents/certificate_details/view/certificate_details_screen.dart';
 import 'package:belcka/pages/payment_documents/certificates_list/view/certificates_list_screen.dart';
+import 'package:belcka/pages/payment_documents/insurance_list/view/insurance_list_screen.dart';
 import 'package:belcka/pages/payment_documents/expire_soon_certificates/view/expire_soon_certificates_screen.dart';
 import 'package:belcka/pages/payment_documents/create_certificate/view/create_certificate_screen.dart';
 import 'package:belcka/pages/payment_documents/add_payslip/view/add_payslip_screen.dart';
@@ -548,6 +549,9 @@ class AppPages {
     GetPage(
         name: AppRoutes.certificatesListScreen,
         page: () => const CertificatesListScreen()),
+    GetPage(
+        name: AppRoutes.insuranceListScreen,
+        page: () => const InsuranceListScreen()),
     GetPage(
         name: AppRoutes.expireSoonCertificatesScreen,
         page: () => const ExpireSoonCertificatesScreen()),

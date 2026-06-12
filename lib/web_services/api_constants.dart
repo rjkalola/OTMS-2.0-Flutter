@@ -344,9 +344,11 @@ class ApiConstants {
   static String paymentsGet = '$appUrl/payslips/get-bookkeeper-payments';
 
   static String certificatesDashboard = '$appUrl/certificates/dashboard';
+  static String certificatesTypes = '$appUrl/certificates/types';
   static String getCourses = '$appUrl/get-courses';
   static String certificatesCreate = '$appUrl/certificates/create';
   static String certificatesList = '$appUrl/certificates/list';
+  static String certificatesInsuranceList = '$appUrl/certificates/insurance-list';
   static String certificatesExpireSoon = '$appUrl/certificates/expire-soon';
   static String certificatesDetail = '$appUrl/certificates/detail';
   static String certificatesDelete = '$appUrl/certificates/delete';

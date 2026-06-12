@@ -76,10 +76,15 @@ class _CertificateDetailsScreenState extends State<CertificateDetailsScreen> {
                                 info: controller.certificateInfo.value,
                                 iconColorHex: controller.iconColorHex,
                               ),
-                              CertificateDetailsPreview(
-                                fileUrl:
-                                    controller.certificateInfo.value.fileUrl,
-                                onTap: controller.onViewDocument,
+                              Obx(
+                                () => Visibility(
+                                  visible: !controller.isInsuranceCertificate,
+                                  child: CertificateDetailsPreview(
+                                    fileUrl: controller
+                                        .certificateInfo.value.fileUrl,
+                                    onTap: controller.onViewDocument,
+                                  ),
+                                ),
                               ),
                               CertificateDetailsActions(),
                             ],

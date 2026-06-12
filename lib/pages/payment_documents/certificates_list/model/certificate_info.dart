@@ -1,5 +1,8 @@
+import 'package:belcka/utils/app_constants.dart';
+
 class CertificateInfo {
   int? id;
+  int? type;
   String? documentType;
   String? cardNumber;
   String? expiryDate;
@@ -11,8 +14,11 @@ class CertificateInfo {
   String? validUntil;
   int? expiresInDays;
 
+  bool get isInsurance => type == AppConstants.certificateTypeInsurance;
+
   CertificateInfo({
     this.id,
+    this.type,
     this.documentType,
     this.cardNumber,
     this.expiryDate,
@@ -27,6 +33,7 @@ class CertificateInfo {
 
   CertificateInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    type = json['type'];
     documentType = json['document_type'];
     cardNumber = json['card_number'];
     expiryDate = json['expiry_date'];

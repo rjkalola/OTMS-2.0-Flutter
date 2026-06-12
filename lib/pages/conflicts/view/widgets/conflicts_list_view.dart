@@ -2433,12 +2433,79 @@ class _HealthSafetyConflictTile extends StatelessWidget {
   }
 }
 
+bool _isStoreAmountConflict(StoreConflictData data) {
+  final type = (data.conflictType ?? '').toLowerCase();
+  if (type.contains('amount')) return true;
+  return (data.productId ?? 0) == 0 && data.maxLimit != null;
+}
+
+String _storeConflictInitials(String? name) {
+  final trimmed = (name ?? '').trim();
+  if (trimmed.isEmpty) return '?';
+  final parts =
+      trimmed.split(RegExp(r'\s+')).where((part) => part.isNotEmpty).toList();
+  if (parts.length >= 2) {
+    return '${parts[0][0]}${parts[1][0]}'.toUpperCase();
+  }
+  return trimmed.length >= 2
+      ? trimmed.substring(0, 2).toUpperCase()
+      : trimmed[0].toUpperCase();
+}
+
+String _storeConflictBadgeLabel(StoreConflictData data) {
+  if (_isStoreAmountConflict(data)) {
+    return 'store_conflict_amount_limit_exceeded'.tr;
+  }
+  return 'store_conflict_qty_exceeded'.tr;
+}
+
+String _storeConflictCurrencyAmount(StoreConflictData data, String amount) {
+  return '${data.currency ?? ''}$amount';
+}
+
+String _storeConflictLimitDisplay(StoreConflictData data) {
+  final limit = data.maxLimit;
+  if (limit == null) return '${data.currency ?? ''}-';
+  if (limit is int || limit == limit.roundToDouble()) {
+    return _storeConflictCurrencyAmount(data, '${limit.toInt()}');
+  }
+  return _storeConflictCurrencyAmount(data, '$limit');
+}
+
+String _formatStoreConflictType(String? conflictType) {
+  if ((conflictType ?? '').isEmpty) return "-";
+  return conflictType!
+      .split("_")
+      .map((part) => part.isEmpty
+          ? ""
+          : "${part[0].toUpperCase()}${part.substring(1).toLowerCase()}")
+      .join(" ");
+}
+
+Widget _storeConflictListIcon(BuildContext context) {
+  return Container(
+    width: 36,
+    height: 36,
+    decoration: BoxDecoration(
+      color: const Color(0xFFE8F8F0),
+      borderRadius: BorderRadius.circular(10),
+    ),
+    alignment: Alignment.center,
+    child: const Icon(Icons.storefront_outlined,
+        size: 18, color: Color(0xFF12AFC5)),
+  );
+}
+
 class _StoreResolveConflictListener implements DialogButtonClickListener {
-  _StoreResolveConflictListener(this.conflictType, this.productId, this.storeId);
+  _StoreResolveConflictListener(
+    this.conflictType,
+    this.storeId, {
+    this.productId = 0,
+  });
 
   final String conflictType;
-  final int productId;
   final int storeId;
+  final int productId;
 
   @override
   void onNegativeButtonClicked(String dialogIdentifier) {
@@ -2453,8 +2520,8 @@ class _StoreResolveConflictListener implements DialogButtonClickListener {
     _dismissConflictAlertAndBottomSheet();
     Get.find<ConflictsController>().resolveStoreConflict(
       conflictType: conflictType,
-      productId: productId,
       storeId: storeId,
+      productId: productId,
     );
   }
 }
@@ -2466,6 +2533,7 @@ class _StoreConflictTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isAmountConflict = _isStoreAmountConflict(data);
     return Material(
       color: backgroundColor_(context),
       child: InkWell(
@@ -2476,49 +2544,70 @@ class _StoreConflictTile extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CircleAvatar(
-                radius: 18,
-                backgroundImage: (data.productThumbImage ?? "").isNotEmpty
-                    ? NetworkImage(data.productThumbImage!)
-                    : null,
-                child: (data.productThumbImage ?? "").isEmpty
-                    ? const Icon(Icons.store, size: 18)
-                    : null,
-              ),
+              if (isAmountConflict)
+                _storeConflictListIcon(context)
+              else
+                CircleAvatar(
+                  radius: 18,
+                  backgroundImage: (data.productThumbImage ?? "").isNotEmpty
+                      ? NetworkImage(data.productThumbImage!)
+                      : null,
+                  child: (data.productThumbImage ?? "").isEmpty
+                      ? const Icon(Icons.inventory_2_outlined, size: 18)
+                      : null,
+                ),
               const SizedBox(width: 10),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        Flexible(
-                          child: Text(
-                            data.productShortName ?? "-",
-                            style: TextStyle(
-                                color: primaryTextColor_(context),
-                                fontWeight: FontWeight.w600),
+                    if (isAmountConflict)
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFE6F8FA),
+                          borderRadius: BorderRadius.circular(45),
+                        ),
+                        child: Text(
+                          data.storeName ?? "",
+                          style: const TextStyle(
+                            color: Color(0xFF12AFC5),
+                            fontSize: 11,
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
-                        const SizedBox(width: 8),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 2),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFE6F8FA),
-                            borderRadius: BorderRadius.circular(45),
-                          ),
-                          child: Text(
-                            data.storeName ?? "",
-                            style: const TextStyle(
-                              color: Color(0xFF12AFC5),
-                              fontSize: 11,
-                              fontWeight: FontWeight.w400,
+                      )
+                    else
+                      Row(
+                        children: [
+                          Flexible(
+                            child: Text(
+                              data.productShortName ?? "-",
+                              style: TextStyle(
+                                  color: primaryTextColor_(context),
+                                  fontWeight: FontWeight.w600),
                             ),
                           ),
-                        )
-                      ],
-                    ),
+                          const SizedBox(width: 8),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFE6F8FA),
+                              borderRadius: BorderRadius.circular(45),
+                            ),
+                            child: Text(
+                              data.storeName ?? "",
+                              style: const TextStyle(
+                                color: Color(0xFF12AFC5),
+                                fontSize: 11,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     const SizedBox(height: 6),
                     Text(
                       data.message ?? "",
@@ -2527,6 +2616,8 @@ class _StoreConflictTile extends StatelessWidget {
                   ],
                 ),
               ),
+              Icon(Icons.chevron_right,
+                  size: 20, color: secondaryLightTextColor_(context)),
             ],
           ),
         ),
@@ -2536,6 +2627,7 @@ class _StoreConflictTile extends StatelessWidget {
 
   void _openStoreConflictDetails(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final isAmountConflict = _isStoreAmountConflict(data);
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -2563,16 +2655,31 @@ class _StoreConflictTile extends StatelessWidget {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          CircleAvatar(
-                            radius: 18,
-                            backgroundImage:
-                                (data.productThumbImage ?? "").isNotEmpty
-                                    ? NetworkImage(data.productThumbImage!)
-                                    : null,
-                            child: (data.productThumbImage ?? "").isEmpty
-                                ? const Icon(Icons.inventory_2_outlined, size: 18)
-                                : null,
-                          ),
+                          if (isAmountConflict)
+                            CircleAvatar(
+                              radius: 18,
+                              backgroundColor: const Color(0xFFE8F4FF),
+                              child: Text(
+                                _storeConflictInitials(data.storeName),
+                                style: const TextStyle(
+                                  color: Color(0xFF2563EB),
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            )
+                          else
+                            CircleAvatar(
+                              radius: 18,
+                              backgroundImage:
+                                  (data.productThumbImage ?? "").isNotEmpty
+                                      ? NetworkImage(data.productThumbImage!)
+                                      : null,
+                              child: (data.productThumbImage ?? "").isEmpty
+                                  ? const Icon(Icons.inventory_2_outlined,
+                                      size: 18)
+                                  : null,
+                            ),
                           const SizedBox(width: 10),
                           Expanded(
                             child: Column(
@@ -2580,7 +2687,9 @@ class _StoreConflictTile extends StatelessWidget {
                               children: [
                                 _conflictSheetHeaderLine(
                                   context,
-                                  text: data.productShortName ?? "-",
+                                  text: isAmountConflict
+                                      ? (data.storeName ?? "-")
+                                      : (data.productShortName ?? "-"),
                                   style: TextStyle(
                                     color: primaryTextColor_(context),
                                     fontSize: 16,
@@ -2607,9 +2716,9 @@ class _StoreConflictTile extends StatelessWidget {
                               color: const Color(0xFFE6F8FA),
                               borderRadius: BorderRadius.circular(45),
                             ),
-                            child: const Text(
-                              "Amount Exceeded",
-                              style: TextStyle(
+                            child: Text(
+                              _storeConflictBadgeLabel(data),
+                              style: const TextStyle(
                                 color: Color(0xFF12AFC5),
                                 fontSize: 11,
                                 fontWeight: FontWeight.w400,
@@ -2624,7 +2733,8 @@ class _StoreConflictTile extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 20),
-                      _sheetTitle(context, "STOCK OVERVIEW"),
+                      _sheetTitle(
+                          context, 'store_conflict_stock_overview'.tr),
                       const SizedBox(height: 8),
                       Container(
                         width: double.infinity,
@@ -2633,8 +2743,10 @@ class _StoreConflictTile extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: const Color(0xFFFFF7EE),
                           borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: const Color(0xFFFFD4A8)),
                         ),
                         child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Icon(Icons.warning_amber_rounded,
                                 color: Color(0xFFFFA94D), size: 18),
@@ -2642,9 +2754,6 @@ class _StoreConflictTile extends StatelessWidget {
                             Expanded(
                               child: Text(
                                 data.message ?? "",
-                                maxLines: 6,
-                                overflow: TextOverflow.ellipsis,
-                                softWrap: true,
                                 style: const TextStyle(
                                   color: Color(0xFFAA6E1A),
                                   fontSize: 13,
@@ -2656,37 +2765,72 @@ class _StoreConflictTile extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: _metricCard(
-                              context,
-                              title: "QTY",
-                              value: "${data.currentQty ?? 0}",
+                      if (isAmountConflict)
+                        Row(
+                          children: [
+                            Expanded(
+                              child: _metricCard(
+                                context,
+                                title: 'store_conflict_total'.tr,
+                                value: _storeConflictCurrencyAmount(
+                                  data,
+                                  data.totalAmount ?? "0",
+                                ),
+                                valueColor: const Color(0xFFE23D3D),
+                              ),
                             ),
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: _metricCard(
-                              context,
-                              title: "UNIT PRICE",
-                              value: "${data.currency ?? ""}${data.price ?? "0"}",
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: _metricCard(
+                                context,
+                                title: 'store_conflict_max_limit'.tr,
+                                value: _storeConflictLimitDisplay(data),
+                              ),
                             ),
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: _metricCard(
-                              context,
-                              title: "TOTAL",
-                              value:
-                                  "${data.currency ?? ""}${data.totalAmount ?? "0"}",
-                              valueColor: const Color(0xFFE23D3D),
+                          ],
+                        )
+                      else
+                        Row(
+                          children: [
+                            Expanded(
+                              child: _metricCard(
+                                context,
+                                title: 'store_conflict_qty'.tr,
+                                value: "${data.currentQty ?? 0}",
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: _metricCard(
+                                context,
+                                title: 'store_conflict_unit_price'.tr,
+                                value: _storeConflictCurrencyAmount(
+                                  data,
+                                  data.price ?? "0",
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: _metricCard(
+                                context,
+                                title: 'store_conflict_total'.tr,
+                                value: _storeConflictCurrencyAmount(
+                                  data,
+                                  data.totalAmount ?? "0",
+                                ),
+                                valueColor: const Color(0xFFE23D3D),
+                              ),
+                            ),
+                          ],
+                        ),
                       const SizedBox(height: 16),
-                      _sheetTitle(context, "PRODUCT DETAILS"),
+                      _sheetTitle(
+                        context,
+                        isAmountConflict
+                            ? 'store_conflict_store_details'.tr
+                            : 'store_conflict_product_details'.tr,
+                      ),
                       const SizedBox(height: 8),
                       Container(
                         width: double.infinity,
@@ -2697,14 +2841,21 @@ class _StoreConflictTile extends StatelessWidget {
                         ),
                         child: Column(
                           children: [
-                            _conflictSheetDetailRow(
-                                context, "Product", data.productShortName ?? "-"),
-                            _conflictSheetDetailRow(
-                                context, "Store", data.storeName ?? "-"),
+                            if (!isAmountConflict)
+                              _conflictSheetDetailRow(
+                                context,
+                                'store_conflict_product'.tr,
+                                data.productShortName ?? "-",
+                              ),
                             _conflictSheetDetailRow(
                               context,
-                              "Conflict Type",
-                              _formatConflictType(data.conflictType),
+                              'store_conflict_store'.tr,
+                              data.storeName ?? "-",
+                            ),
+                            _conflictSheetDetailRow(
+                              context,
+                              'store_conflict_conflict_type'.tr,
+                              _formatStoreConflictType(data.conflictType),
                             ),
                           ],
                         ),
@@ -2740,7 +2891,8 @@ class _StoreConflictTile extends StatelessWidget {
                           final sid = data.storeId ?? 0;
                           final pid = data.productId ?? 0;
                           final ctype = (data.conflictType ?? "").trim();
-                          if (sid == 0 || pid == 0 || ctype.isEmpty) return;
+                          if (sid == 0 || ctype.isEmpty) return;
+                          if (!isAmountConflict && pid == 0) return;
                           AlertDialogHelper.showAlertDialog(
                             "",
                             'are_you_sure_you_want_to_resolve'.tr,
@@ -2749,13 +2901,17 @@ class _StoreConflictTile extends StatelessWidget {
                             "",
                             true,
                             false,
-                            _StoreResolveConflictListener(ctype, pid, sid),
+                            _StoreResolveConflictListener(
+                              ctype,
+                              sid,
+                              productId: pid,
+                            ),
                             AppConstants.dialogIdentifier.storeConflictResolve,
                           );
                         },
-                        child: const Text(
-                          "Mark as Resolved",
-                          style: TextStyle(fontWeight: FontWeight.w600),
+                        child: Text(
+                          'conflicts_mark_as_resolved'.tr,
+                          style: const TextStyle(fontWeight: FontWeight.w600),
                         ),
                       ),
                     ),
@@ -2815,16 +2971,6 @@ class _StoreConflictTile extends StatelessWidget {
         letterSpacing: 0.3,
       ),
     );
-  }
-
-  String _formatConflictType(String? conflictType) {
-    if ((conflictType ?? "").isEmpty) return "-";
-    return conflictType!
-        .split("_")
-        .map((e) => e.isEmpty
-            ? ""
-            : "${e[0].toUpperCase()}${e.substring(1).toLowerCase()}")
-        .join(" ");
   }
 }
 

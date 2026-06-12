@@ -33,6 +33,10 @@ class WorkshopUserChecklogsController extends GetxController {
     if (arguments != null) {
       userId = arguments[AppConstants.intentKey.userId] ?? 0;
       userName = arguments[AppConstants.intentKey.userName] ?? '';
+      startDate = arguments[AppConstants.intentKey.startDate] ?? '';
+      endDate = arguments[AppConstants.intentKey.endDate] ?? '';
+      selectedDateFilterIndex.value =
+          arguments[AppConstants.intentKey.index] ?? 1;
     }
     getWorkshopUserChecklogsApi(true);
   }

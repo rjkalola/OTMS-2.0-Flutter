@@ -320,20 +320,25 @@ class ConflictsController extends GetxController {
 
   void resolveStoreConflict({
     required String conflictType,
-    required int productId,
     required int storeId,
+    int productId = 0,
     VoidCallback? onSuccess,
   }) {
     final type = conflictType.trim();
-    if (type.isEmpty || productId == 0 || storeId == 0) {
+    if (type.isEmpty || storeId == 0) {
+      AppUtils.showApiResponseMessage("Invalid data");
+      return;
+    }
+    final isQtyConflict = type.toLowerCase().contains('qty');
+    if (isQtyConflict && productId == 0) {
       AppUtils.showApiResponseMessage("Invalid data");
       return;
     }
     isLoading.value = true;
     _api.resolveStoreConflict(
       conflictType: type,
-      productId: productId,
       storeId: storeId,
+      productId: productId,
       onSuccess: (ResponseModel responseModel) {
         _onTimesheetMutationResponse(responseModel, onSuccess: onSuccess);
       },

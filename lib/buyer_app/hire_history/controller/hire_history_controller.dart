@@ -20,6 +20,7 @@ class HireHistoryController extends GetxController {
   String startDate = "";
   String endDate = "";
   int userId = 0;
+  int requestType = AppConstants.requestType.purchaseOrder;
 
   @override
   void onInit() {
@@ -27,6 +28,8 @@ class HireHistoryController extends GetxController {
     final arguments = Get.arguments;
     if (arguments != null) {
       userId = arguments[AppConstants.intentKey.userId] ?? 0;
+      requestType = arguments[AppConstants.intentKey.requestType] ??
+          AppConstants.requestType.purchaseOrder;
     }
     getHireHistory(true);
   }
@@ -38,7 +41,7 @@ class HireHistoryController extends GetxController {
     if (userId != 0) map["user_id"] = userId;
     map["start_date"] = startDate;
     map["end_date"] = endDate;
-    map["type"] = AppConstants.requestType.employeeOrder;
+    map["type"] = requestType;
 
     _api.getHireHistory(
       queryParameters: map,

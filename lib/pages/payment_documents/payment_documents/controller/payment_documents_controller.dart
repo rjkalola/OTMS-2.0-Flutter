@@ -58,6 +58,7 @@ class PaymentDocumentsController extends GetxController
       certificatesExpiringSoonCount = 0.obs,
       certificatesExpiredSoonCount = 0.obs,
       certificatesInsuranceCount = 0.obs,
+      certificatesDrivingLicenseCount = 0.obs,
       certificatesDocumentsCount = 0.obs,
       selectedDateFilterIndex = (1).obs;
 
@@ -115,6 +116,8 @@ class PaymentDocumentsController extends GetxController
     isLoading.value = isProgress;
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
+    map["start_date"] = startDate;
+    map["end_date"] = endDate;
 
     _api.getCertificatesDashboard(
       queryParameters: map,
@@ -129,7 +132,8 @@ class PaymentDocumentsController extends GetxController
           certificatesExpiringSoonCount.value = info?.expiringSoon ?? 0;
           certificatesExpiredSoonCount.value = info?.expiringSoon ?? 0;
           certificatesInsuranceCount.value = info?.insurance ?? 0;
-          certificatesDocumentsCount.value = info?.totalCertificates ?? 0;
+          certificatesDrivingLicenseCount.value = info?.drivingLicense ?? 0;
+          certificatesDocumentsCount.value = info?.certificate ?? 0;
           certificatesCount.value = info?.totalCertificates ?? 0;
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
@@ -151,15 +155,47 @@ class PaymentDocumentsController extends GetxController
     selectedCertificateCategory.value = category;
 
     if (category == AppConstants.action.certificateExpiredSoon) {
-      moveToScreen(AppRoutes.expireSoonCertificatesScreen, {
-        AppConstants.intentKey.userId: userId,
-      });
+      moveToScreen(
+        AppRoutes.expireSoonCertificatesScreen,
+        _certificateScreenArguments(),
+      );
       return;
     }
 
-    moveToScreen(AppRoutes.certificatesListScreen, {
+    int? type;
+    String title = 'certificates'.tr;
+
+    if (category == AppConstants.action.certificateDocuments) {
+      type = AppConstants.certificateTypeCertificates;
+      title = 'certificates'.tr;
+    } else if (category == AppConstants.action.certificateDrivingLicense) {
+      type = AppConstants.certificateTypeDrivingLicense;
+      title = 'driving_license'.tr;
+    } else if (category == AppConstants.action.certificateInsurance) {
+      type = AppConstants.certificateTypeInsurance;
+      title = 'insurance'.tr;
+    }
+
+    if (type == null) return;
+
+    moveToScreen(
+      AppRoutes.certificatesListScreen,
+      {
+        ..._certificateScreenArguments(),
+        AppConstants.intentKey.title: title,
+        AppConstants.intentKey.certificateType: type,
+      },
+    );
+  }
+
+  Map<String, dynamic> _certificateScreenArguments() {
+    return {
       AppConstants.intentKey.userId: userId,
-    });
+      AppConstants.intentKey.startDate: startDate,
+      AppConstants.intentKey.endDate: endDate,
+      AppConstants.intentKey.selectedDateFilterIndex:
+          selectedDateFilterIndex.value,
+    };
   }
 
   void onTabChange(String action) {

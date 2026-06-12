@@ -126,8 +126,9 @@ class _BuyerOrderDetailScreenState extends State<BuyerOrderDetailScreen> {
   List<Widget>? actionButtons() {
     return [
       Visibility(
-        visible: controller.isCancelQtyAvailable.value ||
-            controller.status.value != AppConstants.orderStatus.inStock,
+        visible: controller.isMainViewVisible.value &&
+            (controller.isCancelQtyAvailable.value ||
+                controller.status.value != AppConstants.orderStatus.inStock),
         child: IconButton(
           icon: const Icon(Icons.more_vert_outlined),
           onPressed: () {

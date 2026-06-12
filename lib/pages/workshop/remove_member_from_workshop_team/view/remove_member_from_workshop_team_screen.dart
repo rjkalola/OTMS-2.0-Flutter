@@ -1,7 +1,9 @@
 import 'package:belcka/pages/workshop/remove_member_from_workshop_team/controller/remove_member_from_workshop_team_controller.dart';
 import 'package:belcka/pages/workshop/remove_member_from_workshop_team/view/widgets/remove_member_from_workshop_team_item.dart';
 import 'package:belcka/res/colors.dart';
+import 'package:belcka/res/drawable.dart';
 import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
@@ -25,21 +27,37 @@ class _RemoveMemberFromWorkshopTeamScreenState
   @override
   Widget build(BuildContext context) {
     AppUtils.setStatusBarColor();
-    return Obx(
-      () => Container(
-        color: dashBoardBgColor_(context),
-        child: SafeArea(
-          top: false,
-          bottom: !GetPlatform.isIOS,
-          child: Scaffold(
-            backgroundColor: dashBoardBgColor_(context),
-            appBar: BaseAppBar(
-              appBar: AppBar(),
-              title: 'Remove from Team',
-              isCenterTitle: false,
-              isBack: true,
-              bgColor: backgroundColor_(context),
-              elevation: 5,
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop || result != null) return;
+        controller.onBackPress();
+      },
+      child: Obx(
+        () => Container(
+          color: dashBoardBgColor_(context),
+          child: SafeArea(
+            top: false,
+            bottom: !GetPlatform.isIOS,
+            child: Scaffold(
+              backgroundColor: dashBoardBgColor_(context),
+              appBar: BaseAppBar(
+                appBar: AppBar(),
+                title: 'Remove from Team',
+                isCenterTitle: false,
+                isBack: true,
+                onBackPressed: controller.onBackPress,
+                bgColor: backgroundColor_(context),
+                widgets: _appBarActions(context),
+                isSearching: controller.isSearchEnable.value,
+                searchController: controller.searchController,
+                onValueChange: controller.searchItem,
+                onPressedClear: () {
+                  controller.clearSearch();
+                  controller.isSearchEnable.value = false;
+                },
+                autoFocus: true,
+                elevation: 5,
               shadowColor: shadowColor_(context).withValues(alpha: 0.28),
               surfaceTintColor: Colors.transparent,
               shape: const RoundedRectangleBorder(
@@ -76,11 +94,36 @@ class _RemoveMemberFromWorkshopTeamScreenState
                         ],
                       ),
                     ),
+              ),
             ),
           ),
         ),
       ),
     );
+  }
+
+  List<Widget>? _appBarActions(BuildContext context) {
+    return [
+      Visibility(
+        visible: !controller.isSearchEnable.value,
+        child: InkWell(
+          onTap: () {
+            controller.isSearchEnable.value = true;
+          },
+          customBorder: const CircleBorder(),
+          child: Padding(
+            padding: const EdgeInsets.all(6),
+            child: ImageUtils.setSvgAssetsImage(
+              path: Drawable.searchIcon,
+              width: 24,
+              height: 24,
+              color: primaryTextColor_(context),
+            ),
+          ),
+        ),
+      ),
+      const SizedBox(width: 8),
+    ];
   }
 
   Widget _teamDropdown(BuildContext context) {

@@ -158,7 +158,8 @@ class FormDetailsController extends GetxController
       final fieldId = field.id;
       if (StringHelper.isEmptyString(fieldId)) continue;
 
-      if (field.normalizedType == FormFieldType.dropdown) {
+      if (field.normalizedType == FormFieldType.dropdown ||
+          field.normalizedType == FormFieldType.imageSelection) {
         if (field.multipleSelection == true) {
           multipleSelections[fieldId!] = <String>{}.obs;
         } else {
@@ -1433,6 +1434,10 @@ class FormDetailsController extends GetxController
       if (!field.isRequired) continue;
 
       if (field.normalizedType == FormFieldType.dropdown &&
+          _isDropdownFieldInvalid(field)) {
+        invalidFieldIds.add(fieldId);
+        isValid = false;
+      } else if (field.normalizedType == FormFieldType.imageSelection &&
           _isDropdownFieldInvalid(field)) {
         invalidFieldIds.add(fieldId);
         isValid = false;

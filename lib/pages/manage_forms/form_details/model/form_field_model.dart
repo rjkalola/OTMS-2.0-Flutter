@@ -134,7 +134,42 @@ class FormFieldModel {
       conditionValue ??= raw['conditionValue']?.toString();
       conditionFieldId ??= raw['conditionFieldId']?.toString();
       conditionOperator ??= raw['conditionOperator']?.toString();
+      optionImages ??= raw['optionImages'];
+      if (options == null && raw['options'] != null) {
+        options = raw['options'].map<String>((v) => v.toString()).toList();
+      }
     }
+  }
+
+  String? getOptionImageAt(int index) {
+    final images = optionImages;
+    if (images == null || index < 0 || index >= images.length) return null;
+    final value = images[index];
+    if (value == null) return null;
+    final text = value.toString().trim();
+    if (text.isEmpty) return null;
+    return text;
+  }
+
+  /// Resolves selectable values when [options] is missing but [optionImages] exists.
+  List<String> get imageSelectionOptions {
+    final labels = options ?? const <String>[];
+    final imageCount = optionImages?.length ?? 0;
+    if (labels.isEmpty && imageCount == 0) return const [];
+
+    final count = labels.length > imageCount ? labels.length : imageCount;
+    return List.generate(count, (index) => _imageSelectionLabelAt(index));
+  }
+
+  String imageSelectionDisplayLabelAt(int index) =>
+      _imageSelectionLabelAt(index);
+
+  String _imageSelectionLabelAt(int index) {
+    final labels = options ?? const <String>[];
+    if (index < labels.length && labels[index].trim().isNotEmpty) {
+      return labels[index];
+    }
+    return 'Option ${index + 1}';
   }
 
   String get normalizedType {

@@ -92,10 +92,11 @@ class CertificateDetailsHeaderCard extends StatelessWidget {
             label: 'expiry_date'.tr,
             value: info.expiryDate,
           ),
-          CertificateDetailRow(
-            label: 'uploaded'.tr,
-            value: info.uploadedDate,
-          ),
+          if (!info.isInsurance)
+            CertificateDetailRow(
+              label: 'uploaded'.tr,
+              value: info.uploadedDate,
+            ),
         ],
       ),
     );

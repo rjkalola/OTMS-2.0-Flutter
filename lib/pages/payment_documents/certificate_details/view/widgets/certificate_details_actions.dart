@@ -17,63 +17,70 @@ class CertificateDetailsActions extends StatelessWidget {
     final accentColor = defaultAccentColor_(context);
     final deleteColor = rejectTextColor_(context);
 
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          PrimaryTextView(
-            text: 'actions'.tr,
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-          ),
-          const SizedBox(height: 10),
-          CardViewDashboardItem(
-            borderRadius: 16,
-            margin: EdgeInsets.zero,
-            padding: EdgeInsets.zero,
-            child: Column(
-              children: [
-                _ActionTile(
-                  title: 'view_document'.tr,
-                  color: accentColor,
-                  icon: ImageUtils.setSvgAssetsImage(
-                    path: Drawable.pdfIcon,
-                    color: accentColor,
-                    width: 22,
-                    height: 22,
-                  ),
-                  onTap: controller.onViewDocument,
-                  showDivider: true,
-                ),
-                _ActionTile(
-                  title: 'replace_document'.tr,
-                  color: accentColor,
-                  icon: Icon(
-                    Icons.autorenew_rounded,
-                    color: accentColor,
-                    size: 22,
-                  ),
-                  onTap: controller.onReplaceDocument,
-                  showDivider: true,
-                ),
-                _ActionTile(
-                  title: 'delete_document'.tr,
-                  color: deleteColor,
-                  icon: ImageUtils.setSvgAssetsImage(
-                    path: Drawable.deleteIcon,
-                    color: deleteColor,
-                    width: 22,
-                    height: 22,
-                  ),
-                  onTap: controller.onDeleteDocument,
-                  showDivider: false,
-                ),
-              ],
+    return Obx(
+      () {
+        final isInsurance = controller.isInsuranceCertificate;
+        final actionTiles = <Widget>[
+          if (!isInsurance) ...[
+            _ActionTile(
+              title: 'view_document'.tr,
+              color: accentColor,
+              icon: ImageUtils.setSvgAssetsImage(
+                path: Drawable.pdfIcon,
+                color: accentColor,
+                width: 22,
+                height: 22,
+              ),
+              onTap: controller.onViewDocument,
+              showDivider: true,
             ),
+            _ActionTile(
+              title: 'replace_document'.tr,
+              color: accentColor,
+              icon: Icon(
+                Icons.autorenew_rounded,
+                color: accentColor,
+                size: 22,
+              ),
+              onTap: controller.onReplaceDocument,
+              showDivider: true,
+            ),
+          ],
+          _ActionTile(
+            title: 'delete_document'.tr,
+            color: deleteColor,
+            icon: ImageUtils.setSvgAssetsImage(
+              path: Drawable.deleteIcon,
+              color: deleteColor,
+              width: 22,
+              height: 22,
+            ),
+            onTap: controller.onDeleteDocument,
+            showDivider: false,
           ),
-        ],
-      ),
+        ];
+
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              PrimaryTextView(
+                text: 'actions'.tr,
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+              const SizedBox(height: 10),
+              CardViewDashboardItem(
+                borderRadius: 16,
+                margin: EdgeInsets.zero,
+                padding: EdgeInsets.zero,
+                child: Column(children: actionTiles),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

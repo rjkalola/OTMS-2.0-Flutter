@@ -10,6 +10,7 @@ import 'package:belcka/pages/manage_forms/form_details/view/widgets/fields/form_
 import 'package:belcka/pages/manage_forms/form_details/view/widgets/fields/form_file_upload_field_view.dart';
 import 'package:belcka/pages/manage_forms/form_details/view/widgets/fields/form_formula_field_view.dart';
 import 'package:belcka/pages/manage_forms/form_details/view/widgets/fields/form_group_field_view.dart';
+import 'package:belcka/pages/manage_forms/form_details/view/widgets/fields/form_image_selection_field_view.dart';
 import 'package:belcka/pages/manage_forms/form_details/view/widgets/fields/form_image_upload_field_view.dart';
 import 'package:belcka/pages/manage_forms/form_details/view/widgets/fields/form_location_field_view.dart';
 import 'package:belcka/pages/manage_forms/form_details/view/widgets/fields/form_number_field_view.dart';
@@ -33,8 +34,8 @@ import 'package:flutter/material.dart';
 /// [FormFieldType.description], [FormFieldType.number], [FormFieldType.formula],
 /// [FormFieldType.signature], [FormFieldType.imageUpload],
 /// [FormFieldType.videoUpload], [FormFieldType.scanner],
-/// [FormFieldType.fileUpload], [FormFieldType.audioRecording]
-/// Pending: image selection.
+/// [FormFieldType.imageSelection], [FormFieldType.fileUpload],
+/// [FormFieldType.audioRecording]
 class FormFieldRenderer extends StatelessWidget {
   const FormFieldRenderer({
     super.key,
@@ -94,6 +95,8 @@ class FormFieldRenderer extends StatelessWidget {
         return FormVideoUploadFieldView(field: field, isNested: isNested);
       case FormFieldType.scanner:
         return FormScannerFieldView(field: field, isNested: isNested);
+      case FormFieldType.imageSelection:
+        return FormImageSelectionFieldView(field: field, isNested: isNested);
       case FormFieldType.fileUpload:
         return FormFileUploadFieldView(field: field, isNested: isNested);
       case FormFieldType.audioRecording:

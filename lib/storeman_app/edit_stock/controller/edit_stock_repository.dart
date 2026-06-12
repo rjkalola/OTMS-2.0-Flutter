@@ -18,4 +18,22 @@ class EditStockRepository {
       },
     );
   }
+
+  void getInventoryResources({
+    Map<String, dynamic>? queryParameters,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+      url: ApiConstants.getInventoryResources,
+      queryParameters: queryParameters,
+    ).getRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) {
+        if (onError != null) onError(error);
+      },
+    );
+  }
 }

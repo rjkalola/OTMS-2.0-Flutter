@@ -38,6 +38,8 @@ class CertificateDetailsController extends GetxController
   int certificateId = 0;
   String iconColorHex = DataUtils.listColors.first;
 
+  bool get isInsuranceCertificate => certificateInfo.value.isInsurance;
+
   final replaceFilePath = "".obs;
   final replaceSelectedFileName = "".obs;
 

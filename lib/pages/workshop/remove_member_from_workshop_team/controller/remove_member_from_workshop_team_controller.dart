@@ -27,12 +27,22 @@ class RemoveMemberFromWorkshopTeamController extends GetxController
   final isLoading = false.obs;
   final isInternetNotAvailable = false.obs;
   final isMainViewVisible = false.obs;
+  final searchQuery = ''.obs;
+  final searchController = TextEditingController().obs;
+  final isSearchEnable = false.obs;
+  final isClearVisible = false.obs;
 
   @override
   void onInit() {
     super.onInit();
     selectedTeamName.value = 'select_team'.tr;
     getInitialData();
+  }
+
+  @override
+  void onClose() {
+    searchController.value.dispose();
+    super.onClose();
   }
 
   void getInitialData() {
@@ -106,17 +116,55 @@ class RemoveMemberFromWorkshopTeamController extends GetxController
 
   List<TeamMemberUserInfo> buildDisplayUsers() {
     selectedTeamId.value;
+    searchQuery.value;
     teams.length;
     if (selectedTeamId.value == 0) {
       return <TeamMemberUserInfo>[];
     }
 
+    final query = searchQuery.value.toLowerCase().trim();
     for (final team in teams) {
       if (team.teamId == selectedTeamId.value) {
-        return team.users ?? <TeamMemberUserInfo>[];
+        final users = team.users ?? <TeamMemberUserInfo>[];
+        if (query.isEmpty) {
+          return users;
+        }
+        return users.where((user) => _matchesSearch(user, query)).toList();
       }
     }
     return <TeamMemberUserInfo>[];
+  }
+
+  bool _matchesSearch(TeamMemberUserInfo user, String query) {
+    return _fieldMatches(user.name, query) ||
+        _fieldMatches(user.projectName, query) ||
+        _fieldMatches(user.teamName, query) ||
+        _fieldMatches(user.tradeName, query);
+  }
+
+  bool _fieldMatches(String? field, String query) {
+    return !StringHelper.isEmptyString(field) &&
+        field!.toLowerCase().contains(query);
+  }
+
+  void searchItem(String value) {
+    searchQuery.value = value;
+    isClearVisible.value = !StringHelper.isEmptyString(value);
+  }
+
+  void clearSearch() {
+    searchController.value.clear();
+    searchQuery.value = '';
+    isClearVisible.value = false;
+  }
+
+  void onBackPress() {
+    if (isSearchEnable.value) {
+      clearSearch();
+      isSearchEnable.value = false;
+      return;
+    }
+    Get.back();
   }
 
   int selectedUsersCount() {

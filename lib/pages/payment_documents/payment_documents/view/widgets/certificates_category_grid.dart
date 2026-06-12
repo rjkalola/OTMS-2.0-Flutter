@@ -42,6 +42,14 @@ class CertificatesCategoryGrid extends StatelessWidget {
             iconPath: Drawable.healthPermissionIcon,
             iconColor: defaultAccentColor_(context),
           ),
+          _CategoryItem(
+            action: AppConstants.action.certificateDrivingLicense,
+            title: 'driving_license'.tr,
+            count: controller.certificatesDrivingLicenseCount.value,
+            countColor: secondaryExtraLightTextColor_(context),
+            iconPath: Drawable.healthPermissionIcon,
+            iconColor: defaultAccentColor_(context),
+          ),
         ];
 
         return Padding(
@@ -54,23 +62,19 @@ class CertificatesCategoryGrid extends StatelessWidget {
               crossAxisCount: 2,
               mainAxisSpacing: 10,
               crossAxisSpacing: 10,
-              mainAxisExtent: 90,
+              mainAxisExtent: 102,
             ),
             itemBuilder: (context, index) {
               final item = items[index];
 
-              final isInsurance =
-                  item.action == AppConstants.action.certificateInsurance;
-
               return InkWell(
-                onTap: isInsurance
-                    ? null
-                    : () => controller
-                        .onCertificateCategorySelected(item.action),
+                onTap: () =>
+                    controller.onCertificateCategorySelected(item.action),
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
                 child: CardViewDashboardItem(
-                  padding: const EdgeInsets.fromLTRB(14, 12, 10, 12),
+                  margin: const EdgeInsets.all(4),
+                  padding: const EdgeInsets.fromLTRB(10, 10, 8, 10),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -83,20 +87,24 @@ class CertificatesCategoryGrid extends StatelessWidget {
                       Expanded(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             PrimaryTextView(
                               text: item.title,
                               fontWeight: FontWeight.w500,
-                              fontSize: 16,
+                              fontSize: 15,
                               maxLine: 2,
                               overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.center,
                             ),
+                            const SizedBox(height: 2),
                             PrimaryTextView(
                               text: item.count.toString(),
                               fontWeight: FontWeight.w600,
                               fontSize: 15,
                               color: item.countColor,
+                              textAlign: TextAlign.center,
                             ),
                           ],
                         ),

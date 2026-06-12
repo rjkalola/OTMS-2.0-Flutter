@@ -101,8 +101,7 @@ class _PaymentDocumentsScreenState extends State<PaymentDocumentsScreen>
                                     if (controller.isDownloadEnable.value ||
                                         controller.isDeleteEnable.value)
                                       SelectAllDocuments()
-                                    else if (controller.selectedFilter.value !=
-                                        AppConstants.action.certificates)
+                                    else
                                       DateFilterOptionsHorizontalList(
                                         padding:
                                             EdgeInsets.fromLTRB(16, 0, 16, 0),
@@ -112,11 +111,9 @@ class _PaymentDocumentsScreenState extends State<PaymentDocumentsScreen>
                                         selectedPosition: controller
                                             .selectedDateFilterIndex,
                                       ),
-                                    if (controller.selectedFilter.value !=
-                                        AppConstants.action.certificates)
-                                      SizedBox(
-                                        height: 10,
-                                      ),
+                                    if (!controller.isDownloadEnable.value &&
+                                        !controller.isDeleteEnable.value)
+                                      const SizedBox(height: 10),
                                     setSelectedWidget(),
                                     const SizedBox(height: 16),
                                     DocumentFooterButtonsView()

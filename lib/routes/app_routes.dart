@@ -162,6 +162,7 @@ class AppRoutes {
   static const String addPayslipScreen = '/add_payslip_screen';
   static const String createCertificateScreen = '/create_certificate_screen';
   static const String certificatesListScreen = '/certificates_list_screen';
+  static const String insuranceListScreen = '/insurance_list_screen';
   static const String expireSoonCertificatesScreen =
       '/expire_soon_certificates_screen';
   static const String certificateDetailsScreen = '/certificate_details_screen';

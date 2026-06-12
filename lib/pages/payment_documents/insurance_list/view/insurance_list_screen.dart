@@ -1,8 +1,7 @@
 import 'package:belcka/pages/common/listener/date_filter_listener.dart';
 import 'package:belcka/pages/common/widgets/date_filter_options_horizontal_list.dart';
-import 'package:belcka/pages/payment_documents/expire_soon_certificates/controller/expire_soon_certificates_controller.dart';
-import 'package:belcka/pages/payment_documents/expire_soon_certificates/view/widgets/expire_soon_info_footer.dart';
-import 'package:belcka/pages/payment_documents/expire_soon_certificates/view/widgets/expire_soon_sections_list.dart';
+import 'package:belcka/pages/payment_documents/insurance_list/controller/insurance_list_controller.dart';
+import 'package:belcka/pages/payment_documents/insurance_list/view/widgets/insurance_list_view.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
@@ -13,17 +12,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
-class ExpireSoonCertificatesScreen extends StatefulWidget {
-  const ExpireSoonCertificatesScreen({super.key});
+class InsuranceListScreen extends StatefulWidget {
+  const InsuranceListScreen({super.key});
 
   @override
-  State<ExpireSoonCertificatesScreen> createState() =>
-      _ExpireSoonCertificatesScreenState();
+  State<InsuranceListScreen> createState() => _InsuranceListScreenState();
 }
 
-class _ExpireSoonCertificatesScreenState extends State<ExpireSoonCertificatesScreen>
+class _InsuranceListScreenState extends State<InsuranceListScreen>
     implements DateFilterListener {
-  final controller = Get.put(ExpireSoonCertificatesController());
+  final controller = Get.put(InsuranceListController());
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +40,7 @@ class _ExpireSoonCertificatesScreenState extends State<ExpireSoonCertificatesScr
               backgroundColor: dashBoardBgColor_(context),
               appBar: BaseAppBar(
                 appBar: AppBar(),
-                title: 'expired_soon'.tr,
+                title: 'insurance'.tr,
                 isCenterTitle: false,
                 isBack: true,
                 onBackPressed: controller.onBackPress,
@@ -56,7 +54,28 @@ class _ExpireSoonCertificatesScreenState extends State<ExpireSoonCertificatesScr
                     bottomRight: Radius.circular(28),
                   ),
                 ),
-                widgets: const [],
+                widgets: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 14),
+                    child: Material(
+                      color: defaultAccentColor_(context),
+                      borderRadius: BorderRadius.circular(8),
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(8),
+                        onTap: controller.moveToCreateCertificate,
+                        child: const SizedBox(
+                          width: 30,
+                          height: 30,
+                          child: Icon(
+                            Icons.add,
+                            color: Colors.white,
+                            size: 22,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               body: ModalProgressHUD(
                 inAsyncCall: controller.isLoading.value,
@@ -66,7 +85,7 @@ class _ExpireSoonCertificatesScreenState extends State<ExpireSoonCertificatesScr
                     ? NoInternetWidget(
                         onPressed: () {
                           controller.isInternetNotAvailable.value = false;
-                          controller.loadExpireSoonCertificates(true);
+                          controller.loadInsuranceList(true);
                         },
                       )
                     : Visibility(
@@ -82,9 +101,7 @@ class _ExpireSoonCertificatesScreenState extends State<ExpireSoonCertificatesScr
                               selectedPosition:
                                   controller.selectedDateFilterIndex,
                             ),
-                            const SizedBox(height: 10),
-                            Expanded(child: ExpireSoonSectionsList()),
-                            const ExpireSoonInfoFooter(),
+                            Expanded(child: InsuranceListView()),
                           ],
                         ),
                       ),
@@ -112,6 +129,6 @@ class _ExpireSoonCertificatesScreenState extends State<ExpireSoonCertificatesScr
       controller.clearFilter();
       return;
     }
-    controller.loadExpireSoonCertificates(true);
+    controller.loadInsuranceList(true);
   }
 }

@@ -168,6 +168,8 @@ class BuyerOrderController extends GetxController
     }
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
+    map["is_all_product"] = true;
+
     for (var entry in appliedFilters.entries) {
       String key = entry.key ?? "";
       String value = entry.value ?? "";

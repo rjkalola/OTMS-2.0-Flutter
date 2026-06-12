@@ -7,7 +7,6 @@ import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/data_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
-import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:get/get.dart';
@@ -26,6 +25,7 @@ class CertificatesListController extends GetxController {
 
   String screenTitle = 'certificates'.tr;
   String? statusFilter;
+  int certificateType = AppConstants.certificateTypeCertificates;
   String startDate = "";
   String endDate = "";
   int userId = 0;
@@ -36,6 +36,17 @@ class CertificatesListController extends GetxController {
     final arguments = Get.arguments;
     if (arguments != null) {
       userId = arguments[AppConstants.intentKey.userId] ?? userId;
+      screenTitle =
+          arguments[AppConstants.intentKey.title] ?? screenTitle;
+      certificateType = arguments[AppConstants.intentKey.certificateType] ??
+          certificateType;
+      startDate = arguments[AppConstants.intentKey.startDate] ?? startDate;
+      endDate = arguments[AppConstants.intentKey.endDate] ?? endDate;
+      final filterIndex =
+          arguments[AppConstants.intentKey.selectedDateFilterIndex];
+      if (filterIndex != null) {
+        selectedDateFilterIndex.value = filterIndex;
+      }
     }
     loadCertificatesList(true);
   }
@@ -44,6 +55,7 @@ class CertificatesListController extends GetxController {
     isLoading.value = isProgress;
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
+    map["type"] = certificateType;
     if (!StringHelper.isEmptyString(statusFilter)) {
       map["status"] = statusFilter;
     }

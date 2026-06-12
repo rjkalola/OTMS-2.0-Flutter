@@ -2,12 +2,12 @@ import 'dart:convert';
 
 import 'package:belcka/pages/common/drop_down_list_dialog.dart';
 import 'package:belcka/pages/common/listener/select_item_listener.dart';
-import 'package:belcka/pages/permissions/user_list/controller/user_list_repository.dart';
-import 'package:belcka/pages/permissions/user_list/model/user_list_response.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
 import 'package:belcka/storeman_app/edit_stock/controller/edit_stock_repository.dart';
+import 'package:belcka/storeman_app/stock_products_list/model/inventory_resources_response.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/web_services/response/response_model.dart';
@@ -23,15 +23,22 @@ class EditStockController extends GetxController implements SelectItemListener {
   int storeId = 0;
 
   final referenceController = TextEditingController();
-  final userController = TextEditingController().obs; 
+  final userController = TextEditingController().obs;
+  final projectController = TextEditingController().obs;
+  final addressController = TextEditingController().obs;
   final qtyController = TextEditingController();
 
   final isLoading = false.obs;
   final isReferenceMode = true.obs;
   final isPackMode = false.obs;
   final selectedUserId = 0.obs;
+  final selectedProjectId = 0.obs;
+  final selectedAddressId = 0.obs;
 
   final userList = <ModuleInfo>[].obs;
+  final projectList = <ModuleInfo>[].obs;
+  final addressList = <ModuleInfo>[].obs;
+  List<ModuleInfo> _allAddresses = [];
 
   @override
   void onInit() {
@@ -41,13 +48,15 @@ class EditStockController extends GetxController implements SelectItemListener {
       product = arguments['product'] as ProductInfo;
       storeId = arguments['store_id'] ?? 0;
     }
-    getUserListApi();
+    fetchInventoryResources();
   }
 
   @override
   void onClose() {
     referenceController.dispose();
     userController.value.dispose();
+    projectController.value.dispose();
+    addressController.value.dispose();
     qtyController.dispose();
     super.onClose();
   }
@@ -124,6 +133,13 @@ class EditStockController extends GetxController implements SelectItemListener {
       'user_id': userId,
     };
 
+    if (selectedProjectId.value > 0) {
+      map['project_id'] = selectedProjectId.value;
+    }
+    if (selectedAddressId.value > 0) {
+      map['address_id'] = selectedAddressId.value;
+    }
+
     isLoading.value = true;
     _api.editStock(
       data: map,
@@ -163,36 +179,79 @@ class EditStockController extends GetxController implements SelectItemListener {
     return 'stock_updated_successfully'.tr;
   }
 
-  void getUserListApi() {
+  void fetchInventoryResources() {
     final map = <String, dynamic>{};
     map['company_id'] = ApiConstants.companyId;
 
-    UserListRepository().getUserList(
-      data: map,
+    _api.getInventoryResources(
+      queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
-          final response =
-              UserListResponse.fromJson(jsonDecode(responseModel.result!));
-          userList.clear();
-          for (final data in response.info ?? []) {
-            userList.add(ModuleInfo(id: data.id ?? 0, name: data.name ?? ''));
-          }
+          final response = InventoryResourcesResponse.fromJson(
+            jsonDecode(responseModel.result!) as Map<String, dynamic>,
+          );
+
+          userList
+            ..clear()
+            ..addAll(
+              (response.users ?? [])
+                  .where((item) => !StringHelper.isEmptyString(item.name)),
+            );
+
+          projectList
+            ..clear()
+            ..addAll(
+              (response.projects ?? [])
+                  .where((item) => !StringHelper.isEmptyString(item.name)),
+            );
+
+          _allAddresses = (response.addresses ?? [])
+              .where((item) => !StringHelper.isEmptyString(item.name))
+              .toList();
         }
       },
       onError: (_) {},
     );
   }
 
-  void showSelectUserDialog() {
-    if (userList.isNotEmpty) {
-      showDropDownDialog(
-        AppConstants.action.selectUserDialog,
-        'select_user'.tr,
-        userList,
-      );
-    } else {
+  void showSelectProjectDialog() {
+    if (projectList.isEmpty) {
       AppUtils.showToastMessage('empty_data_message'.tr);
+      return;
     }
+    showDropDownDialog(
+      AppConstants.action.selectProjectDialog,
+      'select_project'.tr,
+      projectList,
+    );
+  }
+
+  void showSelectAddressDialog() {
+    if (selectedProjectId.value <= 0) {
+      AppUtils.showToastMessage('please_select_project'.tr);
+      return;
+    }
+    if (addressList.isEmpty) {
+      AppUtils.showToastMessage('empty_data_message'.tr);
+      return;
+    }
+    showDropDownDialog(
+      AppConstants.action.selectAddressDialog,
+      'select_address'.tr,
+      addressList,
+    );
+  }
+
+  void showSelectUserDialog() {
+    if (userList.isEmpty) {
+      AppUtils.showToastMessage('empty_data_message'.tr);
+      return;
+    }
+    showDropDownDialog(
+      AppConstants.action.selectUserDialog,
+      'select_user'.tr,
+      userList,
+    );
   }
 
   void showDropDownDialog(
@@ -214,9 +273,29 @@ class EditStockController extends GetxController implements SelectItemListener {
     );
   }
 
+  void _updateAddressListForProject(int projectId) {
+    addressList
+      ..clear()
+      ..addAll(
+        _allAddresses.where((item) => item.projectId == projectId),
+      );
+  }
+
   @override
   void onSelectItem(int position, int id, String name, String action) {
-    if (action == AppConstants.action.selectUserDialog) {
+    if (action == AppConstants.action.selectProjectDialog) {
+      selectedProjectId.value = id;
+      projectController.value.text = name;
+      projectController.refresh();
+      _updateAddressListForProject(id);
+      selectedAddressId.value = 0;
+      addressController.value.text = '';
+      addressController.refresh();
+    } else if (action == AppConstants.action.selectAddressDialog) {
+      selectedAddressId.value = id;
+      addressController.value.text = name;
+      addressController.refresh();
+    } else if (action == AppConstants.action.selectUserDialog) {
       selectedUserId.value = id;
       userController.value.text = name;
       userController.refresh();

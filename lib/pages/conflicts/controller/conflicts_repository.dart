@@ -106,18 +106,21 @@ class ConflictsRepository {
 
   void resolveStoreConflict({
     required String conflictType,
-    required int productId,
     required int storeId,
+    int productId = 0,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
+    final data = <String, dynamic>{
+      "conflict_type": conflictType,
+      "store_id": storeId,
+    };
+    if (productId != 0) {
+      data["product_id"] = productId;
+    }
     ApiRequest(
       url: ApiConstants.resolveStoreConflict,
-      data: <String, dynamic>{
-        "conflict_type": conflictType,
-        "product_id": productId,
-        "store_id": storeId,
-      },
+      data: data,
       isFormData: false,
     ).postRequest(
       onSuccess: (data) => onSuccess?.call(data),

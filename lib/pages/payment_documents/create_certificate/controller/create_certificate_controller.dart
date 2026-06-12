@@ -25,6 +25,7 @@ class CreateCertificateController extends GetxController
   static const int maxDocumentNumberLength = 30;
   static const int maxFileSizeBytes = 10 * 1024 * 1024;
 
+  final certificateTypeController = TextEditingController().obs;
   final documentTypeController = TextEditingController().obs;
   final expiryDateController = TextEditingController().obs;
   final documentNumberController = TextEditingController().obs;
@@ -34,32 +35,37 @@ class CreateCertificateController extends GetxController
 
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
-      isMainViewVisible = false.obs;
+      isMainViewVisible = false.obs,
+      isDocumentTypeVisible = false.obs,
+      isInsuranceType = false.obs;
 
   RxString filePath = "".obs;
   RxString selectedFileName = "".obs;
 
+  final certificateTypesList = <ModuleInfo>[].obs;
   final coursesList = <ModuleInfo>[].obs;
+
+  int certificateTypeId = 0;
   int courseId = 0;
   DateTime? expiryDate;
 
   @override
   void onInit() {
     super.onInit();
-    loadCourses(true);
+    loadCertificateTypes(true);
   }
 
-  void loadCourses(bool isProgress) {
+  void loadCertificateTypes(bool isProgress) {
     isLoading.value = isProgress;
 
-    _api.getCourses(
+    _api.getCertificateTypes(
       queryParameters: {},
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           CertificateCoursesResponse response =
               CertificateCoursesResponse.fromJson(
                   jsonDecode(responseModel.result!));
-          coursesList
+          certificateTypesList
             ..clear()
             ..addAll(response.info ?? []);
           isMainViewVisible.value = true;
@@ -79,15 +85,59 @@ class CreateCertificateController extends GetxController
     );
   }
 
+  void loadCourses(int typeId, {bool showProgress = true}) {
+    if (showProgress) {
+      isLoading.value = true;
+    }
+
+    _api.getCourses(
+      queryParameters: {"type": typeId},
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          CertificateCoursesResponse response =
+              CertificateCoursesResponse.fromJson(
+                  jsonDecode(responseModel.result!));
+          coursesList
+            ..clear()
+            ..addAll(response.info ?? []);
+          isDocumentTypeVisible.value = true;
+        } else {
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+          isDocumentTypeVisible.value = false;
+        }
+        isLoading.value = false;
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        isDocumentTypeVisible.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
+        }
+      },
+    );
+  }
+
+  void _resetDocumentTypeSelection() {
+    documentTypeController.value.clear();
+    courseId = 0;
+    isDocumentTypeVisible.value = false;
+    coursesList.clear();
+    removeFile();
+  }
+
   void createCertificateApi() async {
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
+    map["type"] = certificateTypeId;
     map["course_id"] = courseId;
     map["document_number"] =
         StringHelper.getText(documentNumberController.value);
     map["expiry_date"] = StringHelper.getText(expiryDateController.value);
+    print(map.toString());
 
-    multi.FormData formData = multi.FormData.fromMap(map);
+    multi.FormData formData = multi.FormData.fromMap(map); 
 
     if (!StringHelper.isEmptyString(filePath.value) &&
         !filePath.value.startsWith("http")) {
@@ -126,7 +176,24 @@ class CreateCertificateController extends GetxController
 
   bool valid() => formKey.currentState!.validate();
 
+  void showCertificateTypeDialog() {
+    if (certificateTypesList.isNotEmpty) {
+      showDropDownDialog(
+        AppConstants.dialogIdentifier.selectCertificateType,
+        'certificate_type'.tr,
+        certificateTypesList,
+        this,
+      );
+    } else {
+      AppUtils.showToastMessage('empty_data_message'.tr);
+    }
+  }
+
   void showDocumentTypeDialog() {
+    if (certificateTypeId == 0) {
+      AppUtils.showToastMessage('please_select_certificate_type'.tr);
+      return;
+    }
     if (coursesList.isNotEmpty) {
       showDropDownDialog(
         AppConstants.dialogIdentifier.selectCourse,
@@ -157,7 +224,16 @@ class CreateCertificateController extends GetxController
 
   @override
   void onSelectItem(int position, int id, String name, String action) {
-    if (action == AppConstants.dialogIdentifier.selectCourse) {
+    if (action == AppConstants.dialogIdentifier.selectCertificateType) {
+      if (certificateTypeId != id) {
+        certificateTypeController.value.text = name;
+        certificateTypeId = id;
+        isInsuranceType.value =
+            id == AppConstants.certificateTypeInsurance;
+        _resetDocumentTypeSelection();
+        loadCourses(id);
+      }
+    } else if (action == AppConstants.dialogIdentifier.selectCourse) {
       documentTypeController.value.text = name;
       courseId = id;
     }
@@ -238,11 +314,15 @@ class CreateCertificateController extends GetxController
 
   void onSavePressed() {
     if (!valid()) return;
+    if (certificateTypeId == 0) {
+      AppUtils.showToastMessage('please_select_certificate_type'.tr);
+      return;
+    }
     if (courseId == 0) {
       AppUtils.showToastMessage('please_select_document_type'.tr);
       return;
     }
-    if (StringHelper.isEmptyString(filePath.value)) {
+    if (!isInsuranceType.value && StringHelper.isEmptyString(filePath.value)) {
       AppUtils.showToastMessage('please_select_attachment'.tr);
       return;
     }

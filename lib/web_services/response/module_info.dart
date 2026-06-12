@@ -55,7 +55,7 @@ class ModuleInfo {
     icon = json['icon'];
     textColor = json['textColor'];
     randomColor = json['randomColor'];
-    type = json['type'];
+    type = json['type'].toString();
     imageUrl = json['image_url'];
     thumbUrl = json['thumb_url'];
     productsCount = json['products_count'];

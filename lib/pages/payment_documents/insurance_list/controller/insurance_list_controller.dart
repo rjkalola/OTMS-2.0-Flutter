@@ -1,18 +1,18 @@
 import 'dart:convert';
 
-import 'package:belcka/pages/payment_documents/expire_soon_certificates/controller/expire_soon_certificates_repository.dart';
-import 'package:belcka/pages/payment_documents/expire_soon_certificates/model/expire_soon_certificates_response.dart';
-import 'package:belcka/pages/payment_documents/expire_soon_certificates/model/expire_soon_section_info.dart';
+import 'package:belcka/pages/payment_documents/certificates_list/model/certificate_info.dart';
+import 'package:belcka/pages/payment_documents/certificates_list/model/certificates_list_response.dart';
+import 'package:belcka/pages/payment_documents/insurance_list/controller/insurance_list_repository.dart';
+import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/data_utils.dart';
-import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:get/get.dart';
 
-class ExpireSoonCertificatesController extends GetxController {
-  final _api = ExpireSoonCertificatesRepository();
+class InsuranceListController extends GetxController {
+  final _api = InsuranceListRepository();
 
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
@@ -20,12 +20,12 @@ class ExpireSoonCertificatesController extends GetxController {
       isDataUpdated = false.obs,
       isResetEnable = false.obs;
 
-  final sectionsList = <ExpireSoonSectionInfo>[].obs;
+  final insuranceList = <CertificateInfo>[].obs;
   final RxInt selectedDateFilterIndex = 1.obs;
 
   String startDate = "";
   String endDate = "";
-  int userId = UserUtils.getLoginUserId();
+  int userId = 0;
 
   @override
   void onInit() {
@@ -33,18 +33,11 @@ class ExpireSoonCertificatesController extends GetxController {
     final arguments = Get.arguments;
     if (arguments != null) {
       userId = arguments[AppConstants.intentKey.userId] ?? userId;
-      startDate = arguments[AppConstants.intentKey.startDate] ?? startDate;
-      endDate = arguments[AppConstants.intentKey.endDate] ?? endDate;
-      final filterIndex =
-          arguments[AppConstants.intentKey.selectedDateFilterIndex];
-      if (filterIndex != null) {
-        selectedDateFilterIndex.value = filterIndex;
-      }
     }
-    loadExpireSoonCertificates(true);
+    loadInsuranceList(true);
   }
 
-  void loadExpireSoonCertificates(bool isProgress) {
+  void loadInsuranceList(bool isProgress) {
     isLoading.value = isProgress;
     final map = <String, dynamic>{
       "company_id": ApiConstants.companyId,
@@ -55,14 +48,13 @@ class ExpireSoonCertificatesController extends GetxController {
       map["user_id"] = userId;
     }
 
-    _api.getExpireSoonCertificates(
+    _api.getInsuranceList(
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
-          ExpireSoonCertificatesResponse response =
-              ExpireSoonCertificatesResponse.fromJson(
-                  jsonDecode(responseModel.result!));
-          sectionsList
+          CertificatesListResponse response = CertificatesListResponse.fromJson(
+              jsonDecode(responseModel.result!));
+          insuranceList
             ..clear()
             ..addAll(response.info ?? []);
           isMainViewVisible.value = true;
@@ -82,12 +74,17 @@ class ExpireSoonCertificatesController extends GetxController {
     );
   }
 
-  bool get hasSections =>
-      sectionsList.any((section) => (section.data?.isNotEmpty ?? false));
-
   String getItemColor(int? id, int index) {
     final seed = (id ?? index).abs();
     return DataUtils.listColors[seed % DataUtils.listColors.length];
+  }
+
+  Future<void> moveToCreateCertificate() async {
+    final result = await Get.toNamed(AppRoutes.createCertificateScreen);
+    if (result != null && result == true) {
+      isDataUpdated.value = true;
+      loadInsuranceList(true);
+    }
   }
 
   void clearFilter() {
@@ -95,7 +92,7 @@ class ExpireSoonCertificatesController extends GetxController {
     startDate = "";
     endDate = "";
     selectedDateFilterIndex.value = -1;
-    loadExpireSoonCertificates(true);
+    loadInsuranceList(true);
   }
 
   void onBackPress() {

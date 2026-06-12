@@ -328,6 +328,8 @@ class AppUtils {
     Color color = primaryTextColor_(Get.context!);
     if (status == AppConstants.productStockStatus.lowStock) {
       color = Colors.orangeAccent;
+    } else if (status == AppConstants.productStockStatus.minusStock) {
+      color = Colors.redAccent;
     } else if (status == AppConstants.productStockStatus.inStock) {
       color = Colors.green;
     } else if (status == AppConstants.productStockStatus.outOfStock) {

@@ -237,6 +237,9 @@ class WorkshopTeamsController extends GetxController
       arguments: {
         AppConstants.intentKey.userId: info.id ?? 0,
         AppConstants.intentKey.userName: info.name ?? '',
+        AppConstants.intentKey.startDate: startDate.value,
+        AppConstants.intentKey.endDate: endDate.value,
+        AppConstants.intentKey.index: selectedDateFilterIndex.value,
       },
     );
   }

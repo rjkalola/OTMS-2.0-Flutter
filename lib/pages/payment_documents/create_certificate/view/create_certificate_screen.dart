@@ -67,7 +67,7 @@ class _CreateCertificateScreenState extends State<CreateCertificateScreen> {
                     ? NoInternetWidget(
                         onPressed: () {
                           controller.isInternetNotAvailable.value = false;
-                          controller.loadCourses(true);
+                          controller.loadCertificateTypes(true);
                         },
                       )
                     : Visibility(
@@ -89,16 +89,42 @@ class _CreateCertificateScreenState extends State<CreateCertificateScreen> {
                                       children: [
                                         const SizedBox(height: 16),
                                         DropDownTextField(
-                                          title: 'document_type'.tr,
-                                          controller:
-                                              controller.documentTypeController,
+                                          title: 'certificate_type'.tr,
+                                          controller: controller
+                                              .certificateTypeController,
                                           validators: [
                                             RequiredValidator(
                                               errorText: 'required_field'.tr,
                                             ),
                                           ],
-                                          onPressed:
-                                              controller.showDocumentTypeDialog,
+                                          onPressed: controller
+                                              .showCertificateTypeDialog,
+                                        ),
+                                        Obx(
+                                          () => Visibility(
+                                            visible: controller
+                                                .isDocumentTypeVisible.value,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                const SizedBox(height: 20),
+                                                DropDownTextField(
+                                                  title: 'document_type'.tr,
+                                                  controller: controller
+                                                      .documentTypeController,
+                                                  validators: [
+                                                    RequiredValidator(
+                                                      errorText:
+                                                          'required_field'.tr,
+                                                    ),
+                                                  ],
+                                                  onPressed: controller
+                                                      .showDocumentTypeDialog,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
                                         ),
                                         const SizedBox(height: 20),
                                         DropDownTextField(
@@ -146,20 +172,33 @@ class _CreateCertificateScreenState extends State<CreateCertificateScreen> {
                                             ),
                                           ]),
                                         ),
-                                        const SizedBox(height: 24),
-                                        PrimaryTextView(
-                                          text: 'upload_file'.tr,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                        const SizedBox(height: 10),
-                                        CertificateFileUploadView(
-                                          filePath: controller.filePath,
-                                          selectedFileName:
-                                              controller.selectedFileName,
-                                          onUploadTap: controller
-                                              .showAttachmentOptionsDialog,
-                                          onRemove: controller.removeFile,
+                                        Obx(
+                                          () => Visibility(
+                                            visible:
+                                                !controller.isInsuranceType.value,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                const SizedBox(height: 24),
+                                                PrimaryTextView(
+                                                  text: 'upload_file'.tr,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                                const SizedBox(height: 10),
+                                                CertificateFileUploadView(
+                                                  filePath: controller.filePath,
+                                                  selectedFileName: controller
+                                                      .selectedFileName,
+                                                  onUploadTap: controller
+                                                      .showAttachmentOptionsDialog,
+                                                  onRemove:
+                                                      controller.removeFile,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
                                         ),
                                       ],
                                     ),
