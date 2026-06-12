@@ -712,8 +712,8 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
     else if (info.slug == 'my_requests') {
       moveToScreen(appRout: AppRoutes.myRequestsScreen);
     } else if (info.slug == 'analytics') {
-      moveToScreen(appRout: AppRoutes.userAnalyticsScoreScreen);
-      // moveToScreen(appRout: AppRoutes.formsListScreen);
+      // moveToScreen(appRout: AppRoutes.userAnalyticsScoreScreen);
+      moveToScreen(appRout: AppRoutes.formsListScreen);
     } else if (info.slug == 'map') {
       moveToScreen2(appRout: AppRoutes.userZonesScreen);
     } else if (info.slug == 'health_safety') {
@@ -761,7 +761,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
           appRout: AppRoutes.selectUserListForPermissionScreen,
           arguments: arguments);
     } else if (action == AppConstants.action.notificationSettings) {
-      moveToScreen(appRout: AppRoutes.notificationSettingsScreen);
+      moveToScreen(appRout: AppRoutes.notificationSettingsScreen); 
     } else if (action == AppConstants.action.checkInSettings) {
       Get.back();
       showCheckInSettingsBottomSheet();

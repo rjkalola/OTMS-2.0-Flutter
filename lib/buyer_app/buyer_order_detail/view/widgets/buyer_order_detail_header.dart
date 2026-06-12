@@ -78,7 +78,7 @@ class BuyerOrderDetailHeader extends StatelessWidget {
                       ),
                       PrimaryTextView(
                         text:
-                        "${'delivery_date'.tr}: ${item.expectedDeliveryDate ?? ""}",
+                        "${'expected_delivery_date'.tr}: ${item.expectedDeliveryDate ?? ""}",
                         fontSize: 16,
                       ),
                       if (!StringHelper.isEmptyString(

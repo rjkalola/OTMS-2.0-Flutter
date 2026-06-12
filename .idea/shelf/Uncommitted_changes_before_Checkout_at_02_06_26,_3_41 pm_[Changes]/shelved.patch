@@ -1,0 +1,18 @@
+Index: pubspec.yaml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>name: belcka\ndescription: \"A new Flutter project.\"\npublish_to: 'none'\n\nversion: 1.0.2+13\n\nenvironment:\n  sdk: '>=3.6.0 <4.0.0'\n\ndependencies:\n  flutter:\n    sdk: flutter\n\n  cupertino_icons: ^1.0.8\n  get: ^4.7.3\n  flutter_svg: ^2.2.3\n  get_storage: ^2.1.1\n  bot_toast: ^4.1.3\n  cached_network_image: ^3.3.1\n  dio: ^5.9.1\n  form_field_validator: ^1.1.0\n  modal_progress_hud_nsn: ^0.5.1\n  device_info_plus: ^11.5.0\n  qr_code_scanner_plus: ^2.1.1\n  image_picker: ^1.2.1\n  file_picker: ^10.3.10\n  flutter_image_compress: ^2.4.0\n  video_compress: ^3.1.2\n  video_player: ^2.11.0\n  chewie: ^1.13.0\n  path: ^1.9.0\n  path_provider: ^2.1.3\n  intl: ^0.20.2\n  flutter_cache_manager: ^3.3.2\n  permission_handler: ^11.4.0\n  sms_autofill: ^2.4.0\n  change_app_package_name: ^1.5.0\n  photo_view: ^0.15.0\n  flutter_html: ^3.0.0-beta.2\n  image_cropper: ^11.0.0\n  json_serializable: ^6.13.0\n  geolocator: ^13.0.4\n  geocoding: ^3.0.0\n  google_maps_flutter: ^2.14.2\n  flutter_reorderable_grid_view: ^5.5.3\n  webview_flutter: ^4.13.1\n  webview_flutter_wkwebview: ^3.23.6\n  syncfusion_flutter_datepicker: ^29.2.11\n  keyboard_actions: ^4.2.1\n  firebase_core: ^4.4.0\n  firebase_messaging: ^16.1.1\n  cloud_firestore: ^6.1.2\n  flutter_local_notifications: ^20.1.0\n  url_launcher: ^6.3.2\n  http: ^1.6.0\n  open_filex: ^4.7.0\n  syncfusion_flutter_pdfviewer: ^29.2.11\n  android_intent_plus: ^5.3.1\n  audioplayers: ^6.1.0\n  percent_indicator: ^4.2.3\n  fl_chart: ^0.70.2\n  flutter_colorpicker: ^1.1.0\n  adaptive_platform_ui: ^0.1.104\n  table_calendar: ^3.2.0\n\n#  cupertino_native: 0.1.0\n\ndev_dependencies:\n  flutter_test:\n    sdk: flutter\n  flutter_lints: ^5.0.0\n  flutter_launcher_icons: ^0.14.3\n\nflutter_launcher_icons:\n  android: true\n  ios: true\n  image_path_ios: \"assets/icon/icon_ios.png\"\n  image_path_android: \"assets/icon/icon_fg.png\"\n  adaptive_icon_background: \"assets/icon/icon_bg.png\"\n  adaptive_icon_foreground: \"assets/icon/icon_fg.png\"\n  min_sdk_android: 21\n\nflutter:\n  uses-material-design: true\n\n  assets:\n    - assets/images/\n    - assets/icon/\n    - assets/country_flag/\n    - assets/user_permission_icons/\n    - assets/map_style.json
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/pubspec.yaml b/pubspec.yaml
+--- a/pubspec.yaml	(revision 4ec7ec270d9425d8ef74c45d785bc8be746a399d)
++++ b/pubspec.yaml	(date 1780395079472)
+@@ -62,7 +62,6 @@
+   flutter_colorpicker: ^1.1.0
+   adaptive_platform_ui: ^0.1.104
+   table_calendar: ^3.2.0
+-
+ #  cupertino_native: 0.1.0
+ 
+ dev_dependencies:
