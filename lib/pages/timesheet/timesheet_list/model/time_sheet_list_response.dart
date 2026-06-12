@@ -1,4 +1,5 @@
 import 'package:belcka/pages/timesheet/timesheet_list/model/time_sheet_info.dart';
+import 'package:belcka/pages/user_orders/storeman_catalog/model/product_response_model.dart';
 
 class TimeSheetListResponse {
   bool? isSuccess;
@@ -7,6 +8,7 @@ class TimeSheetListResponse {
   int? companyId;
   String? currency;
   List<TimeSheetInfo>? info;
+  PaginationData? pagination;
 
   TimeSheetListResponse(
       {this.isSuccess,
@@ -14,7 +16,8 @@ class TimeSheetListResponse {
       this.userId,
       this.companyId,
       this.currency,
-      this.info});
+      this.info,
+      this.pagination});
 
   TimeSheetListResponse.fromJson(Map<String, dynamic> json) {
     isSuccess = json['IsSuccess'];
@@ -28,6 +31,7 @@ class TimeSheetListResponse {
         info!.add(new TimeSheetInfo.fromJson(v));
       });
     }
+    pagination=  json['data'] != null ? PaginationData.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {

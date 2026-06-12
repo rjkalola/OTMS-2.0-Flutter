@@ -35,7 +35,9 @@ class TimeSheetListController extends GetxController
       isCheckAll = false.obs,
       isViewAmount = false.obs,
       isExpanded = false.obs,
-      showRate = true.obs;
+      showRate = true.obs,
+      isLoadingMore = false.obs;
+
   final RxString title = "".obs;
   final RxInt selectedDateFilterIndex = (1).obs;
   final _api = TimesheetListRepository();
@@ -45,6 +47,11 @@ class TimeSheetListController extends GetxController
   String filterPerDay = "", startDate = "", endDate = "", selectedAction = "";
   List<TimeSheetInfo> tempList = [];
   Map<String, String> appliedFilters = {};
+
+  var currentPage = 1.obs;
+  int limit = 100000000;
+  var hasMoreData = true.obs;
+  final ScrollController scrollController = ScrollController();
 
   @override
   void onInit() {
@@ -67,19 +74,48 @@ class TimeSheetListController extends GetxController
       title.value = 'timesheet'.tr;
     }
 
-    loadTimesheetData(true);
+    loadTimesheetData(true,isRefresh: true);
+
+    scrollController.addListener(() {
+      if (scrollController.position.pixels >=
+          scrollController.position.maxScrollExtent - 200) {
+        if (!isLoading.value && hasMoreData.value) {
+          loadTimesheetData(true);
+        }
+      }
+    });
   }
 
-  Future<void> loadTimesheetData(bool isProgress) async {
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
+
+  Future<void> loadTimesheetData(bool isProgress, {bool isRefresh = false, String searchValue = ""}) async {
     if (isAllUserTimeSheet) {
-      getTimeSheetListAllUsersApi(isProgress);
+      getTimeSheetListAllUsersApi(isProgress,isRefresh: isRefresh);
     } else {
-      getTimeSheetListApi(isProgress);
+      getTimeSheetListApi(isProgress,isRefresh: isRefresh);
     }
   }
 
-  void getTimeSheetListApi(bool isProgress) {
-    isLoading.value = isProgress;
+  void getTimeSheetListApi(bool isProgress, {bool isRefresh = false, String searchValue = ""}) {
+
+    if (isRefresh) {
+      currentPage.value = 1;
+      hasMoreData.value = true;
+    }
+    if (!hasMoreData.value && !isRefresh) return;
+    isLoading.value = true;
+
+    if (currentPage.value == 1) {
+
+    }
+    else{
+      isLoadingMore.value = true;
+    }
+
     Map<String, dynamic> map = {};
     map["start_date"] = startDate;
     map["end_date"] = endDate;
@@ -87,6 +123,9 @@ class TimeSheetListController extends GetxController
     map["filter_per_day"] = filterPerDay;
     map["filters"] = appliedFilters;
     map["is_archive"] = false;
+    map["page"] = currentPage.value;
+    map["limit"] = limit;
+    map["search"] = searchValue;
 
     _api.getTimeSheetList(
       data: map,
@@ -104,9 +143,35 @@ class TimeSheetListController extends GetxController
             }
           }
 
-          tempList.clear();
-          tempList.addAll(response.info ?? []);
-          timeSheetList.value = tempList;
+          if (response.pagination != null) {
+            var newItems = response.info ?? [];
+
+            print("Total pages: ${response.pagination!.totalPages}");
+
+            print("Current page: ${response.pagination!.currentPage}");
+
+            if (isRefresh) {
+              tempList.clear();
+              currentPage.value = 1;
+            }
+            tempList.addAll(newItems);
+
+            int totalPages = response.pagination!.totalPages ?? 1;
+            int apiCurrentPage = response.pagination!.currentPage ?? 1;
+
+            if (apiCurrentPage >= totalPages) {
+              hasMoreData.value = false;
+            }
+            else{
+              hasMoreData.value = true;
+              currentPage.value++;
+            }
+          }
+          else{
+            print("Pagination error: 'data' object is null or failed to parse");
+          }
+
+          timeSheetList.value = List.from(tempList);
           timeSheetList.refresh();
           isCheckAll.value = false;
           isEditEnable.value = false;
@@ -129,8 +194,21 @@ class TimeSheetListController extends GetxController
     );
   }
 
-  void getTimeSheetListAllUsersApi(bool isProgress) {
-    isLoading.value = isProgress;
+  void getTimeSheetListAllUsersApi(bool isProgress,{bool isRefresh = false, String searchValue = ""}) {
+    if (isRefresh) {
+      currentPage.value = 1;
+      hasMoreData.value = true;
+    }
+    if (!hasMoreData.value && !isRefresh) return;
+    isLoading.value = true;
+
+    if (currentPage.value == 1) {
+
+    }
+    else{
+      isLoadingMore.value = true;
+    }
+
     Map<String, dynamic> map = {};
     map["start_date"] = startDate;
     map["end_date"] = endDate;
@@ -139,6 +217,9 @@ class TimeSheetListController extends GetxController
     map["company_id"] = ApiConstants.companyId;
     map["filters"] = jsonEncode(appliedFilters);
     map["is_archive"] = false;
+    map["page"] = currentPage.value;
+    map["limit"] = limit;
+    map["search"] = searchValue;
 
     _api.getTimeSheetListAllUsers(
       queryParameters: map,
@@ -156,9 +237,35 @@ class TimeSheetListController extends GetxController
             }
           }
           print("List Size:" + response.info!.length.toString());
-          tempList.clear();
-          tempList.addAll(response.info ?? []);
-          timeSheetList.value = tempList;
+
+          if (response.pagination != null) {
+            var newItems = response.info ?? [];
+
+            print("Total pages: ${response.pagination!.totalPages}");
+
+            print("Current page: ${response.pagination!.currentPage}");
+
+            if (isRefresh) {
+              tempList.clear();
+              currentPage.value = 1;
+            }
+            tempList.addAll(newItems);
+
+            int totalPages = response.pagination!.totalPages ?? 1;
+            int apiCurrentPage = response.pagination!.currentPage ?? 1;
+
+            if (apiCurrentPage >= totalPages) {
+              hasMoreData.value = false;
+            }
+            else{
+              hasMoreData.value = true;
+              currentPage.value++;
+            }
+          }
+          else{
+            print("Pagination error: 'data' object is null or failed to parse");
+          }
+          timeSheetList.value = List.from(tempList);
           timeSheetList.refresh();
           isCheckAll.value = false;
           isEditEnable.value = false;
@@ -195,7 +302,7 @@ class TimeSheetListController extends GetxController
           BaseResponse response =
               BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.Message ?? "");
-          loadTimesheetData(true);
+          loadTimesheetData(true,isRefresh: true);
           // shiftList.removeAt(selectedShiftIndex);
           // shiftList.refresh();
         } else {
@@ -342,8 +449,10 @@ class TimeSheetListController extends GetxController
     if (dialogType == AppConstants.dialogIdentifier.selectDayFilter) {
       // isResetEnable.value = true;
       filterPerDay = info.name!.toLowerCase();
-      loadTimesheetData(true);
-    } else {
+      currentPage.value = 1;
+      loadTimesheetData(true,isRefresh: true);
+    }
+    else{
       selectedAction = info.action ?? "";
       if (info.action == AppConstants.action.add) {
         var arguments = {
@@ -422,7 +531,8 @@ class TimeSheetListController extends GetxController
     startDate = "";
     endDate = "";
     selectedDateFilterIndex.value = -1;
-    loadTimesheetData(true);
+    currentPage.value = 1;
+    loadTimesheetData(true,isRefresh: true);
   }
 
   void checkSelectAll() {

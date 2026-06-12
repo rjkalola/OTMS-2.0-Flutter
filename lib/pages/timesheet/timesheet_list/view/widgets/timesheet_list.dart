@@ -26,13 +26,14 @@ class TimeSheetList extends StatelessWidget {
         child: RefreshIndicator(
       onRefresh: () async {
         await controller.loadTimesheetData(
-            true); // Add await to ensure proper async handling
+            true,isRefresh: true); // Add await to ensure proper async handling
       },
       child: controller.timeSheetList.isNotEmpty
           ? ListView.separated(
               physics: const ClampingScrollPhysics(),
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
+              controller: controller.scrollController,
               itemBuilder: (context, position) {
                 TimeSheetInfo info = controller.timeSheetList[position];
                 return CardViewDashboardItem(

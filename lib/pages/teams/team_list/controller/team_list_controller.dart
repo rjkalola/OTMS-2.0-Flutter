@@ -30,11 +30,17 @@ class TeamListController extends GetxController implements MenuItemListener {
       isMainViewVisible = false.obs,
       isClearVisible = false.obs,
       isDataUpdated = false.obs,
-      isAllUserTeams = false.obs;
+      isAllUserTeams = false.obs,
+      isLoadingMore = false.obs;
   final title = "".obs; 
   final searchController = TextEditingController().obs;
   final teamsList = <TeamInfo>[].obs;
   List<TeamInfo> tempList = [];
+
+  var currentPage = 1.obs;
+  int limit = 10;
+  var hasMoreData = true.obs;
+  final ScrollController scrollController = ScrollController();
 
   @override
   void onInit() {
@@ -46,26 +52,88 @@ class TeamListController extends GetxController implements MenuItemListener {
     }
     title.value = isAllUserTeams.value ? 'teams'.tr : 'team'.tr;
     // title.value = 'teams'.tr;
-    getTeamListApi();
+
+    getTeamListApi(isRefresh: true);
+
+    scrollController.addListener(() {
+      if (scrollController.position.pixels >=
+          scrollController.position.maxScrollExtent - 200) {
+        if (!isLoading.value && hasMoreData.value) {
+          getTeamListApi();
+        }
+      }
+    });
   }
 
-  void getTeamListApi() {
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
+
+  void getTeamListApi({bool isRefresh = false, String searchValue = ""}) {
+    if (isRefresh) {
+      currentPage.value = 1;
+      hasMoreData.value = true;
+    }
+    if (!hasMoreData.value && !isRefresh) return;
     isLoading.value = true;
+
+    if (currentPage.value == 1) {
+
+    }
+    else{
+      isLoadingMore.value = true;
+    }
+
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
     map["user_id"] = !isAllUserTeams.value ? UserUtils.getLoginUserId() : 0;
+    map["page"] = currentPage.value;
+    map["limit"] = limit;
+    map["search"] = searchValue;
+
     _api.getTeamList(
       data: map,
       onSuccess: (ResponseModel responseModel) {
+
         if (responseModel.isSuccess) {
           isMainViewVisible.value = true;
           TeamListResponse response =
           TeamListResponse.fromJson(jsonDecode(responseModel.result!));
-          tempList.clear();
-          tempList.addAll(response.info ?? []);
-          teamsList.value = tempList;
+
+          if (response.pagination != null) {
+            var newItems = response.info ?? [];
+
+            print("Total pages: ${response.pagination!.totalPages}");
+
+            print("Current page: ${response.pagination!.currentPage}");
+
+            if (isRefresh) {
+              tempList.clear();
+              currentPage.value = 1;
+            }
+            tempList.addAll(newItems);
+
+            int totalPages = response.pagination!.totalPages ?? 1;
+            int apiCurrentPage = response.pagination!.currentPage ?? 1;
+
+            if (apiCurrentPage >= totalPages) {
+              hasMoreData.value = false;
+            }
+            else{
+              hasMoreData.value = true;
+              currentPage.value++;
+            }
+          }
+          else{
+            print("Pagination error: 'data' object is null or failed to parse");
+          }
+
+          teamsList.value = List.from(tempList);
           teamsList.refresh();
-        } else {
+        }
+        else{
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
         isLoading.value = false;

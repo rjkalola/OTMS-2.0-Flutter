@@ -21,6 +21,7 @@ class WorkshopTeamsController extends GetxController
   final _api = WorkshopTeamsRepository();
 
   final teams = <TeamMemberListItemInfo>[].obs;
+  final tempList = <TeamMemberListItemInfo>[].obs;
   final selectedTeamFilterId = (-1).obs;
   final selectedTeamFilterName = ''.obs;
   final selectedDateFilterIndex = 1.obs;
@@ -28,11 +29,16 @@ class WorkshopTeamsController extends GetxController
   final searchController = TextEditingController().obs;
   final startDate = ''.obs;
   final endDate = ''.obs;
-  final isLoading = false.obs;
+  final isLoading = false.obs,isLoadingMore = false.obs;
   final isInternetNotAvailable = false.obs;
   final isMainViewVisible = false.obs;
   final isSearchEnable = false.obs;
   final isClearVisible = false.obs;
+
+  var currentPage = 1.obs;
+  int limit = 5;
+  var hasMoreData = true.obs;
+  final ScrollController scrollController = ScrollController();
 
   @override
   void onInit() {
@@ -42,7 +48,18 @@ class WorkshopTeamsController extends GetxController
     // startDate.value =
     //     DateUtil.dateToString(dates[0], DateUtil.DD_MM_YYYY_SLASH);
     // endDate.value = DateUtil.dateToString(dates[1], DateUtil.DD_MM_YYYY_SLASH);
-    getTeamMemberListApi();
+    getTeamMemberListApi(isRefresh: true);
+
+    /*
+    scrollController.addListener(() {
+      if (scrollController.position.pixels >=
+          scrollController.position.maxScrollExtent - 200) {
+        if (!isLoading.value && hasMoreData.value) {
+          getTeamMemberListApi();
+        }
+      }
+    });
+    */
   }
 
   @override
@@ -51,13 +68,37 @@ class WorkshopTeamsController extends GetxController
     super.onClose();
   }
 
-  void getTeamMemberListApi() {
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
+
+  void getTeamMemberListApi({bool isRefresh = false, String searchValue = ""}) {
+    if (isRefresh) {
+      currentPage.value = 1;
+      hasMoreData.value = true;
+    }
+    if (!hasMoreData.value && !isRefresh) return;
     isLoading.value = true;
+
+    if (currentPage.value == 1) {
+
+    }
+    else{
+      isLoadingMore.value = true;
+    }
     final map = <String, dynamic>{
       'user_id': UserUtils.getLoginUserId(),
       'start_date': startDate.value,
       'end_date': endDate.value,
     };
+
+    /*
+    map["page"] = currentPage.value;
+    map["limit"] = limit;
+    map["search"] = searchValue;
+    */
 
     _api.getTeamMemberList(
       queryParameters: map,
@@ -68,7 +109,44 @@ class WorkshopTeamsController extends GetxController
           final response = TeamMemberListResponse.fromJson(decoded);
           if (response.isSuccess == true) {
             isMainViewVisible.value = true;
-            teams.assignAll(response.info ?? []);
+
+            /*
+            if (response.pagination != null) {
+              var newItems = response.info ?? [];
+
+              print("Total pages: ${response.pagination!.totalPages}");
+
+              print("Current page: ${response.pagination!.currentPage}");
+
+              if (isRefresh) {
+                tempList.clear();
+                currentPage.value = 1;
+              }
+              tempList.addAll(newItems);
+
+              int totalPages = response.pagination!.totalPages ?? 1;
+              int apiCurrentPage = response.pagination!.currentPage ?? 1;
+
+              if (apiCurrentPage >= totalPages) {
+                hasMoreData.value = false;
+              }
+              else{
+                hasMoreData.value = true;
+                currentPage.value++;
+              }
+            }
+            else{
+              print("Pagination error: 'data' object is null or failed to parse");
+            }
+            */
+
+            var newItems = response.info ?? [];
+            if (isRefresh) {
+              tempList.clear();
+            }
+            tempList.addAll(newItems);
+            teams.value = List.from(tempList);
+
             final ids =
                 teams.map((team) => team.teamId).whereType<int>().toSet();
             if (selectedTeamFilterId.value != -1 &&
@@ -219,7 +297,7 @@ class WorkshopTeamsController extends GetxController
   Future<void> moveToAddMemberScreen() async {
     final result = await Get.toNamed(AppRoutes.addMemberToWorkshopTeamScreen);
     if (result == true) {
-      getTeamMemberListApi();
+      getTeamMemberListApi(isRefresh: true);
     }
   }
 
@@ -227,7 +305,7 @@ class WorkshopTeamsController extends GetxController
     final result =
         await Get.toNamed(AppRoutes.removeMemberFromWorkshopTeamScreen);
     if (result == true) {
-      getTeamMemberListApi();
+      getTeamMemberListApi(isRefresh: true);
     }
   }
 
@@ -257,7 +335,7 @@ class WorkshopTeamsController extends GetxController
     selectedDateFilterIndex.value = filterIndex;
     this.startDate.value = startDate;
     this.endDate.value = endDate;
-    getTeamMemberListApi();
+    getTeamMemberListApi(isRefresh: true);
   }
 
   @override

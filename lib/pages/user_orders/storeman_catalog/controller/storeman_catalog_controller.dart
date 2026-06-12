@@ -236,21 +236,35 @@ class StoremanCatalogController extends GetxController {
         if (responseModel.isSuccess) {
           ProductResponseModel response =
               ProductResponseModel.fromJson(jsonDecode(responseModel.result!));
-          var newItems = response.info;
-
-          if (isRefresh) {
-            tempList.clear();
-          }
 
           if (response.pagination != null) {
-            if (currentPage.value >= response.pagination!.totalPages) {
+            var newItems = response.info ?? [];
+
+            print("Total pages: ${response.pagination!.totalPages}");
+
+            print("Current page: ${response.pagination!.currentPage}");
+
+            if (isRefresh) {
+              tempList.clear();
+              currentPage.value = 1;
+            }
+
+            tempList.addAll(newItems);
+
+            int totalPages = response.pagination!.totalPages ?? 1;
+            int apiCurrentPage = response.pagination!.currentPage ?? 1;
+            if (apiCurrentPage >= totalPages) {
               hasMoreData.value = false;
-            } else {
+            }
+            else{
+              hasMoreData.value = true;
               currentPage.value++;
             }
           }
+          else{
+            print("Pagination error: 'data' object is null or failed to parse");
+          }
 
-          tempList.addAll(newItems);
           categories.value = List.from(tempList);
 
           prepareProductImages();

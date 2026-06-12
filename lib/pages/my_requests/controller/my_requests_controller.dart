@@ -100,26 +100,34 @@ class MyRequestsController extends GetxController {
           MyRequestListResponse response =
               MyRequestListResponse.fromJson(jsonDecode(responseModel.result!));
 
-          var newItems = response.requests ?? [];
-
-          if (isRefresh) {
-            tempList.clear();
-          }
-
           if (response.pagination != null) {
+            var newItems = response.requests ?? [];
+
             print("Total pages: ${response.pagination!.totalPages}");
 
             print("Current page: ${response.pagination!.currentPage}");
 
-            if (currentPage.value >= response.pagination!.totalPages) {
+            if (isRefresh) {
+              tempList.clear();
+              currentPage.value = 1;
+            }
+
+            tempList.addAll(newItems);
+
+            int totalPages = response.pagination!.totalPages ?? 1;
+            int apiCurrentPage = response.pagination!.currentPage ?? 1;
+            if (apiCurrentPage >= totalPages) {
               hasMoreData.value = false;
             }
             else{
+              hasMoreData.value = true;
               currentPage.value++;
             }
           }
+          else{
+            print("Pagination error: 'data' object is null or failed to parse");
+          }
 
-          tempList.addAll(newItems);
           myRequestList.value = List.from(tempList);
           myRequestList.refresh();
 
