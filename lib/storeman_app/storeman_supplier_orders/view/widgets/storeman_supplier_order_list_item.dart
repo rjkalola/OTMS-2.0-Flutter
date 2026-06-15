@@ -34,137 +34,151 @@ class StoremanSupplierOrderListItem extends StatelessWidget {
           CardViewDashboardItem(
             borderRadius: 20,
             margin: const EdgeInsets.fromLTRB(12, 7, 12, 7),
-            padding: const EdgeInsets.fromLTRB(14, 14, 14, 10),
-            child: Row(
+            padding: const EdgeInsets.fromLTRB(14, 16, 14, 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      PrimaryTextView(
-                        text: item.date ?? "",
-                        fontSize: 15,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      const SizedBox(height: 1),
-                      PrimaryTextView(
-                        text: [
-                          if (!StringHelper.isEmptyString(item.storeName))
-                            item.storeName,
-                          if (!StringHelper.isEmptyString(item.supplierName))
-                            item.supplierName,
-                        ].join(" | "),
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      const SizedBox(height: 1),
-                      PrimaryTextView(
-                        text:
-                            "${'items_in_order'.tr}:  ${AppUtils.formatDecimalNumber(item.orderQty ?? 0)}",
-                        fontSize: 15,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      if (!StringHelper.isEmptyString(
-                          item.approveByUserName)) ...[
-                        const SizedBox(height: 4),
-                        Row(
-                          children: [
-                            PrimaryTextView(
-                              text: "${'approved_by'.tr}:",
-                              fontSize: 13,
-                            ),
-                            const SizedBox(width: 6),
-                            UserAvtarView(
-                              imageUrl: item.approveByUserImage ?? "",
-                              imageSize: 18,
-                            ),
-                            const SizedBox(width: 4),
-                            Expanded(
-                              child: PrimaryTextView(
-                                text: item.approveByUserName ?? "",
-                                fontSize: 13,
-                                softWrap: true,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                      if (!StringHelper.isEmptyString(item.orderByName)) ...[
-                        const SizedBox(height: 4),
-                        Row(
-                          children: [
-                            PrimaryTextView(
-                              text: "${'ordered_by'.tr}:",
-                              fontSize: 13,
-                            ),
-                            const SizedBox(width: 6),
-                            UserAvtarView(
-                              imageUrl: item.orderByImage ?? "",
-                              imageSize: 18,
-                            ),
-                            const SizedBox(width: 4),
-                            Expanded(
-                              child: PrimaryTextView(
-                                text: item.orderByName ?? "",
-                                fontSize: 13,
-                                softWrap: true,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                      const SizedBox(height: 2),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           PrimaryTextView(
-                            text: "${'order'.tr}: ${item.orderId ?? ""}",
-                            color: secondaryLightTextColor_(context),
+                            text: "${'order_date'.tr}: ${item.date ?? ""}",
                             fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          const SizedBox(height: 1),
+                          PrimaryTextView(
+                            text:
+                            "${'items_in_order'.tr}:  ${AppUtils.formatDecimalNumber(item.orderQty ?? 0)}",
+                            fontSize: 15,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          const SizedBox(height: 1),
+                          PrimaryTextView(
+                            text: [
+                              if (!StringHelper.isEmptyString(item.storeName))
+                                item.storeName,
+                              if (!StringHelper.isEmptyString(
+                                  item.supplierName))
+                                item.supplierName,
+                            ].join(" | "),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          const SizedBox(height: 1),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              PrimaryTextView(
+                                text: "${'order'.tr}: ${item.orderId ?? ""}",
+                                color: secondaryLightTextColor_(context),
+                                fontSize: 14,
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                ),
-                Column(
-                  children: [
-                    Visibility(
-                      visible: status == AppConstants.orderStatus.received ||
-                          status == AppConstants.orderStatus.processing,
-                      child: PrimaryButton(
-                          width: 96,
-                          fontSize: 15,
-                          height: 28,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.green,
-                          isFixSize: true,
-                          buttonText: 'delivered'.tr,
-                          onPressed: () {
-                            controller.onItemClick(item.id ?? 0,
-                                AppConstants.orderStatus.processing);
-                          }),
                     ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Visibility(
-                      visible: status == AppConstants.orderStatus.received,
-                      child: PrimaryButton(
-                          width: 96,
-                          fontSize: 15,
-                          height: 28,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.orange,
-                          isFixSize: true,
-                          buttonText: 'proceed'.tr,
-                          onPressed: () {
-                            controller.onItemClick(item.id ?? 0,
-                                AppConstants.orderStatus.received);
-                          }),
+                    Column(
+                      children: [
+                        Visibility(
+                          visible:
+                              status == AppConstants.orderStatus.received ||
+                                  status == AppConstants.orderStatus.processing,
+                          child: PrimaryButton(
+                              width: 96,
+                              fontSize: 15,
+                              height: 28,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.green,
+                              isFixSize: true,
+                              buttonText: 'delivered'.tr,
+                              onPressed: () {
+                                controller.onItemClick(item.id ?? 0,
+                                    AppConstants.orderStatus.processing);
+                              }),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Visibility(
+                          visible: status == AppConstants.orderStatus.received,
+                          child: PrimaryButton(
+                              width: 96,
+                              fontSize: 15,
+                              height: 28,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.orange,
+                              isFixSize: true,
+                              buttonText: 'proceed'.tr,
+                              onPressed: () {
+                                controller.onItemClick(item.id ?? 0,
+                                    AppConstants.orderStatus.received);
+                              }),
+                        )
+                      ],
                     )
                   ],
-                )
+                ),
+                if (!StringHelper.isEmptyString(
+                    item.approveByUserName)) ...[
+                  const SizedBox(height: 1),
+                  Row(
+                    children: [
+                      PrimaryTextView(
+                        text: "${'approved_by'.tr}:",
+                        fontSize: 13,
+                      ),
+                      const SizedBox(width: 6),
+                      UserAvtarView(
+                        imageUrl: item.approveByUserImage ?? "",
+                        imageSize: 18,
+                      ),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: PrimaryTextView(
+                          text: item.approveByUserName ?? "",
+                          fontSize: 13,
+                          softWrap: true,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+                if (!StringHelper.isEmptyString(
+                    item.orderByName)) ...[
+                  const SizedBox(height: 1),
+                  Row(
+                    children: [
+                      PrimaryTextView(
+                        text: "${'ordered_by'.tr}:",
+                        fontSize: 13,
+                      ),
+                      const SizedBox(width: 6),
+                      UserAvtarView(
+                        imageUrl: item.orderByImage ?? "",
+                        imageSize: 18,
+                      ),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: PrimaryTextView(
+                          text: item.orderByName ?? "",
+                          fontSize: 13,
+                          softWrap: true,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+                const SizedBox(height: 1),
+                PrimaryTextView(
+                  text:
+                  "${'expected_delivery_date'.tr}: ${item.expectedDeliveryDate ?? ""}",
+                  fontSize: 14,
+                ),
               ],
             ),
           ),

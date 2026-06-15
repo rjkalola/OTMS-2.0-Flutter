@@ -183,7 +183,7 @@ class _BuyerOrdersScreenState extends State<BuyerOrdersScreen>
             controller.moveToFilterScreen();
           },
           child: Padding(
-            padding: const EdgeInsets.only(right: 9),
+            padding: const EdgeInsets.only(right: 10),
             child: ImageUtils.setSvgAssetsImage(
                 path: Drawable.filterIcon,
                 width: 26,
@@ -191,12 +191,7 @@ class _BuyerOrdersScreenState extends State<BuyerOrdersScreen>
                 color: primaryTextColor_(Get.context!)),
           ),
         ),
-      )
-      // if (UserUtils.isAdmin())
-      //   IconButton(
-      //     icon: const Icon(Icons.more_vert_outlined),
-      //     onPressed: () {},
-      //   ),
+      ),
     ];
   }
 

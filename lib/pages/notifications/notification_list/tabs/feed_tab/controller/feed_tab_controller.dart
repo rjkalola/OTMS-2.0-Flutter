@@ -40,7 +40,7 @@ class FeedTabController extends GetxController {
     //   permissionId = arguments[AppConstants.intentKey.permissionId] ?? 0;
     // }
 
-    getFeedListApi(isRefresh:true);
+    getFeedListApi(isRefresh: true);
 
     scrollController.addListener(() {
       if (scrollController.position.pixels >=
@@ -50,7 +50,6 @@ class FeedTabController extends GetxController {
         }
       }
     });
-
   }
 
   @override
@@ -68,9 +67,7 @@ class FeedTabController extends GetxController {
     isLoading.value = true;
 
     if (currentPage.value == 1) {
-
-    }
-    else{
+    } else {
       isLoadingMore.value = true;
     }
 
@@ -108,13 +105,11 @@ class FeedTabController extends GetxController {
             int apiCurrentPage = response.pagination!.currentPage ?? 1;
             if (apiCurrentPage >= totalPages) {
               hasMoreData.value = false;
-            }
-            else{
+            } else {
               hasMoreData.value = true;
               currentPage.value++;
             }
-          }
-          else{
+          } else {
             print("Pagination error: 'data' object is null or failed to parse");
           }
 
@@ -341,32 +336,26 @@ class FeedTabController extends GetxController {
           moveToScreen(AppRoutes.userHireOrderDetailsScreen,
               arguments: arguments, index: index);
         }
-      }
-
-      else if (notificationType ==
+      } else if (notificationType ==
           AppConstants.notificationType.employeeOrderCreate) {
         Get.delete<StoremanInternalOrderDetailsController>();
         var arguments = {"order_id": "${info.recordId ?? 0}"};
         moveToScreen(AppRoutes.storemanInternalOrderDetailsScreen,
             arguments: arguments, index: index);
-      }
-      else if (notificationType ==
-              AppConstants.notificationType.employeeOrderStatusChange) {
-        if (info.userId == UserUtils.getLoginUserId()){
+      } else if (notificationType ==
+          AppConstants.notificationType.employeeOrderStatusChange) {
+        if (info.userId == UserUtils.getLoginUserId()) {
           Get.delete<OrderDetailsController>();
           var arguments = {"order_id": "${info.recordId ?? 0}"};
           moveToScreen(AppRoutes.orderDetailsScreen,
               arguments: arguments, index: index);
-        }
-        else{
+        } else {
           Get.delete<StoremanInternalOrderDetailsController>();
           var arguments = {"order_id": "${info.recordId ?? 0}"};
           moveToScreen(AppRoutes.storemanInternalOrderDetailsScreen,
               arguments: arguments, index: index);
         }
-      }
-
-      else if (notificationType ==
+      } else if (notificationType ==
           AppConstants.notificationType.purchaseOrder) {
         if ((info.recordId ?? 0) != 0) {
           var arguments = {
@@ -375,6 +364,16 @@ class FeedTabController extends GetxController {
           moveToScreen(AppRoutes.storemanOrderDetailsScreen,
               arguments: arguments, index: index);
         }
+      }
+
+      // Add/Update Certificate
+      else if (notificationType ==
+          AppConstants.notificationType.certificateAddUpdate) {
+        String rout = AppRoutes.certificateDetailsScreen;
+        var arguments = {
+          AppConstants.intentKey.ID: info.recordId,
+        };
+        moveToScreen(rout, arguments: arguments, index: index);
       }
     }
   }

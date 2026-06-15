@@ -63,7 +63,7 @@ class BuyerOrderListItem extends StatelessWidget {
                         item.supplierName))
                       item.supplierName,
                   ].join(" | "),
-                  fontSize: 16,
+                  fontSize: 14,
                 ),
                 if (!isIncompleteLayout &&
                     !StringHelper.isEmptyString(
@@ -121,7 +121,7 @@ class BuyerOrderListItem extends StatelessWidget {
                 PrimaryTextView(
                   text:
                   "${'expected_delivery_date'.tr}: ${item.expectedDeliveryDate ?? ""}",
-                  fontSize: 15,
+                  fontSize: 14,
                 ),
                 IntrinsicHeight(
                   child: Row(

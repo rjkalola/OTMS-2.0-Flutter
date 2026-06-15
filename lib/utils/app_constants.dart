@@ -15,11 +15,11 @@ class AppConstants {
   static const OrderStatus orderStatus = OrderStatus();
   static const HireStatus hireStatus = HireStatus();
   static const InternalOrdersStatusType internalOrderStatus =
-  InternalOrdersStatusType();
+      InternalOrdersStatusType();
   static const ProductStockStatus productStockStatus = ProductStockStatus();
 
   static const CompanyResourcesFlag companyResourcesFlag =
-  CompanyResourcesFlag();
+      CompanyResourcesFlag();
   static const NotificationType notificationType = NotificationType();
   static const RequestType requestType = RequestType();
   static const FilterType filterType = FilterType();
@@ -200,7 +200,8 @@ class DialogIdentifier {
   final String deleteUserZone = 'DELETE_USER_ZONE';
   final String generateReportDateRange = 'GENERATE_REPORT_DATE_RANGE';
   final String generateReportModules = 'GENERATE_REPORT_MODULES';
-  final String timesheetConflictDeleteWorklog = 'TIMESHEET_CONFLICT_DELETE_WORKLOG';
+  final String timesheetConflictDeleteWorklog =
+      'TIMESHEET_CONFLICT_DELETE_WORKLOG';
   final String timesheetConflictCut = 'TIMESHEET_CONFLICT_CUT';
   final String timesheetConflictSplit = 'TIMESHEET_CONFLICT_SPLIT';
   final String teamConflictResolve = 'TEAM_CONFLICT_RESOLVE';
@@ -208,7 +209,8 @@ class DialogIdentifier {
   final String storeConflictResolve = 'STORE_CONFLICT_RESOLVE';
   final String billingConflictResolve = 'BILLING_CONFLICT_RESOLVE';
   final String billingConflictDiscard = 'BILLING_CONFLICT_DISCARD';
-  final String selectStoreSettingsTeamFilter = 'SELECT_STORE_SETTINGS_TEAM_FILTER';
+  final String selectStoreSettingsTeamFilter =
+      'SELECT_STORE_SETTINGS_TEAM_FILTER';
   final String clearCart = 'CLEAR_CART';
 }
 
@@ -465,7 +467,7 @@ class HireStatus {
   final int request = 2;
   final int hired = 3;
   final int inService = 4;
-  final int damaged = 5;  
+  final int damaged = 5;
   final int cancelled = 6;
 }
 
@@ -594,6 +596,8 @@ class NotificationType {
   final String employeeOrderCreate = "20001";
   final String employeeOrderStatusChange = "20002";
 
+ //Certificates
+  final String certificateAddUpdate = "25001";
 }
 
 class RequestType {

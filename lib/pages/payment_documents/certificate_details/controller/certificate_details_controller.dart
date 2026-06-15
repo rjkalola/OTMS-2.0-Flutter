@@ -9,6 +9,7 @@ import 'package:belcka/pages/payment_documents/certificate_details/controller/ce
 import 'package:belcka/pages/payment_documents/certificate_details/model/certificate_detail_response.dart';
 import 'package:belcka/pages/payment_documents/certificate_details/view/widgets/replace_certificate_bottom_sheet.dart';
 import 'package:belcka/pages/payment_documents/certificates_list/model/certificate_info.dart';
+import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
@@ -36,6 +37,7 @@ class CertificateDetailsController extends GetxController
 
   final certificateInfo = CertificateInfo().obs;
   int certificateId = 0;
+  bool fromNotification = false;
   String iconColorHex = DataUtils.listColors.first;
 
   bool get isInsuranceCertificate => certificateInfo.value.isInsurance;
@@ -51,6 +53,8 @@ class CertificateDetailsController extends GetxController
       certificateId = arguments[AppConstants.intentKey.ID] ?? 0;
       iconColorHex = arguments[AppConstants.intentKey.certificateIconColor] ??
           DataUtils.listColors.first;
+      fromNotification =
+          arguments[AppConstants.intentKey.fromNotification] ?? false;
     }
     loadCertificateDetail(true);
   }
@@ -271,6 +275,10 @@ class CertificateDetailsController extends GetxController
   }
 
   void onBackPress() {
-    Get.back(result: isDataUpdated.value);
+    if (fromNotification) {
+      Get.offAllNamed(AppRoutes.dashboardScreen);
+    } else {
+      Get.back(result: isDataUpdated.value);
+    }
   }
 }

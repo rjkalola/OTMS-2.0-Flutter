@@ -379,8 +379,7 @@ class NotificationService {
           controller.orderId = data['record_id'] ?? "0";
           controller.fromNotification = true;
           controller.fetchOrderDetails();
-        }
-        else{
+        } else {
           Get.offAllNamed(
             AppRoutes.storemanInternalOrderDetailsScreen,
             arguments: {
@@ -389,36 +388,33 @@ class NotificationService {
             },
           );
         }
-      }
-
-      else if (notificationType ==
+      } else if (notificationType ==
           AppConstants.notificationType.employeeOrderStatusChange) {
-        if (userIdInt == UserUtils.getLoginUserId()){
-
+        if (userIdInt == UserUtils.getLoginUserId()) {
           print("login user");
 
           if (Get.currentRoute == AppRoutes.orderDetailsScreen) {
             final controller = Get.find<OrderDetailsController>();
             controller.orderId = data['record_id'];
             controller.fetchOrderDetails();
-          }
-          else{
+          } else {
             Get.toNamed(
               AppRoutes.orderDetailsScreen,
-              arguments: {"order_id": data['record_id'],
+              arguments: {
+                "order_id": data['record_id'],
                 AppConstants.intentKey.fromNotification: true,
               },
             );
           }
-        }
-        else{
-          if (Get.currentRoute == AppRoutes.storemanInternalOrderDetailsScreen) {
-            final controller = Get.find<StoremanInternalOrderDetailsController>();
+        } else {
+          if (Get.currentRoute ==
+              AppRoutes.storemanInternalOrderDetailsScreen) {
+            final controller =
+                Get.find<StoremanInternalOrderDetailsController>();
             controller.orderId = data['record_id'] ?? "0";
             controller.fromNotification = true;
             controller.fetchOrderDetails();
-          }
-          else{
+          } else {
             Get.offAllNamed(
               AppRoutes.storemanInternalOrderDetailsScreen,
               arguments: {
@@ -437,6 +433,18 @@ class NotificationService {
         int recordId = int.parse(data['record_id'] ?? "0");
         var arguments = {
           AppConstants.intentKey.orderId: recordId,
+          AppConstants.intentKey.fromNotification: true,
+        };
+        Get.offAllNamed(rout, arguments: arguments);
+      }
+
+      //Certificates
+      else if (notificationType ==
+          AppConstants.notificationType.certificateAddUpdate) {
+        String rout = AppRoutes.certificateDetailsScreen;
+        int recordId = int.parse(data['record_id'] ?? "0");
+        var arguments = {
+          AppConstants.intentKey.ID: recordId,
           AppConstants.intentKey.fromNotification: true,
         };
         Get.offAllNamed(rout, arguments: arguments);

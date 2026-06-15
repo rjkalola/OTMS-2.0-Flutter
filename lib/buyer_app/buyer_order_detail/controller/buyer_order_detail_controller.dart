@@ -385,7 +385,8 @@ class BuyerOrderDetailController extends GetxController
 
   void showMenuItemsDialog(BuildContext context) {
     List<ModuleInfo> listItems = [];
-    if (status.value != AppConstants.orderStatus.inStock) {
+    if (status.value != AppConstants.orderStatus.inStock &&
+        status.value != AppConstants.orderStatus.cancelled) {
       listItems.add(ModuleInfo(
           name: 'cancel_order'.tr, action: AppConstants.action.cancelOrder));
     }
