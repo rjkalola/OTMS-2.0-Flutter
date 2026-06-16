@@ -1510,6 +1510,7 @@ class FormDetailsController extends GetxController
 
     try {
       final formData = await _buildSubmitFormData();
+      _printSubmitFormData(formData);
       _api.submitFormEntry(
         formData: formData,
         onSuccess: (ResponseModel responseModel) {
@@ -1553,6 +1554,20 @@ class FormDetailsController extends GetxController
     final formData = multi.FormData.fromMap(payload);
     formData.files.addAll(files);
     return formData;
+  }
+
+  void _printSubmitFormData(multi.FormData formData) {
+    print('forms/entries/submit request data:');
+    print('URL: ${ApiConstants.formsEntriesSubmit}');
+    for (final field in formData.fields) {
+      print('  ${field.key}: ${field.value}');
+    }
+    for (final file in formData.files) {
+      final multipartFile = file.value;
+      print(
+        '  ${file.key}: [File] ${multipartFile.filename ?? 'unknown'}',
+      );
+    }
   }
 
   Future<void> _appendFieldsToSubmitPayload(

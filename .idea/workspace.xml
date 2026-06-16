@@ -6,18 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="053ed336-4b64-4937-ade4-066c93ca45e7" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/clock_in/controller/clock_in_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/clock_in/controller/clock_in_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/clock_in/controller/clock_in_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/clock_in/controller/clock_in_repository.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/clock_in/view/widgets/footer_button_check_in_switch_project.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/clock_in/view/widgets/footer_button_check_in_switch_project.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/start_shift_map/controller/start_shift_map_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/start_shift_map/controller/start_shift_map_controller.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/dashboard/tabs/home_tab/controller/home_tab_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/dashboard/tabs/home_tab/controller/home_tab_repository.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/controller/form_details_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/controller/form_details_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/controller/form_details_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/controller/form_details_repository.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/form_send_button.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/form_send_button.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/timesheet/timesheet_list/controller/timesheet_list_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/timesheet/timesheet_list/controller/timesheet_list_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/res/strings.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/res/strings.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/web_services/api_constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/web_services/api_constants.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
