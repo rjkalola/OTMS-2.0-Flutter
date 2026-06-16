@@ -19,6 +19,7 @@ import 'package:belcka/pages/check_in/clock_in/model/work_log_info.dart';
 import 'package:belcka/pages/check_in/clock_in/model/work_log_list_response.dart';
 import 'package:belcka/pages/check_in/select_shift/controller/select_shift_repository.dart';
 import 'package:belcka/pages/dashboard/models/dashboard_response.dart';
+import 'package:belcka/pages/dashboard/tabs/home_tab/model/form_submission_status_response.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_storage.dart';
@@ -49,6 +50,7 @@ class ClockInController extends GetxController
   final center =
       LatLng(AppConstants.defaultLatitude, AppConstants.defaultLongitude).obs;
   final dashboardResponse = DashboardResponse().obs;
+  final formSubmissionStatusResponse = FormSubmissionStatusResponse().obs;
   String? latitude, longitude, location, shiftId;
   bool fromStartShiftScreen = false;
   final locationService = LocationServiceNew();
@@ -97,6 +99,39 @@ class ClockInController extends GetxController
       appLifeCycle();
       getUserWorkLogListApi();
     }
+  }
+
+  void getFormSubmissionStatusApi({bool? isSwitchProject}) {
+    isLoading.value = true;
+    _api.getFormSubmissionStatus(
+      onSuccess: (ResponseModel responseModel) {
+        isLoading.value = false;
+        if (responseModel.isSuccess && responseModel.result != null) {
+          formSubmissionStatusResponse.value =
+              FormSubmissionStatusResponse.fromJson(
+            jsonDecode(responseModel.result!) as Map<String, dynamic>,
+          );
+          if (formSubmissionStatusResponse
+                  .value.info?.allAssignedFormsSubmitted ??
+              false) {
+            if (isSwitchProject ?? false) {
+              _onSwitchProjectPressed();
+            } else {
+              userBillingInfoValidationAPI(isStartWorkClick: true);
+            }
+          } else {
+            AppUtils.showToastMessage('all_forms_not_submitted'.tr);
+            Get.toNamed(AppRoutes.formsListScreen);
+          }
+        }
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+        }
+      },
+    );
   }
 
   Future<void> userStartWorkApi() async {
@@ -352,6 +387,14 @@ class ClockInController extends GetxController
     if (result != null) {
       getUserWorkLogListApi();
     }
+  }
+
+  void _onSwitchProjectPressed() {
+    var arguments = {
+      AppConstants.intentKey.switchProject: true,
+      AppConstants.intentKey.workLogId: selectedWorkLogInfo?.id ?? 0,
+    };
+    onClickStartShiftButton(arguments: arguments);
   }
 
   onCLickCheckInButton() {

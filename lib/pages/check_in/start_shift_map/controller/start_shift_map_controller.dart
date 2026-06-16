@@ -94,7 +94,6 @@ class StartShiftMapController extends GetxController {
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["shift_id"] = lastWorkLogData.value.shiftId ?? 0;
-    ;
     map["project_id"] = lastWorkLogData.value.projectId ?? 0;
     map["latitude"] = latitude;
     map["longitude"] = longitude;

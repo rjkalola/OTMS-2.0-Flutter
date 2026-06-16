@@ -11,14 +11,6 @@ class FooterButtonCheckInSwitchProject extends StatelessWidget {
 
   final controller = Get.put(ClockInController());
 
-  void _onSwitchProjectPressed() {
-    var arguments = {
-      AppConstants.intentKey.switchProject: true,
-      AppConstants.intentKey.workLogId: controller.selectedWorkLogInfo?.id ?? 0,
-    };
-    controller.onClickStartShiftButton(arguments: arguments);
-  }
-
   void _onStopShiftPressed() {
     if (controller.isChecking.value) {
       controller.showCheckOutWarningDialog();
@@ -74,7 +66,10 @@ class FooterButtonCheckInSwitchProject extends StatelessWidget {
                           borderRadius: BorderRadius.circular(26),
                           child: InkWell(
                             borderRadius: BorderRadius.circular(26),
-                            onTap: _onSwitchProjectPressed,
+                            onTap: () {
+                              controller.getFormSubmissionStatusApi(
+                                  isSwitchProject: true);
+                            },
                             child: const Center(
                               child: Icon(
                                 Icons.swap_horiz_rounded,
@@ -86,42 +81,43 @@ class FooterButtonCheckInSwitchProject extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 12),
-                      if((controller.workLogData.value.isCheckIn ??
-                          false))
-                      Flexible(
-                        fit: FlexFit.tight,
-                        flex: 1,
-                        child: controller.isChecking.value
-                            ? PrimaryButton(
-                                buttonText: 'check_out_'.tr,
-                                onPressed: () {
-                                  controller.onCLickCheckOutButton();
-                                },
-                                color: const Color(0xffFF6464),
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                              )
-                            : PrimaryButton(
-                                buttonText: 'check_in_'.tr,
-                                onPressed: () {
-                                  controller.onCLickCheckInButton();
-                                },
-                                color:
-                                    (controller.workLogData.value.isCheckIn ??
-                                            false)
-                                        ? Colors.green
-                                        : Color(0xff9E9E9E),
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                              ),
-                      ),
+                      if ((controller.workLogData.value.isCheckIn ?? false))
+                        Flexible(
+                          fit: FlexFit.tight,
+                          flex: 1,
+                          child: controller.isChecking.value
+                              ? PrimaryButton(
+                                  buttonText: 'check_out_'.tr,
+                                  onPressed: () {
+                                    controller.onCLickCheckOutButton();
+                                  },
+                                  color: const Color(0xffFF6464),
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                )
+                              : PrimaryButton(
+                                  buttonText: 'check_in_'.tr,
+                                  onPressed: () {
+                                    controller.onCLickCheckInButton();
+                                  },
+                                  color:
+                                      (controller.workLogData.value.isCheckIn ??
+                                              false)
+                                          ? Colors.green
+                                          : Color(0xff9E9E9E),
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                ),
+                        ),
                     ],
                   )
                 : PrimaryButton(
                     buttonText: 'start_shift'.tr,
                     onPressed: () {
-                      controller.userBillingInfoValidationAPI(
-                          isStartWorkClick: true);
+                      controller.getFormSubmissionStatusApi(
+                          isSwitchProject: false);
+                      // controller.userBillingInfoValidationAPI(
+                      //     isStartWorkClick: true);
                     },
                     color: Colors.green,
                     fontWeight: FontWeight.w500,

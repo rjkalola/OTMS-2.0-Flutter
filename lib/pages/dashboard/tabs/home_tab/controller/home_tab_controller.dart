@@ -16,6 +16,7 @@ import 'package:belcka/pages/dashboard/controller/dashboard_controller.dart';
 import 'package:belcka/pages/dashboard/models/dashboard_response.dart';
 import 'package:belcka/pages/dashboard/tabs/home_tab/controller/home_tab_repository.dart';
 import 'package:belcka/pages/dashboard/tabs/home_tab/model/company_settings_response.dart';
+import 'package:belcka/pages/dashboard/tabs/home_tab/model/form_submission_status_response.dart';
 import 'package:belcka/pages/dashboard/tabs/home_tab/model/local_permission_sequence_change_info.dart';
 import 'package:belcka/pages/dashboard/tabs/home_tab/model/notification_count_response.dart';
 import 'package:belcka/pages/dashboard/tabs/home_tab/model/permission_info.dart';
@@ -69,6 +70,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
   final RxInt notificationCount = 0.obs;
   final workLogData = WorkLogListResponse().obs;
   final companySettingsResponse = CompanySettingsResponse().obs;
+  final formSubmissionStatusResponse = FormSubmissionStatusResponse().obs;
   late final AppLifecycleListener? _appLifecycleListener;
 
   @override
@@ -190,6 +192,36 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
         }
       },
       onError: (ResponseModel error) {
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+        }
+      },
+    );
+  }
+
+  void getFormSubmissionStatusApi() {
+    isLoading.value = true;
+    _api.getFormSubmissionStatus(
+      onSuccess: (ResponseModel responseModel) {
+        isLoading.value = false;
+        if (responseModel.isSuccess && responseModel.result != null) {
+          formSubmissionStatusResponse.value =
+              FormSubmissionStatusResponse.fromJson(
+            jsonDecode(responseModel.result!) as Map<String, dynamic>,
+          );
+
+          if (formSubmissionStatusResponse
+                  .value.info?.allAssignedFormsSubmitted ??
+              false) {
+            moveToScreen(appRout: AppRoutes.startShiftMapScreen);
+          } else {
+            AppUtils.showToastMessage('all_forms_not_submitted'.tr);
+            moveToScreen(appRout: AppRoutes.formsListScreen);
+          }
+        }
+      },
+      onError: (ResponseModel error) {
+        isLoading.value = false;
         if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
           isInternetNotAvailable.value = true;
         }
@@ -388,7 +420,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
                 (response.userIsWorking ?? false)) {
               moveToScreen(appRout: AppRoutes.clockInScreen);
             } else {
-              moveToScreen(appRout: AppRoutes.startShiftMapScreen);
+              getFormSubmissionStatusApi();
             }
           } else {
             moveToScreen(appRout: AppRoutes.startShiftMapScreen);
@@ -712,8 +744,8 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
     else if (info.slug == 'my_requests') {
       moveToScreen(appRout: AppRoutes.myRequestsScreen);
     } else if (info.slug == 'analytics') {
-      moveToScreen(appRout: AppRoutes.userAnalyticsScoreScreen);
-      // moveToScreen(appRout: AppRoutes.formsListScreen);
+      // moveToScreen(appRout: AppRoutes.userAnalyticsScoreScreen);
+      moveToScreen(appRout: AppRoutes.formsListScreen);
     } else if (info.slug == 'map') {
       moveToScreen2(appRout: AppRoutes.userZonesScreen);
     } else if (info.slug == 'health_safety') {
@@ -761,7 +793,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
           appRout: AppRoutes.selectUserListForPermissionScreen,
           arguments: arguments);
     } else if (action == AppConstants.action.notificationSettings) {
-      moveToScreen(appRout: AppRoutes.notificationSettingsScreen); 
+      moveToScreen(appRout: AppRoutes.notificationSettingsScreen);
     } else if (action == AppConstants.action.checkInSettings) {
       Get.back();
       showCheckInSettingsBottomSheet();

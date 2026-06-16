@@ -1072,6 +1072,9 @@ class Strings extends Translations {
               "Enter number below to deduct from pack",
           'enter_quantity':"Please enter quantity",
           'stock_updated_successfully':"Stock updated successfully",
+          'all_forms_not_submitted':"Please submit all forms before start work.",
+
+
 // '': "",
           // '': "",
 // '': "",

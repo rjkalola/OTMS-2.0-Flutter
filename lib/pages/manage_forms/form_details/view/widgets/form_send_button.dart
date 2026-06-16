@@ -10,34 +10,37 @@ class FormSendButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-      color: dashBoardBgColor_(context),
-      child: ElevatedButton(
-        onPressed: controller.onSendPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: defaultAccentColor_(context),
-          minimumSize: const Size(double.infinity, 52),
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30),
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.send, color: Colors.white, size: 20),
-            const SizedBox(width: 8),
-            Text(
-              'send'.tr,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-              ),
+    return Obx(
+      () => Container(
+        width: double.infinity,
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+        color: dashBoardBgColor_(context),
+        child: ElevatedButton(
+          onPressed:
+              controller.isLoading.value ? null : controller.onSendPressed,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: defaultAccentColor_(context),
+            minimumSize: const Size(double.infinity, 52),
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
             ),
-          ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.send, color: Colors.white, size: 20),
+              const SizedBox(width: 8),
+              Text(
+                'send'.tr,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

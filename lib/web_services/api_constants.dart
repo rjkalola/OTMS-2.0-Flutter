@@ -348,7 +348,8 @@ class ApiConstants {
   static String getCourses = '$appUrl/get-courses';
   static String certificatesCreate = '$appUrl/certificates/create';
   static String certificatesList = '$appUrl/certificates/list';
-  static String certificatesInsuranceList = '$appUrl/certificates/insurance-list';
+  static String certificatesInsuranceList =
+      '$appUrl/certificates/insurance-list';
   static String certificatesExpireSoon = '$appUrl/certificates/expire-soon';
   static String certificatesDetail = '$appUrl/certificates/detail';
   static String certificatesDelete = '$appUrl/certificates/delete';
@@ -452,5 +453,8 @@ class ApiConstants {
 
   // Forms
   static String formsList = '$appUrl/forms/list';
+
   static String formsDetail(int id) => '$appUrl/forms/$id';
+  static String formsEntriesSubmit = '$appUrl/forms/entries/submit';
+  static String formsSubmissionStatus = '$appUrl/forms/submission/status';
 }

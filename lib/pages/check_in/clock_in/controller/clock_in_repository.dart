@@ -48,4 +48,17 @@ class ClockInRepository {
       onError: (error) => {if (onError != null) onError(error)},
     );
   }
+
+  void getFormSubmissionStatus({
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(url: ApiConstants.formsSubmissionStatus, isFormData: false)
+        .getRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
 }

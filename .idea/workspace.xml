@@ -6,14 +6,18 @@
   <component name="ChangeListManager">
     <list default="true" id="053ed336-4b64-4937-ade4-066c93ca45e7" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/buyer_app/buyer_order/view/buyer_orders_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/buyer_app/buyer_order/view/buyer_orders_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/buyer_app/buyer_order/view/widgets/buyer_order_list_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/buyer_app/buyer_order/view/widgets/buyer_order_list_item.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/buyer_app/buyer_order_detail/controller/buyer_order_detail_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/buyer_app/buyer_order_detail/controller/buyer_order_detail_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/notifications/notification_list/tabs/feed_tab/controller/feed_tab_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/notifications/notification_list/tabs/feed_tab/controller/feed_tab_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/payment_documents/certificate_details/controller/certificate_details_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/payment_documents/certificate_details/controller/certificate_details_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/storeman_app/storeman_supplier_orders/view/widgets/storeman_supplier_order_list_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/storeman_app/storeman_supplier_orders/view/widgets/storeman_supplier_order_list_item.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/utils/app_constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils/app_constants.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/utils/notification_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils/notification_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/clock_in/controller/clock_in_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/clock_in/controller/clock_in_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/clock_in/controller/clock_in_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/clock_in/controller/clock_in_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/clock_in/view/widgets/footer_button_check_in_switch_project.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/clock_in/view/widgets/footer_button_check_in_switch_project.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/start_shift_map/controller/start_shift_map_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/start_shift_map/controller/start_shift_map_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/dashboard/tabs/home_tab/controller/home_tab_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/dashboard/tabs/home_tab/controller/home_tab_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/controller/form_details_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/controller/form_details_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/controller/form_details_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/controller/form_details_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/form_send_button.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/form_send_button.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/timesheet/timesheet_list/controller/timesheet_list_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/timesheet/timesheet_list/controller/timesheet_list_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/res/strings.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/res/strings.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/web_services/api_constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/web_services/api_constants.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,9 +103,10 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="Application" factoryName="Application">
+    <configuration default="true" type="AppleRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" IS_LOCATION_SIMULATION_SUPPORTED="false" IS_LOCATION_SIMULATION_ALLOWED="true" APPLICATION_LANGUAGE="IDELaunchSchemeLanguageUseSystemLanguage" APPLICATION_REGION="" DEVELOPMENT_TEAM="${TEAM_ID}" MAKE_ACTIVE="TRUE" SHOULD_DEBUG_EXTENSIONS="false">
+      <embedded_app_extension_list />
       <method v="2">
-        <option name="Make" enabled="true" />
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">

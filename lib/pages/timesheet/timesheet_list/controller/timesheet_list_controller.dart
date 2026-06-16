@@ -346,7 +346,7 @@ class TimeSheetListController extends GetxController
           BaseResponse response =
               BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.Message ?? "");
-          loadTimesheetData(true);
+          loadTimesheetData(true,isRefresh: true);
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
@@ -521,7 +521,7 @@ class TimeSheetListController extends GetxController
         await Get.toNamed(AppRoutes.stopShiftScreen, arguments: arguments);
     print("result:" + result.toString());
     if (result != null && result) {
-      loadTimesheetData(true);
+      loadTimesheetData(true,isRefresh: true);
     }
   }
 
@@ -647,7 +647,7 @@ class TimeSheetListController extends GetxController
   moveToScreen(String path, dynamic arguments) async {
     var result = await Get.toNamed(path, arguments: arguments);
     if (result != null && result) {
-      loadTimesheetData(true);
+      loadTimesheetData(true, isRefresh: true);
     }
   }
 
@@ -662,7 +662,7 @@ class TimeSheetListController extends GetxController
     if (result != null) {
       isResetEnable.value = true;
       appliedFilters = result;
-      loadTimesheetData(true);
+      loadTimesheetData(true,isRefresh: true);
     }
   }
 

@@ -18,6 +18,7 @@ import 'package:belcka/pages/manage_forms/form_details/model/form_audio_recordin
 import 'package:belcka/pages/manage_forms/form_details/model/form_uploaded_file.dart';
 import 'package:belcka/pages/manage_forms/form_details/utils/form_condition_evaluator.dart';
 import 'package:belcka/pages/manage_forms/form_details/utils/form_formula_evaluator.dart';
+import 'package:belcka/pages/manage_forms/form_details/utils/form_signature_exporter.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/date_utils.dart';
@@ -32,8 +33,11 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
+import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/response_model.dart';
+import 'package:dio/dio.dart' as multi;
 import 'package:get/get.dart';
 
 class FormDetailsController extends GetxController
@@ -362,7 +366,8 @@ class FormDetailsController extends GetxController
     return 0;
   }
 
-  FormLocationValue? getLocationValue(String fieldId) => locationValues[fieldId];
+  FormLocationValue? getLocationValue(String fieldId) =>
+      locationValues[fieldId];
 
   String getManualLocationInput(String fieldId) {
     return locationValues[fieldId]?.manualInput ?? '';
@@ -728,14 +733,12 @@ class FormDetailsController extends GetxController
               ListTile(
                 leading: const Icon(Icons.photo_camera_outlined),
                 title: Text('camera'.tr),
-                onTap: () =>
-                    Navigator.pop(sheetContext, ImageSource.camera),
+                onTap: () => Navigator.pop(sheetContext, ImageSource.camera),
               ),
               ListTile(
                 leading: const Icon(Icons.photo_library_outlined),
                 title: Text('gallery'.tr),
-                onTap: () =>
-                    Navigator.pop(sheetContext, ImageSource.gallery),
+                onTap: () => Navigator.pop(sheetContext, ImageSource.gallery),
               ),
             ],
           ),
@@ -842,14 +845,12 @@ class FormDetailsController extends GetxController
               ListTile(
                 leading: const Icon(Icons.videocam_outlined),
                 title: Text('camera'.tr),
-                onTap: () =>
-                    Navigator.pop(sheetContext, ImageSource.camera),
+                onTap: () => Navigator.pop(sheetContext, ImageSource.camera),
               ),
               ListTile(
                 leading: const Icon(Icons.video_library_outlined),
                 title: Text('gallery'.tr),
-                onTap: () =>
-                    Navigator.pop(sheetContext, ImageSource.gallery),
+                onTap: () => Navigator.pop(sheetContext, ImageSource.gallery),
               ),
             ],
           ),
@@ -931,14 +932,12 @@ class FormDetailsController extends GetxController
               ListTile(
                 leading: const Icon(Icons.document_scanner_outlined),
                 title: Text('camera'.tr),
-                onTap: () =>
-                    Navigator.pop(sheetContext, ImageSource.camera),
+                onTap: () => Navigator.pop(sheetContext, ImageSource.camera),
               ),
               ListTile(
                 leading: const Icon(Icons.photo_library_outlined),
                 title: Text('gallery'.tr),
-                onTap: () =>
-                    Navigator.pop(sheetContext, ImageSource.gallery),
+                onTap: () => Navigator.pop(sheetContext, ImageSource.gallery),
               ),
             ],
           ),
@@ -1265,12 +1264,10 @@ class FormDetailsController extends GetxController
   }
 
   void _clearErrorsForHiddenFields() {
-    final hiddenInvalidIds = invalidFieldIds
-        .where((id) {
-          final field = findFieldById(id);
-          return field != null && !isFieldVisible(field);
-        })
-        .toList();
+    final hiddenInvalidIds = invalidFieldIds.where((id) {
+      final field = findFieldById(id);
+      return field != null && !isFieldVisible(field);
+    }).toList();
 
     if (hiddenInvalidIds.isEmpty) return;
 
@@ -1505,7 +1502,443 @@ class FormDetailsController extends GetxController
 
   void onSendPressed() {
     if (!validateForm()) return;
-    // Submission API will be wired in a later phase.
-    AppUtils.showSnackBarMessage('send'.tr);
+    _submitFormEntry();
+  }
+
+  Future<void> _submitFormEntry() async {
+    isLoading.value = true;
+
+    try {
+      final formData = await _buildSubmitFormData();
+      _api.submitFormEntry(
+        formData: formData,
+        onSuccess: (ResponseModel responseModel) {
+          isLoading.value = false;
+          if (responseModel.isSuccess && responseModel.result != null) {
+            final response = BaseResponse.fromJson(
+              jsonDecode(responseModel.result!) as Map<String, dynamic>,
+            );
+            AppUtils.showApiResponseMessage(response.Message ?? '');
+            if (response.IsSuccess == true) {
+              Get.back(result: true);
+            }
+          } else {
+            AppUtils.showSnackBarMessage(responseModel.statusMessage ?? '');
+          }
+        },
+        onError: (ResponseModel error) {
+          isLoading.value = false;
+          if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+            AppUtils.showApiResponseMessage('no_internet'.tr);
+          } else if (!StringHelper.isEmptyString(error.statusMessage)) {
+            AppUtils.showSnackBarMessage(error.statusMessage ?? '');
+          }
+        },
+      );
+    } catch (_) {
+      isLoading.value = false;
+      AppUtils.showSnackBarMessage('Failed to submit form');
+    }
+  }
+
+  Future<multi.FormData> _buildSubmitFormData() async {
+    final payload = <String, dynamic>{
+      'form_id': formId,
+      'user_id': UserUtils.getLoginUserId(),
+    };
+    final files = <MapEntry<String, multi.MultipartFile>>[];
+
+    await _appendFieldsToSubmitPayload(fields, payload, files);
+
+    final formData = multi.FormData.fromMap(payload);
+    formData.files.addAll(files);
+    return formData;
+  }
+
+  Future<void> _appendFieldsToSubmitPayload(
+    List<FormFieldModel> fieldList,
+    Map<String, dynamic> payload,
+    List<MapEntry<String, multi.MultipartFile>> files,
+  ) async {
+    for (final field in fieldList) {
+      if (field.normalizedType == FormFieldType.group) {
+        await _appendFieldsToSubmitPayload(
+          field.fields ?? [],
+          payload,
+          files,
+        );
+        continue;
+      }
+
+      if (!isFieldVisible(field)) continue;
+
+      final fieldId = field.id;
+      if (StringHelper.isEmptyString(fieldId)) continue;
+
+      final key = 'data[$fieldId]';
+      final type = field.normalizedType;
+
+      if (type == FormFieldType.dropdown) {
+        _appendDropdownValue(field, key, payload);
+      } else if (type == FormFieldType.imageSelection) {
+        _appendImageSelectionValue(field, key, payload);
+      } else if (type == FormFieldType.openEnded ||
+          type == FormFieldType.email ||
+          type == FormFieldType.number) {
+        _appendTextValue(fieldId!, key, payload);
+      } else if (type == FormFieldType.phone) {
+        _appendPhoneValue(fieldId!, key, payload);
+      } else if (type == FormFieldType.rating) {
+        _appendRatingValue(fieldId!, key, payload);
+      } else if (type == FormFieldType.yesNo) {
+        _appendYesNoValue(field, key, payload);
+      } else if (type == FormFieldType.task) {
+        _appendTaskValue(fieldId!, key, payload);
+      } else if (type == FormFieldType.date) {
+        _appendDateValue(field, key, payload);
+      } else if (type == FormFieldType.numbersSlider) {
+        _appendSliderValue(field, key, payload);
+      } else if (type == FormFieldType.location) {
+        _appendLocationValue(field, key, payload);
+      } else if (type == FormFieldType.formula) {
+        _appendFormulaValue(field, key, payload);
+      } else if (type == FormFieldType.signature) {
+        await _appendSignatureFile(fieldId!, key, files);
+      } else if (type == FormFieldType.imageUpload) {
+        await _appendPathFiles(
+          getImageUploadPaths(fieldId!),
+          _submitFileFieldKey(
+            fieldId,
+            allowMultiple: field.allowsMultipleImageUploads,
+          ),
+          files,
+        );
+      } else if (type == FormFieldType.videoUpload) {
+        await _appendPathFiles(
+          getVideoUploadPaths(fieldId!),
+          _submitFileFieldKey(
+            fieldId,
+            allowMultiple: field.allowsMultipleVideoUploads,
+          ),
+          files,
+        );
+      } else if (type == FormFieldType.scanner) {
+        await _appendPathFiles(
+          getScannerUploadPaths(fieldId!),
+          _submitFileFieldKey(
+            fieldId,
+            allowMultiple: field.allowsMultipleScannerUploads,
+          ),
+          files,
+        );
+      } else if (type == FormFieldType.fileUpload) {
+        await _appendUploadedFiles(
+          fieldId!,
+          _submitFileFieldKey(
+            fieldId,
+            allowMultiple: field.allowsMultipleUploadsEnabled,
+          ),
+          files,
+        );
+      } else if (type == FormFieldType.audioRecording) {
+        await _appendAudioRecordingFile(
+          fieldId!,
+          _submitFileFieldKey(
+            fieldId,
+            allowMultiple: field.allowsMultipleUploadsEnabled,
+          ),
+          files,
+        );
+      }
+    }
+  }
+
+  void _appendDropdownValue(
+    FormFieldModel field,
+    String key,
+    Map<String, dynamic> payload,
+  ) {
+    final fieldId = field.id ?? '';
+    if (field.multipleSelection == true) {
+      final selected = multipleSelections[fieldId]?.toList() ?? [];
+      if (selected.isEmpty) return;
+      payload[key] = selected.join(',');
+      return;
+    }
+
+    final selected = getSingleSelection(fieldId);
+    if (!StringHelper.isEmptyString(selected)) {
+      payload[key] = selected;
+    }
+  }
+
+  void _appendImageSelectionValue(
+    FormFieldModel field,
+    String key,
+    Map<String, dynamic> payload,
+  ) {
+    final fieldId = field.id ?? '';
+    final options = field.imageSelectionOptions;
+    if (options.isEmpty) return;
+
+    if (field.multipleSelection == true) {
+      final selected = multipleSelections[fieldId] ?? {};
+      final indices = <int>[];
+      for (var index = 0; index < options.length; index++) {
+        if (selected.contains(options[index])) {
+          indices.add(index);
+        }
+      }
+      if (indices.isEmpty) return;
+      payload[key] = indices.map((index) => index.toString()).join(',');
+      return;
+    }
+
+    final selected = getSingleSelection(fieldId);
+    if (StringHelper.isEmptyString(selected)) return;
+
+    final index = options.indexOf(selected!);
+    if (index >= 0) {
+      payload[key] = index.toString();
+    }
+  }
+
+  void _appendTextValue(
+    String fieldId,
+    String key,
+    Map<String, dynamic> payload,
+  ) {
+    final value = getTextValue(fieldId).trim();
+    if (value.isEmpty) return;
+    payload[key] = value;
+  }
+
+  void _appendPhoneValue(
+    String fieldId,
+    String key,
+    Map<String, dynamic> payload,
+  ) {
+    final phone = phoneValues[fieldId];
+    if (phone == null || phone.isEmpty) return;
+    payload[key] = '${phone.extension} ${phone.phone.trim()}'.trim();
+  }
+
+  void _appendRatingValue(
+    String fieldId,
+    String key,
+    Map<String, dynamic> payload,
+  ) {
+    final rating = getRating(fieldId);
+    if (rating <= 0) return;
+    payload[key] = rating.toString();
+  }
+
+  void _appendYesNoValue(
+    FormFieldModel field,
+    String key,
+    Map<String, dynamic> payload,
+  ) {
+    final selected = getSingleSelection(field.id ?? '');
+    if (StringHelper.isEmptyString(selected)) return;
+
+    final normalized = selected!.trim().toLowerCase();
+    if (normalized == 'yes' || normalized == 'true') {
+      payload[key] = 'true';
+      return;
+    }
+    if (normalized == 'no' || normalized == 'false') {
+      payload[key] = 'false';
+      return;
+    }
+
+    final options = field.yesNoOptions;
+    if (options.isNotEmpty &&
+        normalized == options.first.trim().toLowerCase()) {
+      payload[key] = 'true';
+    } else {
+      payload[key] = 'false';
+    }
+  }
+
+  void _appendTaskValue(
+    String fieldId,
+    String key,
+    Map<String, dynamic> payload,
+  ) {
+    payload[key] = isTaskChecked(fieldId).toString();
+  }
+
+  void _appendDateValue(
+    FormFieldModel field,
+    String key,
+    Map<String, dynamic> payload,
+  ) {
+    final value = _formatDateSubmitValue(field);
+    if (StringHelper.isEmptyString(value)) return;
+    payload[key] = value;
+  }
+
+  String? _formatDateSubmitValue(FormFieldModel field) {
+    final fieldId = field.id ?? '';
+    final value = dateValues[fieldId];
+    if (value == null) return null;
+
+    if (field.includesDate && field.includesTime) {
+      if (value.date == null || value.time == null) return null;
+      final datePart = DateUtil.dateToString(
+        value.date,
+        DateUtil.DD_MM_YYYY_SLASH,
+      );
+      final timePart = DateUtil.timeToString(
+        value.time,
+        DateUtil.HH_MM_24,
+      );
+      return '$datePart $timePart';
+    }
+
+    if (field.includesDate && value.date != null) {
+      return DateUtil.dateToString(value.date, DateUtil.DD_MM_YYYY_SLASH);
+    }
+
+    if (field.includesTime && value.time != null) {
+      return DateUtil.timeToString(value.time, DateUtil.HH_MM_24);
+    }
+
+    return null;
+  }
+
+  void _appendSliderValue(
+    FormFieldModel field,
+    String key,
+    Map<String, dynamic> payload,
+  ) {
+    final fieldId = field.id ?? '';
+    final value = sliderValues[fieldId];
+    if (value == null) return;
+    payload[key] = value.toString();
+  }
+
+  void _appendLocationValue(
+    FormFieldModel field,
+    String key,
+    Map<String, dynamic> payload,
+  ) {
+    final fieldId = field.id ?? '';
+    final value = locationValues[fieldId];
+    if (value == null || !hasLocationValue(field)) return;
+
+    double? lat;
+    double? lng;
+    String address = '';
+
+    if (field.isManualLocation) {
+      final coordinates = FormLocationValue.parseManualInput(value.manualInput);
+      lat = coordinates?.latitude;
+      lng = coordinates?.longitude;
+      address = value.manualInput.trim();
+    } else {
+      lat = value.latitude;
+      lng = value.longitude;
+    }
+
+    if (lat == null || lng == null) return;
+
+    payload[key] = jsonEncode({
+      'lat': lat,
+      'lng': lng,
+      'address': address,
+    });
+  }
+
+  void _appendFormulaValue(
+    FormFieldModel field,
+    String key,
+    Map<String, dynamic> payload,
+  ) {
+    final value = getFormulaDisplayValue(field).trim();
+    if (value.isEmpty) return;
+    payload[key] = value;
+  }
+
+  String _submitFileFieldKey(String fieldId, {required bool allowMultiple}) {
+    return allowMultiple ? 'data[$fieldId][]' : 'data[$fieldId]';
+  }
+
+  Future<void> _appendSignatureFile(
+    String fieldId,
+    String key,
+    List<MapEntry<String, multi.MultipartFile>> files,
+  ) async {
+    final signature = getSignatureValue(fieldId);
+    if (signature.isEmpty) return;
+
+    final path = await FormSignatureExporter.exportToTempPng(signature);
+    if (path == null) return;
+
+    files.add(
+      MapEntry(
+        key,
+        await multi.MultipartFile.fromFile(path),
+      ),
+    );
+  }
+
+  Future<void> _appendPathFiles(
+    List<String> paths,
+    String key,
+    List<MapEntry<String, multi.MultipartFile>> files,
+  ) async {
+    for (final path in paths) {
+      if (StringHelper.isEmptyString(path) || !File(path).existsSync())
+        continue;
+      files.add(
+        MapEntry(
+          key,
+          await multi.MultipartFile.fromFile(path),
+        ),
+      );
+    }
+  }
+
+  Future<void> _appendUploadedFiles(
+    String fieldId,
+    String key,
+    List<MapEntry<String, multi.MultipartFile>> files,
+  ) async {
+    for (final file in getFileUploads(fieldId)) {
+      if (StringHelper.isEmptyString(file.path) ||
+          !File(file.path).existsSync()) {
+        continue;
+      }
+      files.add(
+        MapEntry(
+          key,
+          await multi.MultipartFile.fromFile(
+            file.path,
+            filename: file.name,
+          ),
+        ),
+      );
+    }
+  }
+
+  Future<void> _appendAudioRecordingFile(
+    String fieldId,
+    String key,
+    List<MapEntry<String, multi.MultipartFile>> files,
+  ) async {
+    final recording = getAudioRecording(fieldId);
+    if (recording == null || StringHelper.isEmptyString(recording.path)) return;
+    if (!File(recording.path).existsSync()) return;
+
+    files.add(
+      MapEntry(
+        key,
+        await multi.MultipartFile.fromFile(
+          recording.path,
+          filename: recording.displayName,
+        ),
+      ),
+    );
   }
 }
