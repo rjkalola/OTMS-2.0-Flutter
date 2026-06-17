@@ -111,9 +111,7 @@ class ClockInController extends GetxController
               FormSubmissionStatusResponse.fromJson(
             jsonDecode(responseModel.result!) as Map<String, dynamic>,
           );
-          if (formSubmissionStatusResponse
-                  .value.info?.allAssignedFormsSubmitted ??
-              false) {
+          if (formSubmissionStatusResponse.value.userCanStartWork ?? false) {
             if (isSwitchProject ?? false) {
               _onSwitchProjectPressed();
             } else {
@@ -121,7 +119,9 @@ class ClockInController extends GetxController
             }
           } else {
             AppUtils.showToastMessage('all_forms_not_submitted'.tr);
-            Get.toNamed(AppRoutes.formsListScreen);
+            var arguments = {AppConstants.intentKey.fromStartWorkClick: true};
+            moveToScreen(
+                AppRoutes.formsListScreen, arguments);
           }
         }
       },

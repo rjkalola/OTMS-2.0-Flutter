@@ -15,7 +15,8 @@ import 'package:belcka/web_services/response/module_info.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:open_filex/open_filex.dart';
+import 'package:belcka/utils/open_file_helper.dart';
+import 'package:open_filex/open_filex.dart' show ResultType;
 
 class GenerateReportController extends GetxController
     implements SelectDateRangeListener, SelectMultiItemListener {
@@ -315,7 +316,7 @@ class GenerateReportController extends GetxController
           //   ImageUtils.getFileType(filePath),
           // );
           Get.back();
-          final result = await OpenFilex.open(filePath);
+          final result = await OpenFileHelper.open(filePath);
           if (result.type != ResultType.done) {
             Get.snackbar(
                 'error'.tr, "${'could_not_open_file'.tr}: ${result.message}",

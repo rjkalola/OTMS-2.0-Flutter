@@ -85,7 +85,8 @@ class SplashServices {
         } else {
           if (UserUtils.getLoginUserId() != 0) {
             var arguments = {AppConstants.intentKey.fromSignUpScreen: true};
-            Get.offAllNamed(AppRoutes.switchCompanyScreen, arguments: arguments);
+            Get.offAllNamed(AppRoutes.switchCompanyScreen,
+                arguments: arguments);
           }
         }
         // Get.offAllNamed(AppRoutes.dashboardScreen);

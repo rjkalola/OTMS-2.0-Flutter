@@ -60,6 +60,7 @@ class IntentKey {
   final String companyData = 'COMPANY_DATA';
   final String companyCode = 'COMPANY_CODE';
   final String fromSignUpScreen = 'FROM_SIGN_UP_SCREEN';
+  final String fromStartWorkClick = 'FROM_START_WORK_CLICK';
   final String isAllUserTimeSheet = 'IS_ALL_USER_TIMESHEET';
   final String isAllUserTeams = 'IS_ALL_USER_TEAMS';
   final String fromDashboardScreen = 'FROM_DASHBOARD_SCREEN';

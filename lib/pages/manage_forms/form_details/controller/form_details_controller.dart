@@ -39,6 +39,7 @@ import 'package:belcka/web_services/response/base_response.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 import 'package:dio/dio.dart' as multi;
 import 'package:get/get.dart';
+import 'package:path/path.dart' as p;
 
 class FormDetailsController extends GetxController
     implements
@@ -1510,7 +1511,6 @@ class FormDetailsController extends GetxController
 
     try {
       final formData = await _buildSubmitFormData();
-      _printSubmitFormData(formData);
       _api.submitFormEntry(
         formData: formData,
         onSuccess: (ResponseModel responseModel) {
@@ -1547,33 +1547,36 @@ class FormDetailsController extends GetxController
       'form_id': formId,
       'user_id': UserUtils.getLoginUserId(),
     };
-    final files = <MapEntry<String, multi.MultipartFile>>[];
+    final files = <_SubmitFileEntry>[];
 
     await _appendFieldsToSubmitPayload(fields, payload, files);
 
     final formData = multi.FormData.fromMap(payload);
-    formData.files.addAll(files);
+    formData.files.addAll(
+      files.map((entry) => MapEntry(entry.key, entry.file)),
+    );
+    _printSubmitFormData(formData, files);
     return formData;
   }
 
-  void _printSubmitFormData(multi.FormData formData) {
+  void _printSubmitFormData(
+    multi.FormData formData,
+    List<_SubmitFileEntry> fileEntries,
+  ) {
     print('forms/entries/submit request data:');
     print('URL: ${ApiConstants.formsEntriesSubmit}');
     for (final field in formData.fields) {
       print('  ${field.key}: ${field.value}');
     }
-    for (final file in formData.files) {
-      final multipartFile = file.value;
-      print(
-        '  ${file.key}: [File] ${multipartFile.filename ?? 'unknown'}',
-      );
+    for (final file in fileEntries) {
+      print('  ${file.key}: [File] ${file.path}');
     }
   }
 
   Future<void> _appendFieldsToSubmitPayload(
     List<FormFieldModel> fieldList,
     Map<String, dynamic> payload,
-    List<MapEntry<String, multi.MultipartFile>> files,
+    List<_SubmitFileEntry> files,
   ) async {
     for (final field in fieldList) {
       if (field.normalizedType == FormFieldType.group) {
@@ -1660,7 +1663,7 @@ class FormDetailsController extends GetxController
           fieldId!,
           _submitFileFieldKey(
             fieldId,
-            allowMultiple: field.allowsMultipleUploadsEnabled,
+            allowMultiple: true,
           ),
           files,
         );
@@ -1879,10 +1882,25 @@ class FormDetailsController extends GetxController
     return allowMultiple ? 'data[$fieldId][]' : 'data[$fieldId]';
   }
 
+  String _submitAudioFileName(String path) {
+    final fileName = p.basename(path);
+    final extension = p.extension(fileName).toLowerCase();
+    if (extension.isNotEmpty) return fileName;
+    return '$fileName.m4a';
+  }
+
+  multi.DioMediaType _submitAudioContentType(String path) {
+    final extension = p.extension(path).toLowerCase();
+    if (extension == '.mp3') return multi.DioMediaType('audio', 'mpeg');
+    if (extension == '.wav') return multi.DioMediaType('audio', 'wav');
+    if (extension == '.webm') return multi.DioMediaType('audio', 'webm');
+    return multi.DioMediaType('audio', 'mp4');
+  }
+
   Future<void> _appendSignatureFile(
     String fieldId,
     String key,
-    List<MapEntry<String, multi.MultipartFile>> files,
+    List<_SubmitFileEntry> files,
   ) async {
     final signature = getSignatureValue(fieldId);
     if (signature.isEmpty) return;
@@ -1891,9 +1909,10 @@ class FormDetailsController extends GetxController
     if (path == null) return;
 
     files.add(
-      MapEntry(
-        key,
-        await multi.MultipartFile.fromFile(path),
+      _SubmitFileEntry(
+        key: key,
+        path: path,
+        file: await multi.MultipartFile.fromFile(path),
       ),
     );
   }
@@ -1901,15 +1920,16 @@ class FormDetailsController extends GetxController
   Future<void> _appendPathFiles(
     List<String> paths,
     String key,
-    List<MapEntry<String, multi.MultipartFile>> files,
+    List<_SubmitFileEntry> files,
   ) async {
     for (final path in paths) {
       if (StringHelper.isEmptyString(path) || !File(path).existsSync())
         continue;
       files.add(
-        MapEntry(
-          key,
-          await multi.MultipartFile.fromFile(path),
+        _SubmitFileEntry(
+          key: key,
+          path: path,
+          file: await multi.MultipartFile.fromFile(path),
         ),
       );
     }
@@ -1918,7 +1938,7 @@ class FormDetailsController extends GetxController
   Future<void> _appendUploadedFiles(
     String fieldId,
     String key,
-    List<MapEntry<String, multi.MultipartFile>> files,
+    List<_SubmitFileEntry> files,
   ) async {
     for (final file in getFileUploads(fieldId)) {
       if (StringHelper.isEmptyString(file.path) ||
@@ -1926,9 +1946,10 @@ class FormDetailsController extends GetxController
         continue;
       }
       files.add(
-        MapEntry(
-          key,
-          await multi.MultipartFile.fromFile(
+        _SubmitFileEntry(
+          key: key,
+          path: file.path,
+          file: await multi.MultipartFile.fromFile(
             file.path,
             filename: file.name,
           ),
@@ -1940,20 +1961,34 @@ class FormDetailsController extends GetxController
   Future<void> _appendAudioRecordingFile(
     String fieldId,
     String key,
-    List<MapEntry<String, multi.MultipartFile>> files,
+    List<_SubmitFileEntry> files,
   ) async {
     final recording = getAudioRecording(fieldId);
     if (recording == null || StringHelper.isEmptyString(recording.path)) return;
     if (!File(recording.path).existsSync()) return;
 
     files.add(
-      MapEntry(
-        key,
-        await multi.MultipartFile.fromFile(
+      _SubmitFileEntry(
+        key: key,
+        path: recording.path,
+        file: await multi.MultipartFile.fromFile(
           recording.path,
-          filename: recording.displayName,
+          filename: _submitAudioFileName(recording.path),
+          contentType: _submitAudioContentType(recording.path),
         ),
       ),
     );
   }
+}
+
+class _SubmitFileEntry {
+  const _SubmitFileEntry({
+    required this.key,
+    required this.path,
+    required this.file,
+  });
+
+  final String key;
+  final String path;
+  final multi.MultipartFile file;
 }

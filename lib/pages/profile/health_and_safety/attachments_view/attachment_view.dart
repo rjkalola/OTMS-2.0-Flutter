@@ -11,7 +11,8 @@ import 'package:belcka/widgets/custom_views/downloading_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:open_filex/open_filex.dart';
+import 'package:belcka/utils/open_file_helper.dart';
+import 'package:open_filex/open_filex.dart' show ResultType;
 import 'package:url_launcher/url_launcher.dart';
 
 class AttachmentSheet extends StatelessWidget {
@@ -181,7 +182,7 @@ class _AttachmentCard extends StatelessWidget implements DownloadFileListener {
         // subtitle: "${'file_saved_to'.tr}: ${displayPath ?? ""}",
         onViewFile: () async {
           Get.back();
-          final result = await OpenFilex.open(filePath);
+          final result = await OpenFileHelper.open(filePath);
           if (result.type != ResultType.done) {
             Get.snackbar(
                 'error'.tr, "${'could_not_open_file'.tr}: ${result.message}",

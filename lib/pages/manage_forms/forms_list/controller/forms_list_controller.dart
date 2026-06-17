@@ -25,6 +25,7 @@ class FormsListController extends GetxController {
   final isInternetNotAvailable = false.obs;
   final isMainViewVisible = false.obs;
   final isSearchEnable = false.obs;
+  bool fromStartWorkClick = false;
 
   final searchController = TextEditingController().obs;
 
@@ -34,6 +35,11 @@ class FormsListController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    var arguments = Get.arguments;
+    if (arguments != null) {
+      fromStartWorkClick =
+          arguments[AppConstants.intentKey.fromStartWorkClick] ?? false;
+    }
     fetchFormsList();
   }
 
@@ -100,11 +106,19 @@ class FormsListController extends GetxController {
     fetchFormsList();
   }
 
-  void onFormTap(FormInfo form) {
-    Get.toNamed(
+  void onFormTap(FormInfo form) async {
+    final result = await Get.toNamed(
       AppRoutes.formDetailsScreen,
       arguments: {AppConstants.intentKey.ID: form.id},
     );
+
+    if (result != null && result == true) {
+      if (fromStartWorkClick) {
+        Get.back(result: true);
+      } else {
+        fetchFormsList();
+      }
+    }
   }
 
   void _applyFormCounts(FormsListCounts? counts) {

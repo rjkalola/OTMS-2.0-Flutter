@@ -117,7 +117,7 @@ class MainActivity : FlutterActivity() {
 
             val path = resolveDownloadPath(itemUri, fileName)
             MediaScannerConnection.scanFile(this, arrayOf(path), arrayOf(mimeType), null)
-            return path
+            return cacheOpenableCopy(itemUri, fileName)
         }
 
         @Suppress("DEPRECATION")
@@ -134,7 +134,23 @@ class MainActivity : FlutterActivity() {
             arrayOf(mimeType),
             null
         )
-        return destFile.absolutePath
+        return cacheOpenableCopy(destFile, fileName)
+    }
+
+    private fun cacheOpenableCopy(source: File, fileName: String): String {
+        val cacheFile = File(cacheDir, "download_open_$fileName")
+        source.copyTo(cacheFile, overwrite = true)
+        return cacheFile.absolutePath
+    }
+
+    private fun cacheOpenableCopy(sourceUri: Uri, fileName: String): String {
+        val cacheFile = File(cacheDir, "download_open_$fileName")
+        contentResolver.openInputStream(sourceUri)?.use { input ->
+            cacheFile.outputStream().use { output ->
+                input.copyTo(output)
+            }
+        } ?: throw IllegalStateException("Could not read saved download for opening")
+        return cacheFile.absolutePath
     }
 
     private fun resolveDownloadPath(uri: Uri, fileName: String): String {

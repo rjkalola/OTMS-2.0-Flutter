@@ -19,7 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:open_filex/open_filex.dart';
+import 'package:belcka/utils/open_file_helper.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -153,7 +153,7 @@ class ImageUtils {
           );
         }
       } else {
-        await OpenFilex.open(path); //
+        await OpenFileHelper.open(path); //
       }
     }
 

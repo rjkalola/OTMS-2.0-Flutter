@@ -210,13 +210,13 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
             jsonDecode(responseModel.result!) as Map<String, dynamic>,
           );
 
-          if (formSubmissionStatusResponse
-                  .value.info?.allAssignedFormsSubmitted ??
-              false) {
+          if (formSubmissionStatusResponse.value.userCanStartWork ?? false) {
             moveToScreen(appRout: AppRoutes.startShiftMapScreen);
           } else {
             AppUtils.showToastMessage('all_forms_not_submitted'.tr);
-            moveToScreen(appRout: AppRoutes.formsListScreen);
+            var arguments = {AppConstants.intentKey.fromStartWorkClick: true};
+            moveToScreen(
+                appRout: AppRoutes.formsListScreen, arguments: arguments);
           }
         }
       },

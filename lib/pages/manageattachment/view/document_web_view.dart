@@ -3,7 +3,7 @@ import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:open_filex/open_filex.dart';
+import 'package:belcka/utils/open_file_helper.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class DocumentWebView extends StatefulWidget {
@@ -46,7 +46,7 @@ class _DocumentWebViewState extends State<DocumentWebView> {
         ..loadRequest(Uri.parse(viewerUrl));
     } else {
       // ✅ Local file → Open with default native app (Word, Excel, PDF, etc.)
-      await OpenFilex.open(widget.url);
+      await OpenFileHelper.open(widget.url);
       if (mounted) Get.back(); // close viewer screen automatically
     }
   }

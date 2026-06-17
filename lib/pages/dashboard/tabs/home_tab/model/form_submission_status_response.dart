@@ -1,26 +1,20 @@
-import 'package:belcka/pages/dashboard/tabs/home_tab/model/form_submission_status_info.dart';
-
 class FormSubmissionStatusResponse {
   bool? isSuccess;
   String? message;
-  FormSubmissionStatusInfo? info;
+  bool? userCanStartWork;
   int? activeCompanyId;
 
   FormSubmissionStatusResponse({
     this.isSuccess,
     this.message,
-    this.info,
+    this.userCanStartWork,
     this.activeCompanyId,
   });
 
   FormSubmissionStatusResponse.fromJson(Map<String, dynamic> json) {
     isSuccess = json['IsSuccess'];
     message = json['message'];
-    info = json['info'] != null
-        ? FormSubmissionStatusInfo.fromJson(
-            json['info'] as Map<String, dynamic>,
-          )
-        : null;
+    userCanStartWork = json['user_can_start_work'];
     activeCompanyId = json['active_company_id'];
   }
 
@@ -28,7 +22,7 @@ class FormSubmissionStatusResponse {
     return {
       'IsSuccess': isSuccess,
       'message': message,
-      'info': info?.toJson(),
+      'user_can_start_work': userCanStartWork,
       'active_company_id': activeCompanyId,
     };
   }
