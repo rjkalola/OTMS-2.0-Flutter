@@ -6,23 +6,17 @@
   <component name="ChangeListManager">
     <list default="true" id="053ed336-4b64-4937-ade4-066c93ca45e7" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/src/main/kotlin/com/app/belcka/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/kotlin/com/app/belcka/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/buyer_app/generate_report/controller/generate_report_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/buyer_app/generate_report/controller/generate_report_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/authentication/splash/splash_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/authentication/splash/splash_services.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/clock_in/controller/clock_in_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/clock_in/controller/clock_in_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Podfile" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Podfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Podfile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/Info.plist" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/buyer_app/buyer_order/controller/buyer_order_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/buyer_app/buyer_order/controller/buyer_order_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/buyer_app/buyer_order/view/widgets/buyer_order_list_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/buyer_app/buyer_order/view/widgets/buyer_order_list_item.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in_new_flow/user_clock_in_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in_new_flow/user_clock_in_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/dashboard/tabs/home_tab/model/form_submission_status_info.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/dashboard/tabs/home_tab/model/form_submission_status_response.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/dashboard/tabs/home_tab/model/form_submission_status_response.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/digital_id_card/controller/digital_id_card_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/digital_id_card/controller/digital_id_card_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/controller/form_details_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/controller/form_details_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/forms_list/controller/forms_list_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/manage_forms/forms_list/controller/forms_list_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/manageattachment/view/document_web_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/manageattachment/view/document_web_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/profile/health_and_safety/attachments_view/attachment_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/profile/health_and_safety/attachments_view/attachment_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/utils/app_constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils/app_constants.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/utils/image_utils.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils/image_utils.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/utils/permission_handler.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils/permission_handler.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/fields/form_audio_recording_field_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/fields/form_audio_recording_field_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/routes/app_pages.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/routes/app_pages.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/routes/app_routes.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/routes/app_routes.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/storeman_app/storeman_supplier_orders/view/widgets/storeman_supplier_order_list_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/storeman_app/storeman_supplier_orders/view/widgets/storeman_supplier_order_list_item.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,12 +86,13 @@
     &quot;io.flutter.project.isFirstOpen&quot;: &quot;true&quot;,
     &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/harvijivani/Desktop/Developer/OTMS-2.0-Flutter/lib/pages/user_orders&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/apple/Documents/My Projects/Stypix Project/Belcka Flutter Git/lib/pages/check_in&quot;,
     &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lib/pages/check_in" />
       <recent name="$PROJECT_DIR$/lib/pages/user_orders" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -109,9 +104,10 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="Application" factoryName="Application">
+    <configuration default="true" type="AppleRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" IS_LOCATION_SIMULATION_SUPPORTED="false" IS_LOCATION_SIMULATION_ALLOWED="true" APPLICATION_LANGUAGE="IDELaunchSchemeLanguageUseSystemLanguage" APPLICATION_REGION="" DEVELOPMENT_TEAM="${TEAM_ID}" MAKE_ACTIVE="TRUE" SHOULD_DEBUG_EXTENSIONS="false">
+      <embedded_app_extension_list />
       <method v="2">
-        <option name="Make" enabled="true" />
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">

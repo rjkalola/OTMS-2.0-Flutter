@@ -36,7 +36,7 @@
        <true/>
     </dict>
     <key>NSCameraUsageDescription</key>
-    <string>This app needs camera access to scan QR codes</string>
+    <string>This app needs camera access to take photos, scan documents, and record videos.</string>
     <key>NSFaceIDUsageDescription</key>
     <string>We use Face ID to authenticate</string>
     <key>NSLocationAlwaysUsageDescription</key>
@@ -46,7 +46,7 @@
     <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
     <string>We need your location to provide better service.</string>
     <key>NSMicrophoneUsageDescription</key>
-    <string>This app requires access to the microphone.</string>
+    <string>This app needs microphone access to record audio in forms.</string>
     <key>NSPhotoLibraryAddUsageDescription</key>
     <string>This app requires read and write access to the photo library.</string>
     <key>NSPhotoLibraryUsageDescription</key>

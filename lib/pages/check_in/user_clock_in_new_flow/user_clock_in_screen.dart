@@ -3,14 +3,12 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'project_shift_selection.dart';
-
-
-//Mock Server Job Data
+import 'shift_completed_screen.dart';
 
 class JobEntry {
   final String address;
   final String jobType;
-  final String? duration;
+  final String? duration; // e.g. "04:00" or null if ongoing
   final bool isOngoing;
 
   const JobEntry({
@@ -34,7 +32,6 @@ final List<JobEntry> mockServerJobs = [
     isOngoing: true,
   ),
 ];
-
 
 class SemiCirclePainter extends CustomPainter {
   final double progress;
@@ -156,8 +153,6 @@ class _ClipboardPainter extends CustomPainter {
   bool shouldRepaint(_ClipboardPainter old) => false;
 }
 
-// Main Screen
-
 class WorkTimerScreen extends StatefulWidget {
   const WorkTimerScreen({super.key});
 
@@ -195,11 +190,10 @@ class _WorkTimerScreenState extends State<WorkTimerScreen>
     _pulseController.dispose();
     super.dispose();
   }
-
   void _onStartWorkTapped() {
     if (_isRunning) {
       // Already running — Stop Work
-      _stopWork();
+      //_stopWork();
     } else if (_selectedProject == null || _selectedShift == null) {
       _showSelectionFlow();
     } else {
@@ -232,7 +226,23 @@ class _WorkTimerScreenState extends State<WorkTimerScreen>
     });
   }
 
-  void _stopWork() {
+  void _showStopWorkDialog() {
+    showDialog(
+      context: context,
+      barrierColor: Colors.black.withOpacity(0.45),
+      barrierDismissible: false,
+      builder: (_) => StopWorkDialog(
+        workedSeconds: _elapsedSeconds,
+        onNo: () => Navigator.of(context).pop(),
+        onYes: () {
+          Navigator.of(context).pop();
+          _confirmStopWork();
+        },
+      ),
+    );
+  }
+
+  void _confirmStopWork() {
     _timer?.cancel();
     _pulseController.stop();
     _pulseController.reset();
@@ -243,6 +253,17 @@ class _WorkTimerScreenState extends State<WorkTimerScreen>
       _selectedShift = null;
       _jobs = [];
     });
+
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => ShiftCompletedScreen(
+          summary: testShiftSummary,
+          onDone: () {
+            Navigator.of(context).pop(); // close ShiftCompletedScreen
+          },
+        ),
+      ),
+    );
   }
 
   String get _formattedTime {
@@ -273,9 +294,6 @@ class _WorkTimerScreenState extends State<WorkTimerScreen>
       ),
     );
   }
-
-  // Header
-
   Widget _buildHeader(double height, double topPad) {
     return Container(
       height: height,
@@ -298,7 +316,6 @@ class _WorkTimerScreenState extends State<WorkTimerScreen>
               painter: SemiCirclePainter(progress: _arcProgress),
             ),
           ),
-
           Positioned(
             top: topPad + 10,
             left: 16,
@@ -325,7 +342,6 @@ class _WorkTimerScreenState extends State<WorkTimerScreen>
               ),
             ),
           ),
-
           Positioned(
             left: 0, right: 0, bottom: 28,
             child: Column(
@@ -490,9 +506,9 @@ class _WorkTimerScreenState extends State<WorkTimerScreen>
 
   Color _shiftBadgeColor(Color bg) {
     final map = {
-      const Color(0xFFFFF9E6): const Color(0xFFF59E0B),
-      const Color(0xFFE8F4FD): const Color(0xFF2196F3),
-      const Color(0xFFF0EEFF): const Color(0xFF7C3AED),
+      Color(0xFFFFF9E6): Color(0xFFF59E0B),
+      Color(0xFFE8F4FD): Color(0xFF2196F3),
+      Color(0xFFF0EEFF): Color(0xFF7C3AED),
     };
     return map[bg] ?? const Color(0xFFFF8C00);
   }
@@ -578,7 +594,6 @@ class _WorkTimerScreenState extends State<WorkTimerScreen>
       ),
     );
   }
-
   Widget _buildBottomBar() {
     final bottomPad = MediaQuery.of(context).padding.bottom;
 
@@ -617,7 +632,7 @@ class _WorkTimerScreenState extends State<WorkTimerScreen>
           // Stop Work
           Expanded(
             child: GestureDetector(
-              onTap: _stopWork,
+              onTap: _showStopWorkDialog,
               child: Container(
                 height: 52,
                 decoration: BoxDecoration(
@@ -658,6 +673,7 @@ class _WorkTimerScreenState extends State<WorkTimerScreen>
           ),
           const SizedBox(width: 10),
 
+          // Swap / Switch icon button (blue circle)
           GestureDetector(
             onTap: _showSelectionFlow,
             child: Container(
@@ -804,4 +820,358 @@ class _GreenButton extends StatelessWidget {
       ),
     );
   }
+}
+
+class StopWorkDialog extends StatelessWidget {
+  final int workedSeconds;
+  final VoidCallback onNo;
+  final VoidCallback onYes;
+
+  const StopWorkDialog({
+    super.key,
+    required this.workedSeconds,
+    required this.onNo,
+    required this.onYes,
+  });
+
+  String get _formattedWorkedTime {
+    final h = (workedSeconds ~/ 3600).toString().padLeft(2, '0');
+    final m = ((workedSeconds % 3600) ~/ 60).toString().padLeft(2, '0');
+    final s = (workedSeconds % 60).toString().padLeft(2, '0');
+    return '$h:$m:$s';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      backgroundColor: Colors.transparent,
+      insetPadding: const EdgeInsets.symmetric(horizontal: 32),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(24),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.15),
+              blurRadius: 30,
+              offset: const Offset(0, 10),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(height: 28),
+
+            // Alarm clock
+            Container(
+              width: 90,
+              height: 90,
+              decoration: BoxDecoration(
+                color: const Color(0xFFFFF0F0),
+                shape: BoxShape.circle,
+              ),
+              child: Center(
+                child: _AlarmClockPainter(),
+              ),
+            ),
+            const SizedBox(height: 20),
+
+            // Title
+            const Text(
+              'Stop work?',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w800,
+                color: Color(0xFF1A1D2E),
+              ),
+            ),
+            const SizedBox(height: 8),
+
+            // Subtitle
+            const Text(
+              'Are you sure want to\nstop working on this job?',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 13.5,
+                color: Color(0xFF888AA0),
+                height: 1.5,
+              ),
+            ),
+            const SizedBox(height: 20),
+
+            // Worked time row
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 24),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF5F6FA),
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: Row(
+                children: [
+                  // Calendar + clock icon
+                  Container(
+                    width: 38,
+                    height: 38,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFE8F0FE),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        const Icon(
+                          Icons.calendar_today_outlined,
+                          size: 20,
+                          color: Color(0xFF4A6CF7),
+                        ),
+                        Positioned(
+                          right: 6,
+                          bottom: 6,
+                          child: Container(
+                            width: 14,
+                            height: 14,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF4A6CF7),
+                              shape: BoxShape.circle,
+                              border: Border.all(color: Colors.white, width: 1.5),
+                            ),
+                            child: const Icon(
+                              Icons.access_time,
+                              size: 8,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Today's worked time",
+                        style: TextStyle(
+                          fontSize: 11.5,
+                          color: Color(0xFF888AA0),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        _formattedWorkedTime,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w800,
+                          color: Color(0xFF1A1D2E),
+                          letterSpacing: 1,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 24),
+
+            // No / Yes buttons
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Row(
+                children: [
+                  // No — outlined red
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: onNo,
+                      child: Container(
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(28),
+                          border: Border.all(
+                            color: const Color(0xFFFF4444),
+                            width: 1.8,
+                          ),
+                        ),
+                        alignment: Alignment.center,
+                        child: const Text(
+                          'No',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xFFFF4444),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 14),
+
+                  // Yes — filled green
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: onYes,
+                      child: Container(
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF4CAF50),
+                          borderRadius: BorderRadius.circular(28),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0xFF4CAF50).withOpacity(0.35),
+                              blurRadius: 12,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        alignment: Alignment.center,
+                        child: const Text(
+                          'Yes',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 24),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _AlarmClockPainter extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return CustomPaint(
+      size: const Size(56, 56),
+      painter: _AlarmClockCustomPainter(),
+    );
+  }
+}
+
+class _AlarmClockCustomPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final cx = size.width / 2;
+    final cy = size.height / 2 + 4;
+    final r = size.width * 0.38;
+
+    canvas.drawCircle(
+      Offset(cx, cy + 3),
+      r,
+      Paint()
+        ..color = Colors.red.withOpacity(0.15)
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6),
+    );
+
+    canvas.drawCircle(
+      Offset(cx, cy),
+      r,
+      Paint()..color = const Color(0xFFE53935),
+    );
+
+    canvas.drawCircle(
+      Offset(cx, cy),
+      r * 0.78,
+      Paint()..color = Colors.white,
+    );
+
+    final handPaint = Paint()
+      ..color = const Color(0xFF333333)
+      ..strokeWidth = 2.0
+      ..strokeCap = StrokeCap.round;
+
+    canvas.drawLine(
+      Offset(cx, cy),
+      Offset(cx - r * 0.28, cy - r * 0.35),
+      handPaint,
+    );
+    canvas.drawLine(
+      Offset(cx, cy),
+      Offset(cx, cy - r * 0.50),
+      handPaint,
+    );
+
+    canvas.drawCircle(
+      Offset(cx, cy),
+      2.5,
+      Paint()..color = const Color(0xFFE53935),
+    );
+
+    final bellPaint = Paint()..color = const Color(0xFFE53935);
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromCenter(
+          center: Offset(cx - r * 0.88, cy - r * 0.55),
+          width: r * 0.38,
+          height: r * 0.25,
+        ),
+        const Radius.circular(4),
+      ),
+      bellPaint,
+    );
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromCenter(
+          center: Offset(cx + r * 0.88, cy - r * 0.55),
+          width: r * 0.38,
+          height: r * 0.25,
+        ),
+        const Radius.circular(4),
+      ),
+      bellPaint,
+    );
+    final legPaint = Paint()
+      ..color = const Color(0xFFE53935)
+      ..strokeWidth = 3
+      ..strokeCap = StrokeCap.round;
+    canvas.drawLine(
+      Offset(cx - r * 0.45, cy + r * 0.88),
+      Offset(cx - r * 0.65, cy + r * 1.1),
+      legPaint,
+    );
+    canvas.drawLine(
+      Offset(cx + r * 0.45, cy + r * 0.88),
+      Offset(cx + r * 0.65, cy + r * 1.1),
+      legPaint,
+    );
+
+    final ringPaint = Paint()
+      ..color = const Color(0xFFE53935)
+      ..strokeWidth = 2.0
+      ..strokeCap = StrokeCap.round;
+    canvas.drawLine(
+      Offset(cx - r * 1.05, cy - r * 0.9),
+      Offset(cx - r * 1.25, cy - r * 1.1),
+      ringPaint,
+    );
+    canvas.drawLine(
+      Offset(cx - r * 0.85, cy - r * 1.1),
+      Offset(cx - r * 1.0, cy - r * 1.35),
+      ringPaint,
+    );
+    canvas.drawLine(
+      Offset(cx + r * 1.05, cy - r * 0.9),
+      Offset(cx + r * 1.25, cy - r * 1.1),
+      ringPaint,
+    );
+    canvas.drawLine(
+      Offset(cx + r * 0.85, cy - r * 1.1),
+      Offset(cx + r * 1.0, cy - r * 1.35),
+      ringPaint,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_AlarmClockCustomPainter old) => false;
 }

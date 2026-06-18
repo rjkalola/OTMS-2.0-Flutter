@@ -49,13 +49,12 @@ class _FormAudioRecordingFieldViewState
   }
 
   Future<bool> _ensureMicrophonePermission() async {
-    var status = await Permission.microphone.status;
-    if (status.isGranted) return true;
+    if (await _recorder.hasPermission(request: true)) {
+      return true;
+    }
 
-    status = await Permission.microphone.request();
-    if (status.isGranted) return true;
-
-    if (status.isPermanentlyDenied) {
+    final status = await Permission.microphone.status;
+    if (status.isPermanentlyDenied || status.isDenied) {
       AppUtils.showSnackBarMessage('microphone_permission_denied'.tr);
       await openAppSettings();
     } else {

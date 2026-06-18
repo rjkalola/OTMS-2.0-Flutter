@@ -40,19 +40,17 @@ class BuyerOrderListItem extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    PrimaryTextView(
-                      text: "${'order_date'.tr}: ${item.date ?? ""}",
-                      fontSize: 14,
-                    ),
-                    PrimaryTextView(
-                      text: "${'order'.tr}: ${item.orderId ?? ""}",
-                      color: secondaryLightTextColor_(context),
-                      fontSize: 13,
-                    )
-                  ],
+                PrimaryTextView(
+                  text: "${'order_date'.tr}: ${item.date ?? ""}",
+                  fontSize: 14,
+                ),
+                const SizedBox(height: 2),
+                PrimaryTextView(
+                  text: "${'order'.tr}: ${item.orderId ?? ""}",
+                  color: secondaryLightTextColor_(context),
+                  overflow: TextOverflow.ellipsis,
+                  maxLine: 1,
+                  fontSize: 13,
                 ),
                 const SizedBox(height: 2),
                 PrimaryTextView(

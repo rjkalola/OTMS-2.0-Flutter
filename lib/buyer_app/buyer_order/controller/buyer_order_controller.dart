@@ -106,7 +106,7 @@ class BuyerOrderController extends GetxController
         } else if (filterType == AppConstants.type.unCompleted) {
           title = 'incompleted'.tr;
           selectedTab.value = OrderTabType.cancelled;
-          setSingleFilter(
+          setSingleFilter( 
               "status", AppConstants.orderStatus.cancelled.toString());
         } else if (filterType == AppConstants.type.damaged) {
           title = 'damaged'.tr;

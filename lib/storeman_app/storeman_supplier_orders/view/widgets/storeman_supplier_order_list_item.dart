@@ -75,7 +75,9 @@ class StoremanSupplierOrderListItem extends StatelessWidget {
                               PrimaryTextView(
                                 text: "${'order'.tr}: ${item.orderId ?? ""}",
                                 color: secondaryLightTextColor_(context),
-                                fontSize: 14,
+                                fontSize: 13,
+                                overflow: TextOverflow.ellipsis,
+                                maxLine: 1,
                               ),
                             ],
                           ),
