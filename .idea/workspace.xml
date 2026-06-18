@@ -5,18 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="053ed336-4b64-4937-ade4-066c93ca45e7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Podfile" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Podfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Podfile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Runner/Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/Info.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/buyer_app/buyer_order/controller/buyer_order_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/buyer_app/buyer_order/controller/buyer_order_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/buyer_app/buyer_order/view/widgets/buyer_order_list_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/buyer_app/buyer_order/view/widgets/buyer_order_list_item.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in_new_flow/user_clock_in_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in_new_flow/user_clock_in_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/fields/form_audio_recording_field_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/fields/form_audio_recording_field_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/routes/app_pages.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/routes/app_pages.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/routes/app_routes.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/routes/app_routes.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/storeman_app/storeman_supplier_orders/view/widgets/storeman_supplier_order_list_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/storeman_app/storeman_supplier_orders/view/widgets/storeman_supplier_order_list_item.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
