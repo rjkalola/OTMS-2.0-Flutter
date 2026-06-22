@@ -4,12 +4,19 @@ class FormsListResponse {
   bool? isSuccess;
   String? message;
   FormsListInfo? info;
+  int? activeCompanyId;
 
-  FormsListResponse({this.isSuccess, this.message, this.info});
+  FormsListResponse({
+    this.isSuccess,
+    this.message,
+    this.info,
+    this.activeCompanyId,
+  });
 
   FormsListResponse.fromJson(Map<String, dynamic> json) {
     isSuccess = json['IsSuccess'];
     message = json['message'];
+    activeCompanyId = json['active_company_id'];
     final infoJson = json['info'];
     if (infoJson is List) {
       info = FormsListInfo.fromList(infoJson);

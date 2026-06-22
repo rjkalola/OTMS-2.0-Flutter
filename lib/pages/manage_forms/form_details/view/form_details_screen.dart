@@ -1,6 +1,5 @@
 import 'package:belcka/pages/manage_forms/form_details/controller/form_details_controller.dart';
-import 'package:belcka/pages/manage_forms/form_details/view/widgets/form_fields_list.dart';
-import 'package:belcka/pages/manage_forms/form_details/view/widgets/form_send_button.dart';
+import 'package:belcka/pages/manage_forms/form_details/view/widgets/form_entry_fields_list.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
@@ -51,12 +50,7 @@ class _FormDetailsScreenState extends State<FormDetailsScreen> {
                     )
                   : Visibility(
                       visible: controller.isMainViewVisible.value,
-                      child: Column(
-                        children: [
-                          Expanded(child: FormFieldsList()),
-                          FormSendButton(),
-                        ],
-                      ),
+                      child: FormEntryFieldsList(),
                     ),
             ),
           ),

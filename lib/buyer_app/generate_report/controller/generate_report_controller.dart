@@ -266,9 +266,8 @@ class GenerateReportController extends GetxController
       AppUtils.showToastMessage('please_select_modules'.tr);
       return;
     }
-    final idStr =
-        StringHelper.getCommaSeparatedIntListIds(sheetSelectedIds.toList());
-    if (StringHelper.isEmptyString(idStr)) {
+    final moduleIds = sheetSelectedIds.toList();
+    if (moduleIds.isEmpty) {
       AppUtils.showToastMessage('please_select_modules'.tr);
       return;
     }
@@ -284,7 +283,7 @@ class GenerateReportController extends GetxController
         startDate: sheetStartDate.value,
         endDate: sheetEndDate.value,
         reportType: typeKey,
-        moduleIds: idStr,
+        moduleIds: moduleIds,
         fileName: fileName,
         onProgress: (p) => exportProgress.value = p,
       );

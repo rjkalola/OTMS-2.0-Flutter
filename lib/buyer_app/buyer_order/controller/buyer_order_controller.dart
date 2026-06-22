@@ -440,8 +440,13 @@ class BuyerOrderController extends GetxController
           selectedTab.value == OrderTabType.proceed ||
           selectedTab.value == OrderTabType.delivered ||
           selectedTab.value == OrderTabType.cancelled) {
+        int status = 0;
+        if(selectedTab == OrderTabType.cancelled){
+          status = AppConstants.orderStatus.cancelled;
+        }
         var arguments = {
           AppConstants.intentKey.orderId: ordersList[index].id ?? 0,
+          AppConstants.intentKey.status: status,
         };
         moveToScreen(
             appRout: AppRoutes.buyerOrderDetailScreen, arguments: arguments);

@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
+
 import 'package:belcka/buyer_app/generate_report/model/generate_report_modules_response.dart';
 import 'package:belcka/utils/download_save_path.dart';
 import 'package:belcka/web_services/api_constants.dart';
@@ -34,7 +36,7 @@ class GenerateReportRepository {
     required String startDate,
     required String endDate,
     required String reportType,
-    required String moduleIds,
+    required List<int> moduleIds,
     required String fileName,
     void Function(int percent)? onProgress,
   }) async {
@@ -42,23 +44,43 @@ class GenerateReportRepository {
     dio.options.connectTimeout = const Duration(minutes: 3);
     dio.options.receiveTimeout = const Duration(minutes: 3);
     final stagingPath = await resolveDownloadStagingPath(fileName);
-    await dio.download(
+    final requestBody = {
+      'company_id': ApiConstants.companyId,
+      'start_date': startDate,
+      'end_date': endDate,
+      'report_type': reportType,
+      'module_ids': moduleIds,
+    };
+    final response = await dio.post<List<int>>(
       ApiConstants.exportReports,
-      stagingPath,
-      queryParameters: {
-        'company_id': ApiConstants.companyId.toString(),
-        'start_date': startDate,
-        'end_date': endDate,
-        'report_type': reportType,
-        'module_ids': moduleIds,
-      },
-      options: Options(headers: ApiConstants.getHeader()),
+      data: requestBody,
+      options: Options(
+        headers: ApiConstants.getHeader(),
+        responseType: ResponseType.bytes,
+        followRedirects: false,
+        validateStatus: (status) => status != null && status < 500,
+      ),
       onReceiveProgress: (received, total) {
         if (total != -1 && onProgress != null) {
           onProgress(((received / total) * 100).toInt());
         }
       },
     );
+    if (response.statusCode != 200 && response.statusCode != 201) {
+      throw DioException(
+        requestOptions: response.requestOptions,
+        response: response,
+        message: 'Export report failed with status ${response.statusCode}',
+      );
+    }
+    final bytes = response.data;
+    if (bytes == null || bytes.isEmpty) {
+      throw DioException(
+        requestOptions: response.requestOptions,
+        message: 'Export report returned empty file',
+      );
+    }
+    await File(stagingPath).writeAsBytes(bytes, flush: true);
     return finalizeDownloadSave(
       stagingPath: stagingPath,
       fileName: fileName,

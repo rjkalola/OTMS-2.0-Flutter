@@ -239,7 +239,9 @@ class AppRoutes {
 
   // Manage Forms
   static const String formsListScreen = '/forms_list_screen';
+  static const String submitFormScreen = '/submit_form_screen';
   static const String formDetailsScreen = '/form_details_screen';
+  static const String formUsersScreen = '/form_users_screen';
 
   static const String userClockInScreen = '/user_clock_in_screen';
 

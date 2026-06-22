@@ -5,7 +5,70 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="053ed336-4b64-4937-ade4-066c93ca45e7" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/buyer_app/buyer_order/controller/buyer_order_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/buyer_app/buyer_order/controller/buyer_order_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/buyer_app/buyer_order_detail/controller/buyer_order_detail_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/buyer_app/buyer_order_detail/controller/buyer_order_detail_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/buyer_app/generate_report/controller/generate_report_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/buyer_app/generate_report/controller/generate_report_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/buyer_app/generate_report/controller/generate_report_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/buyer_app/generate_report/controller/generate_report_repository.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/controller/form_details_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/controller/form_details_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/controller/form_details_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/controller/form_details_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/model/form_audio_recording_value.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/model/form_date_value.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/model/form_detail_info.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/model/form_detail_response.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/model/form_field_condition.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/model/form_field_model.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/model/form_field_type.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/model/form_location_value.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/model/form_phone_value.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/model/form_signature_value.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/model/form_uploaded_file.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/utils/form_condition_evaluator.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/utils/form_formula_evaluator.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/utils/form_signature_exporter.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/form_details_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/form_details_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/fields/form_audio_recording_field_view.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/fields/form_date_field_view.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/fields/form_description_field_view.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/fields/form_dropdown_field_view.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/fields/form_email_field_view.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/fields/form_file_upload_field_view.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/fields/form_formula_field_view.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/fields/form_group_field_view.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/fields/form_image_selection_field_view.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/fields/form_image_upload_field_view.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/fields/form_location_field_view.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/fields/form_number_field_view.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/fields/form_numbers_slider_field_view.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/fields/form_open_ended_field_view.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/fields/form_phone_field_view.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/fields/form_rating_field_view.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/fields/form_scanner_field_view.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/fields/form_signature_field_view.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/fields/form_task_field_view.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/fields/form_unsupported_field_view.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/fields/form_video_upload_field_view.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/fields/form_yes_no_field_view.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/form_field_renderer.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/form_fields_list.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/form_send_button.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/form_validation_banner.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/shared/form_audio_recording_player.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/shared/form_description_html_content.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/shared/form_field_label.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/shared/form_field_section.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/shared/form_signature_dialog.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/shared/form_signature_pad.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/shared/form_video_thumbnail.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/forms_list/controller/forms_list_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/manage_forms/forms_list/controller/forms_list_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/forms_list/model/form_created_by.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/manage_forms/forms_list/model/form_created_by.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/forms_list/model/form_info.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/manage_forms/forms_list/model/form_info.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/forms_list/model/forms_list_response.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/manage_forms/forms_list/model/forms_list_response.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/forms_list/view/widgets/forms_list_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/manage_forms/forms_list/view/widgets/forms_list_item.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/routes/app_pages.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/routes/app_pages.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/routes/app_routes.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/routes/app_routes.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/web_services/api_constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/web_services/api_constants.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

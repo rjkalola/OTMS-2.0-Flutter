@@ -42,7 +42,9 @@ import 'package:belcka/storeman_app/storeman_hire_products/view/storeman_hire_pr
 import 'package:belcka/storeman_app/storeman_order_details/view/storeman_order_details_screen.dart';
 import 'package:belcka/storeman_app/storeman_inventory/view/storeman_inventory_screen.dart';
 import 'package:belcka/storeman_app/manage_stock_dashboard/view/manage_stock_dashboard_screen.dart';
+import 'package:belcka/pages/manage_forms/submit_form/view/submit_form_screen.dart';
 import 'package:belcka/pages/manage_forms/form_details/view/form_details_screen.dart';
+import 'package:belcka/pages/manage_forms/form_users/view/form_users_screen.dart';
 import 'package:belcka/pages/manage_forms/forms_list/view/forms_list_screen.dart';
 import 'package:belcka/storeman_app/stock_history/view/stock_history_screen.dart';
 import 'package:belcka/storeman_app/stock_products_list/view/stock_products_list_screen.dart';
@@ -714,8 +716,14 @@ class AppPages {
         name: AppRoutes.formsListScreen,
         page: () => const FormsListScreen()),
     GetPage(
+        name: AppRoutes.submitFormScreen,
+        page: () => const SubmitFormScreen()),
+    GetPage(
         name: AppRoutes.formDetailsScreen,
         page: () => const FormDetailsScreen()),
+    GetPage(
+        name: AppRoutes.formUsersScreen,
+        page: () => const FormUsersScreen()),
     GetPage(
         name: AppRoutes.userClockInScreen,
         page: () => const WorkTimerScreen()),

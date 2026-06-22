@@ -3,6 +3,7 @@ class FormCreatedBy {
   String? firstName;
   String? lastName;
   String? email;
+  String? tradeName;
   String? image;
 
   FormCreatedBy({
@@ -10,17 +11,21 @@ class FormCreatedBy {
     this.firstName,
     this.lastName,
     this.email,
+    this.tradeName,
     this.image,
   });
 
   FormCreatedBy.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    firstName = json['first_name'];
-    lastName = json['last_name'];
-    email = json['email'];
+    firstName = json['first_name']?.toString();
+    lastName = json['last_name']?.toString();
+    email = json['email']?.toString();
+    tradeName = json['trade_name']?.toString();
     image = json['createdBy_thumb_image'] ??
         json['createdBy_image'] ??
-        json['image'];
+        json['user_thumb_image'] ??
+        json['user_image'] ??
+        json['image']?.toString();
   }
 
   String get fullName {

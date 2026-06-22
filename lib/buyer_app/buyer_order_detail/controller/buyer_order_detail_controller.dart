@@ -67,6 +67,7 @@ class BuyerOrderDetailController extends GetxController
     Map<String, dynamic> map = {
       "company_id": ApiConstants.companyId,
       "id": orderId,
+      if (initialStatus != 0) "status": initialStatus,
     };
 
     _api.orderDetails(

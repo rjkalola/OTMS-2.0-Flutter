@@ -454,7 +454,7 @@ class ApiConstants {
   // Forms
   static String formsList = '$appUrl/forms/list';
 
-  static String formsDetail(int id) => '$appUrl/forms/$id';
+  static String formsDetail(int id) => '$appUrl/forms/details/$id';
   static String formsEntriesSubmit = '$appUrl/forms/entries/submit';
   static String formsSubmissionStatus = '$appUrl/forms/submission/status';
 }

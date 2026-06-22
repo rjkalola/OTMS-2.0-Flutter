@@ -3,6 +3,7 @@ import 'package:belcka/pages/manage_forms/forms_list/model/form_info.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/date_utils.dart';
 import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:belcka/widgets/other_widgets/right_arrow_widget.dart';
 import 'package:belcka/widgets/other_widgets/user_avtar_view.dart';
@@ -30,27 +31,17 @@ class FormsListItem extends StatelessWidget {
     return DateUtil.dateToString(date, DateUtil.DD_MM_YYYY_SLASH);
   }
 
-  String _statusLabel() {
-    final status = (item.status ?? '').trim();
-    if (status.isEmpty) return '';
-    return status
-        .toLowerCase()
-        .split('_')
-        .map((part) =>
-            part.isEmpty ? part : '${part[0].toUpperCase()}${part.substring(1)}')
-        .join(' ');
-  }
+  String _statusLabel() => item.displayStatusLabel;
 
   _StatusStyle _statusStyle(BuildContext context) {
-    final normalized = (item.status ?? '').toUpperCase();
-    if (normalized == 'PUBLISHED') {
+    if (item.isPublished) {
       return _StatusStyle(
         backgroundColor: const Color(0xFFE5F6EA),
         textColor: approvedTextColor_(context),
         borderColor: approvedTextColor_(context).withValues(alpha: 0.35),
       );
     }
-    if (normalized == 'ARCHIVED') {
+    if (item.isArchived) {
       return _StatusStyle(
         backgroundColor: const Color(0xFFF3F4F6),
         textColor: secondaryExtraLightTextColor_(context),
@@ -69,6 +60,8 @@ class FormsListItem extends StatelessWidget {
     final statusStyle = _statusStyle(context);
     final statusLabel = _statusLabel();
     final hasStatus = statusLabel.isNotEmpty;
+    final showPending =
+        item.showPendingForUser(UserUtils.getLoginUserId());
     final createdByName = item.createdBy?.fullName ?? '';
     final createdDate = _formattedDate();
 
@@ -77,8 +70,8 @@ class FormsListItem extends StatelessWidget {
       children: [
         CardViewDashboardItem(
           borderRadius: 14,
-          margin: const EdgeInsets.fromLTRB(12, 8, 12, 6),
-          padding: EdgeInsets.fromLTRB(12, hasStatus ? 12 : 14, 12, 14),
+          margin: const EdgeInsets.fromLTRB(12, 10, 12, 6),
+          padding: EdgeInsets.fromLTRB(12, hasStatus ? 16 : 14, 12, 14),
           child: InkWell(
             borderRadius: BorderRadius.circular(14),
             onTap: onTap,
@@ -99,7 +92,8 @@ class FormsListItem extends StatelessWidget {
                         ),
                       ),
                     ),
-                    RightArrowWidget(color: secondaryExtraLightTextColor_(context)),
+                    RightArrowWidget(
+                        color: secondaryExtraLightTextColor_(context)),
                   ],
                 ),
                 const SizedBox(height: 10),
@@ -208,6 +202,19 @@ class FormsListItem extends StatelessWidget {
               borderRadius: 12,
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
             ),
+          ),
+        if (showPending)
+          TextViewWithContainer(
+            text: 'pending'.tr,
+            fontSize: 10,
+            fontWeight: FontWeight.w600,
+            fontColor: Colors.orange,
+            boxColor: Colors.orange.shade100,
+            borderColor: Colors.orange,
+            borderWidth: 1,
+            borderRadius: 12,
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+            margin: const EdgeInsets.only(left: 30),
           ),
       ],
     );
