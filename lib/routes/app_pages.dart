@@ -14,6 +14,7 @@ import 'package:belcka/buyer_app/purchasing/view/purchasing_screen.dart';
 import 'package:belcka/buyer_app/stores/add_store/view/buyer_add_store_screen.dart';
 import 'package:belcka/buyer_app/stores/store_list/view/buyer_stores_screen.dart';
 import 'package:belcka/buyer_app/suppliers/supplier_list/view/buyer_supplier_screen.dart';
+import 'package:belcka/pages/check_in/user_clock_in_new_flow/work_timer/work_timer_screen.dart';
 import 'package:belcka/pages/profile/health_and_safety/health_and_safety_screen.dart';
 import 'package:belcka/pages/profile/health_and_safety/hs_resource_types/hs_resource_types_list_screen.dart';
 import 'package:belcka/pages/profile/health_and_safety/hs_settings/hs_settings_screen.dart';

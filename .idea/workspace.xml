@@ -5,23 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="053ed336-4b64-4937-ade4-066c93ca45e7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/controller/form_details_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/controller/form_details_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/model/form_entry_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/model/form_entry_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/form_details_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/form_details_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/form_entry_fields_list.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/manage_forms/form_details/view/widgets/form_entry_fields_list.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/forms_list/controller/forms_list_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/manage_forms/forms_list/controller/forms_list_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/forms_list/view/forms_list_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/manage_forms/forms_list/view/forms_list_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/forms_list/view/widgets/forms_list_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/manage_forms/forms_list/view/widgets/forms_list_item.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/notifications/notification_list/tabs/feed_tab/controller/feed_tab_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/notifications/notification_list/tabs/feed_tab/controller/feed_tab_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/user_orders/product_details/controller/product_details_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/user_orders/product_details/controller/product_details_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/users/user_list/controller/user_list_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/users/user_list/controller/user_list_controller.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in_new_flow/check_in/model/checkIn_task.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in_new_flow/widgets/glass_back_button.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in_new_flow/widgets/info_card.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in_new_flow/widgets/location_illustration.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in_new_flow/widgets/select_task_with_tasks_card.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in_new_flow/widgets/time_pill.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in_new_flow/widgets/update_progress_sheet.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in_new_flow/checkin_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in_new_flow/checkin_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/dashboard/tabs/home_tab/view/widgets/dashboard_grid_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/dashboard/tabs/home_tab/view/widgets/dashboard_grid_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/my_requests/controller/my_requests_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/my_requests/controller/my_requests_controller.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/routes/app_pages.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/routes/app_pages.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/routes/app_routes.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/routes/app_routes.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/utils/app_constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils/app_constants.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/utils/notification_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils/notification_service.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,7 +81,7 @@
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "Merging main",
     "io.flutter.project.isFirstOpen": "true",
     "io.flutter.reload.alreadyRun": "true",
     "kotlin-language-version-configured": "true",
