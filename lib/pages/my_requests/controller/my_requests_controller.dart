@@ -5,6 +5,8 @@ import 'package:belcka/pages/my_requests/controller/my_requests_repository.dart'
 import 'package:belcka/pages/my_requests/model/my_request_info.dart';
 import 'package:belcka/pages/my_requests/model/my_requests_list_response.dart';
 import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/data_utils.dart';
+import 'package:belcka/utils/date_utils.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/response_model.dart';
@@ -48,6 +50,16 @@ class MyRequestsController extends GetxController {
       isFromMyProfile.value = false;
       userId = UserUtils.getLoginUserId();
     }
+
+    /*
+    List<DateTime> listDates =
+    DateUtil.getMyRequestsDateRange(DataUtils.dateFilterListMyRequest[0]);
+    startDate = DateUtil.dateToString(
+        listDates[0], DateUtil.DD_MM_YYYY_SLASH);
+    endDate = DateUtil.dateToString(
+        listDates[1], DateUtil.DD_MM_YYYY_SLASH);
+    */
+
     getMyRequestsList(appliedFilters,isRefresh:true);
 
     scrollController.addListener(() {
