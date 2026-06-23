@@ -19,7 +19,7 @@ class FormsListController extends GetxController {
 
   final formsList = <FormInfo>[].obs;
   final totalForms = 0.obs;
-  final activeCount = 0.obs;
+  final activeCount = 0.obs; 
   final archivedCount = 0.obs;
 
   final isLoading = false.obs;
@@ -32,6 +32,7 @@ class FormsListController extends GetxController {
 
   Timer? _debounce;
   String _searchQuery = '';
+  bool fromNotification = false;
 
   @override
   void onInit() {
@@ -40,6 +41,8 @@ class FormsListController extends GetxController {
     if (arguments != null) {
       fromStartWorkClick =
           arguments[AppConstants.intentKey.fromStartWorkClick] ?? false;
+      fromNotification =
+          arguments[AppConstants.intentKey.fromNotification] ?? false;
     }
     fetchFormsList();
   }
@@ -154,5 +157,13 @@ class FormsListController extends GetxController {
 
     activeCount.value = formsList.where((form) => form.isPublished).length;
     archivedCount.value = formsList.where((form) => form.isArchived).length;
+  }
+
+  void onBackPress() {
+    if (fromNotification) {
+      Get.offAllNamed(AppRoutes.dashboardScreen);
+    } else {
+      Get.back();
+    }
   }
 }

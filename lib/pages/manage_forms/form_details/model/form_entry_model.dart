@@ -58,6 +58,7 @@ class FormEntryModel {
   Map<String, dynamic>? data;
   String? createdAt;
   String? updatedAt;
+  String? pdfDownloadUrl;
   FormEntrySubmittedBy? submittedBy;
 
   FormEntryModel({
@@ -68,6 +69,7 @@ class FormEntryModel {
     this.data,
     this.createdAt,
     this.updatedAt,
+    this.pdfDownloadUrl,
     this.submittedBy,
   });
 
@@ -78,6 +80,7 @@ class FormEntryModel {
     submittedById = json['submitted_by_id'];
     createdAt = json['created_at']?.toString();
     updatedAt = json['updated_at']?.toString();
+    pdfDownloadUrl = json['pdf_download_url']?.toString();
 
     final rawData = json['data'];
     if (rawData is Map<String, dynamic>) {

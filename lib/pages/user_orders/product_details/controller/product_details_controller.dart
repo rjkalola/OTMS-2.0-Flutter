@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:belcka/pages/common/model/file_info.dart';
 import 'package:belcka/pages/user_orders/offline_cart/cart_service.dart';
+import 'package:belcka/pages/user_orders/project_service/project_service.dart';
 import 'package:belcka/pages/user_orders/product_details/controller/product_details_repository.dart';
 import 'package:belcka/pages/user_orders/product_details/model/product_details_response.dart';
 import 'package:belcka/pages/user_orders/product_set/model/product_set_data_info.dart';
@@ -37,6 +38,9 @@ class ProductDetailsController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    if (!Get.isRegistered<ProjectService>()) {
+      Get.put(ProjectService());
+    }
     var arguments = Get.arguments;
     if (arguments != null) {
       productId = arguments["product_id"] ?? 0;

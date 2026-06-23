@@ -1,19 +1,28 @@
 import 'dart:convert';
 
+import 'package:belcka/pages/common/widgets/download_result_bottom_sheet.dart';
 import 'package:belcka/pages/manage_forms/form_details/controller/form_details_repository.dart';
 import 'package:belcka/pages/manage_forms/form_details/model/form_entry_file.dart';
 import 'package:belcka/pages/manage_forms/form_details/model/form_entry_model.dart';
+import 'package:belcka/pages/manageattachment/controller/download_controller.dart';
+import 'package:belcka/pages/manageattachment/listener/download_file_listener.dart';
 import 'package:belcka/pages/manage_forms/submit_form/model/form_detail_info.dart';
 import 'package:belcka/pages/manage_forms/submit_form/model/form_detail_response.dart';
 import 'package:belcka/pages/manage_forms/submit_form/model/form_field_model.dart';
+import 'package:belcka/pages/manage_forms/submit_form/model/publish_target_model.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/open_file_helper.dart';
+import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/response_model.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:open_filex/open_filex.dart' show ResultType;
 
-class FormDetailsController extends GetxController {
+class FormDetailsController extends GetxController
+    implements DownloadFileListener {
   final _api = FormDetailsRepository();
 
   final formInfo = FormDetailInfo().obs;
@@ -60,7 +69,10 @@ class FormDetailsController extends GetxController {
             formInfo.value = response.info ?? FormDetailInfo();
             fields.assignAll(response.info?.fields ?? []);
             screenTitle.value = response.info?.name ?? '';
-            _resolveUserEntry(response.info?.formEntry);
+            _resolveUserEntry(
+              response.info?.formEntry,
+              response.info?.publishTarget,
+            );
             isMainViewVisible.value = true;
           } else {
             AppUtils.showSnackBarMessage(response.message ?? '');
@@ -81,14 +93,27 @@ class FormDetailsController extends GetxController {
     );
   }
 
-  void _resolveUserEntry(List<dynamic>? entries) {
+  void _resolveUserEntry(
+    List<dynamic>? entries,
+    PublishTargetModel? publishTarget,
+  ) {
     final matchUserId = targetUserId ?? UserUtils.getLoginUserId();
+    final tradeByUserId = <int, String>{};
+    for (final user in publishTarget?.selectedUsers ?? const []) {
+      final userId = int.tryParse(user.id ?? '');
+      final trade = user.tradeName?.trim();
+      if (userId != null && trade != null && trade.isNotEmpty) {
+        tradeByUserId[userId] = trade;
+      }
+    }
+
     FormEntryModel? matched;
 
     for (final item in entries ?? const []) {
       if (item is! Map) continue;
       final entry = FormEntryModel.fromJson(Map<String, dynamic>.from(item));
       if (entry.submittedById == matchUserId) {
+        _enrichEntryTradeName(entry, tradeByUserId);
         matched = entry;
         break;
       }
@@ -96,6 +121,23 @@ class FormDetailsController extends GetxController {
 
     userEntry.value = matched;
     hasUserEntry.value = matched != null;
+  }
+
+  void _enrichEntryTradeName(
+    FormEntryModel entry,
+    Map<int, String> tradeByUserId,
+  ) {
+    final submittedBy = entry.submittedBy;
+    if (submittedBy == null) return;
+    if (!StringHelper.isEmptyString(submittedBy.tradeName)) return;
+
+    final userId = entry.submittedById ?? submittedBy.id;
+    if (userId == null) return;
+
+    final trade = tradeByUserId[userId];
+    if (trade != null) {
+      submittedBy.tradeName = trade;
+    }
   }
 
   dynamic rawValue(String? fieldId) => userEntry.value?.valueFor(fieldId);
@@ -152,5 +194,57 @@ class FormDetailsController extends GetxController {
     final text = textValue(fieldId);
     if (text == null) return const [];
     return [text];
+  }
+
+  String? get pdfDownloadUrl => userEntry.value?.pdfDownloadUrl;
+
+  bool get canDownloadPdf => !StringHelper.isEmptyString(pdfDownloadUrl);
+
+  String get pdfFileName {
+    final formName = (formInfo.value.name ?? 'Form').trim();
+    final userName = (userEntry.value?.displayName ?? 'Submission').trim();
+    return '$formName - $userName.pdf';
+  }
+
+  void downloadSubmissionPdf(DownloadController downloadController) {
+    final url = pdfDownloadUrl;
+    if (StringHelper.isEmptyString(url)) return;
+    if (downloadController.isDownloading.value) return;
+
+    downloadController.downloadFile(
+      url!,
+      pdfFileName,
+      listener: this,
+    );
+  }
+
+  @override
+  void onDownload({required int progress, required String action}) {}
+
+  @override
+  void afterDownload({required String filaPath, required String action}) {
+    _showDownloadResultBottomSheet(filaPath);
+  }
+
+  void _showDownloadResultBottomSheet(String filePath) {
+    Get.bottomSheet(
+      DownloadResultBottomSheet(
+        filePath: filePath,
+        onClose: () => Get.back(),
+        onViewFile: () async {
+          Get.back();
+          final result = await OpenFileHelper.open(filePath);
+          if (result.type != ResultType.done) {
+            Get.snackbar(
+              'error'.tr,
+              "${'could_not_open_file'.tr}: ${result.message}",
+              snackPosition: SnackPosition.BOTTOM,
+            );
+          }
+        },
+      ),
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+    );
   }
 }

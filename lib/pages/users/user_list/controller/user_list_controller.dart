@@ -11,7 +11,6 @@ import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/custom_cache_manager.dart';
 import 'package:belcka/utils/image_utils.dart';
-import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/module_info.dart';
@@ -34,6 +33,9 @@ class UserListController extends GetxController implements MenuItemListener {
   final workingMemberCount = 0.obs;
   List<UserInfo> tempList = [];
 
+  Timer? _debounce;
+  String _searchQuery = '';
+
   var currentPage = 1.obs;
   int limit = 10;
   var hasMoreData = true.obs;
@@ -53,18 +55,19 @@ class UserListController extends GetxController implements MenuItemListener {
       if (scrollController.position.pixels >=
           scrollController.position.maxScrollExtent - 200) {
         if (!isLoading.value && hasMoreData.value) {
-          getUserListApi();
+          getUserListApi(showLoading: false);
         }
       }
     });
   }
   @override
-  void dispose() {
+  void onClose() {
+    _debounce?.cancel();
     scrollController.dispose();
-    super.dispose();
+    super.onClose();
   }
 
-  Future<void> getUserListApi({bool showLoading = true,bool isRefresh = false, String searchValue = ""}) {
+  Future<void> getUserListApi({bool showLoading = true, bool isRefresh = false}) {
     if (isRefresh) {
       currentPage.value = 1;
       hasMoreData.value = true;
@@ -84,7 +87,7 @@ class UserListController extends GetxController implements MenuItemListener {
     map["company_id"] = ApiConstants.companyId;
     map["page"] = currentPage.value;
     map["limit"] = limit;
-    map["search"] = searchValue;
+    map["search"] = _searchQuery;
 
     _api.getUserList(
       data: map,
@@ -173,21 +176,18 @@ class UserListController extends GetxController implements MenuItemListener {
   int getDisplayTotalUsersCount() => totalUsers.value;
 
   void clearSearch() {
+    _debounce?.cancel();
     searchController.value.clear();
-    searchItem('');
+    _searchQuery = '';
+    getUserListApi(isRefresh: true);
   }
 
-  Future<void> searchItem(String value) async {
-    List<UserInfo> results = [];
-    if (value.isEmpty) {
-      results = tempList;
-    } else {
-      results = tempList
-          .where((element) => (!StringHelper.isEmptyString(element.name) &&
-              element.name!.toLowerCase().contains(value.toLowerCase())))
-          .toList();
-    }
-    usersList.value = results;
+  void searchItem(String value) {
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      _searchQuery = value.trim();
+      getUserListApi(isRefresh: true);
+    });
   }
 
   Future<void> moveToScreen(String rout, dynamic arguments) async {

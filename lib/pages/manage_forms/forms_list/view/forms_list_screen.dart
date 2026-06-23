@@ -25,68 +25,82 @@ class _FormsListScreenState extends State<FormsListScreen> {
   @override
   Widget build(BuildContext context) {
     AppUtils.setStatusBarColor();
-    return Obx(
-      () => Container(
-        color: dashBoardBgColor_(context),
-        child: SafeArea(
-          top: false,
-          bottom: !GetPlatform.isIOS,
-          child: Scaffold(
-            backgroundColor: dashBoardBgColor_(context),
-            appBar: BaseAppBar(
-              appBar: AppBar(),
-              title: 'manage_forms'.tr,
-              isCenterTitle: false,
-              isBack: true,
-              bgColor: dashBoardBgColor_(context),
-              widgets: _actionButtons(context),
-              isSearching: controller.isSearchEnable.value,
-              searchController: controller.searchController,
-              onValueChange: controller.searchItem,
-              autoFocus: true,
-              onPressedClear: controller.clearSearch,
-            ),
-            body: ModalProgressHUD(
-              inAsyncCall: controller.isLoading.value,
-              opacity: 0,
-              progressIndicator: const CustomProgressbar(),
-              child: controller.isInternetNotAvailable.value
-                  ? NoInternetWidget(
-                      onPressed: () {
-                        controller.isInternetNotAvailable.value = false;
-                        controller.fetchFormsList();
-                      },
-                    )
-                  : Visibility(
-                      visible: controller.isMainViewVisible.value,
-                      child: Column(
-                        children: [
-                          const Divider(height: 1),
-                          Expanded(
-                            child: controller.formsList.isEmpty
-                                ? EmptyStateView(
-                                    title: 'no_forms_found'.tr,
-                                    message: 'no_forms_found_sub_msg'.tr,
-                                  )
-                                : ListView.builder(
-                                    padding: const EdgeInsets.only(
-                                      top: 8,
-                                      bottom: 16,
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop || result != null) return;
+        controller.onBackPress();
+      },
+      child: Obx(
+        () => Container(
+          color: dashBoardBgColor_(context),
+          child: SafeArea(
+            top: false,
+            bottom: !GetPlatform.isIOS,
+            child: Scaffold(
+              backgroundColor: dashBoardBgColor_(context),
+              appBar: BaseAppBar(
+                appBar: AppBar(),
+                title: 'manage_forms'.tr,
+                isCenterTitle: false,
+                isBack: true,
+                bgColor: dashBoardBgColor_(context),
+                widgets: _actionButtons(context),
+                isSearching: controller.isSearchEnable.value,
+                searchController: controller.searchController,
+                onValueChange: controller.searchItem,
+                autoFocus: true,
+                onPressedClear: controller.clearSearch,
+                onBackPressed: () {
+                  controller.onBackPress();
+                },
+              ),
+              body: ModalProgressHUD(
+                inAsyncCall: controller.isLoading.value,
+                opacity: 0,
+                progressIndicator: const CustomProgressbar(),
+                child: controller.isInternetNotAvailable.value
+                    ? NoInternetWidget(
+                        onPressed: () {
+                          controller.isInternetNotAvailable.value = false;
+                          controller.fetchFormsList();
+                        },
+                      )
+                    : Visibility(
+                        visible: controller.isMainViewVisible.value,
+                        child: Column(
+                          children: [
+                            const Divider(height: 1),
+                            Expanded(
+                              child: controller.formsList.isEmpty
+                                  ? EmptyStateView(
+                                      title: 'no_forms_found'.tr,
+                                      message: 'no_forms_found_sub_msg'.tr,
+                                    )
+                                  : ListView.builder(
+                                      padding: const EdgeInsets.only(
+                                        top: 8,
+                                        bottom: 16,
+                                      ),
+                                      clipBehavior: Clip.none,
+                                      itemCount: controller.formsList.length,
+                                      itemBuilder: (context, index) {
+                                        final item =
+                                            controller.formsList[index];
+                                        return FormsListItem(
+                                          item: item,
+                                          fromStartWorkClick:
+                                              controller.fromStartWorkClick,
+                                          onTap: () =>
+                                              controller.onFormTap(item),
+                                        );
+                                      },
                                     ),
-                                    clipBehavior: Clip.none,
-                                    itemCount: controller.formsList.length,
-                                    itemBuilder: (context, index) {
-                                      final item = controller.formsList[index];
-                                      return FormsListItem(
-                                        item: item,
-                                        onTap: () => controller.onFormTap(item),
-                                      );
-                                    },
-                                  ),
-                          ),
-                        ],
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
+              ),
             ),
           ),
         ),

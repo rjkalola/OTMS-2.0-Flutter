@@ -18,10 +18,12 @@ class FormsListItem extends StatelessWidget {
   const FormsListItem({
     super.key,
     required this.item,
+    this.fromStartWorkClick = false,
     this.onTap,
   });
 
   final FormInfo item;
+  final bool fromStartWorkClick;
   final VoidCallback? onTap;
 
   String _formattedDate() {
@@ -96,33 +98,35 @@ class FormsListItem extends StatelessWidget {
                         color: secondaryExtraLightTextColor_(context)),
                   ],
                 ),
-                const SizedBox(height: 10),
-                Row(
-                  children: [
-                    Expanded(
-                      child: _metric(
-                        context,
-                        label: 'entries'.tr,
-                        value: '${item.entries ?? 0}',
+                if (!fromStartWorkClick) ...[
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _metric(
+                          context,
+                          label: 'entries'.tr,
+                          value: '${item.entries ?? 0}',
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      child: _metric(
-                        context,
-                        label: 'views'.tr,
-                        value: '${item.views ?? 0}',
+                      Expanded(
+                        child: _metric(
+                          context,
+                          label: 'views'.tr,
+                          value: '${item.views ?? 0}',
+                        ),
                       ),
+                    ],
+                  ),
+                  if (!StringHelper.isEmptyString(item.assignedTo)) ...[
+                    const SizedBox(height: 8),
+                    SubtitleTextView(
+                      text: '${'assigned_to'.tr}: ${item.assignedTo}',
+                      fontSize: 13,
+                      color: secondaryExtraLightTextColor_(context),
+                      maxLine: 2,
                     ),
                   ],
-                ),
-                if (!StringHelper.isEmptyString(item.assignedTo)) ...[
-                  const SizedBox(height: 8),
-                  SubtitleTextView(
-                    text: '${'assigned_to'.tr}: ${item.assignedTo}',
-                    fontSize: 13,
-                    color: secondaryExtraLightTextColor_(context),
-                    maxLine: 2,
-                  ),
                 ],
                 if (!StringHelper.isEmptyString(createdByName) ||
                     !StringHelper.isEmptyString(createdDate)) ...[

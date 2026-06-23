@@ -438,6 +438,16 @@ class NotificationService {
         Get.offAllNamed(rout, arguments: arguments);
       }
 
+      //Forms
+      else if (notificationType ==
+          AppConstants.notificationType.assignForm) {
+        String rout = AppRoutes.formsListScreen;
+        var arguments = {
+          AppConstants.intentKey.fromNotification: true,
+        };
+        Get.offAllNamed(rout, arguments: arguments);
+      }
+
       //Certificates
       else if (notificationType ==
           AppConstants.notificationType.certificateAddUpdate) {

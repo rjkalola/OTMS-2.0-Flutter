@@ -375,6 +375,12 @@ class FeedTabController extends GetxController {
         };
         moveToScreen(rout, arguments: arguments, index: index);
       }
+      // Forms
+      else if (notificationType ==
+          AppConstants.notificationType.assignForm) {
+        String rout = AppRoutes.formsListScreen;
+        moveToScreen(rout, index: index);
+      }
     }
   }
 

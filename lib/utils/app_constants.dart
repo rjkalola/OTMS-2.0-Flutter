@@ -599,6 +599,9 @@ class NotificationType {
 
  //Certificates
   final String certificateAddUpdate = "25001";
+
+  //Forms
+  final String assignForm = "27001";
 }
 
 class RequestType {
