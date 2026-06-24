@@ -5,17 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="053ed336-4b64-4937-ade4-066c93ca45e7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in_new_flow/check_in/model/checkIn_task.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in_new_flow/widgets/glass_back_button.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in_new_flow/widgets/info_card.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in_new_flow/widgets/location_illustration.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in_new_flow/widgets/select_task_with_tasks_card.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in_new_flow/widgets/time_pill.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in_new_flow/widgets/update_progress_sheet.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in_new_flow/checkin_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in_new_flow/checkin_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/dashboard/tabs/home_tab/view/widgets/dashboard_grid_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/dashboard/tabs/home_tab/view/widgets/dashboard_grid_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/my_requests/controller/my_requests_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/my_requests/controller/my_requests_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/dialogs/select_project_bottom_dialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/dialogs/select_project_bottom_dialog.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/dialogs/select_shift_dialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/dialogs/select_shift_dialog.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/project/maps/user_zones/controller/user_zones_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/project/maps/user_zones/controller/user_zones_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/user_orders/hire_module/user_hire_products/controller/user_hire_product_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/user_orders/hire_module/user_hire_products/controller/user_hire_product_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/res/drawable.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/res/drawable.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/res/strings.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/res/strings.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/routes/app_pages.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/routes/app_pages.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/routes/app_routes.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/routes/app_routes.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/utils/app_constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils/app_constants.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/utils/image_utils.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils/image_utils.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,16 +83,17 @@
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "Merging main",
+    "git-widget-placeholder": "main",
     "io.flutter.project.isFirstOpen": "true",
     "io.flutter.reload.alreadyRun": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/apple/Documents/My Projects/Stypix Project/Belcka Flutter Git/assets/user_permission_icons",
+    "last_opened_file_path": "/Users/apple/Documents/My Projects/Stypix Project/Belcka Flutter Git/assets/images",
     "show.migrate.to.gradle.popup": "false"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/assets/images" />
       <recent name="$PROJECT_DIR$/assets/user_permission_icons" />
       <recent name="$PROJECT_DIR$/lib/pages/check_in" />
       <recent name="$PROJECT_DIR$/lib/pages/user_orders" />
@@ -104,9 +107,10 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="Application" factoryName="Application">
+    <configuration default="true" type="AppleRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" IS_LOCATION_SIMULATION_SUPPORTED="false" IS_LOCATION_SIMULATION_ALLOWED="true" APPLICATION_LANGUAGE="IDELaunchSchemeLanguageUseSystemLanguage" APPLICATION_REGION="" DEVELOPMENT_TEAM="${TEAM_ID}" MAKE_ACTIVE="TRUE" SHOULD_DEBUG_EXTENSIONS="false">
+      <embedded_app_extension_list />
       <method v="2">
-        <option name="Make" enabled="true" />
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">

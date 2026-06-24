@@ -211,7 +211,8 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
           );
 
           if (formSubmissionStatusResponse.value.userCanStartWork ?? false) {
-            moveToScreen(appRout: AppRoutes.startShiftMapScreen);
+            // moveToScreen(appRout: AppRoutes.startShiftMapScreen);
+            moveToScreen(appRout: AppRoutes.userClockInScreen);
           } else {
             AppUtils.showToastMessage('all_forms_not_submitted'.tr);
             var arguments = {AppConstants.intentKey.fromStartWorkClick: true};
@@ -418,19 +419,20 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
             Get.find<AppStorage>().setWorklogDataOffline(response);
             if (response.workLogInfo!.isNotEmpty ||
                 (response.userIsWorking ?? false)) {
-              moveToScreen(appRout: AppRoutes.clockInScreen);
+              moveToScreen(appRout: AppRoutes.userClockInScreen);
             } else {
               getFormSubmissionStatusApi();
             }
           } else {
-            moveToScreen(appRout: AppRoutes.startShiftMapScreen);
+            // moveToScreen(appRout: AppRoutes.startShiftMapScreen);
+            moveToScreen(appRout: AppRoutes.userClockInScreen);
           }
         } else {
           if (responseModel.isSuccess) {
             WorkLogListResponse response =
                 WorkLogListResponse.fromJson(jsonDecode(responseModel.result!));
             setShiftTimerData(response);
-          } else {
+          } else { 
             stopTimer();
             updateShiftValue(isClearValue: true);
           }

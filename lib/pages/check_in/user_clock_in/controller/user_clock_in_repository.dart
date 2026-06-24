@@ -1,0 +1,64 @@
+import 'package:dio/dio.dart' as multi;
+import 'package:belcka/web_services/api_constants.dart';
+import 'package:belcka/web_services/network/api_request.dart';
+import 'package:belcka/web_services/response/response_model.dart';
+
+class UserClockInRepository {
+  void userStopWork({
+    dynamic data,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(url: ApiConstants.userStopWork, data: data, isFormData: false)
+        .postRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
+
+  void getUserWorkLogList({
+    dynamic data,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(url: ApiConstants.userWorkLogList, data: data, isFormData: false)
+        .getRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
+
+  void userBillingInfoValidation({
+    Map<String, dynamic>? queryParameters,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+            url: ApiConstants.userBillingInfoValidation,
+            queryParameters: queryParameters,
+            isFormData: false)
+        .getRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
+
+  void getFormSubmissionStatus({
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(url: ApiConstants.formsSubmissionStatus, isFormData: false)
+        .getRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
+}

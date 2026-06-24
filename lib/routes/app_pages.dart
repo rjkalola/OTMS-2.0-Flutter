@@ -14,7 +14,6 @@ import 'package:belcka/buyer_app/purchasing/view/purchasing_screen.dart';
 import 'package:belcka/buyer_app/stores/add_store/view/buyer_add_store_screen.dart';
 import 'package:belcka/buyer_app/stores/store_list/view/buyer_stores_screen.dart';
 import 'package:belcka/buyer_app/suppliers/supplier_list/view/buyer_supplier_screen.dart';
-import 'package:belcka/pages/check_in/user_clock_in_new_flow/work_timer/work_timer_screen.dart';
 import 'package:belcka/pages/profile/health_and_safety/health_and_safety_screen.dart';
 import 'package:belcka/pages/profile/health_and_safety/hs_resource_types/hs_resource_types_list_screen.dart';
 import 'package:belcka/pages/profile/health_and_safety/hs_settings/hs_settings_screen.dart';
@@ -73,6 +72,8 @@ import 'package:belcka/pages/check_in/check_in_photos_preview/view/check_in_phot
 import 'package:belcka/pages/check_in/check_log_details/view/check_log_details_screen.dart';
 import 'package:belcka/pages/check_in/check_out/view/check_out_screen.dart';
 import 'package:belcka/pages/check_in/clock_in/view/clock_in_screen.dart';
+import 'package:belcka/pages/check_in/user_clock_in/view/user_clock_in_screen.dart';
+import 'package:belcka/pages/check_in/user_stop_shift/view/user_stop_shift_screen.dart';
 import 'package:belcka/pages/check_in/clock_in_offline/view/clock_in_offline_screen.dart';
 import 'package:belcka/pages/check_in/upload_offline_worklog/view/upload_offline_worklog_screen.dart';
 import 'package:belcka/pages/check_in/penalty/penalty_details/view/penalty_details_screen.dart';
@@ -267,6 +268,14 @@ class AppPages {
     GetPage(
       name: AppRoutes.clockInScreen,
       page: () => ClockInScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.userClockInScreen,
+      page: () => const UserClockInScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.userStopShiftScreen,
+      page: () => const UserStopShiftScreen(),
     ),
     GetPage(
       name: AppRoutes.clockInOfflineScreen,
@@ -724,9 +733,6 @@ class AppPages {
     GetPage(
         name: AppRoutes.formUsersScreen,
         page: () => const FormUsersScreen()),
-    // GetPage(
-    //     name: AppRoutes.userClockInScreen,
-    //     page: () => const WorkTimerScreen()),
 
 
   ];

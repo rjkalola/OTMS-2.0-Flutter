@@ -160,4 +160,14 @@ class Drawable {
   static const String storeIcon = 'assets/images/ic_store.svg';
   static const String userCertificateAvtarImage =
       'assets/images/user_certificate_avtar_image.svg';
+  static const String workTimeCalendarIcon =
+      'assets/images/ic_work_time_calender.svg';
+  static const String stopWorkDialogClockIcon =
+      'assets/images/ic_stop_work_dialog_clock.png';
+  static const String stopShiftBlueClockIcon =
+      'assets/images/stop_shift_blue_clock.png';
+  static const String stopShiftDoneImage =
+      'assets/images/stop_shift_done_image.png';
+  static const String stopShiftDollarIcon =
+      'assets/images/stop_shift_doller.png';
 }

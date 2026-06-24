@@ -144,7 +144,10 @@ class UserHireProductController extends GetxController
     }
 
     _api.getHireProducts(
-      queryParameters: {'company_id': ApiConstants.companyId},
+      queryParameters: {
+        'company_id': ApiConstants.companyId,
+        'user_id': UserUtils.getLoginUserId(),
+      },
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           isMainViewVisible.value = true;

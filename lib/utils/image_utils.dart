@@ -562,6 +562,7 @@ class ImageUtils {
       showDialog(
         context: Get.context!,
         barrierDismissible: true,
+        barrierColor: Colors.transparent,
         builder: (BuildContext context) {
           return ImagePreviewDialog(
             imageUrl: url ?? "",

@@ -1,0 +1,190 @@
+import 'package:belcka/pages/check_in/user_stop_shift/controller/user_stop_shift_controller.dart';
+import 'package:belcka/res/colors.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/date_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
+import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
+import 'package:belcka/widgets/text/PrimaryTextView.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+class TotalAllDayHoursRow extends StatelessWidget {
+  TotalAllDayHoursRow({super.key});
+
+  final controller = Get.put(UserStopShiftController());
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(
+      () => Visibility(
+        visible:
+            controller.isShowTotalPayable.value && controller.showRate.value,
+        child: CardViewDashboardItem(
+            borderRadius: 14,
+            margin: EdgeInsets.fromLTRB(14, 4, 14, 14),
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(12, 7, 12, 7),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: PrimaryTextView(
+                          textAlign: TextAlign.start,
+                          text: "${'net_payable'.tr}:",
+                          color: primaryTextColorLight_(context),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 84,
+                        child: PrimaryTextView(
+                          textAlign: TextAlign.center,
+                          text:
+                              "${controller.currency.value}${controller.workLogInfo.value.netDayEarnings ?? "0"}",
+                          color: primaryTextColorLight_(context),
+                          fontSize: 15,
+                          fontWeight: FontWeight.w400,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 14,
+                      ),
+                      PrimaryTextView(
+                        textAlign: TextAlign.start,
+                        text: DateUtil.seconds_To_HH_MM(
+                            controller.workLogInfo.value.netDaySeconds ?? 0),
+                        color: primaryTextColorLight_(context),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      // SizedBox(
+                      //   width: 21,
+                      // )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: PrimaryTextView(
+                          textAlign: TextAlign.start,
+                          text: "${'adjustment'.tr}:",
+                          color: primaryTextColorLight_(context),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 84,
+                        child: PrimaryTextView(
+                          textAlign: TextAlign.center,
+                          text:
+                              "${controller.currency.value}${controller.workLogInfo.value.totalDayAdjustmentAmount ?? "0"}",
+                          color: getAdjustmentColor(context),
+                          fontSize: 15,
+                          fontWeight: FontWeight.w400,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 14,
+                      ),
+                      PrimaryTextView(
+                        textAlign: TextAlign.start,
+                        // text: DateUtil.seconds_To_HH_MM(
+                        //     controller.workLogInfo.value.totalDaySeconds ?? 0),
+                        // color: primaryTextColorLight_(context),
+                        text: "00:00",
+                        color: Colors.transparent,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      // SizedBox(
+                      //   width: 21,
+                      // )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: PrimaryTextView(
+                          textAlign: TextAlign.start,
+                          text: "${'total_payable'.tr}:",
+                          color: primaryTextColorLight_(context),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 84,
+                        child: PrimaryTextView(
+                          textAlign: TextAlign.center,
+                          text:
+                              "${controller.currency.value}${controller.workLogInfo.value.totalDayEarnings ?? "0"}",
+                          color: primaryTextColorLight_(context),
+                          fontSize: 15,
+                          fontWeight: FontWeight.w400,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 14,
+                      ),
+                      PrimaryTextView(
+                        textAlign: TextAlign.start,
+                        // text: DateUtil.seconds_To_HH_MM(
+                        //     controller.workLogInfo.value.totalDaySeconds ?? 0),
+                        // color: primaryTextColorLight_(context),
+                        text: "00:00",
+                        color: Colors.transparent,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      // SizedBox(
+                      //   width: 21,
+                      // )
+                    ],
+                  )
+                ],
+              ),
+            )),
+      ),
+    );
+  }
+
+  Color getAdjustmentColor(BuildContext context) {
+    double adjustment =
+        controller.workLogInfo.value.totalDayAdjustmentAmount ?? 0;
+    if (adjustment < 0) {
+      return Colors.red;
+    } else if (adjustment > 0) {
+      return Colors.green;
+    } else {
+      return primaryTextColorLight_(context);
+    }
+  }
+
+  Color getColor(BuildContext context) {
+    Color color = primaryTextColor_(context);
+    if (controller.isEdited.value) {
+      color = Colors.red;
+    } else {
+      if (!StringHelper.isEmptyString(
+          controller.workLogInfo.value.workEndTime)) {
+        color = AppUtils.getStatusColor(
+            controller.workLogInfo.value.requestStatus ?? 0);
+      } else {
+        color = defaultAccentColor_(context);
+      }
+    }
+    return color;
+  }
+}

@@ -15,7 +15,6 @@ import 'package:belcka/pages/common/menu_items_list_bottom_dialog.dart';
 import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:belcka/pages/common/listener/menu_item_listener.dart';
 import 'package:belcka/pages/common/listener/select_date_listener.dart';
-import 'package:belcka/pages/common/listener/select_time_listener.dart';
 import 'package:belcka/pages/project/maps/user_zones/view/widgets/user_zones_user_bottom_sheet.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/date_utils.dart';
@@ -35,8 +34,7 @@ class UserZonesController extends GetxController
     implements
         MenuItemListener,
         DialogButtonClickListener,
-        SelectDateListener,
-        SelectTimeListener {
+        SelectDateListener {
   final _api = UserZonesRepository();
   final locationService = LocationServiceNew();
 
@@ -81,11 +79,9 @@ class UserZonesController extends GetxController
   Map<String, String> appliedFilters = {};
   final filterItemsList = <ModuleInfo>[].obs;
 
-  /// Map filter: `datetime` query value formatted `dd/MM/yyyy HH:mm` (e.g. 11/04/2026 11:18).
+  /// Map filter: `datetime` query value formatted `dd/MM/yyyy` (e.g. 11/04/2026).
   DateTime? zoneFilterDateTime;
-  DateTime? _pendingZoneFilterDate;
   static const String _zoneFilterDateId = 'USER_ZONE_FILTER_DATE';
-  static const String _zoneFilterTimeId = 'USER_ZONE_FILTER_TIME';
 
   /// Purchasing-style range line; when only one moment is selected, [displayEndDate] matches [displayStartDate].
   final displayStartDate = ''.obs;
@@ -616,7 +612,7 @@ class UserZonesController extends GetxController
     }
     displayStartDate.value = dtStr;
     displayEndDate.value = dtStr;
-    zoneFilterDateTime =
+    zoneFilterDateTime = DateUtil.stringToDate(dtStr, DateUtil.DD_MM_YYYY_SLASH) ??
         DateUtil.stringToDate(dtStr, DateUtil.DD_MM_YYYY_TIME_24_SLASH);
   }
 
@@ -674,30 +670,9 @@ class UserZonesController extends GetxController
   @override
   void onSelectDate(DateTime date, String dialogIdentifier) {
     if (dialogIdentifier != _zoneFilterDateId) return;
-    _pendingZoneFilterDate = DateTime(date.year, date.month, date.day);
-    final base = zoneFilterDateTime ?? DateTime.now();
-    final combined = DateTime(
-      _pendingZoneFilterDate!.year,
-      _pendingZoneFilterDate!.month,
-      _pendingZoneFilterDate!.day,
-      base.hour,
-      base.minute,
-    );
-    DateUtil.showTimePickerDialog(
-      initialTime: combined,
-      dialogIdentifier: _zoneFilterTimeId,
-      selectTimeListener: this,
-    );
-  }
-
-  @override
-  void onSelectTime(DateTime time, String dialogIdentifier) {
-    if (dialogIdentifier != _zoneFilterTimeId) return;
-    final d = _pendingZoneFilterDate;
-    if (d == null) return;
-    final dt = DateTime(d.year, d.month, d.day, time.hour, time.minute);
+    final dt = DateTime(date.year, date.month, date.day);
     zoneFilterDateTime = dt;
-    final s = DateUtil.dateToString(dt, DateUtil.DD_MM_YYYY_TIME_24_SLASH);
+    final s = DateUtil.dateToString(dt, DateUtil.DD_MM_YYYY_SLASH);
     appliedFilters['datetime'] = s;
     _syncZoneFilterDisplayFromApplied();
     setFilterItems();
@@ -707,7 +682,6 @@ class UserZonesController extends GetxController
   void clearFilter() {
     appliedFilters.clear();
     zoneFilterDateTime = null;
-    _pendingZoneFilterDate = null;
     displayStartDate.value = '';
     displayEndDate.value = '';
     setFilterItems();
