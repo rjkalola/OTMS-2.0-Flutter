@@ -1,4 +1,5 @@
 import 'package:belcka/pages/project/project_analytics/analytics/controller/project_analytics_controller.dart';
+import 'package:belcka/pages/project/project_analytics/analytics/view/widgets/project_title_for_analytics.dart';
 import 'package:belcka/pages/project/project_list/view/widgets/project_title.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/app_utils.dart';
@@ -25,7 +26,7 @@ class ProjectAnalyticsHeader extends StatelessWidget {
         ),
         child: Column(
           children: [
-            ProjectTitle(),
+            ProjectTitleForAnalytics(),
             Visibility(
               visible: !StringHelper.isEmptyString(
                   controller.activeProjectTitle.value),

@@ -10,6 +10,7 @@ import 'package:belcka/pages/project/project_analytics/analytics/view/widgets/pr
 import 'package:belcka/pages/project/project_analytics/analytics/view/widgets/stat_card.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
@@ -66,7 +67,7 @@ class _ProjectAnalyticsScreenState extends State<ProjectAnalyticsScreen>
                   ? NoInternetWidget(
                 onPressed: () {
                   controller.isInternetNotAvailable.value = false;
-                  controller.getProjectAnalyticsApi();
+                  controller.getProjectAnalyticsBudgetApi();
                 },
               )
                   : Visibility(
@@ -80,9 +81,11 @@ class _ProjectAnalyticsScreenState extends State<ProjectAnalyticsScreen>
                         child: SingleChildScrollView(
                           child: Column(
                             children: [
+
+                              if (controller.budgets.isNotEmpty)
                               _buildBudgetCard(),
                               const SizedBox(height: 16),
-                              _buildPaymentsCard(),
+                              //_buildPaymentsCard(),
                               // const SizedBox(height: 16),
                               // _buildQuickStats(),
                             ],
@@ -122,58 +125,78 @@ class _ProjectAnalyticsScreenState extends State<ProjectAnalyticsScreen>
 
   // ─── Budget Card
   Widget _buildBudgetCard() {
-    return GlassCard(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-               Text('budget'.tr,
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w800,
-                      color: primaryTextColor_(context),
-                      letterSpacing: -0.3)),
-              PillBadge(label: 'all_budgets'.tr, onTap: () {
-                controller.moveToScreen(AppRoutes.allBudgetScreen,[]);
-              }),
-            ],
-          ),
-          const SizedBox(height: 20),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Column(
-                  children: controller.budgets
-                      .map((b) => Padding(
-                            padding: const EdgeInsets.only(bottom: 14),
-                            child: BudgetRow(item: b),
-                          ))
-                      .toList(),
+    final info = controller.budgetAnalytics.value?.info;
+    if (info != null){
+      final allocated = info.totalBudget ?? 0;
+      final remaining = info.totalBudget ?? 0;
+      return GlassCard(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('budget'.tr,
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w800,
+                        color: primaryTextColor_(context),
+                        letterSpacing: -0.3)),
+                PillBadge(label: 'all_budgets'.tr, onTap: () {
+                  var arguments = {
+                    AppConstants.intentKey.projectId: controller.activeProjectId,
+                  };
+                  controller.moveToScreen(AppRoutes.allBudgetScreen,arguments);
+                }),
+              ],
+            ),
+            const SizedBox(height: 20),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Column(
+                    children: controller.budgets
+                        .map((b) => Padding(
+                      padding: const EdgeInsets.only(bottom: 14),
+                      child: BudgetRow(item: b),
+                    ))
+                        .toList(),
+                  ),
                 ),
-              ),
-              const SizedBox(width: 16),
-              SizedBox(
-                width: 120,
-                height: 120,
-                child: DonutChart(
-                  sections: [
-                    DonutSection(value: 110000, color: const Color(0xFF22C55E)),
-                    DonutSection(value: 220500, color: const Color(0xFFF97316)),
-                    DonutSection(value: 30000, color: const Color(0xFF60A5FA)),
-                    DonutSection(value: 89500, color: const Color(0xFFE2E8F0)),
-                  ],
-                  centerLabel: 'profit'.tr,
-                  centerValue: '£50,000',
+                const SizedBox(width: 16),
+                SizedBox(
+                  width: 120,
+                  height: 120,
+                  child: DonutChart(
+                    sections: [
+                      DonutSection(
+                        value: info.budgets.labor.budget,
+                        color: const Color(0xFF22C55E),
+                      ),
+                      DonutSection(
+                        value: info.budgets.materials.budget,
+                        color: const Color(0xFFF97316),
+                      ),
+                      DonutSection(
+                        value: info.budgets.others.budget,
+                        color: const Color(0xFF60A5FA),
+                      ),
+                    ],
+                    centerLabel: 'remaining'.tr,
+                    centerValue:
+                    '${info.currency ?? ""}${remaining.toStringAsFixed(0) ?? "0"}',
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+              ],
+            ),
+          ],
+        ),
+      );
+    }
+    else{
+      return SizedBox.shrink();
+    }
   }
 
   // ─── Payments Card

@@ -4,7 +4,10 @@ import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:belcka/pages/common/listener/menu_item_listener.dart';
 import 'package:belcka/pages/common/listener/select_item_listener.dart';
 import 'package:belcka/pages/common/menu_items_list_bottom_dialog.dart';
+import 'package:belcka/pages/project/project_analytics/analytics/controller/project_analytics_repository.dart';
 import 'package:belcka/pages/project/project_analytics/analytics/model/project_analytics_model.dart';
+import 'package:belcka/pages/project/project_analytics/analytics/model/project_analytics_response.dart';
+import 'package:belcka/pages/project/project_analytics/analytics/model/project_budget_analytics_response.dart';
 import 'package:belcka/pages/project/project_info/model/project_info.dart';
 import 'package:belcka/pages/project/project_info/model/project_list_response.dart';
 import 'package:belcka/pages/project/project_list/controller/project_list_repository.dart';
@@ -23,7 +26,7 @@ import 'package:get/get.dart';
 
 class ProjectAnalyticsController extends GetxController
     implements MenuItemListener, SelectItemListener, DialogButtonClickListener {
-  final _api = ProjectListRepository();
+  final _api = ProjectAnalyticsRepository();
   RxBool isLoading = false.obs,
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
@@ -35,17 +38,10 @@ class ProjectAnalyticsController extends GetxController
 
   static DateTime _d(int y, int m, int d) => DateTime(y, m, d);
 
-  final List<BudgetItem> budgets = const [
-    BudgetItem(label: 'Labor', amount: 150000, spent: 110000, color: Color(0xFF22C55E)),
-    BudgetItem(
-        label: 'Materials',
-        amount: 200000,
-        spent: 220500.42,
-        color: Color(0xFFF97316),
-        overspent: true,
-        overspentBy: 20500.42),
-    BudgetItem(label: 'Others', amount: 60000, spent: 30000, color: Color(0xFF60A5FA)),
-  ];
+  final Rxn<ProjectBudgetAnalyticsResponse> budgetAnalytics =
+  Rxn<ProjectBudgetAnalyticsResponse>();
+
+  final RxList<BudgetItem> budgets = <BudgetItem>[].obs;
 
   final List<Payment> received = [
     Payment(address: '1 Topham, Woodgreen', postcode: 'IG2 9PS', amount: 25000, date: _d(2025, 9, 16)),
@@ -57,7 +53,7 @@ class ProjectAnalyticsController extends GetxController
   @override
   void onInit() {
     super.onInit();
-    getProjectAnalyticsApi();
+    getProjectListApi();
   }
 
   void getProjectListApi() {
@@ -74,12 +70,15 @@ class ProjectAnalyticsController extends GetxController
           projectsList.addAll(response.info!);
           activeProjectId.value = response.id ?? 0;
           activeProjectTitle.value = response.name ?? "";
-          isMainViewVisible.value = true;
+          if (activeProjectId.value > 0) {
+            getProjectAnalyticsBudgetApi();
+          }
         }
         else{
+          isLoading.value = false;
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
-        isLoading.value = false;
+
       },
       onError: (ResponseModel error) {
         isLoading.value = false;
@@ -92,20 +91,39 @@ class ProjectAnalyticsController extends GetxController
     );
   }
 
-  void getProjectAnalyticsApi() {
+  void getProjectAnalyticsBudgetApi() {
     isLoading.value = true;
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
-    _api.getProjectList(
+    map["project_id"] = activeProjectId.value;
+    _api.getProjectAnalyticsBudget(
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
-          ProjectListResponse response =
-          ProjectListResponse.fromJson(jsonDecode(responseModel.result!));
-          projectsList.clear();
-          projectsList.addAll(response.info!);
-          activeProjectId.value = response.id ?? 0;
-          activeProjectTitle.value = response.name ?? "";
+          budgetAnalytics.value = ProjectBudgetAnalyticsResponse.fromJson(jsonDecode(responseModel.result!));
+          final info = budgetAnalytics.value?.info;
+          budgets.clear();
+          budgets.value = [
+            BudgetItem(
+              label: 'Labor',
+              amount: info!.budgets.labor.budget,
+              spent: info.budgets.labor.spent,
+              color: const Color(0xFF22C55E),
+            ),
+            BudgetItem(
+              label: 'Materials',
+              amount: info.budgets.materials.budget,
+              spent: info.budgets.materials.spent,
+              color: const Color(0xFFF97316),
+            ),
+            BudgetItem(
+              label: 'Others',
+              amount: info.budgets.others.budget,
+              spent: info.budgets.others.spent,
+              color: const Color(0xFF60A5FA),
+            ),
+          ];
+
           isMainViewVisible.value = true;
         }
         else{
@@ -139,6 +157,7 @@ class ProjectAnalyticsController extends GetxController
           AppUtils.showToastMessage(response.Message ?? "");
           activeProjectId.value = id;
           activeProjectTitle.value = title;
+          getProjectAnalyticsBudgetApi();
         }
         else{
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
@@ -235,7 +254,7 @@ class ProjectAnalyticsController extends GetxController
     var result = await Get.toNamed(rout, arguments: arguments);
     if (result != null && result) {
       isDataUpdated.value = true;
-      getProjectAnalyticsApi();
+      getProjectAnalyticsBudgetApi();
     }
   }
 
@@ -279,6 +298,22 @@ class ProjectAnalyticsController extends GetxController
 
   }
 
+  Color _getBudgetColor(String type) {
+    switch (type.toLowerCase()) {
+      case 'labor':
+        return const Color(0xFF22C55E);
+
+      case 'material':
+      case 'materials':
+        return const Color(0xFFF97316);
+
+      case 'others':
+        return const Color(0xFF60A5FA);
+
+      default:
+        return const Color(0xFF8B5CF6);
+    }
+  }
   @override
   void onNegativeButtonClicked(String dialogIdentifier) {
     Get.back();

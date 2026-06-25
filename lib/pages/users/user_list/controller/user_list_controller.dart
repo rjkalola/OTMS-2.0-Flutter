@@ -37,29 +37,25 @@ class UserListController extends GetxController implements MenuItemListener {
   String _searchQuery = '';
 
   var currentPage = 1.obs;
-  int limit = 10;
+  int limit = 20;
   var hasMoreData = true.obs;
   final ScrollController scrollController = ScrollController();
 
   @override
   void onInit() {
     super.onInit();
-    // var arguments = Get.arguments;
-    // if (arguments != null) {
-    //   permissionId = arguments[AppConstants.intentKey.permissionId] ?? 0;
-    // }
-
     getUserListApi(isRefresh: true);
 
     scrollController.addListener(() {
       if (scrollController.position.pixels >=
           scrollController.position.maxScrollExtent - 200) {
-        if (!isLoading.value && hasMoreData.value) {
+        if (!isLoading.value && !isLoadingMore.value && hasMoreData.value) {
           getUserListApi(showLoading: false);
         }
       }
     });
   }
+
   @override
   void onClose() {
     _debounce?.cancel();
@@ -67,22 +63,23 @@ class UserListController extends GetxController implements MenuItemListener {
     super.onClose();
   }
 
-  Future<void> getUserListApi({bool showLoading = true, bool isRefresh = false}) {
+  Future<void> getUserListApi({bool showLoading = true, bool isRefresh = false}) async{
     if (isRefresh) {
       currentPage.value = 1;
       hasMoreData.value = true;
+      tempList.clear();
+      usersList.clear();
+      usersList.refresh();
     }
-    if (showLoading) {
-      isLoading.value = true;
-    }
-    if (currentPage.value == 1) {
+    if (!hasMoreData.value && !isRefresh) return;
 
+    if (currentPage.value == 1) {
+      if (showLoading) isLoading.value = true;
     }
     else{
       isLoadingMore.value = true;
     }
 
-    final completer = Completer<void>();
     Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
     map["page"] = currentPage.value;
@@ -90,78 +87,61 @@ class UserListController extends GetxController implements MenuItemListener {
     map["search"] = _searchQuery;
 
     _api.getUserList(
-      data: map,
+      queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
-        try {
-          if (responseModel.isSuccess) {
-            UserListResponse response =
-                UserListResponse.fromJson(jsonDecode(responseModel.result!));
-            ImageUtils.preloadUserImages(response.info ?? []);
 
-            if (response.pagination != null) {
-              var newItems = response.info ?? [];
+        isLoading.value = false;
+        isLoadingMore.value = false;
 
-              print("Total pages: ${response.pagination!.totalPages}");
-              print("Current page: ${response.pagination!.currentPage}");
+        if (responseModel.isSuccess) {
+          UserListResponse response =
+          UserListResponse.fromJson(jsonDecode(responseModel.result!));
+          ImageUtils.preloadUserImages(response.info ?? []);
 
-              if (isRefresh) {
-                tempList.clear();
-                currentPage.value = 1;
-              }
-              tempList.addAll(newItems);
-              int totalPages = response.pagination!.totalPages ?? 1;
-              int apiCurrentPage = response.pagination!.currentPage ?? 1;
-              if (apiCurrentPage >= totalPages) {
-                hasMoreData.value = false;
-              }
-              else{
-                hasMoreData.value = true;
-                currentPage.value++;
-              }
+          if (response.pagination != null) {
+            var newItems = response.info ?? [];
+
+            print("Total pages: ${response.pagination!.totalPages}");
+            print("Current page: ${response.pagination!.currentPage}");
+
+            tempList.addAll(newItems);
+            int totalPages = response.pagination!.totalPages ?? 1;
+            int apiCurrentPage = response.pagination!.currentPage ?? 1;
+            if (apiCurrentPage >= totalPages) {
+              hasMoreData.value = false;
             }
             else{
-              print("Pagination error: 'data' object is null or failed to parse");
+              hasMoreData.value = true;
+              currentPage.value++;
             }
-
-            usersList.value = List.from(tempList);
-
-            usersList.refresh();
-            totalUsers.value = response.totalUsers ?? 0;
-            workingMemberCount.value = response.workingMemberCount ?? 0;
-            isMainViewVisible.value = true;
           }
           else{
-            AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
+            print("Pagination error: 'data' object is null or failed to parse");
           }
-        } finally {
-          if (showLoading) {
-            isLoading.value = false;
-          }
-          if (!completer.isCompleted) {
-            completer.complete();
-          }
+
+          usersList.value = List.from(tempList);
+
+          usersList.refresh();
+          totalUsers.value = response.totalUsers ?? 0;
+          workingMemberCount.value = response.workingMemberCount ?? 0;
+          isMainViewVisible.value = true;
+          isLoading.value = false;
+        }
+        else{
+          isLoading.value = false;
+          AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
       },
       onError: (ResponseModel error) {
-        try {
-          if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
-            isInternetNotAvailable.value = true;
-            // AppUtils.showSnackBarMessage('no_internet'.tr);
-            // Utils.showSnackBarMessage('no_internet'.tr);
-          } else if (error.statusMessage!.isNotEmpty) {
-            AppUtils.showSnackBarMessage(error.statusMessage ?? "");
-          }
-        } finally {
-          if (showLoading) {
-            isLoading.value = false;
-          }
-          if (!completer.isCompleted) {
-            completer.complete();
-          }
+        isLoading.value = false;
+        isLoadingMore.value = false;
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          isInternetNotAvailable.value = true;
+        } else if (error.statusMessage!.isNotEmpty) {
+          AppUtils.showSnackBarMessage(error.statusMessage ?? "");
         }
       },
     );
-    return completer.future;
   }
 
   void preloadUserImages(List<UserInfo> list) {
@@ -179,6 +159,7 @@ class UserListController extends GetxController implements MenuItemListener {
     _debounce?.cancel();
     searchController.value.clear();
     _searchQuery = '';
+    currentPage.value = 1;
     getUserListApi(isRefresh: true);
   }
 
@@ -186,6 +167,7 @@ class UserListController extends GetxController implements MenuItemListener {
     if (_debounce?.isActive ?? false) _debounce!.cancel();
     _debounce = Timer(const Duration(milliseconds: 500), () {
       _searchQuery = value.trim();
+      currentPage.value = 1;
       getUserListApi(isRefresh: true);
     });
   }
@@ -193,6 +175,7 @@ class UserListController extends GetxController implements MenuItemListener {
   Future<void> moveToScreen(String rout, dynamic arguments) async {
     var result = await Get.toNamed(rout, arguments: arguments);
     if (result != null && result) {
+      currentPage.value = 1;
       getUserListApi(isRefresh: true);
     }
   }
@@ -214,6 +197,7 @@ class UserListController extends GetxController implements MenuItemListener {
     }
 
     if (result != null && result) {
+      currentPage.value = 1;
       getUserListApi(isRefresh: true);
     }
   }

@@ -2,14 +2,13 @@ import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/network/api_request.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 
-class UserListRepository {
-  void getUserList({
-     Map<String, dynamic>? queryParameters,
-    //dynamic data,
+class AllBudgetRepository {
+  void getProjectAnalyticsBudget({
+    Map<String, dynamic>? queryParameters,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
-    ApiRequest(url: ApiConstants.userList, queryParameters: queryParameters, isFormData: false)
+    ApiRequest(url: ApiConstants.projectAnalyticsBudget, queryParameters: queryParameters)
         .getRequest(
       onSuccess: (data) {
         onSuccess!(data);
@@ -17,5 +16,4 @@ class UserListRepository {
       onError: (error) => {if (onError != null) onError(error)},
     );
   }
-
 }

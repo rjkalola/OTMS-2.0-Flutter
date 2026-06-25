@@ -248,6 +248,10 @@ class ApiConstants {
   static String getProjectFolders = '$appUrl/project/get-folders';
   static String projectCreateFolder = '$appUrl/project/create-folder';
 
+  //project analytics
+  static String getProjectAnalyticsOverview = '$appUrl/project-analytics/overview';
+  static String projectAnalyticsBudget = '$appUrl/project-analytics/budget';
+
   //address
   static String getAddress = '$appUrl/address/get';
   static String addressCreate = '$appUrl/address/create';

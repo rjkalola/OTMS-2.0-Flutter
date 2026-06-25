@@ -50,16 +50,12 @@ class MyRequestsController extends GetxController {
       isFromMyProfile.value = false;
       userId = UserUtils.getLoginUserId();
     }
-
-    /*
     List<DateTime> listDates =
     DateUtil.getMyRequestsDateRange(DataUtils.dateFilterListMyRequest[0]);
     startDate = DateUtil.dateToString(
         listDates[0], DateUtil.DD_MM_YYYY_SLASH);
     endDate = DateUtil.dateToString(
         listDates[1], DateUtil.DD_MM_YYYY_SLASH);
-    */
-
     getMyRequestsList(appliedFilters,isRefresh:true);
 
     scrollController.addListener(() {
