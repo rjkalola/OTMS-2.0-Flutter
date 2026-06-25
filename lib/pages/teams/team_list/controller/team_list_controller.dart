@@ -38,7 +38,7 @@ class TeamListController extends GetxController implements MenuItemListener {
   List<TeamInfo> tempList = [];
 
   var currentPage = 1.obs;
-  int limit = 10;
+  int limit = 20;
   var hasMoreData = true.obs;
   final ScrollController scrollController = ScrollController();
 

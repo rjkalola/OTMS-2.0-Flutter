@@ -19,7 +19,7 @@ class UsersList extends StatelessWidget {
     return Obx(() => Expanded(
           child: RefreshIndicator(
             onRefresh: () async {
-              await controller.getUserListApi(showLoading: false);
+              await controller.getUserListApi(showLoading: false,isRefresh: true);
             },
             child: ListView.separated(
               physics: const AlwaysScrollableScrollPhysics(

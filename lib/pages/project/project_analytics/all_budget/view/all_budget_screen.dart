@@ -11,6 +11,7 @@ import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class AllBudgetScreen extends StatefulWidget {
@@ -25,41 +26,57 @@ class _AllBudgetScreenState extends State<AllBudgetScreen>
 
   final controller = Get.put(AllBudgetController());
 
-  late AnimationController _ctrl;
-  late List<Animation<double>> _anims;
-
-  double get _totalBudget =>
-      controller.categories.fold(0.0, (s, c) => s + c.total);
-  double get _totalSpent =>
-      controller.categories.fold(0.0, (s, c) => s + c.spent);
-  double get _totalRemaining => _totalBudget - _totalSpent;
-
   @override
   void initState() {
     super.initState();
-    _ctrl = AnimationController(
+    controller.ctrl = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 1100));
-    _anims = List.generate(
+    controller.anims = List.generate(
       controller.categories.length + 1,
       (i) => CurvedAnimation(
-        parent: _ctrl,
+        parent: controller.ctrl,
         curve: Interval(i * 0.12, (i * 0.12 + 0.6).clamp(0, 1),
             curve: Curves.easeOutCubic),
       ),
     );
-    _ctrl.forward();
+    controller.ctrl.forward();
   }
 
-  @override
-  void dispose() {
-    _ctrl.dispose();
-    super.dispose();
+  double get _totalBudget {
+    final apiTotal = controller.budgetAnalytics.value?.info.totalBudget ?? 0;
+
+    if (apiTotal > 0) return apiTotal;
+
+    return controller.categories.fold(
+      0.0,
+          (sum, item) => sum + item.total,
+    );
+  }
+
+  double get _totalSpent {
+    final apiSpent = controller.budgetAnalytics.value?.info.totalSpent ?? 0;
+
+    if (apiSpent > 0) return apiSpent;
+
+    return controller.categories.fold(
+      0.0,
+          (sum, item) => sum + item.spent,
+    );
+  }
+
+  double get _totalRemaining {
+    final apiRemaining = controller.budgetAnalytics.value?.info.totalLeft ?? 0;
+
+    if (apiRemaining > 0) return apiRemaining;
+
+    return _totalBudget - _totalSpent;
   }
 
   @override
   Widget build(BuildContext context) {
     AppUtils.setStatusBarColor();
-    return Scaffold(
+    return Obx(
+            () => Scaffold(
       backgroundColor: dashBoardBgColor_(context),
       appBar: OrdersBaseAppBar(
         appBar: AppBar(),
@@ -91,18 +108,31 @@ class _AllBudgetScreenState extends State<AllBudgetScreen>
                   padding:
                   const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                   children: [
-                    _buildTotalCard(_anims[0]),
+                    _buildTotalCard(controller.anims[0]),
                     const SizedBox(height: 12),
-                    ...List.generate(
-                      controller.categories.length,
-                          (i) => Padding(
-                        padding: const EdgeInsets.only(bottom: 12),
-                        child: _buildCategoryCard(controller.categories[i], i, _anims[i + 1]),
-                      ),
-                    ),
+                    ...controller.categories.asMap().entries.map(
+                          (entry) {
+                        final i = entry.key;
+                        final item = entry.value;
+
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 12),
+                          child: _buildCategoryCard(
+                            item,
+                            i,
+                            CurvedAnimation(
+                              parent: controller.ctrl,
+                              curve: Interval(
+                                (i * 0.1).clamp(0.0, 1.0),
+                                ((i * 0.1) + 0.6).clamp(0.0, 1.0),
+                                curve: Curves.easeOutCubic,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ).toList(),
                     const SizedBox(height: 12),
-                    _buildFooterNote(),
-                    const SizedBox(height: 20),
                   ],
                 ),
               ),
@@ -110,7 +140,7 @@ class _AllBudgetScreenState extends State<AllBudgetScreen>
           ),
         )),
       ),
-    );
+    ));
   }
 
   List<Widget>? actionButtons() {
@@ -125,6 +155,10 @@ class _AllBudgetScreenState extends State<AllBudgetScreen>
 
   Widget _buildTotalCard(Animation<double> anim) {
     final progress = (_totalSpent / _totalBudget).clamp(0.0, 1.0);
+
+    final isOverSpent = _totalSpent > _totalBudget;
+    final difference = (_totalSpent - _totalBudget).abs();
+
     return FadeTransition(
       opacity: anim,
       child: SlideTransition(
@@ -164,7 +198,7 @@ class _AllBudgetScreenState extends State<AllBudgetScreen>
                               letterSpacing: 0.3)),
                       const SizedBox(height: 4),
                       Text(
-                        _fmtGbp(_totalBudget),
+                          "${controller.budgetAnalytics.value?.info.currency ?? '£'}${_totalBudget.toStringAsFixed(0)}",
                         style: const TextStyle(
                             fontSize: 30,
                             fontWeight: FontWeight.w900,
@@ -183,7 +217,10 @@ class _AllBudgetScreenState extends State<AllBudgetScreen>
               ),
               const SizedBox(height: 18),
               // Segmented progress bar
-              _SegmentedBar(categories: controller.categories, total: _totalBudget),
+              _TotalBudgetProgressBar(
+                total: _totalBudget,
+                spent: _totalSpent,
+              ),
               const SizedBox(height: 12),
               Row(
                 children: [
@@ -192,8 +229,13 @@ class _AllBudgetScreenState extends State<AllBudgetScreen>
                       label: '${_fmtGbp(_totalSpent)} spent'),
                   const Spacer(),
                   _LegendDot(
-                      color: const Color(0xFF86EFAC),
-                      label: '${_fmtGbp(_totalRemaining.abs())} left'),
+                    color: isOverSpent
+                        ? const Color(0xFFEF4444)
+                        : const Color(0xFF86EFAC),
+                    label: isOverSpent
+                        ? '${_fmtGbp(difference)} overspent'
+                        : '${_fmtGbp(difference)} left',
+                  ),
                 ],
               ),
             ],
@@ -378,35 +420,6 @@ class _AllBudgetScreenState extends State<AllBudgetScreen>
     );
   }
 
-  // ─── Footer ───────────────────────────────────────────────────────────────
-
-  Widget _buildFooterNote() {
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: const Color(0xFFFFFBEB),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFFDE68A)),
-      ),
-      child: Row(
-        children: [
-          const Icon(Icons.info_outline_rounded,
-              size: 16, color: Color(0xFFF59E0B)),
-          const SizedBox(width: 10),
-          const Expanded(
-            child: Text(
-              'Materials budget is overspent. Review allocations or raise a change order.',
-              style: TextStyle(
-                  fontSize: 12,
-                  color: Color(0xFF92400E),
-                  fontWeight: FontWeight.w500),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   // ─── Helpers ──────────────────────────────────────────────────────────────
 
   IconData _catIcon(String name) {
@@ -494,29 +507,68 @@ class _AnimatedProgressBar extends StatelessWidget {
   }
 }
 
-class _SegmentedBar extends StatelessWidget {
-  final List<BudgetCategory> categories;
+class _TotalBudgetProgressBar extends StatelessWidget {
   final double total;
+  final double spent;
 
-  const _SegmentedBar({required this.categories, required this.total});
+  const _TotalBudgetProgressBar({
+    required this.total,
+    required this.spent,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(4),
-      child: Row(
-        children: categories.map((c) {
-          final w = (c.spent / total).clamp(0.0, 1.0);
-          return Expanded(
-            flex: (w * 1000).round(),
-            child: Container(
-              height: 6,
-              color: c.color,
-              margin: const EdgeInsets.only(right: 2),
+    final progress = total <= 0 ? 0.0 : spent / total;
+    final cappedProgress = progress.clamp(0.0, 1.0);
+    final isOverSpent = spent > total;
+
+    return Column(
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: Stack(
+            children: [
+              Container(
+                height: 10,
+                color: Colors.white24,
+              ),
+              FractionallySizedBox(
+                widthFactor: cappedProgress,
+                child: Container(
+                  height: 10,
+                  decoration:  BoxDecoration(
+                    color: isOverSpent
+                        ? const Color(0xFFEF4444)
+                        : const Color(0xFF86EFAC),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 6),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              '${(progress * 100).toStringAsFixed(0)}% Spent',
+              style: const TextStyle(
+                color: Colors.white70,
+                fontSize: 11,
+                fontWeight: FontWeight.w600,
+              ),
             ),
-          );
-        }).toList(),
-      ),
+            Text(
+              '${(100 - progress * 100).toStringAsFixed(0)}% Left',
+              style: const TextStyle(
+                color: Colors.white70,
+                fontSize: 11,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
