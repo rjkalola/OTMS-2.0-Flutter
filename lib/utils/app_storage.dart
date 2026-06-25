@@ -12,6 +12,7 @@ import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:get/get.dart';
+import 'package:belcka/utils/session_cleanup.dart';
 import 'package:get_storage/get_storage.dart';
 
 import '../pages/dashboard/models/dashboard_stock_count_response.dart';
@@ -345,6 +346,7 @@ class AppStorage extends GetxController {
   }
 
   void clearAllData() {
+    SessionCleanup.clearControllersOnLogout();
     AppConstants.isResourcesLoaded = false;
     ApiConstants.companyId = 0;
     ApiConstants.accessToken = "";

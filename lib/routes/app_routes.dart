@@ -245,5 +245,6 @@ class AppRoutes {
 
   static const String userClockInScreen = '/user_clock_in_screen';
   static const String userStopShiftScreen = '/user_stop_shift_screen';
-
+  static const String userCheckInScreen = '/user_check_in_screen';
+  static const String userCheckOutScreen = '/user_check_out_screen';
 }

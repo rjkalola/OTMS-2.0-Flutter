@@ -104,7 +104,7 @@ class CheckLogListView extends StatelessWidget {
                                             };
 
                                             controller.moveToScreen(
-                                                AppRoutes.checkOutScreen,
+                                                AppRoutes.userCheckOutScreen,
                                                 arguments);
                                           },
                                           child: Container(

@@ -57,7 +57,7 @@ class CheckInDayLogsList extends StatelessWidget {
                                       info.isPricework ?? false
                                 };
                                 controller.moveToScreen(
-                                    AppRoutes.checkOutScreen, arguments);
+                                    AppRoutes.userCheckOutScreen, arguments);
                               },
                               child: Container(
                                 color: Colors.transparent,

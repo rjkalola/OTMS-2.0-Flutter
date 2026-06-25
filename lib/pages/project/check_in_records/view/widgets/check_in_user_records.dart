@@ -47,7 +47,7 @@ class CheckInUserRecords extends StatelessWidget {
                           AppConstants.intentKey.checkLogId: info.id ?? 0,
                         };
                         controller.moveToScreen(
-                            AppRoutes.checkOutScreen, arguments);
+                            AppRoutes.userCheckOutScreen, arguments);
                       },
                       child: Container(
                         color: Colors.transparent,

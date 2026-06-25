@@ -88,7 +88,7 @@ class WorkshopUserChecklogsController extends GetxController {
       AppConstants.intentKey.checkLogId: checkLogId,
     };
     final result =
-        await Get.toNamed(AppRoutes.checkOutScreen, arguments: arguments);
+        await Get.toNamed(AppRoutes.userCheckOutScreen, arguments: arguments);
     if (result != null && result) {
       getWorkshopUserChecklogsApi(true);
     }

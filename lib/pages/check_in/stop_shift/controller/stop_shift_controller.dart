@@ -14,7 +14,10 @@ import 'package:belcka/pages/check_in/clock_in/model/work_log_info.dart';
 import 'package:belcka/pages/check_in/clock_in/model/work_log_list_response.dart';
 import 'package:belcka/pages/check_in/stop_shift/controller/stop_shift_repository.dart';
 import 'package:belcka/pages/check_in/stop_shift/model/work_log_details_response.dart';
+import 'package:belcka/pages/check_in/clock_in/model/user_stop_work_response.dart';
+import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:belcka/pages/common/listener/select_time_listener.dart';
+import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:belcka/res/drawable.dart';
 import 'package:belcka/utils/app_storage.dart';
 import 'package:belcka/utils/app_utils.dart';
@@ -29,7 +32,8 @@ import 'package:belcka/web_services/response/response_model.dart';
 
 import '../../../../utils/app_constants.dart';
 
-class StopShiftController extends GetxController implements SelectTimeListener {
+class StopShiftController extends GetxController
+    implements SelectTimeListener, DialogButtonClickListener {
   final RxBool isLoading = false.obs,
       isMainViewVisible = false.obs,
       isInternetNotAvailable = false.obs,
@@ -57,6 +61,7 @@ class StopShiftController extends GetxController implements SelectTimeListener {
   int workLogId = 0, userId = 0;
   String date = "";
   bool isCurrentDay = true, fromNotification = false;
+  VoidCallback? _pendingAfterStopWorkPenalty;
   final RxSet<Polyline> polyLines = <Polyline>{}.obs;
   final RxSet<Polygon> polygons = <Polygon>{}.obs;
   final RxSet<Circle> circles = <Circle>{}.obs;
@@ -100,15 +105,10 @@ class StopShiftController extends GetxController implements SelectTimeListener {
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
           isDataUpdated.value = true;
-          BaseResponse response =
-              BaseResponse.fromJson(jsonDecode(responseModel.result!));
-          AppUtils.showApiResponseMessage(response.Message);
-          if (isCurrentDay) {
-            // getUserWorkLogListApi();
-            getWorkLogDetailsApi();
-          } else {
-            Get.back(result: true);
-          }
+          final response = UserStopWorkResponse.fromJson(
+            jsonDecode(responseModel.result!) as Map<String, dynamic>,
+          );
+          _handleStopWorkSuccess(response);
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
@@ -122,6 +122,54 @@ class StopShiftController extends GetxController implements SelectTimeListener {
         }
       },
     );
+  }
+
+  void _handleStopWorkSuccess(UserStopWorkResponse response) {
+    if (!StringHelper.isEmptyString(response.penaltyMessage)) {
+      _pendingAfterStopWorkPenalty = _continueAfterStopWorkSuccess;
+      AlertDialogHelper.showAlertDialog(
+        '',
+        response.penaltyMessage ?? '',
+        'ok'.tr,
+        '',
+        '',
+        false,
+        false,
+        this,
+        AppConstants.dialogIdentifier.stopWorkPenaltyDialog,
+      );
+      return;
+    }
+    if (!StringHelper.isEmptyString(response.message)) {
+      AppUtils.showApiResponseMessage(response.message!);
+    }
+    _continueAfterStopWorkSuccess();
+  }
+
+  void _continueAfterStopWorkSuccess() {
+    if (isCurrentDay) {
+      getWorkLogDetailsApi();
+    } else {
+      Get.back(result: true);
+    }
+  }
+
+  @override
+  void onNegativeButtonClicked(String dialogIdentifier) {
+    Get.back();
+  }
+
+  @override
+  void onOtherButtonClicked(String dialogIdentifier) {}
+
+  @override
+  void onPositiveButtonClicked(String dialogIdentifier) {
+    if (dialogIdentifier ==
+        AppConstants.dialogIdentifier.stopWorkPenaltyDialog) {
+      Get.back();
+      _pendingAfterStopWorkPenalty?.call();
+      _pendingAfterStopWorkPenalty = null;
+    }
   }
 
   Future<void> requestWorkLogChangeApi() async {

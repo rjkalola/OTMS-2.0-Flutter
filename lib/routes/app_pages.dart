@@ -73,6 +73,8 @@ import 'package:belcka/pages/check_in/check_log_details/view/check_log_details_s
 import 'package:belcka/pages/check_in/check_out/view/check_out_screen.dart';
 import 'package:belcka/pages/check_in/clock_in/view/clock_in_screen.dart';
 import 'package:belcka/pages/check_in/user_clock_in/view/user_clock_in_screen.dart';
+import 'package:belcka/pages/check_in/user_check_in/view/user_check_in_screen.dart';
+import 'package:belcka/pages/check_in/user_check_out/view/user_check_out_screen.dart';
 import 'package:belcka/pages/check_in/user_stop_shift/view/user_stop_shift_screen.dart';
 import 'package:belcka/pages/check_in/clock_in_offline/view/clock_in_offline_screen.dart';
 import 'package:belcka/pages/check_in/upload_offline_worklog/view/upload_offline_worklog_screen.dart';
@@ -276,6 +278,14 @@ class AppPages {
     GetPage(
       name: AppRoutes.userStopShiftScreen,
       page: () => const UserStopShiftScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.userCheckInScreen,
+      page: () => const UserCheckInScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.userCheckOutScreen,
+      page: () => const UserCheckOutScreen(),
     ),
     GetPage(
       name: AppRoutes.clockInOfflineScreen,

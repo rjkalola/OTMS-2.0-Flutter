@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:belcka/pages/check_in/clock_in/model/user_billing_info_validation_response.dart';
 import 'package:belcka/pages/check_in/select_shift/model/start_work_response.dart';
+import 'package:belcka/pages/check_in/clock_in/model/user_stop_work_response.dart';
 import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:belcka/utils/user_utils.dart';
@@ -67,7 +68,11 @@ class UserClockInController extends GetxController
   Timer? _timer;
   final ScrollController scrollController = ScrollController();
   List<ProjectInfo> _projectsList = [];
+  bool _projectsListLoaded = false;
+  bool _isProjectsListLoading = false;
+  bool _showProjectSheetAfterLoad = false;
   bool _switchProjectFlow = false;
+  VoidCallback? _pendingAfterStopWorkPenalty;
 
   void onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -88,26 +93,50 @@ class UserClockInController extends GetxController
   @override
   void onInit() {
     super.onInit();
-    var arguments = Get.arguments;
+    appLifeCycle();
+  }
+
+  void onScreenOpened() {
+    final arguments = Get.arguments;
     if (arguments != null) {
       fromStartShiftScreen =
           arguments[AppConstants.intentKey.fromStartShiftScreen] ?? false;
     }
     shiftId = Get.find<AppStorage>().getShiftId();
+    _clearWorkLogUiState();
+
+    if (!_projectsListLoaded && !_isProjectsListLoading) {
+      getProjectListApi(showLoading: false);
+    }
 
     if (UserClockInUtils.hasOfflineRecordsForUpload()) {
       showUploadOfflineDataDialog();
     } else {
-      LocationInfo? locationInfo = Get.find<AppStorage>().getLastLocation();
+      final locationInfo = Get.find<AppStorage>().getLastLocation();
       if (locationInfo != null) {
-        setLocation(double.parse(locationInfo.latitude ?? "0"),
-            double.parse(locationInfo.longitude ?? "0"));
+        setLocation(
+          double.parse(locationInfo.latitude ?? "0"),
+          double.parse(locationInfo.longitude ?? "0"),
+        );
       }
-
       locationRequest();
-      appLifeCycle();
       getUserWorkLogListApi();
     }
+  }
+
+  void _clearWorkLogUiState() {
+    isMainViewVisible.value = false;
+    workLogData.value = WorkLogListResponse();
+    selectedWorkLogInfo = null;
+    selectedCheckLogInfo = null;
+    isChecking.value = false;
+    isOnBreak.value = false;
+    isOnLeave.value = false;
+    totalWorkHours.value = "";
+    remainingBreakTime.value = "";
+    remainingLeaveTime.value = "";
+    activeWorkHours.value = "";
+    stopTimer();
   }
 
   void getFormSubmissionStatusApi({bool? isSwitchProject}) {
@@ -197,13 +226,20 @@ class UserClockInController extends GetxController
       data: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
-          BaseResponse.fromJson(jsonDecode(responseModel.result!));
-          getUserWorkLogListApi();
-          if (openProjectSelectionAfterStop) {
-            openProjectSelectionFlow();
-          } else {
-            moveToUserStopShift(selectedWorkLogInfo?.id);
-          }
+          final response = UserStopWorkResponse.fromJson(
+            jsonDecode(responseModel.result!) as Map<String, dynamic>,
+          );
+          _handleStopWorkSuccess(
+            response,
+            onContinue: () {
+              getUserWorkLogListApi();
+              if (openProjectSelectionAfterStop) {
+                openProjectSelectionFlow();
+              } else {
+                moveToUserStopShift(selectedWorkLogInfo?.id);
+              }
+            },
+          );
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
@@ -379,35 +415,65 @@ class UserClockInController extends GetxController
 
   void openProjectSelectionFlow({bool switchProject = false}) {
     _switchProjectFlow = switchProject;
+    if (_projectsListLoaded) {
+      _presentProjectSheetOrEmpty();
+      return;
+    }
+    if (_isProjectsListLoading) {
+      _showProjectSheetAfterLoad = true;
+      return;
+    }
     getProjectListApi(showSheetOnSuccess: true);
   }
 
-  void getProjectListApi({bool showSheetOnSuccess = false}) {
-    isLoading.value = true;
+  void _presentProjectSheetOrEmpty() {
+    if (_projectsList.isEmpty) {
+      AppUtils.showToastMessage('empty_data_message'.tr);
+    } else {
+      _showProjectBottomSheet();
+    }
+  }
+
+  void getProjectListApi({
+    bool showSheetOnSuccess = false,
+    bool showLoading = true,
+  }) {
+    if (_projectsListLoaded && !showSheetOnSuccess) return;
+
+    if (_projectsListLoaded && showSheetOnSuccess) {
+      _presentProjectSheetOrEmpty();
+      return;
+    }
+
+    _isProjectsListLoading = true;
+    if (showLoading) isLoading.value = true;
+
     final Map<String, dynamic> map = {};
     map["company_id"] = ApiConstants.companyId;
 
     ProjectListRepository().getProjectList(
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
-        isLoading.value = false;
+        _isProjectsListLoading = false;
+        if (showLoading) isLoading.value = false;
         if (responseModel.isSuccess) {
           final response = ProjectListResponse.fromJson(
               jsonDecode(responseModel.result!) as Map<String, dynamic>);
           _projectsList = response.info ?? [];
-          if (showSheetOnSuccess) {
-            if (_projectsList.isEmpty) {
-              AppUtils.showToastMessage('empty_data_message'.tr);
-            } else {
-              _showProjectBottomSheet();
-            }
+          _projectsListLoaded = true;
+          if (showSheetOnSuccess || _showProjectSheetAfterLoad) {
+            _showProjectSheetAfterLoad = false;
+            _presentProjectSheetOrEmpty();
           }
         } else {
+          _showProjectSheetAfterLoad = false;
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
       },
       onError: (ResponseModel error) {
-        isLoading.value = false;
+        _isProjectsListLoading = false;
+        _showProjectSheetAfterLoad = false;
+        if (showLoading) isLoading.value = false;
         if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
           AppUtils.showApiResponseMessage('no_internet'.tr);
         } else if (!StringHelper.isEmptyString(error.statusMessage)) {
@@ -484,7 +550,14 @@ class UserClockInController extends GetxController
       data: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
-          userStartWorkApi(shiftId: shiftId, projectId: projectId);
+          final response = UserStopWorkResponse.fromJson(
+            jsonDecode(responseModel.result!) as Map<String, dynamic>,
+          );
+          _handleStopWorkSuccess(
+            response,
+            onContinue: () =>
+                userStartWorkApi(shiftId: shiftId, projectId: projectId),
+          );
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
           isLoading.value = false;
@@ -497,6 +570,28 @@ class UserClockInController extends GetxController
         }
       },
     );
+  }
+
+  void _handleStopWorkSuccess(
+    UserStopWorkResponse response, {
+    required VoidCallback onContinue,
+  }) {
+    if (!StringHelper.isEmptyString(response.penaltyMessage)) {
+      _pendingAfterStopWorkPenalty = onContinue;
+      AlertDialogHelper.showAlertDialog(
+        '',
+        response.penaltyMessage ?? '',
+        'ok'.tr,
+        '',
+        '',
+        false,
+        false,
+        this,
+        AppConstants.dialogIdentifier.stopWorkPenaltyDialog,
+      );
+      return;
+    }
+    onContinue();
   }
 
   onClickStartShiftButton({dynamic arguments}) {
@@ -534,7 +629,7 @@ class UserClockInController extends GetxController
         AppConstants.intentKey.isPriceWork:
             selectedWorkLogInfo?.isPricework ?? false
       };
-      moveToScreen(AppRoutes.checkInScreen, arguments);
+      moveToScreen(AppRoutes.userCheckInScreen, arguments);
     }
   }
 
@@ -546,7 +641,7 @@ class UserClockInController extends GetxController
       AppConstants.intentKey.isPriceWork:
           selectedWorkLogInfo?.isPricework ?? false
     };
-    moveToScreen(AppRoutes.checkOutScreen, arguments);
+    moveToScreen(AppRoutes.userCheckOutScreen, arguments);
   }
 
   String getCurrentLogPayableTime() {
@@ -688,6 +783,11 @@ class UserClockInController extends GetxController
         AppConstants.dialogIdentifier.offlineWorklogDatUpload) {
       Get.back();
       moveToScreen(AppRoutes.uploadOfflineWorklogScreen, null);
+    } else if (dialogIdentifier ==
+        AppConstants.dialogIdentifier.stopWorkPenaltyDialog) {
+      Get.back();
+      _pendingAfterStopWorkPenalty?.call();
+      _pendingAfterStopWorkPenalty = null;
     }
   }
 

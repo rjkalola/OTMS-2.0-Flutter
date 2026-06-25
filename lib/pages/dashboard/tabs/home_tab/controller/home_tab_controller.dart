@@ -432,7 +432,7 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
             WorkLogListResponse response =
                 WorkLogListResponse.fromJson(jsonDecode(responseModel.result!));
             setShiftTimerData(response);
-          } else { 
+          } else {
             stopTimer();
             updateShiftValue(isClearValue: true);
           }
@@ -728,7 +728,8 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
     } else if (info.slug == 'projects') {
       moveToScreen2(appRout: AppRoutes.projectListScreen);
     } else if (info.slug == 'shift') {
-      getUserWorkLogListApi(isShiftClick: true, isProgress: true);
+      // getUserWorkLogListApi(isShiftClick: true, isProgress: true);
+      moveToScreen(appRout: AppRoutes.userClockInScreen);
     } else if (info.slug == 'settings') {
       moveToScreen(appRout: AppRoutes.settingsScreen);
     } else if (info.slug == 'timesheet') {
@@ -747,11 +748,10 @@ class HomeTabController extends GetxController // with WidgetsBindingObserver
       moveToScreen(appRout: AppRoutes.myRequestsScreen);
     } else if (info.slug == 'analytics') {
       moveToScreen(appRout: AppRoutes.userAnalyticsScoreScreen);
-    }else if (info.slug == 'forms') {
+    } else if (info.slug == 'forms') {
       moveToScreen(appRout: AppRoutes.formsListScreen);
-    }
-    else if (info.slug == 'map') {
-      moveToScreen2(appRout: AppRoutes.userZonesScreen);  
+    } else if (info.slug == 'map') {
+      moveToScreen2(appRout: AppRoutes.userZonesScreen);
     } else if (info.slug == 'health_safety') {
       moveToScreen2(appRout: AppRoutes.healthAndSafetyScreen);
     } else if (info.slug == 'workshop' || info.slug == 'workshop_dashboard') {

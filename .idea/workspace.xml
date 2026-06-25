@@ -5,19 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="053ed336-4b64-4937-ade4-066c93ca45e7" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/dialogs/select_project_bottom_dialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/dialogs/select_project_bottom_dialog.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/dialogs/select_shift_dialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/dialogs/select_shift_dialog.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/check_in/model/type_of_work_resources_info.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/check_in/model/type_of_work_resources_info.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/check_in_day_logs/view/widgets/check_in_day_logs_list.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/check_in_day_logs/view/widgets/check_in_day_logs_list.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/check_log_details/view/widgets/check_log_list_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/check_log_details/view/widgets/check_log_list_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/stop_shift/controller/stop_shift_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/stop_shift/controller/stop_shift_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in/controller/user_clock_in_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in/controller/user_clock_in_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in/view/user_clock_in_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in/view/user_clock_in_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in/view/widgets/check_log_list_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in/view/widgets/check_log_list_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/user_stop_shift/controller/user_stop_shift_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/user_stop_shift/controller/user_stop_shift_controller.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/project/maps/user_zones/controller/user_zones_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/project/maps/user_zones/controller/user_zones_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/user_orders/hire_module/user_hire_products/controller/user_hire_product_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/user_orders/hire_module/user_hire_products/controller/user_hire_product_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_users/controller/form_users_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/manage_forms/form_users/controller/form_users_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_users/view/form_users_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/manage_forms/form_users/view/form_users_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/forms_list/controller/forms_list_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/manage_forms/forms_list/controller/forms_list_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/project/address_details/view/widgets/check_in_user_records.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/project/address_details/view/widgets/check_in_user_records.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/project/check_in_records/view/widgets/check_in_user_records.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/project/check_in_records/view/widgets/check_in_user_records.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/workshop/workshop_user_checklogs/controller/workshop_user_checklogs_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/workshop/workshop_user_checklogs/controller/workshop_user_checklogs_controller.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/res/drawable.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/res/drawable.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/res/strings.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/res/strings.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/routes/app_pages.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/routes/app_pages.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/routes/app_routes.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/routes/app_routes.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/utils/app_constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils/app_constants.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/utils/image_utils.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils/image_utils.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/utils/app_storage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils/app_storage.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,26 +81,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Flutter.main.dart.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.readMode.enableVisualFormatting": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "main",
-    "io.flutter.project.isFirstOpen": "true",
-    "io.flutter.reload.alreadyRun": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/apple/Documents/My Projects/Stypix Project/Belcka Flutter Git/assets/images",
-    "show.migrate.to.gradle.popup": "false"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Flutter.main.dart.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;io.flutter.project.isFirstOpen&quot;: &quot;true&quot;,
+    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/apple/Documents/My Projects/Stypix Project/Belcka Flutter Git/assets/images&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/assets/images" />
@@ -107,10 +117,9 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="AppleRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" IS_LOCATION_SIMULATION_SUPPORTED="false" IS_LOCATION_SIMULATION_ALLOWED="true" APPLICATION_LANGUAGE="IDELaunchSchemeLanguageUseSystemLanguage" APPLICATION_REGION="" DEVELOPMENT_TEAM="${TEAM_ID}" MAKE_ACTIVE="TRUE" SHOULD_DEBUG_EXTENSIONS="false">
-      <embedded_app_extension_list />
+    <configuration default="true" type="Application" factoryName="Application">
       <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="Make" enabled="true" />
       </method>
     </configuration>
     <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">

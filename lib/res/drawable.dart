@@ -170,4 +170,11 @@ class Drawable {
       'assets/images/stop_shift_done_image.png';
   static const String stopShiftDollarIcon =
       'assets/images/stop_shift_doller.png';
+  static const String checkinAddressIcon =
+      'assets/images/checkin_address_icon.svg';
+  static const String checkinTradeIcon = 'assets/images/checkin_trade_icon.svg';
+  static const String checkinTaskIcon = 'assets/images/checkin_task_icon.svg';
+  static const String checkinCameraIcon =
+      'assets/images/checkin_camera_icon.svg';
+  static const String checkinMapImage = 'assets/images/checkin_map_image.png';
 }

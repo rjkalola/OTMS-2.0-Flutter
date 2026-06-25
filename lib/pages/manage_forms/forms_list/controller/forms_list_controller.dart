@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:convert';
 
 import 'package:belcka/pages/manage_forms/forms_list/controller/forms_list_repository.dart';
@@ -30,8 +29,8 @@ class FormsListController extends GetxController {
 
   final searchController = TextEditingController().obs;
 
-  Timer? _debounce;
   String _searchQuery = '';
+  List<FormInfo> _allFormsList = [];
   bool fromNotification = false;
 
   @override
@@ -49,7 +48,6 @@ class FormsListController extends GetxController {
 
   @override
   void onClose() {
-    _debounce?.cancel();
     searchController.value.dispose();
     super.onClose();
   }
@@ -58,13 +56,8 @@ class FormsListController extends GetxController {
     isLoading.value = true;
     isInternetNotAvailable.value = false;
 
-    final map = <String, dynamic>{};
-    if (!StringHelper.isEmptyString(_searchQuery)) {
-      map['search'] = _searchQuery;
-    }
-
     _api.getFormsList(
-      queryParameters: map,
+      queryParameters: const {},
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess && responseModel.result != null) {
           final response = FormsListResponse.fromJson(
@@ -72,9 +65,10 @@ class FormsListController extends GetxController {
           );
           if (response.isSuccess == true) {
             isMainViewVisible.value = true;
-            formsList.assignAll(response.info?.data ?? []);
+            _allFormsList = List<FormInfo>.from(response.info?.data ?? []);
+            _applyLocalSearch(_searchQuery);
             totalForms.value =
-                response.info?.pagination?.total ?? formsList.length;
+                response.info?.pagination?.total ?? _allFormsList.length;
             _applyFormCounts(response.info?.counts);
           } else {
             AppUtils.showSnackBarMessage(response.message ?? '');
@@ -96,18 +90,32 @@ class FormsListController extends GetxController {
   }
 
   void searchItem(String value) {
-    if (_debounce?.isActive ?? false) _debounce!.cancel();
-    _debounce = Timer(const Duration(milliseconds: 500), () {
-      _searchQuery = value.trim();
-      fetchFormsList();
-    });
+    _searchQuery = value.trim();
+    _applyLocalSearch(_searchQuery);
   }
 
   void clearSearch() {
     searchController.value.clear();
     _searchQuery = '';
     isSearchEnable.value = false;
-    fetchFormsList();
+    _applyLocalSearch('');
+  }
+
+  void _applyLocalSearch(String query) {
+    if (StringHelper.isEmptyString(query)) {
+      formsList.assignAll(_allFormsList);
+      return;
+    }
+
+    final normalizedQuery = query.toLowerCase();
+    formsList.assignAll(
+      _allFormsList.where((form) {
+        final name = (form.name ?? '').toLowerCase();
+        final createdByName = (form.createdBy?.fullName ?? '').toLowerCase();
+        return name.contains(normalizedQuery) ||
+            createdByName.contains(normalizedQuery);
+      }),
+    );
   }
 
   void onFormTap(FormInfo form) async {

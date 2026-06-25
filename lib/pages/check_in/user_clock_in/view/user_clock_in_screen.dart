@@ -20,7 +20,7 @@ class UserClockInScreen extends StatefulWidget {
 }
 
 class _UserClockInScreenState extends State<UserClockInScreen> {
-  final controller = Get.put(UserClockInController());
+  late final UserClockInController controller;
 
   void _applyHeaderStatusBar() {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -38,8 +38,14 @@ class _UserClockInScreenState extends State<UserClockInScreen> {
   @override
   void initState() {
     super.initState();
+    controller = Get.isRegistered<UserClockInController>()
+        ? Get.find<UserClockInController>()
+        : Get.put(UserClockInController());
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) _applyHeaderStatusBar();
+      if (mounted) {
+        _applyHeaderStatusBar();
+        controller.onScreenOpened();
+      }
     });
   }
 

@@ -107,7 +107,7 @@ class CheckLogListView extends StatelessWidget {
                   .workLogData.value.workLogInfo![parentIndex].isPricework ??
               false,
         };
-        controller.moveToScreen(AppRoutes.checkOutScreen, arguments);
+        controller.moveToScreen(AppRoutes.userCheckOutScreen, arguments);
       },
       child: Container(
         padding: const EdgeInsets.fromLTRB(12, 9, 14, 9),

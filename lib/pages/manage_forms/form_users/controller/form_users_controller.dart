@@ -4,12 +4,14 @@ import 'package:belcka/pages/manage_forms/form_details/model/form_entry_model.da
 import 'package:belcka/pages/manage_forms/form_users/controller/form_users_repository.dart';
 import 'package:belcka/pages/manage_forms/submit_form/model/form_detail_response.dart';
 import 'package:belcka/pages/manage_forms/submit_form/model/publish_target_model.dart';
-import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/date_utils.dart';
+import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/response_model.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class FormUsersController extends GetxController {
@@ -17,10 +19,18 @@ class FormUsersController extends GetxController {
 
   final formEntries = <FormEntryModel>[].obs;
   final screenTitle = ''.obs;
+  final searchController = TextEditingController().obs;
 
   final isLoading = false.obs;
   final isInternetNotAvailable = false.obs;
   final isMainViewVisible = false.obs;
+  final isSearchEnable = false.obs;
+  final selectedDateFilterIndex = (-1).obs;
+
+  String _searchQuery = '';
+  String startDate = '';
+  String endDate = '';
+  List<FormEntryModel> _allFormEntries = [];
 
   int formId = 0;
 
@@ -32,6 +42,12 @@ class FormUsersController extends GetxController {
       formId = arguments[AppConstants.intentKey.ID] ?? 0;
     }
     fetchFormUsers();
+  }
+
+  @override
+  void onClose() {
+    searchController.value.dispose();
+    super.onClose();
   }
 
   void fetchFormUsers() {
@@ -103,7 +119,82 @@ class FormUsersController extends GetxController {
       return bDate.compareTo(aDate);
     });
 
-    formEntries.assignAll(parsed);
+    _allFormEntries = parsed;
+    _applyLocalFilters();
+  }
+
+  void searchItem(String value) {
+    _searchQuery = value.trim();
+    _applyLocalFilters();
+  }
+
+  void clearSearch() {
+    searchController.value.clear();
+    _searchQuery = '';
+    isSearchEnable.value = false;
+    _applyLocalFilters();
+  }
+
+  void onSelectDateFilter(
+    int filterIndex,
+    String filter,
+    String start,
+    String end,
+  ) {
+    selectedDateFilterIndex.value = filter == 'Reset' ? -1 : filterIndex;
+    startDate = start;
+    endDate = end;
+    _applyLocalFilters();
+  }
+
+  void _applyLocalFilters() {
+    formEntries.assignAll(
+      _allFormEntries.where(
+        (entry) => _matchesSearch(entry) && _matchesDateFilter(entry),
+      ),
+    );
+  }
+
+  bool _matchesSearch(FormEntryModel entry) {
+    if (StringHelper.isEmptyString(_searchQuery)) return true;
+
+    final normalizedQuery = _searchQuery.toLowerCase();
+    final userName = entry.displayName.toLowerCase();
+    final trade = entry.tradeName.toLowerCase();
+    return userName.contains(normalizedQuery) ||
+        trade.contains(normalizedQuery);
+  }
+
+  bool _matchesDateFilter(FormEntryModel entry) {
+    if (StringHelper.isEmptyString(startDate) &&
+        StringHelper.isEmptyString(endDate)) {
+      return true;
+    }
+
+    final createdAt = DateTime.tryParse(entry.createdAt ?? '');
+    if (createdAt == null) return false;
+
+    final localDate = DateTime(
+      createdAt.toLocal().year,
+      createdAt.toLocal().month,
+      createdAt.toLocal().day,
+    );
+
+    if (!StringHelper.isEmptyString(startDate)) {
+      final start = DateUtil.stringToDate(startDate, DateUtil.DD_MM_YYYY_SLASH);
+      if (start == null) return false;
+      final startOnly = DateTime(start.year, start.month, start.day);
+      if (localDate.isBefore(startOnly)) return false;
+    }
+
+    if (!StringHelper.isEmptyString(endDate)) {
+      final end = DateUtil.stringToDate(endDate, DateUtil.DD_MM_YYYY_SLASH);
+      if (end == null) return false;
+      final endOnly = DateTime(end.year, end.month, end.day);
+      if (localDate.isAfter(endOnly)) return false;
+    }
+
+    return true;
   }
 
   void _enrichEntryTradeName(
