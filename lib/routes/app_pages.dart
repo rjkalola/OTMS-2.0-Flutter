@@ -87,6 +87,7 @@ import 'package:belcka/pages/check_in/start_shift_map/view/start_shift_map_scree
 import 'package:belcka/pages/check_in/stop_shift/view/stop_shift_screen.dart';
 import 'package:belcka/pages/check_in/type_of_work_details/view/type_of_work_details_screen.dart';
 import 'package:belcka/pages/check_in/work_log_request/view/work_log_request_screen.dart';
+import 'package:belcka/pages/check_in/user_work_log_request/view/user_work_log_request_screen.dart';
 import 'package:belcka/pages/company/company_details/view/company_details_screen.dart';
 import 'package:belcka/pages/company/company_list/view/company_list_screen.dart';
 import 'package:belcka/pages/company/company_signup/view/company_signup_screen.dart';
@@ -267,10 +268,10 @@ class AppPages {
       name: AppRoutes.companySignUpScreen,
       page: () => CompanySignUpScreen(),
     ),
-    GetPage(
-      name: AppRoutes.clockInScreen,
-      page: () => ClockInScreen(),
-    ),
+    // GetPage(
+    //   name: AppRoutes.clockInScreen,
+    //   page: () => ClockInScreen(),
+    // ),
     GetPage(
       name: AppRoutes.userClockInScreen,
       page: () => const UserClockInScreen(),
@@ -286,6 +287,10 @@ class AppPages {
     GetPage(
       name: AppRoutes.userCheckOutScreen,
       page: () => const UserCheckOutScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.userWorkLogRequestScreen,
+      page: () => const UserWorkLogRequestScreen(),
     ),
     GetPage(
       name: AppRoutes.clockInOfflineScreen,
@@ -408,7 +413,7 @@ class AppPages {
     GetPage(
         name: AppRoutes.companyBillingsScreen,
         page: () => CompanyBillingsScreen()),
-    GetPage(name: AppRoutes.stopShiftScreen, page: () => StopShiftScreen()),
+    // GetPage(name: AppRoutes.stopShiftScreen, page: () => StopShiftScreen()),
     GetPage(name: AppRoutes.selectShiftScreen, page: () => SelectShiftScreen()),
     GetPage(
         name: AppRoutes.timeSheetListScreen, page: () => TimeSheetListScreen()),
@@ -416,9 +421,9 @@ class AppPages {
     GetPage(
         name: AppRoutes.billingRequestScreen,
         page: () => BillingRequestScreen()),
-    GetPage(
-        name: AppRoutes.workLogRequestScreen,
-        page: () => WorkLogRequestScreen()),
+    // GetPage(
+    //     name: AppRoutes.workLogRequestScreen,
+    //     page: () => WorkLogRequestScreen()),
     GetPage(
         name: AppRoutes.postCoderSearchScreen,
         page: () => PostCoderSearchScreen()),
@@ -445,7 +450,7 @@ class AppPages {
     GetPage(
         name: AppRoutes.createZoneScreen, page: () => const CreateZoneScreen()),
     GetPage(name: AppRoutes.projectInfoScreen, page: () => ProjectInfoScreen()),
-    GetPage(name: AppRoutes.checkInScreen, page: () => CheckInScreen()),
+    // GetPage(name: AppRoutes.checkInScreen, page: () => CheckInScreen()),
     GetPage(name: AppRoutes.checkOutScreen, page: () => CheckOutScreen()),
     GetPage(
         name: AppRoutes.selectProjectScreen, page: () => SelectProjectScreen()),

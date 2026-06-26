@@ -52,22 +52,18 @@ class SelectTypeOfWorkDialogState extends State<SelectTypeOfWorkDialog> {
 
     print("selectedItemList size:" + selectedItemList.length.toString());
 
-    // final checkedIds = selectedItemList
-    //     .where((e) => e.isCheck == true)
-    //     .map((e) => e.id)
-    //     .toSet();
-
-    final List<String> typeOfWorkIds = [];
-    final List<String> companyTaskIds = [];
-    for (var item in selectedItemList) {
-      typeOfWorkIds.add((item.typeOfWorkId ?? 0).toString());
-      companyTaskIds.add((item.companyTaskId ?? 0).toString());
-    }
-
     tempList.value = list.map((e) {
-      final isChecked = typeOfWorkIds.contains(e.typeOfWorkId.toString()) &&
-          companyTaskIds.contains(e.companyTaskId.toString());
-      return e.copyWith(isCheck: isChecked);
+      final matched = _findSelectedTask(e, selectedItemList);
+      if (matched != null) {
+        return e.copyWith(
+          isCheck: true,
+          beforeAttachments: matched.beforeAttachments,
+          afterAttachments: matched.afterAttachments,
+          taskNote: matched.taskNote,
+          progress: matched.progress,
+        );
+      }
+      return e.copyWith(isCheck: false);
     }).toList();
 
     super.initState();
@@ -287,6 +283,18 @@ class SelectTypeOfWorkDialogState extends State<SelectTypeOfWorkDialog> {
     int randomNumber = random.nextInt(DataUtils.listColors.length - 1);
     color = DataUtils.listColors[randomNumber];
     return Color(AppUtils.haxColor(color));
+  }
+
+  TypeOfWorkResourcesInfo? _findSelectedTask(
+      TypeOfWorkResourcesInfo item,
+      List<TypeOfWorkResourcesInfo> selected) {
+    for (final selectedItem in selected) {
+      if ((selectedItem.typeOfWorkId ?? 0) == (item.typeOfWorkId ?? 0) &&
+          (selectedItem.companyTaskId ?? 0) == (item.companyTaskId ?? 0)) {
+        return selectedItem;
+      }
+    }
+    return null;
   }
 
   Widget textContainerItem(String text, Color boxColor) {

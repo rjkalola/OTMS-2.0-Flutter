@@ -224,7 +224,7 @@ class SelectProjectController extends GetxController {
               AppConstants.intentKey.fromStartShiftScreen: fromStartShiftScreen,
             };
             if (fromStartShiftScreen) {
-              Get.offNamed(AppRoutes.clockInScreen, arguments: arguments);
+              Get.offNamed(AppRoutes.userClockInScreen, arguments: arguments);
             } else {
               Get.back(result: true);
             }

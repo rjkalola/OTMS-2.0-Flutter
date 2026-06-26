@@ -68,6 +68,7 @@ class UserCheckInController extends GetxController
   final locationsList = <ModuleInfo>[].obs;
   final typeOfWorkList = <TypeOfWorkResourcesInfo>[].obs;
   final selectedTypeOfWorkList = <TypeOfWorkResourcesInfo>[].obs;
+  final Map<String, List<FilesInfo>> _taskBeforePhotosCache = {};
   final RxString checkInTime = "".obs;
   CheckInResourcesResponse? checkInResourcesData;
   final RxSet<Marker> markers = <Marker>{}.obs;
@@ -83,15 +84,10 @@ class UserCheckInController extends GetxController
   @override
   void onInit() {
     super.onInit();
-    var arguments = Get.arguments;
-    if (arguments != null) {
-      workLogId = arguments[AppConstants.intentKey.workLogId] ?? 0;
-      projectId = arguments[AppConstants.intentKey.projectId] ?? 0;
-      isPriceWork = arguments[AppConstants.intentKey.isPriceWork] ?? false;
-      print("Project ID:" + projectId.toString());
-      print("isPriceWork:" + isPriceWork.toString());
+    readNavigationArguments();
+    if (StringHelper.isEmptyString(checkInTime.value)) {
+      checkInTime.value = getCurrentTime();
     }
-    checkInTime.value = getCurrentTime();
     if (UserUtils.getLoginUserTradeId() != 0) {
       tradeController.value.text = UserUtils.getLoginUserTrade();
       tradeId = UserUtils.getLoginUserTradeId();
@@ -107,6 +103,20 @@ class UserCheckInController extends GetxController
     locationRequest();
     appLifeCycle();
     checkInResourcesApi();
+  }
+
+  void readNavigationArguments() {
+    final arguments = Get.arguments;
+    if (arguments == null) return;
+
+    workLogId = arguments[AppConstants.intentKey.workLogId] ?? workLogId;
+    projectId = arguments[AppConstants.intentKey.projectId] ?? projectId;
+    isPriceWork = arguments[AppConstants.intentKey.isPriceWork] ?? isPriceWork;
+
+    final workStart = arguments[AppConstants.intentKey.workStartTime] as String?;
+    if (!StringHelper.isEmptyString(workStart)) {
+      checkInTime.value = changeFullDateToSortTime(workStart);
+    }
   }
 
   void checkInApi() async {
@@ -337,6 +347,7 @@ class UserCheckInController extends GetxController
               companyTaskId = 0;
 
               selectedTypeOfWorkList.clear();
+              _clearTaskBeforePhotosCache();
               setTypeOfWorkText();
 
               typeOfWorkList.clear();
@@ -443,6 +454,7 @@ class UserCheckInController extends GetxController
           selectedTypeOfWorkList[selectedPhotosIndex]
               .beforeAttachments!
               .addAll(filesList);
+          _cacheTaskBeforePhotos(selectedTypeOfWorkList[selectedPhotosIndex]);
           selectedTypeOfWorkList.refresh();
         }
       }
@@ -579,6 +591,7 @@ class UserCheckInController extends GetxController
       companyTaskId = 0;
 
       selectedTypeOfWorkList.clear();
+      _clearTaskBeforePhotosCache();
       setTypeOfWorkText();
 
       typeOfWorkList.clear();
@@ -611,7 +624,8 @@ class UserCheckInController extends GetxController
       List<TypeOfWorkResourcesInfo> listSelectedItems, String action) {
     if (action == AppConstants.dialogIdentifier.selectTypeOfWork) {
       selectedTypeOfWorkList.clear();
-      selectedTypeOfWorkList.value = listSelectedItems;
+      selectedTypeOfWorkList.value =
+          _mergeSelectedTasksWithCachedPhotos(listSelectedItems);
       setTypeOfWorkText();
       // typeOfWorkController.value.text = name;
       // this.typeOfWorkId = typeOfWorkId;
@@ -621,6 +635,39 @@ class UserCheckInController extends GetxController
       getTypeOfWorkResourcesApi(
           addressId: addressId, isPriceWork: false, isFromDialog: true);
     }
+  }
+
+  String _taskKey(TypeOfWorkResourcesInfo item) =>
+      '${item.typeOfWorkId ?? 0}_${item.companyTaskId ?? 0}';
+
+  void _cacheTaskBeforePhotos(TypeOfWorkResourcesInfo item) {
+    final key = _taskKey(item);
+    if (!StringHelper.isEmptyList(item.beforeAttachments)) {
+      _taskBeforePhotosCache[key] =
+          List<FilesInfo>.from(item.beforeAttachments!);
+    } else {
+      _taskBeforePhotosCache.remove(key);
+    }
+  }
+
+  void _clearTaskBeforePhotosCache() {
+    _taskBeforePhotosCache.clear();
+  }
+
+  List<TypeOfWorkResourcesInfo> _mergeSelectedTasksWithCachedPhotos(
+      List<TypeOfWorkResourcesInfo> listSelectedItems) {
+    return listSelectedItems.map((item) {
+      final cachedPhotos = _taskBeforePhotosCache[_taskKey(item)];
+      if (cachedPhotos != null && cachedPhotos.isNotEmpty) {
+        return item.copyWith(
+          beforeAttachments: List<FilesInfo>.from(cachedPhotos),
+        );
+      }
+      if (!StringHelper.isEmptyList(item.beforeAttachments)) {
+        _cacheTaskBeforePhotos(item);
+      }
+      return item;
+    }).toList();
   }
 
   List<String> listParamIds() {

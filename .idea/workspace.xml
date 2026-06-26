@@ -5,29 +5,46 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="053ed336-4b64-4937-ade4-066c93ca45e7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/pages/check_in/check_in/model/type_of_work_resources_info.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/check_in/model/type_of_work_resources_info.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/check_in_day_logs/view/widgets/check_in_day_logs_list.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/check_in_day_logs/view/widgets/check_in_day_logs_list.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/check_log_details/view/widgets/check_log_list_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/check_log_details/view/widgets/check_log_list_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/stop_shift/controller/stop_shift_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/stop_shift/controller/stop_shift_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/check_log_details/controller/check_log_details_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/check_log_details/controller/check_log_details_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/check_out/view/widgets/check_in_out_display_note_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/check_out/view/widgets/check_in_out_display_note_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/clock_in/controller/clock_in_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/clock_in/controller/clock_in_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/clock_in2/controller/clock_in_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/clock_in2/controller/clock_in_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/dialogs/select_type_of_work_dialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/dialogs/select_type_of_work_dialog.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/select_project/controller/select_project_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/select_project/controller/select_project_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/select_shift/controller/select_shift_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/select_shift/controller/select_shift_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/start_shift_map/controller/start_shift_map_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/start_shift_map/controller/start_shift_map_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/type_of_work_details/view/type_of_work_details_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/type_of_work_details/view/type_of_work_details_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/user_check_in/controller/user_check_in_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/user_check_in/controller/user_check_in_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/user_check_in/view/user_check_in_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/user_check_in/view/user_check_in_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/user_check_in/view/widgets/user_check_in_header.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/user_check_in/view/widgets/user_check_in_header.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/user_check_out/controller/user_check_out_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/user_check_out/controller/user_check_out_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/user_check_out/view/user_check_out_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/user_check_out/view/user_check_out_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/user_check_out/view/widgets/user_check_out_header.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/user_check_out/view/widgets/user_check_out_header.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/user_check_out/view/widgets/user_check_out_task_section.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/user_check_out/view/widgets/user_check_out_task_section.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/user_check_out/view/widgets/user_check_out_update_progress_sheet.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/user_check_out/view/widgets/user_check_out_update_progress_sheet.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in/controller/user_clock_in_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in/controller/user_clock_in_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in/view/user_clock_in_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in/view/user_clock_in_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in/view/widgets/check_log_list_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in/view/widgets/check_log_list_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in/view/widgets/work_time_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in/view/widgets/work_time_details_view.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/pages/check_in/user_stop_shift/controller/user_stop_shift_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/user_stop_shift/controller/user_stop_shift_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/dashboard/tabs/home_tab/controller/home_tab_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_users/controller/form_users_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/manage_forms/form_users/controller/form_users_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/form_users/view/form_users_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/manage_forms/form_users/view/form_users_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/manage_forms/forms_list/controller/forms_list_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/manage_forms/forms_list/controller/forms_list_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/project/address_details/view/widgets/check_in_user_records.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/project/address_details/view/widgets/check_in_user_records.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/project/check_in_records/view/widgets/check_in_user_records.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/project/check_in_records/view/widgets/check_in_user_records.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/workshop/workshop_user_checklogs/controller/workshop_user_checklogs_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/workshop/workshop_user_checklogs/controller/workshop_user_checklogs_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/res/drawable.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/res/drawable.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/user_stop_shift/controller/user_stop_shift_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/user_stop_shift/controller/user_stop_shift_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/user_stop_shift/view/user_stop_shift_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/user_stop_shift/view/user_stop_shift_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/user_stop_shift/view/widgets/add_note_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/user_stop_shift/view/widgets/add_note_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/user_stop_shift/view/widgets/pending_request_time_box.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/user_stop_shift/view/widgets/pending_request_time_box.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/user_stop_shift/view/widgets/shift_done_footer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/user_stop_shift/view/widgets/shift_done_footer.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/user_stop_shift/view/widgets/shift_times_card.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/user_stop_shift/view/widgets/shift_times_card.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/user_stop_shift/view/widgets/submit_for_approval_button.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/dashboard/tabs/home_tab2/controller/home_tab_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/dashboard/tabs/home_tab2/controller/home_tab_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/my_requests/view/widgets/request_card.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/my_requests/view/widgets/request_card.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/notifications/notification_list/tabs/feed_tab/controller/feed_tab_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/notifications/notification_list/tabs/feed_tab/controller/feed_tab_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/timesheet/archive_timesheet_list/controller/archive_timesheet_list_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/timesheet/archive_timesheet_list/controller/archive_timesheet_list_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/timesheet/timesheet_list/controller/timesheet_list_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/timesheet/timesheet_list/controller/timesheet_list_controller.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/res/strings.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/res/strings.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/routes/app_pages.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/routes/app_pages.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/routes/app_routes.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/routes/app_routes.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/utils/app_constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils/app_constants.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/utils/app_storage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils/app_storage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/utils/notification_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils/notification_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,9 +134,10 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="Application" factoryName="Application">
+    <configuration default="true" type="AppleRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" IS_LOCATION_SIMULATION_SUPPORTED="false" IS_LOCATION_SIMULATION_ALLOWED="true" APPLICATION_LANGUAGE="IDELaunchSchemeLanguageUseSystemLanguage" APPLICATION_REGION="" DEVELOPMENT_TEAM="${TEAM_ID}" MAKE_ACTIVE="TRUE" SHOULD_DEBUG_EXTENSIONS="false">
+      <embedded_app_extension_list />
       <method v="2">
-        <option name="Make" enabled="true" />
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">

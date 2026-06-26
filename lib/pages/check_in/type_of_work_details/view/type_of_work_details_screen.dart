@@ -136,7 +136,7 @@ class _TypeOfWorkDetailsScreenState extends State<TypeOfWorkDetailsScreen> {
                     Visibility(
                       visible: controller.isAfterEnable.value,
                       child: Padding(
-                        padding: EdgeInsets.fromLTRB(16, 10, 16, 14),
+                        padding: EdgeInsets.fromLTRB(20, 10, 16, 14),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -167,8 +167,16 @@ class _TypeOfWorkDetailsScreenState extends State<TypeOfWorkDetailsScreen> {
                                                 0)
                                             : 100) /
                                         100),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 24),
+                              child: CheckInOutDisplayNoteWidget(
+                                note: controller.info.value.taskNote,
+                                labelText: 'task_note'.tr,
+                                padding: EdgeInsets.zero,
+                              ),
+                            ),
                             SizedBox(
-                              height: 12,
+                              height: 6,
                             )
                           ],
                         ),

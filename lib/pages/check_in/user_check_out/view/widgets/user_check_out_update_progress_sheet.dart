@@ -41,10 +41,9 @@ class _UserCheckOutUpdateProgressSheetState
   @override
   void initState() {
     super.initState();
-    final progress = widget.info.progress ?? 0;
-    _selectedPercent = progress != 0 ? progress : 100;
+    _selectedPercent = controller.taskDisplayProgress(widget.info);
     _noteController = TextEditingController(
-      text: controller.selectedTypeOfWorkList[widget.index].note ?? '',
+      text: controller.selectedTypeOfWorkList[widget.index].taskNote ?? '',
     );
   }
 
@@ -61,13 +60,11 @@ class _UserCheckOutUpdateProgressSheetState
   }
 
   void _onSave() {
-    final noteText = _noteController.text.trim();
-    controller.selectedTypeOfWorkList[widget.index] =
-        controller.selectedTypeOfWorkList[widget.index].copyWith(
-      progress: _selectedPercent,
-      note: noteText.isEmpty ? '' : noteText,
+    controller.saveTaskProgress(
+      widget.index,
+      _selectedPercent,
+      _noteController.text,
     );
-    controller.selectedTypeOfWorkList.refresh();
     Navigator.of(context).pop();
   }
 

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:belcka/pages/check_in/check_in_day_logs/model/check_log_list_response.dart';
 import 'package:belcka/pages/project/project_info/model/geofence_info.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,7 +13,6 @@ import 'package:belcka/pages/check_in/clock_in/controller/clock_in_utils.dart';
 import 'package:belcka/pages/check_in/clock_in/model/check_log_info.dart';
 import 'package:belcka/pages/check_in/clock_in/model/location_info.dart';
 import 'package:belcka/pages/check_in/clock_in/model/work_log_info.dart';
-import 'package:belcka/pages/check_in/clock_in/model/work_log_list_response.dart';
 import 'package:belcka/pages/check_in/user_stop_shift/controller/user_stop_shift_repository.dart';
 import 'package:belcka/pages/check_in/stop_shift/model/work_log_details_response.dart';
 import 'package:belcka/pages/check_in/clock_in/model/user_stop_work_response.dart';
@@ -59,17 +59,10 @@ class UserStopShiftController extends GetxController
   // final RxSet<Polyline> polylines = <Polyline>{}.obs;
   final locationService = LocationServiceNew();
   final workLogInfo = WorkLogInfo().obs;
+  final todaysActivityCheckLogs = <CheckLogInfo>[].obs;
+  final RxBool isTodaysActivityLoaded = false.obs;
+  final RxBool isTodaysActivityLoading = false.obs;
   List<CheckLogInfo> passedUserChecklogs = [];
-
-  List<CheckLogInfo> get todaysActivityCheckLogs {
-    final fromApi = workLogInfo.value.userChecklogs ?? [];
-    final apiLogs =
-        fromApi.where((log) => (log.id ?? 0) > 0).toList();
-    if (apiLogs.isNotEmpty) return apiLogs;
-    return passedUserChecklogs
-        .where((log) => (log.id ?? 0) > 0)
-        .toList();
-  }
 
   int workLogId = 0, userId = 0;
   String date = "";
@@ -86,6 +79,9 @@ class UserStopShiftController extends GetxController
   @override
   void onInit() {
     super.onInit();
+    isMainViewVisible.value = false;
+    isTodaysActivityLoaded.value = false;
+    todaysActivityCheckLogs.clear();
     var arguments = Get.arguments;
     if (arguments != null) {
       workLogId = arguments[AppConstants.intentKey.workLogId] ?? 0;
@@ -98,7 +94,6 @@ class UserStopShiftController extends GetxController
       } else if (logs is List) {
         passedUserChecklogs = List<CheckLogInfo>.from(logs);
       }
-      print("userId:" + userId.toString());
     }
     LocationInfo? locationInfo = Get.find<AppStorage>().getLastLocation();
     if (locationInfo != null) {
@@ -108,6 +103,48 @@ class UserStopShiftController extends GetxController
 
     getWorkLogDetailsApi();
   }
+
+  bool get isPendingWorkLogRequest =>
+      (workLogInfo.value.requestStatus ?? 0) == AppConstants.status.pending;
+
+  bool get showRequestedShiftCard => isPendingWorkLogRequest;
+
+  bool get canEditTimes {
+    if (isWorking.value || showRequestedShiftCard) {
+      return false;
+    }
+    final status = workLogInfo.value.status ?? 0;
+    return !StringHelper.isEmptyString(workLogInfo.value.workEndTime) &&
+        (status == 0 ||
+            status == AppConstants.status.rejected ||
+            status == AppConstants.status.unlock);
+  }
+
+  String get actualStartTimeDisplay {
+    if (showRequestedShiftCard) {
+      return changeFullDateToSortTime(workLogInfo.value.oldStartTime);
+    }
+    return startTime.value;
+  }
+
+  String get actualEndTimeDisplay {
+    if (showRequestedShiftCard) {
+      return changeFullDateToSortTime(workLogInfo.value.oldEndTime);
+    }
+    return !StringHelper.isEmptyString(workLogInfo.value.workEndTime)
+        ? stopTime.value
+        : getCurrentTime();
+  }
+
+  String get requestedStartTimeDisplay => startTime.value;
+
+  String get requestedEndTimeDisplay => stopTime.value;
+
+  int get oldPayableSecondsDisplay =>
+      workLogInfo.value.oldPayableWorkSeconds ?? 0;
+
+  int get requestedPayableSecondsDisplay =>
+      workLogInfo.value.payableWorkSeconds ?? 0;
 
   Future<void> userStopWorkApi() async {
     String deviceModelName = await AppUtils.getDeviceName();
@@ -209,7 +246,10 @@ class UserStopShiftController extends GetxController
           BaseResponse response =
               BaseResponse.fromJson(jsonDecode(responseModel.result!));
           AppUtils.showApiResponseMessage(response.Message);
-          Get.back(result: true);
+          isDataUpdated.value = true;
+          isEdited.value = false;
+          noteController.value.clear();
+          getWorkLogDetailsApi();
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
         }
@@ -234,7 +274,6 @@ class UserStopShiftController extends GetxController
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
         if (responseModel.isSuccess) {
-          isMainViewVisible.value = true;
           WorkLogDetailsResponse response = WorkLogDetailsResponse.fromJson(
               jsonDecode(responseModel.result!));
           if (UserUtils.getLoginUserId() == response.info?.userId) {
@@ -266,10 +305,15 @@ class UserStopShiftController extends GetxController
             appLifeCycle();
           }
           setTotalPayableFlag();
+          getTodaysActivityCheckLogsApi(onComplete: () {
+            isTodaysActivityLoaded.value = true;
+            isMainViewVisible.value = true;
+            isLoading.value = false;
+          });
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
+          isLoading.value = false;
         }
-        isLoading.value = false;
       },
       onError: (ResponseModel error) {
         isLoading.value = false;
@@ -278,6 +322,64 @@ class UserStopShiftController extends GetxController
           AppUtils.showApiResponseMessage('no_internet'.tr);
         }
       },
+    );
+  }
+
+  void getTodaysActivityCheckLogsApi({VoidCallback? onComplete}) {
+    final activityUserId = workLogInfo.value.userId ?? userId;
+    final isInitialLoad = !isMainViewVisible.value;
+
+    if (isInitialLoad) {
+      isTodaysActivityLoading.value = true;
+      isTodaysActivityLoaded.value = false;
+    }
+
+    void finish() {
+      isTodaysActivityLoading.value = false;
+      onComplete?.call();
+    }
+
+    if (activityUserId == 0 || StringHelper.isEmptyString(date)) {
+      _setTodaysActivityFromPassedLogs();
+      finish();
+      return;
+    }
+
+    Map<String, dynamic> map = {};
+    map["user_id"] = activityUserId;
+    map["date"] = date;
+
+    _api.getCheckInDayLogs(
+      queryParameters: map,
+      onSuccess: (ResponseModel responseModel) {
+        if (responseModel.isSuccess) {
+          final response = CheckLogListResponse.fromJson(
+              jsonDecode(responseModel.result!));
+          todaysActivityCheckLogs.assignAll((response.info ?? [])
+              .where((log) => (log.id ?? 0) > 0)
+              .toList());
+        } else {
+          _setTodaysActivityFromPassedLogs();
+        }
+        finish();
+      },
+      onError: (ResponseModel error) {
+        _setTodaysActivityFromPassedLogs();
+        finish();
+        if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
+          AppUtils.showApiResponseMessage('no_internet'.tr);
+        }
+      },
+    );
+  }
+
+  void _setTodaysActivityFromPassedLogs() {
+    if (passedUserChecklogs.isEmpty) {
+      todaysActivityCheckLogs.clear();
+      return;
+    }
+    todaysActivityCheckLogs.assignAll(
+      passedUserChecklogs.where((log) => (log.id ?? 0) > 0).toList(),
     );
   }
 

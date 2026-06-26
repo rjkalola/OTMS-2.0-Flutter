@@ -21,10 +21,6 @@ class AppRoutes {
   static const String selectCompanyTradeScreen = '/select_company_trade_screen';
   static const String qrCodeScannerScreen = '/qr_code_scanner';
   static const String companySignUpScreen = '/company_signup_screen';
-  static const String clockInScreen = '/clock_in_screen';
-  static const String clockInOfflineScreen = '/clock_in_offline_screen';
-  static const String uploadOfflineWorklogScreen =
-      '/upload_offline_worklog_screen';
   static const String companyDetailsScreen = '/company_details_screen';
   static const String selectToolScreen = '/select_tool_screen';
   static const String companyTradesScreen = '/company_trades_screen';
@@ -81,14 +77,12 @@ class AppRoutes {
 
   // static const String billingDetailsScreen = '/billing_details_screen';
   static const String companyBillingsScreen = '/company_billings_screen';
-  static const String stopShiftScreen = '/stop_shift_screen';
   static const String selectShiftScreen = '/select_shift_screen';
   static const String timeSheetListScreen = '/timesheet_list_screen';
   static const String archiveTimeSheetListScreen =
       '/archive_timesheet_list_screen';
   static const String myRequestsScreen = '/my_requests_screen';
   static const String billingRequestScreen = '/billing_request_screen';
-  static const String workLogRequestScreen = '/work_log_request_screen';
   static const String postCoderSearchScreen = '/post_coder_search_screen';
   static const String myAccountScreen = '/my_account_screen';
   static const String billingDetailsNewScreen = '/billing_details_new_screen';
@@ -102,8 +96,6 @@ class AppRoutes {
   static const String createZoneScreen = '/create_zone_screen';
   static const String addProjectScreen = '/add_project_screen';
   static const String projectInfoScreen = '/project_info_screen';
-  static const String checkInScreen = '/check_in_screen';
-  static const String checkOutScreen = '/check_out_screen';
   static const String selectProjectScreen = '/select_project_screen';
   static const String addressListScreen = '/address_list_screen';
   static const String projectDetailsScreen = '/project_details_screen';
@@ -243,8 +235,20 @@ class AppRoutes {
   static const String formDetailsScreen = '/form_details_screen';
   static const String formUsersScreen = '/form_users_screen';
 
+  // static const String workLogRequestScreen = '/work_log_request_screen';
+  // static const String clockInScreen = '/clock_in_screen';
+  // static const String stopShiftScreen = '/stop_shift_screen';
+  // static const String checkInScreen = '/check_in_screen';
+  static const String checkOutScreen = '/check_out_screen';
+
+  static const String clockInOfflineScreen = '/clock_in_offline_screen';
+  static const String uploadOfflineWorklogScreen =
+      '/upload_offline_worklog_screen';
+
+
   static const String userClockInScreen = '/user_clock_in_screen';
   static const String userStopShiftScreen = '/user_stop_shift_screen';
   static const String userCheckInScreen = '/user_check_in_screen';
   static const String userCheckOutScreen = '/user_check_out_screen';
+  static const String userWorkLogRequestScreen = '/user_work_log_request_screen';
 }

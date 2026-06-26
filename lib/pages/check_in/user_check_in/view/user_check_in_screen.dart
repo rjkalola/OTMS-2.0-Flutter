@@ -22,6 +22,16 @@ class UserCheckInScreen extends StatefulWidget {
 class _UserCheckInScreenState extends State<UserCheckInScreen> {
   final controller = Get.put(UserCheckInController());
 
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        controller.readNavigationArguments();
+      }
+    });
+  }
+
   static const Color _addressIconBg = Color(0xFFE8F3FC);
   static const Color _tradeIconBg = Color(0xFFE8F8EE);
 
@@ -54,56 +64,73 @@ class _UserCheckInScreenState extends State<UserCheckInScreen> {
                 Expanded(
                   child: SafeArea(
                     bottom: false,
-                    child: SingleChildScrollView(
-                      padding: const EdgeInsets.only(bottom: 16),
-                      child: Column(
-                        children: [
-                          UserCheckInHeader(),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: Obx(() {
-                              final addressText =
-                                  controller.addressController.value.text;
-                              final tradeText =
-                                  controller.tradeController.value.text;
-                              final hasAddress = controller.addressId != 0 &&
-                                  !StringHelper.isEmptyString(addressText);
+                    child: Column(
+                      children: [
+                        ColoredBox(
+                          color: dashBoardBgColor_(context),
+                          child: UserCheckInHeaderBar(),
+                        ),
+                        Expanded(
+                          child: SingleChildScrollView(
+                            padding: const EdgeInsets.only(bottom: 16),
+                            child: Column(
+                              children: [
+                                const UserCheckInHeaderContent(),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16),
+                                  child: Obx(() {
+                                    final addressText =
+                                        controller.addressController.value.text;
+                                    final tradeText =
+                                        controller.tradeController.value.text;
+                                    final hasAddress =
+                                        controller.addressId != 0 &&
+                                            !StringHelper.isEmptyString(
+                                                addressText);
 
-                              return Column(
-                                children: [
-                                  UserCheckInSelectionCard(
-                                    iconPath: Drawable.checkinAddressIcon,
-                                    iconBackgroundColor: _addressIconBg,
-                                    title: hasAddress
-                                        ? 'address'.tr
-                                        : 'select_address'.tr,
-                                    subtitle: hasAddress
-                                        ? addressText
-                                        : 'choose_site_address'.tr,
-                                    isPlaceholder: !hasAddress,
-                                    onTap: controller.showSelectAddressDialog,
-                                  ),
-                                  UserCheckInSelectionCard(
-                                    iconPath: Drawable.checkinTradeIcon,
-                                    iconBackgroundColor: _tradeIconBg,
-                                    title: !StringHelper.isEmptyString(tradeText)
-                                        ? 'trade'.tr
-                                        : 'select_trade'.tr,
-                                    subtitle: !StringHelper.isEmptyString(
-                                            tradeText)
-                                        ? tradeText
-                                        : 'select_trade'.tr,
-                                    isPlaceholder:
-                                        StringHelper.isEmptyString(tradeText),
-                                    onTap: controller.showSelectTradeDialog,
-                                  ),
-                                  UserCheckInTaskSection(),
-                                ],
-                              );
-                            }),
+                                    return Column(
+                                      children: [
+                                        UserCheckInSelectionCard(
+                                          iconPath: Drawable.checkinAddressIcon,
+                                          iconBackgroundColor: _addressIconBg,
+                                          title: hasAddress
+                                              ? 'address'.tr
+                                              : 'select_address'.tr,
+                                          subtitle: hasAddress
+                                              ? addressText
+                                              : 'choose_site_address'.tr,
+                                          isPlaceholder: !hasAddress,
+                                          onTap:
+                                              controller.showSelectAddressDialog,
+                                        ),
+                                        UserCheckInSelectionCard(
+                                          iconPath: Drawable.checkinTradeIcon,
+                                          iconBackgroundColor: _tradeIconBg,
+                                          title: !StringHelper.isEmptyString(
+                                                  tradeText)
+                                              ? 'trade'.tr
+                                              : 'select_trade'.tr,
+                                          subtitle: !StringHelper.isEmptyString(
+                                                  tradeText)
+                                              ? tradeText
+                                              : 'select_trade'.tr,
+                                          isPlaceholder:
+                                              StringHelper.isEmptyString(
+                                                  tradeText),
+                                          onTap:
+                                              controller.showSelectTradeDialog,
+                                        ),
+                                        UserCheckInTaskSection(),
+                                      ],
+                                    );
+                                  }),
+                                ),
+                              ],
+                            ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),

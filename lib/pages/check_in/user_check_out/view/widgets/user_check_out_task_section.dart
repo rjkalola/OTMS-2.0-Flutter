@@ -115,6 +115,7 @@ class UserCheckOutTaskSection extends StatelessWidget {
                   ),
                   child: _CheckoutTaskRow(
                     info: info,
+                    progressValue: controller.taskDisplayProgress(info),
                     isEditable: isEditable,
                     onPhotoTap: () =>
                         controller.onSelectTypeOfWorkPhotos(index),
@@ -136,6 +137,7 @@ class UserCheckOutTaskSection extends StatelessWidget {
 class _CheckoutTaskRow extends StatelessWidget {
   const _CheckoutTaskRow({
     required this.info,
+    required this.progressValue,
     required this.isEditable,
     required this.onPhotoTap,
     required this.onDetailsTap,
@@ -143,6 +145,7 @@ class _CheckoutTaskRow extends StatelessWidget {
   });
 
   final TypeOfWorkResourcesInfo info;
+  final int progressValue;
   final bool isEditable;
   final VoidCallback onPhotoTap;
   final VoidCallback onDetailsTap;
@@ -152,9 +155,6 @@ class _CheckoutTaskRow extends StatelessWidget {
   static const Color _taskRowIconColor = Color(0xFFFF7F00);
   static const Color _durationColor = Color(0xFFFF7F00);
   static const Color _progressColor = Color(0xFF32A852);
-
-  int get _progressValue =>
-      (info.progress ?? 0) != 0 ? (info.progress ?? 0) : 100;
 
   @override
   Widget build(BuildContext context) {
@@ -232,7 +232,7 @@ class _CheckoutTaskRow extends StatelessWidget {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(4),
                           child: LinearProgressIndicator(
-                            value: _progressValue / 100,
+                            value: progressValue / 100,
                             minHeight: 6,
                             backgroundColor: _progressColor.withOpacity(0.15),
                             color: _progressColor,
@@ -243,7 +243,7 @@ class _CheckoutTaskRow extends StatelessWidget {
                       GestureDetector(
                         onTap: isEditable ? onProgressTap : onDetailsTap,
                         child: Text(
-                          '$_progressValue%',
+                          '$progressValue%',
                           style: const TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,

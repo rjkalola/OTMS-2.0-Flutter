@@ -47,70 +47,53 @@ class _UserCheckOutScreenState extends State<UserCheckOutScreen> {
                 Expanded(
                   child: SafeArea(
                     bottom: false,
-                    child: SingleChildScrollView(
-                      padding: const EdgeInsets.only(bottom: 16),
-                      child: Column(
-                        children: [
-                          UserCheckOutHeader(),
-                          UserCheckOutTimesRow(),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: Obx(() {
-                              final addressText =
-                                  controller.addressController.value.text;
-                              final tradeText =
-                                  controller.tradeController.value.text;
+                    child: Column(
+                      children: [
+                        ColoredBox(
+                          color: dashBoardBgColor_(context),
+                          child: const UserCheckOutHeaderBar(),
+                        ),
+                        Expanded(
+                          child: SingleChildScrollView(
+                            padding: const EdgeInsets.only(bottom: 16),
+                            child: Column(
+                              children: [
+                                const UserCheckOutHeaderContent(),
+                                UserCheckOutTimesRow(),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16),
+                                  child: Obx(() {
+                                    final addressText =
+                                        controller.addressController.value.text;
+                                    final tradeText =
+                                        controller.tradeController.value.text;
 
-                              return Column(
-                                children: [
-                                  UserCheckOutSummaryCard(),
-                                  UserCheckOutInfoCard(
-                                    iconPath: Drawable.checkinAddressIcon,
-                                    iconBackgroundColor: _addressIconBg,
-                                    title: 'address'.tr,
-                                    subtitle: addressText,
-                                  ),
-                                  UserCheckOutInfoCard(
-                                    iconPath: Drawable.checkinTradeIcon,
-                                    iconBackgroundColor: _tradeIconBg,
-                                    title: 'trade'.tr,
-                                    subtitle: tradeText,
-                                  ),
-                                  UserCheckOutTaskSection(),
-                                  // Visibility(
-                                  //   visible: StringHelper.isEmptyString(
-                                  //           controller.checkLogInfo.value
-                                  //               .checkoutDateTime) &&
-                                  //       (controller.checkLogInfo.value
-                                  //                   .taskList ??
-                                  //               [])
-                                  //           .length ==
-                                  //           1,
-                                  //   child: Padding(
-                                  //     padding: const EdgeInsets.only(top: 4),
-                                  //     child: AddNoteWidget(
-                                  //       controller: controller.noteController,
-                                  //       borderRadius: 15,
-                                  //       validator: MultiValidator([]),
-                                  //     ),
-                                  //   ),
-                                  // ),
-                                  // CheckInOutDisplayNoteWidget(
-                                  //   note: controller
-                                  //       .checkLogInfo.value.checkInNote,
-                                  //   labelText: 'check_in_note'.tr,
-                                  // ),
-                                  // CheckInOutDisplayNoteWidget(
-                                  //   note: controller
-                                  //       .checkLogInfo.value.checkOutNote,
-                                  //   labelText: 'check_out_note'.tr,
-                                  // ),
-                                ],
-                              );
-                            }),
+                                    return Column(
+                                      children: [
+                                        UserCheckOutSummaryCard(),
+                                        UserCheckOutInfoCard(
+                                          iconPath: Drawable.checkinAddressIcon,
+                                          iconBackgroundColor: _addressIconBg,
+                                          title: 'address'.tr,
+                                          subtitle: addressText,
+                                        ),
+                                        UserCheckOutInfoCard(
+                                          iconPath: Drawable.checkinTradeIcon,
+                                          iconBackgroundColor: _tradeIconBg,
+                                          title: 'trade'.tr,
+                                          subtitle: tradeText,
+                                        ),
+                                        UserCheckOutTaskSection(),
+                                      ],
+                                    );
+                                  }),
+                                ),
+                              ],
+                            ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),

@@ -213,7 +213,7 @@ class ArchiveTimesheetListController extends GetxController
       AppConstants.intentKey.userId: userId
     };
     var result =
-        await Get.toNamed(AppRoutes.stopShiftScreen, arguments: arguments);
+        await Get.toNamed(AppRoutes.userStopShiftScreen, arguments: arguments);
     print("result:" + result.toString());
     if (result != null && result) {
       loadTimesheetData(true);

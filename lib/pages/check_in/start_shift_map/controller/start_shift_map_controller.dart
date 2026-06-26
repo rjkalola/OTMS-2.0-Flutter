@@ -111,7 +111,7 @@ class StartShiftMapController extends GetxController {
             var arguments = {
               AppConstants.intentKey.fromStartShiftScreen: true,
             };
-            Get.offNamed(AppRoutes.clockInScreen, arguments: arguments);
+            Get.offNamed(AppRoutes.userClockInScreen, arguments: arguments);
           } else {
             AppUtils.showApiResponseMessage('rate_not_added_or_approved'.tr);
            AppUtils.moveToRateScreen();

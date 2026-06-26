@@ -80,6 +80,7 @@ class UserCheckOutController extends GetxController
   final tradeList = <ModuleInfo>[].obs;
   final typeOfWorkList = <TypeOfWorkResourcesInfo>[].obs;
   final selectedTypeOfWorkList = <TypeOfWorkResourcesInfo>[].obs;
+  final _manualTaskProgressIds = <int>{};
   final RxSet<Marker> markers = <Marker>{}.obs;
   final RxSet<Circle> circles = <Circle>{}.obs;
 
@@ -232,12 +233,10 @@ class UserCheckOutController extends GetxController
     map["longitude"] = longitude;
     for (int i = 0; i < selectedTypeOfWorkList.length; i++) {
       map["new_progress[${selectedTypeOfWorkList[i].companyTaskId}]"] =
-          (selectedTypeOfWorkList[i].progress ?? 0) > 0
-              ? (selectedTypeOfWorkList[i].progress ?? 0)
-              : 100;
-      final taskNote = selectedTypeOfWorkList[i].note?.trim() ?? '';
+          taskDisplayProgress(selectedTypeOfWorkList[i]);
+      final taskNote = selectedTypeOfWorkList[i].taskNote?.trim() ?? '';
       if (!StringHelper.isEmptyString(taskNote)) {
-        map["note[${selectedTypeOfWorkList[i].companyTaskId}]"] = taskNote;
+        map["task_note[${selectedTypeOfWorkList[i].companyTaskId}]"] = taskNote;
       }
     }
 
@@ -504,6 +503,27 @@ class UserCheckOutController extends GetxController
       useSafeArea: true,
       builder: (_) => UserCheckOutUpdateProgressSheet(info: info, index: index),
     );
+  }
+
+  int taskDisplayProgress(TypeOfWorkResourcesInfo info) {
+    final taskId = info.companyTaskId ?? 0;
+    final value = info.progress ?? 0;
+    if (_manualTaskProgressIds.contains(taskId)) {
+      return value;
+    }
+    return value != 0 ? value : 100;
+  }
+
+  void saveTaskProgress(int index, int percent, String note) {
+    final taskId = selectedTypeOfWorkList[index].companyTaskId ?? 0;
+    _manualTaskProgressIds.add(taskId);
+    final noteText = note.trim();
+    selectedTypeOfWorkList[index] =
+        selectedTypeOfWorkList[index].copyWith(
+      progress: percent,
+      taskNote: noteText.isEmpty ? '' : noteText,
+    );
+    selectedTypeOfWorkList.refresh();
   }
 
   Future<void> typeOfWorkDetails(

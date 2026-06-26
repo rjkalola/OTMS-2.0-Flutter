@@ -200,7 +200,7 @@ class FeedTabController extends GetxController {
           notificationType ==
               AppConstants.notificationType.USER_WORK_STOP_BY_ADMIN) {
         if ((info.worklogId ?? 0) != 0) {
-          String rout = AppRoutes.stopShiftScreen;
+          String rout = AppRoutes.userStopShiftScreen;
           var arguments = {
             AppConstants.intentKey.workLogId: info.worklogId ?? 0,
             AppConstants.intentKey.userId: info.userId ?? 0,
@@ -211,7 +211,7 @@ class FeedTabController extends GetxController {
               AppConstants.notificationType.TIMESHEET_EDIT ||
           notificationType == AppConstants.notificationType.WORKLOG_ADD) {
         if ((info.requestLogId ?? 0) != 0) {
-          String rout = AppRoutes.workLogRequestScreen;
+          String rout = AppRoutes.userWorkLogRequestScreen;
           var arguments = {
             AppConstants.intentKey.ID: info.requestLogId ?? 0,
             AppConstants.intentKey.userId: info.userId ?? 0,

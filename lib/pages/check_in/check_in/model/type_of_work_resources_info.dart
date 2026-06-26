@@ -23,7 +23,7 @@ class TypeOfWorkResourcesInfo {
   bool? isCheck;
   int? totalAttachments;
   int? checklogId;
-  String? note;
+  String? taskNote;
 
   TypeOfWorkResourcesInfo(
       {this.id,
@@ -49,7 +49,7 @@ class TypeOfWorkResourcesInfo {
       this.isCheck,
       this.totalAttachments,
       this.checklogId,
-      this.note});
+      this.taskNote});
 
   TypeOfWorkResourcesInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -90,7 +90,7 @@ class TypeOfWorkResourcesInfo {
     isCheck = json['isCheck'];
     totalAttachments = json['total_attachments'];
     checklogId = json['checklog_id'];
-    note = json['note'];
+    taskNote = json['task_note'];
   }
 
   Map<String, dynamic> toJson() {
@@ -127,7 +127,7 @@ class TypeOfWorkResourcesInfo {
     data['isCheck'] = this.isCheck;
     data['total_attachments'] = this.totalAttachments;
     data['checklog_id'] = this.checklogId;
-    data['note'] = this.note;
+    data['task_note'] = this.taskNote;
     return data;
   }
 
@@ -154,7 +154,7 @@ class TypeOfWorkResourcesInfo {
     bool? isCheck,
     int? totalAttachments,
     int? checklogId,
-    String? note,
+    String? taskNote,
   }) {
     return TypeOfWorkResourcesInfo(
       id: id ?? this.id,
@@ -178,7 +178,7 @@ class TypeOfWorkResourcesInfo {
       isCheck: isCheck ?? this.isCheck,
       totalAttachments: totalAttachments ?? this.totalAttachments,
       checklogId: checklogId ?? this.checklogId,
-      note: note ?? this.note,
+      taskNote: taskNote ?? this.taskNote,
     );
   }
 }

@@ -2,51 +2,34 @@ import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/network/api_request.dart';
 import 'package:belcka/web_services/response/response_model.dart';
 
-class UserStopShiftRepository {
-  void requestWorkLogChange({
+class UserWorkLogRequestRepository {
+  void getWorkLogRequestDetails({
+    Map<String, dynamic>? queryParameters,
+    Function(ResponseModel responseModel)? onSuccess,
+    Function(ResponseModel error)? onError,
+  }) {
+    ApiRequest(
+            url: ApiConstants.workLogRequestDetails,
+            queryParameters: queryParameters,
+            isFormData: false)
+        .getRequest(
+      onSuccess: (data) {
+        onSuccess!(data);
+      },
+      onError: (error) => {if (onError != null) onError(error)},
+    );
+  }
+
+  void workLogRequestApproveReject({
     dynamic data,
     Function(ResponseModel responseModel)? onSuccess,
     Function(ResponseModel error)? onError,
   }) {
     ApiRequest(
-            url: ApiConstants.requestWorkLogChange,
+            url: ApiConstants.workLogRequestApproveReject,
             data: data,
             isFormData: false)
         .postRequest(
-      onSuccess: (data) {
-        onSuccess!(data);
-      },
-      onError: (error) => {if (onError != null) onError(error)},
-    );
-  }
-
-  void getWorkLogDetails({
-    Map<String, dynamic>? queryParameters,
-    Function(ResponseModel responseModel)? onSuccess,
-    Function(ResponseModel error)? onError,
-  }) {
-    ApiRequest(
-            url: ApiConstants.getWorkLogDetails,
-            queryParameters: queryParameters,
-            isFormData: false)
-        .getRequest(
-      onSuccess: (data) {
-        onSuccess!(data);
-      },
-      onError: (error) => {if (onError != null) onError(error)},
-    );
-  }
-
-  void getCheckInDayLogs({
-    Map<String, dynamic>? queryParameters,
-    Function(ResponseModel responseModel)? onSuccess,
-    Function(ResponseModel error)? onError,
-  }) {
-    ApiRequest(
-            url: ApiConstants.getCheckInDayLogs,
-            queryParameters: queryParameters,
-            isFormData: false)
-        .getRequest(
       onSuccess: (data) {
         onSuccess!(data);
       },

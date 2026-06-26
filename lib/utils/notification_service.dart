@@ -197,7 +197,7 @@ class NotificationService {
         final userId = data['user_id'] ?? "0";
         print("workLogId is:" + workLogId);
         print("userId is:" + userId);
-        String rout = AppRoutes.stopShiftScreen;
+        String rout = AppRoutes.userStopShiftScreen;
         var arguments = {
           AppConstants.intentKey.workLogId:
               !StringHelper.isEmptyString(workLogId) ? int.parse(workLogId) : 0,
@@ -213,7 +213,7 @@ class NotificationService {
         final userId = data['user_id'] ?? "0";
         print("requestLogId is:" + requestLogId);
         print("userId is:" + userId);
-        String rout = AppRoutes.workLogRequestScreen;
+        String rout = AppRoutes.userWorkLogRequestScreen;
         var arguments = {
           AppConstants.intentKey.ID: !StringHelper.isEmptyString(requestLogId)
               ? int.parse(requestLogId)

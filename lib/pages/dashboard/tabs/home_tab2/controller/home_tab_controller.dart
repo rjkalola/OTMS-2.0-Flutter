@@ -55,7 +55,7 @@ class HomeTabController extends GetxController {
 
   void onActionButtonClick(String action) {
     if (action == AppConstants.action.clockIn) {
-      Get.toNamed(AppRoutes.clockInScreen);
+      Get.toNamed(AppRoutes.userClockInScreen);
     } else if (action == AppConstants.action.store) {
       Get.offNamed(AppRoutes.storeListScreen);
     } else if (action == AppConstants.action.stocks) {

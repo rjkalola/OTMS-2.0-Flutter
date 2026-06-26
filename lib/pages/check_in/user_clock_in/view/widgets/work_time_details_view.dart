@@ -1,5 +1,6 @@
 import 'package:belcka/pages/check_in/user_clock_in/controller/user_clock_in_controller.dart';
 import 'package:belcka/pages/check_in/user_clock_in/view/widgets/semi_circle_painter.dart';
+import 'package:belcka/utils/string_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -73,13 +74,19 @@ class WorkTimeDetailsView extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     if (statusText.isNotEmpty)
-                      Text(
-                        statusText,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: 0.2,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        child: Text(
+                          statusText,
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 0.2,
+                          ),
                         ),
                       ),
                     if (statusText.isNotEmpty) const SizedBox(height: 4),
@@ -112,12 +119,19 @@ class WorkTimeDetailsView extends StatelessWidget {
   }
 
   String _statusText(UserClockInController controller) {
+    final isWorking = controller.workLogData.value.userIsWorking ?? false;
+    if (!isWorking) {
+      return '';
+    }
     if (controller.isOnLeave.value) {
       return '';
-    } else if (controller.isOnBreak.value) {
+    }
+    if (controller.isOnBreak.value) {
       return 'break_time_on'.tr;
     }
-    return 'work_time_on'.tr;
+    final projectName = controller.selectedWorkLogInfo?.projectName ??
+        controller.workLogData.value.projectName;
+    return StringHelper.isEmptyString(projectName) ? '' : projectName!;
   }
 
   String _counterTime(UserClockInController controller) {

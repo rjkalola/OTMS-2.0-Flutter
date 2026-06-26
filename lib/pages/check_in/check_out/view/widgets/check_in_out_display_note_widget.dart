@@ -33,7 +33,7 @@ class CheckInOutDisplayNoteWidget extends StatelessWidget {
               text: TextSpan(
             text: "${labelText ?? ""}: ",
             style: TextStyle(
-                fontSize: 16,
+                fontSize: 18,
                 color: primaryTextColor_(context),
                 fontWeight: FontWeight.w500),
             children: <TextSpan>[

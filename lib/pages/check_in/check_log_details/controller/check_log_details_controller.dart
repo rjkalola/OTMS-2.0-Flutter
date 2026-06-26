@@ -63,7 +63,7 @@ class CheckLogDetailsController extends GetxController {
   onClickWorkLogItem(WorkLogInfo info) async {
     var arguments = {AppConstants.intentKey.workLogId: info.id ?? 0};
     var result =
-        await Get.toNamed(AppRoutes.stopShiftScreen, arguments: arguments);
+        await Get.toNamed(AppRoutes.userStopShiftScreen, arguments: arguments);
     print("result:" + result.toString());
     if (result != null && result) {
       // getUserWorkLogListApi();

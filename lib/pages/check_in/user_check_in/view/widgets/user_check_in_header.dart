@@ -5,8 +5,8 @@ import 'package:belcka/utils/image_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class UserCheckInHeader extends StatelessWidget {
-  UserCheckInHeader({super.key});
+class UserCheckInHeaderBar extends StatelessWidget {
+  UserCheckInHeaderBar({super.key});
 
   final controller = Get.put(UserCheckInController());
 
@@ -15,55 +15,61 @@ class UserCheckInHeader extends StatelessWidget {
     return Obx(
       () => Padding(
         padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
-        child: Column(
+        child: Row(
           children: [
-            Row(
-              children: [
-                _BackButton(onPressed: () => Get.back()),
-                const Spacer(),
-                _TimePill(time: controller.checkInTime.value),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Padding(
-              padding: const EdgeInsets.only(left: 7),
-              child: Row(
+            UserCheckInBackButton(onPressed: () => Get.back()),
+            const Spacer(),
+            _TimePill(time: controller.checkInTime.value),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class UserCheckInHeaderContent extends StatelessWidget {
+  const UserCheckInHeaderContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 7),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'check_in_'.tr,
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w600,
-                            color: primaryTextColor_(context),
-                            height: 1.1,
-                          ),
-                        ),
-                        const SizedBox(height: 3),
-                        Text(
-                          'lets_start_work_day'.tr,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: secondaryTextColor_(context),
-                          ),
-                        ),
-                      ],
+                  Text(
+                    'check_in_'.tr,
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600,
+                      color: primaryTextColor_(context),
+                      height: 1.1,
                     ),
                   ),
-                  const SizedBox(width: 8),
-                  Image.asset(
-                    Drawable.checkinMapImage,
-                    width: 160,
-                    height: 90,
-                    fit: BoxFit.contain,
+                  const SizedBox(height: 3),
+                  Text(
+                    'lets_start_work_day'.tr,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: secondaryTextColor_(context),
+                    ),
                   ),
                 ],
               ),
+            ),
+            const SizedBox(width: 8),
+            Image.asset(
+              Drawable.checkinMapImage,
+              width: 160,
+              height: 90,
+              fit: BoxFit.contain,
             ),
           ],
         ),
@@ -72,8 +78,8 @@ class UserCheckInHeader extends StatelessWidget {
   }
 }
 
-class _BackButton extends StatelessWidget {
-  const _BackButton({required this.onPressed});
+class UserCheckInBackButton extends StatelessWidget {
+  const UserCheckInBackButton({super.key, required this.onPressed});
 
   final VoidCallback onPressed;
 

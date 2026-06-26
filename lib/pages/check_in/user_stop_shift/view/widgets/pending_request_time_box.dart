@@ -16,9 +16,13 @@ class PendingRequestTimeBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => Padding(
-        padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+    return Obx(() {
+      if (!controller.showRequestedShiftCard) {
+        return const SizedBox.shrink();
+      }
+
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
         child: IntrinsicHeight(
           child: Row(
             children: [
@@ -46,7 +50,7 @@ class PendingRequestTimeBox extends StatelessWidget {
                       child: PrimaryTextView(
                         textAlign: TextAlign.center,
                         text: 'actual_shift'.tr,
-                        fontSize: 15,
+                        fontSize: 14,
                         fontWeight: FontWeight.w400,
                         color: primaryTextColor_(context),
                       ),
@@ -112,7 +116,7 @@ class PendingRequestTimeBox extends StatelessWidget {
                       child: PrimaryTextView(
                         textAlign: TextAlign.center,
                         text: 'requested_shift'.tr,
-                        fontSize: 15,
+                        fontSize: 14,
                         fontWeight: FontWeight.w400,
                         color: Colors.orange,
                       ),
@@ -147,7 +151,7 @@ class PendingRequestTimeBox extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

@@ -627,7 +627,9 @@ class UserClockInController extends GetxController
         AppConstants.intentKey.workLogId: selectedWorkLogInfo?.id ?? 0,
         AppConstants.intentKey.projectId: selectedWorkLogInfo?.projectId ?? 0,
         AppConstants.intentKey.isPriceWork:
-            selectedWorkLogInfo?.isPricework ?? false
+            selectedWorkLogInfo?.isPricework ?? false,
+        AppConstants.intentKey.workStartTime:
+            selectedWorkLogInfo?.workStartTime ?? '',
       };
       moveToScreen(AppRoutes.userCheckInScreen, arguments);
     }
@@ -705,7 +707,7 @@ class UserClockInController extends GetxController
 
   onClickWorkLogItem(int? worklogId) async {
     var result = await Get.toNamed(
-      AppRoutes.stopShiftScreen,
+      AppRoutes.userStopShiftScreen,
       arguments: _userStopShiftArguments(worklogId),
     );
 

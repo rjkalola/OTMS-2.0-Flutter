@@ -21,7 +21,7 @@ class AddNoteWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => Padding(
-        padding: padding ?? const EdgeInsets.fromLTRB(16, 12, 16, 12),
+        padding: padding ?? const EdgeInsets.fromLTRB(16, 0, 16, 18),
         child: TextFieldBorderDark(
           textEditingController: controller.value,
           hintText: 'enter_your_note_here'.tr,

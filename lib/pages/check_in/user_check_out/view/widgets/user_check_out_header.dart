@@ -1,77 +1,78 @@
-import 'package:belcka/pages/check_in/user_check_out/controller/user_check_out_controller.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/res/drawable.dart';
-import 'package:belcka/utils/image_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class UserCheckOutHeader extends StatelessWidget {
-  UserCheckOutHeader({super.key});
-
-  final controller = Get.put(UserCheckOutController());
+class UserCheckOutHeaderBar extends StatelessWidget {
+  const UserCheckOutHeaderBar({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
-      child: Column(
+      child: Row(
         children: [
-          Row(
-            children: [
-              _BackButton(onPressed: () => Get.back()),
-              const Spacer(),
-              // _TimePill(time: controller.checkOutTime.value),
-            ],
-          ),
-          // const SizedBox(height: 12),
-          Padding(
-            padding: const EdgeInsets.only(left: 7),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'check_out_'.tr,
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w600,
-                          color: primaryTextColor_(context),
-                          height: 1.1,
-                        ),
-                      ),
-                      const SizedBox(height: 3),
-                      Text(
-                        'lets_wrap_up_work_day'.tr,
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: secondaryTextColor_(context),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Image.asset(
-                  Drawable.checkinMapImage,
-                  width: 160,
-                  height: 90,
-                  fit: BoxFit.contain,
-                ),
-              ],
-            ),
-          ),
+          UserCheckOutBackButton(onPressed: () => Get.back()),
+          const Spacer(),
         ],
       ),
     );
   }
 }
 
-class _BackButton extends StatelessWidget {
-  const _BackButton({required this.onPressed});
+class UserCheckOutHeaderContent extends StatelessWidget {
+  const UserCheckOutHeaderContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 7),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'check_out_'.tr,
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600,
+                      color: primaryTextColor_(context),
+                      height: 1.1,
+                    ),
+                  ),
+                  const SizedBox(height: 3),
+                  Text(
+                    'lets_wrap_up_work_day'.tr,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: secondaryTextColor_(context),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 8),
+            Image.asset(
+              Drawable.checkinMapImage,
+              width: 160,
+              height: 90,
+              fit: BoxFit.contain,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class UserCheckOutBackButton extends StatelessWidget {
+  const UserCheckOutBackButton({super.key, required this.onPressed});
 
   final VoidCallback onPressed;
 
@@ -103,50 +104,6 @@ class _BackButton extends StatelessWidget {
             color: primaryTextColor_(context),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _TimePill extends StatelessWidget {
-  const _TimePill({required this.time});
-
-  final String time;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-      decoration: BoxDecoration(
-        color: backgroundColor_(context),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: dividerColor_(context)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.04),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ImageUtils.setSvgAssetsImage(
-            path: Drawable.timesheetClockInScreenIcon,
-            width: 16,
-            height: 16,
-          ),
-          const SizedBox(width: 6),
-          Text(
-            time,
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w400,
-              color: secondaryTextColor_(context),
-            ),
-          ),
-        ],
       ),
     );
   }
