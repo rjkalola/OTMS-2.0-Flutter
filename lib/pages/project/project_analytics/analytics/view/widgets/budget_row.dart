@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 
 class BudgetRow extends StatelessWidget {
   final BudgetItem item;
-  const BudgetRow({required this.item});
+  final String currencySymbol;
+  const BudgetRow({required this.item, this.currencySymbol = "£"});
 
   @override
   Widget build(BuildContext context) {
