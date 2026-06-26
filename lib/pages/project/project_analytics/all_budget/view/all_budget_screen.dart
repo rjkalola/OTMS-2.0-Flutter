@@ -9,6 +9,7 @@ import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/custom_views/no_internet_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
@@ -80,10 +81,10 @@ class _AllBudgetScreenState extends State<AllBudgetScreen>
       backgroundColor: dashBoardBgColor_(context),
       appBar: OrdersBaseAppBar(
         appBar: AppBar(),
-        title: 'All Budget',
+        title: 'all_budgets'.tr,
         isCenterTitle: false,
         isBack: true,
-        widgets: actionButtons(),
+        //widgets: actionButtons(),
       ),
       body: SafeArea(
         top: false,
@@ -190,7 +191,7 @@ class _AllBudgetScreenState extends State<AllBudgetScreen>
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('Total Budget',
+                       Text('total_budget'.tr,
                           style: TextStyle(
                               fontSize: 13,
                               color: Colors.white70,
@@ -226,15 +227,15 @@ class _AllBudgetScreenState extends State<AllBudgetScreen>
                 children: [
                   _LegendDot(
                       color: Colors.white60,
-                      label: '${_fmtGbp(_totalSpent)} spent'),
+                      label: '${_fmtGbp(_totalSpent)} ${'spent'.tr}'),
                   const Spacer(),
                   _LegendDot(
                     color: isOverSpent
                         ? const Color(0xFFEF4444)
                         : const Color(0xFF86EFAC),
                     label: isOverSpent
-                        ? '${_fmtGbp(difference)} overspent'
-                        : '${_fmtGbp(difference)} left',
+                        ? '${_fmtGbp(difference)} ${'overspent'.tr}'
+                        : '${_fmtGbp(difference)} ${'left'.tr}',
                   ),
                 ],
               ),
@@ -294,7 +295,7 @@ class _AllBudgetScreenState extends State<AllBudgetScreen>
                         color: cat.color.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(14),
                       ),
-                      child: Icon(_catIcon(cat.name),
+                      child: Icon(_catIcon(cat.type),
                           size: 20, color: cat.color),
                     ),
                     const SizedBox(width: 12),
@@ -325,6 +326,7 @@ class _AllBudgetScreenState extends State<AllBudgetScreen>
                         ],
                       ),
                     ),
+                    /*
                     ViewDetailsBtn(
                       color: cat.color,
                       onTap: (){
@@ -339,6 +341,7 @@ class _AllBudgetScreenState extends State<AllBudgetScreen>
                         }
                       },
                     ),
+                    */
                   ],
                 ),
                 const SizedBox(height: 16),
@@ -363,7 +366,7 @@ class _AllBudgetScreenState extends State<AllBudgetScreen>
                                 shape: BoxShape.circle)),
                         const SizedBox(width: 5),
                         Text(
-                          '-${_fmtGbp(cat.spent)} spent',
+                          '-${_fmtGbp(cat.spent)} ${'spent'.tr}',
                           style: const TextStyle(
                               fontSize: 11,
                               color: Color(0xFF94A3B8),
@@ -378,7 +381,7 @@ class _AllBudgetScreenState extends State<AllBudgetScreen>
                                   size: 12, color: Color(0xFFEF4444)),
                               const SizedBox(width: 3),
                               Text(
-                                '+${_fmtGbp(cat.spent - cat.total)} overspending',
+                                '+${_fmtGbp(cat.spent - cat.total)} ${'overspending'.tr}',
                                 style: const TextStyle(
                                     fontSize: 11,
                                     color: Color(0xFFEF4444),
@@ -387,7 +390,7 @@ class _AllBudgetScreenState extends State<AllBudgetScreen>
                             ],
                           )
                         : Text(
-                            '${_fmtGbp(cat.remaining)} left',
+                            '${_fmtGbp(cat.remaining)} ${'left'.tr}',
                             style: TextStyle(
                                 fontSize: 11,
                                 color: cat.color,
@@ -400,12 +403,12 @@ class _AllBudgetScreenState extends State<AllBudgetScreen>
                   const SizedBox(height: 14),
                   Divider(color: Colors.grey[100]),
                   const SizedBox(height: 10),
-                  _DetailRow(label: 'Budget Allocated', value: _fmtGbp(cat.total)),
+                  _DetailRow(label: 'budget_allocated'.tr, value: _fmtGbp(cat.total)),
                   const SizedBox(height: 6),
-                  _DetailRow(label: 'Amount Spent', value: _fmtGbp(cat.spent), valueColor: cat.color),
+                  _DetailRow(label: 'amount_spent'.tr, value: _fmtGbp(cat.spent), valueColor: cat.color),
                   const SizedBox(height: 6),
                   _DetailRow(
-                    label: cat.isOverspent ? 'Overspent By' : 'Remaining',
+                    label: cat.isOverspent ? 'overspent_by'.tr : 'remaining'.tr,
                     value: _fmtGbp((cat.remaining).abs()),
                     valueColor: cat.isOverspent
                         ? const Color(0xFFEF4444)
@@ -424,9 +427,9 @@ class _AllBudgetScreenState extends State<AllBudgetScreen>
 
   IconData _catIcon(String name) {
     switch (name) {
-      case 'Labor':
+      case 'labor':
         return Icons.people_alt_rounded;
-      case 'Materials':
+      case 'materials':
         return Icons.inventory_2_rounded;
       default:
         return Icons.category_rounded;

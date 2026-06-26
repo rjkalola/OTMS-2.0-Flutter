@@ -86,11 +86,13 @@ class _LaborDetailsScreenState extends State<LaborDetailsScreen>
                   SliverToBoxAdapter(child: _buildMetaRow()),
                   SliverToBoxAdapter(child: _buildFilterRow()),
                   SliverToBoxAdapter(child: _buildSummaryRow()),
+                  /*
                   if (controller.searchOpen) SliverToBoxAdapter(child: _buildSearchBar()),
                   SliverPadding(
                     padding: const EdgeInsets.fromLTRB(16, 0, 16, 30),
                     sliver: _buildEntriesList(),
                   ),
+                  */
                 ],
               ),
             ),

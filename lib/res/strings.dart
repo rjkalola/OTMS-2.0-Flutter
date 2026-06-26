@@ -1106,7 +1106,17 @@ class Strings extends Translations {
           'enter_quantity':"Please enter quantity",
           'stock_updated_successfully':"Stock updated successfully",
           'all_forms_not_submitted':"Please submit all forms before start work.",
-
+          'labor':"Labor",
+          'others':"Others",
+          'total_budget':"Total Budget",
+          'spent':"spent",
+          'overspent':"overspent",
+          'left':"left",
+          'overspending':"overspending",
+          'budget_allocated':"Budget Allocated",
+          'amount_spent':"Amount Spent",
+          'overspent_by':"Overspent By",
+          'remaining':"Remaining",
 
 // '': "",
           // '': "",

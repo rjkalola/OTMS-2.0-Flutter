@@ -63,21 +63,21 @@ class AllBudgetController extends GetxController {
           if (info != null){
             categories.assignAll([
               BudgetCategory(
-                name: 'Labor',
+                name: 'labor'.tr,
                 total: info.budgets.labor.budget,
                 spent: info.budgets.labor.spent,
                 color: const Color(0xFF22C55E),
                 type: 'labor',
               ),
               BudgetCategory(
-                name: 'Materials',
+                name: 'materials'.tr,
                 total: info.budgets.materials.budget,
                 spent: info.budgets.materials.spent,
                 color: const Color(0xFFEF4444),
                 type: 'materials',
               ),
               BudgetCategory(
-                name: 'Others',
+                name: 'others'.tr,
                 total: info.budgets.others.budget,
                 spent: info.budgets.others.spent,
                 color: const Color(0xFF3B82F6),

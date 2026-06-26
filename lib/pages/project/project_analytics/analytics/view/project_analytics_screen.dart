@@ -54,7 +54,7 @@ class _ProjectAnalyticsScreenState extends State<ProjectAnalyticsScreen>
             title: "project_analytics".tr,
             isCenterTitle: false,
             isBack: true,
-            widgets: actionButtons(),
+            //widgets: actionButtons(),
           ),
           body: SafeArea(
             top: false,
@@ -129,6 +129,7 @@ class _ProjectAnalyticsScreenState extends State<ProjectAnalyticsScreen>
     if (info != null){
       final allocated = info.totalBudget ?? 0;
       final remaining = info.totalBudget ?? 0;
+      final currency = info.currency ?? "";
       return GlassCard(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -159,7 +160,7 @@ class _ProjectAnalyticsScreenState extends State<ProjectAnalyticsScreen>
                     children: controller.budgets
                         .map((b) => Padding(
                       padding: const EdgeInsets.only(bottom: 14),
-                      child: BudgetRow(item: b),
+                      child: BudgetRow(item: b, currencySymbol: currency,),
                     ))
                         .toList(),
                   ),
@@ -185,7 +186,7 @@ class _ProjectAnalyticsScreenState extends State<ProjectAnalyticsScreen>
                     ],
                     centerLabel: 'remaining'.tr,
                     centerValue:
-                    '${info.currency ?? ""}${remaining.toStringAsFixed(0) ?? "0"}',
+                    '$currency${remaining.toStringAsFixed(0) ?? "0"}',
                   ),
                 ),
               ],
