@@ -83,7 +83,7 @@ class AddressDocumentsController extends GetxController {
       AppConstants.intentKey.isEditable: true,
     };
     var result = await Navigator.of(Get.context!)
-        .pushNamed(AppRoutes.typeOfWorkDetailsScreen, arguments: arguments);
+        .pushNamed(AppRoutes.userTaskDetailsScreen, arguments: arguments);
 
     if (result != null) {
       getAddressDocumentsApi(true);

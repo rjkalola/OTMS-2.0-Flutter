@@ -429,9 +429,13 @@ class UserClockInController extends GetxController
   void _presentProjectSheetOrEmpty() {
     if (_projectsList.isEmpty) {
       AppUtils.showToastMessage('empty_data_message'.tr);
-    } else {
-      _showProjectBottomSheet();
+      return;
     }
+    if (_projectsList.length == 1) {
+      _handleProjectShiftSelection(_projectsList.first);
+      return;
+    }
+    _showProjectBottomSheet();
   }
 
   void getProjectListApi({
@@ -497,7 +501,23 @@ class UserClockInController extends GetxController
 
   void _onProjectSelected(ProjectInfo project) {
     Get.back();
-    final shifts = project.shifts ?? [];
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!isClosed) {
+        _handleProjectShiftSelection(project);
+      }
+    });
+  }
+
+  List<ModuleInfo> _projectShifts(ProjectInfo project) {
+    return (project.shifts ?? [])
+        .where((shift) => (shift.id ?? 0) > 0)
+        .toList();
+  }
+
+  /// One shift → start work; multiple shifts → shift sheet; used after project pick
+  /// and when the API returns a single project.
+  void _handleProjectShiftSelection(ProjectInfo project) {
+    final shifts = _projectShifts(project);
     if (shifts.length == 1) {
       _completeProjectShiftSelection(shifts.first.id ?? 0, project.id ?? 0);
     } else if (shifts.isEmpty) {

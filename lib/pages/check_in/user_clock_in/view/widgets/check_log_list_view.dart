@@ -17,75 +17,120 @@ import 'package:belcka/widgets/text/PrimaryTextView.dart';
 import '../../../../../routes/app_routes.dart';
 import '../../../../../utils/app_constants.dart';
 
-class CheckLogListView extends StatelessWidget {
+class CheckLogListView extends StatefulWidget {
   final int parentIndex;
   final bool isPriceWork;
 
-  CheckLogListView(
-      {super.key, required this.parentIndex, required this.isPriceWork});
+  const CheckLogListView({
+    super.key,
+    required this.parentIndex,
+    required this.isPriceWork,
+  });
 
+  @override
+  State<CheckLogListView> createState() => _CheckLogListViewState();
+}
+
+class _CheckLogListViewState extends State<CheckLogListView> {
   final controller = Get.put(UserClockInController());
+  final _stackKey = GlobalKey();
+  List<GlobalKey> _rowKeys = [];
+  List<double> _branchCentersY = [];
+
+  void _scheduleMeasure() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      _measureBranchCenters();
+    });
+  }
+
+  void _measureBranchCenters() {
+    final stackBox = _stackKey.currentContext?.findRenderObject() as RenderBox?;
+    if (stackBox == null || !mounted) return;
+
+    final centers = <double>[];
+    for (final key in _rowKeys) {
+      final rowBox = key.currentContext?.findRenderObject() as RenderBox?;
+      if (rowBox == null) continue;
+      final topLeft = stackBox.globalToLocal(
+        rowBox.localToGlobal(Offset.zero),
+      );
+      centers.add(topLeft.dy + rowBox.size.height / 2);
+    }
+
+    if (centers.length != _rowKeys.length || centers.isEmpty) return;
+
+    final changed = centers.length != _branchCentersY.length ||
+        !_listEquals(centers, _branchCentersY);
+    if (changed) {
+      setState(() => _branchCentersY = centers);
+    }
+  }
+
+  bool _listEquals(List<double> a, List<double> b) {
+    if (a.length != b.length) return false;
+    for (var i = 0; i < a.length; i++) {
+      if ((a[i] - b[i]).abs() > 0.5) return false;
+    }
+    return true;
+  }
+
+  List<GlobalKey> _ensureRowKeys(int count) {
+    if (_rowKeys.length != count) {
+      _rowKeys = List.generate(count, (_) => GlobalKey());
+      _branchCentersY = [];
+    }
+    _scheduleMeasure();
+    return _rowKeys;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => (controller.workLogData.value.workLogInfo![parentIndex]
-                      .userChecklogs ??
-                  [])
-              .isNotEmpty
-          ? Padding(
-              padding: const EdgeInsets.only(left: 0),
-              child: ListView(
-                physics: const NeverScrollableScrollPhysics(), //
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                children: List.generate(
-                  controller.workLogData.value.workLogInfo![parentIndex]
-                      .userChecklogs!.length,
-                  (position) {
-                    var info = controller.workLogData.value
-                        .workLogInfo![parentIndex].userChecklogs![position];
-                    if (info.id == 0) return emptyView();
+      () {
+        final checkLogs = controller
+                .workLogData.value.workLogInfo![widget.parentIndex]
+                .userChecklogs ??
+            [];
+        final visibleLogs =
+            checkLogs.where((log) => log.id != 0).toList(growable: false);
 
-                    final checkLogs = controller.workLogData.value
-                        .workLogInfo![parentIndex].userChecklogs!;
-                    final isLast = position == checkLogs.length - 1 ||
-                        checkLogs
-                            .sublist(position + 1)
-                            .every((log) => log.id == 0);
+        if (visibleLogs.isEmpty) return Container();
 
-                    return IntrinsicHeight(
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          _buildConnectorLine(context, isLast),
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 8),
-                              child: _buildCheckLogItem(context, info),
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
+        final rowKeys = _ensureRowKeys(visibleLogs.length);
+
+        return Stack(
+          key: _stackKey,
+          clipBehavior: Clip.none,
+          children: [
+            Positioned(
+              left: 0,
+              top: 0,
+              bottom: 0,
+              width: 24 + CheckLogTreeConnectorPainter.cardEdgeOverlap,
+              child: CustomPaint(
+                painter: CheckLogTreeConnectorPainter(
+                  color: dividerColor_(context),
+                  branchCentersY: _branchCentersY,
                 ),
               ),
-            )
-          : Container(),
-    );
-  }
-
-  Widget _buildConnectorLine(BuildContext context, bool isLast) {
-    return SizedBox(
-      width: 20,
-      child: CustomPaint(
-        painter: CheckLogConnectorPainter(
-          color: dividerColor_(context),
-          isLast: isLast,
-        ),
-        child: const SizedBox.expand(),
-      ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 24),
+              child: Column(
+                children: List.generate(
+                  visibleLogs.length,
+                  (position) => Padding(
+                    key: rowKeys[position],
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: _buildCheckLogItem(context, visibleLogs[position]),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -101,10 +146,10 @@ class CheckLogListView extends StatelessWidget {
         final arguments = {
           AppConstants.intentKey.checkLogId: info.id ?? 0,
           AppConstants.intentKey.projectId: controller
-                  .workLogData.value.workLogInfo![parentIndex].projectId ??
+                  .workLogData.value.workLogInfo![widget.parentIndex].projectId ??
               0,
           AppConstants.intentKey.isPriceWork: controller
-                  .workLogData.value.workLogInfo![parentIndex].isPricework ??
+                  .workLogData.value.workLogInfo![widget.parentIndex].isPricework ??
               false,
         };
         controller.moveToScreen(AppRoutes.userCheckOutScreen, arguments);
@@ -200,7 +245,7 @@ class CheckLogListView extends StatelessWidget {
       return _buildOngoingPill(context);
     }
 
-    final text = isPriceWork
+    final text = widget.isPriceWork
         ? "£${info.priceWorkTotalAmount ?? ""}"
         : DateUtil.seconds_To_HH_MM(info.totalWorkSeconds ?? 0);
 

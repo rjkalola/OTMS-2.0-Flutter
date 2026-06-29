@@ -135,6 +135,7 @@ class IntentKey {
   final String filterType = "FILTER_TYPE";
   final String filterData = "FILTER_DATA";
   final String typeOfWorkInfo = "TYPE_OF_WORK_INFO";
+  final String openAddPhoto = "OPEN_ADD_PHOTO";
   final String selectedTabType = "SELECTED_TAB_TYPE";
   final String startDate = "START_DATE";
   final String endDate = "END_DATE";

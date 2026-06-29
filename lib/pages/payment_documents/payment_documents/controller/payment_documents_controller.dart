@@ -436,8 +436,8 @@ class PaymentDocumentsController extends GetxController
 
   void showMenuItemsDialog(BuildContext context) {
     List<ModuleInfo> listItems = [];
-    listItems.add(
-        ModuleInfo(name: 'download'.tr, action: AppConstants.action.download));
+    // listItems.add(
+    //     ModuleInfo(name: 'download'.tr, action: AppConstants.action.download));
     if (UserUtils.isAdmin()) {
       listItems.add(
           ModuleInfo(name: 'delete'.tr, action: AppConstants.action.delete));

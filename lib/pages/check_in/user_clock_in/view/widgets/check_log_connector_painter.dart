@@ -1,47 +1,93 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
-class CheckLogConnectorPainter extends CustomPainter {
+/// Draws the full check-log connector tree in one continuous path.
+class CheckLogTreeConnectorPainter extends CustomPainter {
+  final List<double> branchCentersY;
   final Color color;
-  final bool isLast;
 
-  CheckLogConnectorPainter({
+  CheckLogTreeConnectorPainter({
+    required this.branchCentersY,
     required this.color,
-    required this.isLast,
   });
+
+  /// Half-pixel aligned for crisp 1px strokes without antialias gaps.
+  static const double lineX = 0.5;
+  static const double cornerRadius = 10;
+  static const double jointOverlap = 0.75;
+  /// Extends slightly into the card edge so the branch meets the border.
+  static const double cardEdgeOverlap = 1;
+
+  double _radiusFor(double centerY, double branchEndX) {
+    return math.min(
+      cornerRadius,
+      math.min(branchEndX - lineX - 1, centerY - 1),
+    ).clamp(0.0, cornerRadius);
+  }
 
   @override
   void paint(Canvas canvas, Size size) {
-    if (size.height <= 0) return;
+    if (branchCentersY.isEmpty) return;
+
+    final branchEndX = size.width;
 
     final paint = Paint()
       ..color = color
       ..strokeWidth = 1
       ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.square
-      ..strokeJoin = StrokeJoin.miter
-      ..isAntiAlias = false;
+      ..strokeCap = StrokeCap.round
+      ..strokeJoin = StrokeJoin.round
+      ..isAntiAlias = true;
 
-    const x = 0.5;
-    final centerY = size.height / 2;
-    final path = Path()
-      ..moveTo(x, 0)
-      ..lineTo(x, centerY)
-      ..lineTo(size.width, centerY);
+    final lastCenterY = branchCentersY.last;
+    final lastRadius = _radiusFor(lastCenterY, branchEndX);
 
-    canvas.drawPath(path, paint);
+    // Continuous vertical spine.
+    canvas.drawLine(
+      const Offset(lineX, -jointOverlap),
+      Offset(lineX, lastCenterY - lastRadius),
+      paint,
+    );
 
-    if (!isLast) {
-      canvas.drawLine(
-        Offset(x, centerY),
-        Offset(x, size.height),
-        paint,
-      );
+    final branchPath = Path();
+    for (final centerY in branchCentersY) {
+      final radius = _radiusFor(centerY, branchEndX);
+      final elbowY = centerY - radius;
+
+      branchPath
+        ..moveTo(lineX, elbowY - jointOverlap)
+        ..lineTo(lineX, elbowY);
+
+      if (radius > 0) {
+        branchPath.arcToPoint(
+          Offset(lineX + radius, centerY),
+          radius: Radius.circular(radius),
+          clockwise: false,
+        );
+      } else {
+        branchPath.lineTo(lineX, centerY);
+      }
+
+      branchPath.lineTo(branchEndX, centerY);
     }
+
+    canvas.drawPath(branchPath, paint);
   }
 
   @override
-  bool shouldRepaint(CheckLogConnectorPainter oldDelegate) =>
-      oldDelegate.color != color || oldDelegate.isLast != isLast;
+  bool shouldRepaint(CheckLogTreeConnectorPainter oldDelegate) {
+    if (oldDelegate.color != color) return true;
+    if (oldDelegate.branchCentersY.length != branchCentersY.length) {
+      return true;
+    }
+    for (var i = 0; i < branchCentersY.length; i++) {
+      if ((oldDelegate.branchCentersY[i] - branchCentersY[i]).abs() > 0.5) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
 
 class CheckLogTopConnectorPainter extends CustomPainter {
@@ -55,12 +101,15 @@ class CheckLogTopConnectorPainter extends CustomPainter {
       ..color = color
       ..strokeWidth = 1
       ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.square
-      ..isAntiAlias = false;
+      ..strokeCap = StrokeCap.round
+      ..isAntiAlias = true;
 
     canvas.drawLine(
-      const Offset(0.5, 0),
-      Offset(0.5, size.height),
+      const Offset(CheckLogTreeConnectorPainter.lineX, 0),
+      Offset(
+        CheckLogTreeConnectorPainter.lineX,
+        size.height + CheckLogTreeConnectorPainter.jointOverlap,
+      ),
       paint,
     );
   }

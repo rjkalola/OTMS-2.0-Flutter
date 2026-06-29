@@ -118,7 +118,7 @@ class AppRoutes {
   static const String addTimeSheetScreen = '/add_time_sheet_screen';
   static const String otherUserBillingDetailsScreen =
       '/other_user_billing_details_screen';
-  static const String typeOfWorkDetailsScreen = '/type_of_work_details_screen';
+  // static const String typeOfWorkDetailsScreen = '/type_of_work_details_screen';
   static const String checkInPhotosPreviewScreen =
       '/check_in_photos_preview_screen';
   static const String createAnnouncementScreen = '/create_announcement_screen';
@@ -251,4 +251,5 @@ class AppRoutes {
   static const String userCheckInScreen = '/user_check_in_screen';
   static const String userCheckOutScreen = '/user_check_out_screen';
   static const String userWorkLogRequestScreen = '/user_work_log_request_screen';
+  static const String userTaskDetailsScreen = '/user_task_details_screen';
 }

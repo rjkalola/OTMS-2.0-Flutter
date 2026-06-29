@@ -72,8 +72,8 @@ class MyDayLogListView extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     SizedBox(
-                                      width: 20,
-                                      height: 10,
+                                      width: 24,
+                                      height: 14,
                                       child: CustomPaint(
                                         painter: CheckLogTopConnectorPainter(
                                           color: dividerColor_(context),
@@ -202,7 +202,7 @@ class MyDayLogListView extends StatelessWidget {
       // padding: const EdgeInsets.symmetric(horizontal: 12),
       borderRadius: 6,
       text: DateUtil.seconds_To_HH_MM(info.payableWorkSeconds ?? 0),
-      fontColor: primaryTextColor_(context),
+      fontColor: getPayableHourColor(info.requestStatus??0),
       fontSize: 17,
       fontWeight: FontWeight.w600,
       boxColor: Colors.transparent,
@@ -220,7 +220,7 @@ class MyDayLogListView extends StatelessWidget {
             : const Color(0xFFE8F0FE),
         borderRadius: BorderRadius.circular(20),
       ),
-      child: Row(
+      child: Row( 
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
@@ -398,6 +398,14 @@ class MyDayLogListView extends StatelessWidget {
         return AppUtils.getStatusColor(requestStatus ?? 0);
       }
     }
+  }
+
+  Color getPayableHourColor(int? requestStatus) {
+      if (requestStatus == null || requestStatus == 0) {
+        return primaryTextColor_(Get.context!);
+      } else {
+        return AppUtils.getStatusColor(requestStatus ?? 0);
+      }
   }
 
   bool isActiveWorkLog(WorkLogInfo info) {

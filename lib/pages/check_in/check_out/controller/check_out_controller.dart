@@ -504,7 +504,7 @@ class CheckOutController extends GetxController
     };
 
     result = await Navigator.of(Get.context!)
-        .pushNamed(AppRoutes.typeOfWorkDetailsScreen, arguments: arguments);
+        .pushNamed(AppRoutes.userTaskDetailsScreen, arguments: arguments);
 
     if (result != null) {
       var arguments = result;

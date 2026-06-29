@@ -86,6 +86,7 @@ import 'package:belcka/pages/check_in/select_shift/view/select_shift_screen.dart
 import 'package:belcka/pages/check_in/start_shift_map/view/start_shift_map_screen.dart';
 import 'package:belcka/pages/check_in/stop_shift/view/stop_shift_screen.dart';
 import 'package:belcka/pages/check_in/type_of_work_details/view/type_of_work_details_screen.dart';
+import 'package:belcka/pages/check_in/user_task_details/view/user_task_details_screen.dart';
 import 'package:belcka/pages/check_in/work_log_request/view/work_log_request_screen.dart';
 import 'package:belcka/pages/check_in/user_work_log_request/view/user_work_log_request_screen.dart';
 import 'package:belcka/pages/company/company_details/view/company_details_screen.dart';
@@ -287,6 +288,10 @@ class AppPages {
     GetPage(
       name: AppRoutes.userCheckOutScreen,
       page: () => const UserCheckOutScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.userTaskDetailsScreen,
+      page: () => const UserTaskDetailsScreen(),
     ),
     GetPage(
       name: AppRoutes.userWorkLogRequestScreen,
@@ -506,9 +511,9 @@ class AppPages {
     GetPage(
         name: AppRoutes.otherUserBillingDetailsScreen,
         page: () => OtherUserBillingDetailsScreen()),
-    GetPage(
-        name: AppRoutes.typeOfWorkDetailsScreen,
-        page: () => TypeOfWorkDetailsScreen()),
+    // GetPage(
+    //     name: AppRoutes.typeOfWorkDetailsScreen,
+    //     page: () => TypeOfWorkDetailsScreen()),
     GetPage(
         name: AppRoutes.checkInPhotosPreviewScreen,
         page: () => CheckInPhotosPreviewScreen()),
