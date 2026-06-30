@@ -9,6 +9,7 @@ class PenaltyInfo {
 
   int? status;
   int? appealStatus;
+  String? appealStatusText;
   int? penaltyId;
   int? appealId;
   String? appealNote;
@@ -24,6 +25,7 @@ class PenaltyInfo {
     this.penaltyAmount,
     this.status,
     this.appealStatus,
+    this.appealStatusText,
     this.penaltyId,
     this.appealId,
     this.appealNote,
@@ -40,6 +42,7 @@ class PenaltyInfo {
     penaltyAmount = json['penalty_amount'];
     status = json['status'];
     appealStatus = json['appeal_status'];
+    appealStatusText = json['appeal_status_text'];
     penaltyId = json['penalty_id'];
     appealId = json['appeal_id'];
     appealNote = json['appeal_note'];
@@ -57,6 +60,7 @@ class PenaltyInfo {
     data['penalty_amount'] = penaltyAmount;
     data['status'] = status;
     data['appeal_status'] = appealStatus;
+    data['appeal_status_text'] = appealStatusText;
     data['penalty_id'] = penaltyId;
     data['appeal_id'] = appealId;
     data['appeal_note'] = appealNote;

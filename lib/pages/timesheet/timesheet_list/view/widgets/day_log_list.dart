@@ -648,78 +648,88 @@ class DayLogList extends StatelessWidget {
 
   Widget penaltyItem(DayLogInfo info) {
     PenaltyInfo? penaltyInfo = info.penaltyInfo;
-    return penaltyInfo != null
-        ? Obx(
-            () => Padding(
-              padding: EdgeInsets.fromLTRB(10, 12, 13, 12),
-              child: GestureDetector(
-                onTap: () {
-                  var arguments = {
-                    AppConstants.intentKey.penaltyId:
-                        penaltyInfo.penaltyId ?? 0,
-                  };
-                  controller.moveToScreen(
-                      AppRoutes.penaltyDetailsScreen, arguments);
-                },
-                child: Container(
-                  color: Colors.transparent,
-                  child: Row(
-                    children: [
-                      dayDate(info),
-                      SizedBox(
-                        width: 4,
-                      ),
-                      SizedBox(
-                        width: 130,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            TitleTextView(
-                              text: penaltyInfo.penaltyType ?? "",
-                              fontWeight: FontWeight.w500,
-                              fontSize: 15,
-                            ),
-                            SizedBox(
-                              height: 4,
-                            ),
-                            shiftName('penalty'.tr, Colors.red,
-                                fontColor: Colors.white)
-                          ],
-                        ),
-                      ),
-                      Expanded(child: Container()),
-                      Column(
-                        children: [
-                          TitleTextView(
-                            text: controller.isViewAmount.value
-                                ? "£${penaltyInfo.penaltyAmount ?? "0"}"
-                                : "-${DateUtil.seconds_To_HH_MM(penaltyInfo.penaltySeconds ?? 0)}",
-                            color: Colors.red,
-                            fontSize: 17,
-                          ),
-                          SizedBox(
-                            height: 1,
-                            child: SubtitleTextView(
-                              text: "00:00 - 00:00",
-                              fontSize: 13,
-                              color: Colors.transparent,
-                            ),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        width: 4,
-                      ),
-                      RightArrowWidget(
-                        color: primaryTextColor_(Get.context!),
-                      )
-                    ],
-                  ),
+    if (penaltyInfo == null) return Container();
+
+    int? appealStatus = penaltyInfo.appealStatus;
+    final hasAppealStatus = appealStatus != null && appealStatus != 0;
+
+    return Padding(
+      padding: EdgeInsets.fromLTRB(10, 12, 13, 12),
+      child: GestureDetector(
+        onTap: () {
+          var arguments = {
+            AppConstants.intentKey.penaltyId: penaltyInfo.penaltyId ?? 0,
+          };
+          controller.moveToScreen(AppRoutes.penaltyDetailsScreen, arguments);
+        },
+        child: Container(
+          color: Colors.transparent,
+          child: Row(
+            children: [
+              dayDate(info),
+              SizedBox(
+                width: 4,
+              ),
+              SizedBox(
+                width: 130,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start, 
+                  children: [
+                    TitleTextView(
+                      text: penaltyInfo.penaltyType ?? "",
+                      fontWeight: FontWeight.w500,
+                      fontSize: 15,
+                    ),
+                    SizedBox(
+                      height: 4,
+                    ),
+                    shiftName('penalty'.tr, Colors.red, fontColor: Colors.white)
+                  ],
                 ),
               ),
-            ),
-          )
-        : Container();
+              Expanded(child: Container()),
+              Column(
+                children: [
+                  Obx(
+                    () => TitleTextView(
+                      text: controller.isViewAmount.value
+                          ? "£${penaltyInfo.penaltyAmount ?? "0"}"
+                          : "-${DateUtil.seconds_To_HH_MM(penaltyInfo.penaltySeconds ?? 0)}",
+                      color: appealStatus != null && appealStatus != 0
+                          ? AppUtils.getStatusColor(appealStatus ?? 0)
+                          : Colors.red,
+                      fontSize: 17,
+                    ),
+                  ),
+                  Visibility(
+                    visible: hasAppealStatus,
+                    child: TitleTextView(
+                      text: "(${AppUtils.getStatusText(appealStatus ?? 0)})",
+                      color: AppUtils.getStatusColor(appealStatus ?? 0),
+                      fontSize: 12,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 1,
+                    child: SubtitleTextView(
+                      text: "00:00 - 00:00",
+                      fontSize: 13,
+                      color: Colors.transparent,
+                    ),
+                  )
+                ],
+              ),
+              SizedBox(
+                width: 4,
+              ),
+              RightArrowWidget(
+                color: primaryTextColor_(Get.context!),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Color getAdjustmentColor(BuildContext context, double adjustment) {
