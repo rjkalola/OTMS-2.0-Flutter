@@ -1,9 +1,6 @@
 import 'package:belcka/storeman_app/storeman_inventory/controller/storeman_inventory_controller.dart';
-import 'package:belcka/buyer_app/purchasing/view/widgets/purchasing_screen_item_text_widget.dart';
-import 'package:belcka/buyer_app/purchasing/view/widgets/purchasing_screen_item_value_widget.dart';
-import 'package:belcka/buyer_app/purchasing/view/widgets/purchasing_screen_title_text_widget.dart';
+import 'package:belcka/storeman_app/storeman_inventory/view/widgets/inventory_dashboard_widgets.dart';
 import 'package:belcka/utils/app_constants.dart';
-import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,120 +9,72 @@ class SuppliersCardView extends StatelessWidget {
 
   SuppliersCardView({super.key});
 
-  Widget _statCell({
-    required VoidCallback onTap,
-    required String label,
-    required String value,
-    required Alignment alignment,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Align(
-        alignment: alignment,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            PurchasingScreenItemTextWidget(text: label, fontSize: 14),
-            const SizedBox(height: 2),
-            PurchasingScreenItemValueWidget(value: value),
-          ],
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => SizedBox(
-        width: double.infinity,
-        child: CardViewDashboardItem(
-            padding: EdgeInsets.fromLTRB(6, 12, 6, 12),
-            margin: EdgeInsets.fromLTRB(14, 8, 14, 8),
-            borderRadius: controller.cardRadius,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+    return Obx(() {
+      final data = controller.inventoryData.value;
+      final processing =
+          (data.processing ?? 0) + (data.supplierPartiallyDelivered ?? 0);
+
+      return InventoryDashboardCard(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            InventoryCardHeader(
+              icon: Icons.local_shipping_outlined,
+              color: inventoryBlue,
+              title: 'suppliers'.tr,
+              onViewAll: () => controller.onSupplierOrdersItemClick(
+                AppConstants.type.upComing,
+              ),
+            ),
+            const SizedBox(height: 14),
+            Row(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 10),
-                  child: PurchasingScreenTitleWidget(title: 'suppliers'.tr),
+                InventoryStatusTile(
+                  label: 'upcoming'.tr,
+                  value: (data.upcoming ?? 0).toString(),
+                  color: inventoryBlue,
+                  icon: Icons.calendar_today_outlined,
+                  onTap: () => controller.onSupplierOrdersItemClick(
+                    AppConstants.type.upComing,
+                  ),
                 ),
-                const SizedBox(height: 6),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: _statCell(
-                        onTap: () => controller.onSupplierOrdersItemClick(
-                            AppConstants.type.upComing),
-                        label: 'upcoming'.tr,
-                        value: (controller.inventoryData.value.upcoming ?? 0)
-                            .toString(),
-                        alignment: Alignment.topCenter,
-                      ),
-                    ),
-                    Expanded(
-                      child: _statCell(
-                        onTap: () => controller.onSupplierOrdersItemClick(
-                            AppConstants.type.processing),
-                        label: 'processing'.tr,
-                        value:
-                            ((controller.inventoryData.value.processing ?? 0) +
-                                    (controller.inventoryData.value
-                                            .supplierPartiallyDelivered ??
-                                        0))
-                                .toString(),
-                        alignment: Alignment.topCenter,
-                      ),
-                    ),
-                    Expanded(
-                      child: _statCell(
-                        onTap: () => controller.onSupplierOrdersItemClick(
-                            AppConstants.type.onStock),
-                        label: 'in_stock'.tr,
-                        value: (controller.inventoryData.value.onStock ?? 0)
-                            .toString(),
-                        alignment: Alignment.topCenter,
-                      ),
-                    ),
-                    Expanded(
-                      child: _statCell(
-                        onTap: () => controller.onSupplierOrdersItemClick(
-                            AppConstants.type.cancelled),
-                        label: 'cancelled'.tr,
-                        value:
-                            (controller.inventoryData.value.supplierCancelled ??
-                                    0)
-                                .toString(),
-                        alignment: Alignment.topCenter,
-                      ),
-                    ),
-                  ],
+                const SizedBox(width: 10),
+                InventoryStatusTile(
+                  label: 'processing'.tr,
+                  value: processing.toString(),
+                  color: inventoryOrange,
+                  icon: Icons.sync_rounded,
+                  onTap: () => controller.onSupplierOrdersItemClick(
+                    AppConstants.type.processing,
+                  ),
                 ),
-                // const SizedBox(height: 12),
-                // Row(
-                //   crossAxisAlignment: CrossAxisAlignment.start,
-                //   children: [
-                //     Expanded(
-                //       child: _statCell(
-                //         onTap: () => controller.onSupplierOrdersItemClick(
-                //             AppConstants.type.cancelled),
-                //         label: 'cancelled'.tr,
-                //         value:
-                //             (controller.inventoryData.value.supplierCancelled ??
-                //                     0)
-                //                 .toString(),
-                //         alignment: Alignment.topLeft,
-                //       ),
-                //     ),
-                //     const Expanded(child: SizedBox()),
-                //     const Expanded(child: SizedBox()),
-                //   ],
-                // ),
+                const SizedBox(width: 10),
+                InventoryStatusTile(
+                  label: 'in_stock'.tr,
+                  value: (data.onStock ?? 0).toString(),
+                  color: inventoryGreen,
+                  icon: Icons.inventory_2_outlined,
+                  onTap: () => controller.onSupplierOrdersItemClick(
+                    AppConstants.type.onStock,
+                  ),
+                ),
+                const SizedBox(width: 10),
+                InventoryStatusTile(
+                  label: 'cancelled'.tr,
+                  value: (data.supplierCancelled ?? 0).toString(),
+                  color: inventoryRed,
+                  icon: Icons.cancel_outlined,
+                  onTap: () => controller.onSupplierOrdersItemClick(
+                    AppConstants.type.cancelled,
+                  ),
+                ),
               ],
-            )),
-      ),
-    );
+            ),
+          ],
+        ),
+      );
+    });
   }
 }

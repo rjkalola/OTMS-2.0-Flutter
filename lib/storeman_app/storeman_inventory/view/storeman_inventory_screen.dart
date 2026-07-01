@@ -1,27 +1,17 @@
 import 'package:belcka/pages/common/listener/date_filter_listener.dart';
-import 'package:belcka/pages/dashboard/controller/dashboard_controller.dart';
-import 'package:belcka/pages/dashboard/tabs/home_tab/view/home_tab.dart';
+import 'package:belcka/pages/common/widgets/date_filter_options_horizontal_list.dart';
 import 'package:belcka/pages/user_orders/storeman_catalog/controller/storeman_catalog_controller.dart';
-import 'package:belcka/res/colors.dart';
-import 'package:belcka/res/drawable.dart';
 import 'package:belcka/routes/app_routes.dart';
 import 'package:belcka/storeman_app/storeman_inventory/controller/storeman_inventory_controller.dart';
 import 'package:belcka/storeman_app/storeman_inventory/view/widgets/hire_card_view.dart';
 import 'package:belcka/storeman_app/storeman_inventory/view/widgets/internal_orders_card_view.dart';
+import 'package:belcka/storeman_app/storeman_inventory/view/widgets/inventory_dashboard_widgets.dart';
 import 'package:belcka/storeman_app/storeman_inventory/view/widgets/manage_stock_view.dart';
 import 'package:belcka/storeman_app/storeman_inventory/view/widgets/suppliers_card_view.dart';
-import 'package:belcka/utils/app_utils.dart';
-import 'package:belcka/utils/image_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
-import 'package:belcka/widgets/appbar/base_appbar.dart';
-import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
-import 'package:belcka/widgets/other_widgets/right_arrow_widget.dart';
-import 'package:belcka/widgets/text/TitleTextView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-
-import '../../../pages/common/widgets/date_filter_options_horizontal_list.dart';
 
 class StoremanInventoryScreen extends StatefulWidget {
   const StoremanInventoryScreen({super.key});
@@ -35,147 +25,237 @@ class _StoremanInventoryScreenState extends State<StoremanInventoryScreen>
     implements DateFilterListener {
   final controller = Get.put(StoremanInventoryController());
 
-  final tabController = Get.put(DashboardController());
-
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Container(
-          color: backgroundColor_(context),
-          child: SafeArea(
-            child: Scaffold(
-              appBar: BaseAppBar(
-                appBar: AppBar(),
-                title: "inventory".tr,
-                isCenterTitle: false,
-                bgColor: backgroundColor_(context),
-                isBack: true,
-                shape: AppUtils.getAppbarShape(),
-                widgets: actionButtons(),
-              ),
-              backgroundColor: dashBoardBgColor_(context),
-              body: ModalProgressHUD(
-                inAsyncCall: controller.isLoading.value,
-                opacity: 0,
-                progressIndicator: const CustomProgressbar(),
-                child: controller.isInternetNotAvailable.value
-                    ? Center(
-                        child: Text("no_internet_text".tr),
-                      )
-                    : Column(
-                        children: [
-                          Visibility(
-                            visible: controller.isMainViewVisible.value,
-                            child: Expanded(
-                              child: SingleChildScrollView(
-                                  child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    height: 12,
-                                  ),
-                                  DateFilterOptionsHorizontalList(
-                                    padding: EdgeInsets.fromLTRB(14, 0, 14, 6),
-                                    startDate: controller.startDate.value,
-                                    endDate: controller.endDate.value,
-                                    listener: this,
-                                    selectedPosition:
-                                        controller.selectedDateFilterIndex,
-                                  ),
-                                  SizedBox(
-                                    width: double.infinity,
-                                    child: CardViewDashboardItem(
-                                        padding: EdgeInsets.all(6),
-                                        margin: EdgeInsetsGeometry.only(
-                                            left: 14,
-                                            right: 14,
-                                            top: 6,
-                                            bottom: 6),
-                                        borderRadius: 8,
-                                        child: TitleTextView(
-                                          textAlign: TextAlign.center,
-                                          text:
-                                              "${controller.displayStartDate.value} - ${controller.displayEndDate.value}",
-                                        )),
-                                  ),
-                                  SuppliersCardView(),
-                                  InternalOrdersCardView(),
-                                  HireCardView(),
-                                  ManageStockView()
-                                ],
-                              )),
-                            ),
-                          )
-                        ],
+    return Obx(
+      () => Scaffold(
+        backgroundColor: inventoryPageBg,
+        body: SafeArea(
+          child: ModalProgressHUD(
+            inAsyncCall: controller.isLoading.value,
+            opacity: 0,
+            progressIndicator: const CustomProgressbar(),
+            child: controller.isInternetNotAvailable.value
+                ? Center(child: Text("no_internet_text".tr))
+                : Column(
+                    children: [
+                      _InventoryHeader(
+                        onAddTap: _onAddTap,
+                        onHistoryTap: controller.onHireHistoryClick,
+                        showHistory: controller.isMainViewVisible.value,
                       ),
-              ),
-            ),
-          ),
-        ));
-  }
-
-  List<Widget>? actionButtons() {
-    return [
-      Visibility(
-        visible: true,
-        child: InkWell(
-          onTap: () {
-            if (Get.isRegistered<StoremanCatalogController>()) {
-              Get.delete<StoremanCatalogController>();
-            }
-            controller.moveToScreen(appRout: AppRoutes.storemanCatalogScreen,
-                arguments: {'comingFromInventory': true});
-          },
-          customBorder: const CircleBorder(),
-          child: Padding(
-            padding: const EdgeInsets.all(6),
-            child: Icon(Icons.add),
+                      Expanded(
+                        child: Visibility(
+                          visible: controller.isMainViewVisible.value,
+                          child: SingleChildScrollView(
+                            physics: const BouncingScrollPhysics(),
+                            padding: const EdgeInsets.only(bottom: 14),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const SizedBox(height: 14),
+                                DateFilterOptionsHorizontalList(
+                                  padding: const EdgeInsets.fromLTRB(
+                                    16,
+                                    0,
+                                    16,
+                                    8,
+                                  ),
+                                  startDate: controller.startDate.value,
+                                  endDate: controller.endDate.value,
+                                  listener: this,
+                                  selectedPosition:
+                                      controller.selectedDateFilterIndex,
+                                ),
+                                _DateRangeView(
+                                  text:
+                                      "${controller.displayStartDate.value} - ${controller.displayEndDate.value}",
+                                ),
+                                SuppliersCardView(),
+                                InternalOrdersCardView(),
+                                HireCardView(),
+                                ManageStockView(),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
           ),
         ),
       ),
+    );
+  }
 
-      SizedBox(
-        width: 6,
-      ),
-      Visibility(
-        visible: controller.isMainViewVisible.value,
-        child: GestureDetector(
-            onTap: () {
-              controller.onHireHistoryClick();
-            },
-            child: ImageUtils.setSvgAssetsImage(
-                path: Drawable.historyIcon, width: 24, height: 24)),
-      ),
-      SizedBox(
-        width: 14,
-      ),
-      // GestureDetector(
-      //     onTap: () {
-      //       Get.toNamed(AppRoutes.generateReportScreen);
-      //     },
-      //     child: ImageUtils.setSvgAssetsImage(
-      //         path: Drawable.reportIcon, width: 24, height: 24)),
-      // SizedBox(width: 12,)
-      // IconButton(
-      //   icon: Icon(Icons.settings),
-      //   onPressed: () {
-      //     var arguments = {
-      //       AppConstants.intentKey.itemDetails: controller.inventoryData.value,
-      //     };
-      //     Get.toNamed(AppRoutes.buyerSettingsScreen, arguments: arguments);
-      //   },
-      // ),
-    ];
+  void _onAddTap() {
+    if (Get.isRegistered<StoremanCatalogController>()) {
+      Get.delete<StoremanCatalogController>();
+    }
+    controller.moveToScreen(
+      appRout: AppRoutes.storemanCatalogScreen,
+      arguments: {'comingFromInventory': true},
+    );
   }
 
   @override
-  void onSelectDateFilter(int filterIndex, String filter, String startDate,
-      String endDate, String dialogIdentifier) {
-    print("filterIndex:" + filterIndex.toString());
-    print("filter:" + filter);
+  void onSelectDateFilter(
+    int filterIndex,
+    String filter,
+    String startDate,
+    String endDate,
+    String dialogIdentifier,
+  ) {
+    controller.selectedDateFilterIndex.value = filterIndex;
     controller.startDate.value = startDate;
     controller.endDate.value = endDate;
     controller.inventoryOverviewApi(true);
-    print("startDate:" + startDate);
-    print("endDate:" + endDate);
+  }
+}
+
+class _InventoryHeader extends StatelessWidget {
+  final VoidCallback onAddTap;
+  final VoidCallback onHistoryTap;
+  final bool showHistory;
+
+  const _InventoryHeader({
+    required this.onAddTap,
+    required this.onHistoryTap,
+    required this.showHistory,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.white,
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 14),
+      child: Row(
+        children: [
+          _HeaderButton(
+            icon: Icons.arrow_back,
+            onTap: Get.back,
+          ),
+          const SizedBox(width: 18),
+          Expanded(
+            child: Text(
+              "inventory".tr,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                color: inventoryTextPrimary,
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+          Visibility(
+            visible: showHistory,
+            maintainSize: true,
+            maintainAnimation: true,
+            maintainState: true,
+            child: _HeaderButton(
+              icon: Icons.add_rounded,
+              iconColor: inventoryBlue,
+              onTap: onAddTap,
+            ),
+          ),
+          const SizedBox(width: 12),
+          Visibility(
+            visible: showHistory,
+            maintainSize: true,
+            maintainAnimation: true,
+            maintainState: true,
+            child: _HeaderButton(
+              icon: Icons.history_rounded,
+              onTap: onHistoryTap,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _HeaderButton extends StatelessWidget {
+  final IconData icon;
+  final Color iconColor;
+  final VoidCallback onTap;
+
+  const _HeaderButton({
+    required this.icon,
+    required this.onTap,
+    this.iconColor = inventoryTextPrimary,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        width: 42,
+        height: 42,
+        decoration: BoxDecoration(
+          color: const Color(0xFFFBFCFF),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: const Color(0xFFE9ECF4)),
+        ),
+        child: Icon(icon, color: iconColor, size: 20),
+      ),
+    );
+  }
+}
+
+class _DateRangeView extends StatelessWidget {
+  final String text;
+
+  const _DateRangeView({required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 48,
+      margin: const EdgeInsets.fromLTRB(16, 8, 16, 14),
+      padding: const EdgeInsets.symmetric(horizontal: 18),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: const Color(0xFFE8EBF3)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.03),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          const Icon(
+            Icons.calendar_today_outlined,
+            color: inventoryTextSecondary,
+            size: 18,
+          ),
+          Expanded(
+            child: Text(
+              text,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: inventoryTextPrimary,
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+          const Icon(
+            Icons.keyboard_arrow_down_rounded,
+            color: inventoryTextSecondary,
+            size: 24,
+          ),
+        ],
+      ),
+    );
   }
 }
