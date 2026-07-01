@@ -245,6 +245,7 @@ class SharedPreferenceKey {
   final String worklogData = "WORK_LOG_DATA";
   final String worklogDataOffline = "WORK_LOG_DATA_OFFLINE";
   final String cartItems = "CART_ITEMS";
+  final String appLanguage = "APP_LANGUAGE";
 }
 
 class Action {

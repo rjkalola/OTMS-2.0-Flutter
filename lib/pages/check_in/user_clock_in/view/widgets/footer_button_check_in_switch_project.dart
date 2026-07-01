@@ -33,6 +33,11 @@ class FooterButtonCheckInSwitchProject extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       final isWorking = controller.workLogData.value.userIsWorking ?? false;
+      final isOnLeave = controller.isOnLeave.value;
+
+      if (!isWorking && isOnLeave) {
+        return const SizedBox.shrink();
+      }
 
       return Container(
         decoration: BoxDecoration(

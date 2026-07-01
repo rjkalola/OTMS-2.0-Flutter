@@ -121,10 +121,13 @@ class WorkTimeDetailsView extends StatelessWidget {
   String _statusText(UserClockInController controller) {
     final isWorking = controller.workLogData.value.userIsWorking ?? false;
     if (!isWorking) {
+      if (controller.isOnLeave.value) {
+        return 'on_leave'.tr;
+      }
       return '';
     }
     if (controller.isOnLeave.value) {
-      return '';
+      return 'on_leave'.tr;
     }
     if (controller.isOnBreak.value) {
       return 'break_time_on'.tr;
@@ -136,7 +139,7 @@ class WorkTimeDetailsView extends StatelessWidget {
 
   String _counterTime(UserClockInController controller) {
     if (controller.isOnLeave.value) {
-      return 'on_leave'.tr;
+      return controller.totalWorkHours.value;
     } else if (controller.isOnBreak.value) {
       return controller.remainingBreakTime.value;
     }

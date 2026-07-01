@@ -11,6 +11,7 @@ import 'package:belcka/pages/user_orders/offline_cart/cart_service.dart';
 import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/string_helper.dart';
 import 'package:belcka/web_services/api_constants.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:belcka/utils/session_cleanup.dart';
 import 'package:get_storage/get_storage.dart';
@@ -345,6 +346,15 @@ class AppStorage extends GetxController {
     return value;
   }
 
+  void setAppLanguage(String localeKey) {
+    storage.write(AppConstants.sharedPreferenceKey.appLanguage, localeKey);
+  }
+
+  String getAppLanguage() {
+    return storage.read(AppConstants.sharedPreferenceKey.appLanguage) ??
+        'en_US';
+  }
+
   void clearAllData() {
     SessionCleanup.clearControllersOnLogout();
     AppConstants.isResourcesLoaded = false;
@@ -366,6 +376,8 @@ class AppStorage extends GetxController {
     removeData(AppConstants.sharedPreferenceKey.worklogData);
     removeData(AppConstants.sharedPreferenceKey.worklogDataOffline);
     removeData(AppConstants.sharedPreferenceKey.cartItems);
+    removeData(AppConstants.sharedPreferenceKey.appLanguage);
+    Get.updateLocale(const Locale('en', 'US'));
   }
 
   Future<void> removeData(String key) async {

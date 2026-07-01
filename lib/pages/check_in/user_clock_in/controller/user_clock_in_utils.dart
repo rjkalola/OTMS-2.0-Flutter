@@ -184,7 +184,8 @@ class UserClockInUtils {
 
     if (logs != null) {
       if (!(logs.userIsWorking ?? false)) {
-        totalWorkHourSeconds = logs.totalPayableWorkingSeconds!;
+        totalWorkHourSeconds = logs.totalPayableWorkingSeconds ?? 0;
+        isOnLeave = isUserOnAllDayLeaveToday(logs);
       } else {
         /* DateTime currentDateTime = DateTime.now();
         final DateFormat fullFormat =
@@ -521,6 +522,13 @@ class UserClockInUtils {
     if (leaves == null || leaves.isEmpty) return false;
 
     return leaves.any((leave) => leave.isAlldayLeave == true);
+  }
+
+  /// All-day leave today — blocks start work for the whole day.
+  static bool isUserOnAllDayLeaveToday(WorkLogListResponse? logs) {
+    if (logs == null) return false;
+    if (!isCurrentDay(logs.workStartDate ?? "")) return false;
+    return hasFullDayLeave(logs.userLeaves);
   }
 
 // static DateTime? getWorkCurrentDateTime(String inputDate) {

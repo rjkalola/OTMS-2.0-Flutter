@@ -298,6 +298,7 @@ class ApiConstants {
       '$appUrl/notifications/change-user-bulk-notifications';
   static String getFeedList = '$appUrl/get-feeds';
   static String readFeed = '$appUrl/feed/mark-as-read';
+  static String deleteFeed = '$appUrl/delete-feed';
   static String createAnnouncement = '$appUrl/announcements/create';
   static String getAnnouncementList = '$appUrl/announcements/get-announcements';
   static String announcementDetails = '$appUrl/announcements/detail';

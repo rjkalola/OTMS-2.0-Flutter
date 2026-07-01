@@ -1,21 +1,18 @@
-import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
-import 'package:belcka/utils/app_utils.dart';
-import 'package:belcka/utils/user_utils.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:belcka/pages/profile/user_settings/controller/user_settings_controller.dart';
 import 'package:belcka/pages/profile/user_settings/view/web_view_screen.dart';
 import 'package:belcka/pages/profile/user_settings/view/widgets/build_dark_mode_item_widget.dart';
+import 'package:belcka/pages/profile/user_settings/view/widgets/build_language_item_widget.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/res/theme/theme_config.dart';
 import 'package:belcka/routes/app_routes.dart';
+import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
 import 'package:belcka/widgets/appbar/base_appbar.dart';
 import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
-
-import '../../../../utils/app_storage.dart';
-import '../../../common/model/user_info.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class UserSettingsScreen extends StatelessWidget {
   UserSettingsScreen({Key? key}) : super(key: key);
@@ -57,12 +54,7 @@ class UserSettingsScreen extends StatelessWidget {
                         )
                       : ListView(
                           children: [
-                            // _buildSettingItem(
-                            //   icon: Icons.language,
-                            //   title: 'Language',
-                            //   subtitle: 'English (United States)',
-                            //   onTap: () {},
-                            // ),
+                            // BuildLanguageItemWidget(),
                             BuildDarkModeItemWidget(),
                             _buildSettingItem(
                               icon: Icons.description,

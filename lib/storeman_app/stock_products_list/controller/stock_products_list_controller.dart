@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:belcka/pages/common/drop_down_list_dialog.dart';
@@ -22,6 +23,7 @@ class StockProductsListController extends GetxController
   final _api = StockProductsListRepository();
 
   RxBool isLoading = false.obs,
+      isLoadingMore = false.obs,
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
       isSearchEnable = false.obs,
@@ -46,11 +48,15 @@ class StockProductsListController extends GetxController
   bool _isFilterResourcesLoaded = false;
 
   final RxInt totalItems = 0.obs;
-  final RxInt titleCount = 0.obs;
 
   final ScrollController scrollController = ScrollController();
   String _searchQuery = '';
   bool _hasStockUpdated = false;
+  Timer? _debounce;
+
+  var currentPage = 1.obs;
+  int limit = 20;
+  var hasMoreData = true.obs;
 
   @override
   void onInit() {
@@ -62,11 +68,21 @@ class StockProductsListController extends GetxController
       screenTitle = arguments['title'] ?? 'stocks'.tr;
     }
 
-    fetchProducts();
+    scrollController.addListener(() {
+      if (scrollController.position.pixels >=
+          scrollController.position.maxScrollExtent - 200) {
+        if (!isLoading.value && !isLoadingMore.value && hasMoreData.value) {
+          fetchProducts(showLoading: false);
+        }
+      }
+    });
+
+    fetchProducts(isRefresh: true);
   }
 
   @override
   void onClose() {
+    _debounce?.cancel();
     searchController.value.dispose();
     supplierController.value.dispose();
     categoryController.value.dispose();
@@ -74,8 +90,22 @@ class StockProductsListController extends GetxController
     super.onClose();
   }
 
-  void fetchProducts() {
-    isLoading.value = true;
+  void fetchProducts({bool isRefresh = false, bool showLoading = true}) {
+    if (isRefresh) {
+      currentPage.value = 1;
+      hasMoreData.value = true;
+      tempList.clear();
+      productsList.clear();
+      productsList.refresh();
+    }
+    if (!hasMoreData.value && !isRefresh) return;
+
+    if (currentPage.value == 1) {
+      if (showLoading) isLoading.value = true;
+    } else {
+      isLoadingMore.value = true;
+    }
+
     isInternetNotAvailable.value = false;
 
     final Map<String, dynamic> map = {};
@@ -83,13 +113,25 @@ class StockProductsListController extends GetxController
     map["store_ids"] = storeId;
     map["is_products"] = true;
     map["is_web"] = true;
+    map["page"] = currentPage.value;
+    map["limit"] = limit;
+    map["search"] = _searchQuery;
     if (stockStatus > 0) {
       map["stock_status"] = stockStatus;
+    }
+    if (_appliedCategoryId > 0) {
+      map["category_ids"] = _appliedCategoryId;
+    }
+    if (_appliedSupplierId > 0) {
+      map["supplier_id"] = _appliedSupplierId;
     }
 
     _api.getProducts(
       queryParameters: map,
       onSuccess: (ResponseModel responseModel) {
+        isLoading.value = false;
+        isLoadingMore.value = false;
+
         if (responseModel.isSuccess) {
           isMainViewVisible.value = true;
           final jsonMap =
@@ -97,18 +139,42 @@ class StockProductsListController extends GetxController
           final GetProductsResponse response =
               GetProductsResponse.fromJson(jsonMap);
 
-          tempList.clear();
-          tempList.addAll(response.info ?? []);
-          totalItems.value = tempList.length;
-          _refreshProductsList();
+          if (response.pagination != null) {
+            final newItems = response.info ?? [];
+
+            if (isRefresh) {
+              tempList.clear();
+              currentPage.value = 1;
+            }
+
+            tempList.addAll(newItems);
+            productsList.value = List.from(tempList);
+            productsList.refresh();
+
+            totalItems.value = response.pagination!.totalItems ?? 0;
+
+            final totalPages = response.pagination!.totalPages ?? 1;
+            final apiCurrentPage = response.pagination!.currentPage ?? 1;
+            if (apiCurrentPage >= totalPages) {
+              hasMoreData.value = false;
+            } else {
+              hasMoreData.value = true;
+              currentPage.value++;
+            }
+          } else {
+            tempList.clear();
+            tempList.addAll(response.info ?? []);
+            productsList.value = List.from(tempList);
+            productsList.refresh();
+            totalItems.value = tempList.length;
+          }
         } else {
           AppUtils.showSnackBarMessage(responseModel.statusMessage ?? "");
         }
-
-        isLoading.value = false;
       },
       onError: (ResponseModel error) {
         isLoading.value = false;
+        isLoadingMore.value = false;
         if (error.statusCode == ApiConstants.CODE_NO_INTERNET_CONNECTION) {
           isInternetNotAvailable.value = true;
         } else if (error.statusMessage?.isNotEmpty ?? false) {
@@ -232,7 +298,7 @@ class StockProductsListController extends GetxController
     _appliedSupplierId = _tempSupplierId;
     _appliedCategoryId = _tempCategoryId;
     Get.back();
-    _refreshProductsList();
+    fetchProducts(isRefresh: true);
   }
 
   void clearFilters() {
@@ -242,55 +308,15 @@ class StockProductsListController extends GetxController
     _appliedCategoryId = 0;
     _syncFilterControllerText();
     Get.back();
-    _refreshProductsList();
+    fetchProducts(isRefresh: true);
   }
 
   void searchItem(String value) {
-    _searchQuery = value;
-    _refreshProductsList();
-  }
-
-  void _refreshProductsList() {
-    Iterable<ProductInfo> list = tempList;
-
-    if (_searchQuery.isNotEmpty) {
-      final query = _searchQuery.toLowerCase();
-      list = list.where((item) {
-        return (!StringHelper.isEmptyString(item.shortName) &&
-                item.shortName!.toLowerCase().contains(query)) ||
-            (!StringHelper.isEmptyString(item.uuid) &&
-                item.uuid!.toLowerCase().contains(query)) ||
-            (!StringHelper.isEmptyString(item.supplierCode) &&
-                item.supplierCode!.toLowerCase().contains(query));
-      });
-    }
-
-    if (_appliedSupplierId > 0) {
-      list = list.where((item) => item.supplierId == _appliedSupplierId);
-    }
-
-    if (_appliedCategoryId > 0) {
-      list = list.where((item) => _matchesCategory(item, _appliedCategoryId));
-    }
-
-    productsList.value = List.from(list);
-    titleCount.value =
-        _hasLocalFilters ? productsList.length : totalItems.value;
-  }
-
-  bool get _hasLocalFilters =>
-      _searchQuery.isNotEmpty ||
-      _appliedSupplierId > 0 ||
-      _appliedCategoryId > 0;
-
-  bool _matchesCategory(ProductInfo item, int categoryId) {
-    if (!StringHelper.isEmptyString(item.categoryIds)) {
-      final ids = item.categoryIds!.split(',').map((e) => e.trim());
-      if (ids.contains(categoryId.toString())) {
-        return true;
-      }
-    }
-    return false;
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      _searchQuery = value.trim();
+      fetchProducts(isRefresh: true);
+    });
   }
 
   void _syncFilterControllerText() {
@@ -321,17 +347,18 @@ class StockProductsListController extends GetxController
   }
 
   void clearSearch() {
+    _debounce?.cancel();
     searchController.value.clear();
     _searchQuery = '';
     isSearchEnable.value = false;
-    _refreshProductsList();
+    fetchProducts(isRefresh: true);
   }
 
   String get appBarTitle {
     if (isLoading.value || !isMainViewVisible.value) {
       return screenTitle;
     }
-    return '$screenTitle (${titleCount.value})';
+    return '$screenTitle (${totalItems.value})';
   }
 
   @override
@@ -357,7 +384,7 @@ class StockProductsListController extends GetxController
     );
     if (result == true) {
       _hasStockUpdated = true;
-      fetchProducts();
+      fetchProducts(isRefresh: true);
     }
   }
 

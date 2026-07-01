@@ -529,9 +529,11 @@ class BuyerOrderController extends GetxController
         }).toList();
       }
       requestOrdersList.value = results;
-    } else if (selectedTab.value == OrderTabType.upcoming ||
+    }
+    else if (selectedTab.value == OrderTabType.upcoming ||
         selectedTab.value == OrderTabType.proceed ||
-        selectedTab.value == OrderTabType.delivered) {
+        selectedTab.value == OrderTabType.delivered ||
+        selectedTab.value == OrderTabType.cancelled) {
       ordersList.value = _filterOrderInfoList(tempOrdersList, value);
     }
   }

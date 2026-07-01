@@ -330,7 +330,8 @@ class MyDayLogListView extends StatelessWidget {
   Widget addCircle({required int id}) => Visibility(
         visible: id == 0 &&
             !((controller.workLogData.value.userIsWorking ?? false) &&
-                controller.isChecking.value),
+                controller.isChecking.value) &&
+            !controller.isOnLeave.value,
         child: GestureDetector(
           onTap: () {
             if (!(controller.workLogData.value.userIsWorking ?? false)) {

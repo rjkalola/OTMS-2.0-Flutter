@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:belcka/pages/common/listener/DialogButtonClickListener.dart';
 import 'package:belcka/pages/dashboard/tabs/more_tab/controller/more_tab_repository.dart';
-import 'package:belcka/res/theme/theme_controller.dart';
+import 'package:belcka/pages/profile/user_settings/view/widgets/language_bottom_sheet.dart';
 import 'package:belcka/utils/AlertDialogHelper.dart';
 import 'package:dio/dio.dart' as multi;
 import 'package:flutter/material.dart';
@@ -16,6 +16,7 @@ import 'package:belcka/utils/app_constants.dart';
 import 'package:belcka/utils/app_storage.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/utils/data_utils.dart';
+import 'package:belcka/utils/language_utils.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/base_response.dart';
@@ -28,11 +29,13 @@ class UserSettingsController extends GetxController
       isInternetNotAvailable = false.obs,
       isMainViewVisible = false.obs,
       isModeChange = false.obs;
+  RxString selectedLanguageKey = LanguageUtils.defaultLocaleKey.obs;
 
   @override
   void onInit() {
     super.onInit();
     isMainViewVisible.value = true;
+    selectedLanguageKey.value = Get.find<AppStorage>().getAppLanguage();
   }
 
   Future<void> logoutAPI() async {
@@ -66,6 +69,21 @@ class UserSettingsController extends GetxController
   Future<void> moveToScreen(String rout, dynamic arguments) async {
     var result = await Get.toNamed(rout, arguments: arguments);
     if (result != null && result) {}
+  }
+
+  void showLanguageBottomSheet() {
+    showModalBottomSheet(
+      context: Get.context!,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (context) => LanguageBottomSheet(
+        selectedKey: selectedLanguageKey.value,
+        onSelected: (localeKey) {
+          selectedLanguageKey.value = localeKey;
+          LanguageUtils.applyLocale(localeKey);
+        },
+      ),
+    );
   }
 
   void showLogoutDialog() {

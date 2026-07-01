@@ -18,99 +18,101 @@ class ProfileCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // print("statusColor:" + (controller.userInfo.value.statusColor).toString());
-    bool isWorking = controller.userInfo.value.isWorking ?? false;
-    bool isOnBreak = controller.userInfo.value.isOnBreak ?? false;
-    Color statusColor = (controller.userInfo.value.statusColor != null &&
+    return Obx(
+      () {
+        bool isWorking = controller.userInfo.value.isWorking ?? false;
+        bool isOnBreak = controller.userInfo.value.isOnBreak ?? false;
+        Color statusColor = (controller.userInfo.value.statusColor != null &&
             controller.userInfo.value.statusColor!.startsWith("#"))
-        ? AppUtils.getColor(controller.userInfo.value.statusColor ?? "#FF1744")
-        : Colors.redAccent;
-
-    return CardViewDashboardItem(
-      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      padding: EdgeInsets.all(12),
-      child: Row(
-        children: [
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => FullScreenImageViewScreen(
-                    imageUrl: controller.userInfo.value.userImage ?? "",
-                    isLoginUser: UserUtils.isLoginUser(controller.userId),
+            ? AppUtils.getColor(controller.userInfo.value.statusColor ?? "#FF1744")
+            : Colors.redAccent;
+        return CardViewDashboardItem(
+          margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          padding: EdgeInsets.all(12),
+          child: Row(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => FullScreenImageViewScreen(
+                        imageUrl: controller.userInfo.value.userImage ?? "",
+                        isLoginUser: UserUtils.isLoginUser(controller.userId),
+                      ),
+                    ),
+                  );
+                },
+                child: UserAvtarView(
+                  isOnlineStatusVisible: true,
+                  onlineStatusColor: statusColor,
+                  // onlineStatusColor: isWorking ? Colors.green : Colors.redAccent,
+                  imageSize: 50,
+                  imageUrl: controller.userInfo.value.userThumbImage ?? "",
+                ),
+              ),
+              SizedBox(width: 12),
+              Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    // var arguments = {
+                    //   AppConstants.intentKey.userId: controller.userId
+                    // };
+                    // Get.toNamed(AppRoutes.personalInfoScreen, arguments: arguments);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => FullScreenImageViewScreen(
+                          imageUrl: controller.userInfo.value.userImage ?? "",
+                          isLoginUser: UserUtils.isLoginUser(controller.userId),
+                        ),
+                      ),
+                    );
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                          '${controller.userInfo.value.firstName ?? ""} ${controller.userInfo.value.lastName ?? ""}',
+                          style: TextStyle(
+                              fontSize: 17, fontWeight: FontWeight.w500)),
+                      !StringHelper.isEmptyString(
+                              controller.userInfo.value.tradeName)
+                          ? Text('${controller.userInfo.value.tradeName}',
+                              style: TextStyle(
+                                  color: secondaryTextColor_(context),
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 13))
+                          : Container(),
+                      !StringHelper.isEmptyString(
+                              controller.userInfo.value.lastWorkedDate)
+                          ? Text(
+                              (isWorking || isOnBreak)
+                                  ? (isOnBreak ? 'on_break'.tr : 'working'.tr)
+                                  : '${'last_working_date'.tr}: ${controller.userInfo.value.lastWorkedDate}',
+                              style: TextStyle(
+                                  color: statusColor,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 13))
+                          : Container(),
+                    ],
                   ),
                 ),
-              );
-            },
-            child: UserAvtarView(
-              isOnlineStatusVisible: true,
-              onlineStatusColor: statusColor,
-              // onlineStatusColor: isWorking ? Colors.green : Colors.redAccent,
-              imageSize: 50,
-              imageUrl: controller.userInfo.value.userThumbImage ?? "",
-            ),
-          ),
-          SizedBox(width: 12),
-          Expanded(
-            child: GestureDetector(
-              onTap: () {
-                // var arguments = {
-                //   AppConstants.intentKey.userId: controller.userId
-                // };
-                // Get.toNamed(AppRoutes.personalInfoScreen, arguments: arguments);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => FullScreenImageViewScreen(
-                      imageUrl: controller.userInfo.value.userImage ?? "",
-                      isLoginUser: UserUtils.isLoginUser(controller.userId),
-                    ),
-                  ),
-                );
-              },
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                      '${controller.userInfo.value.firstName ?? ""} ${controller.userInfo.value.lastName ?? ""}',
-                      style:
-                          TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
-                  !StringHelper.isEmptyString(
-                          controller.userInfo.value.tradeName)
-                      ? Text('${controller.userInfo.value.tradeName}',
-                          style: TextStyle(
-                              color: secondaryTextColor_(context),
-                              fontWeight: FontWeight.w400,
-                              fontSize: 13))
-                      : Container(),
-                  !StringHelper.isEmptyString(
-                          controller.userInfo.value.lastWorkedDate)
-                      ? Text(
-                          (isWorking || isOnBreak)
-                              ? (isOnBreak ? 'on_break'.tr : 'working'.tr)
-                              : '${'last_working_date'.tr}: ${controller.userInfo.value.lastWorkedDate}',
-                          style: TextStyle(
-                              color: statusColor,
-                              fontWeight: FontWeight.w400,
-                              fontSize: 13))
-                      : Container(),
-                ],
               ),
-            ),
+              Visibility(
+                visible: UserUtils.isLoginUser(controller.userId),
+                child: IconButton(
+                  icon: Icon(Icons.settings,
+                      color: primaryTextColor_(context), size: 35),
+                  onPressed: () {
+                    Get.toNamed(AppRoutes.userSettingsScreen);
+                  },
+                ),
+              ),
+            ],
           ),
-          Visibility(
-            visible: UserUtils.isLoginUser(controller.userId),
-            child: IconButton(
-              icon: Icon(Icons.settings,
-                  color: primaryTextColor_(context), size: 35),
-              onPressed: () {
-                Get.toNamed(AppRoutes.userSettingsScreen);
-              },
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

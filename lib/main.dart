@@ -4,6 +4,7 @@ import 'package:belcka/res/theme/theme_config.dart';
 import 'package:belcka/res/theme/theme_controller.dart';
 import 'package:belcka/routes/app_pages.dart';
 import 'package:belcka/utils/app_storage.dart';
+import 'package:belcka/utils/language_utils.dart';
 import 'package:belcka/utils/notification_service.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -66,7 +67,8 @@ class _MyAppState extends State<MyApp> {
         navigatorObservers: [BotToastNavigatorObserver()],
         title: 'app_title'.tr,
         translations: Strings(),
-        locale: const Locale('en', 'us'),
+        locale: LanguageUtils.getSavedLocale(),
+        fallbackLocale: const Locale('en', 'US'),
         getPages: AppPages.list,
         // theme: ThemeData(
         //     colorScheme: ColorScheme.fromSeed(seedColor: defaultAccentColor),

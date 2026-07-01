@@ -1,13 +1,20 @@
 import 'package:belcka/pages/user_orders/storeman_catalog/model/product_info.dart';
+import 'package:belcka/pages/user_orders/storeman_catalog/model/product_response_model.dart';
 
 class GetProductsResponse {
   bool? isSuccess;
   String? message;
   int? cartProduct;
   List<ProductInfo>? info;
+  PaginationData? pagination;
 
-  GetProductsResponse(
-      {this.isSuccess, this.message, this.cartProduct, this.info});
+  GetProductsResponse({
+    this.isSuccess,
+    this.message,
+    this.cartProduct,
+    this.info,
+    this.pagination,
+  });
 
   GetProductsResponse.fromJson(Map<String, dynamic> json) {
     isSuccess = json['IsSuccess'];
@@ -19,6 +26,8 @@ class GetProductsResponse {
         info!.add(new ProductInfo.fromJson(v));
       });
     }
+    pagination =
+        json['data'] != null ? PaginationData.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {

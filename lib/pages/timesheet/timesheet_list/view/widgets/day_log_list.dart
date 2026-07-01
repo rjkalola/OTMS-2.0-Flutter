@@ -673,7 +673,7 @@ class DayLogList extends StatelessWidget {
               SizedBox(
                 width: 130,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start, 
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TitleTextView(
                       text: penaltyInfo.penaltyType ?? "",

@@ -374,7 +374,7 @@ class _CheckLogListViewState extends State<CheckLogListView> {
       );
 
   Widget addCircle({required int id}) => Visibility(
-        visible: id == 0,
+        visible: id == 0 && !controller.isOnLeave.value,
         child: GestureDetector(
           onTap: () {
             if (!(controller.workLogData.value.userIsWorking ?? false)) {

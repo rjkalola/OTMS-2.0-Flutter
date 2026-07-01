@@ -157,6 +157,27 @@ class FeedTabController extends GetxController {
     );
   }
 
+  void deleteFeed(FeedInfo info) {
+    final feedId = info.id;
+    if (feedId == null) return;
+
+    feedList.removeWhere((item) => item.id == feedId);
+    tempList.removeWhere((item) => item.id == feedId);
+    feedList.refresh();
+
+    deleteFeedApi(feedId.toString());
+  }
+
+  void deleteFeedApi(String ids) {
+    Map<String, dynamic> map = {};
+    map["ids"] = ids;
+    _api.deleteFeed(
+      data: map,
+      onSuccess: (ResponseModel responseModel) {},
+      onError: (ResponseModel error) {},
+    );
+  }
+
   void preloadUserImages(List<FeedInfo> list) {
     for (var info in list) {
       final cache = CustomCacheManager();
