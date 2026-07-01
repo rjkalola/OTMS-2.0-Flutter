@@ -1119,6 +1119,8 @@ class Strings extends Translations {
           'amount_spent':"Amount Spent",
           'overspent_by':"Overspent By",
           'remaining':"Remaining",
+          'view_all': "View all",
+          'view_and_manage_all_stock_items': "View and manage all stock items",
 
 // '': "",
           // '': "",

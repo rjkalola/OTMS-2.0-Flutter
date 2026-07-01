@@ -1,9 +1,6 @@
 import 'package:belcka/storeman_app/storeman_inventory/controller/storeman_inventory_controller.dart';
-import 'package:belcka/buyer_app/purchasing/view/widgets/purchasing_screen_item_text_widget.dart';
-import 'package:belcka/buyer_app/purchasing/view/widgets/purchasing_screen_item_value_widget.dart';
-import 'package:belcka/buyer_app/purchasing/view/widgets/purchasing_screen_title_text_widget.dart';
+import 'package:belcka/storeman_app/storeman_inventory/view/widgets/inventory_dashboard_widgets.dart';
 import 'package:belcka/utils/app_constants.dart';
-import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,138 +11,64 @@ class InternalOrdersCardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => SizedBox(
-        width: double.infinity,
-        child: CardViewDashboardItem(
-            padding: EdgeInsets.fromLTRB(16, 12, 16, 12),
-            margin: EdgeInsets.fromLTRB(14, 8, 14, 8),
-            borderRadius: controller.cardRadius,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return Obx(() {
+      final data = controller.inventoryData.value;
+      final completed = (data.internalCollect ?? 0) + (data.delivered ?? 0);
+
+      return InventoryDashboardCard(
+        child: Column(
+          children: [
+            InventoryCardHeader(
+              icon: Icons.assignment_outlined,
+              color: inventoryPurple,
+              title: 'internal_orders'.tr,
+              onViewAll: () => controller.onInternalOrdersItemClick(
+                AppConstants.type.newType,
+              ),
+            ),
+            const SizedBox(height: 18),
+            Row(
               children: [
-                PurchasingScreenTitleWidget(title: 'internal_orders'.tr),
-                SizedBox(
-                  height: 6,
+                InventoryInlineStat(
+                  label: 'new'.tr,
+                  value: (data.internalNew ?? 0).toString(),
+                  color: inventoryBlue,
+                  onTap: () => controller.onInternalOrdersItemClick(
+                    AppConstants.type.newType,
+                  ),
                 ),
-                Row(
-                  children: [
-                    Flexible(
-                        flex: 1,
-                        fit: FlexFit.tight,
-                        child: GestureDetector(
-                          onTap: () {
-                            controller.onInternalOrdersItemClick(
-                                AppConstants.type.newType);
-                          },
-                          child: Container(
-                            alignment: Alignment.topLeft,
-                            child: Column(
-                              children: [
-                                PurchasingScreenItemTextWidget(
-                                  text: 'new'.tr,
-                                ),
-                                SizedBox(
-                                  height: 2,
-                                ),
-                                PurchasingScreenItemValueWidget(
-                                    value: (controller.inventoryData.value
-                                                .internalNew ??
-                                            0)
-                                        .toString()),
-                              ],
-                            ),
-                          ),
-                        )),
-                    Flexible(
-                        flex: 1,
-                        fit: FlexFit.tight,
-                        child: GestureDetector(
-                          onTap: () {
-                            controller.onInternalOrdersItemClick(
-                                AppConstants.type.preparing);
-                          },
-                          child: Container(
-                            alignment: Alignment.topCenter,
-                            child: Column(
-                              children: [
-                                PurchasingScreenItemTextWidget(
-                                  text: 'preparing'.tr,
-                                ),
-                                SizedBox(
-                                  height: 2,
-                                ),
-                                PurchasingScreenItemValueWidget(
-                                    value: (controller.inventoryData.value
-                                                .internalPreparing ??
-                                            0)
-                                        .toString()),
-                              ],
-                            ),
-                          ),
-                        )),
-                    Flexible(
-                        flex: 1,
-                        fit: FlexFit.tight,
-                        child: GestureDetector(
-                          onTap: () {
-                            controller.onInternalOrdersItemClick(
-                                AppConstants.type.ready);
-                          },
-                          child: Container(
-                            alignment: Alignment.topCenter,
-                            child: Column(
-                              children: [
-                                PurchasingScreenItemTextWidget(
-                                  text: 'ready'.tr,
-                                ),
-                                SizedBox(
-                                  height: 2,
-                                ),
-                                PurchasingScreenItemValueWidget(
-                                    value: (controller.inventoryData.value
-                                                .internalReady ??
-                                            0)
-                                        .toString()),
-                              ],
-                            ),
-                          ),
-                        )),
-                    Flexible(
-                        flex: 1,
-                        fit: FlexFit.tight,
-                        child: GestureDetector(
-                          onTap: () {
-                            controller.onInternalOrdersItemClick(
-                                AppConstants.type.collect);
-                          },
-                          child: Container(
-                            alignment: Alignment.topRight,
-                            child: Column(
-                              children: [
-                                PurchasingScreenItemTextWidget(
-                                  text: 'completed'.tr,
-                                ),
-                                SizedBox(
-                                  height: 2,
-                                ),
-                                PurchasingScreenItemValueWidget(
-                                    value: ((controller.inventoryData.value
-                                                    .internalCollect ??
-                                                0) +
-                                            (controller.inventoryData.value
-                                                    .delivered ??
-                                                0))
-                                        .toString()),
-                              ],
-                            ),
-                          ),
-                        )),
-                  ],
+                const InventoryVerticalDivider(),
+                InventoryInlineStat(
+                  label: 'preparing'.tr,
+                  value: (data.internalPreparing ?? 0).toString(),
+                  color: inventoryOrange,
+                  onTap: () => controller.onInternalOrdersItemClick(
+                    AppConstants.type.preparing,
+                  ),
+                ),
+                const InventoryVerticalDivider(),
+                InventoryInlineStat(
+                  label: 'ready'.tr,
+                  value: (data.internalReady ?? 0).toString(),
+                  color: inventoryGreen,
+                  onTap: () => controller.onInternalOrdersItemClick(
+                    AppConstants.type.ready,
+                  ),
+                ),
+                const InventoryVerticalDivider(),
+                InventoryInlineStat(
+                  label: 'completed'.tr,
+                  value: completed.toString(),
+                  color: inventoryPurple,
+                  onTap: () => controller.onInternalOrdersItemClick(
+                    AppConstants.type.collect,
+                  ),
                 ),
               ],
-            )),
-      ),
-    );
+            ),
+          ],
+        ),
+      );
+    });
   }
 }

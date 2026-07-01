@@ -1,9 +1,6 @@
-import 'package:belcka/buyer_app/purchasing/view/widgets/purchasing_screen_item_text_widget.dart';
-import 'package:belcka/buyer_app/purchasing/view/widgets/purchasing_screen_item_value_widget.dart';
-import 'package:belcka/buyer_app/purchasing/view/widgets/purchasing_screen_title_text_widget.dart';
 import 'package:belcka/storeman_app/storeman_inventory/controller/storeman_inventory_controller.dart';
+import 'package:belcka/storeman_app/storeman_inventory/view/widgets/inventory_dashboard_widgets.dart';
 import 'package:belcka/utils/app_constants.dart';
-import 'package:belcka/widgets/cardview/card_view_dashboard_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,129 +11,58 @@ class HireCardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => SizedBox(
-          width: double.infinity,
-          child: CardViewDashboardItem(
-              padding: EdgeInsets.fromLTRB(16, 12, 16, 12),
-              margin: EdgeInsets.fromLTRB(14, 8, 14, 8),
-              borderRadius: controller.cardRadius,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  PurchasingScreenTitleWidget(title: 'hire'.tr),
-                  SizedBox(
-                    height: 6,
-                  ),
-                  Row(
-                    children: [
-                      Flexible(
-                          flex: 1,
-                          fit: FlexFit.tight,
-                          child: GestureDetector(
-                            onTap: () {
-                              controller
-                                  .onHireItemClick(AppConstants.type.request);
-                            },
-                            child: Container(
-                              alignment: Alignment.topLeft,
-                              child: Column(
-                                children: [
-                                  PurchasingScreenItemTextWidget(
-                                      text: 'request'.tr),
-                                  SizedBox(
-                                    height: 2,
-                                  ),
-                                  PurchasingScreenItemValueWidget(
-                                      value: (controller.inventoryData.value
-                                                  .hireRequested ??
-                                              0)
-                                          .toString()),
-                                ],
-                              ),
-                            ),
-                          )),
-                      Flexible(
-                          flex: 1,
-                          fit: FlexFit.tight,
-                          child: GestureDetector(
-                            onTap: () {
-                              controller
-                                  .onHireItemClick(AppConstants.type.hired);
-                            },
-                            child: Container(
-                              alignment: Alignment.topCenter,
-                              child: Column(
-                                children: [
-                                  PurchasingScreenItemTextWidget(
-                                      text: 'hired'.tr),
-                                  SizedBox(
-                                    height: 2,
-                                  ),
-                                  PurchasingScreenItemValueWidget(
-                                      value: (controller.inventoryData.value
-                                                  .hireHired ??
-                                              0)
-                                          .toString()),
-                                ],
-                              ),
-                            ),
-                          )),
-                      Flexible(
-                          flex: 1,
-                          fit: FlexFit.tight,
-                          child: GestureDetector(
-                            onTap: () {
-                              controller
-                                  .onHireItemClick(AppConstants.type.available);
-                            },
-                            child: Container(
-                              alignment: Alignment.topCenter,
-                              child: Column(
-                                children: [
-                                  PurchasingScreenItemTextWidget(
-                                      text: 'available'.tr),
-                                  SizedBox(
-                                    height: 2,
-                                  ),
-                                  PurchasingScreenItemValueWidget(
-                                      value: (controller.inventoryData.value
-                                                  .hireAvailable ??
-                                              0)
-                                          .toString()),
-                                ],
-                              ),
-                            ),
-                          )),
-                      Flexible(
-                          flex: 1,
-                          fit: FlexFit.tight,
-                          child: GestureDetector(
-                            onTap: () {
-                              controller
-                                  .onHireItemClick(AppConstants.type.servicing);
-                            },
-                            child: Container(
-                              alignment: Alignment.topRight,
-                              child: Column(
-                                children: [
-                                  PurchasingScreenItemTextWidget(
-                                      text: 'servicing'.tr),
-                                  SizedBox(
-                                    height: 2,
-                                  ),
-                                  PurchasingScreenItemValueWidget(
-                                      value: (controller.inventoryData.value
-                                                  .hireServiced ??
-                                              0)
-                                          .toString()),
-                                ],
-                              ),
-                            ),
-                          )),
-                    ],
-                  ),
-                ],
-              )),
-        ));
+    return Obx(() {
+      final data = controller.inventoryData.value;
+
+      return InventoryDashboardCard(
+        child: Column(
+          children: [
+            InventoryCardHeader(
+              icon: Icons.groups_outlined,
+              color: inventoryGreen,
+              title: 'hire'.tr,
+              onViewAll: () =>
+                  controller.onHireItemClick(AppConstants.type.request),
+            ),
+            const SizedBox(height: 18),
+            Row(
+              children: [
+                InventoryInlineStat(
+                  label: 'request'.tr,
+                  value: (data.hireRequested ?? 0).toString(),
+                  color: inventoryBlue,
+                  onTap: () =>
+                      controller.onHireItemClick(AppConstants.type.request),
+                ),
+                const InventoryVerticalDivider(),
+                InventoryInlineStat(
+                  label: 'hired'.tr,
+                  value: (data.hireHired ?? 0).toString(),
+                  color: inventoryGreen,
+                  onTap: () =>
+                      controller.onHireItemClick(AppConstants.type.hired),
+                ),
+                const InventoryVerticalDivider(),
+                InventoryInlineStat(
+                  label: 'available'.tr,
+                  value: (data.hireAvailable ?? 0).toString(),
+                  color: inventoryOrange,
+                  onTap: () =>
+                      controller.onHireItemClick(AppConstants.type.available),
+                ),
+                const InventoryVerticalDivider(),
+                InventoryInlineStat(
+                  label: 'servicing'.tr,
+                  value: (data.hireServiced ?? 0).toString(),
+                  color: inventoryPurple,
+                  onTap: () =>
+                      controller.onHireItemClick(AppConstants.type.servicing),
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    });
   }
 }
