@@ -176,5 +176,9 @@ class Drawable {
   static const String checkinTaskIcon = 'assets/images/checkin_task_icon.svg';
   static const String checkinCameraIcon =
       'assets/images/checkin_camera_icon.svg';
+  static const String checkinPhotosBeforeAfterCameraIcon =
+      'assets/images/checkin_photos_before_after_camera.svg';
+  static const String checkinAddPhotosBeforeAfterCameraIcon =
+      'assets/images/checkin_add_photos_before_after_camera.svg';
   static const String checkinMapImage = 'assets/images/checkin_map_image.png';
 }

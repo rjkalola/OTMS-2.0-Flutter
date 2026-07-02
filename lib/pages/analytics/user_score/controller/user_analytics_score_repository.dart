@@ -10,7 +10,7 @@ class UserAnalyticsScoreRepository {
     Function(ResponseModel error)? onError,
   }) {
     ApiRequest(
-        url: ApiConstants.userAnalytics,
+        url: ApiConstants.getAnalyticsScore,
         queryParameters: queryParameters,
         isFormData: false)
         .getRequest(

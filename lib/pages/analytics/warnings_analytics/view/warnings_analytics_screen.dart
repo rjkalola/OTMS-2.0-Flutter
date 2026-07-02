@@ -39,12 +39,6 @@ class _WarningsAnalyticsScreenState extends State<WarningsAnalyticsScreen>
               isCenterTitle: false,
               isBack: true,
               bgColor: backgroundColor_(context),
-              widgets: [
-                IconButton(
-                  icon: const Icon(Icons.more_vert_outlined),
-                  onPressed: () {},
-                ),
-              ],
             ),
             body: ModalProgressHUD(
               inAsyncCall: controller.isLoading.value,

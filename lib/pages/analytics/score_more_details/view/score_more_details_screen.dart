@@ -1,5 +1,7 @@
 import 'package:belcka/pages/analytics/score_more_details/controller/score_more_details_controller.dart';
+import 'package:belcka/pages/analytics/score_more_details/model/score_settings_model.dart';
 import 'package:belcka/pages/analytics/score_more_details/view/score_more_details_header_view.dart';
+import 'package:belcka/pages/analytics/user_score/model/user_analytics_score_model.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/utils/app_utils.dart';
 import 'package:belcka/widgets/CustomProgressbar.dart';
@@ -46,6 +48,7 @@ class _ScoreMoreDetailsScreenState extends State<ScoreMoreDetailsScreen> {
                   ? NoInternetWidget(
                 onPressed: () {
                   controller.isInternetNotAvailable.value = false;
+                  controller.getScoreSettingsAPI();
                 },
               )
                   : controller.isMainViewVisible.value
@@ -64,7 +67,10 @@ class _ScoreMoreDetailsScreenState extends State<ScoreMoreDetailsScreen> {
                       ),
                     ),
                     SizedBox(height: 8),
-                    ScoreMeaningCard(score: controller.userScore ?? 0),
+                    ScoreMeaningCard(
+                      score: controller.userScore,
+                      ranges: controller.scoreRanges,
+                    ),
                   ],
                 ),
               )
@@ -78,8 +84,14 @@ class _ScoreMoreDetailsScreenState extends State<ScoreMoreDetailsScreen> {
 }
 
 class ScoreMeaningCard extends StatelessWidget {
-  final int score;
-  const ScoreMeaningCard({super.key, required this.score});
+  final num score;
+  final List<ScoreRangeModel> ranges;
+
+  const ScoreMeaningCard({
+    super.key,
+    required this.score,
+    required this.ranges,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +113,7 @@ class ScoreMeaningCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "$score%",
+                  "${score.toDouble().asScorePercent}%",
                   style: TextStyle(
                     fontSize: 40,
                     fontWeight: FontWeight.bold,
@@ -109,9 +121,8 @@ class ScoreMeaningCard extends StatelessWidget {
                 ),
               ],
             ),
-
             const Spacer(),
-            _ScoreScaleBox(),
+            _ScoreScaleBox(ranges: ranges),
           ],
         ),
       ),
@@ -120,43 +131,41 @@ class ScoreMeaningCard extends StatelessWidget {
 }
 
 class _ScoreScaleBox extends StatelessWidget {
-  const _ScoreScaleBox();
+  const _ScoreScaleBox({required this.ranges});
+
+  final List<ScoreRangeModel> ranges;
 
   static const double rowHeight = 44;
-  static const int itemCount = 5;
 
   @override
   Widget build(BuildContext context) {
+    if (ranges.isEmpty) return const SizedBox.shrink();
+
+    final gradientColors = ranges
+        .map((range) => AppUtils.getColor(range.color))
+        .toList();
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
           width: 6,
-          height: rowHeight * itemCount,
+          height: rowHeight * ranges.length,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(4),
-            gradient: const LinearGradient(
+            gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              colors: [
-                Color(0xFF2ECC71),
-                Color(0xFFF1C40F),
-                Color(0xFFF7CE45),
-                Color(0xFFFF0000),
-              ],
+              colors: gradientColors,
             ),
           ),
         ),
         const SizedBox(width: 12),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            _ScaleItem("Excellent 90-100"),
-            _ScaleItem("Good 50-89"),
-            _ScaleItem("Fair 30-49"),
-            _ScaleItem("Need attention 20-29"),
-            _ScaleItem("Contact to HR"),
-          ],
+          children: ranges
+              .map((range) => _ScaleItem(range.rangeText))
+              .toList(),
         ),
       ],
     );

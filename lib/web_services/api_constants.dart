@@ -103,9 +103,11 @@ class ApiConstants {
   static String removeUserPermanently = '$appUrl/user/delete-account';
   static String getDigitalCardDetails = '$appUrl/user/get-user-digital-card';
   static String userAnalytics = '$appUrl/analytics/user';
+  static String getAnalyticsScore = '$appUrl/analytics/get-analytics-score';
   static String getWarningsAnalytics = '$appUrl/analytics/get-warnings';
   static String getKpiAnalytics = '$appUrl/analytics/get-kpi';
   static String getAppActivityAnalytics = '$appUrl/analytics/get-app-activity';
+  static String getScoreSettings = '$appUrl/analytics/get-score-settings';
   static String stopUserWork = '$appUrl/user-worklog/stop-work';
   static String userChangeBulkCheckin = '$appUrl/user/change-bulk-checkin';
 
@@ -364,6 +366,7 @@ class ApiConstants {
   static String categoriesGet = '$appUrl/categories/get';
   static String productsGet = '$appUrl/products/get';
   static String getInventoryResources = '$appUrl/get-inventory-resources';
+
   static String productsBookmark = '$appUrl/products/bookmark';
   static String productsAddToCart = '$appUrl/products/add-to-cart';
   static String productsCartList = '$appUrl/products/cart-list';

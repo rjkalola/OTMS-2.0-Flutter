@@ -5,27 +5,48 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="053ed336-4b64-4937-ade4-066c93ca45e7" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/buyer_app/buyer_order/controller/buyer_order_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/buyer_app/buyer_order/controller/buyer_order_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in/controller/user_clock_in_utils.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in/controller/user_clock_in_utils.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in/view/widgets/check_log_list_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in/view/widgets/check_log_list_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in/view/widgets/footer_button_check_in_switch_project.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in/view/widgets/footer_button_check_in_switch_project.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in/view/widgets/my_day_log_list_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in/view/widgets/my_day_log_list_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in/view/widgets/work_time_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/user_clock_in/view/widgets/work_time_details_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/notifications/notification_list/tabs/feed_tab/controller/feed_tab_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/notifications/notification_list/tabs/feed_tab/controller/feed_tab_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/notifications/notification_list/tabs/feed_tab/controller/feed_tab_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/notifications/notification_list/tabs/feed_tab/controller/feed_tab_repository.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/notifications/notification_list/tabs/feed_tab/view/widgets/feed_list.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/notifications/notification_list/tabs/feed_tab/view/widgets/feed_list.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/profile/my_account/view/widgets/profile_card_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/profile/my_account/view/widgets/profile_card_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/profile/user_settings/controller/user_settings_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/profile/user_settings/controller/user_settings_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/profile/user_settings/view/user_settings_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/profile/user_settings/view/user_settings_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/timesheet/timesheet_list/view/widgets/day_log_list.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/timesheet/timesheet_list/view/widgets/day_log_list.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/user_orders/storeman_catalog/model/get_products_response.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/user_orders/storeman_catalog/model/get_products_response.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/analytics/app_activity_analytics/controller/app_activity_analytics_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/analytics/app_activity_analytics/controller/app_activity_analytics_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/analytics/app_activity_analytics/model/app_activity_analytics_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/analytics/app_activity_analytics/model/app_activity_analytics_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/analytics/app_activity_analytics/view/app_activity_analytics_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/analytics/app_activity_analytics/view/app_activity_analytics_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/analytics/app_activity_analytics/view/widgets/app_activity_analytics_grid_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/analytics/app_activity_analytics/view/widgets/app_activity_analytics_grid_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/analytics/kpi_analytics/controller/kpi_analytics_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/analytics/kpi_analytics/controller/kpi_analytics_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/analytics/kpi_analytics/view/kpi_analytics_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/analytics/kpi_analytics/view/kpi_analytics_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/analytics/score_more_details/controller/score_more_details_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/analytics/score_more_details/controller/score_more_details_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/analytics/score_more_details/controller/score_more_details_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/analytics/score_more_details/controller/score_more_details_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/analytics/score_more_details/view/score_more_details_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/analytics/score_more_details/view/score_more_details_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/analytics/user_score/controller/user_analytics_score_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/analytics/user_score/controller/user_analytics_score_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/analytics/user_score/controller/user_analytics_score_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/analytics/user_score/controller/user_analytics_score_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/analytics/user_score/view/user_analytics_score_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/analytics/user_score/view/user_analytics_score_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/analytics/user_score/view/widgets/overall_score_header_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/analytics/user_score/view/widgets/overall_score_header_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/analytics/user_score/view/widgets/user_score_types_container_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/analytics/user_score/view/widgets/user_score_types_container_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/analytics/user_score/view/widgets/user_score_types_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/analytics/user_score/view/widgets/user_score_types_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/analytics/warnings_analytics/controller/warnings_analytics_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/analytics/warnings_analytics/controller/warnings_analytics_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/analytics/warnings_analytics/view/warnings_analytics_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/analytics/warnings_analytics/view/warnings_analytics_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/analytics/warnings_analytics/view/widgets/warnings_analytics_header.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/analytics/warnings_analytics/view/widgets/warnings_analytics_header.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/check_in/model/check_in_resources_response.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/check_in/model/check_in_resources_response.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/user_check_in/controller/user_check_in_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/user_check_in/controller/user_check_in_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/user_check_in/view/user_check_in_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/user_check_in/view/user_check_in_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/user_check_in/view/widgets/user_check_in_selection_card.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/user_check_in/view/widgets/user_check_in_selection_card.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/user_check_out/controller/user_check_out_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/user_check_out/controller/user_check_out_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/user_check_out/view/user_check_out_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/user_check_out/view/user_check_out_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/check_in/user_check_out/view/widgets/user_check_out_info_card.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/check_in/user_check_out/view/widgets/user_check_out_info_card.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/project/maps/user_zones/controller/user_zones_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/project/maps/user_zones/controller/user_zones_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/project/maps/user_zones/model/user_location_models.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/project/maps/user_zones/model/user_location_models.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/project/maps/user_zones/view/user_zones_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/project/maps/user_zones/view/user_zones_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/res/drawable.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/res/drawable.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/res/strings.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/res/strings.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/storeman_app/stock_products_list/controller/stock_products_list_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/storeman_app/stock_products_list/controller/stock_products_list_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/routes/app_pages.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/routes/app_pages.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/routes/app_routes.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/routes/app_routes.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/storeman_app/edit_stock/controller/edit_stock_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/storeman_app/edit_stock/controller/edit_stock_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/storeman_app/edit_stock/controller/edit_stock_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/storeman_app/edit_stock/controller/edit_stock_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/storeman_app/edit_stock/view/edit_stock_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/storeman_app/edit_stock/view/edit_stock_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/storeman_app/storeman_inventory/view/storeman_inventory_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/storeman_app/storeman_inventory/view/storeman_inventory_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/utils/app_constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils/app_constants.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/utils/app_storage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils/app_storage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/utils/session_cleanup.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils/session_cleanup.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/web_services/api_constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/web_services/api_constants.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,14 +116,14 @@
     "io.flutter.project.isFirstOpen": "true",
     "io.flutter.reload.alreadyRun": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/apple/Documents/My Projects/Stypix Project/Belcka Flutter Git/assets/country_flag",
+    "last_opened_file_path": "/Users/apple/Documents/My Projects/Stypix Project/Belcka Flutter Git/assets/images",
     "show.migrate.to.gradle.popup": "false"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/assets/country_flag" />
       <recent name="$PROJECT_DIR$/assets/images" />
+      <recent name="$PROJECT_DIR$/assets/country_flag" />
       <recent name="$PROJECT_DIR$/assets/user_permission_icons" />
       <recent name="$PROJECT_DIR$/lib/pages/check_in" />
       <recent name="$PROJECT_DIR$/lib/pages/user_orders" />
@@ -116,9 +137,10 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="Application" factoryName="Application">
+    <configuration default="true" type="AppleRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" IS_LOCATION_SIMULATION_SUPPORTED="false" IS_LOCATION_SIMULATION_ALLOWED="true" APPLICATION_LANGUAGE="IDELaunchSchemeLanguageUseSystemLanguage" APPLICATION_REGION="" DEVELOPMENT_TEAM="${TEAM_ID}" MAKE_ACTIVE="TRUE" SHOULD_DEBUG_EXTENSIONS="false">
+      <embedded_app_extension_list />
       <method v="2">
-        <option name="Make" enabled="true" />
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">

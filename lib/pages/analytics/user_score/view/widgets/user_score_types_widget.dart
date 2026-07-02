@@ -58,6 +58,10 @@ class UserScoreTypesWidget extends StatelessWidget {
                     final arguments = {
                       AppConstants.intentKey.userId: controller.userId,
                       "score_type": scoreType,
+                      AppConstants.intentKey.startDate: controller.startDate,
+                      AppConstants.intentKey.endDate: controller.endDate,
+                      AppConstants.intentKey.selectedDateFilterIndex:
+                          controller.selectedDateFilterIndex.value,
                     };
                     final route = _detailsRouteByScoreType(scoreType);
                     controller.moveToScreen(

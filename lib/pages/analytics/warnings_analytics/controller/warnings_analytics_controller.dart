@@ -3,7 +3,10 @@ import 'dart:convert';
 import 'package:belcka/pages/analytics/warnings_analytics/controller/warnings_analytics_repository.dart';
 import 'package:belcka/pages/analytics/warnings_analytics/model/warnings_score_model.dart';
 import 'package:belcka/utils/app_constants.dart';
+import 'package:belcka/utils/app_storage.dart';
 import 'package:belcka/utils/app_utils.dart';
+import 'package:belcka/utils/data_utils.dart';
+import 'package:belcka/utils/date_utils.dart';
 import 'package:belcka/utils/user_utils.dart';
 import 'package:belcka/web_services/api_constants.dart';
 import 'package:belcka/web_services/response/response_model.dart';
@@ -30,11 +33,38 @@ class WarningsAnalyticsController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    setInitialDateFilter();
+    getWarningsAPI();
+  }
+
+  void setInitialDateFilter() {
     final arguments = Get.arguments;
     if (arguments != null) {
       userId = arguments[AppConstants.intentKey.userId] ?? userId;
+      startDate = arguments[AppConstants.intentKey.startDate]?.toString() ?? "";
+      endDate = arguments[AppConstants.intentKey.endDate]?.toString() ?? "";
+      selectedDateFilterIndex.value =
+          arguments[AppConstants.intentKey.selectedDateFilterIndex] ?? 1;
+    } else {
+      selectedDateFilterIndex.value =
+          Get.find<AppStorage>().getTimesheetDateFilterIndex();
     }
-    getWarningsAPI();
+
+    if (startDate.isEmpty && endDate.isEmpty) {
+      _applyDatesFromFilterIndex();
+    }
+  }
+
+  void _applyDatesFromFilterIndex() {
+    final index = selectedDateFilterIndex.value;
+    if (index <= 0 || index >= DataUtils.dateFilterList.length) return;
+
+    final filter = DataUtils.dateFilterList[index];
+    if (filter == "Reset" || filter == "Custom") return;
+
+    final listDates = DateUtil.getDateWeekRange(filter);
+    startDate = DateUtil.dateToString(listDates[0], DateUtil.DD_MM_YYYY_SLASH);
+    endDate = DateUtil.dateToString(listDates[1], DateUtil.DD_MM_YYYY_SLASH);
   }
 
   void getWarningsAPI() {

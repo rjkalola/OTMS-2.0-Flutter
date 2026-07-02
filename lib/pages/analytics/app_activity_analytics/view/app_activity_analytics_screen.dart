@@ -1,3 +1,4 @@
+import 'package:belcka/pages/analytics/user_score/model/user_analytics_score_model.dart';
 import 'package:belcka/pages/analytics/app_activity_analytics/controller/app_activity_analytics_controller.dart';
 import 'package:belcka/pages/analytics/app_activity_analytics/view/widgets/app_activity_analytics_grid_view.dart';
 import 'package:belcka/pages/analytics/app_activity_analytics/view/widgets/app_activity_analytics_header.dart';
@@ -40,12 +41,6 @@ class _AppActivityAnalyticsScreenState extends State<AppActivityAnalyticsScreen>
               isCenterTitle: false,
               isBack: true,
               bgColor: backgroundColor_(context),
-              widgets: [
-                IconButton(
-                  icon: const Icon(Icons.more_vert_outlined),
-                  onPressed: () {},
-                ),
-              ],
             ),
             body: ModalProgressHUD(
               inAsyncCall: controller.isLoading.value,
@@ -76,7 +71,7 @@ class _AppActivityAnalyticsScreenState extends State<AppActivityAnalyticsScreen>
                               ),
                               child: AppActivityAnalyticsHeader(
                                 valueText:
-                                    "${controller.appActivityScore.value?.score ?? 0}%",
+                                    "${(controller.appActivityScore.value?.score ?? 0).asScorePercent}%",
                                 progress:
                                     (controller.appActivityScore.value?.score ??
                                             0) /
@@ -84,9 +79,7 @@ class _AppActivityAnalyticsScreenState extends State<AppActivityAnalyticsScreen>
                                 dateRange: controller.dateRange,
                               ),
                             ),
-                            SizedBox(
-                              height: 14,
-                            ),
+                            const SizedBox(height: 14),
                             DateFilterOptionsHorizontalList(
                               padding: const EdgeInsets.fromLTRB(14, 0, 14, 6),
                               startDate: controller.startDate,

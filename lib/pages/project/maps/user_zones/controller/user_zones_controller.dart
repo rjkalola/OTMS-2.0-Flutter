@@ -60,6 +60,8 @@ class UserZonesController extends GetxController
   final mapOverlayRevision = 0.obs;
 
   final allUsers = <UserLocationInfo>[].obs;
+  final workingUser = 0.obs;
+  final totalUsers = 0.obs;
   final teamGroups = <TeamUsersGroup>[].obs;
   final filteredGroups = <TeamUsersGroup>[].obs;
   final userVisibility = <int, bool>{}.obs;
@@ -185,6 +187,8 @@ class UserZonesController extends GetxController
     }
     final parsed =
         UserLocationsResponse.fromJson(jsonDecode(responseModel.result!));
+    workingUser.value = parsed.workingUser ?? 0;
+    totalUsers.value = parsed.totalUsers ?? 0;
     final teams = parsed.info ?? <TeamUserLocationsGroup>[];
     allUsers.assignAll(teams.expand((t) => t.users));
 
@@ -519,10 +523,7 @@ class UserZonesController extends GetxController
     _renderOverlays();
   }
 
-  int get totalUsersCount => allUsers.length;
-
-  int get visibleUsersCount =>
-      allUsers.where((u) => userVisibility[u.id ?? 0] ?? true).length;
+  String get usersCountDisplay => '${workingUser.value}/${totalUsers.value}';
 
   int get totalZonesCount =>
       zoneGroups.fold<int>(0, (sum, g) => sum + (g.zones?.length ?? 0));

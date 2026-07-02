@@ -4,6 +4,8 @@ import 'package:belcka/pages/check_in/user_check_out/view/widgets/user_check_out
 import 'package:belcka/pages/check_in/user_check_out/view/widgets/user_check_out_header.dart';
 import 'package:belcka/pages/check_in/user_check_out/view/widgets/user_check_out_info_card.dart';
 import 'package:belcka/pages/check_in/user_check_out/view/widgets/user_check_out_summary_card.dart';
+import 'package:belcka/pages/check_in/user_check_out/view/widgets/user_check_out_photos_after_section.dart';
+import 'package:belcka/pages/check_in/user_check_out/view/widgets/user_check_out_pricework_section.dart';
 import 'package:belcka/pages/check_in/user_check_out/view/widgets/user_check_out_task_section.dart';
 import 'package:belcka/pages/check_in/user_check_out/view/widgets/user_check_out_times_row.dart';
 import 'package:belcka/res/colors.dart';
@@ -27,6 +29,8 @@ class UserCheckOutScreen extends StatefulWidget {
 class _UserCheckOutScreenState extends State<UserCheckOutScreen> {
   final controller = Get.put(UserCheckOutController());
 
+  static const bool _showTaskSection = false;
+
   static const Color _addressIconBg = Color(0xFFE8F3FC);
   static const Color _tradeIconBg = Color(0xFFE8F8EE);
 
@@ -35,7 +39,10 @@ class _UserCheckOutScreenState extends State<UserCheckOutScreen> {
     AppUtils.setStatusBarColor();
     return Scaffold(
       backgroundColor: dashBoardBgColor_(context),
-      body: Obx(
+      body: GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        behavior: HitTestBehavior.translucent,
+        child: Obx(
         () => ModalProgressHUD(
           inAsyncCall: controller.isLoading.value,
           opacity: 0,
@@ -68,10 +75,16 @@ class _UserCheckOutScreenState extends State<UserCheckOutScreen> {
                                         controller.addressController.value.text;
                                     final tradeText =
                                         controller.tradeController.value.text;
+                                    final isCheckedOut =
+                                        !StringHelper.isEmptyString(controller
+                                            .checkLogInfo
+                                            .value
+                                            .checkoutDateTime);
 
                                     return Column(
                                       children: [
-                                        UserCheckOutSummaryCard(),
+                                        if (isCheckedOut)
+                                          UserCheckOutSummaryCard(),
                                         UserCheckOutInfoCard(
                                           iconPath: Drawable.checkinAddressIcon,
                                           iconBackgroundColor: _addressIconBg,
@@ -84,7 +97,14 @@ class _UserCheckOutScreenState extends State<UserCheckOutScreen> {
                                           title: 'trade'.tr,
                                           subtitle: tradeText,
                                         ),
-                                        UserCheckOutTaskSection(),
+                                        if (!isCheckedOut) ...[
+                                          UserCheckOutPriceworkSection(),
+                                          UserCheckOutPhotosAfterSection(),
+                                        ],
+                                        Visibility(
+                                          visible: _showTaskSection,
+                                          child: UserCheckOutTaskSection(),
+                                        ),
                                       ],
                                     );
                                   }),
@@ -101,13 +121,14 @@ class _UserCheckOutScreenState extends State<UserCheckOutScreen> {
                   visible: StringHelper.isEmptyString(
                       controller.checkLogInfo.value.checkoutDateTime),
                   child: UserCheckOutFooter(
-                    onPressed: controller.checkOutApi,
+                    onPressed: controller.validateAndCheckOut,
                   ),
                 ),
               ],
             ),
           ),
         ),
+      ),
       ),
     );
   }

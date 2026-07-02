@@ -34,6 +34,7 @@ class UserCheckOutInfoCard extends StatelessWidget {
         ],
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             width: 40,
@@ -54,6 +55,7 @@ class UserCheckOutInfoCard extends StatelessWidget {
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   title,
@@ -63,14 +65,14 @@ class UserCheckOutInfoCard extends StatelessWidget {
                     color: primaryTextColor_(context),
                   ),
                 ),
-                const SizedBox(height: 2),
+                const SizedBox(height: 4),
                 Text(
                   subtitle,
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w400,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
                     color: StringHelper.isEmptyString(subtitle) ||
                             subtitle == '-'
                         ? secondaryTextColor_(context)

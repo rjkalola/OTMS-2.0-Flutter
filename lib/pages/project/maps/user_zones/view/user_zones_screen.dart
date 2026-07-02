@@ -167,9 +167,7 @@ class _UserZonesScreenState extends State<UserZonesScreen> {
                     width: 18,
                     height: 18,
                     color: primaryTextColor_(context)),
-                // text:
-                //     "${controller.visibleUsersCount}/${controller.totalUsersCount}",
-                text: "${controller.totalUsersCount}",
+                text: controller.usersCountDisplay,
                 onTap: controller.openStaffPanel,
               ),
             ],

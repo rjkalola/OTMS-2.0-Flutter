@@ -29,6 +29,7 @@ class EditStockController extends GetxController implements SelectItemListener {
   final qtyController = TextEditingController();
 
   final isLoading = false.obs;
+  final isMainViewVisible = false.obs;
   final isReferenceMode = true.obs;
   final isPackMode = false.obs;
   final selectedUserId = 0.obs;
@@ -180,6 +181,8 @@ class EditStockController extends GetxController implements SelectItemListener {
   }
 
   void fetchInventoryResources() {
+    isLoading.value = true;
+
     final map = <String, dynamic>{};
     map['company_id'] = ApiConstants.companyId;
 
@@ -208,9 +211,14 @@ class EditStockController extends GetxController implements SelectItemListener {
           _allAddresses = (response.addresses ?? [])
               .where((item) => !StringHelper.isEmptyString(item.name))
               .toList();
+
+          isMainViewVisible.value = true;
         }
+        isLoading.value = false;
       },
-      onError: (_) {},
+      onError: (_) {
+        isLoading.value = false;
+      },
     );
   }
 

@@ -1,5 +1,7 @@
 import 'package:belcka/pages/check_in/user_check_in/controller/user_check_in_controller.dart';
+import 'package:belcka/pages/check_in/user_check_in_copy/controller/user_check_in_copy_controller.dart';
 import 'package:belcka/pages/check_in/user_check_out/controller/user_check_out_controller.dart';
+import 'package:belcka/pages/check_in/user_check_out_copy/controller/user_check_out_copy_controller.dart';
 import 'package:belcka/pages/check_in/user_clock_in/controller/user_clock_in_controller.dart';
 import 'package:belcka/pages/check_in/user_stop_shift/controller/user_stop_shift_controller.dart';
 import 'package:get/get.dart';
@@ -8,7 +10,9 @@ class SessionCleanup {
   static void clearControllersOnLogout() {
     _deleteIfRegistered<UserClockInController>();
     _deleteIfRegistered<UserCheckInController>();
+    _deleteIfRegistered<UserCheckInCopyController>();
     _deleteIfRegistered<UserCheckOutController>();
+    _deleteIfRegistered<UserCheckOutCopyController>();
     _deleteIfRegistered<UserStopShiftController>();
   }
 

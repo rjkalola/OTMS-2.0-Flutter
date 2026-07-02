@@ -37,6 +37,11 @@ class AppActivityAnalyticsGridView extends StatelessWidget {
         icon: Icons.location_off,
       ),
       _GridItem(
+        title: "Worth material used",
+        value: "${data.currency}${data.worthMaterialUsed}",
+        icon: Icons.attach_money,
+      ),
+      _GridItem(
         title: "total_worklogs".tr,
         value: data.totalWorklogs.toString(),
         icon: Icons.list_alt,

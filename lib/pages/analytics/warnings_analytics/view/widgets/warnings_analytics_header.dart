@@ -1,4 +1,4 @@
-import 'package:belcka/pages/analytics/user_score/view/widgets/user_score_warning_indicator_widget.dart';
+import 'package:belcka/pages/analytics/widgets/animated_progress_bar.dart';
 import 'package:flutter/material.dart';
 
 class WarningsAnalyticsHeader extends StatelessWidget {
@@ -29,7 +29,10 @@ class WarningsAnalyticsHeader extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 12),
-          UserScoreWarningIndicatorWidget(activeCount: int.tryParse(valueText) ?? 0),
+          const AnimatedProgressBar(
+            value: 1,
+            color: Color(0xFFFF7F00),
+          ),
           const SizedBox(height: 16),
           Row(
             mainAxisSize: MainAxisSize.min,

@@ -35,28 +35,31 @@ class EditStockScreen extends StatelessWidget {
               inAsyncCall: controller.isLoading.value,
               opacity: 0,
               progressIndicator: const CustomProgressbar(),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          GetBuilder<EditStockController>(
-                            builder: (ctrl) => EditStockHeader(
-                              product: ctrl.product,
+              child: Visibility(
+                visible: controller.isMainViewVisible.value,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            GetBuilder<EditStockController>(
+                              builder: (ctrl) => EditStockHeader(
+                                product: ctrl.product,
+                              ),
                             ),
-                          ),
-                          Divider(
-                            height: 1,
-                            color: dividerColor_(context),
-                          ),
-                          EditStockDetails(product: controller.product),
-                        ],
+                            Divider(
+                              height: 1,
+                              color: dividerColor_(context),
+                            ),
+                            EditStockDetails(product: controller.product),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  EditStockFooter(controller: controller),
-                ],
+                    EditStockFooter(controller: controller),
+                  ],
+                ),
               ),
             ),
           ),

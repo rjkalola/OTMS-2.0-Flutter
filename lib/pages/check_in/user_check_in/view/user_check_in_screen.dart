@@ -2,6 +2,8 @@ import 'package:belcka/pages/check_in/user_check_in/controller/user_check_in_con
 import 'package:belcka/pages/check_in/user_check_in/view/widgets/user_check_in_footer.dart';
 import 'package:belcka/pages/check_in/user_check_in/view/widgets/user_check_in_header.dart';
 import 'package:belcka/pages/check_in/user_check_in/view/widgets/user_check_in_selection_card.dart';
+import 'package:belcka/pages/check_in/user_check_in/view/widgets/user_check_in_note_section.dart';
+import 'package:belcka/pages/check_in/user_check_in/view/widgets/user_check_in_photos_before_section.dart';
 import 'package:belcka/pages/check_in/user_check_in/view/widgets/user_check_in_task_section.dart';
 import 'package:belcka/res/colors.dart';
 import 'package:belcka/res/drawable.dart';
@@ -22,6 +24,8 @@ class UserCheckInScreen extends StatefulWidget {
 class _UserCheckInScreenState extends State<UserCheckInScreen> {
   final controller = Get.put(UserCheckInController());
 
+  static const bool _showTaskSection = false;
+
   @override
   void initState() {
     super.initState();
@@ -40,8 +44,8 @@ class _UserCheckInScreenState extends State<UserCheckInScreen> {
       AppUtils.showToastMessage('empty_address_message'.tr);
       return;
     }
-    if (controller.selectedTypeOfWorkList.isEmpty) {
-      AppUtils.showToastMessage('empty_data_message'.tr);
+    if (!controller.isValidBeforePhotos()) {
+      AppUtils.showToastMessage('take_photo_before_starting_job'.tr);
       return;
     }
     controller.checkInApi();
@@ -52,7 +56,10 @@ class _UserCheckInScreenState extends State<UserCheckInScreen> {
     AppUtils.setStatusBarColor();
     return Scaffold(
       backgroundColor: dashBoardBgColor_(context),
-      body: Obx(
+      body: GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        behavior: HitTestBehavior.translucent,
+        child: Obx(
         () => ModalProgressHUD(
           inAsyncCall: controller.isLoading.value,
           opacity: 0,
@@ -121,7 +128,12 @@ class _UserCheckInScreenState extends State<UserCheckInScreen> {
                                           onTap:
                                               controller.showSelectTradeDialog,
                                         ),
-                                        UserCheckInTaskSection(),
+                                        UserCheckInPhotosBeforeSection(),
+                                        const UserCheckInNoteSection(),
+                                        Visibility(
+                                          visible: _showTaskSection,
+                                          child: UserCheckInTaskSection(),
+                                        ),
                                       ],
                                     );
                                   }),
@@ -139,6 +151,7 @@ class _UserCheckInScreenState extends State<UserCheckInScreen> {
             ),
           ),
         ),
+      ),
       ),
     );
   }

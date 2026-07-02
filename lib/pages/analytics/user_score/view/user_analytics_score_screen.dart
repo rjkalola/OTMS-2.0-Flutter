@@ -51,6 +51,7 @@ class _UserAnalyticsScoreScreenState extends State<UserAnalyticsScoreScreen>
                   ? NoInternetWidget(
                 onPressed: () {
                   controller.isInternetNotAvailable.value = false;
+                  controller.getUserAnalyticsAPI();
                 },
               )
                   : controller.isMainViewVisible.value
@@ -70,7 +71,7 @@ class _UserAnalyticsScoreScreenState extends State<UserAnalyticsScoreScreen>
                   Expanded(child: UserScoreTypesContainerView()),
                 ],
               )
-                  : SizedBox.shrink(),
+                  : const SizedBox.shrink(),
             ),
           ),
         ),
@@ -103,7 +104,7 @@ class _UserAnalyticsScoreScreenState extends State<UserAnalyticsScoreScreen>
         icon: const Icon(Icons.more_vert_outlined),
         onPressed: () {
           final arguments = {
-            "score": controller.userAnalytics.value?.score ?? 0,
+            "score": controller.analyticsScore.value?.score ?? 0,
           };
           controller.moveToScreen(AppRoutes.scoreMoreDetailsScreen, arguments);
         },

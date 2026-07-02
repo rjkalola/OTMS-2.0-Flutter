@@ -92,8 +92,10 @@ class UserCheckInController extends GetxController
       tradeController.value.text = UserUtils.getLoginUserTrade();
       tradeId = UserUtils.getLoginUserTradeId();
       print("tradeId:" + tradeId.toString());
+      tradeController.refresh();
     } else if (UserUtils.isAdmin()) {
       tradeController.value.text = 'admin'.tr;
+      tradeController.refresh();
     }
     LocationInfo? locationInfo = Get.find<AppStorage>().getLastLocation();
     if (locationInfo != null) {
@@ -123,9 +125,27 @@ class UserCheckInController extends GetxController
     Map<String, dynamic> map = {};
     map["user_worklog_id"] = workLogId;
     map["address_id"] = addressId;
-    map["trade_id"] = tradeId;
-    // map["company_task_id"] = companyTaskId;
-    // map["type_of_work_id"] = typeOfWorkId;
+    map["trade_id"] = tradeId != 0 ? tradeId : "";
+    map["note"] = StringHelper.getText(noteController.value);
+
+    multi.FormData formData = multi.FormData.fromMap(map);
+    print("reques value:" + map.toString());
+
+    for (int i = 0; i < listBeforePhotos.length; i++) {
+      if (!StringHelper.isEmptyString(listBeforePhotos[i].imageUrl) &&
+          (listBeforePhotos[i].id ?? 0) == 0) {
+        formData.files.add(
+          MapEntry(
+            "before_attachments[]",
+            await multi.MultipartFile.fromFile(
+              listBeforePhotos[i].imageUrl ?? "",
+            ),
+          ),
+        );
+      }
+    }
+
+    /* Legacy check-in fields — restore when task/location flow is re-enabled.
     List<String> listParams = listParamIds();
     map["company_task_ids"] = listParams[1];
     map["type_of_work_ids"] = listParams[0];
@@ -134,24 +154,9 @@ class UserCheckInController extends GetxController
     map["location"] = location;
     map["latitude"] = latitude;
     map["longitude"] = longitude;
+    */
 
-    multi.FormData formData = multi.FormData.fromMap(map);
-    print("reques value:" + map.toString());
-
-    /* for (int i = 0; i < listBeforePhotos.length; i++) {
-      if (!StringHelper.isEmptyString(listBeforePhotos[i].imageUrl)) {
-        formData.files.add(
-          MapEntry(
-            "before_attachments[]",
-            // or just 'images' depending on your backend
-            await multi.MultipartFile.fromFile(
-              listBeforePhotos[i].imageUrl ?? "",
-            ),
-          ),
-        );
-      }
-    }*/
-
+    /* Task-wise before photos — kept for when task section is re-enabled.
     for (int i = 0; i < selectedTypeOfWorkList.length; i++) {
       if (selectedTypeOfWorkList[i].beforeAttachments != null) {
         List<FilesInfo> listPhotos = [];
@@ -187,6 +192,7 @@ class UserCheckInController extends GetxController
       }
       print("------------------------------------------------");
     }
+    */
 
     isLoading.value = true;
     _api.checkIn(
@@ -341,6 +347,7 @@ class UserCheckInController extends GetxController
             }
             setZones();
 
+            /* Type-of-work resources — disabled while task flow is hidden.
             if (tradeId != 0) {
               typeOfWorkController.value.text = "";
               typeOfWorkId = 0;
@@ -354,6 +361,7 @@ class UserCheckInController extends GetxController
               getTypeOfWorkResourcesApi(
                   addressId: addressId, isPriceWork: isPriceWork);
             }
+            */
           }
         } else {
           AppUtils.showApiResponseMessage(responseModel.statusMessage ?? "");
@@ -427,6 +435,30 @@ class UserCheckInController extends GetxController
   String getCurrentTime() {
     return DateUtil.getCurrentTimeInFormat(DateUtil.HH_MM_24);
   }
+
+  Future<void> onSelectCommonBeforePhotos() async {
+    final result = await Navigator.of(Get.context!).pushNamed(
+      AppRoutes.selectBeforeAfterPhotosScreen,
+      arguments: {
+        AppConstants.intentKey.photosType: AppConstants.type.beforePhotos,
+        AppConstants.intentKey.beforePhotosList:
+            List<FilesInfo>.from(listBeforePhotos),
+      },
+    );
+
+    if (result == null) return;
+    final args = result as Map?;
+    if (args == null) return;
+    if (args[AppConstants.intentKey.photosType] !=
+        AppConstants.type.beforePhotos) {
+      return;
+    }
+    listBeforePhotos
+      ..clear()
+      ..addAll(args[AppConstants.intentKey.beforePhotosList] ?? []);
+  }
+
+  bool isValidBeforePhotos() => listBeforePhotos.isNotEmpty;
 
   Future<void> onSelectPhotos(
       String photosType, List<FilesInfo> listPhotos) async {
@@ -581,21 +613,13 @@ class UserCheckInController extends GetxController
   @override
   void onSelectItem(int position, int id, String name, String action) {
     if (action == AppConstants.dialogIdentifier.selectAddress) {
-      checkLocationOutsideBoundaryApi(id, name);
+      addressController.value.text = name;
+      addressId = id;
+      addressController.refresh();
     } else if (action == AppConstants.dialogIdentifier.selectTrade) {
       tradeController.value.text = name;
       tradeId = id;
-
-      typeOfWorkController.value.text = "";
-      typeOfWorkId = 0;
-      companyTaskId = 0;
-
-      selectedTypeOfWorkList.clear();
-      _clearTaskBeforePhotosCache();
-      setTypeOfWorkText();
-
-      typeOfWorkList.clear();
-      getTypeOfWorkResourcesApi(addressId: addressId, isPriceWork: isPriceWork);
+      tradeController.refresh();
     } else if (action == AppConstants.dialogIdentifier.selectTypeOfWork) {
       typeOfWorkController.value.text = name;
       typeOfWorkId = id;

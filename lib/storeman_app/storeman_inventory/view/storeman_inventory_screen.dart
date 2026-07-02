@@ -249,11 +249,11 @@ class _DateRangeView extends StatelessWidget {
               ),
             ),
           ),
-          const Icon(
-            Icons.keyboard_arrow_down_rounded,
-            color: inventoryTextSecondary,
-            size: 24,
-          ),
+          // const Icon(
+          //   Icons.keyboard_arrow_down_rounded,
+          //   color: inventoryTextSecondary,
+          //   size: 24,
+          // ),
         ],
       ),
     );

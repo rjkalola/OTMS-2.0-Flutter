@@ -46,12 +46,16 @@ class UserCheckOutController extends GetxController
       isLocationLoaded = true.obs,
       isPriceWork = false.obs;
   final RxInt progress = 0.obs;
-  final _api = UserCheckOutRepository();
+  final _api = UserCheckOutRepository(); 
   final addressController = TextEditingController().obs;
   final locationController = TextEditingController().obs;
-  final tradeController = TextEditingController().obs;
+  final tradeController = TextEditingController().obs; 
   final typeOfWorkController = TextEditingController().obs;
   final noteController = TextEditingController().obs;
+  final workTypeController = TextEditingController().obs;
+  final amountController = TextEditingController().obs;
+  final workCompletedController = TextEditingController().obs;
+  final unitController = TextEditingController().obs;
   late GoogleMapController mapController;
   String? latitude, longitude, location;
   final center =
@@ -64,6 +68,7 @@ class UserCheckOutController extends GetxController
       locationId = 0,
       companyTaskId = 0,
       projectId = 0,
+      unitId = 0,
       initialProgress = 0,
       selectedPhotosIndex = 0,
       selectedTypeOfWorkIndex = 0;
@@ -78,8 +83,11 @@ class UserCheckOutController extends GetxController
   CheckInResourcesResponse? checkInResourcesData;
   final addressList = <ModuleInfo>[].obs;
   final tradeList = <ModuleInfo>[].obs;
+  final unitList = <ModuleInfo>[].obs;
   final typeOfWorkList = <TypeOfWorkResourcesInfo>[].obs;
   final selectedTypeOfWorkList = <TypeOfWorkResourcesInfo>[].obs;
+  final RxString currencySymbol = '£'.obs;
+  final RxDouble totalPayment = 0.0.obs;
   final _manualTaskProgressIds = <int>{};
   final RxSet<Marker> markers = <Marker>{}.obs;
   final RxSet<Circle> circles = <Circle>{}.obs;
@@ -100,11 +108,89 @@ class UserCheckOutController extends GetxController
       print("isPriceWork.value:" + isPriceWork.value.toString());
     }
     getCheckLogDetailsApi();
-    LocationInfo? locationInfo = Get.find<AppStorage>().getLastLocation();
+    currencySymbol.value =
+        Get.find<AppStorage>().getDashboardResponse().currencySymbol ?? '£';
+    final locationInfo = Get.find<AppStorage>().getLastLocation();
     if (locationInfo != null) {
       setLocation(double.parse(locationInfo.latitude ?? "0"),
           double.parse(locationInfo.longitude ?? "0"));
     }
+  }
+
+  String get formattedTotalPayment {
+    final value = totalPayment.value;
+    final symbol = currencySymbol.value;
+    if (value == value.roundToDouble()) {
+      return '$symbol${value.toStringAsFixed(0)}';
+    }
+    return '$symbol${value.toStringAsFixed(2)}';
+  }
+
+  void updateTotalPayment() {
+    final amount = double.tryParse(amountController.value.text) ?? 0;
+    final completed = double.tryParse(workCompletedController.value.text) ?? 0;
+    totalPayment.value = amount * completed;
+  }
+
+  bool isValidAfterPhotos() => listAfterPhotos.isNotEmpty;
+
+  void validateAndCheckOut() {
+    if (!isValidAfterPhotos()) {
+      AppUtils.showToastMessage('take_photo_after_completing_job'.tr);
+      return;
+    }
+    if (StringHelper.isEmptyString(workTypeController.value.text)) {
+      AppUtils.showToastMessage('work_type'.tr);
+      return;
+    }
+    if (StringHelper.isEmptyString(amountController.value.text)) {
+      AppUtils.showToastMessage('enter_valid_amount'.tr);
+      return;
+    }
+    if (unitId == 0) {
+      AppUtils.showToastMessage('unit'.tr);
+      return;
+    }
+    if (StringHelper.isEmptyString(workCompletedController.value.text)) {
+      AppUtils.showToastMessage('work_completed'.tr);
+      return;
+    }
+    checkOutApi();
+  }
+
+  Future<void> onSelectCommonAfterPhotos() async {
+    final result = await Navigator.of(Get.context!).pushNamed(
+      AppRoutes.selectBeforeAfterPhotosScreen,
+      arguments: {
+        AppConstants.intentKey.photosType: AppConstants.type.afterPhotos,
+        AppConstants.intentKey.afterPhotosList:
+            List<FilesInfo>.from(listAfterPhotos),
+      },
+    );
+
+    if (result == null) return;
+    final args = result as Map?;
+    if (args == null) return;
+    if (args[AppConstants.intentKey.photosType] !=
+        AppConstants.type.afterPhotos) {
+      return;
+    }
+    listAfterPhotos
+      ..clear()
+      ..addAll(args[AppConstants.intentKey.afterPhotosList] ?? []);
+  }
+
+  void showSelectUnitDialog() {
+    if (unitList.isEmpty) {
+      AppUtils.showToastMessage('empty_data_message'.tr);
+      return;
+    }
+    showDropDownDialog(
+      AppConstants.dialogIdentifier.selectUnit,
+      'unit'.tr,
+      unitList,
+      this,
+    );
   }
 
   void setInitialData() {
@@ -119,6 +205,9 @@ class UserCheckOutController extends GetxController
     locationController.value.text = checkLogInfo.value.locationName ?? "-";
     tradeController.value.text = checkLogInfo.value.tradeName ?? "-";
     typeOfWorkController.value.text = checkLogInfo.value.companyTaskName ?? "-";
+    workTypeController.value.text = checkLogInfo.value.companyTaskName ?? "";
+    addressController.refresh();
+    tradeController.refresh();
 
     addressId = checkLogInfo.value.addressId ?? 0;
     tradeId = checkLogInfo.value.tradeId ?? 0;
@@ -215,17 +304,32 @@ class UserCheckOutController extends GetxController
   void checkOutApi() async {
     Map<String, dynamic> map = {};
     map["checklog_id"] = checkLogInfo.value.id ?? 0;
-    /* map["total_progress"] = progress.value;
-    if (initialProgress == 0) {
-      map["new_progress"] = progress.value;
-    } else {
-      map["new_progress"] = progress.value - initialProgress;
-    }*/
     map["address_id"] = addressId;
-    map["trade_id"] = tradeId;
-    // map["company_task_id"] = companyTaskId;
-    // map["type_of_work_id"] = typeOfWorkId;
+    map["trade_id"] = tradeId != 0 ? tradeId : "";
     map["note"] = StringHelper.getText(noteController.value);
+    map["work_type"] = StringHelper.getText(workTypeController.value);
+    map["amount"] = StringHelper.getText(amountController.value);
+    map["unit_id"] = unitId != 0 ? unitId : "";
+    map["work_completed"] = StringHelper.getText(workCompletedController.value);
+
+    multi.FormData formData = multi.FormData.fromMap(map);
+    print("reques value:" + map.toString());
+
+    for (int i = 0; i < listAfterPhotos.length; i++) {
+      if (!StringHelper.isEmptyString(listAfterPhotos[i].imageUrl) &&
+          (listAfterPhotos[i].id ?? 0) == 0) {
+        formData.files.add(
+          MapEntry(
+            "after_attachments[]",
+            await multi.MultipartFile.fromFile(
+              listAfterPhotos[i].imageUrl ?? "",
+            ),
+          ),
+        );
+      }
+    }
+
+    /* Legacy checkout fields — restore when task flow is re-enabled.
     map["before_attachment_remove_ids"] =
         StringHelper.getCommaSeparatedStringIds(listBeforeRemoveIds);
     map["location"] = location;
@@ -234,100 +338,9 @@ class UserCheckOutController extends GetxController
     for (int i = 0; i < selectedTypeOfWorkList.length; i++) {
       map["new_progress[${selectedTypeOfWorkList[i].companyTaskId}]"] =
           taskDisplayProgress(selectedTypeOfWorkList[i]);
-      final taskNote = selectedTypeOfWorkList[i].taskNote?.trim() ?? '';
-      if (!StringHelper.isEmptyString(taskNote)) {
-        map["task_note[${selectedTypeOfWorkList[i].companyTaskId}]"] = taskNote;
-      }
+      ...
     }
-
-    multi.FormData formData = multi.FormData.fromMap(map);
-    print("reques value:" + map.toString());
-
-    /* List<FilesInfo> listBefore = [];
-    for (var before in listBeforePhotos) {
-      if (!StringHelper.isEmptyString(before.imageUrl) &&
-          (before.id ?? 0) == 0) {
-        listBefore.add(before);
-      }
-    }
-    for (int i = 0; i < listBefore.length; i++) {
-      print("before:" + listBefore[i].imageUrl!);
-      formData.files.add(
-        MapEntry(
-          "before_attachments[]",
-          // or just 'images' depending on your backend
-          await multi.MultipartFile.fromFile(
-            listBefore[i].imageUrl ?? "",
-          ),
-        ),
-      );
-    }
-
-    List<FilesInfo> listAfter = [];
-    for (var after in listAfterPhotos) {
-      if (!StringHelper.isEmptyString(after.imageUrl) && (after.id ?? 0) == 0) {
-        listAfter.add(after);
-      }
-    }
-    for (int i = 0; i < listAfter.length; i++) {
-      print("after:" + listAfter[i].imageUrl!);
-      formData.files.add(
-        MapEntry(
-          "after_attachments[]",
-          // or just 'images' depending on your backend
-          await multi.MultipartFile.fromFile(
-            listAfter[i].imageUrl ?? "",
-          ),
-        ),
-      );
-    }*/
-
-    for (int i = 0; i < selectedTypeOfWorkList.length; i++) {
-      print("index:" + i.toString());
-      List<FilesInfo> listBeforePhotos = [];
-      for (var photo in selectedTypeOfWorkList[i].beforeAttachments!) {
-        if (!StringHelper.isEmptyString(photo.imageUrl) &&
-            (photo.id ?? 0) == 0) {
-          listBeforePhotos.add(photo);
-        }
-      }
-      for (var photo in listBeforePhotos) {
-        print(
-            "before_company_task_attachments[${selectedTypeOfWorkList[i].companyTaskId}]:" +
-                photo.imageUrl!);
-        formData.files.add(
-          MapEntry(
-            "before_company_task_attachments[${selectedTypeOfWorkList[i].companyTaskId}]",
-            await multi.MultipartFile.fromFile(
-              photo.imageUrl ?? "",
-            ),
-          ),
-        );
-      }
-
-      List<FilesInfo> listAfterPhotos = [];
-      for (var photo in selectedTypeOfWorkList[i].afterAttachments!) {
-        if (!StringHelper.isEmptyString(photo.imageUrl) &&
-            (photo.id ?? 0) == 0) {
-          listAfterPhotos.add(photo);
-        }
-      }
-
-      for (var photo in listAfterPhotos) {
-        print(
-            "after_company_task_attachments[${selectedTypeOfWorkList[i].companyTaskId}]:" +
-                photo.imageUrl!);
-        formData.files.add(
-          MapEntry(
-            "after_company_task_attachments[${selectedTypeOfWorkList[i].companyTaskId}]",
-            await multi.MultipartFile.fromFile(
-              photo.imageUrl ?? "",
-            ),
-          ),
-        );
-      }
-    }
-    print("------------------------------------------------");
+    */
 
     isLoading.value = true;
     _api.checkOut(
@@ -374,6 +387,10 @@ class UserCheckOutController extends GetxController
           }
 
           tradeList.addAll(checkInResourcesData!.trades!);
+          unitList.clear();
+          if (checkInResourcesData!.units != null) {
+            unitList.addAll(checkInResourcesData!.units!);
+          }
 
           isMainViewVisible.value = true;
         } else {
@@ -763,25 +780,15 @@ class UserCheckOutController extends GetxController
     if (action == AppConstants.dialogIdentifier.selectAddress) {
       addressController.value.text = name;
       addressId = id;
-
-      if (tradeId != 0) {
-        typeOfWorkController.value.text = "";
-        typeOfWorkId = 0;
-        companyTaskId = 0;
-
-        typeOfWorkList.clear();
-        getTypeOfWorkResourcesApi();
-      }
+      addressController.refresh();
     } else if (action == AppConstants.dialogIdentifier.selectTrade) {
       tradeController.value.text = name;
       tradeId = id;
-
-      typeOfWorkController.value.text = "";
-      typeOfWorkId = 0;
-      companyTaskId = 0;
-
-      typeOfWorkList.clear();
-      getTypeOfWorkResourcesApi();
+      tradeController.refresh();
+    } else if (action == AppConstants.dialogIdentifier.selectUnit) {
+      unitController.value.text = name;
+      unitId = id;
+      unitController.refresh();
     } else if (action == AppConstants.dialogIdentifier.selectTypeOfWork) {
       typeOfWorkController.value.text = name;
       typeOfWorkId = id;

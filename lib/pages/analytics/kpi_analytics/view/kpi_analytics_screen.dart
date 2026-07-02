@@ -1,6 +1,7 @@
 import 'package:belcka/pages/analytics/kpi_analytics/controller/kpi_analytics_controller.dart';
 import 'package:belcka/pages/analytics/kpi_analytics/view/widgets/kpi_analytics_grid_view.dart';
 import 'package:belcka/pages/analytics/kpi_analytics/view/widgets/kpi_analytics_header.dart';
+import 'package:belcka/pages/analytics/user_score/model/user_analytics_score_model.dart';
 import 'package:belcka/pages/common/listener/date_filter_listener.dart';
 import 'package:belcka/pages/common/widgets/date_filter_options_horizontal_list.dart';
 import 'package:belcka/res/colors.dart';
@@ -39,12 +40,6 @@ class _KpiAnalyticsScreenState extends State<KpiAnalyticsScreen>
               isCenterTitle: false,
               isBack: true,
               bgColor: backgroundColor_(context),
-              widgets: [
-                IconButton(
-                  icon: const Icon(Icons.more_vert_outlined),
-                  onPressed: () {},
-                ),
-              ],
             ),
             body: ModalProgressHUD(
               inAsyncCall: controller.isLoading.value,
@@ -74,10 +69,10 @@ class _KpiAnalyticsScreenState extends State<KpiAnalyticsScreen>
                                 ),
                               ),
                               child: KpiAnalyticsHeader(
-                                valueText:
-                                    "${controller.kpiScore.value?.score ?? 0}%",
-                                progress:
-                                    (controller.kpiScore.value?.score ?? 0) / 100,
+                                valueText: (controller.kpiScore.value?.score ?? 0)
+                                    .toDouble()
+                                    .asScorePercent,
+                                progress: 1,
                                 dateRange: controller.dateRange,
                               ),
                             ),

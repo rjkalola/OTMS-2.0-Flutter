@@ -76,10 +76,14 @@ class UserLocationsResponse {
   bool? isSuccess;
   String? message;
   List<TeamUserLocationsGroup>? info;
+  int? workingUser;
+  int? totalUsers;
 
   UserLocationsResponse.fromJson(Map<String, dynamic> json) {
     isSuccess = json['IsSuccess'];
     message = json['message'];
+    workingUser = json['working_user'];
+    totalUsers = json['total_users'];
     if (json['info'] != null) {
       info = <TeamUserLocationsGroup>[];
       for (final v in json['info'] as List) {

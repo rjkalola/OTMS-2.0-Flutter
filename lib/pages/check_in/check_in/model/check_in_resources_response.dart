@@ -6,13 +6,15 @@ class CheckInResourcesResponse {
   List<ModuleInfo>? addresses;
   List<ModuleInfo>? trades;
   List<ModuleInfo>? typeOfWorks;
+  List<ModuleInfo>? units;
 
   CheckInResourcesResponse(
       {this.isSuccess,
       this.message,
       this.addresses,
       this.trades,
-      this.typeOfWorks});
+      this.typeOfWorks,
+      this.units});
 
   CheckInResourcesResponse.fromJson(Map<String, dynamic> json) {
     isSuccess = json['IsSuccess'];
@@ -35,6 +37,12 @@ class CheckInResourcesResponse {
         typeOfWorks!.add(new ModuleInfo.fromJson(v));
       });
     }
+    if (json['units'] != null) {
+      units = <ModuleInfo>[];
+      json['units'].forEach((v) {
+        units!.add(new ModuleInfo.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -49,6 +57,9 @@ class CheckInResourcesResponse {
     }
     if (this.typeOfWorks != null) {
       data['typeOfWorks'] = this.typeOfWorks!.map((v) => v.toJson()).toList();
+    }
+    if (this.units != null) {
+      data['units'] = this.units!.map((v) => v.toJson()).toList();
     }
     return data;
   }

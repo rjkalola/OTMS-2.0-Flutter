@@ -25,7 +25,7 @@ class EditStockRepository {
     Function(ResponseModel error)? onError,
   }) {
     ApiRequest(
-      url: ApiConstants.getInventoryResources,
+      url: ApiConstants.getModules,
       queryParameters: queryParameters,
     ).getRequest(
       onSuccess: (data) {
